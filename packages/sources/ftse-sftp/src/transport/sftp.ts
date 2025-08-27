@@ -5,6 +5,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import SftpClient from 'ssh2-sftp-client'
 import { BaseEndpointTypes, indiceToFileMap, inputParameters } from '../endpoint/sftp'
+import { CSVParserFactory } from '../parsing/factory'
 
 const logger = makeLogger('SFTP Generic Transport')
 
@@ -78,6 +79,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
       // Process files based on the request parameters
       const result = await this.processFiles(param)
+
 
       return {
         data: {
@@ -160,7 +162,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async processFiles(param: RequestParams): Promise<string> {
+  private async processFiles(param: RequestParams): Promise<any> {
     if (param.operation === 'download') {
       if (!param.instrument) {
         throw new AdapterInputError({
@@ -177,9 +179,10 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async downloadFile(remotePath: string, instrument: string): Promise<string> {
+  private async downloadFile(remotePath: string, instrument: string): Promise<any> {
     const fullPath = this.buildFilePath(remotePath, instrument)
     const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
+    console.log(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
     try {
       const fileContent = await this.sftpClient.get(fullPath)
       if (!fileContent) {
@@ -189,21 +192,29 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         })
       }
 
-      const result = {
-        operation: 'download',
-        fileName: instrumentFilePath,
-        path: remotePath,
-        content: fileContent.toString('utf8'), // Convert to UTF-8 text for CSV files
-        contentType: 'text/csv',
-        timestamp: Date.now(),
+      
+      const csvContent = fileContent.toString('utf8')
+      logger.debug(`Downloaded file content length: ${csvContent.length} characters`)
+      
+      // Use the parser factory to detect the right parser based on filename
+      const parser = CSVParserFactory.detectParserByFilename(instrumentFilePath)
+      if (!parser) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `No suitable parser found for file: ${instrumentFilePath}`,
+        })
       }
 
-      return JSON.stringify(result)
+      // Parse the CSV content and return the corresponding DataObject
+      const parsedData = await parser.parse(csvContent)
+      logger.debug(`Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`)
+      return parsedData
+
     } catch (error) {
-      logger.error(error, `Failed to download file: ${instrumentFilePath} from ${remotePath}`)
+      logger.error(error, `Failed to download and parse file: ${instrumentFilePath} from ${remotePath}`)
       throw new AdapterInputError({
         statusCode: 500,
-        message: `Failed to download file: ${
+        message: `Failed to download and parse file: ${
           error instanceof Error ? error.message : 'Unknown error'
         }`,
       })
@@ -213,14 +224,16 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   private buildFilePath(remotePath: string, instrument: string): string {
     const filePathTemplate = this.getInstrumentFilePath(instrument)
 
-    // Get current date and format day and month with leading zeros
+    // Get current date and format day, month, and year with leading zeros
     const now = new Date()
     const currentDay = now.getDate().toString().padStart(2, '0')
     const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
+    const currentYear = now.getFullYear().toString().slice(-2) // Get last 2 digits of year
 
     const instrumentFilePath = filePathTemplate
       .replace('{{dd}}', currentDay)
       .replace('{{mm}}', currentMonth)
+      .replace('{{yy}}', currentYear)
     return `${remotePath}/${instrumentFilePath}`.replace(/\/+/g, '/')
   }
 

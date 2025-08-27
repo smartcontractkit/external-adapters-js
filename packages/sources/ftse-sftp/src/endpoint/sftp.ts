@@ -8,7 +8,6 @@ export const inputParameters = new InputParameters(
     operation: {
       required: true,
       type: 'string',
-      options: ['download'],
       description: 'SFTP operation to perform: list files, download file, or upload file',
     },
     remotePath: {
@@ -32,10 +31,10 @@ export const inputParameters = new InputParameters(
 )
 
 export const indiceToFileMap = {
-  FTSE100INDEX: 'vall{{dd}}{{mm}}.csv',
-  Russell1000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
-  Russell2000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
-  Russell3000INDEX: 'daily_values_russell_{{dd}}{{mm}}.csv',
+  FTSE100INDEX: 'ukallv{{dd}}{{mm}}.csv',
+  Russell1000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
+  Russell2000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
+  Russell3000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
 }
 
 export type TInputParameters = typeof inputParameters.definition
@@ -43,9 +42,9 @@ export type TInputParameters = typeof inputParameters.definition
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: string
+    Result: any // The parsed data will be returned as result
     Data: {
-      result: string
+      result: any // The parsed data 
     }
   }
   Settings: typeof config.settings

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SFTP Transport Integration Tests Error handling should throw error for unsupported instruments 1`] = `
+{
+  "message": "Unsupported instrument: UNSUPPORTED_INSTRUMENT",
+  "name": "AdapterInputError",
+}
+`;

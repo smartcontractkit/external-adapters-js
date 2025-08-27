@@ -1,0 +1,499 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FTSE SFTP adapter error handling should handle SFTP connection failures gracefully 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter error handling should handle file not found errors 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter error handling should handle missing environment variables 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter input validation should require instrument parameter 1`] = `
+{
+  "error": {
+    "message": "[Param: instrument] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter input validation should require remotePath parameter 1`] = `
+{
+  "error": {
+    "message": "[Param: remotePath] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter input validation should validate operation parameter 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] input is not one of valid options (download)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter response format should include proper timestamps in response 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter response format should return data in expected format for FTSE100INDEX 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter response format should return data in expected format for Russell indices 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should handle different remote paths correctly 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "gbpIndex": 5017.24846324,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "AS0",
+        "indexSectorName": "FTSE All-Small Index",
+        "numberOfConstituents": 234,
+      },
+      {
+        "gbpIndex": 5017.12840249,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "ASX",
+        "indexSectorName": "FTSE All-Share Index",
+        "numberOfConstituents": 543,
+      },
+      {
+        "gbpIndex": 8045.12345678,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "100",
+        "indexSectorName": "FTSE 100 Index",
+        "numberOfConstituents": 100,
+      },
+    ],
+  },
+  "result": [
+    {
+      "gbpIndex": 5017.24846324,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "AS0",
+      "indexSectorName": "FTSE All-Small Index",
+      "numberOfConstituents": 234,
+    },
+    {
+      "gbpIndex": 5017.12840249,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "ASX",
+      "indexSectorName": "FTSE All-Share Index",
+      "numberOfConstituents": 543,
+    },
+    {
+      "gbpIndex": 8045.12345678,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "100",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should handle root path correctly 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "gbpIndex": 5017.24846324,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "AS0",
+        "indexSectorName": "FTSE All-Small Index",
+        "numberOfConstituents": 234,
+      },
+      {
+        "gbpIndex": 5017.12840249,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "ASX",
+        "indexSectorName": "FTSE All-Share Index",
+        "numberOfConstituents": 543,
+      },
+      {
+        "gbpIndex": 8045.12345678,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "100",
+        "indexSectorName": "FTSE 100 Index",
+        "numberOfConstituents": 100,
+      },
+    ],
+  },
+  "result": [
+    {
+      "gbpIndex": 5017.24846324,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "AS0",
+      "indexSectorName": "FTSE All-Small Index",
+      "numberOfConstituents": 234,
+    },
+    {
+      "gbpIndex": 5017.12840249,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "ASX",
+      "indexSectorName": "FTSE All-Share Index",
+      "numberOfConstituents": 543,
+    },
+    {
+      "gbpIndex": 8045.12345678,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "100",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return error for invalid instrument 1`] = `
+{
+  "error": {
+    "message": "Unsupported instrument: INVALID_INSTRUMENT",
+    "name": "AdapterInputError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return error for missing required fields 1`] = `
+{
+  "error": {
+    "message": "[Param: remotePath] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return error for unsupported operation 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] input is not one of valid options (download)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return success for valid FTSE100INDEX download request 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "gbpIndex": 5017.24846324,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "AS0",
+        "indexSectorName": "FTSE All-Small Index",
+        "numberOfConstituents": 234,
+      },
+      {
+        "gbpIndex": 5017.12840249,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "ASX",
+        "indexSectorName": "FTSE All-Share Index",
+        "numberOfConstituents": 543,
+      },
+      {
+        "gbpIndex": 8045.12345678,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "100",
+        "indexSectorName": "FTSE 100 Index",
+        "numberOfConstituents": 100,
+      },
+    ],
+  },
+  "result": [
+    {
+      "gbpIndex": 5017.24846324,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "AS0",
+      "indexSectorName": "FTSE All-Small Index",
+      "numberOfConstituents": 234,
+    },
+    {
+      "gbpIndex": 5017.12840249,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "ASX",
+      "indexSectorName": "FTSE All-Share Index",
+      "numberOfConstituents": 543,
+    },
+    {
+      "gbpIndex": 8045.12345678,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "100",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return success for valid Russell1000INDEX download request 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10INTR",
+        "indexName": "Russell 1000 Index",
+        "indexValue": 2654.123456,
+        "marketCap": 45234567890.12,
+        "numberOfCompanies": 1000,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10GRTR",
+        "indexName": "Russell 1000 Growth Index",
+        "indexValue": 3456.789012,
+        "marketCap": 23456789012.34,
+        "numberOfCompanies": 500,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10VLTR",
+        "indexName": "Russell 1000 Value Index",
+        "indexValue": 1987.654321,
+        "marketCap": 21777778878.78,
+        "numberOfCompanies": 500,
+      },
+    ],
+  },
+  "result": [
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10INTR",
+      "indexName": "Russell 1000 Index",
+      "indexValue": 2654.123456,
+      "marketCap": 45234567890.12,
+      "numberOfCompanies": 1000,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10GRTR",
+      "indexName": "Russell 1000 Growth Index",
+      "indexValue": 3456.789012,
+      "marketCap": 23456789012.34,
+      "numberOfCompanies": 500,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10VLTR",
+      "indexName": "Russell 1000 Value Index",
+      "indexValue": 1987.654321,
+      "marketCap": 21777778878.78,
+      "numberOfCompanies": 500,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return success for valid Russell2000INDEX download request 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10INTR",
+        "indexName": "Russell 1000 Index",
+        "indexValue": 2654.123456,
+        "marketCap": 45234567890.12,
+        "numberOfCompanies": 1000,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10GRTR",
+        "indexName": "Russell 1000 Growth Index",
+        "indexValue": 3456.789012,
+        "marketCap": 23456789012.34,
+        "numberOfCompanies": 500,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10VLTR",
+        "indexName": "Russell 1000 Value Index",
+        "indexValue": 1987.654321,
+        "marketCap": 21777778878.78,
+        "numberOfCompanies": 500,
+      },
+    ],
+  },
+  "result": [
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10INTR",
+      "indexName": "Russell 1000 Index",
+      "indexValue": 2654.123456,
+      "marketCap": 45234567890.12,
+      "numberOfCompanies": 1000,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10GRTR",
+      "indexName": "Russell 1000 Growth Index",
+      "indexValue": 3456.789012,
+      "marketCap": 23456789012.34,
+      "numberOfCompanies": 500,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10VLTR",
+      "indexName": "Russell 1000 Value Index",
+      "indexValue": 1987.654321,
+      "marketCap": 21777778878.78,
+      "numberOfCompanies": 500,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`FTSE SFTP adapter sftp endpoint should return success for valid Russell3000INDEX download request 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10INTR",
+        "indexName": "Russell 1000 Index",
+        "indexValue": 2654.123456,
+        "marketCap": 45234567890.12,
+        "numberOfCompanies": 1000,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10GRTR",
+        "indexName": "Russell 1000 Growth Index",
+        "indexValue": 3456.789012,
+        "marketCap": 23456789012.34,
+        "numberOfCompanies": 500,
+      },
+      {
+        "date": "2024-08-23",
+        "indexCode": "RU10VLTR",
+        "indexName": "Russell 1000 Value Index",
+        "indexValue": 1987.654321,
+        "marketCap": 21777778878.78,
+        "numberOfCompanies": 500,
+      },
+    ],
+  },
+  "result": [
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10INTR",
+      "indexName": "Russell 1000 Index",
+      "indexValue": 2654.123456,
+      "marketCap": 45234567890.12,
+      "numberOfCompanies": 1000,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10GRTR",
+      "indexName": "Russell 1000 Growth Index",
+      "indexValue": 3456.789012,
+      "marketCap": 23456789012.34,
+      "numberOfCompanies": 500,
+    },
+    {
+      "date": "2024-08-23",
+      "indexCode": "RU10VLTR",
+      "indexName": "Russell 1000 Value Index",
+      "indexValue": 1987.654321,
+      "marketCap": 21777778878.78,
+      "numberOfCompanies": 500,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
