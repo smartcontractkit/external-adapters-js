@@ -23,7 +23,7 @@ describe('RussellDailyValuesParser', () => {
   describe('constructor', () => {
     it('should initialize with correct configuration', () => {
       expect(parser).toBeDefined()
-      expect(parser.getExpectedColumns()).toContain('')
+      expect(parser.getExpectedColumns()).toContain('Index Name')
       expect(parser.getExpectedColumns()).toContain('Close')
     })
   })
@@ -32,7 +32,7 @@ describe('RussellDailyValuesParser', () => {
     it('should return expected column names', () => {
       const expectedColumns = parser.getExpectedColumns()
 
-      expect(expectedColumns).toEqual(['', 'Open', 'High', 'Low', 'Close'])
+      expect(expectedColumns).toEqual(['Index Name', 'Open', 'High', 'Low', 'Close'])
     })
   })
 

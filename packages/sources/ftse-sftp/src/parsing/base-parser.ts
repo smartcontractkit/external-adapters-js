@@ -1,8 +1,16 @@
 import { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './interfaces'
 
+// Dynamic import to handle module loading
+let csvParse: any
+try {
+  csvParse = require('csv-parse/sync')
+} catch (error) {
+  console.warn('csv-parse/sync not available, some functionality may be limited')
+}
+
 /**
  * Abstract base class for CSV parsers
- * Provides common functionality that can be shared across different CSV formats
+ * Uses the csv-parse library for robust CSV parsing
  */
 export abstract class BaseCSVParser implements CSVParser {
   protected config: CSVParserConfig
@@ -30,76 +38,44 @@ export abstract class BaseCSVParser implements CSVParser {
       return false
     }
 
-    const lines = this.splitIntoLines(csvContent)
-    if (lines.length === 0) {
-      return false
-    }
+    try {
+      // Try to parse the CSV to see if it's valid
+      const parsed = csvParse.parse(csvContent, {
+        ...this.config,
+        from_line: 1,
+        to_line: 5, // Only parse first few lines for validation
+      })
 
-    // If has header, check if header matches expected columns
-    if (this.config.hasHeader) {
-      const headerLine = lines[0]
-      const headers = this.parseLine(headerLine)
-      const expectedColumns = this.getExpectedColumns()
-
-      // Basic check - at least some expected columns should be present
-      return expectedColumns.some((col) => headers.includes(col))
-    }
-
-    return true
-  }
-
-  /**
-   * Split CSV content into lines, handling different line endings
-   */
-  protected splitIntoLines(csvContent: string): string[] {
-    const lines = csvContent.split(/\r?\n/)
-
-    if (this.config.skipEmptyLines) {
-      return lines.filter((line) => line.trim().length > 0)
-    }
-
-    return lines
-  }
-
-  /**
-   * Parse a single CSV line into fields
-   */
-  protected parseLine(line: string): string[] {
-    const delimiter = this.config.delimiter || ','
-    const fields: string[] = []
-    let currentField = ''
-    let inQuotes = false
-    let i = 0
-
-    while (i < line.length) {
-      const char = line[i]
-      const nextChar = line[i + 1]
-
-      if (char === '"') {
-        if (inQuotes && nextChar === '"') {
-          // Escaped quote
-          currentField += '"'
-          i += 2
-          continue
-        } else {
-          // Toggle quote state
-          inQuotes = !inQuotes
-        }
-      } else if (char === delimiter && !inQuotes) {
-        // Field separator
-        fields.push(this.config.trimWhitespace ? currentField.trim() : currentField)
-        currentField = ''
-      } else {
-        currentField += char
+      if (!parsed || parsed.length === 0) {
+        return false
       }
 
-      i++
+      // If columns are expected, check if header matches expected columns
+      if (this.config.columns) {
+        const headers = Object.keys(parsed[0])
+        const expectedColumns = this.getExpectedColumns()
+
+        // Basic check - at least some expected columns should be present
+        return expectedColumns.some((col) => headers.includes(col))
+      }
+
+      return true
+    } catch (error) {
+      return false
     }
+  }
 
-    // Add the last field
-    fields.push(this.config.trimWhitespace ? currentField.trim() : currentField)
+  /**
+   * Helper method to parse CSV content using csv-parse library
+   */
+  protected parseCSV(csvContent: string, options?: Partial<CSVParserConfig>): any[] {
+    const finalConfig = { ...this.config, ...options }
 
-    return fields
+    try {
+      return csvParse.parse(csvContent, finalConfig)
+    } catch (error) {
+      throw new Error(`Error parsing CSV: ${error}`)
+    }
   }
 
   /**
@@ -133,16 +109,16 @@ export abstract class BaseCSVParser implements CSVParser {
   }
 
   /**
-   * Map CSV fields to an object using a field mapping
+   * Map parsed CSV row to structured data with type conversion
    */
-  protected mapFieldsToObject(
-    fields: string[],
-    fieldMapping: Record<string, { index: number; type?: 'string' | 'number' | 'date' }>,
+  protected mapRowToObject(
+    row: Record<string, string>,
+    fieldMapping: Record<string, { column: string; type?: 'string' | 'number' | 'date' }>,
   ): ParsedData {
     const result: ParsedData = {}
 
     for (const [key, mapping] of Object.entries(fieldMapping)) {
-      const value = fields[mapping.index] || ''
+      const value = row[mapping.column] || ''
       result[key] = this.convertValue(value, mapping.type || 'string')
     }
 

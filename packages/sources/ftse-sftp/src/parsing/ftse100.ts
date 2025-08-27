@@ -36,20 +36,20 @@ export class FTSE100Parser extends BaseCSVParser {
   ]
 
   private readonly fieldMapping = {
-    indexCode: { index: 0, type: 'string' as const },
-    indexSectorName: { index: 1, type: 'string' as const },
-    numberOfConstituents: { index: 2, type: 'number' as const },
-    indexBaseCurrency: { index: 3, type: 'string' as const },
-    gbpIndex: { index: 5, type: 'number' as const }, // GBP Index is at index 5
+    indexCode: { column: 'Index Code', type: 'string' as const },
+    indexSectorName: { column: 'Index/Sector Name', type: 'string' as const },
+    numberOfConstituents: { column: 'Number of Constituents', type: 'number' as const },
+    indexBaseCurrency: { column: 'Index Base Currency', type: 'string' as const },
+    gbpIndex: { column: 'GBP Index', type: 'number' as const },
   }
 
   constructor() {
     // FTSE data is tab-separated based on the actual file format
     super({
       delimiter: '\t',
-      hasHeader: true,
-      skipEmptyLines: true,
-      trimWhitespace: true,
+      columns: true,
+      skip_empty_lines: true,
+      trim: true,
     })
   }
 
@@ -62,14 +62,12 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error('Invalid CSV format for FTSE data')
     }
 
-    const lines = this.splitIntoLines(csvContent)
-    const results: FTSE100Data[] = []
-
     // Find the line that starts with "Index Code" to locate the actual data header
+    const lines = csvContent.split(/\r?\n/)
     let dataStartIndex = -1
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].trim().startsWith('Index Code')) {
-        dataStartIndex = i + 1 // Start after the header line
+        dataStartIndex = i
         break
       }
     }
@@ -78,40 +76,32 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error('Could not find data header line starting with "Index Code"')
     }
 
-    for (let i = dataStartIndex; i < lines.length; i++) {
+    // Extract the content starting from the header line
+    const csvDataContent = lines.slice(dataStartIndex).join('\n')
+
+    // Parse the CSV content using csv-parse with relaxed column checking
+    const parsed = this.parseCSV(csvDataContent, {
+      relax_column_count: true, // Allow rows with different column counts
+    })
+    const results: FTSE100Data[] = []
+
+    for (const row of parsed) {
       try {
-        const line = lines[i]
-        if (!line.trim()) continue // Skip empty lines
-
-        const fields = this.parseLine(line)
-
-        // Skip lines that don't have enough fields (likely continuation of header or invalid data)
-        if (fields.length < 6) {
-          console.warn(
-            `Line ${
-              i + 1
-            }: Skipping line with insufficient fields. Expected at least 6 fields (Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, USD Index, GBP Index), got ${
-              fields.length
-            }. Line content: "${line.substring(0, 100)}${line.length > 100 ? '...' : ''}"`,
-          )
-          continue
-        }
-
-        const data = this.mapFieldsToObject(fields, this.fieldMapping) as FTSE100Data
-
-        // Additional validation for required fields
-        if (!data.indexCode || data.indexCode === '') {
-          console.warn(`Line ${i + 1}: Missing required Index Code field`)
-          continue
-        }
-
         // Only include records where indexCode is "UKX" (FTSE 100 Index)
-        if (data.indexCode === 'UKX') {
+        if (row['Index Code'] === 'UKX') {
+          const data = this.mapRowToObject(row, this.fieldMapping) as FTSE100Data
+
+          // Additional validation for required fields
+          if (!data.indexCode || data.indexCode === '') {
+            console.warn(`Missing required Index Code field`)
+            continue
+          }
+
           results.push(data)
         }
       } catch (error) {
-        console.debug(`Error parsing line ${i + 1}:`, error)
-        // Continue with next line instead of failing completely
+        console.debug(`Error parsing row:`, error)
+        // Continue with next row instead of failing completely
       }
     }
 
@@ -127,38 +117,8 @@ export class FTSE100Parser extends BaseCSVParser {
       return false
     }
 
-    const lines = this.splitIntoLines(csvContent)
-    if (lines.length === 0) {
-      return false
-    }
-
-    // Find the header line that starts with "Index Code"
-    let headerLineIndex = -1
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].trim().startsWith('Index Code')) {
-        headerLineIndex = i
-        break
-      }
-    }
-
-    if (headerLineIndex === -1) {
-      return false
-    }
-
-    const headerLine = lines[headerLineIndex]
-    const headers = this.parseLine(headerLine)
-
-    // Check if required columns are present
-    const requiredColumns = [
-      'Index Code',
-      'Index/Sector Name',
-      'Number of Constituents',
-      'Index Base Currency',
-      'GBP Index',
-    ]
-    return requiredColumns.every((col) =>
-      headers.some((header) => header.toLowerCase().includes(col.toLowerCase())),
-    )
+    // Check if the content contains FTSE-specific headers
+    return csvContent.includes('Index Code') && csvContent.includes('GBP Index')
   }
 
   /**
