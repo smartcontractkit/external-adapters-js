@@ -4,7 +4,12 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import SftpClient from 'ssh2-sftp-client'
-import { BaseEndpointTypes, instrumentToFileMap, instrumentToRemotePathMap, inputParameters } from '../endpoint/sftp'
+import {
+  BaseEndpointTypes,
+  instrumentToFileMap,
+  instrumentToRemotePathMap,
+  inputParameters,
+} from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
 
 const logger = makeLogger('SFTP Generic Transport')
@@ -169,7 +174,8 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
           message: 'instrument is required for download operation',
         })
       }
-      const remotePath = instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
+      const remotePath =
+        instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
       return await this.downloadFile(remotePath || '/', param.instrument as string)
     } else {
       throw new AdapterInputError({
@@ -182,7 +188,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   private async downloadFile(remotePath: string, instrument: string): Promise<any> {
     const fullPath = this.buildFilePath(remotePath, instrument)
     const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
-    console.log(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
+    logger.info(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
     try {
       const fileContent = await this.sftpClient.get(fullPath)
       if (!fileContent) {
@@ -235,11 +241,35 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   private buildFilePath(remotePath: string, instrument: string): string {
     const filePathTemplate = this.getInstrumentFilePath(instrument)
 
-    // Get current date and format day, month, and year with leading zeros
+    // Get current date in London time
     const now = new Date()
-    const currentDay = now.getDate().toString().padStart(2, '0')
-    const currentMonth = (now.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
-    const currentYear = now.getFullYear().toString().slice(-2) // Get last 2 digits of year
+    const londonTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }))
+
+    // Check if it's before 4 PM London time (16:00)
+    const isBeforeFileGeneration = londonTime.getHours() < 16
+
+    // Start with current London date, but go back one day if before 4 PM
+    const targetDate = new Date(londonTime)
+    if (isBeforeFileGeneration) {
+      targetDate.setDate(londonTime.getDate() - 1)
+    }
+
+    // Get the day of the week for the target date (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    const dayOfWeek = targetDate.getDay()
+
+    // If target date falls on Saturday (6) or Sunday (0), fall back to Friday's date
+    if (dayOfWeek === 0) {
+      // Sunday
+      targetDate.setDate(targetDate.getDate() - 2) // Go back 2 days to Friday
+    } else if (dayOfWeek === 6) {
+      // Saturday
+      targetDate.setDate(targetDate.getDate() - 1) // Go back 1 day to Friday
+    }
+
+    // Format day, month, and year with leading zeros
+    const currentDay = targetDate.getDate().toString().padStart(2, '0')
+    const currentMonth = (targetDate.getMonth() + 1).toString().padStart(2, '0') // getMonth() returns 0-11
+    const currentYear = targetDate.getFullYear().toString().slice(-2) // Get last 2 digits of year
 
     const instrumentFilePath = filePathTemplate
       .replace('{{dd}}', currentDay)

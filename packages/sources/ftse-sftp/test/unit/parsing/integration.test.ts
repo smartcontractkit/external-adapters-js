@@ -1,10 +1,10 @@
 import { FTSE100Parser } from '../../../src/parsing/ftse100'
 import { RussellDailyValuesParser } from '../../../src/parsing/russell'
 
-// Helper functions to create test data with actual tab separators
+// Helper functions to create test data with proper separators
 const createFTSETestData = (dataRows: string[]): string => {
   const header =
-    'Index Code\tIndex/Sector Name\tNumber of Constituents\tIndex Base Currency\tUSD Index\tGBP Index\tEUR Index\tJPY Index\tAUD Index\tCNY Index\tHKD Index\tCAD Index\tLOC Index\tBase Currency (GBP) Index'
+    'Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index'
   const preamble = `26/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
@@ -32,16 +32,16 @@ describe('CSV Parsers Integration', () => {
   describe('FTSE100Parser and RussellDailyValuesParser', () => {
     it('should handle different CSV formats independently', async () => {
       const ftseParser = new FTSE100Parser()
-      const russellParser = new RussellDailyValuesParser()
+      const russellParser = new RussellDailyValuesParser('Russell 1000® Index')
 
       // Sample FTSE data
       const ftseContent = createFTSETestData([
-        'UKX\tFTSE 100 Index\t100\tGBP\t4659.89484111\t5017.24846324\t4523.90007694\t2963.46786723\t6470.75900926\t10384.47293100\t4667.43880552\t5177.36970414\t\t5017.24846324',
+        'UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324',
       ])
 
       // Sample Russell data
       const russellContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50\t10.94\t0.88\t1280.00\t1200.00\t45.50\t3.79\t1300.00\t1100.00\t145.50\t13.25',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
       ])
 
       // Parse both formats
@@ -65,7 +65,7 @@ describe('CSV Parsers Integration', () => {
 
     it('should reject wrong format for each parser', async () => {
       const ftseParser = new FTSE100Parser()
-      const russellParser = new RussellDailyValuesParser()
+      const russellParser = new RussellDailyValuesParser('Russell 1000® Index')
 
       // Try to parse Russell data with FTSE parser
       const russellContent = createRussellTestData([
@@ -73,7 +73,7 @@ describe('CSV Parsers Integration', () => {
       ])
 
       // Try to parse FTSE data with Russell parser
-      const ftseContent = createFTSETestData(['UKX\tFTSE 100 Index\t5017.25'])
+      const ftseContent = createFTSETestData(['UKX,FTSE 100 Index,5017.25'])
 
       // FTSE parser should reject Russell format
       await expect(ftseParser.parse(russellContent)).rejects.toThrow()
@@ -84,7 +84,7 @@ describe('CSV Parsers Integration', () => {
 
     it('should handle empty or invalid data gracefully', async () => {
       const ftseParser = new FTSE100Parser()
-      const russellParser = new RussellDailyValuesParser()
+      const russellParser = new RussellDailyValuesParser('Russell 1000® Index')
 
       const emptyContent = ''
       const invalidContent = 'Invalid CSV data without proper structure'
@@ -102,7 +102,7 @@ describe('CSV Parsers Integration', () => {
   describe('getEssentialData comparison', () => {
     it('should return different data structures for each parser', () => {
       const ftseParser = new FTSE100Parser()
-      const russellParser = new RussellDailyValuesParser()
+      const russellParser = new RussellDailyValuesParser('Russell 1000® Index')
 
       const ftseData = [
         {

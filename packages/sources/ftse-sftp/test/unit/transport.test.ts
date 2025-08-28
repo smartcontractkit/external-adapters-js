@@ -130,32 +130,32 @@ describe('SftpTransport', () => {
 
     it('should build correct file path with date substitution for FTSE100INDEX', () => {
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/ukallv2308.csv')
+      expect(result).toBe('/data/ukallv2208.csv')
     })
 
     it('should build correct file path with date substitution for Russell1000INDEX', () => {
       const result = (transport as any).buildFilePath('/data', 'Russell1000INDEX')
-      expect(result).toBe('/data/daily_values_russell_240823.CSV')
+      expect(result).toBe('/data/daily_values_russell_240822.CSV')
     })
 
     it('should handle root path correctly', () => {
       const result = (transport as any).buildFilePath('/', 'FTSE100INDEX')
-      expect(result).toBe('/ukallv2308.csv')
+      expect(result).toBe('/ukallv2208.csv')
     })
 
     it('should handle path with trailing slash', () => {
       const result = (transport as any).buildFilePath('/data/', 'FTSE100INDEX')
-      expect(result).toBe('/data/ukallv2308.csv')
+      expect(result).toBe('/data/ukallv2208.csv')
     })
 
     it('should handle path without leading slash', () => {
       const result = (transport as any).buildFilePath('data', 'FTSE100INDEX')
-      expect(result).toBe('data/ukallv2308.csv') // The method doesn't add leading slash
+      expect(result).toBe('data/ukallv2208.csv') // The method doesn't add leading slash
     })
 
     it('should handle nested paths correctly', () => {
       const result = (transport as any).buildFilePath('/custom/nested/path', 'FTSE100INDEX')
-      expect(result).toBe('/custom/nested/path/ukallv2308.csv')
+      expect(result).toBe('/custom/nested/path/ukallv2208.csv')
     })
   })
 
@@ -184,7 +184,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-01-05T10:00:00.000Z')) as any
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/ukallv0501.csv')
+      expect(result).toBe('/data/ukallv0401.csv')
     })
 
     it('should format double digit day and month correctly', () => {
@@ -192,7 +192,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-12-25T10:00:00.000Z')) as any
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/ukallv2512.csv')
+      expect(result).toBe('/data/ukallv2412.csv')
     })
 
     it('should handle end of month correctly', () => {
@@ -200,7 +200,7 @@ describe('SftpTransport', () => {
       global.Date = jest.fn(() => new originalDate('2024-02-29T10:00:00.000Z')) as any // Leap year
 
       const result = (transport as any).buildFilePath('/data', 'FTSE100INDEX')
-      expect(result).toBe('/data/ukallv2902.csv')
+      expect(result).toBe('/data/ukallv2802.csv')
     })
   })
 
@@ -300,7 +300,7 @@ FTSE UK All-Share Indices Valuation Service
 
 Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
 UKX,FTSE 100 Index,100,GBP,8124.50,8317.59,7503.20,1205432.12,12789.45,58745.67,64789.01,11567.23,8317.59,8317.59`
-      const filePath = '/data/ukallv2308.csv'
+      const filePath = '/data/ukallv2208.csv'
 
       mockSftpClientInstance.setFiles({
         [filePath]: csvContent,
@@ -319,7 +319,7 @@ UKX,FTSE 100 Index,100,GBP,8124.50,8317.59,7503.20,1205432.12,12789.45,58745.67,
     it('should handle empty file content', async () => {
       // First establish connection
       await mockSftpClientInstance.connect({})
-      const filePath = '/data/ukallv2308.csv'
+      const filePath = '/data/ukallv2208.csv'
 
       mockSftpClientInstance.setFiles({
         [filePath]: '',

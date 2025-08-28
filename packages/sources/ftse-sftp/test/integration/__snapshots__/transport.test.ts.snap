@@ -3,6 +3,6 @@
 exports[`SFTP Transport Integration Tests Error handling should throw error for unsupported instruments 1`] = `
 {
   "message": "Unsupported instrument: UNSUPPORTED_INSTRUMENT",
-  "name": "AdapterInputError",
+  "name": "AdapterError",
 }
 `;
