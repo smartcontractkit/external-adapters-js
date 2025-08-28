@@ -10,11 +10,6 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'SFTP operation to perform: list files, download file, or upload file',
     },
-    remotePath: {
-      required: true,
-      type: 'string',
-      description: 'Remote path on the SFTP server (defaults to root /)',
-    },
     instrument: {
       required: true,
       type: 'string',
@@ -24,22 +19,27 @@ export const inputParameters = new InputParameters(
   [
     {
       operation: 'download',
-      remotePath: '/data/valuation/uk_all_share/',
       instrument: 'FTSE100INDEX',
     },
     {
       operation: 'download',
-      remotePath: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
       instrument: 'Russell1000INDEX',
     },
   ],
 )
 
-export const indiceToFileMap = {
+export const instrumentToFileMap = {
   FTSE100INDEX: 'ukallv{{dd}}{{mm}}.csv',
   Russell1000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
   Russell2000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
   Russell3000INDEX: 'daily_values_russell_{{yy}}{{mm}}{{dd}}.CSV',
+}
+
+export const instrumentToRemotePathMap = {
+  FTSE100INDEX: '/data/valuation/uk_all_share/',
+  Russell1000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  Russell2000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  Russell3000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
 }
 
 export type TInputParameters = typeof inputParameters.definition

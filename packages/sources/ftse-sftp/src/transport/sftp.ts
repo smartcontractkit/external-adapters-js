@@ -4,7 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import SftpClient from 'ssh2-sftp-client'
-import { BaseEndpointTypes, indiceToFileMap, inputParameters } from '../endpoint/sftp'
+import { BaseEndpointTypes, instrumentToFileMap, instrumentToRemotePathMap, inputParameters } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
 
 const logger = makeLogger('SFTP Generic Transport')
@@ -169,7 +169,8 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
           message: 'instrument is required for download operation',
         })
       }
-      return await this.downloadFile(param.remotePath || '/', param.instrument as string)
+      const remotePath = instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
+      return await this.downloadFile(remotePath || '/', param.instrument as string)
     } else {
       throw new AdapterInputError({
         statusCode: 400,
@@ -248,7 +249,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   getInstrumentFilePath(instrument: string): string {
-    const filePathTemplate = indiceToFileMap[instrument as keyof typeof indiceToFileMap]
+    const filePathTemplate = instrumentToFileMap[instrument as keyof typeof instrumentToFileMap]
 
     if (!filePathTemplate) {
       throw new AdapterInputError({
