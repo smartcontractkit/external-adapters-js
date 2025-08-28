@@ -2,4 +2,4 @@ export { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './inte
 export { BaseCSVParser } from './base-parser'
 export { FTSE100Parser, FTSE100Data } from './ftse100'
 export { RussellDailyValuesParser, RussellDailyValuesData } from './russell'
-export { CSVParserFactory, CSVParserType } from './factory'
+export { CSVParserFactory } from './factory'

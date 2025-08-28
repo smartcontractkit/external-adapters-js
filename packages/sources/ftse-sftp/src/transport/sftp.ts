@@ -202,8 +202,8 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         })
       }
 
-      // Use the parser factory to detect the right parser based on filename
-      const parser = CSVParserFactory.detectParserByFilename(instrumentFilePath)
+      // Use the parser factory to detect the right parser based on instrument
+      const parser = CSVParserFactory.detectParserByInstrument(instrument)
       if (!parser) {
         throw new AdapterInputError({
           statusCode: 400,

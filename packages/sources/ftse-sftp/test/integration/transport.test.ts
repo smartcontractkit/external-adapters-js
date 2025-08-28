@@ -81,7 +81,7 @@ class MockSftpClient {
 const mockSftpClient = new MockSftpClient()
 
 jest.mock('ssh2-sftp-client', () => {
-  return function() {
+  return function () {
     return mockSftpClient
   }
 })
