@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 10000,
+  },
+  "result": 10000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1756392924375,
+    "providerDataRequestedUnixMs": 1756392924369,
+  },
+}
+`;

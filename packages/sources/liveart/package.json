@@ -1,0 +1,33 @@
+{
+  "name": "@chainlink/liveart-external-adapter",
+  "version": "1.0.0",
+  "description": "LiveArt NAV external adapter for Chainlink",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./src/index.ts\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.7.0",
+    "axios": "^1.11.0",
+    "nock": "^14.0.10",
+    "tslib": "2.4.1"
+  }
+}
