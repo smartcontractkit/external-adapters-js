@@ -15,6 +15,7 @@ export interface RussellDailyValuesData extends ParsedData {
  * Only extracts indexName and close fields
  */
 export class RussellDailyValuesParser extends BaseCSVParser {
+  private readonly instrument: string
   private readonly expectedColumns = [
     'Index Name', // We'll treat the index name as the first column
     'Open',
@@ -23,7 +24,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     'Close',
   ]
 
-  constructor() {
+  constructor(instrument: string) {
     // Russell daily values data is comma-separated in the actual file
     super({
       delimiter: ',',
@@ -31,6 +32,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       skip_empty_lines: true,
       trim: true,
     })
+    this.instrument = instrument
   }
 
   getExpectedColumns(): string[] {
@@ -85,7 +87,10 @@ export class RussellDailyValuesParser extends BaseCSVParser {
           continue
         }
 
-        results.push(data)
+        // Normalize the string because of the ® symbol
+        if (this.normalizeString(indexName) === this.normalizeString(this.instrument)) {
+          results.push(data)
+        }
       } catch (error) {
         console.error(`Error parsing line: ${line.substring(0, 100)}`, error)
         // Continue with next line instead of failing completely
@@ -117,5 +122,12 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       indexName: item.indexName,
       close: item.close,
     }))
+  }
+
+  /**
+   * Normalize a string by removing unwanted characters
+   */
+  normalizeString(str: string): string {
+    return str.replace(/[^\w\s]/g, '').trim()
   }
 }
