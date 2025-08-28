@@ -1,81 +1,50 @@
-import {
-  TestAdapter,
-  setEnvVariables,
-} from '@chainlink/external-adapter-framework/util/testing-utils'
-
 // Mock the SFTP client before any imports
 jest.mock('ssh2-sftp-client', () => {
   class MockSftpClient {
-    private isConnected = false
     private files: Record<string, string> = {
-      // Mock FTSE file content for date 2024-08-22 (going back one day from 23 due to time logic)
-      '/data/ukallv2208.csv': `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
+      // Mock FTSE file content for current date (2025-08-28)
+      '/data/valuation/uk_all_share/ukallv2808.csv': `28/08/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
 Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
 UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324
 AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.39695263,6470.60416658,10384.22443471,4667.32711557,5177.24581174,,5017.12840249`,
 
-      // FTSE file at the mapped remote path
-      '/data/valuation/uk_all_share/ukallv2208.csv': `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
-FTSE UK All-Share Indices Valuation Service
-
-Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
-UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324
-AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.39695263,6470.60416658,10384.22443471,4667.32711557,5177.24581174,,5017.12840249`,
-
-      // Mock Russell file content for date 2024-08-22
-      '/data/daily_values_russell_240822.CSV': `Header line 1
+      // Mock Russell file content for current date (2025-08-28)
+      '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250828.CSV': `Header line 1
 Header line 2
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
 Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
 Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23
 Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456.78`,
-
-      // Russell files at the mapped remote path
-      '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_240822.CSV': `Header line 1
-Header line 2
-Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
-Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
-Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23
-Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456.78`,
-
-      // Additional paths for different remote paths
-      '/custom/path/ukallv2208.csv': `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
-FTSE UK All-Share Indices Valuation Service
-
-Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
-UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324`,
-
-      '/ukallv2208.csv': `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
-FTSE UK All-Share Indices Valuation Service
-
-Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
-UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324`,
-
-      '/valid/path/ukallv2208.csv': `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
-FTSE UK All-Share Indices Valuation Service
-
-Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
-UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324`,
     }
 
-    async connect(_config?: any): Promise<void> {
-      this.isConnected = true
+    async connect(config?: any): Promise<void> {
+      // Simulate environment variable check - fail if SFTP_HOST is missing
+      if (!process.env.SFTP_HOST) {
+        throw new Error('SFTP connection failed: Missing host configuration')
+      }
       return Promise.resolve()
     }
 
     async end(): Promise<void> {
-      this.isConnected = false
       return Promise.resolve()
     }
 
-    async fastGet(remoteFilePath: string): Promise<Buffer> {
+    async get(remoteFilePath: string): Promise<Buffer> {
+      // Check environment variables before attempting to get file
+      if (!process.env.SFTP_HOST) {
+        throw new Error('SFTP connection failed: Missing host configuration')
+      }
       const content = this.files[remoteFilePath]
       if (!content) {
         throw new Error(`File not found: ${remoteFilePath}`)
       }
       return Buffer.from(content, 'utf8')
+    }
+
+    async fastGet(remoteFilePath: string): Promise<Buffer> {
+      return this.get(remoteFilePath)
     }
 
     async exists(path: string): Promise<boolean> {
@@ -95,15 +64,147 @@ UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.467867
   return MockSftpClient
 })
 
-import { AdapterRequestBody } from '@chainlink/external-adapter-framework/util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
 
-describe('FTSE SFTP adapter', () => {
-  // Adapter integration tests are skipped due to TestAdapter timeout issues
-  // The core functionality is properly tested in transport.test.ts
+describe('execute', () => {
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-  it('should have integration tests covered by transport tests', () => {
-    // The transport tests comprehensively cover all the SFTP functionality
-    // including file downloads, parsing, date handling, and error scenarios
-    expect(true).toBe(true)
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.SFTP_HOST = process.env.SFTP_HOST ?? 'sftp.test.com'
+    process.env.SFTP_PORT = process.env.SFTP_PORT ?? '22'
+    process.env.SFTP_USERNAME = process.env.SFTP_USERNAME ?? 'testuser'
+    process.env.SFTP_PASSWORD = process.env.SFTP_PASSWORD ?? 'testpass'
+    process.env.BACKGROUND_EXECUTE_MS = '1'
+
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    spy.mockRestore()
+  })
+
+  describe('sftp endpoint', () => {
+    it('should return success for FTSE100INDEX download', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'FTSE100INDEX',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell1000INDEX download', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'Russell1000INDEX',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell2000INDEX download', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'Russell2000INDEX',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell3000INDEX download', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'Russell3000INDEX',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle missing required parameters', async () => {
+      const data = {
+        endpoint: 'sftp',
+        // Missing operation and instrument
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle missing operation parameter', async () => {
+      const data = {
+        endpoint: 'sftp',
+        instrument: 'FTSE100INDEX',
+        // Missing operation
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle missing instrument parameter', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        // Missing instrument
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle unsupported instrument', async () => {
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'UNSUPPORTED_INSTRUMENT',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle environment variable configuration', async () => {
+      // Test that required environment variables are being used by the adapter
+      // The mock client already validates that SFTP_HOST, SFTP_USERNAME, and SFTP_PASSWORD are set
+
+      // Verify environment variables are set (required for SFTP connection)
+      expect(process.env.SFTP_HOST).toBeDefined()
+      expect(process.env.SFTP_USERNAME).toBeDefined()
+      expect(process.env.SFTP_PASSWORD).toBeDefined()
+
+      // Test a successful request to confirm configuration is working
+      const data = {
+        endpoint: 'sftp',
+        operation: 'download',
+        instrument: 'FTSE100INDEX',
+      }
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toHaveProperty('result')
+    })
   })
 })

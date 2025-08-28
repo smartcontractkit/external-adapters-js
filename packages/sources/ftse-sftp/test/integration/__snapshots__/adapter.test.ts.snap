@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute sftp endpoint should handle missing instrument parameter 1`] = `
+{
+  "error": {
+    "message": "[Param: instrument] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute sftp endpoint should handle missing operation parameter 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute sftp endpoint should handle missing required parameters 1`] = `
+{
+  "error": {
+    "message": "[Param: operation] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute sftp endpoint should handle unsupported instrument 1`] = `
+{
+  "errorMessage": "Unsupported instrument: UNSUPPORTED_INSTRUMENT",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for FTSE100INDEX download 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "gbpIndex": 5017.24846324,
+        "indexBaseCurrency": "GBP",
+        "indexCode": "UKX",
+        "indexSectorName": "FTSE 100 Index",
+        "numberOfConstituents": 100,
+      },
+    ],
+  },
+  "result": [
+    {
+      "gbpIndex": 5017.24846324,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "UKX",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell1000INDEX download 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "close": 2654.123456,
+        "indexName": "Russell 1000® Index",
+      },
+    ],
+  },
+  "result": [
+    {
+      "close": 2654.123456,
+      "indexName": "Russell 1000® Index",
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell2000INDEX download 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "close": 1234.56789,
+        "indexName": "Russell 2000® Index",
+      },
+    ],
+  },
+  "result": [
+    {
+      "close": 1234.56789,
+      "indexName": "Russell 2000® Index",
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell3000INDEX download 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "close": 1876.54321,
+        "indexName": "Russell 3000® Index",
+      },
+    ],
+  },
+  "result": [
+    {
+      "close": 1876.54321,
+      "indexName": "Russell 3000® Index",
+    },
+  ],
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
