@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![2.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -38,9 +38,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                          Options                                                                           | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                        Options                                                                                         | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana](#solana-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -222,6 +222,50 @@ Request:
         "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH"
       }
     ]
+  }
+}
+```
+
+---
+
+## Solana Endpoint
+
+`solana` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |            Name             | Aliases |                                                  Description                                                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------------: | :-----: | :------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |          addresses          |         | List of wallet addresses to query. The balances of all provided wallets will be retrieved and summed together. | object[] |         |         |            |                |
+|    ✅     |      addresses.address      |         |                           Public wallet address whose token balance will be queried.                           |  string  |         |         |            |                |
+|    ✅     |          tokenMint          |         | A token mint is the canonical on-chain account that defines the token’s metadata (name, symbol, supply rules). |  object  |         |         |            |                |
+|    ✅     |       tokenMint.token       |         |                                          token symbol of token mint.                                           |  string  |         |         |            |                |
+|    ✅     |  tokenMint.contractAddress  |         |                                  On-chain contract address of the token mint.                                  |  string  |         |         |            |                |
+|    ✅     |         priceOracle         |         |              Configuration of the on-chain price oracle that provides real-time token valuations.              |  object  |         |         |            |                |
+|    ✅     | priceOracle.contractAddress |         |                      Contract address of the price oracle used to fetch token price data.                      |  string  |         |         |            |                |
+|    ✅     |     priceOracle.network     |         |                  Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).                   |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "solana",
+    "addresses": [
+      {
+        "address": "G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG"
+      }
+    ],
+    "tokenMint": {
+      "token": "tbill",
+      "contractAddress": "4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 "
+    },
+    "priceOracle": {
+      "contractAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40",
+      "network": "ETHEREUM"
+    }
   }
 }
 ```
