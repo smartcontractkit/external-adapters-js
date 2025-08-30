@@ -1,16 +1,16 @@
+import type {
+  AdapterRequest,
+  AxiosRequestConfig,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
+} from '@chainlink/ea-bootstrap'
 import {
   AdapterError,
   AdapterResponseInvalidError,
   Requester,
   util,
   Validator,
-} from '@chainlink/ea-bootstrap'
-import type {
-  AdapterRequest,
-  ExecuteWithConfig,
-  Config,
-  InputParameters,
-  AxiosRequestConfig,
 } from '@chainlink/ea-bootstrap'
 import { AxiosResponse } from 'axios'
 import Decimal from 'decimal.js'
@@ -128,7 +128,7 @@ export const executeComputedPrice = async (
   const data = {
     operand1Result: operand1Result.toString(),
     operand2Result: operand2Result.toString(),
-    result: result.toString(),
+    result: result.toFixed(),
   }
 
   const response = { data, status: 200 }

@@ -51,6 +51,18 @@ exports[`impliedPrice with endpoint computedPrice successful calls can multiply 
 }
 `;
 
+exports[`impliedPrice with endpoint computedPrice successful calls displays number > e+21 as fixed point rather than exponential 1`] = `
+{
+  "data": {
+    "result": "17150000000000000000000000",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "17150000000000000000000000",
+  "statusCode": 200,
+}
+`;
+
 exports[`impliedPrice with endpoint computedPrice successful calls return success without comma separated sources 1`] = `
 {
   "data": {
