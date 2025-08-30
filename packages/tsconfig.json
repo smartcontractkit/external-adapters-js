@@ -399,6 +399,9 @@
       "path": "./sources/frxeth-exchange-rate"
     },
     {
+      "path": "./sources/ftse-sftp"
+    },
+    {
       "path": "./sources/galaxis"
     },
     {
