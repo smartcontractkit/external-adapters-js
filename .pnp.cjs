@@ -11495,7 +11495,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.7.0"],\
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
-          ["elliptic", "npm:6.5.4"]\
+          ["elliptic", "npm:6.6.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -11507,7 +11507,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
           ["bn.js", "npm:4.12.2"],\
-          ["elliptic", "npm:6.5.4"],\
+          ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
         "linkType": "HARD"\
@@ -11520,7 +11520,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
           ["bn.js", "npm:4.12.2"],\
-          ["elliptic", "npm:6.5.4"],\
+          ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
         "linkType": "HARD"\
@@ -11533,7 +11533,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/logger", "npm:5.7.0"],\
           ["@ethersproject/properties", "npm:5.7.0"],\
           ["bn.js", "npm:5.2.2"],\
-          ["elliptic", "npm:6.5.4"],\
+          ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
         "linkType": "HARD"\
@@ -22233,20 +22233,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["elliptic", [\
-      ["npm:6.5.4", {\
-        "packageLocation": "./.yarn/cache/elliptic-npm-6.5.4-0ca8204a86-2cd7ff4b69.zip/node_modules/elliptic/",\
-        "packageDependencies": [\
-          ["elliptic", "npm:6.5.4"],\
-          ["bn.js", "npm:4.12.2"],\
-          ["brorand", "npm:1.1.0"],\
-          ["hash.js", "npm:1.1.7"],\
-          ["hmac-drbg", "npm:1.0.1"],\
-          ["inherits", "npm:2.0.4"],\
-          ["minimalistic-assert", "npm:1.0.1"],\
-          ["minimalistic-crypto-utils", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:6.6.1", {\
         "packageLocation": "./.yarn/cache/elliptic-npm-6.6.1-87bb857cbc-dc678c9feb.zip/node_modules/elliptic/",\
         "packageDependencies": [\
@@ -22924,7 +22910,7 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:4.0.49"],\
           ["aes-js", "npm:3.0.0"],\
           ["bn.js", "npm:4.12.2"],\
-          ["elliptic", "npm:6.5.4"],\
+          ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.3"],\
           ["js-sha3", "npm:0.5.7"],\
           ["scrypt-js", "npm:2.0.4"],\
