@@ -52,24 +52,3 @@ export interface Market {
 export function mapSymbol(address: string, symbolMap: Record<string, any>) {
   return symbolMap[address]
 }
-
-const adapterParamOverride: Record<string, Record<string, string>> = {
-  coinmetrics: {
-    TAO: 'tao_bittensor',
-    SPX6900: 'spx',
-  },
-  tiingo: {
-    FLOKI: 'floki2',
-    SPX6900: 'spx',
-  },
-  ncfx: {
-    SPX6900: 'spx',
-  },
-}
-
-export function mapParameter(source: string, param: string) {
-  if (source in adapterParamOverride && param in adapterParamOverride[source]) {
-    return adapterParamOverride[source][param]
-  }
-  return param
-}
