@@ -1,4 +1,3 @@
-// import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import {
   PoRProviderEndpoint,
   PoRProviderResponse,
@@ -17,20 +16,13 @@ export const inputParameters = new InputParameters(
     resource: {
       type: 'string',
       required: true,
-      description: 'The resource of the TNF to consume',
-    },
-    apiKey: {
-      type: 'string',
-      description:
-        'Alternative api key to use for this request, {$apiKey}_API_KEY  required in environment variables',
-      default: '',
+      description: 'The resource of the TNF to consume eg. reserve',
     },
   },
   [
     {
       client: 'acme',
       resource: 'reserve',
-      apiKey: '',
     },
   ],
 )

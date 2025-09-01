@@ -18,22 +18,18 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const getApiKey = (apiKey: string, config: BaseEndpointTypes['Settings']) => {
-  if (apiKey) {
-    const apiKeyName = `${apiKey.toUpperCase()}_API_KEY`
-    const apiKeyValue = process.env[apiKeyName]
+export const getApiKey = (client: string) => {
+  const apiKeyName = `${client.toUpperCase()}_API_KEY`
+  const apiKeyValue = process.env[apiKeyName]
 
-    if (!apiKeyValue) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${apiKeyName}' environment variables.`,
-      })
-    }
-
-    return apiKeyValue
+  if (!apiKeyValue) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Missing '${apiKeyName}' environment variables.`,
+    })
   }
 
-  return config.API_KEY
+  return apiKeyValue
 }
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
@@ -46,7 +42,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         baseURL: config.ALT_API_ENDPOINT,
         url: `/v1/${client}/${resource}`,
         headers: {
-          apikey: getApiKey(params[0].apiKey, config),
+          apikey: getApiKey(params[0].client),
         },
       },
     }
