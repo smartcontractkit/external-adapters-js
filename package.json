@@ -84,6 +84,7 @@
   "packageManager": "yarn@4.5.3",
   "resolutions": {
     "ethereum-cryptography@^1.1.2": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
-    "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch"
+    "ethereum-cryptography@^1.0.3": "patch:ethereum-cryptography@npm%3A1.1.2#./.yarn/patches/ethereum-cryptography-npm-1.1.2-c16cfd7e8a.patch",
+    "web3-utils@npm:^1": "npm:1.10.4"
   }
 }
