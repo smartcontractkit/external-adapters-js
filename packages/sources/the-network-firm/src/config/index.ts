@@ -25,4 +25,11 @@ export const config = new AdapterConfig({
     sensitive: true,
     default: '',
   },
+  API_KEY: {
+    description: 'API key used for client-agnostic authentication',
+    type: 'string',
+    required: false,
+    sensitive: true,
+    default: '',
+  },
 })

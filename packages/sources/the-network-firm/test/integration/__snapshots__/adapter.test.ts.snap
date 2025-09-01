@@ -91,6 +91,60 @@ exports[`execute mco2 endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute reserve endpoint should fail 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: some_detail",
+  "ripcord": true,
+  "ripcordDetails": "some_detail",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should fail if client name is not present or wrong 1`] = `
+{
+  "errorMessage": "Provider did not return resource for client",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should fail if client name is not present or wrong 2`] = `
+{
+  "errorMessage": "Provider did not return resource for client",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "1000000",
+    "ripcord": false,
+  },
+  "result": "1000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
 exports[`execute stbt endpoint should return success 1`] = `
 {
   "data": {

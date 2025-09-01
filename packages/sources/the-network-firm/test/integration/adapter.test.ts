@@ -9,6 +9,9 @@ import {
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
   mockMCO2Response,
+  mockReserveClientNameResponseFailure,
+  mockReserveResponseSuccess,
+  mockReserveRipcordResponseFailure,
   mockSTBTResponseSuccess,
   mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
@@ -28,6 +31,7 @@ describe('execute', () => {
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
+    process.env.ACME_API_KEY = 'acme-api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -173,6 +177,56 @@ describe('execute', () => {
       mockUraniumResponseFailure()
 
       const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('reserve endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'acme',
+        resource: 'reserve',
+        apiKey: 'acme',
+      }
+
+      mockReserveResponseSuccess(data.client)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should fail', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'acme',
+        resource: 'reserve',
+        apiKey: 'acme',
+      }
+      mockReserveRipcordResponseFailure(data.client)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should fail if client name is not present or wrong', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'acme',
+        resource: 'reserve',
+        apiKey: 'acme',
+      }
+      mockReserveClientNameResponseFailure('')
+
+      let response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+
+      mockReserveClientNameResponseFailure('cosmos')
+      response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })

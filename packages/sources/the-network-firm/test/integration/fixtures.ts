@@ -297,3 +297,48 @@ export const mockUraniumResponseFailure = (): nock.Scope =>
       timestamp: '2025-07-03T00:01:57.131Z',
     })
     .persist()
+
+export const mockReserveResponseSuccess = (name: string): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/acme/reserve')
+    .reply(200, {
+      name: name,
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockReserveRipcordResponseFailure = (name: string): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/acme/reserve')
+    .reply(200, {
+      name: name,
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: true,
+      ripcordDetails: ['some_detail'],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockReserveClientNameResponseFailure = (name: string): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/acme/reserve')
+    .reply(200, {
+      name: name,
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
