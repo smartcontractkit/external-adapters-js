@@ -25,6 +25,14 @@ export const inputParameters = new InputParameters(
       operation: 'download',
       instrument: 'Russell1000INDEX',
     },
+    {
+      operation: 'download',
+      instrument: 'Russell2000INDEX',
+    },
+    {
+      operation: 'download',
+      instrument: 'Russell3000INDEX',
+    },
   ],
 )
 

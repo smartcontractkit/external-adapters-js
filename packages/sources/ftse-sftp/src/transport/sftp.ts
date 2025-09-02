@@ -121,6 +121,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       host: this.config.SFTP_HOST,
       port: this.config.SFTP_PORT || 22,
       username: this.config.SFTP_USERNAME,
+      readyTimeout: 30000, // 30 second timeout for connection
     }
 
     // Use either password or private key authentication
@@ -134,13 +135,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
 
     try {
-      // Add a timeout wrapper around the connection
-      const connectPromise = this.sftpClient.connect(connectConfig)
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Connection timeout after 30 seconds')), 30000)
-      })
-
-      await Promise.race([connectPromise, timeoutPromise])
+      await this.sftpClient.connect(connectConfig)
       this.isConnected = true
       logger.debug('Successfully connected to SFTP server')
     } catch (error) {
@@ -156,115 +151,152 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private async disconnectFromSftp(): Promise<void> {
+    if (!this.isConnected) {
+      return
+    }
+
     try {
       await this.sftpClient.end()
-      this.isConnected = false
       logger.debug('Disconnected from SFTP server')
     } catch (error) {
-      this.isConnected = false
       logger.warn(error, 'Error while disconnecting from SFTP server')
+    } finally {
+      // Always reset connection state
+      this.isConnected = false
     }
   }
 
   private async processFiles(param: RequestParams): Promise<any> {
-    if (param.operation === 'download') {
-      if (!param.instrument) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: 'instrument is required for download operation',
-        })
-      }
-      const remotePath =
-        instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
-      return await this.downloadFile(remotePath || '/', param.instrument as string)
-    } else {
+    if (param.operation !== 'download') {
       throw new AdapterInputError({
         statusCode: 400,
         message: `Unsupported operation: ${param.operation}`,
       })
     }
+
+    if (!param.instrument) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'instrument is required for download operation',
+      })
+    }
+
+    const remotePath =
+      instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
+
+    if (!remotePath) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Unsupported instrument: ${param.instrument}`,
+      })
+    }
+
+    return await this.downloadFile(remotePath, param.instrument as string)
   }
 
   private async downloadFile(remotePath: string, instrument: string): Promise<any> {
-    const fullPath = this.buildFilePath(remotePath, instrument)
-    const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
-    logger.info(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
-    try {
-      const fileContent = await this.sftpClient.get(fullPath)
-      if (!fileContent) {
-        throw new AdapterInputError({
-          statusCode: 404,
-          message: `File is empty or not found: ${instrumentFilePath}`,
-        })
+    const maxDaysBack = 3
+    let lastError: Error | null = null
+
+    // Try downloading files starting from current date and going back up to 3 days
+    for (let daysBack = 0; daysBack <= maxDaysBack; daysBack++) {
+      try {
+        const fullPath = this.buildFilePath(remotePath, instrument, daysBack)
+        const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
+
+        if (daysBack === 0) {
+          logger.info(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
+        } else {
+          logger.info(
+            `Attempting fallback: downloading file ${instrumentFilePath} (${daysBack} days back) from ${remotePath}`,
+          )
+        }
+
+        const fileContent = await this.sftpClient.get(fullPath)
+        if (!fileContent) {
+          throw new Error(`File is empty or not found: ${instrumentFilePath}`)
+        }
+
+        const csvContent = fileContent.toString('utf8')
+        logger.debug(`Downloaded file content length: ${csvContent.length} characters`)
+
+        // Check if the content is empty after conversion to string
+        if (!csvContent || csvContent.trim().length === 0) {
+          throw new Error(`File is empty or not found: ${instrumentFilePath}`)
+        }
+
+        // Use the parser factory to detect the right parser based on instrument
+        const parser = CSVParserFactory.detectParserByInstrument(instrument)
+        if (!parser) {
+          throw new AdapterInputError({
+            statusCode: 400,
+            message: `No suitable parser found for file: ${instrumentFilePath}`,
+          })
+        }
+
+        // Parse the CSV content and return the corresponding DataObject
+        const parsedData = await parser.parse(csvContent)
+        logger.debug(
+          `Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`,
+        )
+
+        if (daysBack > 0) {
+          logger.warn(
+            `Successfully downloaded fallback file from ${daysBack} days back: ${instrumentFilePath}`,
+          )
+        }
+
+        return parsedData
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error('Unknown error')
+
+        if (daysBack < maxDaysBack) {
+          logger.debug(
+            `Failed to download file for day ${daysBack}, trying ${daysBack + 1} days back: ${
+              lastError.message
+            }`,
+          )
+          continue
+        }
       }
-
-      const csvContent = fileContent.toString('utf8')
-      logger.debug(`Downloaded file content length: ${csvContent.length} characters`)
-
-      // Check if the content is empty after conversion to string
-      if (!csvContent || csvContent.trim().length === 0) {
-        throw new AdapterInputError({
-          statusCode: 404,
-          message: `File is empty or not found: ${instrumentFilePath}`,
-        })
-      }
-
-      // Use the parser factory to detect the right parser based on instrument
-      const parser = CSVParserFactory.detectParserByInstrument(instrument)
-      if (!parser) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `No suitable parser found for file: ${instrumentFilePath}`,
-        })
-      }
-
-      // Parse the CSV content and return the corresponding DataObject
-      const parsedData = await parser.parse(csvContent)
-      logger.debug(
-        `Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`,
-      )
-      return parsedData
-    } catch (error) {
-      logger.error(
-        error,
-        `Failed to download and parse file: ${instrumentFilePath} from ${remotePath}`,
-      )
-      throw new AdapterInputError({
-        statusCode: 500,
-        message: `Failed to download and parse file: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`,
-      })
     }
+
+    logger.error(
+      lastError,
+      `Failed to download file after trying ${maxDaysBack + 1} days back from ${remotePath}`,
+    )
+    throw new AdapterInputError({
+      statusCode: 500,
+      message: `Failed to download file after trying ${maxDaysBack + 1} days back: ${
+        lastError?.message || 'Unknown error'
+      }`,
+    })
   }
 
-  private buildFilePath(remotePath: string, instrument: string): string {
+  private buildFilePath(
+    remotePath: string,
+    instrument: string,
+    additionalDaysBack = 0,
+  ): string {
     const filePathTemplate = this.getInstrumentFilePath(instrument)
 
-    // Get current date in London time
     const now = new Date()
-    const londonTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }))
+
+    // Convert to London timezone manually - UTC+1 in summer (BST), UTC+0 in winter (GMT)
+    const londonOffset = now.getMonth() >= 2 && now.getMonth() <= 9 ? 1 : 0 // BST vs GMT
+    const londonTime = new Date(now.getTime() + londonOffset * 60 * 60 * 1000)
 
     // Check if it's before 4 PM London time (16:00)
     const isBeforeFileGeneration = londonTime.getHours() < 16
 
-    // Start with current London date, but go back one day if before 4 PM
+    // Start with London date
     const targetDate = new Date(londonTime)
-    if (isBeforeFileGeneration) {
-      targetDate.setDate(londonTime.getDate() - 1)
-    }
 
-    // Get the day of the week for the target date (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-    const dayOfWeek = targetDate.getDay()
+    // Calculate total days to go back: 1 day if before 4 PM + additional days back
+    const totalDaysBack = (isBeforeFileGeneration ? 1 : 0) + additionalDaysBack
 
-    // If target date falls on Saturday (6) or Sunday (0), fall back to Friday's date
-    if (dayOfWeek === 0) {
-      // Sunday
-      targetDate.setDate(targetDate.getDate() - 2) // Go back 2 days to Friday
-    } else if (dayOfWeek === 6) {
-      // Saturday
-      targetDate.setDate(targetDate.getDate() - 1) // Go back 1 day to Friday
-    }
+    // Go back the total number of days
+    targetDate.setDate(targetDate.getDate() - totalDaysBack)
 
     // Format day, month, and year with leading zeros
     const currentDay = targetDate.getDate().toString().padStart(2, '0')

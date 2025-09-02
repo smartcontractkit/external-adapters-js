@@ -1,6 +1,6 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
-export const NAME = 'SFTP_GENERIC'
+export const NAME = 'FTSE_SFTP_ADAPTER'
 
 export const config = new AdapterConfig({
   SFTP_HOST: {

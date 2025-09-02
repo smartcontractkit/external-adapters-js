@@ -262,6 +262,91 @@ Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901
     })
   })
 
+  describe('Date fallback functionality', () => {
+    const ftseContent = `26/08/2024 (C) FTSE International Limited 2024. All Rights Reserved
+FTSE UK All-Share Indices Valuation Service
+
+Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
+UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324`
+
+    beforeEach(() => {
+      // Mock a consistent date for all fallback tests: September 2, 2025, 10:00 AM GMT
+      // This ensures files would be looked for on Sept 2, 1, 31 Aug, 30 Aug respectively
+      const mockDate = new Date('2025-09-02T10:00:00.000Z')
+      jest.setSystemTime(mockDate)
+    })
+
+    it('should fallback to previous day when current file is not available', async () => {
+      // With mocked date Sept 2, 2025:
+      // Day 0: ukallv0209.csv (Sept 2)
+      // Day 1: ukallv0109.csv (Sept 1) - this is what we'll provide
+      const fallbackFileName = 'ukallv0109.csv' // 1 day back
+      mockSftpClient.setFiles({
+        [`/data/${fallbackFileName}`]: ftseContent,
+      })
+
+      await (transport as any).connectToSftp()
+      const result = await (transport as any).downloadFile('/data', 'FTSE100INDEX')
+
+      expect(result).toBeDefined()
+      expect(Array.isArray(result)).toBe(true)
+      expect(result.length).toBeGreaterThan(0)
+      expect(result[0]).toHaveProperty('indexCode', 'UKX')
+    })
+
+    it('should fallback up to 3 days when recent files are not available', async () => {
+      // With mocked date Sept 2, 2025:
+      // Day 0: ukallv0209.csv (Sept 2)
+      // Day 1: ukallv0109.csv (Sept 1)
+      // Day 2: ukallv3108.csv (Aug 31)
+      // Day 3: ukallv3008.csv (Aug 30) - this is what we'll provide
+      const fallbackFileName = 'ukallv3008.csv' // 3 days back
+      mockSftpClient.setFiles({
+        [`/data/${fallbackFileName}`]: ftseContent,
+      })
+
+      await (transport as any).connectToSftp()
+      const result = await (transport as any).downloadFile('/data', 'FTSE100INDEX')
+
+      expect(result).toBeDefined()
+      expect(Array.isArray(result)).toBe(true)
+      expect(result.length).toBeGreaterThan(0)
+      expect(result[0]).toHaveProperty('indexCode', 'UKX')
+    })
+
+    it('should fail after trying all fallback days (0-3 days back)', async () => {
+      // Don't provide any files
+      mockSftpClient.setFiles({})
+
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
+        'Failed to download file after trying 4 days back',
+      )
+    })
+
+    it('should work with Russell indices fallback', async () => {
+      const russellContent = `Header line 1
+Header line 2
+Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12`
+
+      // With mocked date Sept 2, 2025:
+      // Day 0: daily_values_russell_250902.CSV (Sept 2)
+      // Day 1: daily_values_russell_250901.CSV (Sept 1)
+      // Day 2: daily_values_russell_250831.CSV (Aug 31) - this is what we'll provide
+      const fallbackFileName = 'daily_values_russell_250831.CSV' // 2 days back
+      mockSftpClient.setFiles({
+        [`/data/${fallbackFileName}`]: russellContent,
+      })
+
+      await (transport as any).connectToSftp()
+      const result = await (transport as any).downloadFile('/data', 'Russell1000INDEX')
+
+      expect(result).toBeDefined()
+      expect(Array.isArray(result)).toBe(true)
+      expect(result.length).toBeGreaterThan(0)
+      expect(result[0]).toHaveProperty('indexName', 'Russell 1000® Index')
+    })
+  })
+
   describe('Error handling', () => {
     it('should throw error for unsupported instruments', () => {
       expect(() => {
@@ -291,7 +376,9 @@ Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901
     it('should handle file not found errors', async () => {
       mockSftpClient.setFiles({}) // No files available
 
-      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow()
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
+        'Failed to download file after trying 4 days back',
+      )
     })
 
     it('should handle file operation failures', async () => {
@@ -305,10 +392,15 @@ Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901
 
     it('should handle empty file content', async () => {
       mockSftpClient.setFiles({
-        '/data/ukallv2308.csv': '', // Empty file
+        '/data/ukallv2208.csv': '', // Empty file
+        '/data/ukallv2108.csv': '', // Empty fallback files too
+        '/data/ukallv2008.csv': '',
+        '/data/ukallv1908.csv': '',
       })
 
-      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow()
+      await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
+        'Failed to download file after trying 4 days back',
+      )
     })
   })
 

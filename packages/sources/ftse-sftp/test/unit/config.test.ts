@@ -3,7 +3,7 @@ import { config, NAME } from '../../src/config'
 describe('SFTP Generic Config', () => {
   describe('adapter name', () => {
     it('should have correct adapter name', () => {
-      expect(NAME).toBe('SFTP_GENERIC')
+      expect(NAME).toBe('FTSE_SFTP_ADAPTER')
     })
   })
 
