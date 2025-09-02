@@ -114,3 +114,33 @@ export const mockSuccessfulResponseCoinpaprika = (): nock.Scope =>
       statusCode: 200,
       data: { result: 0 },
     })
+
+export const mockSuccessfulResponseBigNumberOperand = (): nock.Scope =>
+  nock('https://external.adapter.com')
+    .defaultReplyHeaders([
+      'X-Powered-By',
+      'Express',
+      'X-RateLimit-Limit',
+      '250',
+      'X-RateLimit-Remaining',
+      '249',
+      'Date',
+      'Tue, 30 Nov 2021 05:33:00 GMT',
+      'X-RateLimit-Reset',
+      '1638250383',
+      'Content-Type',
+      'application/json; charset=utf-8',
+      'ETag',
+      'W/"6b-lQYlgZnpNzhbNYmlxSm02Pk34qo"',
+      'Connection',
+      'close',
+    ])
+    .post('/bignumberoperand')
+    .reply(200, {
+      jobRunID: '1',
+      providerStatusCode: 200,
+      result: '1_000_000_000_000_000_000_000_000', // e24
+      maxAge: 30000,
+      statusCode: 200,
+      data: { result: '1_000_000_000_000_000_000_000_000' },
+    })
