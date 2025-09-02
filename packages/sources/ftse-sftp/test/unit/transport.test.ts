@@ -282,7 +282,7 @@ describe('SftpTransport', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(Error) // Could be AdapterInputError or other wrapped error
         expect((error as Error).message).toContain(
-          'Failed to download file after trying 4 days back',
+          'Failed to download file after trying 5 days back',
         )
       }
     })
@@ -399,7 +399,7 @@ UKX,FTSE 100 Index,100,GBP,8124.50,8317.59,7503.20,1205432.12,12789.45,58745.67,
       } catch (error) {
         expect(error).toBeInstanceOf(Error)
         expect((error as Error).message).toContain(
-          'Failed to download file after trying 4 days back',
+          'Failed to download file after trying 5 days back',
         ) // With fallback, it will try all days and then report overall failure
       }
     })

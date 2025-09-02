@@ -4,13 +4,17 @@ import { RussellDailyValuesParser, RussellDailyValuesData } from '../../../src/p
 const createRussellTestData = (dataRows: string[]): string => {
   const preamble = `Russell Daily Values for August 26, 2025
 Currency: USD
-Performance data as of market close`
+Performance data as of market close
+
+
+
+`
 
   if (dataRows.length === 0) {
     return preamble
   }
 
-  return preamble + '\n\n' + dataRows.join('\n')
+  return preamble + dataRows.join('\n')
 }
 
 describe('RussellDailyValuesParser', () => {
@@ -50,6 +54,9 @@ describe('RussellDailyValuesParser', () => {
     it('should return true for valid Russell format', () => {
       const validContent = `Russell Daily Values
 Some header information
+Performance data as of market close
+
+
 
 Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25`
 

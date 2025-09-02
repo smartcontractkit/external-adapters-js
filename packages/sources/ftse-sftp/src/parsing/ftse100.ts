@@ -64,25 +64,8 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error('Invalid CSV format for FTSE data')
     }
 
-    // Find the line that starts with "Index Code" to locate the actual data header
-    const lines = csvContent.split(/\r?\n/)
-    let dataStartIndex = -1
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].trim().startsWith('Index Code')) {
-        dataStartIndex = i
-        break
-      }
-    }
-
-    if (dataStartIndex === -1) {
-      throw new Error('Could not find data header line starting with "Index Code"')
-    }
-
-    // Extract the content starting from the header line
-    const csvDataContent = lines.slice(dataStartIndex).join('\n')
-
-    // Parse the CSV content using csv-parse with relaxed column checking
-    const parsed = this.parseCSV(csvDataContent, {
+    const parsed = this.parseCSV(csvContent, {
+      from_line: 4, // Start parsing from line 4 (includes header)
       relax_column_count: true, // Allow rows with different column counts
     })
     const results: FTSE100Data[] = []
@@ -114,13 +97,32 @@ export class FTSE100Parser extends BaseCSVParser {
    * Enhanced validation specific to FTSE format
    */
   validateFormat(csvContent: string): boolean {
-    // Skip the base validation since our header is not on the first line
     if (!csvContent || csvContent.trim().length === 0) {
       return false
     }
 
-    // Check if the content contains FTSE-specific headers
-    return csvContent.includes('Index Code') && csvContent.includes('GBP Index')
+    try {
+      // Parse from line 4 (header) to line 6 to validate the format
+      const parsed = this.parseCSV(csvContent, {
+        from_line: 4,
+        to_line: 6, // Parse header and a couple data rows for validation
+        relax_column_count: true,
+      })
+
+      if (!parsed || parsed.length === 0) {
+        return false
+      }
+
+      // Check if we can access the expected columns from the first data row
+      const firstDataRow = parsed[0]
+      return (
+        firstDataRow &&
+        firstDataRow['Index Code'] !== undefined &&
+        firstDataRow['GBP Index'] !== undefined
+      )
+    } catch (error) {
+      return false
+    }
   }
 
   /**

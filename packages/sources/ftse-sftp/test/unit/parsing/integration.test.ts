@@ -19,13 +19,18 @@ ${header}`
 
 const createRussellTestData = (dataRows: string[]): string => {
   const preamble = `Russell Daily Values for August 26, 2025
-Currency: USD`
+Currency: USD
+Performance data as of market close
+
+
+
+`
 
   if (dataRows.length === 0) {
     return preamble
   }
 
-  return preamble + '\n\n' + dataRows.join('\n')
+  return preamble + dataRows.join('\n')
 }
 
 describe('CSV Parsers Integration', () => {
@@ -69,7 +74,7 @@ describe('CSV Parsers Integration', () => {
 
       // Try to parse Russell data with FTSE parser
       const russellContent = createRussellTestData([
-        'Russell 1000® Index\t1234.56\t1250.00\t1220.00\t1245.50',
+        'Russell 1000® Index,1234.56,1250.00,1220.00,1245.50,10.94,0.88,1280.00,1200.00,45.50,3.79,1300.00,1100.00,145.50,13.25',
       ])
 
       // Try to parse FTSE data with Russell parser

@@ -12,7 +12,7 @@ import {
 } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
 
-const logger = makeLogger('SFTP Generic Transport')
+const logger = makeLogger('FTSE STFP Adapter')
 
 type RequestParams = typeof inputParameters.validated
 
@@ -188,15 +188,15 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private async downloadFile(remotePath: string, instrument: string): Promise<any> {
-    const maxDaysBack = 3
+    // 4 Days max because of possible scenario of: Lagging day + 3 day long weekend
+    const maxDaysBack = 4
     let lastError: Error | null = null
 
-    // Try downloading files starting from current date and going back up to 3 days
+    // Try downloading files starting from current date and going back up to 4 days
     for (let daysBack = 0; daysBack <= maxDaysBack; daysBack++) {
       try {
         const fullPath = this.buildFilePath(remotePath, instrument, daysBack)
         const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
-
         if (daysBack === 0) {
           logger.info(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
         } else {
@@ -206,12 +206,12 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         }
 
         const fileContent = await this.sftpClient.get(fullPath)
+
         if (!fileContent) {
           throw new Error(`File is empty or not found: ${instrumentFilePath}`)
         }
 
         const csvContent = fileContent.toString('utf8')
-        logger.debug(`Downloaded file content length: ${csvContent.length} characters`)
 
         // Check if the content is empty after conversion to string
         if (!csvContent || csvContent.trim().length === 0) {
@@ -271,9 +271,9 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const now = new Date()
 
-    // Convert to London timezone manually - UTC+1 in summer (BST), UTC+0 in winter (GMT)
-    const londonOffset = now.getMonth() >= 2 && now.getMonth() <= 9 ? 1 : 0 // BST vs GMT
-    const londonTime = new Date(now.getTime() + londonOffset * 60 * 60 * 1000)
+    // Convert to London timezone using proper timezone handling
+    // Create a date formatter for London timezone
+    const londonTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }))
 
     // Check if it's before 4 PM London time (16:00)
     const isBeforeFileGeneration = londonTime.getHours() < 16

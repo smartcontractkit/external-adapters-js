@@ -40,50 +40,40 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   }
 
   async parse(csvContent: string): Promise<RussellDailyValuesData[]> {
-    const lines = csvContent.split(/\r?\n/)
     const results: RussellDailyValuesData[] = []
 
-    // Find the start of actual data - look for lines that start with "Russell" and contain '®' or '�'
-    const dataLines = lines.filter((line) => {
-      const trimmed = line.trim()
-      // Accept both '®' and '�' as the symbol in the index name
-      // Also handle quoted fields that start with "Russell
-      return (
-        (trimmed.startsWith('Russell') || trimmed.startsWith('"Russell')) &&
-        (trimmed.includes('®') || trimmed.includes('�'))
-      )
+    // Russell data always starts on line 7, so skip the first 6 lines
+    // Use existing config (delimiter, trim, etc.) and just specify from_line
+    const parsed = this.parseCSV(csvContent, {
+      from_line: 7, // Start parsing from line
     })
 
-    if (dataLines.length === 0) {
-      throw new Error('Could not find Russell index data in the provided content')
-    }
+    for (const row of parsed) {
+      if (!row || row.length < 5) {
+        continue // Skip rows with insufficient fields without logging
+      }
 
-    for (const line of dataLines) {
+      // Skip empty rows (where all fields are empty strings or just whitespace)
+      const hasContent = row.some((field: any) => field && String(field).trim() !== '')
+      if (!hasContent) {
+        continue // Skip empty rows without logging
+      }
+
       try {
-        // Parse a single line as CSV (comma-separated)
-        const parsed = this.parseCSV(line, { columns: false })
-
-        if (!parsed || parsed.length === 0 || !parsed[0] || parsed[0].length < 5) {
-          console.warn(`Skipping line with insufficient fields: ${line.substring(0, 100)}`)
-          continue
-        }
-
-        const fields = parsed[0]
-
         // Remove quotes if present in index name
-        let indexName = this.convertValue(fields[0], 'string') as string
+        let indexName = this.convertValue(row[0], 'string') as string
         if (indexName && indexName.startsWith('"') && indexName.endsWith('"')) {
           indexName = indexName.slice(1, -1)
         }
 
         const data: RussellDailyValuesData = {
           indexName,
-          close: this.convertValue(fields[4], 'number') as number | null,
+          close: this.convertValue(row[4], 'number') as number | null,
         }
 
         // Additional validation for required fields
         if (!data.indexName || data.indexName === '') {
-          console.warn(`Missing required index name field in line: ${line.substring(0, 100)}`)
+          console.warn(`Missing required index name field in row: ${JSON.stringify(row)}`)
           continue
         }
 
@@ -92,8 +82,20 @@ export class RussellDailyValuesParser extends BaseCSVParser {
           results.push(data)
         }
       } catch (error) {
-        console.error(`Error parsing line: ${line.substring(0, 100)}`, error)
-        // Continue with next line instead of failing completely
+        console.error(`Error parsing row: ${JSON.stringify(row)}`, error)
+        // Continue with next row instead of failing completely
+      }
+    }
+
+    // If no matching results were found but Russell data exists, that's still valid
+    // Only throw error if no Russell data was found at all
+    if (results.length === 0) {
+      const hasRussellData = parsed.some(
+        (row) => row && row[0] && String(row[0]).includes('Russell'),
+      )
+
+      if (!hasRussellData) {
+        throw new Error('Could not find Russell index data in the provided content')
       }
     }
 
@@ -107,8 +109,30 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     if (!csvContent || csvContent.trim().length === 0) {
       return false
     }
-    // Check if the content contains Russell index data (accept both '®' and '�')
-    return csvContent.includes('Russell') && (csvContent.includes('®') || csvContent.includes('�'))
+
+    try {
+      // Try to parse from line 7 to validate the format
+      // Use existing config (delimiter, trim, etc.) and just specify from_line and to_line
+      const parsed = this.parseCSV(csvContent, {
+        from_line: 7,
+        to_line: 10, // Only parse a few lines for validation
+      })
+
+      if (!parsed || parsed.length === 0) {
+        return false
+      }
+
+      // Check if any row contains Russell index data
+      return parsed.some(
+        (row) =>
+          row &&
+          row[0] &&
+          String(row[0]).includes('Russell') &&
+          (String(row[0]).includes('®') || String(row[0]).includes('�')),
+      )
+    } catch (error) {
+      return false
+    }
   }
 
   /**

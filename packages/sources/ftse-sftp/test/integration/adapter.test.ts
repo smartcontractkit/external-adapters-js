@@ -21,6 +21,11 @@ AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.
       // Mock Russell file content for current date (2025-08-28)
       '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250828.CSV': `Header line 1
 Header line 2
+Header line 3
+Header line 4
+Header line 5
+Header line 6
+Header line 7
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
 Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
 Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23
@@ -29,6 +34,24 @@ Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456
       // Mock Russell file content for current date (2025-09-01)
       '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250901.CSV': `Header line 1
 Header line 2
+Header line 3
+Header line 4
+Header line 5
+Header line 6
+Header line 7
+Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
+Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
+Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23
+Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456.78`,
+
+      // Mock Russell file content for current date (2025-09-02)
+      '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250902.CSV': `Header line 1
+Header line 2
+Header line 3
+Header line 4
+Header line 5
+Header line 6
+Header line 7
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
 Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
 Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23

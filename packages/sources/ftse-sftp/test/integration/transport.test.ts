@@ -163,6 +163,10 @@ AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.
   describe('Russell file operations', () => {
     const russellContent = `Header line 1
 Header line 2
+Header line 3
+Header line 4
+Header line 5
+Header line 6
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
 Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
 Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23`
@@ -319,13 +323,17 @@ UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.467867
       mockSftpClient.setFiles({})
 
       await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
-        'Failed to download file after trying 4 days back',
+        'Failed to download file after trying 5 days back',
       )
     })
 
     it('should work with Russell indices fallback', async () => {
       const russellContent = `Header line 1
 Header line 2
+Header line 3
+Header line 4
+Header line 5
+Header line 6
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12`
 
       // With mocked date Sept 2, 2025:
@@ -377,7 +385,7 @@ Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890
       mockSftpClient.setFiles({}) // No files available
 
       await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
-        'Failed to download file after trying 4 days back',
+        'Failed to download file after trying 5 days back',
       )
     })
 
@@ -399,7 +407,7 @@ Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890
       })
 
       await expect((transport as any).downloadFile('/data', 'FTSE100INDEX')).rejects.toThrow(
-        'Failed to download file after trying 4 days back',
+        'Failed to download file after trying 5 days back',
       )
     })
   })
