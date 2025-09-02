@@ -273,11 +273,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     })
   }
 
-  private buildFilePath(
-    remotePath: string,
-    instrument: string,
-    additionalDaysBack = 0,
-  ): string {
+  private buildFilePath(remotePath: string, instrument: string, additionalDaysBack = 0): string {
     const filePathTemplate = this.getInstrumentFilePath(instrument)
 
     const now = new Date()
