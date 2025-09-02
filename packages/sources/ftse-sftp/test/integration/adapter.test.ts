@@ -19,7 +19,7 @@ Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901
 Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456.78`,
     }
 
-    async connect(config?: any): Promise<void> {
+    async connect(): Promise<void> {
       // Simulate environment variable check - fail if SFTP_HOST is missing
       if (!process.env.SFTP_HOST) {
         throw new Error('SFTP connection failed: Missing host configuration')
@@ -88,7 +88,7 @@ describe('execute', () => {
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<never>,
+      testAdapter: {} as TestAdapter,
     })
   })
 
