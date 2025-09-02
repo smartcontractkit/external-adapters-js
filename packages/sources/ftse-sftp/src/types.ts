@@ -12,13 +12,11 @@ export interface SftpFileInfo {
 }
 
 export interface SftpResponse {
-  operation: 'list' | 'download'
   timestamp: number
   [key: string]: any
 }
 
 export interface SftpDownloadResponse extends SftpResponse {
-  operation: 'download'
   fileName: string
   path: string
   content: string

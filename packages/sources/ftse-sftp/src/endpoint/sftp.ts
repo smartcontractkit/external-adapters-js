@@ -5,32 +5,23 @@ import { sftpTransport } from '../transport/sftp'
 
 export const inputParameters = new InputParameters(
   {
-    operation: {
-      required: true,
-      type: 'string',
-      description: 'SFTP operation to perform: list files, download file, or upload file',
-    },
     instrument: {
       required: true,
       type: 'string',
-      description: 'Name of the file for download or upload operations',
+      description: 'Name of the file to download',
     },
   },
   [
     {
-      operation: 'download',
       instrument: 'FTSE100INDEX',
     },
     {
-      operation: 'download',
       instrument: 'Russell1000INDEX',
     },
     {
-      operation: 'download',
       instrument: 'Russell2000INDEX',
     },
     {
-      operation: 'download',
       instrument: 'Russell3000INDEX',
     },
   ],

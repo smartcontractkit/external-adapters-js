@@ -167,13 +167,6 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private async processFiles(param: RequestParams): Promise<any> {
-    if (param.operation !== 'download') {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Unsupported operation: ${param.operation}`,
-      })
-    }
-
     if (!param.instrument) {
       throw new AdapterInputError({
         statusCode: 400,

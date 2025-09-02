@@ -11,21 +11,10 @@ exports[`execute sftp endpoint should handle missing instrument parameter 1`] = 
 }
 `;
 
-exports[`execute sftp endpoint should handle missing operation parameter 1`] = `
-{
-  "error": {
-    "message": "[Param: operation] param is required but no value was provided",
-    "name": "AdapterError",
-  },
-  "status": "errored",
-  "statusCode": 400,
-}
-`;
-
 exports[`execute sftp endpoint should handle missing required parameters 1`] = `
 {
   "error": {
-    "message": "[Param: operation] param is required but no value was provided",
+    "message": "[Param: instrument] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",

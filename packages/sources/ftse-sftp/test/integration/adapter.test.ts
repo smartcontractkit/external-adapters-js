@@ -121,7 +121,6 @@ describe('execute', () => {
     it('should return success for FTSE100INDEX download', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'FTSE100INDEX',
       }
       const response = await testAdapter.request(data)
@@ -132,7 +131,6 @@ describe('execute', () => {
     it('should return success for Russell1000INDEX download', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'Russell1000INDEX',
       }
       const response = await testAdapter.request(data)
@@ -143,7 +141,6 @@ describe('execute', () => {
     it('should return success for Russell2000INDEX download', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'Russell2000INDEX',
       }
       const response = await testAdapter.request(data)
@@ -154,7 +151,6 @@ describe('execute', () => {
     it('should return success for Russell3000INDEX download', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'Russell3000INDEX',
       }
       const response = await testAdapter.request(data)
@@ -165,18 +161,7 @@ describe('execute', () => {
     it('should handle missing required parameters', async () => {
       const data = {
         endpoint: 'sftp',
-        // Missing operation and instrument
-      }
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should handle missing operation parameter', async () => {
-      const data = {
-        endpoint: 'sftp',
-        instrument: 'FTSE100INDEX',
-        // Missing operation
+        // Missing instrument
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
@@ -186,7 +171,6 @@ describe('execute', () => {
     it('should handle missing instrument parameter', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         // Missing instrument
       }
       const response = await testAdapter.request(data)
@@ -197,7 +181,6 @@ describe('execute', () => {
     it('should handle unsupported instrument', async () => {
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'UNSUPPORTED_INSTRUMENT',
       }
       const response = await testAdapter.request(data)
@@ -217,7 +200,6 @@ describe('execute', () => {
       // Test a successful request to confirm configuration is working
       const data = {
         endpoint: 'sftp',
-        operation: 'download',
         instrument: 'FTSE100INDEX',
       }
 
