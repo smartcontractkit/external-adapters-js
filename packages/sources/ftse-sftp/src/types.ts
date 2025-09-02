@@ -17,12 +17,6 @@ export interface SftpResponse {
   [key: string]: any
 }
 
-export interface SftpListResponse extends SftpResponse {
-  operation: 'list'
-  path: string
-  files: SftpFileInfo[]
-}
-
 export interface SftpDownloadResponse extends SftpResponse {
   operation: 'download'
   fileName: string
