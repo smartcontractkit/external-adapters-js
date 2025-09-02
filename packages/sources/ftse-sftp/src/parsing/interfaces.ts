@@ -38,7 +38,7 @@ export interface CSVParserConfig {
   columns?: boolean | string[]
   skip_empty_lines?: boolean
   trim?: boolean
-  encoding?: string
+  encoding?: BufferEncoding
   from_line?: number
   to_line?: number
   relax_column_count?: boolean
@@ -53,6 +53,6 @@ export const defaultCSVConfig: CSVParserConfig = {
   columns: true,
   skip_empty_lines: true,
   trim: true,
-  encoding: 'utf-8',
+  encoding: 'utf8',
   relax_column_count: true, // Allow rows with different column counts
 }

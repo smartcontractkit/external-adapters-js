@@ -1,12 +1,5 @@
 import { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './interfaces'
-
-// Dynamic import to handle module loading
-let csvParse: any
-try {
-  csvParse = require('csv-parse/sync')
-} catch (error) {
-  console.warn('csv-parse/sync not available, some functionality may be limited')
-}
+import * as csvParse from 'csv-parse/sync'
 
 /**
  * Abstract base class for CSV parsers
