@@ -10,8 +10,24 @@ Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Inde
 UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324
 AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.39695263,6470.60416658,10384.22443471,4667.32711557,5177.24581174,,5017.12840249`,
 
+      // Mock FTSE file content for current date (2025-01-09)
+      '/data/valuation/uk_all_share/ukallv0109.csv': `09/01/2025 (C) FTSE International Limited 2025. All Rights Reserved
+FTSE UK All-Share Indices Valuation Service
+
+Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index
+UKX,FTSE 100 Index,100,GBP,4659.89484111,5017.24846324,4523.90007694,2963.46786723,6470.75900926,10384.47293100,4667.43880552,5177.36970414,,5017.24846324
+AS0,FTSE All-Small Index,234,GBP,4659.78333168,5017.12840249,4523.79182181,2963.39695263,6470.60416658,10384.22443471,4667.32711557,5177.24581174,,5017.12840249`,
+
       // Mock Russell file content for current date (2025-08-28)
       '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250828.CSV': `Header line 1
+Header line 2
+Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
+Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
+Russell 2000® Index,1234.567890,1235.123456,1233.789012,1234.567890,12345678901.23
+Russell 3000® Index,1876.543210,1877.123456,1875.789012,1876.543210,67890123456.78`,
+
+      // Mock Russell file content for current date (2025-09-01)
+      '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_250901.CSV': `Header line 1
 Header line 2
 Russell 1000® Index,2654.123456,2654.789012,2653.456789,2654.123456,45234567890.12
 Russell 1000 Growth® Index,3456.789012,3457.123456,3456.234567,3456.789012,23456789012.34
@@ -71,7 +87,7 @@ import {
 
 describe('execute', () => {
   let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
+  let testAdapter: TestAdapter<any>
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
@@ -80,21 +96,24 @@ describe('execute', () => {
     process.env.SFTP_PORT = process.env.SFTP_PORT ?? '22'
     process.env.SFTP_USERNAME = process.env.SFTP_USERNAME ?? 'testuser'
     process.env.SFTP_PASSWORD = process.env.SFTP_PASSWORD ?? 'testpass'
-    process.env.BACKGROUND_EXECUTE_MS = '1'
+    process.env.BACKGROUND_EXECUTE_MS = '0' // Disable background execution
+    process.env.CACHE_ENABLED = 'false'
 
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    const mockDate = new Date('2025-08-28T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter,
+      testAdapter: {} as TestAdapter<never>,
     })
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
-    await testAdapter.api.close()
+    if (testAdapter?.api) {
+      await testAdapter.api.close()
+    }
     spy.mockRestore()
   })
 

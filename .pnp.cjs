@@ -7220,6 +7220,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/ftse-sftp-adapter", "workspace:packages/sources/ftse-sftp"],\
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@sinonjs/fake-timers", "npm:14.0.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/ssh2-sftp-client", "npm:9.0.5"],\
@@ -15189,6 +15190,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-11.3.1-b8b18617a0-f8684eba6a.zip/node_modules/@sinonjs/fake-timers/",\
         "packageDependencies": [\
           ["@sinonjs/fake-timers", "npm:11.3.1"],\
+          ["@sinonjs/commons", "npm:3.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:14.0.0", {\
+        "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-14.0.0-a3a0f6aa25-da9f7797fd.zip/node_modules/@sinonjs/fake-timers/",\
+        "packageDependencies": [\
+          ["@sinonjs/fake-timers", "npm:14.0.0"],\
           ["@sinonjs/commons", "npm:3.0.1"]\
         ],\
         "linkType": "HARD"\
