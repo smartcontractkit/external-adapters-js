@@ -71,27 +71,14 @@ describe('NavTransport', () => {
 
   let transport: NavTransport
 
-  type RequestConfig = {
-    auth: {
-      username: string
-      password: string
-    }
-    baseURL: string
-    params: {
-      clientId: string
-      isin: string
-    }
-    url: string
-  }
-
-  const requestKeyForConfig = (requestConfig: RequestConfig) => {
+  const requestKeyForParams = (params: typeof inputParameters.validated) => {
     const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
       context: {
         adapterSettings,
         inputParameters,
         endpointName,
       },
-      data: [requestConfig.params],
+      data: [params],
       transportName,
     })
     return requestKey
@@ -149,7 +136,7 @@ describe('NavTransport', () => {
       params: params,
       url: `/${clientId}/${isin}/performance`,
     }
-    const expectedRequestKey = requestKeyForConfig(expectedRequestConfig)
+    const expectedRequestKey = requestKeyForParams(params)
 
     const expectedResponse = {
       data: {
