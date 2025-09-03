@@ -52,8 +52,7 @@ export const getPasswordFromEnvVar = (clientId: string): string => {
   return password
 }
 
-// Exported for testing
-export const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -111,6 +110,7 @@ export const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   },
 }
 
+// Exported for testing
 export class NavTransport extends HttpTransport<HttpTransportTypes> {
   constructor() {
     super(transportConfig)
