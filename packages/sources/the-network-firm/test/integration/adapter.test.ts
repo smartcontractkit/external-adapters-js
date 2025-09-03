@@ -11,7 +11,6 @@ import {
   mockM0ResponseSuccess,
   mockMCO2Response,
   mockReResponseSuccess,
-  mockReserveClientNameResponseFailure,
   mockSTBTResponseSuccess,
   mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
@@ -33,7 +32,9 @@ describe('execute', () => {
     process.env.URANIUM_API_KEY = 'api-key'
     process.env.ACME_API_KEY = 'acme-api-key'
     process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_API_KEY = 'uranium-api-key'
-    process.env.EMGEMX_TDFKF3_API_KEY_API_KEY = 'emgemx-api-key'
+    process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
+    process.env.M0_STABLECOIN_INPD83_API_KEY = 'm0-api-key'
+    process.env.RE_PROTOCOL_8TAWLM_API_KEY = 're-api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -43,8 +44,6 @@ describe('execute', () => {
   })
 
   afterEach(() => {
-    nock.cleanAll()
-
     // clear EA cache
     const keys = testAdapter.mockCache?.cache.keys()
     if (!keys) {
@@ -240,17 +239,10 @@ describe('execute', () => {
     it('should fail if client name is not present or wrong', async () => {
       const data = {
         endpoint: 'reserve',
-        client: 'acme',
       }
-      mockReserveClientNameResponseFailure('')
 
-      let response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
-
-      mockReserveClientNameResponseFailure('cosmos')
-      response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })

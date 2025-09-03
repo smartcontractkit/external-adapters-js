@@ -39,16 +39,17 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       params,
       request: {
         baseURL: config.ALT_API_ENDPOINT,
-        url: `${config.ALT_API_ENDPOINT}/${client}`,
+        url: client,
         headers: {
-          apikey: getApiKey(params[0].client),
+          apikey: getApiKey(client),
         },
       },
     }
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      const ripcord = response.data.ripcord || response.data.ripcord.toString() === 'true'
+      const ripcord =
+        response.data.ripcord || response.data.ripcord.toString().toLowerCase() === 'true'
       if (ripcord) {
         const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
           ', ',
