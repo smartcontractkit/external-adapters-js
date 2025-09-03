@@ -35,13 +35,6 @@ export const getApiKey = (client: string) => {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     const client = params[0].client
-    console.log(
-      'request hit here',
-      config.ALT_API_ENDPOINT,
-      getApiKey(params[0].client),
-      client,
-      `${config.ALT_API_ENDPOINT}/${client}`,
-    )
     return {
       params,
       request: {
@@ -55,7 +48,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      console.log('response is: ', response.data)
       const ripcord = response.data.ripcord || response.data.ripcord.toString() === 'true'
       if (ripcord) {
         const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
