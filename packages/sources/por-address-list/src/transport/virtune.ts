@@ -1,20 +1,24 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/zeusBTC'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
+import { BaseEndpointTypes } from '../endpoint/virtune'
 
 interface ResponseSchema {
   accountName: string
   result: {
-    id: number
-    address: string
     symbol: string
-    addressType: string
-    balance: string
-    walletName: string
+    totalBalance: string
+    totalBalanceUsd: string
+    wallets: {
+      address: string
+      symbol: string
+      custody: string
+      name: string
+      isStakingWallet: boolean
+    }[]
   }[]
   count: number
-  totalReserveinBtc: string
-  totalToken: string
-  minerFees: string
   lastUpdatedAt: string
 }
 
@@ -24,36 +28,64 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
-export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
+
+const getAddresses = ({
+  data,
+  network,
+  chainId,
+}: {
+  data: ResponseSchema
+  network: string
+  chainId: string
+}) => {
+  return data.result.flatMap((r) =>
+    r.wallets.map((wallet) => ({
+      address: wallet.address,
+      network,
+      chainId,
+    })),
+  )
+}
+
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
-    return {
-      params,
+    return params.map((param) => ({
+      params: [param],
       request: {
-        baseURL: config.ZEUS_ZBTC_API_URL,
+        baseURL: config.VIRTUNE_API_URL,
+        url: param.accountId,
+        params: {
+          key: config.VIRTUNE_API_KEY,
+        },
       },
-    }
+    }))
   },
   parseResponse: (params, response) => {
+    const [param] = params
     if (!response.data) {
       return [
         {
-          params: params[0],
+          params: param,
           response: {
-            errorMessage: `The data provider didn't return any data for zeusBTC`,
+            errorMessage: `The data provider didn't return any data for virtune`,
             statusCode: 502,
           },
         },
       ]
     }
 
-    const addresses = getAddresses(response.data)
+    let addresses = getAddresses({
+      data: response.data,
+      network: param.network,
+      chainId: param.chainId,
+    })
 
     if (addresses.length == 0) {
       return [
         {
-          params: params[0],
+          params: param,
           response: {
-            errorMessage: `The data provider didn't return any address for zeusBTC`,
+            errorMessage: `The data provider didn't return any address for virtune`,
             statusCode: 502,
           },
         },
@@ -62,7 +94,7 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
 
     return [
       {
-        params: params[0],
+        params: param,
         response: {
           result: null,
           data: {
@@ -72,14 +104,13 @@ export const zeusHttpTransport = new HttpTransport<HttpTransportTypes>({
       },
     ]
   },
-})
-
-const getAddresses = (data: ResponseSchema) => {
-  return data.result
-    .map((d) => ({
-      address: d.address,
-      network: 'bitcoin',
-      chainId: 'mainnet',
-    }))
-    .sort((a, b) => a.address.localeCompare(b.address))
 }
+
+// Exported for testing
+export class VirtuneTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super(transportConfig)
+  }
+}
+
+export const virtuneTransport = new VirtuneTransport()
