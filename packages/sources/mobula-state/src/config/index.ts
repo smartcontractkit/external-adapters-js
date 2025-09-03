@@ -9,7 +9,7 @@ export const config = new AdapterConfig({
   WS_FUNDING_RATE_API_ENDPOINT: {
     description: 'WS endpoint for perpetual funding rates',
     type: 'string',
-    default: 'wss://api.mobula.io',
+    default: 'wss://funding-api.mobula.io',
   },
   API_KEY: {
     description: 'An API key for Data Provider',
