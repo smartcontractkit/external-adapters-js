@@ -19,7 +19,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 
 export const getApiKey = (client: string) => {
-  const apiKeyName = `${client.toUpperCase()}_API_KEY`
+  const apiKeyName = `${client.replace(/-/g, '_').toUpperCase()}_API_KEY`
   const apiKeyValue = process.env[apiKeyName]
 
   if (!apiKeyValue) {
@@ -35,12 +35,18 @@ export const getApiKey = (client: string) => {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     const client = params[0].client
-    const resource = params[0].resource
+    console.log(
+      'request hit here',
+      config.ALT_API_ENDPOINT,
+      getApiKey(params[0].client),
+      client,
+      `${config.ALT_API_ENDPOINT}/${client}`,
+    )
     return {
       params,
       request: {
         baseURL: config.ALT_API_ENDPOINT,
-        url: `/v1/${client}/${resource}`,
+        url: `${config.ALT_API_ENDPOINT}/${client}`,
         headers: {
           apikey: getApiKey(params[0].client),
         },
@@ -49,6 +55,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
+      console.log('response is: ', response.data)
       const ripcord = response.data.ripcord || response.data.ripcord.toString() === 'true'
       if (ripcord) {
         const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
@@ -60,20 +67,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             errorMessage: message,
             ripcord: response.data.ripcord,
             ripcordDetails: response.data.ripcordDetails.join(', '),
-            statusCode: 502,
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
-            },
-          },
-        }
-      }
-
-      const client = params[0].client
-      if (!response.data.name || response.data.name !== client) {
-        return {
-          params: param,
-          response: {
-            errorMessage: 'Provider did not return resource for client',
             statusCode: 502,
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),

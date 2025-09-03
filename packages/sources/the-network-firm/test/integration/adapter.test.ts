@@ -8,10 +8,10 @@ import {
   mockEmgemxResponseSuccess,
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
+  mockM0ResponseSuccess,
   mockMCO2Response,
+  mockReResponseSuccess,
   mockReserveClientNameResponseFailure,
-  mockReserveResponseSuccess,
-  mockReserveRipcordResponseFailure,
   mockSTBTResponseSuccess,
   mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
@@ -32,6 +32,8 @@ describe('execute', () => {
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
     process.env.ACME_API_KEY = 'acme-api-key'
+    process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_API_KEY = 'uranium-api-key'
+    process.env.EMGEMX_TDFKF3_API_KEY_API_KEY = 'emgemx-api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -183,32 +185,55 @@ describe('execute', () => {
   })
 
   describe('reserve endpoint', () => {
-    it('should return success', async () => {
+    it('should return success for uranium', async () => {
       const data = {
         endpoint: 'reserve',
-        client: 'acme',
-        resource: 'reserve',
-        apiKey: 'acme',
+        client: 'uranium-digital-qohmmjqaf4jk',
       }
 
-      mockReserveResponseSuccess(data.client)
+      mockUraniumResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should fail', async () => {
+    it('should return success for emgemx', async () => {
       const data = {
         endpoint: 'reserve',
-        client: 'acme',
-        resource: 'reserve',
-        apiKey: 'acme',
+        client: 'emgemx-tdfkf3',
       }
-      mockReserveRipcordResponseFailure(data.client)
+
+      mockEmgemxResponseSuccess()
 
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for m0', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'm0-stablecoin-inpd83',
+      }
+
+      mockM0ResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for re', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 're-protocol-8tawlm',
+      }
+
+      mockReResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
 
@@ -216,8 +241,6 @@ describe('execute', () => {
       const data = {
         endpoint: 'reserve',
         client: 'acme',
-        resource: 'reserve',
-        apiKey: 'acme',
       }
       mockReserveClientNameResponseFailure('')
 

@@ -13,16 +13,10 @@ export const inputParameters = new InputParameters(
       required: true,
       description: 'The name of the TNF client to consume from',
     },
-    resource: {
-      type: 'string',
-      required: true,
-      description: 'The resource of the TNF to consume eg. reserve',
-    },
   },
   [
     {
       client: 'acme',
-      resource: 'reserve',
     },
   ],
 )
