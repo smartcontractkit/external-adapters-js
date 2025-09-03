@@ -28,6 +28,7 @@
     "dydx-stark",
     "ethwrite",
     "flightaware",
+    "ftse-sftp",
     "geodb",
     "google-bigquery",
     "google-weather",
