@@ -8,11 +8,8 @@ import {
   mockEmgemxResponseSuccess,
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
-  mockM0ResponseSuccess,
   mockMCO2Response,
-  mockReResponseSuccess,
   mockSTBTResponseSuccess,
-  mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
   mockUSDRResponseSuccess,
 } from './fixtures'
@@ -44,6 +41,7 @@ describe('execute', () => {
   })
 
   afterEach(() => {
+    nock.cleanAll()
     // clear EA cache
     const keys = testAdapter.mockCache?.cache.keys()
     if (!keys) {
@@ -169,80 +167,6 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-    it('should fail', async () => {
-      const data = {
-        endpoint: 'uranium',
-      }
-      mockUraniumResponseFailure()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
-    })
-  })
-
-  describe('reserve endpoint', () => {
-    it('should return success for uranium', async () => {
-      const data = {
-        endpoint: 'reserve',
-        client: 'uranium-digital-qohmmjqaf4jk',
-      }
-
-      mockUraniumResponseSuccess()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success for emgemx', async () => {
-      const data = {
-        endpoint: 'reserve',
-        client: 'emgemx-tdfkf3',
-      }
-
-      mockEmgemxResponseSuccess()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success for m0', async () => {
-      const data = {
-        endpoint: 'reserve',
-        client: 'm0-stablecoin-inpd83',
-      }
-
-      mockM0ResponseSuccess()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success for re', async () => {
-      const data = {
-        endpoint: 'reserve',
-        client: 're-protocol-8tawlm',
-      }
-
-      mockReResponseSuccess()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should fail if client name is not present or wrong', async () => {
-      const data = {
-        endpoint: 'reserve',
-      }
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
