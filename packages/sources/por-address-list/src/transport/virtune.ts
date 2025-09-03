@@ -74,7 +74,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       ]
     }
 
-    let addresses = getAddresses({
+    const addresses = getAddresses({
       data: response.data,
       network: param.network,
       chainId: param.chainId,

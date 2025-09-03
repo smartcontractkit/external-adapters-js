@@ -173,8 +173,6 @@ describe('VirtuneTransport', () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
-    const address1 = 'addr1'
-    const address2 = 'addr2'
 
     const params = makeStub('params', {
       accountId,
@@ -232,8 +230,6 @@ describe('VirtuneTransport', () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
-    const address1 = 'addr1'
-    const address2 = 'addr2'
 
     const params = makeStub('params', {
       accountId,
