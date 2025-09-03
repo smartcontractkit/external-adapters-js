@@ -393,3 +393,51 @@ export const mockBaseContractCallResponseSuccess = (): nock.Scope =>
         }
       }
     })
+
+export const mockVirtuneResponseSuccess = (): nock.Scope =>
+  nock('http://virtune', {
+    encodedQueryParams: true,
+  })
+    .get('/VIRBTC?key=virtuneApiKey')
+    .reply(
+      200,
+      () => ({
+        accountName: 'Virtune Bitcoin ETP',
+        result: [
+          {
+            symbol: 'BTC',
+            totalBalance: '123.45678990',
+            totalBalanceUsd: '14567890.12',
+            wallets: [
+              {
+                address: '1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br',
+                symbol: 'BTC',
+                custody: 'coinbase',
+                name: 'Collateral',
+                isStakingWallet: false,
+              },
+              {
+                address: '17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT',
+                symbol: 'BTC',
+                custody: 'coinbase',
+                name: 'Trading',
+                isStakingWallet: false,
+              },
+            ],
+          },
+        ],
+        count: 2,
+        lastUpdatedAt: '2025-09-03T07:01:44.562+00:00',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
