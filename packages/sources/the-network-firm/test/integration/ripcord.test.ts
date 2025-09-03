@@ -127,17 +127,5 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
-
-    // TODO: This fix fail because of mock bleeding between test cases
-    // it('should fail', async () => {
-    //   const data = {
-    //     endpoint: 'uranium',
-    //   }
-    //   mockUraniumResponseFailure()
-
-    //   const response = await testAdapter.request(data)
-    //   expect(response.statusCode).toBe(502)
-    //   expect(response.json()).toMatchSnapshot()
-    // })
   })
 })
