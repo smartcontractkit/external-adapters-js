@@ -10,7 +10,7 @@ import { BaseEndpointTypes, inputParameters } from '../endpoint/solstice'
 // import { btcToUSD } from './btcUSD'
 // import { ethers } from 'ethers'
 // import { Decimal } from 'decimal.js'
-import { getWallets } from './utils'
+import { getActiveStakes, getOutstandingStakes, getPendingStakes, getWallets } from './utils'
 
 const logger = makeLogger('Solstice')
 
@@ -69,7 +69,7 @@ export class SolsticeTransport extends SubscriptionTransport<BaseEndpointTypes> 
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [wallets /*activeStakes, pendingStakes, outstandingStakes*/] = await Promise.all([
+    const [wallets, activeStakes, pendingStakes, outstandingStakes] = await Promise.all([
       getWallets(
         param.portfolioId,
         param.currencies,
@@ -78,24 +78,33 @@ export class SolsticeTransport extends SubscriptionTransport<BaseEndpointTypes> 
         this.apiSecret,
         this.requester,
       ),
-      // getActiveStakes(param.portfolioId, param.currencies, this.baseUrl, this.apiKey, this.apiSecret, this.requester),
-      // getPendingStakes(param.portfolioId, param.currencies, this.baseUrl, this.apiKey, this.apiSecret, this.requester),
-      // getOutstandingStakes(param.portfolioId, param.currencies, this.baseUrl, this.apiKey, this.apiSecret, this.requester),
+      getActiveStakes(
+        param.portfolioId,
+        param.currencies,
+        this.baseUrl,
+        this.apiKey,
+        this.apiSecret,
+        this.requester,
+      ),
+      getPendingStakes(
+        param.portfolioId,
+        param.currencies,
+        this.baseUrl,
+        this.apiKey,
+        this.apiSecret,
+        this.requester,
+      ),
+      getOutstandingStakes(
+        param.portfolioId,
+        param.currencies,
+        this.baseUrl,
+        this.apiKey,
+        this.apiSecret,
+        this.requester,
+      ),
     ])
 
-    console.log(wallets /*activeStakes, pendingStakes, outstandingStakes*/)
-
-    // const [asset, rate] = await Promise.all([
-    //   getAssetPositions(
-    //     param.addresses.flatMap((a) => a.address),
-    //     this.url,
-    //     this.proxy,
-    //     this.apiKey,
-    //     this.privateKey,
-    //     this.requester,
-    //   ),
-    //   btcToUSD(this.provider, param.btcUsdContract),
-    // ])
+    console.log(wallets, activeStakes.activeStakes, pendingStakes, outstandingStakes)
 
     const result = 1
     // BigInt(asset.sum.mul(new Decimal(10).pow(rate.decimal * 2)).toFixed(0)) / rate.value

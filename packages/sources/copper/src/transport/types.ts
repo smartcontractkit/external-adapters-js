@@ -34,16 +34,14 @@ export interface ActiveStakesEndpointResponse {
         poolName: string
         totalBonded: string
       }
-      pools: [
-        {
-          extra: {
-            netuid: string
-          }
-          poolId: string
-          poolName: string
-          totalBonded: string
-        },
-      ]
+      pools: {
+        extra: {
+          netuid: string
+        }
+        poolId: string
+        poolName: string
+        totalBonded: string
+      }[]
       readyToRedelegate: true
       readyToUndelegateStakingPermissions: true
       readyToUnstake: true
@@ -98,16 +96,14 @@ export interface PendingStakesEndpointResponse {
         poolName: string
         totalBonded: string
       }
-      pools: [
-        {
-          extra: {
-            netuid: string
-          }
-          poolId: string
-          poolName: string
-          totalBonded: string
-        },
-      ]
+      pools: {
+        extra: {
+          netuid: string
+        }
+        poolId: string
+        poolName: string
+        totalBonded: string
+      }[]
       requireChillToUnstake: true
       stakeAddress: string
       warning: {
@@ -141,16 +137,14 @@ export interface OutstandingStakesEndpointResponse {
         poolName: string
         totalBonded: string
       }
-      pools: [
-        {
-          extra: {
-            netuid: string
-          }
-          poolId: string
-          poolName: string
-          totalBonded: string
-        },
-      ]
+      pools: {
+        extra: {
+          netuid: string
+        }
+        poolId: string
+        poolName: string
+        totalBonded: string
+      }[]
       rewardResourceIds: [string]
       stakeAddress: string
     }

@@ -7,8 +7,6 @@ import {
   PendingStakesEndpointResponse,
   WalletsEndpointResponse,
 } from './types'
-// import { RequesterResult } from '@chainlink/external-adapter-framework/util/requester'
-// import { HttpsProxyAgent } from 'https-proxy-agent'
 
 export const getWallets = async (
   portfolioId: string,
@@ -28,7 +26,7 @@ export const getWallets = async (
     url: '/platform/wallets',
     method: 'GET',
     headers: generateRequestHeaders('GET', '/platform/wallets', '', apiKey, apiSecret),
-    params,
+    //params, NOTE: this was commented out because adding param to the request fails on Copper API - that was what I observed
   }
 
   const response = await requester.request<WalletsEndpointResponse>(
@@ -54,10 +52,16 @@ export const getActiveStakes = async (
 
   const requestConfig = {
     baseURL: baseUrl,
-    url: '/platform/active-stakes',
+    url: '/platform/staking/active-stakes',
     method: 'GET',
-    headers: generateRequestHeaders('GET', '/platform/active-stakes', '', apiKey, apiSecret),
-    params,
+    headers: generateRequestHeaders(
+      'GET',
+      '/platform/staking/active-stakes',
+      '',
+      apiKey,
+      apiSecret,
+    ),
+    // params,NOTE: this was commented out because adding param to the request fails on Copper API - that was what I observed
   }
 
   const response = await requester.request<ActiveStakesEndpointResponse>(
@@ -83,10 +87,16 @@ export const getPendingStakes = async (
 
   const requestConfig = {
     baseURL: baseUrl,
-    url: '/platform/pending-stakes',
+    url: '/platform/staking/pending-stakes',
     method: 'GET',
-    headers: generateRequestHeaders('GET', '/platform/pending-stakes', '', apiKey, apiSecret),
-    params,
+    headers: generateRequestHeaders(
+      'GET',
+      '/platform/staking/pending-stakes',
+      '',
+      apiKey,
+      apiSecret,
+    ),
+    // params, NOTE: this was commented out because adding param to the request fails on Copper API - that was what I observed
   }
 
   const response = await requester.request<PendingStakesEndpointResponse>(
@@ -112,10 +122,16 @@ export const getOutstandingStakes = async (
 
   const requestConfig = {
     baseURL: baseUrl,
-    url: '/platform/outstanding-stakes',
+    url: '/platform/staking/outstanding-stakes',
     method: 'GET',
-    headers: generateRequestHeaders('GET', '/platform/outstanding-stakes', '', apiKey, apiSecret),
-    params,
+    headers: generateRequestHeaders(
+      'GET',
+      '/platform/staking/outstanding-stakes',
+      '',
+      apiKey,
+      apiSecret,
+    ),
+    // params, NOTE: this was commented out because adding param to the request fails on Copper API - that was what I observed
   }
 
   const response = await requester.request<OutstandingStakesEndpointResponse>(
@@ -134,7 +150,7 @@ const generateRequestHeaders = (
   apiSecret: string,
 ): any => {
   console.log(apiKey, apiSecret)
-  const timestamp = '1756380173981' //Date.now().toString();
+  const timestamp = Date.now().toString()
   const signature = generateSignature(timestamp, method, path, body, apiSecret)
   console.log('signature:', signature)
 
@@ -157,9 +173,3 @@ const generateSignature = (
   console.log(preHash)
   return crypto.createHmac('sha256', apiSecret).update(preHash).digest('hex')
 }
-
-// return {
-//   'X-COPPER-API-KEY': apiKey,
-//   'X-COPPER-SIGNATURE': signature,
-//   'X-COPPER-TIMESTAMP': timestamp,
-// };

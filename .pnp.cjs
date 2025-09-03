@@ -399,6 +399,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinranking"\
     },\
     {\
+      "name": "@chainlink/copper-adapter",\
+      "reference": "workspace:packages/sources/copper"\
+    },\
+    {\
       "name": "@chainlink/covid-tracker-adapter",\
       "reference": "workspace:packages/sources/covid-tracker"\
     },\
@@ -1051,6 +1055,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
+    ["@chainlink/copper-adapter", ["workspace:packages/sources/copper"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
     ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
@@ -6147,6 +6152,23 @@ const RAW_RUNTIME_STATE =
           ]]\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@chainlink/copper-adapter", [\
+      ["workspace:packages/sources/copper", {\
+        "packageLocation": "./packages/sources/copper/",\
+        "packageDependencies": [\
+          ["@chainlink/copper-adapter", "workspace:packages/sources/copper"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/covid-tracker-adapter", [\

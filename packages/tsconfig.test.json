@@ -279,6 +279,9 @@
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
+      "path": "./sources/copper/tsconfig.test.json"
+    },
+    {
       "path": "./sources/covid-tracker/tsconfig.test.json"
     },
     {
