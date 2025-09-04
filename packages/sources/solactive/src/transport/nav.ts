@@ -1,4 +1,7 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/nav'
 
@@ -49,7 +52,7 @@ export const getPasswordFromEnvVar = (clientId: string): string => {
   return password
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -105,4 +108,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-})
+}
+
+// Exported for testing
+export class NavTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super(transportConfig)
+  }
+}
+
+export const httpTransport = new NavTransport()
