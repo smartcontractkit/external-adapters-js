@@ -4,8 +4,8 @@ import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { inputParameters } from '../../src/endpoint/virtune'
-import { HttpTransportTypes, VirtuneTransport } from '../../src/transport/virtune'
+import { inputParameters } from '../../src/endpoint/virtune-token'
+import { HttpTransportTypes, VirtuneTokenTransport } from '../../src/transport/virtune-token'
 
 const originalEnv = { ...process.env }
 
@@ -34,9 +34,9 @@ const loggerFactory = { child: () => logger }
 LoggerFactoryProvider.set(loggerFactory)
 metrics.initialize()
 
-describe('VirtuneTransport', () => {
+describe('VirtuneTokenTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'virtune'
+  const endpointName = 'virtune-token'
   const virtuneApiKey = 'A_123'
 
   const adapterSettings = makeStub('adapterSettings', {
@@ -71,7 +71,7 @@ describe('VirtuneTransport', () => {
     subscriptionSetFactory,
   } as unknown as TransportDependencies<HttpTransportTypes>)
 
-  let transport: VirtuneTransport
+  let transport: VirtuneTokenTransport
 
   const requestKeyForParams = (params: typeof inputParameters.validated) => {
     const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
@@ -91,7 +91,7 @@ describe('VirtuneTransport', () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new VirtuneTransport()
+    transport = new VirtuneTokenTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -140,6 +140,7 @@ describe('VirtuneTransport', () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
+    const contractAddress = '0x514910771af9ca656af840dff83e8264ecf986ca'
     const address1 = 'addr1'
     const address2 = 'addr2'
 
@@ -147,6 +148,7 @@ describe('VirtuneTransport', () => {
       accountId,
       network,
       chainId,
+      contractAddress,
     })
 
     const expectedRequestConfig = {
@@ -174,8 +176,12 @@ describe('VirtuneTransport', () => {
     const expectedResponse = {
       data: {
         result: [
-          { address: address1, network, chainId },
-          { address: address2, network, chainId },
+          {
+            network,
+            chainId,
+            contractAddress,
+            wallets: [address1, address2],
+          },
         ],
       },
       result: null,
@@ -194,11 +200,13 @@ describe('VirtuneTransport', () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
+    const contractAddress = '0x514910771af9ca656af840dff83e8264ecf986ca'
 
     const params = makeStub('params', {
       accountId,
       network,
       chainId,
+      contractAddress,
     })
 
     const response = {
@@ -232,11 +240,13 @@ describe('VirtuneTransport', () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
+    const contractAddress = '0x514910771af9ca656af840dff83e8264ecf986ca'
 
     const params = makeStub('params', {
       accountId,
       network,
       chainId,
+      contractAddress,
     })
 
     const response = makeStub('response', {
