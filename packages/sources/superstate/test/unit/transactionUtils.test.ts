@@ -1,5 +1,5 @@
 import { superstateApiKeyRequest, TransactionStatus } from '@superstateinc/api-key-request'
-import { transport as nav } from '../../src/endpoint/nav'
+import { navTransport } from '../../src/transport/nav'
 import { getNavPrice, getTransactions, multiply } from '../../src/transport/transactionUtils'
 
 jest.mock('@superstateinc/api-key-request', () => ({
@@ -8,8 +8,8 @@ jest.mock('@superstateinc/api-key-request', () => ({
     Pending: 'pending',
   },
 }))
-jest.mock('../../src/endpoint/nav', () => ({
-  transport: {
+jest.mock('../../src/transport/nav', () => ({
+  navTransport: {
     execute: jest.fn(),
   },
 }))
@@ -20,8 +20,8 @@ describe('getTransactions', () => {
       typeof superstateApiKeyRequest
     >
     mockSuperstateApiKeyRequest.mockResolvedValue([
-      { ticker: 'Btc', operation_type: 'Buy' },
-      { ticker: 'Btc', operation_type: 'Buy2' },
+      { ticker: 'Btc', operation_type: 'Buy', created_at: '1' },
+      { ticker: 'Btc', operation_type: 'Buy2', created_at: '2' },
       // Filter Logic
       { ticker: 'BTC', operation_type: 'Sell' },
       { ticker: 'Eth', operation_type: 'Buy' },
@@ -33,7 +33,13 @@ describe('getTransactions', () => {
       {},
     ])
 
-    const result = await getTransactions('test-api-key', 'test-api-secret', 'btc', ['buy', 'buy2'])
+    const result = await getTransactions(
+      'test-api-key',
+      'test-api-secret',
+      'btc',
+      TransactionStatus.Pending,
+      ['buy', 'buy2'],
+    )
 
     expect(mockSuperstateApiKeyRequest).toHaveBeenCalledWith({
       apiKey: 'test-api-key',
@@ -46,8 +52,8 @@ describe('getTransactions', () => {
     })
 
     expect(result).toEqual([
-      { ticker: 'Btc', operation_type: 'Buy' },
-      { ticker: 'Btc', operation_type: 'Buy2' },
+      { ticker: 'Btc', operation_type: 'Buy', created_at: '1' },
+      { ticker: 'Btc', operation_type: 'Buy2', created_at: '2' },
     ])
   })
 
@@ -56,13 +62,19 @@ describe('getTransactions', () => {
       typeof superstateApiKeyRequest
     >
     mockSuperstateApiKeyRequest.mockResolvedValue(null)
-    const result = await getTransactions('test-api-key', 'test-api-secret', 'btc', ['buy', 'buy2'])
+    const result = await getTransactions(
+      'test-api-key',
+      'test-api-secret',
+      'btc',
+      TransactionStatus.Pending,
+      ['buy', 'buy2'],
+    )
     expect(result).toEqual([])
   })
 })
 
 describe('getNavPrice', () => {
-  const mockNavExecute = nav.execute as jest.MockedFunction<typeof nav.execute>
+  const mockNavExecute = navTransport.execute as jest.MockedFunction<typeof navTransport.execute>
 
   beforeEach(() => {
     jest.clearAllMocks()

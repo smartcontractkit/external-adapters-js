@@ -4,6 +4,7 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { TransactionStatus } from '@superstateinc/api-key-request'
 import { config } from '../config'
 import { transactionsTransport } from '../transport/transactions'
 import { ResponseSchema } from '../transport/transactionUtils'
@@ -19,6 +20,12 @@ export const inputParameters = new InputParameters(
       description: 'Used to fetch transactions',
       type: 'string',
       required: true,
+    },
+    transactionStatus: {
+      description: 'Used to query transaction_status',
+      type: 'string',
+      required: true,
+      options: Object.values(TransactionStatus),
     },
     operations: {
       description: 'Used to match transactions operation_type',
@@ -36,6 +43,7 @@ export const inputParameters = new InputParameters(
     {
       fundId: 1,
       ticker: 'tickerName',
+      transactionStatus: TransactionStatus.Completed,
       operations: ['open'],
       decimals: 18,
     },

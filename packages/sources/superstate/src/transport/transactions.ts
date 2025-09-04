@@ -65,6 +65,7 @@ export class TransactionsTransport extends SubscriptionTransport<BaseEndpointTyp
       this.config.TRANSACTION_API_KEY,
       this.config.TRANSACTION_API_SECRET,
       param.ticker,
+      param.transactionStatus,
       param.operations,
     )
 
@@ -72,7 +73,7 @@ export class TransactionsTransport extends SubscriptionTransport<BaseEndpointTyp
       ? await getNavPrice(param.fundId)
       : 0
 
-    const result = transactions
+    const hex = transactions
       .reduce((sum, curr) => {
         if (curr.dollar_amount) {
           return sum + multiply(param.decimals, curr.dollar_amount)
@@ -82,7 +83,10 @@ export class TransactionsTransport extends SubscriptionTransport<BaseEndpointTyp
           return sum + multiply(param.decimals, curr.share_amount, nav.toString())
         }
       }, 0n)
-      .toString()
+      .toString(16)
+
+    // Core node requires result in hex string with even digits
+    const result = '0x' + (hex.length % 2 == 1 ? '0' : '') + hex
 
     return {
       data: {

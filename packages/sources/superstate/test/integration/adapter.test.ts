@@ -91,12 +91,14 @@ describe('execute', () => {
           operation_type: 'REDEEM',
           status: 'DONE',
           dollar_amount: '-100.0',
+          created_at: '1',
         },
         {
           ticker: 'T',
           operation_type: 'REDEEM',
           status: 'DONE',
           share_amount: '-1.0',
+          created_at: '2',
         },
         {
           ticker: 'T',
@@ -104,12 +106,14 @@ describe('execute', () => {
           status: 'DONE',
           share_amount: '-1.0',
           notional_value: '-50.0',
+          created_at: '3',
         },
       ])
       const data = {
         endpoint: 'transactions',
         fundId: 1,
         ticker: 't',
+        transactionStatus: 'Pending',
         operations: ['redeem'],
         decimals: 6,
       }
