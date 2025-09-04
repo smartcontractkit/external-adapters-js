@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute eusx-price endpoint should calculate price based on yield pool and vesting schedule 1`] = `
+{
+  "data": {
+    "result": 4.996003996003996,
+  },
+  "result": 4.996003996003996,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataStreamEstablishedUnixMs": 978347471111,
+  },
+}
+`;

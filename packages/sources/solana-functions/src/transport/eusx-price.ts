@@ -4,11 +4,10 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import * as anchor from '@coral-xyz/anchor'
+
 import * as solanaWeb3 from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/eusx-price'
-
-import * as idl from '../idl/eusx_yield_vault.json'
-import { YieldVault } from '../types/eusx_yield_vault'
+import { createYieldVaultProgram } from '../utils/anchor'
 
 const logger = makeLogger('View Function Solana')
 
@@ -95,7 +94,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     _: RequestParams,
   ): Promise<AdapterResponse<SolanaFunctionsTransportTypes['Response']>> {
     const provider = this.getProvider()
-    const program = new anchor.Program<YieldVault>(idl, provider)
+    const program = createYieldVaultProgram(provider)
 
     const [vestingSchedulePda] = solanaWeb3.PublicKey.findProgramAddressSync(
       [Buffer.from('VESTING_SCHEDULE')],
@@ -105,6 +104,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
       [Buffer.from('YIELD_POOL')],
       program.programId,
     )
+
     const yieldPool = await program.account.yieldPool.fetch(yieldPoolPda)
     const vestingSchedule = await program.account.vestingSchedule.fetch(vestingSchedulePda)
 
