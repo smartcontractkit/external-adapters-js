@@ -96,6 +96,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/composites/nftx"\
       },\
       {\
+        "name": "@chainlink/ondo-gm-tokenized-adapter",\
+        "reference": "workspace:packages/composites/ondo-gm-tokenized"\
+      },\
+      {\
         "name": "@chainlink/outlier-detection-adapter",\
         "reference": "workspace:packages/composites/outlier-detection"\
       },\
@@ -973,6 +977,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@chainlink/observation", ["workspace:packages/observation"]],\
       ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
       ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
+      ["@chainlink/ondo-gm-tokenized-adapter", ["workspace:packages/composites/ondo-gm-tokenized"]],\
       ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
       ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
       ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
@@ -8239,6 +8244,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/supertest", "npm:2.0.12"],\
             ["nock", "npm:13.2.9"],\
             ["supertest", "npm:6.2.4"],\
+            ["tslib", "npm:2.4.1"],\
+            ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@chainlink/ondo-gm-tokenized-adapter", [\
+        ["workspace:packages/composites/ondo-gm-tokenized", {\
+          "packageLocation": "./packages/composites/ondo-gm-tokenized/",\
+          "packageDependencies": [\
+            ["@chainlink/ondo-gm-tokenized-adapter", "workspace:packages/composites/ondo-gm-tokenized"],\
+            ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
+            ["@chainlink/example-source-adapter", "workspace:packages/examples/source"],\
+            ["@types/jest", "npm:27.5.2"],\
+            ["@types/node", "npm:16.11.51"],\
             ["tslib", "npm:2.4.1"],\
             ["typescript", "patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=b5f058"]\
           ],\
