@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ -z "${1:-}" ]]; then
+  exit 0
+fi
 
 eas_to_include="$(echo "$*" | sed -e 's/ *, */ /g' | tr ' ' '\n')"
 packages_to_include="$(echo "$eas_to_include" | tr ' ' '\n' | sed -e 's|.*|@chainlink/&-adapter|')"
