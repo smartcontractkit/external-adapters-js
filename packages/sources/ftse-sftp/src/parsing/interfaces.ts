@@ -15,12 +15,6 @@ export interface CSVParser {
    * @returns boolean indicating if the format is valid
    */
   validateFormat(csvContent: string): boolean
-
-  /**
-   * Get the expected columns for this CSV format
-   * @returns Array of expected column names
-   */
-  getExpectedColumns(): string[]
 }
 
 /**

@@ -16,7 +16,6 @@ export interface RussellDailyValuesData extends ParsedData {
  */
 export class RussellDailyValuesParser extends BaseCSVParser {
   private readonly instrument: string
-  private readonly expectedColumns = ['Index Name', 'Open', 'High', 'Low', 'Close']
 
   constructor(instrument: string) {
     super({
@@ -26,10 +25,6 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       trim: true,
     })
     this.instrument = instrument
-  }
-
-  getExpectedColumns(): string[] {
-    return this.expectedColumns
   }
 
   async parse(csvContent: string): Promise<RussellDailyValuesData[]> {
@@ -124,19 +119,6 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     } catch (error) {
       return false
     }
-  }
-
-  /**
-   * Get essential Russell daily values data fields
-   */
-  getEssentialData(data: RussellDailyValuesData[]): Array<{
-    indexName: string
-    close: number | null
-  }> {
-    return data.map((item) => ({
-      indexName: item.indexName,
-      close: item.close,
-    }))
   }
 
   /**

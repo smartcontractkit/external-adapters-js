@@ -28,16 +28,6 @@ describe('RussellDailyValuesParser', () => {
   describe('constructor', () => {
     it('should initialize with correct configuration', () => {
       expect(parser).toBeDefined()
-      expect(parser.getExpectedColumns()).toContain('Index Name')
-      expect(parser.getExpectedColumns()).toContain('Close')
-    })
-  })
-
-  describe('getExpectedColumns', () => {
-    it('should return expected column names', () => {
-      const expectedColumns = parser.getExpectedColumns()
-
-      expect(expectedColumns).toEqual(['Index Name', 'Open', 'High', 'Low', 'Close'])
     })
   })
 
@@ -200,57 +190,6 @@ Just random data`
       expect(result).toHaveLength(1) // Should match despite different special characters
       expect(result[0].indexName).toBe('Russell 1000® Index')
       expect(result[0].close).toBe(1245.5)
-    })
-  })
-
-  describe('getEssentialData', () => {
-    it('should return only essential fields', () => {
-      const mockData: RussellDailyValuesData[] = [
-        {
-          indexName: 'Russell 1000® Index',
-          close: 1245.5,
-        },
-        {
-          indexName: 'Russell 2000® Index',
-          close: 990.25,
-        },
-      ]
-
-      const essential = parser.getEssentialData(mockData)
-
-      expect(essential).toHaveLength(2)
-      expect(essential[0]).toEqual({
-        indexName: 'Russell 1000® Index',
-        close: 1245.5,
-      })
-      expect(essential[1]).toEqual({
-        indexName: 'Russell 2000® Index',
-        close: 990.25,
-      })
-    })
-
-    it('should handle null values in essential data', () => {
-      const mockData: RussellDailyValuesData[] = [
-        {
-          indexName: 'Russell 1000® Index',
-          close: null,
-        },
-      ]
-
-      const essential = parser.getEssentialData(mockData)
-
-      expect(essential).toHaveLength(1)
-      expect(essential[0]).toEqual({
-        indexName: 'Russell 1000® Index',
-        close: null,
-      })
-    })
-
-    it('should handle empty dataset', () => {
-      const mockData: RussellDailyValuesData[] = []
-      const essential = parser.getEssentialData(mockData)
-
-      expect(essential).toHaveLength(0)
     })
   })
 })

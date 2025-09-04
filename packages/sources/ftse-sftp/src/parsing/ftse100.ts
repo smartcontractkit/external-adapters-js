@@ -18,31 +18,6 @@ export interface FTSE100Data extends ParsedData {
  * Expects columns: Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index
  */
 export class FTSE100Parser extends BaseCSVParser {
-  private readonly expectedColumns = [
-    'Index Code',
-    'Index/Sector Name',
-    'Number of Constituents',
-    'Index Base Currency',
-    'USD Index',
-    'GBP Index',
-    'EUR Index',
-    'JPY Index',
-    'AUD Index',
-    'CNY Index',
-    'HKD Index',
-    'CAD Index',
-    'LOC Index',
-    'Base Currency (GBP) Index',
-  ]
-
-  private readonly fieldMapping = {
-    indexCode: { column: 'Index Code', type: 'string' as const },
-    indexSectorName: { column: 'Index/Sector Name', type: 'string' as const },
-    numberOfConstituents: { column: 'Number of Constituents', type: 'number' as const },
-    indexBaseCurrency: { column: 'Index Base Currency', type: 'string' as const },
-    gbpIndex: { column: 'GBP Index', type: 'number' as const },
-  }
-
   constructor() {
     super({
       delimiter: ',',
@@ -52,10 +27,6 @@ export class FTSE100Parser extends BaseCSVParser {
       quote: '"',
       escape: '"',
     })
-  }
-
-  getExpectedColumns(): string[] {
-    return this.expectedColumns
   }
 
   async parse(csvContent: string): Promise<FTSE100Data[]> {
@@ -73,7 +44,15 @@ export class FTSE100Parser extends BaseCSVParser {
       try {
         // Only include records where indexCode is "UKX" (FTSE 100 Index)
         if (row['Index Code'] === 'UKX') {
-          const data = this.mapRowToObject(row, this.fieldMapping) as FTSE100Data
+          const data: FTSE100Data = {
+            indexCode: this.convertValue(row['Index Code'], 'string') as string,
+            indexSectorName: this.convertValue(row['Index/Sector Name'], 'string') as string,
+            numberOfConstituents: this.convertValue(row['Number of Constituents'], 'number') as
+              | number
+              | null,
+            indexBaseCurrency: this.convertValue(row['Index Base Currency'], 'string') as string,
+            gbpIndex: this.convertValue(row['GBP Index'], 'number') as number | null,
+          }
 
           // Additional validation for required fields
           if (!data.indexCode || data.indexCode === '') {
@@ -121,24 +100,5 @@ export class FTSE100Parser extends BaseCSVParser {
     } catch (error) {
       return false
     }
-  }
-
-  /**
-   * Get only the essential fields you specified
-   */
-  getEssentialData(data: FTSE100Data[]): Array<{
-    indexCode: string
-    indexSectorName: string
-    numberOfConstituents: number | null
-    indexBaseCurrency: string
-    gbpIndex: number | null
-  }> {
-    return data.map((item) => ({
-      indexCode: item.indexCode,
-      indexSectorName: item.indexSectorName,
-      numberOfConstituents: item.numberOfConstituents,
-      indexBaseCurrency: item.indexBaseCurrency,
-      gbpIndex: item.gbpIndex,
-    }))
   }
 }
