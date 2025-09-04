@@ -1,4 +1,4 @@
-import { FTSE100Parser, FTSE100Data } from '../../../src/parsing/ftse100'
+import { FTSE100Parser } from '../../../src/parsing/ftse100'
 
 // Helper function to create test data with actual comma separators
 const createFTSETestData = (dataRows: string[]): string => {

@@ -1,4 +1,4 @@
-import { RussellDailyValuesParser, RussellDailyValuesData } from '../../../src/parsing/russell'
+import { RussellDailyValuesParser } from '../../../src/parsing/russell'
 
 // Helper function to create test data with actual comma separators
 const createRussellTestData = (dataRows: string[]): string => {
