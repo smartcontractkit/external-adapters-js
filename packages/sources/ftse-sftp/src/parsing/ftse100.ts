@@ -44,7 +44,6 @@ export class FTSE100Parser extends BaseCSVParser {
   }
 
   constructor() {
-    // FTSE data is comma-separated based on the actual file format
     super({
       delimiter: ',',
       columns: true,
@@ -86,7 +85,6 @@ export class FTSE100Parser extends BaseCSVParser {
         }
       } catch (error) {
         console.debug(`Error parsing row:`, error)
-        // Continue with next row instead of failing completely
       }
     }
 

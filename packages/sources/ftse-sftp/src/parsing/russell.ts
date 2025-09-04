@@ -16,19 +16,12 @@ export interface RussellDailyValuesData extends ParsedData {
  */
 export class RussellDailyValuesParser extends BaseCSVParser {
   private readonly instrument: string
-  private readonly expectedColumns = [
-    'Index Name', // We'll treat the index name as the first column
-    'Open',
-    'High',
-    'Low',
-    'Close',
-  ]
+  private readonly expectedColumns = ['Index Name', 'Open', 'High', 'Low', 'Close']
 
   constructor(instrument: string) {
-    // Russell daily values data is comma-separated in the actual file
     super({
       delimiter: ',',
-      columns: false, // We'll handle the headers manually since they're complex
+      columns: false,
       skip_empty_lines: true,
       trim: true,
     })
@@ -83,11 +76,9 @@ export class RussellDailyValuesParser extends BaseCSVParser {
         }
       } catch (error) {
         console.error(`Error parsing row: ${JSON.stringify(row)}`, error)
-        // Continue with next row instead of failing completely
       }
     }
 
-    // If no matching results were found but Russell data exists, that's still valid
     // Only throw error if no Russell data was found at all
     if (results.length === 0) {
       const hasRussellData = parsed.some(
