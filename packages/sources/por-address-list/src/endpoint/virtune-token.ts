@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
+import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { virtuneTransport } from '../transport/virtune'
+import { virtuneTokenTransport } from '../transport/virtune-token'
 
 export const inputParameters = new InputParameters(
   {
@@ -23,12 +23,18 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    contractAddress: {
+      description: 'The contract address of the token, to pass be included in the response',
+      type: 'string',
+      default: '',
+    },
   },
   [
     {
       accountId: 'VIRBTC',
-      network: 'bitcoin',
-      chainId: 'mainnet',
+      network: 'ethereum',
+      chainId: '1',
+      contractAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
     },
   ],
 )
@@ -38,17 +44,16 @@ export type BaseEndpointTypes = {
   Response: {
     Result: null
     Data: {
-      result: PoRAddress[]
+      result: PoRTokenAddress[]
     }
   }
   Settings: typeof config.settings
 }
 
-// This endpoint is similar to the virtune-token endpoint but returns a
-// response in a format that proof-of-reserves can pass on to por-indexer or
-// ethereum-cl-indexer.
+// This endpoint is similar to the virtune endpoint but returns a response in a
+// format that proof-of-reserves can pass on to token-balance.
 export const endpoint = new AdapterEndpoint({
-  name: 'virtune',
-  transport: virtuneTransport,
+  name: 'virtune-token',
+  transport: virtuneTokenTransport,
   inputParameters,
 })
