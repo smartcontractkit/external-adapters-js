@@ -34,17 +34,19 @@ export const getApiKey = (client: string) => {
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
-    const client = params[0].client
-    return {
-      params,
-      request: {
-        baseURL: config.ALT_API_ENDPOINT,
-        url: client,
-        headers: {
-          apikey: getApiKey(client),
+    return params.map((param) => {
+      const client = param.client
+      return {
+        params: [param],
+        request: {
+          baseURL: config.ALT_API_ENDPOINT,
+          url: client,
+          headers: {
+            apikey: getApiKey(client),
+          },
         },
-      },
-    }
+      }
+    })
   },
   parseResponse: (params, response) => {
     return params.map((param) => {

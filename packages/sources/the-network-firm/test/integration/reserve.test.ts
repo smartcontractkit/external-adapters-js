@@ -4,10 +4,10 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
-  mockEmgemxResponseSuccess,
   mockM0ResponseSuccess,
   mockReResponseSuccess,
-  mockUraniumReserveResponseSuccess,
+  mockReserveEmgemxResponseSuccess,
+  mockReserveUraniumResponseSuccess,
 } from './fixtures'
 
 describe('execute', () => {
@@ -21,7 +21,7 @@ describe('execute', () => {
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
-    process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_RESERVE_API_KEY = 'uranium-api-key'
+    process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_API_KEY = 'uranium-api-key'
     process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
     process.env.M0_STABLECOIN_INPD83_API_KEY = 'm0-api-key'
     process.env.RE_PROTOCOL_8TAWLM_API_KEY = 're-api-key'
@@ -45,10 +45,10 @@ describe('execute', () => {
     it('should return success for uranium', async () => {
       const data = {
         endpoint: 'reserve',
-        client: 'uranium-digital-qohmmjqaf4jk-reserve',
+        client: 'uranium-digital-qohmmjqaf4jk',
       }
 
-      mockUraniumReserveResponseSuccess()
+      mockReserveUraniumResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -61,7 +61,7 @@ describe('execute', () => {
         client: 'emgemx-tdfkf3',
       }
 
-      mockEmgemxResponseSuccess()
+      mockReserveEmgemxResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
