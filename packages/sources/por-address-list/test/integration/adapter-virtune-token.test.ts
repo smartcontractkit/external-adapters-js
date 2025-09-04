@@ -38,10 +38,11 @@ describe('execute', () => {
   describe('virtune', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'virtune',
+        endpoint: 'virtune-token',
         accountId: 'VIRBTC',
         network: 'bitcoin',
         chainId: 'mainnet',
+        contractAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
       }
 
       mockVirtuneResponseSuccess()

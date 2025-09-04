@@ -5,14 +5,13 @@ exports[`execute virtune should return success 1`] = `
   "data": {
     "result": [
       {
-        "address": "1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br",
         "chainId": "mainnet",
+        "contractAddress": "0x514910771af9ca656af840dff83e8264ecf986ca",
         "network": "bitcoin",
-      },
-      {
-        "address": "17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT",
-        "chainId": "mainnet",
-        "network": "bitcoin",
+        "wallets": [
+          "1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br",
+          "17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT",
+        ],
       },
     ],
   },
