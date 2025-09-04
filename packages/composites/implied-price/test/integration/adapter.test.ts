@@ -1,10 +1,14 @@
 import type { AdapterRequest } from '@chainlink/ea-bootstrap'
 import { util } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
-import { mockSuccessfulResponseCoingecko, mockSuccessfulResponseCoinpaprika } from './fixtures'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
+import { server as startServer } from '../../src'
+import {
+  mockSuccessfulResponseBigNumberOperand,
+  mockSuccessfulResponseCoingecko,
+  mockSuccessfulResponseCoinpaprika,
+} from './fixtures'
 
 const setupEnvironment = (adapters: string[]) => {
   const env = {} as { [key: string]: string }
@@ -19,7 +23,7 @@ describe('impliedPrice', () => {
     req: null,
     server: startServer,
   }
-  const envVariables = setupEnvironment(['coingecko', 'coinpaprika', 'failing'])
+  const envVariables = setupEnvironment(['coingecko', 'coinpaprika', 'failing', 'bignumberoperand'])
   setupExternalAdapterTest(envVariables, context)
   describe('with endpoint computedPrice', () => {
     const endpoint = 'computedPrice'
@@ -118,6 +122,39 @@ describe('impliedPrice', () => {
           .expect('Content-Type', /json/)
           .expect(200)
         expect(response.body).toMatchSnapshot()
+      })
+
+      it('displays number > e+21 as fixed point rather than exponential', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        mockSuccessfulResponseBigNumberOperand()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko', 'coinpaprika'],
+            operand2Sources: ['bignumberoperand'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'multiply',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+        expect(response.body.result).not.toContain('e+')
       })
     })
 
