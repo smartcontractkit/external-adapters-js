@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transport functions parseResponse should match snapshot for error response 1`] = `
+[
+  {
+    "params": {
+      "artwork_id": "error-snapshot",
+    },
+    "response": {
+      "errorMessage": "The data provider failed to return a value for artwork_id=error-snapshot",
+      "statusCode": 502,
+    },
+  },
+]
+`;
+
+exports[`Transport functions parseResponse should match snapshot for successful response 1`] = `
+[
+  {
+    "params": {
+      "artwork_id": "snapshot-test",
+    },
+    "response": {
+      "data": {
+        "result": 0.5,
+      },
+      "result": 0.5,
+    },
+  },
+]
+`;
+
+exports[`Transport functions prepareRequests should match snapshot for typical request 1`] = `
+[
+  {
+    "params": [
+      {
+        "artwork_id": "test-artwork",
+      },
+    ],
+    "request": {
+      "baseURL": "https://test.liveart.ai",
+      "headers": {
+        "Authorization": "Bearer TEST_TOKEN",
+      },
+      "url": "/artwork/test-artwork/price",
+    },
+  },
+]
+`;

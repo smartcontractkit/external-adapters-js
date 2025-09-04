@@ -1,15 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute nav endpoint should return success 1`] = `
+exports[`LiveArt NAV endpoint should handle upstream bad response 1`] = `
+{
+  "errorMessage": "The data provider failed to return a value for artwork_id=dicaprio",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoint should return success for both valid artwork_id and artworkId 1`] = `
 {
   "data": {
-    "result": 10000,
+    "result": 1000000,
   },
-  "result": 10000,
+  "result": 1000000,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1756392924375,
-    "providerDataRequestedUnixMs": 1756392924369,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoint should return success for both valid artwork_id and artworkId 2`] = `
+{
+  "data": {
+    "result": 1000000,
+  },
+  "result": 1000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;

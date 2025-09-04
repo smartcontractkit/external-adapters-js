@@ -1,27 +1,16 @@
 import nock from 'nock'
-import { TEST_BEARER_TOKEN, TEST_URL } from './config'
+import { ErrorResponse, SuccessResponse, TEST_BEARER_TOKEN, TEST_URL } from './testConfig'
 
-export const mockHappyPathResponseSuccess = (artworkId: string): nock.Scope =>
-  nock(TEST_URL, {
-    encodedQueryParams: true,
-  })
+export const mockHappyPathResponseSuccess = (artworkId: string, navPerShare: string): nock.Scope =>
+  nock(TEST_URL)
     .get(`/artwork/${artworkId}/price`)
     .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
-    .query({})
     .reply(
       200,
       () => ({
+        ...SuccessResponse,
         artwork_id: `${artworkId}`,
-        current_estimated_price_updated_at: '2025-08-28T14:27:11.345Z',
-        current_estimated_price: '10000',
-        total_shares: 0,
-        nav_per_share: '10000',
-        valuation_price_date: '2025-08-28',
-        valuation_price: '10',
-        valuation_method: 'string',
-        success: true,
-        message: 'string',
-        response_timestamp: '2025-08-28T14:27:11.345Z',
+        nav_per_share: navPerShare,
       }),
       [
         'Content-Type',
@@ -55,24 +44,29 @@ export const mockHappyPathResponseSuccess = (artworkId: string): nock.Scope =>
 //     ])
 //     .persist()
 
-// export const mockResponseFailure = (artworkId: string): nock.Scope =>
-//   nock(TEST_URL, {
-//     encodedQueryParams: true,
-//   })
-//     .get(`/artwork/${artworkId}/price`)
-//     .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
-//     .query({})
-//     .reply(200, () => ({ integration: 'missing-value-integration', timestamp_ms: 1746214393080 }), [
-//       'Content-Type',
-//       'application/json',
-//       'Connection',
-//       'close',
-//       'Vary',
-//       'Accept-Encoding',
-//       'Vary',
-//       'Origin',
-//     ])
-//     .persist()
+export const mockResponseFailure = (artworkId: string): nock.Scope =>
+  nock(TEST_URL)
+    .get(`/artwork/${artworkId}/price`)
+    .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
+    .reply(
+      200, // Changed from 200 to 404
+      () => ({
+        ...ErrorResponse,
+        artwork_id: `${artworkId}`,
+        message: `Asset ID '${artworkId}' not found`,
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
 
 // export const mockErrorResponseFailure = (artworkId: string): nock.Scope =>
 //   nock(TEST_URL, {
