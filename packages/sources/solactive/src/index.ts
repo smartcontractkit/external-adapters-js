@@ -1,13 +1,21 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { etherFi, evm, solana, solvJlp, tbill, xrpl } from './endpoint'
+import { nav } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: evm.name,
-  name: 'TOKEN_BALANCE',
+  defaultEndpoint: nav.name,
+  name: 'SOLACTIVE',
   config,
-  endpoints: [evm, solvJlp, etherFi, tbill, xrpl, solana],
+  endpoints: [nav],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 12,
+        note: 'Conservative rate limit as key is shared',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

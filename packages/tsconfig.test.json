@@ -600,6 +600,9 @@
       "path": "./sources/sochain/tsconfig.test.json"
     },
     {
+      "path": "./sources/solactive/tsconfig.test.json"
+    },
+    {
       "path": "./sources/solana-view-function/tsconfig.test.json"
     },
     {

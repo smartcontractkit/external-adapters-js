@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute virtune should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

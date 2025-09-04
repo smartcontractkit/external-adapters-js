@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#3965](https://github.com/smartcontractkit/external-adapters-js/pull/3965) [`ddc377c`](https://github.com/smartcontractkit/external-adapters-js/commit/ddc377c047fe2030ce67737000b2edb182cbbefd) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - USDO - Add Solana Reserves
+
 ## 2.0.1
 
 ### Patch Changes
