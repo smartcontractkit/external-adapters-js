@@ -269,6 +269,19 @@ export const mockUraniumResponseSuccess = (): nock.Scope =>
       ripcordDetails: [],
       timestamp: '2025-07-03T00:01:57.131Z',
     })
+
+export const mockUraniumReserveResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/uranium-digital-qohmmjqaf4jk-reserve')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
     .persist()
 
 export const mockUraniumResponseRipcordSuccess = (): nock.Scope =>
@@ -283,7 +296,6 @@ export const mockUraniumResponseRipcordSuccess = (): nock.Scope =>
       ripcordDetails: ['Integrations'],
       timestamp: '2025-07-03T00:01:57.131Z',
     })
-    .persist()
 
 export const mockUraniumResponseFailure = (): nock.Scope =>
   nock('http://test-endpoint-new', {
@@ -294,6 +306,34 @@ export const mockUraniumResponseFailure = (): nock.Scope =>
       totalToken: null,
       ripcord: true,
       ripcordDetails: ['Integrations'],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockM0ResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/m0-stablecoin-inpd83')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
+      timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockReResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-new', {
+    encodedQueryParams: true,
+  })
+    .get('/re-protocol-8tawlm')
+    .reply(200, {
+      totalReserve: '1000000',
+      totalToken: '100000',
+      ripcord: false,
+      ripcordDetails: [],
       timestamp: '2025-07-03T00:01:57.131Z',
     })
     .persist()
