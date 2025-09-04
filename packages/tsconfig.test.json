@@ -63,6 +63,9 @@
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
+      "path": "./composites/ondo-gm-tokenized/tsconfig.test.json"
+    },
+    {
       "path": "./composites/outlier-detection/tsconfig.test.json"
     },
     {

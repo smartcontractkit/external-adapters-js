@@ -63,6 +63,9 @@
       "path": "./composites/nftx"
     },
     {
+      "path": "./composites/ondo-gm-tokenized"
+    },
+    {
       "path": "./composites/outlier-detection"
     },
     {
