@@ -85,27 +85,27 @@ export const runReduceAdapter = async (
         // If all results are valid, use default processing below the
         // switch block.
         break
-      } else if (indexerEndpoint !== 'etherFiBalance') {
-        throw new AdapterError({
-          statusCode: 400,
-          message: `ETHEREUM_CL_INDEXER indexerEndpoint is not supported: ${indexerEndpoint}`,
-        })
-      }
-      // For etherFiBalance endpoint:
-      if (input.data.isValid) {
-        return {
-          jobRunID: input.jobRunID,
-          result: input.data.totalBalance as string,
-          statusCode: 200,
-          data: {
+      } else if (indexerEndpoint === 'etherFiBalance') {
+        if (input.data.isValid) {
+          return {
+            jobRunID: input.jobRunID,
             result: input.data.totalBalance as string,
             statusCode: 200,
-          },
+            data: {
+              result: input.data.totalBalance as string,
+              statusCode: 200,
+            },
+          }
+        } else {
+          throw new AdapterError({
+            statusCode: 400,
+            message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
+          })
         }
       } else {
         throw new AdapterError({
           statusCode: 400,
-          message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
+          message: `ETHEREUM_CL_INDEXER indexerEndpoint is not supported: ${indexerEndpoint}`,
         })
       }
     case viewFunctionMultiChain.name:
