@@ -1,5 +1,5 @@
-import type { TInputParameters as ExampleInputParameters } from './example'
+import type { TInputParameters as TokenizedInputParameters } from './tokenized'
 
-export type TInputParameters = ExampleInputParameters
+export type TInputParameters = TokenizedInputParameters
 
-export * as example from './example'
+export * as tokenized from './tokenized'

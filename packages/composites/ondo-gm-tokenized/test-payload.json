@@ -1,6 +1,30 @@
 {
- "requests": [{
-  "from": "LINK",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "id": "1",
+      "data": {
+        "symbol": "TSLAon"
+      }
+    },
+    {
+      "id": "2", 
+      "data": {
+        "symbol": "SPYon"
+      }
+    },
+    {
+      "id": "3",
+      "data": {
+        "symbol": "QQQon"
+      }
+    },
+    {
+      "id": "4",
+      "data": {
+        "symbol": "CustomToken",
+        "underlying": "AAPL",
+        "feedId": "equities:AAPL:mid"
+      }
+    }
+  ]
 }

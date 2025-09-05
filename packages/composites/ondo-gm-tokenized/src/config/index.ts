@@ -1,15 +1,26 @@
-import { Config as BaseConfig, Requester } from '@chainlink/ea-bootstrap'
+import { Config as BaseConfig, Requester, util } from '@chainlink/ea-bootstrap'
 
-export const NAME = 'EXAMPLE_COMPOSITE'
-export const DEFAULT_ENDPOINT = 'example'
+export const NAME = 'ONDO_GM_TOKENIZED'
+export const DEFAULT_ENDPOINT = 'tokenized'
 
-export type Config = BaseConfig & {
-  // Adapter specific configs
+export interface Config extends BaseConfig {
+  ondoApiKey: string
+  streamsApiKey?: string
+  streamsApiSecret?: string
+  baseUrl: string
+  streamsBaseUrl?: string
 }
 
 export const makeConfig = (prefix?: string): Config => {
+  const config = Requester.getDefaultConfig(prefix)
+  
   return {
-    ...Requester.getDefaultConfig(prefix),
+    ...config,
     defaultEndpoint: DEFAULT_ENDPOINT,
+    ondoApiKey: util.getRequiredEnv('ONDO_API_KEY'),
+    streamsApiKey: util.getEnv('STREAMS_API_KEY'),
+    streamsApiSecret: util.getEnv('STREAMS_API_SECRET'),
+    baseUrl: util.getEnv('ONDO_BASE_URL') || 'https://api.gm.ondo.finance',
+    streamsBaseUrl: util.getEnv('STREAMS_BASE_URL') || 'https://api.chain.link',
   }
 }

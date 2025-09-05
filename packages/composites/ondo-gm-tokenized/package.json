@@ -1,15 +1,18 @@
 {
   "name": "@chainlink/ondo-gm-tokenized-adapter",
   "version": "0.0.0",
-  "description": "Chainlink ondo-gm-tokenized adapter.",
+  "description": "Chainlink Ondo GM Tokenized composite adapter. Calculates tokenized price by combining underlying asset prices from Chainlink Data Streams with multipliers from Ondo API.",
   "keywords": [
     "Chainlink",
     "LINK",
-    "BTC",
-    "Bitcoin",
+    "Ondo",
+    "GM Tokens",
+    "Tokenized Assets",
+    "Equities",
+    "Data Streams",
     "blockchain",
     "oracle",
-    "ondo-gm-tokenized"
+    "composite"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -31,7 +34,6 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/example-source-adapter": "workspace:*",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
