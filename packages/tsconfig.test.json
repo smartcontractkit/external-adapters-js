@@ -135,9 +135,6 @@
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
-      "path": "./sources/accuweather/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
