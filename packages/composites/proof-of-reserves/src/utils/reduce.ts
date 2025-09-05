@@ -84,7 +84,6 @@ export const runReduceAdapter = async (
         }
         // If all results are valid, use default processing below the
         // switch block.
-        break
       } else if (indexerEndpoint === 'etherFiBalance') {
         if (input.data.isValid) {
           return {
@@ -108,6 +107,7 @@ export const runReduceAdapter = async (
           message: `ETHEREUM_CL_INDEXER indexerEndpoint is not supported: ${indexerEndpoint}`,
         })
       }
+      break
     case viewFunctionMultiChain.name:
       if (!viewFunctionIndexerResultDecimals) {
         throw new Error(
