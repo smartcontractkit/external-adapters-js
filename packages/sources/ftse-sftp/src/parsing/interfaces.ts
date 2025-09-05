@@ -1,5 +1,3 @@
-import * as csvParse from 'csv-parse/sync'
-
 /**
  * Interface for CSV parsing strategies
  */
