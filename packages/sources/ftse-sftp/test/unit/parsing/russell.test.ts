@@ -83,7 +83,7 @@ Without any Russell indices
 Just random data`
 
       await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'Could not find Russell index data in the provided content',
+        'Invalid CSV format for Russell data',
       )
     })
 

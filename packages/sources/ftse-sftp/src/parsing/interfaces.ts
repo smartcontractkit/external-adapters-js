@@ -1,3 +1,5 @@
+import * as csvParse from 'csv-parse/sync'
+
 /**
  * Interface for CSV parsing strategies
  */
@@ -26,6 +28,7 @@ export interface ParsedData {
 
 /**
  * Configuration options for CSV parsing using csv-parse library
+ * Contains only the options we actually use in this project
  */
 export interface CSVParserConfig {
   delimiter?: string
@@ -36,7 +39,8 @@ export interface CSVParserConfig {
   from_line?: number
   to_line?: number
   relax_column_count?: boolean
-  [key: string]: any // Allow other csv-parse options
+  quote?: string
+  escape?: string
 }
 
 /**

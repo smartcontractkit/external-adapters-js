@@ -66,14 +66,15 @@ UKX,Some Value`
 
       const result = await parser.parse(csvContent)
 
-      expect(result).toHaveLength(1)
-
-      // Test UKX row
-      expect(result[0].indexCode).toBe('UKX')
-      expect(result[0].indexSectorName).toBe('FTSE 100 Index')
-      expect(result[0].numberOfConstituents).toBe(100)
-      expect(result[0].indexBaseCurrency).toBe('GBP')
-      expect(result[0].gbpIndex).toBe(5017.24846324)
+      expect(result).toEqual([
+        {
+          indexCode: 'UKX',
+          indexSectorName: 'FTSE 100 Index',
+          numberOfConstituents: 100,
+          indexBaseCurrency: 'GBP',
+          gbpIndex: 5017.24846324,
+        },
+      ])
     })
 
     it('should throw error for invalid CSV format', async () => {

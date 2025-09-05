@@ -17,7 +17,7 @@ export const instrumentToElementMap = {
  */
 export class CSVParserFactory {
   /**
-   * Auto-detect parser type based on instrument d
+   * Auto-detect parser type based on instrument
    */
   static detectParserByInstrument(instrument: string): CSVParser | null {
     switch (instrument) {

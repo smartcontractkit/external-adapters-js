@@ -3,7 +3,7 @@ import { ParsedData } from './interfaces'
 
 /**
  * Specific data structure for FTSE data
- * Based on the actual FTSE CSV format with Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index
+ * Based on the actual FTSE CSV format with Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, and GBP Index
  */
 export interface FTSE100Data extends ParsedData {
   indexCode: string
@@ -36,7 +36,6 @@ export class FTSE100Parser extends BaseCSVParser {
 
     const parsed = this.parseCSV(csvContent, {
       from_line: 4, // Start parsing from line 4 (includes header)
-      relax_column_count: true, // Allow rows with different column counts
     })
     const results: FTSE100Data[] = []
 
@@ -63,7 +62,7 @@ export class FTSE100Parser extends BaseCSVParser {
           results.push(data)
         }
       } catch (error) {
-        console.debug(`Error parsing row:`, error)
+        console.error(`Error parsing row:`, error)
       }
     }
 
@@ -92,11 +91,28 @@ export class FTSE100Parser extends BaseCSVParser {
 
       // Check if we can access the expected columns from the first data row
       const firstDataRow = parsed[0]
-      return (
-        firstDataRow &&
-        firstDataRow['Index Code'] !== undefined &&
-        firstDataRow['GBP Index'] !== undefined
-      )
+      if (!firstDataRow) {
+        console.error('No data rows found in CSV for validation')
+        return false
+      }
+
+      const requiredColumns = [
+        'Index Code',
+        'Index/Sector Name',
+        'Number of Constituents',
+        'Index Base Currency',
+        'GBP Index',
+      ]
+
+      const missingColumns = requiredColumns.filter((column) => firstDataRow[column] === undefined)
+
+      if (missingColumns.length > 0) {
+        console.error(`Missing required columns in FTSE CSV: ${missingColumns.join(', ')}`)
+        console.error(`Available columns: ${Object.keys(firstDataRow).join(', ')}`)
+        return false
+      }
+
+      return true
     } catch (error) {
       return false
     }

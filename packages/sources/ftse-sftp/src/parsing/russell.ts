@@ -1,6 +1,11 @@
 import { BaseCSVParser } from './base-parser'
 import { ParsedData } from './interfaces'
 
+// Column indices for Russell CSV format
+const INDEX_NAME_COLUMN = 0
+const VALUE_COLUMN = 4
+const EXPECTED_COLUMNS = 5
+
 /**
  * Specific data structure for Russell Daily Values data
  * Only includes the essential fields: indexName and close
@@ -20,7 +25,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   constructor(instrument: string) {
     super({
       delimiter: ',',
-      columns: false,
+      columns: false, // No headers, data accessed as arrays
       skip_empty_lines: true,
       trim: true,
     })
@@ -30,6 +35,10 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   async parse(csvContent: string): Promise<RussellDailyValuesData[]> {
     const results: RussellDailyValuesData[] = []
 
+    if (!this.validateFormat(csvContent)) {
+      throw new Error('Invalid CSV format for Russell data')
+    }
+
     // Russell data always starts on line 7, so skip the first 6 lines
     // Use existing config (delimiter, trim, etc.) and just specify from_line
     const parsed = this.parseCSV(csvContent, {
@@ -37,7 +46,8 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     })
 
     for (const row of parsed) {
-      if (!row || row.length < 5) {
+      if (!row || row.length < EXPECTED_COLUMNS) {
+        // Expected columns based on the Russell Daily Values format
         continue // Skip rows with insufficient fields without logging
       }
 
@@ -48,15 +58,12 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       }
 
       try {
-        // Remove quotes if present in index name
-        let indexName = this.convertValue(row[0], 'string') as string
-        if (indexName && indexName.startsWith('"') && indexName.endsWith('"')) {
-          indexName = indexName.slice(1, -1)
-        }
+        // csv-parse with trim: true should handle quote removal automatically
+        const indexName = this.convertValue(row[INDEX_NAME_COLUMN], 'string') as string
 
         const data: RussellDailyValuesData = {
           indexName,
-          close: this.convertValue(row[4], 'number') as number | null,
+          close: this.convertValue(row[VALUE_COLUMN], 'number') as number | null,
         }
 
         // Additional validation for required fields
@@ -77,7 +84,8 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     // Only throw error if no Russell data was found at all
     if (results.length === 0) {
       const hasRussellData = parsed.some(
-        (row) => row && row[0] && String(row[0]).includes('Russell'),
+        (row) =>
+          row && row[INDEX_NAME_COLUMN] && String(row[INDEX_NAME_COLUMN]).includes('Russell'),
       )
 
       if (!hasRussellData) {
@@ -98,33 +106,50 @@ export class RussellDailyValuesParser extends BaseCSVParser {
 
     try {
       // Try to parse from line 7 to validate the format
-      // Use existing config (delimiter, trim, etc.) and just specify from_line and to_line
       const parsed = this.parseCSV(csvContent, {
         from_line: 7,
-        to_line: 10, // Only parse a few lines for validation
+        to_line: 16, // Parse more lines for validation to handle mixed content
       })
 
       if (!parsed || parsed.length === 0) {
+        console.error('No data rows found in CSV for Russell validation')
         return false
       }
 
-      // Check if any row contains Russell index data
-      return parsed.some(
+      // Check if any row contains valid Russell index data
+      // We don't require ALL rows to be valid, just that there's at least one good Russell row
+      const hasValidRussellData = parsed.some(
         (row) =>
           row &&
-          row[0] &&
-          String(row[0]).includes('Russell') &&
-          (String(row[0]).includes('®') || String(row[0]).includes('�')),
+          row.length >= EXPECTED_COLUMNS && // Must have sufficient columns
+          row[INDEX_NAME_COLUMN] &&
+          String(row[INDEX_NAME_COLUMN]).includes('Russell') &&
+          (String(row[INDEX_NAME_COLUMN]).includes('®') ||
+            String(row[INDEX_NAME_COLUMN]).includes('�')),
       )
+
+      if (!hasValidRussellData) {
+        console.error('No valid Russell index data found in CSV validation')
+        console.error(
+          'Available data in first column:',
+          parsed
+            .slice(0, 5)
+            .map((row) => row[INDEX_NAME_COLUMN])
+            .filter(Boolean),
+        )
+        return false
+      }
+
+      return true
     } catch (error) {
       return false
     }
   }
 
   /**
-   * Normalize a string by removing unwanted characters
+   * Normalize a string by removing the ® symbol
    */
   normalizeString(str: string): string {
-    return str.replace(/[^\w\s]/g, '').trim()
+    return str.replace(/®/g, '').trim()
   }
 }
