@@ -1,5 +1,5 @@
-import { CSVParser } from './interfaces'
 import { FTSE100Parser } from './ftse100'
+import { CSVParser } from './interfaces'
 import { RussellDailyValuesParser } from './russell'
 
 /**

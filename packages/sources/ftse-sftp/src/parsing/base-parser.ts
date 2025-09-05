@@ -1,5 +1,5 @@
-import { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './interfaces'
 import * as csvParse from 'csv-parse/sync'
+import { CSVParser, CSVParserConfig, defaultCSVConfig, ParsedData } from './interfaces'
 
 /**
  * Abstract base class for CSV parsers
