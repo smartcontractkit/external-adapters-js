@@ -1,5 +1,5 @@
-import { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './interfaces'
 import * as csvParse from 'csv-parse/sync'
+import { CSVParser, CSVParserConfig, defaultCSVConfig, ParsedData } from './interfaces'
 
 /**
  * Abstract base class for CSV parsers
@@ -16,11 +16,6 @@ export abstract class BaseCSVParser implements CSVParser {
    * Abstract method that must be implemented by concrete classes
    */
   abstract parse(csvContent: string): Promise<ParsedData[]>
-
-  /**
-   * Abstract method that must be implemented by concrete classes
-   */
-  abstract getExpectedColumns(): string[]
 
   /**
    * Abstract method that must be implemented by concrete classes
@@ -69,22 +64,5 @@ export abstract class BaseCSVParser implements CSVParser {
       default:
         return trimmedValue
     }
-  }
-
-  /**
-   * Map parsed CSV row to structured data with type conversion
-   */
-  protected mapRowToObject(
-    row: Record<string, string>,
-    fieldMapping: Record<string, { column: string; type?: 'string' | 'number' | 'date' }>,
-  ): ParsedData {
-    const result: ParsedData = {}
-
-    for (const [key, mapping] of Object.entries(fieldMapping)) {
-      const value = row[mapping.column] || ''
-      result[key] = this.convertValue(value, mapping.type || 'string')
-    }
-
-    return result
   }
 }

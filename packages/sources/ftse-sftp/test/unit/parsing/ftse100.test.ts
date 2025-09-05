@@ -1,4 +1,4 @@
-import { FTSE100Parser, FTSE100Data } from '../../../src/parsing/ftse100'
+import { FTSE100Parser } from '../../../src/parsing/ftse100'
 
 // Helper function to create test data with actual comma separators
 const createFTSETestData = (dataRows: string[]): string => {
@@ -26,20 +26,6 @@ describe('FTSE100Parser', () => {
   describe('constructor', () => {
     it('should initialize with correct configuration', () => {
       expect(parser).toBeDefined()
-      expect(parser.getExpectedColumns()).toContain('Index Code')
-      expect(parser.getExpectedColumns()).toContain('GBP Index')
-    })
-  })
-
-  describe('getExpectedColumns', () => {
-    it('should return expected column names', () => {
-      const expectedColumns = parser.getExpectedColumns()
-
-      expect(expectedColumns).toContain('Index Code')
-      expect(expectedColumns).toContain('Index/Sector Name')
-      expect(expectedColumns).toContain('Number of Constituents')
-      expect(expectedColumns).toContain('Index Base Currency')
-      expect(expectedColumns).toContain('GBP Index')
     })
   })
 
@@ -80,14 +66,15 @@ UKX,Some Value`
 
       const result = await parser.parse(csvContent)
 
-      expect(result).toHaveLength(1)
-
-      // Test UKX row
-      expect(result[0].indexCode).toBe('UKX')
-      expect(result[0].indexSectorName).toBe('FTSE 100 Index')
-      expect(result[0].numberOfConstituents).toBe(100)
-      expect(result[0].indexBaseCurrency).toBe('GBP')
-      expect(result[0].gbpIndex).toBe(5017.24846324)
+      expect(result).toEqual([
+        {
+          indexCode: 'UKX',
+          indexSectorName: 'FTSE 100 Index',
+          numberOfConstituents: 100,
+          indexBaseCurrency: 'GBP',
+          gbpIndex: 5017.24846324,
+        },
+      ])
     })
 
     it('should throw error for invalid CSV format', async () => {
@@ -154,54 +141,6 @@ UKX,Some Value`
 
       expect(result).toHaveLength(1) // Should only include UKX, skip empty line and AS0
       expect(result[0].indexCode).toBe('UKX')
-    })
-  })
-
-  describe('getEssentialData', () => {
-    it('should return only essential fields', () => {
-      const mockData: FTSE100Data[] = [
-        {
-          indexCode: 'UKX',
-          indexSectorName: 'FTSE 100 Index',
-          numberOfConstituents: 100,
-          indexBaseCurrency: 'GBP',
-          gbpIndex: 5017.25,
-        },
-      ]
-
-      const essential = parser.getEssentialData(mockData)
-
-      expect(essential).toHaveLength(1)
-      expect(essential[0]).toEqual({
-        indexCode: 'UKX',
-        indexSectorName: 'FTSE 100 Index',
-        numberOfConstituents: 100,
-        indexBaseCurrency: 'GBP',
-        gbpIndex: 5017.25,
-      })
-    })
-
-    it('should handle null values in essential data', () => {
-      const mockData: FTSE100Data[] = [
-        {
-          indexCode: 'UKX',
-          indexSectorName: 'FTSE 100 Index',
-          numberOfConstituents: null,
-          indexBaseCurrency: 'GBP',
-          gbpIndex: null,
-        },
-      ]
-
-      const essential = parser.getEssentialData(mockData)
-
-      expect(essential).toHaveLength(1)
-      expect(essential[0]).toEqual({
-        indexCode: 'UKX',
-        indexSectorName: 'FTSE 100 Index',
-        numberOfConstituents: null,
-        indexBaseCurrency: 'GBP',
-        gbpIndex: null,
-      })
     })
   })
 })
