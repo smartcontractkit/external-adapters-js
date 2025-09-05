@@ -84,6 +84,7 @@ export const runReduceAdapter = async (
         }
         // If all results are valid, use default processing below the
         // switch block.
+        break
       } else if (indexerEndpoint === 'etherFiBalance') {
         if (input.data.isValid) {
           return {
