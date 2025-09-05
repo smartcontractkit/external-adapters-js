@@ -135,9 +135,6 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/accuweather"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
@@ -417,9 +414,6 @@
       "path": "./sources/gmci"
     },
     {
-      "path": "./sources/gmci"
-    },
-    {
       "path": "./sources/google-bigquery"
     },
     {
@@ -540,6 +534,9 @@
       "path": "./sources/nikkei"
     },
     {
+      "path": "./sources/nomia"
+    },
+    {
       "path": "./sources/nyfed"
     },
     {
@@ -595,6 +592,9 @@
     },
     {
       "path": "./sources/sochain"
+    },
+    {
+      "path": "./sources/solactive"
     },
     {
       "path": "./sources/solana-view-function"

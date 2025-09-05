@@ -135,9 +135,6 @@
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
-      "path": "./sources/accuweather/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
@@ -417,9 +414,6 @@
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
-      "path": "./sources/gmci/tsconfig.test.json"
-    },
-    {
       "path": "./sources/google-bigquery/tsconfig.test.json"
     },
     {
@@ -540,6 +534,9 @@
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
+      "path": "./sources/nomia/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nyfed/tsconfig.test.json"
     },
     {
@@ -595,6 +592,9 @@
     },
     {
       "path": "./sources/sochain/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/solactive/tsconfig.test.json"
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"

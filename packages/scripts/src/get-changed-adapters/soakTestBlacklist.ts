@@ -1,5 +1,4 @@
 export const SoakTestBlacklist: string[] = [
-  'accuweather',
   'ada-balance', // Missing: RPC URL
   'alphachain',
   'alpine',
@@ -59,6 +58,7 @@ export const SoakTestBlacklist: string[] = [
   'nexus-kiln',
   'ncfx',
   'nikkei',
+  'nomia',
   'oilpriceapi',
   'onchain-gas', // Missing: WS RPC URL
   'outlier-detection',

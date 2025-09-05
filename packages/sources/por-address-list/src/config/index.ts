@@ -69,4 +69,15 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves',
   },
+  VIRTUNE_API_URL: {
+    description: 'An API endpoint for Virtune address lists',
+    type: 'string',
+    default:
+      'https://proof-of-reserves-chainlink-283003lt.nw.gateway.dev/api/external/proof-of-reserves',
+  },
+  VIRTUNE_API_KEY: {
+    description: 'The API key for Virtune address list API',
+    type: 'string',
+    default: '',
+  },
 })
