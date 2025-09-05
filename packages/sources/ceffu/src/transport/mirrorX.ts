@@ -1,9 +1,9 @@
-import { createPrivateKey, createSign } from 'crypto'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { Decimal } from 'decimal.js'
 import { HttpsProxyAgent } from 'https-proxy-agent'
 import { stringify } from 'querystring'
-import { Decimal } from 'decimal.js'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { sign } from './wallet/requester' // TODO: Refactor to use request instead
 
 interface ApiResponse {
   data: {
@@ -36,7 +36,7 @@ export const getAssetPositions = async (
       const params = {
         mirrorXLinkId: id,
         excludeZeroAmountFlag: true,
-        pageLimit: 25,
+        pageLimit: 500,
         pageNo: 1,
         timestamp: Date.now(),
       }
@@ -79,18 +79,4 @@ export const getAssetPositions = async (
       new Decimal(0),
     ),
   }
-}
-
-const sign = (data: string, privateKey: string) => {
-  const key = createPrivateKey({
-    key: Buffer.from(privateKey, 'base64'),
-    type: 'pkcs8',
-    format: 'der',
-  })
-
-  const sign = createSign('sha512WithRSAEncryption')
-  sign.write(data)
-  sign.end()
-
-  return sign.sign(key, 'base64')
 }
