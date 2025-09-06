@@ -1,9 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
-import { NavTransport } from '../transport/nav'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { NetAssetValue, AssetsUnderManagement } from '../transport/utils'
+import { config } from '../config'
+import { navTransport } from '../transport/nav'
+import { AssetsUnderManagement, NetAssetValue } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -37,5 +37,5 @@ export const endpoint = new AdapterEndpoint({
   name: 'reserves',
   aliases: ['por', 'nav'],
   inputParameters,
-  transport: new NavTransport(),
+  transport: navTransport,
 })

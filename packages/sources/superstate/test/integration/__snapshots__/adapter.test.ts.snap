@@ -27,3 +27,43 @@ exports[`execute price endpoint should return success - nav 1`] = `
   },
 }
 `;
+
+exports[`execute transactions endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 6,
+    "navPrice": 10.170643,
+    "result": "0x098c0293",
+    "transactions": [
+      {
+        "created_at": "1",
+        "dollar_amount": "-100.0",
+        "operation_type": "REDEEM",
+        "status": "DONE",
+        "ticker": "T",
+      },
+      {
+        "created_at": "2",
+        "operation_type": "REDEEM",
+        "share_amount": "-1.0",
+        "status": "DONE",
+        "ticker": "T",
+      },
+      {
+        "created_at": "3",
+        "notional_value": "-50.0",
+        "operation_type": "REDEEM",
+        "share_amount": "-1.0",
+        "status": "DONE",
+        "ticker": "T",
+      },
+    ],
+  },
+  "result": "0x098c0293",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
