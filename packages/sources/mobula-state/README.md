@@ -1,6 +1,6 @@
 # MOBULA_STATE
 
-![1.3.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -9,7 +9,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Required? |             Name             |               Description               |  Type  | Options |              Default              |
 | :-------: | :--------------------------: | :-------------------------------------: | :----: | :-----: | :-------------------------------: |
 |           |       WS_API_ENDPOINT        |      WS endpoint for Data Provider      | string |         | `wss://production-feed.mobula.io` |
-|           | WS_FUNDING_RATE_API_ENDPOINT | WS endpoint for perpetual funding rates | string |         |       `wss://api.mobula.io`       |
+|           | WS_FUNDING_RATE_API_ENDPOINT | WS endpoint for perpetual funding rates | string |         |   `wss://funding-api.mobula.io`   |
 |    ✅     |           API_KEY            |      An API key for Data Provider       | string |         |                                   |
 
 ---

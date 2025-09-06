@@ -5,7 +5,6 @@ This document was generated automatically. Please see [Master List Generator](..
 ## List
 
 - [1forge](./1forge/README.md)
-- [accuweather](./accuweather/README.md)
 - [ada-balance](./ada-balance/README.md)
 - [aleno](./aleno/README.md)
 - [alphachain](./alphachain/README.md)
