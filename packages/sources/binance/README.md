@@ -48,7 +48,38 @@ Supported names for this endpoint are: `crypto`, `ticker`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "ETH",
+    "quote": "BTC",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "Eao0YPhZDa3+RmRxiwOG5dAIIt0="
+  },
+  "rateLimitMaxAge": 55
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "symbol": "ETHBTC",
+    "price": "0.07077300",
+    "result": 0.070773
+  },
+  "result": 0.070773,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

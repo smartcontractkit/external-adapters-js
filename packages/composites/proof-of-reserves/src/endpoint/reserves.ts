@@ -157,13 +157,14 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
 
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
 
+  const indexerEndpoint = validator.validated.data.indexerEndpoint
   const balanceOutput = await runBalanceAdapter(
     indexer,
     context,
     confirmations,
     config,
     validatedAddresses,
-    validator.validated.data.indexerEndpoint,
+    indexerEndpoint,
     validator.validated.data.indexerParams,
   )
 
@@ -171,6 +172,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     indexer,
     context,
     balanceOutput,
+    indexerEndpoint,
     validator.validated.data.viewFunctionIndexerResultDecimals,
   )
   reduceOutput.data.description = validator.validated.data.description

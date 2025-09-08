@@ -1,12 +1,12 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
-import { config } from './config'
-import { nav } from './endpoint'
 import {
   BaseSettingsDefinition,
   BaseSettingsDefinitionType,
 } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { config } from './config'
+import { nav, transactions } from './endpoint'
 
 const logger = makeLogger('SettingsWorkaround')
 
@@ -14,7 +14,7 @@ export const adapter = new Adapter({
   defaultEndpoint: nav.name,
   name: 'SUPERSTATE',
   config,
-  endpoints: [nav],
+  endpoints: [nav, transactions],
 })
 
 // Remove validations for specific env vars.

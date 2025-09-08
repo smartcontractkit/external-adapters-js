@@ -45,7 +45,73 @@ This endpoint returns the exchange rate of rETH/ETH according to the staking con
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "network": "ethereum",
+    "ethUsdProxyAddress": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+    "rethStorageAddress": "0xae78736Cd615f374D3085123A210448E74Fc6393",
+    "endpoint": "reth"
+  },
+  "debug": {
+    "cacheKey": "BHMQGmb9CwYk+V1vAwBAgRvLkUk="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": "0x0000000000000000000000000000000000000000000000000e6ed27d66680000"
+  },
+  "result": "0x0000000000000000000000000000000000000000000000000e6ed27d66680000",
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "quote": "USD",
+    "network": "ethereum",
+    "ethUsdProxyAddress": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+    "rethStorageAddress": "0xae78736Cd615f374D3085123A210448E74Fc6393",
+    "endpoint": "reth"
+  },
+  "debug": {
+    "cacheKey": "b7v2HP3HRizQ3DuphGCYbgPCWQw="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 1341.6
+  },
+  "result": 1341.6,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 
