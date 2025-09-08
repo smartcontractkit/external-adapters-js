@@ -11,7 +11,7 @@ export type OraclePriceType = {
 export function signRequest(
   method: string,
   path: string,
-  body: string = '',
+  body = '',
   apiKey: string,
   apiSecret: string,
   params: Record<string, string> = {},
