@@ -827,6 +827,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/sochain"\
     },\
     {\
+      "name": "@chainlink/solactive-adapter",\
+      "reference": "workspace:packages/sources/solactive"\
+    },\
+    {\
       "name": "@chainlink/solana-view-function-adapter",\
       "reference": "workspace:packages/sources/solana-view-function"\
     },\
@@ -1199,6 +1203,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
+    ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
     ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
     ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
@@ -6164,6 +6169,8 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8821,6 +8828,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/solactive-adapter", [\
+      ["workspace:packages/sources/solactive", {\
+        "packageLocation": "./packages/sources/solactive/",\
+        "packageDependencies": [\
+          ["@chainlink/solactive-adapter", "workspace:packages/sources/solactive"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

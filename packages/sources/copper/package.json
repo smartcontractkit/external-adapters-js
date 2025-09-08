@@ -37,6 +37,8 @@
     "@chainlink/external-adapter-framework": "2.7.0",
     "@types/crypto-js": "4.2.2",
     "crypto-js": "4.2.0",
+    "decimal.js": "^10.3.1",
+    "ethers": "5.4.7",
     "tslib": "2.4.1"
   }
 }

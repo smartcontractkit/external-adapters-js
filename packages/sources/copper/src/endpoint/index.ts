@@ -1,1 +1,1 @@
-export { endpoint as solstice } from './solstice'
+export { endpoint as wallets } from './wallets'
