@@ -40,7 +40,6 @@ describe('execute', () => {
       jest
         .spyOn(SolanaAccountReader.prototype, 'fetchAccountInformation')
         .mockImplementation(async (_rpc: any, _addr: any, accountName: string) => {
-          // Match whatever exact strings your IDL decode uses.
           if (accountName === 'YieldPool' || accountName === 'yieldPool') {
             return fakeYieldPoolAccount as any
           }
