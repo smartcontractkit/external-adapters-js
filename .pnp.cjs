@@ -207,10 +207,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/1forge"\
     },\
     {\
-      "name": "@chainlink/accuweather-adapter",\
-      "reference": "workspace:packages/sources/accuweather"\
-    },\
-    {\
       "name": "@chainlink/ada-balance-adapter",\
       "reference": "workspace:packages/sources/ada-balance"\
     },\
@@ -999,7 +995,6 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
     ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
-    ["@chainlink/accuweather-adapter", ["workspace:packages/sources/accuweather"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
@@ -5147,25 +5142,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/accuweather-adapter", [\
-      ["workspace:packages/sources/accuweather", {\
-        "packageLocation": "./packages/sources/accuweather/",\
-        "packageDependencies": [\
-          ["@chainlink/accuweather-adapter", "workspace:packages/sources/accuweather"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/ada-balance-adapter", [\
       ["workspace:packages/sources/ada-balance", {\
         "packageLocation": "./packages/sources/ada-balance/",\
@@ -8504,6 +8480,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["axios", "npm:1.9.0"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8975,11 +8952,13 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
           ["date-fns", "npm:3.6.0"],\
           ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
@@ -16149,6 +16128,18 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@superstateinc/api-key-request", [\
+      ["npm:0.1.4", {\
+        "packageLocation": "./.yarn/cache/@superstateinc-api-key-request-npm-0.1.4-69de8c4f73-fc1985dbaf.zip/node_modules/@superstateinc/api-key-request/",\
+        "packageDependencies": [\
+          ["@superstateinc/api-key-request", "npm:0.1.4"],\
+          ["crypto", "npm:1.0.1"],\
+          ["dotenv", "npm:16.6.1"],\
+          ["uuid", "npm:11.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@swc/helpers", [\
       ["npm:0.5.15", {\
         "packageLocation": "./.yarn/cache/@swc-helpers-npm-0.5.15-a7a06a73bc-e3f32c6dee.zip/node_modules/@swc/helpers/",\
@@ -22029,6 +22020,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/dotenv-npm-16.0.3-4cc29121dc-d6788c8e40.zip/node_modules/dotenv/",\
         "packageDependencies": [\
           ["dotenv", "npm:16.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:16.6.1", {\
+        "packageLocation": "./.yarn/cache/dotenv-npm-16.6.1-01334288ea-1d18971443.zip/node_modules/dotenv/",\
+        "packageDependencies": [\
+          ["dotenv", "npm:16.6.1"]\
         ],\
         "linkType": "HARD"\
       }],\

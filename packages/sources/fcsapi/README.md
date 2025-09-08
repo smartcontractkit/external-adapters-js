@@ -47,7 +47,34 @@ Supported names for this endpoint are: `common`, `forex`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "FTSE",
+    "endpoint": "common"
+  },
+  "debug": {
+    "cacheKey": "jelFIe/k15MwK3X4Yy3kNjs5GbQ="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 7274.81
+  },
+  "result": 7274.81,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

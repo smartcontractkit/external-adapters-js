@@ -3,11 +3,13 @@ import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
 import { config } from './config'
 import {
   address,
-  solvBTC,
   bedrockBTC,
   coinbaseBTC,
   multichainAddress,
   openedenAddress,
+  solvBTC,
+  virtune,
+  virtuneToken,
   zeusBtcAddress,
 } from './endpoint'
 
@@ -22,6 +24,8 @@ export const adapter = new PoRAdapter({
     coinbaseBTC,
     multichainAddress,
     openedenAddress,
+    virtune,
+    virtuneToken,
     zeusBtcAddress,
   ],
   rateLimiting: {

@@ -41,7 +41,40 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "BTC",
+    "quote": "USD",
+    "endpoint": "price"
+  },
+  "debug": {
+    "cacheKey": "FJwi4xGjPziT9t6opKzk/NGGQms="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "SUCCESS",
+    "message": "Reference Price for BTC",
+    "data": {
+      "Price": 58620.71
+    },
+    "result": 58620.71
+  },
+  "result": 58620.71,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
