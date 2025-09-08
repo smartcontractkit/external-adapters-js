@@ -23,32 +23,3 @@ export interface CSVParser {
 export interface ParsedData {
   [key: string]: string | number | Date | null
 }
-
-/**
- * Configuration options for CSV parsing using csv-parse library
- * Contains only the options we actually use in this project
- */
-export interface CSVParserConfig {
-  delimiter?: string
-  columns?: boolean | string[]
-  skip_empty_lines?: boolean
-  trim?: boolean
-  encoding?: BufferEncoding
-  from_line?: number
-  to_line?: number
-  relax_column_count?: boolean
-  quote?: string
-  escape?: string
-}
-
-/**
- * Base configuration with default values
- */
-export const defaultCSVConfig: CSVParserConfig = {
-  delimiter: ',',
-  columns: true,
-  skip_empty_lines: true,
-  trim: true,
-  encoding: 'utf8',
-  relax_column_count: true, // Allow rows with different column counts
-}

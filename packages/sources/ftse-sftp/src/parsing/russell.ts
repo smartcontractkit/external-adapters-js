@@ -4,7 +4,6 @@ import { ParsedData } from './interfaces'
 // Column indices for Russell CSV format
 const INDEX_NAME_COLUMN = 0
 const VALUE_COLUMN = 4
-const EXPECTED_COLUMNS = 5
 
 /**
  * Specific data structure for Russell Daily Values data
@@ -39,57 +38,53 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       throw new Error('Invalid CSV format for Russell data')
     }
 
-    // Russell data always starts on line 7, so skip the first 6 lines
-    // Use existing config (delimiter, trim, etc.) and just specify from_line
+    // Russell data starts after the header rows, which vary in position
+    // Parse the entire CSV and find Russell rows dynamically
     const parsed = this.parseCSV(csvContent, {
-      from_line: 7, // Start parsing from line
+      relax_column_count: true, // Allow rows with different number of columns
     })
 
     for (const row of parsed) {
-      if (!row || row.length < EXPECTED_COLUMNS) {
-        // Expected columns based on the Russell Daily Values format
-        continue // Skip rows with insufficient fields without logging
+      if (!row || row.length < 5) {
+        // Need at least 5 columns for index name and close value
+        continue // Skip rows with insufficient fields
       }
 
-      // Skip empty rows (where all fields are empty strings or just whitespace)
+      // Skip empty rows (CSV contains separator rows with multiple empty fields)
       const hasContent = row.some((field: any) => field && String(field).trim() !== '')
       if (!hasContent) {
-        continue // Skip empty rows without logging
+        continue // Skip empty rows
       }
 
-      try {
-        // csv-parse with trim: true should handle quote removal automatically
-        const indexName = this.convertValue(row[INDEX_NAME_COLUMN], 'string') as string
+      const indexName = this.convertValue(row[INDEX_NAME_COLUMN], 'string') as string
 
-        const data: RussellDailyValuesData = {
-          indexName,
-          close: this.convertValue(row[VALUE_COLUMN], 'number') as number | null,
-        }
+      // Only process rows that start with "Russell" and contain the ® symbol
+      if (
+        !indexName ||
+        !indexName.includes('Russell') ||
+        (!indexName.includes('®') && !indexName.includes('�'))
+      ) {
+        continue
+      }
 
-        // Additional validation for required fields
-        if (!data.indexName || data.indexName === '') {
-          console.warn(`Missing required index name field in row: ${JSON.stringify(row)}`)
-          continue
-        }
+      const data: RussellDailyValuesData = {
+        indexName,
+        close: this.convertValue(row[VALUE_COLUMN], 'number') as number | null,
+      }
 
-        // Normalize the string because of the ® symbol
-        if (this.normalizeString(indexName) === this.normalizeString(this.instrument)) {
+      // Filter by instrument if specified
+      if (this.instrument) {
+        // Normalize both strings for comparison (remove special characters and extra spaces)
+        const normalizeString = (str: string) =>
+          str.replace(/[®�™]/g, '').replace(/\s+/g, ' ').trim()
+        const normalizedIndexName = normalizeString(indexName)
+        const normalizedInstrument = normalizeString(this.instrument)
+
+        if (normalizedIndexName === normalizedInstrument) {
           results.push(data)
         }
-      } catch (error) {
-        console.error(`Error parsing row: ${JSON.stringify(row)}`, error)
-      }
-    }
-
-    // Only throw error if no Russell data was found at all
-    if (results.length === 0) {
-      const hasRussellData = parsed.some(
-        (row) =>
-          row && row[INDEX_NAME_COLUMN] && String(row[INDEX_NAME_COLUMN]).includes('Russell'),
-      )
-
-      if (!hasRussellData) {
-        throw new Error('Could not find Russell index data in the provided content')
+      } else {
+        results.push(data)
       }
     }
 
@@ -97,7 +92,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   }
 
   /**
-   * Enhanced validation specific to Russell Daily Values format
+   * Validate that the CSV contains Russell index data
    */
   validateFormat(csvContent: string): boolean {
     if (!csvContent || csvContent.trim().length === 0) {
@@ -105,10 +100,9 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     try {
-      // Try to parse from line 7 to validate the format
+      // Parse the entire CSV with relaxed column count to find Russell data
       const parsed = this.parseCSV(csvContent, {
-        from_line: 7,
-        to_line: 16, // Parse more lines for validation to handle mixed content
+        relax_column_count: true,
       })
 
       if (!parsed || parsed.length === 0) {
@@ -117,11 +111,10 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       }
 
       // Check if any row contains valid Russell index data
-      // We don't require ALL rows to be valid, just that there's at least one good Russell row
       const hasValidRussellData = parsed.some(
         (row) =>
           row &&
-          row.length >= EXPECTED_COLUMNS && // Must have sufficient columns
+          row.length >= 5 && // Must have at least 5 columns for index name and close value
           row[INDEX_NAME_COLUMN] &&
           String(row[INDEX_NAME_COLUMN]).includes('Russell') &&
           (String(row[INDEX_NAME_COLUMN]).includes('®') ||
@@ -130,26 +123,13 @@ export class RussellDailyValuesParser extends BaseCSVParser {
 
       if (!hasValidRussellData) {
         console.error('No valid Russell index data found in CSV validation')
-        console.error(
-          'Available data in first column:',
-          parsed
-            .slice(0, 5)
-            .map((row) => row[INDEX_NAME_COLUMN])
-            .filter(Boolean),
-        )
         return false
       }
 
       return true
     } catch (error) {
+      console.error('Error during Russell CSV validation:', error)
       return false
     }
-  }
-
-  /**
-   * Normalize a string by removing the ® symbol
-   */
-  normalizeString(str: string): string {
-    return str.replace(/®/g, '').trim()
   }
 }

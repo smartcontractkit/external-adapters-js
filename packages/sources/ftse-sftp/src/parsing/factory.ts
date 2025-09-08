@@ -6,7 +6,6 @@ import { RussellDailyValuesParser } from './russell'
  * Supported CSV parser types
  */
 export const instrumentToElementMap = {
-  FTSE100INDEX: 'UKX',
   Russell1000INDEX: 'Russell 1000® Index',
   Russell2000INDEX: 'Russell 2000® Index',
   Russell3000INDEX: 'Russell 3000® Index',

@@ -1,15 +1,15 @@
-import { CSVParser, ParsedData, CSVParserConfig, defaultCSVConfig } from './interfaces'
-import * as csvParse from 'csv-parse/sync'
+import { CSVParser, ParsedData } from './interfaces'
+import { parse, Options } from 'csv-parse/sync'
 
 /**
  * Abstract base class for CSV parsers
  * Uses the csv-parse library for robust CSV parsing
  */
 export abstract class BaseCSVParser implements CSVParser {
-  protected config: CSVParserConfig
+  protected config: Record<string, any>
 
-  constructor(config: Partial<CSVParserConfig> = {}) {
-    this.config = { ...defaultCSVConfig, ...config }
+  constructor(config: Record<string, any> = {}) {
+    this.config = { ...config }
   }
 
   /**
@@ -26,11 +26,11 @@ export abstract class BaseCSVParser implements CSVParser {
   /**
    * Helper method to parse CSV content using csv-parse library
    */
-  protected parseCSV(csvContent: string, options?: Partial<CSVParserConfig>): any[] {
-    const finalConfig = { ...this.config, ...options }
+  protected parseCSV(csvContent: string, options?: Options): any[] {
+    const finalConfig: Options = { ...this.config, ...options }
 
     try {
-      return csvParse.parse(csvContent, finalConfig)
+      return parse(csvContent, finalConfig)
     } catch (error) {
       throw new Error(`Error parsing CSV: ${error}`)
     }
@@ -46,8 +46,6 @@ export abstract class BaseCSVParser implements CSVParser {
     if (!value || value.trim() === '') {
       return null
     }
-
-    const trimmedValue = value.trim()
 
     switch (expectedType) {
       case 'number': {

@@ -1267,7 +1267,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
+          ["@types/node", "npm:24.3.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -7011,7 +7011,7 @@ const RAW_RUNTIME_STATE =
           ["@types/babel__preset-env", "npm:7.9.7"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
+          ["@types/node", "npm:24.3.1"],\
           ["@typescript-eslint/eslint-plugin", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@typescript-eslint/parser", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:5.59.11"],\
           ["@vercel/ncc", "npm:0.38.3"],\
@@ -16849,6 +16849,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/node", "npm:22.9.1"],\
           ["undici-types", "npm:6.19.8"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:24.3.1", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-24.3.1-b558101365-b9a52ed8f2.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:24.3.1"],\
+          ["undici-types", "npm:7.10.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -37834,7 +37842,7 @@ const RAW_RUNTIME_STATE =
           ["@tsconfig/node12", "npm:1.0.11"],\
           ["@tsconfig/node14", "npm:1.0.3"],\
           ["@tsconfig/node16", "npm:1.0.4"],\
-          ["@types/node", "npm:22.14.1"],\
+          ["@types/node", "npm:24.3.1"],\
           ["@types/swc__core", null],\
           ["@types/swc__wasm", null],\
           ["@types/typescript", null],\
@@ -38225,6 +38233,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/undici-types-npm-6.21.0-eb2b0ed56a-ec8f41aa43.zip/node_modules/undici-types/",\
         "packageDependencies": [\
           ["undici-types", "npm:6.21.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:7.10.0", {\
+        "packageLocation": "./.yarn/cache/undici-types-npm-7.10.0-cd8324b9eb-1f3fe77793.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:7.10.0"]\
         ],\
         "linkType": "HARD"\
       }]\
