@@ -41,7 +41,33 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "endpoint": "stmatic"
+  },
+  "debug": {
+    "cacheKey": "5bw+9BVRUWe1yPyws7E5OJiSTK8="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 69357317
+  },
+  "result": 69357317,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
