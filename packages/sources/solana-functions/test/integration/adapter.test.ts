@@ -40,10 +40,10 @@ describe('execute', () => {
       jest
         .spyOn(SolanaAccountReader.prototype, 'fetchAccountInformation')
         .mockImplementation(async (_rpc: any, _addr: any, accountName: string) => {
-          if (accountName === 'YieldPool' || accountName === 'yieldPool') {
+          if (accountName === 'YieldPool') {
             return fakeYieldPoolAccount as any
           }
-          if (accountName === 'VestingSchedule' || accountName === 'vestingSchedule') {
+          if (accountName === 'VestingSchedule') {
             return fakeVestingScheduleAccount as any
           }
           throw new Error(`Unexpected accountName: ${accountName}`)
