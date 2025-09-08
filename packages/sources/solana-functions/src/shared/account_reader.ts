@@ -15,6 +15,7 @@ export class SolanaAccountReader {
     this.rpc = this.initSolanaRpc()
   }
 
+  // fetch account information using base64 encoding - accountName must match IDL account name exactly
   async fetchAccountInformation<T>(addr: Address, accountName: string, idl: Idl): Promise<T> {
     const encoding = 'base64'
     const resp = await this.rpc.getAccountInfo(addr, { encoding }).send()
@@ -25,7 +26,6 @@ export class SolanaAccountReader {
     const dataEncoded = value.data[0] as string
     const data = Buffer.from(dataEncoded, encoding)
     const coder = new BorshCoder(idl as unknown as Idl)
-    // accountName must match IDL account name exactly
     return coder.accounts.decode(accountName, data) as unknown as T
   }
 }
