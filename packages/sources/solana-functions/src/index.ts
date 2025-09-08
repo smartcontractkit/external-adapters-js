@@ -4,13 +4,9 @@ import { config } from './config'
 import { eusxPrice } from './endpoint'
 
 export const adapter = new Adapter({
-  //Requests will direct to this endpoint if the `endpoint` input parameter is not specified.
   defaultEndpoint: eusxPrice.name,
-  // Adapter name
   name: 'SOLANA_FUNCTIONS',
-  // Adapter configuration (environment variables)
   config,
-  // List of supported endpoints
   endpoints: [eusxPrice],
 })
 

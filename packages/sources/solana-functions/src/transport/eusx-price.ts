@@ -33,6 +33,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     return connection
   }
 
+  // Get Provider creates or returns an existing Anchor provider
   getProvider(): anchor.Provider {
     if (this.provider) {
       return this.provider

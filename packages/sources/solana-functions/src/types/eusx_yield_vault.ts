@@ -2,7 +2,7 @@
  * Program IDL in camelCase format in order to be used in JS/TS.
  *
  * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/yield_vault.json`.
+ * IDL can be found at `../idl/yield_vault.json`.
  */
 export type YieldVault = {
   address: 'eUSXyKoZ6aGejYVbnp3wtWQ1E8zuokLAJPecPxxtgG3'
