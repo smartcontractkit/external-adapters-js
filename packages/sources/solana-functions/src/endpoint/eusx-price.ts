@@ -21,5 +21,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['eusx', 'eusx-rate'],
   transport: eUSXPriceTransport,
   inputParameters,
-  overrides: {},
 })
