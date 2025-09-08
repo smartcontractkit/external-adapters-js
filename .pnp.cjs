@@ -8816,7 +8816,6 @@ const RAW_RUNTIME_STATE =
           ["@solana/addresses", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/codecs-strings", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/rpc", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
-          ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
