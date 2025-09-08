@@ -8,10 +8,12 @@ import { BaseEndpointTypes, inputParameters } from '../endpoint/eusx-price'
 import type { Idl } from '@coral-xyz/anchor'
 import { getProgramDerivedAddress, type Address } from '@solana/addresses'
 import { getUtf8Encoder } from '@solana/codecs-strings'
+import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import BN from 'bn.js'
 
 import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
 import { SolanaAccountReader } from '../shared/account_reader'
+import { createRpcFromEnv } from '../shared/utils'
 
 const logger = makeLogger('EUSXPriceTransport')
 
@@ -38,6 +40,7 @@ const YIELD_POOL_ACCOUNT_NAME = 'YieldPool'
 export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransportTypes> {
   accountReader!: SolanaAccountReader
   utfEncoder!: ReturnType<typeof getUtf8Encoder>
+  rpc!: Rpc<SolanaRpcApi>
 
   async initialize(
     dependencies: TransportDependencies<EUSXPriceTransportTypes>,
@@ -47,6 +50,7 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.accountReader = new SolanaAccountReader()
+    this.rpc = createRpcFromEnv()
     this.utfEncoder = getUtf8Encoder()
   }
 
@@ -102,11 +106,13 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
     })
 
     const vestingSchedule = await accountReader.fetchAccountInformation<VestingSchedule>(
+      this.rpc,
       vestingSchedulePda as Address,
       VESTING_SCHEDULE_ACCOUNT_NAME,
       YieldVaultIDL as Idl,
     )
     const yieldPool = await accountReader.fetchAccountInformation<YieldPool>(
+      this.rpc,
       yieldPoolPda as Address,
       YIELD_POOL_ACCOUNT_NAME,
       YieldVaultIDL as Idl,
