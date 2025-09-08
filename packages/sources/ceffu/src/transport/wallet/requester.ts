@@ -15,14 +15,16 @@ interface GeneralResponse<T> {
   message: string
 }
 
+const successCode = '000000'
+
 export const request = async <T>(
   baseUrl: string,
   url: string,
   params: Record<string, string | number>,
-  proxy: string,
   apiKey: string,
   privateKey: string,
   requester: Requester,
+  proxy?: string,
 ) => {
   const results: T[] = []
 
@@ -30,13 +32,13 @@ export const request = async <T>(
   params.pageNo = 1
   params.timestamp = Date.now()
 
-  let loop = true
-  while (loop) {
+  let requestNextPage = true
+  while (requestNextPage) {
     const requestConfig = {
       baseURL: baseUrl,
       url: url,
       method: 'GET',
-      httpsAgent: proxy.length > 0 ? new HttpsProxyAgent(proxy) : null,
+      httpsAgent: proxy && proxy.length > 0 ? new HttpsProxyAgent(proxy) : null,
       headers: {
         'open-apikey': apiKey,
         signature: sign(stringify(params), privateKey),
@@ -57,14 +59,14 @@ export const request = async <T>(
     }
 
     const data = response.response.data
-    if (data.code != '000000') {
+    if (data.code != successCode) {
       throw new AdapterError({
         statusCode: 500,
         message: `Ceffu wallet API ${url} failed, code: ${data.code}, message:${data.message}`,
       })
     }
 
-    loop = data.data.data.length != 0 && data.data.pageNo < data.data.totalPage
+    requestNextPage = data.data.pageNo < data.data.totalPage
     params.pageNo = data.data.pageNo + 1
 
     results.push(...data.data.data)

@@ -47,12 +47,13 @@ export const getUSDRate = async (contracts: string, provider: ethers.JsonRpcProv
 }
 
 const getContract = (coin: string, contracts: Record<string, string>) => {
-  if (!contracts[coin.toUpperCase()]) {
+  const coinInUpperCase = coin.toUpperCase()
+  if (!contracts[coinInUpperCase]) {
     throw new AdapterInputError({
-      statusCode: 500,
-      message: `${coin.toUpperCase()} is missing from ${JSON.stringify(Object.keys(contracts))}`,
+      statusCode: 400,
+      message: `${coinInUpperCase} is missing from ${JSON.stringify(Object.keys(contracts))}`,
     })
   }
 
-  return contracts[coin.toUpperCase()]
+  return contracts[coinInUpperCase]
 }

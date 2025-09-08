@@ -1,9 +1,10 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const getApiKeys = (client: string) => {
-  const proxyKeyName = `WALLET_${client.toUpperCase()}_API_PROXY`
-  const apiKeyName = `WALLET_${client.toUpperCase()}_API_KEY`
-  const privateKeyName = `WALLET_${client.toUpperCase()}_PRIVATE_KEY`
+  const clientInUpperCase = client.toUpperCase()
+  const proxyKeyName = `WALLET_${clientInUpperCase}_API_PROXY`
+  const apiKeyName = `WALLET_${clientInUpperCase}_API_KEY`
+  const privateKeyName = `WALLET_${clientInUpperCase}_PRIVATE_KEY`
 
   const proxy = process.env[proxyKeyName]
   const apiKey = process.env[apiKeyName]
@@ -16,5 +17,5 @@ export const getApiKeys = (client: string) => {
     })
   }
 
-  return [proxy || '', apiKey, privateKey]
+  return { proxy, apiKey, privateKey }
 }

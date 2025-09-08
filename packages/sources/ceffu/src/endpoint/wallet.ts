@@ -27,7 +27,8 @@ export const inputParameters = new InputParameters(
         },
       },
       array: true,
-      description: 'List of */USD price feeds on arbitrum',
+      description:
+        'List of */USD price feeds on arbitrum, if not provided we will fallback to priceFeeds.json',
     },
     decimals: {
       description: 'Number of decimals of response',
@@ -78,10 +79,10 @@ export const endpoint = new AdapterEndpoint({
         c.token = c.token.toUpperCase()
       })
 
-      const existingToken = new Set(request.requestContext.data.contracts.map((c) => c.token))
+      const inputToken = new Set(request.requestContext.data.contracts.map((c) => c.token))
 
       PriceFeeds.forEach((p) => {
-        if (!existingToken.has(p.token.toUpperCase())) {
+        if (!inputToken.has(p.token.toUpperCase())) {
           request.requestContext.data.contracts.push({
             token: p.token.toUpperCase(),
             address: p.address,

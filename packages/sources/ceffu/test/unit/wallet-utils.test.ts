@@ -34,10 +34,10 @@ describe('wallet/utils.ts', () => {
 
       const result = getApiKeys(client)
 
-      expect(result).toEqual([proxy, apiKey, privateKey])
+      expect(result).toEqual({ proxy, apiKey, privateKey })
     })
 
-    it('should default proxy to empty string', () => {
+    it('proxy should be undefined if not provided', () => {
       const client = 'test'
       const apiKey = 'test-api-key'
       const privateKey = 'test-private-key'
@@ -47,7 +47,7 @@ describe('wallet/utils.ts', () => {
 
       const result = getApiKeys(client)
 
-      expect(result).toEqual(['', apiKey, privateKey])
+      expect(result).toEqual({ apiKey, privateKey })
     })
 
     it('should throw AdapterInputError when apiKey is missing', () => {

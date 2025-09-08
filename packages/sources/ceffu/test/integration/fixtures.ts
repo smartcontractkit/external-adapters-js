@@ -49,8 +49,8 @@ export const mockWalletAssetResponseSuccess = (): nock.Scope =>
       () => ({
         data: {
           data: [
-            { coinSymbol: 'BTC', amount: '100' },
-            { coinSymbol: 'ETH', amount: '100' },
+            { coinSymbol: 'BTC', amount: '20' },
+            { coinSymbol: 'ETH', amount: '30' },
           ],
           totalPage: 1,
           pageNo: 1,
@@ -77,8 +77,8 @@ export const mockWalletAssetResponseSuccess = (): nock.Scope =>
       () => ({
         data: {
           data: [
-            { coinSymbol: 'BTC', amount: '200' },
-            { coinSymbol: 'ETH', amount: '200' },
+            { coinSymbol: 'BTC', amount: '2' },
+            { coinSymbol: 'ETH', amount: '3' },
           ],
           totalPage: 1,
           pageNo: 1,

@@ -11,19 +11,19 @@ interface WalletApiResponse {
 
 export const getWallets = async (
   url: string,
-  proxy: string,
   apiKey: string,
   privateKey: string,
   requester: Requester,
-) => {
+  proxy?: string,
+): Promise<string[]> => {
   const response = await request<WalletApiResponse>(
     url,
     '/open-api/v1/wallet/list',
     {},
-    proxy,
     apiKey,
     privateKey,
     requester,
+    proxy,
   )
 
   if (!response || response.length == 0) {
@@ -47,19 +47,24 @@ interface AssetApiResponse {
 export const getAssets = async (
   walletId: string,
   url: string,
-  proxy: string,
   apiKey: string,
   privateKey: string,
   requester: Requester,
-) => {
+  proxy?: string,
+): Promise<
+  {
+    coin: string
+    amount: string
+  }[]
+> => {
   const response = await request<AssetApiResponse>(
     url,
     '/open-api/v1/wallet/asset/list',
     { walletId },
-    proxy,
     apiKey,
     privateKey,
     requester,
+    proxy,
   )
 
   if (!response || response.length == 0) {

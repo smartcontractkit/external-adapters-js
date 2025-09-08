@@ -27,43 +27,6 @@ describe('requester.ts', () => {
             data: {
               data: {
                 data: [100],
-                totalPage: 2,
-                pageNo: 1,
-                pageLimit: 500,
-              },
-              code: '000000',
-              message: 'success',
-            },
-          },
-        } as any)
-        .mockResolvedValueOnce({
-          response: {
-            data: {
-              data: {
-                data: [200],
-                totalPage: 2,
-                pageNo: 2,
-                pageLimit: 500,
-              },
-              code: '000000',
-              message: 'success',
-            },
-          },
-        } as any)
-
-      const result = await request('', '', {}, '', '', '', mockRequester)
-
-      expect(result).toEqual([100, 200])
-      expect(mockRequester.request).toHaveBeenCalledTimes(2)
-    })
-
-    it('should stop pagination when response is empty', async () => {
-      mockRequester.request
-        .mockResolvedValueOnce({
-          response: {
-            data: {
-              data: {
-                data: [100],
                 totalPage: 3,
                 pageNo: 1,
                 pageLimit: 500,
@@ -87,26 +50,40 @@ describe('requester.ts', () => {
             },
           },
         } as any)
+        .mockResolvedValueOnce({
+          response: {
+            data: {
+              data: {
+                data: [200],
+                totalPage: 3,
+                pageNo: 3,
+                pageLimit: 500,
+              },
+              code: '000000',
+              message: 'success',
+            },
+          },
+        } as any)
 
-      const result = await request('', '', {}, '', '', '', mockRequester)
+      const result = await request('', '', {}, '', '', mockRequester)
 
-      expect(result).toEqual([100])
-      expect(mockRequester.request).toHaveBeenCalledTimes(2)
+      expect(result).toEqual([100, 200])
+      expect(mockRequester.request).toHaveBeenCalledTimes(3)
     })
 
     it('should throw AdapterError when response is null', async () => {
       mockRequester.request.mockResolvedValueOnce(null as any)
-      await expect(request('', '', {}, '', '', '', mockRequester)).rejects.toThrow(
+      await expect(request('', '', {}, '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet API  does not return data',
       )
 
       mockRequester.request.mockResolvedValueOnce({ response: null } as any)
-      await expect(request('', '', {}, '', '', '', mockRequester)).rejects.toThrow(
+      await expect(request('', '', {}, '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet API  does not return data',
       )
 
       mockRequester.request.mockResolvedValueOnce({ response: { data: null } } as any)
-      await expect(request('', '', {}, '', '', '', mockRequester)).rejects.toThrow(
+      await expect(request('', '', {}, '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet API  does not return data',
       )
     })
@@ -121,7 +98,7 @@ describe('requester.ts', () => {
         },
       } as any)
 
-      await expect(request('', '', {}, '', '', '', mockRequester)).rejects.toThrow(
+      await expect(request('', '', {}, '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet API  failed, code: 400001, message:Invalid API key',
       )
     })

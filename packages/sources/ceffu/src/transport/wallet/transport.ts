@@ -63,12 +63,12 @@ export class WalletTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [proxy, apiKey, privateKey] = getApiKeys(param.client)
+    const { proxy, apiKey, privateKey } = getApiKeys(param.client)
 
-    const wallets = await getWallets(this.url, proxy, apiKey, privateKey, this.requester)
+    const wallets = await getWallets(this.url, apiKey, privateKey, this.requester, proxy)
 
     const tokens = await Promise.all(
-      wallets.map((w) => getAssets(w, this.url, proxy, apiKey, privateKey, this.requester)),
+      wallets.map((w) => getAssets(w, this.url, apiKey, privateKey, this.requester, proxy)),
     )
 
     const results = await toUsd(

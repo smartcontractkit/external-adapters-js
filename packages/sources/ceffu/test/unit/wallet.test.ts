@@ -20,19 +20,19 @@ describe('wallet.ts', () => {
     it('success', async () => {
       mockRequest.mockResolvedValue([{ walletIdStr: 'wallet-1' }, { walletIdStr: 'wallet-2' }])
 
-      const result = await getWallets('', '', '', '', mockRequester)
+      const result = await getWallets('', '', '', mockRequester)
 
       expect(result).toEqual(['wallet-1', 'wallet-2'])
     })
 
     it('no response', async () => {
       mockRequest.mockResolvedValue(null as any)
-      await expect(getWallets('', '', '', '', mockRequester)).rejects.toThrow(
+      await expect(getWallets('', '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet list API returns empty wallets',
       )
 
       mockRequest.mockResolvedValue([])
-      await expect(getWallets('', '', '', '', mockRequester)).rejects.toThrow(
+      await expect(getWallets('', '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet list API returns empty wallets',
       )
     })
@@ -46,7 +46,7 @@ describe('wallet.ts', () => {
         { coinSymbol: 'USDT', amount: '0' },
       ])
 
-      const result = await getAssets('', '', '', '', '', mockRequester)
+      const result = await getAssets('', '', '', '', mockRequester)
 
       expect(result).toEqual([
         { coin: 'BTC', amount: '1.5' },
@@ -56,12 +56,12 @@ describe('wallet.ts', () => {
 
     it('no response', async () => {
       mockRequest.mockResolvedValue([])
-      await expect(getAssets('', '', '', '', '', mockRequester)).rejects.toThrow(
+      await expect(getAssets('', '', '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet asset API returns empty assets',
       )
 
       mockRequest.mockResolvedValue(null as any)
-      await expect(getAssets('', '', '', '', '', mockRequester)).rejects.toThrow(
+      await expect(getAssets('', '', '', '', mockRequester)).rejects.toThrow(
         'Ceffu wallet asset API returns empty assets',
       )
     })

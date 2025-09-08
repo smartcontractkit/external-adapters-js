@@ -8,14 +8,36 @@ jest.mock('ethers', () => {
       JsonRpcProvider: function (): JsonRpcProvider {
         return {} as JsonRpcProvider
       },
-      Contract: function () {
-        return {
-          decimals: jest.fn().mockImplementation(() => {
-            return 8
-          }),
-          latestAnswer: jest.fn().mockImplementation(() => {
-            return 50n
-          }),
+      Contract: function (address: string) {
+        if (address == '0x0') {
+          return {
+            decimals: jest.fn().mockImplementation(() => {
+              return 1
+            }),
+            latestAnswer: jest.fn().mockImplementation(() => {
+              return 50n
+            }),
+          }
+        } else if (address == '0x1') {
+          return {
+            decimals: jest.fn().mockImplementation(() => {
+              return 2
+            }),
+            latestAnswer: jest.fn().mockImplementation(() => {
+              return 200n
+            }),
+          }
+        } else if (address == '0x2') {
+          return {
+            decimals: jest.fn().mockImplementation(() => {
+              return 3
+            }),
+            latestAnswer: jest.fn().mockImplementation(() => {
+              return 4000n
+            }),
+          }
+        } else {
+          throw new Error(`${address} not mocked`)
         }
       },
     },
@@ -57,7 +79,7 @@ describe('rate.ts', () => {
 
       expect(result).toEqual({
         value: 50n,
-        decimal: 8,
+        decimal: 1,
       })
     })
   })
@@ -84,22 +106,22 @@ describe('rate.ts', () => {
           coin: 'BTC',
           amount: '1.0',
           rate: 50n,
-          decimal: 8,
+          decimal: 1,
           value: 50n,
         },
         {
           coin: 'ETH',
           amount: '2.5',
-          rate: 50n,
-          decimal: 8,
-          value: 125n,
+          rate: 200n,
+          decimal: 2,
+          value: 500n,
         },
         {
           coin: 'USDC',
           amount: '100.1',
-          rate: 50n,
-          decimal: 8,
-          value: 5005n,
+          rate: 4000n,
+          decimal: 3,
+          value: 400400n,
         },
       ])
     })
