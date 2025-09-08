@@ -1,10 +1,10 @@
 import { ExecuteWithConfig, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
-import { 
-  getOndoMultiplierData, 
-  calculateActiveMultiplier, 
-  getDataStreamsPrice, 
-  calculateTokenizedPrice 
+import {
+  getOndoMultiplierData,
+  calculateActiveMultiplier,
+  getDataStreamsPrice,
+  calculateTokenizedPrice,
 } from '../dataProvider'
 
 export const supportedEndpoints = ['tokenized']
@@ -21,14 +21,7 @@ export interface ResponseSchema {
   feedId: string
 }
 
-// Asset configuration mapping
-const ASSET_CONFIG: { [symbol: string]: { underlying: string; feedId: string } } = {
-  'TSLAon': { underlying: 'TSLA', feedId: 'equities:TSLA:mid' },
-  'SPYon': { underlying: 'SPY', feedId: 'equities:SPY:mid' },
-  'QQQon': { underlying: 'QQQ', feedId: 'equities:QQQ:mid' },
-}
-
-export type TInputParameters = { 
+export type TInputParameters = {
   symbol: string
   underlying?: string
   feedId?: string
@@ -41,12 +34,14 @@ export const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
   },
   underlying: {
-    description: 'The base ticker (e.g., TSLA, SPY, QQQ). If not provided, will be derived from symbol',
+    description:
+      'The base ticker (e.g., TSLA, SPY, QQQ). If not provided, will be derived from symbol',
     required: false,
     type: 'string',
   },
   feedId: {
-    description: 'Data Streams feed ID for the underlying (e.g., equities:TSLA:mid). If not provided, will be derived from symbol',
+    description:
+      'Data Streams feed ID for the underlying (e.g., equities:TSLA:mid). If not provided, will be derived from symbol',
     required: false,
     type: 'string',
   },
@@ -58,16 +53,8 @@ export const execute: ExecuteWithConfig<Config> = async (request, _context, conf
   const jobRunID = validator.validated.id
   const symbol = validator.validated.data.symbol
 
-  // Get asset configuration
-  const assetConfig = ASSET_CONFIG[symbol]
-  if (!assetConfig && !validator.validated.data.underlying && !validator.validated.data.feedId) {
-    throw new Error(
-      `Unknown symbol: ${symbol}. Please provide 'underlying' and 'feedId' parameters or add symbol to ASSET_CONFIG.`
-    )
-  }
-
-  const underlying = validator.validated.data.underlying || assetConfig?.underlying
-  const feedId = validator.validated.data.feedId || assetConfig?.feedId
+  const underlying = validator.validated.data.underlying
+  const feedId = validator.validated.data.feedId
 
   if (!underlying || !feedId) {
     throw new Error('Both underlying and feedId must be provided or derivable from symbol')
@@ -76,13 +63,13 @@ export const execute: ExecuteWithConfig<Config> = async (request, _context, conf
   try {
     // Step 1: Fetch multiplier data from Ondo API
     const marketData = await getOndoMultiplierData(symbol, config)
-    
+
     // Step 2: Calculate active multiplier
     const activeMultiplier = calculateActiveMultiplier(marketData)
-    
+
     // Step 3: Fetch underlying price from Data Streams
     const underlyingPrice = await getDataStreamsPrice(feedId, config)
-    
+
     // Step 4: Calculate tokenized price
     const tokenizedPrice = calculateTokenizedPrice(underlyingPrice, activeMultiplier)
 
@@ -102,7 +89,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _context, conf
       config: {},
     }
 
-    return Requester.success(jobRunID, Requester.withResult(response, tokenizedPrice), config.verbose)
+    return Requester.success(
+      jobRunID,
+      Requester.withResult(response, tokenizedPrice),
+      config.verbose,
+    )
   } catch (error) {
     throw new Error(`Failed to process tokenized price for ${symbol}: ${error}`)
   }
