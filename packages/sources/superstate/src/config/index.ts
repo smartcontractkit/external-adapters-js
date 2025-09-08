@@ -7,6 +7,14 @@ export const config = new AdapterConfig(
       type: 'string',
       default: 'https://api.superstate.co/v1',
     },
+    TRANSACTION_API_KEY: {
+      description: 'Api key for /v2/transactions API endpoints',
+      type: 'string',
+    },
+    TRANSACTION_API_SECRET: {
+      description: 'Api secret for /v2/transactions API endpoints',
+      type: 'string',
+    },
     LOOKBACK_DAYS: {
       description: 'The number of days of historical data to retrieve',
       type: 'number',
@@ -17,6 +25,12 @@ export const config = new AdapterConfig(
         'The amount of time (in ms) to wait before sending a new request for getting an updated price.',
       type: 'number',
       default: 60000,
+    },
+    BACKGROUND_EXECUTE_MS: {
+      description:
+        'The amount of time the background execute should sleep before performing the next request',
+      type: 'number',
+      default: 10_000,
     },
   },
   {
