@@ -36,10 +36,10 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.7.0",
+    "@coral-xyz/anchor": "^0.31.1",
     "@solana/addresses": "^3.0.2",
     "@solana/codecs-strings": "^3.0.2",
     "@solana/rpc": "^3.0.2",
-    "@coral-xyz/anchor": "^0.31.1",
     "bn.js": "^5.2.0",
     "tslib": "2.4.1"
   }

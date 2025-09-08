@@ -8819,7 +8819,6 @@ const RAW_RUNTIME_STATE =
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:27.5.2"],\
           ["@types/node", "npm:16.18.119"],\
-          ["bignumber.js", "npm:9.1.2"],\
           ["bn.js", "npm:5.2.2"],\
           ["nock", "npm:13.5.5"],\
           ["tslib", "npm:2.4.1"],\
