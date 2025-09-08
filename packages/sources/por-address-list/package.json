@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/por-address-list-adapter",
-  "version": "5.12.0",
+  "version": "5.13.0",
   "description": "Chainlink por-address-list adapter.",
   "keywords": [
     "Chainlink",
@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.7.0",
+    "axios": "1.9.0",
     "ethers": "^5.5.1",
     "tslib": "2.4.1"
   }

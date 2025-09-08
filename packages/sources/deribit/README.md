@@ -42,7 +42,34 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "currency": "ETH",
+    "endpoint": "crypto"
+  },
+  "debug": {
+    "cacheKey": "hJ7N538OT46zUTHH59trC5Qbouw="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 68.16959232733399
+  },
+  "result": 68.16959232733399,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 
