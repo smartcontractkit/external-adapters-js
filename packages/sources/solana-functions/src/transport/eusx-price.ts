@@ -4,10 +4,11 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import * as anchor from '@coral-xyz/anchor'
-
 import * as solanaWeb3 from '@solana/web3.js'
+
 import { BaseEndpointTypes, inputParameters } from '../endpoint/eusx-price'
-import { createYieldVaultProgram } from '../utils/anchor'
+import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
+import type { YieldVault } from '../types/eusx_yield_vault'
 
 const logger = makeLogger('View Function Solana')
 
@@ -26,7 +27,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
       return this.connection
     }
     const rpcUrl = process.env.RPC_URL
-    const commitment = 'confirmed' as solanaWeb3.Commitment
+    const commitment = process.env.COMMITMENT as solanaWeb3.Commitment
     if (!rpcUrl) throw new Error('RPC_URL not set')
     const connection = new solanaWeb3.Connection(rpcUrl, commitment)
     this.connection = connection
@@ -40,7 +41,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     }
     const wallet = {} as any // Empty wallet for read-only operations
     const provider = new anchor.AnchorProvider(this.getConnection(), wallet, {
-      commitment: 'confirmed',
+      commitment: process.env.COMMITMENT as solanaWeb3.Commitment,
     })
     this.provider = provider
     return provider
@@ -95,7 +96,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     _: RequestParams,
   ): Promise<AdapterResponse<SolanaFunctionsTransportTypes['Response']>> {
     const provider = this.getProvider()
-    const program = createYieldVaultProgram(provider)
+    const program = anchor.Program<YieldVault>(YieldVaultIDL, provider)
 
     const [vestingSchedulePda] = solanaWeb3.PublicKey.findProgramAddressSync(
       [Buffer.from('VESTING_SCHEDULE')],

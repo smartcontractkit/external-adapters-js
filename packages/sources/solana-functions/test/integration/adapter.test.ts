@@ -2,13 +2,14 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as anchor from '@coral-xyz/anchor'
 import * as nock from 'nock'
-import { createYieldVaultProgram } from '../../src/utils/anchor'
 import { fakeEusxProgram } from './fixtures'
 
-jest.mock('../../src/utils/anchor', () => ({
-  createYieldVaultProgram: jest.fn(),
-}))
+jest.mock('@coral-xyz/anchor', () => {
+  const actual = jest.requireActual('@coral-xyz/anchor')
+  return { ...actual, Program: jest.fn() }
+})
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -40,7 +41,8 @@ describe('execute', () => {
 
   describe('eusx-price endpoint', () => {
     it('should calculate price based on yield pool and vesting schedule', async () => {
-      ;(createYieldVaultProgram as jest.Mock).mockReturnValue(fakeEusxProgram)
+      ;(anchor.Program as unknown as jest.Mock).mockImplementation(() => fakeEusxProgram)
+
       const response = await testAdapter.request({})
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
