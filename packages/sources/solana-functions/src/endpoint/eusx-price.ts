@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { solanaFunctionsTransport } from '../transport/eusx-price'
+import { eUSXPriceTransport } from '../transport/eusx-price'
 
 export const inputParameters = new InputParameters({}, [{}])
 
@@ -19,7 +19,7 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'eusx-price',
   aliases: ['eusx', 'eusx-rate'],
-  transport: solanaFunctionsTransport,
+  transport: eUSXPriceTransport,
   inputParameters,
   overrides: {},
 })

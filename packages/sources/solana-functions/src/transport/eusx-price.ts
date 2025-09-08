@@ -14,9 +14,9 @@ import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
 import { SolanaAccountReader } from '../shared/account_reader'
 import { getProgramIdFromIdl } from '../shared/utils'
 
-const logger = makeLogger('View Function Solana')
+const logger = makeLogger('EUSXPriceTransport')
 
-export type SolanaFunctionsTransportTypes = BaseEndpointTypes
+export type EUSXPriceTransportTypes = BaseEndpointTypes
 
 type RequestParams = typeof inputParameters.validated
 
@@ -36,14 +36,14 @@ const VESTING_SCHEDULE_ACCOUNT_NAME = 'VestingSchedule'
 const YIELD_POOL_SEED = 'YIELD_POOL'
 const YIELD_POOL_ACCOUNT_NAME = 'YieldPool'
 
-export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFunctionsTransportTypes> {
+export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransportTypes> {
   accountReader!: SolanaAccountReader
   utfEncoder!: ReturnType<typeof getUtf8Encoder>
   programId!: Address
 
   async initialize(
-    dependencies: TransportDependencies<SolanaFunctionsTransportTypes>,
-    adapterSettings: SolanaFunctionsTransportTypes['Settings'],
+    dependencies: TransportDependencies<EUSXPriceTransportTypes>,
+    adapterSettings: EUSXPriceTransportTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -54,7 +54,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
   }
 
   async backgroundHandler(
-    context: EndpointContext<SolanaFunctionsTransportTypes>,
+    context: EndpointContext<EUSXPriceTransportTypes>,
     entries: RequestParams[],
   ) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
@@ -62,7 +62,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
   }
 
   async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<SolanaFunctionsTransportTypes['Response']>
+    let response: AdapterResponse<EUSXPriceTransportTypes['Response']>
     try {
       response = await this._handleRequest(param)
     } catch (e: unknown) {
@@ -91,7 +91,7 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
 
   async _handleRequest(
     _: RequestParams,
-  ): Promise<AdapterResponse<SolanaFunctionsTransportTypes['Response']>> {
+  ): Promise<AdapterResponse<EUSXPriceTransportTypes['Response']>> {
     const accountReader = this.accountReader
     const programAddress = this.programId
     const [vestingSchedulePda] = await getProgramDerivedAddress({
@@ -145,9 +145,9 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     }
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: SolanaFunctionsTransportTypes['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: EUSXPriceTransportTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-export const solanaFunctionsTransport = new SolanaFunctionsTransport()
+export const eUSXPriceTransport = new EUSXPriceTransport()
