@@ -82,6 +82,7 @@ export class WalletTransport extends SubscriptionTransport<BaseEndpointTypes> {
       .reduce((acc, v) => acc + v, 0n)
       .toString(16)
 
+    // Data streams can only process number as string in hex
     const result = '0x' + (hex.length % 2 == 1 ? '0' : '') + hex
 
     return {

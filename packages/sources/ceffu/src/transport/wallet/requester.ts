@@ -15,12 +15,17 @@ interface GeneralResponse<T> {
   message: string
 }
 
+type EmptyParams = Record<string, never>
+type WalletAssetListParams = {
+  walletId: string
+}
+
 const successCode = '000000'
 
 export const request = async <T>(
   baseUrl: string,
   url: string,
-  params: Record<string, string | number>,
+  params: EmptyParams | WalletAssetListParams,
   apiKey: string,
   privateKey: string,
   requester: Requester,
@@ -28,9 +33,12 @@ export const request = async <T>(
 ) => {
   const results: T[] = []
 
-  params.pageLimit = 500
-  params.pageNo = 1
-  params.timestamp = Date.now()
+  const finalParam = {
+    ...params,
+    pageLimit: 500,
+    pageNo: 1,
+    timestamp: Date.now(),
+  }
 
   let requestNextPage = true
   while (requestNextPage) {
@@ -41,9 +49,9 @@ export const request = async <T>(
       httpsAgent: proxy && proxy.length > 0 ? new HttpsProxyAgent(proxy) : null,
       headers: {
         'open-apikey': apiKey,
-        signature: sign(stringify(params), privateKey),
+        signature: sign(stringify(finalParam), privateKey),
       },
-      params,
+      params: finalParam,
     }
 
     const response = await requester.request<GeneralResponse<T>>(
@@ -67,7 +75,7 @@ export const request = async <T>(
     }
 
     requestNextPage = data.data.pageNo < data.data.totalPage
-    params.pageNo = data.data.pageNo + 1
+    finalParam.pageNo = data.data.pageNo + 1
 
     results.push(...data.data.data)
   }

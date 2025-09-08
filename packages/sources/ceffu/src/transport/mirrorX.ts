@@ -3,7 +3,9 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { Decimal } from 'decimal.js'
 import { HttpsProxyAgent } from 'https-proxy-agent'
 import { stringify } from 'querystring'
-import { sign } from './wallet/requester' // TODO: Refactor to use request instead
+// TODO: Refactor to use request instead
+// https://smartcontract-it.atlassian.net/browse/OPDATA-4224
+import { sign } from './wallet/requester'
 
 interface ApiResponse {
   data: {
