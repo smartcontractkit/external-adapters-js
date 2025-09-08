@@ -12,7 +12,6 @@ import BN from 'bn.js'
 
 import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
 import { SolanaAccountReader } from '../shared/account_reader'
-import { getProgramIdFromIdl } from '../shared/utils'
 
 const logger = makeLogger('EUSXPriceTransport')
 
@@ -39,7 +38,6 @@ const YIELD_POOL_ACCOUNT_NAME = 'YieldPool'
 export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransportTypes> {
   accountReader!: SolanaAccountReader
   utfEncoder!: ReturnType<typeof getUtf8Encoder>
-  programId!: Address
 
   async initialize(
     dependencies: TransportDependencies<EUSXPriceTransportTypes>,
@@ -50,7 +48,6 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.accountReader = new SolanaAccountReader()
     this.utfEncoder = getUtf8Encoder()
-    this.programId = getProgramIdFromIdl(YieldVaultIDL)
   }
 
   async backgroundHandler(
@@ -90,10 +87,10 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
   }
 
   async _handleRequest(
-    _: RequestParams,
+    params: RequestParams,
   ): Promise<AdapterResponse<EUSXPriceTransportTypes['Response']>> {
     const accountReader = this.accountReader
-    const programAddress = this.programId
+    const programAddress = params.address as Address
     const [vestingSchedulePda] = await getProgramDerivedAddress({
       programAddress,
       seeds: [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],

@@ -3,7 +3,20 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { eUSXPriceTransport } from '../transport/eusx-price'
 
-export const inputParameters = new InputParameters({}, [{}])
+export const inputParameters = new InputParameters(
+  {
+    address: {
+      description: 'Program address to fetch from',
+      type: 'string',
+      required: true,
+    },
+  },
+  [
+    {
+      address: 'eUSXyKoZ6aGejYVbnp3wtWQ1E8zuokLAJPecPxxtgG3',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

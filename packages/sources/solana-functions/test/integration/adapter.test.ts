@@ -50,7 +50,9 @@ describe('execute', () => {
           throw new Error(`Unexpected accountName: ${accountName}`)
         })
 
-      const response = await testAdapter.request({})
+      const response = await testAdapter.request({
+        address: 'eUSXyKoZ6aGejYVbnp3wtWQ1E8zuokLAJPecPxxtgG3',
+      })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

@@ -7,12 +7,6 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  COMMITMENT: {
-    description: 'The commitment level for the Solana cluster',
-    type: 'string',
-    sensitive: true,
-    default: 'confirmed',
-  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',
