@@ -6953,24 +6953,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.6.0-52db29fdab-146006d564.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
-          ["ajv", "npm:8.17.1"],\
-          ["axios", "npm:1.9.0"],\
-          ["eventsource", "npm:2.0.2"],\
-          ["fastify", "npm:5.3.2"],\
-          ["ioredis", "npm:5.6.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:9.6.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.7.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.7.0-bdc244f853-e915a365b0.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -8829,7 +8811,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/solana-functions/",\
         "packageDependencies": [\
           ["@chainlink/solana-functions-adapter", "workspace:packages/sources/solana-functions"],\
-          ["@chainlink/external-adapter-framework", "npm:2.6.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@coral-xyz/anchor", "npm:0.31.1"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/bn.js", "npm:5.1.6"],\
@@ -23482,13 +23464,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["eventsource", [\
-      ["npm:2.0.2", {\
-        "packageLocation": "./.yarn/cache/eventsource-npm-2.0.2-e94c48aca3-e1c4c3664c.zip/node_modules/eventsource/",\
-        "packageDependencies": [\
-          ["eventsource", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.0", {\
         "packageLocation": "./.yarn/cache/eventsource-npm-4.0.0-b5fd928b64-8717a1f87c.zip/node_modules/eventsource/",\
         "packageDependencies": [\
@@ -23939,28 +23914,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fastify", [\
-      ["npm:5.3.2", {\
-        "packageLocation": "./.yarn/cache/fastify-npm-5.3.2-20021eb301-afb57c5ff7.zip/node_modules/fastify/",\
-        "packageDependencies": [\
-          ["fastify", "npm:5.3.2"],\
-          ["@fastify/ajv-compiler", "npm:4.0.2"],\
-          ["@fastify/error", "npm:4.0.0"],\
-          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
-          ["@fastify/proxy-addr", "npm:5.0.0"],\
-          ["abstract-logging", "npm:2.0.1"],\
-          ["avvio", "npm:9.1.0"],\
-          ["fast-json-stringify", "npm:6.0.0"],\
-          ["find-my-way", "npm:9.1.0"],\
-          ["light-my-request", "npm:6.4.0"],\
-          ["pino", "npm:9.5.0"],\
-          ["process-warning", "npm:5.0.0"],\
-          ["rfdc", "npm:1.4.1"],\
-          ["secure-json-parse", "npm:4.0.0"],\
-          ["semver", "npm:7.6.3"],\
-          ["toad-cache", "npm:3.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.3.3", {\
         "packageLocation": "./.yarn/cache/fastify-npm-5.3.3-eb42d209ad-8a736ed5c4.zip/node_modules/fastify/",\
         "packageDependencies": [\
@@ -33798,24 +33751,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/pino-npm-9.5.0-c25201092d-e2dba79524.zip/node_modules/pino/",\
         "packageDependencies": [\
           ["pino", "npm:9.5.0"],\
-          ["atomic-sleep", "npm:1.0.0"],\
-          ["fast-redact", "npm:3.5.0"],\
-          ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:2.0.0"],\
-          ["pino-std-serializers", "npm:7.0.0"],\
-          ["process-warning", "npm:4.0.0"],\
-          ["quick-format-unescaped", "npm:4.0.4"],\
-          ["real-require", "npm:0.2.0"],\
-          ["safe-stable-stringify", "npm:2.5.0"],\
-          ["sonic-boom", "npm:4.2.0"],\
-          ["thread-stream", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:9.6.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.6.0-043d7ccc5e-0a36125718.zip/node_modules/pino/",\
-        "packageDependencies": [\
-          ["pino", "npm:9.6.0"],\
           ["atomic-sleep", "npm:1.0.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
