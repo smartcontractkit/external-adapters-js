@@ -2,14 +2,10 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as anchor from '@coral-xyz/anchor'
 import * as nock from 'nock'
-import { fakeEusxProgram } from './fixtures'
 
-jest.mock('@coral-xyz/anchor', () => {
-  const actual = jest.requireActual('@coral-xyz/anchor')
-  return { ...actual, Program: jest.fn() }
-})
+import { SolanaAccountReader } from '../../src/shared/account_reader'
+import { fakeVestingScheduleAccount, fakeYieldPoolAccount } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -41,7 +37,18 @@ describe('execute', () => {
 
   describe('eusx-price endpoint', () => {
     it('should calculate price based on yield pool and vesting schedule', async () => {
-      ;(anchor.Program as unknown as jest.Mock).mockImplementation(() => fakeEusxProgram)
+      jest
+        .spyOn(SolanaAccountReader.prototype, 'fetchAccountInformation')
+        .mockImplementation(async (_addr: any, accountName: string) => {
+          // Match whatever exact strings your IDL decode uses.
+          if (accountName === 'YieldPool' || accountName === 'yieldPool') {
+            return fakeYieldPoolAccount as any
+          }
+          if (accountName === 'VestingSchedule' || accountName === 'vestingSchedule') {
+            return fakeVestingScheduleAccount as any
+          }
+          throw new Error(`Unexpected accountName: ${accountName}`)
+        })
 
       const response = await testAdapter.request({})
       expect(response.statusCode).toBe(200)

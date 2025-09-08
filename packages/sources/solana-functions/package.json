@@ -40,6 +40,9 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.7.0",
+    "@solana/addresses": "^3.0.2",
+    "@solana/codecs-strings": "^3.0.2",
+    "@solana/rpc": "^3.0.2",
     "tslib": "2.4.1"
   }
 }

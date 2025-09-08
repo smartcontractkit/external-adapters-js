@@ -3,12 +3,16 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import * as anchor from '@coral-xyz/anchor'
-import * as solanaWeb3 from '@solana/web3.js'
-
 import { BaseEndpointTypes, inputParameters } from '../endpoint/eusx-price'
+
+import type { Idl } from '@coral-xyz/anchor'
+import { getProgramDerivedAddress, type Address } from '@solana/addresses'
+import { getUtf8Encoder } from '@solana/codecs-strings'
+import BN from 'bn.js'
+
 import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
-import type { YieldVault } from '../types/eusx_yield_vault'
+import { SolanaAccountReader } from '../shared/account_reader'
+import { getProgramIdFromIdl } from '../shared/utils'
 
 const logger = makeLogger('View Function Solana')
 
@@ -16,36 +20,26 @@ export type SolanaFunctionsTransportTypes = BaseEndpointTypes
 
 type RequestParams = typeof inputParameters.validated
 
+// Types for Solana accounts - snake_case due to using BorschCoder directly instead of Anchor
+type VestingSchedule = {
+  vesting_amount: BN
+  start_time: BN
+  end_time: BN
+}
+type YieldPool = {
+  shares_supply: BN
+  total_assets: BN
+}
+
+const VESTING_SCHEDULE_SEED = 'VESTING_SCHEDULE'
+const VESTING_SCHEDULE_ACCOUNT_NAME = 'VestingSchedule'
+const YIELD_POOL_SEED = 'YIELD_POOL'
+const YIELD_POOL_ACCOUNT_NAME = 'YieldPool'
+
 export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFunctionsTransportTypes> {
-  connection?: solanaWeb3.Connection
-  provider?: anchor.Provider
-  wallet?: anchor.Wallet
-
-  // Get Connection creates or returns an existing Solana connection
-  getConnection(): solanaWeb3.Connection {
-    if (this.connection) {
-      return this.connection
-    }
-    const rpcUrl = process.env.RPC_URL
-    const commitment = process.env.COMMITMENT as solanaWeb3.Commitment
-    if (!rpcUrl) throw new Error('RPC_URL not set')
-    const connection = new solanaWeb3.Connection(rpcUrl, commitment)
-    this.connection = connection
-    return connection
-  }
-
-  // Get Provider creates or returns an existing Anchor provider
-  getProvider(): anchor.Provider {
-    if (this.provider) {
-      return this.provider
-    }
-    const wallet = {} as any // Empty wallet for read-only operations
-    const provider = new anchor.AnchorProvider(this.getConnection(), wallet, {
-      commitment: process.env.COMMITMENT as solanaWeb3.Commitment,
-    })
-    this.provider = provider
-    return provider
-  }
+  accountReader!: SolanaAccountReader
+  utfEncoder!: ReturnType<typeof getUtf8Encoder>
+  programId!: Address
 
   async initialize(
     dependencies: TransportDependencies<SolanaFunctionsTransportTypes>,
@@ -54,6 +48,9 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.accountReader = new SolanaAccountReader()
+    this.utfEncoder = getUtf8Encoder()
+    this.programId = getProgramIdFromIdl(YieldVaultIDL)
   }
 
   async backgroundHandler(
@@ -95,25 +92,33 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
   async _handleRequest(
     _: RequestParams,
   ): Promise<AdapterResponse<SolanaFunctionsTransportTypes['Response']>> {
-    const provider = this.getProvider()
-    const program = anchor.Program<YieldVault>(YieldVaultIDL, provider)
+    const accountReader = this.accountReader
+    const programAddress = this.programId
+    const [vestingSchedulePda] = await getProgramDerivedAddress({
+      programAddress,
+      seeds: [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],
+    })
 
-    const [vestingSchedulePda] = solanaWeb3.PublicKey.findProgramAddressSync(
-      [Buffer.from('VESTING_SCHEDULE')],
-      program.programId,
+    const [yieldPoolPda] = await getProgramDerivedAddress({
+      programAddress,
+      seeds: [this.utfEncoder.encode(YIELD_POOL_SEED)],
+    })
+
+    const vestingSchedule = await accountReader.fetchAccountInformation<VestingSchedule>(
+      vestingSchedulePda as Address,
+      VESTING_SCHEDULE_ACCOUNT_NAME,
+      YieldVaultIDL as Idl,
     )
-    const [yieldPoolPda] = solanaWeb3.PublicKey.findProgramAddressSync(
-      [Buffer.from('YIELD_POOL')],
-      program.programId,
+    const yieldPool = await accountReader.fetchAccountInformation<YieldPool>(
+      yieldPoolPda as Address,
+      YIELD_POOL_ACCOUNT_NAME,
+      YieldVaultIDL as Idl,
     )
 
-    const yieldPool = await program.account.yieldPool.fetch(yieldPoolPda)
-    const vestingSchedule = await program.account.vestingSchedule.fetch(vestingSchedulePda)
-
-    const lastVestingAmount = vestingSchedule.vestingAmount.toNumber()
+    const lastVestingAmount = vestingSchedule.vesting_amount.toNumber()
     const vestingDuration =
-      vestingSchedule.endTime.toNumber() - vestingSchedule.startTime.toNumber()
-    const vestingEnd = vestingSchedule.endTime.toNumber()
+      vestingSchedule.end_time.toNumber() - vestingSchedule.start_time.toNumber()
+    const vestingEnd = vestingSchedule.end_time.toNumber()
 
     const now = Math.floor(Date.now() / 1000)
 
@@ -122,8 +127,8 @@ export class SolanaFunctionsTransport extends SubscriptionTransport<SolanaFuncti
 
     // Calculate the EUSX price
     const result = this.calcEusxPrice(
-      yieldPool.sharesSupply.toNumber(),
-      yieldPool.totalAssets.toNumber() - unvestedAmount,
+      yieldPool.shares_supply.toNumber(),
+      yieldPool.total_assets.toNumber() - unvestedAmount,
     )
 
     return {
