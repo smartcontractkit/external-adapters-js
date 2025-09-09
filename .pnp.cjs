@@ -23,10 +23,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/apy-finance"\
     },\
     {\
-      "name": "@chainlink/apy-finance-test-adapter",\
-      "reference": "workspace:packages/composites/apy-finance-test"\
-    },\
-    {\
       "name": "@chainlink/augur-adapter",\
       "reference": "workspace:packages/composites/augur"\
     },\
@@ -261,10 +257,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/binance-adapter",\
       "reference": "workspace:packages/sources/binance"\
-    },\
-    {\
-      "name": "@chainlink/binance-dex-adapter",\
-      "reference": "workspace:packages/sources/binance-dex"\
     },\
     {\
       "name": "@chainlink/bitex-adapter",\
@@ -1010,14 +1002,12 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
-    ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
-    ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
@@ -5339,26 +5329,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/apy-finance-test-adapter", [\
-      ["workspace:packages/composites/apy-finance-test", {\
-        "packageLocation": "./packages/composites/apy-finance-test/",\
-        "packageDependencies": [\
-          ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
-          ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.9.0"],\
-          ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/augur-adapter", [\
       ["workspace:packages/composites/augur", {\
         "packageLocation": "./packages/composites/augur/",\
@@ -5449,24 +5419,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/binance/",\
         "packageDependencies": [\
           ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/binance-dex-adapter", [\
-      ["workspace:packages/sources/binance-dex", {\
-        "packageLocation": "./packages/sources/binance-dex/",\
-        "packageDependencies": [\
-          ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\

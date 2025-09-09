@@ -4,21 +4,18 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { Decimal } from 'decimal.js'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/solv'
-import { getAssetPositions } from './mirrorX'
-import { getUSDRate } from './rate'
+import { BaseEndpointTypes, inputParameters } from '../../endpoint/wallet'
+import { scale, toUsd } from '../rate'
+import { getApiKeys } from './utils'
+import { getAssets, getWallets } from './wallet'
 
-const logger = makeLogger('Solv')
+const logger = makeLogger('Wallet')
 
 type RequestParams = typeof inputParameters.validated
 
-export class SolvTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class WalletTransport extends SubscriptionTransport<BaseEndpointTypes> {
   url!: string
-  proxy!: string
-  apiKey!: string
-  privateKey!: string
   requester!: Requester
   provider!: ethers.JsonRpcProvider
 
@@ -31,9 +28,6 @@ export class SolvTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.url = adapterSettings.API_ENDPOINT
-    this.proxy = adapterSettings.API_PROXY
-    this.apiKey = adapterSettings.API_KEY
-    this.privateKey = adapterSettings.PRIVATE_KEY
     this.provider = new ethers.JsonRpcProvider(
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_RPC_CHAIN_ID,
@@ -69,33 +63,42 @@ export class SolvTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [asset, rate] = await Promise.all([
-      getAssetPositions(
-        param.addresses.flatMap((a) => a.address),
-        this.url,
-        this.proxy,
-        this.apiKey,
-        this.privateKey,
-        this.requester,
-      ),
-      getUSDRate(param.btcUsdContract, this.provider),
-    ])
+    const { proxy, apiKey, privateKey } = getApiKeys(param.client)
 
-    const result =
-      BigInt(asset.sum.mul(new Decimal(10).pow(rate.decimal * 2)).toFixed(0)) / rate.value
+    const wallets = await getWallets(this.url, apiKey, privateKey, this.requester, proxy)
+
+    const tokens = await Promise.all(
+      wallets.map((w) => getAssets(w, this.url, apiKey, privateKey, this.requester, proxy)),
+    )
+
+    const results = await toUsd(
+      tokens.flatMap((t) => t),
+      Object.fromEntries(param.contracts.map(({ token, address }) => [token, address])),
+      this.provider,
+    )
+
+    const hex = results
+      .map((r) => scale(r.value, { from: r.decimal, to: param.decimals }))
+      .reduce((acc, v) => acc + v, 0n)
+      .toString(16)
+
+    // Data streams can only process number as string in hex
+    const result = '0x' + (hex.length % 2 == 1 ? '0' : '') + hex
 
     return {
       data: {
-        result: String(result),
-        decimals: rate.decimal,
-        exchangeBalances: asset.exchangeBalances,
-        rate: {
-          value: String(rate.value),
-          decimal: rate.decimal,
-        },
+        result,
+        decimals: param.decimals,
+        results: results.map((r) => ({
+          coin: r.coin,
+          amount: r.amount,
+          rate: String(r.rate),
+          decimal: r.decimal,
+          value: String(r.value),
+        })),
       },
       statusCode: 200,
-      result: String(result),
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -109,4 +112,4 @@ export class SolvTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const solvTransport = new SolvTransport()
+export const walletTransport = new WalletTransport()

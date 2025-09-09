@@ -6,7 +6,6 @@ const environmentVariables = [
   { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
   { envKey: 'ANYBLOCK', value: 'anyblock' },
   { envKey: 'BINANCE_ADAPTER_URL', value: 'binance' },
-  { envKey: 'BINANCE_DEX_ADAPTER_URL', value: 'binance_dex' },
   { envKey: 'BITEX_ADAPTER_URL', value: 'bitex' },
   { envKey: 'BITSO_ADAPTER_URL', value: 'bitso' },
   { envKey: 'BLOCKCHAIN_COM_ADAPTER_URL', value: 'blockchain_com' },
