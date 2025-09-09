@@ -177,9 +177,6 @@
       "path": "./sources/binance"
     },
     {
-      "path": "./sources/binance-dex"
-    },
-    {
       "path": "./sources/bitex"
     },
     {
