@@ -6,14 +6,14 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { BaseEndpointTypes, inputParameters } from '../endpoint/eusx-price'
 
 import type { Idl } from '@coral-xyz/anchor'
-import { getProgramDerivedAddress, type Address } from '@solana/addresses'
+import { type Address } from '@solana/addresses'
 import { getUtf8Encoder } from '@solana/codecs-strings'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import BN from 'bn.js'
 
 import * as YieldVaultIDL from '../idl/eusx_yield_vault.json'
-import { SolanaAccountReader } from '../shared/account_reader'
-import { createRpcFromEnv } from '../shared/utils'
+import { SolanaAccountReader } from '../shared/account-reader'
+import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('EUSXPriceTransport')
 
@@ -23,13 +23,13 @@ type RequestParams = typeof inputParameters.validated
 
 // Types for Solana accounts - snake_case due to using BorschCoder directly instead of Anchor
 type VestingSchedule = {
-  vesting_amount: BN
-  start_time: BN
-  end_time: BN
+  vesting_amount?: BN
+  start_time?: BN
+  end_time?: BN
 }
 type YieldPool = {
-  shares_supply: BN
-  total_assets: BN
+  shares_supply?: BN
+  total_assets?: BN
 }
 
 const VESTING_SCHEDULE_SEED = 'VESTING_SCHEDULE'
@@ -50,7 +50,7 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.accountReader = new SolanaAccountReader()
-    this.rpc = createRpcFromEnv()
+    this.rpc = new SolanaRpcFactory().create()
     this.utfEncoder = getUtf8Encoder()
   }
 
@@ -93,47 +93,62 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<EUSXPriceTransportTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
     const accountReader = this.accountReader
     const programAddress = params.address as Address
-    const [vestingSchedulePda] = await getProgramDerivedAddress({
-      programAddress,
-      seeds: [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],
-    })
+    let result: number
 
-    const [yieldPoolPda] = await getProgramDerivedAddress({
-      programAddress,
-      seeds: [this.utfEncoder.encode(YIELD_POOL_SEED)],
-    })
+    try {
+      const [vestingSchedule, yieldPool] = await Promise.all([
+        accountReader.fetchAccountInformationByAddressAndSeeds<VestingSchedule>(
+          this.rpc,
+          programAddress,
+          [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],
+          VESTING_SCHEDULE_ACCOUNT_NAME,
+          YieldVaultIDL as Idl,
+        ),
+        accountReader.fetchAccountInformationByAddressAndSeeds<YieldPool>(
+          this.rpc,
+          programAddress,
+          [this.utfEncoder.encode(YIELD_POOL_SEED)],
+          YIELD_POOL_ACCOUNT_NAME,
+          YieldVaultIDL as Idl,
+        ),
+      ])
 
-    const vestingSchedule = await accountReader.fetchAccountInformation<VestingSchedule>(
-      this.rpc,
-      vestingSchedulePda as Address,
-      VESTING_SCHEDULE_ACCOUNT_NAME,
-      YieldVaultIDL as Idl,
-    )
-    const yieldPool = await accountReader.fetchAccountInformation<YieldPool>(
-      this.rpc,
-      yieldPoolPda as Address,
-      YIELD_POOL_ACCOUNT_NAME,
-      YieldVaultIDL as Idl,
-    )
+      if (!vestingSchedule || !yieldPool) {
+        throw new Error('Missing vestingSchedule or yieldPool account data')
+      }
 
-    const lastVestingAmount = vestingSchedule.vesting_amount.toNumber()
-    const vestingDuration =
-      vestingSchedule.end_time.toNumber() - vestingSchedule.start_time.toNumber()
-    const vestingEnd = vestingSchedule.end_time.toNumber()
+      const start = vestingSchedule.start_time?.toNumber?.()
+      const end = vestingSchedule.end_time?.toNumber?.()
+      const vestingAmount = vestingSchedule.vesting_amount?.toNumber?.()
+      if (start == null || end == null || vestingAmount == null) {
+        throw new Error('Invalid vesting schedule fields')
+      }
 
-    const now = Math.floor(Date.now() / 1000)
+      const sharesSupply = yieldPool.shares_supply?.toNumber?.()
+      const totalAssets = yieldPool.total_assets?.toNumber?.()
+      if (sharesSupply == null || totalAssets == null) {
+        throw new Error('Invalid vesting schedule fields')
+      }
 
-    // Calculate the unvested amount based on the current time
-    const unvestedAmount = (lastVestingAmount * Math.max(0, vestingEnd - now)) / vestingDuration
+      const lastVestingAmount = vestingAmount
+      const vestingDuration = end - start
+      const vestingEnd = end
 
-    // Calculate the EUSX price
-    const result = this.calcEusxPrice(
-      yieldPool.shares_supply.toNumber(),
-      yieldPool.total_assets.toNumber() - unvestedAmount,
-    )
+      const now = Math.floor(providerDataRequestedUnixMs / 1000)
 
+      // Calculate the unvested amount based on the current time
+      const unvestedAmount = (lastVestingAmount * Math.max(0, vestingEnd - now)) / vestingDuration
+
+      // Calculate the EUSX price
+      result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)
+    } catch (err) {
+      const errorMsg = `Failed to calculate EUSX price: ${err}`
+      logger.error(errorMsg)
+      throw new Error(errorMsg)
+    }
     return {
       data: {
         result,
@@ -141,7 +156,7 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
       statusCode: 200,
       result,
       timestamps: {
-        providerDataStreamEstablishedUnixMs: Date.now(),
+        providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
