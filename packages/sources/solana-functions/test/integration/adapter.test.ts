@@ -2,14 +2,12 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import FakeTimers from '@sinonjs/fake-timers'
 import * as nock from 'nock'
 
 import { SolanaAccountReader } from '../../src/shared/account-reader'
 import { fakeVestingScheduleAccount, fakeYieldPoolAccount } from './fixtures'
 
 describe('execute', () => {
-  let clock: FakeTimers.InstalledClock
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
