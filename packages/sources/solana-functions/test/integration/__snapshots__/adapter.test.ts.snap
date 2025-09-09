@@ -4,12 +4,22 @@ exports[`execute EUSXPrice should calculate price based on yield pool and vestin
 {
   "data": {
     "result": 4.996003996003996,
+    "unvestedAmount": 0,
+    "vestingSchedule": {
+      "end": 2000,
+      "start": 1000,
+      "vestingAmount": 1000,
+    },
+    "yieldPool": {
+      "sharesSupply": 1000,
+      "totalAssets": 5000,
+    },
   },
   "result": 4.996003996003996,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1167649871111,
-    "providerDataRequestedUnixMs": 1167649871111,
+    "providerDataRequestedUnixMs": 1136113871111,
   },
 }
 `;

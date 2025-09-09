@@ -23,6 +23,16 @@ export type BaseEndpointTypes = {
   Response: {
     Data: {
       result: number
+      vestingSchedule: {
+        start: number
+        end: number
+        vestingAmount: number
+      }
+      yieldPool: {
+        sharesSupply: number
+        totalAssets: number
+      }
+      unvestedAmount: number
     }
     Result: number
   }

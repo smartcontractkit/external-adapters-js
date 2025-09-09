@@ -96,8 +96,6 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
     const providerDataRequestedUnixMs = Date.now()
     const accountReader = this.accountReader
     const programAddress = params.address as Address
-    let result: number
-
     try {
       const [vestingSchedule, yieldPool] = await Promise.all([
         accountReader.fetchAccountInformationByAddressAndSeeds<VestingSchedule>(
@@ -143,23 +141,34 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
       const unvestedAmount = (lastVestingAmount * Math.max(0, vestingEnd - now)) / vestingDuration
 
       // Calculate the EUSX price
-      result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)
+      const result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)
+
+      return {
+        data: {
+          result,
+          vestingSchedule: {
+            start,
+            end,
+            vestingAmount,
+          },
+          unvestedAmount,
+          yieldPool: {
+            sharesSupply,
+            totalAssets,
+          },
+        },
+        statusCode: 200,
+        result,
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
     } catch (err) {
       const errorMsg = `Failed to calculate EUSX price: ${err}`
       logger.error(errorMsg)
       throw new Error(errorMsg)
-    }
-    return {
-      data: {
-        result,
-      },
-      statusCode: 200,
-      result,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
-      },
     }
   }
 
