@@ -174,9 +174,6 @@
       "path": "./sources/binance/tsconfig.test.json"
     },
     {
-      "path": "./sources/binance-dex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bitex/tsconfig.test.json"
     },
     {

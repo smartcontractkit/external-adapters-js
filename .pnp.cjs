@@ -259,10 +259,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/binance"\
     },\
     {\
-      "name": "@chainlink/binance-dex-adapter",\
-      "reference": "workspace:packages/sources/binance-dex"\
-    },\
-    {\
       "name": "@chainlink/bitex-adapter",\
       "reference": "workspace:packages/sources/bitex"\
     },\
@@ -1008,7 +1004,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
-    ["@chainlink/binance-dex-adapter", ["workspace:packages/sources/binance-dex"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
@@ -5419,24 +5414,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/binance/",\
         "packageDependencies": [\
           ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/binance-dex-adapter", [\
-      ["workspace:packages/sources/binance-dex", {\
-        "packageLocation": "./packages/sources/binance-dex/",\
-        "packageDependencies": [\
-          ["@chainlink/binance-dex-adapter", "workspace:packages/sources/binance-dex"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
