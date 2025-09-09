@@ -19,7 +19,7 @@ exports[`execute EUSXPrice should calculate price based on yield pool and vestin
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1167649871111,
-    "providerDataRequestedUnixMs": 1136113871111,
+    "providerDataRequestedUnixMs": 1167649871111,
   },
 }
 `;

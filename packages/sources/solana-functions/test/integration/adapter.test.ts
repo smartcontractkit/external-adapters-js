@@ -2,7 +2,6 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
 
 import { SolanaAccountReader } from '../../src/shared/account-reader'
 import { fakeVestingScheduleAccount, fakeYieldPoolAccount } from './fixtures'
@@ -28,12 +27,14 @@ describe('execute', () => {
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
-    nock.restore()
-    nock.cleanAll()
     spy.mockRestore()
   })
 
   describe('EUSXPrice', () => {
+    afterEach(() => {
+      spy.mockRestore()
+    })
+
     it('should error if fetchAccountInformation fails', async () => {
       // Set date to avoid cache
       const mockDate = new Date('2005-01-01T11:11:11.111Z')
