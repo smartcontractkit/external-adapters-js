@@ -91,7 +91,6 @@ export const SoakTestBlacklist: string[] = [
   'stader-balance', // Not deployed internally
   '1forge', // Our API Key has expired
   'amberdata', // Not deployed internally
-  'binance-dex', // Not deployed internally
   'binance', // Not deployed internally
   'bitex', // DP does not exist anymore
   'bravenewcoin', // Our API Key has expired
