@@ -1,5 +1,11 @@
 # @chainlink/superstate-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#3992](https://github.com/smartcontractkit/external-adapters-js/pull/3992) [`52c6e81`](https://github.com/smartcontractkit/external-adapters-js/commit/52c6e8176d1ad13a18e2d08aebe19c136e0a516f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new transcation endpoint to superstate
+
 ## 1.2.14
 
 ### Patch Changes
