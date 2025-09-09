@@ -44,7 +44,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       .filter((row) => row.length > CLOSE_VALUE_COLUMN) // Keep rows with enough columns
       .map((row) => ({
         row,
-        indexName: this.convertValue(row[INDEX_NAME_COLUMN], 'string') as string,
+        indexName: row[INDEX_NAME_COLUMN],
       }))
       .filter(({ indexName }) => indexName && indexName === this.instrument) // Only process rows that match the instrument
       .map(

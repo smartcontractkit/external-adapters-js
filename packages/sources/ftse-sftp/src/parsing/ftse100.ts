@@ -80,15 +80,12 @@ export class FTSE100Parser extends BaseCSVParser {
     }
 
     return {
-      indexCode: this.convertValue(row[FTSE_INDEX_CODE_COLUMN], 'string') as string,
-      indexSectorName: this.convertValue(row[FTSE_INDEX_SECTOR_NAME_COLUMN], 'string') as string,
+      indexCode: row[FTSE_INDEX_CODE_COLUMN],
+      indexSectorName: row[FTSE_INDEX_SECTOR_NAME_COLUMN],
       numberOfConstituents: this.convertValue(row[FTSE_NUMBER_OF_CONSTITUENTS_COLUMN], 'number') as
         | number
         | null,
-      indexBaseCurrency: this.convertValue(
-        row[FTSE_INDEX_BASE_CURRENCY_COLUMN],
-        'string',
-      ) as string,
+      indexBaseCurrency: row[FTSE_INDEX_BASE_CURRENCY_COLUMN],
       gbpIndex: this.convertValue(row[FTSE_GBP_INDEX_COLUMN], 'number') as number | null,
     }
   }

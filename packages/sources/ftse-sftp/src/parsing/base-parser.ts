@@ -52,9 +52,8 @@ export abstract class BaseCSVParser implements CSVParser {
         return isNaN(dateValue.getTime()) ? null : dateValue
       }
 
-      case 'string':
       default:
-        return value
+        return value.trim()
     }
   }
 }
