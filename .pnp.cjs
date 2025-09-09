@@ -23,10 +23,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/apy-finance"\
     },\
     {\
-      "name": "@chainlink/apy-finance-test-adapter",\
-      "reference": "workspace:packages/composites/apy-finance-test"\
-    },\
-    {\
       "name": "@chainlink/augur-adapter",\
       "reference": "workspace:packages/composites/augur"\
     },\
@@ -1006,7 +1002,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
-    ["@chainlink/apy-finance-test-adapter", ["workspace:packages/composites/apy-finance-test"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
@@ -5328,26 +5323,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/apy-finance-test-adapter", [\
-      ["workspace:packages/composites/apy-finance-test", {\
-        "packageLocation": "./packages/composites/apy-finance-test/",\
-        "packageDependencies": [\
-          ["@chainlink/apy-finance-test-adapter", "workspace:packages/composites/apy-finance-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
-          ["@chainlink/token-allocation-test-adapter", "workspace:packages/non-deployable/token-allocation-test"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.9.0"],\
-          ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
