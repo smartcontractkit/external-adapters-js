@@ -19,7 +19,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [bank-frick](./bank-frick/README.md)
 - [bea](./bea/README.md)
 - [binance](./binance/README.md)
-- [binance-dex](./binance-dex/README.md)
 - [bitex](./bitex/README.md)
 - [bitgo](./bitgo/README.md)
 - [bitgo-reserves](./bitgo-reserves/README.md)
