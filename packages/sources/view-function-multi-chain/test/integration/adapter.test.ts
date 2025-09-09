@@ -122,6 +122,66 @@ describe('execute', () => {
     })
   })
 
+  describe('function-responseSelector endpoint', () => {
+    it('should fail if missing both resultField and resultIndex', async () => {
+      const data = {
+        endpoint: 'function-responseSelector',
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function latestAnswer() external view returns (int256 answer, int256 timestamp)',
+        network: 'ethereum_mainnet',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with resultField', async () => {
+      const data = {
+        endpoint: 'function-responseSelector',
+        contract: '0xaE2364579D6cB4Bbd6695846C1D595cA9AF3574d',
+        function: 'function lastPrice() external view returns (uint256 price, uint256 timestamp)',
+        inputParams: [],
+        network: 'ethereum_mainnet',
+        resultField: 'price',
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with resultIndex', async () => {
+      const data = {
+        endpoint: 'function-responseSelector',
+        contract: '0xaE2364579D6cB4Bbd6695846C1D595cA9AF3574d',
+        function: 'function lastPrice() external view returns (uint256 price, uint256 timestamp)',
+        inputParams: [],
+        network: 'ethereum_mainnet',
+        resultIndex: 1,
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should choose resultField over resultIndex if both specified', async () => {
+      const data = {
+        endpoint: 'function-responseSelector',
+        contract: '0xaE2364579D6cB4Bbd6695846C1D595cA9AF3574d',
+        function: 'function lastPrice() external view returns (uint256 price, uint256 timestamp)',
+        inputParams: [],
+        network: 'ethereum_mainnet',
+        resultField: 'price',
+        resultIndex: 1,
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('aptos endpoint', () => {
     it('should return success', async () => {
       mockAptosSuccess()
