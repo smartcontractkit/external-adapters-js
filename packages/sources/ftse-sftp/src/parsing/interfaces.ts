@@ -8,13 +8,6 @@ export interface CSVParser {
    * @returns Promise of parsed data
    */
   parse(csvContent: string): Promise<ParsedData[]>
-
-  /**
-   * Validate the CSV format
-   * @param csvContent - Raw CSV content as string
-   * @returns boolean indicating if the format is valid
-   */
-  validateFormat(csvContent: string): boolean
 }
 
 /**

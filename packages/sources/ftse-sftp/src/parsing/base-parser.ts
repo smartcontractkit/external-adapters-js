@@ -6,9 +6,9 @@ import { parse, Options } from 'csv-parse/sync'
  * Uses the csv-parse library for robust CSV parsing
  */
 export abstract class BaseCSVParser implements CSVParser {
-  protected config: Record<string, any>
+  protected config: Options
 
-  constructor(config: Record<string, any> = {}) {
+  constructor(config: Options = {}) {
     this.config = { ...config }
   }
 
@@ -16,12 +16,6 @@ export abstract class BaseCSVParser implements CSVParser {
    * Abstract method that must be implemented by concrete classes
    */
   abstract parse(csvContent: string): Promise<ParsedData[]>
-
-  /**
-   * Abstract method that must be implemented by concrete classes
-   * Should validate the CSV content format and structure
-   */
-  abstract validateFormat(csvContent: string): boolean
 
   /**
    * Helper method to parse CSV content using csv-parse library
@@ -49,18 +43,18 @@ export abstract class BaseCSVParser implements CSVParser {
 
     switch (expectedType) {
       case 'number': {
-        const numValue = parseFloat(trimmedValue.replace(/,/g, ''))
+        const numValue = parseFloat(value.replace(/,/g, ''))
         return isNaN(numValue) ? null : numValue
       }
 
       case 'date': {
-        const dateValue = new Date(trimmedValue)
+        const dateValue = new Date(value)
         return isNaN(dateValue.getTime()) ? null : dateValue
       }
 
       case 'string':
       default:
-        return trimmedValue
+        return value
     }
   }
 }
