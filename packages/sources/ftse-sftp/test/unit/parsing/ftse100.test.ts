@@ -46,10 +46,15 @@ UKX,FTSE 100 Index,,GBP,4659.89,,4523.90`
 
       const result = await parser.parse(csvWithNullValues)
 
-      expect(result).toHaveLength(1)
-      expect(result[0].indexCode).toBe('UKX')
-      expect(result[0].numberOfConstituents).toBeNull()
-      expect(result[0].gbpIndex).toBeNull()
+      expect(result).toEqual([
+        {
+          indexCode: 'UKX',
+          indexSectorName: 'FTSE 100 Index',
+          numberOfConstituents: null,
+          indexBaseCurrency: 'GBP',
+          gbpIndex: null,
+        },
+      ])
     })
 
     it('should throw error when no FTSE 100 index record is found', async () => {
