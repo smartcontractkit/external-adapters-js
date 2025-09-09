@@ -69,6 +69,7 @@ export type BaseEndpointTypes = {
       totalUsdValue: string
       decimal: number
       totalUsdValueInHex: string
+      balances: Record<string, { value: string; decimals: number }>
     }
   }
   Settings: typeof config.settings

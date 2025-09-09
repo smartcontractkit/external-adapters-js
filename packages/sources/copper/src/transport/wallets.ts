@@ -120,11 +120,22 @@ export class WalletsTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const totalUsdValue = Object.values(usdValues).reduce((acc, val) => acc + val.value, 0n)
     const totalUsdValueInHex = toEvenHex(totalUsdValue)
 
+    const stringifiedBalances = Object.fromEntries(
+      Object.entries(balances).map(([token, { value, decimals }]) => [
+        token,
+        {
+          value: value.toString(),
+          decimals,
+        },
+      ]),
+    )
+
     return {
       data: {
         totalUsdValue: totalUsdValue.toString(),
         decimal: RESULT_DECIMALS,
         totalUsdValueInHex: totalUsdValueInHex,
+        balances: stringifiedBalances,
       },
       statusCode: 200,
       result: totalUsdValueInHex,
