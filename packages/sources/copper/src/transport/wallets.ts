@@ -17,16 +17,16 @@ type RequestParams = typeof inputParameters.validated
 const RESULT_DECIMALS = 18
 const path = '/platform/wallets'
 
-// type PriceOraclesTypes = {
-//   token: string
-//   contractAddress: string
-//   chainId: string
-// }
-
 type RequestContext = {
   groupedProviders: {
     [chainId: string]: GroupedProvider
   }
+}
+
+type PriceOraclesTypes = {
+  token: string
+  contractAddress: string
+  chainId: string
 }
 
 export interface WalletResponseSchema {
@@ -46,8 +46,6 @@ export class WalletsTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   ethProvider!: ethers.providers.JsonRpcProvider
   arbProvider!: ethers.providers.JsonRpcProvider
-
-  // private providers: Record<string, ethers.providers.JsonRpcProvider> = {}
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -77,18 +75,6 @@ export class WalletsTransport extends SubscriptionTransport<BaseEndpointTypes> {
         Number(adapterSettings.ETHEREUM_RPC_CHAIN_ID),
       )
     }
-
-    // if (adapterSettings.ETHEREUM_RPC_URL) {
-    //   this.providers["ETHEREUM"] = new ethers.providers.JsonRpcProvider(adapterSettings.ETHEREUM_RPC_URL)
-    // } else {
-    //   logger.warn("Environment variable ETHEREUM_RPC_URL is missing")
-    // }
-
-    // if (adapterSettings.ARBITRUM_RPC_URL) {
-    //   this.providers["ARBITRUM"] = new ethers.providers.JsonRpcProvider(adapterSettings.ARBITRUM_RPC_URL)
-    // } else {
-    //   logger.warn("Environment variable ARBITRUM_RPC_URL is missing")
-    // }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -250,13 +236,18 @@ export class WalletsTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<Record<string, OraclePriceType>> {
     const results: Record<string, OraclePriceType> = {}
 
-    for (const oracle of param.priceOracles) {
-      const { token, contractAddress, chainId } = oracle
-      const groupedProvider = this.getGroupedProvider(context, chainId, requestContext)
-      const priceOracleContract = groupedProvider.createPriceOracleContract(contractAddress)
-      const oraclePriceUSD: OraclePriceType = await priceOracleContract.getRateFromLatestRoundData()
-      results[token] = oraclePriceUSD
-    }
+    await Promise.all(
+      param.priceOracles.map(async (oracle: PriceOraclesTypes) => {
+        const { token, contractAddress, chainId } = oracle
+        const groupedProvider = this.getGroupedProvider(context, chainId, requestContext)
+        const priceOracleContract = groupedProvider.createPriceOracleContract(contractAddress)
+
+        const oraclePriceUSD: OraclePriceType =
+          await priceOracleContract.getRateFromLatestRoundData()
+
+        results[token] = oraclePriceUSD
+      }),
+    )
 
     return results
   }

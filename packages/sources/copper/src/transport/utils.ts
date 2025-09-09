@@ -39,21 +39,6 @@ function buildQuery(params: Record<string, string>): string {
     .join('&')
 }
 
-export async function getPrice(
-  address: string,
-  provider: ethers.providers.JsonRpcProvider,
-): Promise<OraclePriceType> {
-  const contract = new ethers.Contract(address, EACAggregatorProxy, provider)
-  const [[_, answer], decimal] = await Promise.all([
-    contract.latestRoundData(),
-    contract.decimals(),
-  ])
-  return {
-    value: answer,
-    decimal: Number(decimal),
-  }
-}
-
 export function toBigIntBalance(balance: string, decimals: number): bigint {
   const [whole, frac = ''] = balance.split('.')
   const fracPadded = frac.padEnd(decimals, '0')
