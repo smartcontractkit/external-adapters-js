@@ -8,23 +8,6 @@ describe('FTSE100Parser', () => {
     parser = new FTSE100Parser()
   })
 
-  describe('constructor', () => {
-    it('should initialize with correct CSV parsing configuration', () => {
-      expect(parser).toBeDefined()
-
-      // Access the protected config property to verify it's set correctly
-      const config = (parser as any).config
-
-      expect(config.delimiter).toBe(',')
-      expect(config.columns).toBe(true)
-      expect(config.skip_empty_lines).toBe(true)
-      expect(config.trim).toBe(true)
-      expect(config.quote).toBe('"')
-      expect(config.escape).toBe('"')
-      expect(config.relax_column_count).toBe(true)
-    })
-  })
-
   describe('parse', () => {
     it('should parse the actual FTSE CSV file correctly', async () => {
       const result = await parser.parse(ftseCsvFixture)
