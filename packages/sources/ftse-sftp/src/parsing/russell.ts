@@ -79,11 +79,8 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     const headerRow = parsed[0]
-    const headers = Object.values(headerRow).map((header: string) =>
-      header.trim().replace(/"/g, ''),
-    )
 
-    if (headers.length <= CLOSE_VALUE_COLUMN) {
+    if (headerRow.length <= CLOSE_VALUE_COLUMN) {
       throw new Error(
         `Header row does not have enough columns. Expected at least ${
           CLOSE_VALUE_COLUMN + 1
@@ -91,7 +88,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       )
     }
 
-    const closeHeader = headers[CLOSE_VALUE_COLUMN]
+    const closeHeader = headerRow[CLOSE_VALUE_COLUMN]
     if (closeHeader.toLowerCase() !== 'close') {
       throw new Error(
         `Expected "Close" column at index ${CLOSE_VALUE_COLUMN}, but found "${closeHeader}"`,
