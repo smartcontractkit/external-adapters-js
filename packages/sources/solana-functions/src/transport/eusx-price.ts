@@ -132,13 +132,14 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
       }
 
       const lastVestingAmount = vestingAmount
-      const vestingDuration = end - start
-      const vestingEnd = end
+      const vestingDurationSeconds = end - start
+      const vestingEndSeconds = end
 
-      const now = Math.floor(providerDataRequestedUnixMs / 1000)
+      const nowSeconds = Math.floor(providerDataRequestedUnixMs / 1000)
 
       // Calculate the unvested amount based on the current time
-      const unvestedAmount = (lastVestingAmount * Math.max(0, vestingEnd - now)) / vestingDuration
+      const unvestedAmount =
+        (lastVestingAmount * Math.max(0, vestingEndSeconds - nowSeconds)) / vestingDurationSeconds
 
       // Calculate the EUSX price
       const result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)

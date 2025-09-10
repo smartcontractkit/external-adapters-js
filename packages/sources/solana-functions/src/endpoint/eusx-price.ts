@@ -41,7 +41,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'eusx-price',
-  aliases: ['eusx', 'eusx-rate'],
+  aliases: [],
   transport: eUSXPriceTransport,
   inputParameters,
 })

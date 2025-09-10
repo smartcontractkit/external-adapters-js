@@ -31,7 +31,7 @@ export class SolanaAccountReader {
     const encoding = 'base64'
     const resp = await rpc.getAccountInfo(address, { encoding }).send()
     const value = resp.value
-    if (!value || !value.data || value.data[0] == null) {
+    if (!value?.data?.[0]) {
       throw new Error(`Account ${accountName} not found at ${address}`)
     }
     const dataEncoded = value.data[0] as string
