@@ -13,7 +13,7 @@ describe('RussellDailyValuesParser', () => {
       expect(parser).toBeDefined()
 
       // Access the protected config property to verify it's set correctly
-      const config = (parser as RussellDailyValuesParser).config
+      const config = (parser as any).config
 
       expect(config.delimiter).toBe(',')
       expect(config.skip_empty_lines).toBe(true)

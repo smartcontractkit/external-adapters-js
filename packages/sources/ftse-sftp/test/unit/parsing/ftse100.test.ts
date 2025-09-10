@@ -13,7 +13,7 @@ describe('FTSE100Parser', () => {
       expect(parser).toBeDefined()
 
       // Access the protected config property to verify it's set correctly
-      const config = (parser as FTSE100Parser).config
+      const config = (parser as any).config
 
       expect(config.delimiter).toBe(',')
       expect(config.columns).toBe(true)
