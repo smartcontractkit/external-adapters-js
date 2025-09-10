@@ -26,7 +26,7 @@ exports[`execute EUSXPrice should calculate price based on yield pool and vestin
 
 exports[`execute EUSXPrice should error if accounts are missing information 1`] = `
 {
-  "errorMessage": "Failed to calculate EUSX price: Error: Invalid vesting schedule fields",
+  "errorMessage": "Invalid vesting schedule fields",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -37,7 +37,7 @@ exports[`execute EUSXPrice should error if accounts are missing information 1`] 
 
 exports[`execute EUSXPrice should error if fetchAccountInformation fails 1`] = `
 {
-  "errorMessage": "Failed to calculate EUSX price: Error: Simulated account fetch failure",
+  "errorMessage": "Simulated account fetch failure",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,

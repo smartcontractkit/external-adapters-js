@@ -96,80 +96,74 @@ export class EUSXPriceTransport extends SubscriptionTransport<EUSXPriceTransport
     const providerDataRequestedUnixMs = Date.now()
     const accountReader = this.accountReader
     const programAddress = params.address as Address
-    try {
-      const [vestingSchedule, yieldPool] = await Promise.all([
-        accountReader.fetchAccountInformationByAddressAndSeeds<VestingSchedule>(
-          this.rpc,
-          programAddress,
-          [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],
-          VESTING_SCHEDULE_ACCOUNT_NAME,
-          YieldVaultIDL as Idl,
-        ),
-        accountReader.fetchAccountInformationByAddressAndSeeds<YieldPool>(
-          this.rpc,
-          programAddress,
-          [this.utfEncoder.encode(YIELD_POOL_SEED)],
-          YIELD_POOL_ACCOUNT_NAME,
-          YieldVaultIDL as Idl,
-        ),
-      ])
+    const [vestingSchedule, yieldPool] = await Promise.all([
+      accountReader.fetchAccountInformationByAddressAndSeeds<VestingSchedule>(
+        this.rpc,
+        programAddress,
+        [this.utfEncoder.encode(VESTING_SCHEDULE_SEED)],
+        VESTING_SCHEDULE_ACCOUNT_NAME,
+        YieldVaultIDL as Idl,
+      ),
+      accountReader.fetchAccountInformationByAddressAndSeeds<YieldPool>(
+        this.rpc,
+        programAddress,
+        [this.utfEncoder.encode(YIELD_POOL_SEED)],
+        YIELD_POOL_ACCOUNT_NAME,
+        YieldVaultIDL as Idl,
+      ),
+    ])
 
-      if (!vestingSchedule || !yieldPool) {
-        throw new Error('Missing vestingSchedule or yieldPool account data')
-      }
+    if (!vestingSchedule || !yieldPool) {
+      throw new Error('Missing vestingSchedule or yieldPool account data')
+    }
 
-      const start = vestingSchedule.start_time?.toNumber?.()
-      const end = vestingSchedule.end_time?.toNumber?.()
-      const vestingAmount = vestingSchedule.vesting_amount?.toNumber?.()
-      if (start == null || end == null || vestingAmount == null) {
-        throw new Error('Invalid vesting schedule fields')
-      }
+    const start = vestingSchedule.start_time?.toNumber?.()
+    const end = vestingSchedule.end_time?.toNumber?.()
+    const vestingAmount = vestingSchedule.vesting_amount?.toNumber?.()
+    if (start == null || end == null || vestingAmount == null) {
+      throw new Error('Invalid vesting schedule fields')
+    }
 
-      const sharesSupply = yieldPool.shares_supply?.toNumber?.()
-      const totalAssets = yieldPool.total_assets?.toNumber?.()
-      if (sharesSupply == null || totalAssets == null) {
-        throw new Error('Invalid vesting schedule fields')
-      }
+    const sharesSupply = yieldPool.shares_supply?.toNumber?.()
+    const totalAssets = yieldPool.total_assets?.toNumber?.()
+    if (sharesSupply == null || totalAssets == null) {
+      throw new Error('Invalid vesting schedule fields')
+    }
 
-      const lastVestingAmount = vestingAmount
-      const vestingDurationSeconds = end - start
-      const vestingEndSeconds = end
+    const lastVestingAmount = vestingAmount
+    const vestingDurationSeconds = end - start
+    const vestingEndSeconds = end
 
-      const nowSeconds = Math.floor(providerDataRequestedUnixMs / 1000)
+    const nowSeconds = Math.floor(providerDataRequestedUnixMs / 1000)
 
-      // Calculate the unvested amount based on the current time
-      const unvestedAmount =
-        (lastVestingAmount * Math.max(0, vestingEndSeconds - nowSeconds)) / vestingDurationSeconds
+    // Calculate the unvested amount based on the current time
+    const unvestedAmount =
+      (lastVestingAmount * Math.max(0, vestingEndSeconds - nowSeconds)) / vestingDurationSeconds
 
-      // Calculate the EUSX price
-      const result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)
+    // Calculate the EUSX price
+    const result = this.calcEusxPrice(sharesSupply, totalAssets - unvestedAmount)
 
-      return {
-        data: {
-          result,
-          vestingSchedule: {
-            start,
-            end,
-            vestingAmount,
-          },
-          unvestedAmount,
-          yieldPool: {
-            sharesSupply,
-            totalAssets,
-          },
-        },
-        statusCode: 200,
+    return {
+      data: {
         result,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
+        vestingSchedule: {
+          start,
+          end,
+          vestingAmount,
         },
-      }
-    } catch (err) {
-      const errorMsg = `Failed to calculate EUSX price: ${err}`
-      logger.error(errorMsg)
-      throw new Error(errorMsg)
+        unvestedAmount,
+        yieldPool: {
+          sharesSupply,
+          totalAssets,
+        },
+      },
+      statusCode: 200,
+      result,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
     }
   }
 
