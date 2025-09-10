@@ -8773,7 +8773,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["bn.js", "npm:5.2.2"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -15922,7 +15922,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/nominal-types", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -15945,7 +15945,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/assertions", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -15999,7 +15999,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-core", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16024,7 +16024,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-numbers", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16070,7 +16070,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-core", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16097,7 +16097,7 @@ const RAW_RUNTIME_STATE =
           ["@types/fastestsmallesttextencoderdecoder", null],\
           ["@types/typescript", null],\
           ["fastestsmallesttextencoderdecoder", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/fastestsmallesttextencoderdecoder",\
@@ -16145,7 +16145,7 @@ const RAW_RUNTIME_STATE =
           ["@types/typescript", null],\
           ["chalk", "npm:5.6.2"],\
           ["commander", "npm:14.0.0"],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16167,7 +16167,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/fast-stable-stringify", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16189,7 +16189,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/functional", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16213,7 +16213,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-core", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16240,7 +16240,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/nominal-types", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16262,7 +16262,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/nominal-types", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16293,7 +16293,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/rpc-transport-http", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16326,7 +16326,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/transaction-messages", "virtual:e3686759fd9553dd07d24afdac656ec8b70018e70ae103cc0ebd771969bdfbea8a234a3ada104a4a42a88252bfabd7b24edf2145757b931840b0b8b31456e29b#npm:3.0.2"],\
           ["@solana/transactions", "virtual:e3686759fd9553dd07d24afdac656ec8b70018e70ae103cc0ebd771969bdfbea8a234a3ada104a4a42a88252bfabd7b24edf2145757b931840b0b8b31456e29b#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16348,7 +16348,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/rpc-parsed-types", "virtual:e3686759fd9553dd07d24afdac656ec8b70018e70ae103cc0ebd771969bdfbea8a234a3ada104a4a42a88252bfabd7b24edf2145757b931840b0b8b31456e29b#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16372,7 +16372,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/rpc-spec-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16394,7 +16394,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/rpc-spec-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16421,7 +16421,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/rpc-spec-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16446,7 +16446,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/rpc-spec", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@solana/rpc-spec-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["undici-types", "npm:7.16.0"]\
         ],\
         "packagePeers": [\
@@ -16475,7 +16475,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/errors", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/nominal-types", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16506,7 +16506,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/nominal-types", "virtual:cc6b9b6c0f44b9612c5d91b048dc9f0b4cd26e1f5a77a67386d255a70b7a5aefc5ebd337b45a934ba09c0747d0a344eba50d1805ff13af3122ba09c0876dc294#npm:3.0.2"],\
           ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -16540,7 +16540,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
           ["@solana/transaction-messages", "virtual:e3686759fd9553dd07d24afdac656ec8b70018e70ae103cc0ebd771969bdfbea8a234a3ada104a4a42a88252bfabd7b24edf2145757b931840b0b8b31456e29b#npm:3.0.2"],\
           ["@types/typescript", null],\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -38765,13 +38765,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["typescript", [\
-      ["patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-8964a48ba3-00504c01ee.zip/node_modules/typescript/",\
-        "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5", {\
         "packageLocation": "./.yarn/cache/typescript-patch-f64146f279-b9b1e73dab.zip/node_modules/typescript/",\
         "packageDependencies": [\
