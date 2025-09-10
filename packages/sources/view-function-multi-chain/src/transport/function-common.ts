@@ -4,12 +4,7 @@ import {
   TransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import {
-  AdapterResponse,
-  makeLogger,
-  ResponseTimestamps,
-  sleep,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
 
@@ -27,21 +22,20 @@ export type RawOnchainResponse = {
   iface: ethers.Interface
   fnName: string
   encodedResult: string
-  timestamps: ResponseTimestamps
 }
 
-export type HexResultPostProcessor<T extends TransportGenerics> = (
+export type HexResultPostProcessor = (
   onchainResponse: RawOnchainResponse,
   resultField?: string | undefined,
-) => AdapterResponse<T['Response']>
+) => string
 
 export class MultiChainFunctionTransport<
   T extends TransportGenerics,
 > extends SubscriptionTransport<T> {
   providers: Record<string, ethers.JsonRpcProvider> = {}
-  hexResultPostProcessor: HexResultPostProcessor<T>
+  hexResultPostProcessor: HexResultPostProcessor
 
-  constructor(hexResultPostProcessor: HexResultPostProcessor<T>) {
+  constructor(hexResultPostProcessor: HexResultPostProcessor) {
     super()
     this.hexResultPostProcessor = hexResultPostProcessor
   }
@@ -122,10 +116,16 @@ export class MultiChainFunctionTransport<
       providerIndicatedTimeUnixMs: undefined,
     }
 
-    return this.hexResultPostProcessor(
-      { iface, fnName, encodedResult, timestamps },
-      param.resultField,
-    )
+    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, param.resultField)
+
+    return {
+      data: {
+        result,
+      },
+      statusCode: 200,
+      result,
+      timestamps,
+    }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
@@ -135,7 +135,7 @@ export class MultiChainFunctionTransport<
 
 // Export a factory function to create transport instances
 export function createMultiChainFunctionTransport<T extends TransportGenerics>(
-  postProcessor: HexResultPostProcessor<T>,
+  postProcessor: HexResultPostProcessor,
 ): MultiChainFunctionTransport<T> {
   return new MultiChainFunctionTransport<T>(postProcessor)
 }

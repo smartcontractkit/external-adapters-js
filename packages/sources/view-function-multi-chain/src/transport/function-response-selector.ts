@@ -1,12 +1,11 @@
-import { AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/function-response-selector'
 import { createMultiChainFunctionTransport, RawOnchainResponse } from './function-common'
 
-function decodedResultSelectorPostProcessor(
+function selectFieldFromDecodedResult(
   onchainResponse: RawOnchainResponse,
   resultField?: string | undefined,
-): AdapterResponse<BaseEndpointTypes['Response']> {
+): string {
   if (!resultField) {
     throw new AdapterInputError({
       message: 'Missing resultField input param',
@@ -14,7 +13,7 @@ function decodedResultSelectorPostProcessor(
     })
   }
 
-  const { iface, fnName, encodedResult, timestamps } = onchainResponse
+  const { iface, fnName, encodedResult } = onchainResponse
   const decodedResult = iface.decodeFunctionResult(fnName, encodedResult)
   if (decodedResult[resultField] == null) {
     throw new AdapterInputError({
@@ -22,17 +21,8 @@ function decodedResultSelectorPostProcessor(
       statusCode: 400,
     })
   }
-  const result = BigInt(decodedResult[resultField]).toString()
-
-  return {
-    data: {
-      result,
-    },
-    statusCode: 200,
-    result,
-    timestamps,
-  }
+  return BigInt(decodedResult[resultField]).toString()
 }
 
 export const multiChainFunctionResponseSelectorTransport =
-  createMultiChainFunctionTransport<BaseEndpointTypes>(decodedResultSelectorPostProcessor)
+  createMultiChainFunctionTransport<BaseEndpointTypes>(selectFieldFromDecodedResult)

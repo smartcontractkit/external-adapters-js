@@ -7,7 +7,7 @@ import { inputParamDefinition as functionInputParamDefinition } from './function
 const inputParameters = new InputParameters({
   ...functionInputParamDefinition,
   resultField: {
-    required: false,
+    required: true,
     description:
       "If present, returns the named parameter specified from the signature's response. Has precedence over resultIndex.",
     type: 'string',
