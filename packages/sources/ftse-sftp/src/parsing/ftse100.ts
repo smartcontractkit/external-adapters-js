@@ -74,18 +74,10 @@ export class FTSE100Parser extends BaseCSVParser {
       FTSE_GBP_INDEX_COLUMN,
     ]
 
-    const missingColumns = requiredColumns.filter((column) => row[column] === undefined)
-    if (missingColumns.length > 0) {
-      throw new Error(`Missing required columns in row: ${missingColumns.join(', ')}`)
-    }
-
     const emptyColumns = requiredColumns.filter((column) => {
       const value = row[column]
       return (
-        value === null ||
-        value === undefined ||
-        value === '' ||
-        (typeof value === 'string' && value.trim() === '')
+        value === null || value === undefined || (typeof value === 'string' && value.trim() === '')
       )
     })
 

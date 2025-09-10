@@ -27,7 +27,6 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   constructor(instrument: string) {
     super({
       delimiter: ',',
-      columns: true,
       skip_empty_lines: true,
       trim: true,
       quote: '"',
@@ -68,9 +67,12 @@ export class RussellDailyValuesParser extends BaseCSVParser {
    * Validates that the CLOSE_VALUE_COLUMN index corresponds to the "Close" header
    */
   private validateCloseColumn(csvContent: string): void {
-    const lines = csvContent.split('\n')
+    const parsed = this.parseCSV(csvContent, {
+      from_line: HEADER_ROW_NUMBER,
+      to_line: HEADER_ROW_NUMBER,
+    })
 
-    if (lines.length <= HEADER_ROW_NUMBER) {
+    if (parsed.length === 0) {
       throw new Error(
         `CSV content does not have enough lines to validate header row at line ${
           HEADER_ROW_NUMBER + 1
@@ -78,8 +80,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       )
     }
 
-    const headerLine = lines[HEADER_ROW_NUMBER]
-    const headers = headerLine.split(',').map((header) => header.trim().replace(/"/g, ''))
+    const headers = parsed[0].split(',').map((header: string) => header.trim().replace(/"/g, ''))
 
     if (headers.length <= CLOSE_VALUE_COLUMN) {
       throw new Error(
@@ -104,14 +105,9 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     const indexName = row[INDEX_NAME_COLUMN]
     const closeValue = row[CLOSE_VALUE_COLUMN]
 
-    if (!indexName || (typeof indexName === 'string' && indexName.trim() === '')) {
-      throw new Error(`Empty values found in required columns: Index Name`)
-    }
-
     if (
       closeValue === null ||
       closeValue === undefined ||
-      closeValue === '' ||
       (typeof closeValue === 'string' && closeValue.trim() === '')
     ) {
       throw new Error(`Empty values found in required columns: Close`)
