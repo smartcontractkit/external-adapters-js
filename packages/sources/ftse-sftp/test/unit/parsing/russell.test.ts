@@ -8,6 +8,22 @@ describe('RussellDailyValuesParser', () => {
     parser = new RussellDailyValuesParser('Russell 1000� Index')
   })
 
+  describe('constructor', () => {
+    it('should initialize with correct CSV parsing configuration', () => {
+      expect(parser).toBeDefined()
+
+      // Access the protected config property to verify it's set correctly
+      const config = (parser as any).config
+
+      expect(config.delimiter).toBe(',')
+      expect(config.skip_empty_lines).toBe(true)
+      expect(config.trim).toBe(true)
+      expect(config.quote).toBe('"')
+      expect(config.escape).toBe('"')
+      expect(config.relax_column_count).toBe(true)
+    })
+  })
+
   describe('parse', () => {
     it('should parse the actual Russell CSV file correctly', async () => {
       const result = await parser.parse(russellCsvFixture)
@@ -19,7 +35,7 @@ describe('RussellDailyValuesParser', () => {
       const invalidContent = 'Invalid CSV content without proper headers'
 
       await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'Invalid CSV structure: CSV content does not have enough lines to validate header row at line 6',
+        'CSV content does not have enough lines to validate header row at line 6',
       )
     })
 
@@ -28,7 +44,7 @@ describe('RussellDailyValuesParser', () => {
 Russell 1000® Index,Some Value`
 
       await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'Invalid CSV structure: CSV content does not have enough lines to validate header row at line 6',
+        'CSV content does not have enough lines to validate header row at line 6',
       )
     })
 
@@ -43,6 +59,20 @@ Russell 1000� Index,3538.25,3550.79,3534.60,,9.16,0.26,3547.40,3483.25,51.20,1
 
       await expect(parser.parse(csvWithNullValues)).rejects.toThrow(
         'Empty values found in required columns: Close',
+      )
+    })
+
+    it('should throw error when no Russell 1000® Index records are found', async () => {
+      const csvWithoutRussell = `"Daily Values",,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+"As of August 27, 2025",,,,,,,,"Last 5 Trading Days",,,,"1 Year Ending",,
+,,,,,,,,"Closing Values",,,,"Closing Values",,
+,"Open","High","Low","Close","Net Chg","% Chg","High","Low","Net Chg","% Chg","High","Low","Net Chg","% Chg"
+Russell 2000® Index,1234.56,1245.67,1230.45,1240.00,5.44,0.44,1245.67,1200.00,30.00,2.50,1245.67,1000.00,240.00,24.00`
+
+      await expect(parser.parse(csvWithoutRussell)).rejects.toThrow(
+        'No matching Russell index records found',
       )
     })
 

@@ -9,8 +9,19 @@ describe('FTSE100Parser', () => {
   })
 
   describe('constructor', () => {
-    it('should initialize with correct configuration', () => {
+    it('should initialize with correct CSV parsing configuration', () => {
       expect(parser).toBeDefined()
+
+      // Access the protected config property to verify it's set correctly
+      const config = (parser as any).config
+
+      expect(config.delimiter).toBe(',')
+      expect(config.columns).toBe(true)
+      expect(config.skip_empty_lines).toBe(true)
+      expect(config.trim).toBe(true)
+      expect(config.quote).toBe('"')
+      expect(config.escape).toBe('"')
+      expect(config.relax_column_count).toBe(true)
     })
   })
 
@@ -20,6 +31,7 @@ describe('FTSE100Parser', () => {
       expect(result).toBeDefined()
       expect(result).toEqual(expectedFtseData)
     })
+
     it('should throw error for invalid CSV format', async () => {
       const invalidContent = 'Invalid CSV content without proper headers'
 
@@ -33,7 +45,9 @@ FTSE UK All-Share Indices Valuation Service
 Wrong Header,Some Column
 UKX,Some Value`
 
-      await expect(parser.parse(invalidContent)).rejects.toThrow('No FTSE 100 index record found')
+      await expect(parser.parse(invalidContent)).rejects.toThrow(
+        'Missing required headers: Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index',
+      )
     })
 
     it('should throw error when null values are found in required columns', async () => {

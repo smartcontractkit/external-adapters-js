@@ -18,26 +18,39 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
   abstract parse(csvContent: string): Promise<T>
 
   /**
-   * Helper method to parse CSV content using csv-parse library
+   * Helper method to parse CSV content as records with column headers
    */
-  protected parseCSV(csvContent: string, options?: Options): Record<string, string>[] {
-    const finalConfig: Options = { ...this.config, ...options }
+  protected parseCSVRecords(csvContent: string, options?: Options): Record<string, string>[] {
+    const finalConfig: Options = { ...this.config, ...options, columns: true }
 
     try {
       return parse(csvContent, finalConfig)
     } catch (error) {
-      throw new Error(`Error parsing CSV: ${error}`)
+      throw new Error(`Error parsing CSV as records: ${error}`)
+    }
+  }
+
+  /**
+   * Helper method to parse CSV content as arrays
+   */
+  protected parseCSVArrays(csvContent: string, options?: Options): string[][] {
+    const finalConfig: Options = { ...this.config, ...options, columns: false }
+
+    try {
+      return parse(csvContent, finalConfig)
+    } catch (error) {
+      throw new Error(`Error parsing CSV as arrays: ${error}`)
     }
   }
 
   /**
    * Convert a string value to a number and invalid values
    */
-  protected convertToNumber(value: string): number | null {
+  protected convertToNumber(value: string): number {
     if (!value || value.trim() === '') {
-      return null
+      return 0
     }
     const numValue = parseFloat(value)
-    return isNaN(numValue) ? null : numValue
+    return isNaN(numValue) ? 0 : numValue
   }
 }

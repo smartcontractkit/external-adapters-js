@@ -14,7 +14,7 @@ const CLOSE_VALUE_COLUMN = 4
  */
 export interface RussellDailyValuesData extends ParsedData {
   indexName: string
-  close: number | null
+  close: number
 }
 
 /**
@@ -37,22 +37,18 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   }
 
   async parse(csvContent: string): Promise<RussellDailyValuesData> {
-    try {
-      this.validateCloseColumn(csvContent)
-    } catch (error: any) {
-      throw new Error(`Invalid CSV structure: ${error.message}`)
-    }
+    this.validateCloseColumn(csvContent)
 
-    const parsed = this.parseCSV(csvContent, {
-      from_line: HEADER_ROW_NUMBER + 1, // Skip header line, + 1 because columns: false and we don't have a haeder row
+    const parsed = this.parseCSVArrays(csvContent, {
+      from_line: HEADER_ROW_NUMBER + 1, // Skip header line, + 1 because columns: false and we don't have a header row
       columns: false,
     })
 
     const results: RussellDailyValuesData[] = parsed
-      .filter((row: Record<string, any>) => {
+      .filter((row: string[]) => {
         return row[INDEX_NAME_COLUMN] === this.instrument
       })
-      .map((row: Record<string, any>) => this.createRussellData(row))
+      .map((row: string[]) => this.createRussellData(row))
 
     if (results.length === 0) {
       throw new Error('No matching Russell index records found')
@@ -67,7 +63,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
    * Validates that the CLOSE_VALUE_COLUMN index corresponds to the "Close" header
    */
   private validateCloseColumn(csvContent: string): void {
-    const parsed = this.parseCSV(csvContent, {
+    const parsed = this.parseCSVArrays(csvContent, {
       from_line: HEADER_ROW_NUMBER,
       to_line: HEADER_ROW_NUMBER,
     })
@@ -79,7 +75,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     const headerRow = parsed[0]
-    if (Object.keys(headerRow).length <= CLOSE_VALUE_COLUMN) {
+    if (headerRow.length <= CLOSE_VALUE_COLUMN) {
       throw new Error(
         `Header row does not have enough columns. Expected at least ${
           CLOSE_VALUE_COLUMN + 1

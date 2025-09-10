@@ -14,5 +14,5 @@ export interface CSVParser<T extends ParsedData = ParsedData> {
  * Generic parsed data structure
  */
 export interface ParsedData {
-  [key: string]: string | number | Date | null
+  [key: string]: string | number | null
 }
