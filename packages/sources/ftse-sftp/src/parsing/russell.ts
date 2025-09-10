@@ -4,7 +4,7 @@ import { ParsedData } from './interfaces'
 // Column names for Russell CSV format
 // The first column contains the index names but doesn't have a consistent header
 // We'll use the first column (index 0) directly instead of relying on column names
-const HEADER_ROW_NUMBER = 5
+const HEADER_ROW_NUMBER = 6
 const INDEX_NAME_COLUMN = 0
 const CLOSE_VALUE_COLUMN = 4
 
@@ -49,10 +49,10 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     })
 
     const results: RussellDailyValuesData[] = parsed
-      .filter((row: any[]) => {
+      .filter((row: Record<string, any>) => {
         return row[INDEX_NAME_COLUMN] === this.instrument
       })
-      .map((row: any[]) => this.createRussellData(row))
+      .map((row: Record<string, any>) => this.createRussellData(row))
 
     if (results.length === 0) {
       throw new Error('No matching Russell index records found')
@@ -74,13 +74,14 @@ export class RussellDailyValuesParser extends BaseCSVParser {
 
     if (parsed.length === 0) {
       throw new Error(
-        `CSV content does not have enough lines to validate header row at line ${
-          HEADER_ROW_NUMBER + 1
-        }`,
+        `CSV content does not have enough lines to validate header row at line ${HEADER_ROW_NUMBER}`,
       )
     }
 
-    const headers = parsed[0].split(',').map((header: string) => header.trim().replace(/"/g, ''))
+    const headerRow = parsed[0]
+    const headers = Object.values(headerRow).map((header: string) =>
+      header.trim().replace(/"/g, ''),
+    )
 
     if (headers.length <= CLOSE_VALUE_COLUMN) {
       throw new Error(
@@ -101,7 +102,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   /**
    * Creates RussellDailyValuesData object from a CSV row array
    */
-  private createRussellData(row: any[]): RussellDailyValuesData {
+  private createRussellData(row: Record<string, any>): RussellDailyValuesData {
     const indexName = row[INDEX_NAME_COLUMN]
     const closeValue = row[CLOSE_VALUE_COLUMN]
 

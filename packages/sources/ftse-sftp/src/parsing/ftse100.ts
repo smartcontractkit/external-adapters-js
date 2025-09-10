@@ -50,7 +50,7 @@ export class FTSE100Parser extends BaseCSVParser {
       .filter((row: Record<string, any>) => {
         return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
       })
-      .map((row: any) => this.createFTSE100Data(row))
+      .map((row: Record<string, any>) => this.createFTSE100Data(row))
 
     if (results.length > 1) {
       throw new Error('Multiple FTSE 100 index records found, expected only one')
