@@ -79,8 +79,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     const headerRow = parsed[0]
-
-    if (headerRow.length <= CLOSE_VALUE_COLUMN) {
+    if (Object.keys(headerRow).length <= CLOSE_VALUE_COLUMN) {
       throw new Error(
         `Header row does not have enough columns. Expected at least ${
           CLOSE_VALUE_COLUMN + 1
