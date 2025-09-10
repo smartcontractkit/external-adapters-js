@@ -5,7 +5,6 @@ export const SoakTestBlacklist: string[] = [
   'anchor', // Missing: RPC URL
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
-  'apy-finance-test', // Missing: Needs registry address, token allocation adapter
   'augur',
   'avalanche-platform',
   'bea',
@@ -91,7 +90,6 @@ export const SoakTestBlacklist: string[] = [
   'stader-balance', // Not deployed internally
   '1forge', // Our API Key has expired
   'amberdata', // Not deployed internally
-  'binance-dex', // Not deployed internally
   'binance', // Not deployed internally
   'bitex', // DP does not exist anymore
   'bravenewcoin', // Our API Key has expired

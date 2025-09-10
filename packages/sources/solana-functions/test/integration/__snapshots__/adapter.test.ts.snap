@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute EUSXPrice should calculate price based on yield pool and vesting schedule 1`] = `
+{
+  "data": {
+    "result": 4.996003996003996,
+    "unvestedAmount": 0,
+    "vestingSchedule": {
+      "end": 2000,
+      "start": 1000,
+      "vestingAmount": 1000,
+    },
+    "yieldPool": {
+      "sharesSupply": 1000,
+      "totalAssets": 5000,
+    },
+  },
+  "result": 4.996003996003996,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1167649871111,
+    "providerDataRequestedUnixMs": 1167649871111,
+  },
+}
+`;
+
+exports[`execute EUSXPrice should error if accounts are missing information 1`] = `
+{
+  "errorMessage": "Invalid vesting schedule fields",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute EUSXPrice should error if fetchAccountInformation fails 1`] = `
+{
+  "errorMessage": "Simulated account fetch failure",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
