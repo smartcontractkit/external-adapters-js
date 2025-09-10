@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -175,9 +172,6 @@
     },
     {
       "path": "./sources/binance"
-    },
-    {
-      "path": "./sources/binance-dex"
     },
     {
       "path": "./sources/bitex"

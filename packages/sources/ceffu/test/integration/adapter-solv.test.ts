@@ -2,9 +2,9 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
 import { mockResponseSuccess } from './fixtures'
-import { JsonRpcProvider } from 'ethers'
 
 jest.mock('crypto', () => {
   const actualModule = jest.requireActual('crypto')
@@ -56,7 +56,7 @@ describe('execute', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
