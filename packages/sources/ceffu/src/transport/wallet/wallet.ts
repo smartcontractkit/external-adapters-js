@@ -26,14 +26,14 @@ export const getWallets = async (
     proxy,
   )
 
-  if (!response || response.length == 0) {
+  if (!response?.data?.length) {
     throw new AdapterError({
       statusCode: 500,
       message: 'Ceffu wallet list API returns empty wallets',
     })
   }
 
-  return response.map((d) => d.walletIdStr)
+  return response.data.map((d) => d.walletIdStr)
 }
 
 interface AssetApiResponse {
@@ -67,14 +67,14 @@ export const getAssets = async (
     proxy,
   )
 
-  if (!response || response.length == 0) {
+  if (!response?.data?.length) {
     throw new AdapterError({
       statusCode: 500,
       message: 'Ceffu wallet asset API returns empty assets',
     })
   }
 
-  return response
+  return response.data
     .filter((r) => Number(r.amount) > 0)
     .map((r) => ({
       coin: r.coinSymbol,

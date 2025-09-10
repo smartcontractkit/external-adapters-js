@@ -67,7 +67,7 @@ describe('requester.ts', () => {
 
       const result = await request('', '', {}, '', '', mockRequester)
 
-      expect(result).toEqual([100, 200])
+      expect(result).toEqual({ data: [100, 200], extra: [] })
       expect(mockRequester.request).toHaveBeenCalledTimes(3)
     })
 

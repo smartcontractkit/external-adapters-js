@@ -11,7 +11,7 @@ export const scale = (value: bigint, decimals: { from: number; to: number }): bi
 }
 
 export const toUsd = async (
-  coins: { coin: string; amount: string }[],
+  coins: { coin: string; amount: string; data?: Record<string, string> }[],
   contracts: Record<string, string>,
   provider: ethers.JsonRpcProvider,
 ) => {
@@ -28,6 +28,7 @@ export const toUsd = async (
         rate: rate.value,
         decimal: rate.decimal,
         value,
+        data: c.data,
       }
     }),
   )

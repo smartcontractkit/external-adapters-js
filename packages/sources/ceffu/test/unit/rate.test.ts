@@ -96,7 +96,7 @@ describe('rate.ts', () => {
       const coins = [
         { coin: 'btc', amount: '1.0' },
         { coin: 'ETH', amount: '2.5' },
-        { coin: 'USDC', amount: '100.1' },
+        { coin: 'USDC', amount: '100.1', data: { A: 'B' } },
       ]
 
       const result = await toUsd(coins, mockContracts, mockProvider)
@@ -105,6 +105,7 @@ describe('rate.ts', () => {
         {
           coin: 'BTC',
           amount: '1.0',
+          data: undefined,
           rate: 50n,
           decimal: 1,
           value: 50n,
@@ -112,6 +113,7 @@ describe('rate.ts', () => {
         {
           coin: 'ETH',
           amount: '2.5',
+          data: undefined,
           rate: 200n,
           decimal: 2,
           value: 500n,
@@ -119,6 +121,7 @@ describe('rate.ts', () => {
         {
           coin: 'USDC',
           amount: '100.1',
+          data: { A: 'B' },
           rate: 4000n,
           decimal: 3,
           value: 400400n,
