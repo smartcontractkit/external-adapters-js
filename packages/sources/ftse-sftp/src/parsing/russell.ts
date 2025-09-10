@@ -94,7 +94,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   /**
    * Creates RussellDailyValuesData object from a CSV row array
    */
-  private createRussellData(row: Record<string, any>): RussellDailyValuesData {
+  private createRussellData(row: string[]): RussellDailyValuesData {
     const indexName = row[INDEX_NAME_COLUMN]
     const closeValue = row[CLOSE_VALUE_COLUMN]
 

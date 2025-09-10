@@ -70,10 +70,10 @@ export class FTSE100Parser extends BaseCSVParser {
     }
 
     const results: FTSE100Data[] = parsed
-      .filter((row: Record<string, any>) => {
+      .filter((row: Record<string, string>) => {
         return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
       })
-      .map((row: Record<string, any>) => this.createFTSE100Data(row))
+      .map((row: Record<string, string>) => this.createFTSE100Data(row))
 
     if (results.length > 1) {
       throw new Error('Multiple FTSE 100 index records found, expected only one')
@@ -87,7 +87,7 @@ export class FTSE100Parser extends BaseCSVParser {
   /**
    * Creates FTSE100Data object from a CSV row
    */
-  private createFTSE100Data(row: any): FTSE100Data {
+  private createFTSE100Data(row: Record<string, string>): FTSE100Data {
     // Validate that all required columns are present in the row
     const emptyColumns = EXPECTED_HEADERS.filter((column) => {
       const value = row[column]
