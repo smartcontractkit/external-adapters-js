@@ -1,13 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import {
-  multiChainFunctionResponseSelectorTransport,
-  multiChainFunctionTransport,
-} from '../transport/function'
+import { functionTransport } from '../transport/function'
 
-export const inputParameters = new InputParameters({
+export const inputParamDefinition = {
   signature: {
     type: 'string',
     aliases: ['function'],
@@ -31,19 +27,9 @@ export const inputParameters = new InputParameters({
     description: 'RPC network name',
     type: 'string',
   },
-  resultField: {
-    required: false,
-    description:
-      "If present, returns the named parameter specified from the signature's response. Has precedence over resultIndex.",
-    type: 'string',
-  },
-  resultIndex: {
-    required: false,
-    description:
-      "If present, returns the 0-indexed parameter specified from the signature's response",
-    type: 'number',
-  },
-})
+} as const
+
+export const inputParameters = new InputParameters(inputParamDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -56,38 +42,8 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const functionEndpoint = new AdapterEndpoint({
+export const endpoint = new AdapterEndpoint({
   name: 'function',
-  transport: multiChainFunctionTransport,
+  transport: functionTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    if (
-      req.requestContext.data.resultField != null ||
-      req.requestContext.data.resultIndex != null
-    ) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `resultField and resultIndex should not be set, use endpoint function-responseSelector instead`,
-      })
-    }
-    return
-  },
-})
-
-export const functionResponseSelectorEndpoint = new AdapterEndpoint({
-  name: 'function-responseSelector',
-  transport: multiChainFunctionResponseSelectorTransport,
-  inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    if (
-      req.requestContext.data.resultField == null &&
-      req.requestContext.data.resultIndex == null
-    ) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `One of resultField and resultIndex should be present`,
-      })
-    }
-    return
-  },
 })

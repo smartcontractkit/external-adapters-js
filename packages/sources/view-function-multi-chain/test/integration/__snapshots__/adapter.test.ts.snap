@@ -70,51 +70,23 @@ exports[`execute function endpoint should return success with parameters 1`] = `
 }
 `;
 
-exports[`execute function-responseSelector endpoint should choose resultField over resultIndex if both specified 1`] = `
+exports[`execute function-response-selector endpoint should fail with non-existant resultField 1`] = `
 {
-  "data": {
-    "result": "123456789",
-  },
-  "result": "123456789",
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
-exports[`execute function-responseSelector endpoint should fail if missing both resultField and resultIndex 1`] = `
-{
-  "error": {
-    "message": "One of resultField and resultIndex should be present",
-    "name": "AdapterError",
-  },
-  "status": "errored",
+  "errorMessage": "Invalid resultField not found in response",
   "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
 }
 `;
 
-exports[`execute function-responseSelector endpoint should return success with resultField 1`] = `
+exports[`execute function-response-selector endpoint should return success with resultField 1`] = `
 {
   "data": {
     "result": "123456789",
   },
   "result": "123456789",
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
-exports[`execute function-responseSelector endpoint should return success with resultIndex 1`] = `
-{
-  "data": {
-    "result": "1723316672",
-  },
-  "result": "1723316672",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
