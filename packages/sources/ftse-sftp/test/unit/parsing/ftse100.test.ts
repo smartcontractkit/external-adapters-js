@@ -1,5 +1,5 @@
 import { FTSE100Parser } from '../../../src/parsing/ftse100'
-import { ftseCsvFixture, expectedFtseData } from './fixtures'
+import { expectedFtseData, ftseCsvFixture } from '../../fixtures'
 
 describe('FTSE100Parser', () => {
   let parser: FTSE100Parser
@@ -37,24 +37,16 @@ UKX,Some Value`
       await expect(parser.parse(invalidContent)).rejects.toThrow('No FTSE 100 index record found')
     })
 
-    it('should handle null values correctly', async () => {
+    it('should throw error when null values are found in required columns', async () => {
       const csvWithNullValues = `02/09/2025 (C) FTSE International Limited 2025. All Rights Reserved
 FTSE UK All-Share Indices Valuation Service
 
 Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index
 UKX,FTSE 100 Index,,GBP,4659.89,,4523.90`
 
-      const result = await parser.parse(csvWithNullValues)
-
-      expect(result).toEqual([
-        {
-          indexCode: 'UKX',
-          indexSectorName: 'FTSE 100 Index',
-          numberOfConstituents: null,
-          indexBaseCurrency: 'GBP',
-          gbpIndex: null,
-        },
-      ])
+      await expect(parser.parse(csvWithNullValues)).rejects.toThrow(
+        'Empty or null values found in required columns: Number of Constituents, GBP Index',
+      )
     })
 
     it('should throw error when no FTSE 100 index record is found', async () => {

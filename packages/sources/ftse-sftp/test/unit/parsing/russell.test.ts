@@ -1,5 +1,5 @@
 import { RussellDailyValuesParser } from '../../../src/parsing/russell'
-import { russellCsvFixture, expectedRussellData } from './fixtures'
+import { expectedRussellData, russellCsvFixture } from '../../fixtures'
 
 describe('RussellDailyValuesParser', () => {
   let parser: RussellDailyValuesParser
@@ -12,15 +12,14 @@ describe('RussellDailyValuesParser', () => {
     it('should parse the actual Russell CSV file correctly', async () => {
       const result = await parser.parse(russellCsvFixture)
 
-      expect(result).toHaveLength(1)
-      expect(result[0]).toEqual(expectedRussellData)
+      expect(result).toEqual(expectedRussellData)
     })
 
     it('should throw error for invalid CSV format', async () => {
       const invalidContent = 'Invalid CSV content without proper headers'
 
       await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'No matching Russell index records found',
+        'Invalid CSV structure: CSV content does not have enough lines to validate header row at line 6',
       )
     })
 
@@ -29,11 +28,11 @@ describe('RussellDailyValuesParser', () => {
 Russell 1000® Index,Some Value`
 
       await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'No matching Russell index records found',
+        'Invalid CSV structure: CSV content does not have enough lines to validate header row at line 6',
       )
     })
 
-    it('should handle null values correctly', async () => {
+    it('should throw error when null values are found in required columns', async () => {
       const csvWithNullValues = `"Daily Values",,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
@@ -42,13 +41,9 @@ Russell 1000® Index,Some Value`
 ,"Open","High","Low","Close","Net Chg","% Chg","High","Low","Net Chg","% Chg","High","Low","Net Chg","% Chg"
 Russell 1000� Index,3538.25,3550.79,3534.60,,9.16,0.26,3547.40,3483.25,51.20,1.46,3547.40,2719.99,496.76,16.28`
 
-      const result = await parser.parse(csvWithNullValues)
-
-      expect(result).toHaveLength(1)
-      expect(result[0]).toEqual({
-        indexName: 'Russell 1000� Index',
-        close: null,
-      })
+      await expect(parser.parse(csvWithNullValues)).rejects.toThrow(
+        'Empty values found in required columns: Close',
+      )
     })
 
     it('should throw error when multiple Russell 1000® Index records are found', async () => {

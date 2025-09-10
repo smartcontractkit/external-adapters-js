@@ -10,7 +10,7 @@ const FTSE_INDEX_SECTOR_NAME_COLUMN = 'Index/Sector Name'
 const FTSE_NUMBER_OF_CONSTITUENTS_COLUMN = 'Number of Constituents'
 const FTSE_INDEX_BASE_CURRENCY_COLUMN = 'Index Base Currency'
 const FTSE_GBP_INDEX_COLUMN = 'GBP Index'
-const FIRST_DATA_ROW = 4 // Start from header line (line 4)
+const HEADER_ROW_NUMBER = 4
 
 /**
  * Specific data structure for FTSE data
@@ -37,20 +37,20 @@ export class FTSE100Parser extends BaseCSVParser {
       trim: true,
       quote: '"',
       escape: '"',
-      relax_column_count: true, // Allow rows with different number of columns
+      relax_column_count: true,
     })
   }
 
   async parse(csvContent: string): Promise<FTSE100Data[]> {
     const parsed = this.parseCSV(csvContent, {
-      from_line: FIRST_DATA_ROW, // Start parsing from line 5 (includes header)
+      from_line: HEADER_ROW_NUMBER,
     })
 
     const results: FTSE100Data[] = parsed
-      .filter((row) => {
+      .filter((row: any[]) => {
         return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
       })
-      .map((row) => this.createFTSE100Data(row))
+      .map((row: any[]) => this.createFTSE100Data(row))
 
     if (results.length > 1) {
       throw new Error('Multiple FTSE 100 index records found, expected only one')
@@ -79,14 +79,26 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error(`Missing required columns in row: ${missingColumns.join(', ')}`)
     }
 
+    const emptyColumns = requiredColumns.filter((column) => {
+      const value = row[column]
+      return (
+        value === null ||
+        value === undefined ||
+        value === '' ||
+        (typeof value === 'string' && value.trim() === '')
+      )
+    })
+
+    if (emptyColumns.length > 0) {
+      throw new Error(`Empty or null values found in required columns: ${emptyColumns.join(', ')}`)
+    }
+
     return {
       indexCode: row[FTSE_INDEX_CODE_COLUMN],
       indexSectorName: row[FTSE_INDEX_SECTOR_NAME_COLUMN],
-      numberOfConstituents: this.convertValue(row[FTSE_NUMBER_OF_CONSTITUENTS_COLUMN], 'number') as
-        | number
-        | null,
+      numberOfConstituents: this.convertToNumber(row[FTSE_NUMBER_OF_CONSTITUENTS_COLUMN]),
       indexBaseCurrency: row[FTSE_INDEX_BASE_CURRENCY_COLUMN],
-      gbpIndex: this.convertValue(row[FTSE_GBP_INDEX_COLUMN], 'number') as number | null,
+      gbpIndex: this.convertToNumber(row[FTSE_GBP_INDEX_COLUMN]),
     }
   }
 }
