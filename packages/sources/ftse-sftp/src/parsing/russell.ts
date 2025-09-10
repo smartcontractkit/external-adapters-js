@@ -45,17 +45,13 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     }
 
     const parsed = this.parseCSV(csvContent, {
-      from_line: HEADER_ROW_NUMBER + 1, // Skip header line
+      from_line: HEADER_ROW_NUMBER + 1, // Skip header line, + 1 because columns: false and we don't have a haeder row
       columns: false,
     })
 
     const results: RussellDailyValuesData[] = parsed
       .filter((row: any[]) => {
-        // row is an array, first element is the index name
-        const indexName = row[INDEX_NAME_COLUMN]
-
-        // Match the instrument name, handling character encoding differences (® vs �)
-        return indexName && indexName.toString().includes(this.instrument.replace('®', '�'))
+        return row[INDEX_NAME_COLUMN] === this.instrument
       })
       .map((row: any[]) => this.createRussellData(row))
 
