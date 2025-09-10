@@ -158,6 +158,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [snowflake](./snowflake/README.md)
 - [sochain](./sochain/README.md)
 - [solactive](./solactive/README.md)
+- [solana-functions](./solana-functions/README.md)
 - [solana-view-function](./solana-view-function/README.md)
 - [spectral-macro-score](./spectral-macro-score/README.md)
 - [sportsdataio](./sportsdataio/README.md)
