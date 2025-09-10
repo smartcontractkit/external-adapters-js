@@ -40,7 +40,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   async parse(csvContent: string): Promise<RussellDailyValuesData> {
     try {
       this.validateCloseColumn(csvContent)
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(`Invalid CSV structure: ${error.message}`)
     }
 

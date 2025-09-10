@@ -15,7 +15,7 @@ export abstract class BaseCSVParser implements CSVParser {
   /**
    * Abstract method that must be implemented by concrete classes
    */
-  abstract parse(csvContent: string): Promise<ParsedData[]>
+  abstract parse(csvContent: string): Promise<ParsedData>
 
   /**
    * Helper method to parse CSV content using csv-parse library

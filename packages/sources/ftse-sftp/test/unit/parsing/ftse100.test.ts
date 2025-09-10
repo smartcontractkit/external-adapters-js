@@ -17,9 +17,8 @@ describe('FTSE100Parser', () => {
   describe('parse', () => {
     it('should parse the actual FTSE CSV file correctly', async () => {
       const result = await parser.parse(ftseCsvFixture)
-
-      expect(result).toHaveLength(1)
-      expect(result[0]).toEqual(expectedFtseData)
+      expect(result).toBeDefined()
+      expect(result).toEqual(expectedFtseData)
     })
     it('should throw error for invalid CSV format', async () => {
       const invalidContent = 'Invalid CSV content without proper headers'

@@ -41,16 +41,16 @@ export class FTSE100Parser extends BaseCSVParser {
     })
   }
 
-  async parse(csvContent: string): Promise<FTSE100Data[]> {
+  async parse(csvContent: string): Promise<FTSE100Data> {
     const parsed = this.parseCSV(csvContent, {
       from_line: HEADER_ROW_NUMBER,
     })
 
     const results: FTSE100Data[] = parsed
-      .filter((row: any[]) => {
+      .filter((row: Record<string, any>) => {
         return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
       })
-      .map((row: any[]) => this.createFTSE100Data(row))
+      .map((row: any) => this.createFTSE100Data(row))
 
     if (results.length > 1) {
       throw new Error('Multiple FTSE 100 index records found, expected only one')
@@ -58,7 +58,7 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error('No FTSE 100 index record found')
     }
 
-    return results
+    return results[0]
   }
 
   /**

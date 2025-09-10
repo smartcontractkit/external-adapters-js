@@ -11,7 +11,7 @@ describe('RussellDailyValuesParser', () => {
   describe('parse', () => {
     it('should parse the actual Russell CSV file correctly', async () => {
       const result = await parser.parse(russellCsvFixture)
-
+      expect(result).toBeDefined()
       expect(result).toEqual(expectedRussellData)
     })
 
