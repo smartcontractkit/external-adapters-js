@@ -1,11 +1,11 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { getAssets, getWallets } from '../../src/transport/wallet/wallet'
 
-jest.mock('../../src/transport/wallet/requester', () => ({
+jest.mock('../../src/transport/requester', () => ({
   request: jest.fn(),
 }))
 
-import { request } from '../../src/transport/wallet/requester'
+import { request } from '../../src/transport/requester'
 
 const mockRequest = request as jest.MockedFunction<typeof request>
 

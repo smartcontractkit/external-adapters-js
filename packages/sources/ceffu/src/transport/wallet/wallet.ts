@@ -1,6 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { request } from './requester'
+import { request } from '../requester'
 
 interface WalletApiResponse {
   walletId: number

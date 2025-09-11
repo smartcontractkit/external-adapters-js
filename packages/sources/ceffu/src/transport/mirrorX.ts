@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Decimal } from 'decimal.js'
-import { request } from './wallet/requester'
+import { request } from './requester'
 
 interface MirrorXResponse {
   binanceUID: string
