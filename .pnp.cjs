@@ -427,6 +427,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/deribit"\
     },\
     {\
+      "name": "@chainlink/deutsche-boerse-adapter",\
+      "reference": "workspace:packages/sources/deutsche-boerse"\
+    },\
+    {\
       "name": "@chainlink/dlc-btc-por-adapter",\
       "reference": "workspace:packages/sources/dlc-btc-por"\
     },\
@@ -1054,6 +1058,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
     ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
+    ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
@@ -5077,6 +5082,94 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@bufbuild/buf", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-npm-1.57.0-2ab3bfef25/node_modules/@bufbuild/buf/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf", "npm:1.57.0"],\
+          ["@bufbuild/buf-darwin-arm64", "npm:1.57.0"],\
+          ["@bufbuild/buf-darwin-x64", "npm:1.57.0"],\
+          ["@bufbuild/buf-linux-aarch64", "npm:1.57.0"],\
+          ["@bufbuild/buf-linux-armv7", "npm:1.57.0"],\
+          ["@bufbuild/buf-linux-x64", "npm:1.57.0"],\
+          ["@bufbuild/buf-win32-arm64", "npm:1.57.0"],\
+          ["@bufbuild/buf-win32-x64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-darwin-arm64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-arm64-npm-1.57.0-6f2ff0e9e6/node_modules/@bufbuild/buf-darwin-arm64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-darwin-arm64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-darwin-x64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-x64-npm-1.57.0-c2008a76e1/node_modules/@bufbuild/buf-darwin-x64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-darwin-x64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-linux-aarch64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-aarch64-npm-1.57.0-e1be211b1d/node_modules/@bufbuild/buf-linux-aarch64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-linux-aarch64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-linux-armv7", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-armv7-npm-1.57.0-1a847128e0/node_modules/@bufbuild/buf-linux-armv7/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-linux-armv7", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-linux-x64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-x64-npm-1.57.0-f292389579/node_modules/@bufbuild/buf-linux-x64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-linux-x64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-win32-arm64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-arm64-npm-1.57.0-6ee6dffa18/node_modules/@bufbuild/buf-win32-arm64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-win32-arm64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/buf-win32-x64", [\
+      ["npm:1.57.0", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-x64-npm-1.57.0-7ca34dacd7/node_modules/@bufbuild/buf-win32-x64/",\
+        "packageDependencies": [\
+          ["@bufbuild/buf-win32-x64", "npm:1.57.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@bufbuild/protobuf", [\
+      ["npm:2.7.0", {\
+        "packageLocation": "./.yarn/cache/@bufbuild-protobuf-npm-2.7.0-79729124a9-3610b8da21.zip/node_modules/@bufbuild/protobuf/",\
+        "packageDependencies": [\
+          ["@bufbuild/protobuf", "npm:2.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@cardano-ogmios/client", [\
       ["npm:5.6.0", {\
         "packageLocation": "./.yarn/cache/@cardano-ogmios-client-npm-5.6.0-e3f0ec5f2b-1584e36a4d.zip/node_modules/@cardano-ogmios/client/",\
@@ -6336,6 +6429,27 @@ const RAW_RUNTIME_STATE =
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/deutsche-boerse-adapter", [\
+      ["workspace:packages/sources/deutsche-boerse", {\
+        "packageLocation": "./packages/sources/deutsche-boerse/",\
+        "packageDependencies": [\
+          ["@chainlink/deutsche-boerse-adapter", "workspace:packages/sources/deutsche-boerse"],\
+          ["@bufbuild/buf", "npm:1.57.0"],\
+          ["@bufbuild/protobuf", "npm:2.7.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["@types/ws", "npm:8.18.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -17872,6 +17986,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-7.4.7-d0c95c0958-5236b6c548.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:7.4.7"],\
+          ["@types/node", "npm:22.9.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:8.18.1", {\
+        "packageLocation": "./.yarn/cache/@types-ws-npm-8.18.1-61dc106ff0-1ce05e3174.zip/node_modules/@types/ws/",\
+        "packageDependencies": [\
+          ["@types/ws", "npm:8.18.1"],\
           ["@types/node", "npm:22.9.1"]\
         ],\
         "linkType": "HARD"\

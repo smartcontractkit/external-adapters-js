@@ -300,6 +300,9 @@
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
+      "path": "./sources/deutsche-boerse/tsconfig.test.json"
+    },
+    {
       "path": "./sources/dlc-btc-por/tsconfig.test.json"
     },
     {
