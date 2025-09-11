@@ -3,28 +3,17 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { wsTransport } from '../transport/lwba'
 
-export const MARKETS = ['md-xetraetfetp'] as const
-export type Market = (typeof MARKETS)[number]
-
 export const inputParameters = new InputParameters(
   {
     isin: {
-      aliases: ['instrument', 'ISIN'],
+      aliases: ['instrument'],
       required: true,
       type: 'string',
       description: 'The ISIN identifier of the instrument to query',
     },
-    market: {
-      aliases: ['stream'],
-      required: true,
-      type: 'string',
-      description: 'The market identifier of the stream to query',
-      options: [...MARKETS],
-    },
   },
   [
     {
-      market: 'md-xetraetfetp',
       isin: 'IE00B53L3W79',
     },
   ],
@@ -33,12 +22,10 @@ export const inputParameters = new InputParameters(
 interface LwbaLatestPriceResponse {
   Result: number | null
   Data: {
-    mid: number
-    bid: number
-    ask: number
-    latestPrice: number
-    quoteProviderIndicatedTimeUnixMs: number
-    tradeProviderIndicatedTimeUnixMs: number
+    mid: number | null
+    bid: number | null
+    ask: number | null
+    latestPrice: number | null
   }
 }
 
