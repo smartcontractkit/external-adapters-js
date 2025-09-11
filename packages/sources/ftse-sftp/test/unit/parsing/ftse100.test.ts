@@ -28,9 +28,7 @@ FTSE UK All-Share Indices Valuation Service
 Wrong Header,Some Column
 UKX,Some Value`
 
-      await expect(parser.parse(invalidContent)).rejects.toThrow(
-        'Missing required headers: Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, GBP Index',
-      )
+      await expect(parser.parse(invalidContent)).rejects.toThrow('No FTSE 100 index record found')
     })
 
     it('should throw error when null values are found in required columns', async () => {

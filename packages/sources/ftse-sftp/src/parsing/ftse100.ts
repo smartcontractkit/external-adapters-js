@@ -56,19 +56,6 @@ export class FTSE100Parser extends BaseCSVParser {
       from_line: HEADER_ROW_NUMBER,
     })
 
-    // Validate headers exist
-    if (parsed.length > 0) {
-      const actualHeaders = Object.keys(parsed[0])
-      if (actualHeaders.length === 0) {
-        throw new Error(`No headers found in CSV content at line ${HEADER_ROW_NUMBER}`)
-      }
-      const missingHeaders = EXPECTED_HEADERS.filter((header) => !actualHeaders.includes(header))
-
-      if (missingHeaders.length > 0) {
-        throw new Error(`Missing required headers: ${missingHeaders.join(', ')}`)
-      }
-    }
-
     const results: FTSE100Data[] = parsed
       .filter((row: Record<string, string>) => {
         return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
