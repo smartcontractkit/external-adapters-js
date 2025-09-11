@@ -807,6 +807,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/satoshitango"\
     },\
     {\
+      "name": "@chainlink/securitize-adapter",\
+      "reference": "workspace:packages/sources/securitize"\
+    },\
+    {\
       "name": "@chainlink/snowflake-adapter",\
       "reference": "workspace:packages/sources/snowflake"\
     },\
@@ -1189,6 +1193,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
+    ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
@@ -8701,6 +8706,21 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.14.3"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/securitize-adapter", [\
+      ["workspace:packages/sources/securitize", {\
+        "packageLocation": "./packages/sources/securitize/",\
+        "packageDependencies": [\
+          ["@chainlink/securitize-adapter", "workspace:packages/sources/securitize"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
