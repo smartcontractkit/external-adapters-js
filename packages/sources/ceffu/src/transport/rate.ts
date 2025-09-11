@@ -23,12 +23,11 @@ export const toUsd = async (
         to: 0,
       })
       return {
+        ...c,
         coin: c.coin.toUpperCase(),
-        amount: c.amount,
         rate: rate.value,
         decimal: rate.decimal,
         value,
-        data: c.data,
       }
     }),
   )

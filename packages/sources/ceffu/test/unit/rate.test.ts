@@ -105,7 +105,6 @@ describe('rate.ts', () => {
         {
           coin: 'BTC',
           amount: '1.0',
-          data: undefined,
           rate: 50n,
           decimal: 1,
           value: 50n,
@@ -113,7 +112,6 @@ describe('rate.ts', () => {
         {
           coin: 'ETH',
           amount: '2.5',
-          data: undefined,
           rate: 200n,
           decimal: 2,
           value: 500n,

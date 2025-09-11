@@ -41,8 +41,8 @@ export const request = async <T, E = EmptyParams>(
   proxy?: string,
 ) => {
   const results: {
-    data: T[]
-    extra: E[]
+    data: T[] // 1 array with all items across pages
+    extra: E[] // 1 item per page
   } = {
     data: [],
     extra: [],

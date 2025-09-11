@@ -71,6 +71,28 @@ describe('requester.ts', () => {
       expect(mockRequester.request).toHaveBeenCalledTimes(3)
     })
 
+    it('should return extras', async () => {
+      mockRequester.request.mockResolvedValueOnce({
+        response: {
+          data: {
+            data: {
+              data: [100],
+              extraData: 123,
+              totalPage: 1,
+              pageNo: 1,
+              pageLimit: 500,
+            },
+            code: '000000',
+            message: 'success',
+          },
+        },
+      } as any)
+
+      const result = await request('', '', {}, '', '', mockRequester)
+
+      expect(result).toEqual({ data: [100], extra: [{ extraData: 123 }] })
+    })
+
     it('should throw AdapterError when response is null', async () => {
       mockRequester.request.mockResolvedValueOnce(null as any)
       await expect(request('', '', {}, '', '', mockRequester)).rejects.toThrow(
