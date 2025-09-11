@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute xrpl endpoint should error if XRPL_RPC_URL is not set 1`] = `
+{
+  "error": {
+    "message": "Environment variable XRPL_RPC_URL is missing",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
