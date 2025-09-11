@@ -1,28 +1,14 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Decimal } from 'decimal.js'
-import { HttpsProxyAgent } from 'https-proxy-agent'
-import { stringify } from 'querystring'
-// TODO: Refactor to use request instead
-// https://smartcontract-it.atlassian.net/browse/OPDATA-4224
-import { sign } from './wallet/requester'
+import { request } from './requester'
 
-interface ApiResponse {
-  data: {
-    data: {
-      binanceUID: string
-      coinSymbol: string
-      mirrorXBalance: string
-      mirrorXLinkId: string
-      walletIdStr: string
-    }[]
-    exchangeBalance: string
-    pageLimit: number
-    pageNo: number
-    totalPage: number
-  }
-  code: string
-  message: string
+interface MirrorXResponse {
+  binanceUID: string
+  coinSymbol: string
+  mirrorXBalance: string
+  mirrorXLinkId: string
+  walletIdStr: string
 }
 
 export const getAssetPositions = async (
@@ -35,50 +21,33 @@ export const getAssetPositions = async (
 ): Promise<{ exchangeBalances: string[]; sum: Decimal }> => {
   const responses = await Promise.all(
     mirrorXLinkIds.map(async (id) => {
-      const params = {
-        mirrorXLinkId: id,
-        excludeZeroAmountFlag: true,
-        pageLimit: 500,
-        pageNo: 1,
-        timestamp: Date.now(),
-      }
-      const requestConfig = {
-        baseURL: url,
-        url: '/open-api/v1/mirrorX/positions/list',
-        method: 'GET',
-        httpsAgent: new HttpsProxyAgent(proxy),
-        headers: {
-          'open-apikey': apiKey,
-          signature: sign(stringify(params), privateKey),
-        },
-        params,
-      }
-
-      return requester.request<ApiResponse>(JSON.stringify(requestConfig), requestConfig)
+      return request<MirrorXResponse, { exchangeBalance: string }>(
+        url,
+        '/open-api/v1/mirrorX/positions/list',
+        { mirrorXLinkId: id, excludeZeroAmountFlag: true },
+        apiKey,
+        privateKey,
+        requester,
+        proxy,
+      )
     }),
   )
 
   for (const response of responses) {
-    if (!response.response || !response.response.data) {
+    if (!response?.extra?.length) {
       throw new AdapterError({
         statusCode: 500,
         message: 'Ceffu API does not return data',
       })
     }
-
-    if (!response.response.data.data?.exchangeBalance) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: `Ceffu API does not return exchangeBalance, code: ${response.response.data.code}, message:${response.response.data.message}`,
-      })
-    }
   }
 
+  const exchangeBalances = responses.flatMap(({ extra }) =>
+    extra.map(({ exchangeBalance }) => exchangeBalance),
+  )
+
   return {
-    exchangeBalances: responses.flatMap((r) => r.response.data.data.exchangeBalance),
-    sum: responses.reduce(
-      (sum, elem) => sum.add(new Decimal(elem.response.data.data.exchangeBalance)),
-      new Decimal(0),
-    ),
+    exchangeBalances,
+    sum: exchangeBalances.reduce((sum, elem) => sum.add(new Decimal(elem)), new Decimal(0)),
   }
 }
