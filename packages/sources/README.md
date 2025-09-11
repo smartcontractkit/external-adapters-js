@@ -5,7 +5,6 @@ This document was generated automatically. Please see [Master List Generator](..
 ## List
 
 - [1forge](./1forge/README.md)
-- [accuweather](./accuweather/README.md)
 - [ada-balance](./ada-balance/README.md)
 - [aleno](./aleno/README.md)
 - [alphachain](./alphachain/README.md)
@@ -20,7 +19,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [bank-frick](./bank-frick/README.md)
 - [bea](./bea/README.md)
 - [binance](./binance/README.md)
-- [binance-dex](./binance-dex/README.md)
 - [bitex](./bitex/README.md)
 - [bitgo](./bitgo/README.md)
 - [bitgo-reserves](./bitgo-reserves/README.md)
@@ -160,6 +158,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [snowflake](./snowflake/README.md)
 - [sochain](./sochain/README.md)
 - [solactive](./solactive/README.md)
+- [solana-functions](./solana-functions/README.md)
 - [solana-view-function](./solana-view-function/README.md)
 - [spectral-macro-score](./spectral-macro-score/README.md)
 - [sportsdataio](./sportsdataio/README.md)

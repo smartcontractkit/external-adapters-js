@@ -1,12 +1,11 @@
-import { FTSE100Parser } from './ftse100'
 import { CSVParser } from './interfaces'
+import { FTSE100Parser } from './ftse100'
 import { RussellDailyValuesParser } from './russell'
 
 /**
  * Supported CSV parser types
  */
 export const instrumentToElementMap = {
-  FTSE100INDEX: 'UKX',
   Russell1000INDEX: 'Russell 1000® Index',
   Russell2000INDEX: 'Russell 2000® Index',
   Russell3000INDEX: 'Russell 3000® Index',
@@ -24,9 +23,7 @@ export class CSVParserFactory {
       case 'FTSE100INDEX':
         return new FTSE100Parser()
       case 'Russell1000INDEX':
-        return new RussellDailyValuesParser(instrumentToElementMap[instrument])
       case 'Russell2000INDEX':
-        return new RussellDailyValuesParser(instrumentToElementMap[instrument])
       case 'Russell3000INDEX':
         return new RussellDailyValuesParser(instrumentToElementMap[instrument])
       default:

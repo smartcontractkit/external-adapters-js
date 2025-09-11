@@ -2,6 +2,27 @@ import { BaseCSVParser } from './base-parser'
 import { ParsedData } from './interfaces'
 
 /**
+ * Spreadsheet consts
+ */
+const FTSE_100_INDEX_CODE = 'UKX'
+const FTSE_INDEX_CODE_COLUMN = 'Index Code'
+const FTSE_INDEX_SECTOR_NAME_COLUMN = 'Index/Sector Name'
+const FTSE_NUMBER_OF_CONSTITUENTS_COLUMN = 'Number of Constituents'
+const FTSE_INDEX_BASE_CURRENCY_COLUMN = 'Index Base Currency'
+const FTSE_GBP_INDEX_COLUMN = 'GBP Index'
+const HEADER_ROW_NUMBER = 4
+
+const EXPECTED_HEADERS = [
+  FTSE_INDEX_CODE_COLUMN,
+  FTSE_INDEX_SECTOR_NAME_COLUMN,
+  FTSE_NUMBER_OF_CONSTITUENTS_COLUMN,
+  FTSE_INDEX_BASE_CURRENCY_COLUMN,
+  FTSE_GBP_INDEX_COLUMN,
+]
+
+export { EXPECTED_HEADERS, HEADER_ROW_NUMBER }
+
+/**
  * Specific data structure for FTSE data
  * Based on the actual FTSE CSV format with Index Code, Index/Sector Name, Number of Constituents, Index Base Currency, and GBP Index
  */
@@ -21,100 +42,57 @@ export class FTSE100Parser extends BaseCSVParser {
   constructor() {
     super({
       delimiter: ',',
-      columns: true,
       skip_empty_lines: true,
       trim: true,
       quote: '"',
       escape: '"',
+      // We set this to true because on the last row there is a random element "XXXXXXXX"
+      relax_column_count: true,
     })
   }
 
-  async parse(csvContent: string): Promise<FTSE100Data[]> {
-    if (!this.validateFormat(csvContent)) {
-      throw new Error('Invalid CSV format for FTSE data')
-    }
-
-    const parsed = this.parseCSV(csvContent, {
-      from_line: 4, // Start parsing from line 4 (includes header)
+  async parse(csvContent: string): Promise<FTSE100Data> {
+    const parsed = this.parseCSVRecords(csvContent, {
+      from_line: HEADER_ROW_NUMBER,
     })
-    const results: FTSE100Data[] = []
 
-    for (const row of parsed) {
-      try {
-        // Only include records where indexCode is "UKX" (FTSE 100 Index)
-        if (row['Index Code'] === 'UKX') {
-          const data: FTSE100Data = {
-            indexCode: this.convertValue(row['Index Code'], 'string') as string,
-            indexSectorName: this.convertValue(row['Index/Sector Name'], 'string') as string,
-            numberOfConstituents: this.convertValue(row['Number of Constituents'], 'number') as
-              | number
-              | null,
-            indexBaseCurrency: this.convertValue(row['Index Base Currency'], 'string') as string,
-            gbpIndex: this.convertValue(row['GBP Index'], 'number') as number | null,
-          }
+    const results: FTSE100Data[] = parsed
+      .filter((row: Record<string, string>) => {
+        return row[FTSE_INDEX_CODE_COLUMN] === FTSE_100_INDEX_CODE
+      })
+      .map((row: Record<string, string>) => this.createFTSE100Data(row))
 
-          // Additional validation for required fields
-          if (!data.indexCode || data.indexCode === '') {
-            console.warn(`Missing required Index Code field`)
-            continue
-          }
-
-          results.push(data)
-        }
-      } catch (error) {
-        console.error(`Error parsing row:`, error)
-      }
+    if (results.length > 1) {
+      throw new Error('Multiple FTSE 100 index records found, expected only one')
+    } else if (results.length === 0) {
+      throw new Error('No FTSE 100 index record found')
     }
 
-    return results
+    return results[0]
   }
 
   /**
-   * Enhanced validation specific to FTSE format
+   * Creates FTSE100Data object from a CSV row
    */
-  validateFormat(csvContent: string): boolean {
-    if (!csvContent || csvContent.trim().length === 0) {
-      return false
+  private createFTSE100Data(row: Record<string, string>): FTSE100Data {
+    // Validate that all required elements are present in the row
+    const emptyColumns = EXPECTED_HEADERS.filter((column) => {
+      const value = row[column]
+      return (
+        value === null || value === undefined || (typeof value === 'string' && value.trim() === '')
+      )
+    })
+
+    if (emptyColumns.length > 0) {
+      throw new Error(`Empty or null values found in required columns: ${emptyColumns.join(', ')}`)
     }
 
-    try {
-      // Parse from line 4 (header) to line 6 to validate the format
-      const parsed = this.parseCSV(csvContent, {
-        from_line: 4,
-        to_line: 6, // Parse header and a couple data rows for validation
-        relax_column_count: true,
-      })
-
-      if (!parsed || parsed.length === 0) {
-        return false
-      }
-
-      // Check if we can access the expected columns from the first data row
-      const firstDataRow = parsed[0]
-      if (!firstDataRow) {
-        console.error('No data rows found in CSV for validation')
-        return false
-      }
-
-      const requiredColumns = [
-        'Index Code',
-        'Index/Sector Name',
-        'Number of Constituents',
-        'Index Base Currency',
-        'GBP Index',
-      ]
-
-      const missingColumns = requiredColumns.filter((column) => firstDataRow[column] === undefined)
-
-      if (missingColumns.length > 0) {
-        console.error(`Missing required columns in FTSE CSV: ${missingColumns.join(', ')}`)
-        console.error(`Available columns: ${Object.keys(firstDataRow).join(', ')}`)
-        return false
-      }
-
-      return true
-    } catch (error) {
-      return false
+    return {
+      indexCode: row[FTSE_INDEX_CODE_COLUMN],
+      indexSectorName: row[FTSE_INDEX_SECTOR_NAME_COLUMN],
+      numberOfConstituents: this.convertToNumber(row[FTSE_NUMBER_OF_CONSTITUENTS_COLUMN]),
+      indexBaseCurrency: row[FTSE_INDEX_BASE_CURRENCY_COLUMN],
+      gbpIndex: this.convertToNumber(row[FTSE_GBP_INDEX_COLUMN]),
     }
   }
 }

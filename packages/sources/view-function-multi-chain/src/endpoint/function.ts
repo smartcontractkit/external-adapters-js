@@ -1,9 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { multiChainFunctionTransport } from '../transport/function'
+import { functionTransport } from '../transport/function'
 
-export const inputParameters = new InputParameters({
+export const inputParamDefinition = {
   signature: {
     type: 'string',
     aliases: ['function'],
@@ -27,7 +27,9 @@ export const inputParameters = new InputParameters({
     description: 'RPC network name',
     type: 'string',
   },
-})
+} as const
+
+export const inputParameters = new InputParameters(inputParamDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -42,6 +44,6 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'function',
-  transport: multiChainFunctionTransport,
+  transport: functionTransport,
   inputParameters,
 })

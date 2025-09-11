@@ -44,6 +44,9 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
+// This endpoint is similar to the virtune-token endpoint but returns a
+// response in a format that proof-of-reserves can pass on to por-indexer or
+// ethereum-cl-indexer.
 export const endpoint = new AdapterEndpoint({
   name: 'virtune',
   transport: virtuneTransport,

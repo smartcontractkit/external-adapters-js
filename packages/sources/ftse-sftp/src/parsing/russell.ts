@@ -1,10 +1,12 @@
 import { BaseCSVParser } from './base-parser'
 import { ParsedData } from './interfaces'
 
-// Column indices for Russell CSV format
+// Column names for Russell CSV format
+// The first column contains the index names but doesn't have a consistent header
+// We'll use the first column (index 0) directly instead of relying on column names
+const HEADER_ROW_NUMBER = 6
 const INDEX_NAME_COLUMN = 0
-const VALUE_COLUMN = 4
-const EXPECTED_COLUMNS = 5
+const CLOSE_VALUE_COLUMN = 4
 
 /**
  * Specific data structure for Russell Daily Values data
@@ -12,7 +14,7 @@ const EXPECTED_COLUMNS = 5
  */
 export interface RussellDailyValuesData extends ParsedData {
   indexName: string
-  close: number | null
+  close: number
 }
 
 /**
@@ -25,131 +27,88 @@ export class RussellDailyValuesParser extends BaseCSVParser {
   constructor(instrument: string) {
     super({
       delimiter: ',',
-      columns: false, // No headers, data accessed as arrays
       skip_empty_lines: true,
       trim: true,
+      quote: '"',
+      escape: '"',
+      // Set this to true because the random XXXXXXXX in the last row
+      relax_column_count: true,
     })
     this.instrument = instrument
   }
 
-  async parse(csvContent: string): Promise<RussellDailyValuesData[]> {
-    const results: RussellDailyValuesData[] = []
+  async parse(csvContent: string): Promise<RussellDailyValuesData> {
+    this.validateCloseColumn(csvContent)
 
-    if (!this.validateFormat(csvContent)) {
-      throw new Error('Invalid CSV format for Russell data')
-    }
-
-    // Russell data always starts on line 7, so skip the first 6 lines
-    // Use existing config (delimiter, trim, etc.) and just specify from_line
-    const parsed = this.parseCSV(csvContent, {
-      from_line: 7, // Start parsing from line
+    const parsed = this.parseCSVArrays(csvContent, {
+      from_line: HEADER_ROW_NUMBER + 1, // + 1 to start parsing after the header row
     })
 
-    for (const row of parsed) {
-      if (!row || row.length < EXPECTED_COLUMNS) {
-        // Expected columns based on the Russell Daily Values format
-        continue // Skip rows with insufficient fields without logging
-      }
-
-      // Skip empty rows (where all fields are empty strings or just whitespace)
-      const hasContent = row.some((field: any) => field && String(field).trim() !== '')
-      if (!hasContent) {
-        continue // Skip empty rows without logging
-      }
-
-      try {
-        // csv-parse with trim: true should handle quote removal automatically
-        const indexName = this.convertValue(row[INDEX_NAME_COLUMN], 'string') as string
-
-        const data: RussellDailyValuesData = {
-          indexName,
-          close: this.convertValue(row[VALUE_COLUMN], 'number') as number | null,
-        }
-
-        // Additional validation for required fields
-        if (!data.indexName || data.indexName === '') {
-          console.warn(`Missing required index name field in row: ${JSON.stringify(row)}`)
-          continue
-        }
-
-        // Normalize the string because of the ® symbol
-        if (this.normalizeString(indexName) === this.normalizeString(this.instrument)) {
-          results.push(data)
-        }
-      } catch (error) {
-        console.error(`Error parsing row: ${JSON.stringify(row)}`, error)
-      }
-    }
-
-    // Only throw error if no Russell data was found at all
-    if (results.length === 0) {
-      const hasRussellData = parsed.some(
-        (row) =>
-          row && row[INDEX_NAME_COLUMN] && String(row[INDEX_NAME_COLUMN]).includes('Russell'),
-      )
-
-      if (!hasRussellData) {
-        throw new Error('Could not find Russell index data in the provided content')
-      }
-    }
-
-    return results
-  }
-
-  /**
-   * Enhanced validation specific to Russell Daily Values format
-   */
-  validateFormat(csvContent: string): boolean {
-    if (!csvContent || csvContent.trim().length === 0) {
-      return false
-    }
-
-    try {
-      // Try to parse from line 7 to validate the format
-      const parsed = this.parseCSV(csvContent, {
-        from_line: 7,
-        to_line: 16, // Parse more lines for validation to handle mixed content
+    const results: RussellDailyValuesData[] = parsed
+      .filter((row: string[]) => {
+        return row[INDEX_NAME_COLUMN] === this.instrument
       })
+      .map((row: string[]) => this.createRussellData(row))
 
-      if (!parsed || parsed.length === 0) {
-        console.error('No data rows found in CSV for Russell validation')
-        return false
-      }
+    if (results.length === 0) {
+      throw new Error('No matching Russell index records found')
+    } else if (results.length > 1) {
+      throw new Error('Multiple matching Russell index records found, expected only one')
+    }
 
-      // Check if any row contains valid Russell index data
-      // We don't require ALL rows to be valid, just that there's at least one good Russell row
-      const hasValidRussellData = parsed.some(
-        (row) =>
-          row &&
-          row.length >= EXPECTED_COLUMNS && // Must have sufficient columns
-          row[INDEX_NAME_COLUMN] &&
-          String(row[INDEX_NAME_COLUMN]).includes('Russell') &&
-          (String(row[INDEX_NAME_COLUMN]).includes('®') ||
-            String(row[INDEX_NAME_COLUMN]).includes('�')),
+    return results[0]
+  }
+
+  /**
+   * Validates that the CLOSE_VALUE_COLUMN index corresponds to the "Close" header
+   */
+  private validateCloseColumn(csvContent: string): void {
+    const parsed = this.parseCSVArrays(csvContent, {
+      from_line: HEADER_ROW_NUMBER,
+      to_line: HEADER_ROW_NUMBER,
+    })
+
+    if (parsed.length === 0) {
+      throw new Error(
+        `CSV content does not have enough lines to validate header row at line ${HEADER_ROW_NUMBER}`,
       )
+    }
 
-      if (!hasValidRussellData) {
-        console.error('No valid Russell index data found in CSV validation')
-        console.error(
-          'Available data in first column:',
-          parsed
-            .slice(0, 5)
-            .map((row) => row[INDEX_NAME_COLUMN])
-            .filter(Boolean),
-        )
-        return false
-      }
+    const headerRow = parsed[0]
+    if (headerRow.length <= CLOSE_VALUE_COLUMN) {
+      throw new Error(
+        `Header row does not have enough columns. Expected at least ${
+          CLOSE_VALUE_COLUMN + 1
+        } columns`,
+      )
+    }
 
-      return true
-    } catch (error) {
-      return false
+    const closeHeader = headerRow[CLOSE_VALUE_COLUMN]
+    if (closeHeader.toLowerCase() !== 'close') {
+      throw new Error(
+        `Expected "Close" column at index ${CLOSE_VALUE_COLUMN}, but found "${closeHeader}"`,
+      )
     }
   }
 
   /**
-   * Normalize a string by removing the ® symbol
+   * Creates RussellDailyValuesData object from a CSV row array
    */
-  normalizeString(str: string): string {
-    return str.replace(/®/g, '').trim()
+  private createRussellData(row: string[]): RussellDailyValuesData {
+    const indexName = row[INDEX_NAME_COLUMN]
+    const closeValue = row[CLOSE_VALUE_COLUMN]
+
+    if (
+      closeValue === null ||
+      closeValue === undefined ||
+      (typeof closeValue === 'string' && closeValue.trim() === '')
+    ) {
+      throw new Error(`Empty values found in required columns: Close`)
+    }
+
+    return {
+      indexName: indexName,
+      close: this.convertToNumber(closeValue),
+    }
   }
 }

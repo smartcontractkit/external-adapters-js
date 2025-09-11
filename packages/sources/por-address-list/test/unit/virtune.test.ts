@@ -96,6 +96,46 @@ describe('VirtuneTransport', () => {
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
+  const testTransport = async ({
+    params,
+    expectedRequestConfig,
+    response,
+    expectedResponse,
+  }: {
+    params: typeof inputParameters.validated
+    expectedRequestConfig: unknown
+    response: unknown
+    expectedResponse: unknown
+  }): Promise<void> => {
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    const expectedRequestKey = requestKeyForParams(params)
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expectedRequestKey,
+      expectedRequestConfig,
+      undefined,
+    )
+    expect(requester.request).toHaveBeenCalledTimes(1)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: expectedResponse,
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  }
+
   it('should cache a response for a successful request', async () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
@@ -108,12 +148,14 @@ describe('VirtuneTransport', () => {
       network,
       chainId,
     })
-    subscriptionSet.getAll.mockReturnValue([params])
 
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    const expectedRequestConfig = {
+      baseURL: adapterSettings.VIRTUNE_API_URL,
+      params: {
+        key: virtuneApiKey,
+      },
+      url: accountId,
+    }
 
     const response = makeStub('response', {
       response: {
@@ -129,19 +171,6 @@ describe('VirtuneTransport', () => {
       timestamps: {},
     })
 
-    requester.request.mockResolvedValue(response)
-
-    await transport.backgroundExecute(context)
-
-    const expectedRequestConfig = {
-      baseURL: adapterSettings.VIRTUNE_API_URL,
-      params: {
-        key: virtuneApiKey,
-      },
-      url: accountId,
-    }
-    const expectedRequestKey = requestKeyForParams(params)
-
     const expectedResponse = {
       data: {
         result: [
@@ -153,23 +182,15 @@ describe('VirtuneTransport', () => {
       timestamps: {},
     }
 
-    expect(requester.request).toHaveBeenCalledWith(
-      expectedRequestKey,
+    await testTransport({
+      params,
       expectedRequestConfig,
-      undefined,
-    )
-    expect(requester.request).toHaveBeenCalledTimes(1)
-
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      {
-        params,
-        response: expectedResponse,
-      },
-    ])
-    expect(responseCache.write).toHaveBeenCalledTimes(1)
+      response,
+      expectedResponse,
+    })
   })
 
-  it('should cache an error if the reeponse has no data', async () => {
+  it('should cache an error if the response has no data', async () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
     const chainId = 'mainnet'
@@ -179,21 +200,11 @@ describe('VirtuneTransport', () => {
       network,
       chainId,
     })
-    subscriptionSet.getAll.mockReturnValue([params])
-
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<HttpTransportTypes>)
 
     const response = {
       response: {},
       timestamps: {},
     }
-
-    requester.request.mockResolvedValue(response)
-
-    await transport.backgroundExecute(context)
 
     const expectedRequestConfig = {
       baseURL: adapterSettings.VIRTUNE_API_URL,
@@ -202,7 +213,6 @@ describe('VirtuneTransport', () => {
       },
       url: accountId,
     }
-    const expectedRequestKey = requestKeyForParams(params)
 
     const expectedResponse = {
       errorMessage: "The data provider didn't return any data for virtune",
@@ -210,20 +220,12 @@ describe('VirtuneTransport', () => {
       timestamps: {},
     }
 
-    expect(requester.request).toHaveBeenCalledWith(
-      expectedRequestKey,
+    await testTransport({
+      params,
       expectedRequestConfig,
-      undefined,
-    )
-    expect(requester.request).toHaveBeenCalledTimes(1)
-
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      {
-        params,
-        response: expectedResponse,
-      },
-    ])
-    expect(responseCache.write).toHaveBeenCalledTimes(1)
+      response,
+      expectedResponse,
+    })
   })
 
   it('should cache an error if the reeponse has no addresses', async () => {
@@ -236,12 +238,6 @@ describe('VirtuneTransport', () => {
       network,
       chainId,
     })
-    subscriptionSet.getAll.mockReturnValue([params])
-
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<HttpTransportTypes>)
 
     const response = makeStub('response', {
       response: {
@@ -257,10 +253,6 @@ describe('VirtuneTransport', () => {
       timestamps: {},
     })
 
-    requester.request.mockResolvedValue(response)
-
-    await transport.backgroundExecute(context)
-
     const expectedRequestConfig = {
       baseURL: adapterSettings.VIRTUNE_API_URL,
       params: {
@@ -268,7 +260,6 @@ describe('VirtuneTransport', () => {
       },
       url: accountId,
     }
-    const expectedRequestKey = requestKeyForParams(params)
 
     const expectedResponse = {
       errorMessage: "The data provider didn't return any address for virtune",
@@ -276,19 +267,11 @@ describe('VirtuneTransport', () => {
       timestamps: {},
     }
 
-    expect(requester.request).toHaveBeenCalledWith(
-      expectedRequestKey,
+    await testTransport({
+      params,
       expectedRequestConfig,
-      undefined,
-    )
-    expect(requester.request).toHaveBeenCalledTimes(1)
-
-    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
-      {
-        params,
-        response: expectedResponse,
-      },
-    ])
-    expect(responseCache.write).toHaveBeenCalledTimes(1)
+      response,
+      expectedResponse,
+    })
   })
 })

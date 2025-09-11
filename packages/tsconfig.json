@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -135,9 +132,6 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/accuweather"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
@@ -178,9 +172,6 @@
     },
     {
       "path": "./sources/binance"
-    },
-    {
-      "path": "./sources/binance-dex"
     },
     {
       "path": "./sources/bitex"
@@ -604,6 +595,9 @@
     },
     {
       "path": "./sources/solana-view-function"
+    },
+    {
+      "path": "./sources/solana-functions"
     },
     {
       "path": "./sources/spectral-macro-score"

@@ -1,5 +1,17 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.13.0
+
+### Minor Changes
+
+- [#3990](https://github.com/smartcontractkit/external-adapters-js/pull/3990) [`78100bd`](https://github.com/smartcontractkit/external-adapters-js/commit/78100bde1fc7f7b6ff02c312e7d6b32183ec4fa7) Thanks [@dskloetc](https://github.com/dskloetc)! - Support Virtune API to get addresses
+
+- [#3996](https://github.com/smartcontractkit/external-adapters-js/pull/3996) [`790a378`](https://github.com/smartcontractkit/external-adapters-js/commit/790a3786f02174e7acbc302f43d09c3d639f0251) Thanks [@dskloetc](https://github.com/dskloetc)! - Add virtune-token endpoint compatible with token-balance
+
+### Patch Changes
+
+- [#3995](https://github.com/smartcontractkit/external-adapters-js/pull/3995) [`00f44a3`](https://github.com/smartcontractkit/external-adapters-js/commit/00f44a3d563a0c238efb7116d67accb077f6a186) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor virtune endpoint
+
 ## 5.12.0
 
 ### Minor Changes

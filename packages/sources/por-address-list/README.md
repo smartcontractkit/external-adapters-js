@@ -1,26 +1,28 @@
 # POR_ADDRESS_LIST
 
-![5.12.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.13.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |             Name             |                                                                       Description                                                                        |  Type  | Options |                                 Default                                  |
-| :-------: | :--------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------------------------------------------------: |
-|    ✅     |           RPC_URL            |                                   The RPC URL to connect to the EVM chain the address manager contract is deployed to.                                   | string |         |                                                                          |
-|           |           CHAIN_ID           |                                                        The chain id to connect to for the RPC URL                                                        | number |         |                                   `1`                                    |
-|           |          GROUP_SIZE          | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |                                  `100`                                   |
-|           |    BACKGROUND_EXECUTE_MS     |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                 `10000`                                  |
-|           | COINBASE_CBBTC_API_ENDPOINT  |                                               An API endpoint for Coinbase cbBTC native BTC wallet address                                               | string |         |           `https://coinbase.com/cbbtc/proof-of-reserves.json`            |
-|           | BEDROCK_UNIBTC_API_ENDPOINT  |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         | `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json` |
-|           |     SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |            `https://por.sft-api.com/solv-btc-addresses.json`             |
-|           |   SOLVBTC_BBN_API_ENDPOINT   |                                                An API endpoint for SolvBTC.BBN native BTC wallet address                                                 | string |         |           `https://por.sft-api.com/x-solv-btc-addresses.json`            |
-|           |   SOLVBTC_ENA_API_ENDPOINT   |                                          An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated                                           | string |         |          `https://por.sft-api.com/solv-btc-ena-addresses.json`           |
-|           | SOLVBTC_TRADING_API_ENDPOINT |                                              An API endpoint for SolvBTC.TRADING native BTC wallet address                                               | string |         |        `https://por.sft-api.com/solv-btc-trading-addresses.json`         |
-|           |  SOLVBTC_CORE_API_ENDPOINT   |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |          `https://por.sft-api.com/solv-btc-core-addresses.json`          |
-|           |   SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |           `https://por.sft-api.com/solv-btc-jup-mirrorx.json`            |
-|           |      ZEUS_ZBTC_API_URL       |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |    `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`     |
+| Required? |             Name             |                                                                       Description                                                                        |  Type  | Options |                                           Default                                            |
+| :-------: | :--------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------------------------------------------------------: |
+|    ✅     |           RPC_URL            |                                   The RPC URL to connect to the EVM chain the address manager contract is deployed to.                                   | string |         |                                                                                              |
+|           |           CHAIN_ID           |                                                        The chain id to connect to for the RPC URL                                                        | number |         |                                             `1`                                              |
+|           |          GROUP_SIZE          | The number of concurrent batched contract calls to make at a time. Setting this lower than the default may result in lower performance from the adapter. | number |         |                                            `100`                                             |
+|           |    BACKGROUND_EXECUTE_MS     |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                           `10000`                                            |
+|           | COINBASE_CBBTC_API_ENDPOINT  |                                               An API endpoint for Coinbase cbBTC native BTC wallet address                                               | string |         |                     `https://coinbase.com/cbbtc/proof-of-reserves.json`                      |
+|           | BEDROCK_UNIBTC_API_ENDPOINT  |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         |           `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json`           |
+|           |     SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |                      `https://por.sft-api.com/solv-btc-addresses.json`                       |
+|           |   SOLVBTC_BBN_API_ENDPOINT   |                                                An API endpoint for SolvBTC.BBN native BTC wallet address                                                 | string |         |                     `https://por.sft-api.com/x-solv-btc-addresses.json`                      |
+|           |   SOLVBTC_ENA_API_ENDPOINT   |                                          An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated                                           | string |         |                    `https://por.sft-api.com/solv-btc-ena-addresses.json`                     |
+|           | SOLVBTC_TRADING_API_ENDPOINT |                                              An API endpoint for SolvBTC.TRADING native BTC wallet address                                               | string |         |                  `https://por.sft-api.com/solv-btc-trading-addresses.json`                   |
+|           |  SOLVBTC_CORE_API_ENDPOINT   |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |                    `https://por.sft-api.com/solv-btc-core-addresses.json`                    |
+|           |   SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |                     `https://por.sft-api.com/solv-btc-jup-mirrorx.json`                      |
+|           |      ZEUS_ZBTC_API_URL       |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |              `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`               |
+|           |       VIRTUNE_API_URL        |                                                        An API endpoint for Virtune address lists                                                         | string |         | `https://proof-of-reserves-chainlink-283003lt.nw.gateway.dev/api/external/proof-of-reserves` |
+|           |       VIRTUNE_API_KEY        |                                                         The API key for Virtune address list API                                                         | string |         |                                              ``                                              |
 
 ---
 
@@ -34,9 +36,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                          Options                                                                                                                                                           |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                              Options                                                                                                                                                                                               |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [virtune-token](#virtune-token-endpoint), [virtune](#virtune-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
 
 ## Address Endpoint
 
@@ -213,6 +215,66 @@ Request:
     "contractAddress": "0x440139321A15d14ce0729E004e91D66BaF1A08B0",
     "contractAddressNetwork": "BASE",
     "type": "tbill"
+  }
+}
+```
+
+---
+
+## Virtune Endpoint
+
+`virtune` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |   Name    | Aliases |                                          Description                                           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------: | :-----: | :--------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | accountId |         |                             The account ID to fetch addresses for                              | string |         |         |            |                |
+|    ✅     |  network  |         |        The network the addresses are on. This is only used to include in the response.         | string |         |         |            |                |
+|    ✅     |  chainId  |         | The chainId of the network the addresses are on. This is only used to include in the response. | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "virtune",
+    "accountId": "VIRBTC",
+    "network": "bitcoin",
+    "chainId": "mainnet"
+  }
+}
+```
+
+---
+
+## Virtune-token Endpoint
+
+`virtune-token` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |      Name       | Aliases |                                          Description                                           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :--------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    accountId    |         |                             The account ID to fetch addresses for                              | string |         |         |            |                |
+|    ✅     |     network     |         |        The network the addresses are on. This is only used to include in the response.         | string |         |         |            |                |
+|    ✅     |     chainId     |         | The chainId of the network the addresses are on. This is only used to include in the response. | string |         |         |            |                |
+|           | contractAddress |         |             The contract address of the token, to pass be included in the response             | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "virtune-token",
+    "accountId": "VIRBTC",
+    "network": "ethereum",
+    "chainId": "1",
+    "contractAddress": "0x514910771af9ca656af840dff83e8264ecf986ca"
   }
 }
 ```

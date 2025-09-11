@@ -1,5 +1,19 @@
 # @chainlink/ea-scripts
 
+## 2.8.3
+
+### Patch Changes
+
+- [#4005](https://github.com/smartcontractkit/external-adapters-js/pull/4005) [`4761293`](https://github.com/smartcontractkit/external-adapters-js/commit/47612932d54cf51633e5ad9fae7b04de104efb48) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete apy-finance-test EA
+
+- [#4004](https://github.com/smartcontractkit/external-adapters-js/pull/4004) [`629dc3d`](https://github.com/smartcontractkit/external-adapters-js/commit/629dc3d6a5a4e67153815d0bf4d3db54e868c67e) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete binance-dex EA
+
+## 2.8.2
+
+### Patch Changes
+
+- [#3999](https://github.com/smartcontractkit/external-adapters-js/pull/3999) [`b04c514`](https://github.com/smartcontractkit/external-adapters-js/commit/b04c5143e8b9501cae34373aa78d48a6a3c3f5fa) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete accuweather external adapter
+
 ## 2.8.1
 
 ### Patch Changes

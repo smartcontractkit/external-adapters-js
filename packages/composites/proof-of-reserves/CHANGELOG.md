@@ -1,5 +1,25 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.28.1
+
+### Patch Changes
+
+- Updated dependencies [[`e909f68`](https://github.com/smartcontractkit/external-adapters-js/commit/e909f684bd92451cf7dc129879b80d3d0e3f0d26)]:
+  - @chainlink/ceffu-adapter@1.1.0
+  - @chainlink/renvm-address-set-adapter@1.5.123
+
+## 1.28.0
+
+### Minor Changes
+
+- [#3968](https://github.com/smartcontractkit/external-adapters-js/pull/3968) [`295416c`](https://github.com/smartcontractkit/external-adapters-js/commit/295416c6b9cedee8a40a0d29edfcc161db330db0) Thanks [@dskloetc](https://github.com/dskloetc)! - Support porBalance endpoint of ethereum-cl-indexer
+
+### Patch Changes
+
+- Updated dependencies [[`78100bd`](https://github.com/smartcontractkit/external-adapters-js/commit/78100bde1fc7f7b6ff02c312e7d6b32183ec4fa7), [`790a378`](https://github.com/smartcontractkit/external-adapters-js/commit/790a3786f02174e7acbc302f43d09c3d639f0251), [`00f44a3`](https://github.com/smartcontractkit/external-adapters-js/commit/00f44a3d563a0c238efb7116d67accb077f6a186)]:
+  - @chainlink/por-address-list-adapter@5.13.0
+  - @chainlink/renvm-address-set-adapter@1.5.122
+
 ## 1.27.3
 
 ### Patch Changes

@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint should fail if client name is not present or wrong 1`] = `
+{
+  "error": {
+    "message": "[Param: client] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute reserve endpoint should return success for emgemx 1`] = `
+{
+  "data": {
+    "result": "5100005",
+    "ripcord": false,
+  },
+  "result": "5100005",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1748007917250,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should return success for m0 1`] = `
+{
+  "data": {
+    "result": "2344889.68",
+    "ripcord": false,
+  },
+  "result": "2344889.68",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should return success for re 1`] = `
+{
+  "data": {
+    "result": "333.99882",
+    "ripcord": false,
+  },
+  "result": "333.99882",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should return success for uranium 1`] = `
+{
+  "data": {
+    "result": "75000000",
+    "ripcord": false,
+  },
+  "result": "75000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;

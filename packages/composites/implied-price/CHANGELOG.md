@@ -1,5 +1,11 @@
 # @chainlink/implied-price-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- [#3981](https://github.com/smartcontractkit/external-adapters-js/pull/3981) [`49ddf73`](https://github.com/smartcontractkit/external-adapters-js/commit/49ddf73193eb7f5c16a820f2ea3232cc0c727c59) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Use toFixed instead of toString for result to force fixed point number rather than exponential notation
+
 ## 1.2.2
 
 ### Patch Changes

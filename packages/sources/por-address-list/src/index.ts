@@ -9,6 +9,7 @@ import {
   openedenAddress,
   solvBTC,
   virtune,
+  virtuneToken,
   zeusBtcAddress,
 } from './endpoint'
 
@@ -24,6 +25,7 @@ export const adapter = new PoRAdapter({
     multichainAddress,
     openedenAddress,
     virtune,
+    virtuneToken,
     zeusBtcAddress,
   ],
   rateLimiting: {

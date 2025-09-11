@@ -1,14 +1,14 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterResponse, sleep, makeLogger } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/solv'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { getAssetPositions } from './mirrorX'
-import { btcToUSD } from './btcUSD'
-import { ethers } from 'ethers'
 import { Decimal } from 'decimal.js'
+import { ethers } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/solv'
+import { getAssetPositions } from './mirrorX'
+import { getUSDRate } from './rate'
 
 const logger = makeLogger('Solv')
 
@@ -78,7 +78,7 @@ export class SolvTransport extends SubscriptionTransport<BaseEndpointTypes> {
         this.privateKey,
         this.requester,
       ),
-      btcToUSD(this.provider, param.btcUsdContract),
+      getUSDRate(param.btcUsdContract, this.provider),
     ])
 
     const result =

@@ -1,68 +1,59 @@
-import * as csvParse from 'csv-parse/sync'
-import { CSVParser, CSVParserConfig, defaultCSVConfig, ParsedData } from './interfaces'
+import { Options, parse } from 'csv-parse/sync'
+import { CSVParser, ParsedData } from './interfaces'
 
 /**
  * Abstract base class for CSV parsers
  * Uses the csv-parse library for robust CSV parsing
  */
-export abstract class BaseCSVParser implements CSVParser {
-  protected config: CSVParserConfig
+export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implements CSVParser<T> {
+  protected config: Options
 
-  constructor(config: Partial<CSVParserConfig> = {}) {
-    this.config = { ...defaultCSVConfig, ...config }
+  constructor(config: Options = {}) {
+    this.config = { ...config }
   }
 
   /**
    * Abstract method that must be implemented by concrete classes
    */
-  abstract parse(csvContent: string): Promise<ParsedData[]>
+  abstract parse(csvContent: string): Promise<T>
 
   /**
-   * Abstract method that must be implemented by concrete classes
-   * Should validate the CSV content format and structure
+   * Helper method to parse CSV content as records with column headers
    */
-  abstract validateFormat(csvContent: string): boolean
-
-  /**
-   * Helper method to parse CSV content using csv-parse library
-   */
-  protected parseCSV(csvContent: string, options?: Partial<CSVParserConfig>): any[] {
-    const finalConfig = { ...this.config, ...options }
+  protected parseCSVRecords(csvContent: string, options?: Options): Record<string, string>[] {
+    const finalConfig: Options = { ...this.config, ...options, columns: true }
 
     try {
-      return csvParse.parse(csvContent, finalConfig)
+      return parse(csvContent, finalConfig)
     } catch (error) {
-      throw new Error(`Error parsing CSV: ${error}`)
+      throw new Error(`Error parsing CSV as records: ${error}`)
     }
   }
 
   /**
-   * Convert a string value to appropriate type
+   * Helper method to parse CSV content as arrays
    */
-  protected convertValue(
-    value: string,
-    expectedType: 'string' | 'number' | 'date' = 'string',
-  ): string | number | Date | null {
+  protected parseCSVArrays(csvContent: string, options?: Options): string[][] {
+    const finalConfig: Options = { ...this.config, ...options, columns: false }
+
+    try {
+      return parse(csvContent, finalConfig)
+    } catch (error) {
+      throw new Error(`Error parsing CSV as arrays: ${error}`)
+    }
+  }
+
+  /**
+   * Convert a string value to a number and invalid values
+   */
+  protected convertToNumber(value: string): number {
     if (!value || value.trim() === '') {
-      return null
+      throw new Error('Cannot convert empty or null value to number')
     }
-
-    const trimmedValue = value.trim()
-
-    switch (expectedType) {
-      case 'number': {
-        const numValue = parseFloat(trimmedValue.replace(/,/g, ''))
-        return isNaN(numValue) ? null : numValue
-      }
-
-      case 'date': {
-        const dateValue = new Date(trimmedValue)
-        return isNaN(dateValue.getTime()) ? null : dateValue
-      }
-
-      case 'string':
-      default:
-        return trimmedValue
+    const numValue = parseFloat(value)
+    if (isNaN(numValue)) {
+      throw new Error(`Value "${value}" is not a valid number`)
     }
+    return numValue
   }
 }

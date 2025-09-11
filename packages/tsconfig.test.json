@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance-test/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -135,9 +132,6 @@
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
-      "path": "./sources/accuweather/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
@@ -178,9 +172,6 @@
     },
     {
       "path": "./sources/binance/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/binance-dex/tsconfig.test.json"
     },
     {
       "path": "./sources/bitex/tsconfig.test.json"
@@ -604,6 +595,9 @@
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/solana-functions/tsconfig.test.json"
     },
     {
       "path": "./sources/spectral-macro-score/tsconfig.test.json"
