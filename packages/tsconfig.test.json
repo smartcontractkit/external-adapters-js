@@ -390,6 +390,9 @@
       "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
     },
     {
+      "path": "./sources/ftse-sftp/tsconfig.test.json"
+    },
+    {
       "path": "./sources/galaxis/tsconfig.test.json"
     },
     {
