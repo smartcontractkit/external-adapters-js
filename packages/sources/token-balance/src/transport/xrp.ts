@@ -24,7 +24,7 @@ type AccountInfoResponse = {
       LedgerEntryType: string
       OwnerCount: number
       PreviousTxnID: string
-      PreviousTxnLgrSeq: 98710432
+      PreviousTxnLgrSeq: number
       Sequence: number
       index: string
     }
@@ -45,9 +45,9 @@ type AccountInfoResponse = {
       requireDestinationTag: boolean
     }
     ledger_hash: string
-    ledger_index: 0
+    ledger_index: number
     status: string
-    validated: true
+    validated: boolean
   }
 }
 
