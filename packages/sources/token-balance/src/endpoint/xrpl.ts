@@ -1,7 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { xrplTransport } from '../transport/xrpl'
+import { getXrplRpcUrl } from '../transport/xrpl-utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -63,4 +65,8 @@ export const endpoint = new AdapterEndpoint({
   name: 'xrpl',
   transport: xrplTransport,
   inputParameters,
+  customInputValidation: (_request, settings): AdapterError | undefined => {
+    getXrplRpcUrl(settings)
+    return
+  },
 })
