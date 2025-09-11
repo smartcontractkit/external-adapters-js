@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockETHContractCallResponseSuccess, mockXrplResponseSuccess } from './fixtures'
+import { mockXrpResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -13,8 +13,6 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.XRPL_RPC_URL = 'http://localhost-xrpl:8080'
-    process.env.ETHEREUM_RPC_URL = 'http://localhost-eth-mainnet:8080'
-    process.env.ETHEREUM_RPC_CHAIN_ID = '1'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -38,18 +36,15 @@ describe('execute', () => {
   describe('xrpl endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'xrpl',
+        endpoint: 'xrp',
         tokenIssuerAddress: 'rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn',
-        priceOracleAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-        priceOracleNetwork: 'ethereum',
         addresses: [
           {
             address: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
           },
         ],
       }
-      mockETHContractCallResponseSuccess()
-      mockXrplResponseSuccess()
+      mockXrpResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)

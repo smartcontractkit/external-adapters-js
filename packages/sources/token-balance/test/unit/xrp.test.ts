@@ -3,10 +3,8 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import Decimal from 'decimal.js'
-import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrpl'
-import { XrplTransport } from '../../src/transport/xrpl'
+import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrp'
+import { XrpTransport } from '../../src/transport/xrp'
 
 const originalEnv = { ...process.env }
 
@@ -20,30 +18,11 @@ const restoreEnv = () => {
   }
 }
 
-const ethersNewContract = jest.fn()
-const ethersNewJsonRpcProvider = jest.fn()
-
-const makeEthers = () => {
-  return {
-    JsonRpcProvider: function (...args: [string, number]) {
-      return ethersNewJsonRpcProvider(...args)
-    },
-    Contract: function (...args: [string, unknown, ethers.JsonRpcProvider]) {
-      return ethersNewContract(...args)
-    },
-  }
-}
-
-jest.mock('ethers', () => ({
-  ethers: makeEthers(),
-}))
-
 const log = jest.fn()
-const warningLog = jest.fn()
 const logger = {
   fatal: log,
   error: log,
-  warn: warningLog,
+  warn: log,
   info: log,
   debug: log,
   trace: log,
@@ -53,9 +32,9 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('XrplTransport', () => {
+describe('XrpTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'xrpl'
+  const endpointName = 'xrp'
   const XRPL_RPC_URL = 'https://xrpl.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
   const GROUP_SIZE = 3
@@ -88,39 +67,31 @@ describe('XrplTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: XrplTransport
+  let transport: XrpTransport
 
   type RequestConfig = {
     baseURL: string
-    method: string
+    method: 'POST'
     data: {
-      method: string
+      method: 'account_info'
       params: [
         {
           account: string
-          ledger_index: string
-          peer: string
+          ledger_index: 'validated'
         },
       ]
     }
   }
 
-  const requestConfigForAddresses = ({
-    address,
-    tokenIssuerAddress,
-  }: {
-    address: string
-    tokenIssuerAddress: string
-  }): RequestConfig => ({
+  const requestConfigForAddresses = ({ address }: { address: string }): RequestConfig => ({
     baseURL: adapterSettings.XRPL_RPC_URL,
     method: 'POST',
     data: {
-      method: 'account_lines',
+      method: 'account_info',
       params: [
         {
           account: address,
           ledger_index: 'validated',
-          peer: tokenIssuerAddress,
         },
       ],
     },
@@ -142,15 +113,15 @@ describe('XrplTransport', () => {
     return requestKey
   }
 
-  const mockLineBalances = (balances: string[] | Promise<string[]>) => {
+  const mockAccountInfo = (balance: string | Promise<string>) => {
     requester.request.mockImplementationOnce(async () => {
       return {
         response: {
           data: {
             result: {
-              lines: (await balances).map((expectedBalance) => ({
-                balance: expectedBalance,
-              })),
+              account_data: {
+                Balance: await balance,
+              },
             },
           },
         },
@@ -163,33 +134,13 @@ describe('XrplTransport', () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new XrplTransport()
+    transport = new XrpTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
   afterEach(() => {
     expect(log).not.toBeCalled()
-    expect(warningLog).not.toBeCalled()
-  })
-
-  describe('initialize', () => {
-    it('should log if XRPL_RPC_URL is missing', async () => {
-      transport = new XrplTransport()
-      await transport.initialize(
-        dependencies,
-        {
-          ...adapterSettings,
-          XRPL_RPC_URL: '',
-        },
-        endpointName,
-        transportName,
-      )
-
-      expect(warningLog).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
-      expect(warningLog).toBeCalledTimes(1)
-      warningLog.mockClear()
-    })
   })
 
   describe('backgroundHandler', () => {
@@ -206,41 +157,28 @@ describe('XrplTransport', () => {
 
   describe('handleRequest', () => {
     it('should cache response', async () => {
-      const priceOracleAddress = '0x123'
-      const priceOracleNetwork = 'arbitrum'
-      const arbitrumRpcUrl = 'https://arb.rpc.url'
-      const arbitrumChainId = 42161
-      const tokenPrice = 200_000_000n
-      const tokenDecimals = 8
       const address = 'r101'
-      const tokenIssuerAddress = 'r456'
       const balance = 123
 
-      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
-      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
-
-      const contract = makeStub('contract', {
-        decimals: jest.fn().mockResolvedValue(tokenDecimals),
-        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
-      })
-      ethersNewContract.mockReturnValue(contract)
-
-      mockLineBalances([balance.toString()])
+      mockAccountInfo(balance.toString())
 
       const param = makeStub('param', {
-        priceOracleAddress,
-        priceOracleNetwork,
-        tokenIssuerAddress,
         addresses: [{ address }],
       })
       await transport.handleRequest(context, param)
 
-      const expectedResult = (246 * 10 ** 18).toString()
+      const expectedResult = [
+        {
+          address,
+          balance: balance.toString(),
+        },
+      ]
+
       const expectedResponse = {
         statusCode: 200,
-        result: expectedResult,
+        result: null,
         data: {
-          decimals: 18,
+          decimals: 6,
           result: expectedResult,
         },
         timestamps: {
@@ -265,45 +203,35 @@ describe('XrplTransport', () => {
   })
 
   describe('_handleRequest', () => {
-    it('should add balances and multiply by token price', async () => {
-      const priceOracleAddress = '0x123'
-      const priceOracleNetwork = 'arbitrum'
-      const arbitrumRpcUrl = 'https://arb.rpc.url'
-      const arbitrumChainId = 42161
-      const tokenPrice = 200_000_000n
-      const tokenDecimals = 8
+    it('should return balances', async () => {
       const address1 = 'r101'
       const address2 = 'r102'
-      const tokenIssuerAddress = 'r456'
       const balance1 = 100
       const balance2 = 200
 
-      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
-      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
-
-      const contract = makeStub('contract', {
-        decimals: jest.fn().mockResolvedValue(tokenDecimals),
-        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
-      })
-      ethersNewContract.mockReturnValue(contract)
-
-      mockLineBalances([balance1.toString()])
-      mockLineBalances([balance2.toString()])
+      mockAccountInfo(balance1.toString())
+      mockAccountInfo(balance2.toString())
 
       const param = makeStub('param', {
-        priceOracleAddress,
-        priceOracleNetwork,
-        tokenIssuerAddress,
         addresses: [{ address: address1 }, { address: address2 }],
       })
       const response = await transport._handleRequest(param)
 
-      const expectedResult = (600 * 10 ** 18).toString()
+      const expectedResult = [
+        {
+          address: address1,
+          balance: balance1.toString(),
+        },
+        {
+          address: address2,
+          balance: balance2.toString(),
+        },
+      ]
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedResult,
+        result: null,
         data: {
-          decimals: 18,
+          decimals: 6,
           result: expectedResult,
         },
         timestamps: {
@@ -326,32 +254,13 @@ describe('XrplTransport', () => {
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const priceOracleAddress = '0x123'
-      const priceOracleNetwork = 'arbitrum'
-      const arbitrumRpcUrl = 'https://arb.rpc.url'
-      const arbitrumChainId = 42161
-      const tokenPrice = 200_000_000n
-      const tokenDecimals = 8
       const address = 'r101'
-      const tokenIssuerAddress = 'r456'
       const balance = 100
 
-      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
-      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
-
-      const contract = makeStub('contract', {
-        decimals: jest.fn().mockResolvedValue(tokenDecimals),
-        latestAnswer: jest.fn().mockResolvedValue(tokenPrice),
-      })
-      ethersNewContract.mockReturnValue(contract)
-
-      const [balancePromise, resolveBalance] = deferredPromise<string[]>()
-      mockLineBalances(balancePromise)
+      const [balancePromise, resolveBalance] = deferredPromise<string>()
+      mockAccountInfo(balancePromise)
 
       const param = makeStub('param', {
-        priceOracleAddress,
-        priceOracleNetwork,
-        tokenIssuerAddress,
         addresses: [{ address }],
       })
 
@@ -361,14 +270,19 @@ describe('XrplTransport', () => {
       const responseTimestamp = Date.now()
       expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
 
-      resolveBalance([balance.toString()])
+      resolveBalance(balance.toString())
 
-      const expectedResult = (200 * 10 ** 18).toString()
+      const expectedResult = [
+        {
+          address,
+          balance: balance.toString(),
+        },
+      ]
       expect(await responsePromise).toEqual({
         statusCode: 200,
-        result: expectedResult,
+        result: null,
         data: {
-          decimals: 18,
+          decimals: 6,
           result: expectedResult,
         },
         timestamps: {
@@ -386,28 +300,28 @@ describe('XrplTransport', () => {
     it('should return the token balance of multiple addresses', async () => {
       const address1 = 'r101'
       const address2 = 'r102'
-      const tokenIssuerAddress = 'r456'
-      mockLineBalances(['100.0'])
-      mockLineBalances(['200.0'])
+      mockAccountInfo('100.0')
+      mockAccountInfo('200.0')
 
       const expectedRequestConfig1 = requestConfigForAddresses({
         address: address1,
-        tokenIssuerAddress,
       })
       const expectedRequestKey1 = requestKeyForConfig(expectedRequestConfig1)
 
       const expectedRequestConfig2 = requestConfigForAddresses({
         address: address2,
-        tokenIssuerAddress,
       })
       const expectedRequestKey2 = requestKeyForConfig(expectedRequestConfig2)
 
-      const balance = await transport.getTotalTokenBalance({
-        addresses: [{ address: address1 }, { address: address2 }],
-        tokenIssuerAddress,
-      })
+      const balances = await transport.getTokenBalances([
+        { address: address1 },
+        { address: address2 },
+      ])
 
-      expect(balance).toEqual(new Decimal(300))
+      expect(balances).toEqual([
+        { address: address1, balance: '100.0' },
+        { address: address2, balance: '200.0' },
+      ])
 
       expect(requester.request).toHaveBeenNthCalledWith(
         1,
@@ -434,50 +348,51 @@ describe('XrplTransport', () => {
     })
 
     it('should wait for the first group of RPCs to finish before sending the next group', async () => {
-      const [lines1, resolveLines1] = deferredPromise<string[]>()
-      const [lines2, resolveLines2] = deferredPromise<string[]>()
-      const [lines3, resolveLines3] = deferredPromise<string[]>()
-      const [lines4, resolveLines4] = deferredPromise<string[]>()
+      const [balance1, resolveLines1] = deferredPromise<string>()
+      const [balance2, resolveLines2] = deferredPromise<string>()
+      const [balance3, resolveLines3] = deferredPromise<string>()
+      const [balance4, resolveLines4] = deferredPromise<string>()
 
       const address1 = 'r101'
       const address2 = 'r102'
       const address3 = 'r103'
       const address4 = 'r104'
-      const tokenIssuerAddress = 'r456'
-      mockLineBalances(lines1)
-      mockLineBalances(lines2)
-      mockLineBalances(lines3)
-      mockLineBalances(lines4)
+      mockAccountInfo(balance1)
+      mockAccountInfo(balance2)
+      mockAccountInfo(balance3)
+      mockAccountInfo(balance4)
 
-      const balancePromise = transport.getTotalTokenBalance({
-        addresses: [
-          { address: address1 },
-          { address: address2 },
-          { address: address3 },
-          { address: address4 },
-        ],
-        tokenIssuerAddress,
-      })
+      const balancePromise = transport.getTokenBalances([
+        { address: address1 },
+        { address: address2 },
+        { address: address3 },
+        { address: address4 },
+      ])
 
       await jest.runAllTimersAsync()
 
       // Only 3 of the 4 requests were made because GROUP_SIZE is 3
       expect(requester.request).toBeCalledTimes(3)
 
-      resolveLines1(['101.0'])
-      resolveLines2(['102.0'])
+      resolveLines1('101.0')
+      resolveLines2('102.0')
 
       await jest.runAllTimersAsync()
       expect(requester.request).toBeCalledTimes(3)
 
-      resolveLines3(['103.0'])
+      resolveLines3('103.0')
 
       await jest.runAllTimersAsync()
       expect(requester.request).toBeCalledTimes(4)
 
-      resolveLines4(['104.0'])
+      resolveLines4('104.0')
 
-      expect(await balancePromise).toEqual(new Decimal(410))
+      expect(await balancePromise).toEqual([
+        { address: address1, balance: '101.0' },
+        { address: address2, balance: '102.0' },
+        { address: address3, balance: '103.0' },
+        { address: address4, balance: '104.0' },
+      ])
 
       expect(log).toHaveBeenNthCalledWith(
         1,
@@ -502,11 +417,9 @@ describe('XrplTransport', () => {
 
   describe('getTokenBalance', () => {
     const address = 'r123'
-    const tokenIssuerAddress = 'r456'
 
     const expectedRequestConfig = requestConfigForAddresses({
       address,
-      tokenIssuerAddress,
     })
 
     const requestKey = requestKeyForConfig(expectedRequestConfig)
@@ -523,31 +436,16 @@ describe('XrplTransport', () => {
     it('should return the token balance', async () => {
       const expectedBalance = '1234.56'
 
-      mockLineBalances([expectedBalance])
+      mockAccountInfo(expectedBalance)
 
-      const balance = await transport.getTokenBalance({
-        address,
-        tokenIssuerAddress,
-      })
+      const balance = await transport.getTokenBalance(address)
 
-      expect(balance).toEqual(new Decimal(expectedBalance))
-      expectRequesterRequest()
-    })
-
-    it('should add balance from multiple lines', async () => {
-      mockLineBalances(['100.00', '200.00', '300.00'])
-
-      const balance = await transport.getTokenBalance({
-        address,
-        tokenIssuerAddress,
-      })
-
-      expect(balance).toEqual(new Decimal(600))
+      expect(balance).toEqual(expectedBalance)
       expectRequesterRequest()
     })
 
     it('should throw if XRPL_RPC_URL is missing', async () => {
-      transport = new XrplTransport()
+      transport = new XrpTransport()
       await transport.initialize(
         dependencies,
         {
@@ -558,15 +456,9 @@ describe('XrplTransport', () => {
         transportName,
       )
 
-      await expect(() =>
-        transport.getTokenBalance({
-          address,
-          tokenIssuerAddress,
-        }),
-      ).rejects.toThrow('Environment variable XRPL_RPC_URL is missing')
-      expect(warningLog).toBeCalledWith('Environment variable XRPL_RPC_URL is missing')
-      expect(warningLog).toBeCalledTimes(1)
-      warningLog.mockClear()
+      await expect(() => transport.getTokenBalance(address)).rejects.toThrow(
+        'Environment variable XRPL_RPC_URL is missing',
+      )
     })
   })
 })

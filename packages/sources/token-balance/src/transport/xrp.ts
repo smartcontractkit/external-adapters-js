@@ -6,41 +6,52 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import Decimal from 'decimal.js'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/xrpl'
-import { getTokenPrice } from './priceFeed'
-import { SharePriceType } from './utils'
+import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/xrp'
 import { getXrplRpcUrl } from './xrpl-utils'
 
 const logger = makeLogger('Token Balance - XRPL')
 
 type RequestParams = typeof inputParameters.validated
 
-const RESULT_DECIMALS = 18
+const RESULT_DECIMALS = 6
 
-type AccountLinesResponse = {
+type AccountInfoResponse = {
   result: {
-    account: string
-    ledger_hash?: string
-    ledger_index?: number
-    lines: {
-      account: string
-      balance: string // decimal number
-      currency: string
-      limit: string
-      limit_peer: string
-      no_ripple?: boolean
-      no_ripple_peer?: boolean
-      peer_authorized?: boolean
-      quality_in: number
-      quality_out: number
-    }[]
-    status?: string
-    validated?: boolean
+    account_data: {
+      Account: string
+      Balance: string
+      Flags: number
+      LedgerEntryType: string
+      OwnerCount: number
+      PreviousTxnID: string
+      PreviousTxnLgrSeq: 98710432
+      Sequence: number
+      index: string
+    }
+    account_flags: {
+      allowTrustLineClawback: boolean
+      defaultRipple: boolean
+      depositAuth: boolean
+      disableMasterKey: boolean
+      disallowIncomingCheck: boolean
+      disallowIncomingNFTokenOffer: boolean
+      disallowIncomingPayChan: boolean
+      disallowIncomingTrustline: boolean
+      disallowIncomingXRP: boolean
+      globalFreeze: boolean
+      noFreeze: boolean
+      passwordSpent: boolean
+      requireAuthorization: boolean
+      requireDestinationTag: boolean
+    }
+    ledger_hash: string
+    ledger_index: 0
+    status: string
+    validated: true
   }
 }
 
-export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
   requester!: Requester
@@ -55,10 +66,6 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.config = adapterSettings
     this.endpointName = endpointName
     this.requester = dependencies.requester
-
-    if (!adapterSettings.XRPL_RPC_URL) {
-      logger.warn('Environment variable XRPL_RPC_URL is missing')
-    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -90,16 +97,7 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const [tokenPriceInUsd, tokenBalance]: [SharePriceType, Decimal] = await Promise.all([
-      getTokenPrice(param),
-      this.getTotalTokenBalance(param),
-    ])
-
-    const tokenBalanceInUsd = tokenBalance
-      .times(new Decimal(tokenPriceInUsd.value.toString()))
-      .times(10 ** (RESULT_DECIMALS - tokenPriceInUsd.decimal))
-
-    const result = tokenBalanceInUsd.toFixed(0)
+    const result = await this.getTokenBalances(param.addresses)
 
     return {
       data: {
@@ -107,7 +105,7 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
         decimals: RESULT_DECIMALS,
       },
       statusCode: 200,
-      result,
+      result: null,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -116,48 +114,40 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async getTotalTokenBalance({
-    addresses,
-    tokenIssuerAddress,
-  }: {
+  async getTokenBalances(
     addresses: {
       address: string
-    }[]
-    tokenIssuerAddress: string
-  }): Promise<Decimal> {
+    }[],
+  ): Promise<AddressWithBalance[]> {
     const runner = new GroupRunner(this.config.GROUP_SIZE)
-    const getBalance = runner.wrapFunction(({ address }: { address: string }) =>
-      this.getTokenBalance({ address: address, tokenIssuerAddress }),
+    const getBalance = runner.wrapFunction(
+      async ({ address }: { address: string }): Promise<AddressWithBalance> => {
+        const balance = await this.getTokenBalance(address)
+        return {
+          address,
+          balance,
+        }
+      },
     )
-    const balances = await Promise.all(addresses.map(getBalance))
-    return balances.reduce((acc, balance) => acc.plus(balance), new Decimal(0))
+    return await Promise.all(addresses.map(getBalance))
   }
 
-  async getTokenBalance({
-    address,
-    tokenIssuerAddress,
-  }: {
-    address: string
-    tokenIssuerAddress: string
-  }): Promise<Decimal> {
-    const rpcUrl = getXrplRpcUrl(this.config)
-
+  async getTokenBalance(address: string): Promise<string> {
     const requestConfig = {
       method: 'POST',
-      baseURL: rpcUrl,
+      baseURL: getXrplRpcUrl(this.config),
       data: {
-        method: 'account_lines',
+        method: 'account_info',
         params: [
           {
             account: address,
             ledger_index: 'validated',
-            peer: tokenIssuerAddress,
           },
         ],
       },
     }
 
-    const result = await this.requester.request<AccountLinesResponse>(
+    const result = await this.requester.request<AccountInfoResponse>(
       calculateHttpRequestKey<BaseEndpointTypes>({
         context: {
           adapterSettings: this.config,
@@ -170,11 +160,7 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
       requestConfig,
     )
 
-    let balance = new Decimal(0)
-    for (const line of result.response.data.result.lines) {
-      balance = balance.plus(new Decimal(line.balance))
-    }
-    return balance
+    return result.response.data.result.account_data.Balance
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -182,4 +168,4 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const xrplTransport = new XrplTransport()
+export const xrpTransport = new XrpTransport()
