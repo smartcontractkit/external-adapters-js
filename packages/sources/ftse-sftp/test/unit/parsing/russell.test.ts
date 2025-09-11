@@ -75,8 +75,8 @@ Russell 1000� Index,3538.25,3550.79,3534.60,3547.50,9.16,0.26,3547.40,3483.25,
       )
     })
 
-    it('should handle CSV with inconsistent column count due to relax_column_count setting', async () => {
-      // Test CSV with rows having different column counts - this mimics blank rows mentioned in Russell CSV
+    it('should handle CSV with random XXXXXXXX on last row due to relax_column_count setting', async () => {
+      // Test CSV with inconsistent column count on last row - this mimics the random "XXXXXXXX" element
       const csvWithInconsistentColumns = `"Daily Values",,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,
@@ -84,8 +84,8 @@ Russell 1000� Index,3538.25,3550.79,3534.60,3547.50,9.16,0.26,3547.40,3483.25,
 ,,,,,,,,"Closing Values",,,,"Closing Values",,
 ,"Open","High","Low","Close","Net Chg","% Chg","High","Low","Net Chg","% Chg","High","Low","Net Chg","% Chg"
 Russell 1000� Index,3538.25,3550.79,3534.60,3547.40,9.16,0.26,3547.40,3483.25,51.20,1.46,3547.40,2719.99,496.76,16.28
-,,,,
-Russell 2000® Index,1234.56,1245.67,1230.45,1240.00,5.44,0.44`
+Russell 2000® Index,1234.56,1245.67,1230.45,1240.00,5.44,0.44
+XXXXXXXX`
 
       const result = await parser.parse(csvWithInconsistentColumns)
       expect(result).toBeDefined()

@@ -51,6 +51,9 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
       throw new Error('Cannot convert empty or null value to number')
     }
     const numValue = parseFloat(value)
-    return isNaN(numValue) ? 0 : numValue
+    if (isNaN(numValue)) {
+      throw new Error(`Value "${value}" is not a valid number`)
+    }
+    return numValue
   }
 }

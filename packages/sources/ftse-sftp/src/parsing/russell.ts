@@ -31,7 +31,8 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       trim: true,
       quote: '"',
       escape: '"',
-      // Set this to true because some rows are blank in Russell CSV
+      // Set this to true because there are footer information in column 0
+      // and XXXXXXXX at the bottom of the csv
       relax_column_count: true,
     })
     this.instrument = instrument
