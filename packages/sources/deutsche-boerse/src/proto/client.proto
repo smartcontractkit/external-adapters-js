@@ -1,0 +1,59 @@
+// Date:    07.10.2023
+// Version: 001.000.006
+
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package Client;
+
+message Subscribe
+{
+	message Stream
+	{
+		string			stream = 1;
+		int64			startTime = 2;		// mutually exclusive to startSeq
+		uint64			startSeq = 3;		// mutually exclusive to startTime
+	}
+
+	repeated Stream		stream = 1;
+}
+
+message Unsubscribe
+{
+	repeated string		stream = 1;
+}
+
+message Request
+{
+	string				event = 1;
+	int64				requestId = 2;
+	//oneof data {
+		Subscribe		subscribe = 3;
+		Unsubscribe		unsubscribe = 4;
+	//}
+}
+
+enum Status {
+	OK = 0;
+	SERVER_ERROR = 1;
+	ACCESS_DENIED = 2;
+	NOT_ENTITLED = 3;
+}
+
+//one Response for each stream in Request
+message Response
+{
+	int64				requestId = 1;
+	Status				status = 2;
+}
+
+message StreamMessage
+{
+	// protocol
+	string				subs = 1;	// stream / topic subscription
+	uint64				seq = 2;	// message sequence number
+
+	// payload
+	repeated google.protobuf.Any	messages = 3;
+}
