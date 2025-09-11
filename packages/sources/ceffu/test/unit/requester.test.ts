@@ -1,5 +1,5 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { request } from '../../src/transport/wallet/requester'
+import { request } from '../../src/transport/requester'
 
 jest.mock('crypto', () => ({
   createPrivateKey: jest.fn(),
@@ -67,8 +67,30 @@ describe('requester.ts', () => {
 
       const result = await request('', '', {}, '', '', mockRequester)
 
-      expect(result).toEqual([100, 200])
+      expect(result).toEqual({ data: [100, 200], extra: [] })
       expect(mockRequester.request).toHaveBeenCalledTimes(3)
+    })
+
+    it('should return extras', async () => {
+      mockRequester.request.mockResolvedValueOnce({
+        response: {
+          data: {
+            data: {
+              data: [100],
+              extraData: 123,
+              totalPage: 1,
+              pageNo: 1,
+              pageLimit: 500,
+            },
+            code: '000000',
+            message: 'success',
+          },
+        },
+      } as any)
+
+      const result = await request('', '', {}, '', '', mockRequester)
+
+      expect(result).toEqual({ data: [100], extra: [{ extraData: 123 }] })
     })
 
     it('should throw AdapterError when response is null', async () => {

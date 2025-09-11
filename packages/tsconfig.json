@@ -597,6 +597,9 @@
       "path": "./sources/solana-view-function"
     },
     {
+      "path": "./sources/solana-functions"
+    },
+    {
       "path": "./sources/spectral-macro-score"
     },
     {
