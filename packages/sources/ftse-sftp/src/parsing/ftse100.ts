@@ -46,6 +46,7 @@ export class FTSE100Parser extends BaseCSVParser {
       trim: true,
       quote: '"',
       escape: '"',
+      // We set this to true because on the last row there is a random element "XXXXXXXX"
       relax_column_count: true,
     })
   }
@@ -87,7 +88,7 @@ export class FTSE100Parser extends BaseCSVParser {
    * Creates FTSE100Data object from a CSV row
    */
   private createFTSE100Data(row: Record<string, string>): FTSE100Data {
-    // Validate that all required columns are present in the row
+    // Validate that all required elements are present in the row
     const emptyColumns = EXPECTED_HEADERS.filter((column) => {
       const value = row[column]
       return (
