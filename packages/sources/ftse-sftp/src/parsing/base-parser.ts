@@ -48,7 +48,7 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
    */
   protected convertToNumber(value: string): number {
     if (!value || value.trim() === '') {
-      return 0
+      throw new Error('Cannot convert empty or null value to number')
     }
     const numValue = parseFloat(value)
     return isNaN(numValue) ? 0 : numValue

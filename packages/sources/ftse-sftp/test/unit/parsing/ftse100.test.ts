@@ -67,5 +67,24 @@ UKX,FTSE 100 Index (Duplicate),100,GBP,4659.89,5017.25,4523.90`
         'Multiple FTSE 100 index records found, expected only one',
       )
     })
+
+    it('should handle CSV with inconsistent column count due to relax_column_count setting', async () => {
+      // Test CSV with rows having different column counts - this mimics the "XXXXXXXX" row mentioned in the comment
+      const csvWithInconsistentColumns = `02/09/2025 (C) FTSE International Limited 2025. All Rights Reserved
+FTSE UK All-Share Indices Valuation Service
+
+Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index
+UKX,FTSE 100 Index,100,GBP,4659.89,4926.97,4523.90
+XXXXXXXX
+AS0,FTSE All-Small Index,234,GBP,4535.81973790,4918.68240124,4401.18006784`
+
+      const result = await parser.parse(csvWithInconsistentColumns)
+      expect(result).toBeDefined()
+      expect(result.indexCode).toBe('UKX')
+      expect(result.indexSectorName).toBe('FTSE 100 Index')
+      expect(result.numberOfConstituents).toBe(100)
+      expect(result.indexBaseCurrency).toBe('GBP')
+      expect(result.gbpIndex).toBe(4926.97)
+    })
   })
 })

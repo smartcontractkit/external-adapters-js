@@ -42,7 +42,6 @@ export class FTSE100Parser extends BaseCSVParser {
   constructor() {
     super({
       delimiter: ',',
-      columns: true,
       skip_empty_lines: true,
       trim: true,
       quote: '"',

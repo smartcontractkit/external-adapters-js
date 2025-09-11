@@ -31,6 +31,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       trim: true,
       quote: '"',
       escape: '"',
+      // Set this to true because some rows are blank in Russell CSV
       relax_column_count: true,
     })
     this.instrument = instrument
@@ -40,8 +41,7 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     this.validateCloseColumn(csvContent)
 
     const parsed = this.parseCSVArrays(csvContent, {
-      from_line: HEADER_ROW_NUMBER + 1, // Skip header line, + 1 because columns: false and we don't have a header row
-      columns: false,
+      from_line: HEADER_ROW_NUMBER + 1, // + 1 to start parsing after the header row
     })
 
     const results: RussellDailyValuesData[] = parsed
