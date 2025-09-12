@@ -10,22 +10,38 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Name of the file to download',
     },
+    filePath: {
+      required: true,
+      type: 'string',
+      description: 'Name of the file to download without date template',
+    },
   },
   [
     {
       instrument: 'FTSE100INDEX',
+      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell1000INDEX',
+      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell2000INDEX',
+      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell3000INDEX',
+      filePath: 'Test_File_Path',
     },
   ],
 )
+
+export const instructionToDateTemplateMap = {
+  FTSE100INDEX: '{{dd}}{{mm}}.csv',
+  Russell1000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
+  Russell2000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
+  Russell3000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
+}
 
 export const instrumentToFileMap = {
   FTSE100INDEX: 'ukallv{{dd}}{{mm}}.csv',
@@ -55,7 +71,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'sftp',
+  name: 'ftse_sftp',
   transport: sftpTransport,
   inputParameters,
 })

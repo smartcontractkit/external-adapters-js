@@ -22,6 +22,7 @@ export const config = new AdapterConfig({
     description: 'SFTP password for authentication',
     type: 'string',
     sensitive: true,
+    required: true,
   },
   BACKGROUND_EXECUTE_MS: {
     description:

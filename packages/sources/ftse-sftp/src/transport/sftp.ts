@@ -4,15 +4,10 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import SftpClient from 'ssh2-sftp-client'
-import {
-  BaseEndpointTypes,
-  instrumentToFileMap,
-  instrumentToRemotePathMap,
-  inputParameters,
-} from '../endpoint/sftp'
+import { BaseEndpointTypes, inputParameters, instructionToDateTemplateMap } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
 
-const logger = makeLogger('FTSE STFP Adapter')
+const logger = makeLogger('FTSE SFTP Adapter')
 
 type RequestParams = typeof inputParameters.validated
 
@@ -36,28 +31,21 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.endpointName = endpointName
-
-    if (!adapterSettings.SFTP_HOST) {
-      logger.warn('Environment variable SFTP_HOST is missing')
-    }
-    if (!adapterSettings.SFTP_USERNAME) {
-      logger.warn('Environment variable SFTP_USERNAME is missing')
-    }
-    if (!adapterSettings.SFTP_PASSWORD) {
-      logger.warn('SFTP_PASSWORD must be provided')
-    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(_context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
     } catch (e: unknown) {
+      // Only disconnect on error to allow connection reuse
+      await this.disconnectFromSftp()
+
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
       response = {
@@ -78,29 +66,23 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    try {
-      // Connect to SFTP server (will reuse existing connection if available)
-      await this.connectToSftp()
+    // Connect to SFTP server (will reuse existing connection if available)
+    await this.connectToSftp()
 
-      // Process files based on the request parameters
-      const result = await this.processFiles(param)
+    // Process files based on the request parameters
+    const result = await this.downloadFile(param.filePath, param.instrument as string)
 
-      return {
-        data: {
-          result,
-        },
-        statusCode: 200,
+    return {
+      data: {
         result,
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    } catch (error) {
-      // Only disconnect on error to allow connection reuse
-      await this.disconnectFromSftp()
-      throw error
+      },
+      statusCode: 200,
+      result,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
     }
   }
 
@@ -110,28 +92,12 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       return
     }
 
-    if (!this.config.SFTP_HOST) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'Environment variable SFTP_HOST is missing',
-      })
-    }
-
     const connectConfig: any = {
       host: this.config.SFTP_HOST,
       port: this.config.SFTP_PORT || 22,
       username: this.config.SFTP_USERNAME,
-      readyTimeout: 30000, // 30 second timeout for connection
-    }
-
-    // Use either password or private key authentication
-    if (this.config.SFTP_PASSWORD) {
-      connectConfig.password = this.config.SFTP_PASSWORD
-    } else {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'SFTP_PASSWORD must be provided',
-      })
+      password: this.config.SFTP_PASSWORD,
+      readyTimeout: 30000,
     }
 
     try {
@@ -159,115 +125,74 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       await this.sftpClient.end()
       logger.debug('Disconnected from SFTP server')
     } catch (error) {
-      logger.warn(error, 'Error while disconnecting from SFTP server')
+      logger.error(error, 'Error while disconnecting from SFTP server')
     } finally {
       // Always reset connection state
       this.isConnected = false
     }
   }
 
-  private async processFiles(param: RequestParams): Promise<any> {
-    if (!param.instrument) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'instrument is required for download operation',
-      })
-    }
-
-    const remotePath =
-      instrumentToRemotePathMap[param.instrument as keyof typeof instrumentToRemotePathMap]
-
-    if (!remotePath) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Unsupported instrument: ${param.instrument}`,
-      })
-    }
-
-    return await this.downloadFile(remotePath, param.instrument as string)
-  }
-
   private async downloadFile(remotePath: string, instrument: string): Promise<any> {
-    // 4 Days max because of possible scenario of: Lagging day + 3 day long weekend
-    const maxDaysBack = 4
+    // Files are uploaded once daily at a random time after 4 PM London time
+    // We want to ensure we get the latest file, so we try up to 4 days back
+    // 4 days max because of possible scenario of: Lagging day + 3 day long weekend
+    const MAX_DAYS_BACK = 4
     let lastError: Error | null = null
 
-    // Try downloading files starting from current date and going back up to 4 days
-    for (let daysBack = 0; daysBack <= maxDaysBack; daysBack++) {
+    for (let daysBack = 0; daysBack <= MAX_DAYS_BACK; daysBack++) {
       try {
-        const fullPath = this.buildFilePath(remotePath, instrument, daysBack)
-        const instrumentFilePath = fullPath.split('/').pop() || 'unknown'
-        if (daysBack === 0) {
-          logger.info(`Downloading file: ${instrumentFilePath} from ${remotePath}`)
-        } else {
-          logger.info(
-            `Attempting fallback: downloading file ${instrumentFilePath} (${daysBack} days back) from ${remotePath}`,
-          )
-        }
-
-        const fileContent = await this.sftpClient.get(fullPath)
-
-        if (!fileContent) {
-          throw new Error(`File is empty or not found: ${instrumentFilePath}`)
-        }
-
-        const csvContent = fileContent.toString('utf8')
-
-        // Check if the content is empty after conversion to string
-        if (!csvContent || csvContent.trim().length === 0) {
-          throw new Error(`File is empty or not found: ${instrumentFilePath}`)
-        }
-
-        // Use the parser factory to detect the right parser based on instrument
-        const parser = CSVParserFactory.detectParserByInstrument(instrument)
-        if (!parser) {
-          throw new AdapterInputError({
-            statusCode: 400,
-            message: `No suitable parser found for file: ${instrumentFilePath}`,
-          })
-        }
-
-        // Parse the CSV content and return the corresponding DataObject
-        const parsedData = await parser.parse(csvContent)
-        logger.debug(
-          `Successfully parsed ${parsedData.length} records from file: ${instrumentFilePath}`,
-        )
-
-        if (daysBack > 0) {
-          logger.warn(
-            `Successfully downloaded fallback file from ${daysBack} days back: ${instrumentFilePath}`,
-          )
-        }
-
+        const parsedData = await this.tryDownloadAndParseFile(remotePath, instrument, daysBack)
+        logger.info(`Successfully downloaded and parsed file from path ${remotePath}`)
         return parsedData
-      } catch (error) {
+      } catch (error: any) {
         lastError = error instanceof Error ? error : new Error('Unknown error')
 
-        if (daysBack < maxDaysBack) {
-          logger.debug(
+        if (daysBack < MAX_DAYS_BACK) {
+          logger.error(
             `Failed to download file for day ${daysBack}, trying ${daysBack + 1} days back: ${
-              lastError.message
+              error.message
             }`,
           )
-          continue
         }
       }
     }
 
-    logger.error(
-      lastError,
-      `Failed to download file after trying ${maxDaysBack + 1} days back from ${remotePath}`,
-    )
+    // All attempts failed
     throw new AdapterInputError({
       statusCode: 500,
-      message: `Failed to download file after trying ${maxDaysBack + 1} days back: ${
+      message: `Failed to download file after trying ${MAX_DAYS_BACK + 1} days back: ${
         lastError?.message || 'Unknown error'
       }`,
     })
   }
 
+  private async tryDownloadAndParseFile(
+    remotePath: string,
+    instrument: string,
+    daysBack: number,
+  ): Promise<any> {
+    const fullPath = this.buildFilePath(remotePath, instrument, daysBack)
+
+    // Log the download attempt
+    logger.info(`Downloading file: ${fullPath} | (${daysBack} days back)`)
+
+    const fileContent = await this.sftpClient.get(fullPath)
+    // we need latin1 here because the file contains special characters like "®"
+    const csvContent = fileContent.toString('latin1')
+
+    const parser = CSVParserFactory.detectParserByInstrument(instrument)
+    if (!parser) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `No suitable parser found for file: ${fullPath} and instrument: ${instrument}`,
+      })
+    }
+
+    return await parser.parse(csvContent)
+  }
+
   private buildFilePath(remotePath: string, instrument: string, additionalDaysBack = 0): string {
-    const filePathTemplate = this.getInstrumentFilePath(instrument)
+    const filePathTemplate = `${remotePath}${this.getInstrumentFilePathDateTemplate(instrument)}`
 
     const now = new Date()
 
@@ -296,11 +221,12 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       .replace('{{dd}}', currentDay)
       .replace('{{mm}}', currentMonth)
       .replace('{{yy}}', currentYear)
-    return `${remotePath}/${instrumentFilePath}`.replace(/\/+/g, '/')
+    return instrumentFilePath
   }
 
-  getInstrumentFilePath(instrument: string): string {
-    const filePathTemplate = instrumentToFileMap[instrument as keyof typeof instrumentToFileMap]
+  getInstrumentFilePathDateTemplate(instrument: string): string {
+    const filePathTemplate =
+      instructionToDateTemplateMap[instrument as keyof typeof instructionToDateTemplateMap]
 
     if (!filePathTemplate) {
       throw new AdapterInputError({
@@ -312,12 +238,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
-    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
-  }
-
-  // Clean up method to close SFTP connection when transport is destroyed
-  async cleanup(): Promise<void> {
-    await this.disconnectFromSftp()
+    return adapterSettings.BACKGROUND_EXECUTE_MS || 60000
   }
 }
 
