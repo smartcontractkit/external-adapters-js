@@ -4,7 +4,7 @@ import { config } from './config'
 import * as endpoints from './endpoint'
 
 export const adapter = new Adapter({
-  name: 'SFTP',
+  name: 'FTSE_SFTP',
   config,
   endpoints: [endpoints.sftp.endpoint],
 })

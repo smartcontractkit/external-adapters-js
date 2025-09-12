@@ -46,17 +46,18 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       // Only disconnect on error to allow connection reuse
       await this.disconnectFromSftp()
 
+      if (e instanceof AdapterInputError) {
+        logger.error(e, e.message)
+        throw e
+      }
+
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
-      response = {
-        statusCode: (e as AdapterInputError)?.statusCode || 502,
-        errorMessage,
-        timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
+
+      throw new AdapterInputError({
+        statusCode: 502,
+        message: errorMessage,
+      })
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
@@ -192,6 +193,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private buildFilePath(remotePath: string, instrument: string, additionalDaysBack = 0): string {
+    // The remotePath will look like /sub_dir/sub_dir/file_suffix
     const filePathTemplate = `${remotePath}${this.getInstrumentFilePathDateTemplate(instrument)}`
 
     const now = new Date()
