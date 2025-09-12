@@ -32,11 +32,11 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.endpointName = endpointName
   }
 
-  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, _entries: RequestParams[]) {
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  private async connectToSftp(): Promise<void> {
+  async connectToSftp(): Promise<void> {
     // Check if already connected
     if (this.isConnected) {
       return
@@ -66,7 +66,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async disconnectFromSftp(): Promise<void> {
+  async disconnectFromSftp(): Promise<void> {
     if (!this.isConnected) {
       return
     }
