@@ -28,8 +28,12 @@ jest.mock('../../src/transport/sftp', () => {
   return {
     sftpTransport: {
       name: 'default_single_transport',
-      async initialize() {},
-      async backgroundHandler() {},
+      async initialize() {
+        // Mock implementation - no operation needed
+      },
+      async backgroundHandler() {
+        // Mock implementation - no operation needed
+      },
       getSubscriptionTtlFromConfig() {
         return 60000
       },
