@@ -10,37 +10,31 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Name of the file to download',
     },
-    filePath: {
-      required: true,
-      type: 'string',
-      description: 'file path and file to download without date template',
-    },
   },
   [
     {
       instrument: 'FTSE100INDEX',
-      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell1000INDEX',
-      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell2000INDEX',
-      filePath: 'Test_File_Path',
     },
     {
       instrument: 'Russell3000INDEX',
-      filePath: 'Test_File_Path',
     },
   ],
 )
 
-export const instructionToDateTemplateMap = {
-  FTSE100INDEX: '{{dd}}{{mm}}.csv',
-  Russell1000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
-  Russell2000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
-  Russell3000INDEX: '{{yy}}{{mm}}{{dd}}.CSV',
+export const instrumentToFileTemplateMap: Record<string, string> = {
+  FTSE100INDEX: '/data/valuation/uk_all_share/ukallv%m%d.csv',
+  Russell1000INDEX:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_%Y%m%d.csv',
+  Russell2000INDEX:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_%Y%m%d.csv',
+  Russell3000INDEX:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/daily_values_russell_%Y%m%d.csv',
 }
 
 export type TInputParameters = typeof inputParameters.definition
