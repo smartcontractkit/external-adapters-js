@@ -270,6 +270,9 @@
       "path": "./sources/coinranking"
     },
     {
+      "path": "./sources/copper"
+    },
+    {
       "path": "./sources/covid-tracker"
     },
     {
