@@ -303,6 +303,9 @@
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/deutsche-boerse"
+    },
+    {
       "path": "./sources/dlc-btc-por"
     },
     {
