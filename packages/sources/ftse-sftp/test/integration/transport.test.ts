@@ -8,9 +8,15 @@ jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscriptio
       write: jest.fn(),
     }
     name = 'test'
-    constructor() {}
-    async initialize() {}
-    async backgroundHandler() {}
+    constructor() {
+      // Mock constructor
+    }
+    async initialize() {
+      // Mock initialization
+    }
+    async backgroundHandler() {
+      // Mock background handler
+    }
   },
 }))
 
