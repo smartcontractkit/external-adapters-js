@@ -1,12 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute SolanaTransport endpoint returns success 1`] = `
+exports[`execute SolanaBalanceTransport endpoint returns success 1`] = `
 {
   "data": {
-    "decimals": 18,
-    "result": "1500000000000000000000",
+    "decimals": 9,
+    "result": [
+      {
+        "address": "G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG",
+        "balance": "123000000000",
+      },
+    ],
   },
-  "result": "1500000000000000000000",
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
