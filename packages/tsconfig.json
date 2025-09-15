@@ -246,9 +246,6 @@
       "path": "./sources/coinbase-prime"
     },
     {
-      "path": "./sources/coincodex"
-    },
-    {
       "path": "./sources/coingecko"
     },
     {

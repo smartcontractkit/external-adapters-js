@@ -246,9 +246,6 @@
       "path": "./sources/coinbase-prime/tsconfig.test.json"
     },
     {
-      "path": "./sources/coincodex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
