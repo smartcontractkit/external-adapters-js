@@ -1,4 +1,3 @@
-import { config } from '../../src/config'
 import { SftpTransport } from '../../src/transport/sftp'
 
 // Mock the framework dependencies
@@ -37,7 +36,7 @@ describe('SFTP Transport Integration Tests', () => {
     transport = new SftpTransport()
 
     // Mock the config
-    ;(transport as unknown as { config: typeof config.settings }).config = {
+    ;(transport as any).config = {
       SFTP_HOST: 'test.example.com',
       SFTP_PORT: 22,
       SFTP_USERNAME: 'testuser',
@@ -48,13 +47,9 @@ describe('SFTP Transport Integration Tests', () => {
 
   describe('Configuration', () => {
     it('should return correct subscription TTL from config', () => {
-      const mockSettings: typeof config.settings = {
-        SFTP_HOST: 'test.example.com',
-        SFTP_PORT: 22,
-        SFTP_USERNAME: 'testuser',
-        SFTP_PASSWORD: 'testpass',
+      const mockSettings = {
         BACKGROUND_EXECUTE_MS: 30000,
-      }
+      } as any
 
       const ttl = transport.getSubscriptionTtlFromConfig(mockSettings)
       expect(ttl).toBe(30000)
