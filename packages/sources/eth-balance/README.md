@@ -14,10 +14,10 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |       Name        |         Description         |  Type  | Options | Default |
-| :-------: | :---------------: | :-------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ETHEREUM_RPC_URL  | RPC URL of an Ethereum node | string |         |         |
-|           | ETHEREUM_CHAIN_ID | The chain id to connect to  | string |         |   `1`   |
+| Required? |         Name          |         Description         |  Type  | Options | Default |
+| :-------: | :-------------------: | :-------------------------: | :----: | :-----: | :-----: |
+|    ✅     |   ETHEREUM_RPC_URL    | RPC URL of an Ethereum node | string |         |         |
+|           | ETHEREUM_RPC_CHAIN_ID | The chain id to connect to  | string |         |   `1`   |
 
 ---
 
