@@ -2,8 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { xrpTransport } from '../transport/xrp'
-import { getXrplRpcUrl } from '../transport/xrpl-utils'
+import { solanaBalanceTransport } from '../transport/solana-balance'
+import { getSolanaRpcUrl } from '../transport/solana-utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -24,7 +24,7 @@ export const inputParameters = new InputParameters(
     {
       addresses: [
         {
-          address: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+          address: '7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq',
         },
       ],
     },
@@ -49,11 +49,11 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'xrp',
-  transport: xrpTransport,
+  name: 'solana-balance',
+  transport: solanaBalanceTransport,
   inputParameters,
   customInputValidation: (_request, settings): AdapterError | undefined => {
-    getXrplRpcUrl(settings)
+    getSolanaRpcUrl(settings)
     return
   },
 })

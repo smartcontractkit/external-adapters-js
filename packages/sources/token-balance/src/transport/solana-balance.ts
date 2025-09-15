@@ -1,60 +1,22 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/xrp'
-import { getXrplRpcUrl } from './xrpl-utils'
+import { Commitment, Connection, PublicKey } from '@solana/web3.js'
+import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/solana-balance'
+import { getSolanaRpcUrl } from './solana-utils'
 
-const logger = makeLogger('Token Balance - XRPL')
+const logger = makeLogger('Token Balance - Salana Balance')
 
 type RequestParams = typeof inputParameters.validated
 
-const RESULT_DECIMALS = 6
+const RESULT_DECIMALS = 9
 
-type AccountInfoResponse = {
-  result: {
-    account_data: {
-      Account: string
-      Balance: string
-      Flags: number
-      LedgerEntryType: string
-      OwnerCount: number
-      PreviousTxnID: string
-      PreviousTxnLgrSeq: number
-      Sequence: number
-      index: string
-    }
-    account_flags: {
-      allowTrustLineClawback: boolean
-      defaultRipple: boolean
-      depositAuth: boolean
-      disableMasterKey: boolean
-      disallowIncomingCheck: boolean
-      disallowIncomingNFTokenOffer: boolean
-      disallowIncomingPayChan: boolean
-      disallowIncomingTrustline: boolean
-      disallowIncomingXRP: boolean
-      globalFreeze: boolean
-      noFreeze: boolean
-      passwordSpent: boolean
-      requireAuthorization: boolean
-      requireDestinationTag: boolean
-    }
-    ledger_hash: string
-    ledger_index: number
-    status: string
-    validated: boolean
-  }
-}
-
-export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
-  endpointName!: string
-  requester!: Requester
+  connection!: Connection
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -64,8 +26,14 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
-    this.endpointName = endpointName
-    this.requester = dependencies.requester
+    if (!adapterSettings.SOLANA_RPC_URL) {
+      logger.warn('SOLANA_RPC_URL is missing')
+    } else {
+      this.connection = new Connection(
+        getSolanaRpcUrl(adapterSettings),
+        adapterSettings.SOLANA_COMMITMENT as Commitment,
+      )
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -125,42 +93,25 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
         const balance = await this.getTokenBalance(address)
         return {
           address,
-          balance,
+          balance: balance.toString(),
         }
       },
     )
     return await Promise.all(addresses.map(getBalance))
   }
 
-  async getTokenBalance(address: string): Promise<string> {
-    const requestConfig = {
-      method: 'POST',
-      baseURL: getXrplRpcUrl(this.config),
-      data: {
-        method: 'account_info',
-        params: [
-          {
-            account: address,
-            ledger_index: 'validated',
-          },
-        ],
-      },
+  async getTokenBalance(address: string): Promise<number> {
+    // getSolanaRpcUrl throws if the RPC URL is missing, in which case
+    // this.connection would not be initialized.
+    getSolanaRpcUrl(this.config)
+    const result = await this.connection.getAccountInfo(new PublicKey(address))
+    if (!result) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Account not found for address ${address}`,
+      })
     }
-
-    const result = await this.requester.request<AccountInfoResponse>(
-      calculateHttpRequestKey<BaseEndpointTypes>({
-        context: {
-          adapterSettings: this.config,
-          inputParameters,
-          endpointName: this.endpointName,
-        },
-        data: requestConfig.data,
-        transportName: this.name,
-      }),
-      requestConfig,
-    )
-
-    return result.response.data.result.account_data.Balance
+    return result.lamports
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -168,4 +119,4 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const xrpTransport = new XrpTransport()
+export const solanaBalanceTransport = new SolanaBalanceTransport()
