@@ -42,21 +42,22 @@ export const getOndoMultiplierData = async (
   config: Config,
 ): Promise<OndoMarketData> => {
   const url = `${config.baseUrl}/v1/assets/${symbol}/market`
-
+  console.log(config.ondoApiKey)
   const requestConfig: AxiosRequestConfig = {
     ...config.api,
     url,
     method: 'GET',
     headers: {
       ...config.api?.headers,
-      Authorization: `Bearer ${config.ondoApiKey}`,
+      'x-api-key': config.ondoApiKey,
       'Content-Type': 'application/json',
     },
   }
 
-  Logger.debug(`Fetching Ondo multiplier data for ${symbol} from ${url}`)
+  Logger.info(`Fetching Ondo multiplier data for ${symbol} from ${url}`)
 
   const response = await Requester.request<OndoMarketData>(requestConfig)
+  Logger.info(`Received Ondo response: ${JSON.stringify(response.data)}`)
   return response.data
 }
 
@@ -97,10 +98,11 @@ export const calculateActiveMultiplier = (marketData: OndoMarketData): number =>
 export const getDataStreamsPrice = async (feedId: string, config: Config): Promise<number> => {
   // API connection details
   const method = 'GET'
-  const host = 'api.testnet-dataengine.chain.link'
+  const host = 'api.dataengine.chain.link'
   const path = '/api/v1/reports/latest'
   const queryString = `?feedID=${feedId}`
-  const fullUrl = `https://${host}${path}${queryString}`
+  const fullPath = path + queryString
+  const fullUrl = `https://${host}${fullPath}`
   const streamsApiKey = config.streamsApiKey
   const streamsApiSecret = config.streamsApiSecret
 
@@ -113,12 +115,14 @@ export const getDataStreamsPrice = async (feedId: string, config: Config): Promi
   const requestConfig: AxiosRequestConfig = {
     url: fullUrl,
     method,
-    headers: generateAuthHeaders(method, path + queryString, streamsApiKey, streamsApiSecret),
-    // Add any other config.api options if needed
-    ...config.api,
+    headers: {
+      ...generateAuthHeaders(method, fullPath, streamsApiKey, streamsApiSecret),
+      // Add any other config.api options if needed
+    },
+    ...config,
   }
 
-  Logger.debug(`Requesting Data Streams price for feedId: ${feedId} from ${fullUrl}`)
+  Logger.info(`Requesting Data Streams price for feedId: ${feedId} from ${fullUrl}`)
 
   try {
     const response = await Requester.request<SingleReportResponse>(requestConfig)

@@ -62,15 +62,19 @@ export const execute: ExecuteWithConfig<Config> = async (request, _context, conf
 
   try {
     // Step 1: Fetch multiplier data from Ondo API
+    console.log(`Fetching multiplier data for symbol: ${symbol}`)
     const marketData = await getOndoMultiplierData(symbol, config)
 
     // Step 2: Calculate active multiplier
+    console.log(`Calculating active multiplier for symbol: ${symbol}`)
     const activeMultiplier = calculateActiveMultiplier(marketData)
 
     // Step 3: Fetch underlying price from Data Streams
+    console.log(`Fetching underlying price for feedId: ${feedId}`)
     const underlyingPrice = await getDataStreamsPrice(feedId, config)
 
     // Step 4: Calculate tokenized price
+    console.log(`Calculating tokenized price for symbol: ${symbol}`)
     const tokenizedPrice = calculateTokenizedPrice(underlyingPrice, activeMultiplier)
 
     const responseData: ResponseSchema = {
