@@ -1,6 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
+import { FTSE100Data } from '../parsing/ftse100'
+import { RussellDailyValuesData } from '../parsing/russell'
 import { sftpTransport } from '../transport/sftp'
 
 export const inputParameters = new InputParameters(
@@ -29,12 +31,17 @@ export const inputParameters = new InputParameters(
 
 export type TInputParameters = typeof inputParameters.definition
 
+/**
+ * Union type for all possible response data structures
+ */
+export type IndexResponseData = FTSE100Data | RussellDailyValuesData
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: any
+    Result: number
     Data: {
-      result: any
+      result: IndexResponseData
     }
   }
   Settings: typeof config.settings

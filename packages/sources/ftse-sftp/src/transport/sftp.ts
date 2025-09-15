@@ -1,20 +1,14 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { sleep } from '@chainlink/external-adapter-framework/util'
 import SftpClient from 'ssh2-sftp-client'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/sftp'
-
-const logger = makeLogger('FTSE SFTP Adapter')
-
-type RequestParams = typeof inputParameters.validated
+import { BaseEndpointTypes } from '../endpoint/sftp'
 
 export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
   sftpClient: SftpClient
-  private isConnected = false
 
   constructor() {
     super()
@@ -32,38 +26,8 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.endpointName = endpointName
   }
 
-  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, _entries: RequestParams[]) {
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>): Promise<void> {
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-  }
-
-  async connectToSftp(): Promise<void> {
-    // Check if already connected
-    if (this.isConnected) {
-      return
-    }
-
-    const connectConfig: any = {
-      host: this.config.SFTP_HOST,
-      port: this.config.SFTP_PORT || 22,
-      username: this.config.SFTP_USERNAME,
-      password: this.config.SFTP_PASSWORD,
-      readyTimeout: 30000,
-    }
-
-    try {
-      await this.sftpClient.connect(connectConfig)
-      this.isConnected = true
-      logger.debug('Successfully connected to SFTP server')
-    } catch (error) {
-      this.isConnected = false
-      logger.error(error, 'Failed to connect to SFTP server')
-      throw new AdapterInputError({
-        statusCode: 500,
-        message: `Failed to connect to SFTP server: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`,
-      })
-    }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
