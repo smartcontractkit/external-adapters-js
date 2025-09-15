@@ -1,5 +1,6 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { SftpTransport } from '../../src/transport/sftp'
+import { mockSftpClientInstance } from '../mocks/sftpClient'
 
 // Mock the framework dependencies
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => ({
@@ -30,35 +31,14 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
   sleep: jest.fn(),
 }))
 
-// Mock the SFTP client
-jest.mock('ssh2-sftp-client', () => {
-  return class MockSftpClient {
-    shouldFailConnection = false
-
-    setShouldFailConnection(fail: boolean) {
-      this.shouldFailConnection = fail
-    }
-
-    async connect(_config: any): Promise<void> {
-      if (this.shouldFailConnection) {
-        throw new Error('SFTP connection failed')
-      }
-    }
-
-    async end(): Promise<void> {
-      // Do nothing
-    }
-  }
-})
+// Mock the SFTP client using the existing comprehensive mock
+jest.mock('ssh2-sftp-client', () => require('../mocks/sftpClient'))
 
 describe('SFTP Transport Integration Tests', () => {
   let transport: SftpTransport
-  let mockSftpInstance: any
 
   beforeEach(() => {
     transport = new SftpTransport()
-    // Get the mock instance from the transport
-    mockSftpInstance = (transport as any).sftpClient
 
     // Mock the config
     ;(transport as any).config = {
@@ -68,18 +48,12 @@ describe('SFTP Transport Integration Tests', () => {
       SFTP_PASSWORD: 'testpass',
     }
 
-    // Reset mock state
-    if (mockSftpInstance) {
-      mockSftpInstance.setShouldFailConnection(false)
-    }
+    // Reset mock state - the comprehensive mock resets itself in constructor
+    // but we can also reset specific states here if needed
+    mockSftpClientInstance.setShouldFailConnection(false)
   })
 
   describe('SFTP connection management', () => {
-    it('should connect to SFTP server successfully', async () => {
-      await (transport as any).connectToSftp()
-      expect((transport as any).isConnected).toBe(true)
-    })
-
     it('should reuse existing connection', async () => {
       // First connection
       await (transport as any).connectToSftp()
@@ -90,25 +64,8 @@ describe('SFTP Transport Integration Tests', () => {
       expect((transport as any).isConnected).toBe(true)
     })
 
-    it('should disconnect from SFTP server', async () => {
-      // First connect
-      await (transport as any).connectToSftp()
-      expect((transport as any).isConnected).toBe(true)
-
-      // Then disconnect
-      await (transport as any).disconnectFromSftp()
-      expect((transport as any).isConnected).toBe(false)
-    })
-
-    it('should handle disconnect when not connected', async () => {
-      // Should not throw when disconnecting while not connected
-      expect((transport as any).isConnected).toBe(false)
-      await expect((transport as any).disconnectFromSftp()).resolves.not.toThrow()
-      expect((transport as any).isConnected).toBe(false)
-    })
-
     it('should handle SFTP connection failures', async () => {
-      mockSftpInstance.setShouldFailConnection(true)
+      mockSftpClientInstance.setShouldFailConnection(true)
 
       await expect((transport as any).connectToSftp()).rejects.toThrow(AdapterInputError)
       expect((transport as any).isConnected).toBe(false)

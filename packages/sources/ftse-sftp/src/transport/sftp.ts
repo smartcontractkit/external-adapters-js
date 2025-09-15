@@ -66,22 +66,6 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async disconnectFromSftp(): Promise<void> {
-    if (!this.isConnected) {
-      return
-    }
-
-    try {
-      await this.sftpClient.end()
-      logger.debug('Disconnected from SFTP server')
-    } catch (error) {
-      logger.error(error, 'Error while disconnecting from SFTP server')
-    } finally {
-      // Always reset connection state
-      this.isConnected = false
-    }
-  }
-
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.BACKGROUND_EXECUTE_MS || 60000
   }
