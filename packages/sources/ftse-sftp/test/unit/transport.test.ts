@@ -31,7 +31,6 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
   sleep: jest.fn(),
 }))
 
-// Mock the SFTP client using the existing comprehensive mock
 jest.mock('ssh2-sftp-client', () => require('../mocks/sftpClient'))
 
 describe('SFTP Transport Integration Tests', () => {
