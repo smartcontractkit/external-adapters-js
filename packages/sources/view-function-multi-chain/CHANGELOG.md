@@ -1,5 +1,11 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4003](https://github.com/smartcontractkit/external-adapters-js/pull/4003) [`a72f52e`](https://github.com/smartcontractkit/external-adapters-js/commit/a72f52ec6ed897e1750bd1d3fa0963d3512f1da0) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - function-responseSelector endpoint
+
 ## 1.3.1
 
 ### Patch Changes
