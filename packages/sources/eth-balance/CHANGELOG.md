@@ -1,5 +1,11 @@
 # @chainlink/eth-balance-adapter
 
+## 2.1.10
+
+### Patch Changes
+
+- [#4019](https://github.com/smartcontractkit/external-adapters-js/pull/4019) [`ea2962f`](https://github.com/smartcontractkit/external-adapters-js/commit/ea2962ffb85e092f5fd9e47dd945d8662f08849a) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix documentation
+
 ## 2.1.9
 
 ### Patch Changes
