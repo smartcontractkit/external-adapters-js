@@ -23,7 +23,7 @@ Custom logger included; can be replaced with `makeLogger` from `@chainlink/exter
 
 ### Timestamp Recording
 
-The adapter preserves the provider's timestamp (`block_time`) as `providerIndicatedTimeUnixMs` alongside Chainlink's processing timestamps for data traceability.
+The adapter preserves the provider's timestamp (`timestamp`, previously `block_time`) as `providerIndicatedTimeUnixMs` alongside Chainlink's processing timestamps for data traceability.
 
 ---
 
@@ -88,7 +88,7 @@ The adapter receives real-time data from Blocksize Capital in the following form
   "params": {
     "states": [
       {
-        "block_time": 1758026650,
+        "timestamp": 1758026650,
         "base_symbol": "ALETH",
         "quote_symbol": "USD",
         "aggregated_state_price": "4412.262828",
@@ -108,7 +108,7 @@ The adapter receives real-time data from Blocksize Capital in the following form
   "params": {
     "states": [
       {
-        "block_time": 1758026654,
+        "timestamp": 1758026654,
         "base_symbol": "ALETH",
         "quote_symbol": "USD",
         "aggregated_state_price": "4412.262828",
@@ -117,7 +117,7 @@ The adapter receives real-time data from Blocksize Capital in the following form
         "aggregated_7d_usd_trading_volume": "2038012.966"
       },
       {
-        "block_time": 1758026654,
+        "timestamp": 1758026654,
         "base_symbol": "CBBTC",
         "quote_symbol": "USD",
         "aggregated_state_price": "115358.0514",

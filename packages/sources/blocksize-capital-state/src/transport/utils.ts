@@ -107,9 +107,6 @@ export const blocksizeStateWebsocketOpenHandler = (
     const messageHandler = (event: MessageEvent) => {
       try {
         const parsed = JSON.parse(event.data.toString())
-
-        logger.debug(JSON.stringify(parsed))
-
         if (parsed.result?.user_id && !parsed.error) {
           logger.debug('Got logged in response, connection is ready')
           clearTimeout(timeoutId)
@@ -158,7 +155,6 @@ export const blocksizeStateWebsocketOpenHandler = (
 
     const message = buildBlocksizeWebsocketAuthMessage(apiKey, token)
     logger.debug('Sending authentication message...')
-    logger.debug(JSON.stringify(message))
     connection.send(JSON.stringify(message))
   })
 }
