@@ -33,9 +33,6 @@
       "path": "./composites/defi-pulse/tsconfig.test.json"
     },
     {
-      "path": "./composites/dns-record-check/tsconfig.test.json"
-    },
-    {
       "path": "./composites/dxdao/tsconfig.test.json"
     },
     {
