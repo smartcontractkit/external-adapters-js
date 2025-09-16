@@ -71,7 +71,7 @@ export const buildSuccessResponse = (state: StateData, state_price: number) => (
   },
 })
 
-export const processStateData = (state: StateData, isStreaming: boolean = false) => {
+export const processStateData = (state: StateData, isStreaming = false) => {
   const ticker = `${state.base_symbol}/${state.quote_symbol}`
 
   // Validate data
