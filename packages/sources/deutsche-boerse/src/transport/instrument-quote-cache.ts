@@ -1,5 +1,3 @@
-import Decimal from 'decimal.js'
-
 export type Quote = {
   bid?: number
   ask?: number
@@ -25,23 +23,16 @@ export class InstrumentQuoteCache {
     return this.map.get(isin)
   }
   addQuote(isin: string, bid: number, ask: number, providerTime: number) {
-    const quote = this.get(isin)
-    if (!quote) {
-      throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
-    }
-    const mid = new Decimal(bid).plus(ask).div(2)
-    quote.bid = bid
-    quote.ask = ask
-    quote.mid = mid.toNumber()
-    quote.quoteProviderTimeUnixMs = providerTime
+    const b = this.get(isin) ?? {}
+    b.bid = bid
+    b.ask = ask
+    b.mid = (bid + ask) / 2
+    b.quoteProviderTimeUnixMs = providerTime
   }
   addTrade(isin: string, lastPrice: number, providerTime: number) {
-    const quote = this.get(isin)
-    if (!quote) {
-      throw new Error(`Cannot add trade for inactive ISIN ${isin}`)
-    }
-    quote.latestPrice = lastPrice
-    quote.tradeProviderTimeUnixMs = providerTime
+    const b = this.get(isin) ?? {}
+    b.latestPrice = lastPrice
+    b.tradeProviderTimeUnixMs = providerTime
   }
   isEmpty(): boolean {
     return this.map.size === 0
