@@ -53,6 +53,7 @@ export const endpoint = new AdapterEndpoint({
   transport: solanaBalanceTransport,
   inputParameters,
   customInputValidation: (_request, settings): AdapterError | undefined => {
+    // Make sure the RPC URL is set.
     getSolanaRpcUrl(settings)
     return
   },

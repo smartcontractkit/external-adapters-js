@@ -28,11 +28,6 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
     this.config = adapterSettings
     if (!adapterSettings.SOLANA_RPC_URL) {
       logger.warn('SOLANA_RPC_URL is missing')
-    } else {
-      this.connection = new Connection(
-        getSolanaRpcUrl(adapterSettings),
-        adapterSettings.SOLANA_COMMITMENT as Commitment,
-      )
     }
   }
 
@@ -101,10 +96,7 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
   }
 
   async getTokenBalance(address: string): Promise<number> {
-    // getSolanaRpcUrl throws if the RPC URL is missing, in which case
-    // this.connection would not be initialized.
-    getSolanaRpcUrl(this.config)
-    const result = await this.connection.getAccountInfo(new PublicKey(address))
+    const result = await this.getConnection().getAccountInfo(new PublicKey(address))
     if (!result) {
       throw new AdapterInputError({
         statusCode: 400,
@@ -112,6 +104,13 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
       })
     }
     return result.lamports
+  }
+
+  getConnection(): Connection {
+    return (this.connection ??= new Connection(
+      getSolanaRpcUrl(this.config),
+      this.config.SOLANA_COMMITMENT as Commitment,
+    ))
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
