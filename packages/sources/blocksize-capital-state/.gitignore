@@ -1,0 +1,6 @@
+test/.test-scripts/
+src/transport/.prev
+
+# TypeScript build info
+*.tsbuildinfo
+tsconfig.tsbuildinfo
