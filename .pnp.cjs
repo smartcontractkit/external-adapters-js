@@ -355,10 +355,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinbase-prime"\
     },\
     {\
-      "name": "@chainlink/coincodex-adapter",\
-      "reference": "workspace:packages/sources/coincodex"\
-    },\
-    {\
       "name": "@chainlink/coingecko-adapter",\
       "reference": "workspace:packages/sources/coingecko"\
     },\
@@ -1039,7 +1035,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
     ["@chainlink/coinbase-prime-adapter", ["workspace:packages/sources/coinbase-prime"]],\
-    ["@chainlink/coincodex-adapter", ["workspace:packages/sources/coincodex"]],\
     ["@chainlink/coingecko-adapter", ["workspace:packages/sources/coingecko"]],\
     ["@chainlink/coinlore-adapter", ["workspace:packages/sources/coinlore"]],\
     ["@chainlink/coinmarketcap-adapter", ["workspace:packages/sources/coinmarketcap"]],\
@@ -5909,24 +5904,6 @@ const RAW_RUNTIME_STATE =
           ["crypto-js", "npm:4.2.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/coincodex-adapter", [\
-      ["workspace:packages/sources/coincodex", {\
-        "packageLocation": "./packages/sources/coincodex/",\
-        "packageDependencies": [\
-          ["@chainlink/coincodex-adapter", "workspace:packages/sources/coincodex"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
