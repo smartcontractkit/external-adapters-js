@@ -24,6 +24,7 @@ describe('websocket', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
+    process.env['TOKEN'] = 'fake-token'
 
     // Start mock web socket server
     mockWebSocketProvider(WebSocketClassProvider)

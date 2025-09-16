@@ -34,7 +34,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
             const base = ticker.slice(0, -3)
             const quote = ticker.slice(-3)
             return {
-              block_time: 1672531200, //1672531200000
+              timestamp: 1672531200,
               base_symbol: base,
               quote_symbol: quote,
               aggregated_state_price: '1234.56',

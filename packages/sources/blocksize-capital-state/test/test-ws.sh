@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_URL="http://localhost:3030"
+BASE_URL="http://localhost:8080"
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'

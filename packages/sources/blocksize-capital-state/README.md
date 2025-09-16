@@ -2,10 +2,11 @@
 
 ## Environment Variables
 
-| Required? |      Name       |             Description              |  Type  | Options |                     Default                     |
-| :-------: | :-------------: | :----------------------------------: | :----: | :-----: | :---------------------------------------------: |
-|    ✅     |     API_KEY     | The Blocksize Capital API key to use | string |         |                                                 |
-|           | WS_API_ENDPOINT |  The default WebSocket API base url  | string |         | `wss://data.blocksize.capital/marketdata/v1/ws` |
+| Required? |      Name       |                Description                 |  Type  | Options |                Default                 |
+| :-------: | :-------------: | :----------------------------------------: | :----: | :-----: | :------------------------------------: |
+|    ✅     |     API_KEY     |    The Blocksize Capital API key to use    | string |         |                                        |
+|    ✅     |      TOKEN      | Token for Blocksize Capital authentication | string |         |                                        |
+|           | WS_API_ENDPOINT |     The default WebSocket API base url     | string |         | `wss://blocksize.dev/marketdata/v1/ws` |
 
 ---
 
@@ -13,8 +14,8 @@
 
 ### WebSocket Endpoint
 
-- **Default**: `wss://data.blocksize.capital/marketdata/v1/ws` (production)
-- **Note**: The dev endpoint (`wss://blocksize.dev/marketdata/v1/ws`) currently fails authentication
+- **Default**: `wss://blocksize.dev/marketdata/v1/ws` (development)
+- **Alternative**: `wss://data.blocksize.capital/marketdata/v1/ws` (production)
 
 ### Logger Configuration
 
@@ -140,7 +141,7 @@ yarn workspace @chainlink/blocksize-capital-state-adapter build
 ### Starting the Adapter
 
 ```bash
-API_KEY="your-api-key-here" yarn start blocksize-capital-state
+API_KEY="your-api-key-here" TOKEN="your-token-here" yarn start blocksize-capital-state
 ```
 
 The adapter will start on port `8080` by default.
@@ -152,7 +153,7 @@ A test script (`/test/test-ws.sh`) is included for development and debugging pur
 **Prerequisites:**
 
 - Adapter must be built and running (see above)
-- Required environment variables must be set (`API_KEY`)
+- Required environment variables must be set (`API_KEY`, `TOKEN`)
 
 **Usage:**
 

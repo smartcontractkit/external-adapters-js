@@ -7,16 +7,16 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  // TOKEN: {
-  //   description: 'Token for Blocksize-Capital authentication',
-  //   type: 'string',
-  //   required: true,
-  //   sensitive: true,
-  // },
+  TOKEN: {
+    description: 'Token for Blocksize-Capital authentication',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
   WS_API_ENDPOINT: {
     description: 'WS endpoint for Blocksize-Capital state',
     type: 'string',
-    default: 'wss://data.blocksize.capital/marketdata/v1/ws',
+    default: 'wss://blocksize.dev/marketdata/v1/ws', // 'wss://data.blocksize.capital/marketdata/v1/ws',
     //'wss://blocksize.dev/marketdata/v1/ws',
   },
 })

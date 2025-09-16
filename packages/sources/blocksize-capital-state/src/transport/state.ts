@@ -8,7 +8,6 @@ import {
   blocksizeDefaultUnsubscribeMessageBuilder,
   blocksizeStateWebsocketOpenHandler,
   buildBlocksizeWebsocketTickersMessage,
-  clearOutOfOrderDetector,
   processStateData,
   StateData,
 } from './utils'
@@ -86,10 +85,13 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
     },
 
     open: (connection, context) =>
-      blocksizeStateWebsocketOpenHandler(connection, context.adapterSettings.API_KEY),
+      blocksizeStateWebsocketOpenHandler(
+        connection,
+        context.adapterSettings.API_KEY,
+        context.adapterSettings.TOKEN,
+      ),
     close(event: WebSocket.CloseEvent) {
       logger.info(`WebSocket closed: ${event.code} - ${event.reason}`)
-      clearOutOfOrderDetector()
     },
     error(errorEvent: WebSocket.ErrorEvent) {
       logger.error(`WebSocket error: ${errorEvent.message}`)

@@ -5,6 +5,7 @@ const logger = createLogger('BlocksizeStateUtils')
 export type ProviderParams = {
   tickers?: string[]
   api_key?: string
+  token?: string
 }
 
 const buildBlocksizeWebsocketMessage = (method: string, params: ProviderParams): unknown => {
@@ -15,8 +16,8 @@ const buildBlocksizeWebsocketMessage = (method: string, params: ProviderParams):
   }
 }
 
-export const buildBlocksizeWebsocketAuthMessage = (apiKey: string) =>
-  buildBlocksizeWebsocketMessage('authentication_logon', { api_key: apiKey })
+export const buildBlocksizeWebsocketAuthMessage = (apiKey: string, token: string) =>
+  buildBlocksizeWebsocketMessage('authentication_logon', { api_key: apiKey, token: token })
 
 export const buildBlocksizeWebsocketTickersMessage = (method: string, pair: string) =>
   buildBlocksizeWebsocketMessage(method, { tickers: [pair] })
@@ -31,8 +32,7 @@ export const blocksizeDefaultUnsubscribeMessageBuilder = (
 }
 
 export interface StateData {
-  block_time: number
-  // timestamp: number
+  timestamp: number
   base_symbol: string
   quote_symbol: string
   aggregated_state_price: string
@@ -67,35 +67,9 @@ export const buildSuccessResponse = (state: StateData, state_price: number) => (
   response: {
     data: { result: state_price },
     result: state_price,
-    timestamps: { providerIndicatedTimeUnixMs: state.block_time * 1000 },
+    timestamps: { providerIndicatedTimeUnixMs: state.timestamp * 1000 },
   },
 })
-
-export class OutOfOrderDetector {
-  private lastBlockTime = new Map<string, number>()
-
-  isOutOfOrder(ticker: string, blockTime: number): boolean {
-    const last = this.lastBlockTime.get(ticker) || 0
-    if (blockTime < last) return true
-    this.lastBlockTime.set(ticker, blockTime)
-    return false
-  }
-
-  getLastTimestamp(ticker: string): number {
-    return this.lastBlockTime.get(ticker) || 0
-  }
-
-  clear(): void {
-    this.lastBlockTime.clear()
-  }
-}
-
-const outOfOrderDetector = new OutOfOrderDetector()
-
-// for connection reset
-export const clearOutOfOrderDetector = (): void => {
-  outOfOrderDetector.clear()
-}
 
 export const processStateData = (state: StateData, isStreaming: boolean = false) => {
   const ticker = `${state.base_symbol}/${state.quote_symbol}`
@@ -107,25 +81,12 @@ export const processStateData = (state: StateData, isStreaming: boolean = false)
     return buildErrorResponse(state, validationError)
   }
 
-  if (outOfOrderDetector.isOutOfOrder(ticker, state.block_time)) {
-    const last = outOfOrderDetector.getLastTimestamp(ticker)
-    const messageType = isStreaming ? 'OUT-OF-ORDER' : 'OLD SNAPSHOT'
-    logger.warn(
-      `REJECTING ${messageType}: ${ticker} received ${state.block_time} (${new Date(
-        state.block_time * 1000,
-      ).toISOString()}) but last was ${last} (${new Date(last * 1000).toISOString()}) (${
-        last - state.block_time
-      }s older)`,
-    )
-    return []
-  }
-
   const state_price = parseFloat(state.aggregated_state_price)
 
   // Log streaming updates
   if (isStreaming) {
     logger.info(
-      `Update: ${ticker} = ${state_price} @ ${new Date(state.block_time * 1000).toISOString()}`,
+      `Update: ${ticker} = ${state_price} @ ${new Date(state.timestamp * 1000).toISOString()}`,
     )
   }
 
@@ -136,6 +97,7 @@ export const processStateData = (state: StateData, isStreaming: boolean = false)
 export const blocksizeStateWebsocketOpenHandler = (
   connection: WebSocket,
   apiKey: string,
+  token: string,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
@@ -194,8 +156,9 @@ export const blocksizeStateWebsocketOpenHandler = (
 
     connection.addEventListener('message', messageHandler)
 
-    const message = buildBlocksizeWebsocketAuthMessage(apiKey)
+    const message = buildBlocksizeWebsocketAuthMessage(apiKey, token)
     logger.debug('Sending authentication message...')
+    logger.debug(JSON.stringify(message))
     connection.send(JSON.stringify(message))
   })
 }
