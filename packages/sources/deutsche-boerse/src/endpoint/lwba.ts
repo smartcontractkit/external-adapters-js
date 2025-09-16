@@ -26,6 +26,8 @@ interface LwbaLatestPriceResponse {
     bid: number | null
     ask: number | null
     latestPrice: number | null
+    quoteProviderIndicatedTimeUnixMs: number | null
+    tradeProviderIndicatedTimeUnixMs: number | null
   }
 }
 

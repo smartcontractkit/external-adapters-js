@@ -7,8 +7,17 @@ import {
   UnsubscribeSchema,
 } from '../gen/client_pb'
 
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { MarketDataSchema } from '../gen/md_cef_pb'
-import { ProtobufWsTransport } from './ProtobufWsTransport'
+import { InstrumentQuoteCache } from './instrument-quote-cache'
+import {
+  decimalToNumber,
+  getIsin,
+  isSingleQuoteFrame,
+  isSingleTradeFrame,
+  pickProviderTime,
+} from './proto-utils'
+import { ProtobufWsTransport } from './protobuf-wstransport'
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -16,171 +25,133 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export type Book = {
-  bid?: number
-  ask?: number
-  mid?: number
-  latestPrice?: number
-  providerTime?: number
-}
+const logger = makeLogger('DeutscheBoerseTransport')
 
-// TODO: Move to class with pruning logic
-const books = new Map<string, Book>() // key = ISIN
+export function createLwbaWsTransport() {
+  const cache = new InstrumentQuoteCache()
+  return new ProtobufWsTransport<WsTransportTypes>({
+    url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
 
-export const wsTransport = new ProtobufWsTransport<WsTransportTypes>({
-  url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
+    options: async (context) => ({
+      headers: {
+        'X-API-Key': context.adapterSettings.API_KEY,
+      },
+      followRedirects: true,
+    }),
 
-  options: async (context) => ({
-    headers: {
-      'X-API-Key': context.adapterSettings.API_KEY,
-    },
-    followRedirects: true,
-  }),
+    handlers: {
+      open: (_connetion) => {
+        console.log('Connected to Deutsche Börse LWBA WebSocket')
+      },
+      error: (errorEvent, _context) => {
+        console.log('Deutsche Börse LWBA WebSocket error', JSON.stringify(errorEvent))
+      },
+      close: (_errorEvent, _context) => {
+        console.log('Deutsche Börse LWBA WebSocket closed', JSON.stringify(_errorEvent))
+      },
+      message(buf) {
+        const sm = fromBinary(StreamMessageSchema, buf)
 
-  handlers: {
-    open: (_connetion) => {},
-    close: (_errorEvent, _context) => {},
-    message(buf) {
-      const sm = fromBinary(StreamMessageSchema, buf)
-
-      // Enforce exactly ONE payload
-      const msgs = sm.messages ?? []
-      if (msgs.length !== 1) {
-        throw new Error(
-          `Expected exactly one message in StreamMessage.messages, got ${msgs.length}`,
-        )
-      }
-
-      const anyMsg = msgs[0]
-
-      // Decode MarketData
-      const md = fromBinary(MarketDataSchema, anyMsg.value)
-      const isin = getIsinOrSym(md)
-      const dat: any = (md as any)?.Dat ?? ({} as any)
-
-      if (!isin || !books.has(isin)) {
-        return []
-        // throw new Error('Missing ISIN (Instrmt.AltID/Sym not present)')
-      }
-      const book = books.get(isin) ?? {}
-      let changed = false
-
-      if (isSingleTradeFrame(dat)) {
-        const last = decimalToNumber(dat.Px)
-        if (last !== undefined) {
-          book.latestPrice = last
-          changed = true
+        // Enforce exactly ONE payload
+        const msgs = sm.messages ?? []
+        if (msgs.length !== 1) {
+          throw new Error(
+            `Expected exactly one message in StreamMessage.messages, got ${msgs.length}`,
+          )
         }
-      } else if (isSingleQuoteFrame(dat)) {
-        const bidPx = decimalToNumber(dat?.Bid?.Px)
-        const askPx = decimalToNumber(dat?.Offer?.Px)
 
-        if (bidPx !== undefined) {
-          book.bid = bidPx
-          changed = true
+        const anyMsg = msgs[0]
+
+        // Decode MarketData
+        const md = fromBinary(MarketDataSchema, anyMsg.value)
+        const isin = getIsin(md)
+        const dat: any = (md as any)?.Dat ?? ({} as any)
+
+        if (!isin) {
+          console.log(md)
+          logger.error('Could not parse ISIN', JSON.stringify(md))
+          return []
         }
-        if (askPx !== undefined) {
-          book.ask = askPx
-          changed = true
+
+        if (!cache.has(isin)) {
+          return []
+          // throw new Error('Missing ISIN (Instrmt.AltID/Sym not present)')
         }
-        if (book.bid !== undefined && book.ask !== undefined) {
-          book.mid = (book.bid + book.ask) / 2
+        const quote = cache.get(isin)! // exists due to has() guard above
+
+        const providerTime = pickProviderTime(dat)
+        if (isSingleTradeFrame(dat)) {
+          console.log('Single trade')
+          const latestPrice = decimalToNumber(dat.Px)
+          cache.addTrade(isin, latestPrice, providerTime)
+        } else if (isSingleQuoteFrame(dat)) {
+          console.log('Single quote')
+          const bidPx = decimalToNumber(dat!.Bid!.Px)
+          const askPx = decimalToNumber(dat!.Offer!.Px)
+          cache.addQuote(isin, bidPx, askPx, providerTime)
+        } else {
+          // ignore all other market data variants
+          return []
         }
-      } else {
-        // ignore all other market data variants (depth, ladders, MBO/MBP, etc.)
-        return []
-      }
 
-      console.log(isin)
-      console.log(dat)
+        console.log(isin)
+        // console.log(dat)
 
-      const providerTime = pickProviderTime(dat)
-      if (providerTime !== undefined) book.providerTime = providerTime
-
-      if (changed) {
-        books.set(isin, book)
-      }
-
-      return [
-        {
-          params: { isin },
-          response: {
-            result: null,
-            data: {
-              mid: book.mid ?? null,
-              bid: book.bid ?? null,
-              ask: book.ask ?? null,
-              latestPrice: book.latestPrice ?? null,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: book.providerTime ?? undefined,
+        return [
+          {
+            params: { isin },
+            response: {
+              result: null,
+              data: {
+                mid: quote.mid ?? null,
+                bid: quote.bid ?? null,
+                ask: quote.ask ?? null,
+                latestPrice: quote.latestPrice ?? null,
+                quoteProviderIndicatedTimeUnixMs: quote?.quoteProviderTimeUnixMs ?? null,
+                tradeProviderIndicatedTimeUnixMs: quote?.tradeProviderTimeUnixMs ?? null,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: providerTime,
+              },
             },
           },
-        },
-      ]
+        ]
+      },
     },
-  },
-  builders: {
-    subscribeMessage: (p: { isin: string }) => {
-      books.set(p.isin, {})
-      const req = create(RequestSchema, {
-        event: 'subscribe',
-        requestId: BigInt(Date.now()),
-        subscribe: create(SubscribeSchema, {
-          stream: [{ stream: 'md-xetraetfetp', startTime: BigInt(1756802686000000000) }], // startTime/startSeq default to 0n
-        }),
-      })
-      return toBinary(RequestSchema, req)
+    builders: {
+      subscribeMessage: (p: { isin: string }) => {
+        if (cache.isEmpty()) {
+          cache.activate(p.isin)
+          const req = create(RequestSchema, {
+            event: 'subscribe',
+            requestId: BigInt(Date.now()),
+            subscribe: create(SubscribeSchema, {
+              stream: [{ stream: 'md-xetraetfetp' }], // startTime/startSeq default to 0n
+            }),
+          })
+          return toBinary(RequestSchema, req)
+        } else {
+          cache.activate(p.isin)
+          return
+        }
+      },
+
+      unsubscribeMessage: (p: { isin: string }) => {
+        cache.deactivate(p.isin)
+        if (cache.isEmpty()) {
+          const req = create(RequestSchema, {
+            event: 'unsubscribe',
+            requestId: BigInt(Date.now()),
+            unsubscribe: create(UnsubscribeSchema, {
+              stream: ['md-xetraetfetp'],
+            }),
+          })
+          return toBinary(RequestSchema, req)
+        } else {
+          return
+        }
+      },
     },
-
-    unsubscribeMessage: (_p: { isin: string }) => {
-      const req = create(RequestSchema, {
-        event: 'unsubscribe',
-        requestId: BigInt(Date.now()),
-        unsubscribe: create(UnsubscribeSchema, {
-          stream: ['md-xetraetfetp'],
-        }),
-      })
-      return toBinary(RequestSchema, req)
-    },
-  },
-})
-
-// ---- helpers ----
-function decimalToNumber(decimal?: { m?: bigint; e?: number }): number | undefined {
-  if (!decimal || decimal.m == null || decimal.e == null) return
-  const exponent = Number(decimal.e)
-  const mantissa = BigInt(decimal.m)
-  const n = Number(mantissa) * Math.pow(10, exponent)
-  return Number.isFinite(n) ? n : undefined
+  })
 }
-
-function normalizeToMs(t?: bigint): number | undefined {
-  if (t == null) return
-  return Math.floor(Number(t) / 1e6) // ns -> ms
-}
-function getIsinOrSym(md: any): string | undefined {
-  const instr = md?.Instrmt ?? md?.instrmt
-  if (!instr) return
-  const sym = instr?.Sym ?? instr?.sym
-  return (typeof sym === 'string' && sym) || undefined
-}
-function pickProviderTime(dat: any): number | undefined {
-  return normalizeToMs(dat?.Tm)
-}
-
-function isDecimalPrice(x: any): boolean {
-  const hasMantissa = x != null && (typeof x.m === 'number' || typeof x.m === 'bigint')
-  const hasExponent = typeof x?.e === 'number' || typeof x?.e === 'bigint'
-  return hasMantissa && hasExponent
-}
-
-// true if this frame is exactly a "single trade price"
-function isSingleTradeFrame(dat: any): boolean {
-  return isDecimalPrice(dat?.Px)
-}
-
-// true if this frame carries only a single best bid/offer (not ladders/levels)
-function isSingleQuoteFrame(dat: any): boolean {
-  return isDecimalPrice(dat?.Bid?.Px) && isDecimalPrice(dat?.Offer?.Px)
-}
+export const wsTransport = createLwbaWsTransport()
