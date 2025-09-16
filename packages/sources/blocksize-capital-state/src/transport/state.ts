@@ -1,6 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import WebSocket from 'ws'
 import { BaseEndpointTypes } from '../endpoint/state'
 import { createCustomLogger } from './Logger'
 // import { makeLogger } from '@chainlink/external-adapter-framework/util'
@@ -90,10 +89,10 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
         context.adapterSettings.API_KEY,
         context.adapterSettings.TOKEN,
       ),
-    close(event: WebSocket.CloseEvent) {
+    close(event: any) {
       logger.info(`WebSocket closed: ${event.code} - ${event.reason}`)
     },
-    error(errorEvent: WebSocket.ErrorEvent) {
+    error(errorEvent: any) {
       logger.error(`WebSocket error: ${errorEvent.message}`)
     },
   },

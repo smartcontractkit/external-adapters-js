@@ -95,7 +95,7 @@ export const processStateData = (state: StateData, isStreaming: boolean = false)
 
 // use as open handler for standard WS connections
 export const blocksizeStateWebsocketOpenHandler = (
-  connection: WebSocket,
+  connection: any,
   apiKey: string,
   token: string,
 ): Promise<void> => {
