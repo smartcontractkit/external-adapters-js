@@ -1,25 +1,30 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/nav'
 
+export interface SingleResponseSchema {
+  assetId: string
+  name: string
+  nav: number
+  seqNum: number
+  yieldOneDay: string
+  yieldSevenDay: string
+  recordDate: string
+  staleness: number
+  signedMessage: {
+    signature: string
+    content: string
+    hash: string
+    prevHash: string
+    prevSig: string
+    prevContent: string
+  }
+}
+
 export interface ResponseSchema {
-  docs: {
-    assetId: string
-    name: string
-    nav: number
-    seqNum: number
-    yieldOneDay: string
-    yieldSevenDay: string
-    recordDate: string
-    staleness: number
-    signedMessage: {
-      signature: string
-      content: string
-      hash: string
-      prevHash: string
-      prevSig: string
-      prevContent: string
-    }
-  }[]
+  docs: SingleResponseSchema[]
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -29,7 +34,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -92,4 +97,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-})
+}
+
+// Exported for testing
+export class NavTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super(transportConfig)
+  }
+}
+
+export const httpTransport = new NavTransport()
