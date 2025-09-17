@@ -33,9 +33,6 @@
       "path": "./composites/defi-pulse"
     },
     {
-      "path": "./composites/dns-record-check"
-    },
-    {
       "path": "./composites/dxdao"
     },
     {
