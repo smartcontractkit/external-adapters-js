@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return success 1`] = `
+{
+  "data": {
+    "adjustedNav": "1001",
+    "bases": {
+      "lookback": {
+        "nav": "1000",
+        "ts": 43200,
+      },
+      "previous": {
+        "nav": "1000",
+        "ts": 43200,
+      },
+    },
+    "bounds": {
+      "lowerBound": "993",
+      "upperBound": "1005",
+    },
+    "breachDirection": "",
+    "decimals": 3,
+    "isBounded": true,
+    "rawNav": "1001",
+    "riskFlag": false,
+  },
+  "result": "1001",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 86400000,
+    "providerDataRequestedUnixMs": 86400000,
+  },
+}
+`;

@@ -54,6 +54,9 @@
       "path": "./composites/linear-finance"
     },
     {
+      "path": "./composites/llama-guard"
+    },
+    {
       "path": "./composites/market-closure"
     },
     {
@@ -585,10 +588,10 @@
       "path": "./sources/solactive"
     },
     {
-      "path": "./sources/solana-view-function"
+      "path": "./sources/solana-functions"
     },
     {
-      "path": "./sources/solana-functions"
+      "path": "./sources/solana-view-function"
     },
     {
       "path": "./sources/spectral-macro-score"
