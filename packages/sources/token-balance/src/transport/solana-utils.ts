@@ -1,5 +1,6 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Connection, PublicKey } from '@solana/web3.js'
+import { config } from '../config'
 import { inputParameters } from '../endpoint/solvJlp'
 
 export const getToken = async (
@@ -50,4 +51,14 @@ export const getToken = async (
     result,
     formattedResponse,
   }
+}
+
+export const getSolanaRpcUrl = (settings: typeof config.settings) => {
+  if (!settings.SOLANA_RPC_URL) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: 'Environment variable SOLANA_RPC_URL is missing',
+    })
+  }
+  return settings.SOLANA_RPC_URL
 }

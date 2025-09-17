@@ -2,4 +2,4 @@
 '@chainlink/token-balance-adapter': minor
 ---
 
-Add xrp endpoint
+Add solana-balance endpoint
