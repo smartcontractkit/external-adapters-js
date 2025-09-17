@@ -20,7 +20,7 @@ interface MockResponseCache {
   write: jest.MockedFunction<
     (
       transportName: string,
-      results: Array<{ params: { instrument: string }; response: any }>,
+      results: Array<{ params: { instrument: string }; response: BaseEndpointTypes['Response'] }>,
     ) => Promise<void>
   >
 }

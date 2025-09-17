@@ -4,12 +4,17 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { config } from '../../src/config'
+import { BaseEndpointTypes, IndexResponseData } from '../../src/endpoint/sftp'
 import {
   mockFtse100Success,
   mockRussell1000Success,
   mockRussell2000Success,
   mockRussell3000Success,
 } from './fixtures'
+
+// Import the actual types from source files
+type AdapterSettings = typeof config.settings
 
 // Define types for better type safety
 type MockSftpClient = {
@@ -18,14 +23,14 @@ type MockSftpClient = {
   get: jest.MockedFunction<() => Promise<Buffer>>
   fastGet: jest.MockedFunction<() => Promise<Buffer>>
   exists: jest.MockedFunction<() => Promise<boolean>>
-  list: jest.MockedFunction<() => Promise<any[]>>
+  list: jest.MockedFunction<() => Promise<Array<{ name: string; size: number }>>>
   stat: jest.MockedFunction<() => Promise<Record<string, unknown>>>
 }
 
 interface MockAdapterHandleRequest {
   statusCode: number
-  result: any
-  data: { result: any }
+  result: number // This should be the extracted numeric value
+  data: { result: IndexResponseData }
   timestamps: {
     providerDataRequestedUnixMs: number
     providerDataReceivedUnixMs: number
@@ -37,13 +42,13 @@ interface MockSftpTransportDependencies {
   responseCache?: {
     write: (
       name: string,
-      data: Array<{ params: { instrument: string }; response: any }>,
+      data: Array<{ params: { instrument: string }; response: MockAdapterHandleRequest }>,
     ) => Promise<void>
   }
 }
 
 interface MockSftpTransportContext {
-  adapterSettings: any
+  adapterSettings: AdapterSettings
 }
 
 interface MockSftpTransport {
@@ -52,13 +57,13 @@ interface MockSftpTransport {
   responseCache: {
     write?: (
       name: string,
-      data: Array<{ params: { instrument: string }; response: any }>,
+      data: Array<{ params: { instrument: string }; response: MockAdapterHandleRequest }>,
     ) => Promise<void>
   }
   endpointName: string
   initialize(
     dependencies: MockSftpTransportDependencies,
-    adapterSettings: any,
+    adapterSettings: AdapterSettings,
     endpointName: string,
     transportName: string,
   ): Promise<void>
@@ -98,11 +103,11 @@ jest.mock('../../src/transport/sftp', () => {
       endpointName: '',
       async initialize(
         dependencies: MockSftpTransportDependencies,
-        adapterSettings: any,
+        adapterSettings: AdapterSettings,
         endpointName: string,
         transportName: string,
       ) {
-        this.config = adapterSettings
+        this.config = adapterSettings as Record<string, unknown>
         this.endpointName = endpointName
         this.name = transportName
         this.responseCache = dependencies.responseCache || {}
@@ -121,7 +126,7 @@ jest.mock('../../src/transport/sftp', () => {
       },
       async processRequest(param: { instrument: string }): Promise<MockAdapterHandleRequest> {
         // Mock the successful processing based on instrument
-        const mockResults: Record<string, any> = {
+        const mockResults: Record<string, IndexResponseData> = {
           FTSE100INDEX: mockFtse100Success(),
           Russell1000INDEX: mockRussell1000Success(),
           Russell2000INDEX: mockRussell2000Success(),
@@ -133,10 +138,23 @@ jest.mock('../../src/transport/sftp', () => {
           throw new Error(`Unsupported instrument: ${param.instrument}`)
         }
 
+        // Extract the numeric result based on the data type
+        let numericResult: number
+        if ('gbpIndex' in result) {
+          // FTSE data
+          const gbpValue = result.gbpIndex
+          numericResult = typeof gbpValue === 'number' ? gbpValue : Number(gbpValue) || 0
+        } else if ('close' in result) {
+          // Russell data
+          numericResult = result.close
+        } else {
+          throw new Error('Unknown data format received from parser')
+        }
+
         return {
           statusCode: 200,
           data: { result },
-          result,
+          result: numericResult,
           timestamps: {
             providerDataRequestedUnixMs: Date.now(),
             providerDataReceivedUnixMs: Date.now(),
@@ -192,14 +210,14 @@ describe('execute', () => {
       const mockResult = mockFtse100Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult,
+        result: mockResult.gbpIndex, // Extract the numeric value
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      } as AdapterResponse<any>)
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -216,14 +234,14 @@ describe('execute', () => {
       const mockResult = mockRussell1000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult,
+        result: mockResult.close, // Extract the numeric value
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      } as AdapterResponse<any>)
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -240,14 +258,14 @@ describe('execute', () => {
       const mockResult = mockRussell2000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult,
+        result: mockResult.close, // Extract the numeric value
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      } as AdapterResponse<any>)
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -264,14 +282,14 @@ describe('execute', () => {
       const mockResult = mockRussell3000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult,
+        result: mockResult.close, // Extract the numeric value
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      } as AdapterResponse<any>)
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
