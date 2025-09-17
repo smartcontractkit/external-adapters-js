@@ -58,8 +58,9 @@ export const runReduceAdapter = async (
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case tokenBalance.name:
-      // For xrp, we use the default processing below the switch block.
-      if (indexerEndpoint !== 'xrp') {
+      // For xrp and solana-balance, we use the default processing below the
+      // switch block.
+      if (!['xrp', 'solana-balance'].includes(indexerEndpoint as string)) {
         return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
       }
       break

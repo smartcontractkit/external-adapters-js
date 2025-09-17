@@ -191,5 +191,42 @@ describe('reduce', () => {
         })
       })
     })
+
+    describe('solana-balance endpoint', () => {
+      const indexerEndpoint = 'solana-balance'
+
+      it('should add balances', async () => {
+        const jobRunID = '45'
+        const balance1 = '1000000'
+        const balance2 = '2000000'
+        const totalBalance = '3000000'
+        const context = makeStub('context', {} as AdapterContext)
+        const input = {
+          jobRunID,
+          data: {
+            result: [
+              {
+                balance: balance1,
+              },
+              {
+                balance: balance2,
+              },
+            ],
+          },
+        } as unknown as AdapterResponse
+
+        const response = await runReduceAdapter(indexer, context, input, indexerEndpoint)
+
+        expect(response).toEqual({
+          jobRunID,
+          result: totalBalance,
+          statusCode: 200,
+          providerStatusCode: 200,
+          data: {
+            result: totalBalance,
+          },
+        })
+      })
+    })
   })
 })
