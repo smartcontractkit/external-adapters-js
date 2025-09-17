@@ -345,7 +345,7 @@ describe('SftpTransport Integration Tests', () => {
           params: { instrument: 'UNSUPPORTED_INSTRUMENT' },
           response: expect.objectContaining({
             statusCode: 502,
-            errorMessage: 'No parser found for instrument: UNSUPPORTED_INSTRUMENT',
+            errorMessage: 'Unsupported instrument: UNSUPPORTED_INSTRUMENT',
           }),
         },
       ])

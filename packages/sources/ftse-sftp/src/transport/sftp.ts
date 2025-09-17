@@ -7,7 +7,11 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import SftpClient, { FileInfo } from 'ssh2-sftp-client'
 import { BaseEndpointTypes, IndexResponseData, inputParameters } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
-import { instrumentToFilePathMap, instrumentToFileRegexMap } from './constants'
+import {
+  instrumentToFilePathMap,
+  instrumentToFileRegexMap,
+  isInstrumentSupported,
+} from './constants'
 
 const logger = makeLogger('FTSE SFTP Adapter')
 
@@ -143,16 +147,16 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private async tryDownloadAndParseFile(instrument: string): Promise<IndexResponseData> {
-    const filePath = instrumentToFilePathMap[instrument]
-    const fileRegex = instrumentToFileRegexMap[instrument]
-
     // Validate that the instrument is supported
-    if (!filePath || !fileRegex) {
+    if (!isInstrumentSupported(instrument)) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `No parser found for instrument: ${instrument}`,
+        message: `Unsupported instrument: ${instrument}`,
       })
     }
+
+    const filePath = instrumentToFilePathMap[instrument]
+    const fileRegex = instrumentToFileRegexMap[instrument]
 
     const fileList = await this.sftpClient.list(filePath)
     // Filter files based on the regex pattern
@@ -185,7 +189,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     if (!parser) {
       throw new AdapterInputError({
         statusCode: 500,
-        message: `No parser found for instrument: ${instrument}`,
+        message: `Parser initialization failed for instrument: ${instrument}`,
       })
     }
 

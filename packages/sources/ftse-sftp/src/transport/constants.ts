@@ -18,3 +18,12 @@ export const instrumentToFileRegexMap: Record<string, RegExp> = {
   Russell2000INDEX: /^daily_values_russell_\d{6}\.CSV$/,
   Russell3000INDEX: /^daily_values_russell_\d{6}\.CSV$/,
 }
+
+/**
+ * Validates if an instrument is supported by checking if it has all required mappings
+ * @param instrument The instrument identifier to validate
+ * @returns true if the instrument is supported, false otherwise
+ */
+export function isInstrumentSupported(instrument: string): boolean {
+  return !!(instrumentToFilePathMap[instrument] && instrumentToFileRegexMap[instrument])
+}
