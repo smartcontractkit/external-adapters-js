@@ -145,24 +145,3 @@ API_KEY="your-api-key-here" TOKEN="your-token-here" yarn start blocksize-capital
 ```
 
 The adapter will start on port `8080` by default.
-
-### Manual Testing Script
-
-A test script (`/test/test-ws.sh`) is included for development and debugging purposes. This script demonstrates basic adapter functionality with sample requests.
-
-**Prerequisites:**
-
-- Adapter must be built and running (see above)
-- Required environment variables must be set (`API_KEY`, `TOKEN`)
-
-**Usage:**
-
-```bash
-chmod +x test/test-ws.sh
-cd test && ./test-ws.sh
-```
-
-**Notes:**
-
-- This script is intended for local development and debugging only
-- If your adapter runs on a different port, update the URL in `test-ws.sh` accordingly (default: `http://localhost:8080`)

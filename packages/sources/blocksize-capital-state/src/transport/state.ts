@@ -1,17 +1,16 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import type { WebSocket } from '@chainlink/external-adapter-framework/transports/websocket'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/state'
-import { createCustomLogger } from './Logger'
-// import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import {
-  blocksizeDefaultUnsubscribeMessageBuilder,
   blocksizeStateWebsocketOpenHandler,
   buildBlocksizeWebsocketTickersMessage,
   processStateData,
   StateData,
 } from './utils'
 
-const logger = createCustomLogger('StateTransport') //makeLogger('StateTransport')
+const logger = makeLogger('StateTransport')
 
 interface BlocksizeMessage {
   jsonrpc: string
@@ -44,8 +43,6 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
 
   handlers: {
     message(message: WSMessage) {
-      // logger.debug('Raw WebSocket message received:', JSON.stringify(message, null, 2))
-
       if (!message || typeof message !== 'object') return []
 
       // Subscription snapshot
@@ -68,10 +65,10 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
 
       // Streaming state updates
       if (message.method === 'state' && message.params?.states) {
+        logger.debug(JSON.stringify(message))
         const results = message.params.states.flatMap((state: StateData) =>
           processStateData(state, true),
         )
-        logger.debug(JSON.stringify(message))
         return results
       }
 
@@ -84,15 +81,14 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
     },
 
     open: (connection, context) =>
-      blocksizeStateWebsocketOpenHandler(
-        connection,
-        context.adapterSettings.API_KEY,
-        context.adapterSettings.TOKEN,
-      ),
-    close(event: any) {
+      blocksizeStateWebsocketOpenHandler(connection, {
+        api_key: context.adapterSettings.API_KEY,
+        token: context.adapterSettings.TOKEN,
+      }),
+    close(event: WebSocket.CloseEvent) {
       logger.info(`WebSocket closed: ${event.code} - ${event.reason}`)
     },
-    error(errorEvent: any) {
+    error(errorEvent: WebSocket.ErrorEvent) {
       logger.error(`WebSocket error: ${errorEvent.message}`)
     },
   },
@@ -100,14 +96,11 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
   builders: {
     subscribeMessage: (params: RequestParams) => {
       const ticker = `${params.base}${params.quote}`.toUpperCase()
-      return buildBlocksizeWebsocketTickersMessage('state_subscribe', ticker)
+      return buildBlocksizeWebsocketTickersMessage('state_subscribe', { tickers: [ticker] })
     },
     unsubscribeMessage: (params: RequestParams) => {
-      return blocksizeDefaultUnsubscribeMessageBuilder(
-        params.base,
-        params.quote,
-        'state_unsubscribe',
-      )
+      const ticker = `${params.base}${params.quote}`.toUpperCase()
+      return buildBlocksizeWebsocketTickersMessage('state_unsubscribe', { tickers: [ticker] })
     },
   },
 })

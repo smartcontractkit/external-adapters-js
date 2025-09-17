@@ -35,9 +35,6 @@ describe('websocket', () => {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
     })
-
-    await testAdapter.request(baseRequest)
-    await testAdapter.waitForCache()
   }, 15000)
 
   afterAll(async () => {

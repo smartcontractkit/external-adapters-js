@@ -1,34 +1,15 @@
-import { createLogger } from './Logger'
+import type { WebSocket } from '@chainlink/external-adapter-framework/transports/websocket'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
-const logger = createLogger('BlocksizeStateUtils')
+const logger = makeLogger('BlocksizeStateUtils')
 
-export type ProviderParams = {
-  tickers?: string[]
-  api_key?: string
-  token?: string
+type AuthParams = {
+  api_key: string
+  token: string
 }
 
-const buildBlocksizeWebsocketMessage = (method: string, params: ProviderParams): unknown => {
-  return {
-    jsonrpc: '2.0',
-    method: method,
-    params: params,
-  }
-}
-
-export const buildBlocksizeWebsocketAuthMessage = (apiKey: string, token: string) =>
-  buildBlocksizeWebsocketMessage('authentication_logon', { api_key: apiKey, token: token })
-
-export const buildBlocksizeWebsocketTickersMessage = (method: string, pair: string) =>
-  buildBlocksizeWebsocketMessage(method, { tickers: [pair] })
-
-export const blocksizeDefaultUnsubscribeMessageBuilder = (
-  base: string,
-  quote: string,
-  method: string,
-): unknown => {
-  const pair = `${base}${quote}`.toUpperCase()
-  return buildBlocksizeWebsocketTickersMessage(method, pair)
+type TickerParams = {
+  tickers: string[]
 }
 
 export interface StateData {
@@ -41,63 +22,64 @@ export interface StateData {
   aggregated_7d_usd_trading_volume: string
 }
 
-export const validateStateData = (state: StateData, ticker: string): string | null => {
-  // Check for required fields
-  if (!state.aggregated_state_price || !state.base_symbol || !state.quote_symbol) {
-    return `The data provider data is incomplete for ${ticker} - missing required fields`
-  }
-  // Validate state price
-  const price = parseFloat(state.aggregated_state_price)
-  if (isNaN(price) || price <= 0) {
-    return `The data provider returned invalid aggregated_state_price for ${ticker}: ${state.aggregated_state_price}`
-  }
-  return null
-}
-
-export const buildErrorResponse = (state: StateData, errorMessage: string) => ({
-  params: { base: state.base_symbol, quote: state.quote_symbol },
-  response: {
-    statusCode: 502,
-    errorMessage,
-  },
+export const buildBlocksizeWebsocketAuthMessage = (auth: AuthParams) => ({
+  jsonrpc: '2.0',
+  method: 'authentication_logon',
+  params: auth,
 })
 
-export const buildSuccessResponse = (state: StateData, state_price: number) => ({
-  params: { base: state.base_symbol, quote: state.quote_symbol },
-  response: {
-    data: { result: state_price },
-    result: state_price,
-    timestamps: { providerIndicatedTimeUnixMs: state.timestamp * 1000 },
-  },
+export const buildBlocksizeWebsocketTickersMessage = (
+  method: string,
+  tickerParams: TickerParams,
+) => ({
+  jsonrpc: '2.0',
+  method,
+  params: tickerParams,
 })
 
-export const processStateData = (state: StateData, isStreaming = false) => {
+export const processStateData = (state: StateData, isStreaming: boolean = false) => {
   const ticker = `${state.base_symbol}/${state.quote_symbol}`
 
-  // Validate data
-  const validationError = validateStateData(state, ticker)
-  if (validationError) {
-    logger.info(validationError)
-    return buildErrorResponse(state, validationError)
+  // Validate
+  if (!state.aggregated_state_price || !state.base_symbol || !state.quote_symbol) {
+    const errorMessage = `The data provider data is incomplete for ${ticker} - missing required fields`
+    logger.info(errorMessage)
+    return {
+      params: { base: state.base_symbol, quote: state.quote_symbol },
+      response: { statusCode: 502, errorMessage },
+    }
+  }
+  const state_price = parseFloat(state.aggregated_state_price)
+  if (isNaN(state_price) || state_price <= 0) {
+    const errorMessage = `The data provider returned invalid aggregated_state_price for ${ticker}: ${state.aggregated_state_price}`
+    logger.info(errorMessage)
+    return {
+      params: { base: state.base_symbol, quote: state.quote_symbol },
+      response: { statusCode: 502, errorMessage },
+    }
   }
 
-  const state_price = parseFloat(state.aggregated_state_price)
-
-  // Log streaming updates
+  // streaming updates for debug purposes
   if (isStreaming) {
-    logger.info(
+    logger.debug(
       `Update: ${ticker} = ${state_price} @ ${new Date(state.timestamp * 1000).toISOString()}`,
     )
   }
 
-  return buildSuccessResponse(state, state_price)
+  return {
+    params: { base: state.base_symbol, quote: state.quote_symbol },
+    response: {
+      data: { result: state_price },
+      result: state_price,
+      timestamps: { providerIndicatedTimeUnixMs: state.timestamp * 1000 },
+    },
+  }
 }
 
 // use as open handler for standard WS connections
 export const blocksizeStateWebsocketOpenHandler = (
-  connection: any,
-  apiKey: string,
-  token: string,
+  connection: WebSocket,
+  auth: AuthParams,
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
@@ -153,7 +135,7 @@ export const blocksizeStateWebsocketOpenHandler = (
 
     connection.addEventListener('message', messageHandler)
 
-    const message = buildBlocksizeWebsocketAuthMessage(apiKey, token)
+    const message = buildBlocksizeWebsocketAuthMessage(auth)
     logger.debug('Sending authentication message...')
     connection.send(JSON.stringify(message))
   })
