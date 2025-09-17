@@ -1,4 +1,5 @@
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import {
   TestAdapter,
   setEnvVariables,
@@ -10,8 +11,67 @@ import {
   mockRussell3000Success,
 } from './fixtures'
 
+// Define types for better type safety
+type MockSftpClient = {
+  connect: jest.MockedFunction<() => Promise<void>>
+  end: jest.MockedFunction<() => Promise<void>>
+  get: jest.MockedFunction<() => Promise<Buffer>>
+  fastGet: jest.MockedFunction<() => Promise<Buffer>>
+  exists: jest.MockedFunction<() => Promise<boolean>>
+  list: jest.MockedFunction<() => Promise<any[]>>
+  stat: jest.MockedFunction<() => Promise<Record<string, unknown>>>
+}
+
+interface MockAdapterHandleRequest {
+  statusCode: number
+  result: any
+  data: { result: any }
+  timestamps: {
+    providerDataRequestedUnixMs: number
+    providerDataReceivedUnixMs: number
+    providerIndicatedTimeUnixMs: number | undefined
+  }
+}
+
+interface MockSftpTransportDependencies {
+  responseCache?: {
+    write: (
+      name: string,
+      data: Array<{ params: { instrument: string }; response: any }>,
+    ) => Promise<void>
+  }
+}
+
+interface MockSftpTransportContext {
+  adapterSettings: any
+}
+
+interface MockSftpTransport {
+  name: string
+  config: Record<string, unknown>
+  responseCache: {
+    write?: (
+      name: string,
+      data: Array<{ params: { instrument: string }; response: any }>,
+    ) => Promise<void>
+  }
+  endpointName: string
+  initialize(
+    dependencies: MockSftpTransportDependencies,
+    adapterSettings: any,
+    endpointName: string,
+    transportName: string,
+  ): Promise<void>
+  backgroundHandler(
+    context: MockSftpTransportContext,
+    entries: Array<{ instrument: string }>,
+  ): Promise<void>
+  processRequest(param: { instrument: string }): Promise<MockAdapterHandleRequest>
+  getSubscriptionTtlFromConfig(): number
+}
+
 // Mock the entire SFTP module to avoid any actual SFTP connections
-const mockSftpClient = {
+const mockSftpClient: MockSftpClient = {
   connect: jest.fn().mockResolvedValue(undefined),
   end: jest.fn().mockResolvedValue(undefined),
   get: jest.fn(),
@@ -33,11 +93,11 @@ jest.mock('../../src/transport/sftp', () => {
     ...originalModule,
     sftpTransport: {
       name: 'default_single_transport',
-      config: {} as any,
-      responseCache: {} as any,
+      config: {} as Record<string, unknown>,
+      responseCache: {} as Record<string, unknown>,
       endpointName: '',
       async initialize(
-        dependencies: any,
+        dependencies: MockSftpTransportDependencies,
         adapterSettings: any,
         endpointName: string,
         transportName: string,
@@ -45,9 +105,12 @@ jest.mock('../../src/transport/sftp', () => {
         this.config = adapterSettings
         this.endpointName = endpointName
         this.name = transportName
-        this.responseCache = dependencies.responseCache
+        this.responseCache = dependencies.responseCache || {}
       },
-      async backgroundHandler(context: any, entries: any[]) {
+      async backgroundHandler(
+        context: MockSftpTransportContext,
+        entries: Array<{ instrument: string }>,
+      ) {
         // Process each entry and write to cache
         for (const entry of entries) {
           const result = await this.processRequest(entry)
@@ -56,7 +119,7 @@ jest.mock('../../src/transport/sftp', () => {
           }
         }
       },
-      async processRequest(param: any) {
+      async processRequest(param: { instrument: string }): Promise<MockAdapterHandleRequest> {
         // Mock the successful processing based on instrument
         const mockResults: Record<string, any> = {
           FTSE100INDEX: mockFtse100Success(),
@@ -84,7 +147,7 @@ jest.mock('../../src/transport/sftp', () => {
       getSubscriptionTtlFromConfig() {
         return 60000
       },
-    },
+    } as MockSftpTransport,
   }
 })
 
@@ -129,14 +192,14 @@ describe('execute', () => {
       const mockResult = mockFtse100Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult as any,
+        result: mockResult,
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      })
+      } as AdapterResponse<any>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -153,14 +216,14 @@ describe('execute', () => {
       const mockResult = mockRussell1000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult as any,
+        result: mockResult,
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      })
+      } as AdapterResponse<any>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -177,14 +240,14 @@ describe('execute', () => {
       const mockResult = mockRussell2000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult as any,
+        result: mockResult,
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      })
+      } as AdapterResponse<any>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
@@ -201,14 +264,14 @@ describe('execute', () => {
       const mockResult = mockRussell3000Success()
       jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
         statusCode: 200,
-        result: mockResult as any,
+        result: mockResult,
         data: { result: mockResult },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
           providerIndicatedTimeUnixMs: undefined,
         },
-      })
+      } as AdapterResponse<any>)
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)

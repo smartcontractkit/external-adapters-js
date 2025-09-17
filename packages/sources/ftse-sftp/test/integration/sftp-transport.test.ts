@@ -1,4 +1,4 @@
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import fs from 'fs'
@@ -15,10 +15,31 @@ const loadFixtureFile = (filename: string): string => {
 const ftseFixtureContent = loadFixtureFile('ftse100.csv')
 const russellFixtureContent = loadFixtureFile('daily_russell_values.CSV')
 
+// Define interfaces for type safety
+interface MockResponseCache {
+  write: jest.MockedFunction<
+    (
+      transportName: string,
+      results: Array<{ params: { instrument: string }; response: any }>,
+    ) => Promise<void>
+  >
+}
+
+interface MockSftpClientMethods {
+  connect: jest.MockedFunction<() => Promise<void>>
+  list: jest.MockedFunction<() => Promise<Array<{ name: string; size: number }>>>
+  get: jest.MockedFunction<() => Promise<Buffer>>
+  end: jest.MockedFunction<() => Promise<void>>
+}
+
+interface MockContext {
+  adapterSettings: BaseEndpointTypes['Settings']
+}
+
 // Mock the framework dependencies
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => ({
   SubscriptionTransport: class MockSubscriptionTransport {
-    responseCache = {
+    responseCache: MockResponseCache = {
       write: jest.fn(),
     }
     name = 'test'
@@ -28,15 +49,15 @@ jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscriptio
       // Mock constructor
     }
     async initialize(
-      dependencies: any,
-      adapterSettings: any,
+      dependencies: TransportDependencies<BaseEndpointTypes>,
+      adapterSettings: BaseEndpointTypes['Settings'],
       endpointName: string,
       transportName: string,
     ) {
       this.config = adapterSettings
       this.endpointName = endpointName
       this.name = transportName
-      this.responseCache = dependencies.responseCache
+      this.responseCache = dependencies.responseCache as unknown as MockResponseCache
     }
   },
 }))
@@ -73,10 +94,10 @@ import { SftpTransport } from '../../src/transport/sftp'
 
 describe('SftpTransport Integration Tests', () => {
   let transport: SftpTransport
-  let mockResponseCache: jest.Mocked<ResponseCache<any>>
+  let mockResponseCache: MockResponseCache
   let mockDependencies: TransportDependencies<BaseEndpointTypes>
   let mockAdapterSettings: BaseEndpointTypes['Settings']
-  let mockSftpClient: any
+  let mockSftpClient: MockSftpClientMethods
 
   beforeEach(async () => {
     // Reset all mocks
@@ -85,8 +106,7 @@ describe('SftpTransport Integration Tests', () => {
     // Mock response cache
     mockResponseCache = {
       write: jest.fn(),
-      read: jest.fn(),
-    } as any
+    }
 
     mockDependencies = makeStub('dependencies', {
       responseCache: mockResponseCache,
@@ -109,7 +129,8 @@ describe('SftpTransport Integration Tests', () => {
     )
 
     // Use the shared mock methods from the mocked constructor
-    mockSftpClient = (SftpClient as any).mockClientMethods
+    mockSftpClient = (SftpClient as unknown as { mockClientMethods: MockSftpClientMethods })
+      .mockClientMethods
 
     // Set up default behavior
     mockSftpClient.connect.mockResolvedValue(undefined)
@@ -317,7 +338,7 @@ describe('SftpTransport Integration Tests', () => {
       mockSftpClient.list.mockResolvedValue([{ name: 'somefile.csv', size: 1000 }])
       mockSftpClient.get.mockResolvedValue(Buffer.from('some content', 'latin1'))
 
-      await transport.handleRequest({ instrument: 'UNSUPPORTED_INSTRUMENT' as any })
+      await transport.handleRequest({ instrument: 'UNSUPPORTED_INSTRUMENT' as 'FTSE100INDEX' })
 
       expect(mockResponseCache.write).toHaveBeenCalledWith('default_single_transport', [
         {
@@ -341,13 +362,19 @@ describe('SftpTransport Integration Tests', () => {
         .mockResolvedValueOnce(Buffer.from(ftseFixtureContent, 'latin1'))
         .mockResolvedValueOnce(Buffer.from(russellFixtureContent, 'latin1'))
 
-      const mockContext = {
+      const mockContext: MockContext = {
         adapterSettings: mockAdapterSettings,
       }
 
-      const entries = [{ instrument: 'FTSE100INDEX' }, { instrument: 'Russell1000INDEX' }]
+      const entries: Array<{ instrument: string }> = [
+        { instrument: 'FTSE100INDEX' },
+        { instrument: 'Russell1000INDEX' },
+      ]
 
-      await transport.backgroundHandler(mockContext as any, entries)
+      await transport.backgroundHandler(
+        mockContext as unknown as EndpointContext<BaseEndpointTypes>,
+        entries,
+      )
 
       // Verify both requests were processed with real parsing
       expect(mockResponseCache.write).toHaveBeenCalledTimes(2)
@@ -384,13 +411,16 @@ describe('SftpTransport Integration Tests', () => {
     it('should handle errors gracefully in background handler', async () => {
       mockSftpClient.connect.mockRejectedValue(new Error('Connection failed'))
 
-      const mockContext = {
+      const mockContext: MockContext = {
         adapterSettings: mockAdapterSettings,
       }
 
-      const entries = [{ instrument: 'FTSE100INDEX' }]
+      const entries: Array<{ instrument: string }> = [{ instrument: 'FTSE100INDEX' }]
 
-      await transport.backgroundHandler(mockContext as any, entries)
+      await transport.backgroundHandler(
+        mockContext as unknown as EndpointContext<BaseEndpointTypes>,
+        entries,
+      )
 
       // Verify error was handled and cached
       expect(mockResponseCache.write).toHaveBeenCalledWith('default_single_transport', [
