@@ -113,7 +113,7 @@ jest.mock('../../src/transport/sftp', () => {
         this.responseCache = dependencies.responseCache || {}
       },
       async backgroundHandler(
-        context: MockSftpTransportContext,
+        _context: MockSftpTransportContext,
         entries: Array<{ instrument: string }>,
       ) {
         // Process each entry and write to cache
