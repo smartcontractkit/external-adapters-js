@@ -17,7 +17,6 @@ const environmentVariables = [
   { envKey: 'CFBENCHMARKS_ADAPTER_URL', value: 'cfbenchmarks' },
   { envKey: 'COINAPI_ADAPTER_URL', value: 'coinapi' },
   { envKey: 'COINBASE_ADAPTER_URL', value: 'coinbase' },
-  { envKey: 'COINCODEX_ADAPTER_URL', value: 'coincodex' },
   { envKey: 'COINGECKO_ADAPTER_URL', value: 'coingecko' },
   { envKey: 'COINLORE_ADAPTER_URL', value: 'coinlore' },
   { envKey: 'COINMARKETCAP_ADAPTER_URL', value: 'coinmarketcap' },
