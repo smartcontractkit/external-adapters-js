@@ -4151,11 +4151,13 @@ __metadata:
     "@sinonjs/fake-timers": "npm:^14.0.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
+    "@types/ssh2-sftp-client": "npm:^9.0.5"
     csv-parse: "npm:5.5.6"
     decimal.js: "npm:^10.5.0"
     jest: "npm:^29.7.0"
     jest-util: "npm:^29.7.0"
     nock: "npm:13.5.6"
+    ssh2-sftp-client: "npm:^12.0.1"
     ts-jest: "npm:^29.2.5"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -13338,6 +13340,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^18.11.18":
+  version: 18.19.124
+  resolution: "@types/node@npm:18.19.124"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/64641bb4bb4e18c75f40c63b41f9c3d4939b6f589999258f5ac3001040b201f399056f9c3cf3d6c5fa23e94f469c1e48ebbc0e31fe4d8eae8ef8bccf5e902942
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^8.0.24":
   version: 8.10.66
   resolution: "@types/node@npm:8.10.66"
@@ -13545,6 +13556,24 @@ __metadata:
   version: 8.1.5
   resolution: "@types/sinonjs__fake-timers@npm:8.1.5"
   checksum: 10/3a0b285fcb8e1eca435266faa27ffff206608b69041022a42857274e44d9305822e85af5e7a43a9fae78d2ab7dc0fcb49f3ae3bda1fa81f0203064dbf5afd4f6
+  languageName: node
+  linkType: hard
+
+"@types/ssh2-sftp-client@npm:^9.0.5":
+  version: 9.0.5
+  resolution: "@types/ssh2-sftp-client@npm:9.0.5"
+  dependencies:
+    "@types/ssh2": "npm:^1.0.0"
+  checksum: 10/a88f442bf661067c7337916c5f448da0eb55d051e2188e30e8e0c27b6db12d714c52999db98a3f260317a39df08c800a6a471ccda91aa27b89d4c7c380890721
+  languageName: node
+  linkType: hard
+
+"@types/ssh2@npm:^1.0.0":
+  version: 1.15.5
+  resolution: "@types/ssh2@npm:1.15.5"
+  dependencies:
+    "@types/node": "npm:^18.11.18"
+  checksum: 10/dd6f29f4e96ea43aa61d29a4a3ad87ad8d11bf1bef637b2848958abd94b05d28754cc611eac13f52d43bd1f51afe7c660cd1c8533ae06878b5739888f4ea0d99
   languageName: node
   linkType: hard
 
@@ -14626,7 +14655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"asn1@npm:~0.2.3":
+"asn1@npm:^0.2.6, asn1@npm:~0.2.3":
   version: 0.2.6
   resolution: "asn1@npm:0.2.6"
   dependencies:
@@ -14981,7 +15010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bcrypt-pbkdf@npm:^1.0.0":
+"bcrypt-pbkdf@npm:^1.0.0, bcrypt-pbkdf@npm:^1.0.2":
   version: 1.0.2
   resolution: "bcrypt-pbkdf@npm:1.0.2"
   dependencies:
@@ -15679,6 +15708,13 @@ __metadata:
   version: 1.2.2
   resolution: "bufio@npm:1.2.2"
   checksum: 10/dcf0ab4f753a0af1c4215b41bd12596038d3111299673dd14aeee55206a6aa53b44292dc965cef0a41b008ddaeb38ccc9165f2d1cad0da5c8ba3754ef4b45aa1
+  languageName: node
+  linkType: hard
+
+"buildcheck@npm:~0.0.6":
+  version: 0.0.6
+  resolution: "buildcheck@npm:0.0.6"
+  checksum: 10/194ee8d3b0926fd6f3e799732130ad7ab194882c56900b8670ad43c81326f64871f49b7d9f1e9baad91ca3070eb4e8b678797fe9ae78cf87dde86d8916eb25d2
   languageName: node
   linkType: hard
 
@@ -16687,6 +16723,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"concat-stream@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "concat-stream@npm:2.0.0"
+  dependencies:
+    buffer-from: "npm:^1.0.0"
+    inherits: "npm:^2.0.3"
+    readable-stream: "npm:^3.0.2"
+    typedarray: "npm:^0.0.6"
+  checksum: 10/250e576d0617e7c58e1c4b2dd6fe69560f316d2c962a409f9f3aac794018499ddb31948b1e4296f217008e124cd5d526432097745157fe504b5d9f3dc469eadb
+  languageName: node
+  linkType: hard
+
 "config-chain@npm:^1.1.11":
   version: 1.1.13
   resolution: "config-chain@npm:1.1.13"
@@ -16821,6 +16869,17 @@ __metadata:
     path-type: "npm:^4.0.0"
     yaml: "npm:^1.10.0"
   checksum: 10/03600bb3870c80ed151b7b706b99a1f6d78df8f4bdad9c95485072ea13358ef294b13dd99f9e7bf4cc0b43bcd3599d40df7e648750d21c2f6817ca2cd687e071
+  languageName: node
+  linkType: hard
+
+"cpu-features@npm:~0.0.10":
+  version: 0.0.10
+  resolution: "cpu-features@npm:0.0.10"
+  dependencies:
+    buildcheck: "npm:~0.0.6"
+    nan: "npm:^2.19.0"
+    node-gyp: "npm:latest"
+  checksum: 10/941b828ffe77582b2bdc03e894c913e2e2eeb5c6043ccb01338c34446d026f6888dc480ecb85e684809f9c3889d245f3648c7907eb61a92bdfc6aed039fcda8d
   languageName: node
   linkType: hard
 
@@ -26455,6 +26514,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nan@npm:^2.19.0, nan@npm:^2.23.0":
+  version: 2.23.0
+  resolution: "nan@npm:2.23.0"
+  dependencies:
+    node-gyp: "npm:latest"
+  checksum: 10/9822b384189769ebb9d69160d9f5276bb2644467fe6a8e23ae849d607da5b34940f9abf03605f5f747395c17b0dac5e470aea29e72b4988918edb082d78b5858
+  languageName: node
+  linkType: hard
+
 "nanoid@npm:^2.0.0":
   version: 2.1.11
   resolution: "nanoid@npm:2.1.11"
@@ -28975,7 +29043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^3.0.0, readable-stream@npm:^3.1.1, readable-stream@npm:^3.4.0, readable-stream@npm:^3.6.0":
+"readable-stream@npm:^3.0.0, readable-stream@npm:^3.0.2, readable-stream@npm:^3.1.1, readable-stream@npm:^3.4.0, readable-stream@npm:^3.6.0":
   version: 3.6.2
   resolution: "readable-stream@npm:3.6.2"
   dependencies:
@@ -30853,6 +30921,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ssh2-sftp-client@npm:^12.0.1":
+  version: 12.0.1
+  resolution: "ssh2-sftp-client@npm:12.0.1"
+  dependencies:
+    concat-stream: "npm:^2.0.0"
+    ssh2: "npm:^1.16.0"
+  checksum: 10/e4b436cdb0ec7aa8f7cf7980f029b6b5982ea1850ba8c281ce29f25a90815d9be7e49ed9411e1c6d08037be794bdf3485f8a9ce78d05e6bf6af1062384dbe631
+  languageName: node
+  linkType: hard
+
+"ssh2@npm:^1.16.0":
+  version: 1.17.0
+  resolution: "ssh2@npm:1.17.0"
+  dependencies:
+    asn1: "npm:^0.2.6"
+    bcrypt-pbkdf: "npm:^1.0.2"
+    cpu-features: "npm:~0.0.10"
+    nan: "npm:^2.23.0"
+  dependenciesMeta:
+    cpu-features:
+      optional: true
+    nan:
+      optional: true
+  checksum: 10/5a7e911f234f73c4332f2b436cc6131c164962d2eac71f463ab401b54c4b8627875d9c9be1c55e0bfd1a0eae108cfa33217bc73939287e4a5e81f34f532b1036
+  languageName: node
+  linkType: hard
+
 "sshpk@npm:^1.7.0":
   version: 1.18.0
   resolution: "sshpk@npm:1.18.0"
@@ -32366,6 +32461,13 @@ __metadata:
   version: 7.16.0
   resolution: "undici-types@npm:7.16.0"
   checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 10/0097779d94bc0fd26f0418b3a05472410408877279141ded2bd449167be1aed7ea5b76f756562cb3586a07f251b90799bab22d9019ceba49c037c76445f7cddd
   languageName: node
   linkType: hard
 
