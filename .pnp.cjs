@@ -55,10 +55,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/defi-pulse"\
     },\
     {\
-      "name": "@chainlink/dns-record-check-adapter",\
-      "reference": "workspace:packages/composites/dns-record-check"\
-    },\
-    {\
       "name": "@chainlink/dxdao-adapter",\
       "reference": "workspace:packages/composites/dxdao"\
     },\
@@ -1060,7 +1056,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
-    ["@chainlink/dns-record-check-adapter", ["workspace:packages/composites/dns-record-check"]],\
     ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],\
     ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
@@ -6379,25 +6374,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/dns-record-check-adapter", [\
-      ["workspace:packages/composites/dns-record-check", {\
-        "packageLocation": "./packages/composites/dns-record-check/",\
-        "packageDependencies": [\
-          ["@chainlink/dns-record-check-adapter", "workspace:packages/composites/dns-record-check"],\
-          ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
