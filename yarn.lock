@@ -3489,20 +3489,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dwolla-adapter@workspace:packages/sources/dwolla":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dwolla-adapter@workspace:packages/sources/dwolla"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    dwolla-v2: "npm:^3.2.0"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
@@ -15340,13 +15326,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluebird@npm:^3.5.1":
-  version: 3.7.2
-  resolution: "bluebird@npm:3.7.2"
-  checksum: 10/007c7bad22c5d799c8dd49c85b47d012a1fe3045be57447721e6afbd1d5be43237af1db62e26cb9b0d9ba812d2e4ca3bac82f6d7e016b6b88de06ee25ceb96e7
-  languageName: node
-  linkType: hard
-
 "bn.js@npm:*, bn.js@npm:^5.1.2, bn.js@npm:^5.2.0, bn.js@npm:^5.2.1":
   version: 5.2.2
   resolution: "bn.js@npm:5.2.2"
@@ -17827,20 +17806,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dwolla-v2@npm:^3.2.0":
-  version: 3.4.0
-  resolution: "dwolla-v2@npm:3.4.0"
-  dependencies:
-    bluebird: "npm:^3.5.1"
-    form-urlencoded: "npm:^4.5.1"
-    invariant: "npm:^2.2.4"
-    is-stream: "npm:^1.1.0"
-    lodash.snakecase: "npm:^4.1.1"
-    node-fetch: "npm:^2.6.2"
-  checksum: 10/1e915585533c52bc6c919e92ae70d6a42337ef0ceb5aa41ae9095821ae6a45d8758f2663648efadd1d5bf18b44b55f2e8b94765c465d75cdad773916623267dd
-  languageName: node
-  linkType: hard
-
 "eastasianwidth@npm:^0.2.0":
   version: 0.2.0
   resolution: "eastasianwidth@npm:0.2.0"
@@ -19747,13 +19712,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-urlencoded@npm:^4.5.1":
-  version: 4.5.1
-  resolution: "form-urlencoded@npm:4.5.1"
-  checksum: 10/9f06eaa196006215baf27526b7619e9e510639883b251f7218714598421961c4d56ececcc6db3739dd85f82489a4756f22d9b880b8d9fce3b62518650f339f99
-  languageName: node
-  linkType: hard
-
 "formdata-polyfill@npm:^4.0.10":
   version: 4.0.10
   resolution: "formdata-polyfill@npm:4.0.10"
@@ -21461,15 +21419,6 @@ __metadata:
     from2: "npm:^2.1.1"
     p-is-promise: "npm:^1.1.0"
   checksum: 10/50679f91eed37ee87e7e06d8671e01f0e6707e7eb1209d4a752ea8de63e3e92b876e6352f241c084c3a5959f5b5d2194914d26f88e269dcde270a13ab8b476b6
-  languageName: node
-  linkType: hard
-
-"invariant@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "invariant@npm:2.2.4"
-  dependencies:
-    loose-envify: "npm:^1.0.0"
-  checksum: 10/cc3182d793aad82a8d1f0af697b462939cb46066ec48bbf1707c150ad5fad6406137e91a262022c269702e01621f35ef60269f6c0d7fd178487959809acdfb14
   languageName: node
   linkType: hard
 
@@ -23815,7 +23764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
+"js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 10/af37d0d913fb56aec6dc0074c163cc71cd23c0b8aad5c2350747b6721d37ba118af35abdd8b33c47ec2800de07dedb16a527ca9c530ee004093e04958bd0cbf2
@@ -25309,13 +25258,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.snakecase@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "lodash.snakecase@npm:4.1.1"
-  checksum: 10/82ed40935d840477ef8fee64f9f263f75989c6cde36b84aae817246d95826228e1b5a7f6093c51de324084f86433634c7af244cb89496633cacfe443071450d0
-  languageName: node
-  linkType: hard
-
 "lodash.startcase@npm:^4.4.0":
   version: 4.4.0
   resolution: "lodash.startcase@npm:4.4.0"
@@ -25414,17 +25356,6 @@ __metadata:
   version: 4.0.0
   resolution: "long@npm:4.0.0"
   checksum: 10/8296e2ba7bab30f9cfabb81ebccff89c819af6a7a78b4bb5a70ea411aa764ee0532f7441381549dfa6a1a98d72abe9138bfcf99f4fa41238629849bc035b845b
-  languageName: node
-  linkType: hard
-
-"loose-envify@npm:^1.0.0":
-  version: 1.4.0
-  resolution: "loose-envify@npm:1.4.0"
-  dependencies:
-    js-tokens: "npm:^3.0.0 || ^4.0.0"
-  bin:
-    loose-envify: cli.js
-  checksum: 10/6517e24e0cad87ec9888f500c5b5947032cdfe6ef65e1c1936a0c48a524b81e65542c9c3edc91c97d5bddc806ee2a985dbc79be89215d613b1de5db6d1cfe6f4
   languageName: node
   linkType: hard
 
@@ -26766,7 +26697,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.5.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.12, node-fetch@npm:^2.6.2, node-fetch@npm:^2.6.7, node-fetch@npm:^2.6.8, node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
+"node-fetch@npm:^2.5.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.12, node-fetch@npm:^2.6.7, node-fetch@npm:^2.6.8, node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:

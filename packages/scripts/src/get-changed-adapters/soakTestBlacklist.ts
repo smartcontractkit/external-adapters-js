@@ -23,7 +23,6 @@ export const SoakTestBlacklist: string[] = [
   'defi-pulse',
   'dlc-btc-por',
   'dns-query', // Missing: env vars
-  'dwolla',
   'dydx-stark',
   'dxdao',
   'etherscan',

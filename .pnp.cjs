@@ -431,10 +431,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dns-query"\
     },\
     {\
-      "name": "@chainlink/dwolla-adapter",\
-      "reference": "workspace:packages/sources/dwolla"\
-    },\
-    {\
       "name": "@chainlink/dxfeed-adapter",\
       "reference": "workspace:packages/sources/dxfeed"\
     },\
@@ -1056,7 +1052,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
-    ["@chainlink/dwolla-adapter", ["workspace:packages/sources/dwolla"]],\
     ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
@@ -6374,22 +6369,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.3.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/dwolla-adapter", [\
-      ["workspace:packages/sources/dwolla", {\
-        "packageLocation": "./packages/sources/dwolla/",\
-        "packageDependencies": [\
-          ["@chainlink/dwolla-adapter", "workspace:packages/sources/dwolla"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["dwolla-v2", "npm:3.4.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -20038,15 +20017,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["bluebird", [\
-      ["npm:3.7.2", {\
-        "packageLocation": "./.yarn/cache/bluebird-npm-3.7.2-6a54136ee3-007c7bad22.zip/node_modules/bluebird/",\
-        "packageDependencies": [\
-          ["bluebird", "npm:3.7.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["bn.js", [\
       ["npm:4.11.6", {\
         "packageLocation": "./.yarn/cache/bn.js-npm-4.11.6-34a3bf8e02-22741b015c.zip/node_modules/bn.js/",\
@@ -22859,21 +22829,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["dwolla-v2", [\
-      ["npm:3.4.0", {\
-        "packageLocation": "./.yarn/cache/dwolla-v2-npm-3.4.0-08dc1fdf5f-1e91558553.zip/node_modules/dwolla-v2/",\
-        "packageDependencies": [\
-          ["dwolla-v2", "npm:3.4.0"],\
-          ["bluebird", "npm:3.7.2"],\
-          ["form-urlencoded", "npm:4.5.1"],\
-          ["invariant", "npm:2.2.4"],\
-          ["is-stream", "npm:1.1.0"],\
-          ["lodash.snakecase", "npm:4.1.1"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["eastasianwidth", [\
       ["npm:0.2.0", {\
         "packageLocation": "./.yarn/cache/eastasianwidth-npm-0.2.0-c37eb16bd1-9b1d3e1bae.zip/node_modules/eastasianwidth/",\
@@ -24944,15 +24899,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["form-urlencoded", [\
-      ["npm:4.5.1", {\
-        "packageLocation": "./.yarn/cache/form-urlencoded-npm-4.5.1-36d0637061-9f06eaa196.zip/node_modules/form-urlencoded/",\
-        "packageDependencies": [\
-          ["form-urlencoded", "npm:4.5.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["formdata-polyfill", [\
       ["npm:4.0.10", {\
         "packageLocation": "./.yarn/cache/formdata-polyfill-npm-4.0.10-e03013c013-9b5001d2ed.zip/node_modules/formdata-polyfill/",\
@@ -26788,16 +26734,6 @@ const RAW_RUNTIME_STATE =
           ["into-stream", "npm:3.1.0"],\
           ["from2", "npm:2.3.0"],\
           ["p-is-promise", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["invariant", [\
-      ["npm:2.2.4", {\
-        "packageLocation": "./.yarn/cache/invariant-npm-2.2.4-717fbdb119-cc3182d793.zip/node_modules/invariant/",\
-        "packageDependencies": [\
-          ["invariant", "npm:2.2.4"],\
-          ["loose-envify", "npm:1.4.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -31074,15 +31010,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash.snakecase", [\
-      ["npm:4.1.1", {\
-        "packageLocation": "./.yarn/cache/lodash.snakecase-npm-4.1.1-b12cdbecb4-82ed40935d.zip/node_modules/lodash.snakecase/",\
-        "packageDependencies": [\
-          ["lodash.snakecase", "npm:4.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.startcase", [\
       ["npm:4.4.0", {\
         "packageLocation": "./.yarn/cache/lodash.startcase-npm-4.4.0-637aa8cc15-3091048a54.zip/node_modules/lodash.startcase/",\
@@ -31185,16 +31112,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/long-timeout-npm-0.1.1-229e1d81ad-48668e5362.zip/node_modules/long-timeout/",\
         "packageDependencies": [\
           ["long-timeout", "npm:0.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["loose-envify", [\
-      ["npm:1.4.0", {\
-        "packageLocation": "./.yarn/cache/loose-envify-npm-1.4.0-6307b72ccf-6517e24e0c.zip/node_modules/loose-envify/",\
-        "packageDependencies": [\
-          ["loose-envify", "npm:1.4.0"],\
-          ["js-tokens", "npm:4.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
