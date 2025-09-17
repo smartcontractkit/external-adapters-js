@@ -8,14 +8,6 @@ export const adapter = new Adapter({
   defaultEndpoint: 'state',
   config,
   endpoints: [state],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 60,
-        note: 'Default rate limit for Blocksize-Capital state data',
-      },
-    },
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
