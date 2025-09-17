@@ -37,7 +37,7 @@ export const buildBlocksizeWebsocketTickersMessage = (
   params: tickerParams,
 })
 
-export const processStateData = (state: StateData, isStreaming: boolean = false) => {
+export const processStateData = (state: StateData, isStreaming = false) => {
   const ticker = `${state.base_symbol}/${state.quote_symbol}`
 
   // Validate
