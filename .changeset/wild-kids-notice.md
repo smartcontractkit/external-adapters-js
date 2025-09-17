@@ -2,4 +2,4 @@
 '@chainlink/ftse-sftp-adapter': minor
 ---
 
-Added index.ts to unblock deploy pipeline
+Added the SFTP Transport and Configs
