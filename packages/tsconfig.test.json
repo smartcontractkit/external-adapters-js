@@ -303,9 +303,6 @@
       "path": "./sources/dns-query/tsconfig.test.json"
     },
     {
-      "path": "./sources/dwolla/tsconfig.test.json"
-    },
-    {
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {
