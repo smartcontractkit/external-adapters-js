@@ -1,8 +1,8 @@
 export const instrumentToFilePathMap: Record<string, string> = {
   FTSE100INDEX: '/data/valuation/uk_all_share/',
-  Russell1000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values/',
-  Russell2000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values/',
-  Russell3000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values/',
+  Russell1000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  Russell2000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  Russell3000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
 }
 
 export const instrumentToFileTemplateMap: Record<string, string> = {

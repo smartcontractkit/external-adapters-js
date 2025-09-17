@@ -1,4 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
@@ -15,6 +16,8 @@ type RequestParams = typeof inputParameters.validated
 export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
+  name!: string
+  responseCache!: ResponseCache<BaseEndpointTypes>
   sftpClient: SftpClient
 
   constructor() {
@@ -31,6 +34,8 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.endpointName = endpointName
+    this.name = transportName
+    this.responseCache = dependencies.responseCache
   }
 
   async backgroundHandler(
@@ -45,19 +50,26 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
-    } catch (e: unknown) {
-      if (e instanceof AdapterInputError) {
-        logger.error(e, e.message)
-        throw e
-      }
+    } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
-      logger.error(e, errorMessage)
-
-      throw new AdapterInputError({
+      response = {
         statusCode: 502,
-        message: errorMessage,
-      })
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    } finally {
+      try {
+        await this.sftpClient.end()
+        logger.info('SFTP connection closed')
+      } catch (error) {
+        logger.error('Error closing SFTP connection:', error)
+      }
     }
+
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
@@ -66,12 +78,10 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // Connect to SFTP server (will reuse existing connection if available)
     await this.connectToSftp()
 
-    // Process files based on the request parameters
     const result = await this.tryDownloadAndParseFile(param.instrument)
-
+    logger.info(`Successfully processed data for instrument: ${param.instrument}`)
     return {
       data: {
         result,
@@ -96,8 +106,10 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
 
     try {
+      // Create a new client instance to avoid connection state issues
+      this.sftpClient = new SftpClient()
       await this.sftpClient.connect(connectConfig)
-      logger.debug('Successfully connected to SFTP server')
+      logger.info('Successfully connected to SFTP server')
     } catch (error) {
       logger.error(error, 'Failed to connect to SFTP server')
       throw new AdapterInputError({
@@ -113,12 +125,19 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const filePath = instrumentToFilePathMap[instrument]
     const fileRegex = instrumentToFileRegexMap[instrument]
 
-    const fileList = await this.sftpClient.list(filePath)
+    // Validate that the instrument is supported
+    if (!filePath || !fileRegex) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `No parser found for instrument: ${instrument}`,
+      })
+    }
 
+    const fileList = await this.sftpClient.list(filePath)
     // Filter files based on the regex pattern
     const matchingFiles = fileList
-      .map((file) => file.name)
-      .filter((fileName) => fileRegex.test(fileName))
+      .map((file: any) => file.name)
+      .filter((fileName: string) => fileRegex.test(fileName))
 
     if (matchingFiles.length === 0) {
       throw new AdapterInputError({
@@ -141,10 +160,11 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const csvContent = fileContent.toString('latin1')
 
     const parser = CSVParserFactory.detectParserByInstrument(instrument)
+
     if (!parser) {
       throw new AdapterInputError({
-        statusCode: 502,
-        message: `No suitable parser found for file: ${fullPath} and instrument: ${instrument}`,
+        statusCode: 500,
+        message: `No parser found for instrument: ${instrument}`,
       })
     }
 
