@@ -4,14 +4,22 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import SftpClient from 'ssh2-sftp-client'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/sftp'
+import SftpClient, { FileInfo } from 'ssh2-sftp-client'
+import { BaseEndpointTypes, IndexResponseData, inputParameters } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
 import { instrumentToFilePathMap, instrumentToFileRegexMap } from './constants'
 
 const logger = makeLogger('FTSE SFTP Adapter')
 
 type RequestParams = typeof inputParameters.validated
+
+interface SftpConnectionConfig {
+  host: string
+  port: number
+  username: string
+  password: string
+  readyTimeout: number
+}
 
 export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
@@ -80,11 +88,24 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     await this.connectToSftp()
 
-    const result = await this.tryDownloadAndParseFile(param.instrument)
+    const parsedData = await this.tryDownloadAndParseFile(param.instrument)
+
+    // Extract the numeric result based on the data type
+    let result: number
+    if ('gbpIndex' in parsedData) {
+      // FTSE data
+      result = (parsedData.gbpIndex as number) ?? 0
+    } else if ('close' in parsedData) {
+      // Russell data
+      result = parsedData.close as number
+    } else {
+      throw new Error('Unknown data format received from parser')
+    }
+
     logger.info(`Successfully processed data for instrument: ${param.instrument}`)
     return {
       data: {
-        result,
+        result: parsedData,
       },
       statusCode: 200,
       result,
@@ -97,7 +118,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   private async connectToSftp(): Promise<void> {
-    const connectConfig: any = {
+    const connectConfig: SftpConnectionConfig = {
       host: this.config.SFTP_HOST,
       port: this.config.SFTP_PORT || 22,
       username: this.config.SFTP_USERNAME,
@@ -121,7 +142,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async tryDownloadAndParseFile(instrument: string): Promise<any> {
+  private async tryDownloadAndParseFile(instrument: string): Promise<IndexResponseData> {
     const filePath = instrumentToFilePathMap[instrument]
     const fileRegex = instrumentToFileRegexMap[instrument]
 
@@ -136,7 +157,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const fileList = await this.sftpClient.list(filePath)
     // Filter files based on the regex pattern
     const matchingFiles = fileList
-      .map((file: any) => file.name)
+      .map((file: FileInfo) => file.name)
       .filter((fileName: string) => fileRegex.test(fileName))
 
     if (matchingFiles.length === 0) {
@@ -168,7 +189,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       })
     }
 
-    return await parser.parse(csvContent)
+    return (await parser.parse(csvContent)) as IndexResponseData
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
