@@ -132,7 +132,7 @@ export function createLwbaWsTransport() {
           return toBinary(RequestSchema, req)
         } else {
           cache.activate(p.isin)
-          return
+          return undefined // Explicitly return undefined instead of implicit return
         }
       },
 
@@ -148,7 +148,7 @@ export function createLwbaWsTransport() {
           })
           return toBinary(RequestSchema, req)
         } else {
-          return
+          return undefined // Explicitly return undefined instead of implicit return
         }
       },
     },

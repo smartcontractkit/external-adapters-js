@@ -8,7 +8,11 @@ import WebSocket from 'ws'
 export class ProtobufWsTransport<
   T extends WebsocketTransportGenerics,
 > extends WebSocketTransport<T> {
-  private toRawData(payload: unknown): Buffer {
+  private toRawData(payload: unknown): Buffer | null {
+    // Handle undefined/null payloads gracefully
+    if (payload === undefined || payload === null) {
+      return null
+    }
     if (Buffer.isBuffer(payload)) return payload
     if (payload instanceof ArrayBuffer) return Buffer.from(new Uint8Array(payload))
     if (ArrayBuffer.isView(payload)) {
@@ -24,7 +28,9 @@ export class ProtobufWsTransport<
     subscribes: unknown[],
     unsubscribes: unknown[],
   ): Promise<void> {
-    const messages = [...subscribes, ...unsubscribes].map((m) => this.toRawData(m))
+    const messages = [...subscribes, ...unsubscribes]
+      .map((m) => this.toRawData(m))
+      .filter((m): m is Buffer => m !== null) // Filter out null values
     for (const m of messages) this.wsConnection?.send(m)
   }
 
