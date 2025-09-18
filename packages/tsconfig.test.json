@@ -54,6 +54,9 @@
       "path": "./composites/linear-finance/tsconfig.test.json"
     },
     {
+      "path": "./composites/llama-guard/tsconfig.test.json"
+    },
+    {
       "path": "./composites/market-closure/tsconfig.test.json"
     },
     {
@@ -585,10 +588,10 @@
       "path": "./sources/solactive/tsconfig.test.json"
     },
     {
-      "path": "./sources/solana-view-function/tsconfig.test.json"
+      "path": "./sources/solana-functions/tsconfig.test.json"
     },
     {
-      "path": "./sources/solana-functions/tsconfig.test.json"
+      "path": "./sources/solana-view-function/tsconfig.test.json"
     },
     {
       "path": "./sources/spectral-macro-score/tsconfig.test.json"
