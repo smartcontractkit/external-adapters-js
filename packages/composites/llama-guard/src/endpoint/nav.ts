@@ -45,10 +45,8 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       rawNav: string
-      bounds: {
-        lowerBound: string
-        upperBound: string
-      }
+      lowerBound?: string
+      upperBound?: string
       bases: {
         lookback: {
           nav: string

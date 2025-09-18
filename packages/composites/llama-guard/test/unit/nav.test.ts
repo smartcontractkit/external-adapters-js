@@ -33,7 +33,11 @@ describe('getNav', () => {
 
   describe('no bounds', () => {
     it('should return rawNav', async () => {
-      mockGetRawNav.mockResolvedValue(1)
+      const nav = 1.23
+      const scaledNav = '123'
+      const decimals = 2
+
+      mockGetRawNav.mockResolvedValue(nav)
       mockGetBounds.mockResolvedValue({
         lower: {
           isLowerBoundEnabled: false,
@@ -49,7 +53,7 @@ describe('getNav', () => {
           maxExpectedApy: 0,
           upperBoundTolerance: 0,
         },
-        decimals: 2,
+        decimals,
       })
 
       const result = await getNav(
@@ -62,13 +66,11 @@ describe('getNav', () => {
       )
 
       expect(result).toEqual({
-        rawNav: '100',
-        adjustedNav: '100',
-        decimals: 2,
-        bounds: {
-          lowerBound: '',
-          upperBound: '',
-        },
+        rawNav: scaledNav,
+        adjustedNav: scaledNav,
+        decimals,
+        lowerBound: '',
+        upperBound: '',
         bases: {
           lookback: { nav: '0', ts: 0 },
           previous: { nav: '0', ts: 0 },
@@ -113,13 +115,54 @@ describe('getNav', () => {
       expect(result).toEqual({
         rawNav: '140',
         adjustedNav: '148',
-        bounds: {
-          lowerBound: '148',
-          upperBound: '',
-        },
+        lowerBound: '148',
         bases: {
           lookback: { nav: '0', ts: 0 },
           previous: { nav: '150', ts: now / 1000 - 86400 / 2 },
+        },
+        decimals: 2,
+        riskFlag: true,
+        breachDirection: 'lower',
+        isBounded: false,
+      })
+    })
+
+    it('should return lowerBound with out maxDiscount', async () => {
+      mockGetRawNav.mockResolvedValue(1.4)
+      mockGetBounds.mockResolvedValue({
+        lower: {
+          isLowerBoundEnabled: true,
+          latestNav: 150n,
+          latestTime: now,
+          maxDiscount: 0,
+          lowerBoundTolerance: 500,
+        },
+        upper: {
+          isUpperBoundEnabled: false,
+          lookbackNav: 0n,
+          lookbackTime: 0,
+          maxExpectedApy: 0,
+          upperBoundTolerance: 0,
+        },
+        decimals: 2,
+      })
+
+      const result = await getNav(
+        defaultParams.ea,
+        defaultParams.eaInput,
+        defaultParams.requester,
+        defaultParams.asset,
+        defaultParams.registry,
+        defaultParams.provider,
+      )
+
+      expect(result).toEqual({
+        rawNav: '140',
+        adjustedNav: '142',
+        lowerBound: '142',
+        bases: {
+          lookback: { nav: '0', ts: 0 },
+          previous: { nav: '150', ts: now },
         },
         decimals: 2,
         riskFlag: true,
@@ -162,10 +205,8 @@ describe('getNav', () => {
       expect(result).toEqual({
         rawNav: '1006',
         adjustedNav: '1005',
-        bounds: {
-          lowerBound: '',
-          upperBound: '1005',
-        },
+        lowerBound: '',
+        upperBound: '1005',
         bases: {
           lookback: { nav: '1000', ts: now / 1000 - 86400 / 2 },
           previous: { nav: '0', ts: 0 },
@@ -211,10 +252,8 @@ describe('getNav', () => {
       expect(result).toEqual({
         rawNav: '1001',
         adjustedNav: '1001',
-        bounds: {
-          lowerBound: '993',
-          upperBound: '1005',
-        },
+        lowerBound: '993',
+        upperBound: '1005',
         bases: {
           lookback: { nav: '1000', ts: now / 1000 - 86400 / 2 },
           previous: { nav: '1000', ts: now / 1000 - 86400 / 2 },

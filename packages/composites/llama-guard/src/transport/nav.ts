@@ -6,6 +6,9 @@ import { getRawNav } from './ea'
 const SECONDS_IN_DAY = 24 * 60 * 60
 const BPS = 10000
 
+// We pull rawNav data from source EA and bounds information from on-chain contract
+// We calculate an upper and lower bound
+// If rawNav does not fall inside the bounds, we manually clamp it to the bounds
 export const getNav = async (
   source: string,
   sourceInput: string,
@@ -23,32 +26,9 @@ export const getNav = async (
 
   const now = Date.now() / 1000
 
-  // Calculate Lower Bound
-  let lowerBound = -1n
-  if (bounds.lower.isLowerBoundEnabled && bounds.lower.latestNav > 0) {
-    const days = (now - bounds.lower.latestTime) / SECONDS_IN_DAY
-    const cappedDays = Math.min(1.0, days)
-    const scaledMaxDiscount = (1 - bounds.lower.maxDiscount / BPS) ** cappedDays
-    const finalDiscount = scaledMaxDiscount * (1 - bounds.lower.lowerBoundTolerance / BPS)
-    lowerBound = mulBigInt(bounds.lower.latestNav, finalDiscount, bounds.decimals)
-  }
-
-  // Calculate Upper Bound
-  let upperBound = -1n
-  if (bounds.upper.isUpperBoundEnabled && bounds.upper.lookbackNav > 0) {
-    const days = (now - bounds.upper.lookbackTime) / SECONDS_IN_DAY
-    const bufferFromApy = (1 + bounds.upper.maxExpectedApy / BPS) ** (days / 365)
-    const finalBuffer = bufferFromApy * (1 + bounds.upper.upperBoundTolerance / BPS)
-    upperBound = mulBigInt(bounds.upper.lookbackNav, finalBuffer, bounds.decimals)
-  }
-
   // Generate common response object
   const results = {
     rawNav: rawNavScaled.toString(),
-    bounds: {
-      lowerBound: lowerBound > 0 ? lowerBound.toString() : '',
-      upperBound: upperBound > 0 ? upperBound.toString() : '',
-    },
     bases: {
       lookback: { nav: bounds.upper.lookbackNav.toString(), ts: bounds.upper.lookbackTime },
       previous: { nav: bounds.lower.latestNav.toString(), ts: bounds.lower.latestTime },
@@ -56,33 +36,55 @@ export const getNav = async (
     decimals: bounds.decimals,
   }
 
-  if (lowerBound > 0 && rawNavScaled < lowerBound) {
-    // Breach Lower Bound
-    return {
-      adjustedNav: lowerBound.toString(),
-      riskFlag: true,
-      breachDirection: 'lower',
-      isBounded: false,
-      ...results,
+  // Check if we breach lower bound
+  let lowerBound = -1n
+  if (bounds.lower.isLowerBoundEnabled && bounds.lower.latestNav > 0) {
+    const days = (now - bounds.lower.latestTime) / SECONDS_IN_DAY
+    const cappedDays = Math.min(1.0, days)
+    const scaledMaxDiscount = (1 - bounds.lower.maxDiscount / BPS) ** cappedDays
+    const finalDiscount = scaledMaxDiscount * (1 - bounds.lower.lowerBoundTolerance / BPS)
+    lowerBound = mulBigInt(bounds.lower.latestNav, finalDiscount, bounds.decimals)
+    if (rawNavScaled < lowerBound) {
+      return {
+        adjustedNav: lowerBound.toString(),
+        riskFlag: true,
+        breachDirection: 'lower',
+        isBounded: false,
+        lowerBound: lowerBound.toString(),
+        ...results,
+      }
     }
-  } else if (upperBound > 0 && rawNavScaled > upperBound) {
-    // Breach Upper Bound
-    return {
-      adjustedNav: upperBound.toString(),
-      riskFlag: false,
-      breachDirection: 'upper',
-      isBounded: false,
-      ...results,
+  }
+
+  // Check if we breach upper bound
+  let upperBound = -1n
+  if (bounds.upper.isUpperBoundEnabled && bounds.upper.lookbackNav > 0) {
+    const days = (now - bounds.upper.lookbackTime) / SECONDS_IN_DAY
+    const bufferFromApy = (1 + bounds.upper.maxExpectedApy / BPS) ** (days / 365)
+    const finalBuffer = bufferFromApy * (1 + bounds.upper.upperBoundTolerance / BPS)
+    upperBound = mulBigInt(bounds.upper.lookbackNav, finalBuffer, bounds.decimals)
+    if (rawNavScaled > upperBound) {
+      return {
+        adjustedNav: upperBound.toString(),
+        riskFlag: false,
+        breachDirection: 'upper',
+        isBounded: false,
+        lowerBound: lowerBound > 0 ? lowerBound.toString() : '',
+        upperBound: upperBound.toString(),
+        ...results,
+      }
     }
-  } else {
-    // With-in bounds
-    return {
-      adjustedNav: rawNavScaled.toString(),
-      riskFlag: false,
-      breachDirection: '',
-      isBounded: true,
-      ...results,
-    }
+  }
+
+  // We are with-in bounds
+  return {
+    adjustedNav: rawNavScaled.toString(),
+    riskFlag: false,
+    breachDirection: '',
+    isBounded: true,
+    lowerBound: lowerBound > 0 ? lowerBound.toString() : '',
+    upperBound: upperBound > 0 ? upperBound.toString() : '',
+    ...results,
   }
 }
 
