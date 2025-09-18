@@ -26,18 +26,18 @@ export const config = new AdapterConfig(
       required: true,
       default: '0x6a9505D0B44cFA863d9281EA5B0b34cB36243b45',
     },
-    TIINGO_ADAPTER_URL: {
-      description: 'URL of Tiingo EA',
+    DATA_ENGINE_BASE_URL: {
+      description: 'URL of DataEngine',
       type: 'string',
       required: true,
     },
-    NCFX_ADAPTER_URL: {
-      description: 'URL of NCFX EA',
+    DATA_ENGINE_USER_ID: {
+      description: 'User ID of DataEngine',
       type: 'string',
       required: true,
     },
-    COINMETRICS_ADAPTER_URL: {
-      description: 'URL of Coinmetrics EA',
+    DATA_ENGINE_USER_SECRET: {
+      description: 'Secret key for DataEngine',
       type: 'string',
       required: true,
     },

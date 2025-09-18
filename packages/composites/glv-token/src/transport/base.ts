@@ -1,19 +1,18 @@
-import { ethers, utils } from 'ethers'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  EndpointContext,
-  LwbaResponseDataFields,
-} from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { DataStreamsHttpClient } from '../datastreams/client'
+import { decodeReport } from '../datastreams/decode'
 import { BaseEndpointTypesLwba } from '../endpoint/lwba'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import {
-  mapParameter,
   mapSymbol,
   Market,
   median,
@@ -23,7 +22,6 @@ import {
   toFixed,
   Token,
 } from './utils'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 const logger = makeLogger('GlvBaseTransport')
 
@@ -54,10 +52,10 @@ export abstract class BaseGlvTransport<
   name!: string
   responseCache!: ResponseCache<T>
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvider
+  provider!: ethers.JsonRpcProvider
   glvReaderContract!: ethers.Contract
   settings!: T['Settings']
-
+  dataStreamsClient!: DataStreamsHttpClient
   tokensMap: Record<string, Token> = {}
   marketsMap: Record<string, Market> = {}
   decimals: Record<string, number> = {}
@@ -70,7 +68,7 @@ export abstract class BaseGlvTransport<
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(
+    this.provider = new ethers.JsonRpcProvider(
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_CHAIN_ID,
     )
@@ -85,6 +83,13 @@ export abstract class BaseGlvTransport<
     await this.tokenInfo()
     await this.marketInfo()
 
+    this.dataStreamsClient = new DataStreamsHttpClient({
+      baseUrl: adapterSettings.DATA_ENGINE_BASE_URL,
+      userId: adapterSettings.DATA_ENGINE_USER_ID,
+      userSecret: adapterSettings.DATA_ENGINE_USER_SECRET,
+      timeoutMs: adapterSettings.GLV_INFO_API_TIMEOUT_MS,
+      requester: dependencies.requester,
+    })
     if (this.settings.METADATA_REFRESH_INTERVAL_MS > 0) {
       setInterval(() => {
         this.tokenInfo()
@@ -195,8 +200,8 @@ export abstract class BaseGlvTransport<
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
     ])
 
-    const maximizedPrice = Number(utils.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
-    const minimizedPrice = Number(utils.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
+    const maximizedPrice = Number(ethers.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
+    const minimizedPrice = Number(ethers.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
     const result = median([minimizedPrice, maximizedPrice])
 
     const timestamps = {
@@ -217,74 +222,64 @@ export abstract class BaseGlvTransport<
   private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
     const priceData = {} as PriceData
 
-    const sources = [
-      { url: this.settings.TIINGO_ADAPTER_URL, name: 'tiingo' },
-      { url: this.settings.COINMETRICS_ADAPTER_URL, name: 'coinmetrics' },
-      { url: this.settings.NCFX_ADAPTER_URL, name: 'ncfx' },
-    ]
-
     const priceProviders: Record<string, string[]> = {}
-    const promises = []
+    const sources: Source[] = [{ name: 'data-streams', url: this.settings.DATA_ENGINE_BASE_URL }]
 
-    for (let i = 0; i < sources.length; i++) {
-      const source = sources[i]
-      const assetPromises = assets.map(async (asset) => {
-        const mappedAsset = mapParameter(source.name, asset)
-        const base = this.unwrapAsset(mappedAsset)
-        const requestConfig = {
-          url: source.url,
-          method: 'POST',
-          data: {
-            data: {
-              endpoint: 'crypto-lwba',
-              base,
-              quote: 'USD',
+    await Promise.all(
+      assets.map(async (asset) => {
+        const base = this.unwrapAsset(asset)
+        const feedId = await this.dataStreamsClient.resolveFeedId(base, 'USD', 'Crypto')
+        const { fullReportHex } = await this.dataStreamsClient.getLatestReport(feedId)
+
+        // Decode (V3 expected: price, bid, ask; decoder handles V2–V10)
+        const decoded = decodeReport(fullReportHex, feedId)
+        const scale = 10 ** SIGNED_PRICE_DECIMALS
+        const toNum = (x: any | undefined) => (x === undefined ? undefined : Number(x) / scale)
+
+        const v3Bid = (decoded as any).bid
+        const v3Ask = (decoded as any).ask
+        const v3Price = (decoded as any).price
+
+        const bidNum = toNum(v3Bid ?? v3Price)
+        const askNum = toNum(v3Ask ?? v3Price)
+
+        if (bidNum === undefined || askNum === undefined) {
+          throw new AdapterDataProviderError(
+            { statusCode: 502, message: `Could not decode bid/ask for ${asset}` },
+            {
+              providerDataRequestedUnixMs: dataRequestedTimestamp,
+              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: undefined,
             },
-          },
-        }
-
-        try {
-          const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
-            JSON.stringify(requestConfig),
-            requestConfig,
-          )
-          const { bid, ask } = response.response.data.data
-
-          priceData[asset] = {
-            bids: [...(priceData[asset]?.bids || []), bid],
-            asks: [...(priceData[asset]?.asks || []), ask],
-          }
-
-          priceProviders[asset] = priceProviders[asset]
-            ? [...new Set([...priceProviders[asset], source.name])]
-            : [source.name]
-        } catch (error) {
-          const e = error as Error
-          logger.error(
-            `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
           )
         }
-      })
 
-      promises.push(...assetPromises)
-    }
+        // Store raw numbers for median calc
+        priceData[asset] = {
+          bids: [...(priceData[asset]?.bids || []), bidNum],
+          asks: [...(priceData[asset]?.asks || []), askNum],
+        }
 
-    await Promise.all(promises)
+        // Track that Data Streams responded for this *base* key
+        priceProviders[base] = priceProviders[base] ? priceProviders[base] : []
+        if (!priceProviders[base].includes(sources[0].name)) {
+          priceProviders[base].push(sources[0].name)
+        }
+      }),
+    )
 
     this.validateRequiredResponses(priceProviders, sources, assets, dataRequestedTimestamp)
 
     const medianValues = this.calculateMedian(assets, priceData)
-
     const prices: Record<string, Record<string, string | number>> = {}
 
-    medianValues.map(
-      (v) =>
-        (prices[v.asset] = {
-          ...v,
-          ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
-          bid: toFixed(v.bid, this.decimals[v.asset as keyof typeof this.decimals]),
-        }),
-    )
+    medianValues.forEach((v) => {
+      prices[v.asset] = {
+        ...v,
+        ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
+        bid: toFixed(v.bid, this.decimals[v.asset as keyof typeof this.decimals]),
+      }
+    })
 
     return {
       prices,
