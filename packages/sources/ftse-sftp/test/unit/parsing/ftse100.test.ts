@@ -10,9 +10,9 @@ describe('FTSE100Parser', () => {
 
   describe('parse', () => {
     it('should parse the actual FTSE CSV file correctly', async () => {
-      const result = await parser.parse(ftseCsvFixture)
-      expect(result).toBeDefined()
-      expect(result).toEqual(expectedFtseData)
+      const { parsedData, result } = await parser.parse(ftseCsvFixture)
+      expect(parsedData).toEqual(expectedFtseData)
+      expect(result).toBe(expectedFtseData.gbpIndex)
     })
 
     it('should throw error for invalid CSV format', async () => {
@@ -76,13 +76,12 @@ UKX,FTSE 100 Index,100,GBP,4659.89,4926.97,4523.90
 AS0,FTSE All-Small Index,234,GBP,4535.81973790,4918.68240124,4401.18006784
 XXXXXXXX`
 
-      const result = await parser.parse(csvWithInconsistentColumns)
-      expect(result).toBeDefined()
-      expect(result.indexCode).toBe('UKX')
-      expect(result.indexSectorName).toBe('FTSE 100 Index')
-      expect(result.numberOfConstituents).toBe(100)
-      expect(result.indexBaseCurrency).toBe('GBP')
-      expect(result.gbpIndex).toBe(4926.97)
+      const { parsedData } = await parser.parse(csvWithInconsistentColumns)
+      expect(parsedData.indexCode).toBe('UKX')
+      expect(parsedData.indexSectorName).toBe('FTSE 100 Index')
+      expect(parsedData.numberOfConstituents).toBe(100)
+      expect(parsedData.indexBaseCurrency).toBe('GBP')
+      expect(parsedData.gbpIndex).toBe(4926.97)
     })
   })
 })
