@@ -1,0 +1,20 @@
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+
+export type Config = {
+  API_BASE_URL: string
+  BEARER_TOKEN: string
+}
+
+export const config: AdapterConfig = new AdapterConfig({
+  API_BASE_URL: {
+    description: 'The API URL for the LiveArt data provider',
+    type: 'string',
+    required: true,
+  },
+  BEARER_TOKEN: {
+    description: 'The Bearer token for authentication',
+    type: 'string',
+    required: true,
+    sensitive: true,
+  },
+})
