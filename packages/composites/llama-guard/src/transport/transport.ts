@@ -60,8 +60,8 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     const data = await getNav(
-      param.ea,
-      param.eaInput,
+      param.source,
+      param.sourceInput,
       this.requester,
       param.asset,
       param.registry,

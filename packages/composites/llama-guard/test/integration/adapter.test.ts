@@ -84,8 +84,8 @@ describe('execute', () => {
   describe('nav endpoint', () => {
     it('should return success', async () => {
       const data = {
-        ea: 'ea',
-        eaInput: '{"param":"1"}',
+        source: 'ea',
+        sourceInput: '{"param":"1"}',
         asset: '0x0',
         registry: 'registry',
       }

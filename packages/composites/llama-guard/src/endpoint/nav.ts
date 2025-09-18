@@ -7,15 +7,16 @@ import { navTransport } from '../transport/transport'
 
 export const inputParameters = new InputParameters(
   {
-    ea: {
+    source: {
       required: true,
       type: 'string',
-      description: 'Name of the EA that provides Nav data',
+      description:
+        'Name of the Adapters that provides Nav data, requires ${source}_EA_URL in env var',
     },
-    eaInput: {
+    sourceInput: {
       required: true,
       type: 'string',
-      description: 'JSON input to EA in string format',
+      description: 'JSON input to Adapters in string format',
     },
     asset: {
       required: true,
@@ -30,8 +31,8 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      ea: 'name',
-      eaInput: "{'param': '1'}",
+      source: 'name',
+      sourceInput: "{'param': '1'}",
       asset: '0x0',
       registry: '0x1',
     },
@@ -74,13 +75,13 @@ export const endpoint = new AdapterEndpoint({
   transport: navTransport,
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
-    getEAUrl(req.requestContext.data.ea)
+    getEAUrl(req.requestContext.data.source)
     try {
-      JSON.parse(req.requestContext.data.eaInput)
+      JSON.parse(req.requestContext.data.sourceInput)
     } catch (ex) {
       throw new AdapterInputError({
         statusCode: 400,
-        message: `eaInput is not in JSON format: ${ex}`,
+        message: `sourceInput is not in JSON format: ${ex}`,
       })
     }
 

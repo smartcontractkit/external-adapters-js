@@ -4,12 +4,12 @@ import {
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 
-export const getRawNav = async (ea: string, eaInput: string, requester: Requester) => {
+export const getRawNav = async (source: string, sourceInput: string, requester: Requester) => {
   const requestConfig = {
-    baseURL: getEAUrl(ea),
+    baseURL: getEAUrl(source),
     method: 'POST',
     data: {
-      data: JSON.parse(eaInput),
+      data: JSON.parse(sourceInput),
     },
   }
 

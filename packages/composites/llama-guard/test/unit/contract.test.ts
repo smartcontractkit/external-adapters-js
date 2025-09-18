@@ -48,7 +48,9 @@ jest.mock('ethers', () => {
 
 describe('getBounds', () => {
   it('return bounds', async () => {
-    await expect(getBounds('enabled', 'registry', {} as JsonRpcProvider)).resolves.toEqual({
+    await expect(
+      getBounds({ asset: 'enabled', registry: 'registry' }, {} as JsonRpcProvider),
+    ).resolves.toEqual({
       lower: {
         isLowerBoundEnabled: true,
         latestNav: 35n,
@@ -68,7 +70,9 @@ describe('getBounds', () => {
   })
 
   it('disabled', async () => {
-    await expect(getBounds('disabled', 'registry', {} as JsonRpcProvider)).resolves.toEqual({
+    await expect(
+      getBounds({ asset: 'disabled', registry: 'registry' }, {} as JsonRpcProvider),
+    ).resolves.toEqual({
       lower: {
         isLowerBoundEnabled: false,
         latestNav: 0n,

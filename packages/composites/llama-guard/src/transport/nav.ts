@@ -7,22 +7,23 @@ const SECONDS_IN_DAY = 24 * 60 * 60
 const BPS = 10000
 
 export const getNav = async (
-  ea: string,
-  eaInput: string,
+  source: string,
+  sourceInput: string,
   requester: Requester,
   asset: string,
   registry: string,
   provider: JsonRpcProvider,
 ) => {
   const [rawNav, bounds] = await Promise.all([
-    getRawNav(ea, eaInput, requester),
-    getBounds(asset, registry, provider),
+    getRawNav(source, sourceInput, requester),
+    getBounds({ asset, registry }, provider),
   ])
 
   const rawNavScaled = parseUnits(rawNav.toString(), bounds.decimals)
 
   const now = Date.now() / 1000
 
+  // Calculate Lower Bound
   let lowerBound = -1n
   if (bounds.lower.isLowerBoundEnabled && bounds.lower.latestNav > 0) {
     const days = (now - bounds.lower.latestTime) / SECONDS_IN_DAY
@@ -31,6 +32,8 @@ export const getNav = async (
     const finalDiscount = scaledMaxDiscount * (1 - bounds.lower.lowerBoundTolerance / BPS)
     lowerBound = mulBigInt(bounds.lower.latestNav, finalDiscount, bounds.decimals)
   }
+
+  // Calculate Upper Bound
   let upperBound = -1n
   if (bounds.upper.isUpperBoundEnabled && bounds.upper.lookbackNav > 0) {
     const days = (now - bounds.upper.lookbackTime) / SECONDS_IN_DAY
@@ -39,6 +42,7 @@ export const getNav = async (
     upperBound = mulBigInt(bounds.upper.lookbackNav, finalBuffer, bounds.decimals)
   }
 
+  // Generate common response object
   const results = {
     rawNav: rawNavScaled.toString(),
     bounds: {
@@ -53,6 +57,7 @@ export const getNav = async (
   }
 
   if (lowerBound > 0 && rawNavScaled < lowerBound) {
+    // Breach Lower Bound
     return {
       adjustedNav: lowerBound.toString(),
       riskFlag: true,
@@ -61,6 +66,7 @@ export const getNav = async (
       ...results,
     }
   } else if (upperBound > 0 && rawNavScaled > upperBound) {
+    // Breach Upper Bound
     return {
       adjustedNav: upperBound.toString(),
       riskFlag: false,
@@ -69,6 +75,7 @@ export const getNav = async (
       ...results,
     }
   } else {
+    // With-in bounds
     return {
       adjustedNav: rawNavScaled.toString(),
       riskFlag: false,

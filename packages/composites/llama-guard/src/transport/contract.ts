@@ -2,8 +2,11 @@ import { Contract, JsonRpcProvider } from 'ethers'
 import ABI from '../config/ABI.json'
 import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 
-export const getBounds = async (asset: string, registry: string, provider: JsonRpcProvider) => {
-  const registryContract = new Contract(registry, ABI, provider)
+export const getBounds = async (
+  contracts: { asset: string; registry: string },
+  provider: JsonRpcProvider,
+) => {
+  const registryContract = new Contract(contracts.registry, ABI, provider)
 
   const [
     {
@@ -16,8 +19,8 @@ export const getBounds = async (asset: string, registry: string, provider: JsonR
     },
     proxy,
   ] = await Promise.all([
-    registryContract.getParametersForAsset(asset),
-    registryContract.getOracle(asset),
+    registryContract.getParametersForAsset(contracts.asset),
+    registryContract.getOracle(contracts.asset),
   ])
 
   const proxyContract = new Contract(proxy, EACAggregatorProxy, provider)
@@ -48,7 +51,7 @@ export const getBounds = async (asset: string, registry: string, provider: JsonR
     { answer: latestNav, updatedAt: latestTime },
     decimals,
   ] = await Promise.all([
-    registryContract.getLookbackData(asset),
+    registryContract.getLookbackData(contracts.asset),
     proxyContract.latestRoundData(),
     proxyContract.decimals(),
   ])
