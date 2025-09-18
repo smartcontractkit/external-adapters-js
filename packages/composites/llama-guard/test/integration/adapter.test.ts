@@ -37,6 +37,15 @@ jest.mock('ethers', () => {
           decimals: jest.fn().mockImplementation(() => {
             return '3'
           }),
+          aggregator: jest.fn().mockImplementation(() => {
+            return 'aggregator'
+          }),
+        }
+      } else if (address == 'aggregator') {
+        return {
+          decimals: jest.fn().mockImplementation(() => {
+            return '3'
+          }),
           latestRoundData: jest.fn().mockImplementation(() => {
             return {
               answer: '1000',

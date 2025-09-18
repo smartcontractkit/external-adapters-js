@@ -1,5 +1,6 @@
 import { Contract, JsonRpcProvider } from 'ethers'
 import ABI from '../config/ABI.json'
+import AccessControlledOCR2Aggregator from '../config/AccessControlledOCR2Aggregator.json'
 import EACAggregatorProxy from '../config/EACAggregatorProxy.json'
 
 export const getBounds = async (
@@ -46,14 +47,19 @@ export const getBounds = async (
     }
   }
 
+  // RoundId jumps on proxy when we swap aggregator
+  // We require roundId to be continous so we read from aggregator instead
+  const aggregator = await proxyContract.aggregator()
+  const aggregatorContract = new Contract(aggregator, AccessControlledOCR2Aggregator, provider)
+
   const [
     { answer: lookbackNav, updatedAt: lookbackTime },
     { answer: latestNav, updatedAt: latestTime },
     decimals,
   ] = await Promise.all([
     registryContract.getLookbackData(contracts.asset),
-    proxyContract.latestRoundData(),
-    proxyContract.decimals(),
+    aggregatorContract.latestRoundData(),
+    aggregatorContract.decimals(),
   ])
 
   return {
