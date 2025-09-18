@@ -69,7 +69,7 @@ export function createLwbaWsTransport() {
 
         if (!isin) {
           console.log(md)
-          logger.error('Could not parse ISIN', JSON.stringify(md))
+          logger.error('Could not parse ISIN', md)
           return []
         }
 
