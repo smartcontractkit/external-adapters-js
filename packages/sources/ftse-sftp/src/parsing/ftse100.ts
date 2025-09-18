@@ -29,9 +29,9 @@ export { EXPECTED_HEADERS, HEADER_ROW_NUMBER }
 export interface FTSE100Data extends ParsedData {
   indexCode: string
   indexSectorName: string
-  numberOfConstituents: number | null
+  numberOfConstituents: number
   indexBaseCurrency: string
-  gbpIndex: number | null
+  gbpIndex: number
 }
 
 /**
@@ -51,7 +51,10 @@ export class FTSE100Parser extends BaseCSVParser {
     })
   }
 
-  async parse(csvContent: string): Promise<FTSE100Data> {
+  async parse(csvContent: string): Promise<{
+    result: number
+    parsedData: FTSE100Data
+  }> {
     const parsed = this.parseCSVRecords(csvContent, {
       from_line: HEADER_ROW_NUMBER,
     })
@@ -68,7 +71,11 @@ export class FTSE100Parser extends BaseCSVParser {
       throw new Error('No FTSE 100 index record found')
     }
 
-    return results[0]
+    const parsedData = results[0]
+    return {
+      result: parsedData.gbpIndex,
+      parsedData,
+    }
   }
 
   /**

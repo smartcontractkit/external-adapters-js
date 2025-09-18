@@ -37,7 +37,10 @@ export class RussellDailyValuesParser extends BaseCSVParser {
     this.instrument = instrument
   }
 
-  async parse(csvContent: string): Promise<RussellDailyValuesData> {
+  async parse(csvContent: string): Promise<{
+    result: number
+    parsedData: RussellDailyValuesData
+  }> {
     this.validateCloseColumn(csvContent)
 
     const parsed = this.parseCSVArrays(csvContent, {
@@ -56,7 +59,11 @@ export class RussellDailyValuesParser extends BaseCSVParser {
       throw new Error('Multiple matching Russell index records found, expected only one')
     }
 
-    return results[0]
+    const parsedData = results[0]
+    return {
+      result: parsedData.close,
+      parsedData,
+    }
   }
 
   /**

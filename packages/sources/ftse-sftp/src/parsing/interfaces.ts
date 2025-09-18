@@ -7,7 +7,10 @@ export interface CSVParser<T extends ParsedData = ParsedData> {
    * @param csvContent - Raw CSV content as string
    * @returns Promise of parsed data
    */
-  parse(csvContent: string): Promise<T>
+  parse(csvContent: string): Promise<{
+    result: number
+    parsedData: T
+  }>
 }
 
 /**

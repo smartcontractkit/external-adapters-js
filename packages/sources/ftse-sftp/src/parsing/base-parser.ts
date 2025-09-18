@@ -15,7 +15,10 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
   /**
    * Abstract method that must be implemented by concrete classes
    */
-  abstract parse(csvContent: string): Promise<T>
+  abstract parse(csvContent: string): Promise<{
+    result: number
+    parsedData: T
+  }>
 
   /**
    * Helper method to parse CSV content as records with column headers
