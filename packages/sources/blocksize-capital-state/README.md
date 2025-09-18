@@ -2,11 +2,11 @@
 
 ## Environment Variables
 
-| Required? |      Name       |                Description                 |  Type  | Options |                Default                 |
-| :-------: | :-------------: | :----------------------------------------: | :----: | :-----: | :------------------------------------: |
-|    ✅     |     API_KEY     |    The Blocksize Capital API key to use    | string |         |                                        |
-|    ✅     |      TOKEN      | Token for Blocksize Capital authentication | string |         |                                        |
-|           | WS_API_ENDPOINT |     The default WebSocket API base url     | string |         | `wss://blocksize.dev/marketdata/v1/ws` |
+| Required? |      Name       |                Description                 |  Type  | Options |                     Default                     |
+| :-------: | :-------------: | :----------------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|    ✅     |     API_KEY     |    The Blocksize Capital API key to use    | string |         |                                                 |
+|    ✅     |      TOKEN      | Token for Blocksize Capital authentication | string |         |                                                 |
+|           | WS_API_ENDPOINT |     The default WebSocket API base url     | string |         | `wss://data.blocksize.capital/marketdata/v1/ws` |
 
 ---
 
