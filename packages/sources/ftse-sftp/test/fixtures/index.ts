@@ -3,7 +3,7 @@ import path from 'path'
 
 // Helper function to read fixture files
 export function readFixtureFile(filename: string): string {
-  return fs.readFileSync(path.join(__dirname, filename), 'utf-8')
+  return fs.readFileSync(path.join(__dirname, filename), 'latin1')
 }
 
 // Raw CSV fixture data
@@ -20,7 +20,7 @@ export const expectedFtseData = {
 }
 
 export const expectedRussellData = {
-  indexName: 'Russell 1000� Index',
+  indexName: 'Russell 1000® Index',
   close: 3547.4,
 }
 
