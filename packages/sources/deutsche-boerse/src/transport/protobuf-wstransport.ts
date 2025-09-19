@@ -34,12 +34,10 @@ export class ProtobufWsTransport<
     subscribes: unknown[],
     unsubscribes: unknown[],
   ): Promise<void> {
-    const messages = [...subscribes, ...unsubscribes]
+    ;[...subscribes, ...unsubscribes]
       .map((m) => this.toRawData(m))
       .filter((m): m is Buffer => m !== null)
-
-    console.log(messages)
-    messages.forEach((m) => this.wsConnection?.send(m))
+      .forEach((m) => this.wsConnection?.send(m))
   }
 
   deserializeMessage(data: WebSocket.Data): T['Provider']['WsMessage'] {
