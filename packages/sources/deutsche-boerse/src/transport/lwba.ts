@@ -71,7 +71,7 @@ export function createLwbaWsTransport() {
         // Enforce exactly ONE payload
         const msgs = sm.messages ?? []
         if (msgs.length !== 1) {
-          logger.warn({ count: msgs.length }, 'Expected exactly one Any message in StreamMessage')
+          logger.warn({ count: msgs.length }, 'Expected exactly one message in StreamMessage')
           return []
         }
         const market = 'md-xetraetfetp' // currently only one supported market/stream
@@ -83,7 +83,7 @@ export function createLwbaWsTransport() {
         } catch (err) {
           logger.error(
             { err, typeUrl: anyMsg.typeUrl },
-            'Failed to decode MarketData from Any.value',
+            'Failed to decode MarketData from Client.StreamMessage',
           )
           return []
         }
