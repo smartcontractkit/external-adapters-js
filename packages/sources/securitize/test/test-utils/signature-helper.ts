@@ -41,12 +41,6 @@ export function generateSignature(
   // Compute SHA-256 hash of the message (as in sigutils.ts)
   const hashHex = createHash('sha256').update(message).digest('hex')
 
-  console.log('Message:', message)
-  console.log('Message Hex:', contentHex)
-  console.log('Signature Hex:', signatureHex)
-  console.log('Public Key Hex:', publicKeyHex)
-  console.log('Hash Hex:', hashHex)
-
   return {
     contentHex,
     signatureHex,
