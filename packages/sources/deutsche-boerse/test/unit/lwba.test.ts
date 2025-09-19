@@ -73,7 +73,6 @@ describe('LWBA transport (more integration cases)', () => {
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     const md = create(MarketDataSchema, {
-      // Instrmt missing Sym -> parseIsin returns undefined
       Dat: create(DataSchema, { Px: dec(100n, 0), Tm: 1_000_000n } as any),
     } as any)
 
@@ -106,7 +105,6 @@ describe('LWBA transport (more integration cases)', () => {
     const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd), {} as any)
     const [tEntry] = tradeRes
     expect(tEntry.response.data.latestPrice).toBe(99.99)
-    // quote time remains set; trade time now populated
     expect(tEntry.response.data.quoteProviderIndicatedTimeUnixMs).toBe(5)
     expect(tEntry.response.data.tradeProviderIndicatedTimeUnixMs).toBe(6)
   })
