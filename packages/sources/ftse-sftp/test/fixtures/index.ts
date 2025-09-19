@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
+import { FileInfo } from 'ssh2-sftp-client'
 
 // Helper function to read fixture files
 export function readFixtureFile(filename: string): string {
-  return fs.readFileSync(path.join(__dirname, filename), 'utf-8')
+  return fs.readFileSync(path.join(__dirname, filename), 'latin1')
 }
 
 // Raw CSV fixture data
@@ -20,27 +21,30 @@ export const expectedFtseData = {
 }
 
 export const expectedRussellData = {
-  indexName: 'Russell 1000� Index',
+  indexName: 'Russell 1000® Index',
   close: 3547.4,
 }
 
-// Test data generation helpers
-export const createFTSETestData = (dataRows: string[]): string => {
-  const header = `02/09/2025 (C) FTSE International Limited 2025. All Rights Reserved
-FTSE UK All-Share Indices Valuation Service
+export const ftseFilename = 'ukallv0209.csv'
+export const russellFilename = 'daily_values_russell_250827.CSV'
 
-Index Code,Index/Sector Name,Number of Constituents,Index Base Currency,USD Index,GBP Index,EUR Index,JPY Index,AUD Index,CNY Index,HKD Index,CAD Index,LOC Index,Base Currency (GBP) Index,USD TRI,GBP TRI,EUR TRI,JPY TRI,AUD TRI,CNY TRI,HKD TRI,CAD TRI,LOC TRI,Base Currency (GBP) TRI,Mkt Cap (USD),Mkt Cap (GBP),Mkt Cap (EUR),Mkt Cap (JPY),Mkt Cap (AUD),Mkt Cap (CNY),Mkt Cap (HKD),Mkt Cap (CAD),Mkt Cap (LOC),Mkt Cap Base Currency (GBP),XD Adjustment (YTD),Dividend Yield`
+export const ftseDirectory = '/data/valuation/uk_all_share/'
+export const russellDirectory =
+  '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/'
 
-  return header + '\n' + dataRows.join('\n')
+export const fileContents: Record<string, string> = {
+  [path.join(ftseDirectory, ftseFilename)]: ftseCsvFixture,
+  [path.join(russellDirectory, russellFilename)]: russellCsvFixture,
 }
 
-export const createRussellTestData = (dataRows: string[]): string => {
-  const header = `"Daily Values",,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,
-"As of August 27, 2025",,,,,,,,"Last 5 Trading Days",,,,"1 Year Ending",,
-,,,,,,,,"Closing Values",,,,"Closing Values",,
-,"Open","High","Low","Close","Net Chg","% Chg","High","Low","Net Chg","% Chg","High","Low","Net Chg","% Chg"`
-
-  return header + '\n' + dataRows.join('\n')
-}
+export const directoryListings = {
+  [ftseDirectory]: [
+    'vall_icb2302.csv',
+    'vall1809.csv',
+    'valllst.csv',
+    ftseFilename,
+    'ukallvlst.csv',
+    'vall_icb2302_v1.csv',
+  ].map((name) => ({ name })),
+  [russellDirectory]: ['history', russellFilename].map((name) => ({ name })),
+} as unknown as Record<string, FileInfo[]>

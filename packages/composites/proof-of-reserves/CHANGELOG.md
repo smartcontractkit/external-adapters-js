@@ -1,5 +1,33 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.30.0
+
+### Minor Changes
+
+- [#4023](https://github.com/smartcontractkit/external-adapters-js/pull/4023) [`5ecf6a2`](https://github.com/smartcontractkit/external-adapters-js/commit/5ecf6a236b59776545c4b5db5fda3f72be6d41e0) Thanks [@dskloetc](https://github.com/dskloetc)! - Skip custom logic for token-balance when solana-balance endpoint is used
+
+### Patch Changes
+
+- Updated dependencies [[`2f9d34f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f9d34f2139db1e4b3b6e9529e50b8135f9c4149), [`c06b5ea`](https://github.com/smartcontractkit/external-adapters-js/commit/c06b5eada4043e8370d14f67a5b08efae35817a7)]:
+  - @chainlink/token-balance-adapter@3.2.0
+  - @chainlink/eth-balance-adapter@2.1.11
+  - @chainlink/renvm-address-set-adapter@1.5.125
+
+## 1.29.0
+
+### Minor Changes
+
+- [#4016](https://github.com/smartcontractkit/external-adapters-js/pull/4016) [`d434ca2`](https://github.com/smartcontractkit/external-adapters-js/commit/d434ca279ab40a9506e0716f3ceda53fbc47f587) Thanks [@dskloetc](https://github.com/dskloetc)! - Skip custom logic for token-balance when xrp endpoint is used
+
+### Patch Changes
+
+- Updated dependencies [[`99cf756`](https://github.com/smartcontractkit/external-adapters-js/commit/99cf756b1d07493b55f98a5a527d23efd1bbdff0), [`c473486`](https://github.com/smartcontractkit/external-adapters-js/commit/c4734862d6acc3de4d8f877bb785003149c1c3b8), [`d46cac7`](https://github.com/smartcontractkit/external-adapters-js/commit/d46cac7f28a517b7ba662c2c9244ae209a2185fa), [`a72f52e`](https://github.com/smartcontractkit/external-adapters-js/commit/a72f52ec6ed897e1750bd1d3fa0963d3512f1da0), [`ea2962f`](https://github.com/smartcontractkit/external-adapters-js/commit/ea2962ffb85e092f5fd9e47dd945d8662f08849a)]:
+  - @chainlink/token-balance-adapter@3.1.0
+  - @chainlink/ceffu-adapter@1.1.1
+  - @chainlink/view-function-multi-chain-adapter@1.4.0
+  - @chainlink/eth-balance-adapter@2.1.10
+  - @chainlink/renvm-address-set-adapter@1.5.124
+
 ## 1.28.1
 
 ### Patch Changes

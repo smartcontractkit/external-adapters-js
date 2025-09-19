@@ -1,12 +1,25 @@
 # Chainlink External Adapter for Eth-balance
 
-![2.1.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for fetching balances for ETH addresses
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Known Issues
+
+### Per-network configuration
+
+In addition to the `ETHEREUM_RPC_URL` and `ETHEREUM_CHAIN_ID` variable
+described below, the adapter requires `<network>_RPC_URL` and
+`<network>_RPC_CHAIN_ID` (where `<network>` is the upper case name of the
+network) to be set for each supported network.
+
+For example, to support Arbitrum, you would need to set the `ARBITRUM_RPC_URL`
+and `ARBITRUM_RPC_CHAIN_ID` environment variables.
+
+Note that this also means that `ETHEREUM_RPC_CHAIN_ID` needs to be set (to `1`)
+even if `ETHEREUM_CHAIN_ID` (without `_RPC`) is already set.
 
 ### MAX_PAYLOAD_SIZE_LIMIT configuration
 

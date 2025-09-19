@@ -20,10 +20,8 @@
     "curve-3pool",
     "defi-dozen",
     "defi-pulse",
-    "dns-record-check",
     "ccip-read",
     "dlc-btc-por",
-    "dwolla",
     "dxdao",
     "dydx-stark",
     "ethwrite",
@@ -66,7 +64,6 @@
     "xsushi-price",
     "coinbase-prime",
     "harris-and-trotter",
-    "nav-consulting",
-    "ftse-sftp"
+    "nav-consulting"
   ]
 }

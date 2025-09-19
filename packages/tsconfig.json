@@ -33,9 +33,6 @@
       "path": "./composites/defi-pulse"
     },
     {
-      "path": "./composites/dns-record-check"
-    },
-    {
       "path": "./composites/dxdao"
     },
     {
@@ -55,6 +52,9 @@
     },
     {
       "path": "./composites/linear-finance"
+    },
+    {
+      "path": "./composites/llama-guard"
     },
     {
       "path": "./composites/market-closure"
@@ -246,9 +246,6 @@
       "path": "./sources/coinbase-prime"
     },
     {
-      "path": "./sources/coincodex"
-    },
-    {
       "path": "./sources/coingecko"
     },
     {
@@ -307,9 +304,6 @@
     },
     {
       "path": "./sources/dns-query"
-    },
-    {
-      "path": "./sources/dwolla"
     },
     {
       "path": "./sources/dxfeed"

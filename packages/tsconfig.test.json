@@ -33,9 +33,6 @@
       "path": "./composites/defi-pulse/tsconfig.test.json"
     },
     {
-      "path": "./composites/dns-record-check/tsconfig.test.json"
-    },
-    {
       "path": "./composites/dxdao/tsconfig.test.json"
     },
     {
@@ -55,6 +52,9 @@
     },
     {
       "path": "./composites/linear-finance/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/llama-guard/tsconfig.test.json"
     },
     {
       "path": "./composites/market-closure/tsconfig.test.json"
@@ -246,9 +246,6 @@
       "path": "./sources/coinbase-prime/tsconfig.test.json"
     },
     {
-      "path": "./sources/coincodex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
@@ -307,9 +304,6 @@
     },
     {
       "path": "./sources/dns-query/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/dwolla/tsconfig.test.json"
     },
     {
       "path": "./sources/dxfeed/tsconfig.test.json"
