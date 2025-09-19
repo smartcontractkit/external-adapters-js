@@ -1,72 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute ftse_sftp endpoint should return success for FTSE100INDEX 1`] = `
+exports[`execute sftp endpoint should return error for unknown instrument 1`] = `
+{
+  "error": {
+    "message": "Unsupported instrument: unknown",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute sftp endpoint should return success for FTSE100INDEX 1`] = `
 {
   "data": {
+    "filename": "ukallv0209.csv",
     "result": {
-      "gbpIndex": 8045.12345678,
+      "gbpIndex": 9116.68749114,
       "indexBaseCurrency": "GBP",
       "indexCode": "UKX",
       "indexSectorName": "FTSE 100 Index",
       "numberOfConstituents": 100,
     },
   },
-  "result": 8045.12345678,
+  "result": 9116.68749114,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
 
-exports[`execute ftse_sftp endpoint should return success for Russell1000INDEX 1`] = `
+exports[`execute sftp endpoint should return success for Russell1000INDEX 1`] = `
 {
   "data": {
+    "filename": "daily_values_russell_250827.CSV",
     "result": {
-      "close": 2654.123456,
+      "close": 3547.4,
       "indexName": "Russell 1000® Index",
     },
   },
-  "result": 2654.123456,
+  "result": 3547.4,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
 
-exports[`execute ftse_sftp endpoint should return success for Russell2000INDEX 1`] = `
+exports[`execute sftp endpoint should return success for Russell2000INDEX 1`] = `
 {
   "data": {
+    "filename": "daily_values_russell_250827.CSV",
     "result": {
-      "close": 1987.654321,
+      "close": 2373.8,
       "indexName": "Russell 2000® Index",
     },
   },
-  "result": 1987.654321,
+  "result": 2373.8,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
 
-exports[`execute ftse_sftp endpoint should return success for Russell3000INDEX 1`] = `
+exports[`execute sftp endpoint should return success for Russell3000INDEX 1`] = `
 {
   "data": {
+    "filename": "daily_values_russell_250827.CSV",
     "result": {
-      "close": 3456.789012,
+      "close": 3690.93,
       "indexName": "Russell 3000® Index",
     },
   },
-  "result": 3456.789012,
+  "result": 3690.93,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
   },
 }
 `;
