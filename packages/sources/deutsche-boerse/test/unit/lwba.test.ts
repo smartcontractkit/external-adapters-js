@@ -10,20 +10,25 @@ import {
   type MarketData,
 } from '../../src/gen/md_cef_pb'
 import { createLwbaWsTransport } from '../../src/transport/lwba'
+
 LoggerFactoryProvider.set()
+
 const dec = (m: bigint, e: number): Decimal => create(DecimalSchema, { m, e })
 
 type MarketDataInit = MessageInitShape<typeof MarketDataSchema>
 
+const MARKET = 'md-xetraetfetp' as const
+
 function makeStreamBuffer(md: MarketData | MarketDataInit): Buffer {
   const mdMsg = create(MarketDataSchema, md as MarketDataInit)
-
   const anyMsg: Any = anyPack(MarketDataSchema, mdMsg)
-
-  const sm = create(StreamMessageSchema, { messages: [anyMsg] })
-
+  const sm = create(StreamMessageSchema, {
+    subs: MARKET, // include market/stream on the frame
+    messages: [anyMsg], // exactly one Any payload
+  })
   return Buffer.from(toBinary(StreamMessageSchema, sm))
 }
+
 describe('LWBA transport (more integration cases)', () => {
   const ISIN = 'IE00B53L3W79'
   const OTHER = 'US0000000001'
@@ -44,33 +49,31 @@ describe('LWBA transport (more integration cases)', () => {
 
   test('subscribe builder: first subscribe returns frame, subsequent subscribes return undefined', () => {
     const t = createLwbaWsTransport() as any
-    const first = t.config.builders.subscribeMessage({ isin: ISIN })
-    const second = t.config.builders.subscribeMessage({ isin: OTHER })
+    const first = t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
+    const second = t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER })
 
-    expect(first).toBeInstanceOf(Uint8Array) // binary protobuf
-    // Current implementation returns undefined for subsequent subscribes.
-    // (Note: WebSocketTransport.sendMessages will throw if given undefined.)
+    expect(first).toBeInstanceOf(Uint8Array)
     expect(second).toBeUndefined()
   })
 
   test('unsubscribe builder: removing last returns frame, otherwise undefined', () => {
     const t = createLwbaWsTransport() as any
-    t.config.builders.subscribeMessage({ isin: ISIN })
-    t.config.builders.subscribeMessage({ isin: OTHER })
+    t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
+    t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER })
 
-    const removeOne = t.config.builders.unsubscribeMessage({ isin: OTHER })
+    const removeOne = t.config.builders.unsubscribeMessage({ market: MARKET, isin: OTHER })
     expect(removeOne).toBeUndefined()
 
-    const removeLast = t.config.builders.unsubscribeMessage({ isin: ISIN })
+    const removeLast = t.config.builders.unsubscribeMessage({ market: MARKET, isin: ISIN })
     expect(removeLast).toBeInstanceOf(Uint8Array)
   })
 
   test('missing ISIN: handler returns []', () => {
     const t = createLwbaWsTransport() as any
-    t.config.builders.subscribeMessage({ isin: ISIN })
+    t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     const md = create(MarketDataSchema, {
-      // Instrmt missing Sym -> getIsin returns undefined
+      // Instrmt missing Sym -> parseIsin returns undefined
       Dat: create(DataSchema, { Px: dec(100n, 0), Tm: 1_000_000n } as any),
     } as any)
 
@@ -80,7 +83,7 @@ describe('LWBA transport (more integration cases)', () => {
 
   test('quote then trade: response reflects cached fields and timestamps', () => {
     const t = createLwbaWsTransport() as any
-    t.config.builders.subscribeMessage({ isin: ISIN })
+    t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     // Quote
     const quoteDat = create(DataSchema, {
