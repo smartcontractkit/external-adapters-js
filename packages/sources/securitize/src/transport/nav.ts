@@ -2,24 +2,26 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/nav'
+import { validateResponseSignature } from './sigutils'
 
 export interface SingleResponseSchema {
   assetId: string
-  name: string
+  name?: string
   nav: number
   seqNum: number
-  yieldOneDay: string
-  yieldSevenDay: string
+  yieldOneDay?: string
+  yieldSevenDay?: string
   recordDate: string
-  staleness: number
+  staleness?: number
   signedMessage: {
     signature: string
     content: string
     hash: string
-    prevHash: string
-    prevSig: string
-    prevContent: string
+    prevHash: string | null
+    prevSig: string | null
+    prevContent: string | null
   }
 }
 
@@ -32,6 +34,18 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
+}
+
+export function getPubKeys(assetEnvVarPrefix: string): string[] {
+  const envVarName = `${assetEnvVarPrefix.toUpperCase()}_PUBKEYS`
+  const pubkeys = process.env[envVarName]
+  if (!pubkeys) {
+    throw new AdapterInputError({
+      message: `Missing env var ${envVarName}`,
+      statusCode: 400,
+    })
+  }
+  return pubkeys.split(',').map((s) => s.trim()) ?? []
 }
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
@@ -56,8 +70,9 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
     })
   },
   parseResponse: (params, response) => {
-    if (!response.data?.docs?.[0]) {
-      return params.map((param) => {
+    const asset = response?.data?.docs?.[0]
+    return params.map((param) => {
+      if (!asset) {
         return {
           params: param,
           response: {
@@ -65,15 +80,15 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
             statusCode: 502,
           },
         }
-      })
-    }
+      }
 
-    const asset = response.data.docs[0]
-    const timestamps = {
-      providerIndicatedTimeUnixMs: new Date(response.data.docs[0].recordDate).getTime(),
-    }
+      const timestamps = {
+        providerIndicatedTimeUnixMs: new Date(response.data.docs[0].recordDate).getTime(),
+      }
 
-    return params.map((param) => {
+      const pubkeys = getPubKeys(param.envVarPrefix)
+      validateResponseSignature(asset, pubkeys)
+
       if (asset.assetId !== param.assetId) {
         return {
           params: param,
@@ -85,6 +100,16 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         }
       }
       const result = asset.nav
+      if (asset.assetId !== param.assetId) {
+        return {
+          params: param,
+          response: {
+            errorMessage: `The data provider didn't return any value for ${param.assetId}`,
+            statusCode: 502,
+          },
+          timestamps,
+        }
+      }
       return {
         params: param,
         response: {

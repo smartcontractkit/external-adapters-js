@@ -8723,6 +8723,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
+          ["tweetnacl", "npm:1.0.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
