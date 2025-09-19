@@ -1,5 +1,13 @@
 # @chainlink/ea-scripts
 
+## 2.8.4
+
+### Patch Changes
+
+- [#4030](https://github.com/smartcontractkit/external-adapters-js/pull/4030) [`4737106`](https://github.com/smartcontractkit/external-adapters-js/commit/47371062e86192da52c014fd77389e0f536d1749) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete dwolla EA
+
+- [#4024](https://github.com/smartcontractkit/external-adapters-js/pull/4024) [`082bea8`](https://github.com/smartcontractkit/external-adapters-js/commit/082bea83419b42611a380e97d82c89a12ce49e66) Thanks [@dskloetc](https://github.com/dskloetc)! - Deleted dns-record-check adapter
+
 ## 2.8.3
 
 ### Patch Changes
