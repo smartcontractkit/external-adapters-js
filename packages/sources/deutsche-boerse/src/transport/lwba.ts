@@ -105,7 +105,6 @@ export function createLwbaWsTransport() {
       subscribeMessage: (p: { market: string; isin: string }) => {
         if (cache.isEmpty()) {
           cache.activate(p.isin)
-          console.log(p.market)
           const req = create(RequestSchema, {
             event: 'subscribe',
             requestId: BigInt(Date.now()),
