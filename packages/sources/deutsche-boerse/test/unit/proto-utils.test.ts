@@ -10,9 +10,9 @@ import {
 import {
   convertNsToMs,
   decimalToNumber,
-  getIsin,
   isSingleQuoteFrame,
   isSingleTradeFrame,
+  parseIsin,
   pickProviderTime,
 } from '../../src/transport/proto-utils'
 
@@ -42,7 +42,7 @@ describe('proto-utils', () => {
     const md: MarketData = create(MarketDataSchema, {
       Instrmt: { Sym: 'IE00B53L3W79' as string },
     } as any)
-    expect(getIsin(md)).toBe('IE00B53L3W79')
+    expect(parseIsin(md)).toBe('IE00B53L3W79')
   })
 
   test('pickProviderTime', () => {
