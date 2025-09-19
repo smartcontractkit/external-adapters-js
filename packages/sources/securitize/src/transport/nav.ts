@@ -100,16 +100,6 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         }
       }
       const result = asset.nav
-      if (asset.assetId !== param.assetId) {
-        return {
-          params: param,
-          response: {
-            errorMessage: `The data provider didn't return any value for ${param.assetId}`,
-            statusCode: 502,
-          },
-          timestamps,
-        }
-      }
       return {
         params: param,
         response: {
