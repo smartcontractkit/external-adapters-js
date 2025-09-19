@@ -14,7 +14,7 @@ export const TEST_ISIN = 'IE00B53L3W79'
 
 const dec = (m: bigint, e: number) => create(DecimalSchema, { m, e })
 
-const u8 = <S>(schema: any, value: any): Uint8Array => toBinary(schema, value)
+const u8 = (schema: any, value: any): Uint8Array => toBinary(schema, value)
 const toAB = (u: Uint8Array): ArrayBuffer =>
   u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength)
 
