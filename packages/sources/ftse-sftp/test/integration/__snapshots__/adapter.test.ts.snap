@@ -3,7 +3,7 @@
 exports[`execute sftp endpoint should return error for unknown instrument 1`] = `
 {
   "error": {
-    "message": "Unsupported instrument: unknown",
+    "message": "[Param: instrument] input is not one of valid options (FTSE100INDEX,Russell1000INDEX,Russell2000INDEX,Russell3000INDEX)",
     "name": "AdapterError",
   },
   "status": "errored",

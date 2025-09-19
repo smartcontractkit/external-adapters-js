@@ -4,9 +4,9 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { ConnectOptions } from 'ssh2-sftp-client'
-import { BaseEndpointTypes, IndexResponseData, inputParameters } from '../endpoint/sftp'
+import { BaseEndpointTypes, IndexResponseData, inputParameters, Instrument } from '../endpoint/sftp'
 import { CSVParserFactory } from '../parsing/factory'
-import { instrumentToDirectoryMap, instrumentToFileRegexMap, validateInstrument } from './constants'
+import { instrumentToDirectoryMap, instrumentToFileRegexMap } from './constants'
 import { getFileContentsFromFileRegex } from './utils'
 
 const logger = makeLogger('FTSE SFTP Adapter')
@@ -82,13 +82,11 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  private async tryDownloadAndParseFile(instrument: string): Promise<{
+  private async tryDownloadAndParseFile(instrument: Instrument): Promise<{
     filename: string
     result: number
     parsedData: IndexResponseData
   }> {
-    validateInstrument(instrument)
-
     const connectOptions: ConnectOptions = {
       host: this.config.SFTP_HOST,
       port: this.config.SFTP_PORT,

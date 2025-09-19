@@ -1,33 +1,23 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { Instrument } from '../endpoint/sftp'
 
-export const instrumentToDirectoryMap: Record<string, string> = {
-  FTSE100INDEX: '/data/valuation/uk_all_share/',
-  Russell1000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
-  Russell2000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
-  Russell3000INDEX: '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+export const FTSE100INDEX: Instrument = 'FTSE100INDEX'
+export const RUSSELL_1000_INDEX: Instrument = 'Russell1000INDEX'
+export const RUSSELL_2000_INDEX: Instrument = 'Russell2000INDEX'
+export const RUSSELL_3000_INDEX: Instrument = 'Russell3000INDEX'
+
+export const instrumentToDirectoryMap: Record<Instrument, string> = {
+  [FTSE100INDEX]: '/data/valuation/uk_all_share/',
+  [RUSSELL_1000_INDEX]:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  [RUSSELL_2000_INDEX]:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
+  [RUSSELL_3000_INDEX]:
+    '/data/Returns_and_Values/Russell_US_Indexes_Daily_Index_Values_Real_Time_TXT/',
 }
 
-export const instrumentToFileRegexMap: Record<string, RegExp> = {
-  FTSE100INDEX: /^ukallv\d{4}\.csv$/,
-  Russell1000INDEX: /^daily_values_russell_\d{6}\.CSV$/,
-  Russell2000INDEX: /^daily_values_russell_\d{6}\.CSV$/,
-  Russell3000INDEX: /^daily_values_russell_\d{6}\.CSV$/,
-}
-
-/**
- * Validates if an instrument is supported by checking if it has all required mappings
- * @param instrument The instrument identifier to validate
- * @returns true if the instrument is supported, false otherwise
- */
-const isInstrumentSupported = (instrument: string): boolean => {
-  return !!(instrumentToDirectoryMap[instrument] && instrumentToFileRegexMap[instrument])
-}
-
-export const validateInstrument = (instrument: string): void => {
-  if (!isInstrumentSupported(instrument)) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Unsupported instrument: ${instrument}`,
-    })
-  }
+export const instrumentToFileRegexMap: Record<Instrument, RegExp> = {
+  [FTSE100INDEX]: /^ukallv\d{4}\.csv$/,
+  [RUSSELL_1000_INDEX]: /^daily_values_russell_\d{6}\.CSV$/,
+  [RUSSELL_2000_INDEX]: /^daily_values_russell_\d{6}\.CSV$/,
+  [RUSSELL_3000_INDEX]: /^daily_values_russell_\d{6}\.CSV$/,
 }

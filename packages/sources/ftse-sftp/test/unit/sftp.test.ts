@@ -4,6 +4,7 @@ import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adap
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import path from 'path'
 import { BaseEndpointTypes } from '../../src/endpoint/sftp'
+import { FTSE100INDEX } from '../../src/transport/constants'
 import { SftpTransport } from '../../src/transport/sftp'
 
 const originalEnv = { ...process.env }
@@ -111,7 +112,7 @@ describe('SftpTransport', () => {
       mockSftpClient.get.mockResolvedValue(Buffer.from(fileContent, 'latin1'))
 
       const param = makeStub('param', {
-        instrument: 'FTSE100INDEX',
+        instrument: FTSE100INDEX,
       })
       await transport.handleRequest(param)
 
@@ -165,7 +166,7 @@ describe('SftpTransport', () => {
         mockSftpClient.get.mockResolvedValue(Buffer.from(fileContent, 'latin1'))
 
         const param = makeStub('param', {
-          instrument: 'FTSE100INDEX',
+          instrument: FTSE100INDEX,
         })
         const response = await transport._handleRequest(param)
 
@@ -210,7 +211,7 @@ describe('SftpTransport', () => {
         mockSftpClient.get.mockReturnValue(getFilePromise)
 
         const param = makeStub('param', {
-          instrument: 'FTSE100INDEX',
+          instrument: FTSE100INDEX,
         })
 
         const requestTimestamp = Date.now()
