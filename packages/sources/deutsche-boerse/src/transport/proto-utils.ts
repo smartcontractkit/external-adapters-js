@@ -1,26 +1,24 @@
-import type { Data, Decimal, MarketData } from '../gen/md_cef_pb'
-
+import Decimal from 'decimal.js'
+import type {
+  Data as DataProto,
+  Decimal as DecimalProto,
+  MarketData as MarketDataProto,
+} from '../gen/md_cef_pb'
 const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER)
 
-export function decimalToNumber(decimal?: Decimal): number {
-  if (!decimal) {
+export function decimalToNumber(decimal?: DecimalProto): number {
+  if (!decimal || decimal.m === undefined || decimal.e === undefined) {
     throw new Error('Invalid price')
   }
-  const { m, e } = decimal
-  if (m === undefined || e === undefined) {
-    throw new Error('Invalid price')
-  }
+
+  const { m: mantissa, e: exponent } = decimal
 
   // Safety: converting a bigint > Number.MAX_SAFE_INTEGER loses precision.
-  if (m > MAX_SAFE || m < -MAX_SAFE) {
-    throw new Error(`Invalid price due to potential overflow, mantissa: ${m.toString()}`)
+  if (mantissa > MAX_SAFE || mantissa < -MAX_SAFE) {
+    throw new Error(`Invalid price due to potential overflow, mantissa: ${mantissa.toString()}`)
   }
 
-  const n = Number(m) * Math.pow(10, e)
-  if (!Number.isFinite(n)) {
-    throw new Error(`Invalid price due to potential overflow, mantissa: ${m.toString()}`)
-  }
-  return n
+  return new Decimal(mantissa.toString()).times(Decimal.pow(10, exponent)).toNumber()
 }
 
 export function convertNsToMs(t?: bigint): number {
@@ -30,29 +28,29 @@ export function convertNsToMs(t?: bigint): number {
   return Math.floor(Number(t) / 1e6)
 }
 
-export function getIsin(md: MarketData): string | undefined {
+export function parseIsin(md: MarketDataProto): string | undefined {
   const instr = md.Instrmt
   if (!instr) return
   const sym = instr.Sym
   return (typeof sym === 'string' && sym) || undefined
 }
 
-export function pickProviderTime(dat: Data): number {
+export function pickProviderTime(dat: DataProto): number {
   return convertNsToMs(dat?.Tm)
 }
 
-export function isDecimalPrice(x?: Decimal): boolean {
+export function isDecimalPrice(x?: DecimalProto): boolean {
   return (
     !!x && (typeof x.m === 'bigint' || typeof (x as any).m === 'number') && typeof x.e === 'number'
   )
 }
 
 // true if this frame is exactly a "single trade price"
-export function isSingleTradeFrame(dat?: Data): boolean {
+export function isSingleTradeFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Px)
 }
 
 // true if this frame carries only a single best bid/offer (not multui-level)
-export function isSingleQuoteFrame(dat?: Data): boolean {
+export function isSingleQuoteFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Bid?.Px) && isDecimalPrice(dat?.Offer?.Px)
 }

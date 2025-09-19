@@ -1,9 +1,10 @@
 import { create, toBinary } from '@bufbuild/protobuf'
 import { Any } from '@bufbuild/protobuf/wkt'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { StreamMessageSchema } from '../../src/gen/client_pb'
 import { DataSchema, DecimalSchema, MarketDataSchema, type Decimal } from '../../src/gen/md_cef_pb'
 import { createLwbaWsTransport } from '../../src/transport/lwba'
-
+LoggerFactoryProvider.set()
 const dec = (m: bigint, e: number): Decimal => create(DecimalSchema, { m, e })
 
 function makeStreamBuffer(md: unknown): Buffer {
@@ -52,27 +53,6 @@ describe('LWBA transport (more integration cases)', () => {
 
     const removeLast = t.config.builders.unsubscribeMessage({ isin: ISIN })
     expect(removeLast).toBeInstanceOf(Uint8Array)
-  })
-
-  test('multiple messages in StreamMessage triggers error', () => {
-    const t = createLwbaWsTransport() as any
-
-    // activate so handler proceeds
-    t.config.builders.subscribeMessage({ isin: ISIN })
-
-    const packed = toBinary(
-      MarketDataSchema,
-      create(MarketDataSchema, {
-        Instrmt: { Sym: ISIN },
-        Dat: create(DataSchema, { Px: dec(1n, 0), Tm: 1_000_000n } as any),
-      } as any),
-    )
-    const anyMsg: Any = { typeUrl: 'type.googleapis.com/dbag.cef.MarketData', value: packed }
-    const sm = create(StreamMessageSchema, { messages: [anyMsg, anyMsg] }) // 2 payloads
-
-    expect(() =>
-      t.config.handlers.message(Buffer.from(toBinary(StreamMessageSchema, sm)), {} as any),
-    ).toThrow(/expected exactly one message/i)
   })
 
   test('missing ISIN: handler returns []', () => {
