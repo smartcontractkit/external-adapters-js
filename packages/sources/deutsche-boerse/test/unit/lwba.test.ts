@@ -1,5 +1,5 @@
-import { create, toBinary, type PartialMessage } from '@bufbuild/protobuf'
-import { Any } from '@bufbuild/protobuf/wkt'
+import { create, toBinary, type PlainMessage } from '@bufbuild/protobuf'
+import { AnySchema } from '@bufbuild/protobuf/wkt'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { StreamMessageSchema } from '../../src/gen/client_pb'
 import {
@@ -14,13 +14,21 @@ LoggerFactoryProvider.set()
 const dec = (m: bigint, e: number): Decimal => create(DecimalSchema, { m, e })
 const MARKET = 'md-xetraetfetp'
 
-function makeStreamBuffer(md: PartialMessage<MarketData> | MarketData): Buffer {
-  const mdMsg = create(MarketDataSchema, md)
-  const anyMsg: Any = {
+function makeStreamBuffer(md: PlainMessage<typeof MarketDataSchema> | MarketData): Buffer {
+  const mdMsg = create(MarketDataSchema, md as any)
+
+  // Build a proper google.protobuf.Any message
+  const anyMsg = create(AnySchema, {
     typeUrl: `type.googleapis.com/${MarketDataSchema.typeName}`, // "dbag.cef.MarketData"
     value: toBinary(MarketDataSchema, mdMsg),
-  }
-  const sm = create(StreamMessageSchema, { subs: MARKET, messages: [anyMsg] })
+  })
+
+  // Wrap in the stream envelope
+  const sm = create(StreamMessageSchema, {
+    subs: MARKET, // optional
+    messages: [anyMsg],
+  })
+
   return Buffer.from(toBinary(StreamMessageSchema, sm))
 }
 describe('LWBA transport (more integration cases)', () => {
