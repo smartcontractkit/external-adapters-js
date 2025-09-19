@@ -11,6 +11,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description: 'Abstract identifier of the index to fetch the data for',
+      options: ['FTSE100INDEX', 'Russell1000INDEX', 'Russell2000INDEX', 'Russell3000INDEX'],
     },
   },
   [
@@ -29,7 +30,7 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export type TInputParameters = typeof inputParameters.definition
+export type Instrument = (typeof inputParameters.validated)['instrument']
 
 /**
  * Union type for all possible response data structures
@@ -41,6 +42,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: number
     Data: {
+      filename: string
       result: IndexResponseData
     }
   }
@@ -48,7 +50,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'ftse_sftp',
+  name: 'sftp',
   transport: sftpTransport,
   inputParameters,
 })

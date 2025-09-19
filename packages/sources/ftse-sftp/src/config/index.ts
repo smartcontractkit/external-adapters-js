@@ -24,6 +24,11 @@ export const config = new AdapterConfig({
     sensitive: true,
     required: true,
   },
+  SFTP_READY_TIMEOUT_MS: {
+    description: 'How long (in milliseconds) to wait for the SSH handshake to complete',
+    type: 'number',
+    default: 30000,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

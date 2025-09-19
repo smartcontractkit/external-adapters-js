@@ -1,3 +1,1 @@
-import * as sftp from './sftp'
-
-export { sftp }
+export { endpoint as sftp } from './sftp'

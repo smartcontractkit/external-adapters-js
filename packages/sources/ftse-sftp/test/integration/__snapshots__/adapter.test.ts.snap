@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute sftp endpoint should return error for unknown instrument 1`] = `
+{
+  "error": {
+    "message": "[Param: instrument] input is not one of valid options (FTSE100INDEX,Russell1000INDEX,Russell2000INDEX,Russell3000INDEX)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute sftp endpoint should return success for FTSE100INDEX 1`] = `
+{
+  "data": {
+    "filename": "ukallv0209.csv",
+    "result": {
+      "gbpIndex": 9116.68749114,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "UKX",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  },
+  "result": 9116.68749114,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell1000INDEX 1`] = `
+{
+  "data": {
+    "filename": "daily_values_russell_250827.CSV",
+    "result": {
+      "close": 3547.4,
+      "indexName": "Russell 1000® Index",
+    },
+  },
+  "result": 3547.4,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell2000INDEX 1`] = `
+{
+  "data": {
+    "filename": "daily_values_russell_250827.CSV",
+    "result": {
+      "close": 2373.8,
+      "indexName": "Russell 2000® Index",
+    },
+  },
+  "result": 2373.8,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute sftp endpoint should return success for Russell3000INDEX 1`] = `
+{
+  "data": {
+    "filename": "daily_values_russell_250827.CSV",
+    "result": {
+      "close": 3690.93,
+      "indexName": "Russell 3000® Index",
+    },
+  },
+  "result": 3690.93,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
