@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export type Quote = {
   bid?: number
   ask?: number
@@ -27,9 +29,10 @@ export class InstrumentQuoteCache {
     if (!quote) {
       throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
     }
+    const mid = new Decimal(bid).plus(ask).div(2)
     quote.bid = bid
     quote.ask = ask
-    quote.mid = (bid + ask) / 2
+    quote.mid = mid.toNumber()
     quote.quoteProviderTimeUnixMs = providerTime
   }
   addTrade(isin: string, lastPrice: number, providerTime: number) {
