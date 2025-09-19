@@ -6,38 +6,36 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockWebsocketServer } from './fixtures'
+import { mockWebsocketServer, STREAM, TEST_ISIN } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
-  const wsEndpoint = 'ws://localhost:9090'
+  const wsBase = 'ws://localhost:9090'
+  const wsFull = `${wsBase}/stream?format=proto`
   let oldEnv: NodeJS.ProcessEnv
 
   const dataLwba = {
-    base: 'ETH',
-    quote: 'USD',
-    endpoint: 'lwba',
-    transport: 'ws',
+    isin: TEST_ISIN,
+    market: STREAM,
   }
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'fake-api-key'
-    mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    oldEnv = { ...process.env }
+    process.env.WS_API_ENDPOINT = wsBase
+    process.env.API_KEY = 'fake-api-key'
 
-    const adapter = (await import('./../../src')).adapter
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWsServer = mockWebsocketServer(wsFull)
+
+    const { adapter } = await import('./../../src')
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // Send initial request to start background execute and wait for cache to be filled with results
-
     await testAdapter.request(dataLwba)
-    await testAdapter.waitForCache(1)
+    await testAdapter.waitForCache()
   })
 
   afterAll(async () => {
@@ -48,9 +46,28 @@ describe('websocket', () => {
   })
 
   describe('lwba endpoint', () => {
-    it('should return success', async () => {
+    it('returns success and exposes quote/trade fields', async () => {
       const response = await testAdapter.request(dataLwba)
-      expect(response.json()).toMatchSnapshot()
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.statusCode).toBe(200)
+      expect(body).toHaveProperty('data')
+      const d = body.data
+      expect(d).toHaveProperty('bid')
+      expect(d).toHaveProperty('ask')
+      expect(d).toHaveProperty('mid')
+      expect(d).toHaveProperty('latestPrice')
+      expect(d).toHaveProperty('quoteProviderIndicatedTimeUnixMs')
+      expect(d).toHaveProperty('tradeProviderIndicatedTimeUnixMs')
+      const numOrNull = (v: unknown) => v === null || typeof v === 'number'
+      expect(numOrNull(d.bid)).toBe(true)
+      expect(numOrNull(d.ask)).toBe(true)
+      expect(numOrNull(d.mid)).toBe(true)
+      expect(numOrNull(d.latestPrice)).toBe(true)
+      expect(numOrNull(d.quoteProviderIndicatedTimeUnixMs)).toBe(true)
+      expect(numOrNull(d.tradeProviderIndicatedTimeUnixMs)).toBe(true)
+      expect(body).toMatchSnapshot()
     })
   })
 })

@@ -6,14 +6,22 @@ import { wsTransport } from '../transport/lwba'
 export const inputParameters = new InputParameters(
   {
     isin: {
-      aliases: ['instrument'],
+      aliases: ['instrument', 'ISIN'],
       required: true,
       type: 'string',
       description: 'The ISIN identifier of the instrument to query',
     },
+    market: {
+      aliases: ['stream'],
+      required: true,
+      type: 'string',
+      description: 'The market identifier of the stream to query',
+      options: ['md-xetraetfetp'],
+    },
   },
   [
     {
+      market: 'md-xetraetfetp',
       isin: 'IE00B53L3W79',
     },
   ],

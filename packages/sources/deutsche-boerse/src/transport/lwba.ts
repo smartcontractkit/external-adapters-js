@@ -12,9 +12,9 @@ import { MarketDataSchema } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache } from './instrument-quote-cache'
 import {
   decimalToNumber,
-  getIsin,
   isSingleQuoteFrame,
   isSingleTradeFrame,
+  parseIsin,
   pickProviderTime,
 } from './proto-utils'
 import { ProtobufWsTransport } from './protobuf-wstransport'
@@ -41,65 +41,101 @@ export function createLwbaWsTransport() {
 
     handlers: {
       open: (_connetion) => {
-        console.log('Connected to Deutsche Börse LWBA WebSocket')
+        logger.info('LWBA websocket connection established')
       },
       error: (errorEvent, _context) => {
-        console.log('Deutsche Börse LWBA WebSocket error', JSON.stringify(errorEvent))
+        logger.error({ errorEvent }, 'LWBA websocket error')
       },
-      close: (_errorEvent, _context) => {
-        console.log('Deutsche Börse LWBA WebSocket closed', JSON.stringify(_errorEvent))
+      close: (closeEvent, _context) => {
+        const code = (closeEvent as any)?.code
+        const reason = (closeEvent as any)?.reason
+        const wasClean = (closeEvent as any)?.wasClean
+        logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
       },
       message(buf) {
-        const sm = fromBinary(StreamMessageSchema, buf)
+        logger.debug(
+          {
+            payloadType: Buffer.isBuffer(buf) ? 'buffer' : typeof buf,
+            byteLength: Buffer.isBuffer(buf) ? buf.byteLength : undefined,
+          },
+          'LWBA websocket message received',
+        )
+        let sm: ReturnType<typeof fromBinary<typeof StreamMessageSchema>>
+        try {
+          sm = fromBinary(StreamMessageSchema, buf)
+        } catch (err) {
+          logger.error({ err }, 'Failed to decode Client.StreamMessage from binary')
+          return []
+        }
 
         // Enforce exactly ONE payload
         const msgs = sm.messages ?? []
         if (msgs.length !== 1) {
-          throw new Error(
-            `Expected exactly one message in StreamMessage.messages, got ${msgs.length}`,
+          logger.warn({ count: msgs.length }, 'Expected exactly one Any message in StreamMessage')
+          return []
+        }
+        const market = 'md-xetraetfetp' // currently only one supported market/stream
+        const anyMsg = msgs[0]
+        // Decode MarketData
+        let md: ReturnType<typeof fromBinary<typeof MarketDataSchema>>
+        try {
+          md = fromBinary(MarketDataSchema, anyMsg.value)
+        } catch (err) {
+          logger.error(
+            { err, typeUrl: anyMsg.typeUrl },
+            'Failed to decode MarketData from Any.value',
           )
+          return []
         }
 
-        const anyMsg = msgs[0]
-
-        // Decode MarketData
-        const md = fromBinary(MarketDataSchema, anyMsg.value)
-        const isin = getIsin(md)
+        const isin = parseIsin(md)
         const dat: any = (md as any)?.Dat ?? ({} as any)
 
         if (!isin) {
-          console.log(md)
-          logger.error('Could not parse ISIN', md)
+          logger.warn({ md }, 'Could not parse ISIN from MarketData.Instrmt.Sym')
           return []
         }
 
         if (!cache.has(isin)) {
+          logger.debug({ isin }, 'Ignoring message for inactive instrument (not in cache)')
           return []
-          // throw new Error('Missing ISIN (Instrmt.AltID/Sym not present)')
         }
         const quote = cache.get(isin)! // exists due to has() guard above
 
         const providerTime = pickProviderTime(dat)
         if (isSingleTradeFrame(dat)) {
-          console.log('Single trade')
           const latestPrice = decimalToNumber(dat.Px)
           cache.addTrade(isin, latestPrice, providerTime)
+          logger.debug(
+            { isin, latestPrice, providerTimeUnixMs: providerTime },
+            'Processed single trade frame',
+          )
         } else if (isSingleQuoteFrame(dat)) {
-          console.log('Single quote')
           const bidPx = decimalToNumber(dat!.Bid!.Px)
           const askPx = decimalToNumber(dat!.Offer!.Px)
           cache.addQuote(isin, bidPx, askPx, providerTime)
+          logger.debug(
+            {
+              isin,
+              bid: bidPx,
+              ask: askPx,
+              mid: (bidPx + askPx) / 2,
+              providerTimeUnixMs: providerTime,
+            },
+            'Processed single quote frame',
+          )
         } else {
           // ignore all other market data variants
+          logger.debug(
+            { isin, keys: Object.keys(dat ?? {}) },
+            'Ignoring unsupported market data frame',
+          )
           return []
         }
 
-        console.log(isin)
-        // console.log(dat)
-
         return [
           {
-            params: { isin },
+            params: { isin, market },
             response: {
               result: null,
               data: {
@@ -119,36 +155,52 @@ export function createLwbaWsTransport() {
       },
     },
     builders: {
-      subscribeMessage: (p: { isin: string }) => {
+      subscribeMessage: (p: { market: string; isin: string }) => {
         if (cache.isEmpty()) {
           cache.activate(p.isin)
           const req = create(RequestSchema, {
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: [{ stream: 'md-xetraetfetp' }], // startTime/startSeq default to 0n
+              stream: [{ stream: p.market }], // startTime/startSeq default to 0n
             }),
           })
+          logger.info(
+            { isin: p.isin, market: p.market },
+            'Building initial subscribe request (first instrument activates stream)',
+          )
           return toBinary(RequestSchema, req)
         } else {
           cache.activate(p.isin)
-          return undefined // Explicitly return undefined instead of implicit return
+          logger.debug(
+            { isin: p.isin, market: p.market },
+            'Instrument activated; stream already subscribed, no outbound subscribe message sent',
+          )
+          return undefined
         }
       },
 
-      unsubscribeMessage: (p: { isin: string }) => {
+      unsubscribeMessage: (p: { market: string; isin: string }) => {
         cache.deactivate(p.isin)
         if (cache.isEmpty()) {
           const req = create(RequestSchema, {
             event: 'unsubscribe',
             requestId: BigInt(Date.now()),
             unsubscribe: create(UnsubscribeSchema, {
-              stream: ['md-xetraetfetp'],
+              stream: [p.market],
             }),
           })
+          logger.info(
+            { isin: p.isin, market: p.market },
+            'All instruments deactivated; building unsubscribe request',
+          )
           return toBinary(RequestSchema, req)
         } else {
-          return undefined // Explicitly return undefined instead of implicit return
+          logger.debug(
+            { isin: p.isin, market: p.market },
+            'Instrument deactivated; other instruments still active, no outbound unsubscribe sent',
+          )
+          return undefined
         }
       },
     },
