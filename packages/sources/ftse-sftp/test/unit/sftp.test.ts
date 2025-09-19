@@ -43,6 +43,7 @@ describe('SftpTransport', () => {
   const SFTP_PORT = 22
   const SFTP_USERNAME = 'username'
   const SFTP_PASSWORD = 'password'
+  const SFTP_READY_TIMEOUT_MS = 30000
   const BACKGROUND_EXECUTE_MS = 1500
 
   const adapterSettings = makeStub('adapterSettings', {
@@ -50,6 +51,7 @@ describe('SftpTransport', () => {
     SFTP_PORT,
     SFTP_USERNAME,
     SFTP_PASSWORD,
+    SFTP_READY_TIMEOUT_MS,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     MAX_COMMON_KEY_SIZE: 300,

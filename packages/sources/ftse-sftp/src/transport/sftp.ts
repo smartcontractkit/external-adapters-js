@@ -91,7 +91,7 @@ export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       port: this.config.SFTP_PORT,
       username: this.config.SFTP_USERNAME,
       password: this.config.SFTP_PASSWORD,
-      readyTimeout: 30000,
+      readyTimeout: this.config.SFTP_READY_TIMEOUT_MS,
     }
 
     const directory = instrumentToDirectoryMap[instrument]
