@@ -15,7 +15,6 @@ type RequestParams = typeof inputParameters.validated
 
 export class SftpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
-  endpointName!: string
 
   constructor() {
     super()
