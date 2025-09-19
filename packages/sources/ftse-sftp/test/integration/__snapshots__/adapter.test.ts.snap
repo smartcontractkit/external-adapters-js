@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute ftse_sftp endpoint should return success for FTSE100INDEX 1`] = `
+{
+  "data": {
+    "result": {
+      "gbpIndex": 8045.12345678,
+      "indexBaseCurrency": "GBP",
+      "indexCode": "UKX",
+      "indexSectorName": "FTSE 100 Index",
+      "numberOfConstituents": 100,
+    },
+  },
+  "result": 8045.12345678,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute ftse_sftp endpoint should return success for Russell1000INDEX 1`] = `
+{
+  "data": {
+    "result": {
+      "close": 2654.123456,
+      "indexName": "Russell 1000® Index",
+    },
+  },
+  "result": 2654.123456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute ftse_sftp endpoint should return success for Russell2000INDEX 1`] = `
+{
+  "data": {
+    "result": {
+      "close": 1987.654321,
+      "indexName": "Russell 2000® Index",
+    },
+  },
+  "result": 1987.654321,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`execute ftse_sftp endpoint should return success for Russell3000INDEX 1`] = `
+{
+  "data": {
+    "result": {
+      "close": 3456.789012,
+      "indexName": "Russell 3000® Index",
+    },
+  },
+  "result": 3456.789012,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

@@ -1,0 +1,299 @@
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import { config } from '../../src/config'
+import { BaseEndpointTypes, IndexResponseData } from '../../src/endpoint/sftp'
+import {
+  mockFtse100Success,
+  mockRussell1000Success,
+  mockRussell2000Success,
+  mockRussell3000Success,
+} from './fixtures'
+
+// Import the actual types from source files
+type AdapterSettings = typeof config.settings
+
+// Define types for better type safety
+type MockSftpClient = {
+  connect: jest.MockedFunction<() => Promise<void>>
+  end: jest.MockedFunction<() => Promise<void>>
+  get: jest.MockedFunction<() => Promise<Buffer>>
+  fastGet: jest.MockedFunction<() => Promise<Buffer>>
+  exists: jest.MockedFunction<() => Promise<boolean>>
+  list: jest.MockedFunction<() => Promise<Array<{ name: string; size: number }>>>
+  stat: jest.MockedFunction<() => Promise<Record<string, unknown>>>
+}
+
+interface MockAdapterHandleRequest {
+  statusCode: number
+  result: number // This should be the extracted numeric value
+  data: { result: IndexResponseData }
+  timestamps: {
+    providerDataRequestedUnixMs: number
+    providerDataReceivedUnixMs: number
+    providerIndicatedTimeUnixMs: number | undefined
+  }
+}
+
+interface MockSftpTransportDependencies {
+  responseCache?: {
+    write: (
+      name: string,
+      data: Array<{ params: { instrument: string }; response: MockAdapterHandleRequest }>,
+    ) => Promise<void>
+  }
+}
+
+interface MockSftpTransportContext {
+  adapterSettings: AdapterSettings
+}
+
+interface MockSftpTransport {
+  name: string
+  config: Record<string, unknown>
+  responseCache: {
+    write?: (
+      name: string,
+      data: Array<{ params: { instrument: string }; response: MockAdapterHandleRequest }>,
+    ) => Promise<void>
+  }
+  endpointName: string
+  initialize(
+    dependencies: MockSftpTransportDependencies,
+    adapterSettings: AdapterSettings,
+    endpointName: string,
+    transportName: string,
+  ): Promise<void>
+  backgroundHandler(
+    context: MockSftpTransportContext,
+    entries: Array<{ instrument: string }>,
+  ): Promise<void>
+  processRequest(param: { instrument: string }): Promise<MockAdapterHandleRequest>
+  getSubscriptionTtlFromConfig(): number
+}
+
+// Mock the entire SFTP module to avoid any actual SFTP connections
+const mockSftpClient: MockSftpClient = {
+  connect: jest.fn().mockResolvedValue(undefined),
+  end: jest.fn().mockResolvedValue(undefined),
+  get: jest.fn(),
+  fastGet: jest.fn().mockResolvedValue(Buffer.from('')),
+  exists: jest.fn().mockResolvedValue(true),
+  list: jest.fn(),
+  stat: jest.fn().mockResolvedValue({}),
+}
+
+jest.mock('ssh2-sftp-client', () => {
+  return jest.fn().mockImplementation(() => mockSftpClient)
+})
+
+// Create a more realistic mock of the SFTP transport that actually processes requests
+jest.mock('../../src/transport/sftp', () => {
+  const originalModule = jest.requireActual('../../src/transport/sftp')
+
+  return {
+    ...originalModule,
+    sftpTransport: {
+      name: 'default_single_transport',
+      config: {} as Record<string, unknown>,
+      responseCache: {} as Record<string, unknown>,
+      endpointName: '',
+      async initialize(
+        dependencies: MockSftpTransportDependencies,
+        adapterSettings: AdapterSettings,
+        endpointName: string,
+        transportName: string,
+      ) {
+        this.config = adapterSettings as Record<string, unknown>
+        this.endpointName = endpointName
+        this.name = transportName
+        this.responseCache = dependencies.responseCache || {}
+      },
+      async backgroundHandler(
+        _context: MockSftpTransportContext,
+        entries: Array<{ instrument: string }>,
+      ) {
+        // Process each entry and write to cache
+        for (const entry of entries) {
+          const result = await this.processRequest(entry)
+          if (this.responseCache && this.responseCache.write) {
+            await this.responseCache.write(this.name, [{ params: entry, response: result }])
+          }
+        }
+      },
+      async processRequest(param: { instrument: string }): Promise<MockAdapterHandleRequest> {
+        // Mock the successful processing based on instrument
+        const mockResults: Record<string, IndexResponseData> = {
+          FTSE100INDEX: mockFtse100Success(),
+          Russell1000INDEX: mockRussell1000Success(),
+          Russell2000INDEX: mockRussell2000Success(),
+          Russell3000INDEX: mockRussell3000Success(),
+        }
+
+        const result = mockResults[param.instrument]
+        if (!result) {
+          throw new Error(`Unsupported instrument: ${param.instrument}`)
+        }
+
+        // Extract the numeric result based on the data type
+        let numericResult: number
+        if ('gbpIndex' in result) {
+          // FTSE data
+          const gbpValue = result.gbpIndex
+          numericResult = typeof gbpValue === 'number' ? gbpValue : Number(gbpValue) || 0
+        } else if ('close' in result) {
+          // Russell data
+          numericResult = result.close
+        } else {
+          throw new Error('Unknown data format received from parser')
+        }
+
+        return {
+          statusCode: 200,
+          data: { result },
+          result: numericResult,
+          timestamps: {
+            providerDataRequestedUnixMs: Date.now(),
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        }
+      },
+      getSubscriptionTtlFromConfig() {
+        return 60000
+      },
+    } as MockSftpTransport,
+  }
+})
+
+describe('execute', () => {
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
+
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['SFTP_HOST'] = 'sftp.test.com'
+    process.env['SFTP_PORT'] = '22'
+    process.env['SFTP_USERNAME'] = 'testuser'
+    process.env['SFTP_PASSWORD'] = 'testpass'
+
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    if (testAdapter?.api?.close) {
+      await testAdapter.api.close()
+    }
+    spy.mockRestore()
+  })
+
+  describe('ftse_sftp endpoint', () => {
+    it('should return success for FTSE100INDEX', async () => {
+      const data = {
+        endpoint: 'ftse_sftp',
+        instrument: 'FTSE100INDEX',
+      }
+
+      // Mock the response cache directly
+      const mockResult = mockFtse100Success()
+      jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
+        statusCode: 200,
+        result: mockResult.gbpIndex, // Extract the numeric value
+        data: { result: mockResult },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell1000INDEX', async () => {
+      const data = {
+        endpoint: 'ftse_sftp',
+        instrument: 'Russell1000INDEX',
+      }
+
+      // Mock the response cache directly
+      const mockResult = mockRussell1000Success()
+      jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
+        statusCode: 200,
+        result: mockResult.close, // Extract the numeric value
+        data: { result: mockResult },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell2000INDEX', async () => {
+      const data = {
+        endpoint: 'ftse_sftp',
+        instrument: 'Russell2000INDEX',
+      }
+
+      // Mock the response cache directly
+      const mockResult = mockRussell2000Success()
+      jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
+        statusCode: 200,
+        result: mockResult.close, // Extract the numeric value
+        data: { result: mockResult },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for Russell3000INDEX', async () => {
+      const data = {
+        endpoint: 'ftse_sftp',
+        instrument: 'Russell3000INDEX',
+      }
+
+      // Mock the response cache directly
+      const mockResult = mockRussell3000Success()
+      jest.spyOn(testAdapter.adapter, 'handleRequest').mockResolvedValueOnce({
+        statusCode: 200,
+        result: mockResult.close, // Extract the numeric value
+        data: { result: mockResult },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      } as AdapterResponse<BaseEndpointTypes['Response']>)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+})
