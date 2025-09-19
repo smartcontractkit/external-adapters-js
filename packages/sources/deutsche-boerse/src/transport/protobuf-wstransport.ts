@@ -13,13 +13,19 @@ export class ProtobufWsTransport<
     if (payload === undefined || payload === null) {
       return null
     }
-    if (Buffer.isBuffer(payload)) return payload
-    if (payload instanceof ArrayBuffer) return Buffer.from(new Uint8Array(payload))
+    if (Buffer.isBuffer(payload)) {
+      return payload
+    }
+    if (payload instanceof ArrayBuffer) {
+      return Buffer.from(new Uint8Array(payload))
+    }
     if (ArrayBuffer.isView(payload)) {
       const v = payload as ArrayBufferView
       return Buffer.from(v.buffer, v.byteOffset, v.byteLength)
     }
-    if (typeof payload === 'string') return Buffer.from(payload, 'utf8')
+    if (typeof payload === 'string') {
+      return Buffer.from(payload, 'utf8')
+    }
     return Buffer.from(JSON.stringify(payload), 'utf8')
   }
 
@@ -30,17 +36,22 @@ export class ProtobufWsTransport<
   ): Promise<void> {
     const messages = [...subscribes, ...unsubscribes]
       .map((m) => this.toRawData(m))
-      .filter((m): m is Buffer => m !== null) // Filter out null values
-    for (const m of messages) this.wsConnection?.send(m)
+      .filter((m): m is Buffer => m !== null)
+
+    console.log(messages)
+    messages.forEach((m) => this.wsConnection?.send(m))
   }
 
   deserializeMessage(data: WebSocket.Data): T['Provider']['WsMessage'] {
     if (Array.isArray(data) && data.every(Buffer.isBuffer)) {
       return Buffer.concat(data as Buffer[]) as unknown as T['Provider']['WsMessage']
     }
-    if (Buffer.isBuffer(data)) return data as unknown as T['Provider']['WsMessage']
-    if (data instanceof ArrayBuffer)
+    if (Buffer.isBuffer(data)) {
+      return data as unknown as T['Provider']['WsMessage']
+    }
+    if (data instanceof ArrayBuffer) {
       return Buffer.from(new Uint8Array(data)) as unknown as T['Provider']['WsMessage']
+    }
     if (ArrayBuffer.isView(data)) {
       const v = data as ArrayBufferView
       return Buffer.from(

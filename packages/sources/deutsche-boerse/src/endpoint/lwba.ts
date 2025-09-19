@@ -3,6 +3,9 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { wsTransport } from '../transport/lwba'
 
+export const MARKETS = ['md-xetraetfetp'] as const
+export type Market = (typeof MARKETS)[number]
+
 export const inputParameters = new InputParameters(
   {
     isin: {
@@ -16,7 +19,7 @@ export const inputParameters = new InputParameters(
       required: true,
       type: 'string',
       description: 'The market identifier of the stream to query',
-      options: ['md-xetraetfetp'],
+      options: [...MARKETS],
     },
   },
   [

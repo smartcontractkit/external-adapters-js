@@ -40,9 +40,7 @@ export function pickProviderTime(dat: DataProto): number {
 }
 
 export function isDecimalPrice(x?: DecimalProto): boolean {
-  return (
-    !!x && (typeof x.m === 'bigint' || typeof (x as any).m === 'number') && typeof x.e === 'number'
-  )
+  return !!x && (typeof x.m === 'bigint' || typeof x.m === 'number') && typeof x.e === 'number'
 }
 
 // true if this frame is exactly a "single trade price"
