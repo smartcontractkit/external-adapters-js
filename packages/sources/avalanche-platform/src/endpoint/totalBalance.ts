@@ -1,43 +1,58 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  PoRBalanceEndpoint,
+  PoRBalanceResponse,
+} from '@chainlink/external-adapter-framework/adapter/por'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
-import { customSubscriptionTransport } from '../transport/totalBalance'
+import { totalBalanceTransport } from '../transport/totalBalance'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    addresses: {
+      aliases: ['result'],
+      array: true,
+      type: {
+        address: {
+          type: 'string',
+          description: 'an address to get the balance of',
+          required: true,
+        },
+      },
+      description:
+        'An array of addresses to get the balances of (as an object with string `address` as an attribute)',
       required: true,
-      type: 'string',
-      description: 'The symbol of symbols of the currency to query',
     },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
+    assetId: {
       type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The ID of the asset to get the balance for',
+      default: 'FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z', // AVAX asset ID
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      addresses: [
+        {
+          address: 'P-avax1tnuesf6cqwnjw7fxjyk7lhch0vhf0v95wj5jvy',
+        },
+      ],
+      assetId: 'FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: PoRBalanceResponse & {
+    Data: {
+      decimals: number
+    }
+  }
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PoRBalanceEndpoint({
   name: 'totalBalance',
   aliases: [],
-  transport: customSubscriptionTransport,
+  transport: totalBalanceTransport,
   inputParameters,
-  overrides: overrides['avalanche-platform'],
 })
