@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- [#4020](https://github.com/smartcontractkit/external-adapters-js/pull/4020) [`2f9d34f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f9d34f2139db1e4b3b6e9529e50b8135f9c4149) Thanks [@dskloetc](https://github.com/dskloetc)! - Add solana-balance endpoint
+
 ## 3.1.0
 
 ### Minor Changes

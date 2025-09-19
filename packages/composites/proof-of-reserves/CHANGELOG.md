@@ -1,5 +1,18 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.30.0
+
+### Minor Changes
+
+- [#4023](https://github.com/smartcontractkit/external-adapters-js/pull/4023) [`5ecf6a2`](https://github.com/smartcontractkit/external-adapters-js/commit/5ecf6a236b59776545c4b5db5fda3f72be6d41e0) Thanks [@dskloetc](https://github.com/dskloetc)! - Skip custom logic for token-balance when solana-balance endpoint is used
+
+### Patch Changes
+
+- Updated dependencies [[`2f9d34f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f9d34f2139db1e4b3b6e9529e50b8135f9c4149), [`c06b5ea`](https://github.com/smartcontractkit/external-adapters-js/commit/c06b5eada4043e8370d14f67a5b08efae35817a7)]:
+  - @chainlink/token-balance-adapter@3.2.0
+  - @chainlink/eth-balance-adapter@2.1.11
+  - @chainlink/renvm-address-set-adapter@1.5.125
+
 ## 1.29.0
 
 ### Minor Changes
