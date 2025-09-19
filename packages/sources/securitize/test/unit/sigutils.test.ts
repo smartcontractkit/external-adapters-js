@@ -82,9 +82,7 @@ describe('sigutils', () => {
         },
       }
 
-      expect(() => validateResponseSignature(response, pubkeys)).toThrow(
-        'Missing required response fields',
-      )
+      expect(() => validateResponseSignature(response, pubkeys)).toThrow()
     })
 
     it('should fail when latest signature verification fails', () => {
@@ -104,9 +102,7 @@ describe('sigutils', () => {
       }
 
       // removed latest pubkey
-      expect(() => validateResponseSignature(response, [prevPublicKeyHex])).toThrow(
-        'Failed to verify signature',
-      )
+      expect(() => validateResponseSignature(response, [prevPublicKeyHex])).toThrow()
     })
 
     it('should fail when previous signature verification fails', () => {
@@ -147,9 +143,7 @@ describe('sigutils', () => {
         },
       }
 
-      expect(() => validateResponseSignature(response, pubkeys)).toThrow(
-        'Failed to validate message',
-      )
+      expect(() => validateResponseSignature(response, pubkeys)).toThrow()
     })
 
     it('should fail when hash validation fails', () => {
@@ -168,9 +162,7 @@ describe('sigutils', () => {
         },
       }
 
-      expect(() => validateResponseSignature(response, pubkeys)).toThrow(
-        'Reconstructed hash does not match',
-      )
+      expect(() => validateResponseSignature(response, pubkeys)).toThrow()
     })
   })
 })

@@ -37,7 +37,7 @@ function validateMessage(response: SingleResponseSchema, includePrevious: boolea
   // actualMessage !== expectedMessage
   const trimmedActualMessage = actualMessage.replace(/\|\|$/, '')
   if (!expectedMessage.startsWith(trimmedActualMessage)) {
-    const message = 'Failed to validate message'
+    const message = `Failed to validate message, expected message ${expectedMessage} does not match actual ${trimmedActualMessage}`
     logger.error(message)
     throw new AdapterError({
       statusCode: 502,
@@ -59,7 +59,7 @@ function verifySignatureFromHex(
   })
 
   if (!verifyResults.some((result) => result)) {
-    const message = 'Failed to verify signature'
+    const message = `Failed to verify signature ${signatureHex}`
     logger.error(message)
     throw new AdapterError({
       statusCode: 502,
@@ -75,7 +75,7 @@ function validateHash(contentHex: string, responseHashHex: string) {
   const responseHash = responseHashHex.replace(/^0x/, '')
 
   if (contentHash !== responseHash) {
-    const message = 'Reconstructed hash does not match'
+    const message = `Reconstructed hash from content ${contentHash} does not match responseHash ${responseHash}`
     logger.error(message)
     throw new AdapterError({
       statusCode: 502,
@@ -109,7 +109,7 @@ function validateRequiredFields(response: SingleResponseSchema, includePrevious:
   }
 
   if (requiredFields.some((field) => !field)) {
-    const message = 'Missing required response fields'
+    const message = `Missing required response fields, response: ${JSON.stringify(response)}`
     logger.error(message)
     throw new AdapterError({
       statusCode: 502,
