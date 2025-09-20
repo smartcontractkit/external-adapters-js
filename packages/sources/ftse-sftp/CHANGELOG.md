@@ -1,5 +1,11 @@
 # @chainlink/ftse-sftp-adapter
 
+## 1.0.0
+
+### Major Changes
+
+- [#4036](https://github.com/smartcontractkit/external-adapters-js/pull/4036) [`725e85e`](https://github.com/smartcontractkit/external-adapters-js/commit/725e85ebbc8d26b3cc25178efcd19e4ad8eac542) Thanks [@dskloetc](https://github.com/dskloetc)! - Adding Downloading and parsing logic for russell and ftse csv files from ftse sftp server
+
 ## 0.2.0
 
 ### Minor Changes

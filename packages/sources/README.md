@@ -154,6 +154,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [renvm-address-set](./renvm-address-set/README.md)
 - [s3-csv-reader](./s3-csv-reader/README.md)
 - [satoshitango](./satoshitango/README.md)
+- [securitize](./securitize/README.md)
 - [snowflake](./snowflake/README.md)
 - [sochain](./sochain/README.md)
 - [solactive](./solactive/README.md)
