@@ -83,7 +83,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }
 
       const timestamps = {
-        providerIndicatedTimeUnixMs: new Date(response.data.docs[0].recordDate).getTime(),
+        providerIndicatedTimeUnixMs: new Date(asset.recordDate).getTime(),
       }
 
       const pubkeys = getPubKeys(param.envVarPrefix)
@@ -93,7 +93,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider didn't return any value for ${param.assetId}`,
+            errorMessage: `Could not find ${param.assetId} in the response`,
             statusCode: 502,
           },
           timestamps,
