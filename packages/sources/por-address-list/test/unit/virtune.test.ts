@@ -147,6 +147,7 @@ describe('VirtuneTransport', () => {
       accountId,
       network,
       chainId,
+      addressPattern: undefined,
     })
 
     const expectedRequestConfig = {
@@ -177,6 +178,58 @@ describe('VirtuneTransport', () => {
           { address: address1, network, chainId },
           { address: address2, network, chainId },
         ],
+      },
+      result: null,
+      timestamps: {},
+    }
+
+    await testTransport({
+      params,
+      expectedRequestConfig,
+      response,
+      expectedResponse,
+    })
+  })
+
+  it('should filter based on address pattern', async () => {
+    const accountId = 'VIRBTC'
+    const network = 'bitcoin'
+    const chainId = 'mainnet'
+    const address1 = 'x-addr1'
+    const address2 = 'y-addr2'
+
+    const params = makeStub('params', {
+      accountId,
+      network,
+      chainId,
+      addressPattern: '^y-',
+    })
+
+    const expectedRequestConfig = {
+      baseURL: adapterSettings.VIRTUNE_API_URL,
+      params: {
+        key: virtuneApiKey,
+      },
+      url: accountId,
+    }
+
+    const response = makeStub('response', {
+      response: {
+        data: {
+          result: [
+            {
+              wallets: [{ address: address1 }, { address: address2 }],
+            },
+          ],
+          cost: undefined,
+        },
+      },
+      timestamps: {},
+    })
+
+    const expectedResponse = {
+      data: {
+        result: [{ address: address2, network, chainId }],
       },
       result: null,
       timestamps: {},
