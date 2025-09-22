@@ -48,6 +48,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
+    logger.info(`🔍 parseResponse called length ${params.length}`)
+
     // Validate basic response structure
     if (!response.data || typeof response.data !== 'object') {
       logger.error('Invalid response from BEA API - not an object', response.data)

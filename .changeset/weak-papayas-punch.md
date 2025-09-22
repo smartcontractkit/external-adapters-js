@@ -2,4 +2,4 @@
 '@chainlink/nomia-adapter': major
 ---
 
-Set BG Execution to 4 min + improve logging
+Set BG Execution to 5 min + improve logging
