@@ -27,7 +27,6 @@ export const SoakTestBlacklist: string[] = [
   'dxdao',
   'etherscan',
   'ethgasstation',
-  'ethwrite',
   'expert-car-broker',
   'flightaware',
   'fmpcloud',
