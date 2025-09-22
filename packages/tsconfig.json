@@ -714,9 +714,6 @@
       "path": "./targets/dydx-stark"
     },
     {
-      "path": "./targets/ethwrite"
-    },
-    {
       "path": "./targets/harmony"
     }
   ]
