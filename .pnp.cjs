@@ -799,6 +799,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/satoshitango"\
     },\
     {\
+      "name": "@chainlink/securitize-adapter",\
+      "reference": "workspace:packages/sources/securitize"\
+    },\
+    {\
       "name": "@chainlink/snowflake-adapter",\
       "reference": "workspace:packages/sources/snowflake"\
     },\
@@ -975,10 +979,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/targets/dydx-stark"\
     },\
     {\
-      "name": "@chainlink/ethwrite-adapter",\
-      "reference": "workspace:packages/targets/ethwrite"\
-    },\
-    {\
       "name": "@chainlink/harmony-adapter",\
       "reference": "workspace:packages/targets/harmony"\
     }\
@@ -1076,7 +1076,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
-    ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
@@ -1179,6 +1178,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
+    ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
@@ -6793,25 +6793,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ethwrite-adapter", [\
-      ["workspace:packages/targets/ethwrite", {\
-        "packageLocation": "./packages/targets/ethwrite/",\
-        "packageDependencies": [\
-          ["@chainlink/ethwrite-adapter", "workspace:packages/targets/ethwrite"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/expand-network-adapter", [\
       ["workspace:packages/sources/expand-network", {\
         "packageLocation": "./packages/sources/expand-network/",\
@@ -8659,6 +8640,22 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.14.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/securitize-adapter", [\
+      ["workspace:packages/sources/securitize", {\
+        "packageLocation": "./packages/sources/securitize/",\
+        "packageDependencies": [\
+          ["@chainlink/securitize-adapter", "workspace:packages/sources/securitize"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["tweetnacl", "npm:1.0.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

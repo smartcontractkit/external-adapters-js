@@ -1,10 +1,13 @@
 {
-  "name": "@chainlink/ethwrite-adapter",
-  "version": "2.0.29",
-  "description": "Chainlink ethwrite adapter.",
+  "name": "@chainlink/securitize-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink securitize adapter.",
   "keywords": [
-    "ethtx",
-    "ethwrite"
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "securitize"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,18 +27,15 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
-  "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/supertest": "2.0.16",
     "nock": "13.5.6",
-    "supertest": "6.2.4",
     "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.7.0",
+    "tslib": "2.4.1",
+    "tweetnacl": "^1.0.3"
   }
 }

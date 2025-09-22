@@ -579,6 +579,9 @@
       "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {
+      "path": "./sources/securitize/tsconfig.test.json"
+    },
+    {
       "path": "./sources/snowflake/tsconfig.test.json"
     },
     {
@@ -709,9 +712,6 @@
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/ethwrite/tsconfig.test.json"
     },
     {
       "path": "./targets/harmony/tsconfig.test.json"
