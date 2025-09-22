@@ -128,8 +128,22 @@ export class TotalBalanceTransport extends SubscriptionTransport<BaseEndpointTyp
     assetId: string
   }): Promise<BalanceResult[]> {
     const runner = new GroupRunner(this.config.GROUP_SIZE)
-    const getBalance = runner.wrapFunction(this.getBalance.bind(this))
-    const getStake = runner.wrapFunction(this.getStake.bind(this))
+
+    const getBalance: (address: string) => Promise<GetBalanceResult> = runner.wrapFunction(
+      (address: string) =>
+        this.callPlatformMethod({
+          method: 'getBalance',
+          address,
+        }),
+    )
+
+    const getStake: (address: string) => Promise<GetStakeResult> = runner.wrapFunction(
+      (address: string) =>
+        this.callPlatformMethod({
+          method: 'getStake',
+          address,
+        }),
+    )
 
     return await Promise.all(
       addresses.map(async ({ address }) => {
@@ -154,20 +168,6 @@ export class TotalBalanceTransport extends SubscriptionTransport<BaseEndpointTyp
         }
       }),
     )
-  }
-
-  getBalance(address: string): Promise<GetBalanceResult> {
-    return this.callPlatformMethod({
-      method: 'getBalance',
-      address,
-    })
-  }
-
-  async getStake(address: string): Promise<GetStakeResult> {
-    return this.callPlatformMethod({
-      method: 'getStake',
-      address,
-    })
   }
 
   async callPlatformMethod<T>({
