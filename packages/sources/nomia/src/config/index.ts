@@ -18,7 +18,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       CACHE_MAX_AGE: 20 * 60 * 1000, // 20 minutes - max validated setting
-      BACKGROUND_EXECUTE_TIMEOUT: 240_000, // 4 minutes - need buffer for 6 requests @ 2
+      BACKGROUND_EXECUTE_TIMEOUT: 300_000, // 5 minutes - need buffer for 6 requests @ 2
     },
   },
 )
