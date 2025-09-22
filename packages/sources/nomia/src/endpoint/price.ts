@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { httpTransport } from '../transport/price'
+import { nomiaTransport } from '../transport/price'
 
 export const inputParameters = new InputParameters({
   query: {
@@ -27,6 +27,6 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: [],
-  transport: httpTransport,
+  transport: nomiaTransport,
   inputParameters,
 })
