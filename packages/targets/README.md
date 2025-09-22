@@ -8,5 +8,4 @@ This document was generated automatically. Please see [Master List Generator](..
 
 - [conflux](./conflux/README.md)
 - [dydx-stark](./dydx-stark/README.md)
-- [ethwrite](./ethwrite/README.md)
 - [harmony](./harmony/README.md)
