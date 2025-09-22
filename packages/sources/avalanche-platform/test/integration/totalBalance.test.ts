@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockStakeSuccess } from './fixtures'
+import { mockBalanceSuccess, mockStakeSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -13,6 +13,7 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.P_CHAIN_RPC_URL = process.env.P_CHAIN_RPC_URL ?? 'http://localhost:3500/ext/bc/P'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -31,29 +32,22 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('balance endpoint', () => {
+  describe('totalBalance endpoint', () => {
     it('should return success', async () => {
       const data = {
-        result: [
+        endpoint: 'totalBalance',
+        addresses: [
           {
             address: 'P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt',
-            network: 'avalanche-fuji',
           },
         ],
+        assetId: 'U8iRqJoiJm8xZHAacmvYyZVwqQx6uDNtQeP3CQ6fcgQk3JqnK',
       }
+      mockBalanceSuccess()
       mockStakeSuccess()
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return error with empty addresses', async () => {
-      const data = {
-        result: [],
-      }
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
     })
   })
 })

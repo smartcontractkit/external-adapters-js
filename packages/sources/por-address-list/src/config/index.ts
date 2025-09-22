@@ -79,5 +79,6 @@ export const config = new AdapterConfig({
     description: 'The API key for Virtune address list API',
     type: 'string',
     default: '',
+    sensitive: true,
   },
 })
