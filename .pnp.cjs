@@ -979,10 +979,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/targets/dydx-stark"\
     },\
     {\
-      "name": "@chainlink/ethwrite-adapter",\
-      "reference": "workspace:packages/targets/ethwrite"\
-    },\
-    {\
       "name": "@chainlink/harmony-adapter",\
       "reference": "workspace:packages/targets/harmony"\
     }\
@@ -1080,7 +1076,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
-    ["@chainlink/ethwrite-adapter", ["workspace:packages/targets/ethwrite"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
@@ -6789,25 +6784,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ethwrite-adapter", [\
-      ["workspace:packages/targets/ethwrite", {\
-        "packageLocation": "./packages/targets/ethwrite/",\
-        "packageDependencies": [\
-          ["@chainlink/ethwrite-adapter", "workspace:packages/targets/ethwrite"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
