@@ -3,26 +3,11 @@ import { PoRTokenAddress } from '@chainlink/external-adapter-framework/adapter/p
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { virtuneTokenTransport } from '../transport/virtune-token'
+import { sharedVirtuneInputParameters } from './virtune'
 
 export const inputParameters = new InputParameters(
   {
-    accountId: {
-      description: 'The account ID to fetch addresses for',
-      type: 'string',
-      required: true,
-    },
-    network: {
-      description:
-        'The network the addresses are on. This is only used to include in the response.',
-      type: 'string',
-      required: true,
-    },
-    chainId: {
-      description:
-        'The chainId of the network the addresses are on. This is only used to include in the response.',
-      type: 'string',
-      required: true,
-    },
+    ...sharedVirtuneInputParameters,
     contractAddress: {
       description: 'The contract address of the token, to pass be included in the response',
       type: 'string',

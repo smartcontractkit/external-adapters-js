@@ -4,7 +4,13 @@ import {
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/virtune-token'
-import { createVirtuneTransportConfig, ResponseSchema, VirtuneParams } from './virtune-utils'
+import {
+  createVirtuneTransportConfig,
+  getUrl,
+  ResponseSchema,
+  VirtuneParams,
+} from './virtune-utils'
+
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
@@ -14,20 +20,15 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 type Params = VirtuneParams<HttpTransportTypes>
 
-const getUrl = (params: Params): string => {
-  return params.accountId
-}
-
-const getAddresses = ({
-  data,
+const getResultFromAddresses = ({
+  addresses,
   params,
 }: {
-  data: ResponseSchema
+  addresses: string[]
   params: Params
 }): PoRTokenAddress[] => {
   const { network, chainId, contractAddress } = params
-  const wallets = data.result.flatMap((r) => r.wallets.map((w) => w.address))
-  if (wallets.length === 0) {
+  if (addresses.length === 0) {
     return []
   }
   return [
@@ -35,13 +36,13 @@ const getAddresses = ({
       chainId,
       network,
       contractAddress,
-      wallets,
+      wallets: addresses,
     },
   ]
 }
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> =
-  createVirtuneTransportConfig<HttpTransportTypes>(getUrl, getAddresses)
+  createVirtuneTransportConfig<HttpTransportTypes>(getUrl, getResultFromAddresses)
 
 // Exported for testing
 export class VirtuneTokenTransport extends HttpTransport<HttpTransportTypes> {
