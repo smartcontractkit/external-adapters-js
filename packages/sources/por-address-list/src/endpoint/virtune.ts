@@ -4,25 +4,28 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { virtuneTransport } from '../transport/virtune'
 
+export const sharedVirtuneInputParameters = {
+  accountId: {
+    description: 'The account ID to fetch addresses for',
+    type: 'string',
+    required: true,
+  },
+  network: {
+    description: 'The network the addresses are on. This is only used to include in the response.',
+    type: 'string',
+    required: true,
+  },
+  chainId: {
+    description:
+      'The chainId of the network the addresses are on. This is only used to include in the response.',
+    type: 'string',
+    required: true,
+  },
+} as const
+
 export const inputParameters = new InputParameters(
   {
-    accountId: {
-      description: 'The account ID to fetch addresses for',
-      type: 'string',
-      required: true,
-    },
-    network: {
-      description:
-        'The network the addresses are on. This is only used to include in the response.',
-      type: 'string',
-      required: true,
-    },
-    chainId: {
-      description:
-        'The chainId of the network the addresses are on. This is only used to include in the response.',
-      type: 'string',
-      required: true,
-    },
+    ...sharedVirtuneInputParameters,
   },
   [
     {

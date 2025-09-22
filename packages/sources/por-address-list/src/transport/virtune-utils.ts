@@ -3,6 +3,10 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import { AxiosResponse } from 'axios'
 import { config } from '../config'
 
+export const getUrl = (params: { accountId: string }): string => {
+  return params.accountId
+}
+
 export interface ResponseSchema {
   accountName: string
   result: {
@@ -22,13 +26,6 @@ export interface ResponseSchema {
 }
 
 type VirtuneTransportGenerics = TransportGenerics & {
-  Parameters: {
-    accountId: {
-      description: 'The account ID to fetch addresses for'
-      type: 'string'
-      required: true
-    }
-  }
   Response: {
     Data: {
       result: unknown[]
@@ -42,10 +39,13 @@ export type VirtuneResult<T extends VirtuneTransportGenerics> = T['Response']['D
 type Config = typeof config.settings
 
 export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>(
+  // getUrlFromParams is always assigned to getUrl. It's only a parameter
+  // because the compiler doesn't know getUrl satisfies the type until T
+  // is instantiated.
   getUrlFromParams: (params: VirtuneParams<T>) => string,
-  getAddressesFromResponse: (_: {
+  getResultFromAddresses: (_: {
     params: VirtuneParams<T>
-    data: ResponseSchema
+    addresses: string[]
   }) => VirtuneResult<T>,
 ) => ({
   prepareRequests: (params: VirtuneParams<T>[], config: Config) => {
@@ -74,10 +74,7 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
       ]
     }
 
-    const addresses = getAddressesFromResponse({
-      data: response.data,
-      params: param,
-    })
+    const addresses = response.data.result.flatMap((r) => r.wallets.map(({ address }) => address))
 
     if (addresses.length == 0) {
       return [
@@ -91,13 +88,18 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
       ]
     }
 
+    const result = getResultFromAddresses({
+      addresses,
+      params: param,
+    })
+
     return [
       {
         params: param,
         response: {
           result: null,
           data: {
-            result: addresses,
+            result,
           },
         },
       },
