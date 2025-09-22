@@ -1,5 +1,13 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.13.1
+
+### Patch Changes
+
+- [#4044](https://github.com/smartcontractkit/external-adapters-js/pull/4044) [`b07e8b6`](https://github.com/smartcontractkit/external-adapters-js/commit/b07e8b6df4a433838c595cc7e83a844d684fae0a) Thanks [@dskloetc](https://github.com/dskloetc)! - Mark VIRTUNE_API_KEY as sensitive
+
+- [#4040](https://github.com/smartcontractkit/external-adapters-js/pull/4040) [`1bc15ba`](https://github.com/smartcontractkit/external-adapters-js/commit/1bc15ba27484c3a2d91395b3c270c455ee000d52) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor virtune endpoints
+
 ## 5.13.0
 
 ### Minor Changes
