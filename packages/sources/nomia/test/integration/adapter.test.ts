@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseBEAError, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -25,6 +25,18 @@ describe('execute', () => {
     })
   })
 
+  beforeEach(() => {
+    // Ensure clean state before each test
+    nock.cleanAll()
+    nock.abortPendingRequests()
+  })
+
+  afterEach(() => {
+    // Clean up after each test to ensure isolation
+    nock.cleanAll()
+    nock.abortPendingRequests()
+  })
+
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
@@ -42,6 +54,18 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle BEA API errors', async () => {
+      const data = {
+        query: 'TableName=Table2&LineNumber=2', // Different params to avoid cache hit
+      }
+      mockResponseBEAError()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toBe(
+        'BEA API Error 40: The Dataset requested does not exist',
+      )
     })
   })
 })
