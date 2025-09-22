@@ -7,6 +7,8 @@ export const adapter = new PoRAdapter({
   defaultEndpoint: balance.name,
   name: 'AVALANCHE_PLATFORM',
   config,
+  // TODO: The 'balance' endpoint seems to be unused. Delete it after
+  //       confirming that it's not needed anymore.
   endpoints: [balance, totalBalance],
 })
 
