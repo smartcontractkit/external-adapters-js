@@ -14,11 +14,16 @@ export const config = new AdapterConfig(
       required: true,
       sensitive: true,
     },
+    API_FREQUENCY: {
+      description: 'Frequency of API calls in minutes',
+      type: 'number',
+      default: 20,
+      required: false,
+    },
   },
   {
     envDefaultOverrides: {
       CACHE_MAX_AGE: 20 * 60 * 1000, // 20 minutes - max validated setting
-      BACKGROUND_EXECUTE_TIMEOUT: 180_000,
     },
   },
 )
