@@ -12,6 +12,7 @@ const BPS = 10000
 export const getNav = async (
   source: string,
   sourceInput: string,
+  sourceScaled: boolean,
   requester: Requester,
   asset: string,
   registry: string,
@@ -22,7 +23,9 @@ export const getNav = async (
     getBounds({ asset, registry }, provider),
   ])
 
-  const rawNavScaled = parseUnits(rawNav.toString(), bounds.decimals)
+  const rawNavScaled = sourceScaled
+    ? BigInt(rawNav)
+    : parseUnits(rawNav.toFixed(bounds.decimals).toString(), bounds.decimals)
 
   const now = Date.now() / 1000
 

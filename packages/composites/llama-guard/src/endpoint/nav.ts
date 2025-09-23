@@ -18,6 +18,11 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'JSON input to Adapters in string format',
     },
+    sourceScaled: {
+      type: 'boolean',
+      description: 'Adapter return nav data scaled to output decimals or not',
+      default: false,
+    },
     asset: {
       required: true,
       type: 'string',
@@ -33,6 +38,7 @@ export const inputParameters = new InputParameters(
     {
       source: 'name',
       sourceInput: "{'param': '1'}",
+      sourceScaled: false,
       asset: '0x0',
       registry: '0x1',
     },
