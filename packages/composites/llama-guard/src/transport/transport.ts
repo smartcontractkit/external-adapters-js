@@ -62,6 +62,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const data = await getNav(
       param.source,
       param.sourceInput,
+      param.sourceScaled,
       this.requester,
       param.asset,
       param.registry,

@@ -34,7 +34,7 @@ export const getRawNav = async (source: string, sourceInput: string, requester: 
 }
 
 export const getEAUrl = (ea: string) => {
-  const normalizedEA = ea.replace('-', '_').toUpperCase()
+  const normalizedEA = ea.replace(/-/g, '_').toUpperCase()
   const keyName = `${normalizedEA}_EA_URL`
   const url = process.env[keyName]
 
