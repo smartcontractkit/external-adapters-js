@@ -1,14 +1,5 @@
 # @chainlink/proof-of-reserves-adapter
 
-## 1.30.1
-
-### Patch Changes
-
-- Updated dependencies [[`b07e8b6`](https://github.com/smartcontractkit/external-adapters-js/commit/b07e8b6df4a433838c595cc7e83a844d684fae0a), [`3bf9f56`](https://github.com/smartcontractkit/external-adapters-js/commit/3bf9f5616eb9611a7fb9b64f0c623437060ddae8), [`1bc15ba`](https://github.com/smartcontractkit/external-adapters-js/commit/1bc15ba27484c3a2d91395b3c270c455ee000d52)]:
-  - @chainlink/por-address-list-adapter@5.13.1
-  - @chainlink/avalanche-platform-adapter@2.1.0
-  - @chainlink/renvm-address-set-adapter@1.5.126
-
 ## 1.30.0
 
 ### Minor Changes

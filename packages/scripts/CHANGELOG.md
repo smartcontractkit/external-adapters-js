@@ -1,11 +1,5 @@
 # @chainlink/ea-scripts
 
-## 2.8.5
-
-### Patch Changes
-
-- [#4042](https://github.com/smartcontractkit/external-adapters-js/pull/4042) [`1a1f172`](https://github.com/smartcontractkit/external-adapters-js/commit/1a1f172ff7d0a45ba309d50b0f4d84f4dc3a71a8) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete ethwrite EA
-
 ## 2.8.4
 
 ### Patch Changes
