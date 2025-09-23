@@ -48,8 +48,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
-    logger.info(`parseResponse called`)
-
     // Validate basic response structure
     if (!response.data || typeof response.data !== 'object') {
       logger.error(
