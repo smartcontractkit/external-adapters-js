@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.14.0
+
+### Minor Changes
+
+- [#4045](https://github.com/smartcontractkit/external-adapters-js/pull/4045) [`f9d8a59`](https://github.com/smartcontractkit/external-adapters-js/commit/f9d8a59de83b4ded5d78b7b81c4ba5b43abdbd67) Thanks [@dskloetc](https://github.com/dskloetc)! - Add optional address filter parameter to virtune endpoints
+
 ## 5.13.1
 
 ### Patch Changes
