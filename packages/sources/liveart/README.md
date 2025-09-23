@@ -1,1 +1,0 @@
-# LiveArt NAV External Adapter

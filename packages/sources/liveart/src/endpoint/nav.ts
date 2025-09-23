@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export const liveArtNAV = new AdapterEndpoint({
+export const nav = new AdapterEndpoint({
   name: 'nav',
   transport: httpTransport,
   inputParameters,

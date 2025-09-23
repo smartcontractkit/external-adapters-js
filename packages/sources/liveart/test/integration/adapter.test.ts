@@ -31,14 +31,13 @@ describe('LiveArt NAV', () => {
   })
 
   afterEach(async () => {
+    setEnvVariables(oldEnv)
     nock.cleanAll()
     clearTestCache(testAdapter)
   })
 
   afterAll(async () => {
-    setEnvVariables(oldEnv)
     spy.mockRestore()
-    clearTestCache(testAdapter)
     await testAdapter.api.close()
   })
 
