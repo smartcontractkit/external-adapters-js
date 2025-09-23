@@ -136,6 +136,67 @@ describe('VirtuneTokenTransport', () => {
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   }
 
+  it('should filter based on address pattern', async () => {
+    const accountId = 'VIRBTC'
+    const network = 'bitcoin'
+    const chainId = 'mainnet'
+    const contractAddress = '0x514910771af9ca656af840dff83e8264ecf986ca'
+    const address1 = 'x-addr1'
+    const address2 = 'y-addr2'
+
+    const params = makeStub('params', {
+      accountId,
+      network,
+      chainId,
+      contractAddress,
+      addressPattern: '^y-',
+    })
+
+    const expectedRequestConfig = {
+      baseURL: adapterSettings.VIRTUNE_API_URL,
+      params: {
+        key: virtuneApiKey,
+      },
+      url: accountId,
+    }
+
+    const response = makeStub('response', {
+      response: {
+        data: {
+          result: [
+            {
+              wallets: [{ address: address1 }, { address: address2 }],
+            },
+          ],
+          cost: undefined,
+        },
+      },
+      timestamps: {},
+    })
+
+    const expectedResponse = {
+      data: {
+        result: [
+          {
+            network,
+            chainId,
+            contractAddress,
+            wallets: [address2],
+          },
+        ],
+      },
+      result: null,
+      timestamps: {},
+    }
+
+    await testTransport({
+      params,
+      expectedRequestConfig,
+      response,
+      expectedResponse,
+    })
+  })
+
   it('should cache a response for a successful request', async () => {
     const accountId = 'VIRBTC'
     const network = 'bitcoin'
@@ -149,6 +210,7 @@ describe('VirtuneTokenTransport', () => {
       network,
       chainId,
       contractAddress,
+      addressPattern: undefined,
     })
 
     const expectedRequestConfig = {

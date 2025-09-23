@@ -6,6 +6,7 @@ import {
 import { BaseEndpointTypes } from '../endpoint/virtune'
 import {
   createVirtuneTransportConfig,
+  filterAddresses,
   getUrl,
   ResponseSchema,
   VirtuneParams,
@@ -36,7 +37,7 @@ const getResultFromAddresses = ({
 }
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> =
-  createVirtuneTransportConfig<HttpTransportTypes>(getUrl, getResultFromAddresses)
+  createVirtuneTransportConfig<HttpTransportTypes>(getUrl, filterAddresses, getResultFromAddresses)
 
 // Exported for testing
 export class VirtuneTransport extends HttpTransport<HttpTransportTypes> {
