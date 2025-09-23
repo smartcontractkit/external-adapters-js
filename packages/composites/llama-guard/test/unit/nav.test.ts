@@ -14,8 +14,9 @@ const now = 1000000000000
 
 describe('getNav', () => {
   const defaultParams = {
-    ea: 'test-ea',
-    eaInput: '{}',
+    source: 'test-ea',
+    sourceInput: '{}',
+    sourceScaled: false,
     requester: {} as Requester,
     asset: 'test-asset',
     registry: 'test-registry',
@@ -33,7 +34,7 @@ describe('getNav', () => {
 
   describe('no bounds', () => {
     it('should return rawNav', async () => {
-      const nav = 1.23
+      const nav = 1.2301
       const scaledNav = '123'
       const decimals = 2
 
@@ -57,8 +58,59 @@ describe('getNav', () => {
       })
 
       const result = await getNav(
-        defaultParams.ea,
-        defaultParams.eaInput,
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
+        defaultParams.requester,
+        defaultParams.asset,
+        defaultParams.registry,
+        defaultParams.provider,
+      )
+
+      expect(result).toEqual({
+        rawNav: scaledNav,
+        adjustedNav: scaledNav,
+        decimals,
+        lowerBound: '',
+        upperBound: '',
+        bases: {
+          lookback: { nav: '0', ts: 0 },
+          previous: { nav: '0', ts: 0 },
+        },
+        riskFlag: false,
+        breachDirection: '',
+        isBounded: true,
+      })
+    })
+
+    it('should return rawNav - already scaled', async () => {
+      const nav = 123
+      const scaledNav = '123'
+      const decimals = 2
+
+      mockGetRawNav.mockResolvedValue(nav)
+      mockGetBounds.mockResolvedValue({
+        lower: {
+          isLowerBoundEnabled: false,
+          latestNav: 0n,
+          latestTime: 0,
+          maxDiscount: 0,
+          lowerBoundTolerance: 0,
+        },
+        upper: {
+          isUpperBoundEnabled: false,
+          lookbackNav: 0n,
+          lookbackTime: 0,
+          maxExpectedApy: 0,
+          upperBoundTolerance: 0,
+        },
+        decimals,
+      })
+
+      const result = await getNav(
+        defaultParams.source,
+        defaultParams.sourceInput,
+        true,
         defaultParams.requester,
         defaultParams.asset,
         defaultParams.registry,
@@ -104,8 +156,9 @@ describe('getNav', () => {
       })
 
       const result = await getNav(
-        defaultParams.ea,
-        defaultParams.eaInput,
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
         defaultParams.requester,
         defaultParams.asset,
         defaultParams.registry,
@@ -148,8 +201,9 @@ describe('getNav', () => {
       })
 
       const result = await getNav(
-        defaultParams.ea,
-        defaultParams.eaInput,
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
         defaultParams.requester,
         defaultParams.asset,
         defaultParams.registry,
@@ -194,8 +248,9 @@ describe('getNav', () => {
       })
 
       const result = await getNav(
-        defaultParams.ea,
-        defaultParams.eaInput,
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
         defaultParams.requester,
         defaultParams.asset,
         defaultParams.registry,
@@ -241,8 +296,9 @@ describe('getNav', () => {
       })
 
       const result = await getNav(
-        defaultParams.ea,
-        defaultParams.eaInput,
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
         defaultParams.requester,
         defaultParams.asset,
         defaultParams.registry,

@@ -30,6 +30,11 @@ describe('ea.ts', () => {
       expect(getEAUrl('MY_NAME')).toEqual(process.env.MY_NAME_EA_URL)
     })
 
+    it('should replace all -', () => {
+      process.env.MY_NAME_EXTRA_EA_URL = 'mock-url-extra'
+      expect(getEAUrl('my-name-extra')).toEqual(process.env.MY_NAME_EXTRA_EA_URL)
+    })
+
     it('should throw error when missing', () => {
       expect(() => getEAUrl('my-name')).toThrow("Missing 'MY_NAME' environment variable.")
     })
