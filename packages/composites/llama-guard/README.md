@@ -1,6 +1,6 @@
 # LLAMA_GUARD
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/llama-guard/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/llama-guard/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,12 +32,13 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |    Name     | Aliases |                                    Description                                     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------: | :-----: | :--------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   source    |         | Name of the Adapters that provides Nav data, requires ${source}\_EA_URL in env var | string |         |         |            |                |
-|    ✅     | sourceInput |         |                      JSON input to Adapters in string format                       | string |         |         |            |                |
-|    ✅     |    asset    |         |                 Address of asset in LlamaGuard's ParameterRegistry                 | string |         |         |            |                |
-|    ✅     |  registry   |         |                 Contract address of LlamaGuard's ParameterRegistry                 | string |         |         |            |                |
+| Required? |     Name     | Aliases |                                    Description                                     |  Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :-----: | :--------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    source    |         | Name of the Adapters that provides Nav data, requires ${source}\_EA_URL in env var | string  |         |         |            |                |
+|    ✅     | sourceInput  |         |                      JSON input to Adapters in string format                       | string  |         |         |            |                |
+|           | sourceScaled |         |              Adapter return nav data scaled to output decimals or not              | boolean |         |         |            |                |
+|    ✅     |    asset     |         |                 Address of asset in LlamaGuard's ParameterRegistry                 | string  |         |         |            |                |
+|    ✅     |   registry   |         |                 Contract address of LlamaGuard's ParameterRegistry                 | string  |         |         |            |                |
 
 ### Example
 
@@ -49,6 +50,7 @@ Request:
     "endpoint": "nav",
     "source": "name",
     "sourceInput": "{'param': '1'}",
+    "sourceScaled": false,
     "asset": "0x0",
     "registry": "0x1"
   }
