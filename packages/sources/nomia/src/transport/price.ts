@@ -48,11 +48,11 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
-    logger.info(`🔍 parseResponse called length ${params.length}`)
-
     // Validate basic response structure
     if (!response.data || typeof response.data !== 'object') {
-      logger.error('Invalid response from BEA API - not an object', response.data)
+      logger.error(
+        `Invalid response from BEA API - not an object error: ${JSON.stringify(response.data)}`,
+      )
       return params.map((param) => ({
         params: param,
         response: {
@@ -65,7 +65,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     // BEA API responses should have a BEAAPI wrapper, but handle any top-level key
     const responseKeys = Object.keys(response.data)
     if (responseKeys.length === 0) {
-      logger.error('Empty response from BEA API', response.data)
+      logger.error(`Empty response from BEA API error: ${JSON.stringify(response.data)}`)
       return params.map((param) => ({
         params: param,
         response: {
@@ -80,11 +80,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     const beaApiData = response.data[topLevelKey]
 
     if (!beaApiData || typeof beaApiData !== 'object' || !beaApiData.Results) {
-      logger.error('Invalid BEA API response structure - missing Results', {
-        topLevelKey,
-        responseData: response.data,
-        availableKeys: responseKeys,
-      })
+      logger.error(
+        `Invalid BEA API response structure - missing Results error: ${JSON.stringify({
+          topLevelKey,
+          responseData: response.data,
+          availableKeys: responseKeys,
+        })}`,
+      )
       return params.map((param) => ({
         params: param,
         response: {
@@ -99,11 +101,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     // Check for BEA API errors and log them
     if (beaResults.Error) {
       const { APIErrorCode, APIErrorDescription } = beaResults.Error
-      logger.error('BEA API Error', {
-        errorCode: APIErrorCode,
-        errorDescription: APIErrorDescription,
-        requestParams: params.map((p) => p.query).join(', '),
-      })
+      logger.error(
+        `BEA API Error: error: ${JSON.stringify({
+          errorCode: APIErrorCode,
+          errorDescription: APIErrorDescription,
+          requestParams: params.map((p) => p.query).join(', '),
+        })}`,
+      )
 
       return params.map((param) => ({
         params: param,
@@ -116,7 +120,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     // Check for missing data - keep original behavior
     if (!beaResults.Data?.length) {
-      logger.error('No data found in response', response.data)
+      logger.error(`No data found in response error: ${JSON.stringify(response.data)}`)
       return []
     }
 
