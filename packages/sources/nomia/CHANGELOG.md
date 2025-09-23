@@ -1,5 +1,11 @@
 # @chainlink/nomia-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- [#4049](https://github.com/smartcontractkit/external-adapters-js/pull/4049) [`a11f786`](https://github.com/smartcontractkit/external-adapters-js/commit/a11f7866f4ed21b08a646de1e747838728ff31ef) Thanks [@cawthorne](https://github.com/cawthorne)! - Add deeper logging to NOMIA EA
+
 ## 2.0.0
 
 ### Major Changes
