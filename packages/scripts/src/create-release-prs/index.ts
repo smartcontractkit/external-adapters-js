@@ -41,7 +41,9 @@ export async function main(): Promise<void | string> {
       return
     }
 
+    console.log('dskloetx create-release-prs 1')
     const allAdapters = getWorkspaceAdapters()
+    console.log('dskloetx create-release-prs 2')
     const adaptersToIgnore = []
     if (options.adapters && options.adapters.length > 0) {
       adaptersToIgnore.push(
@@ -53,16 +55,20 @@ export async function main(): Promise<void | string> {
         }),
       )
     }
+    console.log('dskloetx create-release-prs 3')
     const ignoreArgs = adaptersToIgnore.map((a) => `--ignore ${a.name}`).join(' ')
 
+    console.log(`yarn changeset version ${ignoreArgs}`)
     exec(`yarn changeset version ${ignoreArgs}`, {
       fatal: true,
     })
+    console.log('dskloetx create-release-prs 4')
 
     const awsConfigPath = path.join(process.env.HOME, '.aws', 'config')
     const awsConfigText = fs.readFileSync(awsConfigPath).toString()
     const awsConfig = ini.parse(awsConfigText)
     const awsProfileSdlc = awsConfig['profile sdlc']
+    console.log('dskloetx create-release-prs 5')
 
     if (!awsProfileSdlc) {
       throw new Error('AWS profile "sdlc" not found in ~/.aws/config')
