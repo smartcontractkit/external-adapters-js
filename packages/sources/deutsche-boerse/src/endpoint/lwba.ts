@@ -33,12 +33,12 @@ export const inputParameters = new InputParameters(
 interface LwbaLatestPriceResponse {
   Result: number | null
   Data: {
-    mid: number | null
-    bid: number | null
-    ask: number | null
-    latestPrice: number | null
-    quoteProviderIndicatedTimeUnixMs: number | null
-    tradeProviderIndicatedTimeUnixMs: number | null
+    mid: number
+    bid: number
+    ask: number
+    latestPrice: number
+    quoteProviderIndicatedTimeUnixMs: number
+    tradeProviderIndicatedTimeUnixMs: number
   }
 }
 
