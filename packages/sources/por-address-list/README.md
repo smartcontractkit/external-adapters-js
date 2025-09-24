@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.13.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.14.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -227,11 +227,12 @@ Request:
 
 ### Input Params
 
-| Required? |   Name    | Aliases |                                          Description                                           |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-------: | :-----: | :--------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | accountId |         |                             The account ID to fetch addresses for                              | string |         |         |            |                |
-|    ✅     |  network  |         |        The network the addresses are on. This is only used to include in the response.         | string |         |         |            |                |
-|    ✅     |  chainId  |         | The chainId of the network the addresses are on. This is only used to include in the response. | string |         |         |            |                |
+| Required? |      Name      | Aliases |                                          Description                                           |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :------------: | :-----: | :--------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   accountId    |         |                             The account ID to fetch addresses for                              | string |         |         |            |                |
+|    ✅     |    network     |         |        The network the addresses are on. This is only used to include in the response.         | string |         |         |            |                |
+|    ✅     |    chainId     |         | The chainId of the network the addresses are on. This is only used to include in the response. | string |         |         |            |                |
+|           | addressPattern |         |              Return only addresses matching the given regular expression pattern.              | string |         |         |            |                |
 
 ### Example
 
@@ -243,7 +244,8 @@ Request:
     "endpoint": "virtune",
     "accountId": "VIRBTC",
     "network": "bitcoin",
-    "chainId": "mainnet"
+    "chainId": "mainnet",
+    "addressPattern": "^(?!P-)"
   }
 }
 ```
@@ -261,6 +263,7 @@ Request:
 |    ✅     |    accountId    |         |                             The account ID to fetch addresses for                              | string |         |         |            |                |
 |    ✅     |     network     |         |        The network the addresses are on. This is only used to include in the response.         | string |         |         |            |                |
 |    ✅     |     chainId     |         | The chainId of the network the addresses are on. This is only used to include in the response. | string |         |         |            |                |
+|           | addressPattern  |         |              Return only addresses matching the given regular expression pattern.              | string |         |         |            |                |
 |           | contractAddress |         |             The contract address of the token, to pass be included in the response             | string |         |         |            |                |
 
 ### Example
