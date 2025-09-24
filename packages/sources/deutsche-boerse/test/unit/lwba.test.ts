@@ -80,11 +80,11 @@ describe('LWBA transport (more integration cases)', () => {
     expect(out).toEqual([])
   })
 
-  test('quote then trade: response reflects cached fields and timestamps', () => {
+  test('quote then trade: emits only when complete and reflects cached fields and timestamps', () => {
     const t = createLwbaWsTransport() as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
-    // Quote
+    // Quote (no latestPrice yet) -> should NOT emit
     const quoteDat = create(DataSchema, {
       Bid: { Px: dec(10000n, -2) },
       Offer: { Px: dec(10100n, -2) },
@@ -92,20 +92,27 @@ describe('LWBA transport (more integration cases)', () => {
     } as any)
     const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: ISIN }, Dat: quoteDat } as any)
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd), {} as any)
-    const [qEntry] = quoteRes
-    expect(qEntry.response.data.bid).toBe(100)
-    expect(qEntry.response.data.ask).toBe(101)
-    expect(qEntry.response.data.mid).toBe(100.5)
-    expect(qEntry.response.data.quoteProviderIndicatedTimeUnixMs).toBe(5)
-    expect(qEntry.response.data.tradeProviderIndicatedTimeUnixMs).toBeNull()
+    expect(quoteRes).toEqual([])
 
-    // Trade
+    // Trade (now latestPrice arrives) -> should emit with full set
     const tradeDat = create(DataSchema, { Px: dec(9999n, -2), Tm: 6_000_000n } as any)
     const tradeMd = create(MarketDataSchema, { Instrmt: { Sym: ISIN }, Dat: tradeDat } as any)
     const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd), {} as any)
-    const [tEntry] = tradeRes
-    expect(tEntry.response.data.latestPrice).toBe(99.99)
-    expect(tEntry.response.data.quoteProviderIndicatedTimeUnixMs).toBe(5)
-    expect(tEntry.response.data.tradeProviderIndicatedTimeUnixMs).toBe(6)
+
+    expect(tradeRes.length).toBe(1)
+    const [entry] = tradeRes
+    const d = entry.response.data
+
+    expect(d.bid).toBe(100)
+    expect(d.ask).toBe(101)
+    expect(d.mid).toBe(100.5)
+    expect(d.latestPrice).toBe(99.99)
+
+    // quote time remains; trade time now populated
+    expect(d.quoteProviderIndicatedTimeUnixMs).toBe(5)
+    expect(d.tradeProviderIndicatedTimeUnixMs).toBe(6)
+
+    // providerIndicatedTime is from the emitted (trade) frame
+    expect(entry.response.timestamps.providerIndicatedTimeUnixMs).toBe(6)
   })
 })
