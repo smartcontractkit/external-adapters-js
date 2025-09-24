@@ -30,7 +30,7 @@ export type NavResultResponse = {
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: NavResultResponse //SingleNumberResultResponse
+  Response: NavResultResponse
   Settings: typeof config.settings
 }
 
