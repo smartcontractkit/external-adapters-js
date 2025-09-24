@@ -4,21 +4,27 @@ import type {
   Decimal as DecimalProto,
   MarketData as MarketDataProto,
 } from '../gen/md_cef_pb'
-const MAX_SAFE = BigInt(Number.MAX_SAFE_INTEGER)
 
+const MAX_SIG_DIGITS = 15
 export function decimalToNumber(decimal?: DecimalProto): number {
-  if (!decimal || decimal.m === undefined || decimal.e === undefined) {
+  if (!decimal || decimal.m === undefined || decimal.e === undefined || decimal.m < 0) {
     throw new Error('Invalid price')
   }
 
   const { m: mantissa, e: exponent } = decimal
 
-  // Safety: converting a bigint > Number.MAX_SAFE_INTEGER loses precision.
-  if (mantissa > MAX_SAFE || mantissa < -MAX_SAFE) {
-    throw new Error(`Invalid price due to potential overflow, mantissa: ${mantissa.toString()}`)
+  const product = Decimal(mantissa.toString()).times(Decimal.pow(10, exponent))
+  const rounded = product.toSignificantDigits(MAX_SIG_DIGITS)
+  if (!rounded.eq(product)) {
+    throw new Error(
+      `Value requires more than ${MAX_SIG_DIGITS} significant digits: ${product.toString()}`,
+    )
   }
-
-  return new Decimal(mantissa.toString()).times(Decimal.pow(10, exponent)).toNumber()
+  const num = product.toNumber()
+  if (!Number.isFinite(num)) {
+    throw new Error('Overflow converting decimal to number')
+  }
+  return num
 }
 
 export function convertNsToMs(t?: bigint): number {
