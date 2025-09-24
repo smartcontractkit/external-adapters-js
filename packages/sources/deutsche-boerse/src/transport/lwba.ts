@@ -59,27 +59,38 @@ export function createLwbaWsTransport() {
         )
 
         const sm = decodeStreamMessage(buf)
-        if (!sm) return []
-
+        if (!sm) {
+          return []
+        }
         const decoded = decodeSingleMarketData(sm)
-        if (!decoded) return []
-
+        if (!decoded) {
+          return []
+        }
         const { market, md } = decoded
         const result = processMarketData(md, cache)
-        if (!result) return []
-
+        if (!result) {
+          return []
+        }
         const { isin, providerTime } = result
         const quote = cache.get(isin)
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
-        if (quote.mid == null && quote.latestPrice == null) {
+        if (
+          quote.mid == null ||
+          quote.ask == null ||
+          quote.bid == null ||
+          quote.latestPrice == null ||
+          quote.quoteProviderTimeUnixMs == null ||
+          quote.tradeProviderTimeUnixMs == null
+        ) {
           logger.error(
             { isin, market },
             'Neither mid nor latestPrice present after processing frame',
           )
-          throw new Error('Neither mid nor latest price present after processing frame')
+          logger.debug({ isin, market }, 'Awaiting complete quote before emitting')
+          return []
         }
 
         return [
@@ -88,12 +99,12 @@ export function createLwbaWsTransport() {
             response: {
               result: null,
               data: {
-                mid: quote.mid ?? null,
-                bid: quote.bid ?? null,
-                ask: quote.ask ?? null,
-                latestPrice: quote.latestPrice ?? null,
-                quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs ?? null,
-                tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs ?? null,
+                mid: quote.mid,
+                bid: quote.bid,
+                ask: quote.ask,
+                latestPrice: quote.latestPrice,
+                quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
+                tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
               },
               timestamps: { providerIndicatedTimeUnixMs: providerTime },
             },
