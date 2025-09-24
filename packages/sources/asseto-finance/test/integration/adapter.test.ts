@@ -16,9 +16,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_ENDPOINT = process.env.API_ENDPOINT ?? 'https://open.syncnav.com/api/funds'
-    process.env.AUTH_API_ENDPOINT =
-      process.env.AUTH_API_ENDPOINT ?? 'https://open.syncnav.com/api/oauth/token'
+    process.env.API_ENDPOINT = 'https://open.syncnav.com/api/funds'
+    process.env.AUTH_API_ENDPOINT = 'https://open.syncnav.com/api/oauth/token'
     process.env.CLIENT_ID = process.env.CLIENT_ID ?? 'clientId'
     process.env.CLIENT_SECRET = process.env.CLIENT_SECRET ?? 'secret'
     process.env.GRANT_TYPE = process.env.GRANT_TYPE ?? 'grant-type'
