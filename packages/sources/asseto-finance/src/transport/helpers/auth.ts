@@ -3,7 +3,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { AxiosResponse } from 'axios'
 
-const logger = makeLogger('AuthUtil')
+const logger = makeLogger('AuthManager')
 
 export interface AuthResponseSchema {
   token_type: string
