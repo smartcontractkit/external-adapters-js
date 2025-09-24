@@ -28,9 +28,23 @@ describe('proto-utils', () => {
     expect(decimalToNumber(dec(42n, 1))).toBe(420)
   })
 
-  test('decimalToNumber – mantissa overflow throws', () => {
-    const tooBig = BigInt(Number.MAX_SAFE_INTEGER) + 1n
-    expect(() => decimalToNumber(dec(tooBig, 0))).toThrow(/overflow/i)
+  // Boundary: exactly 15 significant digits passes
+  test('decimalToNumber – exactly 15 significant digits passes', () => {
+    expect(decimalToNumber(dec(999_999_999_999_999n, 0))).toBe(999_999_999_999_999)
+  })
+
+  // Fail: > 15 significant digits (16-digit mantissa)
+  test('decimalToNumber – throws when value has > 15 significant digits', () => {
+    expect(() => decimalToNumber(dec(1_234_567_890_123_456n, 0))).toThrow(
+      /more than 15 significant digits/i,
+    )
+  })
+
+  // Fail: still > 15 significant digits even after scaling (exponent doesn’t reduce sig-digits)
+  test('decimalToNumber – throws for 16-digit mantissa with negative exponent', () => {
+    expect(() => decimalToNumber(dec(1_234_567_890_123_456n, -5))).toThrow(
+      /more than 15 significant digits/i,
+    )
   })
 
   test('convertNsToMs', () => {
