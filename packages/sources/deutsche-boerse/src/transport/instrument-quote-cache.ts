@@ -35,6 +35,31 @@ export class InstrumentQuoteCache {
     quote.mid = mid.toNumber()
     quote.quoteProviderTimeUnixMs = providerTime
   }
+  addBid(isin: string, bid: number, providerTime: number) {
+    const quote = this.get(isin)
+    if (!quote) {
+      throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
+    }
+    if (quote.ask !== undefined) {
+      const mid = new Decimal(bid).plus(quote.ask).div(2)
+      quote.mid = mid.toNumber()
+    }
+    quote.bid = bid
+    quote.quoteProviderTimeUnixMs = providerTime
+  }
+  addAsk(isin: string, ask: number, providerTime: number) {
+    const quote = this.get(isin)
+    if (!quote) {
+      throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
+    }
+
+    if (quote.bid !== undefined) {
+      const mid = new Decimal(quote.bid).plus(ask).div(2)
+      quote.mid = mid.toNumber()
+    }
+    quote.ask = ask
+    quote.quoteProviderTimeUnixMs = providerTime
+  }
   addTrade(isin: string, lastPrice: number, providerTime: number) {
     const quote = this.get(isin)
     if (!quote) {
