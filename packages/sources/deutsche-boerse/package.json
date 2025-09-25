@@ -1,0 +1,48 @@
+{
+  "name": "@chainlink/deutsche-boerse-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink deutsche-boerse adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "deutsche-boerse"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist src/gen && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "prebuild": "yarn buf generate",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.57.0",
+    "@sinonjs/fake-timers": "9.1.2",
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "@types/sinonjs__fake-timers": "8.1.5",
+    "@types/ws": "^8",
+    "nock": "13.5.6",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.7.0",
+    "@chainlink/external-adapter-framework": "2.7.0",
+    "decimal.js": "10.5.0",
+    "tslib": "2.4.1",
+    "ws": "^8.18.3"
+  }
+}
