@@ -1,4 +1,5 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
 import {
@@ -28,8 +29,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('DeutscheBoerseTransport')
 
+const CACHE_TTL_REFRESH_MS = 60000
 export function createLwbaWsTransport() {
   const cache = new InstrumentQuoteCache()
+  let ttlInterval: ReturnType<typeof setInterval> | undefined
   const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
@@ -37,8 +40,30 @@ export function createLwbaWsTransport() {
       followRedirects: true,
     }),
     handlers: {
-      open: () => {
+      open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
+
+        // Clear any previous interval (defensive; reconnects, tests, etc.)
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
+
+        const doRefresh = async () => {
+          try {
+            await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
+            logger.info(
+              { refreshMs: CACHE_TTL_REFRESH_MS },
+              'Refreshed TTL for active subscriptions',
+            )
+          } catch (err) {
+            logger.error({ err }, 'Failed TTL refresh')
+          }
+        }
+
+        // Refresh immediately, then every minute
+        await doRefresh()
+        ttlInterval = setInterval(doRefresh, CACHE_TTL_REFRESH_MS)
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -173,6 +198,10 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
+const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+  const params = await transport.subscriptionSet.getAll()
+  transport.responseCache.writeTTL(transport.name, params, ttl)
+}
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
