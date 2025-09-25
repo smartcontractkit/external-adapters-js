@@ -12,7 +12,8 @@ import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache } from './instrument-quote-cache'
 import {
   decimalToNumber,
-  isSingleQuoteFrame,
+  hasSingleBidFrame,
+  hasSingleOfferFrame,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -29,8 +30,7 @@ const logger = makeLogger('DeutscheBoerseTransport')
 
 export function createLwbaWsTransport() {
   const cache = new InstrumentQuoteCache()
-
-  return new ProtobufWsTransport<WsTransportTypes>({
+  const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
       headers: { 'X-API-Key': context.adapterSettings.API_KEY },
@@ -62,6 +62,7 @@ export function createLwbaWsTransport() {
         if (!sm) {
           return []
         }
+        transport.lastMessageReceivedAt = Date.now()
         const decoded = decodeSingleMarketData(sm)
         if (!decoded) {
           return []
@@ -159,6 +160,7 @@ export function createLwbaWsTransport() {
       },
     },
   })
+  return transport
 }
 
 // --- helpers -----------------------------------------------------------------
@@ -197,22 +199,39 @@ function processMarketData(
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat.Px)
     cache.addTrade(isin, latestPrice, providerTime)
-    logger.debug(
+    logger.info(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
     )
     return { isin, providerTime }
   }
-
-  if (isSingleQuoteFrame(dat)) {
+  if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(isin, bidPx, askPx, providerTime)
-    logger.debug(
+    cache.addQuote(isin, askPx, bidPx, providerTime)
+    logger.info(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
     )
     return { isin, providerTime }
+  }
+  if (hasSingleBidFrame(dat)) {
+    const bidPx = decimalToNumber(dat!.Bid!.Px)
+    cache.addBid(isin, bidPx, providerTime)
+    logger.info(
+      { isin, bid: bidPx, providerTimeUnixMs: providerTime },
+      'Processed single bid frame',
+    )
+    return { isin, providerTime }
+  }
+
+  if (hasSingleOfferFrame(dat)) {
+    const askPx = decimalToNumber(dat!.Offer!.Px)
+    cache.addAsk(isin, askPx, providerTime)
+    logger.info(
+      { isin, ask: askPx, providerTimeUnixMs: providerTime },
+      'Processed single offer frame',
+    )
   }
 
   logger.debug({ isin, keys: Object.keys(dat ?? {}) }, 'Ignoring unsupported market data frame')
