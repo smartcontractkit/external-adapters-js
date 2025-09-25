@@ -161,13 +161,73 @@ describe('impliedPrice', () => {
     describe('erroring calls', () => {
       const jobID = '1'
 
-      it('returns error if not reaching minAnswers', async () => {
+      it('returns error if not enough sources to reach minAnswers', async () => {
         mockSuccessfulResponseCoingecko()
         const data: AdapterRequest = {
           id: jobID,
           data: {
             endpoint,
             operand1Sources: ['coingecko'],
+            operand1MinAnswers: 2,
+            operand2Sources: ['coingecko'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
+          },
+        }
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if not enough configured sources to reach minAnswers', async () => {
+        mockSuccessfulResponseCoingecko()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko', 'not_configured_1', 'not_configured_2'],
+            operand1MinAnswers: 2,
+            operand2Sources: ['coingecko'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
+          },
+        }
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(500)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if not reaching minAnswers', async () => {
+        mockSuccessfulResponseCoingecko()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko', 'failing'],
             operand1MinAnswers: 2,
             operand2Sources: ['coingecko'],
             operand1Input: {
@@ -447,13 +507,71 @@ describe('impliedPrice', () => {
     describe('erroring calls', () => {
       const jobID = '1'
 
-      it('returns error if not reaching minAnswers', async () => {
+      it('returns error if not enough sources to reach minAnswers', async () => {
         mockSuccessfulResponseCoingecko()
         const data: AdapterRequest = {
           id: jobID,
           data: {
             endpoint,
             dividendSources: ['coingecko'],
+            dividendMinAnswers: 2,
+            divisorSources: ['coingecko'],
+            dividendInput: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            divisorInput: {
+              from: 'ETH',
+              to: 'USD',
+            },
+          },
+        }
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if not enough configured sources to reach minAnswers', async () => {
+        mockSuccessfulResponseCoingecko()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: ['coingecko', 'not_configured_1', 'not_configured_2'],
+            dividendMinAnswers: 2,
+            divisorSources: ['coingecko'],
+            dividendInput: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            divisorInput: {
+              from: 'ETH',
+              to: 'USD',
+            },
+          },
+        }
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(500)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if not reaching minAnswers', async () => {
+        mockSuccessfulResponseCoingecko()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: ['coingecko', 'failing'],
             dividendMinAnswers: 2,
             divisorSources: ['coingecko'],
             dividendInput: {
