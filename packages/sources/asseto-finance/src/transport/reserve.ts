@@ -51,7 +51,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     this.settings = adapterSettings
 
     this.authManager = new AuthManager(this.requester, {
-      AUTH_API_ENDPOINT: this.settings.AUTH_API_ENDPOINT,
+      API_ENDPOINT: this.settings.API_ENDPOINT,
       CLIENT_ID: this.settings.CLIENT_ID,
       CLIENT_SECRET: this.settings.CLIENT_SECRET,
       GRANT_TYPE: this.settings.GRANT_TYPE,

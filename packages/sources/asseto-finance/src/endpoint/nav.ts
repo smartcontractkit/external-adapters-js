@@ -1,22 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { navTransport } from '../transport/nav'
-
-export const inputParameters = new InputParameters(
-  {
-    fundId: {
-      required: true,
-      type: 'number',
-      description: 'The fund id of the reserves to query',
-    },
-  },
-  [
-    {
-      fundId: 3,
-    },
-  ],
-)
+import { inputParameters } from './reserve'
 
 export type NavResultResponse = {
   Result: number
@@ -30,7 +15,7 @@ export type NavResultResponse = {
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: NavResultResponse //SingleNumberResultResponse
+  Response: NavResultResponse
   Settings: typeof config.settings
 }
 

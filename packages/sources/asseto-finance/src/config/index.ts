@@ -1,20 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  AUTH_API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
-    type: 'string',
-    default: 'https://open.syncnav.com/api/oauth/token',
-  },
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://open.syncnav.com/api/funds',
+    default: 'https://open.syncnav.com/api',
   },
   CLIENT_ID: {
     description: 'Data Provider client ID',
     type: 'string',
-    sensitive: true,
     default: 'chainlink',
   },
   CLIENT_SECRET: {

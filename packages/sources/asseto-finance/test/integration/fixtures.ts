@@ -12,10 +12,10 @@ export const mockAuthResponseSuccess = (): nock.Scope =>
     .persist()
 
 export const mockReserveResponseSuccess = (fundId: number): nock.Scope =>
-  nock('https://open.syncnav.com/api/funds', {
+  nock('https://open.syncnav.com/api', {
     encodedQueryParams: true,
   })
-    .get(`/${fundId}/reserves`)
+    .get(`/funds/${fundId}/reserves`)
     .reply(
       200,
       () => ({

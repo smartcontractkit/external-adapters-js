@@ -1,4 +1,4 @@
-export interface ApiRequestConfig {
+interface ApiRequestConfig {
   baseURL: string
   url?: string
   headers?: Record<string, string>
@@ -22,7 +22,7 @@ export class RequestHelper {
   }
 
   static createNavRequest(baseURL: string, bearerToken: string, fundId: number): ApiRequestConfig {
-    return this.createAuthenticatedGetRequest(baseURL, bearerToken, `/${fundId}/nav-daily`)
+    return this.createAuthenticatedGetRequest(baseURL, bearerToken, `/funds/${fundId}/nav-daily`)
   }
 
   static createReserveRequest(
@@ -30,6 +30,6 @@ export class RequestHelper {
     bearerToken: string,
     fundId: number,
   ): ApiRequestConfig {
-    return this.createAuthenticatedGetRequest(baseURL, bearerToken, `/${fundId}/reserves`)
+    return this.createAuthenticatedGetRequest(baseURL, bearerToken, `/funds/${fundId}/reserves`)
   }
 }

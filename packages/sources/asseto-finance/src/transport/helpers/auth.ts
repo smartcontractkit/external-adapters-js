@@ -13,10 +13,9 @@ export interface AuthResponseSchema {
 }
 
 export interface AuthSettings {
-  AUTH_API_ENDPOINT: string
+  API_ENDPOINT: string
   CLIENT_ID: string
   CLIENT_SECRET: string
-  SCOPE: string
   GRANT_TYPE: string
   BACKGROUND_EXECUTE_MS: number
 }
@@ -58,7 +57,7 @@ export class AuthManager {
   private async requestAuth(): Promise<AxiosResponse<AuthResponseSchema>> {
     const startTimeMs = Date.now()
 
-    const baseURL = this.settings.AUTH_API_ENDPOINT
+    const baseURL = `${this.settings.API_ENDPOINT}/oauth/token`
     const formData = new FormData()
     formData.append('client_id', this.settings.CLIENT_ID)
     formData.append('client_secret', this.settings.CLIENT_SECRET)
