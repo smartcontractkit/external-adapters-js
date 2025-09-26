@@ -5217,7 +5217,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5252,7 +5252,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["socket.io-client", "npm:4.8.1"],\
           ["socket.io-mock-ts", "npm:1.0.2"],\
           ["tslib", "npm:2.4.1"],\
@@ -5303,7 +5303,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5323,7 +5323,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5339,7 +5339,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5356,7 +5356,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5375,7 +5375,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5392,7 +5392,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5410,7 +5410,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5445,7 +5445,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5460,7 +5460,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5477,7 +5477,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
           ["fastify", "npm:5.3.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5495,7 +5495,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5513,7 +5513,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5532,7 +5532,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5550,7 +5550,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5566,7 +5566,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5581,7 +5581,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5596,7 +5596,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5614,7 +5614,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5666,7 +5666,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["blockcypher", "npm:0.3.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5684,7 +5684,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5701,7 +5701,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5720,7 +5720,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5738,7 +5738,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5781,7 +5781,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5799,7 +5799,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5837,7 +5837,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:6.14.1"],\
           ["https-proxy-agent", "npm:7.0.6"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["query-string", "npm:9.1.2"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5856,7 +5856,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5874,7 +5874,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5906,7 +5906,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5922,7 +5922,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5938,7 +5938,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5955,7 +5955,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5973,7 +5973,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5991,7 +5991,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6007,7 +6007,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6025,7 +6025,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6041,7 +6041,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6059,7 +6059,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6077,7 +6077,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6094,7 +6094,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6111,7 +6111,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6131,7 +6131,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
           ["js-conflux-sdk", "npm:1.7.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6168,7 +6168,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6187,7 +6187,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6209,7 +6209,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.0.32"],\
           ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6228,7 +6228,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6264,7 +6264,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6282,7 +6282,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6300,7 +6300,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6318,7 +6318,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6337,7 +6337,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6356,7 +6356,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6372,7 +6372,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6390,7 +6390,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6425,7 +6425,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6447,7 +6447,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.18.1"],\
           ["decimal.js", "npm:10.5.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"]\
@@ -6470,7 +6470,7 @@ const RAW_RUNTIME_STATE =
           ["bip32", "npm:4.0.0"],\
           ["bitcoinjs-lib", "npm:6.1.7"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6488,7 +6488,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6523,7 +6523,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6541,7 +6541,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6560,7 +6560,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.3.1"],\
           ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6700,7 +6700,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.19"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6717,7 +6717,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6736,7 +6736,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6754,7 +6754,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6773,7 +6773,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6791,7 +6791,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6811,7 +6811,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6829,7 +6829,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6846,7 +6846,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6864,7 +6864,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6882,7 +6882,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6900,7 +6900,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6918,7 +6918,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6935,7 +6935,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7007,7 +7007,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7025,7 +7025,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7043,7 +7043,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/uuid", "npm:8.3.4"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["uuid", "npm:8.3.2"]\
@@ -7061,7 +7061,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7079,7 +7079,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7094,7 +7094,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7111,7 +7111,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7144,7 +7144,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7162,7 +7162,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7179,7 +7179,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7200,7 +7200,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.5.0"],\
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["ssh2-sftp-client", "npm:12.0.1"],\
           ["ts-jest", "virtual:574dc4ff24172c9d1b6014b09ac4f0f8a617e1a95145ad46aecd2ebd04a4f75de4ab8a41492c5d05a29c48f79f7f8b9ebb3a7bb1b88d778e9d134d1f21b3f7cf#npm:29.4.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -7222,7 +7222,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
           ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7241,7 +7241,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7256,7 +7256,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7273,7 +7273,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7306,7 +7306,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7323,7 +7323,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7340,7 +7340,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7390,7 +7390,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7425,7 +7425,7 @@ const RAW_RUNTIME_STATE =
           ["@types/ws", "npm:8.5.14"],\
           ["axios", "npm:1.9.0"],\
           ["crypto", "npm:1.0.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7446,7 +7446,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.4.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7462,7 +7462,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7478,7 +7478,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7498,7 +7498,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7549,7 +7549,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7564,7 +7564,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7583,7 +7583,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["axios", "npm:1.9.0"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7599,7 +7599,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7617,7 +7617,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7632,7 +7632,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7654,7 +7654,7 @@ const RAW_RUNTIME_STATE =
           ["ipfs-http-client", "npm:52.0.5"],\
           ["ipld-dag-cbor", "npm:1.0.1"],\
           ["multiformats", "npm:9.9.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:2.19.0"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7672,7 +7672,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7690,7 +7690,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7706,7 +7706,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7724,7 +7724,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["exponential-backoff", "npm:3.1.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["rxjs", "npm:7.8.2"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7743,7 +7743,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["sinon", "npm:12.0.1"],\
           ["starknet", "npm:6.9.0"],\
           ["supertest", "npm:6.2.4"],\
@@ -7763,7 +7763,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7782,7 +7782,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7799,7 +7799,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7821,7 +7821,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["moment", "npm:2.30.1"],\
           ["moment-timezone", "npm:0.5.48"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7868,7 +7868,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7884,7 +7884,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7899,7 +7899,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7939,7 +7939,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7957,7 +7957,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7975,7 +7975,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8008,7 +8008,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8026,7 +8026,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8043,7 +8043,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8062,7 +8062,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.5.4"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8078,7 +8078,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8097,7 +8097,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8115,7 +8115,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8135,7 +8135,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["date-fns", "npm:4.1.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8150,7 +8150,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8168,7 +8168,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
           ["date-fns", "npm:4.1.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["uuid", "npm:11.1.0"]\
@@ -8186,7 +8186,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8202,7 +8202,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.13.7"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8220,7 +8220,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8240,7 +8240,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8258,7 +8258,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8274,7 +8274,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8289,7 +8289,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8333,7 +8333,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8351,7 +8351,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8367,7 +8367,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8382,7 +8382,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8397,7 +8397,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8414,7 +8414,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8451,7 +8451,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8485,7 +8485,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/api", "npm:9.14.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8500,7 +8500,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8517,7 +8517,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8533,7 +8533,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8586,7 +8586,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8603,7 +8603,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.3.1"]\
         ],\
@@ -8659,7 +8659,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bitcoinjs-lib", "npm:5.2.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8680,7 +8680,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8699,7 +8699,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["csv-parse", "npm:5.5.6"],\
           ["date-fns", "npm:3.6.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.6.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8716,7 +8716,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8736,7 +8736,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8753,7 +8753,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.14.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8768,7 +8768,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["tweetnacl", "npm:1.0.3"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8789,7 +8789,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8809,7 +8809,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["jsonwebtoken", "npm:9.0.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8829,7 +8829,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8845,7 +8845,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8901,7 +8901,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["sinon", "npm:12.0.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8922,7 +8922,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
           ["luxon", "npm:1.28.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8939,7 +8939,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.5.4"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8957,7 +8957,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.9.0"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.5.4"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8975,7 +8975,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9009,7 +9009,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9030,7 +9030,7 @@ const RAW_RUNTIME_STATE =
           ["date-fns", "npm:3.6.0"],\
           ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
           ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9049,7 +9049,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9069,7 +9069,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["synthetix", "npm:2.45.3"],\
           ["tslib", "npm:2.8.1"],\
@@ -9107,7 +9107,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9124,7 +9124,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9143,7 +9143,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9176,7 +9176,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9193,7 +9193,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9211,7 +9211,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9228,7 +9228,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9261,7 +9261,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9279,7 +9279,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.9.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9297,7 +9297,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
           ["ethers", "npm:6.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9334,7 +9334,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9353,7 +9353,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9369,7 +9369,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9385,7 +9385,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.7.2"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9402,7 +9402,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9421,7 +9421,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9438,7 +9438,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9458,7 +9458,7 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9476,7 +9476,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9494,7 +9494,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9527,7 +9527,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9543,7 +9543,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9574,7 +9574,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9589,7 +9589,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9606,7 +9606,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9624,7 +9624,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9642,7 +9642,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9662,7 +9662,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
+          ["nock", "npm:14.0.10"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -13443,6 +13443,19 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.39.3-168e8b29cd-f5fbf0a408.zip/node_modules/@mswjs/interceptors/",\
         "packageDependencies": [\
           ["@mswjs/interceptors", "npm:0.39.3"],\
+          ["@open-draft/deferred-promise", "npm:2.2.0"],\
+          ["@open-draft/logger", "npm:0.3.0"],\
+          ["@open-draft/until", "npm:2.1.0"],\
+          ["is-node-process", "npm:1.2.0"],\
+          ["outvariant", "npm:1.4.3"],\
+          ["strict-event-emitter", "npm:0.5.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:0.39.7", {\
+        "packageLocation": "./.yarn/cache/@mswjs-interceptors-npm-0.39.7-266a699c13-b0a6efac4f.zip/node_modules/@mswjs/interceptors/",\
+        "packageDependencies": [\
+          ["@mswjs/interceptors", "npm:0.39.7"],\
           ["@open-draft/deferred-promise", "npm:2.2.0"],\
           ["@open-draft/logger", "npm:0.3.0"],\
           ["@open-draft/until", "npm:2.1.0"],\
@@ -32735,6 +32748,16 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["nock", "npm:13.5.6"],\
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
+          ["json-stringify-safe", "npm:5.0.1"],\
+          ["propagate", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:14.0.10", {\
+        "packageLocation": "./.yarn/cache/nock-npm-14.0.10-e14e5b2d66-89195d7981.zip/node_modules/nock/",\
+        "packageDependencies": [\
+          ["nock", "npm:14.0.10"],\
+          ["@mswjs/interceptors", "npm:0.39.7"],\
           ["json-stringify-safe", "npm:5.0.1"],\
           ["propagate", "npm:2.0.1"]\
         ],\
