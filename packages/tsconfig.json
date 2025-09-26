@@ -264,6 +264,9 @@
       "path": "./sources/coinpaprika"
     },
     {
+      "path": "./sources/coinpaprika-state"
+    },
+    {
       "path": "./sources/coinranking"
     },
     {

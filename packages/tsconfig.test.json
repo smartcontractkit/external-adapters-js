@@ -264,6 +264,9 @@
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinpaprika-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
