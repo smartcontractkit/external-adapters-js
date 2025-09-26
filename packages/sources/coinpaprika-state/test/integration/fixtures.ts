@@ -20,10 +20,14 @@ export const endSSEStream = (stream?: PassThrough) => {
   if (!stream) return
   try {
     stream.end()
-  } catch {}
+  } catch {
+    // Ignore errors when ending stream
+  }
   try {
     stream.destroy()
-  } catch {}
+  } catch {
+    // Ignore errors when destroying stream
+  }
 }
 
 export const mockStreamPost = ({
@@ -124,7 +128,7 @@ export const waitFor = async <T>(
 ): Promise<T> => {
   const start = Date.now()
   let lastErr: unknown
-  while (true) {
+  while (Date.now() - start < timeoutMs) {
     try {
       return await fn()
     } catch (e) {
@@ -133,6 +137,7 @@ export const waitFor = async <T>(
       await new Promise((r) => setTimeout(r, stepMs))
     }
   }
+  throw lastErr || new Error('Timeout waiting for condition')
 }
 
 export const mockStreamPostRawMatchingBody = ({

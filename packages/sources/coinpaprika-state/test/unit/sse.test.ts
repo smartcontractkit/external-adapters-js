@@ -10,17 +10,23 @@ describe('SSEParser', () => {
 
   it('parses multi-line data and explicit event name', () => {
     const p = new SSEParser()
-    const events: any[] = []
-    p.push('event: t_s\ndata: {"a":1\n', () => {})
+    const events: { t: string; d: string }[] = []
+    p.push('event: t_s\ndata: {"a":1\n', () => {
+      // No-op callback for partial data
+    })
     p.push('data: ,"b":2}\n\n', (t, d) => events.push({ t, d }))
     expect(events).toEqual([{ t: 't_s', d: '{"a":1\n,"b":2}' }])
   })
 
   it('ignores comments and keeps trailing partial line in buffer', () => {
     const p = new SSEParser()
-    const events: any[] = []
-    p.push(':heartbeat\n', () => {})
-    p.push('data: {"ok":true}\n', () => {})
+    const events: { t: string; d: string }[] = []
+    p.push(':heartbeat\n', () => {
+      // No-op callback for heartbeat
+    })
+    p.push('data: {"ok":true}\n', () => {
+      // No-op callback for partial data
+    })
     p.push('\n', (t, d) => events.push({ t, d }))
     expect(events.length).toBe(1)
     expect(events[0].d).toBe('{"ok":true}')
