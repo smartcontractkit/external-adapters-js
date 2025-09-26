@@ -7,6 +7,7 @@ import type {
 } from '@chainlink/ea-bootstrap'
 import {
   AdapterError,
+  AdapterInputError,
   AdapterResponseInvalidError,
   Requester,
   util,
@@ -75,6 +76,37 @@ export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
   return executeComputedPrice(validator.validated.id, validator.validated.data, config)
 }
 
+export const getOperandSourceUrls = ({
+  sources,
+  minAnswers,
+}: {
+  sources: string[]
+  minAnswers: number
+}): string[] => {
+  if (sources.length < minAnswers) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Not enough sources: got ${sources.length} sources, requiring at least ${minAnswers} answers`,
+    })
+  }
+  const urls = sources
+    .map((source) => util.getURL(source.toUpperCase()))
+    .filter((url) => url !== undefined)
+  const missingUrlCount = minAnswers - urls.length
+  if (missingUrlCount > 0) {
+    const missingEnvVars = sources
+      .map((source) => `${source.toUpperCase()}_${util.ENV_ADAPTER_URL}`)
+      .filter((envVar) => util.getEnv(envVar) === undefined)
+    throw new AdapterError({
+      statusCode: 500,
+      message: `Not enough sources configured. Make sure ${missingUrlCount} of the following are set in the environment: ${missingEnvVars.join(
+        ', ',
+      )}`,
+    })
+  }
+  return urls
+}
+
 export const executeComputedPrice = async (
   validatedId: string,
   validatedData: TInputParameters,
@@ -90,7 +122,10 @@ export const executeComputedPrice = async (
   const operation = validatedData.operation.toLowerCase()
   // TODO: non-nullable default types
 
-  const operand1Urls = operand1Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand1Urls = getOperandSourceUrls({
+    sources: operand1Sources,
+    minAnswers: operand1MinAnswers,
+  })
   const operand1Result = await getExecuteMedian(
     jobRunID,
     operand1Urls,
@@ -102,7 +137,10 @@ export const executeComputedPrice = async (
     throw new AdapterResponseInvalidError({ message: 'Operand 1 result is zero' })
   }
 
-  const operand2Urls = operand2Sources.map((source) => util.getRequiredURL(source.toUpperCase()))
+  const operand2Urls = getOperandSourceUrls({
+    sources: operand2Sources,
+    minAnswers: operand2MinAnswers,
+  })
   const operand2Result = await getExecuteMedian(
     jobRunID,
     operand2Urls,

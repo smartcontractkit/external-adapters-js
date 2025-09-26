@@ -1,5 +1,11 @@
 # @chainlink/avalanche-platform-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#4038](https://github.com/smartcontractkit/external-adapters-js/pull/4038) [`3bf9f56`](https://github.com/smartcontractkit/external-adapters-js/commit/3bf9f5616eb9611a7fb9b64f0c623437060ddae8) Thanks [@dskloetc](https://github.com/dskloetc)! - Add totalBalance endpoint
+
 ## 2.0.32
 
 ### Patch Changes

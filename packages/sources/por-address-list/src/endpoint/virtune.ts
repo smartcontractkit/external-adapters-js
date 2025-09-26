@@ -21,6 +21,11 @@ export const sharedVirtuneInputParameters = {
     type: 'string',
     required: true,
   },
+  addressPattern: {
+    description: 'Return only addresses matching the given regular expression pattern.',
+    type: 'string',
+    required: false,
+  },
 } as const
 
 export const inputParameters = new InputParameters(
@@ -32,6 +37,7 @@ export const inputParameters = new InputParameters(
       accountId: 'VIRBTC',
       network: 'bitcoin',
       chainId: 'mainnet',
+      addressPattern: '^(?!P-)', // Only addresses that don't start with 'P-'.
     },
   ],
 )

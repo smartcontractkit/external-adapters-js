@@ -7,6 +7,19 @@ export const getUrl = (params: { accountId: string }): string => {
   return params.accountId
 }
 
+export const filterAddresses = ({
+  addresses,
+  params,
+}: {
+  addresses: string[]
+  params: { addressPattern?: string }
+}): string[] => {
+  const { addressPattern } = params
+  if (!addressPattern) return addresses
+  const re = new RegExp(addressPattern)
+  return addresses.filter((address) => re.test(address))
+}
+
 export interface ResponseSchema {
   accountName: string
   result: {
@@ -43,6 +56,16 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
   // because the compiler doesn't know getUrl satisfies the type until T
   // is instantiated.
   getUrlFromParams: (params: VirtuneParams<T>) => string,
+  // filterAddresses is always assigned to the exported filterAddresses.
+  // It's only a parameter because the compiler doesn't know
+  // filterAddresses satisfies the type until T is instantiated.
+  filterAddresses: ({
+    addresses,
+    params,
+  }: {
+    addresses: string[]
+    params: VirtuneParams<T>
+  }) => string[],
   getResultFromAddresses: (_: {
     params: VirtuneParams<T>
     addresses: string[]
@@ -88,8 +111,10 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
       ]
     }
 
+    const filteredAddresses = filterAddresses({ addresses, params: param })
+
     const result = getResultFromAddresses({
-      addresses,
+      addresses: filteredAddresses,
       params: param,
     })
 

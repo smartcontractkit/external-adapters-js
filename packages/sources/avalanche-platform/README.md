@@ -1,6 +1,6 @@
 # AVALANCHE_PLATFORM
 
-![2.0.32](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/avalanche-platform/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,25 +12,25 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |      Name       |                                      Description                                       |  Type  | Options | Default |
-| :-------: | :-------------: | :------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | P_CHAIN_RPC_URL | Full RPC URL for the avalanche platform chain (e.g. https://api.avax.network/ext/bc/P) | string |         |         |
+| Required? |         Name          |                                                 Description                                                  |  Type  | Options | Default |
+| :-------: | :-------------------: | :----------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    P_CHAIN_RPC_URL    |            Full RPC URL for the avalanche platform chain (e.g. https://api.avax.network/ext/bc/P)            | string |         |         |
+|           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. | number |         |  `10`   |
+|           | BACKGROUND_EXECUTE_MS |          The amount of time the background execute should sleep before performing the next request           | number |         | `10000` |
 
 ---
 
 ## Data Provider Rate Limits
 
-|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                           Note                           |
-| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :------------------------------------------------------: |
-| default |                             |              6              |                           | Considered unlimited tier, but setting reasonable limits |
+There are no rate limits for this adapter.
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |           Options            |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint) | `balance` |
+| Required? |   Name   |     Description     |  Type  |                               Options                                |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [balance](#balance-endpoint), [totalbalance](#totalbalance-endpoint) | `balance` |
 
 ## Balance Endpoint
 
@@ -58,6 +58,38 @@ Request:
         "network": "avalanche-fuji"
       }
     ]
+  }
+}
+```
+
+---
+
+## Totalbalance Endpoint
+
+`totalbalance` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases  |                                            Description                                            |   Type   | Options |                       Default                       | Depends On | Not Valid With |
+| :-------: | :---------------: | :------: | :-----------------------------------------------------------------------------------------------: | :------: | :-----: | :-------------------------------------------------: | :--------: | :------------: |
+|    ✅     |     addresses     | `result` | An array of addresses to get the balances of (as an object with string `address` as an attribute) | object[] |         |                                                     |            |                |
+|    ✅     | addresses.address |          |                                 an address to get the balance of                                  |  string  |         |                                                     |            |                |
+|           |      assetId      |          |                            The ID of the asset to get the balance for                             |  string  |         | `FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z` |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "totalbalance",
+    "addresses": [
+      {
+        "address": "P-avax1tnuesf6cqwnjw7fxjyk7lhch0vhf0v95wj5jvy"
+      }
+    ],
+    "assetId": "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z"
   }
 }
 ```
