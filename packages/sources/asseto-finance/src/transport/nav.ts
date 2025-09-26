@@ -1,10 +1,12 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
+import { BaseEndpointTypes } from '../endpoint/nav'
+import { inputParameters } from '../endpoint/reserve'
 import { AuthManager, AuthSettings } from './helpers/auth'
 import { RequestHelper } from './helpers/request'
 
@@ -12,11 +14,11 @@ const logger = makeLogger('NavTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-interface ApiResponseSchema<T> {
+interface ApiResponseSchema {
   code: number
   message: string
   data: {
-    list: T[]
+    list: NavResponseSchema[]
   }
 }
 
@@ -41,6 +43,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
   requester!: Requester
   settings!: HttpTransportTypes['Settings']
   authManager!: AuthManager
+  endpointName!: string
 
   override async initialize(
     dependencies: TransportDependencies<HttpTransportTypes>,
@@ -51,6 +54,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.settings = adapterSettings
+    this.endpointName = endpointName
 
     this.authManager = new AuthManager(this.requester, {
       API_ENDPOINT: this.settings.API_ENDPOINT,
@@ -119,12 +123,20 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
       fundId,
     )
 
-    const response = await this.requester.request<ApiResponseSchema<NavResponseSchema>>(
-      JSON.stringify(requestConfig),
-      requestConfig,
-    )
+    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
+      context: {
+        adapterSettings: this.settings,
+        inputParameters,
+        endpointName: this.endpointName,
+      },
+      data: requestConfig.data || {},
+      transportName: this.name,
+    })
+
+    const response = await this.requester.request<ApiResponseSchema>(requestKey, requestConfig)
 
     if (response.response.status === 401) {
+      logger.error(response.response.data.message)
       throw new AdapterError({
         statusCode: 502,
         message: 'Auth invalid, will retry next background execute',
@@ -133,12 +145,12 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     } else if (response.response.status !== 200) {
       throw new AdapterError({
         statusCode: 502,
-        message: 'Unexpected response',
+        message: response.response.data.message,
         providerStatusCode: response.response.status,
       })
     }
 
-    const navList = response.response.data.data.list as NavResponseSchema[]
+    const navList = response?.response?.data?.data?.list as NavResponseSchema[]
     if (!navList || navList.length === 0) {
       throw new AdapterError({
         statusCode: 404,

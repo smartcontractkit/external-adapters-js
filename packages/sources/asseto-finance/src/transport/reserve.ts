@@ -1,4 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
@@ -12,10 +13,10 @@ const logger = makeLogger('ReserveTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-interface ApiResponseSchema<T> {
+interface ApiResponseSchema {
   code: number
   message: string
-  data: T
+  data: ReserveResponseSchema
 }
 
 export interface ReserveResponseSchema {
@@ -39,6 +40,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
   requester!: Requester
   settings!: HttpTransportTypes['Settings']
   authManager!: AuthManager
+  endpointName!: string
 
   override async initialize(
     dependencies: TransportDependencies<HttpTransportTypes>,
@@ -49,6 +51,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.settings = adapterSettings
+    this.endpointName = endpointName
 
     this.authManager = new AuthManager(this.requester, {
       API_ENDPOINT: this.settings.API_ENDPOINT,
@@ -129,12 +132,20 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
       fundId,
     )
 
-    const response = await this.requester.request<ApiResponseSchema<ReserveResponseSchema>>(
-      JSON.stringify(requestConfig),
-      requestConfig,
-    )
+    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
+      context: {
+        adapterSettings: this.settings,
+        inputParameters,
+        endpointName: this.endpointName,
+      },
+      data: requestConfig.data || {},
+      transportName: this.name,
+    })
+
+    const response = await this.requester.request<ApiResponseSchema>(requestKey, requestConfig)
 
     if (response.response.status === 401) {
+      logger.error(response.response.data.message)
       throw new AdapterError({
         statusCode: 502,
         message: 'Auth invalid, will retry next background execute',
@@ -143,7 +154,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     } else if (response.response.status !== 200) {
       throw new AdapterError({
         statusCode: 502,
-        message: 'Unexpected response',
+        message: response.response.data.message,
         providerStatusCode: response.response.status,
       })
     } else if (response.response.data.code !== 0) {

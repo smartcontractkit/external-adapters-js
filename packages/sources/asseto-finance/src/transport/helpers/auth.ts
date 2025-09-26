@@ -1,14 +1,9 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { AxiosResponse } from 'axios'
-
-const logger = makeLogger('AuthManager')
 
 export interface AuthResponseSchema {
   token_type: string
-  expires_in: number
-  ext_expires_in: number
+  expires: number
   access_token: string
 }
 
@@ -41,7 +36,12 @@ export class AuthManager {
 
     // if latestToken is missing or expired/expiring within buffer, grab a new token
     if (!this.latestToken || now > this.latestToken.expiryTimestampMs - buffer) {
-      await this.requestAuth()
+      const startTimeMs = Date.now()
+      const response = await this.requestAuth()
+      this.latestToken = {
+        token: response.access_token,
+        expiryTimestampMs: startTimeMs + response.expires * 1000,
+      }
     }
 
     if (!this.latestToken) {
@@ -54,9 +54,7 @@ export class AuthManager {
     return this.latestToken.token
   }
 
-  private async requestAuth(): Promise<AxiosResponse<AuthResponseSchema>> {
-    const startTimeMs = Date.now()
-
+  private async requestAuth(): Promise<AuthResponseSchema> {
     const baseURL = `${this.settings.API_ENDPOINT}/oauth/token`
     const formData = new FormData()
     formData.append('client_id', this.settings.CLIENT_ID)
@@ -73,8 +71,11 @@ export class AuthManager {
     }
 
     const response = await this.requester.request<AuthResponseSchema>(baseURL, requestConfig)
-
-    if (response.response?.status !== 200) {
+    if (
+      response.response?.status !== 200 ||
+      !response.response.data.access_token ||
+      !response.response.data.expires
+    ) {
       throw new AdapterError({
         statusCode: 502,
         message: 'Unable to auth',
@@ -82,12 +83,6 @@ export class AuthManager {
       })
     }
 
-    this.latestToken = {
-      token: response.response.data.access_token,
-      expiryTimestampMs: startTimeMs + response.response.data.expires_in * 1000,
-    }
-
-    logger.debug('Successfully fetched token')
-    return response.response
+    return response.response.data
   }
 }

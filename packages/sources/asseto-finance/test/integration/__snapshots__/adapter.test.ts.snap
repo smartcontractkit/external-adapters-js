@@ -5,16 +5,15 @@ exports[`execute nav endpoint should return success 1`] = `
   "data": {
     "fundId": 8,
     "fundName": "CashPlus_BSC",
-    "ripcord": false,
-    "totalAUM": 0,
-    "totalDate": "2025-09-22 20:00:01",
+    "navDate": "2025-08-26",
+    "netAssetValue": 105.129,
   },
-  "result": 0,
+  "result": 105.129,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1756166400000,
   },
 }
 `;

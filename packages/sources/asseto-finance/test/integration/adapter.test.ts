@@ -61,7 +61,7 @@ describe('execute', () => {
     it('should return success', async () => {
       const fundId = 8
       const data = {
-        endpoint: 'reserve',
+        endpoint: 'nav',
         fundId: fundId,
       }
 
