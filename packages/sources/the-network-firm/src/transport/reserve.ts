@@ -1,4 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/reserve'
 
@@ -17,6 +18,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
+const logger = makeLogger('ReserveStreamsHTTPTransport')
 
 export const getApiKey = (client: string) => {
   const apiKeyName = `${client.replace(/-/g, '_').toUpperCase()}_API_KEY`
@@ -50,34 +53,51 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
+      const laxRipcord = param.laxRipcord
+
       const ripcord =
         response.data.ripcord || response.data.ripcord.toString().toLowerCase() === 'true'
+      const ripcordAsInt = ripcord ? 1 : 0
+
+      // Populate ripcord details if ripcord is true
       if (ripcord) {
-        const message = `Ripcord indicator true. Details: ${response.data.ripcordDetails.join(
-          ', ',
-        )}`
-        return {
-          params: param,
-          response: {
-            errorMessage: message,
-            ripcord: response.data.ripcord,
-            ripcordDetails: response.data.ripcordDetails.join(', '),
-            statusCode: 502,
-            timestamps: {
-              providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+        const ripcordDetails = response.data.ripcordDetails.join(', ')
+
+        // If laxRipcord is false and ripcord is true return 502
+        if (!laxRipcord) {
+          const message = `Ripcord indicator true. Details: ${ripcordDetails}`
+          return {
+            params: param,
+            response: {
+              errorMessage: message,
+              ripcord: response.data.ripcord,
+              ripcordAsInt,
+              ripcordDetails,
+              statusCode: 502,
+              timestamps: {
+                providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
+              },
             },
-          },
+          }
         }
+
+        logger.debug(`Ripcord indicator true. Details: ${ripcordDetails}`)
       }
 
-      const result = response.data
+      // Ensure totalReserve and totalToken are numbers, keep result as is for backwards compatibility
+      const result = response.data.totalReserve
+      const totalReserve = Number(result)
+      const totalToken = Number(response.data.totalToken)
       return {
         params: param,
         response: {
-          result: result.totalReserve,
+          result,
           data: {
-            result: result.totalReserve,
+            result,
             ripcord: response.data.ripcord,
+            ripcordAsInt,
+            totalReserve,
+            totalToken,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
