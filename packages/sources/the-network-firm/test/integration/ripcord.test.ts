@@ -28,6 +28,7 @@ describe('execute', () => {
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
+    process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -123,6 +124,32 @@ describe('execute', () => {
         endpoint: 'uranium',
       }
       mockUraniumResponseRipcordSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('reserve endpoint when ripcord true', () => {
+    it('should fail', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'emgemx-tdfkf3',
+      }
+      mockEmgemxResponseRipcordFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should succeed with lax ripcord', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'emgemx-tdfkf3',
+        laxRipcord: true,
+      }
+
+      mockEmgemxResponseRipcordFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

@@ -56,6 +56,40 @@ exports[`execute gift endpoint when ripcord true should return error 1`] = `
 }
 `;
 
+exports[`execute reserve endpoint when ripcord true should fail 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordAsInt": 1,
+  "ripcordDetails": "Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1748007917250,
+  },
+}
+`;
+
+exports[`execute reserve endpoint when ripcord true should succeed with lax ripcord 1`] = `
+{
+  "data": {
+    "result": "1000000",
+    "ripcord": true,
+    "ripcordAsInt": 1,
+    "totalReserve": 1000000,
+    "totalToken": 100000,
+  },
+  "result": "1000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1748007917250,
+  },
+}
+`;
+
 exports[`execute stbt endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
