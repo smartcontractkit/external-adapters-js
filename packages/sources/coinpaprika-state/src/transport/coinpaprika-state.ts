@@ -51,8 +51,8 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   private activeConnection: AbortController | null = null
   private activePairs: Map<string, RequestParams> = new Map()
   // reconnection backoff base (ms); jitter added per attempt //TODO
-  private lastConnectionAttempt: number = 0
-  private reconnectDelay: number = 5000
+  private lastConnectionAttempt = 0
+  private reconnectDelay = 5000
   // guard to prevent reconnects during/after shutdown
   private isShuttingDown = false
   private sseParser: SSEParser | null = null
