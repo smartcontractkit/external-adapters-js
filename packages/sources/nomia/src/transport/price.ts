@@ -48,6 +48,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
+    // Helps us time request rate from logs
+    logger.info(`parseResponse called: params.length=${params.length}`)
+
     // Validate basic response structure
     if (!response.data || typeof response.data !== 'object') {
       logger.error(
