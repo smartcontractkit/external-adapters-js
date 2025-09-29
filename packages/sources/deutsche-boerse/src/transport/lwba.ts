@@ -29,7 +29,6 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('DeutscheBoerseTransport')
 
-const CACHE_TTL_REFRESH_MS = 60000
 export function createLwbaWsTransport() {
   const cache = new InstrumentQuoteCache()
   let ttlInterval: ReturnType<typeof setInterval> | undefined
@@ -43,7 +42,7 @@ export function createLwbaWsTransport() {
       open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
 
-        // Clear any previous interval (defensive; reconnects, tests, etc.)
+        // Clear any previous interval
         if (ttlInterval) {
           clearInterval(ttlInterval)
           ttlInterval = undefined
@@ -53,7 +52,7 @@ export function createLwbaWsTransport() {
           try {
             await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
             logger.info(
-              { refreshMs: CACHE_TTL_REFRESH_MS },
+              { refreshMs: context.adapterSettings.CACHE_TTL_REFRESH_MS },
               'Refreshed TTL for active subscriptions',
             )
           } catch (err) {
@@ -63,7 +62,7 @@ export function createLwbaWsTransport() {
 
         // Refresh immediately, then every minute
         await doRefresh()
-        ttlInterval = setInterval(doRefresh, CACHE_TTL_REFRESH_MS)
+        ttlInterval = setInterval(doRefresh, context.adapterSettings.CACHE_TTL_REFRESH_MS)
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -73,6 +72,10 @@ export function createLwbaWsTransport() {
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
       },
       message(buf) {
         logger.debug(
@@ -164,6 +167,8 @@ export function createLwbaWsTransport() {
       },
 
       unsubscribeMessage: (p: { market: string; isin: string }) => {
+        const err = new Error()
+        console.error(err.stack)
         cache.deactivate(p.isin)
         if (cache.isEmpty()) {
           const req = create(RequestSchema, {
@@ -237,7 +242,7 @@ function processMarketData(
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(isin, askPx, bidPx, providerTime)
+    cache.addQuote(isin, bidPx, askPx, providerTime)
     logger.info(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
