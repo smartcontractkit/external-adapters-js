@@ -71,7 +71,7 @@ exports[`execute reserve endpoint when ripcord true should fail 1`] = `
 }
 `;
 
-exports[`execute reserve endpoint when ripcord true should succeed with lax ripcord 1`] = `
+exports[`execute reserve endpoint when ripcord true should succeed with noErrorOnRipcord 1`] = `
 {
   "data": {
     "result": "1000000",
