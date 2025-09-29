@@ -48,15 +48,19 @@ export const getEAUrl = (ea: string) => {
   return url
 }
 
-const parse = (response: any): number => {
+const parse = (response: any): string => {
   if (typeof response === 'number') {
-    return response
+    return response.toString()
   }
 
   if (typeof response === 'string') {
-    const num = Number(response)
-    if (!isNaN(num)) {
-      return num
+    if (!isNaN(Number(response))) {
+      if (response.indexOf('.') === -1) {
+        // Response may already be scaled, use BigInt to avoid overflow
+        return BigInt(response).toString()
+      } else {
+        return Number(response).toString()
+      }
     }
   }
 

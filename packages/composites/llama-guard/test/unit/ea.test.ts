@@ -46,16 +46,24 @@ describe('ea.ts', () => {
       const requester = { request: jest.fn() } as any
 
       requester.request.mockResolvedValueOnce({ response: { data: { result: 10 } } })
-      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual(10)
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('10')
+
+      requester.request.mockResolvedValueOnce({ response: { data: { result: '1.234456123123' } } })
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('1.234456123123')
 
       requester.request.mockResolvedValueOnce({ response: { data: { result: ' 11 ' } } })
-      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual(11)
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('11')
 
       requester.request.mockResolvedValueOnce({ response: { data: { result: ' 0xC ' } } })
-      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual(12)
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('12')
 
       requester.request.mockResolvedValueOnce({ response: { data: { result: ' 0XD ' } } })
-      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual(13)
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('13')
+
+      requester.request.mockResolvedValueOnce({
+        response: { data: { result: ' 999999999999999999999999999 ' } },
+      })
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('999999999999999999999999999')
     })
 
     it('should throw if empty', async () => {
