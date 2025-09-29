@@ -12,4 +12,9 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'wss://md.deutsche-boerse.com',
   },
+  CACHE_TTL_REFRESH_MS: {
+    description: 'Interval to refresh the TTL of active subscriptions',
+    default: 60000,
+    type: 'number',
+  },
 })

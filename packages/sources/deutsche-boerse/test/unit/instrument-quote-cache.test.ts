@@ -1,8 +1,10 @@
+// packages/sources/deutsche-boerse/test/unit/instrument-quote-cache.test.ts
 import { InstrumentQuoteCache } from '../../src/transport/instrument-quote-cache'
 
 describe('InstrumentQuoteCache', () => {
   const ISIN = 'IE00B53L3W79'
   const ISIN2 = 'US0000000001'
+
   test('activate/deactivate/has/isEmpty/get', () => {
     const cache = new InstrumentQuoteCache()
     expect(cache.isEmpty()).toBe(true)
@@ -20,11 +22,45 @@ describe('InstrumentQuoteCache', () => {
     cache.activate(ISIN)
 
     cache.addQuote(ISIN, 100, 102, 1234)
-    const q = cache.get(ISIN)
-    expect(q?.bid).toBe(100)
-    expect(q?.ask).toBe(102)
-    expect(q?.mid).toBe(101)
-    expect(q?.quoteProviderTimeUnixMs).toBe(1234)
+    const q = cache.get(ISIN)!
+    expect(q.bid).toBe(100)
+    expect(q.ask).toBe(102)
+    expect(q.mid).toBe(101)
+    expect(q.quoteProviderTimeUnixMs).toBe(1234)
+  })
+
+  test('addBid then addAsk recomputes mid and updates quote time', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(ISIN)
+
+    cache.addBid(ISIN, 100, 1111) // only bid
+    let q = cache.get(ISIN)!
+    expect(q.bid).toBe(100)
+    expect(q.ask).toBeUndefined()
+    expect(q.mid).toBeUndefined()
+    expect(q.quoteProviderTimeUnixMs).toBe(1111)
+
+    cache.addAsk(ISIN, 102, 2222) // now ask arrives
+    q = cache.get(ISIN)!
+    expect(q.ask).toBe(102)
+    expect(q.mid).toBe(101)
+    expect(q.quoteProviderTimeUnixMs).toBe(2222)
+  })
+
+  test('addAsk then addBid recomputes mid and updates quote time', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(ISIN)
+
+    cache.addAsk(ISIN, 50, 3333)
+    let q = cache.get(ISIN)!
+    expect(q.ask).toBe(50)
+    expect(q.mid).toBeUndefined()
+
+    cache.addBid(ISIN, 48, 4444)
+    q = cache.get(ISIN)!
+    expect(q.bid).toBe(48)
+    expect(q.mid).toBe(49)
+    expect(q.quoteProviderTimeUnixMs).toBe(4444)
   })
 
   test('addTrade sets latestPrice and trade time', () => {
@@ -32,20 +68,19 @@ describe('InstrumentQuoteCache', () => {
     cache.activate(ISIN)
 
     cache.addTrade(ISIN, 99.5, 2222)
-    const q = cache.get(ISIN)
-
-    expect(q?.latestPrice).toBe(99.5)
-    expect(q?.tradeProviderTimeUnixMs).toBe(2222)
+    const q = cache.get(ISIN)!
+    expect(q.latestPrice).toBe(99.5)
+    expect(q.tradeProviderTimeUnixMs).toBe(2222)
   })
-  test('addQuote without activate throws', () => {
+
+  test('addQuote/addBid/addAsk/addTrade without activate throws', () => {
     const cache = new InstrumentQuoteCache()
     expect(() => cache.addQuote(ISIN, 100, 102, 1234)).toThrow(/inactive isin/i)
-  })
-
-  test('addTrade without activate throws', () => {
-    const cache = new InstrumentQuoteCache()
+    expect(() => cache.addBid(ISIN, 100, 1)).toThrow(/inactive isin/i)
+    expect(() => cache.addAsk(ISIN, 100, 1)).toThrow(/inactive isin/i)
     expect(() => cache.addTrade(ISIN, 99.5, 2222)).toThrow(/inactive isin/i)
   })
+
   test('deactivate then attempt to add -> throws', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(ISIN)
@@ -53,6 +88,7 @@ describe('InstrumentQuoteCache', () => {
     expect(() => cache.addQuote(ISIN, 1, 2, 3)).toThrow(/inactive isin/i)
     expect(() => cache.addTrade(ISIN, 1, 3)).toThrow(/inactive isin/i)
   })
+
   test('mid is computed correctly for equal sides and edge values', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(ISIN)
