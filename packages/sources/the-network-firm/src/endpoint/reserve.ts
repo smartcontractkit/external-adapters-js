@@ -14,18 +14,18 @@ export const inputParameters = new InputParameters(
       required: true,
       description: 'The name of the TNF client to consume from',
     },
-    laxRipcord: {
+    noErrorOnRipcord: {
       type: 'boolean',
       required: false,
       default: false,
       description:
-        'Lax ripcord handling, return 200 on ripcord when laxRipcord is true, return 502 with ripcord details if laxRipcord is false or unset',
+        'Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset',
     },
   },
   [
     {
       client: 'acme',
-      laxRipcord: false,
+      noErrorOnRipcord: false,
     },
   ],
 )

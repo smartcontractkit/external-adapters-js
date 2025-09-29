@@ -53,7 +53,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      const laxRipcord = param.laxRipcord
+      const noErrorOnRipcord = param.noErrorOnRipcord
 
       const ripcord =
         response.data.ripcord || response.data.ripcord.toString().toLowerCase() === 'true'
@@ -63,8 +63,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       if (ripcord) {
         const ripcordDetails = response.data.ripcordDetails.join(', ')
 
-        // If laxRipcord is false and ripcord is true return 502
-        if (!laxRipcord) {
+        // If noErrorOnRipcord is false and ripcord is true return 502
+        if (!noErrorOnRipcord) {
           const message = `Ripcord indicator true. Details: ${ripcordDetails}`
           return {
             params: param,

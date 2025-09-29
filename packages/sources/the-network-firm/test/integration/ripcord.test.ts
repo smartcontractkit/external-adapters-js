@@ -142,11 +142,11 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should succeed with lax ripcord', async () => {
+    it('should succeed with noErrorOnRipcord', async () => {
       const data = {
         endpoint: 'reserve',
         client: 'emgemx-tdfkf3',
-        laxRipcord: true,
+        noErrorOnRipcord: true,
       }
 
       mockEmgemxResponseRipcordFailure()
