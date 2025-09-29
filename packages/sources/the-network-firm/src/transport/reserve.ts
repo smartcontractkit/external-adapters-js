@@ -19,7 +19,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('ReserveStreamsHTTPTransport')
+const logger = makeLogger('ReserveHTTPTransport')
 
 export const getApiKey = (client: string) => {
   const apiKeyName = `${client.replace(/-/g, '_').toUpperCase()}_API_KEY`
