@@ -18,7 +18,8 @@ export const inputParameters = new InputParameters(
       type: 'boolean',
       required: false,
       default: false,
-      description: 'Lax ripcord handling, return 200 on ripcord when laxRipcord is true, return 502 with ripcord details if laxRipcord is false or unset',
+      description:
+        'Lax ripcord handling, return 200 on ripcord when laxRipcord is true, return 502 with ripcord details if laxRipcord is false or unset',
     },
   },
   [
