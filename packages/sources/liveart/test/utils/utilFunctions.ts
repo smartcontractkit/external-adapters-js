@@ -1,6 +1,4 @@
 import { TestAdapter } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { AxiosResponse } from 'axios'
-import { ResponseSchema } from '../../src/transport/transport'
 
 export function clearTestCache(testAdapter: TestAdapter) {
   // clear EA cache
@@ -10,19 +8,5 @@ export function clearTestCache(testAdapter: TestAdapter) {
   }
   for (const key of keys) {
     testAdapter.mockCache?.delete(key)
-  }
-}
-
-export function createMockResponse(
-  data: ResponseSchema,
-  status: number = 200,
-  statusText: string = 'OK',
-): AxiosResponse<ResponseSchema> {
-  return {
-    data,
-    status,
-    statusText,
-    headers: {},
-    config: {} as any,
   }
 }

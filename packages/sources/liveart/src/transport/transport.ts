@@ -13,7 +13,7 @@ import {
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { AxiosResponse } from 'axios'
 import { assert } from 'console'
-import { Config, config } from '../config/config'
+import { config } from '../config/config'
 import { inputParameters } from '../endpoint/nav'
 
 export interface ResponseSchema {
@@ -70,17 +70,14 @@ export const prepareRequests = (
   params: (typeof inputParameters.validated)[],
   adapterSettings: AdapterSettings<SettingsDefinitionMap>,
 ): ProviderRequestConfig<HttpTransportTypes>[] => {
-  // Cast to access config properties
-  const settings = adapterSettings as unknown as Config
-
   return params.map((param) => {
     return {
       params: [param],
       request: {
-        baseURL: settings.API_BASE_URL,
+        baseURL: adapterSettings.API_BASE_URL,
         url: `/artwork/${param.artwork_id}/price`,
         headers: {
-          Authorization: `Bearer ${settings.BEARER_TOKEN}`,
+          Authorization: `Bearer ${adapterSettings.BEARER_TOKEN}`,
         },
       },
     }

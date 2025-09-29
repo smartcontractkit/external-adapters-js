@@ -10,6 +10,7 @@ export const config: AdapterConfig = new AdapterConfig({
     description: 'The API URL for the LiveArt data provider',
     type: 'string',
     required: true,
+    default: 'https://artwork-price-oracle-api-dev-ms.liveart.ai',
   },
   BEARER_TOKEN: {
     description: 'The Bearer token for authentication',

@@ -1,5 +1,5 @@
 import nock from 'nock'
-import { ErrorResponse, SuccessResponse, TEST_BEARER_TOKEN, TEST_URL } from './testConfig'
+import { ErrorResponse, SuccessResponse, TEST_BEARER_TOKEN, TEST_URL } from '../../utils/testConfig'
 
 export const mockHappyPathResponseSuccess = (artworkId: string, navPerShare: string): nock.Scope =>
   nock(TEST_URL)
@@ -25,25 +25,6 @@ export const mockHappyPathResponseSuccess = (artworkId: string, navPerShare: str
     )
     .persist()
 
-// export const mockValue0ResponseSuccess = (artworkId: string): nock.Scope =>
-//   nock(TEST_URL, {
-//     encodedQueryParams: true,
-//   })
-//     .get(`/artwork/${artworkId}/price`)
-//     .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
-//     .query({})
-//     .reply(200, () => ({}), [
-//       'Content-Type',
-//       'application/json',
-//       'Connection',
-//       'close',
-//       'Vary',
-//       'Accept-Encoding',
-//       'Vary',
-//       'Origin',
-//     ])
-//     .persist()
-
 export const mockResponseFailure = (artworkId: string): nock.Scope =>
   nock(TEST_URL)
     .get(`/artwork/${artworkId}/price`)
@@ -67,22 +48,3 @@ export const mockResponseFailure = (artworkId: string): nock.Scope =>
       ],
     )
     .persist()
-
-// export const mockErrorResponseFailure = (artworkId: string): nock.Scope =>
-//   nock(TEST_URL, {
-//     encodedQueryParams: true,
-//   })
-//     .get(`/artwork/${artworkId}/price`)
-//     .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
-//     .query({})
-//     .reply(403, () => ({}), [
-//       'Content-Type',
-//       'application/json',
-//       'Connection',
-//       'close',
-//       'Vary',
-//       'Accept-Encoding',
-//       'Vary',
-//       'Origin',
-//     ])
-//     .persist()

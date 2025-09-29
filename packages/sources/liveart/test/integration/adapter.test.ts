@@ -4,9 +4,9 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
-import { mockHappyPathResponseSuccess, mockResponseFailure } from '../utils/fixtures'
 import { TEST_BEARER_TOKEN, TEST_URL } from '../utils/testConfig'
 import { clearTestCache } from '../utils/utilFunctions'
+import { mockHappyPathResponseSuccess, mockResponseFailure } from './utils/fixtures'
 
 describe('LiveArt NAV', () => {
   let testAdapter: TestAdapter

@@ -6,7 +6,6 @@ import {
   ResponseSchema,
 } from '../../src/transport/transport'
 import { ErrorResponse, SuccessResponse, TEST_BEARER_TOKEN, TEST_URL } from '../utils/testConfig'
-import { createMockResponse } from '../utils/utilFunctions'
 
 describe('Transport functions', () => {
   // Mock adapter settings that match the expected type
@@ -87,8 +86,14 @@ describe('Transport functions', () => {
         artwork_id: 'banksy',
       }
 
-      const mockResponse = createMockResponse(mockResponseData)
-      const result = parseResponse(params, mockResponse)
+      const mockSuccessResponse = {
+        data: mockResponseData,
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      } as AxiosResponse<ResponseSchema>
+      const result = parseResponse(params, mockSuccessResponse)
       const expectedNAV = Number(mockResponseData.nav_per_share)
 
       expect(result).toHaveLength(1)
@@ -106,8 +111,14 @@ describe('Transport functions', () => {
         artwork_id: data.artwork_id,
       }
 
-      const mockResponse = createMockResponse(mockResponseData)
-      const result = parseResponse(params, mockResponse)
+      const mockErrorResponse = {
+        data: mockResponseData,
+        status: 404,
+        statusText: 'Not Found',
+        headers: {},
+        config: {},
+      } as AxiosResponse<ResponseSchema>
+      const result = parseResponse(params, mockErrorResponse)
 
       expect(result).toHaveLength(1)
       expect(result[0].params).toEqual(data)
@@ -119,11 +130,11 @@ describe('Transport functions', () => {
     it('should handle response with no data', () => {
       const params = [{ artwork_id: 'no-data' }]
       const mockResponse = {
-        data: null as any,
+        data: null as unknown,
         status: 200,
         statusText: 'OK',
         headers: {},
-        config: {} as any,
+        config: {},
       } as AxiosResponse<ResponseSchema>
 
       const result = parseResponse(params, mockResponse)
@@ -147,7 +158,13 @@ describe('Transport functions', () => {
         nav_per_share: 'invalid-number',
       }
 
-      const mockResponse = createMockResponse(mockResponseData)
+      const mockResponse = {
+        data: mockResponseData,
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      } as AxiosResponse<ResponseSchema>
       const result = parseResponse(params, mockResponse)
 
       expect(result).toHaveLength(1)
@@ -166,7 +183,13 @@ describe('Transport functions', () => {
         artwork_id: 'snapshot-test',
       }
 
-      const mockResponse = createMockResponse(mockResponseData)
+      const mockResponse = {
+        data: mockResponseData,
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config: {},
+      } as AxiosResponse<ResponseSchema>
       const result = parseResponse(params, mockResponse)
 
       expect(result).toMatchSnapshot()
@@ -180,7 +203,13 @@ describe('Transport functions', () => {
         message: 'Not found',
       }
 
-      const mockResponse = createMockResponse(mockResponseData)
+      const mockResponse = {
+        data: mockResponseData,
+        status: 404,
+        statusText: 'Not Found',
+        headers: {},
+        config: {},
+      } as AxiosResponse<ResponseSchema>
       const result = parseResponse(params, mockResponse)
 
       expect(result).toMatchSnapshot()
