@@ -44,8 +44,8 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   private activeConnection: AbortController | null = null
   private activePairs: Map<string, RequestParams> = new Map()
   // reconnection backoff base (ms); jitter added per attempt
-  private lastConnectionAttempt: number = 0
-  private reconnectDelay: number = 5000
+  private lastConnectionAttempt = 0
+  private reconnectDelay = 5000
   // guard to prevent reconnects during/after shutdown
   private isShuttingDown = false
   private sseParser: SSEParser | null = null
@@ -243,7 +243,7 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
         const raw = chunk.toString('utf8')
         logger.debug(`Raw price state update message received:\n${raw}`)
 
-        this.sseParser!.push(raw, (evt, data) => {
+        this.sseParser?.push(raw, (evt, data) => {
           void handleParsedEvent(evt, data)
         })
       }
@@ -329,7 +329,9 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(_: RequestParams): Promise<AdapterResponse<TransportTypes['Response']>> {
+  async _handleRequest(
+    _param: RequestParams,
+  ): Promise<AdapterResponse<TransportTypes['Response']>> {
     // This fallback shouldn't be called in normal operation - data should come from cache via backgroundHandler
     logger.debug('Foreground request hit fallback: no cached data yet')
     return {

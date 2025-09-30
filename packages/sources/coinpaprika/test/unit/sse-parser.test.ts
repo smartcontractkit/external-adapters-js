@@ -82,7 +82,9 @@ describe('SSEParser', () => {
   })
 
   it('should reset properly', () => {
-    parser.push('data: {"state_price":', () => {})
+    parser.push('data: {"state_price":', () => {
+      // Intentionally empty callback for testing reset functionality
+    })
     parser.reset()
 
     parser.push('data: {"new":true}\n\n', (type, data) => {

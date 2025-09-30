@@ -84,6 +84,22 @@ exports[`execute globalmarketcap endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute state endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1.000751,
+    "timestamp": 1640995200,
+  },
+  "result": 1.000751,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1640995200000,
+  },
+}
+`;
+
 exports[`execute vwap endpoint should return success 1`] = `
 {
   "data": {
