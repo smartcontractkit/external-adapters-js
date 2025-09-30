@@ -12,7 +12,6 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { AxiosResponse } from 'axios'
-import { assert } from 'console'
 import { config } from '../config/config'
 import { inputParameters } from '../endpoint/nav'
 
@@ -55,7 +54,10 @@ export function parseNavPerShare(navString: string | null): number {
 
   const nav = Number(navString)
   if (isNaN(nav) || !isFinite(nav) || nav < 0) {
-    throw new AdapterError({ statusCode: 400, message: 'Invalid nav_per_share value' })
+    throw new AdapterError({
+      statusCode: 400,
+      message: `Invalid nav_per_share value: ${navString}`,
+    })
   }
 
   return nav
@@ -120,7 +122,13 @@ export function parseResponse(
 
   return params.map((param: any) => {
     try {
-      assert(param.artwork_id === response.data.artwork_id, 'Artwork IDs do not match')
+      if (param.artwork_id !== response.data.artwork_id) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Mismatched artwork_id in response. Expected ${param.artwork_id}, got ${response.data.artwork_id}`,
+        })
+      }
+
       const nav = parseNavPerShare(response.data.nav_per_share)
       return {
         params: param,
@@ -131,11 +139,13 @@ export function parseResponse(
           },
         },
       }
-    } catch (error) {
+    } catch (error: Error | unknown) {
       return {
         params: param,
         response: {
-          errorMessage: `Failed to parse response for artwork_id=${param.artwork_id}`,
+          errorMessage: `Failed to parse response for artwork_id=${param.artwork_id}. Error: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
           statusCode: 502,
         },
       }

@@ -25,7 +25,7 @@ exports[`LiveArt NAV endpoint should return success for both valid artwork_id an
 }
 `;
 
-exports[`LiveArt NAV endpoint should return success for both valid artwork_id and artworkId 2`] = `
+exports[`LiveArt NAV endpoint should return success for valid artworkId 1`] = `
 {
   "data": {
     "result": 1000000,

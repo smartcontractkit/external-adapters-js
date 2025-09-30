@@ -9,6 +9,13 @@ export const adapter = new Adapter({
   name: 'LIVE_ART_NAV',
   config,
   endpoints: [nav],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 60,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

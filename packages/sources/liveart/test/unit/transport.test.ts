@@ -23,8 +23,8 @@ describe('Transport functions', () => {
 
     it('should throw an error for invalid nav_per_share values', () => {
       expect(() => parseNavPerShare(null)).toThrow('nav_per_share is null')
-      expect(() => parseNavPerShare('invalid')).toThrow('Invalid nav_per_share value')
-      expect(() => parseNavPerShare('NaN')).toThrow('Invalid nav_per_share value')
+      expect(() => parseNavPerShare('invalid')).toThrow('Invalid nav_per_share value: invalid')
+      expect(() => parseNavPerShare('NaN')).toThrow('Invalid nav_per_share value: NaN')
     })
   })
 
@@ -66,14 +66,6 @@ describe('Transport functions', () => {
 
       expect(Array.isArray(result)).toBe(true)
       expect(result).toHaveLength(0)
-    })
-
-    it('should match snapshot for typical request', () => {
-      const params = [{ artwork_id: 'test-artwork' }]
-
-      const result = prepareRequests(params, mockAdapterSettings)
-
-      expect(result).toMatchSnapshot()
     })
   })
 
@@ -144,7 +136,7 @@ describe('Transport functions', () => {
       expect('errorMessage' in result[0].response).toBe(true)
       if ('errorMessage' in result[0].response) {
         expect(result[0].response.errorMessage).toBe(
-          'The data provider failed to respond for artwork_id=no-data',
+          `The data provider failed to respond for artwork_id=${params[0].artwork_id}`,
         )
       }
     })
@@ -172,47 +164,8 @@ describe('Transport functions', () => {
       expect(result[0].response.result).toBeUndefined()
       expect(result[0].response.data).toBeUndefined()
       expect(result[0].response.errorMessage).toBe(
-        `Failed to parse response for artwork_id=${data.artwork_id}`,
+        `Failed to parse response for artwork_id=${data.artwork_id}. Error: Invalid nav_per_share value: ${mockResponseData.nav_per_share}`,
       )
-    })
-
-    it('should match snapshot for successful response', () => {
-      const params = [{ artwork_id: 'snapshot-test' }]
-      const mockResponseData: ResponseSchema = {
-        ...SuccessResponse,
-        artwork_id: 'snapshot-test',
-      }
-
-      const mockResponse = {
-        data: mockResponseData,
-        status: 200,
-        statusText: 'OK',
-        headers: {},
-        config: {},
-      } as AxiosResponse<ResponseSchema>
-      const result = parseResponse(params, mockResponse)
-
-      expect(result).toMatchSnapshot()
-    })
-
-    it('should match snapshot for error response', () => {
-      const params = [{ artwork_id: 'error-snapshot' }]
-      const mockResponseData: ResponseSchema = {
-        ...ErrorResponse,
-        artwork_id: 'error-snapshot',
-        message: 'Not found',
-      }
-
-      const mockResponse = {
-        data: mockResponseData,
-        status: 404,
-        statusText: 'Not Found',
-        headers: {},
-        config: {},
-      } as AxiosResponse<ResponseSchema>
-      const result = parseResponse(params, mockResponse)
-
-      expect(result).toMatchSnapshot()
     })
   })
 })

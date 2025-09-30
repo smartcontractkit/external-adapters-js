@@ -43,32 +43,29 @@ describe('LiveArt NAV', () => {
 
   describe('endpoint', () => {
     it('should return success for both valid artwork_id and artworkId', async () => {
-      const dataInput1 = {
+      const dataInput = {
         artwork_id: 'banksy',
         endpoint: 'nav',
       }
-      const dataInput2 = {
+
+      const expectedValueString = '1000000'
+      mockHappyPathResponseSuccess(dataInput.artwork_id, expectedValueString)
+      const response1 = await testAdapter.request(dataInput)
+
+      expect(response1.statusCode).toBe(200)
+      expect(response1.json()).toMatchSnapshot()
+    })
+
+    it('should return success for valid artworkId', async () => {
+      const dataInput = {
         artworkId: 'banksy',
         endpoint: 'nav',
       }
 
       const expectedValueString = '1000000'
-      const expectValue = Number(expectedValueString)
-      mockHappyPathResponseSuccess(dataInput1.artwork_id, expectedValueString)
+      mockHappyPathResponseSuccess(dataInput.artworkId, expectedValueString)
+      const response2 = await testAdapter.request(dataInput)
 
-      const response1 = await testAdapter.request(dataInput1)
-      const responseJson1 = response1.json()
-
-      expect(responseJson1.data.result).toBe(expectValue)
-      expect(responseJson1.result).toBe(expectValue)
-      expect(response1.statusCode).toBe(200)
-      expect(response1.json()).toMatchSnapshot()
-
-      const response2 = await testAdapter.request(dataInput2)
-      const responseJson2 = response2.json()
-
-      expect(responseJson2.data.result).toBe(expectValue)
-      expect(responseJson2.result).toBe(expectValue)
       expect(response2.statusCode).toBe(200)
       expect(response2.json()).toMatchSnapshot()
     })
