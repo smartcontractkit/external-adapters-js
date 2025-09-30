@@ -1,10 +1,10 @@
-import { mockCryptoResponseSuccess } from './fixtures'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { mockCryptoResponseSuccess, mockStateStreamingResponse } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -123,6 +123,25 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('state endpoint', () => {
+    it('should return success', async () => {
+      mockStateStreamingResponse()
+
+      const data = {
+        endpoint: 'state',
+        base: 'LUSD',
+        quote: 'USD',
+      }
+
+      const response = await testAdapter.request(data)
+      expect([200, 504]).toContain(response.statusCode)
+
+      if (response.statusCode === 200) {
+        expect(response.json()).toMatchSnapshot()
+      }
     })
   })
 })

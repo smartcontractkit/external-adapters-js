@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
-import { CoinpaprikaSubscriptionTransport } from '../transport/coinpaprika-state'
+// import overrides from '../config/overrides.json'
+import { stateTransport } from '../transport/state'
 
 export const inputParameters = new InputParameters(
   {
@@ -42,7 +42,12 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'coinpaprika-state',
   aliases: ['state'],
-  transport: CoinpaprikaSubscriptionTransport,
+  transport: stateTransport,
   inputParameters,
-  overrides: overrides['coinpaprika-state'],
+  requestTransforms: [
+    (request) => {
+      request.requestContext.data.base = request.requestContext.data.base.trim().toUpperCase()
+      request.requestContext.data.quote = request.requestContext.data.quote.trim().toUpperCase()
+    },
+  ],
 })

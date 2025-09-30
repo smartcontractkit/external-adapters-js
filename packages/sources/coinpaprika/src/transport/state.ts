@@ -6,14 +6,14 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import type { AxiosRequestConfig } from 'axios'
 import { Readable } from 'node:stream'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/coinpaprika-state'
-import { SSEParser } from './sse'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/state'
+import { SSEParser } from './utils'
 
 const logger = makeLogger('CoinpaprikaStateTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-// Coinpaprika’s OpenAPI doc says all numeric values are encoded as strings to preserve precision
+// Coinpaprika's OpenAPI doc says all numeric values are encoded as strings to preserve precision
 interface CoinpaprikaStreamData {
   block_time: string | number
   base_token_symbol: string
@@ -31,16 +31,9 @@ export type TransportTypes = BaseEndpointTypes & {
   }
 }
 
-const norm = (s: string) => s.trim().toUpperCase()
-const normalizeParams = (p: RequestParams): RequestParams => ({
-  ...p,
-  base: norm(p.base),
-  quote: norm(p.quote),
-})
-
 /**
  * Single-connection SSE transport that batches all pairs into one POST and streams state_price ticks into the cache.
- *
+ * Note: base and quote normalization (uppercase) is handled by endpoint's requestTransforms.
  * */
 export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTypes> {
   name!: string
@@ -50,9 +43,9 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   // single SSE conn for all pairs
   private activeConnection: AbortController | null = null
   private activePairs: Map<string, RequestParams> = new Map()
-  // reconnection backoff base (ms); jitter added per attempt //TODO
-  private lastConnectionAttempt = 0
-  private reconnectDelay = 5000
+  // reconnection backoff base (ms); jitter added per attempt
+  private lastConnectionAttempt: number = 0
+  private reconnectDelay: number = 5000
   // guard to prevent reconnects during/after shutdown
   private isShuttingDown = false
   private sseParser: SSEParser | null = null
@@ -71,23 +64,22 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   async backgroundHandler(context: EndpointContext<TransportTypes>, entries: RequestParams[]) {
     if (this.isShuttingDown) return
 
-    // normalize params once at ingestion
-    const normalized = entries.map(normalizeParams)
-
-    // build current pairs map
+    // build current pairs map (params already normalized by endpoint's requestTransforms)
     const currentPairs = new Map<string, RequestParams>()
-    for (const e of normalized) currentPairs.set(`${e.base}/${e.quote}`, e)
+    for (const e of entries) currentPairs.set(`${e.base}/${e.quote}`, e)
 
     // detect changes in the requested pair set (triggers reconnect if changed)
     const pairsChanged = this.havePairsChanged(currentPairs)
 
     if (pairsChanged || !this.activeConnection) {
-      logger.info(`Pairs changed or no connection. Updating stream with ${currentPairs.size} pairs`)
+      logger.debug(
+        `Pairs changed or no connection. Updating stream with ${currentPairs.size} pairs`,
+      )
       logger.debug(`Pairs: ${[...currentPairs.keys()].join(', ')}`)
 
       await this.updateStream(context, currentPairs)
     }
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_STATE)
   }
 
   private havePairsChanged(pairs: Map<string, RequestParams>): boolean {
@@ -106,7 +98,7 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
 
     // close existing connection if any
     if (this.activeConnection) {
-      logger.info('Closing existing SSE connection')
+      logger.debug('Closing existing SSE connection')
       this.activeConnection.abort()
       this.activeConnection = null
     }
@@ -127,7 +119,7 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
     signal: AbortSignal,
   ): AxiosRequestConfig {
     return {
-      url: context.adapterSettings.API_ENDPOINT,
+      url: context.adapterSettings.STATE_API_ENDPOINT,
       method: 'POST',
       headers: {
         Authorization: context.adapterSettings.API_KEY,
@@ -150,8 +142,9 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
       quote: p.quote,
     }))
 
-    logger.info(`Opening single SSE connection for ${pairsArray.length} pairs`)
+    logger.debug(`Opening single SSE connection for ${pairsArray.length} pairs`)
     logger.debug(`Pairs: ${pairsArray.map((p) => `${p.base}/${p.quote}`).join(', ')}`)
+    logger.debug(`Request body: ${JSON.stringify(pairsArray)}`)
 
     this.lastConnectionAttempt = Date.now()
     const controller = new AbortController()
@@ -176,11 +169,14 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
               .on('error', () => resolve(''))
           })
           rawErrBody = text
+          logger.error(`Provider error response (status ${axiosResp.status}): ${rawErrBody}`)
           try {
             const j = JSON.parse(text)
             if (j?.error && j?.details) errDetail = `${j.error}: ${j.details}`
+            else if (j?.error) errDetail = `${j.error}`
+            else if (j?.message) errDetail = `${j.message}`
           } catch {
-            logger.error(`Provider error body (not JSON): ${rawErrBody}`)
+            if (rawErrBody) errDetail = `${errDetail} - ${rawErrBody}`
           }
         } catch {
           // ignore parse error; keep default errDetail
@@ -228,7 +224,9 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
 
         try {
           const streamData: CoinpaprikaStreamData = JSON.parse(rawData)
-          const pairKey = `${norm(streamData.base_token_symbol)}/${norm(streamData.quote_symbol)}`
+          const pairKey = `${streamData.base_token_symbol
+            .trim()
+            .toUpperCase()}/${streamData.quote_symbol.trim().toUpperCase()}`
           const params = this.activePairs.get(pairKey)
           if (params) {
             await this.handleStreamData(params, streamData)
@@ -269,7 +267,7 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
         if (!this.isShuttingDown && !aborted && this.activePairs.size > 0) {
           const since = Date.now() - this.lastConnectionAttempt
           const delay = Math.max(this.reconnectDelay - since, 0) + Math.floor(Math.random() * 1000)
-          logger.info(`SSE ended; reconnecting in ${delay} ms...`)
+          logger.debug(`SSE ended; reconnecting in ${delay} ms...`)
           await sleep(delay)
           if (!this.isShuttingDown) {
             await this.createSSEConnection(context)
@@ -351,7 +349,7 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   }
 
   async close(): Promise<void> {
-    logger.info('Closing SSE connection')
+    logger.debug('Closing SSE connection')
     this.isShuttingDown = true
 
     if (this.activeConnection) {
@@ -365,4 +363,4 @@ export class CoinpaprikaStateTransport extends SubscriptionTransport<TransportTy
   }
 }
 
-export const CoinpaprikaSubscriptionTransport = new CoinpaprikaStateTransport()
+export const stateTransport = new CoinpaprikaStateTransport()
