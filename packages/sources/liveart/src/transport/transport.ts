@@ -11,6 +11,7 @@ import {
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { AxiosResponse } from 'axios'
 import { config } from '../config/config'
 import { inputParameters } from '../endpoint/nav'
@@ -69,7 +70,7 @@ export function parseNavPerShare(navString: string | null): number {
  * @param adapterSettings adapter configuration settings containing API base URL and bearer token
  */
 export const prepareRequests = (
-  params: (typeof inputParameters.validated)[],
+  params: TypeFromDefinition<typeof inputParameters.definition>[],
   adapterSettings: AdapterSettings<SettingsDefinitionMap>,
 ): ProviderRequestConfig<HttpTransportTypes>[] => {
   return params.map((param) => {
@@ -93,7 +94,7 @@ export const prepareRequests = (
  * @returns an array of provider results
  */
 export function parseResponse(
-  params: any[],
+  params: TypeFromDefinition<typeof inputParameters.definition>[],
   response: AxiosResponse<ResponseSchema>,
 ): ProviderResult<HttpTransportTypes>[] {
   // Check that request went through
@@ -120,7 +121,7 @@ export function parseResponse(
     })
   }
 
-  return params.map((param: any) => {
+  return params.map((param: TypeFromDefinition<typeof inputParameters.definition>) => {
     try {
       if (param.artwork_id !== response.data.artwork_id) {
         throw new AdapterError({
