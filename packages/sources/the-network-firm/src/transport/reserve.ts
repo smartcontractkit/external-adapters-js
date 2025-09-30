@@ -62,15 +62,15 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       // Populate ripcord details if ripcord is true
       if (ripcord) {
         const ripcordDetails = response.data.ripcordDetails.join(', ')
+        const message = `Ripcord indicator true. Details: ${ripcordDetails}`
 
         // If noErrorOnRipcord is false and ripcord is true return 502
         if (!noErrorOnRipcord) {
-          const message = `Ripcord indicator true. Details: ${ripcordDetails}`
           return {
             params: param,
             response: {
               errorMessage: message,
-              ripcord: response.data.ripcord,
+              ripcord,
               ripcordAsInt,
               ripcordDetails,
               statusCode: 502,
@@ -79,9 +79,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
               },
             },
           }
+        } else {
+          logger.debug(message)
         }
-
-        logger.debug(`Ripcord indicator true. Details: ${ripcordDetails}`)
       }
 
       // Ensure totalReserve and totalToken are numbers, keep result as is for backwards compatibility
@@ -94,7 +94,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result,
           data: {
             result,
-            ripcord: response.data.ripcord,
+            ripcord,
             ripcordAsInt,
             totalReserve,
             totalToken,
