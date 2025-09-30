@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute wallet endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "0x9513ea9de024380000",
+    "results": [
+      {
+        "amount": "20",
+        "coin": "BTC",
+        "decimal": 8,
+        "rate": "5000000000",
+        "value": "100000000000",
+      },
+      {
+        "amount": "30",
+        "coin": "ETH",
+        "decimal": 8,
+        "rate": "5000000000",
+        "value": "150000000000",
+      },
+      {
+        "amount": "2",
+        "coin": "BTC",
+        "decimal": 8,
+        "rate": "5000000000",
+        "value": "10000000000",
+      },
+      {
+        "amount": "3",
+        "coin": "ETH",
+        "decimal": 8,
+        "rate": "5000000000",
+        "value": "15000000000",
+      },
+    ],
+  },
+  "result": "0x9513ea9de024380000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

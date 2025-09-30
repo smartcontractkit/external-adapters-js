@@ -38,7 +38,31 @@ There are no input parameters for this endpoint.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {},
+  "debug": {
+    "cacheKey": "6fd5ecf807136e36fbc5392ff2d04b29539b3be4"
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 117769329.88
+  },
+  "result": 117769329.88,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

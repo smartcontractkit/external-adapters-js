@@ -1,6 +1,6 @@
 # THE_NETWORK_FIRM
 
-![1.4.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,9 +25,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                 Options                                                                                                                 | Default |
-| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [emgemx](#emgemx-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [mco2](#mco2-endpoint), [stbt](#stbt-endpoint), [uranium](#uranium-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                Options                                                                                                                                | Default |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [emgemx](#emgemx-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [mco2](#mco2-endpoint), [reserve](#reserve-endpoint), [stbt](#stbt-endpoint), [uranium](#uranium-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
 
 ## Backed Endpoint
 
@@ -202,6 +202,31 @@ Request:
 {
   "data": {
     "endpoint": "usdr"
+  }
+}
+```
+
+---
+
+## Reserve Endpoint
+
+`reserve` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  | Aliases |                Description                 |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :----------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | client |         | The name of the TNF client to consume from | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "reserve",
+    "client": "acme"
   }
 }
 ```

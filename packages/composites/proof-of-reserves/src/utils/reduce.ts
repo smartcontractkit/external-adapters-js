@@ -48,6 +48,7 @@ export const runReduceAdapter = async (
   indexer: string,
   context: AdapterContext,
   input: AdapterResponse,
+  indexerEndpoint?: string,
   viewFunctionIndexerResultDecimals?: number,
 ): Promise<AdapterResponse> => {
   // Some adapters' balances come already reduced
@@ -57,7 +58,12 @@ export const runReduceAdapter = async (
     case bitcoinPorIndexer.name:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case tokenBalance.name:
-      return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
+      // For xrp and solana-balance, we use the default processing below the
+      // switch block.
+      if (!['xrp', 'solana-balance'].includes(indexerEndpoint as string)) {
+        return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
+      }
+      break
     case ceffu.name:
       return returnParsedUnits(
         input.jobRunID,
@@ -71,22 +77,42 @@ export const runReduceAdapter = async (
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
     case ETHEREUM_CL_INDEXER:
-      if (input.data.isValid) {
-        return {
-          jobRunID: input.jobRunID,
-          result: input.data.totalBalance as string,
-          statusCode: 200,
-          data: {
+      if (indexerEndpoint === 'porBalance') {
+        const hasInvalidResults = (input.data.result as unknown as Record<string, unknown>[])?.some(
+          (result) => result.isValid === false,
+        )
+        if (hasInvalidResults) {
+          throw new AdapterError({
+            statusCode: 400,
+            message: 'ETHEREUM_CL_INDEXER endpoint porBalance ripcord is true',
+          })
+        }
+        // If all results are valid, use default processing below the
+        // switch block.
+      } else if (indexerEndpoint === 'etherFiBalance') {
+        if (input.data.isValid) {
+          return {
+            jobRunID: input.jobRunID,
             result: input.data.totalBalance as string,
             statusCode: 200,
-          },
+            data: {
+              result: input.data.totalBalance as string,
+              statusCode: 200,
+            },
+          }
+        } else {
+          throw new AdapterError({
+            statusCode: 400,
+            message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
+          })
         }
       } else {
         throw new AdapterError({
           statusCode: 400,
-          message: `ETHEREUM_CL_INDEXER ripcord is true: ${JSON.stringify(input.data)}`,
+          message: `ETHEREUM_CL_INDEXER indexerEndpoint is not supported: ${indexerEndpoint}`,
         })
       }
+      break
     case viewFunctionMultiChain.name:
       if (!viewFunctionIndexerResultDecimals) {
         throw new Error(

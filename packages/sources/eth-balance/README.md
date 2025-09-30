@@ -1,12 +1,25 @@
 # Chainlink External Adapter for Eth-balance
 
-![2.1.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.1.11](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for fetching balances for ETH addresses
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Known Issues
+
+### Per-network configuration
+
+In addition to the `ETHEREUM_RPC_URL` and `ETHEREUM_CHAIN_ID` variable
+described below, the adapter requires `<network>_RPC_URL` and
+`<network>_RPC_CHAIN_ID` (where `<network>` is the upper case name of the
+network) to be set for each supported network.
+
+For example, to support Arbitrum, you would need to set the `ARBITRUM_RPC_URL`
+and `ARBITRUM_RPC_CHAIN_ID` environment variables.
+
+Note that this also means that `ETHEREUM_RPC_CHAIN_ID` needs to be set (to `1`)
+even if `ETHEREUM_CHAIN_ID` (without `_RPC`) is already set.
 
 ### MAX_PAYLOAD_SIZE_LIMIT configuration
 
@@ -50,7 +63,256 @@ The balance endpoint will fetch the balance of each address in the query.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "BZf6sDQqNncsolxn6HYNEOjtIBI="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "4/IH2wCsKWE3t/W0N/+01/qy/uw="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    },
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed"
+      }
+    ],
+    "minConfirmations": 20,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "j4E0Rj65/LUMA0SuUweFMQj+iMI="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "15671674977708000"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "15671674977708000"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "chainId": "test",
+        "network": "ethereum"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "xzqbeM/0OjheVRPpvPx0MmIkhxA="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "addresses": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "chainId": "1"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "chainId": "1"
+      }
+    ],
+    "minConfirmations": 0,
+    "endpoint": "balance"
+  },
+  "debug": {
+    "cacheKey": "mz9FJkkeuV2jjIKJy/P3G25vW7M="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": [
+      {
+        "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+        "balance": "842796652117371"
+      },
+      {
+        "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+        "balance": "1604497408893139674"
+      }
+    ]
+  },
+  "result": [
+    {
+      "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
+      "balance": "842796652117371"
+    },
+    {
+      "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
+      "balance": "1604497408893139674"
+    }
+  ],
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
+
+</details>
 
 ---
 

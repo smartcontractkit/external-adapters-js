@@ -56,7 +56,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 
 - [anchor](./anchor/README.md)
 - [apy-finance](./apy-finance/README.md)
-- [apy-finance-test](./apy-finance-test/README.md)
 - [augur](./augur/README.md)
 - [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [bsol-price](./bsol-price/README.md)
@@ -65,7 +64,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [curve-3pool](./curve-3pool/README.md)
 - [defi-dozen](./defi-dozen/README.md)
 - [defi-pulse](./defi-pulse/README.md)
-- [dns-record-check](./dns-record-check/README.md)
 - [dxdao](./dxdao/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
@@ -73,6 +71,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [historical-average](./historical-average/README.md)
 - [implied-price](./implied-price/README.md)
 - [linear-finance](./linear-finance/README.md)
+- [llama-guard](./llama-guard/README.md)
 - [market-closure](./market-closure/README.md)
 - [market-status](./market-status/README.md)
 - [medianizer](./medianizer/README.md)

@@ -1,5 +1,8 @@
 export { endpoint as etherFi } from './etherFi'
 export { endpoint as evm } from './evm'
+export { endpoint as solana } from './solana'
+export { endpoint as solanaBalance } from './solana-balance'
 export { endpoint as solvJlp } from './solvJlp'
 export { endpoint as tbill } from './tbill'
+export { endpoint as xrp } from './xrp'
 export { endpoint as xrpl } from './xrpl'

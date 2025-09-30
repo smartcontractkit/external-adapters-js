@@ -1,5 +1,17 @@
 # @chainlink/ceffu-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- [#4006](https://github.com/smartcontractkit/external-adapters-js/pull/4006) [`c473486`](https://github.com/smartcontractkit/external-adapters-js/commit/c4734862d6acc3de4d8f877bb785003149c1c3b8) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
+## 1.1.0
+
+### Minor Changes
+
+- [#4001](https://github.com/smartcontractkit/external-adapters-js/pull/4001) [`e909f68`](https://github.com/smartcontractkit/external-adapters-js/commit/e909f684bd92451cf7dc129879b80d3d0e3f0d26) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add wallet endpoint to ceffu
+
 ## 1.0.9
 
 ### Patch Changes

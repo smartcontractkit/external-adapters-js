@@ -1,5 +1,33 @@
 # @chainlink/ea-scripts
 
+## 2.8.5
+
+### Patch Changes
+
+- [#4042](https://github.com/smartcontractkit/external-adapters-js/pull/4042) [`1a1f172`](https://github.com/smartcontractkit/external-adapters-js/commit/1a1f172ff7d0a45ba309d50b0f4d84f4dc3a71a8) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete ethwrite EA
+
+## 2.8.4
+
+### Patch Changes
+
+- [#4030](https://github.com/smartcontractkit/external-adapters-js/pull/4030) [`4737106`](https://github.com/smartcontractkit/external-adapters-js/commit/47371062e86192da52c014fd77389e0f536d1749) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete dwolla EA
+
+- [#4024](https://github.com/smartcontractkit/external-adapters-js/pull/4024) [`082bea8`](https://github.com/smartcontractkit/external-adapters-js/commit/082bea83419b42611a380e97d82c89a12ce49e66) Thanks [@dskloetc](https://github.com/dskloetc)! - Deleted dns-record-check adapter
+
+## 2.8.3
+
+### Patch Changes
+
+- [#4005](https://github.com/smartcontractkit/external-adapters-js/pull/4005) [`4761293`](https://github.com/smartcontractkit/external-adapters-js/commit/47612932d54cf51633e5ad9fae7b04de104efb48) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete apy-finance-test EA
+
+- [#4004](https://github.com/smartcontractkit/external-adapters-js/pull/4004) [`629dc3d`](https://github.com/smartcontractkit/external-adapters-js/commit/629dc3d6a5a4e67153815d0bf4d3db54e868c67e) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete binance-dex EA
+
+## 2.8.2
+
+### Patch Changes
+
+- [#3999](https://github.com/smartcontractkit/external-adapters-js/pull/3999) [`b04c514`](https://github.com/smartcontractkit/external-adapters-js/commit/b04c5143e8b9501cae34373aa78d48a6a3c3f5fa) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete accuweather external adapter
+
 ## 2.8.1
 
 ### Patch Changes

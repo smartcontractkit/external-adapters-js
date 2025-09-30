@@ -1,5 +1,17 @@
 # @chainlink/reference-transform-adapter
 
+## 1.3.17
+
+### Patch Changes
+
+- [#4017](https://github.com/smartcontractkit/external-adapters-js/pull/4017) [`b30f361`](https://github.com/smartcontractkit/external-adapters-js/commit/b30f361ddef9f006a1504411384ef4a696e47ca3) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete coincodex adapter
+
+## 1.3.16
+
+### Patch Changes
+
+- [#4004](https://github.com/smartcontractkit/external-adapters-js/pull/4004) [`629dc3d`](https://github.com/smartcontractkit/external-adapters-js/commit/629dc3d6a5a4e67153815d0bf4d3db54e868c67e) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete binance-dex EA
+
 ## 1.3.15
 
 ### Patch Changes

@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -36,9 +33,6 @@
       "path": "./composites/defi-pulse"
     },
     {
-      "path": "./composites/dns-record-check"
-    },
-    {
       "path": "./composites/dxdao"
     },
     {
@@ -58,6 +52,9 @@
     },
     {
       "path": "./composites/linear-finance"
+    },
+    {
+      "path": "./composites/llama-guard"
     },
     {
       "path": "./composites/market-closure"
@@ -135,9 +132,6 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/accuweather"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
@@ -178,9 +172,6 @@
     },
     {
       "path": "./sources/binance"
-    },
-    {
-      "path": "./sources/binance-dex"
     },
     {
       "path": "./sources/bitex"
@@ -255,9 +246,6 @@
       "path": "./sources/coinbase-prime"
     },
     {
-      "path": "./sources/coincodex"
-    },
-    {
       "path": "./sources/coingecko"
     },
     {
@@ -312,13 +300,13 @@
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/deutsche-boerse"
+    },
+    {
       "path": "./sources/dlc-btc-por"
     },
     {
       "path": "./sources/dns-query"
-    },
-    {
-      "path": "./sources/dwolla"
     },
     {
       "path": "./sources/dxfeed"
@@ -397,6 +385,9 @@
     },
     {
       "path": "./sources/frxeth-exchange-rate"
+    },
+    {
+      "path": "./sources/ftse-sftp"
     },
     {
       "path": "./sources/galaxis"
@@ -591,10 +582,19 @@
       "path": "./sources/satoshitango"
     },
     {
+      "path": "./sources/securitize"
+    },
+    {
       "path": "./sources/snowflake"
     },
     {
       "path": "./sources/sochain"
+    },
+    {
+      "path": "./sources/solactive"
+    },
+    {
+      "path": "./sources/solana-functions"
     },
     {
       "path": "./sources/solana-view-function"
@@ -715,9 +715,6 @@
     },
     {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/ethwrite"
     },
     {
       "path": "./targets/harmony"

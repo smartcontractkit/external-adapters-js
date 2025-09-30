@@ -1,5 +1,33 @@
 # @chainlink/token-balance-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- [#4020](https://github.com/smartcontractkit/external-adapters-js/pull/4020) [`2f9d34f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f9d34f2139db1e4b3b6e9529e50b8135f9c4149) Thanks [@dskloetc](https://github.com/dskloetc)! - Add solana-balance endpoint
+
+## 3.1.0
+
+### Minor Changes
+
+- [#4012](https://github.com/smartcontractkit/external-adapters-js/pull/4012) [`99cf756`](https://github.com/smartcontractkit/external-adapters-js/commit/99cf756b1d07493b55f98a5a527d23efd1bbdff0) Thanks [@dskloetc](https://github.com/dskloetc)! - Add xrp endpoint
+
+### Patch Changes
+
+- [#4010](https://github.com/smartcontractkit/external-adapters-js/pull/4010) [`d46cac7`](https://github.com/smartcontractkit/external-adapters-js/commit/d46cac7f28a517b7ba662c2c9244ae209a2185fa) Thanks [@dskloetc](https://github.com/dskloetc)! - Validate xrpl input in endpoint instead of transport
+
+## 3.0.0
+
+### Major Changes
+
+- [#3965](https://github.com/smartcontractkit/external-adapters-js/pull/3965) [`ddc377c`](https://github.com/smartcontractkit/external-adapters-js/commit/ddc377c047fe2030ce67737000b2edb182cbbefd) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - USDO - Add Solana Reserves
+
+## 2.0.1
+
+### Patch Changes
+
+- [#3969](https://github.com/smartcontractkit/external-adapters-js/pull/3969) [`4ea6925`](https://github.com/smartcontractkit/external-adapters-js/commit/4ea69250920f66e44e92bcb9040261a0116175c7) Thanks [@dskloetc](https://github.com/dskloetc)! - Rename an internal file
+
 ## 2.0.0
 
 ### Major Changes

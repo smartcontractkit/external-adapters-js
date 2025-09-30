@@ -1,0 +1,45 @@
+{
+  "name": "@chainlink/solana-functions-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink solana-functions adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "solana-functions"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "url": "https://github.com/smartcontractkit/external-adapters-js",
+    "type": "git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "tsc -b",
+    "server": "node -e 'require(\"./index.js\").server()'",
+    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "start": "yarn server:dist"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "@chainlink/external-adapter-framework": "2.7.0",
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/addresses": "^3.0.2",
+    "@solana/codecs-strings": "^3.0.2",
+    "@solana/rpc": "^3.0.2",
+    "bn.js": "^5.2.0",
+    "tslib": "2.4.1"
+  }
+}

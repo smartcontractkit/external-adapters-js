@@ -4,13 +4,12 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://dataproviderapi.com', {
     encodedQueryParams: true,
   })
-    .persist()
     .get('/')
-    .query(() => true)
+    .query((query) => query.TableName === 'Table1' && query.LineNumber === '1')
     .reply(
       200,
       () => ({
-        Response: {
+        BEAAPI: {
           Results: {
             Data: [
               {
@@ -34,4 +33,33 @@ export const mockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
-    .persist()
+
+export const mockResponseBEAError = (): nock.Scope =>
+  nock('https://dataproviderapi.com', {
+    encodedQueryParams: true,
+  })
+    .get('/')
+    .query((query) => query.TableName === 'Table2' && query.LineNumber === '2')
+    .reply(
+      200,
+      () => ({
+        BEAAPI: {
+          Results: {
+            Error: {
+              APIErrorCode: '40',
+              APIErrorDescription: 'The Dataset requested does not exist',
+            },
+          },
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )

@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance-test/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -36,9 +33,6 @@
       "path": "./composites/defi-pulse/tsconfig.test.json"
     },
     {
-      "path": "./composites/dns-record-check/tsconfig.test.json"
-    },
-    {
       "path": "./composites/dxdao/tsconfig.test.json"
     },
     {
@@ -58,6 +52,9 @@
     },
     {
       "path": "./composites/linear-finance/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/llama-guard/tsconfig.test.json"
     },
     {
       "path": "./composites/market-closure/tsconfig.test.json"
@@ -135,9 +132,6 @@
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
-      "path": "./sources/accuweather/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
@@ -178,9 +172,6 @@
     },
     {
       "path": "./sources/binance/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/binance-dex/tsconfig.test.json"
     },
     {
       "path": "./sources/bitex/tsconfig.test.json"
@@ -255,9 +246,6 @@
       "path": "./sources/coinbase-prime/tsconfig.test.json"
     },
     {
-      "path": "./sources/coincodex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coingecko/tsconfig.test.json"
     },
     {
@@ -312,13 +300,13 @@
       "path": "./sources/deribit/tsconfig.test.json"
     },
     {
+      "path": "./sources/deutsche-boerse/tsconfig.test.json"
+    },
+    {
       "path": "./sources/dlc-btc-por/tsconfig.test.json"
     },
     {
       "path": "./sources/dns-query/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/dwolla/tsconfig.test.json"
     },
     {
       "path": "./sources/dxfeed/tsconfig.test.json"
@@ -397,6 +385,9 @@
     },
     {
       "path": "./sources/frxeth-exchange-rate/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ftse-sftp/tsconfig.test.json"
     },
     {
       "path": "./sources/galaxis/tsconfig.test.json"
@@ -591,10 +582,19 @@
       "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {
+      "path": "./sources/securitize/tsconfig.test.json"
+    },
+    {
       "path": "./sources/snowflake/tsconfig.test.json"
     },
     {
       "path": "./sources/sochain/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/solactive/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/solana-functions/tsconfig.test.json"
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
@@ -715,9 +715,6 @@
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/ethwrite/tsconfig.test.json"
     },
     {
       "path": "./targets/harmony/tsconfig.test.json"

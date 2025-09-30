@@ -1,12 +1,10 @@
 export const SoakTestBlacklist: string[] = [
-  'accuweather',
   'ada-balance', // Missing: RPC URL
   'alphachain',
   'alpine',
   'anchor', // Missing: RPC URL
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
-  'apy-finance-test', // Missing: Needs registry address, token allocation adapter
   'augur',
   'avalanche-platform',
   'bea',
@@ -25,13 +23,10 @@ export const SoakTestBlacklist: string[] = [
   'defi-pulse',
   'dlc-btc-por',
   'dns-query', // Missing: env vars
-  'dns-record-check', // Missing: Same as above
-  'dwolla',
   'dydx-stark',
   'dxdao',
   'etherscan',
   'ethgasstation',
-  'ethwrite',
   'expert-car-broker',
   'flightaware',
   'fmpcloud',
@@ -92,7 +87,6 @@ export const SoakTestBlacklist: string[] = [
   'stader-balance', // Not deployed internally
   '1forge', // Our API Key has expired
   'amberdata', // Not deployed internally
-  'binance-dex', // Not deployed internally
   'binance', // Not deployed internally
   'bitex', // DP does not exist anymore
   'bravenewcoin', // Our API Key has expired

@@ -1,6 +1,6 @@
 # CEFFU
 
-![1.0.9](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ceffu/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ceffu/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -26,9 +26,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |        Options         | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [solv](#solv-endpoint) | `solv`  |
+| Required? |   Name   |     Description     |  Type  |                      Options                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [solv](#solv-endpoint), [wallet](#wallet-endpoint) | `solv`  |
 
 ## Solv Endpoint
 
@@ -56,6 +56,42 @@ Request:
       }
     ],
     "btcUsdContract": "0x6ce185860a4963106506C203335A2910413708e9"
+  }
+}
+```
+
+---
+
+## Wallet Endpoint
+
+`wallet` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                                         Description                                         |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :-----------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |      client       |         |                    Name of the client, used to match API keys in env var                    |  string  |         |         |            |                |
+|           |     contracts     |         | List of \*/USD price feeds on arbitrum, if not provided we will fallback to priceFeeds.json | object[] |         |         |            |                |
+|    ✅     |  contracts.token  |         |                                      Name of the token                                      |  string  |         |         |            |                |
+|    ✅     | contracts.address |         |                                      Contract address                                       |  string  |         |         |            |                |
+|    ✅     |     decimals      |         |                               Number of decimals of response                                |  number  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "wallet",
+    "client": "c1",
+    "contracts": [
+      {
+        "token": "USDT",
+        "address": "0x000"
+      }
+    ],
+    "decimals": 18
   }
 }
 ```
