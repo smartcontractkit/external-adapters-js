@@ -113,7 +113,7 @@ export function parseResponse(
       return {
         params: param,
         response: {
-          errorMessage: `The data provider failed to return a value for artwork_id=${param.artwork_id}`,
+          errorMessage: `The data provider failed to return a value for artwork_id=${param.artwork_id}, errorMessage: ${response.data?.message}`,
           statusCode: 502,
         },
       }

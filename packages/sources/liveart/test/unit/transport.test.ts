@@ -101,6 +101,7 @@ describe('Transport functions', () => {
       const mockResponseData: ResponseSchema = {
         ...ErrorResponse,
         artwork_id: data.artwork_id,
+        message: `Asset ID '${data.artwork_id}' not found`,
       }
 
       const mockErrorResponse = {
@@ -115,7 +116,7 @@ describe('Transport functions', () => {
       expect(result).toHaveLength(1)
       expect(result[0].params).toEqual(data)
       expect(result[0].response.errorMessage).toBe(
-        'The data provider failed to return a value for artwork_id=TEST_ERROR',
+        `The data provider failed to return a value for artwork_id=TEST_ERROR, errorMessage: ${mockResponseData.message}`,
       )
     })
 

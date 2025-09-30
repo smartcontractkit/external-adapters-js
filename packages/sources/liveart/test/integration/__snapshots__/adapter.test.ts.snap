@@ -2,7 +2,7 @@
 
 exports[`LiveArt NAV endpoint should handle upstream bad response 1`] = `
 {
-  "errorMessage": "The data provider failed to return a value for artwork_id=dicaprio",
+  "errorMessage": "The data provider failed to return a value for artwork_id=dicaprio, errorMessage: Asset ID 'dicaprio' not found",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

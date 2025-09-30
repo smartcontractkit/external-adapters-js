@@ -85,7 +85,7 @@ describe('LiveArt NAV', () => {
       expect(responseJson.result).toBeUndefined()
       expect(response.statusCode).toBe(502)
       expect(responseJson.errorMessage).toBe(
-        `The data provider failed to return a value for artwork_id=${data.artwork_id}`,
+        `The data provider failed to return a value for artwork_id=${data.artwork_id}, errorMessage: Asset ID '${data.artwork_id}' not found`,
       )
       expect(response.json()).toMatchSnapshot()
     })
