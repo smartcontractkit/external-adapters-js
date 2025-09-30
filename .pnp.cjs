@@ -379,10 +379,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinpaprika"\
     },\
     {\
-      "name": "@chainlink/coinpaprika-state-adapter",\
-      "reference": "workspace:packages/sources/coinpaprika-state"\
-    },\
-    {\
       "name": "@chainlink/coinranking-adapter",\
       "reference": "workspace:packages/sources/coinranking"\
     },\
@@ -1045,7 +1041,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinmetrics-adapter", ["workspace:packages/sources/coinmetrics"]],\
     ["@chainlink/coinmetrics-lwba-adapter", ["workspace:packages/sources/coinmetrics-lwba"]],\
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
-    ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
@@ -6099,24 +6094,9 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/coinpaprika-state-adapter", [\
-      ["workspace:packages/sources/coinpaprika-state", {\
-        "packageLocation": "./packages/sources/coinpaprika-state/",\
-        "packageDependencies": [\
-          ["@chainlink/coinpaprika-state-adapter", "workspace:packages/sources/coinpaprika-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.12.2"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
+          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
