@@ -3458,6 +3458,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/data-streams-sdk@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@chainlink/data-streams-sdk@npm:1.0.3"
+  dependencies:
+    ethers: "npm:^6.15.0"
+    ws: "npm:^8.18.3"
+  peerDependencies:
+    dotenv: ^16.6.1
+  peerDependenciesMeta:
+    dotenv:
+      optional: true
+  checksum: 10/5e2758fba7a9484238ba6149fbc94d3cc57073f84d099d55f6e0adce7489cc02db0a740cfb2eb6667ac76d3b5d58a23e12f9444117f758b2c6ec6372c6653d03
+  languageName: node
+  linkType: hard
+
 "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue":
   version: 0.0.0-use.local
   resolution: "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue"
@@ -4308,6 +4323,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
+    "@chainlink/data-streams-sdk": "npm:^1.0.3"
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -32949,7 +32965,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.3":
+"ws@npm:8.18.3, ws@npm:^8.18.3":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
   peerDependencies:

@@ -1,8 +1,8 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { BaseGlvTransport } from './base'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 
 export class GlvPriceTransport extends BaseGlvTransport<BaseEndpointTypes> {
   async backgroundHandler(
@@ -18,6 +18,7 @@ export class GlvPriceTransport extends BaseGlvTransport<BaseEndpointTypes> {
     try {
       response = await this._handleRequest(param)
     } catch (e) {
+      console.error(e)
       response = this.handleError(e)
     }
     await this.responseCache.write(this.name, [{ params: param, response }])

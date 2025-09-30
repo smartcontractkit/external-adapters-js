@@ -1,3 +1,10 @@
+import {
+  createClient,
+  DataStreamsClient,
+  DecodedV3Report,
+  decodeReport,
+  LogLevel,
+} from '@chainlink/data-streams-sdk'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -8,10 +15,9 @@ import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
-import { DataStreamsHttpClient } from '../datastreams/client'
-import { decodeReport } from '../datastreams/decode'
 import { BaseEndpointTypesLwba } from '../endpoint/lwba'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { dataStreamIdKey } from './gmx-keys'
 import {
   mapSymbol,
   Market,
@@ -22,7 +28,6 @@ import {
   toFixed,
   Token,
 } from './utils'
-
 const logger = makeLogger('GlvBaseTransport')
 
 interface glvInformation {
@@ -54,11 +59,13 @@ export abstract class BaseGlvTransport<
   requester!: Requester
   provider!: ethers.JsonRpcProvider
   glvReaderContract!: ethers.Contract
+  dataStoreContract!: ethers.Contract
   settings!: T['Settings']
-  dataStreamsClient!: DataStreamsHttpClient
+  dataStreamsClient!: DataStreamsClient
   tokensMap: Record<string, Token> = {}
   marketsMap: Record<string, Market> = {}
   decimals: Record<string, number> = {}
+  symbolToAddressMap: Record<string, string> = {}
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -79,16 +86,22 @@ export abstract class BaseGlvTransport<
       glvAbi,
       this.provider,
     )
-
+    this.dataStoreContract = new ethers.Contract(
+      adapterSettings.DATASTORE_CONTRACT_ADDRESS,
+      ['function getBytes32(bytes32 key) view returns (bytes32)'],
+      this.provider,
+    )
     await this.tokenInfo()
     await this.marketInfo()
-
-    this.dataStreamsClient = new DataStreamsHttpClient({
-      baseUrl: adapterSettings.DATA_ENGINE_BASE_URL,
-      userId: adapterSettings.DATA_ENGINE_USER_ID,
+    this.dataStreamsClient = createClient({
+      apiKey: adapterSettings.DATA_ENGINE_USER_ID,
       userSecret: adapterSettings.DATA_ENGINE_USER_SECRET,
-      timeoutMs: adapterSettings.GLV_INFO_API_TIMEOUT_MS,
-      requester: dependencies.requester,
+      endpoint: adapterSettings.DATA_ENGINE_BASE_URL,
+      wsEndpoint: 'wss://ws.dataengine.chain.link',
+      logging: {
+        logger: logger,
+        logLevel: LogLevel.DEBUG,
+      },
     })
     if (this.settings.METADATA_REFRESH_INTERVAL_MS > 0) {
       setInterval(() => {
@@ -127,6 +140,7 @@ export abstract class BaseGlvTransport<
     data.map((token) => {
       this.tokensMap[token.address] = token
       this.decimals[token.symbol] = token.decimals
+      this.symbolToAddressMap[token.symbol] = token.address
     })
   }
 
@@ -176,17 +190,19 @@ export abstract class BaseGlvTransport<
 
     assets.sort()
     const priceResult = await this.fetchPrices([...new Set(assets)], providerDataRequestedUnixMs)
+    logger.info(`Price result: ${JSON.stringify(priceResult)}`)
 
     const indexTokensPrices: Array<string | number>[] = []
     Object.keys(glv.markets).forEach((m) => {
       const symbol = mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol
       indexTokensPrices.push([priceResult.prices[symbol].bid, priceResult.prices[symbol].ask])
     })
+    logger.info(`Index tokens prices: ${JSON.stringify(indexTokensPrices)}`)
 
     const glvTokenPriceContractParams = [
       this.settings.DATASTORE_CONTRACT_ADDRESS,
-      glvInfo.markets,
-      indexTokensPrices,
+      Array.from(glvInfo.markets),
+      indexTokensPrices.map(([a, b]) => [a, b]),
       [priceResult.prices[glv.longToken.symbol].bid, priceResult.prices[glv.longToken.symbol].ask],
       [
         priceResult.prices[glv.shortToken.symbol].bid,
@@ -195,10 +211,12 @@ export abstract class BaseGlvTransport<
       glv_address,
     ]
 
+    logger.info(`glvTokenPriceContractParams: ${JSON.stringify(glvTokenPriceContractParams)}`)
     const [[maximizedPriceRaw], [minimizedPriceRaw]] = await Promise.all([
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, true),
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
     ])
+    logger.info(`Fetched prices ${minimizedPriceRaw} and ${maximizedPriceRaw}`)
 
     const maximizedPrice = Number(ethers.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
     const minimizedPrice = Number(ethers.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
@@ -227,21 +245,44 @@ export abstract class BaseGlvTransport<
 
     await Promise.all(
       assets.map(async (asset) => {
-        const base = this.unwrapAsset(asset)
-        const feedId = await this.dataStreamsClient.resolveFeedId(base, 'USD', 'Crypto')
-        const { fullReportHex } = await this.dataStreamsClient.getLatestReport(feedId)
+        const tokenAddress = this.symbolToAddressMap[asset]
+        if (!tokenAddress) {
+          throw new AdapterDataProviderError(
+            { statusCode: 400, message: `Unknown token symbol '${asset}'` },
+            {
+              providerDataRequestedUnixMs: dataRequestedTimestamp,
+              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          )
+        }
+        // compute GMX key & read feedId from DataStore
+        const key = dataStreamIdKey(tokenAddress) // bytes32
+        const feedId: string = await this.dataStoreContract.getBytes32(key)
+        const report = await this.dataStreamsClient.getLatestReport(feedId)
 
         // Decode (V3 expected: price, bid, ask; decoder handles V2–V10)
-        const decoded = decodeReport(fullReportHex, feedId)
-        const scale = 10 ** SIGNED_PRICE_DECIMALS
-        const toNum = (x: any | undefined) => (x === undefined ? undefined : Number(x) / scale)
+        let decoded
+        try {
+          // logger.error(`Decoding report for ${asset} with feedId ${report.feedID}`)
+          decoded = decodeReport(report.fullReport, report.feedID) as DecodedV3Report
+          logger.info(
+            `Decoded report for ${asset} with feedId ${report.feedID} and value ${decoded.bid}`,
+          )
+        } catch (e) {
+          logger.error(e, `Error decoding report for ${asset}`)
+        }
+        const DATA_STREAM_DECIMALS = 18
+        const DATA_STREAM_SCALE = 10 ** DATA_STREAM_DECIMALS
+        const toNumFromDS = (x?: bigint) => (x == null ? undefined : Number(x) / DATA_STREAM_SCALE)
 
         const v3Bid = (decoded as any).bid
         const v3Ask = (decoded as any).ask
         const v3Price = (decoded as any).price
+        logger.info(`For ${asset}, bid: ${v3Ask}, ask: ${v3Bid}`)
 
-        const bidNum = toNum(v3Bid ?? v3Price)
-        const askNum = toNum(v3Ask ?? v3Price)
+        const bidNum = toNumFromDS(v3Bid ?? v3Price)
+        const askNum = toNumFromDS(v3Ask ?? v3Price)
 
         if (bidNum === undefined || askNum === undefined) {
           throw new AdapterDataProviderError(
@@ -261,9 +302,9 @@ export abstract class BaseGlvTransport<
         }
 
         // Track that Data Streams responded for this *base* key
-        priceProviders[base] = priceProviders[base] ? priceProviders[base] : []
-        if (!priceProviders[base].includes(sources[0].name)) {
-          priceProviders[base].push(sources[0].name)
+        priceProviders[asset] = priceProviders[asset] ? priceProviders[asset] : []
+        if (!priceProviders[asset].includes(sources[0].name)) {
+          priceProviders[asset].push(sources[0].name)
         }
       }),
     )
@@ -272,8 +313,13 @@ export abstract class BaseGlvTransport<
 
     const medianValues = this.calculateMedian(assets, priceData)
     const prices: Record<string, Record<string, string | number>> = {}
+    logger.info(`Median values: ${JSON.stringify(medianValues)}`)
+    logger.info(`Decimals map: ${JSON.stringify(this.decimals)}`)
 
     medianValues.forEach((v) => {
+      if (this.decimals[v.asset as keyof typeof this.decimals] == null) {
+        logger.error(`No decimals found for asset ${v.asset}`)
+      }
       prices[v.asset] = {
         ...v,
         ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
@@ -293,16 +339,6 @@ export abstract class BaseGlvTransport<
       const medianAsk = median([...new Set(priceData[asset].asks)])
       return { asset, bid: medianBid, ask: medianAsk }
     })
-  }
-
-  private unwrapAsset(asset: string) {
-    if (asset === 'WBTC.b') {
-      return 'BTC'
-    }
-    if (asset === 'WETH') {
-      return 'ETH'
-    }
-    return asset
   }
 
   private validateRequiredResponses(
@@ -327,8 +363,7 @@ export abstract class BaseGlvTransport<
     }
 
     assets.forEach((asset) => {
-      const base = this.unwrapAsset(asset)
-      const respondedSources = priceProviders[base]
+      const respondedSources = priceProviders[asset]
 
       if (respondedSources.length < this.settings.MIN_REQUIRED_SOURCE_SUCCESS) {
         const missingSources = allSource.filter((s) => !respondedSources.includes(s))

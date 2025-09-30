@@ -6355,6 +6355,30 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/data-streams-sdk", [\
+      ["npm:1.0.3", {\
+        "packageLocation": "./.yarn/cache/@chainlink-data-streams-sdk-npm-1.0.3-ec952b4534-5e2758fba7.zip/node_modules/@chainlink/data-streams-sdk/",\
+        "packageDependencies": [\
+          ["@chainlink/data-streams-sdk", "npm:1.0.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:ae8909ca714dfccddce55e692438c1aab534e848b471e879b1234c3e17eef91de1fe1b27a2961f29f7cfc94f0602985f9fc91d7df3226b103ff5a32d1e571dbc#npm:1.0.3", {\
+        "packageLocation": "./.yarn/__virtual__/@chainlink-data-streams-sdk-virtual-169c9673df/0/cache/@chainlink-data-streams-sdk-npm-1.0.3-ec952b4534-5e2758fba7.zip/node_modules/@chainlink/data-streams-sdk/",\
+        "packageDependencies": [\
+          ["@chainlink/data-streams-sdk", "virtual:ae8909ca714dfccddce55e692438c1aab534e848b471e879b1234c3e17eef91de1fe1b27a2961f29f7cfc94f0602985f9fc91d7df3226b103ff5a32d1e571dbc#npm:1.0.3"],\
+          ["@types/dotenv", null],\
+          ["dotenv", null],\
+          ["ethers", "npm:6.15.0"],\
+          ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/dotenv",\
+          "dotenv"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@chainlink/deep-blue-adapter", [\
       ["workspace:packages/sources/deep-blue", {\
         "packageLocation": "./packages/sources/deep-blue/",\
@@ -7301,6 +7325,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
+          ["@chainlink/data-streams-sdk", "virtual:ae8909ca714dfccddce55e692438c1aab534e848b471e879b1234c3e17eef91de1fe1b27a2961f29f7cfc94f0602985f9fc91d7df3226b103ff5a32d1e571dbc#npm:1.0.3"],\
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
