@@ -98,7 +98,7 @@ const mulBigInt = (value: bigint, multiplier: number, decimals: number) => {
   return (value * scaledMultiplier) / scale
 }
 
-const trimDecimals = (number: string, decimals: number) => {
+export const trimDecimals = (number: string, decimals: number) => {
   if (number.indexOf('.') === -1) {
     return number
   }

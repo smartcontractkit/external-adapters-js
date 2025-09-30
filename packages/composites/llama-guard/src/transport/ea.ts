@@ -3,6 +3,7 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { trimDecimals } from './nav'
 
 export const getRawNav = async (source: string, sourceInput: string, requester: Requester) => {
   const requestConfig = {
@@ -48,6 +49,7 @@ export const getEAUrl = (ea: string) => {
   return url
 }
 
+const WEI = 18
 const parse = (response: any): string => {
   if (typeof response === 'number') {
     return response.toString()
@@ -59,7 +61,8 @@ const parse = (response: any): string => {
         // Response may already be scaled, use BigInt to avoid overflow
         return BigInt(response).toString()
       } else {
-        return Number(response).toString()
+        // Avoid having too many decimals here
+        return trimDecimals(response.trim(), WEI)
       }
     }
   }

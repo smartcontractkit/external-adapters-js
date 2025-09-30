@@ -64,6 +64,11 @@ describe('ea.ts', () => {
       const large = '999999999999999999999999999'
       requester.request.mockResolvedValueOnce({ response: { data: { result: large } } })
       await expect(getRawNav('ea', '{}', requester)).resolves.toEqual(large)
+
+      // Limit to 18 decimals
+      const largeDecimals = '  9.99999999999999999999999999 '
+      requester.request.mockResolvedValueOnce({ response: { data: { result: largeDecimals } } })
+      await expect(getRawNav('ea', '{}', requester)).resolves.toEqual('9.999999999999999999')
     })
 
     it('should throw if empty', async () => {
