@@ -9,7 +9,7 @@ export interface AlliumMessage {
     quote: string
   }
   error?: string
-  timestamp?: string
+  timestamp: string
   data?: {
     base: string
     quote: string
