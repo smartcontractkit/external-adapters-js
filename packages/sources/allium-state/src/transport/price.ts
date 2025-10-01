@@ -41,7 +41,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
 
       const { base, quote, state_price } = message.data
-      const timestamp = message.timestamp ? new Date(message.timestamp).getTime() : Date.now()
+      const providerDataReceivedUnixMs = Date.now()
+      const providerIndicatedTimeUnixMs = new Date(message.timestamp).getTime()
 
       return [
         {
@@ -52,7 +53,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
             },
             result: state_price,
             timestamps: {
-              providerIndicatedTimeUnixMs: timestamp,
+              providerDataReceivedUnixMs,
+              providerIndicatedTimeUnixMs,
             },
           },
         },
