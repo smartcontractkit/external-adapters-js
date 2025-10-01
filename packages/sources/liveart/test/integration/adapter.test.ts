@@ -5,8 +5,8 @@ import {
 import * as nock from 'nock'
 
 import { TEST_BEARER_TOKEN, TEST_URL } from '../utils/testConfig'
-import { clearTestCache } from '../utils/utilFunctions'
 import { mockHappyPathResponseSuccess, mockResponseFailure } from './utils/fixtures'
+import { clearTestCache } from './utils/utilFunctions'
 
 describe('LiveArt NAV', () => {
   let testAdapter: TestAdapter
@@ -42,7 +42,7 @@ describe('LiveArt NAV', () => {
   })
 
   describe('endpoint', () => {
-    it('should return success for both valid artwork_id and artworkId', async () => {
+    it('should return success for both valid artwork_id', async () => {
       const dataInput = {
         artwork_id: 'banksy',
         endpoint: 'nav',

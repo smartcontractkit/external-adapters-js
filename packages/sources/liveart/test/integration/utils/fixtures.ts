@@ -30,7 +30,7 @@ export const mockResponseFailure = (artworkId: string): nock.Scope =>
     .get(`/artwork/${artworkId}/price`)
     .matchHeader('Authorization', `Bearer ${TEST_BEARER_TOKEN}`)
     .reply(
-      200, // Changed from 200 to 404
+      200,
       () => ({
         ...ErrorResponse,
         artwork_id: `${artworkId}`,

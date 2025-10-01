@@ -480,6 +480,9 @@
       "path": "./sources/lition/tsconfig.test.json"
     },
     {
+      "path": "./sources/liveart/tsconfig.test.json"
+    },
+    {
       "path": "./sources/lotus/tsconfig.test.json"
     },
     {
