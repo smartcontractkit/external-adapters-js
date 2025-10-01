@@ -61,6 +61,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [curve](./curve/README.md)
 - [deep-blue](./deep-blue/README.md)
 - [deribit](./deribit/README.md)
+- [deutsche-boerse](./deutsche-boerse/README.md)
 - [dlc-btc-por](./dlc-btc-por/README.md)
 - [dns-query](./dns-query/README.md)
 - [dxfeed](./dxfeed/README.md)
