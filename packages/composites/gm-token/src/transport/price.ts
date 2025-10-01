@@ -1,32 +1,34 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 
-import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
-import { ethers, utils } from 'ethers'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   EndpointContext,
   LwbaResponseDataFields,
 } from '@chainlink/external-adapter-framework/adapter'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers, utils } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import abi from './../config/readerAbi.json'
 import {
   decimals,
-  toFixed,
   median,
   PriceData,
   SIGNED_PRICE_DECIMALS,
-  tokenAddresses,
   Source,
+  toFixed,
+  tokenAddresses,
 } from './utils'
-import abi from './../config/readerAbi.json'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 
 const logger = makeLogger('GMToken')
 
 type RequestParams = typeof inputParameters.validated
 
 export type GmTokenTransportTypes = BaseEndpointTypes
+
+type ChainKey = 'arbitrum' | 'botanix'
 
 export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportTypes> {
   name!: string
@@ -36,6 +38,8 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   readerContract!: ethers.Contract
   abiEncoder!: utils.AbiCoder
   settings!: GmTokenTransportTypes['Settings']
+  private providers: Partial<Record<ChainKey, ethers.providers.JsonRpcProvider>> = {}
+  private readers: Partial<Record<ChainKey, ethers.Contract>> = {}
 
   async initialize(
     dependencies: TransportDependencies<GmTokenTransportTypes>,
@@ -85,7 +89,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<GmTokenTransportTypes['Response']>> {
-    const { index, long, short, market } = param
+    const { index, long, short, market, chain } = param
 
     const assets = [index, long, short]
 
@@ -101,19 +105,19 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
 
     const tokenPriceContractParams = [
-      this.settings.DATASTORE_CONTRACT_ADDRESS,
+      this.getDatastoreContractAddress(chain as ChainKey),
       [market, indexToken, longToken, shortToken],
       [indexPrices.ask, indexPrices.bid],
       [longPrices.ask, longPrices.bid],
       [shortPrices.ask, shortPrices.bid],
       utils.keccak256(utils.defaultAbiCoder.encode(['string'], [this.settings.PNL_FACTOR_TYPE])),
     ]
-
+    const readerContract = this.getReaderContract(chain)
     // Prices have a spread from min to max. The last param (maximize-true/false) decides whether to maximize the market token price
     // or not. We get both values and return the median.
     const [[maximizedValue], [minimizedValue]] = await Promise.all([
-      this.readerContract.getMarketTokenPrice(...tokenPriceContractParams, true),
-      this.readerContract.getMarketTokenPrice(...tokenPriceContractParams, false),
+      readerContract.getMarketTokenPrice(...tokenPriceContractParams, true),
+      readerContract.getMarketTokenPrice(...tokenPriceContractParams, false),
     ])
 
     const maximizedPrice = Number(utils.formatUnits(maximizedValue, SIGNED_PRICE_DECIMALS))
@@ -280,6 +284,39 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
         )
       }
     })
+  }
+
+  private getProvider(chain: ChainKey): ethers.providers.JsonRpcProvider {
+    if (this.providers[chain]) return this.providers[chain]!
+    const p =
+      chain === 'botanix'
+        ? new ethers.providers.JsonRpcProvider(
+            this.settings.BOTANIX_RPC_URL,
+            this.settings.BOTANIX_CHAIN_ID,
+          )
+        : new ethers.providers.JsonRpcProvider(
+            this.settings.ARBITRUM_RPC_URL,
+            this.settings.ARBITRUM_CHAIN_ID,
+          )
+    this.providers[chain] = p
+    return p
+  }
+
+  private getReaderContract(chain: ChainKey): ethers.Contract {
+    if (this.readers[chain]) return this.readers[chain]!
+    const addr =
+      chain === 'botanix'
+        ? this.settings.BOTANIX_READER_CONTRACT_ADDRESS
+        : this.settings.READER_CONTRACT_ADDRESS
+    const reader = new ethers.Contract(addr, abi, this.getProvider(chain))
+    this.readers[chain] = reader
+    return reader
+  }
+
+  private getDatastoreContractAddress(chain: ChainKey): string {
+    return chain === 'botanix'
+      ? this.settings.BOTANIX_DATASTORE_CONTRACT_ADDRESS
+      : this.settings.DATASTORE_CONTRACT_ADDRESS
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

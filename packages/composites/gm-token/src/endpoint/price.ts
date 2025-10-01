@@ -1,9 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/price'
 import { tokenAddresses } from '../transport/utils'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
@@ -28,6 +28,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Market address of the market pool.',
     },
+    chain: {
+      description: 'Target chain for GM market',
+      type: 'string',
+      options: ['arbitrum', 'botanix'],
+      default: 'arbitrum',
+    },
   },
   [
     {
@@ -35,6 +41,7 @@ export const inputParameters = new InputParameters(
       long: 'LINK',
       short: 'USDC',
       market: '0x7f1fa204bb700853D36994DA19F830b6Ad18455C',
+      chain: 'arbitrum',
     },
   ],
 )

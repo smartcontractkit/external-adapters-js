@@ -14,13 +14,36 @@ export const config = new AdapterConfig(
       required: true,
       default: 42161,
     },
+    BOTANIX_RPC_URL: {
+      description: 'RPC url of Arbitrum node',
+      type: 'string',
+      required: false,
+    },
+    BOTANIX_CHAIN_ID: {
+      description: 'The chain id to connect to',
+      type: 'number',
+      required: false,
+      default: 42161,
+    },
     DATASTORE_CONTRACT_ADDRESS: {
       description: 'Address of Data Store contract',
       type: 'string',
       required: true,
       default: '0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8',
     },
+    BOTANIX_DATASTORE_CONTRACT_ADDRESS: {
+      description: 'Address of Data Store contract',
+      type: 'string',
+      required: true,
+      default: '0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8',
+    },
     READER_CONTRACT_ADDRESS: {
+      description: 'Address of Reader contract',
+      type: 'string',
+      required: true,
+      default: '0xf60becbba223EEA9495Da3f606753867eC10d139',
+    },
+    BOTANIX_READER_CONTRACT_ADDRESS: {
       description: 'Address of Reader contract',
       type: 'string',
       required: true,
