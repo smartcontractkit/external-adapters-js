@@ -1,5 +1,11 @@
 # @chainlink/implied-price-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4055](https://github.com/smartcontractkit/external-adapters-js/pull/4055) [`d63bb4f`](https://github.com/smartcontractkit/external-adapters-js/commit/d63bb4fee0fd7950c7227c525b5a15ca7bfb07c5) Thanks [@dskloetc](https://github.com/dskloetc)! - Handle missing adapters
+
 ## 1.2.3
 
 ### Patch Changes
