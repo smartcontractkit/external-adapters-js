@@ -24,10 +24,19 @@ export class AuthManager {
   private latestToken: TokenDuration | undefined
   private requester: Requester
   private settings: AuthSettings
+  private static instance: AuthManager
 
   constructor(requester: Requester, settings: AuthSettings) {
     this.requester = requester
     this.settings = settings
+  }
+
+  static getInstance(requester: Requester, settings: AuthSettings): AuthManager {
+    if (!AuthManager.instance) {
+      this.instance = new AuthManager(requester, settings)
+    }
+
+    return this.instance
   }
 
   async getBearerToken(): Promise<string> {
@@ -44,7 +53,7 @@ export class AuthManager {
       }
     }
 
-    if (!this.latestToken) {
+    if (!this.latestToken?.token) {
       throw new AdapterError({
         statusCode: 502,
         message: 'Unable to getToken',

@@ -5,18 +5,17 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { inputParameters } from '../endpoint/common'
 import { BaseEndpointTypes } from '../endpoint/nav'
-import { inputParameters } from '../endpoint/reserve'
 import { AuthManager, AuthSettings } from './helpers/auth'
+import { AssetoApiResponseBaseSchema, validateApiResponse } from './helpers/common'
 import { RequestHelper } from './helpers/request'
 
 const logger = makeLogger('NavTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-interface ApiResponseSchema {
-  code: number
-  message: string
+interface ApiResponseSchema extends AssetoApiResponseBaseSchema {
   data: {
     list: NavResponseSchema[]
   }
@@ -56,7 +55,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     this.settings = adapterSettings
     this.endpointName = endpointName
 
-    this.authManager = new AuthManager(this.requester, {
+    this.authManager = AuthManager.getInstance(this.requester, {
       API_ENDPOINT: this.settings.API_ENDPOINT,
       CLIENT_ID: this.settings.CLIENT_ID,
       CLIENT_SECRET: this.settings.CLIENT_SECRET,
@@ -92,31 +91,39 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     const token = await this.authManager.getBearerToken()
-    let navResponses = await this.getNav(fundId, token)
-    navResponses = navResponses.sort(
+    const navResponses = await this.getNav(fundId, token)
+    const navList = navResponses.data?.list as NavResponseSchema[]
+    if (!navList || navList.length === 0) {
+      throw new AdapterError({
+        statusCode: 404,
+        message: 'No NAV data found for fund id',
+      })
+    }
+
+    const sortedNavList = navList.sort(
       (a, b) => new Date(b.netAssetValueDate).getTime() - new Date(a.netAssetValueDate).getTime(),
     )
-    const navResponse = navResponses[0]
-    const result = parseFloat(navResponse.netAssetValue)
+    const nav = sortedNavList[0]
+    const result = parseFloat(nav.netAssetValue)
 
     return {
       statusCode: 200,
       result,
       data: {
-        fundId: navResponse.fundId,
-        fundName: navResponse.fundName,
+        fundId: nav.fundId,
+        fundName: nav.fundName,
         netAssetValue: result,
-        navDate: navResponse.netAssetValueDate,
+        navDate: nav.netAssetValueDate,
       },
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: new Date(navResponse.netAssetValueDate).getTime(),
+        providerIndicatedTimeUnixMs: new Date(nav.netAssetValueDate).getTime(),
       },
     }
   }
 
-  async getNav(fundId: number, bearerToken: string): Promise<NavResponseSchema[]> {
+  async getNav(fundId: number, bearerToken: string): Promise<ApiResponseSchema> {
     const requestConfig = RequestHelper.createNavRequest(
       this.settings.API_ENDPOINT,
       bearerToken,
@@ -135,31 +142,8 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
 
     const response = await this.requester.request<ApiResponseSchema>(requestKey, requestConfig)
 
-    if (response.response.status === 401) {
-      logger.error(response.response.data.message)
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'Auth invalid, will retry next background execute',
-        providerStatusCode: response.response.status,
-      })
-    } else if (response.response.status !== 200) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: response.response.data.message,
-        providerStatusCode: response.response.status,
-      })
-    }
-
-    const navList = response?.response?.data?.data?.list as NavResponseSchema[]
-    if (!navList || navList.length === 0) {
-      throw new AdapterError({
-        statusCode: 404,
-        message: 'No NAV data found for fund id',
-        providerStatusCode: response.response.status,
-      })
-    }
-
-    return navList
+    validateApiResponse(response.response.status, response.response.data)
+    return response.response.data
   }
 
   async backgroundHandler(context: EndpointContext<HttpTransportTypes>, entries: RequestParams[]) {

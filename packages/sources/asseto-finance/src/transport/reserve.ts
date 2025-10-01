@@ -5,18 +5,19 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/reserve'
+import { inputParameters } from '../endpoint/common'
+import { BaseEndpointTypes } from '../endpoint/reserve'
 import { AuthManager, AuthSettings } from './helpers/auth'
+import { AssetoApiResponseBaseSchema, validateApiResponse } from './helpers/common'
 import { RequestHelper } from './helpers/request'
 
 const logger = makeLogger('ReserveTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-interface ApiResponseSchema {
-  code: number
-  message: string
+interface ApiResponseSchema extends AssetoApiResponseBaseSchema {
   data: ReserveResponseSchema
+  timestamp: number
 }
 
 export interface ReserveResponseSchema {
@@ -53,7 +54,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     this.settings = adapterSettings
     this.endpointName = endpointName
 
-    this.authManager = new AuthManager(this.requester, {
+    this.authManager = AuthManager.getInstance(this.requester, {
       API_ENDPOINT: this.settings.API_ENDPOINT,
       CLIENT_ID: this.settings.CLIENT_ID,
       CLIENT_SECRET: this.settings.CLIENT_SECRET,
@@ -89,7 +90,7 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     const token = await this.authManager.getBearerToken()
-    const reserveResponse = await this.getReserve(fundId, token)
+    const { data: reserveResponse, timestamp } = await this.getReserve(fundId, token)
 
     if (!reserveResponse) {
       throw new AdapterError({
@@ -98,13 +99,29 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
       })
     }
 
-    if (reserveResponse.ripcord) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `ripcord pulled: ${JSON.stringify(reserveResponse.ripcordDetails)}`,
-      })
-    }
     const result = parseFloat(reserveResponse.totalAum)
+
+    if (reserveResponse.ripcord) {
+      const ripcordDetails = JSON.stringify(reserveResponse.ripcordDetails)
+      return {
+        statusCode: 502,
+        result,
+        data: {
+          fundId: reserveResponse.fundId,
+          fundName: reserveResponse.fundName,
+          totalAUM: result,
+          totalDate: reserveResponse.updatedAt,
+          ripcord: reserveResponse.ripcord,
+          ripcordDetails,
+          errorMessage: `ripcord pulled: ${ripcordDetails}`,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: new Date(timestamp).getTime() * 1000,
+        },
+      }
+    }
 
     return {
       statusCode: 200,
@@ -119,13 +136,12 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        //TODO: figure out what do to when the provider timestamp is > current timestamp
-        providerIndicatedTimeUnixMs: Date.now(), //new Date(reserveResponse.updatedAt).getTime(),
+        providerIndicatedTimeUnixMs: new Date(timestamp).getTime() * 1000,
       },
     }
   }
 
-  async getReserve(fundId: number, bearerToken: string): Promise<ReserveResponseSchema> {
+  async getReserve(fundId: number, bearerToken: string): Promise<ApiResponseSchema> {
     const requestConfig = RequestHelper.createReserveRequest(
       this.settings.API_ENDPOINT,
       bearerToken,
@@ -143,28 +159,9 @@ class ReserveTransport extends SubscriptionTransport<HttpTransportTypes> {
     })
 
     const response = await this.requester.request<ApiResponseSchema>(requestKey, requestConfig)
+    validateApiResponse(response.response.status, response.response.data)
 
-    if (response.response.status === 401) {
-      logger.error(response.response.data.message)
-      throw new AdapterError({
-        statusCode: 502,
-        message: 'Auth invalid, will retry next background execute',
-        providerStatusCode: response.response.status,
-      })
-    } else if (response.response.status !== 200) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: response.response.data.message,
-        providerStatusCode: response.response.status,
-      })
-    } else if (response.response.data.code !== 0) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: response.response.data.message,
-      })
-    }
-
-    return response.response.data.data as ReserveResponseSchema
+    return response.response.data
   }
 
   async backgroundHandler(context: EndpointContext<HttpTransportTypes>, entries: RequestParams[]) {

@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { config } from '../config'
 import { navTransport } from '../transport/nav'
-import { inputParameters } from './reserve'
+import { inputParameters } from './common'
 
 export type NavResultResponse = {
   Result: number

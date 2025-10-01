@@ -1,5 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute  should fail when ripcord is true 1`] = `
+{
+  "data": {
+    "fundId": 8,
+    "fundName": "CashPlus_BSC",
+    "ripcord": false,
+    "totalAUM": 0,
+    "totalDate": "2025-09-22 20:00:01",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1758542882000,
+  },
+}
+`;
+
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
@@ -18,6 +37,44 @@ exports[`execute nav endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute reserve endpoint ripcord should fail when ripcord is true 1`] = `
+{
+  "data": {
+    "fundId": 8,
+    "fundName": "CashPlus_BSC",
+    "ripcord": false,
+    "totalAUM": 0,
+    "totalDate": "2025-09-22 20:00:01",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1758542882000,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should fail when ripcord is true 1`] = `
+{
+  "data": {
+    "fundId": 8,
+    "fundName": "CashPlus_BSC",
+    "ripcord": false,
+    "totalAUM": 0,
+    "totalDate": "2025-09-22 20:00:01",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1758542882000,
+  },
+}
+`;
+
 exports[`execute reserve endpoint should return success 1`] = `
 {
   "data": {
@@ -32,7 +89,7 @@ exports[`execute reserve endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1758542882000,
   },
 }
 `;

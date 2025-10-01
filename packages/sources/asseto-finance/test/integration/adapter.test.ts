@@ -73,4 +73,118 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
+
+  // describe('auth edge cases', () => {
+  //   beforeEach(() => {
+  //     nock.cleanAll()
+  //   })
+  //
+  //   it('should handle auth 401 unauthorized error', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'reserve',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseUnauthorized()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: 'Unable to auth',
+  //       })
+  //     )
+  //   })
+  //
+  //   it('should handle auth 500 server error', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'nav',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseServerError()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: 'Unable to auth',
+  //       })
+  //     )
+  //   })
+  //
+  //   it('should handle missing access_token in auth response', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'reserve',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseMissingToken()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: 'Unable to auth',
+  //       })
+  //     )
+  //   })
+  //
+  //   it('should handle missing expires in auth response', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'nav',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseMissingExpiry()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: 'Unable to auth',
+  //       })
+  //     )
+  //   })
+  //
+  //   it('should handle invalid expires value in auth response', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'reserve',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseInvalidExpiry()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: 'Unable to getToken',
+  //       })
+  //     )
+  //   })
+  //
+  //   it('should handle auth timeout', async () => {
+  //     const fundId = 8
+  //     const data = {
+  //       endpoint: 'nav',
+  //       fundId: fundId,
+  //     }
+  //
+  //     mockAuthResponseTimeout()
+  //
+  //     const response = await testAdapter.request(data)
+  //     expect(response.statusCode).toBe(502)
+  //     expect(response.json()).toEqual(
+  //       expect.objectContaining({
+  //         errorMessage: expect.stringContaining('timeout'),
+  //       })
+  //     )
+  //   }, 10000)
+  // })
 })

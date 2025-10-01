@@ -1,22 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { reserveTransport } from '../transport/reserve'
-
-export const inputParameters = new InputParameters(
-  {
-    fundId: {
-      required: true,
-      type: 'number',
-      description: 'The fund id of the reserves to query',
-    },
-  },
-  [
-    {
-      fundId: 3,
-    },
-  ],
-)
+import { inputParameters } from './common'
 
 export type ReserveResultResponse = {
   Result: number
@@ -29,9 +14,22 @@ export type ReserveResultResponse = {
   }
 }
 
+export type ReserveResultErrorResponse = {
+  Result: number
+  Data: {
+    errorMessage: string
+    fundId: number
+    fundName: string
+    totalAUM: number
+    totalDate: string
+    ripcord: string
+    ripcordDetails?: string
+  }
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: ReserveResultResponse
+  Response: ReserveResultResponse | ReserveResultErrorResponse
   Settings: typeof config.settings
 }
 

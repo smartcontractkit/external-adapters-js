@@ -20,7 +20,6 @@ export const config = new AdapterConfig({
   GRANT_TYPE: {
     description: 'Grant type for credentials',
     type: 'string',
-    sensitive: true,
     default: 'client_credentials',
   },
   BACKGROUND_EXECUTE_MS: {
