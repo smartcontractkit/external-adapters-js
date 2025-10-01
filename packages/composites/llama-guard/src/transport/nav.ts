@@ -25,7 +25,7 @@ export const getNav = async (
 
   const rawNavScaled = sourceScaled
     ? BigInt(rawNav)
-    : parseUnits(rawNav.toFixed(bounds.decimals).toString(), bounds.decimals)
+    : parseUnits(trimDecimals(rawNav, bounds.decimals), bounds.decimals)
 
   const now = Date.now() / 1000
 
@@ -93,6 +93,16 @@ export const getNav = async (
 
 const mulBigInt = (value: bigint, multiplier: number, decimals: number) => {
   const scale = 10n ** BigInt(decimals)
-  const scaledMultiplier = BigInt(Math.floor(multiplier * Number(scale)))
+  const scaledMultiplier = parseUnits(trimDecimals(multiplier.toString(), decimals), decimals)
+
   return (value * scaledMultiplier) / scale
+}
+
+export const trimDecimals = (number: string, decimals: number) => {
+  if (number.indexOf('.') === -1) {
+    return number
+  }
+  const arr = number.split('.')
+  const fraction = arr[1].substring(0, decimals)
+  return arr[0] + '.' + fraction
 }
