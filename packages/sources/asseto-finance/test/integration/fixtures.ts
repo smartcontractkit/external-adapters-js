@@ -177,15 +177,3 @@ export const mockAuthResponseInvalidExpiry = (): nock.Scope =>
       expires: 0,
     })
     .persist()
-
-// export const mockAuthResponseTimeout = (): nock.Scope =>
-//   nock('https://open.syncnav.com')
-//     .post('/api/oauth/token')
-//     .socketDelay(60000)
-//     .reply(200, {
-//       access_token: 'some_token',
-//       token_type: 'Bearer',
-//       scopes: [],
-//       expires: 604800,
-//     })
-//     .persist()
