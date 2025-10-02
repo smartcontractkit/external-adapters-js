@@ -3,11 +3,11 @@
 exports[`execute reserve endpoint ripcord should return 502 when ripcord is true 1`] = `
 {
   "data": {
-    "errorMessage": "ripcord pulled: ["some ripcord details"]",
+    "errorMessage": "ripcord pulled: [\"some ripcord details\"]",
     "fundId": 8,
     "fundName": "CashPlus_BSC",
     "ripcord": true,
-    "ripcordDetails": "["some ripcord details"]",
+    "ripcordDetails": "[\"some ripcord details\"]",
     "totalAUM": 800,
     "totalDate": "2025-09-22 20:00:01",
   },
