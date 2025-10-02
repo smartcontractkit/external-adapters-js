@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/deutsche-boerse-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink deutsche-boerse adapter.",
   "keywords": [
     "Chainlink",
