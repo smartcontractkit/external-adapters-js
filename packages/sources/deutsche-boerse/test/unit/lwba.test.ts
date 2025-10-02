@@ -1,4 +1,3 @@
-// packages/sources/deutsche-boerse/test/unit/lwba.ws.transport.test.ts
 import { create, toBinary, type MessageInitShape } from '@bufbuild/protobuf'
 import { anyPack, type Any } from '@bufbuild/protobuf/wkt'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'

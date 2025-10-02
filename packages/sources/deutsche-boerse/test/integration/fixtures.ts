@@ -1,7 +1,5 @@
-// test/integration/fixtures.ts
 import { create, toBinary } from '@bufbuild/protobuf'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-// ⬅️ don't rely on Any.pack for tests; just set {typeUrl, value}
 import {
   Status as ClientStatus,
   ResponseSchema,
