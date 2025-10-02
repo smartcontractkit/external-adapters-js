@@ -90,7 +90,7 @@ To create a fixture, you'll need to make a real request to the data provider's A
 
 1. Setup the test, see the [coingecko](./packages/sources/coingecko/test/integration/adapter.test.ts) test for a code sample.
 2. Make a request to the Data Provider and copy the response. For HTTP requests, you can use tools like `curl`. Change/mock any sensitive data that it contains.
-3. Using the mock data from step 2, write a `fixtures.ts` file to return the mock data instead.
+3. Using the mock data from step 2, write a `fixtures.adapter.ts` file to return the mock data instead.
 4. Run the tests. API requests should now be intercepted and mocked using the fixture data.
 
 ### Testing WebSocket Messages
@@ -98,7 +98,7 @@ To create a fixture, you'll need to make a real request to the data provider's A
 1. Setup the test, see the [ncfx](./packages/sources/ncfx/test/integration/adapter.test.ts) test for a code sample.
 2. Connect and send an authentication message request to Data Provider. Change/mock any sensitive data in the response and copy it. For websocket requests, you can use tools like [wscat](https://github.com/websockets/wscat).
 3. Make a request to the Data Provider to fetch actual data, and copy the websocket messages. Change/mock any sensitive data that it contains.
-4. Using the copied messages in step 2 and 3, write a `fixtures.ts` file. Create mock function in `fixtures.ts` that will return mocked authentication and data messages. See [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts).
+4. Using the copied messages in step 2 and 3, write a `fixtures.adapter.ts` file. Create mock function in `fixtures.adapter.ts` that will return mocked authentication and data messages. See [ncfx test fixtures example](./packages/sources/ncfx/test/integration/fixtures.ts).
 5. Run the tests. Websocket requests should now be intercepted and mocked using the fixture data.
 
 For more information on Jest, see the [Jest docs](https://jestjs.io/docs/cli).

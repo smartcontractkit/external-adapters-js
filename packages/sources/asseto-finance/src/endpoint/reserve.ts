@@ -14,15 +14,9 @@ export type ReserveResultResponse = {
   }
 }
 
-export type ReserveResultErrorResponse = {
-  Result: number
+export type ReserveResultErrorResponse = ReserveResultResponse & {
   Data: {
     errorMessage: string
-    fundId: number
-    fundName: string
-    totalAUM: number
-    totalDate: string
-    ripcord: string
     ripcordDetails?: string
   }
 }

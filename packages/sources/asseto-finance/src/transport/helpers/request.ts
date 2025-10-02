@@ -10,7 +10,7 @@ export class RequestHelper {
   static createAuthenticatedGetRequest(
     baseURL: string,
     bearerToken: string,
-    path?: string,
+    path: string,
   ): ApiRequestConfig {
     return {
       baseURL,

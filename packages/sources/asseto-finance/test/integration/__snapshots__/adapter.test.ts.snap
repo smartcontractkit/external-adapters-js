@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute  should fail when ripcord is true 1`] = `
-{
-  "data": {
-    "fundId": 8,
-    "fundName": "CashPlus_BSC",
-    "ripcord": false,
-    "totalAUM": 0,
-    "totalDate": "2025-09-22 20:00:01",
-  },
-  "result": 0,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1758542882000,
-  },
-}
-`;
-
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
@@ -33,65 +14,6 @@ exports[`execute nav endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
     "providerIndicatedTimeUnixMs": 1756166400000,
-  },
-}
-`;
-
-exports[`execute reserve endpoint ripcord should fail when ripcord is true 1`] = `
-{
-  "data": {
-    "fundId": 8,
-    "fundName": "CashPlus_BSC",
-    "ripcord": false,
-    "totalAUM": 0,
-    "totalDate": "2025-09-22 20:00:01",
-  },
-  "result": 0,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1758542882000,
-  },
-}
-`;
-
-exports[`execute reserve endpoint should fail when ripcord is true 1`] = `
-{
-  "data": {
-    "fundId": 8,
-    "fundName": "CashPlus_BSC",
-    "ripcord": false,
-    "totalAUM": 0,
-    "totalDate": "2025-09-22 20:00:01",
-  },
-  "result": 0,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1758542882000,
-  },
-}
-`;
-
-exports[`execute reserve endpoint should fail with ripcord 1`] = `
-{
-  "data": {
-    "errorMessage": "ripcord pulled: "some ripcord details"",
-    "fundId": 8,
-    "fundName": "CashPlus_BSC",
-    "ripcord": true,
-    "ripcordDetails": ""some ripcord details"",
-    "totalAUM": 800,
-    "totalDate": "2025-09-22 20:00:01",
-  },
-  "result": 800,
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1758542882000,
   },
 }
 `;

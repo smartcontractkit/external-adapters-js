@@ -9,7 +9,7 @@ import {
   mockAuthResponseMissingToken,
   mockAuthResponseServerError,
   mockAuthResponseUnauthorized,
-} from './fixtures'
+} from './fixtures/fixtures.auth'
 
 describe('execute', () => {
   let spy: jest.SpyInstance

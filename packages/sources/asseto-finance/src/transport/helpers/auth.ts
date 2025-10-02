@@ -32,7 +32,7 @@ export class AuthManager {
   }
 
   static getInstance(requester: Requester, settings: AuthSettings): AuthManager {
-    if (!AuthManager.instance) {
+    if (!this.instance) {
       this.instance = new AuthManager(requester, settings)
     }
 

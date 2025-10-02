@@ -3,7 +3,8 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockAuthResponseSuccess, mockReserveResponseRipcord } from './fixtures'
+import { mockAuthResponseSuccess } from './fixtures/fixtures.adapter'
+import { mockReserveResponseRipcord } from './fixtures/fixtures.ripcord'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
