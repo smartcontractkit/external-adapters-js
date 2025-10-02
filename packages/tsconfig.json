@@ -138,6 +138,9 @@
       "path": "./sources/aleno"
     },
     {
+      "path": "./sources/allium-state"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {
