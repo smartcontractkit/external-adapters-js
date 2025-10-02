@@ -6,6 +6,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
+import { emitMetric } from './metrics'
 import { getNav } from './nav'
 
 const logger = makeLogger('Transport')
@@ -15,6 +16,7 @@ type RequestParams = typeof inputParameters.validated
 export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
+  metricsEndpoint!: string
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -28,6 +30,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
       adapterSettings.ETHEREUM_RPC_URL,
       adapterSettings.ETHEREUM_RPC_CHAIN_ID,
     )
+    this.metricsEndpoint = adapterSettings.LLAMA_RISK_API_ENDPOINT
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
@@ -69,7 +72,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
       this.provider,
     )
 
-    return {
+    const result = {
       data,
       statusCode: 200,
       result: data.adjustedNav,
@@ -79,6 +82,10 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+
+    emitMetric(this.metricsEndpoint, param.asset, result, this.requester)
+
+    return result
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
