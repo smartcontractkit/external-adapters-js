@@ -207,6 +207,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/aleno"\
     },\
     {\
+      "name": "@chainlink/allium-state-adapter",\
+      "reference": "workspace:packages/sources/allium-state"\
+    },\
+    {\
       "name": "@chainlink/alphachain-adapter",\
       "reference": "workspace:packages/sources/alphachain"\
     },\
@@ -233,6 +237,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/apex-adapter",\
       "reference": "workspace:packages/sources/apex"\
+    },\
+    {\
+      "name": "@chainlink/asseto-finance-adapter",\
+      "reference": "workspace:packages/sources/asseto-finance"\
     },\
     {\
       "name": "@chainlink/avalanche-platform-adapter",\
@@ -965,6 +973,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
+    ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
@@ -974,6 +983,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
+    ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
@@ -5217,6 +5227,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/allium-state-adapter", [\
+      ["workspace:packages/sources/allium-state", {\
+        "packageLocation": "./packages/sources/allium-state/",\
+        "packageDependencies": [\
+          ["@chainlink/allium-state-adapter", "workspace:packages/sources/allium-state"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/alphachain-adapter", [\
       ["workspace:packages/sources/alphachain", {\
         "packageLocation": "./packages/sources/alphachain/",\
@@ -5368,6 +5395,21 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/asseto-finance-adapter", [\
+      ["workspace:packages/sources/asseto-finance", {\
+        "packageLocation": "./packages/sources/asseto-finance/",\
+        "packageDependencies": [\
+          ["@chainlink/asseto-finance-adapter", "workspace:packages/sources/asseto-finance"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
