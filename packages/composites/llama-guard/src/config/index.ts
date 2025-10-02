@@ -11,6 +11,12 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 1,
   },
+  LLAMA_RISK_API_ENDPOINT: {
+    description: 'API endpoint for Llama Risk (contains API KEY)',
+    type: 'string',
+    default: '',
+    sensitive: true,
+  },
 
   BACKGROUND_EXECUTE_MS: {
     description:
