@@ -162,6 +162,9 @@
       "path": "./sources/apex"
     },
     {
+      "path": "./sources/asseto-finance"
+    },
+    {
       "path": "./sources/avalanche-platform"
     },
     {
