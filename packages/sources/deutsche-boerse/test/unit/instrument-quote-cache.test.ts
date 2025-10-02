@@ -1,4 +1,3 @@
-// packages/sources/deutsche-boerse/test/unit/instrument-quote-cache.test.ts
 import { InstrumentQuoteCache } from '../../src/transport/instrument-quote-cache'
 
 describe('InstrumentQuoteCache', () => {
