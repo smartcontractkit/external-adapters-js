@@ -162,6 +162,9 @@
       "path": "./sources/apex/tsconfig.test.json"
     },
     {
+      "path": "./sources/asseto-finance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
     },
     {
