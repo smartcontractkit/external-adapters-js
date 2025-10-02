@@ -138,6 +138,9 @@
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
+      "path": "./sources/allium-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
