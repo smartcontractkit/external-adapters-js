@@ -138,6 +138,9 @@
       "path": "./sources/aleno"
     },
     {
+      "path": "./sources/allium-state"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {
@@ -157,6 +160,9 @@
     },
     {
       "path": "./sources/apex"
+    },
+    {
+      "path": "./sources/asseto-finance"
     },
     {
       "path": "./sources/avalanche-platform"

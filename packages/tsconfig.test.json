@@ -138,6 +138,9 @@
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
+      "path": "./sources/allium-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
@@ -157,6 +160,9 @@
     },
     {
       "path": "./sources/apex/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/asseto-finance/tsconfig.test.json"
     },
     {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
