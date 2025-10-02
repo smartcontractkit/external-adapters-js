@@ -1,4 +1,3 @@
-// packages/sources/deutsche-boerse/test/unit/proto-utils.test.ts
 import { create } from '@bufbuild/protobuf'
 import {
   DataSchema,
