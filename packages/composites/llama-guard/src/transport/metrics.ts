@@ -27,7 +27,7 @@ const _emitMetric = async (
     return
   }
   if (endpoint.length === 0) {
-    logger.warn('Missing LLAMA_RISK_API_ENDPOINT, skip sending metrics')
+    logger.debug('Missing LLAMA_RISK_API_ENDPOINT, skip sending metrics')
     return
   }
 
