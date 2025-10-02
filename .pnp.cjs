@@ -211,6 +211,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/aleno"\
     },\
     {\
+      "name": "@chainlink/allium-state-adapter",\
+      "reference": "workspace:packages/sources/allium-state"\
+    },\
+    {\
       "name": "@chainlink/alphachain-adapter",\
       "reference": "workspace:packages/sources/alphachain"\
     },\
@@ -997,6 +1001,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
+    ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
     ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
@@ -5260,6 +5265,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["socket.io-client", "npm:4.8.1"],\
           ["socket.io-mock-ts", "npm:1.0.2"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/allium-state-adapter", [\
+      ["workspace:packages/sources/allium-state", {\
+        "packageLocation": "./packages/sources/allium-state/",\
+        "packageDependencies": [\
+          ["@chainlink/allium-state-adapter", "workspace:packages/sources/allium-state"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
