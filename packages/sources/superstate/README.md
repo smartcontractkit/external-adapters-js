@@ -1,6 +1,6 @@
 # SUPERSTATE
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/superstate/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/superstate/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,6 +14,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |     LOOKBACK_DAYS      |                       The number of days of historical data to retrieve                       | number |         |              `10`              |
 |           |   RETRY_INTERVAL_MS    | The amount of time (in ms) to wait before sending a new request for getting an updated price. | number |         |            `60000`             |
 |           | BACKGROUND_EXECUTE_MS  |   The amount of time the background execute should sleep before performing the next request   | number |         |            `10000`             |
+|           | NAV_CRON_INTERVAL_MIN  |              How many minutes do we wait between each cron job that fetches Nav               | number |         |              `10`              |
 
 ---
 
