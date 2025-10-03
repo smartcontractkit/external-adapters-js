@@ -68,7 +68,6 @@ export const SoakTestBlacklist: string[] = [
   'solana-view-function', // Missing: RPC URL
   'spectral-macro-score',
   'sportsdataio',
-  'synth-index',
   's3-csv-reader',
   'taapi',
   'terra-view-function', // Missing: RPC URL

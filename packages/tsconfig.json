@@ -96,9 +96,6 @@
       "path": "./composites/set-token-index"
     },
     {
-      "path": "./composites/synth-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {
