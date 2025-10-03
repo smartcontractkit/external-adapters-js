@@ -1,5 +1,11 @@
 # @chainlink/superstate-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4063](https://github.com/smartcontractkit/external-adapters-js/pull/4063) [`32dd6a8`](https://github.com/smartcontractkit/external-adapters-js/commit/32dd6a8b552874da737317716b54c86a21cd44d7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Make regular calls to DP during open period. If you were ask by CLL to run this adapter using local cache, you can now safely switch back to redis.
+
 ## 1.3.0
 
 ### Minor Changes

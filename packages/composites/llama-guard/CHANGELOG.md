@@ -1,5 +1,13 @@
 # @chainlink/llama-guard-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4060](https://github.com/smartcontractkit/external-adapters-js/pull/4060) [`3c75243`](https://github.com/smartcontractkit/external-adapters-js/commit/3c7524367fae43a07bfd0cbe12af4e66fbb6fbb9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 18 decimals
+
+- [#4064](https://github.com/smartcontractkit/external-adapters-js/pull/4064) [`63f74f8`](https://github.com/smartcontractkit/external-adapters-js/commit/63f74f84434d4468b9656d086deef29034811bc0) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add metrics
+
 ## 1.1.0
 
 ### Minor Changes
