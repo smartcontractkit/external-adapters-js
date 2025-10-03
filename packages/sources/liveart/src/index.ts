@@ -6,7 +6,7 @@ import { nav } from './endpoint/nav'
 
 export const adapter = new Adapter({
   defaultEndpoint: nav.name,
-  name: 'LIVE_ART_NAV',
+  name: 'LIVEART',
   config,
   endpoints: [nav],
   rateLimiting: {
