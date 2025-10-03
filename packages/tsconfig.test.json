@@ -96,9 +96,6 @@
       "path": "./composites/set-token-index/tsconfig.test.json"
     },
     {
-      "path": "./composites/synth-index/tsconfig.test.json"
-    },
-    {
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
