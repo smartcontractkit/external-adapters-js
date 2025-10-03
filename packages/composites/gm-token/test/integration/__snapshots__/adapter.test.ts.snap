@@ -1,17 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price endpoint errors when token metadata is missing (resolver throws) 1`] = `
-{
-  "errorMessage": "Missing token metadata for 'DOGE' on 'arbitrum'",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
-  },
-}
-`;
-
-exports[`execute price endpoint returns 502 when fewer than required source EAs respond 1`] = `
+exports[`GM-token price execute price endpoint errors when fewer than required source EAs respond 1`] = `
 {
   "errorMessage": "Missing token metadata for 'WETH' on 'arbitrum'",
   "statusCode": 502,
@@ -22,9 +11,9 @@ exports[`execute price endpoint returns 502 when fewer than required source EAs 
 }
 `;
 
-exports[`execute price endpoint should return error when fewer than required source EAs respond 1`] = `
+exports[`GM-token price execute price endpoint fails when token metadata is missing (resolver → 502) 1`] = `
 {
-  "errorMessage": "Cannot calculate median price for 'ETH'. At least 2 EAs are required to provide a response but response was received only from 1 EA(s). Missing responses from 'coinmetrics,ncfx'.",
+  "errorMessage": "Missing token metadata for 'DOGE' on 'arbitrum'",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -33,10 +22,10 @@ exports[`execute price endpoint should return error when fewer than required sou
 }
 `;
 
-exports[`execute price endpoint should return success 1`] = `
+exports[`GM-token price execute price endpoint success on Arbitrum (default chain) using resolver decimals 1`] = `
 {
   "data": {
-    "result": 1.3774681066355723,
+    "result": 1.1471768303164502,
     "sources": {
       "LINK": [
         "tiingo",
@@ -50,7 +39,7 @@ exports[`execute price endpoint should return success 1`] = `
       ],
     },
   },
-  "result": 1.3774681066355723,
+  "result": 1.1471768303164502,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

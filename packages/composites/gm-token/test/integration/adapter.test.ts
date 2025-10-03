@@ -4,58 +4,15 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  mockBotanixRPCResponses,
   mockCoinmetricsEAResponseFailure,
   mockCoinmetricsEAResponseSuccess,
   mockNCFXEAResponseFailure,
   mockNCFXEAResponseSuccess,
+  mockRPCResponses,
   mockTiingoEAResponseSuccess,
+  mockTokensInfo,
 } from './fixtures'
-
-/** --- /tokens resolver mocks --- */
-const mockTokensInfo = (
-  url: string,
-  tokens: Array<{ symbol: string; address: string; decimals: number }>,
-) => {
-  const { origin, pathname } = new URL(url)
-  nock(origin).get(pathname).reply(200, { tokens }).persist()
-}
-
-/** ---- ethers: provider + Reader contract mocked ----
- * We only need getMarketTokenPrice; return different values for maximize true/false.
- */
-jest.mock('ethers', () => ({
-  ...jest.requireActual('ethers'),
-  ethers: {
-    providers: {
-      JsonRpcProvider: function () {
-        return {} as any
-      },
-    },
-    Contract: function () {
-      return {
-        getMarketTokenPrice: (
-          _datastore: string,
-          _marketAndTokens: string[],
-          _indexPair: [string, string],
-          _longPair: [string, string],
-          _shortPair: [string, string],
-          _pnlKey: string,
-          maximize: boolean,
-        ) => {
-          // return [ BigNumberLike ] – first element is consumed by the EA
-          // Use two close values; result is the median of [min, max].
-          return [
-            {
-              // ~1.1473068612168396 (30-dec fixed); value doesn't matter for snapshot stability
-              _hex: maximize ? '0x0e7b25fe03f0eda42ead663c4f' : '0x0e7a4edfc978cf077056d4bea6', // ~1.1470467994160611
-              _isBigNumber: true,
-            },
-          ]
-        },
-      }
-    },
-  },
-}))
 
 describe('GM-token price execute', () => {
   let spy: jest.SpyInstance
@@ -65,34 +22,17 @@ describe('GM-token price execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
 
-    // Source EAs
     process.env.TIINGO_ADAPTER_URL = process.env.TIINGO_ADAPTER_URL ?? 'http://localhost:8081'
     process.env.NCFX_ADAPTER_URL = process.env.NCFX_ADAPTER_URL ?? 'http://localhost:8082'
     process.env.COINMETRICS_ADAPTER_URL =
       process.env.COINMETRICS_ADAPTER_URL ?? 'http://localhost:8083'
-
-    // Reader / RPC env (not used because ethers is mocked, but required by init)
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
-    process.env.ARBITRUM_CHAIN_ID = process.env.ARBITRUM_CHAIN_ID ?? '42161'
-    process.env.READER_CONTRACT_ADDRESS =
-      process.env.READER_CONTRACT_ADDRESS ?? '0xArbReader00000000000000000000000000000001'
-    process.env.DATASTORE_CONTRACT_ADDRESS =
-      process.env.DATASTORE_CONTRACT_ADDRESS ?? '0xArbDS00000000000000000000000000000000001'
-
     process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
-    process.env.BOTANIX_CHAIN_ID = process.env.BOTANIX_CHAIN_ID ?? '3636'
-    process.env.BOTANIX_READER_CONTRACT_ADDRESS =
-      process.env.BOTANIX_READER_CONTRACT_ADDRESS ?? '0xBotReader0000000000000000000000000000001'
-    process.env.BOTANIX_DATASTORE_CONTRACT_ADDRESS =
-      process.env.BOTANIX_DATASTORE_CONTRACT_ADDRESS ?? '0xBotDS0000000000000000000000000000000001'
 
-    // Token resolver URLs (+ disable cache to keep tests deterministic)
     process.env.ARBITRUM_TOKENS_INFO_URL =
-      process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:8090/arbitrum/tokens'
+      process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:5040'
     process.env.BOTANIX_TOKENS_INFO_URL =
-      process.env.BOTANIX_TOKENS_INFO_URL ?? 'http://localhost:8090/botanix/tokens'
-    process.env.GMX_TOKENS_CACHE_MS = '0'
-
+      process.env.BOTANIX_TOKENS_INFO_URL ?? 'http://localhost:6040'
     process.env.RETRY = process.env.RETRY ?? '0'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
@@ -131,6 +71,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('USDC')
       mockNCFXEAResponseSuccess('USDC')
       mockCoinmetricsEAResponseSuccess('USDC')
+      mockRPCResponses()
 
       const data = {
         index: 'LINK',
@@ -158,6 +99,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('USDC')
       mockNCFXEAResponseFailure('USDC')
       mockCoinmetricsEAResponseFailure('USDC')
+      mockRPCResponses()
 
       const data = {
         index: 'ETH',
@@ -189,13 +131,14 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('USDC')
       mockNCFXEAResponseSuccess('USDC')
       mockCoinmetricsEAResponseSuccess('USDC')
+      mockBotanixRPCResponses()
 
       const data = {
         index: 'BTC',
         long: 'ETH',
         short: 'USDC',
         market: '0x000000000000000000000000000000000000B07A',
-        chain: 'botanix' as const,
+        chain: 'botanix',
       }
       const res = await testAdapter.request(data)
       expect(res.statusCode).toBe(200)
@@ -203,6 +146,7 @@ describe('GM-token price execute', () => {
     })
 
     it('unwraps symbols (WBTC.b→BTC, WETH→ETH) end-to-end', async () => {
+      console.log(process.env.ARBITRUM_TOKENS_INFO_URL)
       mockTokensInfo(process.env.ARBITRUM_TOKENS_INFO_URL!, [
         { symbol: 'BTC', address: '0xBtcArb', decimals: 8 },
         { symbol: 'ETH', address: '0xEthArb', decimals: 18 },
@@ -220,6 +164,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('USDC')
       mockNCFXEAResponseSuccess('USDC')
       mockCoinmetricsEAResponseSuccess('USDC')
+      mockRPCResponses()
 
       const data = {
         index: 'WBTC.b',
