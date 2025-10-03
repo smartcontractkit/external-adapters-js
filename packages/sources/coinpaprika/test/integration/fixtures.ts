@@ -1,5 +1,6 @@
-import nock from 'nock'
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
+import { Readable } from 'stream'
 
 export const mockCryptoResponseSuccess = (): nock.Scope =>
   nock('https://api.coinpaprika.com', {
@@ -360,4 +361,31 @@ export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
     })
   })
   return mockWsServer
+}
+
+export const mockStateStreamingResponse = (): nock.Scope => {
+  return nock('https://chainlink-streaming.dexpaprika.com', {
+    encodedQueryParams: true,
+  })
+    .post('/stream')
+    .reply(
+      200,
+      function () {
+        const stream = new Readable({
+          read() {
+            this.push('event: t_s\n')
+            this.push(
+              'data: {"block_time":1640995200,"base_token_symbol":"LUSD","quote_symbol":"USD","volume_7d_usd":119381.003595,"market_depth_plus_1_usd":500.0,"market_depth_minus_1_usd":500.0,"state_price":1.000751}\n\n',
+            )
+            this.push(null)
+          },
+        })
+        return stream
+      },
+      {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      },
+    )
 }

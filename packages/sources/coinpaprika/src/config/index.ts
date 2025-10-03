@@ -25,6 +25,17 @@ export const config = new AdapterConfig({
     type: 'boolean',
     default: false,
   },
+  STATE_API_ENDPOINT: {
+    description: 'An API endpoint for Coinpaprika State (SSE streaming)',
+    type: 'string',
+    default: 'https://chainlink-streaming.dexpaprika.com/stream',
+  },
+  BACKGROUND_EXECUTE_MS_STATE: {
+    description:
+      'The amount of time the background execute should sleep before performing the next request for state endpoint',
+    type: 'number',
+    default: 3_000,
+  },
 })
 
 export const getApiEndpoint = (settings: typeof config.settings): string =>
