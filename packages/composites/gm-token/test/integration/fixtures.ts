@@ -387,3 +387,85 @@ export const mockRPCResponses = (): nock.Scope =>
       ],
     )
     .persist()
+
+/** Mock the /tokens resolver endpoint for a chain. */
+export function mockTokensInfo(
+  chain: 'arbitrum' | 'botanix',
+  tokens: Array<{ symbol: string; address: string; decimals: number }>,
+): nock.Scope {
+  const url =
+    chain === 'arbitrum'
+      ? process.env.ARBITRUM_TOKENS_INFO_URL!
+      : process.env.BOTANIX_TOKENS_INFO_URL!
+
+  const { origin, pathname } = new URL(url)
+  return nock(origin).get(pathname).reply(200, { tokens }).persist()
+}
+
+/** Convenience: mock *successful* LWBA across all sources for multiple symbols. */
+export function mockLWBAFor(symbols: string[]) {
+  symbols.forEach((s) => {
+    mockTiingoEAResponseSuccess(s)
+    mockNCFXEAResponseSuccess(s)
+    mockCoinmetricsEAResponseSuccess(s)
+  })
+}
+
+/**
+ * Chain-aware Reader RPC mock that:
+ *  - replies to eth_chainId with the env chain ID,
+ *  - inspects the last 32-byte ABI word in `data` to choose maximize(true/false),
+ *  - works with ANY calldata shape (no brittle hex matching).
+ */
+export function mockReaderRpcFlexible(opts?: {
+  rpcUrl?: string
+  readerAddress?: string
+  chainId?: number
+  maxResultHex?: string
+  minResultHex?: string
+}): nock.Scope {
+  const rpcUrl = opts?.rpcUrl ?? process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
+  const reader = (
+    opts?.readerAddress ??
+    process.env.READER_CONTRACT_ADDRESS ??
+    '0xf60becbba223eea9495da3f606753867ec10d139'
+  ).toLowerCase()
+  const chainId =
+    typeof opts?.chainId === 'number'
+      ? `0x${opts!.chainId.toString(16)}`
+      : process.env.ARBITRUM_CHAIN_ID
+      ? `0x${Number(process.env.ARBITRUM_CHAIN_ID).toString(16)}`
+      : '0xa4b1'
+
+  const maxResult =
+    opts?.maxResultHex ?? '0x000000000000000000000000000000000000001186c3a294738329d44c1fff38' // sample hex, same shape as your fixture
+  const minResult =
+    opts?.minResultHex ?? '0x00000000000000000000000000000000000000113eea3079ed4e1491f09d0079'
+
+  const { origin, pathname } = new URL(rpcUrl)
+
+  return nock(origin, { encodedQueryParams: true })
+    .persist()
+    .post(pathname, (body: any) => body?.method === 'eth_chainId')
+    .reply(200, (_: any, req: any) => ({ jsonrpc: '2.0', id: req['id'], result: chainId }))
+    .post(pathname, (body: any) => {
+      const isCall = body?.method === 'eth_call'
+      const to = body?.params?.[0]?.to?.toLowerCase?.()
+      return isCall && to === reader
+    })
+    .reply(200, (_: any, req: any) => {
+      const data: string | undefined = req?.params?.[0]?.data
+      const lastWord = data?.slice(-64) ?? ''
+      const isMax = lastWord.endsWith('01') // 32-byte ABI bool true
+      return { jsonrpc: '2.0', id: req['id'], result: isMax ? maxResult : minResult }
+    })
+}
+
+/** Botanix variant using envs (use in tests that set chain='botanix') */
+export function mockRPCResponsesBotanix(): nock.Scope {
+  const rpcUrl = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
+  const reader =
+    process.env.BOTANIX_READER_CONTRACT_ADDRESS ?? '0xf60becbba223eea9495da3f606753867ec10d139'
+  const chainIdNum = Number(process.env.BOTANIX_CHAIN_ID ?? 3636) // 0xE34
+  return mockReaderRpcFlexible({ rpcUrl, readerAddress: reader, chainId: chainIdNum })
+}

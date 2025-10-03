@@ -45,7 +45,7 @@ export const config = new AdapterConfig(
       description: 'Minimum number of source EAs that need to successfully return a value.',
       type: 'number',
       required: true,
-      default: 2,
+      default: 1,
       validate: validator.integer({ min: 1, max: 3 }),
     },
     MARKET_INFO_API: {

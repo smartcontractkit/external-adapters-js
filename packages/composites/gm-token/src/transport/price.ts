@@ -12,15 +12,8 @@ import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/
 import { ethers, utils } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import abi from './../config/readerAbi.json'
-import {
-  decimals,
-  median,
-  PriceData,
-  SIGNED_PRICE_DECIMALS,
-  Source,
-  toFixed,
-  tokenAddresses,
-} from './utils'
+import { TokenMeta, TokenResolver } from './token-resolver'
+import { median, PriceData, SIGNED_PRICE_DECIMALS, Source, toFixed } from './utils'
 
 const logger = makeLogger('GMToken')
 
@@ -34,10 +27,9 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   name!: string
   responseCache!: ResponseCache<GmTokenTransportTypes>
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvider
-  readerContract!: ethers.Contract
   abiEncoder!: utils.AbiCoder
   settings!: GmTokenTransportTypes['Settings']
+  tokenResolver!: TokenResolver
   private providers: Partial<Record<ChainKey, ethers.providers.JsonRpcProvider>> = {}
   private readers: Partial<Record<ChainKey, ethers.Contract>> = {}
 
@@ -49,16 +41,8 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(
-      adapterSettings.ARBITRUM_RPC_URL,
-      adapterSettings.ARBITRUM_CHAIN_ID,
-    )
-    this.readerContract = new ethers.Contract(
-      adapterSettings.READER_CONTRACT_ADDRESS,
-      abi,
-      this.provider,
-    )
     this.requester = dependencies.requester
+    this.tokenResolver = new TokenResolver(this.requester, this.settings)
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -95,18 +79,23 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
 
     const providerDataRequestedUnixMs = Date.now()
 
+    const [indexToken, longToken, shortToken] = await Promise.all([
+      this.resolveTokenMeta(chain, index),
+      this.resolveTokenMeta(chain, long),
+      this.resolveTokenMeta(chain, short),
+    ])
+    let decimalsMap = new Map(
+      [indexToken, longToken, shortToken].map((t) => [t.symbol, t.decimals]),
+    )
+
     const {
       prices: [indexPrices, longPrices, shortPrices],
       sources,
-    } = await this.fetchPrices(assets, providerDataRequestedUnixMs)
-
-    const indexToken = tokenAddresses.arbitrum[index as keyof typeof tokenAddresses.arbitrum]
-    const longToken = tokenAddresses.arbitrum[long as keyof typeof tokenAddresses.arbitrum]
-    const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
+    } = await this.fetchPrices(assets, providerDataRequestedUnixMs, decimalsMap)
 
     const tokenPriceContractParams = [
       this.getDatastoreContractAddress(chain as ChainKey),
-      [market, indexToken, longToken, shortToken],
+      [market, indexToken.address, longToken.address, shortToken.address],
       [indexPrices.ask, indexPrices.bid],
       [longPrices.ask, longPrices.bid],
       [shortPrices.ask, shortPrices.bid],
@@ -140,7 +129,11 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   }
 
   // Fetches the lwba price info from multiple source EAs, calculates the median for bids and asks per asset and fixes the price precision
-  private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
+  private async fetchPrices(
+    assets: string[],
+    dataRequestedTimestamp: number,
+    decimals: Map<string, number>,
+  ) {
     // priceData holds raw bid/ask values per asset from source EAs response
     const priceData = {} as PriceData
 
@@ -206,16 +199,32 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
 
     const medianValues = this.calculateMedian(assets, priceData)
 
-    const prices = medianValues.map((v) => ({
-      ...v,
-      ask: toFixed(v.ask, decimals[v.asset as keyof typeof decimals]),
-      bid: toFixed(v.bid, decimals[v.asset as keyof typeof decimals]),
-    }))
+    const prices = medianValues.map((v) => {
+      const decimal = decimals.get(v.asset)
+      if (!decimal) {
+        throw new Error(`Missing token decimals for '${v.asset}'`)
+      }
+      return {
+        ...v,
+        ask: toFixed(v.ask, decimal),
+        bid: toFixed(v.bid, decimal),
+      }
+    })
 
     return {
       prices,
       sources: priceProviders,
     }
+  }
+
+  private async resolveTokenMeta(chain: ChainKey, symbol: string): Promise<TokenMeta> {
+    const tokenMeta = await this.tokenResolver.get(chain, symbol)
+    const address = tokenMeta?.address
+    const decimals = tokenMeta?.decimals
+    if (!address || !decimals) {
+      throw new Error(`Missing token metadata for '${symbol}' on '${chain}'`)
+    }
+    return { address, decimals, symbol }
   }
 
   private calculateMedian(assets: string[], priceData: PriceData) {
@@ -228,11 +237,14 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   }
 
   private unwrapAsset(asset: string) {
-    if (asset === 'WBTC.b') {
+    if (asset === 'WBTC.b' || asset === 'stBTC') {
       return 'BTC'
     }
     if (asset === 'WETH') {
       return 'ETH'
+    }
+    if (asset === 'USDC.e') {
+      return 'USDC'
     }
     return asset
   }

@@ -1,9 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/price'
-import { tokenAddresses } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -62,26 +60,4 @@ export const endpoint = new AdapterEndpoint({
   name: 'price',
   transport: gmTokenTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    const { index, long, short } = req.requestContext.data
-    const indexToken = tokenAddresses.arbitrum[index as keyof typeof tokenAddresses.arbitrum]
-    const longToken = tokenAddresses.arbitrum[long as keyof typeof tokenAddresses.arbitrum]
-    const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
-    let invalidTokens = ''
-    if (!indexToken) {
-      invalidTokens += 'indexToken,'
-    }
-    if (!longToken) {
-      invalidTokens += 'longToken,'
-    }
-    if (!shortToken) {
-      invalidTokens += 'shortToken,'
-    }
-    if (invalidTokens.length) {
-      throw new AdapterInputError({
-        message: `Invalid ${invalidTokens} Must be one of ${Object.keys(tokenAddresses.arbitrum)}`,
-      })
-    }
-    return
-  },
 })
