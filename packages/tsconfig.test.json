@@ -453,9 +453,6 @@
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
-      "path": "./sources/ipfs/tsconfig.test.json"
-    },
-    {
       "path": "./sources/jpegd/tsconfig.test.json"
     },
     {
