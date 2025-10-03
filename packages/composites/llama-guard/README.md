@@ -1,16 +1,17 @@
 # LLAMA_GUARD
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/llama-guard/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/llama-guard/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |   ETHEREUM_RPC_URL    |                               RPC URL of a Mainnet ETH node                               | string |         |         |
-|           | ETHEREUM_RPC_CHAIN_ID |                                The chain id to connect to                                 | number |         |   `1`   |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+| Required? |          Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    ETHEREUM_RPC_URL     |                               RPC URL of a Mainnet ETH node                               | string |         |         |
+|           |  ETHEREUM_RPC_CHAIN_ID  |                                The chain id to connect to                                 | number |         |   `1`   |
+|           | LLAMA_RISK_API_ENDPOINT |                      API endpoint for Llama Risk (contains API KEY)                       | string |         |   ``    |
+|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
 
