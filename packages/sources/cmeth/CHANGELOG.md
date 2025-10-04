@@ -1,5 +1,11 @@
 # @chainlink/cmeth-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [`1816fb1`](https://github.com/smartcontractkit/external-adapters-js/commit/1816fb19e1cea0fabebd5c91adc292e4b4dc8ca4) Thanks [@dskloetc](https://github.com/dskloetc)! - testing workflow
+
 ## 2.0.0
 
 ### Major Changes
