@@ -2647,7 +2647,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2677,7 +2677,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/luxon": "npm:1.27.1"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     luxon: "npm:^1.28.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3039,7 +3039,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -3070,7 +3070,7 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3328,7 +3328,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
-    ethers: "npm:5.0.32"
+    ethers: "npm:^5.0.32"
     moment: "npm:^2.29.4"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -3443,7 +3443,7 @@ __metadata:
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3642,7 +3642,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.3.1"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3820,7 +3820,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    ethers: "npm:5.5.4"
+    ethers: "npm:^5.5.4"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -3887,7 +3887,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     bignumber.js: "npm:9.1.2"
-    ethers: "npm:5.7.2"
+    ethers: "npm:^5.7.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4202,7 +4202,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.7.2"
+    ethers: "npm:^5.7.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4439,7 +4439,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    ethers: "npm:5.4.7"
+    ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -4731,7 +4731,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.7.2"
+    ethers: "npm:^5.7.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4964,7 +4964,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    ethers: "npm:5.5.4"
+    ethers: "npm:^5.5.4"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -5745,7 +5745,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.5.4"
+    ethers: "npm:^5.5.4"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5761,7 +5761,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
     bignumber.js: "npm:^9.1.1"
-    ethers: "npm:5.5.4"
+    ethers: "npm:^5.5.4"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5826,7 +5826,7 @@ __metadata:
     "@types/node-schedule": "npm:2.1.7"
     date-fns: "npm:3.6.0"
     date-fns-tz: "npm:3.1.3"
-    ethers: "npm:6.15.0"
+    ethers: "npm:^6.15.0"
     nock: "npm:13.5.6"
     node-schedule: "npm:2.1.1"
     tslib: "npm:2.4.1"
@@ -5875,7 +5875,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.4.3"
-    ethers: "npm:5.7.2"
+    ethers: "npm:^5.7.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -6123,7 +6123,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:5.7.2"
+    ethers: "npm:^5.7.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -16038,7 +16038,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:5.0.32, ethers@npm:5.4.7, ethers@npm:5.5.4, ethers@npm:5.7.2, ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9":
+"ethers@npm:6.13.7":
+  version: 6.13.7
+  resolution: "ethers@npm:6.13.7"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:1.10.1"
+    "@noble/curves": "npm:1.2.0"
+    "@noble/hashes": "npm:1.3.2"
+    "@types/node": "npm:22.7.5"
+    aes-js: "npm:4.0.0-beta.5"
+    tslib: "npm:2.7.0"
+    ws: "npm:8.17.1"
+  checksum: 10/930ab1a4442a7ed763540e817bac1b3c1a0782a7dbd5cee539029e75614f623e6fc80b33a8589ea3f9f0400953b135c310f86a7351754873f61600e9a66e2cca
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^4.0.48":
+  version: 4.0.49
+  resolution: "ethers@npm:4.0.49"
+  dependencies:
+    aes-js: "npm:3.0.0"
+    bn.js: "npm:^4.11.9"
+    elliptic: "npm:6.5.4"
+    hash.js: "npm:1.1.3"
+    js-sha3: "npm:0.5.7"
+    scrypt-js: "npm:2.0.4"
+    setimmediate: "npm:1.0.4"
+    uuid: "npm:2.0.1"
+    xmlhttprequest: "npm:1.8.0"
+  checksum: 10/a4cec0254f940a0fb118317d23676faa46eb5540fc0a3b9177b8aef71318f509ed19b8264f102b1a2a32d0256274ecc526fd926bd22a4a4ac25cd8e0e6560f12
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^5.0.32, ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.7.2":
   version: 5.8.0
   resolution: "ethers@npm:5.8.0"
   dependencies:
@@ -16076,53 +16108,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:6.13.7":
-  version: 6.13.7
-  resolution: "ethers@npm:6.13.7"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.1"
-    "@noble/curves": "npm:1.2.0"
-    "@noble/hashes": "npm:1.3.2"
-    "@types/node": "npm:22.7.5"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.7.0"
-    ws: "npm:8.17.1"
-  checksum: 10/930ab1a4442a7ed763540e817bac1b3c1a0782a7dbd5cee539029e75614f623e6fc80b33a8589ea3f9f0400953b135c310f86a7351754873f61600e9a66e2cca
-  languageName: node
-  linkType: hard
-
-"ethers@npm:6.15.0, ethers@npm:^6.15.0":
-  version: 6.15.0
-  resolution: "ethers@npm:6.15.0"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.1"
-    "@noble/curves": "npm:1.2.0"
-    "@noble/hashes": "npm:1.3.2"
-    "@types/node": "npm:22.7.5"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.7.0"
-    ws: "npm:8.17.1"
-  checksum: 10/21ab1d31e1b89f62dce5611c3686e4b81e000107aff8dccdbeaa1eac2da43459d5b590efa127470208729ca99a3b5757dd690943cf60745c2393d13db6a3218a
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^4.0.48":
-  version: 4.0.49
-  resolution: "ethers@npm:4.0.49"
-  dependencies:
-    aes-js: "npm:3.0.0"
-    bn.js: "npm:^4.11.9"
-    elliptic: "npm:6.5.4"
-    hash.js: "npm:1.1.3"
-    js-sha3: "npm:0.5.7"
-    scrypt-js: "npm:2.0.4"
-    setimmediate: "npm:1.0.4"
-    uuid: "npm:2.0.1"
-    xmlhttprequest: "npm:1.8.0"
-  checksum: 10/a4cec0254f940a0fb118317d23676faa46eb5540fc0a3b9177b8aef71318f509ed19b8264f102b1a2a32d0256274ecc526fd926bd22a4a4ac25cd8e0e6560f12
-  languageName: node
-  linkType: hard
-
 "ethers@npm:^6.13.2":
   version: 6.14.1
   resolution: "ethers@npm:6.14.1"
@@ -16150,6 +16135,21 @@ __metadata:
     tslib: "npm:2.7.0"
     ws: "npm:8.17.1"
   checksum: 10/ce68b962f117fd651090bd8096fde708428ce23f0d044c365bc8cbf2e8f3cb70e1661ff0194364848ccac06d607d4a977f2a0c9e370b9712809c0ca6c36131f9
+  languageName: node
+  linkType: hard
+
+"ethers@npm:^6.15.0":
+  version: 6.15.0
+  resolution: "ethers@npm:6.15.0"
+  dependencies:
+    "@adraffy/ens-normalize": "npm:1.10.1"
+    "@noble/curves": "npm:1.2.0"
+    "@noble/hashes": "npm:1.3.2"
+    "@types/node": "npm:22.7.5"
+    aes-js: "npm:4.0.0-beta.5"
+    tslib: "npm:2.7.0"
+    ws: "npm:8.17.1"
+  checksum: 10/21ab1d31e1b89f62dce5611c3686e4b81e000107aff8dccdbeaa1eac2da43459d5b590efa127470208729ca99a3b5757dd690943cf60745c2393d13db6a3218a
   languageName: node
   linkType: hard
 
