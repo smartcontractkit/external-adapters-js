@@ -1,0 +1,7 @@
+{
+  "data": {
+    "endpoint": "state",
+    "base": "CBBTC",
+    "quote": "USD"
+  }
+}
