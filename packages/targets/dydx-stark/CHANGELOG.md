@@ -1,5 +1,11 @@
 # @chainlink/dydx-stark-adapter
 
+## 2.0.29
+
+### Patch Changes
+
+- [#3972](https://github.com/smartcontractkit/external-adapters-js/pull/3972) [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump sha.js from 2.4.11 to 2.4.12
+
 ## 2.0.28
 
 ### Patch Changes
