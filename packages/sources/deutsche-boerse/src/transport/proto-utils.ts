@@ -54,7 +54,12 @@ export function isSingleTradeFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Px)
 }
 
-// true if this frame carries only a single best bid/offer (not multui-level)
-export function isSingleQuoteFrame(dat?: DataProto): boolean {
-  return isDecimalPrice(dat?.Bid?.Px) && isDecimalPrice(dat?.Offer?.Px)
+// true if this frame carries a single best bid (not multui-level)
+export function hasSingleBidFrame(dat?: DataProto): boolean {
+  return isDecimalPrice(dat?.Bid?.Px)
+}
+
+// true if this frame carries a single best offer (not multui-level)
+export function hasSingleOfferFrame(dat?: DataProto): boolean {
+  return isDecimalPrice(dat?.Offer?.Px)
 }
