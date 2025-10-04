@@ -1,6 +1,5 @@
 ---
 '@chainlink/ea-test-helpers': patch
-'@chainlink/conflux-adapter': patch
 '@chainlink/dydx-stark-adapter': patch
 ---
 
