@@ -1,5 +1,12 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.38
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/google-bigquery-adapter@1.2.46
+
 ## 1.3.37
 
 ### Patch Changes
