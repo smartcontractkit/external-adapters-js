@@ -708,9 +708,6 @@
       "path": "./sources/xbto/tsconfig.test.json"
     },
     {
-      "path": "./targets/conflux/tsconfig.test.json"
-    },
-    {
       "path": "./targets/dydx-stark/tsconfig.test.json"
     },
     {
