@@ -3719,7 +3719,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:^4.0.48"
+    ethers: "npm:^5.8.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -16053,24 +16053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^4.0.48":
-  version: 4.0.49
-  resolution: "ethers@npm:4.0.49"
-  dependencies:
-    aes-js: "npm:3.0.0"
-    bn.js: "npm:^4.11.9"
-    elliptic: "npm:6.5.4"
-    hash.js: "npm:1.1.3"
-    js-sha3: "npm:0.5.7"
-    scrypt-js: "npm:2.0.4"
-    setimmediate: "npm:1.0.4"
-    uuid: "npm:2.0.1"
-    xmlhttprequest: "npm:1.8.0"
-  checksum: 10/a4cec0254f940a0fb118317d23676faa46eb5540fc0a3b9177b8aef71318f509ed19b8264f102b1a2a32d0256274ecc526fd926bd22a4a4ac25cd8e0e6560f12
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^5.0.32, ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.7.2":
+"ethers@npm:^5.0.32, ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.7.2, ethers@npm:^5.8.0":
   version: 5.8.0
   resolution: "ethers@npm:5.8.0"
   dependencies:
@@ -17981,16 +17964,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hash.js@npm:1.1.3":
-  version: 1.1.3
-  resolution: "hash.js@npm:1.1.3"
-  dependencies:
-    inherits: "npm:^2.0.3"
-    minimalistic-assert: "npm:^1.0.0"
-  checksum: 10/0dc4cb8164a906b06cc2ca2f333581a3fb91c36b64acd1e2f57da1b51ac5ed6b2135141f0513b734bf80e2c955b8d88fe0eade2a54c92d73d2eb26f49252d209
-  languageName: node
-  linkType: hard
-
 "hash.js@npm:1.1.7, hash.js@npm:^1.0.0, hash.js@npm:^1.0.3, hash.js@npm:^1.1.7":
   version: 1.1.7
   resolution: "hash.js@npm:1.1.7"
@@ -19680,13 +19653,6 @@ __metadata:
   version: 4.4.2
   resolution: "js-sdsl@npm:4.4.2"
   checksum: 10/806ab7aea38c15c323c6993b65abfad559d35de7d41ad1e2bf21498f1d4961ef863ac14cecbe667be3ada565dafe7a701096a6f49a275c5190eb1a1732430226
-  languageName: node
-  linkType: hard
-
-"js-sha3@npm:0.5.7":
-  version: 0.5.7
-  resolution: "js-sha3@npm:0.5.7"
-  checksum: 10/32885c7edb50fca04017bacada8e5315c072d21d3d35e071e9640fc5577e200076a4718e0b2f33d86ab704accb68d2ade44f1e2ca424cc73a5929b9129dab948
   languageName: node
   linkType: hard
 
@@ -24454,13 +24420,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scrypt-js@npm:2.0.4":
-  version: 2.0.4
-  resolution: "scrypt-js@npm:2.0.4"
-  checksum: 10/584c42ca17f8da7d9eec483b56743e868d1e795634f9581169f0b40c7abc5d4266dfb9d59d8f0a65479885c74fd44f3a99aca5a5048d3c4f7d33d88389aa2014
-  languageName: node
-  linkType: hard
-
 "scrypt-js@npm:3.0.1, scrypt-js@npm:^3.0.0, scrypt-js@npm:^3.0.1":
   version: 3.0.1
   resolution: "scrypt-js@npm:3.0.1"
@@ -24683,13 +24642,6 @@ __metadata:
     is-plain-object: "npm:^2.0.3"
     split-string: "npm:^3.0.1"
   checksum: 10/4f1ccac2e9ad4d1b0851761d41df4bbd3780ed69805f24a80ab237a56d9629760b7b98551cd370931620defe5da329645834e1e9a18574cecad09ce7b2b83296
-  languageName: node
-  linkType: hard
-
-"setimmediate@npm:1.0.4":
-  version: 1.0.4
-  resolution: "setimmediate@npm:1.0.4"
-  checksum: 10/eb11c0c817a9373d07a0501c298ebcac72755a1d6444b44d5b7827bc1f81848801fae14067dd14b1cc0529fbc7a794d1a661b99dfbc83784dbbccdf0914a7e63
   languageName: node
   linkType: hard
 
@@ -26889,13 +26841,6 @@ __metadata:
     is-typed-array: "npm:^1.1.3"
     which-typed-array: "npm:^1.1.2"
   checksum: 10/61a10de7753353dd4d744c917f74cdd7d21b8b46379c1e48e1c4fd8e83f8190e6bd9978fc4e5102ab6a10ebda6019d1b36572fa4a325e175ec8b789a121f6147
-  languageName: node
-  linkType: hard
-
-"uuid@npm:2.0.1":
-  version: 2.0.1
-  resolution: "uuid@npm:2.0.1"
-  checksum: 10/a5772e9231dd1e4fb111915f8ffe59f499bae7c20dfde09ac457a7a62b12abd6112d082496bdd209277cba1ac4e7a2bc83b8748ae0ca8fc74401b1df31f126e0
   languageName: node
   linkType: hard
 

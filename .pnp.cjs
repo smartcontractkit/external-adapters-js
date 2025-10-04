@@ -6616,7 +6616,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:4.0.49"],\
+          ["ethers", "npm:5.8.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -21065,22 +21065,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ethers", [\
-      ["npm:4.0.49", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-4.0.49-8d849613e4-a4cec0254f.zip/node_modules/ethers/",\
-        "packageDependencies": [\
-          ["ethers", "npm:4.0.49"],\
-          ["aes-js", "npm:3.0.0"],\
-          ["bn.js", "npm:4.12.2"],\
-          ["elliptic", "npm:6.5.4"],\
-          ["hash.js", "npm:1.1.3"],\
-          ["js-sha3", "npm:0.5.7"],\
-          ["scrypt-js", "npm:2.0.4"],\
-          ["setimmediate", "npm:1.0.4"],\
-          ["uuid", "npm:2.0.1"],\
-          ["xmlhttprequest", "npm:1.8.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.8.0", {\
         "packageLocation": "./.yarn/cache/ethers-npm-5.8.0-ba55b2484d-4a78952fe6.zip/node_modules/ethers/",\
         "packageDependencies": [\
@@ -23164,15 +23148,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["hash.js", [\
-      ["npm:1.1.3", {\
-        "packageLocation": "./.yarn/cache/hash.js-npm-1.1.3-db96f2fb97-0dc4cb8164.zip/node_modules/hash.js/",\
-        "packageDependencies": [\
-          ["hash.js", "npm:1.1.3"],\
-          ["inherits", "npm:2.0.4"],\
-          ["minimalistic-assert", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.1.7", {\
         "packageLocation": "./.yarn/cache/hash.js-npm-1.1.7-f1ad187358-0c89ee4006.zip/node_modules/hash.js/",\
         "packageDependencies": [\
@@ -25112,13 +25087,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["js-sha3", [\
-      ["npm:0.5.7", {\
-        "packageLocation": "./.yarn/cache/js-sha3-npm-0.5.7-e4e4cb1ee3-32885c7edb.zip/node_modules/js-sha3/",\
-        "packageDependencies": [\
-          ["js-sha3", "npm:0.5.7"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:0.8.0", {\
         "packageLocation": "./.yarn/cache/js-sha3-npm-0.8.0-decf3ddcfa-a49ac6d3a6.zip/node_modules/js-sha3/",\
         "packageDependencies": [\
@@ -30411,13 +30379,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["scrypt-js", [\
-      ["npm:2.0.4", {\
-        "packageLocation": "./.yarn/cache/scrypt-js-npm-2.0.4-d3712b5675-584c42ca17.zip/node_modules/scrypt-js/",\
-        "packageDependencies": [\
-          ["scrypt-js", "npm:2.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.0.1", {\
         "packageLocation": "./.yarn/cache/scrypt-js-npm-3.0.1-fd2d3fa606-2f8aa72b7f.zip/node_modules/scrypt-js/",\
         "packageDependencies": [\
@@ -30645,13 +30606,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["setimmediate", [\
-      ["npm:1.0.4", {\
-        "packageLocation": "./.yarn/cache/setimmediate-npm-1.0.4-48edecde5a-eb11c0c817.zip/node_modules/setimmediate/",\
-        "packageDependencies": [\
-          ["setimmediate", "npm:1.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.0.5", {\
         "packageLocation": "./.yarn/cache/setimmediate-npm-1.0.5-54587459b6-76e3f5d7f4.zip/node_modules/setimmediate/",\
         "packageDependencies": [\
@@ -33143,13 +33097,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/uuid-npm-11.1.0-61d0d08928-d2da43b49b.zip/node_modules/uuid/",\
         "packageDependencies": [\
           ["uuid", "npm:11.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.0.1", {\
-        "packageLocation": "./.yarn/unplugged/uuid-npm-2.0.1-a78a0c30dd/node_modules/uuid/",\
-        "packageDependencies": [\
-          ["uuid", "npm:2.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\
