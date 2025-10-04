@@ -1,5 +1,14 @@
 # @chainlink/conflux-adapter
 
+## 1.1.46
+
+### Patch Changes
+
+- [#3972](https://github.com/smartcontractkit/external-adapters-js/pull/3972) [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump sha.js from 2.4.11 to 2.4.12
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.1.45
 
 ### Patch Changes
