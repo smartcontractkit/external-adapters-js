@@ -1,5 +1,15 @@
 # @chainlink/apy-finance-adapter
 
+## 2.0.109
+
+### Patch Changes
+
+- [#4069](https://github.com/smartcontractkit/external-adapters-js/pull/4069) [`04d6b19`](https://github.com/smartcontractkit/external-adapters-js/commit/04d6b19136108f6fd765ad192d876254b3eae21a) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump form-data from 3.0.2 to 3.0.4
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/token-allocation-adapter@1.13.22
+
 ## 2.0.108
 
 ### Patch Changes

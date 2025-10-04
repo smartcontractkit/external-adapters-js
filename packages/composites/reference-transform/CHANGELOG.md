@@ -1,5 +1,11 @@
 # @chainlink/reference-transform-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- [#4066](https://github.com/smartcontractkit/external-adapters-js/pull/4066) [`0084b5b`](https://github.com/smartcontractkit/external-adapters-js/commit/0084b5bc37c1f651e93140ae67c16d434c7fc553) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes IPFS EA
+
 ## 1.3.17
 
 ### Patch Changes
