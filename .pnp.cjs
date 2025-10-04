@@ -319,10 +319,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cache.gold"\
     },\
     {\
-      "name": "@chainlink/ccip-read-adapter",\
-      "reference": "workspace:packages/sources/ccip-read"\
-    },\
-    {\
       "name": "@chainlink/ceffu-adapter",\
       "reference": "workspace:packages/sources/ceffu"\
     },\
@@ -1022,7 +1018,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
-    ["@chainlink/ccip-read-adapter", ["workspace:packages/sources/ccip-read"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
@@ -5819,25 +5814,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ccip-read-adapter", [\
-      ["workspace:packages/sources/ccip-read", {\
-        "packageLocation": "./packages/sources/ccip-read/",\
-        "packageDependencies": [\
-          ["@chainlink/ccip-read-adapter", "workspace:packages/sources/ccip-read"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@ethersproject/abi", "npm:5.7.0"],\
-          ["@ethersproject/bytes", "npm:5.7.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["merkletreejs", "npm:0.2.32"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -19523,15 +19499,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["buffer-reverse", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/buffer-reverse-npm-1.0.1-2224e35393-e350872a89.zip/node_modules/buffer-reverse/",\
-        "packageDependencies": [\
-          ["buffer-reverse", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["buffer-xor", [\
       ["npm:1.0.3", {\
         "packageLocation": "./.yarn/cache/buffer-xor-npm-1.0.3-56bb81b0dd-4a63d48b51.zip/node_modules/buffer-xor/",\
@@ -20874,13 +20841,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["crypto-js", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/crypto-js-npm-3.3.0-5b307000b5-d7e11f3a38.zip/node_modules/crypto-js/",\
-        "packageDependencies": [\
-          ["crypto-js", "npm:3.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.2.0", {\
         "packageLocation": "./.yarn/cache/crypto-js-npm-4.2.0-d6f7744e63-c7bcc56a6e.zip/node_modules/crypto-js/",\
         "packageDependencies": [\
@@ -28099,20 +28059,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["merkletreejs", [\
-      ["npm:0.2.32", {\
-        "packageLocation": "./.yarn/cache/merkletreejs-npm-0.2.32-79a2b236fc-00c53a7fe9.zip/node_modules/merkletreejs/",\
-        "packageDependencies": [\
-          ["merkletreejs", "npm:0.2.32"],\
-          ["bignumber.js", "npm:9.1.2"],\
-          ["buffer-reverse", "npm:1.0.1"],\
-          ["crypto-js", "npm:3.3.0"],\
-          ["treeify", "npm:1.1.0"],\
-          ["web3-utils", "npm:1.10.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["methods", [\
       ["npm:1.1.2", {\
         "packageLocation": "./.yarn/cache/methods-npm-1.1.2-92f6fdb39b-a385dd974f.zip/node_modules/methods/",\
@@ -33632,15 +33578,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/tr46-npm-0.0.3-de53018915-8f1f5aa6cb.zip/node_modules/tr46/",\
         "packageDependencies": [\
           ["tr46", "npm:0.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["treeify", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/treeify-npm-1.1.0-abf9292333-5241976a75.zip/node_modules/treeify/",\
-        "packageDependencies": [\
-          ["treeify", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\

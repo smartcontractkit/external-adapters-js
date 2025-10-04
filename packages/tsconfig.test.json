@@ -219,9 +219,6 @@
       "path": "./sources/cache.gold/tsconfig.test.json"
     },
     {
-      "path": "./sources/ccip-read/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ceffu/tsconfig.test.json"
     },
     {

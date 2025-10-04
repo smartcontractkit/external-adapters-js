@@ -3013,23 +3013,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ccip-read-adapter@workspace:packages/sources/ccip-read"
-  dependencies:
-    "@chainlink/ea-bootstrap": "npm:*"
-    "@chainlink/ea-test-helpers": "npm:*"
-    "@ethersproject/abi": "npm:^5.5.0"
-    "@ethersproject/bytes": "npm:^5.5.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
-    merkletreejs: "npm:^0.2.18"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ceffu-adapter@workspace:*, @chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
@@ -14882,13 +14865,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-reverse@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "buffer-reverse@npm:1.0.1"
-  checksum: 10/e350872a89b17af0a7e1bd7a73239a535164f3f010b0800add44f2e52bd0511548dc5b96c20309effba969868c385023d2d02a0add6155f6a76da7b3073b77bd
-  languageName: node
-  linkType: hard
-
 "buffer-xor@npm:^1.0.3":
   version: 1.0.3
   resolution: "buffer-xor@npm:1.0.3"
@@ -16123,13 +16099,6 @@ __metadata:
   version: 4.2.0
   resolution: "crypto-js@npm:4.2.0"
   checksum: 10/c7bcc56a6e01c3c397e95aa4a74e4241321f04677f9a618a8f48a63b5781617248afb9adb0629824792e7ec20ca0d4241a49b6b2938ae6f973ec4efc5c53c924
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^3.1.9-1":
-  version: 3.3.0
-  resolution: "crypto-js@npm:3.3.0"
-  checksum: 10/d7e11f3a387fb143be834e1a25ecf57ead6f5765e90fbf3aed9cead680cc38b1d241718768b7bfec448a843f569374ea5b5870ac7a8165e4bfa1915f0b00c89c
   languageName: node
   linkType: hard
 
@@ -22560,19 +22529,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"merkletreejs@npm:^0.2.18":
-  version: 0.2.32
-  resolution: "merkletreejs@npm:0.2.32"
-  dependencies:
-    bignumber.js: "npm:^9.0.1"
-    buffer-reverse: "npm:^1.0.1"
-    crypto-js: "npm:^3.1.9-1"
-    treeify: "npm:^1.1.0"
-    web3-utils: "npm:^1.3.4"
-  checksum: 10/00c53a7fe9e87150b262b249f75c9e925641a628388d327f1b5fb4de9d146c95e58c67abe6771d5217b2555ebc3a9cc433ce958003f85dde58bda535225e853f
-  languageName: node
-  linkType: hard
-
 "methods@npm:^1.1.2":
   version: 1.1.2
   resolution: "methods@npm:1.1.2"
@@ -27628,13 +27584,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"treeify@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "treeify@npm:1.1.0"
-  checksum: 10/5241976a751168fb9894a12d031299f1f6337b7f2cbd3eff22ee86e6777620352a69a1cab0d4709251317ff307eeda0dc45918850974fc44f4c7fc50e623b990
-  languageName: node
-  linkType: hard
-
 "treeverse@npm:^1.0.4":
   version: 1.0.4
   resolution: "treeverse@npm:1.0.4"
@@ -28621,7 +28570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-utils@npm:^1.3.0, web3-utils@npm:^1.3.4":
+"web3-utils@npm:^1.3.0":
   version: 1.10.4
   resolution: "web3-utils@npm:1.10.4"
   dependencies:
