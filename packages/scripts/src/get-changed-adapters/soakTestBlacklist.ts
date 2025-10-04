@@ -9,7 +9,6 @@ export const SoakTestBlacklist: string[] = [
   'avalanche-platform',
   'bea',
   'bitcoin-json-rpc', // Missing: RPC URL
-  'blockcypher',
   'bob', // Missing: RPC URL
   'bsol-price', // Missing: RPC URL and addresses
   'btc.com',

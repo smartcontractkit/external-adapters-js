@@ -37,7 +37,6 @@
     "@chainlink/bitcoin-json-rpc-adapter": "workspace:*",
     "@chainlink/blockchain.com-adapter": "workspace:*",
     "@chainlink/blockchair-adapter": "workspace:*",
-    "@chainlink/blockcypher-adapter": "workspace:*",
     "@chainlink/btc.com-adapter": "workspace:*",
     "@chainlink/ceffu-adapter": "workspace:*",
     "@chainlink/celsius-address-list-adapter": "workspace:*",
