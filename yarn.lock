@@ -3289,24 +3289,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/conflux-adapter@workspace:packages/targets/conflux":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/conflux-adapter@workspace:packages/targets/conflux"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    js-conflux-sdk: "npm:^1.5.11"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/contracts@npm:^0.8.0":
   version: 0.8.0
   resolution: "@chainlink/contracts@npm:0.8.0"
@@ -6670,15 +6652,6 @@ __metadata:
     human-id: "npm:^1.0.2"
     prettier: "npm:^2.7.1"
   checksum: 10/c16b0a731fa43ae0028fd1f956c7b080030c42ff763f8dac74da8b178a4ea65632831c30550b784286277bdc75a3c44dda46aad8db97f43bb1eb4d61922152aa
-  languageName: node
-  linkType: hard
-
-"@conflux-dev/conflux-address-js@npm:1.1.8":
-  version: 1.1.8
-  resolution: "@conflux-dev/conflux-address-js@npm:1.1.8"
-  dependencies:
-    jsbi: "npm:^3.1.4"
-  checksum: 10/1ba6d4367673e099d2350e750eeae7773715673923d90cd6c64925dcdb67eb41d45f6edc9dfab2bdf66aecaccb4d664ac37d144d8d1d8ab5281019d9468baf60
   languageName: node
   linkType: hard
 
@@ -15839,7 +15812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^8.0.0, commander@npm:^8.1.0, commander@npm:^8.2.0":
+"commander@npm:^8.1.0, commander@npm:^8.2.0":
   version: 8.3.0
   resolution: "commander@npm:8.3.0"
   checksum: 10/6b7b5d334483ce24bd73c5dac2eab901a7dbb25fd983ea24a1eeac6e7166bb1967f641546e8abf1920afbde86a45fbfe5812fbc69d0dc451bb45ca416a12a3a3
@@ -21193,25 +21166,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-conflux-sdk@npm:^1.5.11":
-  version: 1.7.3
-  resolution: "js-conflux-sdk@npm:1.7.3"
-  dependencies:
-    "@conflux-dev/conflux-address-js": "npm:1.1.8"
-    big.js: "npm:^5.2.2"
-    commander: "npm:^8.0.0"
-    keccak: "npm:^2.0.0"
-    lodash: "npm:^4.17.19"
-    scrypt-js: "npm:^3.0.1"
-    secp256k1: "npm:^3.7.1"
-    superagent: "npm:^6.1.0"
-    websocket: "npm:^1.0.31"
-  bin:
-    cfxjs: bin/cfxjs.js
-  checksum: 10/8b7e7300cda14b8a740af649145880b2383256c016d2eb6cd22325b3a077af57ab995347b9029aab699463127bcff8377486211ccf119eb5257462aec1908aec
-  languageName: node
-  linkType: hard
-
 "js-sdsl@npm:^4.1.4":
   version: 4.4.2
   resolution: "js-sdsl@npm:4.4.2"
@@ -21267,13 +21221,6 @@ __metadata:
   version: 3.1.14
   resolution: "jsan@npm:3.1.14"
   checksum: 10/960cd5059bfb50a9c86d391d7bb5173eaf748e8a1b0794892d929f894045dbbdee61c03f1dad4d5b8fc21f924a8e217ed05598adf9339a56b46ab0433a2206f1
-  languageName: node
-  linkType: hard
-
-"jsbi@npm:^3.1.4":
-  version: 3.2.5
-  resolution: "jsbi@npm:3.2.5"
-  checksum: 10/2cceb3a06dcb16493e936aa22384d912dd5f0a1fd474b97b5c6705011bd0aac8214d9a392a730b3f3ffb61a8fbe910a34d0fe881329be6a02857520d7a61ace6
   languageName: node
   linkType: hard
 
@@ -21562,19 +21509,6 @@ __metadata:
     buffer: "npm:^6.0.3"
     keccak: "npm:^3.0.2"
   checksum: 10/c7370708a3c0bf81e5663e27f5fa716a7ca41c2b079fb6b13f23850159aae0ec9076156564aed413a0fef40754aa7add43ccc2023a2a20447d66e4e017f9b4c5
-  languageName: node
-  linkType: hard
-
-"keccak@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "keccak@npm:2.1.0"
-  dependencies:
-    bindings: "npm:^1.5.0"
-    inherits: "npm:^2.0.4"
-    nan: "npm:^2.14.0"
-    node-gyp: "npm:latest"
-    safe-buffer: "npm:^5.2.0"
-  checksum: 10/e9a0263081eca5b533bdd68c52e6634081557a79ba4545dde0c0f2bdc16dd656ebab2e21a167c347ef04eae2188fecd6d399a186e289344d5baf797890d28e45
   languageName: node
   linkType: hard
 
@@ -26086,7 +26020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^3.0.1, secp256k1@npm:^3.7.1":
+"secp256k1@npm:^3.0.1":
   version: 3.8.1
   resolution: "secp256k1@npm:3.8.1"
   dependencies:
@@ -27210,25 +27144,6 @@ __metadata:
     readable-stream: "npm:^3.6.0"
     semver: "npm:^7.3.2"
   checksum: 10/07647367ba97af90e45ffbd65864dac483658338e38d40ece17e6edaf0889f30b8bcc73ebc551c2145fc4eaa7d3b4d65cf49f873c247bf6879a505a2d2f7518b
-  languageName: node
-  linkType: hard
-
-"superagent@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "superagent@npm:6.1.0"
-  dependencies:
-    component-emitter: "npm:^1.3.0"
-    cookiejar: "npm:^2.1.2"
-    debug: "npm:^4.1.1"
-    fast-safe-stringify: "npm:^2.0.7"
-    form-data: "npm:^3.0.0"
-    formidable: "npm:^1.2.2"
-    methods: "npm:^1.1.2"
-    mime: "npm:^2.4.6"
-    qs: "npm:^6.9.4"
-    readable-stream: "npm:^3.6.0"
-    semver: "npm:^7.3.2"
-  checksum: 10/7d49a4f4d435bcf357615c182fd7bac75ef30ab9aea4eb15666fd5e5065fafcd81d65fe864eefb1b751fb96c301a6e729e668c1a9a4ddc1a3b47b8682e416941
   languageName: node
   linkType: hard
 
@@ -28829,7 +28744,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"websocket@npm:^1.0.28, websocket@npm:^1.0.30, websocket@npm:^1.0.31, websocket@npm:^1.0.34":
+"websocket@npm:^1.0.28, websocket@npm:^1.0.30, websocket@npm:^1.0.34":
   version: 1.0.35
   resolution: "websocket@npm:1.0.35"
   dependencies:

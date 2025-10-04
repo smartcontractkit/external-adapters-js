@@ -711,9 +711,6 @@
       "path": "./sources/xbto"
     },
     {
-      "path": "./targets/conflux"
-    },
-    {
       "path": "./targets/dydx-stark"
     },
     {
