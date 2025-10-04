@@ -1,5 +1,13 @@
 # @chainlink/ea-test-helpers
 
+## 1.4.9
+
+### Patch Changes
+
+- [#3915](https://github.com/smartcontractkit/external-adapters-js/pull/3915) [`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump pbkdf2 from 3.1.2 to 3.1.3
+
+- [#3972](https://github.com/smartcontractkit/external-adapters-js/pull/3972) [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump sha.js from 2.4.11 to 2.4.12
+
 ## 1.4.8
 
 ### Patch Changes
