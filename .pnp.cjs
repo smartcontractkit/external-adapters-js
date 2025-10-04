@@ -10657,9 +10657,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@ethersproject-signing-key-npm-5.8.0-fc5d8c7e1f-07e5893bf9.zip/node_modules/@ethersproject/signing-key/",\
         "packageDependencies": [\
           ["@ethersproject/signing-key", "npm:5.8.0"],\
-          ["@ethersproject/bytes", "npm:5.7.0"],\
-          ["@ethersproject/logger", "npm:5.7.0"],\
-          ["@ethersproject/properties", "npm:5.7.0"],\
+          ["@ethersproject/bytes", "npm:5.8.0"],\
+          ["@ethersproject/logger", "npm:5.8.0"],\
+          ["@ethersproject/properties", "npm:5.8.0"],\
           ["bn.js", "npm:5.2.2"],\
           ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
