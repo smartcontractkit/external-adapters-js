@@ -20802,7 +20802,7 @@ const RAW_RUNTIME_STATE =
           ["inherits", "npm:2.0.4"],\
           ["md5.js", "npm:1.3.5"],\
           ["ripemd160", "npm:2.0.2"],\
-          ["sha.js", "npm:2.4.11"]\
+          ["sha.js", "npm:2.4.12"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20817,7 +20817,7 @@ const RAW_RUNTIME_STATE =
           ["inherits", "npm:2.0.4"],\
           ["ripemd160", "npm:2.0.2"],\
           ["safe-buffer", "npm:5.2.1"],\
-          ["sha.js", "npm:2.4.11"]\
+          ["sha.js", "npm:2.4.12"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -32159,15 +32159,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["sha.js", [\
-      ["npm:2.4.11", {\
-        "packageLocation": "./.yarn/cache/sha.js-npm-2.4.11-14868df4ca-d833bfa3e0.zip/node_modules/sha.js/",\
-        "packageDependencies": [\
-          ["sha.js", "npm:2.4.11"],\
-          ["inherits", "npm:2.0.4"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.4.12", {\
         "packageLocation": "./.yarn/cache/sha.js-npm-2.4.12-bc0424125d-39c0993592.zip/node_modules/sha.js/",\
         "packageDependencies": [\
