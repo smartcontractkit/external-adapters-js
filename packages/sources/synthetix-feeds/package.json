@@ -31,7 +31,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
     "decimal.js": "10.4.3",
-    "ethers": "^5.7.2",
+    "ethers": "^5.8.0",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },

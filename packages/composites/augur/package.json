@@ -33,7 +33,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/sportsdataio-adapter": "workspace:*",
     "@chainlink/therundown-adapter": "workspace:*",
-    "ethers": "^5.4.7",
+    "ethers": "^5.8.0",
     "luxon": "^1.28.1",
     "tslib": "^2.3.1"
   },
