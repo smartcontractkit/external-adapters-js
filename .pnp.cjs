@@ -971,10 +971,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/xbto"\
     },\
     {\
-      "name": "@chainlink/conflux-adapter",\
-      "reference": "workspace:packages/targets/conflux"\
-    },\
-    {\
       "name": "@chainlink/dydx-stark-adapter",\
       "reference": "workspace:packages/targets/dydx-stark"\
     },\
@@ -1039,7 +1035,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinmetrics-lwba-adapter", ["workspace:packages/sources/coinmetrics-lwba"]],\
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/conflux-adapter", ["workspace:packages/targets/conflux"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
     ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
@@ -6118,26 +6113,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/conflux-adapter", [\
-      ["workspace:packages/targets/conflux", {\
-        "packageLocation": "./packages/targets/conflux/",\
-        "packageDependencies": [\
-          ["@chainlink/conflux-adapter", "workspace:packages/targets/conflux"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["js-conflux-sdk", "npm:1.7.3"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/contracts", [\
       ["npm:0.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-contracts-npm-0.8.0-631a42cefc-dbf0fb93d3.zip/node_modules/@chainlink/contracts/",\
@@ -9901,16 +9876,6 @@ const RAW_RUNTIME_STATE =
           ["fs-extra", "npm:7.0.1"],\
           ["human-id", "npm:1.0.2"],\
           ["prettier", "npm:2.8.8"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@conflux-dev/conflux-address-js", [\
-      ["npm:1.1.8", {\
-        "packageLocation": "./.yarn/cache/@conflux-dev-conflux-address-js-npm-1.1.8-2f0a3b97e8-1ba6d43676.zip/node_modules/@conflux-dev/conflux-address-js/",\
-        "packageDependencies": [\
-          ["@conflux-dev/conflux-address-js", "npm:1.1.8"],\
-          ["jsbi", "npm:3.2.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26498,24 +26463,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["js-conflux-sdk", [\
-      ["npm:1.7.3", {\
-        "packageLocation": "./.yarn/cache/js-conflux-sdk-npm-1.7.3-e09a3c5ed5-8b7e7300cd.zip/node_modules/js-conflux-sdk/",\
-        "packageDependencies": [\
-          ["js-conflux-sdk", "npm:1.7.3"],\
-          ["@conflux-dev/conflux-address-js", "npm:1.1.8"],\
-          ["big.js", "npm:5.2.2"],\
-          ["commander", "npm:8.3.0"],\
-          ["keccak", "npm:2.1.0"],\
-          ["lodash", "npm:4.17.21"],\
-          ["scrypt-js", "npm:3.0.1"],\
-          ["secp256k1", "npm:3.8.1"],\
-          ["superagent", "npm:6.1.0"],\
-          ["websocket", "npm:1.0.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["js-sdsl", [\
       ["npm:4.4.2", {\
         "packageLocation": "./.yarn/cache/js-sdsl-npm-4.4.2-992f97f34c-806ab7aea3.zip/node_modules/js-sdsl/",\
@@ -26574,15 +26521,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/jsan-npm-3.1.14-b530faf7c9-960cd5059b.zip/node_modules/jsan/",\
         "packageDependencies": [\
           ["jsan", "npm:3.1.14"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["jsbi", [\
-      ["npm:3.2.5", {\
-        "packageLocation": "./.yarn/cache/jsbi-npm-3.2.5-d7075bf5a0-2cceb3a06d.zip/node_modules/jsbi/",\
-        "packageDependencies": [\
-          ["jsbi", "npm:3.2.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26893,18 +26831,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["keccak", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/unplugged/keccak-npm-2.1.0-b36e31bfb3/node_modules/keccak/",\
-        "packageDependencies": [\
-          ["keccak", "npm:2.1.0"],\
-          ["bindings", "npm:1.5.0"],\
-          ["inherits", "npm:2.0.4"],\
-          ["nan", "npm:2.22.0"],\
-          ["node-gyp", "npm:10.2.0"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.0.4", {\
         "packageLocation": "./.yarn/unplugged/keccak-npm-3.0.4-a84763aab8/node_modules/keccak/",\
         "packageDependencies": [\
@@ -33099,24 +33025,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/superagent-npm-5.3.1-6885809125-07647367ba.zip/node_modules/superagent/",\
         "packageDependencies": [\
           ["superagent", "npm:5.3.1"],\
-          ["component-emitter", "npm:1.3.1"],\
-          ["cookiejar", "npm:2.1.4"],\
-          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
-          ["fast-safe-stringify", "npm:2.1.1"],\
-          ["form-data", "npm:3.0.4"],\
-          ["formidable", "npm:1.2.6"],\
-          ["methods", "npm:1.1.2"],\
-          ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.13.1"],\
-          ["readable-stream", "npm:3.6.2"],\
-          ["semver", "npm:7.6.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.1.0", {\
-        "packageLocation": "./.yarn/cache/superagent-npm-6.1.0-053b76aea5-7d49a4f4d4.zip/node_modules/superagent/",\
-        "packageDependencies": [\
-          ["superagent", "npm:6.1.0"],\
           ["component-emitter", "npm:1.3.1"],\
           ["cookiejar", "npm:2.1.4"],\
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
