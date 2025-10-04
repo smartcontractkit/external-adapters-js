@@ -112,7 +112,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [instruxi-sxt](./instruxi-sxt/README.md)
 - [intrinio](./intrinio/README.md)
 - [ion.au](./ion.au/README.md)
-- [ipfs](./ipfs/README.md)
 - [jpegd](./jpegd/README.md)
 - [json-rpc](./json-rpc/README.md)
 - [kaiko](./kaiko/README.md)
