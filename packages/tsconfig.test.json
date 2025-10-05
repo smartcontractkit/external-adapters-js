@@ -198,9 +198,6 @@
       "path": "./sources/blockchair/tsconfig.test.json"
     },
     {
-      "path": "./sources/blockcypher/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
