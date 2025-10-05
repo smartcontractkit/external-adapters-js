@@ -104,3 +104,16 @@ export const mockFinnhubSecondaryClosed = (market: string): nock.Scope => {
       },
     })
 }
+
+export const mockFinnhubSecondaryUnknown = (market: string): nock.Scope => {
+  return nock('https://finnhub-secondary-adapter.com')
+    .persist()
+    .post('/', { data: { endpoint: 'market-status', market } })
+    .reply(200, {
+      result: 0,
+      statusCode: 200,
+      data: {
+        result: 0,
+      },
+    })
+}

@@ -3,12 +3,24 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const marketAliases = ['NYSE'] as const
+export const marketAliases = [
+  'NYSE',
+  'LSE',
+  'XETRA',
+  'SIX',
+  'EURONEXT_MILAN',
+  'EURONEXT_PARIS',
+] as const
 
 export type Market = (typeof marketAliases)[number]
 
 const marketToExchange: Record<Market, string> = {
   NYSE: 'US',
+  LSE: 'L',
+  XETRA: 'DE',
+  SIX: 'SW',
+  EURONEXT_MILAN: 'MI',
+  EURONEXT_PARIS: 'PA',
 }
 
 // See: https://finnhub.io/docs/api/market-status

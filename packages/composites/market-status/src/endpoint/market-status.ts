@@ -22,7 +22,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const marketStatusEndpoint = new MarketStatusEndpoint({
+export const endpoint = new MarketStatusEndpoint({
   name: 'market-status',
   transport,
   inputParameters,
