@@ -291,10 +291,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/blockchair"\
     },\
     {\
-      "name": "@chainlink/blockcypher-adapter",\
-      "reference": "workspace:packages/sources/blockcypher"\
-    },\
-    {\
       "name": "@chainlink/blocksize-capital-adapter",\
       "reference": "workspace:packages/sources/blocksize-capital"\
     },\
@@ -1010,7 +1006,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
-    ["@chainlink/blockcypher-adapter", ["workspace:packages/sources/blockcypher"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
@@ -5667,26 +5662,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/blockcypher-adapter", [\
-      ["workspace:packages/sources/blockcypher", {\
-        "packageLocation": "./packages/sources/blockcypher/",\
-        "packageDependencies": [\
-          ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["blockcypher", "npm:0.3.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/blocksize-capital-adapter", [\
       ["workspace:packages/sources/blocksize-capital", {\
         "packageLocation": "./packages/sources/blocksize-capital/",\
@@ -8502,7 +8477,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitcoin-json-rpc-adapter", "workspace:packages/composites/bitcoin-json-rpc"],\
           ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
           ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
-          ["@chainlink/blockcypher-adapter", "workspace:packages/sources/blockcypher"],\
           ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
           ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
           ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
@@ -17959,17 +17933,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["blockcypher", [\
-      ["npm:0.3.0", {\
-        "packageLocation": "./.yarn/cache/blockcypher-npm-0.3.0-66a6ec1f7b-893699ae05.zip/node_modules/blockcypher/",\
-        "packageDependencies": [\
-          ["blockcypher", "npm:0.3.0"],\
-          ["superagent", "npm:5.3.1"],\
-          ["xtend", "npm:4.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["bn.js", [\
       ["npm:4.11.6", {\
         "packageLocation": "./.yarn/cache/bn.js-npm-4.11.6-34a3bf8e02-22741b015c.zip/node_modules/bn.js/",\
@@ -20621,19 +20584,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["es-set-tostringtag", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/es-set-tostringtag-npm-2.1.0-4e55705d3f-86814bf8af.zip/node_modules/es-set-tostringtag/",\
-        "packageDependencies": [\
-          ["es-set-tostringtag", "npm:2.1.0"],\
-          ["es-errors", "npm:1.3.0"],\
-          ["get-intrinsic", "npm:1.3.1"],\
-          ["has-tostringtag", "npm:1.0.2"],\
-          ["hasown", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["es5-ext", [\
       ["npm:0.10.64", {\
         "packageLocation": "./.yarn/unplugged/es5-ext-npm-0.10.64-c30cdc3d60/node_modules/es5-ext/",\
@@ -21998,18 +21948,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["form-data", [\
-      ["npm:3.0.4", {\
-        "packageLocation": "./.yarn/cache/form-data-npm-3.0.4-2a63eafd8b-68e4598e55.zip/node_modules/form-data/",\
-        "packageDependencies": [\
-          ["form-data", "npm:3.0.4"],\
-          ["asynckit", "npm:0.4.0"],\
-          ["combined-stream", "npm:1.0.8"],\
-          ["es-set-tostringtag", "npm:2.1.0"],\
-          ["hasown", "npm:2.0.2"],\
-          ["mime-types", "npm:2.1.35"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.1", {\
         "packageLocation": "./.yarn/cache/form-data-npm-4.0.1-f1a27a1c2e-6adb1cff55.zip/node_modules/form-data/",\
         "packageDependencies": [\
@@ -22032,13 +21970,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["formidable", [\
-      ["npm:1.2.6", {\
-        "packageLocation": "./.yarn/cache/formidable-npm-1.2.6-68be5e1519-0ac4690a46.zip/node_modules/formidable/",\
-        "packageDependencies": [\
-          ["formidable", "npm:1.2.6"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.1.2", {\
         "packageLocation": "./.yarn/cache/formidable-npm-2.1.2-40ba18d67f-d385180e04.zip/node_modules/formidable/",\
         "packageDependencies": [\
@@ -31587,24 +31518,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["superagent", [\
-      ["npm:5.3.1", {\
-        "packageLocation": "./.yarn/cache/superagent-npm-5.3.1-6885809125-07647367ba.zip/node_modules/superagent/",\
-        "packageDependencies": [\
-          ["superagent", "npm:5.3.1"],\
-          ["component-emitter", "npm:1.3.1"],\
-          ["cookiejar", "npm:2.1.4"],\
-          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
-          ["fast-safe-stringify", "npm:2.1.1"],\
-          ["form-data", "npm:3.0.4"],\
-          ["formidable", "npm:1.2.6"],\
-          ["methods", "npm:1.1.2"],\
-          ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.13.1"],\
-          ["readable-stream", "npm:3.6.2"],\
-          ["semver", "npm:7.6.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:8.1.2", {\
         "packageLocation": "./.yarn/cache/superagent-npm-8.1.2-44190e1fe9-33d0072e05.zip/node_modules/superagent/",\
         "packageDependencies": [\
@@ -33928,15 +33841,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/xregexp-npm-4.0.0-affe84a2d1-f8fa6c428f.zip/node_modules/xregexp/",\
         "packageDependencies": [\
           ["xregexp", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["xtend", [\
-      ["npm:4.0.2", {\
-        "packageLocation": "./.yarn/cache/xtend-npm-4.0.2-7f2375736e-ac5dfa738b.zip/node_modules/xtend/",\
-        "packageDependencies": [\
-          ["xtend", "npm:4.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\

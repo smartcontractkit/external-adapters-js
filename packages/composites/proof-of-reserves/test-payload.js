@@ -8,7 +8,6 @@ const indexerEnvironmentVariables = [
   { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
   { envKey: 'BITCOIN_JSON_RPC_ADAPTER_URL', value: 'bitcoin_json_rpc' },
   { envKey: 'BLOCKCHAIN_COM_ADAPTER_URL', value: 'blockchain_com' },
-  { envKey: 'BLOCKCYPHER_ADAPTER_URL', value: 'blockcypher' },
   { envKey: 'BLOCKCHAIR_ADAPTER_URL', value: 'blockchair' },
   { envKey: 'BTC_COM_ADAPTER_URL', value: 'btc_com' },
   { envKey: 'CRYPTOAPIS_ADAPTER_URL', value: 'cryptoapis' },
