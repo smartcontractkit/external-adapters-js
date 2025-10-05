@@ -26,8 +26,8 @@ describe('GM-token price execute', () => {
     process.env.NCFX_ADAPTER_URL = process.env.NCFX_ADAPTER_URL ?? 'http://localhost:8082'
     process.env.COINMETRICS_ADAPTER_URL =
       process.env.COINMETRICS_ADAPTER_URL ?? 'http://localhost:8083'
-    process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
-    process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
+    process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3050'
+    process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3040'
 
     process.env.ARBITRUM_TOKENS_INFO_URL =
       process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:5040'
