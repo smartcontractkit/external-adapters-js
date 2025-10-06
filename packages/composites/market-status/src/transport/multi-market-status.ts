@@ -48,7 +48,6 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     const responses = await Promise.all(underlyingRequests)
     logger.debug('All responses:', JSON.stringify(responses))
 
-    // If any market is open, return open
     if (
       (param.openMode === 'any' &&
         responses.some((response) => response.marketStatus === MarketStatus.OPEN)) ||
@@ -61,7 +60,6 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
       }
     }
 
-    // Check if all markets are closed
     if (
       (param.closedMode === 'any' &&
         responses.some((response) => response.marketStatus === MarketStatus.CLOSED)) ||
