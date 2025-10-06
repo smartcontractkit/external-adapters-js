@@ -1,4 +1,5 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
@@ -7,17 +8,17 @@ import { stateTransport } from '../transport/state'
 export const inputParameters = new InputParameters(
   {
     base: {
-      aliases: ['coin', 'from'],
+      aliases: ['from', 'coin'],
       required: true,
       type: 'string',
-      description: 'The base symbol to query (e.g., CBBTC)',
+      description: 'The symbol of symbols of the currency to query',
     },
     quote: {
-      aliases: ['market', 'to'],
+      aliases: ['to', 'market'],
       required: false,
       type: 'string',
       default: 'USD',
-      description: 'The quote currency (USD or ETH)',
+      description: 'The symbol of the currency to convert to',
       options: ['USD', 'ETH'],
     },
   },
@@ -35,9 +36,10 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'price',
   aliases: ['crypto', 'state'],
-  transport: stateTransport,
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>().register('ws', stateTransport),
+  defaultTransport: 'ws',
   inputParameters,
 })
