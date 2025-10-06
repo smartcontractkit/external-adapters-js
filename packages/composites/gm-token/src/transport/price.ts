@@ -84,7 +84,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       this.resolveTokenMeta(chain, long),
       this.resolveTokenMeta(chain, short),
     ])
-    let decimalsMap = new Map(
+    const decimalsMap = new Map(
       [indexToken, longToken, shortToken].map((t) => [t.symbol, t.decimals]),
     )
 
