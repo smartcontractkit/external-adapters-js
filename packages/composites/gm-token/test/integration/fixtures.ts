@@ -394,15 +394,6 @@ export const mockTokensInfo = (
 ): nock.Scope =>
   nock(new URL(url).origin).get(new URL(url).pathname).reply(200, { tokens }).persist()
 
-/** Convenience: mock *successful* LWBA across all sources for multiple symbols. */
-export function mockLWBAFor(symbols: string[]) {
-  symbols.forEach((s) => {
-    mockTiingoEAResponseSuccess(s)
-    mockNCFXEAResponseSuccess(s)
-    mockCoinmetricsEAResponseSuccess(s)
-  })
-}
-
 export const mockBotanixRPCResponses = (): nock.Scope => {
   const parse = (b: any) => (typeof b === 'string' ? JSON.parse(b) : b)
   const BOTANIX_READER = '0xa254b60cbb85a92f6151b10e1233639f601f2f0f'

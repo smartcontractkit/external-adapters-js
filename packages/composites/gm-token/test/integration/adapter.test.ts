@@ -97,12 +97,9 @@ describe('GM-token price execute', () => {
         { symbol: 'LINK', address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4', decimals: 18 },
         { symbol: 'USDC', address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', decimals: 6 },
       ])
-
-      // LWBA for all three
       mockTiingoEAResponseSuccess('LINK')
       mockNCFXEAResponseSuccess('LINK')
       mockCoinmetricsEAResponseSuccess('LINK')
-
       mockBotanixRPCResponses()
 
       const data = {
@@ -118,7 +115,6 @@ describe('GM-token price execute', () => {
     })
 
     it('fails when token metadata is missing (resolver → 502)', async () => {
-      // Intentionally omit DOGE
       mockTokensInfo(process.env.ARBITRUM_TOKENS_INFO_URL!, [
         { symbol: 'ETH', address: '0xEthArb', decimals: 18 },
         { symbol: 'USDC', address: '0xUsdcArb', decimals: 6 },
