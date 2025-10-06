@@ -1,8 +1,8 @@
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterName, marketAdapters } from '../config/adapters'
-import type { BaseEndpointTypes } from '../endpoint/market-status'
-import { inputParameters } from '../endpoint/market-status'
+import type { MultiMarketStatusEndpointTypes } from '../endpoint/multi-market-status'
+import { inputParameters } from '../endpoint/multi-market-status'
 import { BaseMarketStatusTransport } from './base-market-status'
 
 const logger = makeLogger('MarketStatusTransport')
@@ -15,9 +15,9 @@ type MarketStatusResult = {
 
 type RequestParams = typeof inputParameters.validated
 
-export class VeEuroMarketStatusTransport extends BaseMarketStatusTransport {
+export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiMarketStatusEndpointTypes> {
   async createAdapterRequest(
-    context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<MultiMarketStatusEndpointTypes>,
     adapterName: AdapterName,
     market: string,
   ): Promise<MarketStatusResult & { market: string }> {
@@ -31,7 +31,7 @@ export class VeEuroMarketStatusTransport extends BaseMarketStatusTransport {
   }
 
   async _handleRequest(
-    context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<MultiMarketStatusEndpointTypes>,
     param: RequestParams,
   ): Promise<MarketStatusResult> {
     const markets = param.market.split(',').map((m) => m.trim())
@@ -49,32 +49,38 @@ export class VeEuroMarketStatusTransport extends BaseMarketStatusTransport {
     logger.debug('All responses:', JSON.stringify(responses))
 
     // If any market is open, return open
-    if (responses.some((response) => response.marketStatus === MarketStatus.OPEN)) {
+    if (
+      (param.openMode === 'any' &&
+        responses.some((response) => response.marketStatus === MarketStatus.OPEN)) ||
+      (param.openMode === 'all' &&
+        responses.every((response) => response.marketStatus === MarketStatus.OPEN))
+    ) {
       return {
         marketStatus: MarketStatus.OPEN,
         providerIndicatedTimeUnixMs: Date.now(),
       }
     }
 
-    // If any response is unknown, return unknown
-    if (responses.some((response) => response.marketStatus === MarketStatus.UNKNOWN)) {
-      const unknownResponses = responses.filter(
-        (response) => response.marketStatus === MarketStatus.UNKNOWN,
-      )
-      logger.warn('Responses with unknown status:', JSON.stringify(unknownResponses))
-      return {
-        marketStatus: MarketStatus.UNKNOWN,
-        providerIndicatedTimeUnixMs: Date.now(),
-      }
-    }
-
     // Check if all markets are closed
-    if (responses.every((response) => response.marketStatus === MarketStatus.CLOSED)) {
+    if (
+      (param.closedMode === 'any' &&
+        responses.some((response) => response.marketStatus === MarketStatus.CLOSED)) ||
+      (param.closedMode === 'all' &&
+        responses.every((response) => response.marketStatus === MarketStatus.CLOSED))
+    ) {
       return {
         marketStatus: MarketStatus.CLOSED,
         providerIndicatedTimeUnixMs: Date.now(),
       }
     }
+
+    const unknownResponses = responses.filter(
+      (response) => response.marketStatus === MarketStatus.UNKNOWN,
+    )
+    logger.warn(
+      'Returning UNKNOWN for param.market, responses with unknown status:',
+      JSON.stringify(unknownResponses),
+    )
 
     return {
       marketStatus: MarketStatus.UNKNOWN,
@@ -83,4 +89,4 @@ export class VeEuroMarketStatusTransport extends BaseMarketStatusTransport {
   }
 }
 
-export const transport = new VeEuroMarketStatusTransport()
+export const transport = new MultiMarketStatusTransport()

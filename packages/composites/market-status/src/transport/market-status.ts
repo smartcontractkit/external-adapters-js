@@ -1,7 +1,7 @@
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterName, marketAdapters } from '../config/adapters'
-import type { BaseEndpointTypes } from '../endpoint/market-status'
+import type { MarketStatusEndpointTypes } from '../endpoint/market-status'
 import { inputParameters } from '../endpoint/market-status'
 import { BaseMarketStatusTransport } from './base-market-status'
 
@@ -15,9 +15,9 @@ type MarketStatusResult = {
 
 type RequestParams = typeof inputParameters.validated
 
-export class MarketStatusTransport extends BaseMarketStatusTransport {
+export class MarketStatusTransport extends BaseMarketStatusTransport<MarketStatusEndpointTypes> {
   async _handleRequest(
-    context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<MarketStatusEndpointTypes>,
     param: RequestParams,
   ): Promise<MarketStatusResult> {
     const market = param.market

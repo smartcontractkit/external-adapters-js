@@ -10,7 +10,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
 
 import { AdapterName } from '../config/adapters'
-import type { BaseEndpointTypes } from '../endpoint/market-status'
+import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
 import { inputParameters } from '../endpoint/market-status'
 
 const logger = makeLogger('BaseMarketStatusTransport')
@@ -23,12 +23,14 @@ type MarketStatusResult = {
 
 type RequestParams = typeof inputParameters.validated
 
-export abstract class BaseMarketStatusTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export abstract class BaseMarketStatusTransport<
+  T extends BaseMarketStatusEndpointTypes,
+> extends SubscriptionTransport<BaseMarketStatusEndpointTypes> {
   requester!: Requester
 
   async initialize(
-    dependencies: TransportDependencies<BaseEndpointTypes>,
-    adapterSettings: BaseEndpointTypes['Settings'],
+    dependencies: TransportDependencies<BaseMarketStatusEndpointTypes>,
+    adapterSettings: BaseMarketStatusEndpointTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -36,15 +38,15 @@ export abstract class BaseMarketStatusTransport extends SubscriptionTransport<Ba
     this.requester = dependencies.requester
   }
 
-  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+  async backgroundHandler(context: EndpointContext<T>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(context: EndpointContext<T>, param: RequestParams) {
     const requestedAt = Date.now()
 
-    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    let response: AdapterResponse<T['Response']>
     try {
       const result = await this._handleRequest(context, param)
       response = {
@@ -77,12 +79,12 @@ export abstract class BaseMarketStatusTransport extends SubscriptionTransport<Ba
   }
 
   abstract _handleRequest(
-    context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<T>,
     param: RequestParams,
   ): Promise<MarketStatusResult>
 
   async sendAdapterRequest(
-    context: EndpointContext<BaseEndpointTypes>,
+    context: EndpointContext<T>,
     adapterName: AdapterName,
     market: string,
   ): Promise<MarketStatusResult> {
@@ -125,7 +127,7 @@ export abstract class BaseMarketStatusTransport extends SubscriptionTransport<Ba
     }
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: BaseMarketStatusEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
