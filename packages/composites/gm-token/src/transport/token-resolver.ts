@@ -6,11 +6,16 @@ export type TokenMeta = { address: string; decimals: number; symbol: string }
 
 type TokensResp = { tokens: Array<{ symbol: string; address: string; decimals: number }> }
 
+/**
+ * Fetches and caches token metadata (address/decimals) per chain.
+ * Refreshes on TTL expiry
+ */
 export class TokenResolver {
-  private cache: Record<ChainKey, { ts: number; bySym: Record<string, TokenMeta> }> = {
-    arbitrum: { ts: 0, bySym: {} },
-    botanix: { ts: 0, bySym: {} },
-  }
+  private cache: Record<ChainKey, { timestamp: number; symbolToToken: Record<string, TokenMeta> }> =
+    {
+      arbitrum: { timestamp: 0, symbolToToken: {} },
+      botanix: { timestamp: 0, symbolToToken: {} },
+    }
 
   private readonly urls: Record<ChainKey, string>
   private readonly ttlMs: number
@@ -25,10 +30,10 @@ export class TokenResolver {
 
   async get(chain: ChainKey, symbol: string): Promise<TokenMeta | undefined> {
     const now = Date.now()
-    if (now - this.cache[chain].ts > this.ttlMs) {
+    if (now - this.cache[chain].timestamp > this.ttlMs) {
       await this.refresh(chain)
     }
-    return this.cache[chain].bySym[symbol.toUpperCase()]
+    return this.cache[chain].symbolToToken[symbol.toUpperCase()]
   }
 
   private async refresh(chain: ChainKey) {
@@ -38,6 +43,6 @@ export class TokenResolver {
     for (const t of resp.response.data.tokens) {
       map[t.symbol.toUpperCase()] = { address: t.address, decimals: t.decimals, symbol: t.symbol }
     }
-    this.cache[chain] = { ts: Date.now(), bySym: map }
+    this.cache[chain] = { timestamp: Date.now(), symbolToToken: map }
   }
 }

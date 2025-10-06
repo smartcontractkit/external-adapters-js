@@ -1,16 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GM-token price execute price endpoint errors when fewer than required source EAs respond 1`] = `
-{
-  "errorMessage": "Missing token metadata for 'WETH' on 'arbitrum'",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
-  },
-}
-`;
-
 exports[`GM-token price execute price endpoint fails when token metadata is missing (resolver → 502) 1`] = `
 {
   "errorMessage": "Missing token metadata for 'DOGE' on 'arbitrum'",
@@ -22,10 +11,21 @@ exports[`GM-token price execute price endpoint fails when token metadata is miss
 }
 `;
 
+exports[`GM-token price execute price endpoint should return error when fewer than required source EAs respond 1`] = `
+{
+  "errorMessage": "Missing token metadata for 'ETH' on 'arbitrum'",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`GM-token price execute price endpoint success on Arbitrum (default chain) using resolver decimals 1`] = `
 {
   "data": {
-    "result": 1.1471768303164502,
+    "result": 1.3774681066355723,
     "sources": {
       "LINK": [
         "tiingo",
@@ -39,7 +39,33 @@ exports[`GM-token price execute price endpoint success on Arbitrum (default chai
       ],
     },
   },
-  "result": 1.1471768303164502,
+  "result": 1.3774681066355723,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`GM-token price execute price endpoint success on Botanix when chain=botanix (uses Botanix resolver decimals) 1`] = `
+{
+  "data": {
+    "result": 1.3774681066355723,
+    "sources": {
+      "LINK": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+      "USDC": [
+        "tiingo",
+        "coinmetrics",
+        "ncfx",
+      ],
+    },
+  },
+  "result": 1.3774681066355723,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
