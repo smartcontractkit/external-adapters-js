@@ -20,4 +20,24 @@ export const marketAdapters: Record<string, { primary: AdapterName; secondary: A
     primary: 'TRADINGHOURS',
     secondary: 'FINNHUB_SECONDARY',
   },
+  lse: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  xetra: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  six: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  euronext_milan: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  euronext_paris: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
 }

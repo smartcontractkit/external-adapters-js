@@ -1,28 +1,18 @@
 import {
   MarketStatusEndpoint,
-  MarketStatusResultResponse,
   marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-
-import { config } from '../config'
 import { transport } from '../transport/market-status'
+import { BaseMarketStatusEndpointTypes } from './common'
 
 export const inputParameters = new InputParameters(marketStatusEndpointInputParametersDefinition)
 
-export type CompositeMarketStatusResultResponse = MarketStatusResultResponse & {
-  Data: {
-    source?: string
-  }
-}
-
-export type BaseEndpointTypes = {
+export type MarketStatusEndpointTypes = BaseMarketStatusEndpointTypes & {
   Parameters: typeof inputParameters.definition
-  Response: CompositeMarketStatusResultResponse
-  Settings: typeof config.settings
 }
 
-export const marketStatusEndpoint = new MarketStatusEndpoint({
+export const endpoint = new MarketStatusEndpoint({
   name: 'market-status',
   transport,
   inputParameters,
