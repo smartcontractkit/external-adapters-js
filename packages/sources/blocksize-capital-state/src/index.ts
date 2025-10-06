@@ -1,11 +1,11 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import { state } from './endpoint'
 
-export const adapter = new Adapter({
+export const adapter = new PriceAdapter({
   name: 'BLOCKSIZE_CAPITAL_STATE',
-  defaultEndpoint: 'state',
+  defaultEndpoint: state.name,
   config,
   endpoints: [state],
 })

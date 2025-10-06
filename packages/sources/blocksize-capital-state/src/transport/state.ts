@@ -53,10 +53,9 @@ export const stateTransport = new WebSocketTransport<TransportTypes>({
 
         if (message.result.snapshot.length === 0) {
           logger.error(`Pair does not exist for subscription ${message.id}`)
-          logger.warn(`Possible Solutions:
-            1. Confirm you are using the same symbol found in the job spec with the correct case
-            2. Verify the ticker format matches Blocksize Capital's requirements (e.g., CBBTCUSD, ALETHUSD)
-            3. There may be an issue with the job spec or the Data Provider may have delisted the asset. Reach out to Chainlink Labs.`)
+          logger.warn(
+            'Verify ticker format matches provider requirements or check if asset is supported',
+          )
           logger.debug(JSON.stringify(message, null, 2))
           return []
         }

@@ -2,7 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { stateTransport } from '../transport/state'
 
 export const inputParameters = new InputParameters(
@@ -37,9 +36,8 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'blocksize-capital-state',
-  aliases: ['state'],
+  name: 'price',
+  aliases: ['crypto', 'state'],
   transport: stateTransport,
   inputParameters,
-  overrides: overrides['blocksize-capital-state'],
 })
