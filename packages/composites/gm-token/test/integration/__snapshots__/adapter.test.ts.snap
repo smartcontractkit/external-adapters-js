@@ -2,7 +2,7 @@
 
 exports[`GM-token price execute price endpoint fails when token metadata is missing (resolver → 502) 1`] = `
 {
-  "errorMessage": "Missing token metadata for 'DOGE' on 'arbitrum'",
+  "errorMessage": "Token with symbol "DOGE" not found on arbitrum",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -13,7 +13,7 @@ exports[`GM-token price execute price endpoint fails when token metadata is miss
 
 exports[`GM-token price execute price endpoint should return error when fewer than required source EAs respond 1`] = `
 {
-  "errorMessage": "Missing token metadata for 'ETH' on 'arbitrum'",
+  "errorMessage": "Token with symbol "ETH" not found on arbitrum",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,

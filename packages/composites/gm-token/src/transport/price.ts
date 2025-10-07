@@ -10,18 +10,16 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers, utils } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { BaseEndpointTypes, ChainKey, inputParameters } from '../endpoint/price'
 import abi from './../config/readerAbi.json'
-import { TokenMeta, TokenResolver } from './token-resolver'
-import { median, PriceData, SIGNED_PRICE_DECIMALS, Source, toFixed } from './utils'
+import { TokenResolver } from './token-resolver'
+import { median, PriceData, SIGNED_PRICE_DECIMALS, Source, toFixed, unwrapAsset } from './utils'
 
 const logger = makeLogger('GMToken')
 
 type RequestParams = typeof inputParameters.validated
 
 export type GmTokenTransportTypes = BaseEndpointTypes
-
-type ChainKey = 'arbitrum' | 'botanix'
 
 export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportTypes> {
   name!: string
@@ -80,9 +78,9 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     const providerDataRequestedUnixMs = Date.now()
 
     const [indexToken, longToken, shortToken] = await Promise.all([
-      this.resolveTokenMeta(chain, index),
-      this.resolveTokenMeta(chain, long),
-      this.resolveTokenMeta(chain, short),
+      this.tokenResolver.getToken(chain, index),
+      this.tokenResolver.getToken(chain, long),
+      this.tokenResolver.getToken(chain, short),
     ])
     const decimalsMap = new Map(
       [indexToken, longToken, shortToken].map((t) => [t.symbol, t.decimals]),
@@ -152,7 +150,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       const source = sources[i]
 
       const assetPromises = assets.map(async (asset) => {
-        const base = this.unwrapAsset(asset)
+        const base = unwrapAsset(asset)
         const requestConfig = {
           url: source.url,
           method: 'POST',
@@ -217,16 +215,6 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     }
   }
 
-  private async resolveTokenMeta(chain: ChainKey, symbol: string): Promise<TokenMeta> {
-    const tokenMeta = await this.tokenResolver.get(chain, symbol)
-    const address = tokenMeta?.address
-    const decimals = tokenMeta?.decimals
-    if (!address || !decimals) {
-      throw new Error(`Missing token metadata for '${symbol}' on '${chain}'`)
-    }
-    return { address, decimals, symbol }
-  }
-
   private calculateMedian(assets: string[], priceData: PriceData) {
     return assets.map((asset) => {
       // Since most of the gm markets have the same long and index tokens, we need to remove duplicate values from duplicate requests
@@ -234,19 +222,6 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       const medianAsk = median([...new Set(priceData[asset].asks)])
       return { asset, bid: medianBid, ask: medianAsk }
     })
-  }
-
-  private unwrapAsset(asset: string) {
-    if (asset === 'WBTC.b' || asset === 'stBTC') {
-      return 'BTC'
-    }
-    if (asset === 'WETH') {
-      return 'ETH'
-    }
-    if (asset === 'USDC.e') {
-      return 'USDC'
-    }
-    return asset
   }
 
   /*
@@ -274,7 +249,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     }
 
     assets.forEach((asset) => {
-      const base = this.unwrapAsset(asset)
+      const base = unwrapAsset(asset)
       const respondedSources = priceProviders[base]
 
       if (respondedSources.length < this.settings.MIN_REQUIRED_SOURCE_SUCCESS) {

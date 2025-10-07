@@ -33,3 +33,16 @@ export const toFixed = (number: number, decimals: number): string => {
     .replace('.', '')
     .replace(/^0+/, '')
 }
+
+export const unwrapAsset = (asset: string): string => {
+  if (asset === 'WBTC.b' || asset === 'stBTC') {
+    return 'BTC'
+  }
+  if (asset === 'WETH') {
+    return 'ETH'
+  }
+  if (asset === 'USDC.e') {
+    return 'USDC'
+  }
+  return asset
+}

@@ -15,14 +15,12 @@ export const config = new AdapterConfig(
       default: 42161,
     },
     BOTANIX_RPC_URL: {
-      description: 'RPC url of Arbitrum node',
+      description: 'RPC url of Botanix node',
       type: 'string',
-      required: false,
     },
     BOTANIX_CHAIN_ID: {
       description: 'The chain id to connect to',
       type: 'number',
-      required: false,
       default: 3637,
     },
     DATASTORE_CONTRACT_ADDRESS: {

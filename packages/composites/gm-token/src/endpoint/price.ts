@@ -3,6 +3,8 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/price'
 
+export const CHAIN_OPTIONS = ['arbitrum', 'botanix']
+
 export const inputParameters = new InputParameters(
   {
     index: {
@@ -29,7 +31,7 @@ export const inputParameters = new InputParameters(
     chain: {
       description: 'Target chain for GM market',
       type: 'string',
-      options: ['arbitrum', 'botanix'],
+      options: [...CHAIN_OPTIONS],
       default: 'arbitrum',
     },
   },
@@ -43,6 +45,8 @@ export const inputParameters = new InputParameters(
     },
   ],
 )
+
+export type ChainKey = (typeof inputParameters.validated)['chain']
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
