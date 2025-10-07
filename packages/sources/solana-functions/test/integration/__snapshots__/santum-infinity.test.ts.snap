@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute sanctum-infinity should return success 1`] = `
+{
+  "data": {
+    "result": 1.367248413526656,
+  },
+  "result": 1.367248413526656,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

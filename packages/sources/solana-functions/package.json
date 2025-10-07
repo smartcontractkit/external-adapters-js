@@ -37,8 +37,11 @@
     "@chainlink/external-adapter-framework": "2.7.0",
     "@coral-xyz/anchor": "^0.31.1",
     "@solana/addresses": "^3.0.2",
+    "@solana/buffer-layout": "^4.0.1",
     "@solana/codecs-strings": "^3.0.2",
     "@solana/rpc": "^3.0.2",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.95.8",
     "bn.js": "^5.2.0",
     "tslib": "2.4.1"
   }
