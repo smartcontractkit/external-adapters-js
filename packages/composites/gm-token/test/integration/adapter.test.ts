@@ -4,26 +4,35 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  mockBotanixRPCResponses,
   mockCoinmetricsEAResponseFailure,
   mockCoinmetricsEAResponseSuccess,
   mockNCFXEAResponseFailure,
   mockNCFXEAResponseSuccess,
   mockRPCResponses,
   mockTiingoEAResponseSuccess,
+  mockTokensInfo,
 } from './fixtures'
 
-describe('execute', () => {
+describe('GM-token price execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+
     process.env.TIINGO_ADAPTER_URL = process.env.TIINGO_ADAPTER_URL ?? 'http://localhost:8081'
     process.env.NCFX_ADAPTER_URL = process.env.NCFX_ADAPTER_URL ?? 'http://localhost:8082'
     process.env.COINMETRICS_ADAPTER_URL =
       process.env.COINMETRICS_ADAPTER_URL ?? 'http://localhost:8083'
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
+    process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
+
+    process.env.ARBITRUM_TOKENS_INFO_URL =
+      process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:5040'
+    process.env.BOTANIX_TOKENS_INFO_URL =
+      process.env.BOTANIX_TOKENS_INFO_URL ?? 'http://localhost:6040'
     process.env.RETRY = process.env.RETRY ?? '0'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
@@ -46,20 +55,25 @@ describe('execute', () => {
   })
 
   describe('price endpoint', () => {
-    it('should return success', async () => {
+    it('success on Arbitrum (default chain) using resolver decimals', async () => {
+      mockTokensInfo(process.env.ARBITRUM_TOKENS_INFO_URL!, [
+        { symbol: 'LINK', address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4', decimals: 18 },
+        { symbol: 'USDC', address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', decimals: 6 },
+      ])
+      mockTiingoEAResponseSuccess('LINK')
+      mockNCFXEAResponseSuccess('LINK')
+      mockCoinmetricsEAResponseSuccess('LINK')
+      mockRPCResponses()
+
       const data = {
         index: 'LINK',
         long: 'LINK',
         short: 'USDC',
         market: '0x7f1fa204bb700853D36994DA19F830b6Ad18455C',
       }
-      mockTiingoEAResponseSuccess('LINK')
-      mockNCFXEAResponseSuccess('LINK')
-      mockCoinmetricsEAResponseSuccess('LINK')
-      mockRPCResponses()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      const res = await testAdapter.request(data)
+      expect(res.statusCode).toBe(200)
+      expect(res.json()).toMatchSnapshot()
     })
 
     it('should return error when fewer than required source EAs respond', async () => {
@@ -76,6 +90,48 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('success on Botanix when chain=botanix (uses Botanix resolver decimals)', async () => {
+      mockTokensInfo(process.env.BOTANIX_TOKENS_INFO_URL!, [
+        { symbol: 'LINK', address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4', decimals: 18 },
+        { symbol: 'USDC', address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', decimals: 6 },
+      ])
+      mockTiingoEAResponseSuccess('LINK')
+      mockNCFXEAResponseSuccess('LINK')
+      mockCoinmetricsEAResponseSuccess('LINK')
+      mockBotanixRPCResponses()
+
+      const data = {
+        index: 'LINK',
+        long: 'LINK',
+        short: 'USDC',
+        market: '0x7f1fa204bb700853D36994DA19F830b6Ad18455C',
+        chain: 'botanix',
+      }
+      const res = await testAdapter.request(data)
+      expect(res.statusCode).toBe(200)
+      expect(res.json()).toMatchSnapshot()
+    })
+
+    it('fails when token metadata is missing (resolver → 502)', async () => {
+      mockTokensInfo(process.env.ARBITRUM_TOKENS_INFO_URL!, [
+        { symbol: 'ETH', address: '0xEthArb', decimals: 18 },
+        { symbol: 'USDC', address: '0xUsdcArb', decimals: 6 },
+      ])
+
+      mockTiingoEAResponseSuccess('DOGE')
+      mockNCFXEAResponseSuccess('DOGE')
+      mockCoinmetricsEAResponseSuccess('DOGE')
+
+      const res = await testAdapter.request({
+        index: 'DOGE',
+        long: 'DOGE',
+        short: 'USDC',
+        market: '0x000000000000000000000000000000000000DEAD',
+      })
+      expect(res.statusCode).toBe(502)
+      expect(res.json()).toMatchSnapshot()
     })
   })
 })
