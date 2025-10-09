@@ -43,13 +43,41 @@ export const inputParameters = new InputParameters(
       description: 'The payload to send to the divisor sources',
     },
     operation: {
-      required: true,
+      required: false,
       type: 'string',
       description: 'The operation to perform on the operands',
       options: ['divide', 'multiply'],
+      default: 'divide',
     },
   },
   [
+    // Example using dividend/divisor format - implied price (operation defaults to divide)
+    {
+      dividendSources: ['coingecko'],
+      dividendMinAnswers: 1,
+      dividendInput: JSON.stringify({
+        from: 'LINK',
+        to: 'USD',
+        overrides: {
+          coingecko: {
+            LINK: 'chainlink',
+          },
+        },
+      }),
+      divisorSources: ['coingecko'],
+      divisorMinAnswers: 1,
+      divisorInput: JSON.stringify({
+        from: 'ETH',
+        to: 'USD',
+        overrides: {
+          coingecko: {
+            ETH: 'ethereum',
+          },
+        },
+      }),
+      // operation defaults to 'divide' for backward compatibility
+    } as any,
+    // Example using dividend/divisor format - explicit division
     {
       dividendSources: ['coinbase', 'coingecko'],
       dividendMinAnswers: 1,
@@ -74,7 +102,8 @@ export const inputParameters = new InputParameters(
         },
       }),
       operation: 'divide',
-    },
+    } as any,
+    // Example using dividend/divisor format - multiplication
     {
       dividendSources: ['coingecko'],
       dividendMinAnswers: 1,
@@ -99,8 +128,8 @@ export const inputParameters = new InputParameters(
         },
       }),
       operation: 'multiply',
-    },
-  ],
+    } as any,
+  ] as any,
 )
 
 export type BaseEndpointTypes = {
@@ -110,8 +139,8 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'computedPrice',
-  aliases: ['computed', 'impliedPrice', 'implied'],
+  name: 'impliedPrice',
+  aliases: ['implied'],
   transport,
   inputParameters,
 })

@@ -4,7 +4,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { BaseEndpointTypes } from '../endpoint/impliedPrice'
+import { BaseEndpointTypes } from '../endpoint/computedPrice'
 import {
   PriceInput,
   calculateMedian,
@@ -14,15 +14,15 @@ import {
   parseSources,
 } from '../utils'
 
-const logger = makeLogger('ImpliedPriceTransport')
+const logger = makeLogger('ComputedPriceTransport')
 
 type RequestParams = {
-  dividendSources: string[]
-  dividendMinAnswers: number
-  dividendInput: string
-  divisorSources: string[]
-  divisorMinAnswers: number
-  divisorInput: string
+  operand1Sources: string[]
+  operand1MinAnswers: number
+  operand1Input: string
+  operand2Sources: string[]
+  operand2MinAnswers: number
+  operand2Input: string
   operation: 'divide' | 'multiply'
 }
 
@@ -44,7 +44,7 @@ const pendingRequests = new Map<
   { promise: Promise<SourceResponse | null>; timestamp: number }
 >()
 
-export class ImpliedPriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class ComputedPriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   name!: string
   responseCache!: ResponseCache<BaseEndpointTypes>
   requester!: Requester
@@ -68,7 +68,7 @@ export class ImpliedPriceTransport extends SubscriptionTransport<BaseEndpointTyp
   }
 
   /**
-   * Extract parameters from dividend/divisor format (impliedPrice endpoint)
+   * Normalize operand1/operand2 parameters to dividend/divisor format for processing
    */
   private normalizeParams(params: RequestParams): {
     dividendSources: string | string[]
@@ -79,15 +79,15 @@ export class ImpliedPriceTransport extends SubscriptionTransport<BaseEndpointTyp
     divisorMinAnswers: number
     operation: string
   } {
-    // dividend/divisor format (impliedPrice endpoint) - operation defaults to 'divide'
+    // operand1/operand2 format (computedPrice endpoint) - all parameters are required
     return {
-      dividendSources: params.dividendSources,
-      divisorSources: params.divisorSources,
-      dividendInput: params.dividendInput,
-      divisorInput: params.divisorInput,
-      dividendMinAnswers: params.dividendMinAnswers || 1,
-      divisorMinAnswers: params.divisorMinAnswers || 1,
-      operation: params.operation || 'divide',
+      dividendSources: params.operand1Sources,
+      divisorSources: params.operand2Sources,
+      dividendInput: params.operand1Input,
+      divisorInput: params.operand2Input,
+      dividendMinAnswers: params.operand1MinAnswers || 1,
+      divisorMinAnswers: params.operand2MinAnswers || 1,
+      operation: params.operation,
     }
   }
 
@@ -98,7 +98,7 @@ export class ImpliedPriceTransport extends SubscriptionTransport<BaseEndpointTyp
 
   async handleSingleRequest(params: RequestParams): Promise<void> {
     try {
-      // Normalize parameters to support both v2 endpoint formats
+      // Normalize parameters to dividend/divisor format for processing
       const normalizedParams = this.normalizeParams(params)
 
       const dividendSources = parseSources(normalizedParams.dividendSources)
@@ -386,4 +386,4 @@ export class ImpliedPriceTransport extends SubscriptionTransport<BaseEndpointTyp
   }
 }
 
-export const transport = new ImpliedPriceTransport()
+export const transport = new ComputedPriceTransport()

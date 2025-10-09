@@ -9,7 +9,7 @@ The Computed Price adapter performs mathematical operations (divide or multiply)
 - **High Reliability**: Built-in circuit breakers, retry logic, and timeout handling
 - **Flexible Input**: Supports both `from`/`to` and `base`/`quote` parameter formats
 - **High-Precision Math**: Uses `decimal.js` for accurate financial calculations
-- **Comprehensive Testing**: 52 unit and integration tests covering all scenarios
+- **Comprehensive Testing**: 51 unit and integration tests covering all scenarios
 - **Type Safety**: Full TypeScript support with proper interfaces
 
 ## Configuration
@@ -31,17 +31,33 @@ The adapter accepts the following environment variables for reliability and perf
 
 ## Input Parameters
 
-Every request requires the following parameters:
+This adapter supports **both v2 endpoint parameter formats** for full backward compatibility:
+
+### Format 1: operand1/operand2 (v2 computedPrice endpoint)
 
 | Required? |         Name         |                 Description                  |    Type    |       Options        | Default | Depends On | Not Valid With |
 | :-------: | :------------------: | :------------------------------------------: | :--------: | :------------------: | :-----: | :--------: | :------------: |
-|    ✅     |  `dividendSources`   | Array of source adapters for dividend values | `string[]` |                      |         |            |                |
-|           | `dividendMinAnswers` |     Minimum required dividend responses      |  `number`  |                      |   `1`   |            |                |
-|    ✅     |   `dividendInput`    |   JSON string payload for dividend sources   |  `string`  |                      |         |            |                |
-|    ✅     |   `divisorSources`   | Array of source adapters for divisor values  | `string[]` |                      |         |            |                |
-|           | `divisorMinAnswers`  |      Minimum required divisor responses      |  `number`  |                      |   `1`   |            |                |
-|    ✅     |    `divisorInput`    |   JSON string payload for divisor sources    |  `string`  |                      |         |            |                |
+|    ✅     |  `operand1Sources`   | Array of source adapters for operand1 values | `string[]` |                      |         |            |                |
+|           | `operand1MinAnswers` |     Minimum required operand1 responses      |  `number`  |                      |   `1`   |            |                |
+|    ✅     |   `operand1Input`    |   JSON string payload for operand1 sources   |  `string`  |                      |         |            |                |
+|    ✅     |  `operand2Sources`   | Array of source adapters for operand2 values | `string[]` |                      |         |            |                |
+|           | `operand2MinAnswers` |     Minimum required operand2 responses      |  `number`  |                      |   `1`   |            |                |
+|    ✅     |   `operand2Input`    |   JSON string payload for operand2 sources   |  `string`  |                      |         |            |                |
 |    ✅     |     `operation`      |      Mathematical operation to perform       |  `string`  | `divide`, `multiply` |         |            |                |
+
+### Format 2: dividend/divisor (v2 impliedPrice endpoint)
+
+| Required? |         Name         |                 Description                  |    Type    |       Options        | Default  | Depends On | Not Valid With |
+| :-------: | :------------------: | :------------------------------------------: | :--------: | :------------------: | :------: | :--------: | :------------: |
+|    ✅     |  `dividendSources`   | Array of source adapters for dividend values | `string[]` |                      |          |            |                |
+|           | `dividendMinAnswers` |     Minimum required dividend responses      |  `number`  |                      |   `1`    |            |                |
+|    ✅     |   `dividendInput`    |   JSON string payload for dividend sources   |  `string`  |                      |          |            |                |
+|    ✅     |   `divisorSources`   | Array of source adapters for divisor values  | `string[]` |                      |          |            |                |
+|           | `divisorMinAnswers`  |      Minimum required divisor responses      |  `number`  |                      |   `1`    |            |                |
+|    ✅     |    `divisorInput`    |   JSON string payload for divisor sources    |  `string`  |                      |          |            |                |
+|           |     `operation`      |      Mathematical operation to perform       |  `string`  | `divide`, `multiply` | `divide` |            |                |
+
+> **Note**: Use either Format 1 (operand1/operand2) OR Format 2 (dividend/divisor) - do not mix parameter names from different formats.
 
 ### Input Formats
 
@@ -72,7 +88,39 @@ JSON.stringify({
 
 ## Sample Input
 
-### Division Example (Implied Price)
+### Format 1: operand1/operand2 (v2 computedPrice endpoint)
+
+**Division Example:**
+
+```json
+{
+  "data": {
+    "operand1Sources": ["coingecko", "coinpaprika"],
+    "operand2Sources": ["coingecko", "coinpaprika"],
+    "operand1Input": "{\"base\":\"ETH\",\"quote\":\"USD\"}",
+    "operand2Input": "{\"base\":\"BTC\",\"quote\":\"USD\"}",
+    "operation": "divide"
+  }
+}
+```
+
+**Multiplication Example:**
+
+```json
+{
+  "data": {
+    "operand1Sources": ["coingecko"],
+    "operand2Sources": ["coingecko"],
+    "operand1Input": "{\"from\":\"LINK\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"LINK\":\"chainlink\"}}}",
+    "operand2Input": "{\"from\":\"ETH\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"ETH\":\"ethereum\"}}}",
+    "operation": "multiply"
+  }
+}
+```
+
+### Format 2: dividend/divisor (v2 impliedPrice endpoint)
+
+**Division Example (Implied Price):**
 
 ```json
 {
@@ -86,7 +134,7 @@ JSON.stringify({
 }
 ```
 
-### Multiplication Example
+**Multiplication Example:**
 
 ```json
 {
@@ -99,6 +147,34 @@ JSON.stringify({
   }
 }
 ```
+
+**Division with Default Operation (operation omitted):**
+
+```json
+{
+  "data": {
+    "dividendSources": ["coingecko"],
+    "divisorSources": ["coingecko"],
+    "dividendInput": "{\"from\":\"LINK\",\"to\":\"USD\"}",
+    "divisorInput": "{\"from\":\"ETH\",\"to\":\"USD\"}"
+  }
+}
+```
+
+**Default Endpoint (no endpoint specified - v2 behavior):**
+
+```json
+{
+  "data": {
+    "dividendSources": ["coingecko"],
+    "divisorSources": ["coingecko"],
+    "dividendInput": "{\"from\":\"LINK\",\"to\":\"USD\"}",
+    "divisorInput": "{\"from\":\"ETH\",\"to\":\"USD\"}"
+  }
+}
+```
+
+> When using Format 2 (dividend/divisor), the `operation` parameter is optional and defaults to `"divide"`. When no endpoint is specified, it defaults to `impliedPrice` for full v2 backward compatibility.
 
 ## Sample Output
 
@@ -114,14 +190,23 @@ JSON.stringify({
 
 ## Calculation
 
-The adapter:
+The adapter performs the following steps regardless of parameter format:
 
-1. Fetches price data from dividend sources using the `dividendInput` payload
-2. Fetches price data from divisor sources using the `divisorInput` payload
-3. Calculates the median of each set of responses
-4. Performs the specified operation:
-   - **Divide**: `dividend_median / divisor_median`
-   - **Multiply**: `dividend_median * divisor_median`
+1. **Data Fetching**: Fetches price data from the first set of sources using the first input payload
+
+   - Format 1: `operand1Sources` with `operand1Input`
+   - Format 2: `dividendSources` with `dividendInput`
+
+2. **Data Fetching**: Fetches price data from the second set of sources using the second input payload
+
+   - Format 1: `operand2Sources` with `operand2Input`
+   - Format 2: `divisorSources` with `divisorInput`
+
+3. **Median Calculation**: Calculates the median of each set of responses
+
+4. **Mathematical Operation**: Performs the specified operation:
+   - **Divide**: `first_median / second_median` (or `dividend_median / divisor_median`)
+   - **Multiply**: `first_median * second_median` (or `dividend_median * divisor_median`)
 
 ## Reliability Features
 
@@ -143,7 +228,7 @@ The adapter supports both `from`/`to` and `base`/`quote` parameter formats for m
 
 ## Testing
 
-The adapter includes comprehensive test coverage with 52 tests (39 unit tests and 13 integration tests):
+The adapter includes comprehensive test coverage with 51 tests (37 unit tests and 14 integration tests):
 
 ### Unit Tests
 
@@ -153,6 +238,7 @@ The adapter includes comprehensive test coverage with 52 tests (39 unit tests an
 
 ### Integration Tests
 
+- **Backward Compatibility**: Full tests for both v2 parameter formats (`operand1`/`operand2` and `dividend`/`divisor`)
 - **Full Request Cycle**: Tests complete adapter functionality with mocked HTTP transport
 - **Operation Support**: Tests both `divide` and `multiply` operations with various data combinations
 - **Input Format Compatibility**: Tests both `base`/`quote` and `from`/`to` formats
@@ -163,13 +249,13 @@ The adapter includes comprehensive test coverage with 52 tests (39 unit tests an
 ### Running Tests
 
 ```bash
-# All tests
+# All tests (51 total)
 yarn test packages/composites/implied-price
 
-# Unit tests only (39 tests)
+# Unit tests only (37 tests)
 yarn test packages/composites/implied-price/test/unit
 
-# Integration tests only (13 tests)
+# Integration tests only (14 tests)
 yarn test packages/composites/implied-price/test/integration
 
 # Specific test pattern

@@ -1,5 +1,8 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
+export const NAME = 'IMPLIED_PRICE'
+export const DEFAULT_ENDPOINT = 'impliedPrice'
+
 export const config = new AdapterConfig(
   {
     SOURCE_TIMEOUT: {
