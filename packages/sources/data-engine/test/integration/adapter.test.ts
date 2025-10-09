@@ -1,47 +1,67 @@
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
+  mockWebSocketProvider,
+  MockWebsocketServer,
   setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import FakeTimers from '@sinonjs/fake-timers'
+import { mockWebSocketServer } from './fixtures'
 
 describe('execute', () => {
-  let spy: jest.SpyInstance
+  let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+  const wsEndpoint = 'ws://localhost:9090'
+
+  const v3Data = {
+    feedId: '0x0003',
+  }
+  const v8Data = {
+    endpoint: 'rwa-v8',
+    feedId: '0x0008',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    process.env.WS_API_ENDPOINT = wsEndpoint
+    process.env.API_USERNAME = 'fake-username'
+    process.env.API_PASSWORD = 'fake-password'
+
+    // Start mock web socket server
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWsServer = mockWebSocketServer(wsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
-    adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
     })
+
+    // Send initial request to start background execute and wait for cache to be filled with results
+    await testAdapter.request(v3Data)
+    await testAdapter.request(v8Data)
+    await testAdapter.waitForCache(2)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
+    mockWsServer?.close()
+    testAdapter.clock?.uninstall()
     await testAdapter.api.close()
-    nock.restore()
-    nock.cleanAll()
-    spy.mockRestore()
   })
 
-  describe('crypto-lwba endpoint', () => {
+  describe('crypto-v3 endpoint', () => {
     it('should return success', async () => {
-      const data = {
-        base: 'ETH',
-        quote: 'USD',
-        endpoint: 'crypto-lwba',
-        transport: 'custombg',
-      }
-      mockResponseSuccess()
-      const response = await testAdapter.request(data)
+      const response = await testAdapter.request(v3Data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('rwa-v8 endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(v8Data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

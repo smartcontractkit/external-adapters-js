@@ -1,35 +1,39 @@
-import {
-  AdapterEndpoint,
-  LwbaResponseDataFields,
-} from '@chainlink/external-adapter-framework/adapter'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { dataEngineWs } from '../transport/crypto-lwba-ws'
+import { rwaV8Transport } from '../transport/rwaV8'
 
 export const inputParameters = new InputParameters(
   {
     feedId: {
       required: true,
       type: 'string',
-      description: 'The feedId for the token pair to query',
+      description: 'The feedId for RWA feed with v8 schema',
     },
   },
   [
     {
-      feedId: '0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9',
+      feedId: '0x0008707410e2c111fb0e80cab2fa004b215eea2d95b106e700243f9ebcc8fbd9',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: LwbaResponseDataFields
+  Response: {
+    Result: null
+    Data: {
+      midPrice: string
+      marketStatus: number
+      decimals: number
+    }
+  }
   Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'crypto-lwba',
+  name: 'rwa-v8',
   aliases: [],
-  transport: dataEngineWs,
+  transport: rwaV8Transport,
   inputParameters,
 })
