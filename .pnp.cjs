@@ -563,10 +563,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/genesis-volatility"\
     },\
     {\
-      "name": "@chainlink/geodb-adapter",\
-      "reference": "workspace:packages/sources/geodb"\
-    },\
-    {\
       "name": "@chainlink/gmci-adapter",\
       "reference": "workspace:packages/sources/gmci"\
     },\
@@ -1092,7 +1088,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
-    ["@chainlink/geodb-adapter", ["workspace:packages/sources/geodb"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
@@ -7271,21 +7266,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/geodb-adapter", [\
-      ["workspace:packages/sources/geodb", {\
-        "packageLocation": "./packages/sources/geodb/",\
-        "packageDependencies": [\
-          ["@chainlink/geodb-adapter", "workspace:packages/sources/geodb"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
