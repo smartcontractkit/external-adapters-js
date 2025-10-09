@@ -131,7 +131,6 @@ jobs:
       github-runner-amd64: ubuntu-24.04
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
-      # TODO: add this to repo level secret and make sure it can be assumed (should work since we're passing in release env)
       AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
 
   ##
