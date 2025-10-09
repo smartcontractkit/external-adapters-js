@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/data-streams-sdk": "^1.0.3",
+    "@chainlink/data-streams-sdk": "^1.0.4",
     "@chainlink/external-adapter-framework": "2.7.0",
     "tslib": "2.4.1"
   }

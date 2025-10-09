@@ -3454,7 +3454,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
-    "@chainlink/data-streams-sdk": "npm:^1.0.3"
+    "@chainlink/data-streams-sdk": "npm:^1.0.4"
     "@chainlink/external-adapter-framework": "npm:2.7.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3464,9 +3464,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-streams-sdk@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "@chainlink/data-streams-sdk@npm:1.0.3"
+"@chainlink/data-streams-sdk@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@chainlink/data-streams-sdk@npm:1.0.4"
   dependencies:
     ethers: "npm:^6.15.0"
     ws: "npm:^8.18.3"
@@ -3475,7 +3475,7 @@ __metadata:
   peerDependenciesMeta:
     dotenv:
       optional: true
-  checksum: 10/5e2758fba7a9484238ba6149fbc94d3cc57073f84d099d55f6e0adce7489cc02db0a740cfb2eb6667ac76d3b5d58a23e12f9444117f758b2c6ec6372c6653d03
+  checksum: 10/32e33c3e87d646f0dc40957acf85f99f3a781c8cad28bd6cfb1aa778507a20894c74fe63f4a673bf43bee0ed6c1700c8eb6dd1189d89479e645d086299d35dcd
   languageName: node
   linkType: hard
 

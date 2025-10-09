@@ -1,8 +1,10 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterEndpoint,
+  LwbaResponseDataFields,
+} from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { customSubscriptionTransport } from '../transport/crypto-lwba'
+import { dataEngineWs } from '../transport/crypto-lwba-ws'
 
 export const inputParameters = new InputParameters(
   {
@@ -14,20 +16,20 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      feedId: 'BTC',
+      feedId: '0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: LwbaResponseDataFields
   Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
   name: 'crypto-lwba',
   aliases: [],
-  transport: customSubscriptionTransport,
+  transport: dataEngineWs,
   inputParameters,
 })
