@@ -2,8 +2,14 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { BorshAccountsCoder, Idl } from '@coral-xyz/anchor'
+import BN from 'bn.js'
 import { BaseEndpointTypes } from '../../src/endpoint/anchor-data'
+import * as adrenaProgramIdl from '../../src/idl/adrena.json'
+import * as flashTradeProgramIdl from '../../src/idl/flash_trade.json'
 import { AnchorDataTransport } from '../../src/transport/anchor-data'
+import * as adrenaAccountData from '../fixtures/adrena-account-data-2025-10-08.json'
+import * as flashTradeAccountData from '../fixtures/flash-trade-account-data-2025-10-08.json'
 import * as fragmetricAccountData from '../fixtures/fragmetric-account-data-2025-10-06.json'
 
 const originalEnv = { ...process.env }
@@ -34,6 +40,27 @@ jest.mock('@solana/rpc', () => ({
   },
 }))
 
+const setDataField = async ({
+  base64Data,
+  idl,
+  account,
+  field,
+  newValue,
+}: {
+  base64Data: string
+  idl: Idl
+  account: string
+  field: string
+  newValue: unknown
+}): Promise<string> => {
+  const binaryData = Buffer.from(base64Data, 'base64')
+  const coder = new BorshAccountsCoder(idl)
+  const decodedData = coder.decode(account, binaryData)
+  decodedData[field] = newValue
+  const newBinaryData = await coder.encode(account, decodedData)
+  return newBinaryData.toString('base64')
+}
+
 const log = jest.fn()
 const logger = {
   fatal: log,
@@ -55,7 +82,9 @@ describe('AnchorDataTransport', () => {
   const BACKGROUND_EXECUTE_MS = 1500
   const fragmetricAccountAddress = '3TK9fNePM4qdKC4dwvDe8Bamv14prDqdVfuANxPeiryb'
   const fragmetricLiquidStakingProgramAddress = 'fragnAis7Bp6FTsMoa6YcH8UffhEw43Ph79qAiK3iF3'
-  const expectedTokenPrice = '1079420719'
+  const adrenaAccountAddress = '4bQRutgDJs6vuh6ZcWaPVXiQaBzbHketjbCDjL4oRN34'
+  const flashTradeAccountAddress = 'HfF7GCcEc76xubFCHLLXRdYcgRzwjEPdfKWqzRS8Ncog'
+  const expectedFragmetricTokenPrice = '1079420719'
 
   const adapterSettings = makeStub('adapterSettings', {
     RPC_URL,
@@ -129,9 +158,9 @@ describe('AnchorDataTransport', () => {
 
       const expectedResponse = {
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedFragmetricTokenPrice,
         data: {
-          result: expectedTokenPrice,
+          result: expectedFragmetricTokenPrice,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -151,7 +180,7 @@ describe('AnchorDataTransport', () => {
   })
 
   describe('_handleRequest', () => {
-    it('should return token price', async () => {
+    it('should return fragmetric token price', async () => {
       const accountDataResponse = makeStub('accountDataResponse', {
         value: {
           data: fragmetricAccountData.result.value.data,
@@ -172,9 +201,9 @@ describe('AnchorDataTransport', () => {
 
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedFragmetricTokenPrice,
         data: {
-          result: expectedTokenPrice,
+          result: expectedFragmetricTokenPrice,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -248,9 +277,9 @@ describe('AnchorDataTransport', () => {
 
       expect(await responsePromise).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedFragmetricTokenPrice,
         data: {
-          result: expectedTokenPrice,
+          result: expectedFragmetricTokenPrice,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,
@@ -304,6 +333,109 @@ describe('AnchorDataTransport', () => {
 
       await expect(() => transport._handleRequest(param)).rejects.toThrow(
         `No IDL known for program address '${programAddress}'`,
+      )
+    })
+
+    it('should return adrena token price', async () => {
+      const expectedTokenPrice = '98765432123'
+      const priceField = 'lp_token_price_usd'
+      const base64Data = await setDataField({
+        base64Data: adrenaAccountData.result.value.data[0] as string,
+        idl: adrenaProgramIdl as unknown as Idl,
+        account: 'Pool',
+        field: priceField,
+        newValue: new BN(expectedTokenPrice),
+      })
+
+      const accountDataResponse = makeStub('accountDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: adrenaAccountData.result.value.owner,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'anchor-data',
+        stateAccountAddress: adrenaAccountAddress,
+        account: 'Pool',
+        field: priceField,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedTokenPrice,
+        data: {
+          result: expectedTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should return flash trade token price', async () => {
+      const expectedTokenPrice = '12345654321'
+      const priceField = 'compounding_lp_price'
+      const base64Data = await setDataField({
+        base64Data: flashTradeAccountData.result.value.data[0] as string,
+        idl: flashTradeProgramIdl as unknown as Idl,
+        account: 'Pool',
+        field: priceField,
+        newValue: new BN(expectedTokenPrice),
+      })
+
+      const accountDataResponse = makeStub('accountDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: flashTradeAccountData.result.value.owner,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'anchor-data',
+        stateAccountAddress: flashTradeAccountAddress,
+        account: 'Pool',
+        field: priceField,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedTokenPrice,
+        data: {
+          result: expectedTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should throw if account does not have the given field', async () => {
+      const accountDataResponse = makeStub('accountDataResponse', adrenaAccountData.result)
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'anchor-data',
+        stateAccountAddress: adrenaAccountAddress,
+        account: 'Pool',
+        field: 'unknown_field_123',
+      })
+
+      await expect(() => transport._handleRequest(param)).rejects.toThrow(
+        `No field 'unknown_field_123' in IDL for program with address '13gDzEXCdocbj8iAiqrScGo47NiSuYENGsRqi3SEAwet'. Available fields are: bump, lp_token_bump, nb_stable_custody, initialized, allow_trade, allow_swap, liquidity_state, registered_custody_count, name, custodies, fees_debt_usd, referrers_fee_debt_usd, cumulative_referrer_fee_usd, lp_token_price_usd, whitelisted_swapper, ratios, last_aum_and_lp_token_price_usd_update, unique_limit_order_id_counter, aum_usd, inception_time, aum_soft_cap_usd`,
       )
     })
   })
