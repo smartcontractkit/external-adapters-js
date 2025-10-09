@@ -351,9 +351,6 @@
       "path": "./sources/expand-network"
     },
     {
-      "path": "./sources/expert-car-broker"
-    },
-    {
       "path": "./sources/fcsapi"
     },
     {
