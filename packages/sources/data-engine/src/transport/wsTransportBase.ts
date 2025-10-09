@@ -33,7 +33,7 @@ const buildWsUrl = (baseUrl: string, desiredSubs: { feedId?: string }[]) => {
       'feedIDs',
       desiredSubs
         .filter((s) => s.feedId)
-        .map((s) => s.feedId?.toLocaleLowerCase())
+        .map((s) => s.feedId?.toLowerCase())
         .sort()
         .join(','),
     )
