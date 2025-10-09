@@ -402,9 +402,6 @@
       "path": "./sources/genesis-volatility"
     },
     {
-      "path": "./sources/geodb"
-    },
-    {
       "path": "./sources/gmci"
     },
     {
