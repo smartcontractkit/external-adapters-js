@@ -1,48 +1,20 @@
 {
- "requests": [{
-  "endpoint": "computedPrice",
-  "operand1Sources": ["coingecko"],
-  "operand2Sources": ["coingecko"],
-  "operand1Input": {
-   "from": "LINK",
-   "to": "USD",
-   "overrides": {
-    "coingecko": {
-     "LINK": "chainlink"
+  "requests": [
+    {
+      "endpoint": "computedPrice",
+      "dividendSources": ["coingecko"],
+      "divisorSources": ["coingecko"],
+      "dividendInput": "{\"from\":\"LINK\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"LINK\":\"chainlink\"}}}",
+      "divisorInput": "{\"from\":\"ETH\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"ETH\":\"ethereum\"}}}",
+      "operation": "divide"
+    },
+    {
+      "endpoint": "computedPrice",
+      "dividendSources": ["coingecko", "coinpaprika"],
+      "divisorSources": ["coingecko", "coinpaprika"],
+      "dividendInput": "{\"base\":\"ETH\",\"quote\":\"USD\",\"overrides\":{\"coingecko\":{\"ETH\":\"ethereum\"}}}",
+      "divisorInput": "{\"base\":\"BTC\",\"quote\":\"USD\",\"overrides\":{\"coingecko\":{\"BTC\":\"bitcoin\"}}}",
+      "operation": "multiply"
     }
-   }
-  },
-  "operand2Input": {
-   "from": "ETH",
-   "to": "USD",
-   "overrides": {
-    "coingecko": {
-     "ETH": "ethereum"
-    }
-   }
-  },
-  "operation": "divide"
- },
- {
-  "dividendSources": ["coingecko"],
-  "divisorSources": ["coingecko"],
-  "dividendInput": {
-   "from": "LINK",
-   "to": "USD",
-   "overrides": {
-    "coingecko": {
-     "LINK": "chainlink"
-    }
-   }
-  },
-  "divisorInput": {
-   "from": "ETH",
-   "to": "USD",
-   "overrides": {
-    "coingecko": {
-     "ETH": "ethereum"
-    }
-   }
-  }
- }]
+  ]
 }

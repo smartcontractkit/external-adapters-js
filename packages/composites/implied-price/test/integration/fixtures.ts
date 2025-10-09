@@ -1,146 +1,108 @@
 import nock from 'nock'
 
-export const mockSuccessfulResponseCoingecko = (): nock.Scope => {
-  return nock('https://external.adapter.com')
-    .defaultReplyHeaders([
-      'X-Powered-By',
-      'Express',
-      'X-RateLimit-Limit',
-      '250',
-      'X-RateLimit-Remaining',
-      '249',
-      'Date',
-      'Tue, 30 Nov 2021 05:33:00 GMT',
-      'X-RateLimit-Reset',
-      '1638250385',
-      'Content-Type',
-      'application/json; charset=utf-8',
-      'ETag',
-      'W/"5b-336W6SWFMKfGuh90hvQDQ8pBArM"',
-      'Connection',
-      'close',
-    ])
-    .post('/coingecko', {
-      id: '1',
-      data: { from: 'ETH', to: 'USD' },
+export const mockCoingeckoSuccess = (): nock.Scope =>
+  nock('http://localhost:8080/coingecko', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: 4400.1,
-      maxAge: 30000,
+    .reply(200, () => ({
+      result: 4400.05,
       statusCode: 200,
-      data: { result: 4400.1 },
+      data: { result: 4400.05 },
+      timestamps: {
+        providerDataReceivedUnixMs: Date.now(),
+        providerDataStreamEstablishedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: Date.now(),
+      },
+    }))
+    .persist()
+
+export const mockCoinpaprikaSuccess = (): nock.Scope =>
+  nock('http://localhost:8080/coinpaprika', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
-    .post('/coingecko', {
-      id: '1',
-      data: { from: 'LINK', to: 'USD' },
-    })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: 17.1,
-      maxAge: 30000,
+    .reply(200, () => ({
+      result: 4400.15,
       statusCode: 200,
-      data: { result: 17.1 },
+      data: { result: 4400.15 },
+      timestamps: {
+        providerDataReceivedUnixMs: Date.now(),
+        providerDataStreamEstablishedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: Date.now(),
+      },
+    }))
+    .persist()
+
+export const mockCoinbaseSuccess = (): nock.Scope =>
+  nock('http://localhost:8080/coinbase', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
-    .post('/coingecko', {
-      id: '1',
-      data: { from: 'DEAD', to: 'USD' },
+    .reply(200, () => ({
+      result: 4399.95,
+      statusCode: 200,
+      data: { result: 4399.95 },
+      timestamps: {
+        providerDataReceivedUnixMs: Date.now(),
+        providerDataStreamEstablishedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: Date.now(),
+      },
+    }))
+    .persist()
+
+export const mockZeroAdapterSuccess = (): nock.Scope =>
+  nock('http://localhost:8080/zero-adapter', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
+    .reply(200, () => ({
       result: 0,
-      maxAge: 30000,
       statusCode: 200,
       data: { result: 0 },
-    })
-}
+      timestamps: {
+        providerDataReceivedUnixMs: Date.now(),
+        providerDataStreamEstablishedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: Date.now(),
+      },
+    }))
+    .persist()
 
-export const mockSuccessfulResponseCoinpaprika = (): nock.Scope =>
-  nock('https://external.adapter.com')
-    .defaultReplyHeaders([
-      'X-Powered-By',
-      'Express',
-      'X-RateLimit-Limit',
-      '250',
-      'X-RateLimit-Remaining',
-      '249',
-      'Date',
-      'Tue, 30 Nov 2021 05:33:00 GMT',
-      'X-RateLimit-Reset',
-      '1638250383',
-      'Content-Type',
-      'application/json; charset=utf-8',
-      'ETag',
-      'W/"6b-lQYlgZnpNzhbNYmlxSm02Pk34qo"',
-      'Connection',
-      'close',
-    ])
-    .post('/coinpaprika', {
-      id: '1',
-      data: { from: 'ETH', to: 'USD' },
+export const mockFailingAdapter = (): nock.Scope =>
+  nock('http://localhost:8080/failing', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: 4400.2,
-      maxAge: 30000,
-      statusCode: 200,
-      data: { result: 4400.2 },
-    })
-    .post('/coinpaprika', {
-      id: '1',
-      data: { from: 'LINK', to: 'USD' },
-    })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: 17.2,
-      maxAge: 30000,
-      statusCode: 200,
-      data: { result: 17.2 },
-    })
-    .post('/coinpaprika', {
-      id: '1',
-      data: { from: 'DEAD', to: 'USD' },
-    })
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: 0,
-      maxAge: 30000,
-      statusCode: 200,
-      data: { result: 0 },
-    })
+    .reply(500, () => ({ error: 'Source adapter error' }))
+    .persist()
 
-export const mockSuccessfulResponseBigNumberOperand = (): nock.Scope =>
-  nock('https://external.adapter.com')
-    .defaultReplyHeaders([
-      'X-Powered-By',
-      'Express',
-      'X-RateLimit-Limit',
-      '250',
-      'X-RateLimit-Remaining',
-      '249',
-      'Date',
-      'Tue, 30 Nov 2021 05:33:00 GMT',
-      'X-RateLimit-Reset',
-      '1638250383',
-      'Content-Type',
-      'application/json; charset=utf-8',
-      'ETag',
-      'W/"6b-lQYlgZnpNzhbNYmlxSm02Pk34qo"',
-      'Connection',
-      'close',
-    ])
-    .post('/bignumberoperand')
-    .reply(200, {
-      jobRunID: '1',
-      providerStatusCode: 200,
-      result: '1_000_000_000_000_000_000_000_000', // e24
-      maxAge: 30000,
-      statusCode: 200,
-      data: { result: '1_000_000_000_000_000_000_000_000' },
+export const mockTimeoutAdapter = (): nock.Scope =>
+  nock('http://localhost:8080/timeout', {
+    encodedQueryParams: true,
+  })
+    .post('/', (body) => {
+      // Validate request body structure
+      return body && typeof body.data === 'object' && body.data !== null
     })
+    .delay(30000) // Simulate timeout
+    .reply(200, () => ({
+      result: 1000,
+      statusCode: 200,
+      data: { result: 1000 },
+    }))
+    .persist()
