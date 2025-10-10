@@ -1,5 +1,11 @@
 # @chainlink/ea-scripts
 
+## 2.8.6
+
+### Patch Changes
+
+- [#4071](https://github.com/smartcontractkit/external-adapters-js/pull/4071) [`190d1cd`](https://github.com/smartcontractkit/external-adapters-js/commit/190d1cdde12c01c55db990a6347c33ddfd24f475) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes ccip-read EA
+
 ## 2.8.5
 
 ### Patch Changes
