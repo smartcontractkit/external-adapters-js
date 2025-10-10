@@ -291,6 +291,9 @@
       "path": "./sources/curve"
     },
     {
+      "path": "./sources/data-engine"
+    },
+    {
       "path": "./sources/deep-blue"
     },
     {
