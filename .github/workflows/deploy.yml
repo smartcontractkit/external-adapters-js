@@ -110,7 +110,7 @@ jobs:
     strategy:
       max-parallel: 20
       matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
-    uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@8a75b2ea6ce7cd0163f0393958d0f4bb75f28b8c # 2025-10-03
+    uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@ce87497eb287565c796a8a781508be949f3ed1e2 # 2025-10-10
     with:
       aws-ecr-name: adapters/${{ matrix.adapter.shortName }}-adapter
       aws-region-ecr: us-west-2
@@ -120,6 +120,7 @@ jobs:
         location=${{ matrix.adapter.location }}
       docker-build-context: .
       docker-image-tag-override: ${{ matrix.adapter.version }}
+      docker-manifest-additional-tags: latest
       docker-push: true
       environment: release
       git-sha: ${{ github.sha }}
@@ -132,56 +133,6 @@ jobs:
     secrets:
       AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
       AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-
-  retag-image:
-    name: Retag images
-    runs-on: ubuntu-latest
-    environment: release
-    permissions:
-      contents: read
-      id-token: write
-    needs: [build-publish, calculate-changes]
-    strategy:
-      max-parallel: 20
-      matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
-        with:
-          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          mask-aws-account-id: true
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076 # v2.0.1
-
-      - name: Retag ${{ matrix.adapter.shortName }} image to 'latest'
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          IMAGE_VERSION: ${{ matrix.adapter.version }}
-          ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
-          ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
-        run: |
-          SOURCE_IMAGE=${ECR_URL}/${ECR_REPO}:${IMAGE_VERSION}
-          DEST_IMAGE=${ECR_URL}/${ECR_REPO}:latest
-          ECR_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
-          echo "::add-mask::${ECR_PASSWORD}"
-
-          echo "Retagging image within same registry: ${SOURCE_IMAGE} -> ${DEST_IMAGE}"
-          skopeo copy \
-            --all \
-            --preserve-digests \
-            --retry-times 3 \
-            --image-parallel-copies 5 \
-            --src-creds AWS:${ECR_PASSWORD} \
-            --dest-creds AWS:${ECR_PASSWORD} \
-            docker://${SOURCE_IMAGE} \
-            docker://${DEST_IMAGE}
 
   deploy:
     name: Trigger infra deployment
