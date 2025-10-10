@@ -351,9 +351,6 @@
       "path": "./sources/expand-network/tsconfig.test.json"
     },
     {
-      "path": "./sources/expert-car-broker/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fcsapi/tsconfig.test.json"
     },
     {
