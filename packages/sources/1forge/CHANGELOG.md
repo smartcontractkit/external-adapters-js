@@ -1,5 +1,14 @@
 # @chainlink/1forge-adapter
 
+## 1.6.47
+
+### Patch Changes
+
+- [#4075](https://github.com/smartcontractkit/external-adapters-js/pull/4075) [`af8f3e7`](https://github.com/smartcontractkit/external-adapters-js/commit/af8f3e722812b4413788fcb9fcef8674056f1cc3) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump form-data from 4.0.1 to 4.0.4
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.6.46
 
 ### Patch Changes
