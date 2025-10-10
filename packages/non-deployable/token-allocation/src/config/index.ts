@@ -35,7 +35,7 @@ export const adaptersV3: PriceAdapter<any>[] = [
   CoinGecko,
   CoinMarketCap,
   CoinMetrics,
-  CoinPaprika as any,
+  CoinPaprika,
   CryptoCompare,
   Finage,
   Kaiko,
