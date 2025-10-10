@@ -2,8 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/price'
-
-export const CHAIN_OPTIONS = ['arbitrum', 'botanix']
+import { tokenAddresses } from '../transport/utils'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
@@ -28,12 +28,6 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Market address of the market pool.',
     },
-    chain: {
-      description: 'Target chain for GM market',
-      type: 'string',
-      options: [...CHAIN_OPTIONS],
-      default: 'arbitrum',
-    },
   },
   [
     {
@@ -41,12 +35,9 @@ export const inputParameters = new InputParameters(
       long: 'LINK',
       short: 'USDC',
       market: '0x7f1fa204bb700853D36994DA19F830b6Ad18455C',
-      chain: 'arbitrum',
     },
   ],
 )
-
-export type ChainKey = (typeof inputParameters.validated)['chain']
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -64,4 +55,26 @@ export const endpoint = new AdapterEndpoint({
   name: 'price',
   transport: gmTokenTransport,
   inputParameters,
+  customInputValidation: (req): AdapterInputError | undefined => {
+    const { index, long, short } = req.requestContext.data
+    const indexToken = tokenAddresses.arbitrum[index as keyof typeof tokenAddresses.arbitrum]
+    const longToken = tokenAddresses.arbitrum[long as keyof typeof tokenAddresses.arbitrum]
+    const shortToken = tokenAddresses.arbitrum[short as keyof typeof tokenAddresses.arbitrum]
+    let invalidTokens = ''
+    if (!indexToken) {
+      invalidTokens += 'indexToken,'
+    }
+    if (!longToken) {
+      invalidTokens += 'longToken,'
+    }
+    if (!shortToken) {
+      invalidTokens += 'shortToken,'
+    }
+    if (invalidTokens.length) {
+      throw new AdapterInputError({
+        message: `Invalid ${invalidTokens} Must be one of ${Object.keys(tokenAddresses.arbitrum)}`,
+      })
+    }
+    return
+  },
 })
