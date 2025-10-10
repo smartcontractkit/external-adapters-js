@@ -6,10 +6,10 @@ import { BaseEndpointTypes as CryptoV3Types } from './endpoint/cryptoV3'
 import { BaseEndpointTypes as RwaV8Types } from './endpoint/rwaV8'
 
 export const getCryptoPrice = async (feedId: string, url: string, requester: Requester) =>
-  callEA<CryptoV3Types['Response']>(feedId, 'crypto-v3', url, requester)
+  (await callEA<CryptoV3Types['Response']>(feedId, 'crypto-v3', url, requester)).Data
 
 export const getRwaPrice = async (feedId: string, url: string, requester: Requester) =>
-  callEA<RwaV8Types['Response']>(feedId, 'rwa-v8', url, requester)
+  (await callEA<RwaV8Types['Response']>(feedId, 'rwa-v8', url, requester)).Data
 
 const callEA = async <T>(feedId: string, endpoint: string, url: string, requester: Requester) => {
   const requestConfig = {
@@ -34,7 +34,7 @@ const callEA = async <T>(feedId: string, endpoint: string, url: string, requeste
       })
     }
 
-    return (data as any).Data
+    return data
   } catch (e) {
     if (e instanceof AdapterError) {
       e.message = `${e.message} ${JSON.stringify(e?.errorResponse) || e.name}`
