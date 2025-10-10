@@ -1,5 +1,11 @@
 # @chainlink/data-engine-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4090](https://github.com/smartcontractkit/external-adapters-js/pull/4090) [`3ffb584`](https://github.com/smartcontractkit/external-adapters-js/commit/3ffb5843c56db5d0c30839ea09a6dea962d5235f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Expose lib helper properly
+
 ## 1.0.0
 
 ### Major Changes
