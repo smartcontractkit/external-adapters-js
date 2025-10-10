@@ -4291,19 +4291,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/geodb-adapter@workspace:packages/sources/geodb":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/geodb-adapter@workspace:packages/sources/geodb"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token":
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"

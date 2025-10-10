@@ -399,9 +399,6 @@
       "path": "./sources/genesis-volatility/tsconfig.test.json"
     },
     {
-      "path": "./sources/geodb/tsconfig.test.json"
-    },
-    {
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
