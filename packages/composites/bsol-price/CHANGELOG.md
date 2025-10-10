@@ -1,5 +1,16 @@
 # @chainlink/bsol-price-adapter
 
+## 2.2.128
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810), [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/token-allocation-adapter@1.13.22
+  - @chainlink/solana-view-function-adapter@2.2.47
+
 ## 2.2.127
 
 ### Patch Changes
