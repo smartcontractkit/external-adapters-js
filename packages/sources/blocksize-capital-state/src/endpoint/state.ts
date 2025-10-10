@@ -1,5 +1,4 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
@@ -39,7 +38,6 @@ export type BaseEndpointTypes = {
 export const endpoint = new PriceEndpoint({
   name: 'price',
   aliases: ['crypto', 'state'],
-  transportRoutes: new TransportRoutes<BaseEndpointTypes>().register('ws', stateTransport),
-  defaultTransport: 'ws',
+  transport: stateTransport,
   inputParameters,
 })
