@@ -3450,6 +3450,37 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
+  dependencies:
+    "@chainlink/data-streams-sdk": "npm:^1.0.4"
+    "@chainlink/external-adapter-framework": "npm:2.7.0"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/data-streams-sdk@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@chainlink/data-streams-sdk@npm:1.0.4"
+  dependencies:
+    ethers: "npm:^6.15.0"
+    ws: "npm:^8.18.3"
+  peerDependencies:
+    dotenv: ^16.6.1
+  peerDependenciesMeta:
+    dotenv:
+      optional: true
+  checksum: 10/32e33c3e87d646f0dc40957acf85f99f3a781c8cad28bd6cfb1aa778507a20894c74fe63f4a673bf43bee0ed6c1700c8eb6dd1189d89479e645d086299d35dcd
+  languageName: node
+  linkType: hard
+
 "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue":
   version: 0.0.0-use.local
   resolution: "@chainlink/deep-blue-adapter@workspace:packages/sources/deep-blue"

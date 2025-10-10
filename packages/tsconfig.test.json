@@ -291,6 +291,9 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
+      "path": "./sources/data-engine/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deep-blue/tsconfig.test.json"
     },
     {
