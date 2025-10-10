@@ -133,9 +133,6 @@ jobs:
       AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
       AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
 
-  ##
-  # TODO: Remove this job/re-tagging step when no 'latest' tagged images are needed.
-  ##
   retag-image:
     name: Retag images
     runs-on: ubuntu-latest
