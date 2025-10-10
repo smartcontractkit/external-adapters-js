@@ -375,9 +375,6 @@
       "path": "./sources/fixer"
     },
     {
-      "path": "./sources/flightaware"
-    },
-    {
       "path": "./sources/fluent-finance"
     },
     {
