@@ -1,5 +1,4 @@
 import * as Amberdata from '@chainlink/amberdata-adapter'
-import { adapter as BlocksizeCapital } from '@chainlink/blocksize-capital-adapter'
 import { adapter as CFBenchmarks } from '@chainlink/cfbenchmarks-adapter'
 import * as CoinApi from '@chainlink/coinapi-adapter'
 import { adapter as CoinGecko } from '@chainlink/coingecko-adapter'
@@ -9,16 +8,17 @@ import { adapter as CoinPaprika } from '@chainlink/coinpaprika-adapter'
 import * as CoinRanking from '@chainlink/coinranking-adapter'
 import { adapter as CryptoCompare } from '@chainlink/cryptocompare-adapter'
 import {
+  AdapterImplementation as v2AdapterImplementation,
   DefaultConfig,
   Requester,
   util,
-  AdapterImplementation as v2AdapterImplementation,
 } from '@chainlink/ea-bootstrap'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { adapter as Finage } from '@chainlink/finage-adapter'
 import { adapter as Kaiko } from '@chainlink/kaiko-adapter'
 import { adapter as NCFX } from '@chainlink/ncfx-adapter'
 import { adapter as Tiingo } from '@chainlink/tiingo-adapter'
+import { adapter as BlocksizeCapital } from '@chainlink/blocksize-capital-adapter'
 import { Config, SourceRequestOptions } from '../types'
 
 // List of v2 adapters
