@@ -291,6 +291,9 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
+      "path": "./sources/data-engine/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deep-blue/tsconfig.test.json"
     },
     {
@@ -346,9 +349,6 @@
     },
     {
       "path": "./sources/expand-network/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/expert-car-broker/tsconfig.test.json"
     },
     {
       "path": "./sources/fcsapi/tsconfig.test.json"

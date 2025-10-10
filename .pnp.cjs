@@ -415,6 +415,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/curve"\
     },\
     {\
+      "name": "@chainlink/data-engine-adapter",\
+      "reference": "workspace:packages/sources/data-engine"\
+    },\
+    {\
       "name": "@chainlink/deep-blue-adapter",\
       "reference": "workspace:packages/sources/deep-blue"\
     },\
@@ -489,10 +493,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/expand-network-adapter",\
       "reference": "workspace:packages/sources/expand-network"\
-    },\
-    {\
-      "name": "@chainlink/expert-car-broker-adapter",\
-      "reference": "workspace:packages/sources/expert-car-broker"\
     },\
     {\
       "name": "@chainlink/fcsapi-adapter",\
@@ -1041,6 +1041,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
+    ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/defi-dozen-adapter", ["workspace:packages/composites/defi-dozen"]],\
     ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
@@ -1069,7 +1070,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
-    ["@chainlink/expert-car-broker-adapter", ["workspace:packages/sources/expert-car-broker"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
     ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
     ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
@@ -6313,6 +6313,48 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/data-engine-adapter", [\
+      ["workspace:packages/sources/data-engine", {\
+        "packageLocation": "./packages/sources/data-engine/",\
+        "packageDependencies": [\
+          ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
+          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/data-streams-sdk", [\
+      ["npm:1.0.4", {\
+        "packageLocation": "./.yarn/cache/@chainlink-data-streams-sdk-npm-1.0.4-d97dafd3a1-32e33c3e87.zip/node_modules/@chainlink/data-streams-sdk/",\
+        "packageDependencies": [\
+          ["@chainlink/data-streams-sdk", "npm:1.0.4"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4", {\
+        "packageLocation": "./.yarn/__virtual__/@chainlink-data-streams-sdk-virtual-9de718856d/0/cache/@chainlink-data-streams-sdk-npm-1.0.4-d97dafd3a1-32e33c3e87.zip/node_modules/@chainlink/data-streams-sdk/",\
+        "packageDependencies": [\
+          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4"],\
+          ["@types/dotenv", null],\
+          ["dotenv", null],\
+          ["ethers", "npm:6.15.0"],\
+          ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/dotenv",\
+          "dotenv"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@chainlink/deep-blue-adapter", [\
       ["workspace:packages/sources/deep-blue", {\
         "packageLocation": "./packages/sources/deep-blue/",\
@@ -6869,24 +6911,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/expert-car-broker-adapter", [\
-      ["workspace:packages/sources/expert-car-broker", {\
-        "packageLocation": "./packages/sources/expert-car-broker/",\
-        "packageDependencies": [\
-          ["@chainlink/expert-car-broker-adapter", "workspace:packages/sources/expert-car-broker"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

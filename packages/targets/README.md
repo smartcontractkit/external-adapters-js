@@ -6,6 +6,5 @@ This document was generated automatically. Please see [Master List Generator](..
 
 ## List
 
-- [conflux](./conflux/README.md)
 - [dydx-stark](./dydx-stark/README.md)
 - [harmony](./harmony/README.md)
