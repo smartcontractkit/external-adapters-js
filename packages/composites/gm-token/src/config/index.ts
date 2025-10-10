@@ -59,12 +59,6 @@ export const config = new AdapterConfig(
       required: true,
       default: 'https://botanix-api.gmxinfra.io/tokens',
     },
-    GMX_TOKENS_CACHE_MS: {
-      description: 'TTL in milliseconds for GMX tokens cache',
-      type: 'number',
-      required: true,
-      default: 300_000,
-    },
     PNL_FACTOR_TYPE: {
       description:
         'PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price',
