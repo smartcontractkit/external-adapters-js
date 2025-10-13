@@ -523,10 +523,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/fixer"\
     },\
     {\
-      "name": "@chainlink/flightaware-adapter",\
-      "reference": "workspace:packages/sources/flightaware"\
-    },\
-    {\
       "name": "@chainlink/fluent-finance-adapter",\
       "reference": "workspace:packages/sources/fluent-finance"\
     },\
@@ -1074,7 +1070,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
     ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
     ["@chainlink/fixer-adapter", ["workspace:packages/sources/fixer"]],\
-    ["@chainlink/flightaware-adapter", ["workspace:packages/sources/flightaware"]],\
     ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
     ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
@@ -7099,21 +7094,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/flightaware-adapter", [\
-      ["workspace:packages/sources/flightaware", {\
-        "packageLocation": "./packages/sources/flightaware/",\
-        "packageDependencies": [\
-          ["@chainlink/flightaware-adapter", "workspace:packages/sources/flightaware"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
