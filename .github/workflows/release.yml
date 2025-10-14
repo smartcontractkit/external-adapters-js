@@ -131,8 +131,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
       - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
       - name: Get release version
         id: get-version
         run: |

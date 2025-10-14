@@ -38,7 +38,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 2
-          persist-credentials: false
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
@@ -178,7 +177,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
           ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
-          persist-credentials: false
       - name: Delete ephemeral branch
         run: |
           git push origin --delete ${{ needs.calculate-changes.outputs.tmp-branch }}
