@@ -28,8 +28,8 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   abiEncoder!: utils.AbiCoder
   settings!: GmTokenTransportTypes['Settings']
   tokenResolver!: TokenResolver
-  private providers: Partial<Record<ChainKey, ethers.providers.JsonRpcProvider>> = {}
-  private readers: Partial<Record<ChainKey, ethers.Contract>> = {}
+  private providers: Record<ChainKey, ethers.providers.JsonRpcProvider> = {}
+  private readers: Record<ChainKey, ethers.Contract> = {}
 
   async initialize(
     dependencies: TransportDependencies<GmTokenTransportTypes>,
