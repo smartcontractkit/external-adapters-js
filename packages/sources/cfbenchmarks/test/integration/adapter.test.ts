@@ -1,9 +1,9 @@
-import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import { mockBircResponseSuccess, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -49,7 +49,6 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         index: 'BRTI',
-        transport: 'rest',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -61,7 +60,6 @@ describe('execute', () => {
       const data = {
         base: 'XXX',
         quote: 'XXX',
-        transport: 'rest',
         overrides: {
           cfbenchmarks: {
             XXX: 'BRTI',
