@@ -18,4 +18,11 @@ export const config = new AdapterConfig({
     sensitive: true,
     default: '',
   },
+  URANIUM_API_KEY: {
+    description: 'API key used for uranium endpoint',
+    type: 'string',
+    required: false,
+    sensitive: true,
+    default: '',
+  },
 })

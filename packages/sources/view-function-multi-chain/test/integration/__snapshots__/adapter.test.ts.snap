@@ -69,3 +69,28 @@ exports[`execute function endpoint should return success with parameters 1`] = `
   },
 }
 `;
+
+exports[`execute function-response-selector endpoint should fail with non-existant resultField 1`] = `
+{
+  "errorMessage": "Invalid resultField not found in response",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute function-response-selector endpoint should return success with resultField 1`] = `
+{
+  "data": {
+    "result": "123456789",
+  },
+  "result": "123456789",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

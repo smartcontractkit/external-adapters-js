@@ -1,13 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/solvJlp'
-import { getToken } from './solana'
-import { Connection, Commitment } from '@solana/web3.js'
+import { Commitment, Connection } from '@solana/web3.js'
 import { ethers } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/solvJlp'
 import { getRate } from './priceFeed'
+import { getToken } from './solana-utils'
 
 const logger = makeLogger('Token Balances - Solana')
 

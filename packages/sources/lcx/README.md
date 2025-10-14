@@ -1,6 +1,6 @@
 # Chainlink External Adapter for LCX
 
-![1.3.46](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lcx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.47](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lcx/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://rp.lcx.com/v1/rates/current
 
@@ -41,7 +41,40 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "BTC",
+    "quote": "USD",
+    "endpoint": "price"
+  },
+  "debug": {
+    "cacheKey": "FJwi4xGjPziT9t6opKzk/NGGQms="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "SUCCESS",
+    "message": "Reference Price for BTC",
+    "data": {
+      "Price": 58620.71
+    },
+    "result": 58620.71
+  },
+  "result": 58620.71,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

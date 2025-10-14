@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return success 1`] = `
+{
+  "data": {
+    "globalFundID": 1234,
+    "navDate": "01-01-2024",
+    "navPerShare": 123.45,
+  },
+  "result": 123.45,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978307200000,
+    "providerDataRequestedUnixMs": 978307200000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;

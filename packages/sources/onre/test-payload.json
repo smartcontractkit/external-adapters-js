@@ -1,0 +1,6 @@
+{
+ "requests": [{
+    "fundId": 1,
+    "reportValue": "net_asset_value"
+ }]
+}

@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockBalanceSuccess } from './fixtures'
+import { mockStakeSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -41,7 +41,7 @@ describe('execute', () => {
           },
         ],
       }
-      mockBalanceSuccess()
+      mockStakeSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

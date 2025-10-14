@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket lwba endpoint returns success and exposes quote/trade fields 1`] = `
+{
+  "data": {
+    "ask": 101,
+    "bid": 100,
+    "latestPrice": 100.1,
+    "mid": 100.5,
+    "quoteProviderIndicatedTimeUnixMs": 5,
+    "tradeProviderIndicatedTimeUnixMs": 6,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 6,
+  },
+}
+`;

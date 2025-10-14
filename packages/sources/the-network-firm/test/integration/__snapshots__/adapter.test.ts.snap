@@ -107,6 +107,36 @@ exports[`execute stbt endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute uranium endpoint should fail 1`] = `
+{
+  "errorMessage": "Response is missing response fields (expected: totalReserve & totalToken)",
+  "ripcord": true,
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
+exports[`execute uranium endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1000000,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+  },
+  "result": 1000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;
+
 exports[`execute usdr endpoint should return success 1`] = `
 {
   "data": {

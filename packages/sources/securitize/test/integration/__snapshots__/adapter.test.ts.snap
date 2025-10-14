@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return 400 for invalid envVarPrefix 1`] = `
+{
+  "error": {
+    "message": "Missing env var MISSING_PREFIX_PUBKEYS",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute nav endpoint should return failure for invalid assetId 1`] = `
+{
+  "errorMessage": "The data provider didn't return any value for 35d707cc-1563-4420-b6fd-ecdd47cfa0d1",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757548800000,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return success with null prevSig 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757548800000,
+  },
+}
+`;

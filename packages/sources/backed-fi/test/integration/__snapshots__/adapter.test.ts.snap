@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute multiplier endpoint should return failure - invalid network 1`] = `
+{
+  "errorMessage": "Cannot read properties of undefined (reading 'multiplier')",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute multiplier endpoint should return success 1`] = `
+{
+  "data": {
+    "activationDateTime": 0,
+    "currentMultiplier": 1,
+    "newMultiplier": 0,
+    "reason": null,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

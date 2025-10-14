@@ -26,6 +26,8 @@ describe('execute', () => {
       'https://dataproviderapi.com/missing-value-integration/nav'
     process.env.ERROR_RESPONSE_API_KEY = 'fake-api-key'
     process.env.ERROR_RESPONSE_API_URL = 'https://dataproviderapi.com/error-response/nav'
+    process.env.INCORRECT_API_URL_API_KEY = 'fake-api-key'
+    process.env.INCORRECT_API_URL_API_URL = 'http://dataproviderapi.com/http/nav'
     process.env.BACKGROUND_EXECUTE_MS_HTTP = '1'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -90,6 +92,15 @@ describe('execute', () => {
     it('should handle missing env var', async () => {
       const data = {
         integration: 'missing-env-var',
+        endpoint: 'nav',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(500)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should handle non https api url error', async () => {
+      const data = {
+        integration: 'incorrect-api-url',
         endpoint: 'nav',
       }
       const response = await testAdapter.request(data)

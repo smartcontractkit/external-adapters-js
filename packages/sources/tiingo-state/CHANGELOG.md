@@ -1,5 +1,17 @@
 # @chainlink/tiingo-state-adapter
 
+## 0.1.15
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+## 0.1.14
+
+### Patch Changes
+
+- [#3939](https://github.com/smartcontractkit/external-adapters-js/pull/3939) [`4779867`](https://github.com/smartcontractkit/external-adapters-js/commit/4779867f4580dc652bd85d1235167b19f40f0d65) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - use toLowerCase on all WS subscriptions
+
 ## 0.1.13
 
 ### Patch Changes

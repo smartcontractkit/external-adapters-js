@@ -8,7 +8,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
@@ -16,7 +16,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
@@ -24,7 +24,7 @@ export const mockBitgoSuccess = (): nock.Scope =>
     .reply(200, () => ({
       result: 1,
       timestamps: {
-        providerDataReceivedUnixMs: 2,
+        providerIndicatedTimeUnixMs: 2,
       },
     }))
     .persist()
@@ -41,7 +41,7 @@ export const mockIndexerSuccess = (): nock.Scope =>
     })
     .reply(200, () => ({
       supply: '3',
-      premint: '4',
+      mintable: '4',
       chains: {
         '1': {
           latest_block: 5,
@@ -49,11 +49,15 @@ export const mockIndexerSuccess = (): nock.Scope =>
           request_block: 7,
           mintable: '8',
           token_supply: '9',
-          token_native_mint: '10',
-          token_ccip_mint: '11',
-          token_ccip_burn: '12',
-          token_pre_mint: '13',
-          aggregate_pre_mint: false,
+          token_ccip_mint: '10',
+          token_ccip_burn: '11',
+          token_request_mint: '12',
+          token_revert_mint: '13',
+          token_attest_mint: '14',
+          aggregate_mint_request: true,
+          token_native_mint: '15',
+          aggregate_native_mint: false,
+          block_finality: 'finalized',
         },
       },
     }))
@@ -66,7 +70,7 @@ export const mockIndexerSuccess = (): nock.Scope =>
     })
     .reply(200, () => ({
       supply: '500000000000000000',
-      premint: '500000000000000001',
+      mintable: '500000000000000001',
       chains: {
         '1': {
           latest_block: 5,
@@ -74,11 +78,15 @@ export const mockIndexerSuccess = (): nock.Scope =>
           request_block: 7,
           mintable: '8',
           token_supply: '9',
-          token_native_mint: '10',
-          token_ccip_mint: '11',
-          token_ccip_burn: '12',
-          token_pre_mint: '13',
-          aggregate_pre_mint: false,
+          token_ccip_mint: '10',
+          token_ccip_burn: '11',
+          token_request_mint: '12',
+          token_revert_mint: '13',
+          token_attest_mint: '14',
+          aggregate_mint_request: true,
+          token_native_mint: '15',
+          aggregate_native_mint: false,
+          block_finality: '0',
         },
       },
     }))

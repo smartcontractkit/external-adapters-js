@@ -1,5 +1,99 @@
 # @chainlink/renvm-address-set-adapter
 
+## 1.5.128
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810), [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a), [`e918186`](https://github.com/smartcontractkit/external-adapters-js/commit/e918186a368a5c1bf1ac945cc96c54b58628d7f8)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/proof-of-reserves-adapter@1.30.3
+
+## 1.5.127
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.30.2
+
+## 1.5.126
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.30.1
+
+## 1.5.125
+
+### Patch Changes
+
+- Updated dependencies [[`5ecf6a2`](https://github.com/smartcontractkit/external-adapters-js/commit/5ecf6a236b59776545c4b5db5fda3f72be6d41e0)]:
+  - @chainlink/proof-of-reserves-adapter@1.30.0
+
+## 1.5.124
+
+### Patch Changes
+
+- Updated dependencies [[`d434ca2`](https://github.com/smartcontractkit/external-adapters-js/commit/d434ca279ab40a9506e0716f3ceda53fbc47f587)]:
+  - @chainlink/proof-of-reserves-adapter@1.29.0
+
+## 1.5.123
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.28.1
+
+## 1.5.122
+
+### Patch Changes
+
+- Updated dependencies [[`295416c`](https://github.com/smartcontractkit/external-adapters-js/commit/295416c6b9cedee8a40a0d29edfcc161db330db0)]:
+  - @chainlink/proof-of-reserves-adapter@1.28.0
+
+## 1.5.121
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.27.3
+
+## 1.5.120
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.27.2
+
+## 1.5.119
+
+### Patch Changes
+
+- Updated dependencies [[`1d8efca`](https://github.com/smartcontractkit/external-adapters-js/commit/1d8efca52325b55b0ffd214003366c796638d5ff)]:
+  - @chainlink/proof-of-reserves-adapter@1.27.1
+
+## 1.5.118
+
+### Patch Changes
+
+- Updated dependencies [[`6ccaedb`](https://github.com/smartcontractkit/external-adapters-js/commit/6ccaedb088fb853841f0c2b73ba6f6b0f09bb105)]:
+  - @chainlink/proof-of-reserves-adapter@1.27.0
+
+## 1.5.117
+
+### Patch Changes
+
+- Updated dependencies [[`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af)]:
+  - @chainlink/proof-of-reserves-adapter@1.26.11
+
+## 1.5.116
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/proof-of-reserves-adapter@1.26.10
+
 ## 1.5.115
 
 ### Patch Changes

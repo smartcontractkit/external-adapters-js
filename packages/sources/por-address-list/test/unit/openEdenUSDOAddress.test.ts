@@ -50,8 +50,10 @@ const tbillPriceOracleAddress = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
 const usycContractAddress = '0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b'
 const usycPriceOracleAddress = '0x602a1cb1f821a3e8f507a7637a4be7af19578f75'
 const usdcContractAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+const peggedPriceOracleAddress = '0x0000000000000000000000000000000000000000'
+const buildContractAddress = '0x7712c34205737192402172409a8F7ccef8aA2AEc'
 const tbillAddress = makeStub('tbillAddress', {
-  chain: 'Ethereem Mainnet',
+  chain: 'Ethereum Mainnet',
   chainId: 1,
   tokenSymbol: 'TBILL',
   tokenAddress: tbillContractAddress,
@@ -59,18 +61,27 @@ const tbillAddress = makeStub('tbillAddress', {
   yourVaultAddress: walletAddress,
 })
 const usycAddress = makeStub('usycAddress', {
-  chain: 'Ethereem Mainnet',
+  chain: 'Ethereum Mainnet',
   chainId: 1,
   tokenSymbol: 'USYC',
   tokenAddress: usycContractAddress,
   tokenPriceOracle: usycPriceOracleAddress,
   yourVaultAddress: walletAddress,
 })
-const usdcAddress = makeStub('otherAddress', {
-  chain: 'Ethereem Mainnet',
+const usdcAddress = makeStub('usdcAddress', {
+  chain: 'Ethereum Mainnet',
   chainId: 1,
   tokenSymbol: 'USDC',
   tokenAddress: usdcContractAddress,
+  tokenPriceOracle: peggedPriceOracleAddress,
+  yourVaultAddress: walletAddress,
+})
+const buildAddress = makeStub('buildAddress', {
+  chain: 'Ethereum Mainnet',
+  chainId: 1,
+  tokenSymbol: 'BUILD',
+  tokenAddress: buildContractAddress,
+  tokenPriceOracle: peggedPriceOracleAddress,
   yourVaultAddress: walletAddress,
 })
 
@@ -132,7 +143,7 @@ describe('AddressTransport', () => {
     })
 
     it('should return tbill and usyc address', async () => {
-      const addresses = [tbillAddress, usycAddress, usdcAddress]
+      const addresses = [tbillAddress, usycAddress, usdcAddress, buildAddress]
       addressListContract.getPoRAddressList.mockResolvedValue(addresses)
       addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
 
@@ -148,7 +159,7 @@ describe('AddressTransport', () => {
           result: [
             {
               contractAddress: tbillContractAddress,
-              network: 'Ethereem Mainnet',
+              network: 'Ethereum Mainnet',
               chainId: '1',
               token: 'TBILL',
               wallets: [walletAddress],
@@ -156,7 +167,48 @@ describe('AddressTransport', () => {
             },
             {
               contractAddress: usycContractAddress,
-              network: 'Ethereem Mainnet',
+              network: 'Ethereum Mainnet',
+              chainId: '1',
+              token: 'USYC',
+              wallets: [walletAddress],
+              priceOracleAddress: usycPriceOracleAddress,
+            },
+          ],
+        },
+        result: null,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+        },
+      })
+    })
+
+    it('should return priced token address', async () => {
+      const addresses = [tbillAddress, usycAddress, usdcAddress, buildAddress]
+      addressListContract.getPoRAddressList.mockResolvedValue(addresses)
+      addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
+
+      const params = makeStub('params', {
+        contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
+        contractAddressNetwork: 'BASE',
+        type: 'priced',
+      } as RequestParams)
+      const response = await transport._handleRequest(params)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: {
+          result: [
+            {
+              contractAddress: tbillContractAddress,
+              network: 'Ethereum Mainnet',
+              chainId: '1',
+              token: 'TBILL',
+              wallets: [walletAddress],
+              priceOracleAddress: tbillPriceOracleAddress,
+            },
+            {
+              contractAddress: usycContractAddress,
+              network: 'Ethereum Mainnet',
               chainId: '1',
               token: 'USYC',
               wallets: [walletAddress],
@@ -173,7 +225,7 @@ describe('AddressTransport', () => {
     })
 
     it('should return other address', async () => {
-      const addresses = [tbillAddress, usdcAddress, usycAddress]
+      const addresses = [tbillAddress, usdcAddress, usycAddress, buildAddress]
       addressListContract.getPoRAddressList.mockResolvedValue(addresses)
       addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
 
@@ -189,9 +241,55 @@ describe('AddressTransport', () => {
           result: [
             {
               contractAddress: usdcContractAddress,
-              network: 'Ethereem Mainnet',
+              network: 'Ethereum Mainnet',
               chainId: '1',
               token: 'USDC',
+              wallets: [walletAddress],
+            },
+            {
+              contractAddress: buildContractAddress,
+              network: 'Ethereum Mainnet',
+              chainId: '1',
+              token: 'BUILD',
+              wallets: [walletAddress],
+            },
+          ],
+        },
+        result: null,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+        },
+      })
+    })
+
+    it('should return pegged token address', async () => {
+      const addresses = [tbillAddress, usdcAddress, usycAddress, buildAddress]
+      addressListContract.getPoRAddressList.mockResolvedValue(addresses)
+      addressListContract.getPoRAddressListLength.mockResolvedValue(addresses.length)
+
+      const params = makeStub('params', {
+        contractAddress: ADDRESS_LIST_CONTRACT_ADDRESS,
+        contractAddressNetwork: 'BASE',
+        type: 'pegged',
+      } as RequestParams)
+      const response = await transport._handleRequest(params)
+      expect(response).toEqual({
+        statusCode: 200,
+        data: {
+          result: [
+            {
+              contractAddress: usdcContractAddress,
+              network: 'Ethereum Mainnet',
+              chainId: '1',
+              token: 'USDC',
+              wallets: [walletAddress],
+            },
+            {
+              contractAddress: buildContractAddress,
+              network: 'Ethereum Mainnet',
+              chainId: '1',
+              token: 'BUILD',
               wallets: [walletAddress],
             },
           ],

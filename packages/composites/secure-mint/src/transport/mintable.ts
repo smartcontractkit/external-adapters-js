@@ -87,7 +87,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
     // We will prevent minting if there is more supply + pre-mint than reserve
     const overmint = hasSupplyError
       ? false
-      : BigInt(supply.premint) + BigInt(supply.supply) > reserve.reserveAmount
+      : BigInt(supply.mintable) + BigInt(supply.supply) > reserve.reserveAmount
 
     const data = {
       overmint,
@@ -98,6 +98,15 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
               id,
               {
                 mintable: overmint ? '0' : data.mintable,
+                nativeMint: data.token_native_mint,
+                totalAborts: data.token_revert_mint,
+                mintablePacked: overmint
+                  ? '0'
+                  : String(
+                      BigInt(data.mintable) +
+                        BigInt(data.token_native_mint) +
+                        BigInt(data.token_revert_mint),
+                    ),
                 block: data.response_block,
               },
             ]),
@@ -105,6 +114,7 @@ export class MintableTransport extends SubscriptionTransport<BaseEndpointTypes> 
       reserveInfo: {
         reserveAmount: reserve.reserveAmount.toString(),
         timestamp: reserve.timestamp,
+        ripcord: reserve.ripcord,
       },
       latestBlocks: Object.fromEntries(
         Object.entries(supply.chains).map(([id, data]) => [id, data.latest_block]),

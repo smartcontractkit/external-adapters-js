@@ -4,7 +4,17 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = ['forex', 'metals', 'wti', 'nyse'] as const
+export const markets = [
+  'forex',
+  'metals',
+  'wti',
+  'nyse',
+  'lse',
+  'xetra',
+  'six',
+  'euronext_milan',
+  'euronext_paris',
+] as const
 
 export type Market = (typeof markets)[number]
 
@@ -13,6 +23,11 @@ const marketToFinId: Record<Market, string> = {
   metals: 'US.CHNLNK.METAL',
   wti: 'US.CHNLNK.WTI',
   nyse: 'US.NYSE',
+  lse: 'GB.LSE.SETS',
+  xetra: 'DE.XETR.OTHERGERMAN',
+  six: 'CH.SIX',
+  euronext_milan: 'IT.EURONEXT',
+  euronext_paris: 'FR.EURONEXT',
 }
 
 function isMarket(v: string): v is Market {

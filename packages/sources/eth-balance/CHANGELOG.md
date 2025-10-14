@@ -1,5 +1,26 @@
 # @chainlink/eth-balance-adapter
 
+## 2.1.12
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 2.1.11
+
+### Patch Changes
+
+- [#4022](https://github.com/smartcontractkit/external-adapters-js/pull/4022) [`c06b5ea`](https://github.com/smartcontractkit/external-adapters-js/commit/c06b5eada4043e8370d14f67a5b08efae35817a7) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix documentation
+
+## 2.1.10
+
+### Patch Changes
+
+- [#4019](https://github.com/smartcontractkit/external-adapters-js/pull/4019) [`ea2962f`](https://github.com/smartcontractkit/external-adapters-js/commit/ea2962ffb85e092f5fd9e47dd945d8662f08849a) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix documentation
+
 ## 2.1.9
 
 ### Patch Changes

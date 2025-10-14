@@ -1,6 +1,6 @@
 # Chainlink External Adapter for EtherScan
 
-![1.3.45](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.3.46](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/etherscan/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://api.etherscan.io
 
@@ -40,7 +40,36 @@ Every EA supports base input parameters from [this list](../../core/bootstrap#ba
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "speed": "fast",
+    "endpoint": "gasprice"
+  },
+  "debug": {
+    "cacheKey": "0BJQ6WrEaARtjkqLfBrRVKG+QcE="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "status": "1",
+    "message": "OK",
+    "result": 128
+  },
+  "result": 128,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

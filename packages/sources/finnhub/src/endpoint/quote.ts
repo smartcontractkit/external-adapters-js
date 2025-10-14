@@ -1,15 +1,16 @@
 import { PriceEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
+  makeLogger,
   SingleNumberResultResponse,
 } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config, exchanges } from '../config'
+import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/quote-http'
 import { wsTransport } from '../transport/quote-ws'
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('Finnhub Quote')
 
@@ -170,4 +171,4 @@ export const buildQuoteEndpoint = (overrides?: Record<string, string>) =>
     overrides,
   })
 
-export const endpoint = buildQuoteEndpoint()
+export const endpoint = buildQuoteEndpoint(overrides.finnhub)

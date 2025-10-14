@@ -1,5 +1,29 @@
 # @chainlink/superstate-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+## 1.4.0
+
+### Minor Changes
+
+- [#4063](https://github.com/smartcontractkit/external-adapters-js/pull/4063) [`32dd6a8`](https://github.com/smartcontractkit/external-adapters-js/commit/32dd6a8b552874da737317716b54c86a21cd44d7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Make regular calls to DP during open period. If you were ask by CLL to run this adapter using local cache, you can now safely switch back to redis.
+
+## 1.3.0
+
+### Minor Changes
+
+- [#3992](https://github.com/smartcontractkit/external-adapters-js/pull/3992) [`52c6e81`](https://github.com/smartcontractkit/external-adapters-js/commit/52c6e8176d1ad13a18e2d08aebe19c136e0a516f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new transcation endpoint to superstate
+
+## 1.2.14
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.2.13
 
 ### Patch Changes

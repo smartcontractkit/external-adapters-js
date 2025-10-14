@@ -1,5 +1,55 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.14.1
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+## 5.14.0
+
+### Minor Changes
+
+- [#4045](https://github.com/smartcontractkit/external-adapters-js/pull/4045) [`f9d8a59`](https://github.com/smartcontractkit/external-adapters-js/commit/f9d8a59de83b4ded5d78b7b81c4ba5b43abdbd67) Thanks [@dskloetc](https://github.com/dskloetc)! - Add optional address filter parameter to virtune endpoints
+
+## 5.13.1
+
+### Patch Changes
+
+- [#4044](https://github.com/smartcontractkit/external-adapters-js/pull/4044) [`b07e8b6`](https://github.com/smartcontractkit/external-adapters-js/commit/b07e8b6df4a433838c595cc7e83a844d684fae0a) Thanks [@dskloetc](https://github.com/dskloetc)! - Mark VIRTUNE_API_KEY as sensitive
+
+- [#4040](https://github.com/smartcontractkit/external-adapters-js/pull/4040) [`1bc15ba`](https://github.com/smartcontractkit/external-adapters-js/commit/1bc15ba27484c3a2d91395b3c270c455ee000d52) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor virtune endpoints
+
+## 5.13.0
+
+### Minor Changes
+
+- [#3990](https://github.com/smartcontractkit/external-adapters-js/pull/3990) [`78100bd`](https://github.com/smartcontractkit/external-adapters-js/commit/78100bde1fc7f7b6ff02c312e7d6b32183ec4fa7) Thanks [@dskloetc](https://github.com/dskloetc)! - Support Virtune API to get addresses
+
+- [#3996](https://github.com/smartcontractkit/external-adapters-js/pull/3996) [`790a378`](https://github.com/smartcontractkit/external-adapters-js/commit/790a3786f02174e7acbc302f43d09c3d639f0251) Thanks [@dskloetc](https://github.com/dskloetc)! - Add virtune-token endpoint compatible with token-balance
+
+### Patch Changes
+
+- [#3995](https://github.com/smartcontractkit/external-adapters-js/pull/3995) [`00f44a3`](https://github.com/smartcontractkit/external-adapters-js/commit/00f44a3d563a0c238efb7116d67accb077f6a186) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor virtune endpoint
+
+## 5.12.0
+
+### Minor Changes
+
+- [#3962](https://github.com/smartcontractkit/external-adapters-js/pull/3962) [`36ab417`](https://github.com/smartcontractkit/external-adapters-js/commit/36ab41730da606d90b754e41b458bde67d523543) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Modify Por-addr-list to support integration of additional tokens by OpenEden
+
+## 5.11.1
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+## 5.11.0
+
+### Minor Changes
+
+- [#3928](https://github.com/smartcontractkit/external-adapters-js/pull/3928) [`652f6b9`](https://github.com/smartcontractkit/external-adapters-js/commit/652f6b99f15341f95a2fb49bff060f45dd97527e) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add solv TRADING type
+
 ## 5.10.0
 
 ### Minor Changes

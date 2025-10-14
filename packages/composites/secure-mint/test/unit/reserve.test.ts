@@ -27,8 +27,9 @@ describe('getReserve', () => {
         response: {
           data: {
             result: '123.456',
+            ripcord: '',
             timestamps: {
-              providerDataReceivedUnixMs: 1710000000000,
+              providerIndicatedTimeUnixMs: 1710000000000,
             },
           },
         },
@@ -54,8 +55,67 @@ describe('getReserve', () => {
       },
     })
 
-    expect(result.reserveAmount).toEqual(123456000000000000000n)
-    expect(result.timestamp).toBe(1710000000000)
+    expect(result).toEqual({
+      reserveAmount: 123456000000000000000n,
+      timestamp: 1710000000000,
+      ripcord: false,
+    })
+  })
+
+  it('ripcord true', async () => {
+    requester.request.mockResolvedValueOnce(
+      makeStub('reservesResponse', {
+        response: {
+          data: {
+            result: '123.456',
+            ripcord: true,
+            timestamps: {
+              providerIndicatedTimeUnixMs: 1710000000000,
+            },
+          },
+        },
+      }),
+    )
+
+    const result = await getReserve(
+      token,
+      reserves,
+      requester as unknown as Requester,
+      config,
+      endpointName,
+      transportName,
+    )
+
+    expect(result).toEqual({
+      reserveAmount: 123456000000000000000n,
+      timestamp: 1710000000000,
+      ripcord: true,
+    })
+  })
+
+  it('ripcord true in exception', async () => {
+    requester.request.mockRejectedValueOnce(
+      new AdapterError({
+        errorResponse: {
+          ripcord: true,
+        },
+      }),
+    )
+
+    const result = await getReserve(
+      token,
+      reserves,
+      requester as unknown as Requester,
+      config,
+      endpointName,
+      transportName,
+    )
+
+    expect(result).toEqual({
+      reserveAmount: 0n,
+      timestamp: 0,
+      ripcord: true,
+    })
   })
 
   it('throws exception - use errorResponse', async () => {

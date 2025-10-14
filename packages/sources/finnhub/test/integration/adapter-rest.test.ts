@@ -34,7 +34,7 @@ describe('rest', () => {
   describe('quote endpoint', () => {
     it('should return success for full symbol', async () => {
       const data = {
-        base: 'FHFX:EUR-USD',
+        base: 'OANDA:EUR_USD',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -46,7 +46,7 @@ describe('rest', () => {
       const data = {
         base: 'EUR',
         overrides: {
-          finnhub: { EUR: 'FHFX:EUR-USD' },
+          finnhub: { EUR: 'OANDA:EUR_USD' },
         },
       }
       mockResponseSuccess()
@@ -70,7 +70,7 @@ describe('rest', () => {
       const data = {
         base: 'EUR',
         quote: 'USD',
-        exchange: 'FHFX',
+        exchange: 'OANDA',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

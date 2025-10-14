@@ -1,6 +1,6 @@
 import {
-  TestAdapter,
   setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
@@ -9,6 +9,7 @@ import {
   mockEurrResponseFailure,
   mockGiftResponseFailure,
   mockSTBTResponseFailure,
+  mockUraniumResponseRipcordSuccess,
   mockUSDRResponseFailure,
 } from './fixtures'
 
@@ -26,6 +27,8 @@ describe('execute', () => {
 
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
+    process.env.URANIUM_API_KEY = 'api-key'
+    process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -42,7 +45,7 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('stbt endpoint when ripcord true ', () => {
+  describe('stbt endpoint when ripcord true', () => {
     it('should return error', async () => {
       const data = {
         endpoint: 'stbt',
@@ -67,7 +70,7 @@ describe('execute', () => {
     })
   })
 
-  describe('usdr endpoint when ripcord true ', () => {
+  describe('usdr endpoint when ripcord true', () => {
     it('should return error', async () => {
       const data = {
         endpoint: 'usdr',
@@ -79,7 +82,7 @@ describe('execute', () => {
     })
   })
 
-  describe('eurr endpoint when ripcord true ', () => {
+  describe('eurr endpoint when ripcord true', () => {
     it('should return error', async () => {
       const data = {
         endpoint: 'eurr',
@@ -91,7 +94,7 @@ describe('execute', () => {
     })
   })
 
-  describe('gift endpoint when ripcord true ', () => {
+  describe('gift endpoint when ripcord true', () => {
     it('should return error', async () => {
       const data = {
         endpoint: 'gift',
@@ -103,7 +106,7 @@ describe('execute', () => {
     })
   })
 
-  describe('emgemx endpoint when ripcord true ', () => {
+  describe('emgemx endpoint when ripcord true', () => {
     it('should return error', async () => {
       const data = {
         endpoint: 'emgemx',
@@ -111,6 +114,44 @@ describe('execute', () => {
       mockEmgemxResponseRipcordFailure()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('uranium endpoint when ripcord true', () => {
+    it('should succeed', async () => {
+      const data = {
+        endpoint: 'uranium',
+      }
+      mockUraniumResponseRipcordSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('reserve endpoint when ripcord true', () => {
+    it('should fail', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'emgemx-tdfkf3',
+      }
+      mockEmgemxResponseRipcordFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should succeed with noErrorOnRipcord', async () => {
+      const data = {
+        endpoint: 'reserve',
+        client: 'emgemx-tdfkf3',
+        noErrorOnRipcord: true,
+      }
+
+      mockEmgemxResponseRipcordFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })

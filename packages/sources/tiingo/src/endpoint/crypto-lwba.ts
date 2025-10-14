@@ -1,12 +1,13 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../config'
-import overrides from '../config/overrides.json'
-import { transport } from '../transport/crypto-lwba'
 import {
   LwbaEndpoint,
   LwbaResponseDataFields,
   lwbaEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import overrides from '../config/overrides.json'
+import { transport } from '../transport/crypto-lwba'
+import { tiingoCommonSubscriptionRequestTransform } from './utils'
 
 export const inputParameters = new InputParameters(lwbaEndpointInputParametersDefinition)
 
@@ -21,10 +22,5 @@ export const endpoint = new LwbaEndpoint({
   transport,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [
-    (req) => {
-      req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
-      req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
-    },
-  ],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
 })

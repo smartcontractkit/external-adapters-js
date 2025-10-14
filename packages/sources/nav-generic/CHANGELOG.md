@@ -1,5 +1,17 @@
 # @chainlink/nav-generic-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+## 1.0.1
+
+### Patch Changes
+
+- [#3908](https://github.com/smartcontractkit/external-adapters-js/pull/3908) [`734d52b`](https://github.com/smartcontractkit/external-adapters-js/commit/734d52b49c43c41887ce5931d7df5bb82701c380) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - error when integration API_URL config does not start with https://
+
 ## 1.0.0
 
 ### Major Changes

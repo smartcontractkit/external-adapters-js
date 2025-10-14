@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 2.8.6
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+## 2.8.5
+
+### Patch Changes
+
+- [#3939](https://github.com/smartcontractkit/external-adapters-js/pull/3939) [`4779867`](https://github.com/smartcontractkit/external-adapters-js/commit/4779867f4580dc652bd85d1235167b19f40f0d65) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - use toLowerCase on all WS subscriptions
+
 ## 2.8.4
 
 ### Patch Changes

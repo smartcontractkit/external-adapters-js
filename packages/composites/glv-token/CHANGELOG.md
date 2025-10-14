@@ -1,5 +1,23 @@
 # @chainlink/glv-token-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+## 1.2.0
+
+### Minor Changes
+
+- [#3958](https://github.com/smartcontractkit/external-adapters-js/pull/3958) [`72bfb25`](https://github.com/smartcontractkit/external-adapters-js/commit/72bfb25f14371934848006818847099afb4f2181) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support SPX6900
+
+## 1.1.6
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.1.5
 
 ### Patch Changes

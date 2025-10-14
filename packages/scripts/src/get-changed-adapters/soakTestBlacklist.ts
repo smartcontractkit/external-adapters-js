@@ -1,17 +1,14 @@
 export const SoakTestBlacklist: string[] = [
-  'accuweather',
   'ada-balance', // Missing: RPC URL
   'alphachain',
   'alpine',
   'anchor', // Missing: RPC URL
   'ap-election',
   'apy-finance', // Missing: Needs registry address, source adapters
-  'apy-finance-test', // Missing: Needs registry address, token allocation adapter
   'augur',
   'avalanche-platform',
   'bea',
   'bitcoin-json-rpc', // Missing: RPC URL
-  'blockcypher',
   'bob', // Missing: RPC URL
   'bsol-price', // Missing: RPC URL and addresses
   'btc.com',
@@ -25,15 +22,10 @@ export const SoakTestBlacklist: string[] = [
   'defi-pulse',
   'dlc-btc-por',
   'dns-query', // Missing: env vars
-  'dns-record-check', // Missing: Same as above
-  'dwolla',
   'dydx-stark',
   'dxdao',
   'etherscan',
   'ethgasstation',
-  'ethwrite',
-  'expert-car-broker',
-  'flightaware',
   'fmpcloud',
   'frxeth-exchange-rate',
   'genesis-volatility',
@@ -43,7 +35,6 @@ export const SoakTestBlacklist: string[] = [
   'google-weather',
   'harmony',
   'historical-average',
-  'ipfs',
   'jpegd',
   'json-rpc',
   'layer2-sequencer-health',
@@ -59,6 +50,7 @@ export const SoakTestBlacklist: string[] = [
   'nexus-kiln',
   'ncfx',
   'nikkei',
+  'nomia',
   'oilpriceapi',
   'onchain-gas', // Missing: WS RPC URL
   'outlier-detection',
@@ -73,7 +65,6 @@ export const SoakTestBlacklist: string[] = [
   'solana-view-function', // Missing: RPC URL
   'spectral-macro-score',
   'sportsdataio',
-  'synth-index',
   's3-csv-reader',
   'taapi',
   'terra-view-function', // Missing: RPC URL
@@ -91,7 +82,6 @@ export const SoakTestBlacklist: string[] = [
   'stader-balance', // Not deployed internally
   '1forge', // Our API Key has expired
   'amberdata', // Not deployed internally
-  'binance-dex', // Not deployed internally
   'binance', // Not deployed internally
   'bitex', // DP does not exist anymore
   'bravenewcoin', // Our API Key has expired

@@ -8,8 +8,9 @@ type ReservesResponse = BitgoReservesResponse
 
 type BitgoReservesResponse = {
   result: number
+  ripcord: string
   timestamps: {
-    providerDataReceivedUnixMs: number
+    providerIndicatedTimeUnixMs: number
   }
 }
 
@@ -38,6 +39,13 @@ export const getReserve = async (
     return parseResponse(reserves, response.response.data)
   } catch (e) {
     if (e instanceof AdapterError) {
+      if ((e?.errorResponse as { ripcord: string })?.ripcord?.toString()?.toUpperCase() == 'TRUE') {
+        return {
+          reserveAmount: 0n,
+          timestamp: 0,
+          ripcord: true,
+        }
+      }
       e.message = `${e.message} ${JSON.stringify(e?.errorResponse) || e.name}`
     }
     throw e
@@ -55,6 +63,7 @@ const getRequest = (token: string, _reserves: 'Bitgo', config: BaseEndpointTypes
 const parseResponse = (_reserves: 'Bitgo', response: ReservesResponse) => {
   return {
     reserveAmount: parseUnits(response.result.toString(), 18),
-    timestamp: response.timestamps.providerDataReceivedUnixMs,
+    timestamp: response.timestamps.providerIndicatedTimeUnixMs,
+    ripcord: response.ripcord?.toString()?.toUpperCase() == 'TRUE',
   }
 }

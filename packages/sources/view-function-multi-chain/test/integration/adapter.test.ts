@@ -122,6 +122,38 @@ describe('execute', () => {
     })
   })
 
+  describe('function-response-selector endpoint', () => {
+    it('should return success with resultField', async () => {
+      const data = {
+        endpoint: 'function-response-selector',
+        contract: '0xaE2364579D6cB4Bbd6695846C1D595cA9AF3574d',
+        function: 'function lastPrice() external view returns (uint256 price, uint256 timestamp)',
+        inputParams: [],
+        network: 'ethereum_mainnet',
+        resultField: 'price',
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should fail with non-existant resultField', async () => {
+      const data = {
+        endpoint: 'function-response-selector',
+        contract: '0xaE2364579D6cB4Bbd6695846C1D595cA9AF3574d',
+        function: 'function lastPrice() external view returns (uint256 price, uint256 timestamp)',
+        inputParams: [],
+        network: 'ethereum_mainnet',
+        resultField: 'missingField',
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('aptos endpoint', () => {
     it('should return success', async () => {
       mockAptosSuccess()
