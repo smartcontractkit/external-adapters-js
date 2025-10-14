@@ -372,9 +372,6 @@
       "path": "./sources/fixer/tsconfig.test.json"
     },
     {
-      "path": "./sources/flightaware/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fluent-finance/tsconfig.test.json"
     },
     {
