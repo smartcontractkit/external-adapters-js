@@ -1,5 +1,18 @@
 # @chainlink/reference-transform-adapter
 
+## 1.3.18
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- [#4074](https://github.com/smartcontractkit/external-adapters-js/pull/4074) [`e918186`](https://github.com/smartcontractkit/external-adapters-js/commit/e918186a368a5c1bf1ac945cc96c54b58628d7f8) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes Blockcypher EA
+
+- [#4066](https://github.com/smartcontractkit/external-adapters-js/pull/4066) [`0084b5b`](https://github.com/smartcontractkit/external-adapters-js/commit/0084b5bc37c1f651e93140ae67c16d434c7fc553) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes IPFS EA
+
+- Updated dependencies [[`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/ea-reference-data-reader@1.3.45
+
 ## 1.3.17
 
 ### Patch Changes

@@ -1,0 +1,72 @@
+name: Publish docker image
+
+description: Publishes a docker image to AWS ECR
+
+inputs:
+  aws-ecr-url:
+    description: The aws account URL for ECR repos
+    required: true
+  aws-ecr-repo:
+    description: The repository for the adapter
+    required: true
+  aws-region:
+    description: The AWS region to use
+    required: true
+  aws-role:
+    description: The AWS role to assume
+    required: true
+  aws-ecr-private:
+    description: If this action is being used to publish to private ecr
+    required: true
+  aws-ecr-account-ids:
+    description: A string of comma seperated, double quoted aws account ids (e.g. "1","2","3") that specifies what accounts to allow pull access when "aws-ecr-private" is "true".
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure AWS Credentials for SDLC
+      uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
+      with:
+        role-to-assume: ${{ inputs.aws-role }}
+        aws-region: ${{ inputs.aws-region }}
+        role-duration-seconds: 1200
+        mask-aws-account-id: true
+
+    - name: Authenticate to ECR
+      shell: bash
+      env:
+        AWS_REGION: ${{ inputs.aws-region }}
+        AWS_ECR_URL: ${{ inputs.aws-ecr-url }}
+        AWS_ECR_REPO: ${{ inputs.aws-ecr-repo }}
+      run: |
+        aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} get-login-password \
+          --region "${AWS_REGION}" | docker login --username AWS --password-stdin "${AWS_ECR_URL}/${AWS_ECR_REPO}/"
+
+    - name: Create a ECR repository if does not exist
+      shell: bash
+      env:
+        AWS_REGION: ${{ inputs.aws-region }}
+        AWS_ECR_REPO: ${{ inputs.aws-ecr-repo }}
+      run: |
+        aws ${{ fromJSON('["ecr-public", "ecr"]')[inputs.aws-ecr-private == 'true'] }} create-repository \
+          --region "${AWS_REGION}" \
+          --repository-name "${AWS_ECR_REPO}" || true
+
+    - name: Set ECR repository permissions for secondary account access on private ECR repos
+      shell: bash
+      if: inputs.aws-ecr-private == 'true'
+      env:
+        AWS_REGION: ${{ inputs.aws-region }}
+        AWS_ECR_REPO: ${{ inputs.aws-ecr-repo }}
+        AWS_ECR_ACCOUNT_IDS: ${{ inputs.aws-ecr-account-ids }}
+      run: |
+        # Convert comma-separated quoted IDs into a JSON array
+        POLICY_JSON=$(jq --argjson ids "[${AWS_ECR_ACCOUNT_IDS}]" \
+          '.Statement[0].Principal.AWS = $ids' \
+          .github/actions/create-ecrs/secondary-account-access-policy.json)
+
+        aws ecr set-repository-policy \
+          --region "${AWS_REGION}" \
+          --repository-name "${AWS_ECR_REPO}" \
+          --policy-text "${POLICY_JSON}" &> /dev/null

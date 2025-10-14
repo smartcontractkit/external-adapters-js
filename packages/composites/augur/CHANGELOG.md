@@ -1,5 +1,17 @@
 # @chainlink/augur-adapter
 
+## 2.0.30
+
+### Patch Changes
+
+- [#4070](https://github.com/smartcontractkit/external-adapters-js/pull/4070) [`1045183`](https://github.com/smartcontractkit/external-adapters-js/commit/1045183d7ecc2cacb1e9ef92a308397f776d496c) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes Conflux EA
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/sportsdataio-adapter@1.3.38
+  - @chainlink/therundown-adapter@1.3.46
+
 ## 2.0.29
 
 ### Patch Changes

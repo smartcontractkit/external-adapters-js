@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ea-test-helpers",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "description": "Helpers for testing Chainlink External Adapters.",
   "keywords": [
     "Chainlink",
