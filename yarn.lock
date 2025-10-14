@@ -2837,7 +2837,7 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/express": "npm:4.17.22"
+    "@types/express": "npm:4.17.23"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -4365,7 +4365,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/google-bigquery-adapter": "workspace:*"
-    "@types/convert-units": "npm:2.3.11"
+    "@types/convert-units": "npm:2.3.12"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     convert-units: "npm:^2.3.4"
@@ -11214,10 +11214,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.11":
-  version: 2.3.11
-  resolution: "@types/convert-units@npm:2.3.11"
-  checksum: 10/bae4d1a3bab527c5660037ae8cadb6a3f9db398909641f72074556b92a3d073ef0ab7b14254a915c96f1bbd187ded32ee3efaa58c62eafa438e3f26c9a12ce1c
+"@types/convert-units@npm:2.3.12":
+  version: 2.3.12
+  resolution: "@types/convert-units@npm:2.3.12"
+  checksum: 10/8729e85b7315067fcb69f7964d2d31a770584fc804b6aa048e51c716cfb83e7ee7b0dfdc2af8de8506164169cadd937a006ae3cfc54aa4ca4f487f94167b4608
   languageName: node
   linkType: hard
 
@@ -11287,15 +11287,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:4.17.22":
-  version: 4.17.22
-  resolution: "@types/express@npm:4.17.22"
+"@types/express@npm:4.17.23":
+  version: 4.17.23
+  resolution: "@types/express@npm:4.17.23"
   dependencies:
     "@types/body-parser": "npm:*"
     "@types/express-serve-static-core": "npm:^4.17.33"
     "@types/qs": "npm:*"
     "@types/serve-static": "npm:*"
-  checksum: 10/9497634fc341ff4ac966ec0c529ded03bdacd2c3dae164f10a060ff250c66591b873aedce92d0239869cf3d05615ae9bcad584c7349fe68780242f6fef010c62
+  checksum: 10/cf4d540bbd90801cdc79a46107b8873404698a7fd0c3e8dd42989d52d3bd7f5b8768672e54c20835e41e27349c319bb47a404ad14c0f8db0e9d055ba1cb8a05b
   languageName: node
   linkType: hard
 

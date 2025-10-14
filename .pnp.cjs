@@ -5608,7 +5608,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/express", "npm:4.17.22"],\
+          ["@types/express", "npm:4.17.23"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -7322,7 +7322,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-          ["@types/convert-units", "npm:2.3.11"],\
+          ["@types/convert-units", "npm:2.3.12"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["convert-units", "npm:2.3.4"],\
@@ -15445,10 +15445,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/convert-units", [\
-      ["npm:2.3.11", {\
-        "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.11-89c1a86eb5-bae4d1a3ba.zip/node_modules/@types/convert-units/",\
+      ["npm:2.3.12", {\
+        "packageLocation": "./.yarn/cache/@types-convert-units-npm-2.3.12-205747ae62-8729e85b73.zip/node_modules/@types/convert-units/",\
         "packageDependencies": [\
-          ["@types/convert-units", "npm:2.3.11"]\
+          ["@types/convert-units", "npm:2.3.12"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15520,10 +15520,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/express", [\
-      ["npm:4.17.22", {\
-        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.22-cb2b862707-9497634fc3.zip/node_modules/@types/express/",\
+      ["npm:4.17.23", {\
+        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.23-63c8c95a13-cf4d540bbd.zip/node_modules/@types/express/",\
         "packageDependencies": [\
-          ["@types/express", "npm:4.17.22"],\
+          ["@types/express", "npm:4.17.23"],\
           ["@types/body-parser", "npm:1.19.5"],\
           ["@types/express-serve-static-core", "npm:4.19.6"],\
           ["@types/qs", "npm:6.9.17"],\
