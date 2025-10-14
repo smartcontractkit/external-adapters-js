@@ -110,6 +110,12 @@ export class MultiChainFunctionTransport<
       data: encoded,
     })
 
+    // Try to get decimals if the function is called on a token contract
+    const decimals = await this.getDecimals(address, networkName).catch((e) => {
+      logger.warn(`Could not fetch decimals for address ${address} on network ${networkName}:`, e)
+      return null
+    })
+
     const timestamps = {
       providerDataRequestedUnixMs,
       providerDataReceivedUnixMs: Date.now(),
@@ -120,11 +126,32 @@ export class MultiChainFunctionTransport<
 
     return {
       data: {
-        result,
+        result: result,
+        decimals: decimals,
       },
       statusCode: 200,
       result,
       timestamps,
+    }
+  }
+
+  async getDecimals(address: string, networkName: string) {
+    if (!ethers.isAddress(address)) throw new Error('Invalid address')
+
+    const provider = this.providers?.[networkName]
+    if (!provider) throw new Error(`No provider for network: ${networkName}`)
+
+    const abi = ['function decimals() view returns (uint8)']
+    const token = new ethers.Contract(address, abi, provider)
+
+    try {
+      const decimals = await token.decimals()
+      return Number(decimals)
+    } catch (err) {
+      if (err instanceof Error) {
+        console.warn(`Failed to fetch decimals for ${address}:`, err.message)
+      }
+      return null
     }
   }
 

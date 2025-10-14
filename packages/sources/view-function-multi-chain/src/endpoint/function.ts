@@ -36,6 +36,7 @@ export type BaseEndpointTypes = {
   Response: {
     Data: {
       result: string
+      decimals: number | null
     }
     Result: string
   }
