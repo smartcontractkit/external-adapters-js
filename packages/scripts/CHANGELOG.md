@@ -1,15 +1,5 @@
 # @chainlink/ea-scripts
 
-## 2.8.7
-
-### Patch Changes
-
-- [#4088](https://github.com/smartcontractkit/external-adapters-js/pull/4088) [`591f6cd`](https://github.com/smartcontractkit/external-adapters-js/commit/591f6cd26ff89a7834c40dd38a7c616adb149732) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete geodb EA
-
-- [#4086](https://github.com/smartcontractkit/external-adapters-js/pull/4086) [`cbee601`](https://github.com/smartcontractkit/external-adapters-js/commit/cbee6014c06950fc51427dbd6581d9c8e98dab53) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete expert-car-broker EA
-
-- [#4087](https://github.com/smartcontractkit/external-adapters-js/pull/4087) [`81d0ad0`](https://github.com/smartcontractkit/external-adapters-js/commit/81d0ad0f1573426d81adbc0a835ce38d226cb29c) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete flightaware EA
-
 ## 2.8.6
 
 ### Patch Changes
