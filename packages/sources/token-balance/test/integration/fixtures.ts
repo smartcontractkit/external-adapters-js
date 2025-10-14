@@ -161,28 +161,6 @@ export const mockETHContractCallResponseSuccess = (): nock.Scope =>
           } else if (
             request.method === 'eth_call' &&
             request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
-            request.params[0].data === '0xc5f24068' // getWithdrawalQueueLength()
-          ) {
-            return {
-              jsonrpc: '2.0',
-              id: request.id,
-              result: '0x0000000000000000000000000000000000000000000000000000000000000001',
-            }
-          } else if (
-            request.method === 'eth_call' &&
-            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
-            request.params[0].data ===
-              '0xf97832410000000000000000000000000000000000000000000000000000000000000000' // getWithdrawalQueueInfo()
-          ) {
-            return {
-              jsonrpc: '2.0',
-              id: request.id,
-              result:
-                '0x0000000000000000000000005eaff7af80488033bc845709806d5fae5291eb880000000000000000000000005eaff7af80488033bc845709806d5fae5291eb8800000000000000000000000000000000000000000000000000000000000f42401b0b9337a20c9ea4f3ead0a884adfd554439cfac8369c386e1feaab224fc90fc',
-            }
-          } else if (
-            request.method === 'eth_call' &&
-            request.params[0].to === '0xdd50c053c096cb04a3e3362e2b622529ec5f2e8a' &&
             request.params[0].data ===
               '0x70a082310000000000000000000000005eaff7af80488033bc845709806d5fae5291eb88' // balanceOf()
           ) {
@@ -281,6 +259,86 @@ export const mockXrplResponseSuccess = (): nock.Scope =>
           ],
           status: 'success',
           validated: true,
+        },
+      },
+      [
+        'Date',
+        'Wed, 14 May 2025 13:00:06 GMT',
+        'Content-Type',
+        'application/json; charset=UTF-8',
+        'Content-Length',
+        '444',
+        'Connection',
+        'keep-alive',
+        'nel',
+        '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}',
+        'x-kong-upstream-latency',
+        '3',
+        'x-kong-proxy-latency',
+        '1',
+        'via',
+        'kong/3.4.0',
+        'cf-cache-status',
+        'DYNAMIC',
+        'report-to',
+        '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=W2C1dDN5VsyGgu6eSLNm74YaGLBWjASjNyCy3BQVTxAgPjWM9LBCaxZtWqLWP7XitG%2B0rUqCxqWliq3G%2FkEL6u8JW6dnWy6nhLU3P8a9NNs0%2FF1PrYlnsyEsDqWa35qHikiBJsoIU1ZrZ3izVA%2FPLPMCdw%3D%3D"}]}',
+        'cf-ray',
+        '93fa939bcbb0fef1-PDX',
+        'alt-svc',
+        'h3=":443"; ma=86400',
+        'x-rpc-provider',
+        'simplyvc1',
+      ],
+    )
+    .persist()
+
+export const mockXrpResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-xrpl:8080', { encodedQueryParams: true })
+    .persist()
+    .post('/', {
+      method: 'account_info',
+      params: [
+        {
+          account: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+          ledger_index: 'validated',
+        },
+      ],
+    })
+    .reply(
+      200,
+      {
+        result: {
+          account_data: {
+            Account: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+            Balance: '19999926',
+            Flags: 0,
+            LedgerEntryType: 'AccountRoot',
+            OwnerCount: 2,
+            PreviousTxnID: '5B989CDCB384800BCA249711641C972117BEDE5ADDA4A0FDA8A119B341F52FAB',
+            PreviousTxnLgrSeq: 98743223,
+            Sequence: 89903599,
+            index: '93962858E81AB0241126F57DA48B385A1C2142B720FEF1CC27830131767AEEC2',
+          },
+          ledger_hash: '08D14CE87B7C312F570ED368C271811CE680B7EB2A164A115BFBD01FC16287F0',
+          ledger_index: 98776630,
+          validated: true,
+          account_flags: {
+            defaultRipple: false,
+            depositAuth: false,
+            disableMasterKey: false,
+            disallowIncomingXRP: false,
+            globalFreeze: false,
+            noFreeze: false,
+            passwordSpent: false,
+            requireAuthorization: false,
+            requireDestinationTag: false,
+            disallowIncomingNFTokenOffer: false,
+            disallowIncomingCheck: false,
+            disallowIncomingPayChan: false,
+            disallowIncomingTrustline: false,
+            allowTrustLineClawback: false,
+          },
+          status: 'success',
         },
       },
       [

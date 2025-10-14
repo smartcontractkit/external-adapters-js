@@ -1,0 +1,508 @@
+// Source: https://github.com/Deutsche-Boerse/Cloud.Stream.Client/blob/main/proto/src/md_cef.proto
+// Date:    10.01.2025
+// Version: 001.000.009
+
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+package dbag.cef;
+
+
+message Decimal
+{
+	int64					m				= 1;	// Mantisssa
+	int32					e				= 2;	// Exponent
+}
+
+message ApplSeqCtrl
+{
+	uint32					ApplID			= 1;	// FIX 1180 - ApplID
+	uint64					ApplSeqNum		= 2;	// FIX 1181 - ApplSeqNum
+}
+
+message Instrument
+{
+	enum SecurityIDSource	// FIX 22
+	{
+		ISIN = 0;
+		EXCHANGE_SYMBOL = 1;
+		SYNTHETIC = 2;
+	}
+
+	message PutOrCallValue
+	{
+		enum PutOrCall			// FIX 201
+		{
+			PUT = 0;			// FIX Put
+			CALL = 1;			// FIX Call
+		}
+
+		PutOrCall			Value			= 1;
+	}
+
+	enum SecurityType			// FIX 167
+	{
+		NO_SECURITYTYPE = 0;	// None
+		FUT = 1;				// Future
+		OPT = 2;				// Option
+		MLEG = 3;				// Multileg Instrument
+		INDEX = 4;				// Index
+		ETC = 5;				// Exchange traded commodity
+		ETN = 6;				// Exchange traded note
+		CS = 7;					// Common Stock
+		REPO = 8;				// Repurchase
+		CASH = 9;				// Repurchase
+		FOR = 10;				// Foreign Exchange Contract
+		BOND = 11;				// Bond
+		MF = 12;				// Mutual Fund
+		FUN = 13;				// Investment Fund
+		IRS = 14;				// Interest Rate Swap
+		SR = 15;				// Subscription Rights
+		WAR = 16;				// Warrant
+		ETF = 17;				// Exchange Traded Fund
+		FXSWAP = 18;			// FX Swap
+		OTHER = 99;				// Other
+	}
+
+	message SettlMethodValue
+	{
+		enum SettlMethod		// FIX 1193
+		{
+			C = 0;				// Cash
+			P = 1;				// Physical
+		}
+
+		SettlMethod			Value			= 1;
+	}
+	
+	message ExerciseStyleValue
+	{
+		enum ExerciseStyle		// FIX 1194
+		{
+			E = 0;				// European
+			A = 1;				// American
+		}
+		
+		ExerciseStyle		Value			= 1;
+	}
+
+	message ContractTypeValue
+	{
+		enum ContractType
+		{
+			F = 0;				// Flexible
+			S = 1;				// Standard
+		}
+
+		ContractType		Value			= 1;
+	}
+
+	message SecurityUpdateActionValue
+	{
+		enum SecurityUpdateAction	// FIX 980
+		{
+			NEW = 0;			// 'A'
+			DELETE = 1;			// 'D'
+			MODIFY = 2;			// 'M'
+		}
+
+		SecurityUpdateAction	Value		= 1;
+	}
+
+	message Event
+	{
+		enum EventType
+		{
+			UNDEFINED = 0;
+			ACTIVATION = 5;
+			INACTIVATION = 6;
+			LAST_ELIGIBLE_TRADE_DATE = 7;
+			FIRST_ELIGIBLE_TRADE_DATE = 28;
+		}
+
+		EventType			EventTyp		= 1;	// FIX 865 EventType
+		uint32				Dt				= 2;	// FIX 866 EventDate
+	}
+
+	string					MktID			= 1;	// FIX 1301  MarketID
+	string					Sym				= 2;	// FIX 55 - Symbol
+	string					ID				= 3;	// FIX 48 - SecurityID
+	SecurityIDSource		Src				= 4;	// FIX 22 - SecurityIDSource
+	SecurityType			SecTyp			= 5;	// FIX 167 - SecurityType
+	string					Ccy				= 6;	// FIX 15 - Currency
+	string					AltID			= 7;	// FIX 455 - SecurityAltID
+	SecurityIDSource		AltIDSrc		= 8;	// FIX 456 - SecurityAltIDSource
+	string					MktSeg			= 9;	// FIX 7703 - MarketSegment
+
+	string					MMY				= 11;	// FIX 200 - MaturityMonthYear
+	google.protobuf.Int32Value	CntrDate	= 12;	// FIX T7 extension 30866 - ContractDate
+	ContractTypeValue		Ct				= 13;	// FIX CEF extension - ContractType
+	Decimal					StrkPx 			= 14;	// FIX 202 StrikePrice
+	Decimal					OrigStrkPx		= 15;	// FIX 2578 - OrigStrikePrice
+	PutOrCallValue			PutCall			= 16;	// FIX 201 - PutOrCall
+	google.protobuf.Int32Value	CntrGenNr	= 17;	// FIX T7 extension 25034 - ContractGenerationNumber
+	SettlMethodValue		SettlMeth		= 18;	// FIX 1193 - SettlMethod
+	ExerciseStyleValue		ExerStyle		= 19;	// FIX 1194 - ExerStyle
+
+	Decimal					MinPxIncr		= 21;	// FIX 969 - MinPriceIncrement
+	string					TenorVal		= 22;	// FIX 6215 - TenorValue
+
+	SecurityUpdateActionValue	UpdActn		= 30;	// FIX 980 - SecurityUpdateAction
+	uint64					LastUpdateTm	= 31;	// FIX 779 - LastUpdateTime
+	repeated Event			Evnts			= 32;	// FIX EventGroup
+}
+
+message QuoteSide
+{
+	message MDQuoteTypeValue {
+		enum MDQuoteType		// FIX 1070
+		{
+			INDICATIVE = 0;
+			TRADEABLE = 1;
+		}
+
+		MDQuoteType			Value			= 1;
+	}
+
+	message QuoteConditionValue {
+		enum QuoteCondition {	// FIX 276
+			FIRM = 0;
+			INDICATIVE = 1;
+		}
+
+		QuoteCondition		Value			= 1;
+	}
+
+	message MDEntryTypeValue {
+		enum MDEntryType		// FIX 269
+		{
+			BID = 0;
+			OFFER = 1;
+			MARKET_BID = 11;
+			MARKET_OFFER = 12;
+		}
+
+		MDEntryType			Value			= 1;
+	}
+
+	message HolidayWarnValue {
+		enum HolidayWarn {	// FIX 5679 (360T)
+			NO_HOLIDAYS = 0;
+			HOLIDAYS = 1;
+		}
+
+		HolidayWarn			Value			= 1;
+	}
+
+
+	Decimal					Px				= 1;	// FIX 270 - MDEntryPrice
+	Decimal					Sz				= 2;	// FIX 271 - MDEntrySize
+	google.protobuf.Int32Value	NumOfOrds	= 3;	// FIX 346 - NumberOfOrders
+	MDQuoteTypeValue		MDQteTyp		= 4;	// FIX 1070 - MDQuoteType
+	MDEntryTypeValue		Typ				= 5;	// FIX 269 - MDEntryType
+	QuoteConditionValue		QCond			= 6;	// FIX 276 - QuoteCondition
+	Decimal					FwdPnts			= 7;	// FIX 5675 (360T) - ForwardPoints
+	int64					Pip				= 8;	// FIX 5678 (360T) - Pip
+	HolidayWarnValue		HlWrn			= 9;	// FIX 5679 (360T) - HolidayWarn
+}
+
+message Data
+{
+	message SecurityStatusValue
+	{
+		enum SecurityStatus	// FIX 965
+		{
+			UNDEFINED = 0;
+			ACTIVE = 1;
+			INACTIVE = 2;
+			EXPIRED = 4;
+			DELISTED = 5;
+			KNOCKED_OUT = 6;
+			SUSPENDED = 9;
+			PUBLISHED = 10;
+			PENDING_DELETION = 11;
+			KNOCKED_OUT_AND_SUSPENDED = 12;
+		}
+
+		SecurityStatus				Value			= 1;
+	}
+
+	message SecurityTradingStatusValue
+	{
+		enum SecurityTradingStatus	// FIX 326
+		{
+			UNDEFINED = 0;
+			OPENING_DELAY = 1;
+			TRADINGHALT = 2;
+			RESUME = 3;
+			NOT_TRADED_ON_THIS_MARKET = 19;
+			FAST_MARKET = 23;
+			CLOSED = 200;
+			RESTRICTED = 201;
+			BOOK = 202;
+			CONTINUOUS = 203;
+			OPENINGAUCTION = 204;
+			OPENINGAUCTIONFREEZE = 205;
+			INTRADAYAUCTION = 206;
+			INTRADAYAUCTIONFREEZE = 207;
+			CIRCUITBREAKERAUCTION = 208;
+			CIRCUITBREAKERAUCTIONFREEZE = 209;
+			CLOSINGAUCTION = 210;
+			CLOSINGAUCTIONFREEZE = 211;
+			IPOAUCTION = 212;
+			IPOAUCTIONFREEZE = 213;
+			PRECALL = 214;
+			CALL = 215;
+			FREEZE = 216;
+			TRADEATCLOSE = 217;
+		}
+
+		SecurityTradingStatus		Value 			= 1;
+	}
+
+	message TradingSessionIDValue
+	{
+		enum TradingSessionID	// FIX 336
+		{
+			UNDEFINED = 0;
+			DAY = 1;
+			HALFDAY = 2;
+			MORNING = 3;
+			AFTERNOON = 4;
+			EVENING = 5;
+			AFTERHOURS = 6;
+			HOLIDAY = 7;
+		}
+
+		TradingSessionID		Value			= 1;
+	}
+
+	message TradingSessionSubIDValue
+	{
+		enum TradingSessionSubID	// FIX 625
+		{
+			UNDEFINED = 0;
+			PRETRADING = 1;
+			CONTINUOUS = 3;
+			CLOSING = 4;
+			POSTTRADING = 5;
+			SCHEDULEDINTRADAYAUCTION = 6;
+			QUIESCENT = 7;
+			ANYAUCTION = 8;
+			CONTINUOUSAUCTIONISSUER = 103;
+			CONTINUOUSAUCTIONSPECIALIST = 104;
+		}
+
+		TradingSessionSubID		Value			= 1;
+	}
+
+	message MarketConditionValue
+	{
+		enum MarketCondition
+		{
+			NORMAL = 0;
+			STRESSED = 1;
+			EXCEPTIONAL = 2;
+		}
+
+		MarketCondition			Value			= 1;
+	}
+
+	message TrdTypeValue
+	{
+		enum TrdType
+		{
+			REGULARTRADE = 0;
+			BLOCKTRADE = 1;
+			EFP = 2;
+			EXCHANGEFORSWAP = 12;
+			PORTFOLIOCOMPRESSIONTRADE = 50;
+			OTC = 54;
+			EXCHANGEBASISFACILITY = 55;
+			VOLATRADE = 1000;
+			EFPFINTRADE = 1001;
+			EFPINDEXFUTURESTRADE = 1002;
+			BLOCKTRADEATMARKET = 1004;
+			XETRAEUREXENLIGHTTRIGGEREDTRADE = 1006;
+			BLOCKQTPIPTRADE = 1007;
+			DELTATRADEATMARKET = 1017;
+			OPENINGAUCTIONTRADE = 1100;
+			INTRADAYAUCTIONTRADE = 1101;
+			VOLATILITYAUCTIONTRADE = 1102;
+			CLOSINGAUCTIONTRADE = 1103;
+			CROSSAUCTIONTRADE = 1104;
+			IPOAUCTIONTRADE = 1107;
+			LIQUIDITYIMPROVEMENTCROSS = 1108;
+		}
+
+		TrdType					Value			= 1;
+	}
+
+	message MDOriginTypeValue
+	{
+		enum MDOriginType	// FIX 1024
+		{
+			MDOT_BOOK = 0;
+			MDOT_OFF_BOOK = 1;
+		}
+
+		MDOriginType			Value			= 1;
+	}
+
+	message MDUpdateActionValue
+	{
+		enum MDUpdateAction	// FIX 279
+		{
+			NEW = 0;
+			CHANGE = 1;
+			DELETE = 2;
+		}
+
+		MDUpdateAction			Value			= 1;
+	}
+
+	enum TradeCondition		// FIX 277
+	{
+		U = 0;		// FIX Exchange Last
+		R = 1;		// FIX Opening Price
+		AJ = 2;		// FIX Official Close Price
+		AW = 3;		// FIX Last Auction Price
+		AX = 4;		// FIX High Price
+		AY = 5;		// FIX Low Price
+		BD = 6;		// FIX Previous Closing Price
+		BB = 7;		// FIX Midpoint Price //TODO cleanup this in T7 12.1
+		BC = 8;		// FIX Trading On Terms Of issue
+		SA = 9;		// FIX Special Auction
+		TC = 10;	// FIX Trade At Close
+		k = 11;		// FIX Out of Sequence
+		a = 12;		// FIX Volume Only
+		XR = 13;		// Retail 
+	}
+
+	message PriceTypeValue
+	{
+		enum PriceType	// FIX 423
+		{
+			UNDEFINED = 0;
+			PERCENTAGE = 1;
+			PER_UNIT = 2;
+			YIELD = 9;
+			PRICE_SPREAD = 12;
+			NORMAL_RATE = 20;
+			BASIS_POINT = 22;
+		}
+
+		PriceType				Value			= 1;
+	}
+
+	message MarketSegmentStatusValue
+	{
+		enum MarketSegmentStatus	// FIX 2542
+		{
+			UNDEFINED = 0;
+			ACTIVE = 1;
+			INACTIVE = 2;
+			PUBLISHED = 3;
+		}
+
+		MarketSegmentStatus		Value			= 1;
+	}
+
+	message MDEntryPrices
+	{
+		enum MDEntryType
+		{
+			UNDEFINED = 0;
+			OPENING_PRICE = 1;							// FIX '4'
+			CLOSING_PRICE = 2;							// FIX '5'
+			SETTLEMENT_PRICE = 3;						// FIX '6'
+			OPEN_INTEREST = 4;							// FIX 'C'
+			AUCTION_CLEARING_PRICE = 5;					// FIX 'Q'
+			PREVIOUS_CLOSING_PRICE = 6;					// FIX 'e'
+			PRIOR_SETTLEMENT_PRICE = 7;					// FIX 'M'
+			MID_PRICE = 8;								// FIX 'H'
+		}
+
+		MDEntryType				Typ				= 1;	// FIX 269 - MDEntryType
+		Decimal					Px				= 2;	// FIX 270 - MDEntryPrice
+		Decimal					Sz				= 3;	// FIX 271 - MDEntrySize
+		uint64					Tm				= 4;	// FIX 273 - MDEntryTime
+		PriceTypeValue			PxTyp			= 5;	// FIX 423 - PriceType
+	}
+
+
+	// Quote
+	QuoteSide					Bid				= 1;	// MDEntryType = 0 or MDEntryType = 'b'
+	QuoteSide					Offer			= 2;	// MDEntryType = 1 or MDEntryType = 'c'
+	PriceTypeValue				PxTyp			= 3;	// FIX 423 - PriceType
+
+	// State Change
+	SecurityStatusValue			Status			= 11;	// FIX 965 - SecurityStatus
+	TradingSessionIDValue		SesID			= 12;	// FIX 336 - TradingSessionID
+	TradingSessionSubIDValue	SesSub			= 13;	// FIX 625 - TradingSessionSubID
+	google.protobuf.BoolValue	FastMktInd		= 14;	// FIX 2447 - FastMktInd
+	SecurityTradingStatusValue	TrdgStat		= 15;	// FIX 326 - SecurityTradingStatus
+	MarketConditionValue		MktCond			= 16;	// FIX 2705 - MarketCondition
+	SecurityStatusValue			TesStatus		= 17;	// FIX 25045 - TESSecurityStatus
+	MarketSegmentStatusValue	MktSegStat		= 18;	// FIX 2542 - Market Segment Status
+
+	// Trade
+	Decimal						Px				= 21;	// FIX 270 - MDEntryPrice
+	Decimal						Sz				= 22;	// FIX 271 - MDEntrySize
+	TrdTypeValue				TrdTyp			= 23;	// FIX 828 - TrDType
+	google.protobuf.Int32Value	NumOfBuyOrds	= 24;	// FIX 2449 - NumberOfBuyOrders
+	google.protobuf.Int32Value	NumOfSellOrds	= 25;	// FIX 2450 - NumberOfSellOrders
+	MDOriginTypeValue			MDOrigTyp		= 26;	// FIX 1024 - MDOriginType
+	string						Ccy				= 27;	// FIX 15 - Currency
+	string						MDID			= 28;	// FIX 278 - MDEntryID
+	string						MtchID			= 29;	// FIX 880 - TrdMatchID (TVTIC - Trading Venue Transaction Identification Code)
+	MDUpdateActionValue			UpdtAct			= 30;	// FIX 279 - MDUpdateAction
+	repeated TradeCondition		TrdCond			= 31;	// FIX 277 - TradeCondition
+
+	// Book
+	repeated QuoteSide			Bids			= 41;	// MDEntryType = 0
+	repeated QuoteSide			Offers			= 42;	// MDEntryType = 1
+
+	// Clearing
+	Decimal						StlPx			= 51;	// FIX 270 FIX 269@6 - MDEntryPx + MDEntryType=6 (Settlement Price)
+	Decimal						Int				= 52;	// FIX 270 FIX 269@C - MDEntryPx + MDEntryType=C (Open Interest)
+	Decimal						SettlCurrAmt	= 53;	// FIX 119 - Settlement Currency Amount / Nominal Amount
+	string						SettlCcy		= 54;	// FIX 120 - Settlement Currency
+	string						SettlDt			= 55;	// FIX 64 - SettlementDate
+
+	// Statistics & Others
+	Decimal						PaPx			= 61;	// FIX - Potential Auction Price
+	Decimal						OpenPx			= 62;	// FIX 270 & FIX 269@4 - MDEntryPx + MDEntryType=4 (Opening Price)
+	Decimal						ClosePx			= 63;	// FIX 270 & FIX 269@5 - MDEntryPx + MDEntryType=5 (Closing Price)
+	Decimal						HighPx			= 64;	// FIX 332 - High Price
+	Decimal						LowPx			= 65;	// FIX 333 - Low Price
+	Decimal						AvgPx			= 66;	// Average Price
+	Decimal						TrdVol			= 67;	// FIX 1020 - Trade Volume
+	Decimal						Ttt				= 68;	// Total Turnover
+	google.protobuf.Int32Value	TrdNum			= 69;	// FIX 2490 - Trade Number
+	google.protobuf.Int32Value	TrdNumTes		= 70;	// Trade Number Tes
+	google.protobuf.UInt64Value	ClsTim			= 71;	// FIX 344 - Close Time
+	Decimal						RefPx			= 72;	// FIX 270 FIX 269@2 FIX 271=0 - MDEntryPx + MDEntryType=2 (Reference Price)
+	repeated MDEntryPrices		Pxs				= 73;	// FIX 269 & FIX 270 & FIX 271
+
+	// Reference
+	string						Val				= 81;	// FIX 234 - StipulationValue
+
+	// Timestamp
+	uint64						Tm				= 99;	// FIX 273 - MDEntryTime
+}
+
+message MarketData
+{
+	enum MessageType	// FIX 35
+	{
+		X = 0;			// MarketDataIncrementalRefresh
+		W = 1;			// MarketDataSnapshotFullRefresh
+	}
+
+	MessageType					MsgTyp			= 1;	// FIX 35 - Message Type
+	ApplSeqCtrl					Seq				= 2;	// FIX: ApplicationSequenceControl
+	Instrument					Instrmt			= 3;	// FIX: Instrument
+	Data						Dat				= 4;
+}

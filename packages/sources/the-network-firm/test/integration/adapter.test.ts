@@ -28,6 +28,11 @@ describe('execute', () => {
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
+    process.env.ACME_API_KEY = 'acme-api-key'
+    process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_API_KEY = 'uranium-api-key'
+    process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
+    process.env.M0_STABLECOIN_INPD83_API_KEY = 'm0-api-key'
+    process.env.RE_PROTOCOL_8TAWLM_API_KEY = 're-api-key'
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -38,7 +43,6 @@ describe('execute', () => {
 
   afterEach(() => {
     nock.cleanAll()
-
     // clear EA cache
     const keys = testAdapter.mockCache?.cache.keys()
     if (!keys) {
@@ -166,6 +170,7 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
     it('should fail', async () => {
       const data = {
         endpoint: 'uranium',

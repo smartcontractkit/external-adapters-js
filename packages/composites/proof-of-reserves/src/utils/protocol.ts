@@ -1,27 +1,27 @@
 import {
   AdapterContext,
-  AdapterImplementation as v2AdapterImplementation,
   AdapterResponse,
   Config,
   Requester,
+  AdapterImplementation as v2AdapterImplementation,
 } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from '.'
 
 // protocol adapters
 import * as celsiusAddressList from '@chainlink/celsius-address-list-adapter'
 import * as chainReserveWallets from '@chainlink/chain-reserve-wallet-adapter'
+import { adapter as coinbasePrime } from '@chainlink/coinbase-prime-adapter'
 import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
 import { adapter as gemini } from '@chainlink/gemini-adapter'
+import { adapter as ignitionAddressList } from '@chainlink/ignition-address-list-adapter'
 import { adapter as moonbeamAddressList } from '@chainlink/moonbeam-address-list-adapter'
+import { adapter as multiAddressList } from '@chainlink/multi-address-list-adapter'
 import { adapter as porAddressList } from '@chainlink/por-address-list-adapter'
 import * as renVM from '@chainlink/renvm-address-set-adapter'
 import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
 import * as swellList from '@chainlink/swell-address-list-adapter'
 import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
-import { adapter as coinbasePrime } from '@chainlink/coinbase-prime-adapter'
-import { adapter as multiAddressList } from '@chainlink/multi-address-list-adapter'
-import { adapter as ignitionAddressList } from '@chainlink/ignition-address-list-adapter'
 
 export const LIST_ADAPTER = 'LIST'
 

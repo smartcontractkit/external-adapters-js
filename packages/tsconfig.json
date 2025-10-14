@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -36,9 +33,6 @@
       "path": "./composites/defi-pulse"
     },
     {
-      "path": "./composites/dns-record-check"
-    },
-    {
       "path": "./composites/dxdao"
     },
     {
@@ -58,6 +52,9 @@
     },
     {
       "path": "./composites/linear-finance"
+    },
+    {
+      "path": "./composites/llama-guard"
     },
     {
       "path": "./composites/market-closure"
@@ -99,9 +96,6 @@
       "path": "./composites/set-token-index"
     },
     {
-      "path": "./composites/synth-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {
@@ -135,13 +129,13 @@
       "path": "./sources/1forge"
     },
     {
-      "path": "./sources/accuweather"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
       "path": "./sources/aleno"
+    },
+    {
+      "path": "./sources/allium-state"
     },
     {
       "path": "./sources/alphachain"
@@ -165,7 +159,13 @@
       "path": "./sources/apex"
     },
     {
+      "path": "./sources/asseto-finance"
+    },
+    {
       "path": "./sources/avalanche-platform"
+    },
+    {
+      "path": "./sources/backed-fi"
     },
     {
       "path": "./sources/bank-frick"
@@ -175,9 +175,6 @@
     },
     {
       "path": "./sources/binance"
-    },
-    {
-      "path": "./sources/binance-dex"
     },
     {
       "path": "./sources/bitex"
@@ -201,9 +198,6 @@
       "path": "./sources/blockchair"
     },
     {
-      "path": "./sources/blockcypher"
-    },
-    {
       "path": "./sources/blocksize-capital"
     },
     {
@@ -222,9 +216,6 @@
       "path": "./sources/cache.gold"
     },
     {
-      "path": "./sources/ccip-read"
-    },
-    {
       "path": "./sources/ceffu"
     },
     {
@@ -240,6 +231,9 @@
       "path": "./sources/clear-bank"
     },
     {
+      "path": "./sources/cmeth"
+    },
+    {
       "path": "./sources/coinapi"
     },
     {
@@ -247,9 +241,6 @@
     },
     {
       "path": "./sources/coinbase-prime"
-    },
-    {
-      "path": "./sources/coincodex"
     },
     {
       "path": "./sources/coingecko"
@@ -262,6 +253,9 @@
     },
     {
       "path": "./sources/coinmetrics"
+    },
+    {
+      "path": "./sources/coinmetrics-lwba"
     },
     {
       "path": "./sources/coinpaprika"
@@ -297,19 +291,22 @@
       "path": "./sources/curve"
     },
     {
+      "path": "./sources/data-engine"
+    },
+    {
       "path": "./sources/deep-blue"
     },
     {
       "path": "./sources/deribit"
     },
     {
+      "path": "./sources/deutsche-boerse"
+    },
+    {
       "path": "./sources/dlc-btc-por"
     },
     {
       "path": "./sources/dns-query"
-    },
-    {
-      "path": "./sources/dwolla"
     },
     {
       "path": "./sources/dxfeed"
@@ -354,9 +351,6 @@
       "path": "./sources/expand-network"
     },
     {
-      "path": "./sources/expert-car-broker"
-    },
-    {
       "path": "./sources/fcsapi"
     },
     {
@@ -378,9 +372,6 @@
       "path": "./sources/fixer"
     },
     {
-      "path": "./sources/flightaware"
-    },
-    {
       "path": "./sources/fluent-finance"
     },
     {
@@ -388,6 +379,9 @@
     },
     {
       "path": "./sources/frxeth-exchange-rate"
+    },
+    {
+      "path": "./sources/ftse-sftp"
     },
     {
       "path": "./sources/galaxis"
@@ -402,7 +396,7 @@
       "path": "./sources/genesis-volatility"
     },
     {
-      "path": "./sources/geodb"
+      "path": "./sources/gmci"
     },
     {
       "path": "./sources/google-bigquery"
@@ -442,9 +436,6 @@
     },
     {
       "path": "./sources/ion.au"
-    },
-    {
-      "path": "./sources/ipfs"
     },
     {
       "path": "./sources/jpegd"
@@ -513,6 +504,9 @@
       "path": "./sources/nav-generic"
     },
     {
+      "path": "./sources/nav-libre"
+    },
+    {
       "path": "./sources/ncfx"
     },
     {
@@ -520,6 +514,9 @@
     },
     {
       "path": "./sources/nikkei"
+    },
+    {
+      "path": "./sources/nomia"
     },
     {
       "path": "./sources/nyfed"
@@ -532,6 +529,9 @@
     },
     {
       "path": "./sources/onchain-gas"
+    },
+    {
+      "path": "./sources/ondo"
     },
     {
       "path": "./sources/onre"
@@ -570,10 +570,19 @@
       "path": "./sources/satoshitango"
     },
     {
+      "path": "./sources/securitize"
+    },
+    {
       "path": "./sources/snowflake"
     },
     {
       "path": "./sources/sochain"
+    },
+    {
+      "path": "./sources/solactive"
+    },
+    {
+      "path": "./sources/solana-functions"
     },
     {
       "path": "./sources/solana-view-function"
@@ -690,13 +699,7 @@
       "path": "./sources/xbto"
     },
     {
-      "path": "./targets/conflux"
-    },
-    {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/ethwrite"
     },
     {
       "path": "./targets/harmony"

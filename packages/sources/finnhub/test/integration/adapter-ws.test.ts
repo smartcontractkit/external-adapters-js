@@ -3,8 +3,8 @@ import {
   MockWebsocketServer,
   TestAdapter,
   mockWebSocketProvider,
-  setEnvVariables,
   runAllUntilTime,
+  setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 
@@ -18,14 +18,14 @@ const mockWebSocketServer = (url: string) => {
             {
               c: null,
               p: 1.098455,
-              s: 'FHFX:EUR-USD',
+              s: 'OANDA:EUR_USD',
               t: 1641035471111,
               v: 0,
             },
             {
               c: null,
               p: 142.652,
-              s: 'FHFX:USD-JPY',
+              s: 'OANDA:USD_JPY',
               t: 1641035471111,
               v: 0,
             },
@@ -45,7 +45,7 @@ describe('websocket', () => {
   const wsEndpoint = 'wss://ws.finnhub.io'
 
   const data = {
-    base: 'FHFX:EUR-USD',
+    base: 'OANDA:EUR_USD',
     endpoint: 'forex',
   }
 
@@ -87,7 +87,7 @@ describe('websocket', () => {
 
   it('should return success for full symbols', async () => {
     const response = await testAdapter.request({
-      base: 'FHFX:EUR-USD',
+      base: 'OANDA:EUR_USD',
     })
 
     expect(response.statusCode).toBe(200)

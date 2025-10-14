@@ -1,5 +1,27 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- [#4059](https://github.com/smartcontractkit/external-adapters-js/pull/4059) [`09df1cb`](https://github.com/smartcontractkit/external-adapters-js/commit/09df1cbbb9a9bc160823cc2ac9e99b5477a18160) Thanks [@fmunshi](https://github.com/fmunshi)! - Update the reserve endpoint to take an additional parameter for noErrorOnRipcord
+
+## 1.5.0
+
+### Minor Changes
+
+- [#3984](https://github.com/smartcontractkit/external-adapters-js/pull/3984) [`a978f31`](https://github.com/smartcontractkit/external-adapters-js/commit/a978f31a014abf752a68dc65da8dc2a905eaa20a) Thanks [@cl-mayowa](https://github.com/cl-mayowa)! - Update `The Network Firm` EA with a new client-agnostic endpoint called `reserve`
+
+### Patch Changes
+
+- [#3998](https://github.com/smartcontractkit/external-adapters-js/pull/3998) [`f71fc75`](https://github.com/smartcontractkit/external-adapters-js/commit/f71fc757cd88eae94969411951eb40882a70a395) Thanks [@cl-mayowa](https://github.com/cl-mayowa)! - This changeset contains fix for caching bug in the TNF EA
+
+## 1.4.1
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.4.0
 
 ### Minor Changes

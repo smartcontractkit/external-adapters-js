@@ -105,12 +105,20 @@ export class Utils {
     }
   }
 
-  static sanitize(url: string): string {
-    const urlObj = new URL(url)
-    if (urlObj.searchParams.has('h')) {
-      urlObj.searchParams.set('h', 'redacted')
+  static sanitize(urlStr: string): string {
+    try {
+      const url = new URL(urlStr)
+      if (url.searchParams.has('h')) url.searchParams.set('h', 'redacted')
+      return decodeURIComponent(url.toString())
+    } catch {
+      try {
+        const url = new URL(`https://fake-but-irrelevant.com${urlStr}`)
+        if (url.searchParams.has('h')) url.searchParams.set('h', 'redacted')
+        return '?' + decodeURIComponent(url.searchParams.toString())
+      } catch {
+        return 'redacted'
+      }
     }
-    return urlObj.toString()
   }
 }
 

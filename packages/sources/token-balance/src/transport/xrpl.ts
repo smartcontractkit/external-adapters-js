@@ -10,6 +10,7 @@ import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/xrpl'
 import { getTokenPrice } from './priceFeed'
 import { SharePriceType } from './utils'
+import { getXrplRpcUrl } from './xrpl-utils'
 
 const logger = makeLogger('Token Balance - XRPL')
 
@@ -139,16 +140,11 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     address: string
     tokenIssuerAddress: string
   }): Promise<Decimal> {
-    if (!this.config.XRPL_RPC_URL) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: 'Environment variable XRPL_RPC_URL is missing',
-      })
-    }
+    const rpcUrl = getXrplRpcUrl(this.config)
 
     const requestConfig = {
       method: 'POST',
-      baseURL: this.config.XRPL_RPC_URL,
+      baseURL: rpcUrl,
       data: {
         method: 'account_lines',
         params: [

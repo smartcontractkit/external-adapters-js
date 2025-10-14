@@ -1,5 +1,31 @@
 # @chainlink/market-closure-adapter
 
+## 1.3.53
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810), [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a), [`a37bb09`](https://github.com/smartcontractkit/external-adapters-js/commit/a37bb099a6b0c5b5f39aceb1e5efff777588f222)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/ea-reference-data-reader@1.3.45
+  - @chainlink/finnhub-adapter@3.0.1
+  - @chainlink/fcsapi-adapter@1.2.47
+
+## 1.3.52
+
+### Patch Changes
+
+- Updated dependencies [[`14fefdf`](https://github.com/smartcontractkit/external-adapters-js/commit/14fefdf1e20c87d31b29afe4fcda4e6582a17d8f)]:
+  - @chainlink/finnhub-adapter@3.0.0
+
+## 1.3.51
+
+### Patch Changes
+
+- Updated dependencies [[`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af)]:
+  - @chainlink/finnhub-adapter@2.8.2
+
 ## 1.3.50
 
 ### Patch Changes

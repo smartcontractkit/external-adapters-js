@@ -1,5 +1,24 @@
 # @chainlink/implied-price-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 1.3.0
+
+### Minor Changes
+
+- [#4055](https://github.com/smartcontractkit/external-adapters-js/pull/4055) [`d63bb4f`](https://github.com/smartcontractkit/external-adapters-js/commit/d63bb4fee0fd7950c7227c525b5a15ca7bfb07c5) Thanks [@dskloetc](https://github.com/dskloetc)! - Handle missing adapters
+
+## 1.2.3
+
+### Patch Changes
+
+- [#3981](https://github.com/smartcontractkit/external-adapters-js/pull/3981) [`49ddf73`](https://github.com/smartcontractkit/external-adapters-js/commit/49ddf73193eb7f5c16a820f2ea3232cc0c727c59) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Use toFixed instead of toString for result to force fixed point number rather than exponential notation
+
 ## 1.2.2
 
 ### Patch Changes

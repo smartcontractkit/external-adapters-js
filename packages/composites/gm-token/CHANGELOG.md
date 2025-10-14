@@ -1,5 +1,27 @@
 # @chainlink/gm-token-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4097](https://github.com/smartcontractkit/external-adapters-js/pull/4097) [`dd6625e`](https://github.com/smartcontractkit/external-adapters-js/commit/dd6625ee6c20e3911ef447894e7b8d559430f463) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Support Botanix specific tokens
+
+### Patch Changes
+
+- [#4082](https://github.com/smartcontractkit/external-adapters-js/pull/4082) [`a5d9a8f`](https://github.com/smartcontractkit/external-adapters-js/commit/a5d9a8ff61300ed343afa2453c9c100435a4336c) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Minor updates to GM-token EA
+
+## 1.1.22
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+## 1.1.21
+
+### Patch Changes
+
+- [#3936](https://github.com/smartcontractkit/external-adapters-js/pull/3936) [`6147728`](https://github.com/smartcontractkit/external-adapters-js/commit/6147728aa69ec39fc180a11a34757d1c730ad6af) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.1.20
 
 ### Patch Changes

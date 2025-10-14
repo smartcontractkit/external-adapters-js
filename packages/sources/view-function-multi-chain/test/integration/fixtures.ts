@@ -48,6 +48,18 @@ export const mockETHMainnetContractCallResponseSuccess = (): nock.Scope =>
               id: request.id,
               result: '0x000000000000000000000000000000000000000000000000000000005cf7ff3b',
             }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0xae2364579d6cb4bbd6695846c1d595ca9af3574d' &&
+            request.params[0].data === '0x053f14da' // lastPrice()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              // Example return: price = 123456789, timestamp = 1718000000
+              result:
+                '0x00000000000000000000000000000000000000000000000000000000075bcd150000000000000000000000000000000000000000000000000000000066b7b9c0',
+            }
           } else {
             // Default response for unsupported calls
             return {

@@ -1,6 +1,6 @@
 # Chainlink External Adapter for FCS API
 
-![1.2.46](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fcsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.47](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/fcsapi/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 Base URL https://fcsapi.com/api-v3/
 
@@ -47,7 +47,34 @@ Supported names for this endpoint are: `common`, `forex`, `stock`.
 
 ### Example
 
-There are no examples for this endpoint.
+Request:
+
+```json
+{
+  "id": "1",
+  "data": {
+    "base": "FTSE",
+    "endpoint": "common"
+  },
+  "debug": {
+    "cacheKey": "jelFIe/k15MwK3X4Yy3kNjs5GbQ="
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "jobRunID": "1",
+  "data": {
+    "result": 7274.81
+  },
+  "result": 7274.81,
+  "statusCode": 200,
+  "providerStatusCode": 200
+}
+```
 
 ---
 

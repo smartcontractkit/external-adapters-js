@@ -1,6 +1,6 @@
-import { BaseEndpointTypes } from '../endpoint/forex'
-import { TiingoWebsocketReverseMappingTransport } from './utils'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/forex'
+import { TiingoWebsocketReverseMappingTransport, wsMessageContent } from './utils'
 
 const logger = makeLogger('TiingoWebsocketReverseMappingTransport')
 
@@ -63,24 +63,17 @@ export const wsTransport: TiingoWebsocketReverseMappingTransport<WsTransportType
     builders: {
       subscribeMessage: (params) => {
         wsTransport.setReverseMapping(`${params.base}${params.quote}`.toLowerCase(), params)
-        return {
-          eventName: 'subscribe',
-          authorization: wsTransport.apiKey,
-          eventData: {
-            thresholdLevel: 5,
-            tickers: [`${params.base}${params.quote}`.toLowerCase()],
-          },
-        }
+        return wsMessageContent('subscribe', wsTransport.apiKey, 5, params.base, params.quote, true)
       },
       unsubscribeMessage: (params) => {
-        return {
-          eventName: 'unsubscribe',
-          authorization: wsTransport.apiKey,
-          eventData: {
-            thresholdLevel: 5,
-            tickers: [`${params.base}${params.quote}`.toLowerCase()],
-          },
-        }
+        return wsMessageContent(
+          'unsubscribe',
+          wsTransport.apiKey,
+          5,
+          params.base,
+          params.quote,
+          true,
+        )
       },
     },
   })
