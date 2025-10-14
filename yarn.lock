@@ -2872,6 +2872,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/canton-functions-adapter@workspace:packages/sources/canton-functions":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/canton-functions-adapter@workspace:packages/sources/canton-functions"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.7.1"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/ceffu-adapter@workspace:*, @chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
@@ -3822,6 +3837,27 @@ __metadata:
   bin:
     create-external-adapter: adapter-generator.js
   checksum: 10/395c4b04e0a53423e02dadced63195c0bf03ff2eb54cf859da3985c195fa22b3967e893f19780e4a519ef98c9e6aee5e0c07fe2f9745c111ad80108805d9d3f0
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:2.7.1":
+  version: 2.7.1
+  resolution: "@chainlink/external-adapter-framework@npm:2.7.1"
+  dependencies:
+    ajv: "npm:8.17.1"
+    axios: "npm:1.12.2"
+    eventsource: "npm:4.0.0"
+    fastify: "npm:5.6.1"
+    ioredis: "npm:5.8.0"
+    mock-socket: "npm:9.3.1"
+    pino: "npm:10.0.0"
+    pino-pretty: "npm:13.1.1"
+    prom-client: "npm:15.1.3"
+    redlock: "npm:5.0.0-beta.2"
+    ws: "npm:8.18.3"
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 10/62c9121f1bb4a86b903f1df13f2b8283bff2ee35dd50477bdf29948e00157d87ffc12127744a6fc7a55ac939a8107d042379f084fe91602b23a18f7543ac5a70
   languageName: node
   linkType: hard
 
@@ -17437,6 +17473,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ioredis@npm:5.8.0":
+  version: 5.8.0
+  resolution: "ioredis@npm:5.8.0"
+  dependencies:
+    "@ioredis/commands": "npm:1.4.0"
+    cluster-key-slot: "npm:^1.1.0"
+    debug: "npm:^4.3.4"
+    denque: "npm:^2.1.0"
+    lodash.defaults: "npm:^4.2.0"
+    lodash.isarguments: "npm:^3.1.0"
+    redis-errors: "npm:^1.2.0"
+    redis-parser: "npm:^3.0.0"
+    standard-as-callback: "npm:^2.1.0"
+  checksum: 10/cf28889012e18d83b1e1762801426a653ac2f958cd3d79afb71005659a5b3e850acc18cf9315e0525a48c0f6cc948198b26b1339491309c71e62c3f2c47f2f20
+  languageName: node
+  linkType: hard
+
 "ioredis@npm:5.8.1":
   version: 5.8.1
   resolution: "ioredis@npm:5.8.1"
@@ -21506,6 +21559,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pino-pretty@npm:13.1.1":
+  version: 13.1.1
+  resolution: "pino-pretty@npm:13.1.1"
+  dependencies:
+    colorette: "npm:^2.0.7"
+    dateformat: "npm:^4.6.3"
+    fast-copy: "npm:^3.0.2"
+    fast-safe-stringify: "npm:^2.1.1"
+    help-me: "npm:^5.0.0"
+    joycon: "npm:^3.1.1"
+    minimist: "npm:^1.2.6"
+    on-exit-leak-free: "npm:^2.1.0"
+    pino-abstract-transport: "npm:^2.0.0"
+    pump: "npm:^3.0.0"
+    secure-json-parse: "npm:^4.0.0"
+    sonic-boom: "npm:^4.0.1"
+    strip-json-comments: "npm:^5.0.2"
+  bin:
+    pino-pretty: bin.js
+  checksum: 10/b03520c99907f675fbc7d6395f27f60456d06562f2c84040064b575c6dec6c517eef6c147a846d587a1395878796dc4d4ac027acac1eae5022dd59d69c15ad7f
+  languageName: node
+  linkType: hard
+
 "pino-pretty@npm:13.1.2":
   version: 13.1.2
   resolution: "pino-pretty@npm:13.1.2"
@@ -21585,6 +21661,27 @@ __metadata:
   version: 7.0.0
   resolution: "pino-std-serializers@npm:7.0.0"
   checksum: 10/884e08f65aa5463d820521ead3779d4472c78fc434d8582afb66f9dcb8d8c7119c69524b68106cb8caf92c0487be7794cf50e5b9c0383ae65b24bf2a03480951
+  languageName: node
+  linkType: hard
+
+"pino@npm:10.0.0":
+  version: 10.0.0
+  resolution: "pino@npm:10.0.0"
+  dependencies:
+    atomic-sleep: "npm:^1.0.0"
+    on-exit-leak-free: "npm:^2.1.0"
+    pino-abstract-transport: "npm:^2.0.0"
+    pino-std-serializers: "npm:^7.0.0"
+    process-warning: "npm:^5.0.0"
+    quick-format-unescaped: "npm:^4.0.3"
+    real-require: "npm:^0.2.0"
+    safe-stable-stringify: "npm:^2.3.1"
+    slow-redact: "npm:^0.3.0"
+    sonic-boom: "npm:^4.0.1"
+    thread-stream: "npm:^3.0.0"
+  bin:
+    pino: bin.js
+  checksum: 10/32c7da274526706a2f1ad329bd44f2e2d2f0e0484e63dc290f8fb6986ed23e97ba5f30e6a80af3fa5f30a58e70a46d40a08b5731e1dfcb6f17a465f595fa361d
   languageName: node
   linkType: hard
 
@@ -23428,6 +23525,13 @@ __metadata:
     astral-regex: "npm:^2.0.0"
     is-fullwidth-code-point: "npm:^3.0.0"
   checksum: 10/4a82d7f085b0e1b070e004941ada3c40d3818563ac44766cca4ceadd2080427d337554f9f99a13aaeb3b4a94d9964d9466c807b3d7b7541d1ec37ee32d308756
+  languageName: node
+  linkType: hard
+
+"slow-redact@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "slow-redact@npm:0.3.2"
+  checksum: 10/53889cc43128fd49dfa54dd39a858b215b075b0e2020f93fb0210bc419e5c0de9416300a885de8542238f253b622578ea8a58f9a55f548a9f3300119fd555064
   languageName: node
   linkType: hard
 

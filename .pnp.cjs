@@ -267,6 +267,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cache.gold"\
     },\
     {\
+      "name": "@chainlink/canton-functions-adapter",\
+      "reference": "workspace:packages/sources/canton-functions"\
+    },\
+    {\
       "name": "@chainlink/ceffu-adapter",\
       "reference": "workspace:packages/sources/ceffu"\
     },\
@@ -867,6 +871,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
+    ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
@@ -5461,6 +5466,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/canton-functions-adapter", [\
+      ["workspace:packages/sources/canton-functions", {\
+        "packageLocation": "./packages/sources/canton-functions/",\
+        "packageDependencies": [\
+          ["@chainlink/canton-functions-adapter", "workspace:packages/sources/canton-functions"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.1"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/ceffu-adapter", [\
       ["workspace:packages/sources/ceffu", {\
         "packageLocation": "./packages/sources/ceffu/",\
@@ -6506,6 +6528,24 @@ const RAW_RUNTIME_STATE =
           ["mock-socket", "npm:9.3.1"],\
           ["pino", "npm:10.1.0"],\
           ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.7.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.7.1-f76223d2e3-62c9121f1b.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.7.1"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.12.2"],\
+          ["eventsource", "npm:4.0.0"],\
+          ["fastify", "npm:5.6.1"],\
+          ["ioredis", "npm:5.8.0"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.0.0"],\
+          ["pino-pretty", "npm:13.1.1"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
           ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
@@ -22328,6 +22368,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ioredis", [\
+      ["npm:5.8.0", {\
+        "packageLocation": "./.yarn/cache/ioredis-npm-5.8.0-f126f3f562-cf28889012.zip/node_modules/ioredis/",\
+        "packageDependencies": [\
+          ["ioredis", "npm:5.8.0"],\
+          ["@ioredis/commands", "npm:1.4.0"],\
+          ["cluster-key-slot", "npm:1.1.2"],\
+          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
+          ["denque", "npm:2.1.0"],\
+          ["lodash.defaults", "npm:4.2.0"],\
+          ["lodash.isarguments", "npm:3.1.0"],\
+          ["redis-errors", "npm:1.2.0"],\
+          ["redis-parser", "npm:3.0.0"],\
+          ["standard-as-callback", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:5.8.1", {\
         "packageLocation": "./.yarn/cache/ioredis-npm-5.8.1-21266a0c28-f1e328e9ce.zip/node_modules/ioredis/",\
         "packageDependencies": [\
@@ -26895,6 +26951,24 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
+      ["npm:10.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.0.0-39fff26f8f-32c7da2745.zip/node_modules/pino/",\
+        "packageDependencies": [\
+          ["pino", "npm:10.0.0"],\
+          ["atomic-sleep", "npm:1.0.0"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pino-std-serializers", "npm:7.0.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["quick-format-unescaped", "npm:4.0.4"],\
+          ["real-require", "npm:0.2.0"],\
+          ["safe-stable-stringify", "npm:2.5.0"],\
+          ["slow-redact", "npm:0.3.2"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["thread-stream", "npm:3.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:10.1.0", {\
         "packageLocation": "./.yarn/cache/pino-npm-10.1.0-3dcf993335-6f9c865726.zip/node_modules/pino/",\
         "packageDependencies": [\
@@ -26965,6 +27039,26 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
+      ["npm:13.1.1", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.1.1-9105c2b985-b03520c999.zip/node_modules/pino-pretty/",\
+        "packageDependencies": [\
+          ["pino-pretty", "npm:13.1.1"],\
+          ["colorette", "npm:2.0.20"],\
+          ["dateformat", "npm:4.6.3"],\
+          ["fast-copy", "npm:3.0.2"],\
+          ["fast-safe-stringify", "npm:2.1.1"],\
+          ["help-me", "npm:5.0.0"],\
+          ["joycon", "npm:3.1.1"],\
+          ["minimist", "npm:1.2.8"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pump", "npm:3.0.2"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["strip-json-comments", "npm:5.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:13.1.2", {\
         "packageLocation": "./.yarn/cache/pino-pretty-npm-13.1.2-4d082d4016-ec513a25f0.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
@@ -29022,6 +29116,15 @@ const RAW_RUNTIME_STATE =
           ["ansi-styles", "npm:4.3.0"],\
           ["astral-regex", "npm:2.0.0"],\
           ["is-fullwidth-code-point", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["slow-redact", [\
+      ["npm:0.3.2", {\
+        "packageLocation": "./.yarn/cache/slow-redact-npm-0.3.2-f92d19539e-53889cc431.zip/node_modules/slow-redact/",\
+        "packageDependencies": [\
+          ["slow-redact", "npm:0.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
