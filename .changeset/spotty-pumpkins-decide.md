@@ -1,5 +1,5 @@
 ---
-'@chainlink/cfbenchmarks-adapter': major
+'@chainlink/cfbenchmarks-adapter': minor
 ---
 
 Remove unused birc endpoint from cfbenchmarks
