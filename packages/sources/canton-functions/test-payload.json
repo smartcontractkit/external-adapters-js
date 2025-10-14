@@ -1,0 +1,10 @@
+{
+  "requests": [
+    {
+      "endpoint": "canton-data",
+      "data": {
+        "templateId": "example-package-id:Main:Asset"
+      }
+    }
+  ]
+}
