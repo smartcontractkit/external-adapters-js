@@ -40,6 +40,16 @@ export const mockETHMainnetContractCallResponseSuccess = (): nock.Scope =>
           } else if (
             request.method === 'eth_call' &&
             request.params[0].to === '0x2c1d072e956affc0d435cb7ac38ef18d24d9127c' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000008',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0x2c1d072e956affc0d435cb7ac38ef18d24d9127c' &&
             request.params[0].data ===
               '0xb5ab58dc0000000000000000000000000000000000000000000000060000000000001df4'
           ) {
@@ -109,6 +119,16 @@ export const mockETHGoerliContractCallResponseSuccess = (): nock.Scope =>
               jsonrpc: '2.0',
               id: request.id,
               result: '0x000000000000000000000000000000000000000000000000eead809f678d30f0',
+            }
+          } else if (
+            request.method === 'eth_call' &&
+            request.params[0].to === '0x779877a7b0d9e8603169ddbd7836e478b4624789' &&
+            request.params[0].data === '0x313ce567' // decimals()
+          ) {
+            return {
+              jsonrpc: '2.0',
+              id: request.id,
+              result: '0x0000000000000000000000000000000000000000000000000000000000000018',
             }
           } else {
             // Default response for unsupported calls
