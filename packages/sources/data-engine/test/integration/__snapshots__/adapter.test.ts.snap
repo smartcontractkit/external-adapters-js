@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute crypto-v3 endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": "120952502049893650000000",
+    "bid": "120945968265543240000000",
+    "decimals": 18,
+    "price": "120950127609218450000000",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1114,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`execute rwa-v8 endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "marketStatus": 2,
+    "midPrice": "609515000000000000000",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2124,
+    "providerDataStreamEstablishedUnixMs": 2020,
+  },
+}
+`;
