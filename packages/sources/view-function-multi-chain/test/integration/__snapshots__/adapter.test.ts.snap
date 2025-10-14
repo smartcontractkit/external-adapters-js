@@ -31,6 +31,7 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
+    "decimals": 8,
     "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
@@ -45,6 +46,7 @@ exports[`execute function endpoint should return success 1`] = `
 exports[`execute function endpoint should return success for different network 1`] = `
 {
   "data": {
+    "decimals": 24,
     "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
   },
   "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
@@ -59,6 +61,7 @@ exports[`execute function endpoint should return success for different network 1
 exports[`execute function endpoint should return success with parameters 1`] = `
 {
   "data": {
+    "decimals": 8,
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
@@ -84,6 +87,7 @@ exports[`execute function-response-selector endpoint should fail with non-exista
 exports[`execute function-response-selector endpoint should return success with resultField 1`] = `
 {
   "data": {
+    "decimals": 0,
     "result": "123456789",
   },
   "result": "123456789",

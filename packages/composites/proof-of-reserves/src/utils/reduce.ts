@@ -49,7 +49,6 @@ export const runReduceAdapter = async (
   context: AdapterContext,
   input: AdapterResponse,
   indexerEndpoint?: string,
-  viewFunctionIndexerResultDecimals?: number,
 ): Promise<AdapterResponse> => {
   // Some adapters' balances come already reduced
   // but needs to be converted from their base unit
@@ -114,15 +113,10 @@ export const runReduceAdapter = async (
       }
       break
     case viewFunctionMultiChain.name:
-      if (!viewFunctionIndexerResultDecimals) {
-        throw new Error(
-          'viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer',
-        )
-      }
       return returnParsedUnits(
         input.jobRunID,
         parseHexToBigInt(input.data.result).toString(),
-        18 - (viewFunctionIndexerResultDecimals as number),
+        18 - (input.data.decimals as number),
         false,
         18,
       )

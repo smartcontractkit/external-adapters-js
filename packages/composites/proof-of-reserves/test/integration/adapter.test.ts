@@ -208,7 +208,6 @@ describe('execute', () => {
             network: 'BASE',
           },
           disableDuplicateAddressFiltering: true,
-          viewFunctionIndexerResultDecimals: 6,
         },
       }
       mockViewFunctionMultiChainSuccess()
@@ -220,36 +219,6 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect(response.body).toMatchSnapshot()
-    })
-
-    it('view-function-multi-chain fails', async () => {
-      const data: AdapterRequest = {
-        id: '1',
-        data: {
-          endpoint: 'reserves',
-          protocol: 'list',
-          addresses: [''],
-          indexer: 'view_function_multi_chain',
-          indexerEndpoint: 'function',
-          indexerParams: {
-            signature: 'function getPending() public view returns (uint256)',
-            address: '0xa69b964a597435A2F938cc55FaAbe34F2A9AF278',
-            network: 'BASE',
-          },
-          disableDuplicateAddressFiltering: true,
-        },
-      }
-      mockViewFunctionMultiChainSuccess()
-
-      const response = await (context.req as SuperTest<Test>)
-        .post('/')
-        .send(data)
-        .set('Accept', '*/*')
-        .set('Content-Type', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(500)
-
       expect(response.body).toMatchSnapshot()
     })
   })

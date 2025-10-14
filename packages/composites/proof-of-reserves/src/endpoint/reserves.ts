@@ -31,7 +31,6 @@ export type TInputParameters = {
   description?: string
   startUTC?: string
   endUTC?: string
-  viewFunctionIndexerResultDecimals?: number
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -115,13 +114,6 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'end time for scheduleWindow in UTC [Format HHMM]',
   },
-  // TODO: https://smartcontract-it.atlassian.net/browse/OPDATA-3775
-  viewFunctionIndexerResultDecimals: {
-    required: false,
-    type: 'number',
-    description:
-      'The decimal precision of the value returned by the view-function-multi-chain indexer for the contract answer.',
-  },
 }
 export const execute: ExecuteWithConfig<Config> = async (input, context, config) => {
   const validator = new Validator(input, inputParameters, config.options)
@@ -168,13 +160,7 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     validator.validated.data.indexerParams,
   )
 
-  const reduceOutput = await runReduceAdapter(
-    indexer,
-    context,
-    balanceOutput,
-    indexerEndpoint,
-    validator.validated.data.viewFunctionIndexerResultDecimals,
-  )
+  const reduceOutput = await runReduceAdapter(indexer, context, balanceOutput, indexerEndpoint)
   reduceOutput.data.description = validator.validated.data.description
   return reduceOutput
 }
