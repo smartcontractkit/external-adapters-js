@@ -116,7 +116,6 @@ jobs:
             --all \
             --preserve-digests \
             --retry-times 3 \
-            --image-parallel-copies 5 \
             --src-creds AWS:${PRIVATE_ECR_PASSWORD} \
             --dest-creds AWS:${PUBLIC_ECR_PASSWORD} \
             docker://${SOURCE_IMAGE} \
