@@ -5794,7 +5794,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["https-proxy-agent", "npm:7.0.6"],\
           ["nock", "npm:13.5.6"],\
           ["query-string", "npm:9.1.2"],\
@@ -7795,7 +7795,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8679,7 +8679,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.3"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9204,7 +9204,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9434,7 +9434,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -9450,7 +9450,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -20730,7 +20730,7 @@ const RAW_RUNTIME_STATE =
           ["@socket.io/component-emitter", "npm:3.1.2"],\
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
           ["engine.io-parser", "npm:5.2.3"],\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"],\
+          ["ws", "virtual:f266964bbf0a973b765b066fe1b1828807981016fc49075d7d14462508ec0b4c518650d9ae747c8b805b7e3e20b5b050695db51ba47ef5e8e240f1bec894a15f#npm:8.17.1"],\
           ["xmlhttprequest-ssl", "npm:2.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -21332,35 +21332,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.7.5"],\
           ["aes-js", "npm:4.0.0-beta.5"],\
           ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.14.1", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.14.1-8cfd0fa935-20bd332bef.zip/node_modules/ethers/",\
-        "packageDependencies": [\
-          ["ethers", "npm:6.14.1"],\
-          ["@adraffy/ens-normalize", "npm:1.10.1"],\
-          ["@noble/curves", "npm:1.2.0"],\
-          ["@noble/hashes", "npm:1.3.2"],\
-          ["@types/node", "npm:22.7.5"],\
-          ["aes-js", "npm:4.0.0-beta.5"],\
-          ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.14.3", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.14.3-629d34af0f-ce68b962f1.zip/node_modules/ethers/",\
-        "packageDependencies": [\
-          ["ethers", "npm:6.14.3"],\
-          ["@adraffy/ens-normalize", "npm:1.10.1"],\
-          ["@noble/curves", "npm:1.2.0"],\
-          ["@noble/hashes", "npm:1.3.2"],\
-          ["@types/node", "npm:22.7.5"],\
-          ["aes-js", "npm:4.0.0-beta.5"],\
-          ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"]\
+          ["ws", "virtual:f266964bbf0a973b765b066fe1b1828807981016fc49075d7d14462508ec0b4c518650d9ae747c8b805b7e3e20b5b050695db51ba47ef5e8e240f1bec894a15f#npm:8.17.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -21374,7 +21346,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.7.5"],\
           ["aes-js", "npm:4.0.0-beta.5"],\
           ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"]\
+          ["ws", "virtual:f266964bbf0a973b765b066fe1b1828807981016fc49075d7d14462508ec0b4c518650d9ae747c8b805b7e3e20b5b050695db51ba47ef5e8e240f1bec894a15f#npm:8.17.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -34111,23 +34083,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-280bdd3820/0/cache/ws-npm-8.17.1-f57fb24a2c-4264ae92c0.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "virtual:8cfd0fa935949217c308374917dd57098a4fc861b9fe5e6f3d5c2f9c617189ea260ff017818772e39f7efd4ea46f2f748b930ace572f2b143e85fd412b9a9099#npm:8.17.1"],\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", null],\
-          ["utf-8-validate", null]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:a4d909a61e93daed8b0f848db71f77bdb5ea1775c18ad3db85de4172204ddb9f7f82dbc310d890029da6267fa4af96340d5ff43faec0b46ba34566f507673938#npm:8.18.2", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-3251116db9/0/cache/ws-npm-8.18.2-664b945bea-018e04ec95.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -34149,6 +34104,23 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/ws-virtual-d1b48d3beb/0/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:bdc244f853fb22ebac7b81f50917f9b470cc7237095ba56eae0d97416db6fb294de2dfb5b3ab323b141006d4a3cdee50bddf11794531ca39f6010716210e02c8#npm:8.18.3"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:f266964bbf0a973b765b066fe1b1828807981016fc49075d7d14462508ec0b4c518650d9ae747c8b805b7e3e20b5b050695db51ba47ef5e8e240f1bec894a15f#npm:8.17.1", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-d0741043a0/0/cache/ws-npm-8.17.1-f57fb24a2c-4264ae92c0.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:f266964bbf0a973b765b066fe1b1828807981016fc49075d7d14462508ec0b4c518650d9ae747c8b805b7e3e20b5b050695db51ba47ef5e8e240f1bec894a15f#npm:8.17.1"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
