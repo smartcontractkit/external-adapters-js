@@ -113,7 +113,7 @@ export const runReduceAdapter = async (
         })
       }
       break
-    case viewFunctionMultiChain.name:
+    case viewFunctionMultiChain.name: {
       let decimalsOffset: number
 
       if (input?.data?.decimals != null) {
@@ -133,6 +133,7 @@ export const runReduceAdapter = async (
         false,
         18,
       )
+    }
   }
 
   const next = {
