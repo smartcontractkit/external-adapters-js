@@ -26,9 +26,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                          Options                                                                                                           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [birc](#birc-endpoint), [crypto-lwba](#crypto-lwba-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                              Options                                                                                               | Default  |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [crypto-lwba](#crypto-lwba-endpoint), [crypto](#crypto-endpoint), [crypto_lwba](#crypto-lwba-endpoint), [cryptolwba](#crypto-lwba-endpoint), [price](#crypto-endpoint), [values](#crypto-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -53,31 +53,6 @@ Request:
     "endpoint": "crypto",
     "base": "LINK",
     "quote": "USD"
-  }
-}
-```
-
----
-
-## Birc Endpoint
-
-`birc` is the only supported name for this endpoint.
-
-### Input Params
-
-| Required? | Name  | Aliases |                  Description                  |  Type  |                        Options                         | Default | Depends On | Not Valid With |
-| :-------: | :---: | :-----: | :-------------------------------------------: | :----: | :----------------------------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | tenor |         | The tenor value to pull from the API response | string | `1M`, `1W`, `2M`, `2W`, `3M`, `3W`, `4M`, `5M`, `SIRB` |         |            |                |
-
-### Example
-
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "birc",
-    "tenor": "SIRB"
   }
 }
 ```

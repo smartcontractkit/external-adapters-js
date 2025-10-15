@@ -29,9 +29,9 @@ jobs:
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
+          persist-credentials: false
           fetch-depth: 2
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
@@ -43,6 +43,35 @@ jobs:
           UPSTREAM_BRANCH: HEAD~1
         run: |
           ./.github/scripts/changed-adapters.sh
+
+  create-ecr:
+    name: Create ECR for ${{ matrix.adapter.shortName }}
+    runs-on: ubuntu-latest
+    needs: [calculate-changes]
+    if: needs.calculate-changes.outputs.adapter-list != '[]'
+    permissions: # These are needed for the configure-aws-credentials action
+      id-token: write
+      contents: read
+    environment: release
+    strategy:
+      max-parallel: 20
+      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
+    env:
+      ECR_URL: public.ecr.aws/chainlink
+      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
+      IMAGE_VERSION: ${{ matrix.adapter.version }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Create ECR for ${{ matrix.adapter.shortName }}
+        uses: ./.github/actions/create-ecrs
+        with:
+          aws-ecr-url: ${{ env.ECR_URL }}
+          aws-ecr-repo: ${{ env.ECR_REPO }}
+          aws-region: us-east-1
+          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-ecr-private: false
 
   publish-adapter-images:
     name: Fetch and publish ${{ matrix.adapter.shortName }}
@@ -61,30 +90,36 @@ jobs:
       PRIVATE_ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
       ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
     steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Configure AWS Credentials for SDLC Private ECR
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
           mask-aws-account-id: true
-      - name: Authenticate to ECR
-        run: aws ecr get-login-password --region ${{ secrets.AWS_REGION_ECR_PRIVATE }} | docker login --username AWS --password-stdin ${{ env.PRIVATE_ECR_URL }}/adapters/
-      - name: Pull adapter image from private ECR and retag with public ecr details
+      - name: Copy images with attestations from private to public ECR
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          SOURCE_IMAGE: ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
+          DEST_IMAGE: ${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
         run: |
-          docker pull ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
-          docker tag ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }} ${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
-      - name: Publish adapter image to public ECR
-        uses: ./.github/actions/publish-image
-        with:
-          adapter-short-name: ${{ matrix.adapter.shortName }}
-          image-version: ${{ matrix.adapter.version }}
-          aws-ecr-url: ${{ env.PUBLIC_ECR_URL }}
-          aws-ecr-repo: ${{ env.ECR_REPO }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PUBLIC }}
-          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-ecr-private: false
+          PRIVATE_ECR_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
+          echo "::add-mask::${PRIVATE_ECR_PASSWORD}"
+          PUBLIC_ECR_PASSWORD=$(aws ecr-public get-login-password --region us-east-1)
+          echo "::add-mask::${PUBLIC_ECR_PASSWORD}"
+
+          # Copy all architectures, attestations (SBOM, provenance), and signatures
+          echo "Copying versioned image: ${SOURCE_IMAGE} -> ${DEST_IMAGE}"
+          skopeo copy \
+            --all \
+            --preserve-digests \
+            --retry-times 3 \
+            --src-creds AWS:${PRIVATE_ECR_PASSWORD} \
+            --dest-creds AWS:${PUBLIC_ECR_PASSWORD} \
+            docker://${SOURCE_IMAGE} \
+            docker://${DEST_IMAGE}
 
   gh-release:
     name: GH Release
@@ -94,8 +129,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Get release version
         id: get-version
         run: |
