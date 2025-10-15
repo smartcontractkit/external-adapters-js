@@ -1,20 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute birc endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 0.0947,
-  },
-  "result": 0.0947,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1641035471111,
-    "providerDataRequestedUnixMs": 1641035471111,
-    "providerIndicatedTimeUnixMs": 1677226637446,
-  },
-}
-`;
-
 exports[`execute crypto endpoint should return success 1`] = `
 {
   "data": {
