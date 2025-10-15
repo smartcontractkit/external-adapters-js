@@ -1,19 +1,19 @@
 import { Cache } from '@chainlink/external-adapter-framework/cache'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/accounts'
 import { config } from '../config'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/accounts'
 import {
   Account,
   AdapterInputParameters,
@@ -105,9 +105,7 @@ export class BankFrickAccountsTransport implements Transport<BaseEndpointTypes> 
     while (response.status !== 200) {
       retryNumber++
       logger.warn(
-        'Encountered error when fetching accounts from Bank Frick:',
-        response.status,
-        response.statusText,
+        `Encountered error when fetching accounts from Bank Frick: ${response.status} ${response.statusText}`,
       )
 
       // Evaluate whether the error was fatal, auth, or transient and whether we've exceeded the max number of retries.
@@ -218,7 +216,7 @@ export class BankFrickAccountsTransport implements Transport<BaseEndpointTypes> 
       throw new AdapterInputError({ statusCode: 404, message: 'Could not find all accounts' })
     }
 
-    logger.debug('Was able to find all accounts, returning balance across all accounts: ', sum)
+    logger.debug(`Was able to find all accounts, returning balance across all accounts: ${sum}`)
     const res = {
       data: {
         result: sum,

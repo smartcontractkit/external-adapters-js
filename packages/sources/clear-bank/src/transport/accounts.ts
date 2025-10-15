@@ -1,13 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/accounts'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
-import { AxiosRequestConfig } from 'axios'
-import { Account, AccountsRequestSchema, ResponseSchema } from './utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { AxiosRequestConfig } from 'axios'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/accounts'
+import { Account, AccountsRequestSchema, ResponseSchema } from './utils'
 
 type RequestParams = typeof inputParameters.validated
 
@@ -165,9 +165,7 @@ export class AccountsTransport extends SubscriptionTransport<BaseEndpointTypes> 
     const response = await this.requester.request<ResponseSchema>(key, axiosRequest)
     if (response.response.status !== 200) {
       logger.warn(
-        'Encountered error when fetching accounts from Clear Bank:',
-        response.response.status,
-        response.response.statusText,
+        `Encountered error when fetching accounts from Clear Bank: ${response.response.status} ${response.response.statusText}`,
       )
 
       // If the error was a Bad Request, Clear Bank provides an error object to determine the specific issue
