@@ -235,8 +235,9 @@ export class MultiChainFunctionTransport<
       if (err instanceof Error) {
         console.warn(`Failed to fetch decimals for ${address}:`, err.message)
       }
-      return null
     }
+
+    return results
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
