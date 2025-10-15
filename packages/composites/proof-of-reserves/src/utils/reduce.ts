@@ -116,8 +116,9 @@ export const runReduceAdapter = async (
     case viewFunctionMultiChain.name: {
       let decimalsOffset: number
 
-      if (input?.data?.decimals != null) {
-        decimalsOffset = 18 - Number(input.data.decimals)
+      const decimalsHex = input.data.decimals
+      if (decimalsHex != null) {
+        decimalsOffset = 18 - Number(decimalsHex)
       } else if (viewFunctionIndexerResultDecimals != null) {
         decimalsOffset = 18 - Number(viewFunctionIndexerResultDecimals)
       } else {
