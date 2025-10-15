@@ -5,7 +5,10 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
 
 const logger = makeLogger('View Function Multi Chain')
@@ -16,6 +19,7 @@ interface RequestParams {
   inputParams?: Array<string>
   network: string
   resultField?: string
+  data?: Record<string, RequestParams>
 }
 
 export type RawOnchainResponse = {
@@ -80,7 +84,36 @@ export class MultiChainFunctionTransport<
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network } = param
+    const { address, signature, inputParams, network, data } = param
+
+    const mainResult = await this._executeFunction({
+      address,
+      signature,
+      inputParams,
+      network,
+      resultField: param.resultField,
+    })
+
+    const nestedResults = await this._processNestedDataRequest(data, address, network)
+
+    const combinedData = { result: mainResult.result, ...nestedResults }
+
+    return {
+      data: combinedData,
+      statusCode: 200,
+      result: mainResult.result,
+      timestamps: mainResult.timestamps,
+    }
+  }
+
+  private async _executeFunction(params: {
+    address: string
+    signature: string
+    inputParams?: Array<string>
+    network: string
+    resultField?: string
+  }) {
+    const { address, signature, inputParams, network, resultField } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -102,19 +135,19 @@ export class MultiChainFunctionTransport<
 
     const iface = new ethers.Interface([signature])
     const fnName = iface.getFunctionName(signature)
-    const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
+    const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
     const providerDataRequestedUnixMs = Date.now()
-    const encodedResult = await this.providers[networkName].call({
-      to: address,
-      data: encoded,
-    })
 
-    // Try to get decimals if the function is called on a token contract
-    const decimals = await this.getDecimals(address, networkName).catch((e) => {
-      logger.warn(`Could not fetch decimals for address ${address} on network ${networkName}:`, e)
-      return null
-    })
+    let encodedResult
+    try {
+      encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
+    } catch (err) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `RPC call failed for ${fnName} on ${networkName}: ${err}`,
+      })
+    }
 
     const timestamps = {
       providerDataRequestedUnixMs,
@@ -122,37 +155,46 @@ export class MultiChainFunctionTransport<
       providerIndicatedTimeUnixMs: undefined,
     }
 
-    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, param.resultField)
+    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, resultField)
 
-    return {
-      data: {
-        result: result,
-        decimals: decimals,
-      },
-      statusCode: 200,
-      result,
-      timestamps,
-    }
+    return { result, timestamps }
   }
 
-  async getDecimals(address: string, networkName: string) {
-    if (!ethers.isAddress(address)) throw new Error('Invalid address')
+  private async _processNestedDataRequest(
+    data: Record<string, unknown> | undefined,
+    parentAddress: string,
+    parentNetwork: string,
+  ): Promise<Record<string, any>> {
+    if (!data || typeof data !== 'object') return {}
 
-    const provider = this.providers?.[networkName]
-    if (!provider) throw new Error(`No provider for network: ${networkName}`)
+    const results: Record<string, any> = {}
 
-    const abi = ['function decimals() view returns (uint8)']
-    const token = new ethers.Contract(address, abi, provider)
+    for (const [key, subReq] of Object.entries(data)) {
+      try {
+        const req = subReq as RequestParams
 
-    try {
-      const decimals = await token.decimals()
-      return Number(decimals)
-    } catch (err) {
-      if (err instanceof Error) {
-        console.warn(`Failed to fetch decimals for ${address}:`, err.message)
+        if (!req.signature) {
+          logger.warn(`Skipping nested key "${key}" — no signature provided.`)
+          continue
+        }
+
+        const nestedParam = {
+          address: req.address || parentAddress,
+          network: req.network || parentNetwork,
+          signature: req.signature,
+          inputParams: req.inputParams,
+          resultField: req.resultField,
+        }
+
+        const subRes = await this._executeFunction(nestedParam)
+        results[key] = subRes.result
+      } catch (err) {
+        logger.warn(`Nested function "${key}" failed: ${err}`)
+        results[key] = null
       }
-      return null
     }
+
+    return results
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
