@@ -26,7 +26,7 @@ export const mockViewFunctionMultiChainSuccess2 = (): nock.Scope => {
       statusCode: 200,
       data: {
         result: '0x000000000000000000000000000000000000000000000000FFFFFFFFFFFFFFFF',
-        decimals: 8,
+        decimals: '0x0000000000000000000000000000000000000000000000000000000000000008',
       },
       metricsMeta: {
         feedId:
