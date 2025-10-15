@@ -228,7 +228,7 @@ export class StreamingClient extends EventEmitter {
     logger.trace(JSON.stringify(priceUpdate, null, 0))
     const instrument = this.requestIdToInstrument.get(priceUpdate.id)
     if (!instrument) {
-      logger.error('Could not find instrument for price update: ', JSON.stringify(priceUpdate))
+      logger.error(`Could not find instrument for price update: ${JSON.stringify(priceUpdate)}`)
     } else {
       try {
         const update = Utils.mkPartialPriceUpdate(priceUpdate)

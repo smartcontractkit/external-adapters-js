@@ -46,7 +46,7 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     }
 
     const responses = await Promise.all(underlyingRequests)
-    logger.debug('All responses:', JSON.stringify(responses))
+    logger.debug(`All responses: ${JSON.stringify(responses)}`)
 
     if (
       (param.openMode === 'any' &&
@@ -76,8 +76,9 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
       (response) => response.marketStatus === MarketStatus.UNKNOWN,
     )
     logger.warn(
-      'Returning UNKNOWN for param.market, responses with unknown status:',
-      JSON.stringify(unknownResponses),
+      `Returning UNKNOWN for param.market, responses with unknown status: ${JSON.stringify(
+        unknownResponses,
+      )}`,
     )
 
     return {
