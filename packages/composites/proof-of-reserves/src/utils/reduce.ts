@@ -114,15 +114,22 @@ export const runReduceAdapter = async (
       }
       break
     case viewFunctionMultiChain.name:
-      if (!viewFunctionIndexerResultDecimals) {
+      let decimalsOffset: number
+
+      if (input?.data?.decimals != null) {
+        decimalsOffset = 18 - Number(input.data.decimals)
+      } else if (viewFunctionIndexerResultDecimals != null) {
+        decimalsOffset = 18 - Number(viewFunctionIndexerResultDecimals)
+      } else {
         throw new Error(
-          'viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer',
+          `Missing decimals: neither input.data.decimals nor viewFunctionIndexerResultDecimals provided`,
         )
       }
+
       return returnParsedUnits(
         input.jobRunID,
         parseHexToBigInt(input.data.result).toString(),
-        18 - (viewFunctionIndexerResultDecimals as number),
+        decimalsOffset,
         false,
         18,
       )
