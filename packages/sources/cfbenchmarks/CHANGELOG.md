@@ -1,5 +1,13 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.5.0
+
+### Minor Changes
+
+- [#4102](https://github.com/smartcontractkit/external-adapters-js/pull/4102) [`a77b4f8`](https://github.com/smartcontractkit/external-adapters-js/commit/a77b4f8ae534effa98dcc4ff0ec200c21f06dfdc) Thanks [@cll-gg](https://github.com/cll-gg)! - Remove rest endpoint from cfbenchmarks since it's unused.
+
+- [#4096](https://github.com/smartcontractkit/external-adapters-js/pull/4096) [`dddedf3`](https://github.com/smartcontractkit/external-adapters-js/commit/dddedf3776d5f56d20339bfc8c2210053ae6529a) Thanks [@cll-gg](https://github.com/cll-gg)! - Remove unused birc endpoint from cfbenchmarks
+
 ## 2.4.13
 
 ### Patch Changes
