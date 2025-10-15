@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.7.1",
     "@coral-xyz/anchor": "^0.31.1",
     "@solana/addresses": "^3.0.2",
     "@solana/buffer-layout": "^4.0.1",
