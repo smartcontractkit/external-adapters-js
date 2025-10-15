@@ -1,5 +1,11 @@
 # @chainlink/ceffu-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- [#4105](https://github.com/smartcontractkit/external-adapters-js/pull/4105) [`cd239ab`](https://github.com/smartcontractkit/external-adapters-js/commit/cd239ab9b0aa696cbfcc35a0942cda108fa2ba2f) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency query-string to v9.3.1
+
 ## 1.1.2
 
 ### Patch Changes
