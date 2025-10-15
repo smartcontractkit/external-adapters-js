@@ -167,8 +167,6 @@ export function createLwbaWsTransport() {
       },
 
       unsubscribeMessage: (p: { market: string; isin: string }) => {
-        const err = new Error()
-        console.error(err.stack)
         cache.deactivate(p.isin)
         if (cache.isEmpty()) {
           const req = create(RequestSchema, {
@@ -233,7 +231,7 @@ function processMarketData(
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat.Px)
     cache.addTrade(isin, latestPrice, providerTime)
-    logger.info(
+    logger.debug(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
     )
@@ -243,7 +241,7 @@ function processMarketData(
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
     cache.addQuote(isin, bidPx, askPx, providerTime)
-    logger.info(
+    logger.debug(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
     )
@@ -252,7 +250,7 @@ function processMarketData(
   if (hasSingleBidFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     cache.addBid(isin, bidPx, providerTime)
-    logger.info(
+    logger.debug(
       { isin, bid: bidPx, providerTimeUnixMs: providerTime },
       'Processed single bid frame',
     )
@@ -262,7 +260,7 @@ function processMarketData(
   if (hasSingleOfferFrame(dat)) {
     const askPx = decimalToNumber(dat!.Offer!.Px)
     cache.addAsk(isin, askPx, providerTime)
-    logger.info(
+    logger.debug(
       { isin, ask: askPx, providerTimeUnixMs: providerTime },
       'Processed single offer frame',
     )
