@@ -24,7 +24,7 @@ const validDate = (date: string) => {
 
 const findDay = (payload: ResponseSchema[], date: string) => {
   if (!date) return payload[0]
-  // All historical dates are given, find the the correct one
+  // All historical dates are given, find the correct one
   for (const index in payload) {
     if (payload[index].date === Number(date)) {
       return payload[index]
