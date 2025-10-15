@@ -226,10 +226,18 @@ function processMarketDataForLatestPrice(
 
   // For latest price endpoint, we only process trade frames (ignore quote frames)
   if (isSingleTradeFrame(dat)) {
-    const latestPrice = decimalToNumber(dat.Px)
+    // Special case for md-tradegate: use AvgPx instead of Px
+    const priceField = market === 'md-tradegate' ? dat.AvgPx : dat.Px
+    const latestPrice = decimalToNumber(priceField)
     cache.addTrade(isin, market, latestPrice, providerTime)
     logger.debug(
-      { isin, market, latestPrice, providerTimeUnixMs: providerTime },
+      {
+        isin,
+        market,
+        latestPrice,
+        providerTimeUnixMs: providerTime,
+        priceSource: market === 'md-tradegate' ? 'AvgPx' : 'Px',
+      },
       'Processed single trade frame for latest price',
     )
     return { isin, providerTime }
