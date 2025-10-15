@@ -266,6 +266,7 @@ function processMarketData(
       { isin, ask: askPx, providerTimeUnixMs: providerTime },
       'Processed single offer frame',
     )
+    return { isin, providerTime }
   }
 
   logger.debug({ isin, keys: Object.keys(dat ?? {}) }, 'Ignoring unsupported market data frame')
