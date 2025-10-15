@@ -1,4 +1,5 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
 import {
@@ -12,7 +13,8 @@ import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache } from './instrument-quote-cache'
 import {
   decimalToNumber,
-  isSingleQuoteFrame,
+  hasSingleBidFrame,
+  hasSingleOfferFrame,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -29,16 +31,38 @@ const logger = makeLogger('DeutscheBoerseTransport')
 
 export function createLwbaWsTransport() {
   const cache = new InstrumentQuoteCache()
-
-  return new ProtobufWsTransport<WsTransportTypes>({
+  let ttlInterval: ReturnType<typeof setInterval> | undefined
+  const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
       headers: { 'X-API-Key': context.adapterSettings.API_KEY },
       followRedirects: true,
     }),
     handlers: {
-      open: () => {
+      open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
+
+        // Clear any previous interval
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
+
+        const doRefresh = async () => {
+          try {
+            await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
+            logger.info(
+              { refreshMs: context.adapterSettings.CACHE_TTL_REFRESH_MS },
+              'Refreshed TTL for active subscriptions',
+            )
+          } catch (err) {
+            logger.error({ err }, 'Failed TTL refresh')
+          }
+        }
+
+        // Refresh immediately, then every minute
+        await doRefresh()
+        ttlInterval = setInterval(doRefresh, context.adapterSettings.CACHE_TTL_REFRESH_MS)
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -48,6 +72,10 @@ export function createLwbaWsTransport() {
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
       },
       message(buf) {
         logger.debug(
@@ -62,6 +90,7 @@ export function createLwbaWsTransport() {
         if (!sm) {
           return []
         }
+        transport.lastMessageReceivedAt = Date.now()
         const decoded = decodeSingleMarketData(sm)
         if (!decoded) {
           return []
@@ -159,6 +188,7 @@ export function createLwbaWsTransport() {
       },
     },
   })
+  return transport
 }
 
 // --- helpers -----------------------------------------------------------------
@@ -171,6 +201,10 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
+const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+  const params = await transport.subscriptionSet.getAll()
+  transport.responseCache.writeTTL(transport.name, params, ttl)
+}
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
@@ -203,14 +237,32 @@ function processMarketData(
     )
     return { isin, providerTime }
   }
-
-  if (isSingleQuoteFrame(dat)) {
+  if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
     cache.addQuote(isin, bidPx, askPx, providerTime)
     logger.debug(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
+    )
+    return { isin, providerTime }
+  }
+  if (hasSingleBidFrame(dat)) {
+    const bidPx = decimalToNumber(dat!.Bid!.Px)
+    cache.addBid(isin, bidPx, providerTime)
+    logger.debug(
+      { isin, bid: bidPx, providerTimeUnixMs: providerTime },
+      'Processed single bid frame',
+    )
+    return { isin, providerTime }
+  }
+
+  if (hasSingleOfferFrame(dat)) {
+    const askPx = decimalToNumber(dat!.Offer!.Px)
+    cache.addAsk(isin, askPx, providerTime)
+    logger.debug(
+      { isin, ask: askPx, providerTimeUnixMs: providerTime },
+      'Processed single offer frame',
     )
     return { isin, providerTime }
   }
