@@ -1,6 +1,6 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/metadata'
 import {
   RequestSchema,
   StreamMessageSchema,
@@ -10,13 +10,7 @@ import {
 } from '../gen/client_pb'
 import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache } from './instrument-quote-cache'
-import {
-  decimalToNumber,
-  isSingleQuoteFrame,
-  isSingleTradeFrame,
-  parseIsin,
-  pickProviderTime,
-} from './proto-utils'
+import { decimalToNumber, isSingleQuoteFrame, parseIsin, pickProviderTime } from './proto-utils'
 import { ProtobufWsTransport } from './protobuf-wstransport'
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -25,9 +19,9 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('DeutscheBoerseTransport')
+const logger = makeLogger('DeutscheBoerseMetadataTransport')
 
-export function createLwbaWsTransport() {
+export function createMetadataWsTransport() {
   const cache = new InstrumentQuoteCache()
 
   return new ProtobufWsTransport<WsTransportTypes>({
@@ -38,16 +32,16 @@ export function createLwbaWsTransport() {
     }),
     handlers: {
       open: () => {
-        logger.info('LWBA websocket connection established')
+        logger.info('Metadata websocket connection established')
       },
       error: (errorEvent) => {
-        logger.error({ errorEvent }, 'LWBA websocket error')
+        logger.error({ errorEvent }, 'Metadata websocket error')
       },
       close: (closeEvent) => {
         const code = (closeEvent as any)?.code
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
-        logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+        logger.info({ code, reason, wasClean }, 'Metadata websocket closed')
       },
       message(buf) {
         logger.info(
@@ -56,7 +50,7 @@ export function createLwbaWsTransport() {
             byteLength: Buffer.isBuffer(buf) ? buf.byteLength : undefined,
             rawBuffer: Buffer.isBuffer(buf) ? buf.toString('hex').substring(0, 200) : 'N/A',
           },
-          'LWBA websocket message received (RAW)',
+          'Metadata websocket message received (RAW)',
         )
 
         const sm = decodeStreamMessage(buf)
@@ -96,29 +90,25 @@ export function createLwbaWsTransport() {
           'Decoded MarketData from StreamMessage',
         )
 
-        const result = processMarketData(md, market, cache)
+        const result = processMarketDataForMetadata(md, market, cache)
         if (!result) {
           return []
         }
-        const { isin, providerTime } = result
+        const { isin } = result
         const quote = cache.get(isin, market)
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
+
+        // For metadata endpoint, we only need quote data (mid, bid, ask)
         if (
           quote.mid == null ||
           quote.ask == null ||
           quote.bid == null ||
-          quote.latestPrice == null ||
-          quote.quoteProviderTimeUnixMs == null ||
-          quote.tradeProviderTimeUnixMs == null
+          quote.quoteProviderTimeUnixMs == null
         ) {
-          logger.error(
-            { isin, market },
-            'Neither mid nor latestPrice present after processing frame',
-          )
-          logger.debug({ isin, market }, 'Awaiting complete quote before emitting')
+          logger.debug({ isin, market }, 'Awaiting complete quote data before emitting metadata')
           return []
         }
 
@@ -128,16 +118,11 @@ export function createLwbaWsTransport() {
             response: {
               result: null,
               data: {
-                latestPrice: quote.latestPrice,
                 mid: quote.mid,
                 bid: quote.bid,
                 ask: quote.ask,
-                timestamps: {
-                  providerIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-                  tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
-                },
+                timestamps: { providerIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs },
               },
-              timestamps: { providerIndicatedTimeUnixMs: providerTime },
             },
           },
         ]
@@ -202,7 +187,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-function processMarketData(
+function processMarketDataForMetadata(
   md: MarketData,
   market: string,
   cache: InstrumentQuoteCache,
@@ -225,9 +210,6 @@ function processMarketData(
     'Full MarketData structure received',
   )
 
-  // Also log the raw object properties
-  console.log('MarketData keys:', Object.keys(md as any))
-  console.log('MarketData entries:', Object.entries(md as any))
   const isin = parseIsin(md)
   const dat: any = (md as any)?.Dat ?? {}
 
@@ -242,20 +224,11 @@ function processMarketData(
     return null
   }
 
-  logger.debug({ isin, market, dat }, 'Processing market data frame')
+  logger.debug({ isin, market, dat }, 'Processing market data frame for metadata')
 
   const providerTime = pickProviderTime(dat)
 
-  if (isSingleTradeFrame(dat)) {
-    const latestPrice = decimalToNumber(dat.Px)
-    cache.addTrade(isin, market, latestPrice, providerTime)
-    logger.debug(
-      { isin, market, latestPrice, providerTimeUnixMs: providerTime },
-      'Processed single trade frame',
-    )
-    return { isin, providerTime }
-  }
-
+  // For metadata endpoint, we only process quote frames (ignore trade frames)
   if (isSingleQuoteFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
@@ -269,14 +242,14 @@ function processMarketData(
         mid: (bidPx + askPx) / 2,
         providerTimeUnixMs: providerTime,
       },
-      'Processed single quote frame',
+      'Processed single quote frame for metadata',
     )
     return { isin, providerTime }
   }
 
   logger.debug(
     { isin, market, keys: Object.keys(dat ?? {}) },
-    'Ignoring unsupported market data frame',
+    'Ignoring non-quote frame for metadata endpoint',
   )
   return null
 }
@@ -344,4 +317,5 @@ function decodeSingleMarketData(sm: StreamMessage): { market: Market; md: Market
 function isMarket(x: string): x is Market {
   return (MARKETS as readonly string[]).includes(x)
 }
-export const wsTransport = createLwbaWsTransport()
+
+export const wsTransport = createMetadataWsTransport()

@@ -36,6 +36,10 @@ export function convertNsToMs(t?: bigint): number {
 
 export function parseIsin(md: MarketDataProto): string | undefined {
   const instr = md.Instrmt
+  console.log(
+    'MarketData:',
+    JSON.stringify(md, (_, value) => (typeof value === 'bigint' ? value.toString() : value), 2),
+  )
   if (!instr) return
   const sym = instr.Sym
   return (typeof sym === 'string' && sym) || undefined

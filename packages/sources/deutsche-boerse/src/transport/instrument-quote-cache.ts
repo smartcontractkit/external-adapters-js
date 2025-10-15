@@ -12,22 +12,30 @@ export type Quote = {
 export class InstrumentQuoteCache {
   private readonly map = new Map<string, Quote>()
 
-  activate(isin: string) {
-    if (!this.map.has(isin)) this.map.set(isin, {})
+  private createKey(isin: string, market: string): string {
+    return `${isin}-${market}`
   }
-  deactivate(isin: string) {
-    this.map.delete(isin)
+
+  activate(isin: string, market: string) {
+    const key = this.createKey(isin, market)
+    if (!this.map.has(key)) this.map.set(key, {})
   }
-  has(isin: string): boolean {
-    return this.map.has(isin)
+  deactivate(isin: string, market: string) {
+    const key = this.createKey(isin, market)
+    this.map.delete(key)
   }
-  get(isin: string): Quote | undefined {
-    return this.map.get(isin)
+  has(isin: string, market: string): boolean {
+    const key = this.createKey(isin, market)
+    return this.map.has(key)
   }
-  addQuote(isin: string, bid: number, ask: number, providerTime: number) {
-    const quote = this.get(isin)
+  get(isin: string, market: string): Quote | undefined {
+    const key = this.createKey(isin, market)
+    return this.map.get(key)
+  }
+  addQuote(isin: string, market: string, bid: number, ask: number, providerTime: number) {
+    const quote = this.get(isin, market)
     if (!quote) {
-      throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
+      throw new Error(`Cannot add quote for inactive instrument ${isin} on market ${market}`)
     }
     const mid = new Decimal(bid).plus(ask).div(2)
     quote.bid = bid
@@ -35,10 +43,10 @@ export class InstrumentQuoteCache {
     quote.mid = mid.toNumber()
     quote.quoteProviderTimeUnixMs = providerTime
   }
-  addTrade(isin: string, lastPrice: number, providerTime: number) {
-    const quote = this.get(isin)
+  addTrade(isin: string, market: string, lastPrice: number, providerTime: number) {
+    const quote = this.get(isin, market)
     if (!quote) {
-      throw new Error(`Cannot add trade for inactive ISIN ${isin}`)
+      throw new Error(`Cannot add trade for inactive instrument ${isin} on market ${market}`)
     }
     quote.latestPrice = lastPrice
     quote.tradeProviderTimeUnixMs = providerTime

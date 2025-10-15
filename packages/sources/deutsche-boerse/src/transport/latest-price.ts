@@ -1,6 +1,6 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/latest-price'
 import {
   RequestSchema,
   StreamMessageSchema,
@@ -10,13 +10,7 @@ import {
 } from '../gen/client_pb'
 import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache } from './instrument-quote-cache'
-import {
-  decimalToNumber,
-  isSingleQuoteFrame,
-  isSingleTradeFrame,
-  parseIsin,
-  pickProviderTime,
-} from './proto-utils'
+import { decimalToNumber, isSingleTradeFrame, parseIsin, pickProviderTime } from './proto-utils'
 import { ProtobufWsTransport } from './protobuf-wstransport'
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -25,9 +19,9 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('DeutscheBoerseTransport')
+const logger = makeLogger('DeutscheBoerseLatestPriceTransport')
 
-export function createLwbaWsTransport() {
+export function createLatestPriceWsTransport() {
   const cache = new InstrumentQuoteCache()
 
   return new ProtobufWsTransport<WsTransportTypes>({
@@ -38,16 +32,16 @@ export function createLwbaWsTransport() {
     }),
     handlers: {
       open: () => {
-        logger.info('LWBA websocket connection established')
+        logger.info('Latest Price websocket connection established')
       },
       error: (errorEvent) => {
-        logger.error({ errorEvent }, 'LWBA websocket error')
+        logger.error({ errorEvent }, 'Latest Price websocket error')
       },
       close: (closeEvent) => {
         const code = (closeEvent as any)?.code
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
-        logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+        logger.info({ code, reason, wasClean }, 'Latest Price websocket closed')
       },
       message(buf) {
         logger.info(
@@ -56,7 +50,7 @@ export function createLwbaWsTransport() {
             byteLength: Buffer.isBuffer(buf) ? buf.byteLength : undefined,
             rawBuffer: Buffer.isBuffer(buf) ? buf.toString('hex').substring(0, 200) : 'N/A',
           },
-          'LWBA websocket message received (RAW)',
+          'Latest Price websocket message received (RAW)',
         )
 
         const sm = decodeStreamMessage(buf)
@@ -96,29 +90,23 @@ export function createLwbaWsTransport() {
           'Decoded MarketData from StreamMessage',
         )
 
-        const result = processMarketData(md, market, cache)
+        const result = processMarketDataForLatestPrice(md, market, cache)
         if (!result) {
           return []
         }
-        const { isin, providerTime } = result
+        const { isin } = result
         const quote = cache.get(isin, market)
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
-        if (
-          quote.mid == null ||
-          quote.ask == null ||
-          quote.bid == null ||
-          quote.latestPrice == null ||
-          quote.quoteProviderTimeUnixMs == null ||
-          quote.tradeProviderTimeUnixMs == null
-        ) {
-          logger.error(
+
+        // For latest price endpoint, we only need trade data (latestPrice)
+        if (quote.latestPrice == null || quote.tradeProviderTimeUnixMs == null) {
+          logger.debug(
             { isin, market },
-            'Neither mid nor latestPrice present after processing frame',
+            'Awaiting complete trade data before emitting latest price',
           )
-          logger.debug({ isin, market }, 'Awaiting complete quote before emitting')
           return []
         }
 
@@ -129,15 +117,8 @@ export function createLwbaWsTransport() {
               result: null,
               data: {
                 latestPrice: quote.latestPrice,
-                mid: quote.mid,
-                bid: quote.bid,
-                ask: quote.ask,
-                timestamps: {
-                  providerIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-                  tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
-                },
+                timestamps: { providerIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs },
               },
-              timestamps: { providerIndicatedTimeUnixMs: providerTime },
             },
           },
         ]
@@ -202,7 +183,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-function processMarketData(
+function processMarketDataForLatestPrice(
   md: MarketData,
   market: string,
   cache: InstrumentQuoteCache,
@@ -225,9 +206,6 @@ function processMarketData(
     'Full MarketData structure received',
   )
 
-  // Also log the raw object properties
-  console.log('MarketData keys:', Object.keys(md as any))
-  console.log('MarketData entries:', Object.entries(md as any))
   const isin = parseIsin(md)
   const dat: any = (md as any)?.Dat ?? {}
 
@@ -242,41 +220,24 @@ function processMarketData(
     return null
   }
 
-  logger.debug({ isin, market, dat }, 'Processing market data frame')
+  logger.debug({ isin, market, dat }, 'Processing market data frame for latest price')
 
   const providerTime = pickProviderTime(dat)
 
+  // For latest price endpoint, we only process trade frames (ignore quote frames)
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat.Px)
     cache.addTrade(isin, market, latestPrice, providerTime)
     logger.debug(
       { isin, market, latestPrice, providerTimeUnixMs: providerTime },
-      'Processed single trade frame',
-    )
-    return { isin, providerTime }
-  }
-
-  if (isSingleQuoteFrame(dat)) {
-    const bidPx = decimalToNumber(dat!.Bid!.Px)
-    const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(isin, market, bidPx, askPx, providerTime)
-    logger.debug(
-      {
-        isin,
-        market,
-        bid: bidPx,
-        ask: askPx,
-        mid: (bidPx + askPx) / 2,
-        providerTimeUnixMs: providerTime,
-      },
-      'Processed single quote frame',
+      'Processed single trade frame for latest price',
     )
     return { isin, providerTime }
   }
 
   logger.debug(
     { isin, market, keys: Object.keys(dat ?? {}) },
-    'Ignoring unsupported market data frame',
+    'Ignoring non-trade frame for latest price endpoint',
   )
   return null
 }
@@ -344,4 +305,5 @@ function decodeSingleMarketData(sm: StreamMessage): { market: Market; md: Market
 function isMarket(x: string): x is Market {
   return (MARKETS as readonly string[]).includes(x)
 }
-export const wsTransport = createLwbaWsTransport()
+
+export const wsTransport = createLatestPriceWsTransport()
