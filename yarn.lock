@@ -3006,7 +3006,7 @@ __metadata:
     ethers: "npm:^6.13.2"
     https-proxy-agent: "npm:7.0.6"
     nock: "npm:13.5.6"
-    query-string: "npm:9.1.2"
+    query-string: "npm:9.3.1"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -13494,12 +13494,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.11
-  resolution: "brace-expansion@npm:1.1.11"
+  version: 1.1.12
+  resolution: "brace-expansion@npm:1.1.12"
   dependencies:
     balanced-match: "npm:^1.0.0"
     concat-map: "npm:0.0.1"
-  checksum: 10/faf34a7bb0c3fcf4b59c7808bc5d2a96a40988addf2e7e09dfbb67a2251800e0d14cd2bfc1aa79174f2f5095c54ff27f46fb1289fe2d77dac755b5eb3434cc07
+  checksum: 10/12cb6d6310629e3048cadb003e1aca4d8c9bb5c67c3c321bafdd7e7a50155de081f78ea3e0ed92ecc75a9015e784f301efc8132383132f4f7904ad1ac529c562
   languageName: node
   linkType: hard
 
@@ -16214,37 +16214,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.13.2":
-  version: 6.14.1
-  resolution: "ethers@npm:6.14.1"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.1"
-    "@noble/curves": "npm:1.2.0"
-    "@noble/hashes": "npm:1.3.2"
-    "@types/node": "npm:22.7.5"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.7.0"
-    ws: "npm:8.17.1"
-  checksum: 10/20bd332bef5f38a94ca79863e56d02dcde692e4eb1f492b7dbbb5817c2488dd3af8056e315f75afbdfd07119dd5fa2dc065cac72859ca0b71eb815690aebeb53
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^6.14.3":
-  version: 6.14.3
-  resolution: "ethers@npm:6.14.3"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:1.10.1"
-    "@noble/curves": "npm:1.2.0"
-    "@noble/hashes": "npm:1.3.2"
-    "@types/node": "npm:22.7.5"
-    aes-js: "npm:4.0.0-beta.5"
-    tslib: "npm:2.7.0"
-    ws: "npm:8.17.1"
-  checksum: 10/ce68b962f117fd651090bd8096fde708428ce23f0d044c365bc8cbf2e8f3cb70e1661ff0194364848ccac06d607d4a977f2a0c9e370b9712809c0ca6c36131f9
-  languageName: node
-  linkType: hard
-
-"ethers@npm:^6.15.0":
+"ethers@npm:^6.13.2, ethers@npm:^6.14.3, ethers@npm:^6.15.0":
   version: 6.15.0
   resolution: "ethers@npm:6.15.0"
   dependencies:
@@ -23501,14 +23471,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"query-string@npm:9.1.2":
-  version: 9.1.2
-  resolution: "query-string@npm:9.1.2"
+"query-string@npm:9.3.1":
+  version: 9.3.1
+  resolution: "query-string@npm:9.3.1"
   dependencies:
     decode-uri-component: "npm:^0.4.1"
     filter-obj: "npm:^5.1.0"
     split-on-first: "npm:^3.0.0"
-  checksum: 10/133dbacbc793133f3a3607c7bdd98315ba4378f5f1f3c296f6787c5f04a2452a4a04fe8306dfb2633070d466b53d66ad96f872c439dd63d4d2d1d7d923d38567
+  checksum: 10/c56a2242ba749b14413998f620fa52dafaf6fe4fbc4572e46c3d7f5ad1ef2811d4ed4d256f53ed8b9d5e073d2dd672c20cc05ae363b65c8745120e81a5d520a6
   languageName: node
   linkType: hard
 
@@ -26701,11 +26671,11 @@ __metadata:
   linkType: hard
 
 "undici@npm:^5.14.0, undici@npm:^5.25.4":
-  version: 5.28.5
-  resolution: "undici@npm:5.28.5"
+  version: 5.29.0
+  resolution: "undici@npm:5.29.0"
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
-  checksum: 10/459cd84ab75fe90d696fa2634a8b5b23f9e1080b27236c6809bd74e51862be85df6d95b4a8fed3ee42554495008cb3c05f1bc9d4a1807478f433cca567003d70
+  checksum: 10/0ceca8924a32acdcc0cfb8dd2d368c217840970aa3f5e314fc169608474be6341c5b8e50cad7bd257dbe3b4e432bc5d0a0d000f83644b54fa11a48735ec52b93
   languageName: node
   linkType: hard
 
