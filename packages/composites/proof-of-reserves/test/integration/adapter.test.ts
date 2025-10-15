@@ -237,6 +237,11 @@ describe('execute', () => {
             signature: 'function getPending() public view returns (uint256)',
             address: '0xa69b964a597435A2F938cc55FaAbe34F2A9AF278',
             network: 'BASE',
+            data: {
+              decimals: {
+                signature: 'function decimals() view returns (uint8)',
+              },
+            },
           },
           disableDuplicateAddressFiltering: true,
         },
