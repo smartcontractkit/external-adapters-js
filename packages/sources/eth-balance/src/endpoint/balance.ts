@@ -100,8 +100,11 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       })
     }
     providerSet.add(provider)
-    // Normalize address to lowercase for Rootstock (chainId 30) due to EIP-1191 checksumming
-    const addressToUse = address.chainId === '30' ? address.address.toLowerCase() : address.address
+    // Normalize address to lowercase for Rootstock Mainnet (chainId=30) and Rootstock Testnet (chainId=31) due to EIP-1191 checksumming
+    const addressToUse =
+      address.chainId === '30' || address.chainId === '31'
+        ? address.address.toLowerCase()
+        : address.address
     addressProviders.push({ address: addressToUse, provider })
   }
 
