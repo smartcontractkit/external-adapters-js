@@ -1,9 +1,7 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { wsTransport } from '../transport/lwba'
 
-export const MARKETS = ['md-xetraetfetp'] as const
+export const MARKETS = ['md-xetraetfetp', 'md-tradegate'] as const
 export type Market = (typeof MARKETS)[number]
 
 export const inputParameters = new InputParameters(
@@ -30,12 +28,22 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-interface LwbaLatestPriceResponse {
+interface LwbaMetadataResponse {
   Result: number | null
   Data: {
     mid: number
     bid: number
     ask: number
+    bidSize: number | null
+    askSize: number | null
+    quoteProviderIndicatedTimeUnixMs: number
+    tradeProviderIndicatedTimeUnixMs: number
+  }
+}
+
+export interface LwbaLatestPriceResponse {
+  Result: number | null
+  Data: {
     latestPrice: number
     quoteProviderIndicatedTimeUnixMs: number
     tradeProviderIndicatedTimeUnixMs: number
@@ -44,13 +52,6 @@ interface LwbaLatestPriceResponse {
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: LwbaLatestPriceResponse
+  Response: LwbaLatestPriceResponse | LwbaMetadataResponse
   Settings: typeof config.settings
 }
-
-export const endpoint = new AdapterEndpoint({
-  name: 'lwba',
-  aliases: [],
-  transport: wsTransport,
-  inputParameters,
-})

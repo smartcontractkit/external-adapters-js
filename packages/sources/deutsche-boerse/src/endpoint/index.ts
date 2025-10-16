@@ -1,1 +1,2 @@
-export { endpoint as lwba } from './lwba'
+export { endpoint as lwbaLatestPrice } from './lwbaLatestPrice'
+export { endpoint as lwbaMetadata } from './lwbaMetadata'
