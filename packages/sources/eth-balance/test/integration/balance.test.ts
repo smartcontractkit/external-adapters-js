@@ -285,4 +285,37 @@ describe('execute', () => {
       expect(response.body.result[0].balance).toBe('441374455027000000')
     })
   })
+
+  describe('with Ethereum checksummed address', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        addresses: [
+          {
+            address: '0xEF9FFcFbeCB6213E5903529c8457b6F61141140d', // Ethereum checksummed address (EIP-55)
+            chainId: '1',
+          },
+        ],
+        minConfirmations: 0,
+      },
+    }
+
+    it('should NOT modify Ethereum checksummed addresses', async () => {
+      mockETHBalanceResponseSuccess()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      expect(response.body).toHaveProperty('result')
+      expect(response.body.result).toHaveLength(1)
+      // Address should remain checksummed for Ethereum (chainId 1)
+      expect(response.body.result[0].address).toBe('0xEF9FFcFbeCB6213E5903529c8457b6F61141140d')
+      expect(response.body.result[0]).toHaveProperty('balance')
+    })
+  })
 })
