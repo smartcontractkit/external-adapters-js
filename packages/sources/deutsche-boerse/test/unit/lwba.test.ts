@@ -250,4 +250,71 @@ describe('LWBA Metadata Transport', () => {
     expect(entry.response.data.quoteProviderIndicatedTimeUnixMs).toBe(11)
     expect(entry.response.data.tradeProviderIndicatedTimeUnixMs).toBe(12)
   })
+
+  test('protobuf with bid/ask sizes are handled correctly', () => {
+    const t = lwbaMetadataProtobufWsTransport as any
+    t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER }) // Use different ISIN to avoid cache interference
+
+    // Quote with sizes -> should NOT emit yet (no trade data)
+    const quoteDat = create(DataSchema, {
+      Bid: { Px: dec(BigInt(9500), -2), Sz: dec(BigInt(1500), 0) },
+      Offer: { Px: dec(BigInt(9600), -2), Sz: dec(BigInt(1600), 0) },
+      Tm: BigInt(7000000),
+    } as any)
+    const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: OTHER }, Dat: quoteDat } as any)
+    const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
+    expect(quoteRes).toEqual([])
+
+    // Trade (now we have complete data) -> should emit
+    const tradeDat = create(DataSchema, { Px: dec(BigInt(9550), -2), Tm: BigInt(8000000) } as any)
+    const tradeMd = create(MarketDataSchema, { Instrmt: { Sym: OTHER }, Dat: tradeDat } as any)
+    const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd))
+
+    expect(tradeRes.length).toBe(1)
+    const [entry] = tradeRes
+    const d = entry.response.data
+
+    expect(d.bid).toBe(95)
+    expect(d.ask).toBe(96)
+    expect(d.mid).toBe(95.5)
+    expect(d.bidSize).toBe(1500)
+    expect(d.askSize).toBe(1600)
+    expect(d.quoteProviderIndicatedTimeUnixMs).toBe(7)
+    expect(d.tradeProviderIndicatedTimeUnixMs).toBe(8)
+    expect(entry.response.timestamps.providerIndicatedTimeUnixMs).toBe(8)
+  })
+
+  test('protobuf without bid/ask sizes defaults to null/undefined', () => {
+    const t = lwbaMetadataProtobufWsTransport as any
+    const TEST_ISIN = 'TEST123456789' // Use unique ISIN to avoid cache interference
+    t.config.builders.subscribeMessage({ market: MARKET, isin: TEST_ISIN })
+
+    // Quote without sizes -> should NOT emit yet (no trade data)
+    const quoteDat = create(DataSchema, {
+      Bid: { Px: dec(BigInt(8500), -2) },
+      Offer: { Px: dec(BigInt(8600), -2) },
+      Tm: BigInt(9000000),
+    } as any)
+    const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: TEST_ISIN }, Dat: quoteDat } as any)
+    const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
+    expect(quoteRes).toEqual([])
+
+    // Trade (now we have complete data) -> should emit
+    const tradeDat = create(DataSchema, { Px: dec(BigInt(8550), -2), Tm: BigInt(10000000) } as any)
+    const tradeMd = create(MarketDataSchema, { Instrmt: { Sym: TEST_ISIN }, Dat: tradeDat } as any)
+    const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd))
+
+    expect(tradeRes.length).toBe(1)
+    const [entry] = tradeRes
+    const d = entry.response.data
+
+    expect(d.bid).toBe(85)
+    expect(d.ask).toBe(86)
+    expect(d.mid).toBe(85.5)
+    expect(d.bidSize).toBe(null)
+    expect(d.askSize).toBe(null)
+    expect(d.quoteProviderIndicatedTimeUnixMs).toBe(9)
+    expect(d.tradeProviderIndicatedTimeUnixMs).toBe(10)
+    expect(entry.response.timestamps.providerIndicatedTimeUnixMs).toBe(10)
+  })
 })

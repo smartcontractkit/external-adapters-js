@@ -22,29 +22,48 @@ describe('InstrumentQuoteCache', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
 
-    cache.addQuote(MARKET, ISIN, 100, 102, 1234)
+    cache.addQuote(MARKET, ISIN, 100, 102, 1234, 1000, 2000)
     const q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(100)
     expect(q.ask).toBe(102)
     expect(q.mid).toBe(101)
+    expect(q.bidSize).toBe(1000)
+    expect(q.askSize).toBe(2000)
     expect(q.quoteProviderTimeUnixMs).toBe(1234)
+  })
+
+  test('addQuote without sizes sets sizes to undefined', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+
+    cache.addQuote(MARKET, ISIN, 200, 202, 5678)
+    const q = cache.get(MARKET, ISIN)!
+    expect(q.bid).toBe(200)
+    expect(q.ask).toBe(202)
+    expect(q.mid).toBe(201)
+    expect(q.bidSize).toBeUndefined()
+    expect(q.askSize).toBeUndefined()
+    expect(q.quoteProviderTimeUnixMs).toBe(5678)
   })
 
   test('addBid then addAsk recomputes mid and updates quote time', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
 
-    cache.addBid(MARKET, ISIN, 100, 1111) // only bid
+    cache.addBid(MARKET, ISIN, 100, 1111, 500) // only bid
     let q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(100)
     expect(q.ask).toBeUndefined()
     expect(q.mid).toBeUndefined()
+    expect(q.bidSize).toBe(500)
+    expect(q.askSize).toBeUndefined()
     expect(q.quoteProviderTimeUnixMs).toBe(1111)
 
-    cache.addAsk(MARKET, ISIN, 102, 2222) // now ask arrives
+    cache.addAsk(MARKET, ISIN, 102, 2222, 750) // now ask arrives
     q = cache.get(MARKET, ISIN)!
     expect(q.ask).toBe(102)
     expect(q.mid).toBe(101)
+    expect(q.askSize).toBe(750)
     expect(q.quoteProviderTimeUnixMs).toBe(2222)
   })
 
@@ -52,15 +71,17 @@ describe('InstrumentQuoteCache', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
 
-    cache.addAsk(MARKET, ISIN, 50, 3333)
+    cache.addAsk(MARKET, ISIN, 50, 3333, 300)
     let q = cache.get(MARKET, ISIN)!
     expect(q.ask).toBe(50)
     expect(q.mid).toBeUndefined()
+    expect(q.askSize).toBe(300)
 
-    cache.addBid(MARKET, ISIN, 48, 4444)
+    cache.addBid(MARKET, ISIN, 48, 4444, 400)
     q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(48)
     expect(q.mid).toBe(49)
+    expect(q.bidSize).toBe(400)
     expect(q.quoteProviderTimeUnixMs).toBe(4444)
   })
 
@@ -76,28 +97,32 @@ describe('InstrumentQuoteCache', () => {
 
   test('addQuote/addBid/addAsk/addTrade without activate throws', () => {
     const cache = new InstrumentQuoteCache()
-    expect(() => cache.addQuote(MARKET, ISIN, 100, 102, 1234)).toThrow(/inactive isin/i)
+    expect(() => cache.addQuote(MARKET, ISIN, 100, 102, 1234, 500, 600)).toThrow(
+      /inactive instrument/i,
+    )
     expect(() => cache.addBid(MARKET, ISIN, 100, 1)).toThrow(/inactive isin/i)
     expect(() => cache.addAsk(MARKET, ISIN, 100, 1)).toThrow(/inactive isin/i)
-    expect(() => cache.addTrade(MARKET, ISIN, 99.5, 2222)).toThrow(/inactive isin/i)
+    expect(() => cache.addTrade(MARKET, ISIN, 99.5, 2222)).toThrow(/inactive instrument/i)
   })
 
   test('deactivate then attempt to add -> throws', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
     cache.deactivate(MARKET, ISIN)
-    expect(() => cache.addQuote(MARKET, ISIN, 1, 2, 3)).toThrow(/inactive instrument/i)
+    expect(() => cache.addQuote(MARKET, ISIN, 1, 2, 3, 4, 5)).toThrow(/inactive instrument/i)
     expect(() => cache.addTrade(MARKET, ISIN, 1, 3)).toThrow(/inactive instrument/i)
   })
 
   test('mid is computed correctly for equal sides and edge values', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
-    cache.addQuote(MARKET, ISIN, 0, 0, 123)
+    cache.addQuote(MARKET, ISIN, 0, 0, 123, 100, 200)
     const q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(0)
     expect(q.ask).toBe(0)
     expect(q.mid).toBe(0)
+    expect(q.bidSize).toBe(100)
+    expect(q.askSize).toBe(200)
     expect(q.quoteProviderTimeUnixMs).toBe(123)
   })
 
@@ -109,13 +134,15 @@ describe('InstrumentQuoteCache', () => {
     expect(cache.has(MARKET2, ISIN2)).toBe(true)
     expect(cache.isEmpty()).toBe(false)
 
-    cache.addQuote(MARKET, ISIN, 100, 101, 10)
+    cache.addQuote(MARKET, ISIN, 100, 101, 10, 1500, 1600)
     cache.addTrade(MARKET2, ISIN2, 55, 20)
 
     const q1 = cache.get(MARKET, ISIN)!
     const q2 = cache.get(MARKET2, ISIN2)!
 
     expect(q1.mid).toBe(100.5)
+    expect(q1.bidSize).toBe(1500)
+    expect(q1.askSize).toBe(1600)
     expect(q1.quoteProviderTimeUnixMs).toBe(10)
     expect(q2.latestPrice).toBe(55)
     expect(q2.tradeProviderTimeUnixMs).toBe(20)
@@ -133,19 +160,23 @@ describe('InstrumentQuoteCache', () => {
     cache.activate(MARKET, ISIN)
     cache.activate(MARKET2, ISIN) // Same ISIN, different market
 
-    cache.addQuote(MARKET, ISIN, 100, 101, 10)
+    cache.addQuote(MARKET, ISIN, 100, 101, 10, 800, 900)
     cache.addTrade(MARKET2, ISIN, 200, 20)
 
     const q1 = cache.get(MARKET, ISIN)!
     const q2 = cache.get(MARKET2, ISIN)!
 
     expect(q1.mid).toBe(100.5)
+    expect(q1.bidSize).toBe(800)
+    expect(q1.askSize).toBe(900)
     expect(q1.quoteProviderTimeUnixMs).toBe(10)
     expect(q1.latestPrice).toBeUndefined() // No trade data for this market
 
     expect(q2.latestPrice).toBe(200)
     expect(q2.tradeProviderTimeUnixMs).toBe(20)
     expect(q2.mid).toBeUndefined() // No quote data for this market
+    expect(q2.bidSize).toBeUndefined()
+    expect(q2.askSize).toBeUndefined()
 
     expect(cache.isEmpty()).toBe(false)
     cache.deactivate(MARKET, ISIN)
@@ -155,5 +186,41 @@ describe('InstrumentQuoteCache', () => {
 
     cache.deactivate(MARKET2, ISIN)
     expect(cache.isEmpty()).toBe(true)
+  })
+
+  test('bidSize and askSize are properly handled for individual bid/ask updates', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+
+    // Add bid with size
+    cache.addBid(MARKET, ISIN, 95, 1000, 1200)
+    let q = cache.get(MARKET, ISIN)!
+    expect(q.bid).toBe(95)
+    expect(q.bidSize).toBe(1200)
+    expect(q.ask).toBeUndefined()
+    expect(q.askSize).toBeUndefined()
+
+    // Add ask with size
+    cache.addAsk(MARKET, ISIN, 105, 2000, 1300)
+    q = cache.get(MARKET, ISIN)!
+    expect(q.ask).toBe(105)
+    expect(q.askSize).toBe(1300)
+    expect(q.mid).toBe(100)
+    expect(q.quoteProviderTimeUnixMs).toBe(2000)
+
+    // Update bid without size (should be undefined)
+    cache.addBid(MARKET, ISIN, 96, 3000)
+    q = cache.get(MARKET, ISIN)!
+    expect(q.bid).toBe(96)
+    expect(q.bidSize).toBeUndefined()
+    expect(q.mid).toBe(100.5)
+
+    // Update ask without size (should be undefined)
+    cache.addAsk(MARKET, ISIN, 106, 4000)
+    q = cache.get(MARKET, ISIN)!
+    expect(q.ask).toBe(106)
+    expect(q.askSize).toBeUndefined()
+    expect(q.mid).toBe(101)
+    expect(q.quoteProviderTimeUnixMs).toBe(4000)
   })
 })

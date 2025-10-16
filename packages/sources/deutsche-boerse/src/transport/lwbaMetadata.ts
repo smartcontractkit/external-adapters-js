@@ -15,8 +15,8 @@ export const lwbaMetadataProtobufWsTransport = createLwbaWsTransport((quote) => 
     bid: quote.bid,
     ask: quote.ask,
     mid: quote.mid,
-    bidSize: null,
-    askSize: null,
+    bidSize: quote.bidSize ?? null,
+    askSize: quote.askSize ?? null,
     quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
     tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
   }

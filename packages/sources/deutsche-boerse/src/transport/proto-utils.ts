@@ -63,3 +63,27 @@ export function hasSingleBidFrame(dat?: DataProto): boolean {
 export function hasSingleOfferFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Offer?.Px)
 }
+
+// safely extract size from bid, returns undefined if not present or invalid
+export function getBidSize(dat?: DataProto): number | undefined {
+  if (!dat?.Bid?.Sz || !isDecimalPrice(dat.Bid.Sz)) {
+    return undefined
+  }
+  try {
+    return decimalToNumber(dat.Bid.Sz)
+  } catch {
+    return undefined
+  }
+}
+
+// safely extract size from offer, returns undefined if not present or invalid
+export function getOfferSize(dat?: DataProto): number | undefined {
+  if (!dat?.Offer?.Sz || !isDecimalPrice(dat.Offer.Sz)) {
+    return undefined
+  }
+  try {
+    return decimalToNumber(dat.Offer.Sz)
+  } catch {
+    return undefined
+  }
+}

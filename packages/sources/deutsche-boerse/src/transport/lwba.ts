@@ -12,6 +12,8 @@ import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
+  getBidSize,
+  getOfferSize,
   hasSingleBidFrame,
   hasSingleOfferFrame,
   isSingleTradeFrame,
@@ -231,7 +233,9 @@ function processMarketData(
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(market, isin, bidPx, askPx, providerTime)
+    const bidSz = getBidSize(dat)
+    const askSz = getOfferSize(dat)
+    cache.addQuote(market, isin, bidPx, askPx, providerTime, bidSz, askSz)
     logger.debug(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
@@ -240,7 +244,8 @@ function processMarketData(
   }
   if (hasSingleBidFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
-    cache.addBid(market, isin, bidPx, providerTime)
+    const bidSz = getBidSize(dat)
+    cache.addBid(market, isin, bidPx, providerTime, bidSz)
     logger.debug(
       { isin, bid: bidPx, providerTimeUnixMs: providerTime },
       'Processed single bid frame',
@@ -250,7 +255,8 @@ function processMarketData(
 
   if (hasSingleOfferFrame(dat)) {
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addAsk(market, isin, askPx, providerTime)
+    const askSz = getOfferSize(dat)
+    cache.addAsk(market, isin, askPx, providerTime, askSz)
     logger.debug(
       { isin, ask: askPx, providerTimeUnixMs: providerTime },
       'Processed single offer frame',
