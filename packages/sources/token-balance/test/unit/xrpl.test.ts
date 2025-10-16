@@ -47,6 +47,7 @@ const logger = {
   info: log,
   debug: log,
   trace: log,
+  msgPrefix: 'mock-logger',
 }
 
 const loggerFactory = { child: () => logger }
