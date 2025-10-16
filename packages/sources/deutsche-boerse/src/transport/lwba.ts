@@ -1,5 +1,4 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
 import {
@@ -188,7 +187,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+const updateTTL = async (transport: ProtobufWsTransport<WsTransportTypes>, ttl: number) => {
   const params = await transport.subscriptionSet.getAll()
   transport.responseCache.writeTTL(transport.name, params, ttl)
 }
@@ -200,7 +199,7 @@ function processMarketData(
   isin: string
   providerTime: number
 } | null {
-  logger.info({ md: JSON.stringify(md, null, 2) }, 'MarketData object with all keys and values')
+  logger.debug('Processing MarketData frame')
   const isin = parseIsin(md)
   if (!isin) {
     logger.warn({ md }, 'Could not parse ISIN from MarketData')
@@ -221,7 +220,7 @@ function processMarketData(
   const providerTime = pickProviderTime(dat)
 
   if (isSingleTradeFrame(dat)) {
-    const latestPrice = decimalToNumber(dat!.AvgPx)
+    const latestPrice = decimalToNumber(dat!.Px)
     cache.addTrade(market, isin, latestPrice, providerTime)
     logger.debug(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
@@ -241,7 +240,7 @@ function processMarketData(
   }
   if (hasSingleBidFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
-    cache.addBid(isin, bidPx, providerTime)
+    cache.addBid(market, isin, bidPx, providerTime)
     logger.debug(
       { isin, bid: bidPx, providerTimeUnixMs: providerTime },
       'Processed single bid frame',
@@ -251,7 +250,7 @@ function processMarketData(
 
   if (hasSingleOfferFrame(dat)) {
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addAsk(isin, askPx, providerTime)
+    cache.addAsk(market, isin, askPx, providerTime)
     logger.debug(
       { isin, ask: askPx, providerTimeUnixMs: providerTime },
       'Processed single offer frame',

@@ -22,8 +22,8 @@ describe('InstrumentQuoteCache', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
 
-    cache.addQuote(ISIN, 100, 102, 1234)
-    const q = cache.get(ISIN)!
+    cache.addQuote(MARKET, ISIN, 100, 102, 1234)
+    const q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(100)
     expect(q.ask).toBe(102)
     expect(q.mid).toBe(101)
@@ -32,17 +32,17 @@ describe('InstrumentQuoteCache', () => {
 
   test('addBid then addAsk recomputes mid and updates quote time', () => {
     const cache = new InstrumentQuoteCache()
-    cache.activate(ISIN)
+    cache.activate(MARKET, ISIN)
 
-    cache.addBid(ISIN, 100, 1111) // only bid
-    let q = cache.get(ISIN)!
+    cache.addBid(MARKET, ISIN, 100, 1111) // only bid
+    let q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(100)
     expect(q.ask).toBeUndefined()
     expect(q.mid).toBeUndefined()
     expect(q.quoteProviderTimeUnixMs).toBe(1111)
 
-    cache.addAsk(ISIN, 102, 2222) // now ask arrives
-    q = cache.get(ISIN)!
+    cache.addAsk(MARKET, ISIN, 102, 2222) // now ask arrives
+    q = cache.get(MARKET, ISIN)!
     expect(q.ask).toBe(102)
     expect(q.mid).toBe(101)
     expect(q.quoteProviderTimeUnixMs).toBe(2222)
@@ -50,15 +50,15 @@ describe('InstrumentQuoteCache', () => {
 
   test('addAsk then addBid recomputes mid and updates quote time', () => {
     const cache = new InstrumentQuoteCache()
-    cache.activate(ISIN)
+    cache.activate(MARKET, ISIN)
 
-    cache.addAsk(ISIN, 50, 3333)
-    let q = cache.get(ISIN)!
+    cache.addAsk(MARKET, ISIN, 50, 3333)
+    let q = cache.get(MARKET, ISIN)!
     expect(q.ask).toBe(50)
     expect(q.mid).toBeUndefined()
 
-    cache.addBid(ISIN, 48, 4444)
-    q = cache.get(ISIN)!
+    cache.addBid(MARKET, ISIN, 48, 4444)
+    q = cache.get(MARKET, ISIN)!
     expect(q.bid).toBe(48)
     expect(q.mid).toBe(49)
     expect(q.quoteProviderTimeUnixMs).toBe(4444)
@@ -68,18 +68,18 @@ describe('InstrumentQuoteCache', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
 
-    cache.addTrade(ISIN, 99.5, 2222)
-    const q = cache.get(ISIN)!
+    cache.addTrade(MARKET, ISIN, 99.5, 2222)
+    const q = cache.get(MARKET, ISIN)!
     expect(q.latestPrice).toBe(99.5)
     expect(q.tradeProviderTimeUnixMs).toBe(2222)
   })
 
   test('addQuote/addBid/addAsk/addTrade without activate throws', () => {
     const cache = new InstrumentQuoteCache()
-    expect(() => cache.addQuote(ISIN, 100, 102, 1234)).toThrow(/inactive isin/i)
-    expect(() => cache.addBid(ISIN, 100, 1)).toThrow(/inactive isin/i)
-    expect(() => cache.addAsk(ISIN, 100, 1)).toThrow(/inactive isin/i)
-    expect(() => cache.addTrade(ISIN, 99.5, 2222)).toThrow(/inactive isin/i)
+    expect(() => cache.addQuote(MARKET, ISIN, 100, 102, 1234)).toThrow(/inactive isin/i)
+    expect(() => cache.addBid(MARKET, ISIN, 100, 1)).toThrow(/inactive isin/i)
+    expect(() => cache.addAsk(MARKET, ISIN, 100, 1)).toThrow(/inactive isin/i)
+    expect(() => cache.addTrade(MARKET, ISIN, 99.5, 2222)).toThrow(/inactive isin/i)
   })
 
   test('deactivate then attempt to add -> throws', () => {

@@ -7,7 +7,7 @@ import type {
 
 const MAX_SIG_DIGITS = 15
 export function decimalToNumber(decimal?: DecimalProto): number {
-  if (!decimal || decimal.m === undefined || decimal.e === undefined || decimal.m < 0) {
+  if (!decimal || decimal.m === undefined || decimal.e === undefined) {
     throw new Error('Invalid price')
   }
 

@@ -43,8 +43,8 @@ export class InstrumentQuoteCache {
     quote.mid = mid.toNumber()
     quote.quoteProviderTimeUnixMs = providerTime
   }
-  addBid(isin: string, bid: number, providerTime: number) {
-    const quote = this.get(isin)
+  addBid(market: string, isin: string, bid: number, providerTime: number) {
+    const quote = this.get(market, isin)
     if (!quote) {
       throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
     }
@@ -55,8 +55,8 @@ export class InstrumentQuoteCache {
     quote.bid = bid
     quote.quoteProviderTimeUnixMs = providerTime
   }
-  addAsk(isin: string, ask: number, providerTime: number) {
-    const quote = this.get(isin)
+  addAsk(market: string, isin: string, ask: number, providerTime: number) {
+    const quote = this.get(market, isin)
     if (!quote) {
       throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
     }
