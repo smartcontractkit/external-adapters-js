@@ -1,13 +1,15 @@
 import {
-  Validator,
-  Requester,
-  AdapterInputError,
   AdapterDataProviderError,
+  AdapterInputError,
+  AxiosResponse,
+  ExecuteWithConfig,
+  InputParameters,
+  Requester,
   util,
+  Validator,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters, AxiosResponse } from '@chainlink/ea-bootstrap'
-import { Config } from '../config'
 import { ethers } from 'ethers'
+import { Config } from '../config'
 
 export const supportedEndpoints = ['balance']
 
@@ -98,7 +100,9 @@ export const execute: ExecuteWithConfig<Config> = async (request, _, config) => 
       })
     }
     providerSet.add(provider)
-    addressProviders.push({ address: address.address, provider })
+    // Normalize address to lowercase for Rootstock (chainId 30) due to EIP-1191 checksumming
+    const addressToUse = address.chainId === '30' ? address.address.toLowerCase() : address.address
+    addressProviders.push({ address: addressToUse, provider })
   }
 
   const providerBlockTags = new Map<ethers.providers.Provider, number | string>()
