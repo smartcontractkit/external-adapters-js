@@ -119,3 +119,77 @@ export const mockETHBalanceAtBlockResponseSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+
+export const mockRootstockBalanceResponseSuccess = (): nock.Scope =>
+  nock('http://localhost:8545', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .post('/', {
+      method: 'eth_blockNumber',
+      params: [],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x5c3e8c' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .post('/', {
+      method: 'eth_getBalance',
+      params: ['0x3376ebca0a85fc8d791b1001a571c41fdd61514a', '0x5c3e86'],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x6228cae5eadb880',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .post('/', {
+      method: 'eth_getBalance',
+      params: ['0x3376ebca0a85fc8d791b1001a571c41fdd61514a', 'latest'],
+      id: /^\d+$/,
+      jsonrpc: '2.0',
+    })
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({
+        jsonrpc: '2.0',
+        id: request['id'],
+        result: '0x6228cae5eadb880',
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
