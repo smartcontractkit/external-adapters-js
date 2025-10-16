@@ -1,5 +1,11 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4110](https://github.com/smartcontractkit/external-adapters-js/pull/4110) [`1a4cc67`](https://github.com/smartcontractkit/external-adapters-js/commit/1a4cc674476f2dcb6ab5d0a5f076aaaa0e267568) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Supports single sided messages and cache refreshes
+
 ## 1.0.0
 
 ### Major Changes
