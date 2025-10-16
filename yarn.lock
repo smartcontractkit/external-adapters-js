@@ -2891,6 +2891,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/blocksize-capital-state-adapter@workspace:packages/sources/blocksize-capital-state":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/blocksize-capital-state-adapter@workspace:packages/sources/blocksize-capital-state"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.7.2"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"

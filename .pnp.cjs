@@ -295,6 +295,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/blocksize-capital"\
     },\
     {\
+      "name": "@chainlink/blocksize-capital-state-adapter",\
+      "reference": "workspace:packages/sources/blocksize-capital-state"\
+    },\
+    {\
       "name": "@chainlink/blockstream-adapter",\
       "reference": "workspace:packages/sources/blockstream"\
     },\
@@ -999,6 +1003,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
+    ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/blockstream-adapter", ["workspace:packages/sources/blockstream"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
     ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
@@ -5664,6 +5669,23 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/blocksize-capital-state-adapter", [\
+      ["workspace:packages/sources/blocksize-capital-state", {\
+        "packageLocation": "./packages/sources/blocksize-capital-state/",\
+        "packageDependencies": [\
+          ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
