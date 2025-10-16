@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/solactive-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink solactive adapter.",
   "keywords": [
     "Chainlink",
