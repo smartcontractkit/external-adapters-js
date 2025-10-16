@@ -121,10 +121,25 @@ export const mockETHBalanceAtBlockResponseSuccess = (): nock.Scope =>
     )
 
 export const mockRootstockBalanceResponseSuccess = (): nock.Scope =>
-  nock('http://localhost:8545', {
+  nock('http://localhost:4444', {
     encodedQueryParams: true,
   })
     .persist()
+    .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
+    .reply(
+      200,
+      (_, request: AdapterRequest) => ({ jsonrpc: '2.0', id: request['id'], result: '0x1e' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_blockNumber',
       params: [],
@@ -156,7 +171,7 @@ export const mockRootstockBalanceResponseSuccess = (): nock.Scope =>
       (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
-        result: '0x6228cae5eadb880',
+        result: '0x6230f80e2868400',
       }),
       [
         'Content-Type',
@@ -180,7 +195,7 @@ export const mockRootstockBalanceResponseSuccess = (): nock.Scope =>
       (_, request: AdapterRequest) => ({
         jsonrpc: '2.0',
         id: request['id'],
-        result: '0x6228cae5eadb880',
+        result: '0x6230f80e2868400',
       }),
       [
         'Content-Type',
