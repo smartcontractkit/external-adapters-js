@@ -45,8 +45,6 @@ export interface LwbaLatestPriceResponse {
   Result: number | null
   Data: {
     latestPrice: number
-    quoteProviderIndicatedTimeUnixMs: number
-    tradeProviderIndicatedTimeUnixMs: number
   }
 }
 
