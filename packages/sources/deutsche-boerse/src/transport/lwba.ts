@@ -208,18 +208,18 @@ function processMarketData(
   logger.info('Processing MarketData frame')
   const isin = parseIsin(md)
   if (!isin) {
-    logger.warn({ md }, 'Could not parse ISIN from MarketData')
+    logger.warn('Could not parse ISIN from MarketData')
     return null
   }
   const dat: any = (md as MarketData)?.Dat
   if (!dat) {
-    logger.warn({ md }, 'Could not parse MarketData from MarketData.Instrmt')
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
   }
 
   const quote = cache.get(market, isin)
   if (!quote) {
-    logger.debug({ isin, market }, 'Ignoring message for inactive instrument (not in cache)')
+    logger.debug('Ignoring message for inactive instrument (not in cache)')
     return null
   }
 

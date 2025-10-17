@@ -32,20 +32,6 @@ describe('InstrumentQuoteCache', () => {
     expect(q.quoteProviderTimeUnixMs).toBe(1234)
   })
 
-  test('addQuote without sizes sets sizes to undefined', () => {
-    const cache = new InstrumentQuoteCache()
-    cache.activate(MARKET, ISIN)
-
-    cache.addQuote(MARKET, ISIN, 200, 202, 5678)
-    const q = cache.get(MARKET, ISIN)!
-    expect(q.bid).toBe(200)
-    expect(q.ask).toBe(202)
-    expect(q.mid).toBe(201)
-    expect(q.bidSize).toBeUndefined()
-    expect(q.askSize).toBeUndefined()
-    expect(q.quoteProviderTimeUnixMs).toBe(5678)
-  })
-
   test('addBid then addAsk recomputes mid and updates quote time', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)

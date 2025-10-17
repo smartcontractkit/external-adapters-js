@@ -41,13 +41,6 @@ interface LwbaResponse {
   }
 }
 
-export interface LwbaLatestPriceResponse {
-  Result: number | null
-  Data: {
-    latestPrice: number
-  }
-}
-
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: LwbaResponse
