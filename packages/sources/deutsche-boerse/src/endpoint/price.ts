@@ -7,8 +7,6 @@ export interface priceResponse {
   Result: number | null
   Data: {
     latestPrice: number
-    quoteProviderIndicatedTimeUnixMs: number
-    tradeProviderIndicatedTimeUnixMs: number
   }
 }
 
@@ -19,7 +17,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'lprice',
+  name: 'price',
   aliases: [],
   transport: priceProtobufWsTransport,
   inputParameters,

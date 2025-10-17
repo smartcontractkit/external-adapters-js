@@ -38,8 +38,6 @@ interface LwbaResponse {
     ask: number
     bidSize: number
     askSize: number
-    quoteProviderIndicatedTimeUnixMs: number
-    tradeProviderIndicatedTimeUnixMs: number
   }
 }
 

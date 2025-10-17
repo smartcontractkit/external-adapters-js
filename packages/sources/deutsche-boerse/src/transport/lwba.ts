@@ -305,8 +305,8 @@ export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
     quote.bid == null ||
     quote.ask == null ||
     quote.mid == null ||
-    quote.quoteProviderTimeUnixMs == null ||
-    quote.tradeProviderTimeUnixMs == null
+    quote.bidSize == null ||
+    quote.askSize == null
   ) {
     return undefined
   }
@@ -315,9 +315,7 @@ export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
     bid: quote.bid,
     ask: quote.ask,
     mid: quote.mid,
-    bidSize: quote.bidSize ?? null,
-    askSize: quote.askSize ?? null,
-    quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-    tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
+    bidSize: quote.bidSize,
+    askSize: quote.askSize,
   }
 })

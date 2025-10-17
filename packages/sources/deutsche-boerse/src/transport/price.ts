@@ -1,17 +1,11 @@
 import { createLwbaWsTransport } from './lwba'
 
 export const priceProtobufWsTransport = createLwbaWsTransport((quote) => {
-  if (
-    quote.latestPrice == null ||
-    quote.quoteProviderTimeUnixMs == null ||
-    quote.tradeProviderTimeUnixMs == null
-  ) {
+  if (quote.latestPrice == null) {
     return undefined
   }
 
   return {
     latestPrice: quote.latestPrice,
-    quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-    tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
   }
 })
