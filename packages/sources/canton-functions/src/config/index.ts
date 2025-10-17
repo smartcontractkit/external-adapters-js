@@ -1,11 +1,6 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  JSON_API: {
-    description: 'The Canton JSON API URL',
-    type: 'string',
-    required: true,
-  },
   AUTH_TOKEN: {
     description: 'JWT token for Canton JSON API authentication',
     type: 'string',
