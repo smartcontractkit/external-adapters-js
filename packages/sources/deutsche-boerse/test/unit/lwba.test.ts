@@ -9,9 +9,8 @@ import {
   type Decimal,
   type MarketData,
 } from '../../src/gen/md_cef_pb'
-import { createLwbaWsTransport } from '../../src/transport/lwba'
-import { lwbaLatestPriceProtobufWsTransport } from '../../src/transport/lwbaLatestPrice'
-import { lwbaMetadataProtobufWsTransport } from '../../src/transport/lwbaMetadata'
+import { createLwbaWsTransport, lwbaProtobufWsTransport } from '../../src/transport/lwba'
+import { priceProtobufWsTransport } from '../../src/transport/price'
 
 LoggerFactoryProvider.set()
 
@@ -33,7 +32,7 @@ function makeStreamBuffer(md: MarketData | MarketDataInit): Buffer {
 
 describe('LWBA websocket transport base functionality', () => {
   // Test the base transport functionality using a simplified extract function
-  const mockExtractData = (quote: any, providerTime: number) => {
+  const mockExtractData = (quote: any) => {
     if (
       quote.latestPrice == null ||
       quote.quoteProviderTimeUnixMs == null ||
@@ -130,7 +129,7 @@ describe('LWBA websocket transport base functionality', () => {
 
 describe('LWBA Latest Price Transport', () => {
   test('emits only when latestPrice is available', () => {
-    const t = lwbaLatestPriceProtobufWsTransport as any
+    const t = priceProtobufWsTransport as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     // Quote (no latestPrice yet) -> should NOT emit
@@ -160,7 +159,7 @@ describe('LWBA Latest Price Transport', () => {
 
   test('emits when complete data is available from cache', () => {
     // This test runs after the previous test which populated the cache with quote data
-    const t = lwbaLatestPriceProtobufWsTransport as any
+    const t = priceProtobufWsTransport as any
 
     // Since quote data is already in cache from previous test, adding trade data should trigger emission
     const tradeDat = create(DataSchema, { Px: dec(BigInt(9999), -2), Tm: BigInt(6000000) } as any)
@@ -177,7 +176,7 @@ describe('LWBA Latest Price Transport', () => {
 
 describe('LWBA Metadata Transport', () => {
   test('emits only when bid, ask, and latestPrice are available', () => {
-    const t = lwbaMetadataProtobufWsTransport as any
+    const t = lwbaProtobufWsTransport as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     // Quote only -> should NOT emit yet
@@ -210,7 +209,7 @@ describe('LWBA Metadata Transport', () => {
   })
 
   test('bid-only then ask-only then trade → emits when complete', () => {
-    const t = lwbaMetadataProtobufWsTransport as any
+    const t = lwbaProtobufWsTransport as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
     // bid-only -> might emit if there's already trade data in cache from previous tests
@@ -233,7 +232,6 @@ describe('LWBA Metadata Transport', () => {
         Tm: BigInt(11000000),
       } as any),
     } as any)
-    const askResult = t.config.handlers.message(makeStreamBuffer(askOnly))
 
     // trade → should definitely emit now that we have complete fresh data
     const trade = create(MarketDataSchema, {
@@ -252,7 +250,7 @@ describe('LWBA Metadata Transport', () => {
   })
 
   test('protobuf with bid/ask sizes are handled correctly', () => {
-    const t = lwbaMetadataProtobufWsTransport as any
+    const t = lwbaProtobufWsTransport as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER }) // Use different ISIN to avoid cache interference
 
     // Quote with sizes -> should NOT emit yet (no trade data)
@@ -285,7 +283,7 @@ describe('LWBA Metadata Transport', () => {
   })
 
   test('protobuf without bid/ask sizes defaults to null/undefined', () => {
-    const t = lwbaMetadataProtobufWsTransport as any
+    const t = lwbaProtobufWsTransport as any
     const TEST_ISIN = 'TEST123456789' // Use unique ISIN to avoid cache interference
     t.config.builders.subscribeMessage({ market: MARKET, isin: TEST_ISIN })
 

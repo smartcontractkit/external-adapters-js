@@ -1,6 +1,6 @@
-import { createLwbaWsTransport } from '../transport/lwba'
+import { createLwbaWsTransport } from './wsProtobufTransportBase'
 
-export const lwbaLatestPriceProtobufWsTransport = createLwbaWsTransport((quote) => {
+export const priceProtobufWsTransport = createLwbaWsTransport((quote) => {
   if (
     quote.latestPrice == null ||
     quote.quoteProviderTimeUnixMs == null ||
