@@ -205,7 +205,6 @@ function processMarketData(
   isin: string
   providerTime: number
 } | null {
-  logger.info('Processing MarketData frame')
   const isin = parseIsin(md)
   if (!isin) {
     logger.warn('Could not parse ISIN from MarketData')

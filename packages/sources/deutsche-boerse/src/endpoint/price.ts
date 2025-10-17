@@ -3,7 +3,7 @@ import { config } from '../config'
 import { priceProtobufWsTransport } from '../transport/price'
 import { inputParameters } from './lwba'
 
-export interface priceResponse {
+export interface PriceResponse {
   Result: number | null
   Data: {
     latestPrice: number
@@ -12,7 +12,7 @@ export interface priceResponse {
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: priceResponse
+  Response: PriceResponse
   Settings: typeof config.settings
 }
 
