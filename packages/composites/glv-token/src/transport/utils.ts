@@ -19,6 +19,10 @@ export const median = (values: number[]): number => {
   return values.length % 2 ? values[half] : (values[half - 1] + values[half]) / 2
 }
 
+export const toNumFromDS = (x: string | number, decimals: number): number => {
+  const decs = decimals
+  return new Decimal(String(x)).div(`1e${decs}`).toNumber()
+}
 /*
 Formats a given number with a specified precision without leading zeros and decimal point.
 Price decimals = SIGNED_PRICE_DECIMALS - token decimals

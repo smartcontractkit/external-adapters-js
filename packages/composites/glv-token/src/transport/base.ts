@@ -19,18 +19,17 @@ import {
   SIGNED_PRICE_DECIMALS,
   toFixed,
   Token,
+  toNumFromDS,
 } from './utils'
 
 // Data Engine (crypto-v3) schema
-type DataEngineData = {
+type DataEngineDataResponse = {
   bid: string
   ask: string
   price: string
   decimals: number
 }
-const DATA_STREAM_DECIMALS = 18
-const DATA_STREAM_SCALE = 10 ** DATA_STREAM_DECIMALS
-const toNumFromDS = (x?: string | number) => Number(x) / DATA_STREAM_SCALE
+
 const logger = makeLogger('GlvBaseTransport')
 
 interface glvInformation {
@@ -227,6 +226,22 @@ export abstract class BaseGlvTransport<
     )
   }
 
+  private async getFeedId(token: string, dataRequestedTimestamp: number): Promise<string> {
+    const tokenAddress = this.symbolToAddressMap[token]
+    if (!tokenAddress) {
+      throw new AdapterDataProviderError(
+        { statusCode: 400, message: `Unknown token symbol '${token}'` },
+        {
+          providerDataRequestedUnixMs: dataRequestedTimestamp,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
+    }
+    const key = dataStreamIdKey(tokenAddress)
+    return await this.dataStoreContract.getBytes32(key)
+  }
+
   private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
     const priceData = {} as PriceData
 
@@ -235,20 +250,7 @@ export abstract class BaseGlvTransport<
     const priceProviders: Record<string, string[]> = {}
     await Promise.all(
       assets.map(async (asset) => {
-        // const base = this.unwrapAsset(asset)
-        const tokenAddress = this.symbolToAddressMap[asset]
-        if (!tokenAddress) {
-          throw new AdapterDataProviderError(
-            { statusCode: 400, message: `Unknown token symbol '${asset}'` },
-            {
-              providerDataRequestedUnixMs: dataRequestedTimestamp,
-              providerDataReceivedUnixMs: Date.now(),
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          )
-        }
-        const key = dataStreamIdKey(tokenAddress)
-        const feedId: string = await this.dataStoreContract.getBytes32(key)
+        const feedId = await this.getFeedId(asset, dataRequestedTimestamp)
         const requestConfig = {
           url: source.url,
           method: 'POST',
@@ -261,13 +263,13 @@ export abstract class BaseGlvTransport<
         }
 
         try {
-          const response = await this.requester.request<{ data: DataEngineData }>(
+          const response = await this.requester.request<{ data: DataEngineDataResponse }>(
             JSON.stringify(requestConfig),
             requestConfig,
           )
-          const { bid, ask } = response.response.data.data
-          const bidNum = toNumFromDS(bid)
-          const askNum = toNumFromDS(ask)
+          const { bid, ask, decimals } = response.response.data.data
+          const bidNum = toNumFromDS(bid, decimals)
+          const askNum = toNumFromDS(ask, decimals)
           priceData[asset] = priceData[asset] || { bids: [], asks: [] }
           priceData[asset].bids.push(bidNum)
           priceData[asset].asks.push(askNum)
@@ -314,16 +316,6 @@ export abstract class BaseGlvTransport<
       return { asset, bid: medianBid, ask: medianAsk }
     })
   }
-
-  // private unwrapAsset(asset: string) {
-  //   if (asset === 'WBTC.b') {
-  //     return 'BTC'
-  //   }
-  //   if (asset === 'WETH') {
-  //     return 'ETH'
-  //   }
-  //   return asset
-  // }
 
   private validateRequiredResponses(
     priceProviders: Record<string, string[]> = {},
