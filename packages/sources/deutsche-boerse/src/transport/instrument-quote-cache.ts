@@ -40,8 +40,8 @@ export class InstrumentQuoteCache {
     bid: number,
     ask: number,
     providerTime: number,
-    bidSz?: number,
-    askSz?: number,
+    bidSz: number,
+    askSz: number,
   ) {
     const quote = this.get(market, isin)
     if (!quote) {
