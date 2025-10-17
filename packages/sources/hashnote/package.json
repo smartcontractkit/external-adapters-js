@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/hashnote-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink hashnote adapter.",
   "keywords": [
     "Chainlink",
