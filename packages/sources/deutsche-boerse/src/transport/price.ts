@@ -1,4 +1,4 @@
-import { createLwbaWsTransport } from './wsProtobufTransportBase'
+import { createLwbaWsTransport } from './lwba'
 
 export const priceProtobufWsTransport = createLwbaWsTransport((quote) => {
   if (
