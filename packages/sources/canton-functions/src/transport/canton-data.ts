@@ -21,7 +21,6 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.cantonClient = CantonClient.getInstance(dependencies.requester, {
-      JSON_API: adapterSettings.JSON_API,
       AUTH_TOKEN: adapterSettings.AUTH_TOKEN,
     })
   }
@@ -56,24 +55,57 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    const url = params.url
+    const templateId = params.templateId
+    const choice = params.choice
 
-    const contracts = await this.cantonClient.queryContracts({
-      templateIds: [params.templateId],
-    })
+    let contractId: string
+    let contract: any
 
-    if (!contracts || contracts.length === 0) {
-      throw new AdapterInputError({
-        message: `No contracts found for template ID '${params.templateId}'`,
-        statusCode: 404,
+    // If contractId is provided, use it directly
+    if (params.contractId) {
+      contractId = params.contractId
+    } else {
+      // Query contracts using contractFilter
+      if (!params.contractFilter) {
+        throw new AdapterInputError({
+          message: 'Either contractId or contractFilter must be provided',
+          statusCode: 400,
+        })
+      }
+
+      const contracts = await this.cantonClient.queryContractsByTemplate(url, {
+        templateIds: [templateId],
+        filter: String(params.contractFilter),
       })
+
+      if (!contracts || contracts.length === 0) {
+        throw new AdapterInputError({
+          message: `No contracts found for template ID '${templateId}' with the provided filter`,
+          statusCode: 404,
+        })
+      }
+
+      // Find the latest contract by createdAt
+      contract = this.findLatestContract(contracts)
+      contractId = contract.contractId
     }
 
-    const result = JSON.stringify(contracts)
+    // Exercise the choice on the contract
+    const exerciseResult = await this.cantonClient.exerciseChoice(url, {
+      contractId,
+      templateId,
+      choice,
+      argument: params.argument ? String(params.argument) : undefined,
+    })
+
+    const result = JSON.stringify(exerciseResult)
 
     return {
       data: {
         result,
-        contracts,
+        exerciseResult,
+        contract,
       },
       statusCode: 200,
       result,
@@ -83,6 +115,22 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  /**
+   * Find the latest contract by createdAt date
+   */
+  private findLatestContract(contracts: any[]): any {
+    if (contracts.length === 1) {
+      return contracts[0]
+    }
+
+    // Sort by createdAt in descending order (latest first)
+    return contracts.sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0
+      return dateB - dateA
+    })[0]
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
