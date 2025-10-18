@@ -35,8 +35,8 @@ const ack = (requestId: bigint, seq: bigint): Uint8Array =>
 
 const quoteFrame = (seq: bigint): Uint8Array => {
   const dat = create(DataSchema, {
-    Bid: { Px: dec(10000n, -2) }, // 100.00
-    Offer: { Px: dec(10100n, -2) }, // 101.00
+    Bid: { Px: dec(10000n, -2), Sz: dec(2000n, 0) }, // 100.00, size 2000
+    Offer: { Px: dec(10100n, -2), Sz: dec(1000n, 0) }, // 101.00, size 1000
     Tm: 5_000_000n, // 5 ms
   } as any)
   const md = create(MarketDataSchema, { Instrmt: { Sym: TEST_ISIN }, Dat: dat } as any)

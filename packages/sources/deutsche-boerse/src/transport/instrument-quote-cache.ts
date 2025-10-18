@@ -4,6 +4,8 @@ export type Quote = {
   bid?: number
   ask?: number
   mid?: number
+  bidSize?: number
+  askSize?: number
   latestPrice?: number
   quoteProviderTimeUnixMs?: number
   tradeProviderTimeUnixMs?: number
@@ -12,31 +14,49 @@ export type Quote = {
 export class InstrumentQuoteCache {
   private readonly map = new Map<string, Quote>()
 
-  activate(isin: string) {
-    if (!this.map.has(isin)) this.map.set(isin, {})
+  private createKey(market: string, isin: string): string {
+    return `${market}-${isin}`
   }
-  deactivate(isin: string) {
-    this.map.delete(isin)
+
+  activate(market: string, isin: string) {
+    const key = this.createKey(market, isin)
+    if (!this.map.has(key)) this.map.set(key, {})
   }
-  has(isin: string): boolean {
-    return this.map.has(isin)
+  deactivate(market: string, isin: string) {
+    const key = this.createKey(market, isin)
+    this.map.delete(key)
   }
-  get(isin: string): Quote | undefined {
-    return this.map.get(isin)
+  has(market: string, isin: string): boolean {
+    const key = this.createKey(market, isin)
+    return this.map.has(key)
   }
-  addQuote(isin: string, bid: number, ask: number, providerTime: number) {
-    const quote = this.get(isin)
+  get(market: string, isin: string): Quote | undefined {
+    const key = this.createKey(market, isin)
+    return this.map.get(key)
+  }
+  addQuote(
+    market: string,
+    isin: string,
+    bid: number,
+    ask: number,
+    providerTime: number,
+    bidSz: number,
+    askSz: number,
+  ) {
+    const quote = this.get(market, isin)
     if (!quote) {
-      throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
+      throw new Error(`Cannot add quote for inactive instrument ${market}-${isin}`)
     }
     const mid = new Decimal(bid).plus(ask).div(2)
     quote.bid = bid
     quote.ask = ask
     quote.mid = mid.toNumber()
     quote.quoteProviderTimeUnixMs = providerTime
+    quote.bidSize = bidSz
+    quote.askSize = askSz
   }
-  addBid(isin: string, bid: number, providerTime: number) {
-    const quote = this.get(isin)
+  addBid(market: string, isin: string, bid: number, providerTime: number, bidSz?: number) {
+    const quote = this.get(market, isin)
     if (!quote) {
       throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
     }
@@ -46,9 +66,10 @@ export class InstrumentQuoteCache {
     }
     quote.bid = bid
     quote.quoteProviderTimeUnixMs = providerTime
+    quote.bidSize = bidSz
   }
-  addAsk(isin: string, ask: number, providerTime: number) {
-    const quote = this.get(isin)
+  addAsk(market: string, isin: string, ask: number, providerTime: number, askSz?: number) {
+    const quote = this.get(market, isin)
     if (!quote) {
       throw new Error(`Cannot add quote for inactive ISIN ${isin}`)
     }
@@ -59,11 +80,13 @@ export class InstrumentQuoteCache {
     }
     quote.ask = ask
     quote.quoteProviderTimeUnixMs = providerTime
+    quote.askSize = askSz
   }
-  addTrade(isin: string, lastPrice: number, providerTime: number) {
-    const quote = this.get(isin)
+
+  addTrade(market: string, isin: string, lastPrice: number, providerTime: number) {
+    const quote = this.get(market, isin)
     if (!quote) {
-      throw new Error(`Cannot add trade for inactive ISIN ${isin}`)
+      throw new Error(`Cannot add trade for inactive instrument ${market}-${isin}`)
     }
     quote.latestPrice = lastPrice
     quote.tradeProviderTimeUnixMs = providerTime
