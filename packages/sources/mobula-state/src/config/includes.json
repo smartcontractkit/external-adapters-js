@@ -1,0 +1,46 @@
+[
+  {
+    "from": "EZETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102478632",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EZETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102478632",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "GHO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "2921",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "ETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100004304",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  }
+]
