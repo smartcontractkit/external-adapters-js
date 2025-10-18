@@ -38,7 +38,7 @@ type BaseTransportTypes = {
 const logger = makeLogger('DeutscheBoerseTransport')
 
 export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTypes>(
-  extractData: (quote: Quote, providerTime: number) => BaseEndpointTypes['Response']['Data'],
+  extractData: (quote: Quote) => BaseEndpointTypes['Response']['Data'],
 ) {
   const cache = new InstrumentQuoteCache()
   let ttlInterval: ReturnType<typeof setInterval> | undefined
@@ -116,9 +116,8 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
-        const responseData = extractData(quote, providerTime)
+        const responseData = extractData(quote)
         if (!responseData) {
-          logger.debug({ isin, market }, 'Awaiting complete data before emitting')
           return []
         }
         return [
