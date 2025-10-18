@@ -1,5 +1,12 @@
 # @chainlink/market-status-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`b86218a`](https://github.com/smartcontractkit/external-adapters-js/commit/b86218a321dfef42ced38c75585e6fb352c6052c)]:
+  - @chainlink/tradinghours-adapter@0.2.4
+
 ## 1.4.1
 
 ### Patch Changes
