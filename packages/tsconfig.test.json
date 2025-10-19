@@ -612,6 +612,9 @@
       "path": "./sources/stasis/tsconfig.test.json"
     },
     {
+      "path": "./sources/streamex/tsconfig.test.json"
+    },
+    {
       "path": "./sources/superstate/tsconfig.test.json"
     },
     {

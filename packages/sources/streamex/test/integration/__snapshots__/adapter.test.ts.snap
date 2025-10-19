@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2392300000000,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "totalReserve": 23923,
+  },
+  "result": 2392300000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1760583701362,
+  },
+}
+`;
