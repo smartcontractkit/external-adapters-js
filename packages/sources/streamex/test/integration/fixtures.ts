@@ -3,6 +3,9 @@ import nock from 'nock'
 export const mockReserveResponseSuccess = (): nock.Scope =>
   nock('https://data.streamex.com/prod/chainlink', {
     encodedQueryParams: true,
+    reqheaders: {
+      'x-api-key': 'streamex-api-key',
+    },
   })
     .get('/gldy-status')
     .reply(200, {
@@ -17,6 +20,9 @@ export const mockReserveResponseSuccess = (): nock.Scope =>
 export const mockReserveResponseRipcordFailure = (): nock.Scope =>
   nock('https://data.streamex.com/prod/chainlink', {
     encodedQueryParams: true,
+    reqheaders: {
+      'x-api-key': 'streamex-api-key',
+    },
   })
     .get('/gldy-status')
     .reply(200, {

@@ -25,7 +25,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           url: '/gldy-status',
           headers: {
-            Authorization: `Bearer ${config.STREAMEX_API_KEY}`,
+            'x-api-key': config.STREAMEX_API_KEY,
             'Content-Type': 'application/json',
           },
         },
@@ -60,14 +60,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
       // Parse totalReserve and multiply by 1e8
       const totalReserve = Number(response.data.totalReserve)
-      const result = totalReserve * 1e8
 
       return {
         params: param,
         response: {
-          result,
+          result: totalReserve,
           data: {
-            result,
+            result: totalReserve,
             ripcord,
             ripcordAsInt,
             totalReserve,
