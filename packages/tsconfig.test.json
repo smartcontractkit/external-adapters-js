@@ -51,6 +51,9 @@
       "path": "./composites/implied-price/tsconfig.test.json"
     },
     {
+      "path": "./composites/implied-price-test/tsconfig.test.json"
+    },
+    {
       "path": "./composites/linear-finance/tsconfig.test.json"
     },
     {

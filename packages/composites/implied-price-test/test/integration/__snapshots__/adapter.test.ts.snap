@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute computePrice endpoint should return error for minimum number of operand 1 sources 1`] = `
+{
+  "errorMessage": "Insufficient responses: got 1, required 2",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return error for minimum number of operand 2 sources 1`] = `
+{
+  "errorMessage": "Insufficient responses: got 1, required 2",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return error for missing source 1`] = `
+{
+  "error": {
+    "message": "Missing the following environment variables for the specified sources: COINPAPRIKA_ADAPTER_URL",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute computePrice endpoint should return success for divide 1`] = `
+{
+  "data": {
+    "result": "2",
+  },
+  "result": "2",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for legacy divisions 1`] = `
+{
+  "data": {
+    "result": "2",
+  },
+  "result": "2",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for multiply 1`] = `
+{
+  "data": {
+    "result": "200",
+  },
+  "result": "200",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
