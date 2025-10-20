@@ -76,8 +76,9 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           return []
         }
 
-        // Get original user params using reverse mapping with baseID only
-        const params = wsTransport.getReverseMapping(message.baseID)
+        // Use composite key for reverse mapping: baseID-quoteID
+        const compositeKey = `${message.baseID}-${message.quoteID}`
+        const params = wsTransport.getReverseMapping(compositeKey)
         if (!params) {
           return []
         }
@@ -99,8 +100,9 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         const assetId = getAssetId(params.base)
         const quoteId = getQuoteId(params.quote)
 
-        // Store mapping: baseID -> original user params
-        wsTransport.setReverseMapping(String(assetId), params)
+        // Store mapping using composite key: baseID-quoteID -> original user params
+        const compositeKey = `${assetId}-${quoteId || 'USD'}`
+        wsTransport.setReverseMapping(compositeKey, params)
 
         const subscribeMsg: any = {
           type: 'feed',
