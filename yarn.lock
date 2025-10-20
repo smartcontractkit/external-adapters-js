@@ -4566,7 +4566,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/implied-price-test-adapter@workspace:packages/composites/implied-price-test"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.7.0"
+    "@chainlink/external-adapter-framework": "npm:2.7.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"

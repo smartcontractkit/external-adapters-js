@@ -7566,7 +7566,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/implied-price-test/",\
         "packageDependencies": [\
           ["@chainlink/implied-price-test-adapter", "workspace:packages/composites/implied-price-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
