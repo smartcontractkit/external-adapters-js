@@ -58,7 +58,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       }
 
-      // Parse totalReserve and multiply by 1e8
       const totalReserve = Number(response.data.totalReserve)
 
       return {
