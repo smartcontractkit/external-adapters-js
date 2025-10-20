@@ -33,10 +33,25 @@ const getAssetId = (symbol: string): number => {
   )
 }
 
+// Hardcoded quote currency asset IDs
+const QUOTE_ASSET_IDS: Record<string, number> = {
+  BTC: 100001656, // Bitcoin
+  ETH: 100004304, // Ethereum
+  SOL: 100010811, // Solana
+  HYPE: 102498883, // Hyperliquid
+  S: 102501606, // Sonic (using 'S' as symbol)
+}
+
 // Map quote symbols to IDs - USD doesn't need quote_id, others do
 const getQuoteId = (quote: string): number | undefined => {
   if (quote.toUpperCase() === 'USD') {
     return undefined // USD works without quote_id
+  }
+
+  // Check hardcoded quote mappings first
+  const hardcodedId = QUOTE_ASSET_IDS[quote.toUpperCase()]
+  if (hardcodedId) {
+    return hardcodedId
   }
 
   // Check if quote is already a number (asset ID)
@@ -45,10 +60,10 @@ const getQuoteId = (quote: string): number | undefined => {
     return parsed
   }
 
-  // For now, if it's not USD and not a number, we need includes.json mapping
+  // If not found in hardcoded mappings and not a number, check includes.json
   // The framework should have applied includes mapping by this point
   throw new Error(
-    `Unable to resolve quote ID for symbol: ${quote}. Please ensure includes.json is configured for this quote currency.`,
+    `Unable to resolve quote ID for symbol: ${quote}. Please ensure includes.json is configured for this quote currency or add it to QUOTE_ASSET_IDS.`,
   )
 }
 
