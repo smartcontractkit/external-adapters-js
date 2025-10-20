@@ -33,7 +33,7 @@ function makeStreamBuffer(md: MarketData | MarketDataInit): Buffer {
 
 describe('LWBA websocket transport base functionality', () => {
   // Match transport signature: accept providerTime, ignore it for this base test
-  const mockExtractData = (quote: any, _providerTime: number) => {
+  const mockExtractData = (quote: any) => {
     if (quote.latestPrice == null) {
       return undefined
     }
