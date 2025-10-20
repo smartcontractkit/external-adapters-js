@@ -19,8 +19,8 @@ export class InstrumentQuoteCache {
   }
 
   hasMarket(market: string): boolean {
-    const bucket = this.map.get(market)
-    return !!bucket && bucket.size > 0
+    const marketMap = this.map.get(market)
+    return !!marketMap && marketMap.size > 0
   }
 
   getMarkets(): string[] {
