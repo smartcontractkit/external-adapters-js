@@ -6946,6 +6946,24 @@ const RAW_RUNTIME_STATE =
           ["ws", "virtual:65504e4ff9af46846016a42a6de7f7f34f5151a54c5c8002e2a0cb99ea06a9b4837d92809c9127a430d2bbd9078af4c8a1665843e4aaaff87d11839c57e11e60#npm:8.18.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.8.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.12.2"],\
+          ["eventsource", "npm:4.0.0"],\
+          ["fastify", "npm:5.6.1"],\
+          ["ioredis", "npm:5.8.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.1.0"],\
+          ["pino-pretty", "npm:13.1.2"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:65504e4ff9af46846016a42a6de7f7f34f5151a54c5c8002e2a0cb99ea06a9b4837d92809c9127a430d2bbd9078af4c8a1665843e4aaaff87d11839c57e11e60#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -7466,7 +7484,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -9221,7 +9239,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -12333,6 +12351,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@paypal-paypalhttp-npm-1.0.1-518d41bf33-89f894c338.zip/node_modules/@paypal/paypalhttp/",\
         "packageDependencies": [\
           ["@paypal/paypalhttp", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@pinojs/redact", [\
+      ["npm:0.4.0", {\
+        "packageLocation": "./.yarn/cache/@pinojs-redact-npm-0.4.0-445417bca6-2210ffb6b3.zip/node_modules/@pinojs/redact/",\
+        "packageDependencies": [\
+          ["@pinojs/redact", "npm:0.4.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -28767,6 +28794,24 @@ const RAW_RUNTIME_STATE =
           ["real-require", "npm:0.2.0"],\
           ["safe-stable-stringify", "npm:2.5.0"],\
           ["slow-redact", "npm:0.3.2"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["thread-stream", "npm:3.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:10.1.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.1.0-3dcf993335-6f9c865726.zip/node_modules/pino/",\
+        "packageDependencies": [\
+          ["pino", "npm:10.1.0"],\
+          ["@pinojs/redact", "npm:0.4.0"],\
+          ["atomic-sleep", "npm:1.0.0"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pino-std-serializers", "npm:7.0.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["quick-format-unescaped", "npm:4.0.4"],\
+          ["real-require", "npm:0.2.0"],\
+          ["safe-stable-stringify", "npm:2.5.0"],\
           ["sonic-boom", "npm:4.2.0"],\
           ["thread-stream", "npm:3.1.0"]\
         ],\
