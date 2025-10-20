@@ -40,6 +40,7 @@ const QUOTE_ASSET_IDS: Record<string, number> = {
   SOL: 100010811, // Solana
   HYPE: 102498883, // Hyperliquid
   S: 102501606, // Sonic (using 'S' as symbol)
+  BBSOL: 102484775, // Bybit Staked SOL
 }
 
 // Map quote symbols to IDs - USD doesn't need quote_id, others do
