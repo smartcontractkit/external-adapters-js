@@ -1,20 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket lwba endpoint returns success and exposes quote/trade fields 1`] = `
+exports[`websocket lwba endpoint returns success and exposes bid/ask/mid fields 1`] = `
 {
   "data": {
     "ask": 101,
+    "askSize": 1000,
     "bid": 100,
-    "latestPrice": 100.1,
+    "bidSize": 2000,
     "mid": 100.5,
-    "quoteProviderIndicatedTimeUnixMs": 5,
-    "tradeProviderIndicatedTimeUnixMs": 6,
   },
   "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 6,
+  },
+}
+`;
+
+exports[`websocket price endpoint returns success and exposes latestPrice 1`] = `
+{
+  "data": {
+    "latestPrice": 100.1,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
     "providerIndicatedTimeUnixMs": 6,
   },
 }
