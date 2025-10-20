@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nav-libre-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink nav-libre adapter.",
   "keywords": [
     "Chainlink",
