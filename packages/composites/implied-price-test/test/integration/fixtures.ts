@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockDPResponseSuccess = (dp: string, value): nock.Scope =>
+export const mockDPResponseSuccess = (dp: string, value: number): nock.Scope =>
   nock('http://localhost:8080')
     .post(`/${dp}`, (body) => {
       return body && typeof body.data === 'object' && body.data !== null
@@ -17,7 +17,7 @@ export const mockDPResponseSuccess = (dp: string, value): nock.Scope =>
     }))
     .persist()
 
-export const mockDPResponseError = (dp: string, value): nock.Scope =>
+export const mockDPResponseError = (dp: string): nock.Scope =>
   nock('http://localhost:8080')
     .post(`/${dp}`, (body) => {
       return body && typeof body.data === 'object' && body.data !== null

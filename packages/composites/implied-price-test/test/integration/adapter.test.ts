@@ -98,7 +98,7 @@ describe('execute', () => {
       nock.cleanAll()
       mockDPResponseSuccess('tiingo', 10)
       mockDPResponseSuccess('ncfx', 20)
-      mockDPResponseError('elwood', 5)
+      mockDPResponseError('elwood')
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
@@ -132,7 +132,7 @@ describe('execute', () => {
       }
       mockDPResponseSuccess('tiingo', 10)
       mockDPResponseSuccess('ncfx', 20)
-      mockDPResponseError('elwood', 5)
+      mockDPResponseError('elwood')
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
