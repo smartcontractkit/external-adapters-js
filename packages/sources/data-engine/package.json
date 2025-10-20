@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@chainlink/data-streams-sdk": "^1.0.4",
-    "@chainlink/external-adapter-framework": "2.7.2",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "tslib": "2.4.1"
   }
 }
