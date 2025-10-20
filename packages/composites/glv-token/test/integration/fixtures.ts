@@ -37,11 +37,9 @@ export const mockMarketInfoApiSuccess = (): nock.Scope =>
     })
     .persist()
 
-// Return DS values at 1e18 for *any* feedId (simplest)
 export const mockDataEngineEAResponseSuccess = (): nock.Scope =>
   nock(process.env.DATA_ENGINE_ADAPTER_URL!, { encodedQueryParams: true })
     .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
-    .times(10)
     .reply(200, {
       data: {
         bid: '1999000000000000000', // 1.999
@@ -52,9 +50,10 @@ export const mockDataEngineEAResponseSuccess = (): nock.Scope =>
       result: null,
       statusCode: 200,
     })
+    .persist()
 
 export const mockDataEngineEAResponseFailure = (): nock.Scope =>
   nock(process.env.DATA_ENGINE_ADAPTER_URL!, { encodedQueryParams: true })
     .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
-    .times(10)
     .reply(500, {})
+    .persist()

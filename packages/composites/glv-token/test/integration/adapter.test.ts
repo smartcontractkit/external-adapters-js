@@ -98,7 +98,8 @@ describe('execute', () => {
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
+    mockTokenInfoApiSuccess()
+    mockMarketInfoApiSuccess()
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -114,10 +115,18 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
+  beforeEach(() => {
+    mockTokenInfoApiSuccess()
+    mockMarketInfoApiSuccess()
+  })
+
+  afterEach(() => {
+    nock.cleanAll()
+    testAdapter.mockCache?.cache.clear()
+  })
+
   describe('price endpoint', () => {
     it('returns success with data-engine + metadata', async () => {
-      mockTokenInfoApiSuccess()
-      mockMarketInfoApiSuccess()
       mockDataEngineEAResponseSuccess()
 
       const data = {
@@ -134,12 +143,10 @@ describe('execute', () => {
 
       expect(json.data.sources).toBeDefined()
       expect(Object.keys(json.data.sources).length).toBeGreaterThan(0)
-      expect(json.response).toMatchSnapshot()
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('fails when data-engine fails for all assets', async () => {
-      mockTokenInfoApiSuccess()
-      mockMarketInfoApiSuccess()
       mockDataEngineEAResponseFailure()
 
       const data = {
@@ -155,8 +162,6 @@ describe('execute', () => {
 
   describe('lwba endpoint', () => {
     it('returns success and valid LWBA triplet', async () => {
-      mockTokenInfoApiSuccess()
-      mockMarketInfoApiSuccess()
       mockDataEngineEAResponseSuccess()
 
       const data = {
@@ -175,7 +180,7 @@ describe('execute', () => {
       validateLwbaResponse(resData.bid, resData.mid, resData.ask)
       expect(resData.sources).toBeDefined()
       expect(Object.keys(resData.sources).length).toBeGreaterThan(0)
-      expect(json.response).toMatchSnapshot()
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })
