@@ -35,6 +35,7 @@ export const SoakTestBlacklist: string[] = [
   'google-weather',
   'harmony',
   'historical-average',
+  'implied-price-test',
   'jpegd',
   'json-rpc',
   'layer2-sequencer-health',
