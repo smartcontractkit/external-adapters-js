@@ -1,7 +1,7 @@
-import { create, toBinary, type MessageInitShape } from '@bufbuild/protobuf'
+import { create, fromBinary, toBinary, type MessageInitShape } from '@bufbuild/protobuf'
 import { anyPack, type Any } from '@bufbuild/protobuf/wkt'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { StreamMessageSchema } from '../../src/gen/client_pb'
+import { RequestSchema, StreamMessageSchema } from '../../src/gen/client_pb'
 import {
   DataSchema,
   DecimalSchema,
@@ -17,6 +17,7 @@ LoggerFactoryProvider.set()
 const dec = (m: bigint, e: number): Decimal => create(DecimalSchema, { m, e })
 type MarketDataInit = MessageInitShape<typeof MarketDataSchema>
 const MARKET = 'md-xetraetfetp' as const
+const MARKET2 = 'md-tradegate' as const
 const ISIN = 'IE00B53L3W79'
 const OTHER = 'US0000000001'
 
@@ -31,8 +32,8 @@ function makeStreamBuffer(md: MarketData | MarketDataInit): Buffer {
 }
 
 describe('LWBA websocket transport base functionality', () => {
-  // Test the base transport functionality using a simplified extract function
-  const mockExtractData = (quote: any) => {
+  // Match transport signature: accept providerTime, ignore it for this base test
+  const mockExtractData = (quote: any, _providerTime: number) => {
     if (quote.latestPrice == null) {
       return undefined
     }
@@ -48,19 +49,46 @@ describe('LWBA websocket transport base functionality', () => {
       Dat: create(DataSchema, {
         Bid: { Px: dec(BigInt(10000), -2) },
         Offer: { Px: dec(BigInt(10100), -2) },
-        Tm: BigInt(1000000),
+        Tm: BigInt(1_000_000),
       } as any),
     } as any)
     const out = t.config.handlers.message(makeStreamBuffer(md))
     expect(out).toEqual([])
   })
 
-  test('subscribe builder: first subscribe returns frame, subsequent subscribes return undefined', () => {
+  test('subscribe builder: first subscribe returns frame, subsequent subscribes (same market) return undefined', () => {
     const t = createLwbaWsTransport(mockExtractData) as any
     const first = t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
     const second = t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER })
+
     expect(first).toBeInstanceOf(Uint8Array)
     expect(second).toBeUndefined()
+
+    // Verify first frame includes only the one active market
+    const req = fromBinary(RequestSchema, first as Uint8Array)
+    const streams = req.subscribe?.stream?.map((s) => s.stream) ?? []
+    expect(streams).toEqual([MARKET])
+  })
+
+  test('subscribe builder: activating a NEW market emits a frame including ALL active markets', () => {
+    const t = createLwbaWsTransport(mockExtractData) as any
+
+    // First market
+    const first = t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
+    expect(first).toBeInstanceOf(Uint8Array)
+    const req1 = fromBinary(RequestSchema, first as Uint8Array)
+    expect(req1.subscribe?.stream?.map((s) => s.stream)).toEqual([MARKET])
+
+    // Second market -> frame should include both markets
+    const second = t.config.builders.subscribeMessage({ market: MARKET2, isin: OTHER })
+    expect(second).toBeInstanceOf(Uint8Array)
+    const req2 = fromBinary(RequestSchema, second as Uint8Array)
+    const streams2 = (req2.subscribe?.stream?.map((s) => s.stream) ?? []).sort()
+    expect(streams2).toEqual([MARKET, MARKET2].sort())
+
+    // Adding another instrument to an already-subscribed market -> no frame
+    const third = t.config.builders.subscribeMessage({ market: MARKET, isin: 'DE0000000002' })
+    expect(third).toBeUndefined()
   })
 
   test('unsubscribe builder: removing last returns frame, otherwise undefined', () => {
@@ -73,13 +101,18 @@ describe('LWBA websocket transport base functionality', () => {
 
     const removeLast = t.config.builders.unsubscribeMessage({ market: MARKET, isin: ISIN })
     expect(removeLast).toBeInstanceOf(Uint8Array)
+
+    // Decode unsubscribe frame to ensure it targets the correct market
+    const req = fromBinary(RequestSchema, removeLast as Uint8Array)
+    const unsubStreams = req.unsubscribe?.stream ?? []
+    expect(unsubStreams).toEqual([MARKET])
   })
 
   test('missing ISIN: handler returns []', () => {
     const t = createLwbaWsTransport(mockExtractData) as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
     const md = create(MarketDataSchema, {
-      Dat: create(DataSchema, { Px: dec(BigInt(100), 0), Tm: BigInt(1000000) } as any),
+      Dat: create(DataSchema, { Px: dec(BigInt(100), 0), Tm: BigInt(1_000_000) } as any),
     } as any)
     const out = t.config.handlers.message(makeStreamBuffer(md))
     expect(out).toEqual([])
@@ -104,17 +137,15 @@ describe('LWBA websocket transport base functionality', () => {
       adapterSettings: {
         WS_API_ENDPOINT: 'wss://example',
         API_KEY: 'key',
-        CACHE_MAX_AGE: 45000,
-        CACHE_TTL_REFRESH_MS: 60000,
+        CACHE_MAX_AGE: 45_000,
+        CACHE_TTL_REFRESH_MS: 60_000,
       },
     } as any
 
     await t.config.handlers.open({}, ctx)
     expect(writeTTL).toHaveBeenCalledTimes(1)
 
-    // Advance one full interval AND await the async callback
-    await jest.advanceTimersByTimeAsync(60000)
-
+    await jest.advanceTimersByTimeAsync(60_000)
     expect(writeTTL).toHaveBeenCalledTimes(2)
 
     jest.useRealTimers()
@@ -130,22 +161,20 @@ describe('LWBA Latest Price Transport', () => {
     const quoteDat = create(DataSchema, {
       Bid: { Px: dec(BigInt(10000), -2), Sz: dec(BigInt(2000), 0) },
       Offer: { Px: dec(BigInt(10100), -2), Sz: dec(BigInt(1000), 0) },
-      Tm: BigInt(5000000),
+      Tm: BigInt(5_000_000),
     } as any)
     const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: ISIN }, Dat: quoteDat } as any)
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
     expect(quoteRes).toEqual([])
 
     // Trade (now latestPrice arrives) -> should emit
-    const tradeDat = create(DataSchema, { Px: dec(BigInt(9999), -2), Tm: BigInt(6000000) } as any)
+    const tradeDat = create(DataSchema, { Px: dec(BigInt(9999), -2), Tm: BigInt(6_000_000) } as any)
     const tradeMd = create(MarketDataSchema, { Instrmt: { Sym: ISIN }, Dat: tradeDat } as any)
     const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd))
 
     expect(tradeRes.length).toBe(1)
     const [entry] = tradeRes
-    const d = entry.response.data
-
-    expect(d.latestPrice).toBe(99.99)
+    expect(entry.response.data.latestPrice).toBe(99.99)
   })
 
   test('emits when complete data is available from cache', () => {
@@ -153,11 +182,10 @@ describe('LWBA Latest Price Transport', () => {
     const t = priceProtobufWsTransport as any
 
     // Since quote data is already in cache from previous test, adding trade data should trigger emission
-    const tradeDat = create(DataSchema, { Px: dec(BigInt(9999), -2), Tm: BigInt(6000000) } as any)
+    const tradeDat = create(DataSchema, { Px: dec(BigInt(9999), -2), Tm: BigInt(6_000_000) } as any)
     const tradeMd = create(MarketDataSchema, { Instrmt: { Sym: ISIN }, Dat: tradeDat } as any)
     const tradeRes = t.config.handlers.message(makeStreamBuffer(tradeMd))
 
-    // Should emit because we now have complete data (quote from previous test + trade from this test)
     expect(tradeRes.length).toBe(1)
     expect(tradeRes[0].response.data.latestPrice).toBe(99.99)
   })
@@ -173,7 +201,7 @@ describe('LWBA Metadata Transport', () => {
     const quoteDat = create(DataSchema, {
       Bid: { Px: dec(BigInt(10000), -2), Sz: dec(BigInt(2000), 0) },
       Offer: { Px: dec(BigInt(10100), -2), Sz: dec(BigInt(1000), 0) },
-      Tm: BigInt(5000000),
+      Tm: BigInt(5_000_000),
     } as any)
     const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: FRESH_ISIN }, Dat: quoteDat } as any)
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
@@ -193,18 +221,16 @@ describe('LWBA Metadata Transport', () => {
     const t = lwbaProtobufWsTransport as any
     t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
 
-    // bid-only -> might emit if there's already trade data in cache from previous tests
+    // bid-only
     const bidOnly = create(MarketDataSchema, {
       Instrmt: { Sym: ISIN },
       Dat: create(DataSchema, {
         Bid: { Px: dec(BigInt(10000), -2), Sz: dec(BigInt(2000), 0) },
-        Tm: BigInt(10000000),
+        Tm: BigInt(10_000_000),
       } as any),
     } as any)
     const bidResult = t.config.handlers.message(makeStreamBuffer(bidOnly))
-    // The result depends on whether there's already trade data in the cache
     if (bidResult.length > 0) {
-      // If it emits, verify the data is reasonable (bid + cached data)
       expect(bidResult[0].response.data.bid).toBe(100)
     }
 
@@ -213,18 +239,18 @@ describe('LWBA Metadata Transport', () => {
       Instrmt: { Sym: ISIN },
       Dat: create(DataSchema, {
         Offer: { Px: dec(BigInt(10200), -2), Sz: dec(BigInt(750), 0) },
-        Tm: BigInt(11000000),
+        Tm: BigInt(11_000_000),
       } as any),
     } as any)
     t.config.handlers.message(makeStreamBuffer(askOnly))
 
-    // trade → should definitely emit now that we have complete fresh data
+    // trade → should definitely emit now that we have complete data
     const trade = create(MarketDataSchema, {
       Instrmt: { Sym: ISIN },
       Dat: create(DataSchema, {
         Px: dec(BigInt(10100), -2),
         Sz: dec(BigInt(500), 0),
-        Tm: BigInt(12000000),
+        Tm: BigInt(12_000_000),
       } as any),
     } as any)
     const result = t.config.handlers.message(makeStreamBuffer(trade))
@@ -244,7 +270,7 @@ describe('LWBA Metadata Transport', () => {
     const quoteDat = create(DataSchema, {
       Bid: { Px: dec(BigInt(9500), -2), Sz: dec(BigInt(1500), 0) },
       Offer: { Px: dec(BigInt(9600), -2), Sz: dec(BigInt(1600), 0) },
-      Tm: BigInt(7000000),
+      Tm: BigInt(7_000_000),
     } as any)
     const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: OTHER }, Dat: quoteDat } as any)
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
@@ -265,11 +291,11 @@ describe('LWBA Metadata Transport', () => {
     const TEST_ISIN = 'TEST123456789' // Use unique ISIN to avoid cache interference
     t.config.builders.subscribeMessage({ market: MARKET, isin: TEST_ISIN })
 
-    // Quote with zero sizes -> lwba transport treats 0 as valid, so it should emit
+    // Quote with zero sizes -> should emit
     const quoteDat = create(DataSchema, {
       Bid: { Px: dec(BigInt(8500), -2), Sz: dec(BigInt(0), 0) },
       Offer: { Px: dec(BigInt(8600), -2), Sz: dec(BigInt(0), 0) },
-      Tm: BigInt(9000000),
+      Tm: BigInt(9_000_000),
     } as any)
     const quoteMd = create(MarketDataSchema, { Instrmt: { Sym: TEST_ISIN }, Dat: quoteDat } as any)
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))

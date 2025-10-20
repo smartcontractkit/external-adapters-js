@@ -134,22 +134,20 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
     },
     builders: {
       subscribeMessage: (p: { market: string; isin: string }) => {
-        if (cache.isEmpty()) {
-          cache.activate(p.market, p.isin)
+        const firstForMarket = !cache.hasMarket(p.market)
+        cache.activate(p.market, p.isin)
+        if (firstForMarket) {
+          const markets = cache.getMarkets()
           const req = create(RequestSchema, {
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: [{ stream: p.market }],
+              stream: markets.map((m) => ({ stream: m })),
             }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'Building initial subscribe request (first instrument activates stream)',
-          )
+          logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
           return toBinary(RequestSchema, req)
         }
-        cache.activate(p.market, p.isin)
         logger.debug(
           { isin: p.isin, market: p.market },
           'Instrument activated; stream already subscribed, no outbound subscribe message sent',
@@ -159,16 +157,16 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
 
       unsubscribeMessage: (p: { market: string; isin: string }) => {
         cache.deactivate(p.market, p.isin)
-        if (cache.isEmpty()) {
+
+        if (!cache.hasMarket(p.market)) {
           const req = create(RequestSchema, {
             event: 'unsubscribe',
             requestId: BigInt(Date.now()),
-            unsubscribe: create(UnsubscribeSchema, { stream: [p.market] }),
+            unsubscribe: create(UnsubscribeSchema, {
+              stream: [p.market],
+            }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'All instruments deactivated; building unsubscribe request',
-          )
+          logger.info({ market: p.market }, 'Unsubscribing market stream (market now empty)')
           return toBinary(RequestSchema, req)
         }
         logger.debug(

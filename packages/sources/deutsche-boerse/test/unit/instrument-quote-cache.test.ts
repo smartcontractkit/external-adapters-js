@@ -9,13 +9,21 @@ describe('InstrumentQuoteCache', () => {
   test('activate/deactivate/has/isEmpty/get', () => {
     const cache = new InstrumentQuoteCache()
     expect(cache.isEmpty()).toBe(true)
+    expect(cache.hasMarket(MARKET)).toBe(false)
+    expect(cache.getMarkets()).toEqual([])
+
     cache.activate(MARKET, ISIN)
     expect(cache.has(MARKET, ISIN)).toBe(true)
     expect(cache.get(MARKET, ISIN)).toEqual({})
     expect(cache.isEmpty()).toBe(false)
+    expect(cache.hasMarket(MARKET)).toBe(true)
+    expect(cache.getMarkets()).toEqual([MARKET])
+
     cache.deactivate(MARKET, ISIN)
     expect(cache.has(MARKET, ISIN)).toBe(false)
     expect(cache.isEmpty()).toBe(true)
+    expect(cache.hasMarket(MARKET)).toBe(false)
+    expect(cache.getMarkets()).toEqual([])
   })
 
   test('addQuote sets bid/ask/mid and quote time', () => {
@@ -118,6 +126,9 @@ describe('InstrumentQuoteCache', () => {
     cache.activate(MARKET2, ISIN2)
     expect(cache.has(MARKET, ISIN)).toBe(true)
     expect(cache.has(MARKET2, ISIN2)).toBe(true)
+    expect(cache.hasMarket(MARKET)).toBe(true)
+    expect(cache.hasMarket(MARKET2)).toBe(true)
+    expect(cache.getMarkets().sort()).toEqual([MARKET, MARKET2].sort())
     expect(cache.isEmpty()).toBe(false)
 
     cache.addQuote(MARKET, ISIN, 100, 101, 10, 1500, 1600)
@@ -135,9 +146,13 @@ describe('InstrumentQuoteCache', () => {
 
     cache.deactivate(MARKET, ISIN)
     expect(cache.has(MARKET, ISIN)).toBe(false)
+    expect(cache.hasMarket(MARKET)).toBe(false)
+    expect(cache.hasMarket(MARKET2)).toBe(true)
+    expect(cache.getMarkets()).toEqual([MARKET2])
     expect(cache.isEmpty()).toBe(false)
 
     cache.deactivate(MARKET2, ISIN2)
+    expect(cache.getMarkets()).toEqual([])
     expect(cache.isEmpty()).toBe(true)
   })
 
@@ -145,6 +160,9 @@ describe('InstrumentQuoteCache', () => {
     const cache = new InstrumentQuoteCache()
     cache.activate(MARKET, ISIN)
     cache.activate(MARKET2, ISIN) // Same ISIN, different market
+    expect(cache.hasMarket(MARKET)).toBe(true)
+    expect(cache.hasMarket(MARKET2)).toBe(true)
+    expect(cache.getMarkets().sort()).toEqual([MARKET, MARKET2].sort())
 
     cache.addQuote(MARKET, ISIN, 100, 101, 10, 800, 900)
     cache.addTrade(MARKET2, ISIN, 200, 20)
@@ -167,10 +185,13 @@ describe('InstrumentQuoteCache', () => {
     expect(cache.isEmpty()).toBe(false)
     cache.deactivate(MARKET, ISIN)
     expect(cache.has(MARKET, ISIN)).toBe(false)
-    expect(cache.has(MARKET2, ISIN)).toBe(true) // Other market still active
+    expect(cache.hasMarket(MARKET)).toBe(false)
+    expect(cache.hasMarket(MARKET2)).toBe(true) // Other market still active
+    expect(cache.getMarkets()).toEqual([MARKET2])
     expect(cache.isEmpty()).toBe(false)
 
     cache.deactivate(MARKET2, ISIN)
+    expect(cache.getMarkets()).toEqual([])
     expect(cache.isEmpty()).toBe(true)
   })
 
@@ -208,5 +229,88 @@ describe('InstrumentQuoteCache', () => {
     expect(q.askSize).toBeUndefined()
     expect(q.mid).toBe(101)
     expect(q.quoteProviderTimeUnixMs).toBe(4000)
+  })
+
+  test('activate is idempotent and does not duplicate markets', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+    cache.activate(MARKET, ISIN) // duplicate activate
+    expect(cache.has(MARKET, ISIN)).toBe(true)
+    expect(cache.hasMarket(MARKET)).toBe(true)
+    expect(cache.getMarkets()).toEqual([MARKET]) // still a single market entry
+  })
+
+  test('hasMarket remains true until the last instrument in that market is removed', () => {
+    const cache = new InstrumentQuoteCache()
+    const ISIN_A = 'DE0001234567'
+    const ISIN_B = 'DE0007654321'
+    cache.activate(MARKET, ISIN_A)
+    cache.activate(MARKET, ISIN_B)
+    expect(cache.hasMarket(MARKET)).toBe(true)
+
+    cache.deactivate(MARKET, ISIN_A)
+    expect(cache.hasMarket(MARKET)).toBe(true) // still one instrument left
+
+    cache.deactivate(MARKET, ISIN_B)
+    expect(cache.hasMarket(MARKET)).toBe(false) // now empty
+  })
+
+  test('getMarkets excludes markets whose last instrument was removed', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+    cache.activate(MARKET2, ISIN2)
+    expect(cache.getMarkets().sort()).toEqual([MARKET, MARKET2].sort())
+
+    // Remove MARKET completely; MARKET2 remains
+    cache.deactivate(MARKET, ISIN)
+    expect(cache.getMarkets()).toEqual([MARKET2])
+
+    // Remove MARKET2 as well
+    cache.deactivate(MARKET2, ISIN2)
+    expect(cache.getMarkets()).toEqual([])
+  })
+
+  test('deactivating unknown instrument is a no-op and does not throw', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+    expect(() => cache.deactivate(MARKET, 'UNKNOWN_ISIN')).not.toThrow()
+    expect(cache.hasMarket(MARKET)).toBe(true)
+    expect(cache.has(MARKET, ISIN)).toBe(true)
+  })
+
+  test('get returns undefined for unknown or deactivated pairs', () => {
+    const cache = new InstrumentQuoteCache()
+    expect(cache.get(MARKET, ISIN)).toBeUndefined()
+
+    cache.activate(MARKET, ISIN)
+    expect(cache.get(MARKET, 'UNKNOWN')).toBeUndefined()
+
+    cache.deactivate(MARKET, ISIN)
+    expect(cache.get(MARKET, ISIN)).toBeUndefined()
+  })
+
+  test('reactivating an instrument yields a fresh empty quote object', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+    cache.addQuote(MARKET, ISIN, 10, 12, 1000, 1, 2)
+    let q = cache.get(MARKET, ISIN)!
+    expect(q.mid).toBe(11)
+
+    cache.deactivate(MARKET, ISIN)
+    expect(cache.get(MARKET, ISIN)).toBeUndefined()
+
+    cache.activate(MARKET, ISIN)
+    q = cache.get(MARKET, ISIN)!
+    expect(q).toEqual({}) // no stale data carried over
+  })
+
+  test('mid computation remains precise with large numeric values', () => {
+    const cache = new InstrumentQuoteCache()
+    cache.activate(MARKET, ISIN)
+    // use large numbers to ensure Decimal-based mid is computed correctly
+    cache.addBid(MARKET, ISIN, 1_234_567_890_123.25, 1)
+    cache.addAsk(MARKET, ISIN, 1_234_567_890_125.75, 2)
+    const q = cache.get(MARKET, ISIN)!
+    expect(q.mid).toBe(1_234_567_890_124.5)
   })
 })
