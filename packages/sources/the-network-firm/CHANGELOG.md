@@ -1,5 +1,11 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- [#4059](https://github.com/smartcontractkit/external-adapters-js/pull/4059) [`09df1cb`](https://github.com/smartcontractkit/external-adapters-js/commit/09df1cbbb9a9bc160823cc2ac9e99b5477a18160) Thanks [@fmunshi](https://github.com/fmunshi)! - Update the reserve endpoint to take an additional parameter for noErrorOnRipcord
+
 ## 1.5.0
 
 ### Minor Changes

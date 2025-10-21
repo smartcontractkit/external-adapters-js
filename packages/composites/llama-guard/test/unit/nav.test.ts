@@ -34,7 +34,7 @@ describe('getNav', () => {
 
   describe('no bounds', () => {
     it('should return rawNav', async () => {
-      const nav = 1.2301
+      const nav = '1.2301'
       const scaledNav = '123'
       const decimals = 2
 
@@ -84,7 +84,7 @@ describe('getNav', () => {
     })
 
     it('should return rawNav - already scaled', async () => {
-      const nav = 123
+      const nav = '123'
       const scaledNav = '123'
       const decimals = 2
 
@@ -136,7 +136,7 @@ describe('getNav', () => {
 
   describe('lowerBound', () => {
     it('should return lowerBound', async () => {
-      mockGetRawNav.mockResolvedValue(1.4)
+      mockGetRawNav.mockResolvedValue('1.4')
       mockGetBounds.mockResolvedValue({
         lower: {
           isLowerBoundEnabled: true,
@@ -181,7 +181,7 @@ describe('getNav', () => {
     })
 
     it('should return lowerBound with out maxDiscount', async () => {
-      mockGetRawNav.mockResolvedValue(1.4)
+      mockGetRawNav.mockResolvedValue('1.4')
       mockGetBounds.mockResolvedValue({
         lower: {
           isLowerBoundEnabled: true,
@@ -228,7 +228,7 @@ describe('getNav', () => {
 
   describe('upperBound', () => {
     it('should return upperBound', async () => {
-      mockGetRawNav.mockResolvedValue(1.006)
+      mockGetRawNav.mockResolvedValue('1.006')
       mockGetBounds.mockResolvedValue({
         lower: {
           isLowerBoundEnabled: false,
@@ -276,7 +276,7 @@ describe('getNav', () => {
 
   describe('with in bound', () => {
     it('should return rawNav', async () => {
-      mockGetRawNav.mockResolvedValue(1.001)
+      mockGetRawNav.mockResolvedValue('1.001')
       mockGetBounds.mockResolvedValue({
         lower: {
           isLowerBoundEnabled: true,
@@ -315,6 +315,52 @@ describe('getNav', () => {
           previous: { nav: '1000', ts: now / 1000 - 86400 / 2 },
         },
         decimals: 3,
+        riskFlag: false,
+        breachDirection: '',
+        isBounded: true,
+      })
+    })
+
+    it('should return rawNav - 18 decimals', async () => {
+      mockGetRawNav.mockResolvedValue('1.001000000000000000000000000000001')
+      mockGetBounds.mockResolvedValue({
+        lower: {
+          isLowerBoundEnabled: true,
+          latestNav: 10n ** 18n,
+          latestTime: now / 1000 - 86400 / 2,
+          maxDiscount: 25,
+          lowerBoundTolerance: 50,
+        },
+        upper: {
+          isUpperBoundEnabled: true,
+          lookbackNav: 10n ** 18n,
+          lookbackTime: now / 1000 - 86400 / 2,
+          maxExpectedApy: 25,
+          upperBoundTolerance: 50,
+        },
+        decimals: 18,
+      })
+
+      const result = await getNav(
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
+        defaultParams.requester,
+        defaultParams.asset,
+        defaultParams.registry,
+        defaultParams.provider,
+      )
+
+      expect(result).toEqual({
+        rawNav: '1001000000000000000',
+        adjustedNav: '1001000000000000000',
+        lowerBound: '993755471683049500',
+        upperBound: '1005003437491631700',
+        bases: {
+          lookback: { nav: '1000000000000000000', ts: now / 1000 - 86400 / 2 },
+          previous: { nav: '1000000000000000000', ts: now / 1000 - 86400 / 2 },
+        },
+        decimals: 18,
         riskFlag: false,
         breachDirection: '',
         isBounded: true,

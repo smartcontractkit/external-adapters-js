@@ -1,6 +1,6 @@
 # THE_NETWORK_FIRM
 
-![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -214,9 +214,10 @@ Request:
 
 ### Input Params
 
-| Required? |  Name  | Aliases |                Description                 |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :----------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | client |         | The name of the TNF client to consume from | string |         |         |            |                |
+| Required? |       Name       | Aliases |                                                                   Description                                                                    |  Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |      client      |         |                                                    The name of the TNF client to consume from                                                    | string  |         |         |            |                |
+|           | noErrorOnRipcord |         | Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset | boolean |         |         |            |                |
 
 ### Example
 
@@ -226,7 +227,8 @@ Request:
 {
   "data": {
     "endpoint": "reserve",
-    "client": "acme"
+    "client": "acme",
+    "noErrorOnRipcord": false
   }
 }
 ```

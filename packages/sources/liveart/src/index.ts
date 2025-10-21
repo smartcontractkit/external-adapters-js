@@ -6,7 +6,7 @@ import { asset } from './endpoint/asset'
 import { assets } from './endpoint/assets'
 
 export const adapter = new Adapter({
-  defaultEndpoint: asset.name,
+  defaultEndpoint: assets.name,
   name: 'LIVE_ART',
   config,
   endpoints: [asset, assets],
