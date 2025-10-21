@@ -1,6 +1,6 @@
 # GM_TOKEN
 
-![1.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -19,9 +19,10 @@ This document was generated automatically. Please see [README Generator](../../s
 |    ✅     |      ARBITRUM_TOKENS_INFO_URL      |                    URL to token meta data supported by GMX on Arbitrum                    | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
 |    ✅     |      BOTANIX_TOKENS_INFO_URL       |                    URL to token meta data supported by GMX on Botanix                     | string |         |   `https://botanix-api.gmxinfra.io/tokens`   |
 |    ✅     |          PNL_FACTOR_TYPE           |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |
-|    ✅     |         TIINGO_ADAPTER_URL         |                                     URL of Tiingo EA                                      | string |         |                                              |
-|    ✅     |          NCFX_ADAPTER_URL          |                                      URL of NCFX EA                                       | string |         |                                              |
-|    ✅     |      COINMETRICS_ADAPTER_URL       |                                   URL of Coinmetrics EA                                   | string |         |                                              |
+|           |         TIINGO_ADAPTER_URL         |                                     URL of Tiingo EA                                      | string |         |                                              |
+|           |          NCFX_ADAPTER_URL          |                                      URL of NCFX EA                                       | string |         |                                              |
+|           |      COINMETRICS_ADAPTER_URL       |                                   URL of Coinmetrics EA                                   | string |         |                                              |
+|           |   BLOCKSIZE_CAPITAL_ADAPTER_URL    |                                URL of Blocksize Capital EA                                | string |         |                                              |
 |    ✅     |    MIN_REQUIRED_SOURCE_SUCCESS     |          Minimum number of source EAs that need to successfully return a value.           | number |         |                     `2`                      |
 |           |       BACKGROUND_EXECUTE_MS        | The amount of time the background execute should sleep before performing the next request | number |         |                   `10000`                    |
 
