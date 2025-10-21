@@ -7,12 +7,6 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
     "fundingRate": 0.009854,
     "fundingTimestamp": 1740441600,
   },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"btc","quote":"","exchange":"binance"}",
-    },
-  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -28,12 +22,6 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
     "epochDuration": 14400,
     "fundingRate": -0.00059603,
     "fundingTimestamp": 1747368000,
-  },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"aergo","quote":"","exchange":"binance"}",
-    },
   },
   "result": null,
   "statusCode": 200,
@@ -60,12 +48,6 @@ exports[`websocket price endpoint CBETH/ETH should return success - tests includ
   "data": {
     "result": 1.0456,
   },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"100029813","quote":"100004304"}",
-    },
-  },
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
@@ -80,12 +62,6 @@ exports[`websocket price endpoint EZETH/ETH should return success - tests hardco
 {
   "data": {
     "result": 1.0612,
-  },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"102478632","quote":"100004304"}",
-    },
   },
   "result": 1.0612,
   "statusCode": 200,
@@ -102,12 +78,6 @@ exports[`websocket price endpoint EZETH/USD should return success - tests includ
   "data": {
     "result": 4233.15,
   },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"102478632","quote":"usd"}",
-    },
-  },
   "result": 4233.15,
   "statusCode": 200,
   "timestamps": {
@@ -123,12 +93,6 @@ exports[`websocket price endpoint GHO/USD should return success - tests includes
   "data": {
     "result": 1.0012,
   },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"2921","quote":"usd"}",
-    },
-  },
   "result": 1.0012,
   "statusCode": 200,
   "timestamps": {
@@ -143,12 +107,6 @@ exports[`websocket price endpoint LBTC/BTC should return success - tests include
 {
   "data": {
     "result": 0.9985,
-  },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"102484658","quote":"100001656"}",
-    },
   },
   "result": 0.9985,
   "statusCode": 200,
@@ -198,12 +156,6 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
   "data": {
     "result": 1.0456,
   },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"100029813","quote":"100004304"}",
-    },
-  },
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
@@ -240,12 +192,6 @@ exports[`websocket price endpoint direct base asset ID should return success 1`]
 {
   "data": {
     "result": 4233.15,
-  },
-  "meta": {
-    "adapterName": "MOBULA_STATE",
-    "metrics": {
-      "feedId": "{"base":"102478632","quote":"usd"}",
-    },
   },
   "result": 4233.15,
   "statusCode": 200,
