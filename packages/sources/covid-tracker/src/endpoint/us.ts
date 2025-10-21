@@ -1,5 +1,5 @@
-import type { Config, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { AdapterInputError, Requester, Validator, util } from '@chainlink/ea-bootstrap'
+import { Requester, Validator, util, AdapterInputError } from '@chainlink/ea-bootstrap'
+import type { ExecuteWithConfig, Config, InputParameters } from '@chainlink/ea-bootstrap'
 
 export const supportedEndpoints = ['us']
 
