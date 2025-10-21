@@ -7,11 +7,17 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
     "fundingRate": 0.009854,
     "fundingTimestamp": 1740441600,
   },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"btc","quote":"","exchange":"binance"}",
+    },
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerDataReceivedUnixMs": 23238,
+    "providerDataStreamEstablishedUnixMs": 23230,
   },
 }
 `;
@@ -23,11 +29,17 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
     "fundingRate": -0.00059603,
     "fundingTimestamp": 1747368000,
   },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"aergo","quote":"","exchange":"binance"}",
+    },
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerDataReceivedUnixMs": 23238,
+    "providerDataStreamEstablishedUnixMs": 23230,
   },
 }
 `;
@@ -43,22 +55,231 @@ exports[`websocket funding rate endpoint no data should return failure 1`] = `
 }
 `;
 
-exports[`websocket price endpoint have data should return success 1`] = `
+exports[`websocket price endpoint CBETH/ETH should return success - tests includes.json + hardcoded ETH quote 1`] = `
 {
   "data": {
-    "result": 2325.847186068699,
+    "result": 1.0456,
   },
-  "result": 2325.847186068699,
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"100029813","quote":"100004304"}",
+    },
+  },
+  "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1726648165000,
+    "providerIndicatedTimeUnixMs": 4040,
   },
 }
 `;
 
-exports[`websocket price endpoint no data should return failure 1`] = `
+exports[`websocket price endpoint EZETH/ETH should return success - tests hardcoded ETH quote 1`] = `
+{
+  "data": {
+    "result": 1.0612,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"102478632","quote":"100004304"}",
+    },
+  },
+  "result": 1.0612,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint EZETH/USD should return success - tests includes.json mapping 1`] = `
+{
+  "data": {
+    "result": 4233.15,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"102478632","quote":"usd"}",
+    },
+  },
+  "result": 4233.15,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint GHO/USD should return success - tests includes.json mapping 1`] = `
+{
+  "data": {
+    "result": 1.0012,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"2921","quote":"usd"}",
+    },
+  },
+  "result": 1.0012,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint LBTC/BTC should return success - tests includes.json + hardcoded BTC quote 1`] = `
+{
+  "data": {
+    "result": 0.9985,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"102484658","quote":"100001656"}",
+    },
+  },
+  "result": 0.9985,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint base override with BTC quote should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint base override with ETH quote should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint base override with asset ID should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint direct asset IDs with crypto quote should return success 1`] = `
+{
+  "data": {
+    "result": 1.0456,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"100029813","quote":"100004304"}",
+    },
+  },
+  "result": 1.0456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint direct asset IDs with hardcoded SOL quote should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint direct base and quote asset IDs should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint direct base asset ID should return success 1`] = `
+{
+  "data": {
+    "result": 4233.15,
+  },
+  "meta": {
+    "adapterName": "MOBULA_STATE",
+    "metrics": {
+      "feedId": "{"base":"102478632","quote":"usd"}",
+    },
+  },
+  "result": 4233.15,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 4040,
+  },
+}
+`;
+
+exports[`websocket price endpoint quote override with asset ID should return success 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint unmapped symbol should return failure 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint unsupported quote currency should return failure 1`] = `
 {
   "error": {
     "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
