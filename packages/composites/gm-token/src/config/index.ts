@@ -82,7 +82,7 @@ export const config = new AdapterConfig(
       required: false,
     },
     BLOCKSIZE_CAPITAL_ADAPTER_URL: {
-      description: 'URL of Coinmetrics EA',
+      description: 'URL of Blocksize Capital EA',
       type: 'string',
       required: false,
     },
