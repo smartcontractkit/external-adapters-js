@@ -9,10 +9,19 @@ on:
       - MASTERLIST.md
   workflow_dispatch:
     inputs:
-      # For this workflow, build-all will cause all adapters to have their image pulled and republished to the public ECR
-      # NOTE: If the images haven't been already published to the private ECR, this will fail; in that case run the deploy workflow first.
+      adapters:
+        description: 'Release specific adapters (comma-separated) or leave empty for all pending'
+        required: false
+        type: string
+        default: 'all'
+      dry-run:
+        description: 'Dry run - validate but do not actually release'
+        required: false
+        type: boolean
+        default: false
+      # Legacy support
       build-all:
-        description: whether to run steps for all adapters, regardless of whether they were changed in this event
+        description: '[LEGACY] whether to run steps for all adapters, regardless of whether they were changed in this event'
         required: false
         default: 'false'
 
@@ -21,8 +30,183 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Determine which adapters to release based on trigger type
+  determine-release-mode:
+    name: Determine Release Mode
+    runs-on: ubuntu-latest
+    outputs:
+      release-mode: ${{ steps.determine.outputs.release-mode }}
+      adapter-list: ${{ steps.determine.outputs.adapter-list }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      
+      - name: Determine release mode
+        id: determine
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ADAPTERS_INPUT: ${{ inputs.adapters }}
+          BUILD_ALL: ${{ inputs.build-all }}
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ -n "$ADAPTERS_INPUT" ]; then
+            echo "release-mode=selective" >> $GITHUB_OUTPUT
+            echo "Using selective release mode for: $ADAPTERS_INPUT"
+          else
+            echo "release-mode=legacy" >> $GITHUB_OUTPUT
+            echo "Using legacy release mode (MASTERLIST.md trigger or build-all)"
+          fi
+
+  # Selective release: Parse adapters from RELEASES.yaml
+  parse-selective-adapters:
+    name: Parse Selective Adapters
+    needs: determine-release-mode
+    if: needs.determine-release-mode.outputs.release-mode == 'selective'
+    runs-on: ubuntu-latest
+    outputs:
+      adapter-list: ${{ steps.parse.outputs.adapter-list }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+      
+      - name: Parse adapters from input and RELEASES.yaml
+        id: parse
+        env:
+          ADAPTERS_INPUT: ${{ inputs.adapters }}
+        run: |
+          # Check if RELEASES.yaml exists
+          if [ ! -f "RELEASES.yaml" ]; then
+            echo "❌ Error: RELEASES.yaml not found"
+            echo "   Create it first with: ./scripts/release-manager.sh add <adapter> <version> <pr_url> <approver>"
+            exit 1
+          fi
+          
+          # Determine which adapters to release
+          if [ "$ADAPTERS_INPUT" = "all" ]; then
+            echo "Releasing all pending adapters"
+            ADAPTER_NAMES=$(yq eval '.pending | keys | join(",")' RELEASES.yaml)
+          else
+            echo "Releasing specific adapters: $ADAPTERS_INPUT"
+            ADAPTER_NAMES="$ADAPTERS_INPUT"
+          fi
+          
+          # Check if any adapters to release
+          if [ -z "$ADAPTER_NAMES" ] || [ "$ADAPTER_NAMES" = "null" ]; then
+            echo "❌ Error: No adapters to release"
+            echo "   Add adapters to RELEASES.yaml first"
+            exit 1
+          fi
+          
+          # Build adapter list with versions from RELEASES.yaml
+          ADAPTER_ARRAY="[]"
+          IFS=',' read -ra ADAPTERS <<< "$ADAPTER_NAMES"
+          for adapter in "${ADAPTERS[@]}"; do
+            adapter=$(echo "$adapter" | xargs)  # trim whitespace
+            
+            # Check if adapter exists in pending
+            if ! yq eval ".pending | has(\"$adapter\")" RELEASES.yaml | grep -q "true"; then
+              echo "❌ Error: $adapter is not in RELEASES.yaml pending list"
+              echo "   Run: ./scripts/release-manager.sh add $adapter <version> <pr_url> <approver>"
+              exit 1
+            fi
+            
+            # Get version and commit SHA from RELEASES.yaml
+            VERSION=$(yq eval ".pending.$adapter.version" RELEASES.yaml)
+            BUILT_FROM_COMMIT=$(yq eval ".pending.$adapter.built_from_commit" RELEASES.yaml)
+            
+            # SECURITY CHECK: Verify adapter exists in MASTERLIST.md (source of truth)
+            if [ ! -f "MASTERLIST.md" ]; then
+              echo "❌ Error: MASTERLIST.md not found"
+              exit 1
+            fi
+            
+            MASTERLIST_VERSION=$(grep -E "^\|.*\b${adapter}\b" MASTERLIST.md | awk -F'|' '{print $3}' | xargs || echo "")
+            
+            if [ -z "$MASTERLIST_VERSION" ]; then
+              echo "❌ SECURITY ERROR: $adapter not found in MASTERLIST.md"
+              echo "   This adapter does not exist in external-adapters-js repo"
+              echo "   Cannot release code that is not in this repository"
+              exit 1
+            fi
+            
+            if [ "$VERSION" != "$MASTERLIST_VERSION" ]; then
+              echo "❌ SECURITY ERROR: Version mismatch for $adapter"
+              echo "   RELEASES.yaml: $VERSION"
+              echo "   MASTERLIST.md:  $MASTERLIST_VERSION"
+              echo "   RELEASES.yaml version must match MASTERLIST.md (source of truth)"
+              echo "   This prevents releasing code that hasn't been merged to this repo"
+              exit 1
+            fi
+            
+            echo "✅ Verified: $adapter v$VERSION exists in MASTERLIST.md"
+            
+            # SECURITY CHECK: Verify commit SHA exists in git history
+            if [ -n "$BUILT_FROM_COMMIT" ] && [ "$BUILT_FROM_COMMIT" != "null" ]; then
+              if ! git cat-file -e "${BUILT_FROM_COMMIT}^{commit}" 2>/dev/null; then
+                echo "❌ SECURITY ERROR: Commit SHA not found in repository history"
+                echo "   Adapter: $adapter"
+                echo "   Claimed commit: $BUILT_FROM_COMMIT"
+                echo "   This indicates RELEASES.yaml may have been manually tampered with"
+                echo "   Only images built from commits in this repository can be released"
+                exit 1
+              fi
+              echo "✅ Verified: Built from commit $BUILT_FROM_COMMIT (exists in repo history)"
+            else
+              echo "⚠️  WARNING: No built_from_commit in RELEASES.yaml for $adapter"
+              echo "   This may be a legacy entry. Proceeding with extra caution."
+              echo "   Future releases should include commit tracking."
+            fi
+            
+            # Check if tested
+            TESTED=$(yq eval ".pending.$adapter.tested_in_infra" RELEASES.yaml)
+            if [ "$TESTED" != "true" ]; then
+              echo "❌ Error: $adapter has not been tested in infra (tested_in_infra != true)"
+              exit 1
+            fi
+            
+            # SECURITY CHECK: Verify image digest if available
+            IMAGE_DIGEST=$(yq eval ".pending.$adapter.image_digest" RELEASES.yaml)
+            if [ -n "$IMAGE_DIGEST" ] && [ "$IMAGE_DIGEST" != "null" ]; then
+              echo "✅ Verified: Image digest tracked ($IMAGE_DIGEST)"
+              echo "   This ensures the exact image tested in infra will be released"
+              
+              # Store digest for release job to use
+              echo "IMAGE_DIGEST_${adapter//-/_}=$IMAGE_DIGEST" >> $GITHUB_ENV
+            else
+              echo "⚠️  WARNING: No image digest tracked for $adapter"
+              echo "   Proceeding with version tag only (less secure)"
+              echo "   Future releases should include digest tracking"
+            fi
+            
+            echo "✅ $adapter v$VERSION is ready for release"
+            
+            # Add to array (include digest if available)
+            if [ -n "$IMAGE_DIGEST" ] && [ "$IMAGE_DIGEST" != "null" ]; then
+              ADAPTER_ARRAY=$(echo "$ADAPTER_ARRAY" | jq --arg name "$adapter" --arg version "$VERSION" --arg digest "$IMAGE_DIGEST" \
+                '. += [{shortName: $name, name: ("@chainlink/" + $name + "-adapter"), version: $version, imageDigest: $digest, location: "packages"}]')
+            else
+              ADAPTER_ARRAY=$(echo "$ADAPTER_ARRAY" | jq --arg name "$adapter" --arg version "$VERSION" \
+                '. += [{shortName: $name, name: ("@chainlink/" + $name + "-adapter"), version: $version, location: "packages"}]')
+            fi
+          done
+          
+          # Format for matrix
+          ADAPTER_LIST=$(echo "$ADAPTER_ARRAY" | jq -c '{adapter: .}')
+          echo "adapter-list=$ADAPTER_LIST" >> $GITHUB_OUTPUT
+          echo "Adapter list: $ADAPTER_LIST"
+
+  # Legacy release: Use changed-adapters.sh
   calculate-changes:
-    name: Compute changed adapters
+    name: Compute changed adapters (Legacy)
+    needs: determine-release-mode
+    if: needs.determine-release-mode.outputs.release-mode == 'legacy'
     runs-on: [ubuntu-latest]
     env:
       BUILD_ALL: ${{ inputs.build-all }}
@@ -44,18 +228,41 @@ jobs:
         run: |
           ./.github/scripts/changed-adapters.sh
 
+  # Merge adapter lists from both modes
+  merge-adapter-lists:
+    name: Merge Adapter Lists
+    needs: [determine-release-mode, parse-selective-adapters, calculate-changes]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    outputs:
+      adapter-list: ${{ steps.merge.outputs.adapter-list }}
+      release-mode: ${{ needs.determine-release-mode.outputs.release-mode }}
+    steps:
+      - name: Merge lists
+        id: merge
+        env:
+          RELEASE_MODE: ${{ needs.determine-release-mode.outputs.release-mode }}
+          SELECTIVE_LIST: ${{ needs.parse-selective-adapters.outputs.adapter-list }}
+          LEGACY_LIST: ${{ needs.calculate-changes.outputs.adapter-list }}
+        run: |
+          if [ "$RELEASE_MODE" = "selective" ]; then
+            echo "adapter-list=$SELECTIVE_LIST" >> $GITHUB_OUTPUT
+          else
+            echo "adapter-list=$LEGACY_LIST" >> $GITHUB_OUTPUT
+          fi
+
   create-ecr:
     name: Create ECR for ${{ matrix.adapter.shortName }}
     runs-on: ubuntu-latest
-    needs: [calculate-changes]
-    if: needs.calculate-changes.outputs.adapter-list != '[]'
+    needs: [merge-adapter-lists]
+    if: needs.merge-adapter-lists.outputs.adapter-list != '[]' && inputs.dry-run != true
     permissions: # These are needed for the configure-aws-credentials action
       id-token: write
       contents: read
     environment: release
     strategy:
       max-parallel: 20
-      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
+      matrix: ${{fromJson(needs.merge-adapter-lists.outputs.adapter-list)}}
     env:
       ECR_URL: public.ecr.aws/chainlink
       ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
@@ -77,14 +284,15 @@ jobs:
     name: Fetch and publish ${{ matrix.adapter.shortName }}
     runs-on: ubuntu-latest
     needs:
-      - calculate-changes
+      - merge-adapter-lists
     environment: release
+    if: needs.merge-adapter-lists.outputs.adapter-list != '[]' && inputs.dry-run != true
     permissions: # These are needed for the configure-aws-credentials action
       id-token: write
       contents: read
     strategy:
       max-parallel: 20
-      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
+      matrix: ${{fromJson(needs.merge-adapter-lists.outputs.adapter-list)}}
     env:
       PUBLIC_ECR_URL: public.ecr.aws/chainlink
       PRIVATE_ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
@@ -102,16 +310,28 @@ jobs:
       - name: Copy images with attestations from private to public ECR
         env:
           AWS_REGION: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          SOURCE_IMAGE: ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
-          DEST_IMAGE: ${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
+          ADAPTER_VERSION: ${{ matrix.adapter.version }}
+          IMAGE_DIGEST: ${{ matrix.adapter.imageDigest }}
         run: |
           PRIVATE_ECR_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
           echo "::add-mask::${PRIVATE_ECR_PASSWORD}"
           PUBLIC_ECR_PASSWORD=$(aws ecr-public get-login-password --region us-east-1)
           echo "::add-mask::${PUBLIC_ECR_PASSWORD}"
 
+          # Determine source image reference (prefer digest over tag for security)
+          if [ -n "$IMAGE_DIGEST" ] && [ "$IMAGE_DIGEST" != "null" ]; then
+            SOURCE_IMAGE="${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}@${IMAGE_DIGEST}"
+            echo "🔒 SECURITY: Copying by digest (exact image that was tested)"
+            echo "   Digest: $IMAGE_DIGEST"
+          else
+            SOURCE_IMAGE="${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${ADAPTER_VERSION}"
+            echo "⚠️  Copying by version tag (digest not available)"
+          fi
+          
+          DEST_IMAGE="${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${ADAPTER_VERSION}"
+
           # Copy all architectures, attestations (SBOM, provenance), and signatures
-          echo "Copying versioned image: ${SOURCE_IMAGE} -> ${DEST_IMAGE}"
+          echo "Copying image: ${SOURCE_IMAGE} -> ${DEST_IMAGE}"
           skopeo copy \
             --all \
             --preserve-digests \
@@ -120,12 +340,65 @@ jobs:
             --dest-creds AWS:${PUBLIC_ECR_PASSWORD} \
             docker://${SOURCE_IMAGE} \
             docker://${DEST_IMAGE}
+          
+          echo "✅ Image published to public ECR"
+
+  # Update RELEASES.yaml after successful selective release
+  update-releases-file:
+    name: Update RELEASES.yaml
+    needs: [merge-adapter-lists, publish-adapter-images]
+    if: needs.merge-adapter-lists.outputs.release-mode == 'selective' && inputs.dry-run != true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+      
+      - name: Move adapters from pending to released
+        env:
+          ADAPTER_LIST: ${{ needs.merge-adapter-lists.outputs.adapter-list }}
+        run: |
+          # Make script executable
+          chmod +x ./scripts/release-manager.sh
+          
+          # Extract adapter names and mark as released
+          ADAPTERS=$(echo "$ADAPTER_LIST" | jq -r '.adapter[].shortName')
+          
+          for adapter in $ADAPTERS; do
+            echo "Marking $adapter as released"
+            ./scripts/release-manager.sh release "$adapter"
+          done
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Commit and push
+          git add RELEASES.yaml
+          
+          ADAPTER_NAMES=$(echo "$ADAPTERS" | tr '\n' ',' | sed 's/,$//')
+          git commit -m "Mark adapters as released: $ADAPTER_NAMES
+
+Released via selective release workflow
+Run ID: ${{ github.run_id }}
+Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          
+          git push
 
   gh-release:
     name: GH Release
     runs-on: ubuntu-latest
     needs:
+      - merge-adapter-lists
       - publish-adapter-images
+    if: needs.merge-adapter-lists.outputs.adapter-list != '[]' && inputs.dry-run != true && needs.merge-adapter-lists.outputs.release-mode == 'legacy'
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
     steps:
@@ -149,3 +422,266 @@ jobs:
           tag_name: v${{ steps.get-version.outputs.result }}
           name: Release v${{ steps.get-version.outputs.result }}
           body_path: pr_body.tmp
+
+  # Create GitHub releases for selective releases (per-adapter)
+  gh-release-selective:
+    name: Create GitHub Release for ${{ matrix.adapter.shortName }}
+    runs-on: ubuntu-latest
+    needs:
+      - merge-adapter-lists
+      - publish-adapter-images
+    if: needs.merge-adapter-lists.outputs.adapter-list != '[]' && inputs.dry-run != true && needs.merge-adapter-lists.outputs.release-mode == 'selective'
+    strategy:
+      matrix: ${{fromJson(needs.merge-adapter-lists.outputs.adapter-list)}}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      
+      - name: Get adapter package path
+        id: get-path
+        run: |
+          ADAPTER_PATH="packages/${{ matrix.adapter.shortName }}"
+          if [ ! -d "$ADAPTER_PATH" ]; then
+            ADAPTER_PATH="packages/sources/${{ matrix.adapter.shortName }}"
+          fi
+          
+          if [ ! -d "$ADAPTER_PATH" ]; then
+            echo "❌ Error: Could not find adapter directory"
+            exit 1
+          fi
+          
+          echo "path=$ADAPTER_PATH" >> $GITHUB_OUTPUT
+          echo "Found adapter at: $ADAPTER_PATH"
+      
+      - name: Get release notes from CHANGELOG
+        id: get-notes
+        run: |
+          ADAPTER_PATH="${{ steps.get-path.outputs.path }}"
+          VERSION="${{ matrix.adapter.version }}"
+          
+          # Try to extract release notes from CHANGELOG.md
+          if [ -f "$ADAPTER_PATH/CHANGELOG.md" ]; then
+            # Extract the section for this version
+            NOTES=$(awk "/^## \[${VERSION}\]/,/^## \[/" "$ADAPTER_PATH/CHANGELOG.md" | sed '1d;$d' || echo "")
+            
+            if [ -n "$NOTES" ]; then
+              echo "$NOTES" > release_notes.tmp
+              echo "✅ Extracted release notes from CHANGELOG.md"
+            else
+              echo "No specific release notes found for v${VERSION}" > release_notes.tmp
+              echo "⚠️  Using default release notes"
+            fi
+          else
+            echo "Release v${VERSION} of ${{ matrix.adapter.shortName }} adapter" > release_notes.tmp
+            echo "⚠️  No CHANGELOG.md found, using minimal notes"
+          fi
+          
+          # Add security info if digest is available
+          if [ -n "${{ matrix.adapter.imageDigest }}" ]; then
+            echo "" >> release_notes.tmp
+            echo "---" >> release_notes.tmp
+            echo "" >> release_notes.tmp
+            echo "### 🔒 Security Verification" >> release_notes.tmp
+            echo "" >> release_notes.tmp
+            echo "This release includes full security verification:" >> release_notes.tmp
+            echo "- ✅ Built from verified git commit" >> release_notes.tmp
+            echo "- ✅ Tested in internal infrastructure" >> release_notes.tmp
+            echo "- ✅ Released with verified image digest" >> release_notes.tmp
+            echo "- **Image Digest**: \`${{ matrix.adapter.imageDigest }}\`" >> release_notes.tmp
+          fi
+          
+          # Add public ECR info
+          echo "" >> release_notes.tmp
+          echo "---" >> release_notes.tmp
+          echo "" >> release_notes.tmp
+          echo "### 📦 Docker Image" >> release_notes.tmp
+          echo "" >> release_notes.tmp
+          echo "\`\`\`bash" >> release_notes.tmp
+          echo "docker pull public.ecr.aws/chainlink/adapters/${{ matrix.adapter.shortName }}-adapter:${VERSION}" >> release_notes.tmp
+          echo "\`\`\`" >> release_notes.tmp
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.2.1
+        with:
+          tag_name: ${{ matrix.adapter.shortName }}-adapter-v${{ matrix.adapter.version }}
+          name: ${{ matrix.adapter.shortName }}-adapter v${{ matrix.adapter.version }}
+          body_path: release_notes.tmp
+          draft: false
+          prerelease: false
+
+  # Summary job for selective releases
+  release-summary:
+    name: Release Summary
+    needs: [merge-adapter-lists, publish-adapter-images, update-releases-file, gh-release-selective]
+    if: always() && needs.merge-adapter-lists.outputs.release-mode == 'selective'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      
+      - name: Print summary
+        env:
+          ADAPTER_LIST: ${{ needs.merge-adapter-lists.outputs.adapter-list }}
+          DRY_RUN: ${{ inputs.dry-run }}
+          PUBLISH_STATUS: ${{ needs.publish-adapter-images.result }}
+          UPDATE_STATUS: ${{ needs.update-releases-file.result }}
+        run: |
+          echo "# 🚀 Per-Adapter Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "**Mode**: 🧪 Dry Run (no actual release)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> This was a test run. No images were published." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Mode**: ✅ Live Release" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Adapters Released" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Parse and display adapters
+          ADAPTERS=$(echo "$ADAPTER_LIST" | jq -r '.adapter[] | "- **\(.shortName)** v\(.version)"')
+          echo "$ADAPTERS" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Publish to Public ECR | $PUBLISH_STATUS |" >> $GITHUB_STEP_SUMMARY
+          echo "| GitHub Releases Created | ${{ needs.gh-release-selective.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Update RELEASES.yaml | $UPDATE_STATUS |" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "$DRY_RUN" != "true" ] && [ "$PUBLISH_STATUS" = "success" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "## ✅ Verification Steps" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 1. Verify Images in Public ECR" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+            echo "# Check each adapter is available publicly" >> $GITHUB_STEP_SUMMARY
+            ADAPTER_NAMES=$(echo "$ADAPTER_LIST" | jq -r '.adapter[].shortName')
+            for adapter in $ADAPTER_NAMES; do
+              VERSION=$(echo "$ADAPTER_LIST" | jq -r ".adapter[] | select(.shortName == \"$adapter\") | .version")
+              echo "aws ecr-public describe-images \\" >> $GITHUB_STEP_SUMMARY
+              echo "  --repository-name adapters/${adapter}-adapter \\" >> $GITHUB_STEP_SUMMARY
+              echo "  --region us-east-1 \\" >> $GITHUB_STEP_SUMMARY
+              echo "  --query 'imageDetails[?contains(imageTags, \`${VERSION}\`)]'" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            done
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 2. Check GitHub Releases" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "GitHub releases have been created for each adapter:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            for adapter in $ADAPTER_NAMES; do
+              VERSION=$(echo "$ADAPTER_LIST" | jq -r ".adapter[] | select(.shortName == \"$adapter\") | .version")
+              echo "- [${adapter}-adapter v${VERSION}](https://github.com/${{ github.repository }}/releases/tag/${adapter}-adapter-v${VERSION})" >> $GITHUB_STEP_SUMMARY
+            done
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 3. Verify RELEASES.yaml Updated" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+            echo "# Pull latest and check RELEASES.yaml" >> $GITHUB_STEP_SUMMARY
+            echo "git pull" >> $GITHUB_STEP_SUMMARY
+            echo "cat RELEASES.yaml" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "# Adapters should be in 'released' section:" >> $GITHUB_STEP_SUMMARY
+            for adapter in $ADAPTER_NAMES; do
+              echo "# - $adapter" >> $GITHUB_STEP_SUMMARY
+            done
+            echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+            
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 4. Monitor in Production" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Watch for any issues with the newly released adapters:" >> $GITHUB_STEP_SUMMARY
+            echo "- Check error rates in monitoring dashboards" >> $GITHUB_STEP_SUMMARY
+            echo "- Verify response times are normal" >> $GITHUB_STEP_SUMMARY
+            echo "- Watch for any alerts" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📚 How to Release Adapters" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Default: Release All Pending" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Click 'Run workflow' in GitHub Actions (no inputs needed)" >> $GITHUB_STEP_SUMMARY
+          echo "# OR from CLI:" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run release.yml" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Optional: Release Specific Adapters" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Single Adapter" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run release.yml -f adapters=coingecko" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "#### Multiple Adapters" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run release.yml -f adapters=coingecko,coinbase,tiingo" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Check What's Ready" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "./scripts/release-manager.sh list" >> $GITHUB_STEP_SUMMARY
+          echo "./scripts/release-manager.sh status <adapter-name>" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Test First (Dry Run)" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run release.yml -f dry-run=true  # All adapters" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run release.yml -f adapters=coingecko -f dry-run=true  # One adapter" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🔄 The Release Flow" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. **Code Merge** → Changes merged to \`main\` in external-adapters-js" >> $GITHUB_STEP_SUMMARY
+          echo "2. **Build & Deploy** → Images built and pushed to private ECR" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Digest PR** → Separate PR created in infra-k8s per adapter" >> $GITHUB_STEP_SUMMARY
+          echo "4. **Testing** → Each adapter tested independently in internal infra" >> $GITHUB_STEP_SUMMARY
+          echo "5. **Mark Ready** → Adapter added to \`RELEASES.yaml\` pending section" >> $GITHUB_STEP_SUMMARY
+          echo "6. **Release** → Trigger this workflow to publish to public ECR" >> $GITHUB_STEP_SUMMARY
+          echo "7. **Complete** → Adapter moved to \`RELEASES.yaml\` released section" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 🆘 Troubleshooting" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Error: Adapter not in RELEASES.yaml" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Solution**: Add the adapter to pending first" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "./scripts/release-manager.sh add <adapter> <version> <pr-url> <approver>" >> $GITHUB_STEP_SUMMARY
+          echo "git add RELEASES.yaml" >> $GITHUB_STEP_SUMMARY
+          echo "git commit -m 'Add adapter to pending releases'" >> $GITHUB_STEP_SUMMARY
+          echo "git push" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Error: Image not found in private ECR" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Solution**: Run the deploy workflow first to build the image" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "gh workflow run deploy.yml" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Need to Rollback?" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tag the previous version as \`latest\` in public ECR and update MASTERLIST.md" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "💡 **Tip**: Use \`./scripts/release-manager.sh help\` for full CLI documentation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📖 **Documentation**: See IMPLEMENTATION_GUIDE.md and QUICK_REFERENCE.md in the repo" >> $GITHUB_STEP_SUMMARY

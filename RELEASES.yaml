@@ -1,0 +1,134 @@
+# ============================================================================
+# EA Release Tracking System
+# ============================================================================
+#
+# This file tracks External Adapters through the public release process.
+#
+# ## Release States
+#
+# pending:   Adapter has completed internal testing and is ready for public release
+# released:  Adapter has been published to public ECR and is available to users
+#
+# ## The Release Flow (FULLY AUTOMATED)
+#
+# 1. Code Merge      → Changes merged to external-adapters-js main
+#                      ✅ AUTOMATED: Release PR created/updated
+#                      ✅ AUTOMATED: Adapter added to 'pending' (tested_in_infra: false)
+#
+# 2. Build & Deploy  → Images built and pushed to private ECR
+#                      ✅ AUTOMATED: deploy.yml workflow triggers
+#
+# 3. Digest PR       → Separate PR created per adapter in infra-k8s
+#                      ✅ AUTOMATED: image-dispatcher.yaml creates individual PRs
+#
+# 4. Testing         → Each adapter tested independently in internal infra
+#                      👤 MANUAL: Team reviews and merges infra-k8s PR
+#
+# 5. Mark Tested     → Adapter marked as tested_in_infra: true
+#                      ✅ AUTOMATED: upsert-release-pr.yml checks infra-k8s for merged PRs
+#                      ✅ AUTOMATED: Release PR updated with tested status on next EA merge
+#
+# 6. Release         → Team triggers release for pending adapters
+#                      👤 MANUAL: gh workflow run release.yml (releases ALL pending)
+#                      OR: gh workflow run release.yml -f adapters=<name> (specific)
+#
+# 7. Complete        → Adapter moves to 'released' section
+#                      ✅ AUTOMATED: release.yml workflow updates RELEASES.yaml
+#
+# ## Quick Commands
+#
+# See what's ready to release:
+#   ./scripts/release-manager.sh list
+#
+# Check a specific adapter:
+#   ./scripts/release-manager.sh status <adapter-name>
+#
+# Add an adapter to pending:
+#   ./scripts/release-manager.sh add <adapter> <version> <pr-url> <team>
+#
+# Release all pending adapters (DEFAULT):
+#   gh workflow run release.yml
+#   # Or click "Run workflow" in GitHub Actions (no input needed)
+#
+# Release specific adapter:
+#   gh workflow run release.yml -f adapters=coingecko
+#
+# Release multiple adapters:
+#   gh workflow run release.yml -f adapters=coingecko,coinbase
+#
+# Test first (dry run):
+#   gh workflow run release.yml -f dry-run=true
+#
+# ## File Format
+#
+# Adapters are stored as arrays of objects with these fields:
+#
+# pending:
+#   - shortName: coingecko           # Adapter name
+#     version: 2.0.1                  # Version to release
+#     infraPrUrl: https://...         # Link to merged infra-k8s PR
+#     team: data-feeds                # Owning team
+#     addedDate: 2024-01-15T10:30:00Z # When added to pending
+#
+# released:
+#   - shortName: coinbase
+#     version: 1.5.0
+#     releaseDate: 2024-01-10T14:00:00Z  # When released to public
+#
+# ## Important Notes
+#
+# - Use scripts/release-manager.sh for all operations (don't edit manually)
+# - Adapters are automatically added to pending after infra testing completes
+# - Adapters are automatically moved to released after successful release
+# - Keep this file in sync with actual deployed versions
+#
+# ## Troubleshooting
+#
+# "Adapter not found" error when releasing:
+#   → Add it to pending first: ./scripts/release-manager.sh add <adapter> <version> <pr> <team>
+#
+# "Image not found in private ECR" error:
+#   → Run deploy workflow first: gh workflow run deploy.yml
+#
+# Need to rollback?
+#   → Tag previous version as 'latest' in public ECR
+#   → See IMPLEMENTATION_GUIDE.md for rollback procedure
+#
+# ## Documentation
+#
+# - Full Release Guide: IMPLEMENTATION_GUIDE.md  
+# - Quick Reference: QUICK_REFERENCE.md
+# - Testing Guide: TESTING_GUIDE.md
+# - Deployment Checklist: DEPLOYMENT_CHECKLIST.md
+#
+# ============================================================================
+
+schema_version: "1.0"
+
+# Adapters that completed internal testing and are ready for public release
+pending: {}
+  # Adapters will be automatically added here by upsert-release-pr workflow
+  # You can also manually add using: ./scripts/release-manager.sh add <adapter> <version> <pr-url> <team>
+  #
+  # Example entry:
+  # coingecko:
+  #   version: "1.5.0"
+  #   built_from_commit: "abc123def456"           # Git SHA that built this (security)
+  #   image_digest: "sha256:789abc..."            # Docker image digest (security - extracted from infra PR)
+  #   tested_in_infra: true
+  #   infra_digest_pr: "https://github.com/smartcontractkit/infra-k8s/pull/12345"
+  #   infra_merged_at: "2024-10-21T10:00:00Z"
+  #   approved_by: "@automation"
+  #   notes: "Auto-added from MASTERLIST update"
+
+# Adapters that have been released to public ECR (maintained for audit trail)
+released: {}
+  # Adapters are automatically moved here by the release workflow after successful publish
+  #
+  # Example entry:
+  # tiingo:
+  #   version: "1.2.3"
+  #   released_at: "2024-10-19T12:00:00Z"
+  #   release_commit: "abc123def456"
+  #   public_ecr_tag: "1.2.3"
+
