@@ -1,36 +1,51 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../config'
-import overrides from '../config/overrides.json'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { config, getApiConfig } from '../config'
 import { httpTransport } from '../transport/generic'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    apiName: {
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
+      description: 'Used as prefix for environment variables to find API config',
     },
-    quote: {
-      aliases: ['to', 'convert'],
+    dataPath: {
       required: true,
       type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The path to the field containing the data to return',
+    },
+    ripcordPath: {
+      required: false,
+      type: 'string',
+      description: 'The path to the ripcord field if expected',
+    },
+    ripcordDisabledValue: {
+      default: 'false',
+      type: 'string',
+      description:
+        'The value the ripcord field should have during normal operation, converted to a string',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      apiName: 'client-name',
+      dataPath: 'PoR',
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: string
+    Data: {
+      result: string
+    }
+  }
   Settings: typeof config.settings
 }
 
@@ -39,5 +54,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['generic-api'],
+  customInputValidation: (request): AdapterError | undefined => {
+    getApiConfig(request.requestContext.data.apiName)
+    return
+  },
 })

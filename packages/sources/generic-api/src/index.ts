@@ -8,6 +8,13 @@ export const adapter = new Adapter({
   name: 'GENERIC_API',
   config,
   endpoints: [generic],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1m: 20,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

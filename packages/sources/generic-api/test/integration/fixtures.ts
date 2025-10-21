@@ -4,12 +4,10 @@ export const mockResponseSuccess = (): nock.Scope =>
   nock('https://dataproviderapi.com', {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
+    .get('/')
+    .matchHeader('X-API-Key', 'myapikey')
+    .query({})
+    .reply(200, () => ({ PoR: 123000 }), [
       'Content-Type',
       'application/json',
       'Connection',
