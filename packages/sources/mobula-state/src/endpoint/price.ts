@@ -13,10 +13,7 @@ export const inputParameters = new InputParameters(
       description: 'The symbol of symbols of the currency to query',
     },
     quote: {
-      // NOTE: 'market' MUST be included in quote aliases for CryptoPriceEndpoint compatibility.
-      // The CryptoPriceEndpoint TypeScript type definition enforces that quote.aliases includes 'market'.
-      // Original config had 'market' in base aliases, but CryptoPriceEndpoint requires it in quote.
-      // This is a compile-time constraint, not a runtime validation issue.
+      // 'market' must be included in quote aliases for CryptoPriceEndpoint compatibility.
       aliases: ['to', 'market'],
       required: true,
       type: 'string',
