@@ -7,7 +7,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // EZETH/USD - Test includes.json mapping
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 4233.15,
           marketDepthUSDUp: 1097741407.1171298,
           marketDepthUSDDown: 1032495335.1741029,
@@ -22,7 +22,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // EZETH/ETH - Test hardcoded ETH quote and composite key
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 1.0612,
           marketDepthUSDUp: 500000,
           marketDepthUSDDown: 450000,
@@ -37,7 +37,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // CBETH/ETH - Test includes.json mapping with hardcoded ETH quote
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 1.0456,
           marketDepthUSDUp: 800000,
           marketDepthUSDDown: 750000,
@@ -52,7 +52,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // LBTC/BTC - Test includes.json mapping with hardcoded BTC quote
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 0.9985,
           marketDepthUSDUp: 1200000,
           marketDepthUSDDown: 1100000,
@@ -67,7 +67,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // GHO/USD - Test includes.json mapping
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 1.0012,
           marketDepthUSDUp: 300000,
           marketDepthUSDDown: 290000,
@@ -82,7 +82,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // TESTCOIN/USD - Test base override functionality
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 125.67,
           marketDepthUSDUp: 150000,
           marketDepthUSDDown: 140000,
@@ -97,7 +97,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // ANOTHERCOIN/BTC - Test base override with hardcoded BTC quote
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 0.00123456,
           marketDepthUSDUp: 90000,
           marketDepthUSDDown: 85000,
@@ -112,7 +112,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // CUSTOMTOKEN/ETH - Test base override with hardcoded ETH quote
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 0.0456789,
           marketDepthUSDUp: 60000,
           marketDepthUSDDown: 55000,
@@ -127,7 +127,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // EZETH/CUSTOMQUOTE - Test quote override (CUSTOMQUOTE overridden to ETH asset ID)
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 1.0612,
           marketDepthUSDUp: 500000,
           marketDepthUSDDown: 450000,
@@ -142,7 +142,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // Direct asset ID usage: 102478632/USD (EZETH asset ID as base)
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 4233.15,
           marketDepthUSDUp: 1097741407.1171298,
           marketDepthUSDDown: 1032495335.1741029,
@@ -157,7 +157,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // Direct asset ID usage: 2921/100001656 (GHO/BTC using asset IDs)
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 0.0000102,
           marketDepthUSDUp: 300000,
           marketDepthUSDDown: 290000,
@@ -172,7 +172,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // Direct asset ID usage: 100029813/100004304 (CBETH/ETH using asset IDs)
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 1.0456,
           marketDepthUSDUp: 800000,
           marketDepthUSDDown: 750000,
@@ -187,7 +187,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       // Direct asset ID usage: 102484658/100010811 (LBTC/SOL using asset IDs)
       socket.send(
         JSON.stringify({
-          timestamp: 4040,
+          timestamp: Date.now() + 500,
           price: 3.456,
           marketDepthUSDUp: 1200000,
           marketDepthUSDDown: 1100000,
