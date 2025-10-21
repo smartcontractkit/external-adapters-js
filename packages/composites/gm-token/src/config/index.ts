@@ -69,17 +69,22 @@ export const config = new AdapterConfig(
     TIINGO_ADAPTER_URL: {
       description: 'URL of Tiingo EA',
       type: 'string',
-      required: true,
+      required: false,
     },
     NCFX_ADAPTER_URL: {
       description: 'URL of NCFX EA',
       type: 'string',
-      required: true,
+      required: false,
     },
     COINMETRICS_ADAPTER_URL: {
       description: 'URL of Coinmetrics EA',
       type: 'string',
-      required: true,
+      required: false,
+    },
+    BLOCKSIZE_CAPITAL_ADAPTER_URL: {
+      description: 'URL of Coinmetrics EA',
+      type: 'string',
+      required: false,
     },
     MIN_REQUIRED_SOURCE_SUCCESS: {
       description: 'Minimum number of source EAs that need to successfully return a value.',
