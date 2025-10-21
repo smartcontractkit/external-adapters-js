@@ -71,7 +71,7 @@ exports[`websocket price endpoint CBETH/ETH should return success - tests includ
   "timestamps": {
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 3538,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -92,7 +92,7 @@ exports[`websocket price endpoint EZETH/ETH should return success - tests hardco
   "timestamps": {
     "providerDataReceivedUnixMs": 2028,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 2528,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -113,7 +113,7 @@ exports[`websocket price endpoint EZETH/USD should return success - tests includ
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1518,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -134,7 +134,7 @@ exports[`websocket price endpoint GHO/USD should return success - tests includes
   "timestamps": {
     "providerDataReceivedUnixMs": 5058,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 5558,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -155,7 +155,7 @@ exports[`websocket price endpoint LBTC/BTC should return success - tests include
   "timestamps": {
     "providerDataReceivedUnixMs": 4048,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 4548,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -209,7 +209,7 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
   "timestamps": {
     "providerDataReceivedUnixMs": 5058,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 5558,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
@@ -252,7 +252,7 @@ exports[`websocket price endpoint direct base asset ID should return success 1`]
   "timestamps": {
     "providerDataReceivedUnixMs": 5058,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 5558,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
