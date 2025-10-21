@@ -215,33 +215,12 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
   }
 
   private async handleSSEConnectionError(httpResp: { status: number; data: any }): Promise<void> {
-    // read error body
-    let errDetail = `HTTP error! status: ${httpResp.status}`
-    let rawErrBody = ''
-    try {
-      const text = await new Promise<string>((resolve) => {
-        let buf = ''
-        ;(httpResp.data as Readable)
-          .on('data', (c: Buffer) => (buf += c.toString('utf8')))
-          .on('end', () => resolve(buf))
-          .on('error', () => resolve(''))
-      })
-      rawErrBody = text
-      try {
-        const j = JSON.parse(text)
-        errDetail = `Provider error: ${JSON.stringify(j)}`
-      } catch {
-        logger.error(`Provider error body (not JSON): ${rawErrBody}`)
-      }
-    } catch (error) {
-      logger.debug(`Failed to read error response body: ${(error as Error).message}`)
-    }
-
     const mappedStatus = httpResp.status === 500 ? 502 : httpResp.status
+    const errorMessage = `HTTP ${httpResp.status} error from provider`
 
     const errorResponse: AdapterResponse<TransportTypes['Response']> = {
       statusCode: mappedStatus,
-      errorMessage: errDetail,
+      errorMessage,
       timestamps: {
         providerDataRequestedUnixMs: Date.now(),
         providerDataReceivedUnixMs: Date.now(),
