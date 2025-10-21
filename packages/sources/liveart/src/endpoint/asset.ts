@@ -1,26 +1,26 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-import { httpTransport } from '../transport/transport'
+import { httpTransport } from '../transport/asset'
 
 export const inputParameters = new InputParameters(
   {
-    artwork_id: {
-      aliases: ['artworkId'],
+    asset_id: {
+      aliases: ['assetId'],
       required: true,
       type: 'string',
-      description: 'The ID of the artwork to fetch',
+      description: 'The ID of the artwork asset to fetch',
     },
   },
   [
     {
-      artwork_id: 'banksy',
+      asset_id: 'KUSPUM',
     },
   ],
 )
 
-export const nav = new AdapterEndpoint({
-  name: 'nav',
+export const asset = new AdapterEndpoint({
+  name: 'asset',
   transport: httpTransport,
   inputParameters,
 })
