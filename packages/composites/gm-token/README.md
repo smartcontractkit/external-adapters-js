@@ -1,23 +1,29 @@
 # GM_TOKEN
 
-![1.1.21](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |            Name             |                                        Description                                        |  Type  | Options |                   Default                    |
-| :-------: | :-------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
-|    ✅     |      ARBITRUM_RPC_URL       |                                 RPC url of Arbitrum node                                  | string |         |                                              |
-|    ✅     |      ARBITRUM_CHAIN_ID      |                                The chain id to connect to                                 | number |         |                   `42161`                    |
-|    ✅     | DATASTORE_CONTRACT_ADDRESS  |                              Address of Data Store contract                               | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
-|    ✅     |   READER_CONTRACT_ADDRESS   |                                Address of Reader contract                                 | string |         | `0xf60becbba223EEA9495Da3f606753867eC10d139` |
-|    ✅     |       PNL_FACTOR_TYPE       |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |
-|    ✅     |     TIINGO_ADAPTER_URL      |                                     URL of Tiingo EA                                      | string |         |                                              |
-|    ✅     |      NCFX_ADAPTER_URL       |                                      URL of NCFX EA                                       | string |         |                                              |
-|    ✅     |   COINMETRICS_ADAPTER_URL   |                                   URL of Coinmetrics EA                                   | string |         |                                              |
-|    ✅     | MIN_REQUIRED_SOURCE_SUCCESS |          Minimum number of source EAs that need to successfully return a value.           | number |         |                     `2`                      |
-|           |    BACKGROUND_EXECUTE_MS    | The amount of time the background execute should sleep before performing the next request | number |         |                   `10000`                    |
+| Required? |                Name                |                                        Description                                        |  Type  | Options |                   Default                    |
+| :-------: | :--------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
+|    ✅     |          ARBITRUM_RPC_URL          |                                 RPC url of Arbitrum node                                  | string |         |                                              |
+|    ✅     |         ARBITRUM_CHAIN_ID          |                                The chain id to connect to                                 | number |         |                   `42161`                    |
+|           |          BOTANIX_RPC_URL           |                                  RPC url of Botanix node                                  | string |         |                                              |
+|           |          BOTANIX_CHAIN_ID          |                                The chain id to connect to                                 | number |         |                    `3637`                    |
+|    ✅     |     DATASTORE_CONTRACT_ADDRESS     |                              Address of Data Store contract                               | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
+|    ✅     | BOTANIX_DATASTORE_CONTRACT_ADDRESS |                              Address of Data Store contract                               | string |         | `0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d` |
+|    ✅     |      READER_CONTRACT_ADDRESS       |                                Address of Reader contract                                 | string |         | `0xf60becbba223EEA9495Da3f606753867eC10d139` |
+|    ✅     |  BOTANIX_READER_CONTRACT_ADDRESS   |                                Address of Reader contract                                 | string |         | `0xa254B60cbB85a92F6151B10E1233639F601f2F0F` |
+|    ✅     |      ARBITRUM_TOKENS_INFO_URL      |                    URL to token meta data supported by GMX on Arbitrum                    | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
+|    ✅     |      BOTANIX_TOKENS_INFO_URL       |                    URL to token meta data supported by GMX on Botanix                     | string |         |   `https://botanix-api.gmxinfra.io/tokens`   |
+|    ✅     |          PNL_FACTOR_TYPE           |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |
+|    ✅     |         TIINGO_ADAPTER_URL         |                                     URL of Tiingo EA                                      | string |         |                                              |
+|    ✅     |          NCFX_ADAPTER_URL          |                                      URL of NCFX EA                                       | string |         |                                              |
+|    ✅     |      COINMETRICS_ADAPTER_URL       |                                   URL of Coinmetrics EA                                   | string |         |                                              |
+|    ✅     |    MIN_REQUIRED_SOURCE_SUCCESS     |          Minimum number of source EAs that need to successfully return a value.           | number |         |                     `2`                      |
+|           |       BACKGROUND_EXECUTE_MS        | The amount of time the background execute should sleep before performing the next request | number |         |                   `10000`                    |
 
 ---
 
@@ -39,12 +45,13 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |  Name  | Aliases |                                     Description                                      |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :----------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | index  |         | Index token. Long and short tokens will be opened / closed based on this price feed. | string |         |         |            |                |
-|    ✅     |  long  |         |             Long token. This is the token that will back long positions.             | string |         |         |            |                |
-|    ✅     | short  |         |            Short token. This is the token that will back short positions.            | string |         |         |            |                |
-|    ✅     | market |         |                          Market address of the market pool.                          | string |         |         |            |                |
+| Required? |  Name  | Aliases |                                     Description                                      |  Type  |        Options        |  Default   | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :----------------------------------------------------------------------------------: | :----: | :-------------------: | :--------: | :--------: | :------------: |
+|    ✅     | index  |         | Index token. Long and short tokens will be opened / closed based on this price feed. | string |                       |            |            |                |
+|    ✅     |  long  |         |             Long token. This is the token that will back long positions.             | string |                       |            |            |                |
+|    ✅     | short  |         |            Short token. This is the token that will back short positions.            | string |                       |            |            |                |
+|    ✅     | market |         |                          Market address of the market pool.                          | string |                       |            |            |                |
+|           | chain  |         |                              Target chain for GM market                              | string | `arbitrum`, `botanix` | `arbitrum` |            |                |
 
 ### Example
 
@@ -57,7 +64,8 @@ Request:
     "index": "LINK",
     "long": "LINK",
     "short": "USDC",
-    "market": "0x7f1fa204bb700853D36994DA19F830b6Ad18455C"
+    "market": "0x7f1fa204bb700853D36994DA19F830b6Ad18455C",
+    "chain": "arbitrum"
   }
 }
 ```

@@ -96,9 +96,6 @@
       "path": "./composites/set-token-index"
     },
     {
-      "path": "./composites/synth-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {
@@ -138,6 +135,9 @@
       "path": "./sources/aleno"
     },
     {
+      "path": "./sources/allium-state"
+    },
+    {
       "path": "./sources/alphachain"
     },
     {
@@ -157,6 +157,9 @@
     },
     {
       "path": "./sources/apex"
+    },
+    {
+      "path": "./sources/asseto-finance"
     },
     {
       "path": "./sources/avalanche-platform"
@@ -195,10 +198,10 @@
       "path": "./sources/blockchair"
     },
     {
-      "path": "./sources/blockcypher"
+      "path": "./sources/blocksize-capital"
     },
     {
-      "path": "./sources/blocksize-capital"
+      "path": "./sources/blocksize-capital-state"
     },
     {
       "path": "./sources/blockstream"
@@ -214,9 +217,6 @@
     },
     {
       "path": "./sources/cache.gold"
-    },
-    {
-      "path": "./sources/ccip-read"
     },
     {
       "path": "./sources/ceffu"
@@ -294,6 +294,9 @@
       "path": "./sources/curve"
     },
     {
+      "path": "./sources/data-engine"
+    },
+    {
       "path": "./sources/deep-blue"
     },
     {
@@ -351,9 +354,6 @@
       "path": "./sources/expand-network"
     },
     {
-      "path": "./sources/expert-car-broker"
-    },
-    {
       "path": "./sources/fcsapi"
     },
     {
@@ -373,9 +373,6 @@
     },
     {
       "path": "./sources/fixer"
-    },
-    {
-      "path": "./sources/flightaware"
     },
     {
       "path": "./sources/fluent-finance"
@@ -400,9 +397,6 @@
     },
     {
       "path": "./sources/genesis-volatility"
-    },
-    {
-      "path": "./sources/geodb"
     },
     {
       "path": "./sources/gmci"
@@ -445,9 +439,6 @@
     },
     {
       "path": "./sources/ion.au"
-    },
-    {
-      "path": "./sources/ipfs"
     },
     {
       "path": "./sources/jpegd"
@@ -712,9 +703,6 @@
     },
     {
       "path": "./sources/xbto"
-    },
-    {
-      "path": "./targets/conflux"
     },
     {
       "path": "./targets/dydx-stark"

@@ -1,5 +1,29 @@
 # @chainlink/eth-balance-adapter
 
+## 2.1.14
+
+### Patch Changes
+
+- [#4119](https://github.com/smartcontractkit/external-adapters-js/pull/4119) [`4fda498`](https://github.com/smartcontractkit/external-adapters-js/commit/4fda498ed02298cd595899c28de8fd9961d20440) Thanks [@cawthorne](https://github.com/cawthorne)! - Use Lowercase addresses for Rootstock (ChainID=30) eth-balance calls
+
+## 2.1.13
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-factories@1.2.44
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 2.1.12
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 2.1.11
 
 ### Patch Changes

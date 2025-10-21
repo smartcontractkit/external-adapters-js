@@ -10,7 +10,6 @@ const environmentVariables = [
   { envKey: 'BITSO_ADAPTER_URL', value: 'bitso' },
   { envKey: 'BLOCKCHAIN_COM_ADAPTER_URL', value: 'blockchain_com' },
   { envKey: 'BLOCKCHAIR_ADAPTER_URL', value: 'blockchair' },
-  { envKey: 'BLOCKCYPHER_ADAPTER_URL', value: 'blockcypher' },
   { envKey: 'BLOCKSTREAM_ADAPTER_URL', value: 'blockstream' },
   { envKey: 'BRAVENEWCOIN_ADAPTER_URL', value: 'bravenewcoin' },
   { envKey: 'BTC_COM_ADAPTER_URL', value: 'btc_com' },

@@ -1,5 +1,23 @@
 # @chainlink/ceffu-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 1.1.3
+
+### Patch Changes
+
+- [#4105](https://github.com/smartcontractkit/external-adapters-js/pull/4105) [`cd239ab`](https://github.com/smartcontractkit/external-adapters-js/commit/cd239ab9b0aa696cbfcc35a0942cda108fa2ba2f) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency query-string to v9.3.1
+
+## 1.1.2
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
 ## 1.1.1
 
 ### Patch Changes

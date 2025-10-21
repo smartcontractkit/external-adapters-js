@@ -1,7 +1,6 @@
-import { ethers } from 'ethers'
-import { util, Logger, AdapterConfigError, AdapterDataProviderError } from '@chainlink/ea-bootstrap'
 import abi from '@chainlink/contracts/abi/v0.8/AggregatorV2V3Interface.json'
-import { BigNumber } from 'ethers/utils'
+import { AdapterConfigError, AdapterDataProviderError, Logger, util } from '@chainlink/ea-bootstrap'
+import { BigNumber, ethers } from 'ethers'
 
 export interface RoundData {
   roundId: BigNumber
@@ -53,7 +52,7 @@ export const getRpcLatestAnswer: ReferenceLatestAnswer = async (
     const decimals = computeDecimals ? await aggregator.decimals() : 0
     return (await aggregator.latestAnswer())
       .div(multiply)
-      .div(new BigNumber(10).pow(decimals))
+      .div(BigNumber.from(10).pow(decimals))
       .toNumber()
   } catch (e: any) {
     throw new AdapterDataProviderError({

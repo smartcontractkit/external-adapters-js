@@ -1,5 +1,13 @@
 # @chainlink/avalanche-platform-adapter
 
+## 2.1.1
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- [#4115](https://github.com/smartcontractkit/external-adapters-js/pull/4115) [`52dd8a4`](https://github.com/smartcontractkit/external-adapters-js/commit/52dd8a4fc30f2eed057078ff6c145eda50f6fba7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
 ## 2.1.0
 
 ### Minor Changes

@@ -1,6 +1,6 @@
 # TRADINGHOURS
 
-![0.2.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradinghours/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.2.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradinghours/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -23,19 +23,19 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                Options                                                                                                                 |     Default     |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
-|           | endpoint | The endpoint to use | string | [forex-market-status](#market-status-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [nyse-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint) | `market-status` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                               Options                                                                                                                                                                                                                                                |     Default     |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
+|           | endpoint | The endpoint to use | string | [euronext_milan-market-status](#market-status-endpoint), [euronext_paris-market-status](#market-status-endpoint), [forex-market-status](#market-status-endpoint), [lse-market-status](#market-status-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [nyse-market-status](#market-status-endpoint), [six-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint), [xetra-market-status](#market-status-endpoint) | `market-status` |
 
 ## Market-status Endpoint
 
-Supported names for this endpoint are: `forex-market-status`, `market-status`, `metals-market-status`, `nyse-market-status`, `wti-market-status`.
+Supported names for this endpoint are: `euronext_milan-market-status`, `euronext_paris-market-status`, `forex-market-status`, `lse-market-status`, `market-status`, `metals-market-status`, `nyse-market-status`, `six-market-status`, `wti-market-status`, `xetra-market-status`.
 
 ### Input Params
 
-| Required? |  Name  | Aliases |      Description       |  Type  |                              Options                               | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :--------------------: | :----: | :----------------------------------------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | market |         | The name of the market | string | `FOREX`, `METALS`, `NYSE`, `WTI`, `forex`, `metals`, `nyse`, `wti` |         |            |                |
+| Required? |  Name  | Aliases |      Description       |  Type  |                                                                                         Options                                                                                          | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :--------------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | market |         | The name of the market | string | `EURONEXT_MILAN`, `EURONEXT_PARIS`, `FOREX`, `LSE`, `METALS`, `NYSE`, `SIX`, `WTI`, `XETRA`, `euronext_milan`, `euronext_paris`, `forex`, `lse`, `metals`, `nyse`, `six`, `wti`, `xetra` |         |            |                |
 
 ### Example
 

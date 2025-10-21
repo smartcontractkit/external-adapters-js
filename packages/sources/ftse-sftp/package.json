@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ftse-sftp-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink ftse-sftp adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "csv-parse": "5.5.6",
     "decimal.js": "^10.5.0",
     "ssh2-sftp-client": "^12.0.1",

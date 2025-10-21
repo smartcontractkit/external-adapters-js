@@ -1,5 +1,25 @@
 # @chainlink/llama-guard-adapter
 
+## 1.2.2
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 1.2.1
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+## 1.2.0
+
+### Minor Changes
+
+- [#4060](https://github.com/smartcontractkit/external-adapters-js/pull/4060) [`3c75243`](https://github.com/smartcontractkit/external-adapters-js/commit/3c7524367fae43a07bfd0cbe12af4e66fbb6fbb9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 18 decimals
+
+- [#4064](https://github.com/smartcontractkit/external-adapters-js/pull/4064) [`63f74f8`](https://github.com/smartcontractkit/external-adapters-js/commit/63f74f84434d4468b9656d086deef29034811bc0) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add metrics
+
 ## 1.1.0
 
 ### Minor Changes

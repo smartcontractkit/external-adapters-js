@@ -9,7 +9,6 @@ export const SoakTestBlacklist: string[] = [
   'avalanche-platform',
   'bea',
   'bitcoin-json-rpc', // Missing: RPC URL
-  'blockcypher',
   'bob', // Missing: RPC URL
   'bsol-price', // Missing: RPC URL and addresses
   'btc.com',
@@ -27,8 +26,6 @@ export const SoakTestBlacklist: string[] = [
   'dxdao',
   'etherscan',
   'ethgasstation',
-  'expert-car-broker',
-  'flightaware',
   'fmpcloud',
   'frxeth-exchange-rate',
   'genesis-volatility',
@@ -38,7 +35,6 @@ export const SoakTestBlacklist: string[] = [
   'google-weather',
   'harmony',
   'historical-average',
-  'ipfs',
   'jpegd',
   'json-rpc',
   'layer2-sequencer-health',
@@ -69,7 +65,6 @@ export const SoakTestBlacklist: string[] = [
   'solana-view-function', // Missing: RPC URL
   'spectral-macro-score',
   'sportsdataio',
-  'synth-index',
   's3-csv-reader',
   'taapi',
   'terra-view-function', // Missing: RPC URL

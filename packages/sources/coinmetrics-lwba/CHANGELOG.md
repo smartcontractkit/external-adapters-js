@@ -1,5 +1,23 @@
 # @chainlink/coinmetrics-lwba-adapter
 
+## 2.1.2
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75), [`52dd8a4`](https://github.com/smartcontractkit/external-adapters-js/commit/52dd8a4fc30f2eed057078ff6c145eda50f6fba7)]:
+  - @chainlink/coinmetrics-adapter@3.9.3
+
+## 2.1.1
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/coinmetrics-adapter@3.9.2
+
 ## 2.1.0
 
 ### Minor Changes

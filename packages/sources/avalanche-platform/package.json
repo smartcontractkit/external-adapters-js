@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/avalanche-platform-adapter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Chainlink Avalanche Platform adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "tslib": "2.4.1"
   }
 }

@@ -1,5 +1,49 @@
 # @chainlink/token-allocation-adapter
 
+## 1.13.24
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75), [`52dd8a4`](https://github.com/smartcontractkit/external-adapters-js/commit/52dd8a4fc30f2eed057078ff6c145eda50f6fba7)]:
+  - @chainlink/finage-adapter@2.0.28
+  - @chainlink/cfbenchmarks-adapter@2.5.1
+  - @chainlink/kaiko-adapter@2.2.29
+  - @chainlink/coingecko-adapter@2.0.41
+  - @chainlink/coinmetrics-adapter@3.9.3
+  - @chainlink/blocksize-capital-adapter@2.4.5
+  - @chainlink/ncfx-adapter@4.4.5
+  - @chainlink/cryptocompare-adapter@3.3.20
+  - @chainlink/tiingo-adapter@2.8.7
+  - @chainlink/coinmarketcap-adapter@2.0.46
+  - @chainlink/coinpaprika-adapter@2.1.20
+
+## 1.13.23
+
+### Patch Changes
+
+- Updated dependencies [[`a77b4f8`](https://github.com/smartcontractkit/external-adapters-js/commit/a77b4f8ae534effa98dcc4ff0ec200c21f06dfdc), [`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7), [`dddedf3`](https://github.com/smartcontractkit/external-adapters-js/commit/dddedf3776d5f56d20339bfc8c2210053ae6529a)]:
+  - @chainlink/cfbenchmarks-adapter@2.5.0
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/amberdata-adapter@1.8.40
+  - @chainlink/coinapi-adapter@1.3.37
+  - @chainlink/coinranking-adapter@2.1.18
+
+## 1.13.22
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810), [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/coinmetrics-adapter@3.9.2
+  - @chainlink/amberdata-adapter@1.8.39
+  - @chainlink/coinapi-adapter@1.3.36
+  - @chainlink/coinranking-adapter@2.1.17
+
 ## 1.13.21
 
 ### Patch Changes

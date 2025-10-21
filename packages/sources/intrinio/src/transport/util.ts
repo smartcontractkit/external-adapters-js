@@ -3,9 +3,9 @@
  */
 
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import * as https from 'https'
-import * as events from 'events'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import * as events from 'events'
+import * as https from 'https'
 
 const logger = makeLogger('IntrinioRealTime')
 
@@ -194,9 +194,9 @@ export class IntrinioRealtime extends EventEmitter {
             reject(error.response)
           } else {
             logger.error(
-              'IntrinioRealtime | Could not get auth token: Status code ' + error.response.status,
-              reject(error.response),
+              `IntrinioRealtime | Could not get auth token: Status code ${error.response.status}`,
             )
+            reject(error.response)
           }
         })
     })

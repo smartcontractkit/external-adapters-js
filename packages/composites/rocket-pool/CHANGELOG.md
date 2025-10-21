@@ -1,5 +1,22 @@
 # @chainlink/rocket-pool-adapter
 
+## 1.1.22
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-reference-data-reader@1.3.46
+
+## 1.1.21
+
+### Patch Changes
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/ea-reference-data-reader@1.3.45
+
 ## 1.1.20
 
 ### Patch Changes

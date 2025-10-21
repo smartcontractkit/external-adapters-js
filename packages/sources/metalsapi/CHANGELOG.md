@@ -1,5 +1,22 @@
 # @chainlink/metalsapi-adapter
 
+## 1.7.47
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 1.7.46
+
+### Patch Changes
+
+- [#4067](https://github.com/smartcontractkit/external-adapters-js/pull/4067) [`63f7d32`](https://github.com/smartcontractkit/external-adapters-js/commit/63f7d3241a8a16124727153d7616c3ff61eff7c8) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Deletes synth-index EA
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.7.45
 
 ### Patch Changes

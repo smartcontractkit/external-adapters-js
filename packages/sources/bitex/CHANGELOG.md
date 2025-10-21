@@ -1,5 +1,20 @@
 # @chainlink/bitex-adapter
 
+## 1.5.47
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 1.5.46
+
+### Patch Changes
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810)]:
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.5.45
 
 ### Patch Changes

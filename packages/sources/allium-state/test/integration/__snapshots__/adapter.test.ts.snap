@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success for BUSD/USD 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success for CBBTC/USD 1`] = `
+{
+  "data": {
+    "result": 45000.5,
+  },
+  "result": 45000.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1641035471111,
+  },
+}
+`;

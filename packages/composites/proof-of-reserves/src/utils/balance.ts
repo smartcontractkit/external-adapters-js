@@ -15,7 +15,6 @@ import { adapter as avalanchePlatform } from '@chainlink/avalanche-platform-adap
 import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
 import * as blockchainCom from '@chainlink/blockchain.com-adapter'
 import * as blockchair from '@chainlink/blockchair-adapter'
-import * as blockcypher from '@chainlink/blockcypher-adapter'
 import * as btcCom from '@chainlink/btc.com-adapter'
 import { adapter as ceffu } from '@chainlink/ceffu-adapter'
 import * as cryptoapis from '@chainlink/cryptoapis-adapter'
@@ -36,7 +35,6 @@ export const adaptersV2: v2AdapterImplementation[] = [
   amberdata as unknown as v2AdapterImplementation,
   bitcoinJsonRpc as unknown as v2AdapterImplementation,
   blockchainCom as unknown as v2AdapterImplementation,
-  blockcypher as unknown as v2AdapterImplementation,
   blockchair as unknown as v2AdapterImplementation,
   btcCom as unknown as v2AdapterImplementation,
   cryptoapis as unknown as v2AdapterImplementation,

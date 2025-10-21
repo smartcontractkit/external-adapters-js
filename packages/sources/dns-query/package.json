@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dns-query-adapter",
-  "version": "1.6.38",
+  "version": "1.6.40",
   "description": "Chainlink DNS query adapter",
   "keywords": [
     "Chainlink",

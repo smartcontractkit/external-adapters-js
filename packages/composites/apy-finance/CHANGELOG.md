@@ -1,5 +1,33 @@
 # @chainlink/apy-finance-adapter
 
+## 2.0.111
+
+### Patch Changes
+
+- Updated dependencies [[`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75)]:
+  - @chainlink/token-allocation-adapter@1.13.24
+
+## 2.0.110
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/token-allocation-adapter@1.13.23
+  - @chainlink/ea-test-helpers@1.4.9
+
+## 2.0.109
+
+### Patch Changes
+
+- [#4069](https://github.com/smartcontractkit/external-adapters-js/pull/4069) [`04d6b19`](https://github.com/smartcontractkit/external-adapters-js/commit/04d6b19136108f6fd765ad192d876254b3eae21a) Thanks [@dependabot](https://github.com/apps/dependabot)! - Bump form-data from 3.0.2 to 3.0.4
+
+- [#4072](https://github.com/smartcontractkit/external-adapters-js/pull/4072) [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Bumps ethers version to 5.8.0
+
+- Updated dependencies [[`3fadb7c`](https://github.com/smartcontractkit/external-adapters-js/commit/3fadb7c5e479b48ab41fa8e44150c221dd5cb2e2), [`e5d13f2`](https://github.com/smartcontractkit/external-adapters-js/commit/e5d13f2e726c1ed196de16f6e50a3aa6a290f810), [`d094f3f`](https://github.com/smartcontractkit/external-adapters-js/commit/d094f3f8241bb0f6a06e3edab9bef65e5da3eb6a)]:
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/token-allocation-adapter@1.13.22
+
 ## 2.0.108
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @chainlink/finnhub-adapter
 
+## 3.0.2
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+## 3.0.1
+
+### Patch Changes
+
+- [#4076](https://github.com/smartcontractkit/external-adapters-js/pull/4076) [`a37bb09`](https://github.com/smartcontractkit/external-adapters-js/commit/a37bb099a6b0c5b5f39aceb1e5efff777588f222) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - multi-market-status endpoint support, added additional markets to tradinghours and finnhub
+
 ## 3.0.0
 
 ### Major Changes

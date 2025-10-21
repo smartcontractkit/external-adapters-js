@@ -1,5 +1,26 @@
 # @chainlink/google-weather-adapter
 
+## 1.3.40
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/google-bigquery-adapter@1.2.47
+
+## 1.3.39
+
+### Patch Changes
+
+- [#3893](https://github.com/smartcontractkit/external-adapters-js/pull/3893) [`78279ae`](https://github.com/smartcontractkit/external-adapters-js/commit/78279ae67c8cb8f546c0d19e571bd271363f8603) Thanks [@renovate](https://github.com/apps/renovate)! - Update dependency @types/convert-units to v2.3.12
+
+## 1.3.38
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/google-bigquery-adapter@1.2.46
+
 ## 1.3.37
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/celsius-address-list-adapter",
-  "version": "2.0.29",
+  "version": "2.0.31",
   "description": "Chainlink Celsius Address List Adapter.",
   "keywords": [
     "Chainlink",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
-    "ethers": "5.4.7",
+    "ethers": "^5.8.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

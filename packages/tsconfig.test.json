@@ -96,9 +96,6 @@
       "path": "./composites/set-token-index/tsconfig.test.json"
     },
     {
-      "path": "./composites/synth-index/tsconfig.test.json"
-    },
-    {
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
@@ -138,6 +135,9 @@
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
+      "path": "./sources/allium-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
@@ -157,6 +157,9 @@
     },
     {
       "path": "./sources/apex/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/asseto-finance/tsconfig.test.json"
     },
     {
       "path": "./sources/avalanche-platform/tsconfig.test.json"
@@ -195,10 +198,10 @@
       "path": "./sources/blockchair/tsconfig.test.json"
     },
     {
-      "path": "./sources/blockcypher/tsconfig.test.json"
+      "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
-      "path": "./sources/blocksize-capital/tsconfig.test.json"
+      "path": "./sources/blocksize-capital-state/tsconfig.test.json"
     },
     {
       "path": "./sources/blockstream/tsconfig.test.json"
@@ -214,9 +217,6 @@
     },
     {
       "path": "./sources/cache.gold/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/ccip-read/tsconfig.test.json"
     },
     {
       "path": "./sources/ceffu/tsconfig.test.json"
@@ -294,6 +294,9 @@
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
+      "path": "./sources/data-engine/tsconfig.test.json"
+    },
+    {
       "path": "./sources/deep-blue/tsconfig.test.json"
     },
     {
@@ -351,9 +354,6 @@
       "path": "./sources/expand-network/tsconfig.test.json"
     },
     {
-      "path": "./sources/expert-car-broker/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fcsapi/tsconfig.test.json"
     },
     {
@@ -373,9 +373,6 @@
     },
     {
       "path": "./sources/fixer/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/flightaware/tsconfig.test.json"
     },
     {
       "path": "./sources/fluent-finance/tsconfig.test.json"
@@ -400,9 +397,6 @@
     },
     {
       "path": "./sources/genesis-volatility/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/geodb/tsconfig.test.json"
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
@@ -445,9 +439,6 @@
     },
     {
       "path": "./sources/ion.au/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/ipfs/tsconfig.test.json"
     },
     {
       "path": "./sources/jpegd/tsconfig.test.json"
@@ -712,9 +703,6 @@
     },
     {
       "path": "./sources/xbto/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/conflux/tsconfig.test.json"
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"

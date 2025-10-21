@@ -38,7 +38,7 @@ type ReportValueType = typeof inputParameters.validated.reportValue
 
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
 // on a specific time every day, after receiving a signal from scheduler.
-class NavTransport implements Transport<BaseEndpointTypes> {
+export class NavTransport implements Transport<BaseEndpointTypes> {
   name!: string
   responseCache!: ResponseCache<BaseEndpointTypes>
   requester!: Requester
@@ -58,7 +58,7 @@ class NavTransport implements Transport<BaseEndpointTypes> {
     this.settings = settings
     this.endpointName = endpointName
     this.fundsMap = new Map()
-    this.runScheduler()
+    this.runScheduler(settings.NAV_CRON_INTERVAL_MIN)
   }
 
   // registerRequest is invoked on every valid request to EA
@@ -80,20 +80,22 @@ class NavTransport implements Transport<BaseEndpointTypes> {
     return this.execute(fundId, reportValue)
   }
 
-  // Runs 'execute' function every day at START_TIME (if fundIdsSet is not empty)
-  runScheduler() {
-    const rule = new schedule.RecurrenceRule()
-    const startTimeSegments = START_TIME.split(':').map((s) => parseInt(s))
-    rule.hour = startTimeSegments[0]
-    rule.minute = startTimeSegments[1]
-    rule.second = startTimeSegments[2]
-    rule.tz = TZ
+  // Runs 'execute' function every day between START_TIME & END_TIME once per interval minutes (if fundIdsSet is not empty)
+  runScheduler(interval: number) {
+    schedule.scheduleJob(`*/${interval} * * * *`, () => {
+      if (isInTimeRange(START_TIME, END_TIME, TZ)) {
+        logger.info(
+          `Scheduled execution started at ${Date.now()}. FundsMap - ${[...this.fundsMap].join(
+            ',',
+          )}`,
+        )
 
-    schedule.scheduleJob(rule, () => {
-      logger.info(
-        `Scheduled execution started at ${Date.now()}. FundsMap - ${[...this.fundsMap].join(',')}`,
-      )
-      ;[...this.fundsMap].map(async (entry) => this.execute(entry[1][0], entry[1][1]))
+        this.fundsMap.forEach(([num, report]) => {
+          this.execute(num, report).catch((err) => {
+            logger.error(err)
+          })
+        })
+      }
     })
   }
 

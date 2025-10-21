@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/curve-3pool-adapter",
-  "version": "3.0.108",
+  "version": "3.0.111",
   "description": "Chainlink Curve 3Pool adapter",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
-    "ethers": "5.4.7",
+    "ethers": "^5.8.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

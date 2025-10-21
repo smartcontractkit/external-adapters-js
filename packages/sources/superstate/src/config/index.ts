@@ -32,6 +32,11 @@ export const config = new AdapterConfig(
       type: 'number',
       default: 10_000,
     },
+    NAV_CRON_INTERVAL_MIN: {
+      description: 'How many minutes do we wait between each cron job that fetches Nav',
+      type: 'number',
+      default: 10,
+    },
   },
   {
     envDefaultOverrides: {
