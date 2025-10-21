@@ -6934,24 +6934,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:2.7.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.7.0-bdc244f853-e915a365b0.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
-          ["ajv", "npm:8.17.1"],\
-          ["axios", "npm:1.10.0"],\
-          ["eventsource", "npm:4.0.0"],\
-          ["fastify", "npm:5.4.0"],\
-          ["ioredis", "npm:5.6.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:9.7.0"],\
-          ["pino-pretty", "npm:13.0.0"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:2b0ebd274061d58a894ebe82ebe3055b9e3b997d390eff79d1de97618fbd29a60316ae14d1eb77730f30500bdd26ea2c1f106acca02a515527d5f418f1f627ec#npm:8.18.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7819,10 +7801,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/liveart/",\
         "packageDependencies": [\
           ["@chainlink/liveart-external-adapter", "workspace:packages/sources/liveart"],\
-          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.11.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -17550,26 +17531,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.10.0", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.10.0-0c877f1ea6-d43c80316a.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.10.0"],\
-          ["follow-redirects", "virtual:cdb8ea6c90bba762bf2366a1a88869c55a09bf9d9076ce8fcccf1e27011bd6d92acc154b2b250d8981e0c9daf722c96602b003df3b346cc7d59ad22f6b68080f#npm:1.15.9"],\
-          ["form-data", "npm:4.0.4"],\
-          ["proxy-from-env", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:1.11.0", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.11.0-64966324ac-232df4af7a.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.11.0"],\
-          ["follow-redirects", "virtual:cdb8ea6c90bba762bf2366a1a88869c55a09bf9d9076ce8fcccf1e27011bd6d92acc154b2b250d8981e0c9daf722c96602b003df3b346cc7d59ad22f6b68080f#npm:1.15.9"],\
-          ["form-data", "npm:4.0.4"],\
-          ["proxy-from-env", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.12.2", {\
         "packageLocation": "./.yarn/cache/axios-npm-1.12.2-cdb8ea6c90-886a797705.zip/node_modules/axios/",\
         "packageDependencies": [\
@@ -21899,28 +21860,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.4.0", {\
-        "packageLocation": "./.yarn/cache/fastify-npm-5.4.0-2bcf8f1bd7-bc474e9b3a.zip/node_modules/fastify/",\
-        "packageDependencies": [\
-          ["fastify", "npm:5.4.0"],\
-          ["@fastify/ajv-compiler", "npm:4.0.2"],\
-          ["@fastify/error", "npm:4.0.0"],\
-          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
-          ["@fastify/proxy-addr", "npm:5.0.0"],\
-          ["abstract-logging", "npm:2.0.1"],\
-          ["avvio", "npm:9.1.0"],\
-          ["fast-json-stringify", "npm:6.0.0"],\
-          ["find-my-way", "npm:9.1.0"],\
-          ["light-my-request", "npm:6.4.0"],\
-          ["pino", "npm:9.5.0"],\
-          ["process-warning", "npm:5.0.0"],\
-          ["rfdc", "npm:1.4.1"],\
-          ["secure-json-parse", "npm:4.0.0"],\
-          ["semver", "npm:7.6.3"],\
-          ["toad-cache", "npm:3.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.6.1", {\
         "packageLocation": "./.yarn/cache/fastify-npm-5.6.1-db0855c6d4-f58cb06642.zip/node_modules/fastify/",\
         "packageDependencies": [\
@@ -23900,22 +23839,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ioredis", [\
-      ["npm:5.6.1", {\
-        "packageLocation": "./.yarn/cache/ioredis-npm-5.6.1-d69383b35a-632186e21f.zip/node_modules/ioredis/",\
-        "packageDependencies": [\
-          ["ioredis", "npm:5.6.1"],\
-          ["@ioredis/commands", "npm:1.4.0"],\
-          ["cluster-key-slot", "npm:1.1.2"],\
-          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
-          ["denque", "npm:2.1.0"],\
-          ["lodash.defaults", "npm:4.2.0"],\
-          ["lodash.isarguments", "npm:3.1.0"],\
-          ["redis-errors", "npm:1.2.0"],\
-          ["redis-parser", "npm:3.0.0"],\
-          ["standard-as-callback", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.8.1", {\
         "packageLocation": "./.yarn/cache/ioredis-npm-5.8.1-21266a0c28-f1e328e9ce.zip/node_modules/ioredis/",\
         "packageDependencies": [\
@@ -28909,24 +28832,6 @@ const RAW_RUNTIME_STATE =
           ["thread-stream", "npm:3.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:9.7.0", {\
-        "packageLocation": "./.yarn/cache/pino-npm-9.7.0-169cc56689-01f489e014.zip/node_modules/pino/",\
-        "packageDependencies": [\
-          ["pino", "npm:9.7.0"],\
-          ["atomic-sleep", "npm:1.0.0"],\
-          ["fast-redact", "npm:3.5.0"],\
-          ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:2.0.0"],\
-          ["pino-std-serializers", "npm:7.0.0"],\
-          ["process-warning", "npm:5.0.0"],\
-          ["quick-format-unescaped", "npm:4.0.4"],\
-          ["real-require", "npm:0.2.0"],\
-          ["safe-stable-stringify", "npm:2.5.0"],\
-          ["sonic-boom", "npm:4.2.0"],\
-          ["thread-stream", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["pino-abstract-transport", [\
@@ -28940,26 +28845,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino-pretty", [\
-      ["npm:13.0.0", {\
-        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.0.0-70bb86dd46-9861fdbe88.zip/node_modules/pino-pretty/",\
-        "packageDependencies": [\
-          ["pino-pretty", "npm:13.0.0"],\
-          ["colorette", "npm:2.0.20"],\
-          ["dateformat", "npm:4.6.3"],\
-          ["fast-copy", "npm:3.0.2"],\
-          ["fast-safe-stringify", "npm:2.1.1"],\
-          ["help-me", "npm:5.0.0"],\
-          ["joycon", "npm:3.1.1"],\
-          ["minimist", "npm:1.2.8"],\
-          ["on-exit-leak-free", "npm:2.1.2"],\
-          ["pino-abstract-transport", "npm:2.0.0"],\
-          ["pump", "npm:3.0.2"],\
-          ["secure-json-parse", "npm:2.7.0"],\
-          ["sonic-boom", "npm:4.2.0"],\
-          ["strip-json-comments", "npm:3.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:13.1.2", {\
         "packageLocation": "./.yarn/cache/pino-pretty-npm-13.1.2-4d082d4016-ec513a25f0.zip/node_modules/pino-pretty/",\
         "packageDependencies": [\
@@ -30762,13 +30647,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["secure-json-parse", [\
-      ["npm:2.7.0", {\
-        "packageLocation": "./.yarn/cache/secure-json-parse-npm-2.7.0-d5b89b0a3e-9743865870.zip/node_modules/secure-json-parse/",\
-        "packageDependencies": [\
-          ["secure-json-parse", "npm:2.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.0", {\
         "packageLocation": "./.yarn/cache/secure-json-parse-npm-4.0.0-5f46627578-c36c9dec9a.zip/node_modules/secure-json-parse/",\
         "packageDependencies": [\
