@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/wisdomtree-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink wisdomtree adapter.",
   "keywords": [
     "Chainlink",
