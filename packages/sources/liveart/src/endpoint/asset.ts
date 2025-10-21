@@ -6,7 +6,6 @@ import { httpTransport } from '../transport/asset'
 export const inputParameters = new InputParameters(
   {
     asset_id: {
-      aliases: ['assetId'],
       required: true,
       type: 'string',
       description: 'The ID of the artwork asset to fetch',

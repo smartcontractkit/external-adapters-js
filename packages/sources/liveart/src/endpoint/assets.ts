@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { httpTransport, HttpTransportTypes } from '../transport/asset'
+import { httpTransport } from '../transport/assets'
 
 // Assets endpoint has no input params
-export const assets = new AdapterEndpoint<HttpTransportTypes>({
+export const assets = new AdapterEndpoint({
   name: 'assets',
   transport: httpTransport,
 })
