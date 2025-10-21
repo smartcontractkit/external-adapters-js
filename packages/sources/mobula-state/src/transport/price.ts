@@ -14,6 +14,15 @@ export interface WSResponse {
   quoteID: string
 }
 
+// Interface for Mobula WebSocket subscription message
+interface MobulaSubscribeMessage {
+  type: 'feed'
+  authorization: string
+  kind: 'asset_ids'
+  asset_ids: number[]
+  quote_id?: number
+}
+
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: WSResponse
@@ -105,7 +114,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         const compositeKey = `${assetId}-${quoteId || 'USD'}`
         wsTransport.setReverseMapping(compositeKey, params)
 
-        const subscribeMsg: any = {
+        const subscribeMsg: MobulaSubscribeMessage = {
           type: 'feed',
           authorization: context.adapterSettings.API_KEY,
           kind: 'asset_ids',
