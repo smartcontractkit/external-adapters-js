@@ -396,6 +396,9 @@
       "path": "./sources/gemini"
     },
     {
+      "path": "./sources/generic-api"
+    },
+    {
       "path": "./sources/genesis-volatility"
     },
     {
