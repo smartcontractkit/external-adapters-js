@@ -947,6 +947,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wbtc-address-set"\
     },\
     {\
+      "name": "@chainlink/wintermute-adapter",\
+      "reference": "workspace:packages/sources/wintermute"\
+    },\
+    {\
       "name": "@chainlink/wisdomtree-adapter",\
       "reference": "workspace:packages/sources/wisdomtree"\
     },\
@@ -1208,6 +1212,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
     ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
+    ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
     ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
@@ -9484,6 +9489,22 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/wintermute-adapter", [\
+      ["workspace:packages/sources/wintermute", {\
+        "packageLocation": "./packages/sources/wintermute/",\
+        "packageDependencies": [\
+          ["@chainlink/wintermute-adapter", "workspace:packages/sources/wintermute"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
