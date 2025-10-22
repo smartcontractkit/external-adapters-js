@@ -1,7 +1,7 @@
-import crypto from 'crypto'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { validator } from '@chainlink/external-adapter-framework/validation/utils'
+import crypto from 'crypto'
 import { SigningAlgorithm } from '../transport/utils'
 
 const logger = makeLogger('BankFrickConfig')
@@ -48,8 +48,7 @@ export const config = new AdapterConfig({
           }
 
           logger.debug(
-            'Attempting to sign a test message with any of the following SigningAlgorithms: ',
-            signingAlgorithms,
+            `Attempting to sign a test message with any of the following SigningAlgorithms: ${signingAlgorithms}`,
           )
           const failedAlgos: SigningAlgorithm[] = []
           for (const algorithm of signingAlgorithms) {

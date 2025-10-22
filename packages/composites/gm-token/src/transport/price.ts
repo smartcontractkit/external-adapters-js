@@ -139,6 +139,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       { url: this.settings.TIINGO_ADAPTER_URL, name: 'tiingo' },
       { url: this.settings.COINMETRICS_ADAPTER_URL, name: 'coinmetrics' },
       { url: this.settings.NCFX_ADAPTER_URL, name: 'ncfx' },
+      { url: this.settings.BLOCKSIZE_CAPITAL_ADAPTER_URL, name: 'blocksize-capital' },
     ]
 
     //priceProviders contains assets with a list of sources where asset price was successfully fetched
@@ -148,6 +149,9 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
 
     for (let i = 0; i < sources.length; i++) {
       const source = sources[i]
+      if (!source.url) {
+        continue
+      }
 
       const assetPromises = assets.map(async (asset) => {
         const base = unwrapAsset(asset)

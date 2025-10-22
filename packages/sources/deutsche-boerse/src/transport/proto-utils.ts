@@ -7,7 +7,7 @@ import type {
 
 const MAX_SIG_DIGITS = 15
 export function decimalToNumber(decimal?: DecimalProto): number {
-  if (!decimal || decimal.m === undefined || decimal.e === undefined || decimal.m < 0) {
+  if (!decimal || decimal.m === undefined || decimal.e === undefined) {
     throw new Error('Invalid price')
   }
 
@@ -54,7 +54,12 @@ export function isSingleTradeFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Px)
 }
 
-// true if this frame carries only a single best bid/offer (not multui-level)
-export function isSingleQuoteFrame(dat?: DataProto): boolean {
-  return isDecimalPrice(dat?.Bid?.Px) && isDecimalPrice(dat?.Offer?.Px)
+// true if this frame carries a single best bid (not multui-level)
+export function hasSingleBidFrame(dat?: DataProto): boolean {
+  return isDecimalPrice(dat?.Bid?.Px)
+}
+
+// true if this frame carries a single best offer (not multui-level)
+export function hasSingleOfferFrame(dat?: DataProto): boolean {
+  return isDecimalPrice(dat?.Offer?.Px)
 }

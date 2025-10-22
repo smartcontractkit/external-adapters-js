@@ -1,14 +1,14 @@
-import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { BaseEndpointTypes, DyDxResponse, inputParameters } from '../endpoint/send'
 import { getPricePayload, PriceDataPoint, PriceStarkPayload, requireNormalizedPrice } from './utils'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 
 const logger = makeLogger('DyDxTransport')
 
@@ -58,7 +58,7 @@ export class DyDxTransport implements Transport<DyDxTransportTypes> {
       data: payload,
     }
 
-    logger.debug('Sending payload: ', { payload })
+    logger.debug(`Sending payload: ${{ payload }}`)
 
     const providerDataRequestedUnixMs = Date.now()
 

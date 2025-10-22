@@ -46,7 +46,7 @@ describe('websocket', () => {
   })
 
   describe('lwba endpoint', () => {
-    it('returns success and exposes quote/trade fields', async () => {
+    it('returns success and exposes bid/ask/mid fields', async () => {
       const response = await testAdapter.request(dataLwba)
       const body = response.json()
 
@@ -57,16 +57,32 @@ describe('websocket', () => {
       expect(d).toHaveProperty('bid')
       expect(d).toHaveProperty('ask')
       expect(d).toHaveProperty('mid')
+      expect(d).toHaveProperty('bidSize')
+      expect(d).toHaveProperty('askSize')
+      expect(typeof d.bid).toBe('number')
+      expect(typeof d.ask).toBe('number')
+      expect(typeof d.mid).toBe('number')
+      expect(typeof d.bidSize).toBe('number')
+      expect(typeof d.askSize).toBe('number')
+      expect(body).toMatchSnapshot()
+    })
+  })
+
+  describe('price endpoint', () => {
+    it('returns success and exposes latestPrice', async () => {
+      const dataPrice = {
+        ...dataLwba,
+        endpoint: 'price',
+      }
+      const response = await testAdapter.request(dataPrice)
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.statusCode).toBe(200)
+      expect(body).toHaveProperty('data')
+      const d = body.data
       expect(d).toHaveProperty('latestPrice')
-      expect(d).toHaveProperty('quoteProviderIndicatedTimeUnixMs')
-      expect(d).toHaveProperty('tradeProviderIndicatedTimeUnixMs')
-      const numOrNull = (v: unknown) => v === null || typeof v === 'number'
-      expect(numOrNull(d.bid)).toBe(true)
-      expect(numOrNull(d.ask)).toBe(true)
-      expect(numOrNull(d.mid)).toBe(true)
-      expect(numOrNull(d.latestPrice)).toBe(true)
-      expect(numOrNull(d.quoteProviderIndicatedTimeUnixMs)).toBe(true)
-      expect(numOrNull(d.tradeProviderIndicatedTimeUnixMs)).toBe(true)
+      expect(typeof d.latestPrice).toBe('number')
       expect(body).toMatchSnapshot()
     })
   })

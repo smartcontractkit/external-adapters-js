@@ -1,6 +1,9 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
+import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { config } from '../config'
 import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
 import {
   RequestSchema,
   StreamMessageSchema,
@@ -9,36 +12,67 @@ import {
   type StreamMessage,
 } from '../gen/client_pb'
 import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
-import { InstrumentQuoteCache } from './instrument-quote-cache'
+import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
-  isSingleQuoteFrame,
+  hasSingleBidFrame,
+  hasSingleOfferFrame,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
 } from './proto-utils'
 import { ProtobufWsTransport } from './protobuf-wstransport'
 
-export type WsTransportTypes = BaseEndpointTypes & {
+export type WsTransportTypes = (BaseEndpointTypes | PriceBaseEndpointTypes) & {
   Provider: {
     WsMessage: Buffer
   }
 }
 
+type BaseTransportTypes = {
+  Parameters: TransportGenerics['Parameters']
+  Response: TransportGenerics['Response']
+  Settings: TransportGenerics['Settings'] & typeof config.settings
+}
+
 const logger = makeLogger('DeutscheBoerseTransport')
 
-export function createLwbaWsTransport() {
+export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTypes>(
+  extractData: (quote: Quote) => BaseEndpointTypes['Response']['Data'],
+) {
   const cache = new InstrumentQuoteCache()
-
-  return new ProtobufWsTransport<WsTransportTypes>({
+  let ttlInterval: ReturnType<typeof setInterval> | undefined
+  const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
       headers: { 'X-API-Key': context.adapterSettings.API_KEY },
       followRedirects: true,
     }),
     handlers: {
-      open: () => {
+      open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
+
+        // Clear any previous interval
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
+
+        const doRefresh = async () => {
+          try {
+            await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
+            logger.info(
+              { refreshMs: context.adapterSettings.CACHE_TTL_REFRESH_MS },
+              'Refreshed TTL for active subscriptions',
+            )
+          } catch (err) {
+            logger.error({ err }, 'Failed TTL refresh')
+          }
+        }
+
+        // Refresh immediately, then every minute
+        await doRefresh()
+        ttlInterval = setInterval(doRefresh, context.adapterSettings.CACHE_TTL_REFRESH_MS)
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -48,6 +82,10 @@ export function createLwbaWsTransport() {
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+        if (ttlInterval) {
+          clearInterval(ttlInterval)
+          ttlInterval = undefined
+        }
       },
       message(buf) {
         logger.debug(
@@ -62,50 +100,32 @@ export function createLwbaWsTransport() {
         if (!sm) {
           return []
         }
+        transport.lastMessageReceivedAt = Date.now()
         const decoded = decodeSingleMarketData(sm)
         if (!decoded) {
           return []
         }
         const { market, md } = decoded
-        const result = processMarketData(md, cache)
+        const result = processMarketData(md, cache, market)
         if (!result) {
           return []
         }
         const { isin, providerTime } = result
-        const quote = cache.get(isin)
+        const quote = cache.get(market, isin)
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
-        if (
-          quote.mid == null ||
-          quote.ask == null ||
-          quote.bid == null ||
-          quote.latestPrice == null ||
-          quote.quoteProviderTimeUnixMs == null ||
-          quote.tradeProviderTimeUnixMs == null
-        ) {
-          logger.error(
-            { isin, market },
-            'Neither mid nor latestPrice present after processing frame',
-          )
-          logger.debug({ isin, market }, 'Awaiting complete quote before emitting')
+        const responseData = extractData(quote)
+        if (!responseData) {
           return []
         }
-
         return [
           {
             params: { isin, market },
             response: {
               result: null,
-              data: {
-                mid: quote.mid,
-                bid: quote.bid,
-                ask: quote.ask,
-                latestPrice: quote.latestPrice,
-                quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-                tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
-              },
+              data: responseData as WsTransportTypes['Response']['Data'],
               timestamps: { providerIndicatedTimeUnixMs: providerTime },
             },
           },
@@ -114,22 +134,20 @@ export function createLwbaWsTransport() {
     },
     builders: {
       subscribeMessage: (p: { market: string; isin: string }) => {
-        if (cache.isEmpty()) {
-          cache.activate(p.isin)
+        const firstForMarket = !cache.hasMarket(p.market)
+        cache.activate(p.market, p.isin)
+        if (firstForMarket) {
+          const markets = cache.getMarkets()
           const req = create(RequestSchema, {
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: [{ stream: p.market }],
+              stream: markets.map((m) => ({ stream: m })),
             }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'Building initial subscribe request (first instrument activates stream)',
-          )
+          logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
           return toBinary(RequestSchema, req)
         }
-        cache.activate(p.isin)
         logger.debug(
           { isin: p.isin, market: p.market },
           'Instrument activated; stream already subscribed, no outbound subscribe message sent',
@@ -138,17 +156,17 @@ export function createLwbaWsTransport() {
       },
 
       unsubscribeMessage: (p: { market: string; isin: string }) => {
-        cache.deactivate(p.isin)
-        if (cache.isEmpty()) {
+        cache.deactivate(p.market, p.isin)
+
+        if (!cache.hasMarket(p.market)) {
           const req = create(RequestSchema, {
             event: 'unsubscribe',
             requestId: BigInt(Date.now()),
-            unsubscribe: create(UnsubscribeSchema, { stream: [p.market] }),
+            unsubscribe: create(UnsubscribeSchema, {
+              stream: [p.market],
+            }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'All instruments deactivated; building unsubscribe request',
-          )
+          logger.info({ market: p.market }, 'Unsubscribing market stream (market now empty)')
           return toBinary(RequestSchema, req)
         }
         logger.debug(
@@ -159,6 +177,7 @@ export function createLwbaWsTransport() {
       },
     },
   })
+  return transport
 }
 
 // --- helpers -----------------------------------------------------------------
@@ -171,46 +190,76 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
+const updateTTL = async (transport: ProtobufWsTransport<WsTransportTypes>, ttl: number) => {
+  const params = await transport.subscriptionSet.getAll()
+  transport.responseCache.writeTTL(transport.name, params, ttl)
+}
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
+  market: string,
 ): {
   isin: string
   providerTime: number
 } | null {
   const isin = parseIsin(md)
-  const dat: any = (md as any)?.Dat ?? {}
-
   if (!isin) {
-    logger.warn({ md }, 'Could not parse ISIN from MarketData.Instrmt.Sym')
+    logger.warn('Could not parse ISIN from MarketData')
+    return null
+  }
+  const dat: any = (md as MarketData)?.Dat
+  if (!dat) {
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
   }
 
-  const quote = cache.get(isin)
+  const quote = cache.get(market, isin)
   if (!quote) {
-    logger.debug({ isin }, 'Ignoring message for inactive instrument (not in cache)')
+    logger.debug('Ignoring message for inactive instrument (not in cache)')
     return null
   }
 
   const providerTime = pickProviderTime(dat)
 
   if (isSingleTradeFrame(dat)) {
-    const latestPrice = decimalToNumber(dat.Px)
-    cache.addTrade(isin, latestPrice, providerTime)
+    const latestPrice = decimalToNumber(dat!.Px)
+    cache.addTrade(market, isin, latestPrice, providerTime)
     logger.debug(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
     )
     return { isin, providerTime }
   }
-
-  if (isSingleQuoteFrame(dat)) {
+  if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(isin, bidPx, askPx, providerTime)
+    const bidSz = decimalToNumber(dat!.Bid!.Sz)
+    const askSz = decimalToNumber(dat!.Offer!.Sz)
+    cache.addQuote(market, isin, bidPx, askPx, providerTime, bidSz, askSz)
     logger.debug(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
+    )
+    return { isin, providerTime }
+  }
+  if (hasSingleBidFrame(dat)) {
+    const bidPx = decimalToNumber(dat!.Bid!.Px)
+    const bidSz = decimalToNumber(dat!.Bid!.Sz)
+    cache.addBid(market, isin, bidPx, providerTime, bidSz)
+    logger.debug(
+      { isin, bid: bidPx, providerTimeUnixMs: providerTime },
+      'Processed single bid frame',
+    )
+    return { isin, providerTime }
+  }
+
+  if (hasSingleOfferFrame(dat)) {
+    const askPx = decimalToNumber(dat!.Offer!.Px)
+    const askSz = decimalToNumber(dat!.Offer!.Sz)
+    cache.addAsk(market, isin, askPx, providerTime, askSz)
+    logger.debug(
+      { isin, ask: askPx, providerTimeUnixMs: providerTime },
+      'Processed single offer frame',
     )
     return { isin, providerTime }
   }
@@ -246,4 +295,23 @@ function decodeSingleMarketData(sm: StreamMessage): { market: Market; md: Market
 function isMarket(x: string): x is Market {
   return (MARKETS as readonly string[]).includes(x)
 }
-export const wsTransport = createLwbaWsTransport()
+
+export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
+  if (
+    quote.bid == null ||
+    quote.ask == null ||
+    quote.mid == null ||
+    quote.bidSize == null ||
+    quote.askSize == null
+  ) {
+    return undefined
+  }
+
+  return {
+    bid: quote.bid,
+    ask: quote.ask,
+    mid: quote.mid,
+    bidSize: quote.bidSize,
+    askSize: quote.askSize,
+  }
+})
