@@ -21,7 +21,9 @@ export const getRawNav = async (source: string, sourceInput: string, requester: 
     if (!data || !(data as any).result) {
       throw new AdapterError({
         statusCode: (data as any)?.statusCode || 500,
-        message: `EA request failed: ${JSON.stringify(response?.response)}`,
+        message: `EA request failed: ${JSON.stringify(response?.response?.data)} ${
+          response?.response?.status
+        } ${response?.response?.statusText}`,
       })
     }
 
