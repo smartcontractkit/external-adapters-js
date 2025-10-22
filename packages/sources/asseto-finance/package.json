@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/asseto-finance-adapter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Chainlink asseto-finance adapter.",
   "keywords": [
     "Chainlink",
