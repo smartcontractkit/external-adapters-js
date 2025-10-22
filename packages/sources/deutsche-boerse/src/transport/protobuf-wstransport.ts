@@ -3,11 +3,47 @@ import {
   WebSocketTransport,
   type WebsocketTransportGenerics,
 } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import WebSocket from 'ws'
+
+const logger = makeLogger('ProtobufWsTransport')
 
 export class ProtobufWsTransport<
   T extends WebsocketTransportGenerics,
 > extends WebSocketTransport<T> {
+  private heartbeatInterval?: ReturnType<typeof setInterval>
+
+  startHeartbeat(): void {
+    this.stopHeartbeat() // Clear any existing interval
+
+    const HEARTBEAT_INTERVAL_MS = 30000
+
+    // Handle pong responses to update lastMessageReceivedAt
+    if (this.wsConnection) {
+      this.wsConnection.on('pong', () => {
+        logger.info('Received WebSocket pong')
+        this.lastMessageReceivedAt = Date.now()
+      })
+    }
+
+    this.heartbeatInterval = setInterval(() => {
+      if (this.wsConnection && this.wsConnection.readyState === WebSocket.OPEN) {
+        logger.info('Sending WebSocket ping')
+        this.wsConnection.ping()
+        // Update lastMessageReceivedAt when sending ping, since the server
+        // may not respond with pong frames during low-activity periods
+        this.lastMessageReceivedAt = Date.now()
+      }
+    }, HEARTBEAT_INTERVAL_MS)
+  }
+
+  stopHeartbeat(): void {
+    if (this.heartbeatInterval) {
+      clearInterval(this.heartbeatInterval)
+      this.heartbeatInterval = undefined
+    }
+  }
+
   private toRawData(payload: unknown): Buffer | null {
     // Handle undefined/null payloads gracefully
     if (payload === undefined || payload === null) {

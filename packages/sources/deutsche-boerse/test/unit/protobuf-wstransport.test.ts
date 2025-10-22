@@ -1,5 +1,9 @@
 import type { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import WebSocket from 'ws'
 import { ProtobufWsTransport } from '../../src/transport/protobuf-wstransport'
+
+LoggerFactoryProvider.set()
 
 type Dummy = WebsocketTransportGenerics & { Provider: { WsMessage: Buffer } }
 
@@ -20,7 +24,7 @@ describe('ProtobufWsTransport helpers', () => {
 
   test('deserializeMessage handles ArrayBufferView', () => {
     const u8 = new Uint8Array([7, 8, 9])
-    const out = t.deserializeMessage(u8)
+    const out = t.deserializeMessage(u8 as any)
     expect((out as Buffer).equals(Buffer.from([7, 8, 9]))).toBe(true)
   })
 
@@ -30,5 +34,134 @@ describe('ProtobufWsTransport helpers', () => {
     expect(Buffer.isBuffer(anyT.toRawData(new Uint8Array([1, 2])))).toBe(true)
     expect(Buffer.isBuffer(anyT.toRawData('hi'))).toBe(true)
     expect(Buffer.isBuffer(anyT.toRawData({ a: 1 }))).toBe(true)
+  })
+})
+
+describe('ProtobufWsTransport heartbeat', () => {
+  let transport: ProtobufWsTransport<Dummy>
+  let mockWsConnection: any
+
+  beforeEach(() => {
+    jest.useFakeTimers()
+    transport = new ProtobufWsTransport<Dummy>({} as any)
+
+    // Mock WebSocket connection
+    mockWsConnection = {
+      ping: jest.fn(),
+      on: jest.fn(),
+      readyState: WebSocket.OPEN,
+    }
+
+    // Set the mock connection on the transport
+    ;(transport as any).wsConnection = mockWsConnection
+  })
+
+  afterEach(() => {
+    jest.clearAllTimers()
+    jest.useRealTimers()
+  })
+
+  test('startHeartbeat sends ping every 30 seconds', () => {
+    transport.startHeartbeat()
+
+    // Initially no pings should be sent
+    expect(mockWsConnection.ping).not.toHaveBeenCalled()
+
+    // After 30 seconds, first ping should be sent
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(1)
+
+    // After another 30 seconds, second ping should be sent
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(2)
+
+    // After another 30 seconds, third ping should be sent
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(3)
+  })
+
+  test('startHeartbeat updates lastMessageReceivedAt when sending ping', () => {
+    const initialTime = Date.now()
+    transport.startHeartbeat()
+
+    // Advance time and trigger ping
+    jest.advanceTimersByTime(30000)
+
+    // lastMessageReceivedAt should be updated
+    expect((transport as any).lastMessageReceivedAt).toBeGreaterThanOrEqual(initialTime)
+  })
+
+  test('startHeartbeat registers pong handler', () => {
+    transport.startHeartbeat()
+
+    // Verify that pong handler was registered
+    expect(mockWsConnection.on).toHaveBeenCalledWith('pong', expect.any(Function))
+  })
+
+  test('pong handler updates lastMessageReceivedAt', () => {
+    transport.startHeartbeat()
+
+    // Get the pong handler that was registered
+    const pongHandler = mockWsConnection.on.mock.calls.find((call: any) => call[0] === 'pong')?.[1]
+
+    expect(pongHandler).toBeDefined()
+
+    // Set initial timestamp
+    const initialTime = Date.now()
+    ;(transport as any).lastMessageReceivedAt = initialTime
+
+    // Simulate pong response after some time
+    jest.advanceTimersByTime(5000)
+    pongHandler()
+
+    // lastMessageReceivedAt should be updated to current time
+    expect((transport as any).lastMessageReceivedAt).toBeGreaterThan(initialTime)
+  })
+
+  test('stopHeartbeat clears the interval', () => {
+    transport.startHeartbeat()
+
+    // Verify pings are being sent
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(1)
+
+    // Stop heartbeat
+    transport.stopHeartbeat()
+
+    // Advance time and verify no more pings are sent
+    jest.advanceTimersByTime(60000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(1) // Still only 1
+  })
+
+  test('startHeartbeat stops previous heartbeat before starting new one', () => {
+    transport.startHeartbeat()
+
+    // Advance time and verify first heartbeat is working
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(1)
+
+    // Start heartbeat again (should clear previous interval)
+    transport.startHeartbeat()
+
+    // Advance time by 30 seconds - should only get 1 more ping, not 2
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).toHaveBeenCalledTimes(2)
+  })
+
+  test('heartbeat does not send ping when connection is not OPEN', () => {
+    mockWsConnection.readyState = WebSocket.CONNECTING
+    transport.startHeartbeat()
+
+    jest.advanceTimersByTime(30000)
+    expect(mockWsConnection.ping).not.toHaveBeenCalled()
+  })
+
+  test('heartbeat does not crash when wsConnection is null', () => {
+    ;(transport as any).wsConnection = null
+
+    expect(() => {
+      transport.startHeartbeat()
+      jest.advanceTimersByTime(30000)
+    }).not.toThrow()
   })
 })

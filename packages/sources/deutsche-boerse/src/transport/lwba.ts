@@ -52,6 +52,9 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
       open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
 
+        // Start heartbeat to keep connection alive
+        transport.startHeartbeat()
+
         // Clear any previous interval
         if (ttlInterval) {
           clearInterval(ttlInterval)
@@ -82,6 +85,10 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+
+        // Stop heartbeat
+        transport.stopHeartbeat()
+
         if (ttlInterval) {
           clearInterval(ttlInterval)
           ttlInterval = undefined
@@ -142,7 +149,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: markets.map((m) => ({ stream: m })),
+              stream: [{ stream: p.market, startTime: BigInt(1760702400000000000) }],
             }),
           })
           logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
