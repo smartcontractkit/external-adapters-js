@@ -690,6 +690,9 @@
       "path": "./sources/wbtc-address-set"
     },
     {
+      "path": "./sources/wintermute"
+    },
+    {
       "path": "./sources/wisdomtree"
     },
     {
