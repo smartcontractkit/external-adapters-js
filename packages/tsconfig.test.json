@@ -396,6 +396,9 @@
       "path": "./sources/gemini/tsconfig.test.json"
     },
     {
+      "path": "./sources/generic-api/tsconfig.test.json"
+    },
+    {
       "path": "./sources/genesis-volatility/tsconfig.test.json"
     },
     {
