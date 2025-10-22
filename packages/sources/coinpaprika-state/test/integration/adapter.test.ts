@@ -32,7 +32,7 @@ describe('coinpaprika-state adapter', () => {
 
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = 'TEST-KEY'
-    process.env.API_ENDPOINT = 'http://localhost:1234/stream'
+    process.env.API_ENDPOINT = 'http://localhost:1234'
     process.env.BACKGROUND_EXECUTE_MS = '100'
 
     const adapter = (await import('../../src')).adapter
