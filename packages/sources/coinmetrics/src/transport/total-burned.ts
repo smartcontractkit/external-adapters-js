@@ -1,17 +1,17 @@
-import { config } from '../config'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/total-burned'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   AdapterRequest,
   AdapterResponse,
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
-import { BigNumber, ethers } from 'ethers'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BigNumber, ethers } from 'ethers'
+import { config } from '../config'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/total-burned'
 
 const logger = makeLogger('CoinMetricsBurnedTransport')
 
@@ -144,8 +144,7 @@ export class TotalBurnedTransport<T extends TotalBurnedTransportTypes> implement
     const result = ethers.utils.formatEther(totalBurnedTKN.toString())
 
     logger.debug(
-      'Successfully fetched all pages, returning total number across all tokens: ',
-      result,
+      `Successfully fetched all pages, returning total number across all tokens: ${result}`,
     )
 
     const response = {

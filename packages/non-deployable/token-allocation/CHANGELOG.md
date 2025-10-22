@@ -1,5 +1,55 @@
 # @chainlink/token-allocation-adapter
 
+## 1.13.25
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
+- Updated dependencies [[`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e)]:
+  - @chainlink/finage-adapter@2.0.29
+  - @chainlink/cfbenchmarks-adapter@2.5.2
+  - @chainlink/kaiko-adapter@2.2.30
+  - @chainlink/coingecko-adapter@2.0.42
+  - @chainlink/coinmetrics-adapter@3.9.4
+  - @chainlink/blocksize-capital-adapter@2.4.6
+  - @chainlink/ncfx-adapter@4.4.6
+  - @chainlink/cryptocompare-adapter@3.3.21
+  - @chainlink/tiingo-adapter@2.8.8
+  - @chainlink/coinmarketcap-adapter@2.0.47
+  - @chainlink/coinpaprika-adapter@2.1.21
+
+## 1.13.24
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
+- Updated dependencies [[`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75), [`52dd8a4`](https://github.com/smartcontractkit/external-adapters-js/commit/52dd8a4fc30f2eed057078ff6c145eda50f6fba7)]:
+  - @chainlink/finage-adapter@2.0.28
+  - @chainlink/cfbenchmarks-adapter@2.5.1
+  - @chainlink/kaiko-adapter@2.2.29
+  - @chainlink/coingecko-adapter@2.0.41
+  - @chainlink/coinmetrics-adapter@3.9.3
+  - @chainlink/blocksize-capital-adapter@2.4.5
+  - @chainlink/ncfx-adapter@4.4.5
+  - @chainlink/cryptocompare-adapter@3.3.20
+  - @chainlink/tiingo-adapter@2.8.7
+  - @chainlink/coinmarketcap-adapter@2.0.46
+  - @chainlink/coinpaprika-adapter@2.1.20
+
+## 1.13.23
+
+### Patch Changes
+
+- Updated dependencies [[`a77b4f8`](https://github.com/smartcontractkit/external-adapters-js/commit/a77b4f8ae534effa98dcc4ff0ec200c21f06dfdc), [`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7), [`dddedf3`](https://github.com/smartcontractkit/external-adapters-js/commit/dddedf3776d5f56d20339bfc8c2210053ae6529a)]:
+  - @chainlink/cfbenchmarks-adapter@2.5.0
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/amberdata-adapter@1.8.40
+  - @chainlink/coinapi-adapter@1.3.37
+  - @chainlink/coinranking-adapter@2.1.18
+
 ## 1.13.22
 
 ### Patch Changes

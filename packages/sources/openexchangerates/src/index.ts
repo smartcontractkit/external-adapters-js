@@ -25,6 +25,7 @@ export const adapter = new PriceAdapter({
         note: 'Considered unlimited tier, but setting reasonable limits',
       },
     },
+    requireTierSelection: true,
   },
 })
 

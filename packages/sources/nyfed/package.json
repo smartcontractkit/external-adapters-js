@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nyfed-adapter",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "Chainlink nyfed adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "tslib": "2.4.1"
   }
 }
