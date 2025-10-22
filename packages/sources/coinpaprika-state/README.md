@@ -6,13 +6,13 @@ This document was generated automatically. Please see [Input Parameters](#Input-
 
 ## Environment Variables
 
-| Required? |          Name           |                                        Description                                        |  Type  | Options |                       Default                       |
-| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------------------------: |
-|    ✅     |        `API_KEY`        |                                An API key for Coinpaprika                                 | string |         |                                                     |
-|           |     `API_ENDPOINT`      |                              An API endpoint for Coinpaprika                              | string |         | `https://chainlink-streaming.dexpaprika.com/stream` |
-|           | `BACKGROUND_EXECUTE_MS` | The amount of time the background execute should sleep before performing the next request | number |         |                       `3000`                        |
-|           |  `REQUEST_TIMEOUT_MS`   |                 Timeout for HTTP requests to the provider in milliseconds                 | number |         |                       `60000`                       |
-|           |  `RECONNECT_DELAY_MS`   |                   Base delay for reconnection attempts in milliseconds                    | number |         |                       `5000`                        |
+| Required? |          Name           |                                        Description                                        |  Type  | Options |                   Default                    |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: |
+|    ✅     |        `API_KEY`        |                                An API key for Coinpaprika                                 | string |         |                                              |
+|           |     `API_ENDPOINT`      |                              An API endpoint for Coinpaprika                              | string |         | `https://chainlink-streaming.dexpaprika.com` |
+|           | `BACKGROUND_EXECUTE_MS` | The amount of time the background execute should sleep before performing the next request | number |         |                    `3000`                    |
+|           |  `REQUEST_TIMEOUT_MS`   |                 Timeout for HTTP requests to the provider in milliseconds                 | number |         |                   `60000`                    |
+|           |  `RECONNECT_DELAY_MS`   |                   Base delay for reconnection attempts in milliseconds                    | number |         |                    `5000`                    |
 
 ---
 

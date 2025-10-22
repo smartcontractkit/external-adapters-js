@@ -10,7 +10,7 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Coinpaprika',
     type: 'string',
-    default: 'https://chainlink-streaming.dexpaprika.com/stream',
+    default: 'https://chainlink-streaming.dexpaprika.com',
   },
   BACKGROUND_EXECUTE_MS: {
     description:
@@ -22,10 +22,5 @@ export const config = new AdapterConfig({
     description: 'Timeout for HTTP requests to the provider in milliseconds',
     type: 'number',
     default: 60_000,
-  },
-  RECONNECT_DELAY_MS: {
-    description: 'Base delay for reconnection attempts in milliseconds',
-    type: 'number',
-    default: 5_000,
   },
 })
