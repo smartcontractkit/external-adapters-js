@@ -2,7 +2,7 @@
 
 ![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/generic-api/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
+This document maintained manually.
 
 ## Variable env vars
 
@@ -10,7 +10,11 @@ To support a specific value for input parameter `apiName`, the environment varia
 
 ## Environment Variables
 
-There are no environment variables for this adapter.
+| Required? |             Name              |                      Description                      |  Type  |
+| :-------: | :---------------------------: | :---------------------------------------------------: | :----: |
+|    ✅     |      {API_NAME}\_API_URL      |       The API URL to use for a given `apiUrl`.        | string |
+|           |    {API_NAME}\_AUTH_HEADER    | The header to pass the authentication credentials on. | string |
+|           | {API_NAME}\_AUTH_HEADER_VALUE | The credentials to pass on the authentcation header.  | string |
 
 ---
 
