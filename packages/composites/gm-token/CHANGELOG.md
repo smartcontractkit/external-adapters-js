@@ -1,5 +1,11 @@
 # @chainlink/gm-token-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4135](https://github.com/smartcontractkit/external-adapters-js/pull/4135) [`b1a1237`](https://github.com/smartcontractkit/external-adapters-js/commit/b1a123774478954c2261c7ef35feb91e2b541950) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds support to Blocksize Capital as an additional DP
+
 ## 1.2.2
 
 ### Patch Changes
