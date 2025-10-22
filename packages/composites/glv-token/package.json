@@ -34,6 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
+    "@chainlink/data-engine-adapter": "workspace:^",
     "@chainlink/external-adapter-framework": "2.8.0",
     "decimal.js": "^10.3.1",
     "ethers": "^6.15.0",

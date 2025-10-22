@@ -1,3 +1,4 @@
+import { getCryptoPrice } from '@chainlink/data-engine-adapter'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -21,14 +22,6 @@ import {
   Token,
   toNumFromDS,
 } from './utils'
-
-// Data Engine (crypto-v3) schema
-type DataEngineDataResponse = {
-  bid: string
-  ask: string
-  price: string
-  decimals: number
-}
 
 const logger = makeLogger('GlvBaseTransport')
 
@@ -251,23 +244,9 @@ export abstract class BaseGlvTransport<
     await Promise.all(
       assets.map(async (asset) => {
         const feedId = await this.getFeedId(asset, dataRequestedTimestamp)
-        const requestConfig = {
-          url: source.url,
-          method: 'POST',
-          data: {
-            data: {
-              endpoint: 'crypto-v3',
-              feedId,
-            },
-          },
-        }
 
         try {
-          const response = await this.requester.request<{ data: DataEngineDataResponse }>(
-            JSON.stringify(requestConfig),
-            requestConfig,
-          )
-          const { bid, ask, decimals } = response.response.data.data
+          const { bid, ask, decimals } = await getCryptoPrice(feedId, source.url, this.requester)
           const bidNum = toNumFromDS(bid, decimals)
           const askNum = toNumFromDS(ask, decimals)
           priceData[asset] = priceData[asset] || { bids: [], asks: [] }
