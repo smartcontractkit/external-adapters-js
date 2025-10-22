@@ -1,22 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LiveArt NAV endpoint should handle upstream bad response 1`] = `
-{
-  "errorMessage": "The data provider failed to return a value for artwork_id=dicaprio, errorMessage: Asset ID 'dicaprio' not found",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
-exports[`LiveArt NAV endpoint should return success for both valid artwork_id and artworkId 1`] = `
+exports[`LiveArt NAV endpoints /asset/\${asset_id} should handle upstream bad response 1`] = `
 {
   "data": {
-    "result": 1000000,
+    "asset_id": "ROLSUB",
+    "asset_info_category": "",
+    "asset_info_creator": "",
+    "asset_info_description": "",
+    "asset_info_title": "",
+    "asset_info_url": "",
+    "asset_info_year_created": "",
+    "current_estimated_nav_updated_at": "",
+    "current_estimated_nav_usd": "",
+    "message": "Asset ID 'AssetId.ROLSUB' not found",
+    "offering_price_usd": "",
+    "response_timestamp": "2025-10-21T11:45:51.122126",
+    "success": false,
+    "token_current_estimated_nav_per_share_usd": "",
+    "token_total_shares": 0,
   },
-  "result": 1000000,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -25,12 +28,26 @@ exports[`LiveArt NAV endpoint should return success for both valid artwork_id an
 }
 `;
 
-exports[`LiveArt NAV endpoint should return success for valid artworkId 1`] = `
+exports[`LiveArt NAV endpoints /asset/\${asset_id} should return success for valid asset_id 1`] = `
 {
   "data": {
-    "result": 1000000,
+    "asset_id": "KUSPUM",
+    "asset_info_category": "Artwork",
+    "asset_info_creator": "Yayoi Kusama",
+    "asset_info_description": "Yayoi Kusama is a living legend whose polka-dotted universe has taken over museums, fashion, and the auction block—generating a $2.4B market cap. From MoMA to Louis Vuitton, her iconic Infinity Rooms and Pumpkin artworks have made her one of the most collected artists alive",
+    "asset_info_title": "Pumpkin (2)",
+    "asset_info_url": "https://liveart.io/analytics/artworks/wDigKX/yayoi-kusama",
+    "asset_info_year_created": "1990",
+    "current_estimated_nav_updated_at": "2025-10-13T08:50:09.546855",
+    "current_estimated_nav_usd": "67410.81654052",
+    "message": "",
+    "offering_price_usd": "70000.00000000",
+    "response_timestamp": "2025-10-20T13:01:12.095377",
+    "success": true,
+    "token_current_estimated_nav_per_share_usd": "0.09630117",
+    "token_total_shares": 700000,
   },
-  "result": 1000000,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
