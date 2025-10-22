@@ -21,9 +21,13 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         params: [param],
         request: {
           baseURL: apiConfig.url,
-          headers: {
-            [apiConfig.authHeader]: apiConfig.authHeaderValue,
-          },
+          ...(apiConfig.authHeader
+            ? {
+                headers: {
+                  [apiConfig.authHeader]: apiConfig.authHeaderValue,
+                },
+              }
+            : {}),
         },
       }
     })

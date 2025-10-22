@@ -239,7 +239,7 @@ describe('GenericApiHttpTransport', () => {
     requester.request.mockResolvedValue(response)
 
     await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
-      "Missing required environment variable 'TEST_AUTH_HEADER'.",
+      'If one of TEST_AUTH_HEADER or TEST_AUTH_HEADER_VALUE is set, both must be set.',
     )
 
     expect(responseCache.write).toHaveBeenCalledTimes(0)
@@ -277,12 +277,72 @@ describe('GenericApiHttpTransport', () => {
     requester.request.mockResolvedValue(response)
 
     await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
-      "Missing required environment variable 'TEST_AUTH_HEADER_VALUE'.",
+      'If one of TEST_AUTH_HEADER or TEST_AUTH_HEADER_VALUE is set, both must be set.',
     )
 
     expect(responseCache.write).toHaveBeenCalledTimes(0)
   })
 
+  it('should not throw if both AUTH_HEADER and AUTH_HEADER_VALUE are missing', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = makeStub('params', {
+      apiName,
+      dataPath,
+      ripcordPath,
+      ripcordDisabledValue: 'false',
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = makeStub('response', {
+      response: {
+        data: {
+          data: {
+            value: expectedValue,
+          },
+          cost: undefined,
+        },
+      },
+      timestamps: {},
+    })
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    const expectedRequestConfig = {
+      baseURL: apiUrl,
+    }
+    const expectedRequestKey = requestKeyForParams(params)
+
+    const expectedResponse = {
+      data: {
+        result: expectedValue,
+      },
+      result: expectedValue,
+      timestamps: {},
+    }
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expectedRequestKey,
+      expectedRequestConfig,
+      undefined,
+    )
+    expect(requester.request).toHaveBeenCalledTimes(1)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: expectedResponse,
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
   it('should return an error if data path is invalid', async () => {
     const dataPath = 'something.invalid'
 
