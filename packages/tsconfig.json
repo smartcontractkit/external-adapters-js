@@ -9,9 +9,6 @@
       "path": "./composites/apy-finance"
     },
     {
-      "path": "./composites/apy-finance-test"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -34,9 +31,6 @@
     },
     {
       "path": "./composites/defi-pulse"
-    },
-    {
-      "path": "./composites/dns-record-check"
     },
     {
       "path": "./composites/dxdao"
@@ -99,9 +93,6 @@
       "path": "./composites/set-token-index"
     },
     {
-      "path": "./composites/synth-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {
@@ -133,9 +124,6 @@
     },
     {
       "path": "./sources/1forge"
-    },
-    {
-      "path": "./sources/accuweather"
     },
     {
       "path": "./sources/ada-balance"
@@ -177,9 +165,6 @@
       "path": "./sources/binance"
     },
     {
-      "path": "./sources/binance-dex"
-    },
-    {
       "path": "./sources/bitex"
     },
     {
@@ -201,9 +186,6 @@
       "path": "./sources/blockchair"
     },
     {
-      "path": "./sources/blockcypher"
-    },
-    {
       "path": "./sources/blocksize-capital"
     },
     {
@@ -220,9 +202,6 @@
     },
     {
       "path": "./sources/cache.gold"
-    },
-    {
-      "path": "./sources/ccip-read"
     },
     {
       "path": "./sources/ceffu"
@@ -247,9 +226,6 @@
     },
     {
       "path": "./sources/coinbase-prime"
-    },
-    {
-      "path": "./sources/coincodex"
     },
     {
       "path": "./sources/coingecko"
@@ -309,9 +285,6 @@
       "path": "./sources/dns-query"
     },
     {
-      "path": "./sources/dwolla"
-    },
-    {
       "path": "./sources/dxfeed"
     },
     {
@@ -354,9 +327,6 @@
       "path": "./sources/expand-network"
     },
     {
-      "path": "./sources/expert-car-broker"
-    },
-    {
       "path": "./sources/fcsapi"
     },
     {
@@ -376,9 +346,6 @@
     },
     {
       "path": "./sources/fixer"
-    },
-    {
-      "path": "./sources/flightaware"
     },
     {
       "path": "./sources/fluent-finance"
@@ -402,9 +369,6 @@
       "path": "./sources/genesis-volatility"
     },
     {
-      "path": "./sources/geodb"
-    },
-    {
       "path": "./sources/google-bigquery"
     },
     {
@@ -426,6 +390,9 @@
       "path": "./sources/icap"
     },
     {
+      "path": "./sources/ice"
+    },
+    {
       "path": "./sources/iex-cloud"
     },
     {
@@ -439,9 +406,6 @@
     },
     {
       "path": "./sources/ion.au"
-    },
-    {
-      "path": "./sources/ipfs"
     },
     {
       "path": "./sources/jpegd"
@@ -673,6 +637,9 @@
     },
     {
       "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wintermute"
     },
     {
       "path": "./sources/wisdomtree"

@@ -1,5 +1,11 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#3926](https://github.com/smartcontractkit/external-adapters-js/pull/3926) [`229ac4c`](https://github.com/smartcontractkit/external-adapters-js/commit/229ac4c787777ddea6385db0bc0ec8219c7b7a2d) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add uranium endpoint
+
 ## 1.3.0
 
 ### Minor Changes

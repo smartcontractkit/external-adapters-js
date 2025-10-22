@@ -185,6 +185,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [view-function-multi-chain](./view-function-multi-chain/README.md)
 - [view-starknet-latest-answer](./view-starknet-latest-answer/README.md)
 - [wbtc-address-set](./wbtc-address-set/README.md)
+- [wisdomtree](./wisdomtree/README.md)
 - [wootrade](./wootrade/README.md)
 - [wrapped](./wrapped/README.md)
 - [xbto](./xbto/README.md)
