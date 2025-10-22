@@ -25,7 +25,7 @@ export const inputParameters = new InputParameters(
       default: 'false',
       type: 'string',
       description:
-        'The value the ripcord field should have during normal operation, converted to a string',
+        'If the ripcord field has a different value than this, the adapter will return an error.',
     },
   },
   [
