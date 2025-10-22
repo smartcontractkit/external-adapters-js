@@ -3,8 +3,12 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 
 export const config = new AdapterConfig({})
 
+const sanitizeEnvVarName = (name: string): string => {
+  return name.toUpperCase().replace(/[^a-zA-Z0-9]/g, '_')
+}
+
 const getEnvVar = (prefix: string, name: string): string => {
-  const envVarName = `${prefix}_${name}`
+  const envVarName = sanitizeEnvVarName(`${prefix}_${name}`)
   if (!(envVarName in process.env)) {
     throw new AdapterInputError({
       message: `Missing required environment variable '${envVarName}'.`,
@@ -15,10 +19,9 @@ const getEnvVar = (prefix: string, name: string): string => {
 }
 
 export const getApiConfig = (apiName: string) => {
-  const envVarPrefix = apiName.toUpperCase().replace(/[^a-zA-Z0-9]/g, '_')
   return {
-    url: getEnvVar(envVarPrefix, 'API_URL'),
-    authHeader: getEnvVar(envVarPrefix, 'AUTH_HEADER'),
-    authHeaderValue: getEnvVar(envVarPrefix, 'AUTH_HEADER_VALUE'),
+    url: getEnvVar(apiName, 'API_URL'),
+    authHeader: getEnvVar(apiName, 'AUTH_HEADER'),
+    authHeaderValue: getEnvVar(apiName, 'AUTH_HEADER_VALUE'),
   }
 }

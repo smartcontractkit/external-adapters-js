@@ -4,8 +4,8 @@ import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { inputParameters } from '../../src/endpoint/generic'
-import { GenericApiTransport, HttpTransportTypes } from '../../src/transport/generic'
+import { inputParameters } from '../../src/endpoint/http'
+import { GenericApiHttpTransport, HttpTransportTypes } from '../../src/transport/http'
 
 const originalEnv = { ...process.env }
 
@@ -35,9 +35,9 @@ const loggerFactory = { child: () => logger }
 LoggerFactoryProvider.set(loggerFactory)
 metrics.initialize()
 
-describe('GenericApiTransport', () => {
+describe('GenericApiHttpTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'generic'
+  const endpointName = 'http'
 
   const apiUrl = 'http://test.api.url'
   const authHeader = 'X-API-Key'
@@ -78,7 +78,7 @@ describe('GenericApiTransport', () => {
     subscriptionSetFactory,
   } as unknown as TransportDependencies<HttpTransportTypes>)
 
-  let transport: GenericApiTransport
+  let transport: GenericApiHttpTransport
 
   const requestKeyForParams = (params: typeof inputParameters.validated) => {
     const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
@@ -98,7 +98,7 @@ describe('GenericApiTransport', () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new GenericApiTransport()
+    transport = new GenericApiHttpTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })

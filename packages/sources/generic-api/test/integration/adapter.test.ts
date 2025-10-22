@@ -34,10 +34,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('generic endpoint', () => {
+  describe('http endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'generic',
+        endpoint: 'http',
         apiName: 'test',
         dataPath: 'PoR',
         ripcordPath: 'ripcord',

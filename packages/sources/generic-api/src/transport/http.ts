@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import * as objectPath from 'object-path'
 import { getApiConfig } from '../config'
-import { BaseEndpointTypes } from '../endpoint/generic'
+import { BaseEndpointTypes } from '../endpoint/http'
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -80,10 +80,10 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
 }
 
 // Exported for testing
-export class GenericApiTransport extends HttpTransport<HttpTransportTypes> {
+export class GenericApiHttpTransport extends HttpTransport<HttpTransportTypes> {
   constructor() {
     super(transportConfig)
   }
 }
 
-export const httpTransport = new GenericApiTransport()
+export const httpTransport = new GenericApiHttpTransport()

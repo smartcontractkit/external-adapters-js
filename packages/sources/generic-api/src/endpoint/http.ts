@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config, getApiConfig } from '../config'
-import { httpTransport } from '../transport/generic'
+import { httpTransport } from '../transport/http'
 
 export const inputParameters = new InputParameters(
   {
@@ -50,7 +50,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'generic',
+  name: 'http',
   aliases: [],
   transport: httpTransport,
   inputParameters,

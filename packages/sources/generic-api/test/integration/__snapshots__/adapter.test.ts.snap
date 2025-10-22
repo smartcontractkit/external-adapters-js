@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute generic endpoint should return success 1`] = `
+exports[`execute http endpoint should return success 1`] = `
 {
   "data": {
     "result": "123000",
