@@ -3478,7 +3478,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
+"@chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
@@ -4290,6 +4290,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/generic-api-adapter@workspace:packages/sources/generic-api":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/generic-api-adapter@workspace:packages/sources/generic-api"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/object-path": "npm:0.11.4"
+    nock: "npm:13.5.6"
+    object-path: "npm:^0.11.5"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
   version: 0.0.0-use.local
   resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"
@@ -4310,11 +4325,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
+    "@chainlink/data-engine-adapter": "workspace:^"
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.4.6"
+    ethers: "npm:^6.15.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4351,7 +4367,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/google-bigquery-adapter@workspace:*, @chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
+"@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery":
   version: 0.0.0-use.local
   resolution: "@chainlink/google-bigquery-adapter@workspace:packages/sources/google-bigquery"
   dependencies:
@@ -4360,23 +4376,6 @@ __metadata:
     "@google-cloud/bigquery": "npm:^5.7.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/google-weather-adapter@workspace:packages/composites/google-weather":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/google-weather-adapter@workspace:packages/composites/google-weather"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/google-bigquery-adapter": "workspace:*"
-    "@types/convert-units": "npm:2.3.12"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    convert-units: "npm:^2.3.4"
-    geojson-validation: "npm:^1.0.2"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4858,22 +4857,6 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/marketstack-adapter@workspace:packages/sources/marketstack":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/marketstack-adapter@workspace:packages/sources/marketstack"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5467,19 +5450,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/renvm-address-set-adapter@workspace:*, @chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set"
@@ -5699,23 +5669,6 @@ __metadata:
     "@types/supertest": "npm:2.0.16"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinon": "npm:10.0.20"
-    ethers: "npm:^5.4.2"
-    nock: "npm:13.5.6"
-    sinon: "npm:12.0.1"
-    tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -11221,13 +11174,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/convert-units@npm:2.3.12":
-  version: 2.3.12
-  resolution: "@types/convert-units@npm:2.3.12"
-  checksum: 10/8729e85b7315067fcb69f7964d2d31a770584fc804b6aa048e51c716cfb83e7ee7b0dfdc2af8de8506164169cadd937a006ae3cfc54aa4ca4f487f94167b4608
-  languageName: node
-  linkType: hard
-
 "@types/cookiejar@npm:^2.1.5":
   version: 2.1.5
   resolution: "@types/cookiejar@npm:2.1.5"
@@ -14719,16 +14665,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"convert-units@npm:^2.3.4":
-  version: 2.3.4
-  resolution: "convert-units@npm:2.3.4"
-  dependencies:
-    lodash.foreach: "npm:2.3.x"
-    lodash.keys: "npm:2.3.x"
-  checksum: 10/dbc9c497e50f7cda92c66ee4716238a4ad85e4b6e02aa9251d85e0ae73e83fdae9ec1f45380cd17c37dfe40214145b647fbb21bd8b186a149b49b21274498497
-  languageName: node
-  linkType: hard
-
 "cookie@npm:^0.4.1":
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
@@ -16172,7 +16108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.8.0":
+"ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.8.0":
   version: 5.8.0
   resolution: "ethers@npm:5.8.0"
   dependencies:
@@ -17266,15 +17202,6 @@ __metadata:
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
   checksum: 10/17d8333460204fbf1f9160d067e1e77f908a5447febb49424b8ab043026049835c9ef3974445c57dbd39161f4d2b04356d7de12b2eecaa27a7a7ea7d871cbedd
-  languageName: node
-  linkType: hard
-
-"geojson-validation@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "geojson-validation@npm:1.0.2"
-  bin:
-    gjv: bin/gjv
-  checksum: 10/55724d4fa7a3cf7cec1c7263971d25742696f632647af29f8957c797f36875395b8ecc8bc329b8ca3cddf109455377660a79d01a9ee63c4a5e4387422e895e2c
   languageName: node
   linkType: hard
 
@@ -20326,118 +20253,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash._basebind@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._basebind@npm:2.3.0"
-  dependencies:
-    lodash._basecreate: "npm:~2.3.0"
-    lodash._setbinddata: "npm:~2.3.0"
-    lodash.isobject: "npm:~2.3.0"
-  checksum: 10/cb5d8645e79971205ae0aa1ba5e8e29210c59f57925c5d7bde8f4e47b727f6eb605ed2066c97090c062b8e2028788b4a3a70ff9e53e9807aea1e5c7f066c3645
-  languageName: node
-  linkType: hard
-
-"lodash._basecreate@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._basecreate@npm:2.3.0"
-  dependencies:
-    lodash._renative: "npm:~2.3.0"
-    lodash.isobject: "npm:~2.3.0"
-    lodash.noop: "npm:~2.3.0"
-  checksum: 10/b427e1d997fb6cfcd79da1737a65516e4870acfea215ce805ca2e19f06e5edddbba7c01b7084f59f77473e1762addf1f7e7b9f58455decf9e9736e0361e13ceb
-  languageName: node
-  linkType: hard
-
-"lodash._basecreatecallback@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._basecreatecallback@npm:2.3.0"
-  dependencies:
-    lodash._setbinddata: "npm:~2.3.0"
-    lodash.bind: "npm:~2.3.0"
-    lodash.identity: "npm:~2.3.0"
-    lodash.support: "npm:~2.3.0"
-  checksum: 10/4ab2efcdf29f641d36645dff6088d78846fb48f168fb6abc6f24e0a8e1b72079aa9ace3236e0b8a7b2dee363adccb514d97a3bf86871cabd08f0ebe57327db48
-  languageName: node
-  linkType: hard
-
-"lodash._basecreatewrapper@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._basecreatewrapper@npm:2.3.0"
-  dependencies:
-    lodash._basecreate: "npm:~2.3.0"
-    lodash._setbinddata: "npm:~2.3.0"
-    lodash._slice: "npm:~2.3.0"
-    lodash.isobject: "npm:~2.3.0"
-  checksum: 10/f12254230f3e815bcf8530f2340d02b0565754d7ce936acc23f090b605d3473919c8ad5ebb485363ecc32a63e9ff55b50eff7cffc281e59371cacea68837093d
-  languageName: node
-  linkType: hard
-
-"lodash._createwrapper@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._createwrapper@npm:2.3.0"
-  dependencies:
-    lodash._basebind: "npm:~2.3.0"
-    lodash._basecreatewrapper: "npm:~2.3.0"
-    lodash.isfunction: "npm:~2.3.0"
-  checksum: 10/25fdc5323cc0e3c67858882a51320903d37fa09388d68439fa3505a9ecf42f2062d45086c3bc918605b31b78bf275e8cccff6db36cedd62e24da7c444c53f442
-  languageName: node
-  linkType: hard
-
-"lodash._objecttypes@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._objecttypes@npm:2.3.0"
-  checksum: 10/8b28eb74aa946048b8375e28bf088e00485b3e9b339120242d3914ffd800c6939579ffb81d4c4bcadafeaced5cca0417c1b0861fedca0b3c229cbe481a042622
-  languageName: node
-  linkType: hard
-
 "lodash._reinterpolate@npm:^3.0.0":
   version: 3.0.0
   resolution: "lodash._reinterpolate@npm:3.0.0"
   checksum: 10/06d2d5f33169604fa5e9f27b6067ed9fb85d51a84202a656901e5ffb63b426781a601508466f039c720af111b0c685d12f1a5c14ff8df5d5f27e491e562784b2
-  languageName: node
-  linkType: hard
-
-"lodash._renative@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._renative@npm:2.3.0"
-  checksum: 10/6ec62af6aff5399a4d9880fea8ac346ea9ba19a40f51bc7da703c3cc75204fba7a7b2dca026477e90552395e66f9b0629b8c005a3724d7a4592f5a58d8fa1fcc
-  languageName: node
-  linkType: hard
-
-"lodash._setbinddata@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._setbinddata@npm:2.3.0"
-  dependencies:
-    lodash._renative: "npm:~2.3.0"
-    lodash.noop: "npm:~2.3.0"
-  checksum: 10/11c61e915c610aefa65e20202e7e1b9b1d75d61db053957033011a6f76a76464b1270bd3416855502bf4628ed10005eac992756893f91e2d4d2079afdcf41af2
-  languageName: node
-  linkType: hard
-
-"lodash._shimkeys@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._shimkeys@npm:2.3.0"
-  dependencies:
-    lodash._objecttypes: "npm:~2.3.0"
-  checksum: 10/0e752f88fc28f5fb15cb46ffdc69f09a10cc07d5fa52192c26e3fac049d59b0e027079de557d41805d5d029a5bfb2725d1c1615a56856d64049c49a1e8fc3a7a
-  languageName: node
-  linkType: hard
-
-"lodash._slice@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash._slice@npm:2.3.0"
-  checksum: 10/00102f49e50e636572d1a2568e7218fd1f7a302cf0a769d8abeca9ba621a8674fcdb1dbc00d3470da3adc30cbc7a249036bc60d3d2299a5ff50fa38b44c33961
-  languageName: node
-  linkType: hard
-
-"lodash.bind@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.bind@npm:2.3.0"
-  dependencies:
-    lodash._createwrapper: "npm:~2.3.0"
-    lodash._renative: "npm:~2.3.0"
-    lodash._slice: "npm:~2.3.0"
-  checksum: 10/d30befce8d69514aa86b80a69e79eaf1909a8f5126aa3221f04667682ac3bdf8e7e145e4db1d302da961233ad9c90d2361adf17c5a6fcd233622655c311804a9
   languageName: node
   linkType: hard
 
@@ -20462,38 +20281,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.foreach@npm:2.3.x":
-  version: 2.3.0
-  resolution: "lodash.foreach@npm:2.3.0"
-  dependencies:
-    lodash._basecreatecallback: "npm:~2.3.0"
-    lodash.forown: "npm:~2.3.0"
-  checksum: 10/ab3a461278f3eccab7f770ff3bdc38886e6a0154423f34134f44303b7bad1490a0cdb067566f9a8d99c74952c72cb0b1d0c995e3ecee0b3ea4063fe74aa1a2df
-  languageName: node
-  linkType: hard
-
-"lodash.forown@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.forown@npm:2.3.0"
-  dependencies:
-    lodash._basecreatecallback: "npm:~2.3.0"
-    lodash._objecttypes: "npm:~2.3.0"
-    lodash.keys: "npm:~2.3.0"
-  checksum: 10/7b8836594d6c18194127c44cb8000a62bc224aba2997ebbd01725665aa6f9bdad37745da453eb436e658f05a86c1093e51f5f9b36f521e5ebb6c48a16f498b14
-  languageName: node
-  linkType: hard
-
 "lodash.get@npm:^4.4.2":
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
   checksum: 10/2a4925f6e89bc2c010a77a802d1ba357e17ed1ea03c2ddf6a146429f2856a216663e694a6aa3549a318cbbba3fd8b7decb392db457e6ac0b83dc745ed0a17380
-  languageName: node
-  linkType: hard
-
-"lodash.identity@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.identity@npm:2.3.0"
-  checksum: 10/cc22abfbe2251fbb7351d6e8036f06c67eae0e998979b3928b16a8d9cc457b7094e29379aa36531aa07cbc353cb00c51208010f9d0f17b127fdd4e9fa047278d
   languageName: node
   linkType: hard
 
@@ -20525,13 +20316,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.isfunction@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.isfunction@npm:2.3.0"
-  checksum: 10/ffaf5c3b28b4f3fa9b6b81c190248964203aac12ba5cdd6ae2be47d5e41483f95a59ad5f4e50c9c71287dbe030d9c13fca7d8f0a1aff0da17de666f39230c102
-  languageName: node
-  linkType: hard
-
 "lodash.isinteger@npm:^4.0.4":
   version: 4.0.4
   resolution: "lodash.isinteger@npm:4.0.4"
@@ -20546,15 +20330,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.isobject@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.isobject@npm:2.3.0"
-  dependencies:
-    lodash._objecttypes: "npm:~2.3.0"
-  checksum: 10/184829dd13f8f8d74c214fe8053e3277b271e1c89175ad4b7bec73ad6b0064b773bfaa69388168e404c4ca4e0146df48e7a519a5e660ab46bc11eb0b4db4e870
-  languageName: node
-  linkType: hard
-
 "lodash.isplainobject@npm:^4.0.6":
   version: 4.0.6
   resolution: "lodash.isplainobject@npm:4.0.6"
@@ -20566,17 +20341,6 @@ __metadata:
   version: 4.0.1
   resolution: "lodash.isstring@npm:4.0.1"
   checksum: 10/eaac87ae9636848af08021083d796e2eea3d02e80082ab8a9955309569cb3a463ce97fd281d7dc119e402b2e7d8c54a23914b15d2fc7fff56461511dc8937ba0
-  languageName: node
-  linkType: hard
-
-"lodash.keys@npm:2.3.x, lodash.keys@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.keys@npm:2.3.0"
-  dependencies:
-    lodash._renative: "npm:~2.3.0"
-    lodash._shimkeys: "npm:~2.3.0"
-    lodash.isobject: "npm:~2.3.0"
-  checksum: 10/26d74c956916affc42159f3a7934cadc82b82b168317e22fe8c1140ccc9d9eca08696349a3ba41d89ef75a3850e312970307bab5b4f9255d9650e71c284682c5
   languageName: node
   linkType: hard
 
@@ -20598,13 +20362,6 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.mergewith@npm:4.6.2"
   checksum: 10/aea75a4492541a4902ac7e551dc6c54b722da0c187f84385d02e8fc33a7ae3454b837822446e5f63fcd5ad1671534ea408740b776670ea4d9c7890b10105fce0
-  languageName: node
-  linkType: hard
-
-"lodash.noop@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.noop@npm:2.3.0"
-  checksum: 10/5399fb5f754cf99c6f222a003610652ed6c61bd59469c15fb44794859a934ad41bb55475cc10d6321bfb77c81293f27a99b0c1bc25938930c8b6976029dcf6de
   languageName: node
   linkType: hard
 
@@ -20640,15 +20397,6 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.startcase@npm:4.4.0"
   checksum: 10/3091048a54a2f92bcf2c6441d2bd9a706fb133d5f461ae7c310d6dca1530338a06c91e9e42a5b14b12e875ddae1814d448050dc02afe2cec09b3995d8e836837
-  languageName: node
-  linkType: hard
-
-"lodash.support@npm:~2.3.0":
-  version: 2.3.0
-  resolution: "lodash.support@npm:2.3.0"
-  dependencies:
-    lodash._renative: "npm:~2.3.0"
-  checksum: 10/ae235a4da6e135071a86de5e0adb5e9a91d9997914e4925977c376bcea9e80e1702fd263eec48c21fa2c54880483af666594ad0ee7d53797a11668d5956f3f43
   languageName: node
   linkType: hard
 
