@@ -42,9 +42,6 @@
       "path": "./composites/gm-token/tsconfig.test.json"
     },
     {
-      "path": "./composites/google-weather/tsconfig.test.json"
-    },
-    {
       "path": "./composites/historical-average/tsconfig.test.json"
     },
     {
@@ -79,9 +76,6 @@
     },
     {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/reference-transform/tsconfig.test.json"
     },
     {
       "path": "./composites/rocket-pool/tsconfig.test.json"
@@ -480,9 +474,6 @@
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
-      "path": "./sources/marketstack/tsconfig.test.json"
-    },
-    {
       "path": "./sources/messari/tsconfig.test.json"
     },
     {
@@ -592,9 +583,6 @@
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/spectral-macro-score/tsconfig.test.json"
     },
     {
       "path": "./sources/sportsdataio/tsconfig.test.json"
