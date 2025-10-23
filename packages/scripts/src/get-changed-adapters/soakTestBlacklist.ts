@@ -32,7 +32,6 @@ export const SoakTestBlacklist: string[] = [
   'glv-token', // Composite EA - Missing underlying source EAs
   'gm-token', // Composite EA - Missing underlying source EAs
   'google-bigquery',
-  'google-weather',
   'harmony',
   'historical-average',
   'jpegd',
