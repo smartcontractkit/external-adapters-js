@@ -6,16 +6,17 @@ export class SSEParser {
   private dataLines: string[] = []
   private currentEvent: string | null = null
   private readonly defaultEvent: string
+  private readonly onEvent: (eventType: string, data: string) => void
 
-  constructor(defaultEvent: string) {
+  constructor(defaultEvent: string, onEvent: (eventType: string, data: string) => void) {
     this.defaultEvent = defaultEvent
+    this.onEvent = onEvent
   }
 
   /**
-   * Push a chunk and emit parsed events via callback.
-   * The callback is invoked once per complete event frame.
+   * Push a chunk and emit parsed events.
    */
-  push(chunk: string, onEvent: (eventType: string, data: string) => void): void {
+  push(chunk: string): void {
     this.buffer += chunk
     const lines = this.buffer.split('\n')
     this.buffer = lines.pop() || ''
@@ -40,7 +41,7 @@ export class SSEParser {
         this.dataLines = []
         const evt = this.currentEvent ?? this.defaultEvent
         this.currentEvent = null
-        onEvent(evt, rawData)
+        this.onEvent(evt, rawData)
       }
     }
   }

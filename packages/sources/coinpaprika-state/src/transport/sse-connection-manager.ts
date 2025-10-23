@@ -29,7 +29,7 @@ export interface PairRequest {
 export class SSEConnectionManager {
   private isConnected = false
   private currentAbortController: AbortController | null = null
-  private sseParser: SSEParser | null = null
+  private sseParser!: SSEParser
   private requester: Requester
   private defaultEventType: string
 
@@ -94,16 +94,15 @@ export class SSEConnectionManager {
   async disconnect(): Promise<void> {
     if (this.currentAbortController) {
       logger.debug('Closing SSE connection')
-      this.currentAbortController.abort()
     }
     this.cleanup()
   }
 
   private cleanup(): void {
+    this.currentAbortController?.abort()
     this.currentAbortController = null
     this.isConnected = false
-    this.sseParser?.reset()
-    this.sseParser = null
+    this.sseParser.reset()
   }
 
   private buildRequest(
@@ -138,17 +137,17 @@ export class SSEConnectionManager {
 
   private async setupStream(stream: Readable, callbacks: SSEConnectionCallbacks): Promise<void> {
     let aborted = false
-    this.sseParser = new SSEParser(this.defaultEventType)
+    this.sseParser = new SSEParser(this.defaultEventType, (eventType, data) => {
+      callbacks.onData(eventType, data).catch((err) => {
+        logger.error(`Error in SSE data callback: ${err}`)
+        callbacks.onError(err)
+      })
+    })
 
     const onData = (chunk: Buffer) => {
       const raw = chunk.toString('utf8')
       logger.debug(`Raw SSE message received:\n${raw}`)
-
-      if (this.sseParser) {
-        this.sseParser.push(raw, (eventType, data) => {
-          void callbacks.onData(eventType, data)
-        })
-      }
+      this.sseParser.push(raw)
     }
 
     const onError = (err: Error) => {
