@@ -43,7 +43,7 @@ Request:
 {
   "data": {
     "endpoint": "price",
-    "index": "GMCI30"
+    "symbol": "GMCI30"
   }
 }
 ```
