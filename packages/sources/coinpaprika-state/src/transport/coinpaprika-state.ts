@@ -5,12 +5,11 @@ import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/coinpaprika-state'
 import {
-  PairRequest,
   SSEConnectionCallbacks,
   SSEConnectionConfig,
   SSEConnectionManager,
@@ -18,7 +17,7 @@ import {
 
 const logger = makeLogger('CoinpaprikaStateTransport')
 
-const COINPAPRIKA_STATE_EVENT_TYPE = 't_s'
+export const COINPAPRIKA_STATE_EVENT_TYPE = 't_s'
 
 type RequestParams = typeof inputParameters.validated
 
@@ -49,8 +48,6 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
   requester!: Requester
 
   private connectionManager!: SSEConnectionManager
-  private currentSubscriptions: RequestParams[] = []
-  private subscriptionLookup: Map<string, RequestParams> = new Map()
 
   async initialize(
     dependencies: TransportDependencies<TransportTypes>,
@@ -72,17 +69,8 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
       subscriptions.stale.length ||
       !this.connectionManager.connected
     ) {
-      this.currentSubscriptions = subscriptions.desired
-
-      // Update lookup map for O(1) access
-      this.subscriptionLookup.clear()
-      for (const sub of subscriptions.desired) {
-        const key = `${sub.base.toUpperCase()}/${sub.quote.toUpperCase()}`
-        this.subscriptionLookup.set(key, sub)
-      }
-
-      logger.debug(`Updating stream: ${this.currentSubscriptions.length} pairs`)
-      await this.updateConnection(context, this.currentSubscriptions)
+      logger.debug(`Updating stream: ${subscriptions.desired.length} pairs`)
+      await this.updateConnection(context, subscriptions.desired)
     }
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
@@ -93,16 +81,12 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
   ): Promise<void> {
     logger.debug(`updateConnection called with ${pairs.length} pairs`)
 
-    if (pairs.length === 0) {
+    if (pairs.length === 0 && this.connectionManager.connected) {
       logger.debug('No pairs, disconnecting')
+      // TODO: This could potentially block if the disconnect hangs
       await this.connectionManager.disconnect()
       return
     }
-
-    const pairRequests: PairRequest[] = pairs.map((p) => ({
-      base: p.base,
-      quote: p.quote,
-    }))
 
     const config: SSEConnectionConfig = {
       apiEndpoint: context.adapterSettings.API_ENDPOINT,
@@ -118,60 +102,60 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
         logger.error(`SSE stream error: ${error.message}`)
       },
       onConnectionError: async (status: number) => {
-        await this.handleConnectionError(status)
+        logger.error(`SSE connection error with status: ${status}`)
       },
       onReconnectNeeded: () => {
         logger.info('SSE ended; will reconnect on next cycle')
       },
     }
 
-    await this.connectionManager.connect(pairRequests, config, callbacks)
+    await this.connectionManager.connect(pairs, config, callbacks)
   }
 
-  private async handleConnectionError(status: number): Promise<void> {
-    // Map provider errors to appropriate adapter status codes
-    let mappedStatus: number
-    if (status >= 500) {
-      // 5xx: Provider server error → 502 Bad Gateway
-      mappedStatus = 502
-    } else if (status === 429) {
-      // 429: Rate limit → pass through (client should back off)
-      mappedStatus = 429
-    } else if (status === 400 || status === 401) {
-      // 400/401: Client errors → pass through (client should fix)
-      mappedStatus = status
-    } else if (status === 403) {
-      // 403: Permission issue → 502 (server config problem)
-      mappedStatus = 502
-    } else {
-      // Other 4xx errors → 502 (likely config/setup issues)
-      mappedStatus = 502
-    }
-
-    const errorMessage = `HTTP ${status} error from provider`
-
-    const errorResponse: AdapterResponse<TransportTypes['Response']> = {
-      statusCode: mappedStatus,
-      errorMessage,
-      timestamps: {
-        providerDataRequestedUnixMs: Date.now(),
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
-
-    for (const params of this.currentSubscriptions) {
-      await this.responseCache.write(this.name, [{ params, response: errorResponse }])
-    }
+  getSubscriptionTtlFromConfig(adapterSettings: TransportTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 
-  private async handleStreamError(errorData: string): Promise<void> {
-    // Stream-level errors (e.g., "unsupported X-Y asset") don't affect all pairs
-    // Just log the error - connection remains active for other pairs
-    logger.warn(`Stream error received, continuing with other pairs: ${errorData}`)
-  }
+  private async handleSSEEvent(eventType: string, rawData: string): Promise<void> {
+    // Handle explicit error events (stream-level errors)
+    if (eventType === 'error') {
+      // Parse base and quote from raw data
+      const data = JSON.parse(rawData)
+      const match = data.message.match(/unsupported (\w+)-(\w+) asset/)
+      if (!match) {
+        logger.warn(`Got unexpected error: ${rawData}`)
+        return
+      }
+      const [base, quote] = match.slice(1)
+      logger.warn(`Received error for ${base}/${quote}: ${data.message}`)
+      await this.responseCache.write(this.name, [
+        {
+          params: { base, quote },
+          response: {
+            statusCode: 400,
+            errorMessage: data.message,
+            timestamps: {
+              providerDataRequestedUnixMs: Date.now(),
+              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          },
+        },
+      ])
+      return
+    }
 
-  private async handleStreamData(param: RequestParams, streamData: CoinpaprikaStreamData) {
+    if (eventType !== COINPAPRIKA_STATE_EVENT_TYPE) {
+      logger.debug(`Skipping event type: ${eventType}`)
+      return
+    }
+
+    // Parse incoming event
+    const streamData: CoinpaprikaStreamData = JSON.parse(rawData)
+    const param = {
+      base: streamData.base_token_symbol.toUpperCase(),
+      quote: streamData.quote_symbol.toUpperCase(),
+    }
     const statePrice = Number(streamData.state_price)
     const blockTime = Number(streamData.block_time)
 
@@ -183,55 +167,23 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
       return
     }
 
-    const response: AdapterResponse<TransportTypes['Response']> = {
-      statusCode: 200,
-      result: statePrice,
-      data: {
-        result: statePrice,
-      },
-      timestamps: {
-        providerDataRequestedUnixMs: Date.now(),
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: blockTime * 1000,
-      },
-    }
     logger.debug(`tick ${param.base}/${param.quote}=${statePrice} t=${blockTime}`)
-
-    await this.responseCache.write(this.name, [{ params: param, response }])
-  }
-
-  getSubscriptionTtlFromConfig(adapterSettings: TransportTypes['Settings']): number {
-    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
-  }
-
-  private async handleSSEEvent(eventType: string, rawData: string): Promise<void> {
-    // Handle explicit error events (stream-level errors)
-    if (eventType === 'error') {
-      logger.error(`SSE error event received: ${rawData}`)
-      await this.handleStreamError(rawData)
-      return
-    }
-
-    if (eventType !== COINPAPRIKA_STATE_EVENT_TYPE) {
-      logger.debug(`Skipping event type: ${eventType}`)
-      return
-    }
-
-    try {
-      const streamData: CoinpaprikaStreamData = JSON.parse(rawData)
-
-      // Fast O(1) lookup using pre-normalized keys
-      const pairKey = `${streamData.base_token_symbol.toUpperCase()}/${streamData.quote_symbol.toUpperCase()}`
-      const params = this.subscriptionLookup.get(pairKey)
-
-      if (params) {
-        await this.handleStreamData(params, streamData)
-      } else {
-        logger.warn(`Received data for untracked pair: ${pairKey}`)
-      }
-    } catch (err) {
-      logger.debug(`Failed to parse SSE data: ${rawData} | Error: ${(err as Error).message}`)
-    }
+    await this.responseCache.write(this.name, [
+      {
+        params: param,
+        response: {
+          result: statePrice,
+          data: {
+            result: statePrice,
+          },
+          timestamps: {
+            providerDataRequestedUnixMs: Date.now(),
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: blockTime * 1000,
+          },
+        },
+      },
+    ])
   }
 }
 

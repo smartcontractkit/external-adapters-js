@@ -72,6 +72,7 @@ export class SSEConnectionManager {
 
       if (response.status !== 200) {
         await callbacks.onConnectionError(response.status)
+        this.disconnect()
         return
       }
 
@@ -102,7 +103,7 @@ export class SSEConnectionManager {
     this.currentAbortController?.abort()
     this.currentAbortController = null
     this.isConnected = false
-    this.sseParser.reset()
+    this.sseParser?.reset()
   }
 
   private buildRequest(
