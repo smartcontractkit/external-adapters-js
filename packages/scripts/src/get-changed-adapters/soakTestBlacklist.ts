@@ -32,7 +32,6 @@ export const SoakTestBlacklist: string[] = [
   'glv-token', // Composite EA - Missing underlying source EAs
   'gm-token', // Composite EA - Missing underlying source EAs
   'google-bigquery',
-  'google-weather',
   'harmony',
   'historical-average',
   'jpegd',
@@ -43,7 +42,6 @@ export const SoakTestBlacklist: string[] = [
   'linear-finance',
   'lotus',
   'market-closure',
-  'marketstack',
   'multi-address-list',
   'medianizer',
   'nav-generic',
@@ -63,7 +61,6 @@ export const SoakTestBlacklist: string[] = [
   'set-token-index',
   'snowflake',
   'solana-view-function', // Missing: RPC URL
-  'spectral-macro-score',
   'sportsdataio',
   's3-csv-reader',
   'taapi',

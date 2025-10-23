@@ -19,6 +19,10 @@ export const median = (values: number[]): number => {
   return values.length % 2 ? values[half] : (values[half - 1] + values[half]) / 2
 }
 
+export const toNumFromDS = (x: string | number, decimals: number): number => {
+  const decs = decimals
+  return new Decimal(String(x)).div(`1e${decs}`).toNumber()
+}
 /*
 Formats a given number with a specified precision without leading zeros and decimal point.
 Price decimals = SIGNED_PRICE_DECIMALS - token decimals
@@ -51,25 +55,4 @@ export interface Market {
 
 export function mapSymbol(address: string, symbolMap: Record<string, any>) {
   return symbolMap[address]
-}
-
-const adapterParamOverride: Record<string, Record<string, string>> = {
-  coinmetrics: {
-    TAO: 'tao_bittensor',
-    SPX6900: 'spx',
-  },
-  tiingo: {
-    FLOKI: 'floki2',
-    SPX6900: 'spx',
-  },
-  ncfx: {
-    SPX6900: 'spx',
-  },
-}
-
-export function mapParameter(source: string, param: string) {
-  if (source in adapterParamOverride && param in adapterParamOverride[source]) {
-    return adapterParamOverride[source][param]
-  }
-  return param
 }

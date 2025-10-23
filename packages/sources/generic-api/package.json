@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/llama-guard-adapter",
-  "version": "1.2.4",
-  "description": "Chainlink llama-guard adapter.",
+  "name": "@chainlink/generic-api-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink generic-api adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "llama-guard"
+    "generic-api"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,12 +30,13 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "@types/object-path": "0.11.4",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
-    "ethers": "^6.13.2",
+    "object-path": "^0.11.5",
     "tslib": "2.4.1"
   }
 }
