@@ -119,10 +119,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
     {\
-      "name": "@chainlink/reference-transform-adapter",\
-      "reference": "workspace:packages/composites/reference-transform"\
-    },\
-    {\
       "name": "@chainlink/rocket-pool-adapter",\
       "reference": "workspace:packages/composites/rocket-pool"\
     },\
@@ -1162,7 +1158,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
-    ["@chainlink/reference-transform-adapter", ["workspace:packages/composites/reference-transform"]],\
     ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
     ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
@@ -8576,21 +8571,6 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.4.3"],\
           ["object-path", "npm:0.11.8"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/reference-transform-adapter", [\
-      ["workspace:packages/composites/reference-transform", {\
-        "packageLocation": "./packages/composites/reference-transform/",\
-        "packageDependencies": [\
-          ["@chainlink/reference-transform-adapter", "workspace:packages/composites/reference-transform"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
