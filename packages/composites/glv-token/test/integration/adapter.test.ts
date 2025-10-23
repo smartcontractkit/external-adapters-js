@@ -178,8 +178,9 @@ describe('execute', () => {
       expect(typeof resData.mid).toBe('number')
       expect(typeof resData.ask).toBe('number')
       validateLwbaResponse(resData.bid, resData.mid, resData.ask)
-      expect(resData.sources).toBeDefined()
-      expect(Object.keys(resData.sources).length).toBeGreaterThan(0)
+      const sources = (json.data as any).sources
+      expect(sources).toBeDefined()
+      expect(Object.keys(sources).length).toBeGreaterThan(0)
       expect(response.json()).toMatchSnapshot()
     })
   })
