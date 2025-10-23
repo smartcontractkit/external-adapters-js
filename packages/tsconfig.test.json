@@ -78,9 +78,6 @@
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
-      "path": "./composites/reference-transform/tsconfig.test.json"
-    },
-    {
       "path": "./composites/rocket-pool/tsconfig.test.json"
     },
     {

@@ -5436,19 +5436,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/reference-transform-adapter@workspace:packages/composites/reference-transform"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/renvm-address-set-adapter@workspace:*, @chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/renvm-address-set-adapter@workspace:packages/sources/renvm-address-set"
