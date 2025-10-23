@@ -119,9 +119,29 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
   private async handleSSEEvent(eventType: string, rawData: string): Promise<void> {
     // Handle explicit error events (stream-level errors)
     if (eventType === 'error') {
-      // Stream-level errors (e.g., "unsupported X-Y asset") don't affect all pairs
-      // Just log the error - connection remains active for other pairs
-      logger.warn(`Stream error received, continuing with other pairs: ${rawData}`)
+      // Parse base and quote from raw data
+      const data = JSON.parse(rawData)
+      const match = data.message.match(/unsupported (\w+)-(\w+) asset/)
+      if (!match) {
+        logger.warn(`Got unexpected error: ${rawData}`)
+        return
+      }
+      const [base, quote] = match.slice(1)
+      logger.warn(`Received error for ${base}/${quote}: ${data.message}`)
+      await this.responseCache.write(this.name, [
+        {
+          params: { base, quote },
+          response: {
+            statusCode: 400,
+            errorMessage: data.message,
+            timestamps: {
+              providerDataRequestedUnixMs: Date.now(),
+              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          },
+        },
+      ])
       return
     }
 
