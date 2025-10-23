@@ -196,7 +196,6 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
       },
     }
     logger.debug(`tick ${param.base}/${param.quote}=${statePrice} t=${blockTime}`)
-    logger.trace('Response object:', response)
 
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
