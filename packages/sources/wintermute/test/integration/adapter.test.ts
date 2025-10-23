@@ -15,11 +15,11 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataPriceGMCI30 = {
-    index: 'GMCI30',
+    symbol: 'GMCI30',
   }
 
   const dataPriceGML2 = {
-    index: 'GML2',
+    symbol: 'GML2',
   }
 
   beforeAll(async () => {

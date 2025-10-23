@@ -48,7 +48,7 @@ describe('Wintermute WebSocketTransport - Unit', () => {
       const result = messageHandler(msg, context)
       expect(result).toHaveLength(1)
       const item = result![0]
-      expect(item.params).toEqual({ index: 'GMCI30' })
+      expect(item.params).toEqual({ symbol: 'GMCI30' })
       expect(item.response?.data?.symbol).toBe('GMCI30')
       expect(item.response?.data?.result).toBe(202.22)
     })
