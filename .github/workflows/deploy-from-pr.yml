@@ -1,27 +1,18 @@
-# This action acts as a signal dispatcher that fires whenever the release process has
-# successfully completed. The listening workflow within the infra-k8s repository has
-# a corresponding event handler to generate releases based on this signal
+# This workflow is triggered by PRs that propose a release. It publishes docker
+# images and deploys them to infra-k8s for the adapters proposed to release.
+#
+# Because building and deploying are only allowed from a protected branch, and
+# this workflow is triggered by pull requests, it dispatches to another
+# workflow to do the actual work.
 name: Deploy
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     # The only commits that will contain changes to the masterlist will be releases
-    paths-ignore:
+    paths:
       - 'MASTERLIST.md'
-      - 'package.json'
-      - '.changeset/**'
-      - 'packages/**/CHANGELOG.md'
-      - 'packages/**/README.md'
-      - 'packages/**/package.json'
-  workflow_dispatch:
-    inputs:
-      # For this workflow, BUILD_ALL will cause all adapters to have their image built and deployed
-      build-all:
-        description: whether to run steps for all adapters, regardless of whether they were changed in this event
-        required: false
-        default: 'false'
 
 concurrency:
   group: deploy-and-release
@@ -33,150 +24,45 @@ jobs:
     runs-on: [ubuntu-latest]
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
-      tmp-branch: ${{ steps.push-branch.outputs.TMP_BRANCH }}
     steps:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 2
-      - name: Set up and install dependencies
-        uses: ./.github/actions/setup
-        with:
-          skip-setup: true
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         env:
           UPSTREAM_BRANCH: HEAD~1
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # The deployment will overwrite existing ones, so in order to calculate all adapters that have been changed,
-          # we can mock running the changesets version command to have them present in the diff.
-          # Additionally, running the changeset version will cause the images we publish here to have the proper increased version.
-          yarn changeset version
-
-          # If there are changes, commit them and calculate the adapters.
-          # If there are no changes, we don't need to deploy anything :)
-          if [[ `git status --porcelain` ]]; then
-            git commit -am "Mock changesets"
-          fi
-
           ./.github/scripts/changed-adapters.sh
-      # Since we want to publish with the versions updated, we need to store the changes we've made to a temporary branch
-      - name: Publish branch
-        id: push-branch
-        if: steps.changed-adapters.outputs.CHANGED_ADAPTERS != '[]'
-        run: |
-          export TMP_BRANCH="tmp-deploy-$(git rev-parse HEAD)"
-          git checkout -b tmp-deploy-$(git rev-parse HEAD)
-          git push origin tmp-deploy-$(git rev-parse HEAD)
-          echo "TMP_BRANCH=$TMP_BRANCH" >> $GITHUB_OUTPUT
 
-  create-ecr:
-    name: Create ECR for ${{ matrix.adapter.shortName }}
-    runs-on: ubuntu-latest
-    needs: [calculate-changes]
-    if: needs.calculate-changes.outputs.adapter-list != '[]'
-    permissions: # These are needed for the configure-aws-credentials action
-      id-token: write
-      contents: read
-    environment: release
-    strategy:
-      max-parallel: 20
-      matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
-    env:
-      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
-      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
-      IMAGE_VERSION: ${{ matrix.adapter.version }}
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - name: Create ECR for ${{ matrix.adapter.shortName }}
-        uses: ./.github/actions/create-ecrs
-        with:
-          aws-ecr-url: ${{ env.ECR_URL }}
-          aws-ecr-repo: ${{ env.ECR_REPO }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
-          aws-ecr-private: true
-
-  build-publish:
-    name: Build and publish ${{ matrix.adapter.shortName }}
+  disaptch:
+    name: Trigger the deploy workflow
     permissions:
       contents: read
-      id-token: write
-    needs: [calculate-changes, create-ecr]
-    strategy:
-      max-parallel: 20
-      matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
-    uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@ce87497eb287565c796a8a781508be949f3ed1e2 # 2025-10-10
-    with:
-      aws-ecr-name: adapters/${{ matrix.adapter.shortName }}-adapter
-      aws-region-ecr: us-west-2
-      dockerfile: ./Dockerfile
-      docker-build-args: |
-        package=${{ matrix.adapter.name }}
-        location=${{ matrix.adapter.location }}
-      docker-build-context: .
-      docker-image-tag-override: ${{ matrix.adapter.version }}
-      docker-manifest-additional-tags: latest
-      docker-push: true
-      environment: release
-      git-sha: ${{ github.sha }}
-      github-event-name: ${{ github.event_name }}
-      github-ref-name: ${{ github.ref_name }}
-      github-ref-type: ${{ github.ref_type}}
-      github-workflow-repository: ${{ github.repository }}
-      github-runner-arm64: ubuntu-24.04-2cores-8GB-ARM
-      github-runner-amd64: ubuntu-24.04
-    secrets:
-      AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
-      AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-
-  deploy:
-    name: Trigger infra deployment
-    permissions:
-      id-token: write
-      contents: read
+      actions: write
     runs-on: ubuntu-latest
     needs:
       - calculate-changes
-      - build-publish
     if: needs.calculate-changes.outputs.adapter-list != '[]'
-    environment: InfraK8s
     env:
-      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
       CHANGED_ADAPTERS: ${{ needs.calculate-changes.outputs.adapter-list }}
+      PR_BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Setup GitHub Token
-        id: setup-github-token
-        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
-        with:
-          aws-role-arn: ${{ secrets.AWS_ROLE_ARN_FOR_INFRA_K8s_PAT }}
-          aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          aws-role-duration-seconds: '1800' # this is optional and defaults to 900
-      - name: Trigger Image Dispatcher
-        run: >
-          gh workflow run
-          --repo smartcontractkit/infra-k8s
-          --ref main "Infra-k8s Image Dispatcher"
-          -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')"
-          -F gitRepo=${{ github.event.repository.name }}
-        env:
-          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
-
-  cleanup:
-    name: Clean up ephemeral items
-    runs-on: ubuntu-latest
-    needs:
-      - calculate-changes
-      - deploy
-    if: always() && needs.calculate-changes.outputs.adapter-list != '[]'
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          ref: ${{ needs.calculate-changes.outputs.tmp-branch }}
-      - name: Delete ephemeral branch
+      - name: Determine infra-k8s branch name suffix
+        id: suffix
         run: |
-          git push origin --delete ${{ needs.calculate-changes.outputs.tmp-branch }}
+          # If the branch name is 'changeset-release/main', then this is the
+          # PR to release all changed adapters so we don't use a suffix.
+          if [[ "$PR_BRANCH_NAME" = "changeset-release/main" ]]; then
+            echo "SUFFIX=" >> $GITHUB_OUTPUT
+          else
+            echo "SUFFIX=-pr${{ github.event.number }}" >> $GITHUB_OUTPUT
+          fi
+      - name: Trigger deploy workflow
+        run: >
+          gh workflow run "Deploy"
+          --ref main
+          -F adapters="$(echo $CHANGED_ADAPTERS | jq -r "(.adapter | .[].shortName)" | tr '\n' ',')"
+          -F infra-k8s-branch-suffix="${{ steps.suffix.outputs.SUFFIX }}"
