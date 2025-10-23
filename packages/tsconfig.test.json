@@ -480,9 +480,6 @@
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
-      "path": "./sources/marketstack/tsconfig.test.json"
-    },
-    {
       "path": "./sources/messari/tsconfig.test.json"
     },
     {
