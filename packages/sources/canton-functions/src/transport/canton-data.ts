@@ -110,7 +110,6 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
    * Find the latest contract by createdAt date
    */
   private findLatestContract(contracts: any[]): any {
-    console.log('contracts', contracts)
     if (contracts.length === 1) {
       return contracts[0]
     }
