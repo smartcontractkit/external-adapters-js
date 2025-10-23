@@ -185,10 +185,10 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "netShareValue": "1000000000000000000",
-    "result": "1000000000000000000"
+    "netValue": "10000000000000000000",
+    "result": "10000000000000000000"
   },
-  "result": "1000000000000000000",
+  "result": "10000000000000000000",
   "statusCode": 200,
   "providerStatusCode": 200
 }
