@@ -37,12 +37,12 @@ export const mockMarketInfoApiSuccess = (): nock.Scope =>
     })
     .persist()
 
-export const mockDataEngineEAResponseSuccess = (): nock.Scope =>
+export const mockDataEngineEAResponseSuccess = () =>
   nock(process.env.DATA_ENGINE_ADAPTER_URL!)
     .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
-    .times(10) // or register per-test without .persist()
+    .times(10)
     .reply(200, {
-      Data: {
+      data: {
         bid: '1999000000000000000',
         ask: '2001000000000000000',
         decimals: 18,
@@ -50,7 +50,7 @@ export const mockDataEngineEAResponseSuccess = (): nock.Scope =>
       statusCode: 200,
     })
 
-export const mockDataEngineEAResponseFailure = (): nock.Scope =>
+export const mockDataEngineEAResponseFailure = () =>
   nock(process.env.DATA_ENGINE_ADAPTER_URL!)
     .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
     .times(10)
