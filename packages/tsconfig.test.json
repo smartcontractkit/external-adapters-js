@@ -594,9 +594,6 @@
       "path": "./sources/solana-view-function/tsconfig.test.json"
     },
     {
-      "path": "./sources/spectral-macro-score/tsconfig.test.json"
-    },
-    {
       "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {

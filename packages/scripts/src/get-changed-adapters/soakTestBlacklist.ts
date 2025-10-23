@@ -63,7 +63,6 @@ export const SoakTestBlacklist: string[] = [
   'set-token-index',
   'snowflake',
   'solana-view-function', // Missing: RPC URL
-  'spectral-macro-score',
   'sportsdataio',
   's3-csv-reader',
   'taapi',
