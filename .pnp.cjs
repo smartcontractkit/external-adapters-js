@@ -667,10 +667,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/m0"\
     },\
     {\
-      "name": "@chainlink/marketstack-adapter",\
-      "reference": "workspace:packages/sources/marketstack"\
-    },\
-    {\
       "name": "@chainlink/messari-adapter",\
       "reference": "workspace:packages/sources/messari"\
     },\
@@ -1124,7 +1120,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
-    ["@chainlink/marketstack-adapter", ["workspace:packages/sources/marketstack"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
     ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],\
@@ -7896,24 +7891,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/marketstack-adapter", [\
-      ["workspace:packages/sources/marketstack", {\
-        "packageLocation": "./packages/sources/marketstack/",\
-        "packageDependencies": [\
-          ["@chainlink/marketstack-adapter", "workspace:packages/sources/marketstack"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
