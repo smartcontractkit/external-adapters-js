@@ -819,10 +819,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-view-function"\
     },\
     {\
-      "name": "@chainlink/spectral-macro-score-adapter",\
-      "reference": "workspace:packages/sources/spectral-macro-score"\
-    },\
-    {\
       "name": "@chainlink/sportsdataio-adapter",\
       "reference": "workspace:packages/sources/sportsdataio"\
     },\
@@ -1176,7 +1172,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
-    ["@chainlink/spectral-macro-score-adapter", ["workspace:packages/sources/spectral-macro-score"]],\
     ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
     ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
@@ -8840,25 +8835,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/spectral-macro-score-adapter", [\
-      ["workspace:packages/sources/spectral-macro-score", {\
-        "packageLocation": "./packages/sources/spectral-macro-score/",\
-        "packageDependencies": [\
-          ["@chainlink/spectral-macro-score-adapter", "workspace:packages/sources/spectral-macro-score"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinon", "npm:10.0.20"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["sinon", "npm:12.0.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

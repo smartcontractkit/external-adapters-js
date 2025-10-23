@@ -5705,23 +5705,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/spectral-macro-score-adapter@workspace:packages/sources/spectral-macro-score"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinon": "npm:10.0.20"
-    ethers: "npm:^5.4.2"
-    nock: "npm:13.5.6"
-    sinon: "npm:12.0.1"
-    tslib: "npm:^2.1.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
@@ -16174,7 +16157,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.4.2, ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.8.0":
+"ethers@npm:^5.4.3, ethers@npm:^5.4.6, ethers@npm:^5.4.7, ethers@npm:^5.5.1, ethers@npm:^5.5.4, ethers@npm:^5.6.5, ethers@npm:^5.6.9, ethers@npm:^5.8.0":
   version: 5.8.0
   resolution: "ethers@npm:5.8.0"
   dependencies:
