@@ -149,7 +149,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: [{ stream: p.market, startTime: BigInt(1760702400000000000) }],
+              stream: [{ stream: p.market }],
             }),
           })
           logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
