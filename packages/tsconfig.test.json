@@ -42,9 +42,6 @@
       "path": "./composites/gm-token/tsconfig.test.json"
     },
     {
-      "path": "./composites/google-weather/tsconfig.test.json"
-    },
-    {
       "path": "./composites/historical-average/tsconfig.test.json"
     },
     {

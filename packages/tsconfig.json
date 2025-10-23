@@ -42,9 +42,6 @@
       "path": "./composites/gm-token"
     },
     {
-      "path": "./composites/google-weather"
-    },
-    {
       "path": "./composites/historical-average"
     },
     {
