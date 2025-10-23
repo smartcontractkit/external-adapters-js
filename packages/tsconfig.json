@@ -81,9 +81,6 @@
       "path": "./composites/proof-of-reserves"
     },
     {
-      "path": "./composites/reference-transform"
-    },
-    {
       "path": "./composites/rocket-pool"
     },
     {
