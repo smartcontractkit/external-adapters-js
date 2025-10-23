@@ -12,6 +12,11 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'wss://md.deutsche-boerse.com',
   },
+  HEARTBEAT_INTERVAL_MS: {
+    description: 'Interval in milliseconds to send WebSocket ping frames to keep connection alive',
+    default: 30000,
+    type: 'number',
+  },
   CACHE_TTL_REFRESH_MS: {
     description: 'Interval to refresh the TTL of active subscriptions',
     default: 60000,

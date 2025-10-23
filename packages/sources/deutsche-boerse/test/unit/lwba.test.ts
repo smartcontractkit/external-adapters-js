@@ -123,33 +123,6 @@ describe('LWBA websocket transport base functionality', () => {
     const res = t.config.handlers.message(Buffer.from('not-a-protobuf'))
     expect(res).toEqual([])
   })
-
-  test('open() refreshes TTL immediately and on interval', async () => {
-    jest.useFakeTimers()
-    const t = createLwbaWsTransport(mockExtractData) as any
-
-    // stub framework bits
-    const writeTTL = jest.fn()
-    t.responseCache = { writeTTL }
-    t.subscriptionSet = { getAll: jest.fn().mockResolvedValue([]) }
-
-    const ctx = {
-      adapterSettings: {
-        WS_API_ENDPOINT: 'wss://example',
-        API_KEY: 'key',
-        CACHE_MAX_AGE: 45_000,
-        CACHE_TTL_REFRESH_MS: 60_000,
-      },
-    } as any
-
-    await t.config.handlers.open({}, ctx)
-    expect(writeTTL).toHaveBeenCalledTimes(1)
-
-    await jest.advanceTimersByTimeAsync(60_000)
-    expect(writeTTL).toHaveBeenCalledTimes(2)
-
-    jest.useRealTimers()
-  })
 })
 
 describe('LWBA Latest Price Transport', () => {

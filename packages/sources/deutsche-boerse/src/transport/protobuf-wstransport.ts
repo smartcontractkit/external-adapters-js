@@ -13,28 +13,26 @@ export class ProtobufWsTransport<
 > extends WebSocketTransport<T> {
   private heartbeatInterval?: ReturnType<typeof setInterval>
 
-  startHeartbeat(): void {
+  startHeartbeat(intervalMs: number): void {
     this.stopHeartbeat() // Clear any existing interval
-
-    const HEARTBEAT_INTERVAL_MS = 30000
 
     // Handle pong responses to update lastMessageReceivedAt
     if (this.wsConnection) {
       this.wsConnection.on('pong', () => {
-        logger.info('Received WebSocket pong')
+        logger.debug('Received WebSocket pong')
         this.lastMessageReceivedAt = Date.now()
       })
     }
 
     this.heartbeatInterval = setInterval(() => {
       if (this.wsConnection && this.wsConnection.readyState === WebSocket.OPEN) {
-        logger.info('Sending WebSocket ping')
+        logger.debug('Sending WebSocket ping')
         this.wsConnection.ping()
         // Update lastMessageReceivedAt when sending ping, since the server
         // may not respond with pong frames during low-activity periods
         this.lastMessageReceivedAt = Date.now()
       }
-    }, HEARTBEAT_INTERVAL_MS)
+    }, intervalMs)
   }
 
   stopHeartbeat(): void {
