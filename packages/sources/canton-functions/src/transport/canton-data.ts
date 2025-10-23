@@ -4,7 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/canton-data'
-import { CantonClient } from '../shared/canton-client'
+import { CantonClient, QueryContractByTemplateRequest } from '../shared/canton-client'
 
 const logger = makeLogger('CantonDataTransport')
 
@@ -60,24 +60,16 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     const choice = params.choice
 
     let contractId: string
-    let contract: any
 
-    // If contractId is provided, use it directly
     if (params.contractId) {
       contractId = params.contractId
     } else {
-      // Query contracts using contractFilter
-      if (!params.contractFilter) {
-        throw new AdapterInputError({
-          message: 'Either contractId or contractFilter must be provided',
-          statusCode: 400,
-        })
-      }
+      const payload: QueryContractByTemplateRequest = { templateIds: [templateId] }
 
-      const contracts = await this.cantonClient.queryContractsByTemplate(url, {
-        templateIds: [templateId],
-        filter: String(params.contractFilter),
-      })
+      if (params.contractFilter) {
+        payload.filter = params.contractFilter
+      }
+      const contracts = await this.cantonClient.queryContractsByTemplate(url, payload)
 
       if (!contracts || contracts.length === 0) {
         throw new AdapterInputError({
@@ -86,17 +78,15 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
         })
       }
 
-      // Find the latest contract by createdAt
-      contract = this.findLatestContract(contracts)
-      contractId = contract.contractId
+      contractId = this.findLatestContract(contracts).contractId
     }
 
-    // Exercise the choice on the contract
+    // Exercise a non-consuming choice on the contract
     const exerciseResult = await this.cantonClient.exerciseChoice(url, {
       contractId,
       templateId,
       choice,
-      argument: params.argument ? String(params.argument) : undefined,
+      argument: params.argument ? JSON.parse(params.argument) : {},
     })
 
     const result = JSON.stringify(exerciseResult)
@@ -105,7 +95,6 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
       data: {
         result,
         exerciseResult,
-        contract,
       },
       statusCode: 200,
       result,
@@ -121,6 +110,7 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
    * Find the latest contract by createdAt date
    */
   private findLatestContract(contracts: any[]): any {
+    console.log('contracts', contracts)
     if (contracts.length === 1) {
       return contracts[0]
     }

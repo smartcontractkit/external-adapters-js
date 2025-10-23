@@ -9,16 +9,11 @@ export interface QueryContractByTemplateRequest {
   filter?: string | Record<string, any>
 }
 
-export interface QueryContractByIdRequest {
-  contractId: string
-  templateId: string
-}
-
 export interface ExerciseChoiceRequest {
   contractId: string
   templateId: string
   choice: string
-  argument?: string
+  argument: Record<string, any>
 }
 
 export interface Contract {
@@ -92,53 +87,10 @@ export class CantonClient {
   }
 
   /**
-   * Query contract by template ID and contract ID
-   */
-  async queryContractById(
-    url: string,
-    request: QueryContractByIdRequest,
-  ): Promise<Contract | null> {
-    const baseURL = `${url}/v1/query`
-
-    const requestConfig = {
-      method: 'POST',
-      baseURL,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.config.AUTH_TOKEN}`,
-      },
-      data: {
-        templateIds: [request.templateId],
-      },
-    }
-
-    const response = await this.requester.request<{ result: Contract[] }>(baseURL, requestConfig)
-
-    if (response.response?.status !== 200) {
-      throw new Error(`Failed to query contracts: ${response.response?.statusText}`)
-    }
-
-    const contracts = response.response.data.result
-    const contract = contracts.find((c) => c.contractId === request.contractId)
-
-    return contract || null
-  }
-
-  /**
    * Exercise a non-consuming choice on a contract
    */
-  async exerciseChoice(url: string, request: ExerciseChoiceRequest): Promise<ExerciseResult> {
+  async exerciseChoice(url: string, payload: ExerciseChoiceRequest): Promise<ExerciseResult> {
     const baseURL = `${url}/v1/exercise`
-
-    const requestData: any = {
-      templateId: request.templateId,
-      contractId: request.contractId,
-      choice: request.choice,
-    }
-
-    if (request.argument) {
-      requestData.argument = JSON.parse(request.argument)
-    }
 
     const requestConfig = {
       method: 'POST',
@@ -147,7 +99,7 @@ export class CantonClient {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${this.config.AUTH_TOKEN}`,
       },
-      data: requestData,
+      data: payload,
     }
 
     const response = await this.requester.request<ExerciseResult>(baseURL, requestConfig)
