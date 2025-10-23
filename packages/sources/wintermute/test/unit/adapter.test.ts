@@ -3,7 +3,7 @@ import { options, WSResponse } from '../../src/transport/price'
 describe('Wintermute WebSocketTransport - Unit', () => {
   describe('builders', () => {
     it('should build subscribe message correctly', () => {
-      const msg = options.builders.subscribeMessage({ index: 'GMCI30' })
+      const msg = options.builders!.subscribeMessage({ index: 'GMCI30' }, {})
       expect(msg).toEqual({
         op: 'subscribe',
         args: ['price.gmci30'],
@@ -11,7 +11,7 @@ describe('Wintermute WebSocketTransport - Unit', () => {
     })
 
     it('should build unsubscribe message correctly', () => {
-      const msg = options.builders.unsubscribeMessage({ index: 'GMCI30' })
+      const msg = options.builders!.unsubscribeMessage({ index: 'GMCI30' }, {})
       expect(msg).toEqual({
         op: 'unsubscribe',
         args: ['price.gmci30'],
@@ -36,9 +36,10 @@ describe('Wintermute WebSocketTransport - Unit', () => {
       }
       const result = messageHandler(msg)
       expect(result).toHaveLength(1)
-      expect(result![0].params).toEqual({ index: 'GMCI30' })
-      expect(result![0].response.data.symbol).toBe('GMCI30')
-      expect(result![0].response.data.result).toBe(202.22)
+      const item = result![0]
+      expect(item.params).toEqual({ index: 'GMCI30' })
+      expect(item.response.data.symbol).toBe('GMCI30')
+      expect(item.response.data.result).toBe(202.22)
     })
 
     it('should ignore non-price topics', () => {
