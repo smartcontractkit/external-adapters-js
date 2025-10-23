@@ -1,5 +1,11 @@
 # @chainlink/data-engine-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#4140](https://github.com/smartcontractkit/external-adapters-js/pull/4140) [`1f72e12`](https://github.com/smartcontractkit/external-adapters-js/commit/1f72e127a3d2d599e5b2b7fe41b54edb8a27ebe7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bug fix
+
 ## 1.0.3
 
 ### Patch Changes
