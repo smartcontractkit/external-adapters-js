@@ -5,7 +5,7 @@ import { transport } from '../transport/price'
 
 export const inputParameters = new InputParameters(
   {
-    index: {
+    symbol: {
       required: true,
       type: 'string',
       description: 'Index name',
@@ -13,7 +13,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      index: 'GMCI30',
+      symbol: 'GMCI30',
     },
   ],
 )
