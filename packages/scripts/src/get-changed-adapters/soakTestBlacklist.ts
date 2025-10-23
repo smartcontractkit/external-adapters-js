@@ -42,7 +42,6 @@ export const SoakTestBlacklist: string[] = [
   'linear-finance',
   'lotus',
   'market-closure',
-  'marketstack',
   'multi-address-list',
   'medianizer',
   'nav-generic',
