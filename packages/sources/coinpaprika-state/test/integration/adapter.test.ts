@@ -49,6 +49,11 @@ describe('coinpaprika-state adapter', () => {
     errSpy.mockRestore()
   })
 
+  afterEach(() => {
+    // Clean up nock after each test to prevent interference
+    nock.cleanAll()
+  })
+
   it('happy path: streams ticks and serves latest state_price for LUSD/USD', async () => {
     const { scope, stream } = mockStreamPost({
       apiBase: 'http://localhost:1234',
@@ -294,6 +299,23 @@ describe('coinpaprika-state adapter', () => {
     await waitFor(async () => {
       expect(scope.isDone()).toBe(true)
     })
+
+    endSSEStream(stream)
+    scope.persist(false)
+  })
+
+  it('error stream message causes request to return 400 for unsupported asset', async () => {
+    const { scope, stream } = mockStreamPostRawAnyBody({
+      apiBase: 'http://localhost:1234',
+      chunks: ['data: {"message":"unsupported CBBTC-USD asset"}\nevent: error\n\n'],
+    })
+    scope.persist()
+
+    void testAdapter.request({ base: 'CBBTC', quote: 'USD' })
+    await new Promise((r) => setTimeout(r, 300))
+
+    const response = await testAdapter.request({ base: 'CBBTC', quote: 'USD' })
+    expect(response.statusCode).toBe(400)
 
     endSSEStream(stream)
     scope.persist(false)
