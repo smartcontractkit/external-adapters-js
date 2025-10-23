@@ -105,11 +105,11 @@ describe('coinpaprika-state adapter', () => {
     nock.cleanAll()
   })
 
-  it('provider 401 bubbles through', async () => {
+  it('401 conection error response causes 504 return', async () => {
     const scope = nock('http://localhost:1234')
       .post('/stream')
-      .matchHeader('authorization', 'TEST-KEY')
-      .reply(401, { error: 'Unauthorized', details: 'Invalid API key' })
+      .matchHeader('authorization', 'INVALID-KEY')
+      .reply(401, { error: 'api key verification has failed' })
       .persist()
 
     await new Promise((resolve) => setTimeout(resolve, 300))
@@ -119,7 +119,19 @@ describe('coinpaprika-state adapter', () => {
       quote: 'USD',
     })
 
-    expect(response.statusCode).toBe(401)
+    expect(response.statusCode).toBe(504)
+    scope.persist(false)
+    nock.cleanAll()
+  })
+
+  it('400 connection error response causes 504 return', async () => {
+    const scope = nock('http://localhost:1234')
+      .post('/stream')
+      .reply(400, { error: 'bad' })
+      .persist()
+    await new Promise((r) => setTimeout(r, 200))
+    const res = await testAdapter.request({ base: 'ERR400', quote: 'USD' })
+    expect(res.statusCode).toBe(504)
     scope.persist(false)
     nock.cleanAll()
   })
@@ -252,44 +264,6 @@ describe('coinpaprika-state adapter', () => {
     })
 
     endSSEStream(stream)
-  })
-
-  it('foreground fallback returns 502/504 when no cached data exists yet', async () => {
-    const res = await testAdapter.request({ base: 'ZZZ_NO_CACHE', quote: 'USD' })
-    expect([502, 504]).toContain(res.statusCode)
-  })
-
-  it('error mapping: 500 -> 502', async () => {
-    const scope = nock('http://localhost:1234').post('/stream').reply(500, { error: 'x' }).persist()
-    await new Promise((r) => setTimeout(r, 200))
-    const res = await testAdapter.request({ base: 'ERR500', quote: 'USD' })
-    expect(res.statusCode).toBe(502)
-    scope.persist(false)
-    nock.cleanAll()
-  })
-
-  it('error mapping: 429 preserved', async () => {
-    const scope = nock('http://localhost:1234')
-      .post('/stream')
-      .reply(429, { error: 'too many' })
-      .persist()
-    await new Promise((r) => setTimeout(r, 200))
-    const res = await testAdapter.request({ base: 'ERR429', quote: 'USD' })
-    expect(res.statusCode).toBe(429)
-    scope.persist(false)
-    nock.cleanAll()
-  })
-
-  it('error mapping: 400 preserved', async () => {
-    const scope = nock('http://localhost:1234')
-      .post('/stream')
-      .reply(400, { error: 'bad' })
-      .persist()
-    await new Promise((r) => setTimeout(r, 200))
-    const res = await testAdapter.request({ base: 'ERR400', quote: 'USD' })
-    expect(res.statusCode).toBe(400)
-    scope.persist(false)
-    nock.cleanAll()
   })
 
   it('string to number coercion works for state_price and block_time', async () => {

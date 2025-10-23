@@ -17,7 +17,7 @@ import {
 
 const logger = makeLogger('CoinpaprikaStateTransport')
 
-const COINPAPRIKA_STATE_EVENT_TYPE = 't_s'
+export const COINPAPRIKA_STATE_EVENT_TYPE = 't_s'
 
 type RequestParams = typeof inputParameters.validated
 
