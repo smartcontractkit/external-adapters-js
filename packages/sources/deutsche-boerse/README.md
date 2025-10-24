@@ -1,16 +1,16 @@
 # DEUTSCHE_BOERSE
 
-![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name         |                     Description                     |  Type  | Options |            Default             |
-| :-------: | :------------------: | :-------------------------------------------------: | :----: | :-----: | :----------------------------: |
-|    ✅     |       API_KEY        |            An API key for Data Provider             | string |         |                                |
-|           |   WS_API_ENDPOINT    |            WS endpoint for Data Provider            | string |         | `wss://md.deutsche-boerse.com` |
-|           | CACHE_TTL_REFRESH_MS | Interval to refresh the TTL of active subscriptions | number |         |            `60000`             |
+| Required? |         Name          |                                   Description                                   |  Type  | Options |            Default             |
+| :-------: | :-------------------: | :-----------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|    ✅     |        API_KEY        |                          An API key for Data Provider                           | string |         |                                |
+|    ✅     |    WS_API_ENDPOINT    |                          WS endpoint for Data Provider                          | string |         | `wss://md.deutsche-boerse.com` |
+|    ✅     | HEARTBEAT_INTERVAL_MS | Interval in milliseconds to send WebSocket ping frames to keep connection alive | number |         |            `30000`             |
 
 ---
 

@@ -1,5 +1,11 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4142](https://github.com/smartcontractkit/external-adapters-js/pull/4142) [`aebc473`](https://github.com/smartcontractkit/external-adapters-js/commit/aebc473f926e2f4beede2d8d0f94703a7dc1d4c9) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Added a ping pong mechanism to stop timeouts
+
 ## 1.2.0
 
 ### Minor Changes
