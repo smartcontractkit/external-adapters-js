@@ -21,6 +21,8 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
+    permissions:
+      contents: read
     runs-on: [ubuntu-latest]
     outputs:
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
