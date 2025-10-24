@@ -41,7 +41,6 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
   extractData: (quote: Quote) => BaseEndpointTypes['Response']['Data'],
 ) {
   const cache = new InstrumentQuoteCache()
-  let ttlInterval: ReturnType<typeof setInterval> | undefined
   const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
@@ -52,27 +51,11 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
       open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
 
-        // Clear any previous interval
-        if (ttlInterval) {
-          clearInterval(ttlInterval)
-          ttlInterval = undefined
-        }
-
-        const doRefresh = async () => {
-          try {
-            await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
-            logger.info(
-              { refreshMs: context.adapterSettings.CACHE_TTL_REFRESH_MS },
-              'Refreshed TTL for active subscriptions',
-            )
-          } catch (err) {
-            logger.error({ err }, 'Failed TTL refresh')
-          }
-        }
-
-        // Refresh immediately, then every minute
-        await doRefresh()
-        ttlInterval = setInterval(doRefresh, context.adapterSettings.CACHE_TTL_REFRESH_MS)
+        // Start heartbeat to keep connection alive
+        transport.startHeartbeat(
+          context.adapterSettings.HEARTBEAT_INTERVAL_MS,
+          context.adapterSettings.CACHE_MAX_AGE,
+        )
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -82,10 +65,9 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
-        if (ttlInterval) {
-          clearInterval(ttlInterval)
-          ttlInterval = undefined
-        }
+
+        // Stop heartbeat
+        transport.stopHeartbeat()
       },
       message(buf) {
         logger.debug(
@@ -190,10 +172,6 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-const updateTTL = async (transport: ProtobufWsTransport<WsTransportTypes>, ttl: number) => {
-  const params = await transport.subscriptionSet.getAll()
-  transport.responseCache.writeTTL(transport.name, params, ttl)
-}
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
