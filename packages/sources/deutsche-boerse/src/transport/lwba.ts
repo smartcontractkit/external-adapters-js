@@ -17,6 +17,7 @@ import {
   decimalToNumber,
   hasSingleBidFrame,
   hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -185,15 +186,22 @@ function processMarketData(
     logger.warn('Could not parse ISIN from MarketData')
     return null
   }
-  const dat: any = (md as MarketData)?.Dat
-  if (!dat) {
-    logger.warn('Could not parse MarketData from MarketData.Instrmt')
-    return null
-  }
 
   const quote = cache.get(market, isin)
   if (!quote) {
     logger.debug('Ignoring message for inactive instrument (not in cache)')
+    return null
+  }
+
+  if (market === 'md-microproducts') {
+    if (!isFutureInstrument(md)) {
+      return null
+    }
+  }
+
+  const dat: any = (md as MarketData)?.Dat
+  if (!dat) {
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
   }
 

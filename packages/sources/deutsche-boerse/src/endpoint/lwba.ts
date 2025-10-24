@@ -3,7 +3,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { lwbaProtobufWsTransport } from '../transport/lwba'
 
-export const MARKETS = ['md-xetraetfetp', 'md-tradegate'] as const
+export const MARKETS = ['md-xetraetfetp', 'md-tradegate', 'md-microproducts'] as const
 export type Market = (typeof MARKETS)[number]
 
 export const inputParameters = new InputParameters(
