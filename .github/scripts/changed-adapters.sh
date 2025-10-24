@@ -1,8 +1,11 @@
 #!/bin/bash -e
 
 # If BUILD_ALL is true, then we want to generate lists with all packages regardless of changes
+# If ADAPTER_NAMES is set, then we want to generate lists with only those adapters. ADAPTER_NAMES should be a comma-separated list of short names (e.g. "coinpaprika,coingecko")
 if [[ $BUILD_ALL = true ]]; then
   PACKAGE_LIST=$(yarn workspaces list -R --json)
+elif [[ -n "$ADAPTER_NAMES" ]]; then
+  PACKAGE_LIST=$(yarn workspaces list -R --json | jq --arg list "$ADAPTER_NAMES" '($list | split(",")) as $shortNames | select(.name as $name | $shortNames | any($name == "@chainlink/" + . + "-adapter"))')
 else
   PACKAGE_LIST=$(yarn workspaces list -R --json --since=$UPSTREAM_BRANCH)
 fi
