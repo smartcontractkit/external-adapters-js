@@ -42,9 +42,6 @@
       "path": "./composites/gm-token"
     },
     {
-      "path": "./composites/google-weather"
-    },
-    {
       "path": "./composites/historical-average"
     },
     {
@@ -79,9 +76,6 @@
     },
     {
       "path": "./composites/proof-of-reserves"
-    },
-    {
-      "path": "./composites/reference-transform"
     },
     {
       "path": "./composites/rocket-pool"
@@ -264,6 +258,9 @@
       "path": "./sources/coinpaprika"
     },
     {
+      "path": "./sources/coinpaprika-state"
+    },
+    {
       "path": "./sources/coinranking"
     },
     {
@@ -396,6 +393,9 @@
       "path": "./sources/gemini"
     },
     {
+      "path": "./sources/generic-api"
+    },
+    {
       "path": "./sources/genesis-volatility"
     },
     {
@@ -475,9 +475,6 @@
     },
     {
       "path": "./sources/m0"
-    },
-    {
-      "path": "./sources/marketstack"
     },
     {
       "path": "./sources/messari"
@@ -589,9 +586,6 @@
     },
     {
       "path": "./sources/solana-view-function"
-    },
-    {
-      "path": "./sources/spectral-macro-score"
     },
     {
       "path": "./sources/sportsdataio"

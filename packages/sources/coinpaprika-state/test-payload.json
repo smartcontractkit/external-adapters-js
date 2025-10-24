@@ -1,0 +1,16 @@
+{
+  "requests": [
+    {
+      "base": "LUSD",
+      "quote": "USD"
+    },
+    {
+      "base": "EURA",
+      "quote": "USD"
+    },
+    {
+      "base": "ALETH",
+      "quote": "USD"
+    }
+  ]
+}

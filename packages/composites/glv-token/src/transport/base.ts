@@ -1,29 +1,27 @@
-import { ethers, utils } from 'ethers'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { getCryptoPrice } from '@chainlink/data-engine-adapter'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  EndpointContext,
-  LwbaResponseDataFields,
-} from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { BaseEndpointTypesLwba } from '../endpoint/lwba'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { dataStreamIdKey } from './gmx-keys'
 import {
-  mapParameter,
   mapSymbol,
   Market,
   median,
   PriceData,
   SIGNED_PRICE_DECIMALS,
-  Source,
   toFixed,
   Token,
+  toNumFromDS,
 } from './utils'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 const logger = makeLogger('GlvBaseTransport')
 
@@ -54,13 +52,15 @@ export abstract class BaseGlvTransport<
   name!: string
   responseCache!: ResponseCache<T>
   requester!: Requester
-  provider!: ethers.providers.JsonRpcProvider
+  provider!: ethers.JsonRpcProvider
   glvReaderContract!: ethers.Contract
+  dataStoreContract!: ethers.Contract
   settings!: T['Settings']
 
   tokensMap: Record<string, Token> = {}
   marketsMap: Record<string, Market> = {}
   decimals: Record<string, number> = {}
+  symbolToAddressMap: Record<string, string> = {}
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -70,7 +70,7 @@ export abstract class BaseGlvTransport<
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.providers.JsonRpcProvider(
+    this.provider = new ethers.JsonRpcProvider(
       adapterSettings.ARBITRUM_RPC_URL,
       adapterSettings.ARBITRUM_CHAIN_ID,
     )
@@ -81,7 +81,11 @@ export abstract class BaseGlvTransport<
       glvAbi,
       this.provider,
     )
-
+    this.dataStoreContract = new ethers.Contract(
+      adapterSettings.DATASTORE_CONTRACT_ADDRESS,
+      ['function getBytes32(bytes32 key) view returns (bytes32)'],
+      this.provider,
+    )
     await this.tokenInfo()
     await this.marketInfo()
 
@@ -122,6 +126,7 @@ export abstract class BaseGlvTransport<
     data.map((token) => {
       this.tokensMap[token.address] = token
       this.decimals[token.symbol] = token.decimals
+      this.symbolToAddressMap[token.symbol] = token.address
     })
   }
 
@@ -180,8 +185,8 @@ export abstract class BaseGlvTransport<
 
     const glvTokenPriceContractParams = [
       this.settings.DATASTORE_CONTRACT_ADDRESS,
-      glvInfo.markets,
-      indexTokensPrices,
+      Array.from(glvInfo.markets),
+      indexTokensPrices.map(([a, b]) => [a, b]),
       [priceResult.prices[glv.longToken.symbol].bid, priceResult.prices[glv.longToken.symbol].ask],
       [
         priceResult.prices[glv.shortToken.symbol].bid,
@@ -195,8 +200,8 @@ export abstract class BaseGlvTransport<
       this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
     ])
 
-    const maximizedPrice = Number(utils.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
-    const minimizedPrice = Number(utils.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
+    const maximizedPrice = Number(ethers.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
+    const minimizedPrice = Number(ethers.formatUnits(minimizedPriceRaw, SIGNED_PRICE_DECIMALS))
     const result = median([minimizedPrice, maximizedPrice])
 
     const timestamps = {
@@ -214,46 +219,39 @@ export abstract class BaseGlvTransport<
     )
   }
 
+  private async getFeedId(token: string, dataRequestedTimestamp: number): Promise<string> {
+    const tokenAddress = this.symbolToAddressMap[token]
+    if (!tokenAddress) {
+      throw new AdapterDataProviderError(
+        { statusCode: 400, message: `Unknown token symbol '${token}'` },
+        {
+          providerDataRequestedUnixMs: dataRequestedTimestamp,
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      )
+    }
+    const key = dataStreamIdKey(tokenAddress)
+    return await this.dataStoreContract.getBytes32(key)
+  }
+
   private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
     const priceData = {} as PriceData
 
-    const sources = [
-      { url: this.settings.TIINGO_ADAPTER_URL, name: 'tiingo' },
-      { url: this.settings.COINMETRICS_ADAPTER_URL, name: 'coinmetrics' },
-      { url: this.settings.NCFX_ADAPTER_URL, name: 'ncfx' },
-    ]
+    const source = { url: this.settings.DATA_ENGINE_ADAPTER_URL, name: 'data-engine' }
 
     const priceProviders: Record<string, string[]> = {}
-    const promises = []
-
-    for (let i = 0; i < sources.length; i++) {
-      const source = sources[i]
-      const assetPromises = assets.map(async (asset) => {
-        const mappedAsset = mapParameter(source.name, asset)
-        const base = this.unwrapAsset(mappedAsset)
-        const requestConfig = {
-          url: source.url,
-          method: 'POST',
-          data: {
-            data: {
-              endpoint: 'crypto-lwba',
-              base,
-              quote: 'USD',
-            },
-          },
-        }
+    await Promise.all(
+      assets.map(async (asset) => {
+        const feedId = await this.getFeedId(asset, dataRequestedTimestamp)
 
         try {
-          const response = await this.requester.request<{ data: LwbaResponseDataFields['Data'] }>(
-            JSON.stringify(requestConfig),
-            requestConfig,
-          )
-          const { bid, ask } = response.response.data.data
-
-          priceData[asset] = {
-            bids: [...(priceData[asset]?.bids || []), bid],
-            asks: [...(priceData[asset]?.asks || []), ask],
-          }
+          const { bid, ask, decimals } = await getCryptoPrice(feedId, source.url, this.requester)
+          const bidNum = toNumFromDS(bid, decimals)
+          const askNum = toNumFromDS(ask, decimals)
+          priceData[asset] = priceData[asset] || { bids: [], asks: [] }
+          priceData[asset].bids.push(bidNum)
+          priceData[asset].asks.push(askNum)
 
           priceProviders[asset] = priceProviders[asset]
             ? [...new Set([...priceProviders[asset], source.name])]
@@ -264,27 +262,25 @@ export abstract class BaseGlvTransport<
             `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
           )
         }
-      })
+      }),
+    )
 
-      promises.push(...assetPromises)
-    }
-
-    await Promise.all(promises)
-
-    this.validateRequiredResponses(priceProviders, sources, assets, dataRequestedTimestamp)
+    this.validateRequiredResponses(priceProviders, dataRequestedTimestamp)
 
     const medianValues = this.calculateMedian(assets, priceData)
 
     const prices: Record<string, Record<string, string | number>> = {}
 
-    medianValues.map(
-      (v) =>
-        (prices[v.asset] = {
-          ...v,
-          ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
-          bid: toFixed(v.bid, this.decimals[v.asset as keyof typeof this.decimals]),
-        }),
-    )
+    medianValues.forEach((v) => {
+      if (this.decimals[v.asset as keyof typeof this.decimals] == null) {
+        logger.error(`No decimals found for asset ${v.asset}`)
+      }
+      prices[v.asset] = {
+        ...v,
+        ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
+        bid: toFixed(v.bid, this.decimals[v.asset as keyof typeof this.decimals]),
+      }
+    })
 
     return {
       prices,
@@ -300,28 +296,15 @@ export abstract class BaseGlvTransport<
     })
   }
 
-  private unwrapAsset(asset: string) {
-    if (asset === 'WBTC.b') {
-      return 'BTC'
-    }
-    if (asset === 'WETH') {
-      return 'ETH'
-    }
-    return asset
-  }
-
   private validateRequiredResponses(
     priceProviders: Record<string, string[]> = {},
-    sources: Source[],
-    assets: string[],
     dataRequestedTimestamp: number,
   ) {
-    const allSource = sources.map((s) => s.name)
     if (!Object.entries(priceProviders)?.length) {
       throw new AdapterDataProviderError(
         {
           statusCode: 502,
-          message: `Missing responses from '${allSource.join(',')}' for all assets.`,
+          message: `Missing responses from data-engine for all assets.`,
         },
         {
           providerDataRequestedUnixMs: dataRequestedTimestamp,
@@ -330,31 +313,6 @@ export abstract class BaseGlvTransport<
         },
       )
     }
-
-    assets.forEach((asset) => {
-      const base = this.unwrapAsset(asset)
-      const respondedSources = priceProviders[base]
-
-      if (respondedSources.length < this.settings.MIN_REQUIRED_SOURCE_SUCCESS) {
-        const missingSources = allSource.filter((s) => !respondedSources.includes(s))
-        logger.error(`Missing responses from '${missingSources.join(',')}' for asset: ${asset}`)
-        throw new AdapterDataProviderError(
-          {
-            statusCode: 502,
-            message: `Cannot calculate median price for '${asset}'. At least ${
-              this.settings.MIN_REQUIRED_SOURCE_SUCCESS
-            } EAs are required to provide a response but response was received only from ${
-              respondedSources.length
-            } EA(s). Missing responses from '${missingSources.join(',')}'.`,
-          },
-          {
-            providerDataRequestedUnixMs: dataRequestedTimestamp,
-            providerDataReceivedUnixMs: Date.now(),
-            providerIndicatedTimeUnixMs: undefined,
-          },
-        )
-      }
-    })
   }
 
   protected handleError(e: unknown): AdapterResponse<T['Response']> {

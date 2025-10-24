@@ -1,5 +1,17 @@
 # @chainlink/llama-guard-adapter
 
+## 1.2.4
+
+### Patch Changes
+
+- [#4140](https://github.com/smartcontractkit/external-adapters-js/pull/4140) [`1f72e12`](https://github.com/smartcontractkit/external-adapters-js/commit/1f72e127a3d2d599e5b2b7fe41b54edb8a27ebe7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bug fix
+
+## 1.2.3
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
 ## 1.2.2
 
 ### Patch Changes
