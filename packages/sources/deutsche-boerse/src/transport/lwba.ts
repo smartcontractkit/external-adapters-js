@@ -52,7 +52,10 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         logger.info('LWBA websocket connection established')
 
         // Start heartbeat to keep connection alive
-        transport.startHeartbeat(context.adapterSettings.HEARTBEAT_INTERVAL_MS)
+        transport.startHeartbeat(
+          context.adapterSettings.HEARTBEAT_INTERVAL_MS,
+          context.adapterSettings.CACHE_MAX_AGE,
+        )
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')

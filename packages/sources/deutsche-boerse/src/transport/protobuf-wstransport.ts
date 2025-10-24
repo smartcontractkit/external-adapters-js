@@ -13,16 +13,8 @@ export class ProtobufWsTransport<
 > extends WebSocketTransport<T> {
   private heartbeatInterval?: ReturnType<typeof setInterval>
 
-  startHeartbeat(intervalMs: number): void {
+  startHeartbeat(intervalMs: number, cacheMaxAge: number): void {
     this.stopHeartbeat() // Clear any existing interval
-
-    // Handle pong responses to update lastMessageReceivedAt
-    if (this.wsConnection) {
-      this.wsConnection.on('pong', () => {
-        logger.debug('Received WebSocket pong')
-        this.lastMessageReceivedAt = Date.now()
-      })
-    }
 
     this.heartbeatInterval = setInterval(() => {
       if (this.wsConnection && this.wsConnection.readyState === WebSocket.OPEN) {
@@ -31,6 +23,7 @@ export class ProtobufWsTransport<
         // Update lastMessageReceivedAt when sending ping, since the server
         // may not respond with pong frames during low-activity periods
         this.lastMessageReceivedAt = Date.now()
+        this.updateTTL(cacheMaxAge)
       }
     }, intervalMs)
   }
@@ -40,6 +33,29 @@ export class ProtobufWsTransport<
       clearInterval(this.heartbeatInterval)
       this.heartbeatInterval = undefined
     }
+  }
+
+  private async updateTTL(ttl: number) {
+    const params = await this.subscriptionSet.getAll()
+    this.responseCache.writeTTL(this.name, params, ttl)
+  }
+
+  override async establishWsConnection(
+    context: EndpointContext<T>,
+    url: string,
+    options?: WebSocket.ClientOptions,
+  ): Promise<WebSocket> {
+    const ws = await super.establishWsConnection(context, url, options)
+
+    const onActivity = (reason: 'ping' | 'pong') => {
+      this.lastMessageReceivedAt = Date.now()
+      logger.debug({ reason }, 'WS activity')
+    }
+
+    ws.on('ping', () => onActivity('ping'))
+    ws.on('pong', () => onActivity('pong'))
+
+    return ws
   }
 
   private toRawData(payload: unknown): Buffer | null {

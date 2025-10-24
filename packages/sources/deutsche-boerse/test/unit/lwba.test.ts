@@ -21,13 +21,17 @@ const MARKET2 = 'md-tradegate' as const
 const ISIN = 'IE00B53L3W79'
 const OTHER = 'US0000000001'
 
-function makeStreamBuffer(md: MarketData | MarketDataInit): Buffer {
+function makeStreamBuffer(md: MarketData | MarketDataInit, subs: string = MARKET): Buffer {
   const mdMsg = create(MarketDataSchema, md as MarketDataInit)
   const anyMsg: Any = anyPack(MarketDataSchema, mdMsg)
-  const sm = create(StreamMessageSchema, {
-    subs: MARKET,
-    messages: [anyMsg],
-  })
+  const sm = create(StreamMessageSchema, { subs, messages: [anyMsg] })
+  return Buffer.from(toBinary(StreamMessageSchema, sm))
+}
+
+function makeStreamBufferTwoMsgs(md1: MarketDataInit, md2: MarketDataInit, subs: string = MARKET) {
+  const any1: Any = anyPack(MarketDataSchema, create(MarketDataSchema, md1))
+  const any2: Any = anyPack(MarketDataSchema, create(MarketDataSchema, md2))
+  const sm = create(StreamMessageSchema, { subs, messages: [any1, any2] })
   return Buffer.from(toBinary(StreamMessageSchema, sm))
 }
 
@@ -123,6 +127,28 @@ describe('LWBA websocket transport base functionality', () => {
     const res = t.config.handlers.message(Buffer.from('not-a-protobuf'))
     expect(res).toEqual([])
   })
+
+  test('ignores multi-message StreamMessage', () => {
+    const t = createLwbaWsTransport(mockExtractData) as any
+    t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
+    const buf = makeStreamBufferTwoMsgs(
+      { Instrmt: { Sym: ISIN }, Dat: create(DataSchema, { Tm: BigInt(1) } as any) } as any,
+      { Instrmt: { Sym: ISIN }, Dat: create(DataSchema, { Tm: BigInt(2) } as any) } as any,
+    )
+    const out = t.config.handlers.message(buf)
+    expect(out).toEqual([])
+  })
+
+  test('ignores unsupported market in StreamMessage.subs', () => {
+    const t = createLwbaWsTransport(mockExtractData) as any
+    t.config.builders.subscribeMessage({ market: MARKET, isin: ISIN })
+    const md = create(MarketDataSchema, {
+      Instrmt: { Sym: ISIN },
+      Dat: create(DataSchema, { Tm: BigInt(1) } as any),
+    } as any)
+    const out = t.config.handlers.message(makeStreamBuffer(md, 'unknown-market'))
+    expect(out).toEqual([])
+  })
 })
 
 describe('LWBA Latest Price Transport', () => {
@@ -167,7 +193,7 @@ describe('LWBA Latest Price Transport', () => {
 describe('LWBA Metadata Transport', () => {
   test('emits when complete bid/ask data with sizes is available', () => {
     const t = lwbaProtobufWsTransport as any
-    const FRESH_ISIN = 'DE0005810055' // Use unique ISIN to avoid cache interference
+    const FRESH_ISIN = 'DE0005810055'
     t.config.builders.subscribeMessage({ market: MARKET, isin: FRESH_ISIN })
 
     // Complete quote with bid, ask, and sizes -> should emit
@@ -180,9 +206,7 @@ describe('LWBA Metadata Transport', () => {
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
 
     expect(quoteRes.length).toBe(1)
-    const [entry] = quoteRes
-    const d = entry.response.data
-
+    const d = quoteRes[0].response.data
     expect(d.bid).toBe(100)
     expect(d.ask).toBe(101)
     expect(d.mid).toBe(100.5)
@@ -229,15 +253,15 @@ describe('LWBA Metadata Transport', () => {
     const result = t.config.handlers.message(makeStreamBuffer(trade))
     expect(result.length).toBe(1)
 
-    const [entry] = result
-    expect(entry.response.data.bid).toBe(100)
-    expect(entry.response.data.ask).toBe(102)
-    expect(entry.response.data.mid).toBe(101)
+    const d = result[0].response.data
+    expect(d.bid).toBe(100)
+    expect(d.ask).toBe(102)
+    expect(d.mid).toBe(101)
   })
 
   test('protobuf with bid/ask sizes are handled correctly', () => {
     const t = lwbaProtobufWsTransport as any
-    t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER }) // Use different ISIN to avoid cache interference
+    t.config.builders.subscribeMessage({ market: MARKET, isin: OTHER })
 
     // Quote with sizes -> should emit immediately as all required data is present
     const quoteDat = create(DataSchema, {
@@ -249,9 +273,7 @@ describe('LWBA Metadata Transport', () => {
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
 
     expect(quoteRes.length).toBe(1)
-    const [entry] = quoteRes
-    const d = entry.response.data
-
+    const d = quoteRes[0].response.data
     expect(d.bid).toBe(95)
     expect(d.ask).toBe(96)
     expect(d.mid).toBe(95.5)
@@ -261,7 +283,7 @@ describe('LWBA Metadata Transport', () => {
 
   test('protobuf with zero bid/ask sizes emits successfully', () => {
     const t = lwbaProtobufWsTransport as any
-    const TEST_ISIN = 'TEST123456789' // Use unique ISIN to avoid cache interference
+    const TEST_ISIN = 'TEST123456789'
     t.config.builders.subscribeMessage({ market: MARKET, isin: TEST_ISIN })
 
     // Quote with zero sizes -> should emit
@@ -274,9 +296,7 @@ describe('LWBA Metadata Transport', () => {
     const quoteRes = t.config.handlers.message(makeStreamBuffer(quoteMd))
 
     expect(quoteRes.length).toBe(1)
-    const [entry] = quoteRes
-    const d = entry.response.data
-
+    const d = quoteRes[0].response.data
     expect(d.bid).toBe(85)
     expect(d.ask).toBe(86)
     expect(d.mid).toBe(85.5)
