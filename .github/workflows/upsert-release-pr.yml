@@ -70,6 +70,44 @@ jobs:
         run: |
           yarn generate:master-list -v
           yarn generate:readme -v
+      - name: Update RELEASES.yaml with changed adapters
+        run: |
+          # Get list of changed adapters from MASTERLIST.md changes
+          # Find adapters that have version changes in git diff
+          git diff HEAD~1 MASTERLIST.md | grep "^+" | grep -v "^+++" | grep -v "^+#" | sed 's/^+//' | grep -E "^\|" | awk -F'|' '{print $2,$3}' | while read adapter version; do
+            adapter=$(echo $adapter | xargs)
+            version=$(echo $version | xargs)
+            
+            if [ -n "$adapter" ] && [ -n "$version" ]; then
+              echo "Adding $adapter v$version to RELEASES.yaml"
+              
+              # Check if yq is installed
+              if command -v yq &> /dev/null; then
+                # Add to pending if not already there
+                if ! yq eval ".pending | has(\"$adapter\")" RELEASES.yaml 2>/dev/null | grep -q "true"; then
+                  yq eval -i ".pending.$adapter.version = \"$version\"" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.tested_in_infra = false" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.infra_digest_pr = \"Pending infra-k8s testing\"" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.infra_merged_at = \"$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\"" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.approved_by = \"@automation\"" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.notes = \"Auto-added from MASTERLIST update\"" RELEASES.yaml
+                  # SECURITY: Track git commit SHA that built this version
+                  yq eval -i ".pending.$adapter.built_from_commit = \"${{ github.sha }}\"" RELEASES.yaml
+                  yq eval -i ".pending.$adapter.built_at = \"$(date -u +\"%Y-%m-%dT%H:%M:%SZ\")\"" RELEASES.yaml
+                  echo "✅ Added $adapter to RELEASES.yaml (commit: ${{ github.sha }})"
+                else
+                  echo "ℹ️  $adapter already in RELEASES.yaml"
+                fi
+              else
+                echo "⚠️  yq not found, skipping RELEASES.yaml update"
+              fi
+            fi
+          done || true  # Don't fail if no adapters found
+      
+      # NOTE: Infra testing status is now automatically updated by infra-k8s
+      # When a digest PR is merged in infra-k8s, it triggers notify-ea-digest-merged.yaml
+      # which pushes updates directly to this Release PR branch
+      
       - name: Undo temporary changesets and commit docs
         run: |
           git stash
@@ -78,6 +116,7 @@ jobs:
       - name: Commit docs
         run: |
           git add MASTERLIST.md
+          git add RELEASES.yaml
           git add "*README.md"
           yarn lint-staged
       - name: Stash changes for changesets action to pick up in custom script
