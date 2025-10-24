@@ -22,7 +22,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new PriceEndpoint({
   name: 'price',
-  aliases: ['coinpaprika-state', 'state'],
+  aliases: ['coinpaprika-state', 'state', 'crypto'],
   transport: coinpaprikaSubscriptionTransport,
   inputParameters,
   requestTransforms: [
