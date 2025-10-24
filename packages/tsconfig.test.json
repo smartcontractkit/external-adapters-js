@@ -684,6 +684,9 @@
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
     },
     {
+      "path": "./sources/wintermute/tsconfig.test.json"
+    },
+    {
       "path": "./sources/wisdomtree/tsconfig.test.json"
     },
     {
