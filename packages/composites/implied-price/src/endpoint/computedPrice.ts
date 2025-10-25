@@ -1,224 +1,119 @@
-import type {
-  AdapterRequest,
-  AxiosRequestConfig,
-  Config,
-  ExecuteWithConfig,
-  InputParameters,
-} from '@chainlink/ea-bootstrap'
-import {
-  AdapterError,
-  AdapterInputError,
-  AdapterResponseInvalidError,
-  Requester,
-  util,
-  Validator,
-} from '@chainlink/ea-bootstrap'
-import { AxiosResponse } from 'axios'
-import Decimal from 'decimal.js'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { config } from '../config'
+import { transport } from '../transport/computedPrice'
 
-export const supportedEndpoints = ['computedPrice']
-
-export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
-
-export type TInputParameters = {
-  operand1Sources: string | string[]
-  operand1MinAnswers?: number
-  operand1Input: AdapterRequest
-  operand2Sources: string | string[]
-  operand2MinAnswers?: number
-  operand2Input: AdapterRequest
-  operation: string
-}
-
-const inputParameters: InputParameters<TInputParameters> = {
-  operand1Sources: {
-    required: true,
-    description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand1 value',
+export const inputParameters = new InputParameters(
+  {
+    operand1Sources: {
+      required: true,
+      type: 'string',
+      array: true,
+      description:
+        'An array (string[]) or comma delimited list (string) of source adapters to query for the operand1 value',
+    },
+    operand1MinAnswers: {
+      required: false,
+      type: 'number',
+      description: 'The minimum number of answers needed to return a value for the operand1',
+      default: 1,
+    },
+    operand1Input: {
+      required: true,
+      type: 'string',
+      description: 'The payload to send to the operand1 sources',
+    },
+    operand2Sources: {
+      required: true,
+      type: 'string',
+      array: true,
+      description:
+        'An array (string[]) or comma delimited list (string) of source adapters to query for the operand2 value',
+    },
+    operand2MinAnswers: {
+      required: false,
+      type: 'number',
+      description: 'The minimum number of answers needed to return a value for the operand2',
+      default: 1,
+    },
+    operand2Input: {
+      required: true,
+      type: 'string',
+      description: 'The payload to send to the operand2 sources',
+    },
+    operation: {
+      required: true,
+      type: 'string',
+      description: 'The operation to perform on the operands',
+      options: ['divide', 'multiply'],
+    },
   },
-  operand1MinAnswers: {
-    required: false,
-    type: 'number',
-    description: 'The minimum number of answers needed to return a value for the operand1',
-    default: 1,
-  },
-  operand1Input: {
-    required: true,
-    type: 'object',
-    description: 'The payload to send to the operand1 sources',
-  },
-  operand2Sources: {
-    required: true,
-    description:
-      'An array (string[]) or comma delimited list (string) of source adapters to query for the operand2 value',
-  },
-  operand2MinAnswers: {
-    required: false,
-    type: 'number',
-    description: 'The minimum number of answers needed to return a value for the operand2',
-    default: 1,
-  },
-  operand2Input: {
-    required: true,
-    type: 'object',
-    description: 'The payload to send to the operand2 sources',
-  },
-  operation: {
-    required: true,
-    type: 'string',
-    description: 'The operation to perform on the operands',
-    options: ['divide', 'multiply'],
-  },
-}
-
-export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
-  const validator = new Validator(input, inputParameters)
-  return executeComputedPrice(validator.validated.id, validator.validated.data, config)
-}
-
-export const getOperandSourceUrls = ({
-  sources,
-  minAnswers,
-}: {
-  sources: string[]
-  minAnswers: number
-}): string[] => {
-  if (sources.length < minAnswers) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Not enough sources: got ${sources.length} sources, requiring at least ${minAnswers} answers`,
-    })
-  }
-  const urls = sources
-    .map((source) => util.getURL(source.toUpperCase()))
-    .filter((url) => url !== undefined)
-  const missingUrlCount = minAnswers - urls.length
-  if (missingUrlCount > 0) {
-    const missingEnvVars = sources
-      .map((source) => `${source.toUpperCase()}_${util.ENV_ADAPTER_URL}`)
-      .filter((envVar) => util.getEnv(envVar) === undefined)
-    throw new AdapterError({
-      statusCode: 500,
-      message: `Not enough sources configured. Make sure ${missingUrlCount} of the following are set in the environment: ${missingEnvVars.join(
-        ', ',
-      )}`,
-    })
-  }
-  return urls
-}
-
-export const executeComputedPrice = async (
-  validatedId: string,
-  validatedData: TInputParameters,
-  config: Config,
-) => {
-  const jobRunID = validatedId
-  const operand1Sources = parseSources(validatedData.operand1Sources)
-  const operand2Sources = parseSources(validatedData.operand2Sources)
-  const operand1MinAnswers = validatedData.operand1MinAnswers as number
-  const operand2MinAnswers = validatedData.operand2MinAnswers as number
-  const operand1Input = validatedData.operand1Input
-  const operand2Input = validatedData.operand2Input
-  const operation = validatedData.operation.toLowerCase()
-  // TODO: non-nullable default types
-
-  const operand1Urls = getOperandSourceUrls({
-    sources: operand1Sources,
-    minAnswers: operand1MinAnswers,
-  })
-  const operand1Result = await getExecuteMedian(
-    jobRunID,
-    operand1Urls,
-    operand1Input,
-    operand1MinAnswers,
-    config,
-  )
-  if (operand1Result.isZero()) {
-    throw new AdapterResponseInvalidError({ message: 'Operand 1 result is zero' })
-  }
-
-  const operand2Urls = getOperandSourceUrls({
-    sources: operand2Sources,
-    minAnswers: operand2MinAnswers,
-  })
-  const operand2Result = await getExecuteMedian(
-    jobRunID,
-    operand2Urls,
-    operand2Input,
-    operand2MinAnswers,
-    config,
-  )
-  if (operand2Result.isZero()) {
-    throw new AdapterResponseInvalidError({ message: 'Operand 2 result is zero' })
-  }
-
-  let result: Decimal
-  if (operation === 'divide') {
-    result = operand1Result.div(operand2Result)
-  } else if (operation === 'multiply') {
-    result = operand1Result.mul(operand2Result)
-  } else {
-    throw new AdapterError({
-      message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
-    })
-  }
-
-  const data = {
-    operand1Result: operand1Result.toString(),
-    operand2Result: operand2Result.toString(),
-    result: result.toFixed(),
-  }
-
-  const response = { data, status: 200 }
-  return Requester.success(jobRunID, response)
-}
-
-export const parseSources = (sources: string | string[]): string[] => {
-  if (Array.isArray(sources)) {
-    return sources
-  }
-  return sources.split(',')
-}
-
-const getExecuteMedian = async (
-  jobRunID: string,
-  urls: string[],
-  request: AdapterRequest,
-  minAnswers: number,
-  config: Config,
-): Promise<Decimal> => {
-  const responses = await Promise.allSettled(
-    urls.map(
-      async (url) =>
-        await Requester.request({
-          ...config.api,
-          method: 'post',
-          url,
-          data: {
-            id: jobRunID,
-            data: request,
+  [
+    // Example using operand1/operand2 format - division
+    {
+      operand1Sources: ['coingecko'],
+      operand1MinAnswers: 1,
+      operand1Input: JSON.stringify({
+        from: 'LINK',
+        to: 'USD',
+        overrides: {
+          coingecko: {
+            LINK: 'chainlink',
           },
-        }),
-    ),
-  )
-  const values = responses
-    .filter((result) => result.status === 'fulfilled' && 'value' in result)
-    .map(
-      (result) =>
-        (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
-    )
-  if (values.length < minAnswers)
-    throw new AdapterResponseInvalidError({
-      jobRunID,
-      message: `Not returning median: got ${values.length} answers, requiring min. ${minAnswers} answers`,
-    })
-  return median(values)
+        },
+      }),
+      operand2Sources: ['coingecko'],
+      operand2MinAnswers: 1,
+      operand2Input: JSON.stringify({
+        from: 'ETH',
+        to: 'USD',
+        overrides: {
+          coingecko: {
+            ETH: 'ethereum',
+          },
+        },
+      }),
+      operation: 'divide',
+    } as any,
+    // Example using operand1/operand2 format - multiplication
+    {
+      operand1Sources: ['coinbase', 'coingecko'],
+      operand1MinAnswers: 1,
+      operand1Input: JSON.stringify({
+        base: 'ETH',
+        quote: 'USD',
+        overrides: {
+          coingecko: {
+            ETH: 'ethereum',
+          },
+        },
+      }),
+      operand2Sources: ['coinbase', 'coingecko'],
+      operand2MinAnswers: 1,
+      operand2Input: JSON.stringify({
+        base: 'BTC',
+        quote: 'USD',
+        overrides: {
+          coingecko: {
+            BTC: 'bitcoin',
+          },
+        },
+      }),
+      operation: 'multiply',
+    } as any,
+  ] as any,
+)
+
+export type BaseEndpointTypes = {
+  Parameters: typeof inputParameters.definition
+  Response: SingleNumberResultResponse
+  Settings: typeof config.settings
 }
 
-export const median = (values: number[]): Decimal => {
-  if (values.length === 0) return new Decimal(0)
-  values.sort((a, b) => a - b)
-  const half = Math.floor(values.length / 2)
-  if (values.length % 2) return new Decimal(values[half])
-  return new Decimal(values[half - 1] + values[half]).div(2)
-}
+export const endpoint = new AdapterEndpoint({
+  name: 'computedPrice',
+  aliases: ['computed'],
+  transport,
+  inputParameters,
+})
