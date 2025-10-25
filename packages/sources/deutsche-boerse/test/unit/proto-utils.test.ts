@@ -2,6 +2,7 @@ import { create } from '@bufbuild/protobuf'
 import {
   DataSchema,
   DecimalSchema,
+  Instrument_SecurityType,
   MarketDataSchema,
   type Data,
   type Decimal,
@@ -12,6 +13,7 @@ import {
   decimalToNumber,
   hasSingleBidFrame,
   hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -71,4 +73,22 @@ describe('proto-utils', () => {
     expect(hasSingleOfferFrame(datWithOffer)).toBe(true)
     expect(hasSingleOfferFrame(datEmpty)).toBe(false)
   })
+})
+
+test('isFutureInstrument returns true for FUT', () => {
+  const md: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'FUT-ISIN', SecTyp: Instrument_SecurityType.FUT },
+  } as any)
+  expect(isFutureInstrument(md)).toBe(true)
+})
+
+test('isFutureInstrument returns false when SecTyp is missing or non-FUT', () => {
+  const mdMissing: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'NOSEC-ISIN' }, // no SecTyp
+  } as any)
+  const mdOther: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'OTHER-ISIN', SecTyp: 0 as any }, // some non-FUT enum
+  } as any)
+  expect(isFutureInstrument(mdMissing)).toBe(false)
+  expect(isFutureInstrument(mdOther)).toBe(false)
 })

@@ -1,8 +1,9 @@
 import Decimal from 'decimal.js'
-import type {
-  Data as DataProto,
-  Decimal as DecimalProto,
-  MarketData as MarketDataProto,
+import {
+  Instrument_SecurityType,
+  type Data as DataProto,
+  type Decimal as DecimalProto,
+  type MarketData as MarketDataProto,
 } from '../gen/md_cef_pb'
 
 const MAX_SIG_DIGITS = 15
@@ -62,4 +63,9 @@ export function hasSingleBidFrame(dat?: DataProto): boolean {
 // true if this frame carries a single best offer (not multui-level)
 export function hasSingleOfferFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Offer?.Px)
+}
+
+// true if this instrument type is Future
+export function isFutureInstrument(md: MarketDataProto): boolean {
+  return md.Instrmt?.SecTyp === Instrument_SecurityType.FUT
 }
