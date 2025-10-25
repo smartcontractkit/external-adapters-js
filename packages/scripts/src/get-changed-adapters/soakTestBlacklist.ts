@@ -34,6 +34,7 @@ export const SoakTestBlacklist: string[] = [
   'google-bigquery',
   'harmony',
   'historical-average',
+  'implied-price-test',
   'jpegd',
   'json-rpc',
   'layer2-sequencer-health',

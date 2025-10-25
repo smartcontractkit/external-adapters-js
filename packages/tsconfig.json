@@ -48,6 +48,9 @@
       "path": "./composites/implied-price"
     },
     {
+      "path": "./composites/implied-price-test"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
