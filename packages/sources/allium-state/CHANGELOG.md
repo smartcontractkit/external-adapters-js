@@ -1,5 +1,11 @@
 # @chainlink/allium-state-adapter
 
+## 1.0.3
+
+### Patch Changes
+
+- [#4150](https://github.com/smartcontractkit/external-adapters-js/pull/4150) [`eea70c7`](https://github.com/smartcontractkit/external-adapters-js/commit/eea70c71ce087c263f47ba8fd47b867726cdc585) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update readme request example
+
 ## 1.0.2
 
 ### Patch Changes
