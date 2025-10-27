@@ -11,10 +11,11 @@ import {
   UnsubscribeSchema,
   type StreamMessage,
 } from '../gen/client_pb'
-import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
+import { MarketDataSchema, type Data_MDEntryPrices, type MarketData } from '../gen/md_cef_pb'
 import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
+  hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
   isSingleTradeFrame,
@@ -208,6 +209,56 @@ function processMarketData(
     )
     return { isin, providerTime }
   }
+
+  // Handle Pxs array with MID_PRICE and PRICE_SPREAD
+  if (hasMidPriceSpreadFrame(dat)) {
+    const pxs = dat!.Pxs
+
+    // Filter spread entries (MID_PRICE with PRICE_SPREAD)
+    const spreadEntries = pxs.filter(
+      (entry: Data_MDEntryPrices) =>
+        entry.Typ === 8 && // MID_PRICE
+        entry.PxTyp?.Value === 12 && // PRICE_SPREAD
+        entry.Px &&
+        entry.Sz,
+    )
+
+    // Sort by size and take the smallest
+    spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
+      const sizeA = decimalToNumber(a.Sz)
+      const sizeB = decimalToNumber(b.Sz)
+      return sizeA - sizeB
+    })
+
+    if (spreadEntries.length > 0) {
+      const lowestSpreadEntry = spreadEntries[0]
+      const spread = decimalToNumber(lowestSpreadEntry.Px)
+      const size = decimalToNumber(lowestSpreadEntry.Sz)
+
+      // Find the NORMAL_RATE entry to get the mid price
+      const normalRateEntry = pxs.find(
+        (entry: Data_MDEntryPrices) =>
+          entry.Typ === 8 && // MID_PRICE
+          entry.PxTyp?.Value === 20 && // NORMAL_RATE
+          entry.Px,
+      )
+
+      if (normalRateEntry) {
+        const mid = decimalToNumber(normalRateEntry.Px)
+        const halfSpread = spread / 2
+        const bidPx = mid - halfSpread
+        const askPx = mid + halfSpread
+
+        cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
+        logger.debug(
+          { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
+          'Processed mid price + spread frame',
+        )
+        return { isin, providerTime }
+      }
+    }
+  }
+
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)

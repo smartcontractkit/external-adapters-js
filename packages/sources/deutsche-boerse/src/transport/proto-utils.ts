@@ -63,3 +63,30 @@ export function hasSingleBidFrame(dat?: DataProto): boolean {
 export function hasSingleOfferFrame(dat?: DataProto): boolean {
   return isDecimalPrice(dat?.Offer?.Px)
 }
+
+// Check if this frame has Pxs array with MID_PRICE and PRICE_SPREAD entries
+export function hasMidPriceSpreadFrame(dat?: DataProto): boolean {
+  const pxs = dat?.Pxs
+  if (!pxs || !Array.isArray(pxs) || pxs.length === 0) {
+    return false
+  }
+
+  // Check if we have at least one MID_PRICE with PRICE_SPREAD
+  const hasSpread = pxs.some(
+    (entry) =>
+      entry.Typ === 8 && // MID_PRICE
+      entry.PxTyp?.Value === 12 && // PRICE_SPREAD
+      isDecimalPrice(entry.Px) &&
+      isDecimalPrice(entry.Sz),
+  )
+
+  // Check if we have at least one MID_PRICE with NORMAL_RATE
+  const hasNormalRate = pxs.some(
+    (entry) =>
+      entry.Typ === 8 && // MID_PRICE
+      entry.PxTyp?.Value === 20 && // NORMAL_RATE
+      isDecimalPrice(entry.Px),
+  )
+
+  return hasSpread && hasNormalRate
+}
