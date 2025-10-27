@@ -4,7 +4,7 @@
 # Because building and deploying are only allowed from a protected branch, and
 # this workflow is triggered by pull requests, it dispatches to another
 # workflow to do the actual work.
-name: Deploy
+name: Deploy from PR
 
 on:
   pull_request:
@@ -65,6 +65,7 @@ jobs:
       - name: Trigger deploy workflow
         run: >
           gh workflow run "Deploy"
+          --repo smartcontractkit/external-adapters-js
           --ref main
           -F adapters="$(echo $CHANGED_ADAPTERS | jq -r "(.adapter | .[].shortName)" | tr '\n' ',')"
           -F infra-k8s-branch-suffix="${{ steps.suffix.outputs.SUFFIX }}"
