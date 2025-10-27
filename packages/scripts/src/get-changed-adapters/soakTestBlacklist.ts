@@ -31,7 +31,6 @@ export const SoakTestBlacklist: string[] = [
   'genesis-volatility',
   'glv-token', // Composite EA - Missing underlying source EAs
   'gm-token', // Composite EA - Missing underlying source EAs
-  'google-bigquery',
   'harmony',
   'historical-average',
   'jpegd',
