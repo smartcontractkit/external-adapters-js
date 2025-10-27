@@ -402,9 +402,6 @@
       "path": "./sources/gmci"
     },
     {
-      "path": "./sources/google-bigquery"
-    },
-    {
       "path": "./sources/gramchain"
     },
     {
