@@ -42,8 +42,8 @@ const FUND_DATES_RES = makeStub('fundDatesRes', {
 })
 
 const FUND_ROWS = [
-  { 'NAV Per Share': 50, 'Accounting Date': '06-10-2025' },
-  { 'NAV Per Share': 150, 'Accounting Date': '06-25-2025' },
+  { 'NAV Per Share': 50, 'Next NAV Price': 51, 'Accounting Date': '06-10-2025' },
+  { 'NAV Per Share': 150, 'Next NAV Price': 151, 'Accounting Date': '06-25-2025' },
 ]
 
 const FUND_RES = makeStub('fundRes', {
@@ -76,6 +76,7 @@ describe('NavLibreTransport – handleRequest', () => {
       data: {
         globalFundID: FUND_ID,
         navPerShare: 150,
+        nextNavPerShare: 151,
         navDate: '06-25-2025',
       },
       timestamps: expect.objectContaining({
@@ -122,8 +123,8 @@ describe('NavLibreTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(shortSpanDates)
 
     const fundRows = [
-      { 'NAV Per Share': 42, 'Accounting Date': '06-30-2025' },
-      { 'NAV Per Share': 43, 'Accounting Date': '07-01-2025' },
+      { 'NAV Per Share': 42, 'Next NAV Price': 142, 'Accounting Date': '06-30-2025' },
+      { 'NAV Per Share': 43, 'Next NAV Price': 143, 'Accounting Date': '07-01-2025' },
     ]
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
     requester.request.mockResolvedValueOnce(fundRes)

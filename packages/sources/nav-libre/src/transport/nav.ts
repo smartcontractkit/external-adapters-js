@@ -1,5 +1,5 @@
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
-import { getFund } from './fund'
+import { ACCOUNTING_DATE_KEY, getFund, NAV_PER_SHARE_KEY, NEXT_NAV_PRICE_KEY } from './fund'
 import { getFundDates } from './fund-dates'
 
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -91,8 +91,6 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       requester: this.requester,
     })
 
-    const ACCOUNTING_DATE_KEY = 'Accounting Date'
-    const NAV_PER_SHARE_KEY = 'NAV Per Share'
     // Find the latest NAV entry by Accounting Date
     const latest = fund.reduce((latestRow, row) =>
       parseDateString(row[ACCOUNTING_DATE_KEY]) > parseDateString(latestRow[ACCOUNTING_DATE_KEY])
@@ -107,6 +105,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       data: {
         globalFundID: param.globalFundID,
         navPerShare: latest[NAV_PER_SHARE_KEY],
+        nextNavPerShare: latest?.[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
       },
       timestamps: {
