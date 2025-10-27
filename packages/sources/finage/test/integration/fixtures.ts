@@ -249,7 +249,7 @@ export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer
       t: 9,
     },
     {
-      s: 'MSTR',
+      s: 'FALLBACK',
       ap: '10',
       as: '11',
       bp: '12',

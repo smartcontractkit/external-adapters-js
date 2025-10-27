@@ -13,13 +13,13 @@ describe('stock quotes websocket', () => {
   let testAdapter: TestAdapter
   const wsEndpointStockQuotes = 'ws://localhost:9094'
   let oldEnv: NodeJS.ProcessEnv
-  const data1 = {
+  const data = {
     endpoint: 'stock_quotes',
     base: 'AAPL',
   }
-  const data2 = {
+  const fallBackData = {
     endpoint: 'stock_quotes',
-    base: 'MSTR',
+    base: 'FALLBACK',
   }
 
   beforeAll(async () => {
@@ -39,8 +39,8 @@ describe('stock quotes websocket', () => {
     })
 
     // Send initial request to start background execute and wait for cache to be filled with results
-    await testAdapter.request(data1)
-    await testAdapter.request(data2)
+    await testAdapter.request(data)
+    await testAdapter.request(fallBackData)
     await testAdapter.waitForCache(2)
   })
 
@@ -53,12 +53,12 @@ describe('stock quotes websocket', () => {
 
   describe('stock quotes endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(data1)
+      const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
     })
 
     it('missing a and b fields should fallback', async () => {
-      const response = await testAdapter.request(data2)
+      const response = await testAdapter.request(fallBackData)
       expect(response.json()).toMatchSnapshot()
     })
   })
