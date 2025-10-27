@@ -1,5 +1,11 @@
 # @chainlink/aleno-adapter
 
+## 2.1.8
+
+### Patch Changes
+
+- testing individual release
+
 ## 2.1.7
 
 ### Patch Changes
