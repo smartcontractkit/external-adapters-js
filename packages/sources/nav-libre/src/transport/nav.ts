@@ -105,7 +105,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       data: {
         globalFundID: param.globalFundID,
         navPerShare: latest[NAV_PER_SHARE_KEY],
-        nextNavPerShare: latest?.[NEXT_NAV_PRICE_KEY],
+        nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
       },
       timestamps: {
