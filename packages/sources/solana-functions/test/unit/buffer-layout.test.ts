@@ -2,10 +2,9 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes } from '../../src/endpoint/sanctum-infinity'
-import { SanctumInfinityTransport } from '../../src/transport/sanctum-infinity'
-import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
-import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
+import { BaseEndpointTypes } from '../../src/endpoint/buffer-layout'
+import { BufferLayoutTransport } from '../../src/transport/buffer-layout'
+import * as usdcMinterAccountData from '../fixtures/usdc-minter-account-data-2025-10-27.json'
 
 const originalEnv = { ...process.env }
 
@@ -19,17 +18,14 @@ const restoreEnv = () => {
   }
 }
 
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const usdcMinterAccountAddress = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
 
-const getPoolAccountInfoMock = jest.fn()
-const getTokenAccountInfoMock = jest.fn()
+const getUsdMintercAccountInfoMock = jest.fn()
 
 const solanaRpc = makeStub('solanaRpc', {
   getAccountInfo: (address: string) => ({
     send() {
-      if (address === poolStateAddress) return getPoolAccountInfoMock()
-      if (address === infinityTokenMintAddress) return getTokenAccountInfoMock()
+      if (address === usdcMinterAccountAddress) return getUsdMintercAccountInfoMock()
       throw new Error(`Unexpected account address: ${address}`)
     },
   }),
@@ -58,12 +54,12 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('SanctumInfinityTransport', () => {
+describe('BufferLayoutTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'sanctum-infinity'
+  const endpointName = 'buffer-layout'
   const RPC_URL = 'https://solana.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
-  const expectedTokenPrice = 1.367248413526656
+  const expectedTokenSupply = '10130575983105540'
 
   const adapterSettings = makeStub('adapterSettings', {
     RPC_URL,
@@ -88,14 +84,14 @@ describe('SanctumInfinityTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: SanctumInfinityTransport
+  let transport: BufferLayoutTransport
 
   beforeEach(async () => {
     restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new SanctumInfinityTransport()
+    transport = new BufferLayoutTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -117,20 +113,21 @@ describe('SanctumInfinityTransport', () => {
   })
 
   describe('handleRequest', () => {
-    it('should cache token price response', async () => {
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(sanctumInfinityTokenAccountData.result)
+    it('should cache token supply response', async () => {
+      getUsdMintercAccountInfoMock.mockResolvedValue(usdcMinterAccountData.result)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'buffer-layout',
+        stateAccountAddress: usdcMinterAccountAddress,
+        field: 'supply',
       })
       await transport.handleRequest(param)
 
       const expectedResponse = {
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedTokenSupply,
         data: {
-          result: expectedTokenPrice,
+          result: expectedTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -151,20 +148,21 @@ describe('SanctumInfinityTransport', () => {
 
   describe('_handleRequest', () => {
     it('should return token price', async () => {
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(sanctumInfinityTokenAccountData.result)
+      getUsdMintercAccountInfoMock.mockResolvedValue(usdcMinterAccountData.result)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'buffer-layout',
+        stateAccountAddress: usdcMinterAccountAddress,
+        field: 'supply',
       })
 
       const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedTokenSupply,
         data: {
-          result: expectedTokenPrice,
+          result: expectedTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -175,14 +173,15 @@ describe('SanctumInfinityTransport', () => {
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const tokenData = sanctumInfinityTokenAccountData.result
+      const tokenData = usdcMinterAccountData.result
       const [tokenDataPromise, resolveTokenData] = deferredPromise<typeof tokenData>()
 
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(tokenDataPromise)
+      getUsdMintercAccountInfoMock.mockResolvedValue(tokenDataPromise)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'buffer-layout',
+        stateAccountAddress: usdcMinterAccountAddress,
+        field: 'supply',
       })
 
       const requestTimestamp = Date.now()
@@ -195,9 +194,9 @@ describe('SanctumInfinityTransport', () => {
 
       expect(await responsePromise).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedTokenSupply,
         data: {
-          result: expectedTokenPrice,
+          result: expectedTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,

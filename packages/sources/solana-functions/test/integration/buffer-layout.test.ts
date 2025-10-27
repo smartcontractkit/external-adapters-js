@@ -3,17 +3,17 @@ import {
   makeStub,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
-import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
+import * as usdcMinterAccountData from '../fixtures/usdc-minter-account-data-2025-10-27.json'
 
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const usdcMinterAddress = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
 
 const solanaRpc = makeStub('solanaRpc', {
   getAccountInfo: (address: string) => ({
     async send() {
-      if (address === poolStateAddress) return sanctumInfinityPoolAccountData.result
-      if (address === infinityTokenMintAddress) return sanctumInfinityTokenAccountData.result
+      switch (address) {
+        case usdcMinterAddress:
+          return usdcMinterAccountData.result
+      }
       throw new Error(`Unexpected account address: ${address}`)
     },
   }),
@@ -52,10 +52,12 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('sanctum-infinity', () => {
-    it('should return success', async () => {
+  describe('buffer-layout', () => {
+    it('should return success USDC supply', async () => {
       const data = {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'buffer-layout',
+        stateAccountAddress: usdcMinterAddress,
+        field: 'supply',
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()

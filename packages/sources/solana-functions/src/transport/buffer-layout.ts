@@ -4,18 +4,15 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/sanctum-infinity'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/buffer-layout'
 import { fetchFieldFromBufferLayoutStateAccount } from '../shared/buffer-layout-accounts'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
-const logger = makeLogger('SanctumInfinityTransport')
-
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const logger = makeLogger('BufferLayoutTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class BufferLayoutTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
 
   async initialize(
@@ -55,25 +52,15 @@ export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpoint
   }
 
   async _handleRequest(
-    _params: RequestParams,
+    params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [totalPoolValueString, totalPoolTokenSupplyString] = await Promise.all([
-      fetchFieldFromBufferLayoutStateAccount({
-        stateAccountAddress: poolStateAddress,
-        field: 'total_sol_value',
-        rpc: this.rpc,
-      }),
-
-      fetchFieldFromBufferLayoutStateAccount({
-        stateAccountAddress: infinityTokenMintAddress,
-        field: 'supply',
-        rpc: this.rpc,
-      }),
-    ])
-
-    const result = Number(totalPoolValueString) / Number(totalPoolTokenSupplyString)
+    const result = await fetchFieldFromBufferLayoutStateAccount({
+      stateAccountAddress: params.stateAccountAddress,
+      field: params.field,
+      rpc: this.rpc,
+    })
 
     return {
       data: {
@@ -94,4 +81,4 @@ export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpoint
   }
 }
 
-export const sanctumInfinityTransport = new SanctumInfinityTransport()
+export const bufferLayoutTransport = new BufferLayoutTransport()

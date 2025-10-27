@@ -1,20 +1,43 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { sanctumInfinityTransport } from '../transport/sanctum-infinity'
+import { bufferLayoutTransport } from '../transport/buffer-layout'
 
-export const inputParameters = new InputParameters({}, [{}])
+export const inputParameters = new InputParameters(
+  {
+    stateAccountAddress: {
+      description: 'The state account address for the program',
+      type: 'string',
+      required: true,
+    },
+    field: {
+      description: 'The name of the field to retrieve from the state account',
+      type: 'string',
+      required: true,
+    },
+  },
+  [
+    {
+      stateAccountAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+      field: 'supply',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Data: {
+      result: string
+    }
+    Result: string
+  }
   Settings: typeof config.settings
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'sanctum-infinity',
+  name: 'buffer-layout',
   aliases: [],
-  transport: sanctumInfinityTransport,
+  transport: bufferLayoutTransport,
   inputParameters,
 })
