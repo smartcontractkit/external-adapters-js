@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`stock quotes websocket stock quotes endpoint should fallback 1`] = `
+exports[`stock quotes websocket stock quotes endpoint missing a and b fields should fallback 1`] = `
 {
   "data": {
     "ask_price": 10,

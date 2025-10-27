@@ -36,15 +36,15 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return []
       }
       if (!message.s || !isValidNumber(message.as) || !isValidNumber(message.bs)) {
-        logger.warn(`Received ${JSON.stringify(message)} with in-valid s or as or bs field.`)
+        logger.warn(`Received ${JSON.stringify(message)} with invalid s or as or bs field.`)
         return []
       }
       if (!isValidNumber(message.b) && !isValidNumber(message.bp)) {
-        logger.warn(`Received ${JSON.stringify(message)} with in-valid b and bp fields.`)
+        logger.warn(`Received ${JSON.stringify(message)} with invalid b and bp fields.`)
         return []
       }
       if (!isValidNumber(message.a) && !isValidNumber(message.ap)) {
-        logger.warn(`Received ${JSON.stringify(message)} with in-valid a and ap fields.`)
+        logger.warn(`Received ${JSON.stringify(message)} with invalid a and ap fields.`)
         return []
       }
 

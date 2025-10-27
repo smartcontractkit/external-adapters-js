@@ -57,7 +57,7 @@ describe('stock quotes websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should fallback', async () => {
+    it('missing a and b fields should fallback', async () => {
       const response = await testAdapter.request(data2)
       expect(response.json()).toMatchSnapshot()
     })
