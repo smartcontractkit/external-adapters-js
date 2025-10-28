@@ -94,6 +94,10 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
           return []
         }
         const { isin, providerTime } = result
+        logger.info(
+          { isin, market, providerTimeUnixMs: providerTime },
+          'Processed market data frame',
+        )
         const quote = cache.get(market, isin)
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
@@ -125,7 +129,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: markets.map((m) => ({ stream: m })),
+              stream: markets.map((m) => ({ stream: m, startTime: BigInt(1761652800000000000) })),
             }),
           })
           logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
@@ -199,11 +203,10 @@ function processMarketData(
   }
 
   const providerTime = pickProviderTime(dat)
-
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat!.Px)
     cache.addTrade(market, isin, latestPrice, providerTime)
-    logger.debug(
+    logger.info(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
     )
@@ -250,6 +253,7 @@ function processMarketData(
         const askPx = mid + halfSpread
 
         cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
+
         logger.debug(
           { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
           'Processed mid price + spread frame',
@@ -326,6 +330,7 @@ function isMarket(x: string): x is Market {
 }
 
 export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
+  logger.info({ quote }, 'Extracting LWBA quote for response')
   if (
     quote.bid == null ||
     quote.ask == null ||

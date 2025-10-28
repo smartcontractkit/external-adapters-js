@@ -67,10 +67,10 @@ export function hasSingleOfferFrame(dat?: DataProto): boolean {
 // Check if this frame has Pxs array with MID_PRICE and PRICE_SPREAD entries
 export function hasMidPriceSpreadFrame(dat?: DataProto): boolean {
   const pxs = dat?.Pxs
+
   if (!pxs || !Array.isArray(pxs) || pxs.length === 0) {
     return false
   }
-
   // Check if we have at least one MID_PRICE with PRICE_SPREAD
   const hasSpread = pxs.some(
     (entry) =>
