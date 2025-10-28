@@ -172,7 +172,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
     return null
   }
 }
-
+const EUREX_MARKET = 'md-microproducts' as const satisfies Market
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
@@ -193,10 +193,9 @@ function processMarketData(
     return null
   }
 
-  if (market === 'md-microproducts') {
-    if (!isFutureInstrument(md)) {
-      return null
-    }
+  if (market === EUREX_MARKET && !isFutureInstrument(md)) {
+    logger.debug({ isin, market }, 'Ignoring non-FUT instrument for FUT-only market')
+    return null
   }
 
   const dat: any = (md as MarketData)?.Dat
