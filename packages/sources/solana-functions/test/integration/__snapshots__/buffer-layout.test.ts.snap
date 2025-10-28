@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute buffer-layout should return success USDC supply 1`] = `
+{
+  "data": {
+    "result": "10130575983105540",
+  },
+  "result": "10130575983105540",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

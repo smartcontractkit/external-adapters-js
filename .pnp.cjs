@@ -563,10 +563,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/gmci"\
     },\
     {\
-      "name": "@chainlink/google-bigquery-adapter",\
-      "reference": "workspace:packages/sources/google-bigquery"\
-    },\
-    {\
       "name": "@chainlink/gramchain-adapter",\
       "reference": "workspace:packages/sources/gramchain"\
     },\
@@ -1084,7 +1080,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
-    ["@chainlink/google-bigquery-adapter", ["workspace:packages/sources/google-bigquery"]],\
     ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
@@ -7330,22 +7325,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/google-bigquery-adapter", [\
-      ["workspace:packages/sources/google-bigquery", {\
-        "packageLocation": "./packages/sources/google-bigquery/",\
-        "packageDependencies": [\
-          ["@chainlink/google-bigquery-adapter", "workspace:packages/sources/google-bigquery"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@google-cloud/bigquery", "npm:5.12.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/gramchain-adapter", [\
       ["workspace:packages/sources/gramchain", {\
         "packageLocation": "./packages/sources/gramchain/",\
@@ -10846,74 +10825,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@gar-promisify-npm-1.1.3-ac1a325862-052dd23214.zip/node_modules/@gar/promisify/",\
         "packageDependencies": [\
           ["@gar/promisify", "npm:1.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@google-cloud/bigquery", [\
-      ["npm:5.12.0", {\
-        "packageLocation": "./.yarn/cache/@google-cloud-bigquery-npm-5.12.0-8a604572d0-f30c783163.zip/node_modules/@google-cloud/bigquery/",\
-        "packageDependencies": [\
-          ["@google-cloud/bigquery", "npm:5.12.0"],\
-          ["@google-cloud/common", "npm:3.10.0"],\
-          ["@google-cloud/paginator", "npm:3.0.7"],\
-          ["@google-cloud/promisify", "npm:2.0.4"],\
-          ["arrify", "npm:2.0.1"],\
-          ["big.js", "npm:6.2.2"],\
-          ["duplexify", "npm:4.1.3"],\
-          ["extend", "npm:3.0.2"],\
-          ["is", "npm:3.3.0"],\
-          ["p-event", "npm:4.2.0"],\
-          ["readable-stream", "npm:3.6.2"],\
-          ["stream-events", "npm:1.0.5"],\
-          ["uuid", "npm:8.3.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@google-cloud/common", [\
-      ["npm:3.10.0", {\
-        "packageLocation": "./.yarn/cache/@google-cloud-common-npm-3.10.0-8954d20396-48616886d7.zip/node_modules/@google-cloud/common/",\
-        "packageDependencies": [\
-          ["@google-cloud/common", "npm:3.10.0"],\
-          ["@google-cloud/projectify", "npm:2.1.1"],\
-          ["@google-cloud/promisify", "npm:2.0.4"],\
-          ["arrify", "npm:2.0.1"],\
-          ["duplexify", "npm:4.1.3"],\
-          ["ent", "npm:2.2.1"],\
-          ["extend", "npm:3.0.2"],\
-          ["google-auth-library", "npm:7.14.1"],\
-          ["retry-request", "npm:4.2.2"],\
-          ["teeny-request", "npm:7.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@google-cloud/paginator", [\
-      ["npm:3.0.7", {\
-        "packageLocation": "./.yarn/cache/@google-cloud-paginator-npm-3.0.7-b5e7c7f423-b4d61df447.zip/node_modules/@google-cloud/paginator/",\
-        "packageDependencies": [\
-          ["@google-cloud/paginator", "npm:3.0.7"],\
-          ["arrify", "npm:2.0.1"],\
-          ["extend", "npm:3.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@google-cloud/projectify", [\
-      ["npm:2.1.1", {\
-        "packageLocation": "./.yarn/cache/@google-cloud-projectify-npm-2.1.1-517268f672-86a615a637.zip/node_modules/@google-cloud/projectify/",\
-        "packageDependencies": [\
-          ["@google-cloud/projectify", "npm:2.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@google-cloud/promisify", [\
-      ["npm:2.0.4", {\
-        "packageLocation": "./.yarn/cache/@google-cloud-promisify-npm-2.0.4-0a491e630b-26f8245400.zip/node_modules/@google-cloud/promisify/",\
-        "packageDependencies": [\
-          ["@google-cloud/promisify", "npm:2.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17916,13 +17827,6 @@ const RAW_RUNTIME_STATE =
           ["big.js", "npm:5.2.2"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:6.2.2", {\
-        "packageLocation": "./.yarn/cache/big.js-npm-6.2.2-fd63041421-018af3e572.zip/node_modules/big.js/",\
-        "packageDependencies": [\
-          ["big.js", "npm:6.2.2"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["bigint-buffer", [\
@@ -20513,19 +20417,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["duplexify", [\
-      ["npm:4.1.3", {\
-        "packageLocation": "./.yarn/cache/duplexify-npm-4.1.3-f0053971e9-b44b98ba0f.zip/node_modules/duplexify/",\
-        "packageDependencies": [\
-          ["duplexify", "npm:4.1.3"],\
-          ["end-of-stream", "npm:1.4.4"],\
-          ["inherits", "npm:2.0.4"],\
-          ["readable-stream", "npm:3.6.2"],\
-          ["stream-shift", "npm:1.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["eastasianwidth", [\
       ["npm:0.2.0", {\
         "packageLocation": "./.yarn/cache/eastasianwidth-npm-0.2.0-c37eb16bd1-9b1d3e1bae.zip/node_modules/eastasianwidth/",\
@@ -20713,16 +20604,6 @@ const RAW_RUNTIME_STATE =
           ["enquirer", "npm:2.4.1"],\
           ["ansi-colors", "npm:4.1.3"],\
           ["strip-ansi", "npm:6.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["ent", [\
-      ["npm:2.2.1", {\
-        "packageLocation": "./.yarn/cache/ent-npm-2.2.1-f4df3425be-309bffa54f.zip/node_modules/ent/",\
-        "packageDependencies": [\
-          ["ent", "npm:2.2.1"],\
-          ["punycode", "npm:1.4.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21712,15 +21593,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["fast-text-encoding", [\
-      ["npm:1.0.6", {\
-        "packageLocation": "./.yarn/cache/fast-text-encoding-npm-1.0.6-b474f65fe2-f7b9e2e7a2.zip/node_modules/fast-text-encoding/",\
-        "packageDependencies": [\
-          ["fast-text-encoding", "npm:1.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["fast-uri", [\
       ["npm:2.4.0", {\
         "packageLocation": "./.yarn/cache/fast-uri-npm-2.4.0-41c8a2d2ef-07338f5665.zip/node_modules/fast-uri/",\
@@ -22387,31 +22259,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["gaxios", [\
-      ["npm:4.3.3", {\
-        "packageLocation": "./.yarn/cache/gaxios-npm-4.3.3-3aff5de9aa-1db4dae18b.zip/node_modules/gaxios/",\
-        "packageDependencies": [\
-          ["gaxios", "npm:4.3.3"],\
-          ["abort-controller", "npm:3.0.0"],\
-          ["extend", "npm:3.0.2"],\
-          ["https-proxy-agent", "npm:5.0.1"],\
-          ["is-stream", "npm:2.0.1"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["gcp-metadata", [\
-      ["npm:4.3.1", {\
-        "packageLocation": "./.yarn/cache/gcp-metadata-npm-4.3.1-2410ad0276-fe343dd34e.zip/node_modules/gcp-metadata/",\
-        "packageDependencies": [\
-          ["gcp-metadata", "npm:4.3.1"],\
-          ["gaxios", "npm:4.3.3"],\
-          ["json-bigint", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["generator-function", [\
       ["npm:2.0.1", {\
         "packageLocation": "./.yarn/cache/generator-function-npm-2.0.1-aed34a724a-eb7e7eb896.zip/node_modules/generator-function/",\
@@ -22785,34 +22632,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["google-auth-library", [\
-      ["npm:7.14.1", {\
-        "packageLocation": "./.yarn/cache/google-auth-library-npm-7.14.1-bccc37cebe-36e99d1376.zip/node_modules/google-auth-library/",\
-        "packageDependencies": [\
-          ["google-auth-library", "npm:7.14.1"],\
-          ["arrify", "npm:2.0.1"],\
-          ["base64-js", "npm:1.5.1"],\
-          ["ecdsa-sig-formatter", "npm:1.0.11"],\
-          ["fast-text-encoding", "npm:1.0.6"],\
-          ["gaxios", "npm:4.3.3"],\
-          ["gcp-metadata", "npm:4.3.1"],\
-          ["gtoken", "npm:5.3.2"],\
-          ["jws", "npm:4.0.0"],\
-          ["lru-cache", "npm:6.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["google-p12-pem", [\
-      ["npm:3.1.4", {\
-        "packageLocation": "./.yarn/cache/google-p12-pem-npm-3.1.4-9c29549f04-cd9b868d16.zip/node_modules/google-p12-pem/",\
-        "packageDependencies": [\
-          ["google-p12-pem", "npm:3.1.4"],\
-          ["node-forge", "npm:1.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["google-protobuf", [\
       ["npm:3.21.4", {\
         "packageLocation": "./.yarn/cache/google-protobuf-npm-3.21.4-48c47540d3-0d87fe8ef2.zip/node_modules/google-protobuf/",\
@@ -22985,18 +22804,6 @@ const RAW_RUNTIME_STATE =
           "@types/typescript",\
           "grunt",\
           "typescript"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["gtoken", [\
-      ["npm:5.3.2", {\
-        "packageLocation": "./.yarn/cache/gtoken-npm-5.3.2-bd1d540115-357e78e6ad.zip/node_modules/gtoken/",\
-        "packageDependencies": [\
-          ["gtoken", "npm:5.3.2"],\
-          ["gaxios", "npm:4.3.3"],\
-          ["google-p12-pem", "npm:3.1.4"],\
-          ["jws", "npm:4.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23797,15 +23604,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ipaddr.js-npm-2.2.0-e289422d83-9e1cdd9110.zip/node_modules/ipaddr.js/",\
         "packageDependencies": [\
           ["ipaddr.js", "npm:2.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["is", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/is-npm-3.3.0-90b1d93580-f77dc5a05a.zip/node_modules/is/",\
-        "packageDependencies": [\
-          ["is", "npm:3.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25284,16 +25082,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["json-bigint", [\
-      ["npm:1.0.0", {\
-        "packageLocation": "./.yarn/cache/json-bigint-npm-1.0.0-8e35bcb143-cd3973b88e.zip/node_modules/json-bigint/",\
-        "packageDependencies": [\
-          ["json-bigint", "npm:1.0.0"],\
-          ["bignumber.js", "npm:9.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["json-buffer", [\
       ["npm:3.0.0", {\
         "packageLocation": "./.yarn/cache/json-buffer-npm-3.0.0-21c267a314-6e36458560.zip/node_modules/json-buffer/",\
@@ -25493,16 +25281,6 @@ const RAW_RUNTIME_STATE =
           ["safe-buffer", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:2.0.0", {\
-        "packageLocation": "./.yarn/cache/jwa-npm-2.0.0-52a7c3f1ca-ab983f6685.zip/node_modules/jwa/",\
-        "packageDependencies": [\
-          ["jwa", "npm:2.0.0"],\
-          ["buffer-equal-constant-time", "npm:1.0.1"],\
-          ["ecdsa-sig-formatter", "npm:1.0.11"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["jws", [\
@@ -25511,15 +25289,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["jws", "npm:3.2.2"],\
           ["jwa", "npm:1.4.1"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/jws-npm-4.0.0-2a24fd53b9-1d15f4cdea.zip/node_modules/jws/",\
-        "packageDependencies": [\
-          ["jws", "npm:4.0.0"],\
-          ["jwa", "npm:2.0.0"],\
           ["safe-buffer", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -27332,15 +27101,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["node-forge", [\
-      ["npm:1.3.1", {\
-        "packageLocation": "./.yarn/cache/node-forge-npm-1.3.1-f31fd566cc-05bab68686.zip/node_modules/node-forge/",\
-        "packageDependencies": [\
-          ["node-forge", "npm:1.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["node-gyp", [\
       ["npm:10.2.0", {\
         "packageLocation": "./.yarn/unplugged/node-gyp-npm-10.2.0-cad1109948/node_modules/node-gyp/",\
@@ -27941,16 +27701,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/p-defer-npm-1.0.0-4dfd0013f5-1d8fb7138a.zip/node_modules/p-defer/",\
         "packageDependencies": [\
           ["p-defer", "npm:1.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["p-event", [\
-      ["npm:4.2.0", {\
-        "packageLocation": "./.yarn/cache/p-event-npm-4.2.0-1d17e9941e-d03238ff31.zip/node_modules/p-event/",\
-        "packageDependencies": [\
-          ["p-event", "npm:4.2.0"],\
-          ["p-timeout", "npm:3.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -29013,13 +28763,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["punycode", [\
-      ["npm:1.4.1", {\
-        "packageLocation": "./.yarn/cache/punycode-npm-1.4.1-be4c23e6d2-af2700dde1.zip/node_modules/punycode/",\
-        "packageDependencies": [\
-          ["punycode", "npm:1.4.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.3.1", {\
         "packageLocation": "./.yarn/cache/punycode-npm-2.3.1-97543c420d-febdc4362b.zip/node_modules/punycode/",\
         "packageDependencies": [\
@@ -29943,17 +29686,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/retry-npm-0.12.0-72ac7fb4cc-1f914879f9.zip/node_modules/retry/",\
         "packageDependencies": [\
           ["retry", "npm:0.12.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["retry-request", [\
-      ["npm:4.2.2", {\
-        "packageLocation": "./.yarn/cache/retry-request-npm-4.2.2-d96f0f10d3-0a01375f26.zip/node_modules/retry-request/",\
-        "packageDependencies": [\
-          ["retry-request", "npm:4.2.2"],\
-          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
-          ["extend", "npm:3.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -31228,25 +30960,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["stream-events", [\
-      ["npm:1.0.5", {\
-        "packageLocation": "./.yarn/cache/stream-events-npm-1.0.5-38468a7cf3-969ce82e34.zip/node_modules/stream-events/",\
-        "packageDependencies": [\
-          ["stream-events", "npm:1.0.5"],\
-          ["stubs", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["stream-shift", [\
-      ["npm:1.0.3", {\
-        "packageLocation": "./.yarn/cache/stream-shift-npm-1.0.3-c1c29210c7-a24c0a3f66.zip/node_modules/stream-shift/",\
-        "packageDependencies": [\
-          ["stream-shift", "npm:1.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["strict-event-emitter", [\
       ["npm:0.5.1", {\
         "packageLocation": "./.yarn/cache/strict-event-emitter-npm-0.5.1-8414bf36b3-25c84d88be.zip/node_modules/strict-event-emitter/",\
@@ -31504,15 +31217,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["stubs", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/stubs-npm-3.0.0-22bb785265-dec7b82186.zip/node_modules/stubs/",\
-        "packageDependencies": [\
-          ["stubs", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["sudo-block", [\
       ["npm:1.2.0", {\
         "packageLocation": "./.yarn/cache/sudo-block-npm-1.2.0-175a20c765-5485ee4255.zip/node_modules/sudo-block/",\
@@ -31733,20 +31437,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["tdigest", "npm:0.1.2"],\
           ["bintrees", "npm:1.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["teeny-request", [\
-      ["npm:7.2.0", {\
-        "packageLocation": "./.yarn/cache/teeny-request-npm-7.2.0-861cb56d59-1cee4ed2df.zip/node_modules/teeny-request/",\
-        "packageDependencies": [\
-          ["teeny-request", "npm:7.2.0"],\
-          ["http-proxy-agent", "npm:5.0.0"],\
-          ["https-proxy-agent", "npm:5.0.1"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
-          ["stream-events", "npm:1.0.5"],\
-          ["uuid", "npm:8.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\

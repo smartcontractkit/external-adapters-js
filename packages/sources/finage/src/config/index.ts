@@ -21,7 +21,12 @@ export const config = new AdapterConfig({
   STOCK_WS_API_ENDPOINT: {
     type: 'string',
     default: 'wss://e4s39ar3mr.finage.ws:7002',
-    description: 'The Websocket endpoint to connect to for stock data',
+    description: 'The Websocket endpoint to connect to for stock trades data',
+  },
+  STOCK_QUOTES_WS_API_ENDPOINT: {
+    type: 'string',
+    default: 'wss://xs68rzvrjn.finage.ws:7003',
+    description: 'The Websocket endpoint to connect to for stock quotes data',
   },
   FOREX_WS_API_ENDPOINT: {
     type: 'string',
