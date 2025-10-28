@@ -32,7 +32,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    // Only sleep more if we have requests
+    // Only sleep more if we have requests, avoids long startup delay for first asset
     if (entries.length == 0) {
       await sleep(1_000)
     } else {
