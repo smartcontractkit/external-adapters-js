@@ -185,7 +185,6 @@ function parseMidPriceSpreadFrame(
 ): { isin: string; providerTime: number } | null {
   const pxs = dat!.Pxs
 
-  // Filter spread entries (MID_PRICE with PRICE_SPREAD)
   const spreadEntries = pxs.filter(
     (entry: Data_MDEntryPrices) =>
       entry.Typ === 8 && // MID_PRICE
@@ -194,7 +193,6 @@ function parseMidPriceSpreadFrame(
       entry.Sz,
   )
 
-  // Sort by size and take the smallest
   spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
     const sizeA = decimalToNumber(a.Sz)
     const sizeB = decimalToNumber(b.Sz)
@@ -209,7 +207,6 @@ function parseMidPriceSpreadFrame(
   const spread = decimalToNumber(lowestSpreadEntry.Px)
   const size = decimalToNumber(lowestSpreadEntry.Sz)
 
-  // Find the NORMAL_RATE entry to get the mid price
   const normalRateEntry = pxs.find(
     (entry: Data_MDEntryPrices) =>
       entry.Typ === 8 && // MID_PRICE
