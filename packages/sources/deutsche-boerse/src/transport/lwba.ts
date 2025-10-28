@@ -94,17 +94,16 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
           return []
         }
         const { isin, providerTime } = result
-        logger.info(
-          { isin, market, providerTimeUnixMs: providerTime },
-          'Processed market data frame',
-        )
+
         const quote = cache.get(market, isin)
+
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
         const responseData = extractData(quote)
         if (!responseData) {
+          logger.info('Failed to extract response data from quote')
           return []
         }
         return [
@@ -177,6 +176,65 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
+function parseMidPriceSpreadFrame(
+  dat: any,
+  market: string,
+  isin: string,
+  cache: InstrumentQuoteCache,
+  providerTime: number,
+): { isin: string; providerTime: number } | null {
+  const pxs = dat!.Pxs
+
+  // Filter spread entries (MID_PRICE with PRICE_SPREAD)
+  const spreadEntries = pxs.filter(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === 8 && // MID_PRICE
+      entry.PxTyp?.Value === 12 && // PRICE_SPREAD
+      entry.Px &&
+      entry.Sz,
+  )
+
+  // Sort by size and take the smallest
+  spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
+    const sizeA = decimalToNumber(a.Sz)
+    const sizeB = decimalToNumber(b.Sz)
+    return sizeA - sizeB
+  })
+
+  if (spreadEntries.length === 0) {
+    return null
+  }
+
+  const lowestSpreadEntry = spreadEntries[0]
+  const spread = decimalToNumber(lowestSpreadEntry.Px)
+  const size = decimalToNumber(lowestSpreadEntry.Sz)
+
+  // Find the NORMAL_RATE entry to get the mid price
+  const normalRateEntry = pxs.find(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === 8 && // MID_PRICE
+      entry.PxTyp?.Value === 20 && // NORMAL_RATE
+      entry.Px,
+  )
+
+  if (!normalRateEntry) {
+    return null
+  }
+
+  const mid = decimalToNumber(normalRateEntry.Px)
+  const halfSpread = spread / 2
+  const bidPx = mid - halfSpread
+  const askPx = mid + halfSpread
+
+  cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
+
+  logger.debug(
+    { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
+    'Processed mid price + spread frame',
+  )
+  return { isin, providerTime }
+}
+
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
@@ -215,51 +273,9 @@ function processMarketData(
 
   // Handle Pxs array with MID_PRICE and PRICE_SPREAD
   if (hasMidPriceSpreadFrame(dat)) {
-    const pxs = dat!.Pxs
-
-    // Filter spread entries (MID_PRICE with PRICE_SPREAD)
-    const spreadEntries = pxs.filter(
-      (entry: Data_MDEntryPrices) =>
-        entry.Typ === 8 && // MID_PRICE
-        entry.PxTyp?.Value === 12 && // PRICE_SPREAD
-        entry.Px &&
-        entry.Sz,
-    )
-
-    // Sort by size and take the smallest
-    spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
-      const sizeA = decimalToNumber(a.Sz)
-      const sizeB = decimalToNumber(b.Sz)
-      return sizeA - sizeB
-    })
-
-    if (spreadEntries.length > 0) {
-      const lowestSpreadEntry = spreadEntries[0]
-      const spread = decimalToNumber(lowestSpreadEntry.Px)
-      const size = decimalToNumber(lowestSpreadEntry.Sz)
-
-      // Find the NORMAL_RATE entry to get the mid price
-      const normalRateEntry = pxs.find(
-        (entry: Data_MDEntryPrices) =>
-          entry.Typ === 8 && // MID_PRICE
-          entry.PxTyp?.Value === 20 && // NORMAL_RATE
-          entry.Px,
-      )
-
-      if (normalRateEntry) {
-        const mid = decimalToNumber(normalRateEntry.Px)
-        const halfSpread = spread / 2
-        const bidPx = mid - halfSpread
-        const askPx = mid + halfSpread
-
-        cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
-
-        logger.debug(
-          { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
-          'Processed mid price + spread frame',
-        )
-        return { isin, providerTime }
-      }
+    const spreadResult = parseMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
+    if (spreadResult) {
+      return spreadResult
     }
   }
 
@@ -330,7 +346,6 @@ function isMarket(x: string): x is Market {
 }
 
 export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
-  logger.info({ quote }, 'Extracting LWBA quote for response')
   if (
     quote.bid == null ||
     quote.ask == null ||

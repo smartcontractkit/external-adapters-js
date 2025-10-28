@@ -304,3 +304,179 @@ describe('LWBA Metadata Transport', () => {
     expect(d.askSize).toBe(0)
   })
 })
+
+describe('LWBA Spread Parsing', () => {
+  test('processes mid price + spread frame correctly', () => {
+    const t = lwbaProtobufWsTransport as any
+    const SPREAD_ISIN = 'SPREAD0001'
+    t.config.builders.subscribeMessage({ market: MARKET, isin: SPREAD_ISIN })
+
+    // Mid price + spread frame
+    const spreadDat = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 12 }, // PRICE_SPREAD
+          Px: dec(BigInt(10), -4), // spread of 0.001
+          Sz: dec(BigInt(1000000), 0), // size of 1,000,000
+        },
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 20 }, // NORMAL_RATE
+          Px: dec(BigInt(577), -3), // mid price of 0.577
+        },
+      ],
+      Tm: BigInt(15_000_000),
+    } as any)
+    const spreadMd = create(MarketDataSchema, {
+      Instrmt: { Sym: SPREAD_ISIN },
+      Dat: spreadDat,
+    } as any)
+    const spreadRes = t.config.handlers.message(makeStreamBuffer(spreadMd))
+
+    expect(spreadRes.length).toBe(1)
+    const d = spreadRes[0].response.data
+    expect(d.mid).toBe(0.577)
+    expect(d.bid).toBeCloseTo(0.5765, 4) // mid - halfSpread
+    expect(d.ask).toBeCloseTo(0.5775, 4) // mid + halfSpread
+    expect(d.bidSize).toBe(1000000)
+    expect(d.askSize).toBe(1000000)
+  })
+
+  test('selects smallest spread when multiple spreads present', () => {
+    const t = lwbaProtobufWsTransport as any
+    const MULTI_SPREAD_ISIN = 'SPREAD0002'
+    t.config.builders.subscribeMessage({ market: MARKET, isin: MULTI_SPREAD_ISIN })
+
+    // Multiple spread entries with different sizes
+    const multiSpreadDat = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(BigInt(20), -4), // spread of 0.002
+          Sz: dec(BigInt(500000), 0), // size 500k
+        },
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(BigInt(10), -4), // spread of 0.001 (smallest size)
+          Sz: dec(BigInt(250000), 0), // size 250k
+        },
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(BigInt(30), -4), // spread of 0.003
+          Sz: dec(BigInt(1000000), 0), // size 1M
+        },
+        {
+          Typ: 8,
+          PxTyp: { Value: 20 },
+          Px: dec(BigInt(100), -2), // mid price of 1.00
+        },
+      ],
+      Tm: BigInt(16_000_000),
+    } as any)
+    const multiSpreadMd = create(MarketDataSchema, {
+      Instrmt: { Sym: MULTI_SPREAD_ISIN },
+      Dat: multiSpreadDat,
+    } as any)
+    const res = t.config.handlers.message(makeStreamBuffer(multiSpreadMd))
+
+    expect(res.length).toBe(1)
+    const d = res[0].response.data
+    expect(d.mid).toBe(1.0)
+    // Should use the spread with smallest size (250k -> 0.001 spread)
+    expect(d.bid).toBeCloseTo(0.9995, 4)
+    expect(d.ask).toBeCloseTo(1.0005, 4)
+    expect(d.bidSize).toBe(250000)
+    expect(d.askSize).toBe(250000)
+  })
+
+  test('ignores spread frame without NORMAL_RATE entry', () => {
+    const t = lwbaProtobufWsTransport as any
+    const NO_NORMAL_ISIN = 'SPREAD0003'
+    t.config.builders.subscribeMessage({ market: MARKET, isin: NO_NORMAL_ISIN })
+
+    // Spread without normal rate
+    const noNormalRateDat = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(BigInt(10), -4),
+          Sz: dec(BigInt(1000000), 0),
+        },
+        // Missing NORMAL_RATE entry
+      ],
+      Tm: BigInt(17_000_000),
+    } as any)
+    const noNormalMd = create(MarketDataSchema, {
+      Instrmt: { Sym: NO_NORMAL_ISIN },
+      Dat: noNormalRateDat,
+    } as any)
+    const res = t.config.handlers.message(makeStreamBuffer(noNormalMd))
+
+    // Should not emit because we can't calculate bid/ask without normal rate
+    expect(res).toEqual([])
+  })
+
+  test('ignores spread frame without valid spread entries', () => {
+    const t = lwbaProtobufWsTransport as any
+    const NO_SPREAD_ISIN = 'SPREAD0004'
+    t.config.builders.subscribeMessage({ market: MARKET, isin: NO_SPREAD_ISIN })
+
+    // Normal rate without spread
+    const noSpreadDat = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8,
+          PxTyp: { Value: 20 },
+          Px: dec(BigInt(577), -3),
+        },
+        // Missing PRICE_SPREAD entry
+      ],
+      Tm: BigInt(18_000_000),
+    } as any)
+    const noSpreadMd = create(MarketDataSchema, {
+      Instrmt: { Sym: NO_SPREAD_ISIN },
+      Dat: noSpreadDat,
+    } as any)
+    const res = t.config.handlers.message(makeStreamBuffer(noSpreadMd))
+
+    // Should not emit because we can't calculate bid/ask without spread
+    expect(res).toEqual([])
+  })
+
+  test('spread frame with missing Sz on spread entry is ignored', () => {
+    const t = lwbaProtobufWsTransport as any
+    const NO_SIZE_ISIN = 'SPREAD0005'
+    t.config.builders.subscribeMessage({ market: MARKET, isin: NO_SIZE_ISIN })
+
+    // Spread entry without size
+    const noSizeDat = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(BigInt(10), -4),
+          // Sz is missing
+        },
+        {
+          Typ: 8,
+          PxTyp: { Value: 20 },
+          Px: dec(BigInt(577), -3),
+        },
+      ],
+      Tm: BigInt(19_000_000),
+    } as any)
+    const noSizeMd = create(MarketDataSchema, {
+      Instrmt: { Sym: NO_SIZE_ISIN },
+      Dat: noSizeDat,
+    } as any)
+    const res = t.config.handlers.message(makeStreamBuffer(noSizeMd))
+
+    // Should not emit because spread entry is invalid without size
+    expect(res).toEqual([])
+  })
+})

@@ -10,6 +10,7 @@ import {
 import {
   convertNsToMs,
   decimalToNumber,
+  hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
   isSingleTradeFrame,
@@ -70,5 +71,84 @@ describe('proto-utils', () => {
 
     expect(hasSingleOfferFrame(datWithOffer)).toBe(true)
     expect(hasSingleOfferFrame(datEmpty)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – with valid spread and normal rate', () => {
+    const datWithSpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 12 }, // PRICE_SPREAD
+          Px: dec(10n, -4), // spread of 0.001
+          Sz: dec(1000000n, 0),
+        },
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 20 }, // NORMAL_RATE
+          Px: dec(577n, -3), // mid price of 0.577
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datWithSpread)).toBe(true)
+  })
+
+  test('hasMidPriceSpreadFrame – missing NORMAL_RATE returns false', () => {
+    const datOnlySpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 12 }, // PRICE_SPREAD
+          Px: dec(10n, -4),
+          Sz: dec(1000000n, 0),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlySpread)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing PRICE_SPREAD returns false', () => {
+    const datOnlyNormalRate: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8, // MID_PRICE
+          PxTyp: { Value: 20 }, // NORMAL_RATE
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlyNormalRate)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – empty Pxs array returns false', () => {
+    const datEmpty: Data = create(DataSchema, { Pxs: [] } as any)
+    expect(hasMidPriceSpreadFrame(datEmpty)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing Pxs returns false', () => {
+    const datNoArray: Data = create(DataSchema, {} as any)
+    expect(hasMidPriceSpreadFrame(datNoArray)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – spread entry missing Sz returns false', () => {
+    const datNoSize: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: 8,
+          PxTyp: { Value: 12 },
+          Px: dec(10n, -4),
+          // Sz is missing
+        },
+        {
+          Typ: 8,
+          PxTyp: { Value: 20 },
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datNoSize)).toBe(false)
   })
 })
