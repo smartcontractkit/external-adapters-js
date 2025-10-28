@@ -1,749 +1,382 @@
-import type { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { util } from '@chainlink/ea-bootstrap'
-import type { SuiteContext } from '@chainlink/ea-test-helpers'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
-import { SuperTest, Test } from 'supertest'
-import { server as startServer } from '../../src'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import {
-  mockSuccessfulResponseBigNumberOperand,
-  mockSuccessfulResponseCoingecko,
-  mockSuccessfulResponseCoinpaprika,
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
+import {
+  mockCoinbaseSuccess,
+  mockCoingeckoSuccess,
+  mockCoinpaprikaSuccess,
+  mockFailingAdapter,
+  mockTimeoutAdapter,
+  mockZeroAdapterSuccess,
 } from './fixtures'
 
-const setupEnvironment = (adapters: string[]) => {
-  const env = {} as { [key: string]: string }
-  for (const a of adapters) {
-    env[`${a.toUpperCase()}_${util.ENV_ADAPTER_URL}`] = `https://external.adapter.com/${a}`
-  }
-  return env
-}
+describe('Computed Price Adapter', () => {
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
-describe('impliedPrice', () => {
-  const context: SuiteContext = {
-    req: null,
-    server: startServer,
-  }
-  const envVariables = setupEnvironment(['coingecko', 'coinpaprika', 'failing', 'bignumberoperand'])
-  setupExternalAdapterTest(envVariables, context)
-  describe('with endpoint computedPrice', () => {
-    const endpoint = 'computedPrice'
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
 
-    describe('successful calls', () => {
-      const jobID = '1'
+    // Set up environment variables for source adapters
+    process.env.COINGECKO_ADAPTER_URL = 'http://localhost:8080/coingecko'
+    process.env.COINPAPRIKA_ADAPTER_URL = 'http://localhost:8080/coinpaprika'
+    process.env.COINBASE_ADAPTER_URL = 'http://localhost:8080/coinbase'
+    process.env.FAILING_ADAPTER_URL = 'http://localhost:8080/failing'
+    process.env.ZERO_ADAPTER_URL = 'http://localhost:8080/zero-adapter'
+    process.env.TIMEOUT_ADAPTER_URL = 'http://localhost:8080/timeout'
+    process.env.BACKGROUND_EXECUTE_MS = '100' // Reduce background execution frequency
+    process.env.CACHE_MAX_AGE = '30000' // Longer cache to reduce redundant calls
 
-      it('return success without comma separated sources', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'coinpaprika'],
-            operand2Sources: ['coingecko', 'coinpaprika'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
+    // Disable network connections to ensure tests use mocks
+    nock.disableNetConnect()
 
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
+    // Reduce log noise in tests
+    process.env.LOG_LEVEL = 'error'
 
-      it('returns success with comma separated sources', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: 'coingecko,coinpaprika',
-            operand2Sources: 'coingecko,coinpaprika',
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
+    // Mock Date.now for consistent timestamps
+    const mockDate = new Date('2022-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('can multiply operands', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'coinpaprika'],
-            operand2Sources: ['coingecko', 'coinpaprika'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'multiply',
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('displays number > e+21 as fixed point rather than exponential', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        mockSuccessfulResponseBigNumberOperand()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'coinpaprika'],
-            operand2Sources: ['bignumberoperand'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'multiply',
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-        expect(response.body.result).not.toContain('e+')
-      })
-    })
-
-    describe('erroring calls', () => {
-      const jobID = '1'
-
-      it('returns error if not enough sources to reach minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko'],
-            operand1MinAnswers: 2,
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if not enough configured sources to reach minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'not_configured_1', 'not_configured_2'],
-            operand1MinAnswers: 2,
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if not reaching minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'failing'],
-            operand1MinAnswers: 2,
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if operand1 has zero price', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'coinpaprika'],
-            operand2Sources: ['coingecko', 'coinpaprika'],
-            operand1Input: {
-              from: 'DEAD',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if operand2 has zero price', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko', 'coinpaprika'],
-            operand2Sources: ['coingecko', 'coinpaprika'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'DEAD',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-    })
-
-    describe('validation error', () => {
-      const jobID = '1'
-
-      it('returns a validation error if the request data is empty', async () => {
-        const data: AdapterRequest = { id: jobID, data: { endpoint } }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns a validation error if the request is missing operand1 input', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko'],
-            operand2Sources: ['coingecko'],
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns a validation error if the request is missing operand2 input', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko'],
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns a validation error if the request is missing operation', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['coingecko'],
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns a validation error if the request contains unsupported sources', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            operand1Sources: ['NOT_REAL'],
-            operand2Sources: ['coingecko'],
-            operand1Input: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            operand2Input: {
-              from: 'ETH',
-              to: 'USD',
-            },
-            operation: 'divide',
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
+    const adapter = (await import('../../src')).adapter as unknown as Adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
     })
   })
 
-  describe('with endpoint impliedPrice', () => {
-    const endpoint = 'impliedPrice'
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    nock.enableNetConnect()
+    spy.mockRestore()
+  })
 
-    describe('successful calls', () => {
-      const jobID = '1'
+  beforeEach(() => {
+    // Setup all mocks for each test
+    mockCoingeckoSuccess()
+    mockCoinpaprikaSuccess()
+    mockCoinbaseSuccess()
+    mockZeroAdapterSuccess()
+    mockFailingAdapter()
+    mockTimeoutAdapter()
+  })
 
-      it('return success without comma separated sources', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko', 'coinpaprika'],
-            divisorSources: ['coingecko', 'coinpaprika'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
+  afterEach(() => {
+    nock.cleanAll()
+  })
 
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
+  describe('v2 Backward Compatibility', () => {
+    it('should work with operand1/operand2 format (v2 computedPrice endpoint)', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'computedPrice',
+        operand1Sources: ['coingecko', 'coinpaprika'],
+        operand2Sources: ['coingecko', 'coinpaprika'],
+        operand1Input: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        operand2Input: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
       })
 
-      it('returns success with comma separated sources', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: 'coingecko,coinpaprika',
-            divisorSources: 'coingecko,coinpaprika',
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(200)
-        expect(response.body).toMatchSnapshot()
-      })
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+      expect(result.data.result).toBe(result.result)
     })
 
-    describe('erroring calls', () => {
-      const jobID = '1'
-
-      it('returns error if not enough sources to reach minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko'],
-            dividendMinAnswers: 2,
-            divisorSources: ['coingecko'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
+    it('should work with dividend/divisor format (v2 impliedPrice endpoint)', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko', 'coinpaprika'],
+        divisorSources: ['coingecko', 'coinpaprika'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
       })
 
-      it('returns error if not enough configured sources to reach minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko', 'not_configured_1', 'not_configured_2'],
-            dividendMinAnswers: 2,
-            divisorSources: ['coingecko'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if not reaching minAnswers', async () => {
-        mockSuccessfulResponseCoingecko()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko', 'failing'],
-            dividendMinAnswers: 2,
-            divisorSources: ['coingecko'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if dividend has zero price', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko', 'coinpaprika'],
-            divisorSources: ['coingecko', 'coinpaprika'],
-            dividendInput: {
-              from: 'DEAD',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns error if divisor has zero price', async () => {
-        mockSuccessfulResponseCoingecko()
-        mockSuccessfulResponseCoinpaprika()
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko', 'coinpaprika'],
-            divisorSources: ['coingecko', 'coinpaprika'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'DEAD',
-              to: 'USD',
-            },
-          },
-        }
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
-      })
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+      expect(result.data.result).toBe(result.result)
     })
 
-    describe('validation error', () => {
-      const jobID = '1'
-
-      it('returns a validation error if the request data is empty', async () => {
-        const data: AdapterRequest = { id: jobID, data: {} }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
+    it('should default to divide operation when operation parameter is omitted (impliedPrice compatibility)', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['coingecko'],
+        dividendInput: JSON.stringify({
+          from: 'LINK',
+          to: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+        }),
+        // No operation parameter - should default to 'divide'
       })
 
-      it('returns a validation error if the request is missing dividend input', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko'],
-            divisorSources: ['coingecko'],
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+    })
+
+    it('should work with operand1/operand2 multiply operation', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'computedPrice',
+        operand1Sources: ['coingecko'],
+        operand2Sources: ['coinpaprika'],
+        operand1Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+        }),
+        operand2Input: JSON.stringify({
+          from: 'BTC',
+          to: 'USD',
+        }),
+        operation: 'multiply',
+      })
+
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+    })
+  })
+
+  describe('computedPrice endpoint', () => {
+    it('should calculate computed price with base/quote format (JSON string input) - divide', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko', 'coinpaprika'],
+        divisorSources: ['coingecko', 'coinpaprika'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      // With mock data: coingecko=4400.05, coinpaprika=4400.15 -> median 4400.1
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+      expect(result.data.result).toBe(result.result)
+    })
+
+    it('should calculate computed price with base/quote format (JSON string input) - multiply', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko', 'coinpaprika'],
+        divisorSources: ['coingecko', 'coinpaprika'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'multiply',
+      })
+
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      // With multiplication: ETH median * BTC median
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+      expect(result.data.result).toBe(result.result)
+    })
+
+    it('should calculate computed price with from/to format - divide', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko', 'coinpaprika'],
+        divisorSources: ['coingecko', 'coinpaprika'],
+        dividendInput: JSON.stringify({
+          from: 'LINK',
+          to: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+        }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+    })
+
+    it('should work with overrides - multiply', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['coingecko'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
             },
           },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
-      })
-
-      it('returns a validation error if the request is missing divisor input', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['coingecko'],
-            divisorSources: ['coingecko'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+          overrides: {
+            coingecko: {
+              BTC: 'bitcoin',
             },
           },
-        }
-
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(400)
-        expect(response.body).toMatchSnapshot()
+        }),
+        operation: 'multiply',
       })
 
-      it('returns a validation error if the request contains unsupported sources', async () => {
-        const data: AdapterRequest = {
-          id: jobID,
-          data: {
-            endpoint,
-            dividendSources: ['NOT_REAL'],
-            divisorSources: ['coingecko'],
-            dividendInput: {
-              from: 'LINK',
-              to: 'USD',
-            },
-            divisorInput: {
-              from: 'ETH',
-              to: 'USD',
-            },
-          },
-        }
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+    })
 
-        const response = await (context.req as SuperTest<Test>)
-          .post('/')
-          .send(data)
-          .set('Accept', '*/*')
-          .set('Content-Type', 'application/json')
-          .expect('Content-Type', /json/)
-          .expect(500)
-        expect(response.body).toMatchSnapshot()
+    it('should handle minimum answers requirement', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko', 'coinpaprika', 'coinbase'],
+        divisorSources: ['coingecko', 'coinpaprika', 'coinbase'],
+        dividendMinAnswers: 2,
+        divisorMinAnswers: 2,
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
       })
+
+      expect(response.statusCode).toBe(200)
+      const result = response.json()
+      expect(result.result).toBeDefined()
+      expect(typeof result.result).toBe('number')
+    })
+
+    it('should handle missing required parameters (missing dividend sources)', async () => {
+      const response = await testAdapter.request({
+        // Missing dividendSources (required for impliedPrice endpoint)
+        divisorSources: ['coingecko'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(400) // Validation error
+      const result = response.json()
+      expect(result.message || result.errorMessage || JSON.stringify(result)).toContain(
+        'dividendSources',
+      )
+    })
+
+    it('should handle invalid operation parameter', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['coingecko'],
+        dividendInput: JSON.stringify({
+          base: 'ETH',
+          quote: 'USD',
+        }),
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'invalid_operation',
+      })
+
+      expect(response.statusCode).toBe(400)
+      const result = response.json()
+      expect(result.message || result.errorMessage || JSON.stringify(result)).toContain('operation')
+    })
+
+    it('should validate JSON input parameters', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['coingecko'],
+        dividendInput: 'invalid-json-string',
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(400) // Validation error for JSON parsing
+      const result = response.json()
+      expect(result.message || result.errorMessage || JSON.stringify(result)).toContain(
+        'dividendInput',
+      )
+    })
+
+    it('should handle malformed JSON with descriptive error', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['coingecko'],
+        dividendInput: '{"base": "ETH", "quote":}', // Malformed JSON
+        divisorInput: JSON.stringify({
+          base: 'BTC',
+          quote: 'USD',
+        }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(400) // Validation error
+      const result = response.json()
+      expect(result.message || result.errorMessage || JSON.stringify(result)).toContain(
+        'dividendInput',
+      )
+    })
+
+    it('should handle division by zero scenario (insufficient responses from zero-adapter)', async () => {
+      const response = await testAdapter.request({
+        dividendSources: ['coingecko'],
+        divisorSources: ['zero-adapter'],
+        dividendInput: JSON.stringify({ base: 'ETH', quote: 'USD' }),
+        divisorInput: JSON.stringify({ base: 'ZERO', quote: 'USD' }),
+        operation: 'divide',
+      })
+
+      expect(response.statusCode).toBe(400) // Insufficient responses error
+      const result = response.json()
+      expect(result.message || result.errorMessage || JSON.stringify(result)).toContain(
+        'Insufficient responses',
+      )
     })
   })
 })

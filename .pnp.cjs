@@ -7519,16 +7519,11 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/implied-price/",\
         "packageDependencies": [\
           ["@chainlink/implied-price-adapter", "workspace:packages/composites/implied-price"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.9.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

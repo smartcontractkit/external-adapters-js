@@ -1,8 +1,13 @@
-import { expose } from '@chainlink/ea-bootstrap'
-import { makeExecute } from './adapter'
-import { makeConfig, NAME } from './config'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { config, DEFAULT_ENDPOINT, NAME } from './config'
+import { computedPrice, impliedPrice } from './endpoint'
 
-const adapterContext = { name: NAME }
+export const adapter = new Adapter({
+  defaultEndpoint: DEFAULT_ENDPOINT,
+  name: NAME,
+  config,
+  endpoints: [impliedPrice, computedPrice],
+})
 
-const { server } = expose(adapterContext, makeExecute())
-export { NAME, makeExecute, makeConfig, server }
+export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
