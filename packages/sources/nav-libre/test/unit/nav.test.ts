@@ -65,7 +65,7 @@ describe('NavLibreTransport – handleRequest', () => {
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(responseCache.write).toHaveBeenCalledTimes(1)
 
@@ -78,6 +78,7 @@ describe('NavLibreTransport – handleRequest', () => {
         navPerShare: 150,
         nextNavPerShare: 151,
         navDate: '06-25-2025',
+        navDateTimestamp: 1750809600000,
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),
@@ -108,7 +109,7 @@ describe('NavLibreTransport – handleRequest', () => {
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(responseCache.write).toHaveBeenCalledTimes(1)
     const cached = getCachedResponse()
@@ -131,7 +132,7 @@ describe('NavLibreTransport – handleRequest', () => {
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(requester.request).toHaveBeenNthCalledWith(
       2,
@@ -149,7 +150,7 @@ describe('NavLibreTransport – handleRequest', () => {
     )
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     const cached = getCachedResponse()
     expect(cached.statusCode).toBe(400)

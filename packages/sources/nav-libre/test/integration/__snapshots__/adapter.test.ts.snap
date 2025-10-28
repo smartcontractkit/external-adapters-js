@@ -5,6 +5,7 @@ exports[`execute nav endpoint should return success 1`] = `
   "data": {
     "globalFundID": 1234,
     "navDate": "01-01-2024",
+    "navDateTimestamp": 1704067200000,
     "navPerShare": 123.45,
     "nextNavPerShare": 124.56,
   },

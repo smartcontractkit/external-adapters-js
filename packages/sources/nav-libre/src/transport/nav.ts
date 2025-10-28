@@ -31,11 +31,16 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
     this.config = adapterSettings
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    // Only sleep more if we have requests
+    if (entries.length == 0) {
+      await sleep(1_000)
+    } else {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    }
   }
 
-  async handleRequest(_context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
@@ -107,6 +112,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
         navPerShare: latest[NAV_PER_SHARE_KEY],
         nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
+        navDateTimestamp: parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime(),
       },
       timestamps: {
         providerDataRequestedUnixMs,
