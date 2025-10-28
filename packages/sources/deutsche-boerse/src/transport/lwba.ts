@@ -2,7 +2,7 @@ import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes, Market, MARKET_EUREX_MICRO, MARKETS } from '../endpoint/lwba'
 import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
 import {
   RequestSchema,
@@ -172,7 +172,6 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
     return null
   }
 }
-const EUREX_MARKET = 'md-microproducts' as const satisfies Market
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
@@ -193,7 +192,7 @@ function processMarketData(
     return null
   }
 
-  if (market === EUREX_MARKET && !isFutureInstrument(md)) {
+  if (market === MARKET_EUREX_MICRO && !isFutureInstrument(md)) {
     logger.debug({ isin, market }, 'Ignoring non-FUT instrument for FUT-only market')
     return null
   }

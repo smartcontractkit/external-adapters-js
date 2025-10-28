@@ -326,7 +326,7 @@ describe('Eurex (md-microproducts) guard', () => {
     } as any)
 
     const out = t.config.handlers.message(makeStreamBuffer(mdNonFut, MARKET_EUREX))
-    expect(out).toEqual([]) // ✅ ignored because not FUT
+    expect(out).toEqual([]) // ignored because not FUT
   })
 
   test('processes FUT instruments on Eurex', () => {
