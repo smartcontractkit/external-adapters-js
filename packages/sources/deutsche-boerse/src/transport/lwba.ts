@@ -2,7 +2,7 @@ import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes, Market, MARKET_EUREX_MICRO, MARKETS } from '../endpoint/lwba'
 import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
 import {
   RequestSchema,
@@ -18,6 +18,7 @@ import {
   hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -245,15 +246,21 @@ function processMarketData(
     logger.warn('Could not parse ISIN from MarketData')
     return null
   }
-  const dat: any = (md as MarketData)?.Dat
-  if (!dat) {
-    logger.warn('Could not parse MarketData from MarketData.Instrmt')
-    return null
-  }
 
   const quote = cache.get(market, isin)
   if (!quote) {
     logger.debug('Ignoring message for inactive instrument (not in cache)')
+    return null
+  }
+
+  if (market === MARKET_EUREX_MICRO && !isFutureInstrument(md)) {
+    logger.debug({ isin, market }, 'Ignoring non-FUT instrument for FUT-only market')
+    return null
+  }
+
+  const dat: any = (md as MarketData)?.Dat
+  if (!dat) {
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
   }
 
