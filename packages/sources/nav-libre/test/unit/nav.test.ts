@@ -78,7 +78,7 @@ describe('NavLibreTransport – handleRequest', () => {
         navPerShare: 150,
         nextNavPerShare: 151,
         navDate: '06-25-2025',
-        navDateTimestamp: 1750809600000,
+        navDateTimestampMs: 1750809600000,
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),

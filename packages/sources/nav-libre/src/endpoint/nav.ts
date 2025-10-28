@@ -25,7 +25,7 @@ export type BaseEndpointTypes = {
       navPerShare: number
       nextNavPerShare: number
       navDate: string
-      navDateTimestamp: number
+      navDateTimestampMs: number
       globalFundID: number
     }
   }

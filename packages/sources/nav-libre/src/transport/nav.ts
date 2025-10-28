@@ -112,7 +112,7 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
         navPerShare: latest[NAV_PER_SHARE_KEY],
         nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
-        navDateTimestamp: parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime(),
+        navDateTimestampMs: parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime(),
       },
       timestamps: {
         providerDataRequestedUnixMs,
