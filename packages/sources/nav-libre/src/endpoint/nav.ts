@@ -23,7 +23,9 @@ export type BaseEndpointTypes = {
     Result: number
     Data: {
       navPerShare: number
+      nextNavPerShare: number
       navDate: string
+      navDateTimestampMs: number
       globalFundID: number
     }
   }
