@@ -7,8 +7,6 @@ import { makeStub } from '@chainlink/external-adapter-framework/util/testing-uti
 import { inputParameters } from '../../src/endpoint/reserve'
 import { HttpTransportTypes, ReserveTransport } from '../../src/transport/reserve'
 
-type RequestParams = typeof inputParameters.validated
-
 const originalEnv = { ...process.env }
 
 const restoreEnv = () => {
@@ -101,8 +99,8 @@ describe('ReserveTransport', () => {
   it('should make the request', async () => {
     const expectedTotalReserve = 23923
 
-    const params = makeStub('params', {} as RequestParams)
-    subscriptionSet.getAll.mockReturnValue([params as RequestParams])
+    const params = makeStub('params', {})
+    subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
@@ -135,13 +133,12 @@ describe('ReserveTransport', () => {
         'Content-Type': 'application/json',
       },
     }
-    const expectedRequestKey = requestKeyForParams(params as RequestParams)
+    const expectedRequestKey = requestKeyForParams(params)
 
     const expectedResponse = {
       data: {
         result: expectedTotalReserve,
         ripcord: false,
-        totalReserve: expectedTotalReserve,
       },
       result: expectedTotalReserve,
       timestamps: {

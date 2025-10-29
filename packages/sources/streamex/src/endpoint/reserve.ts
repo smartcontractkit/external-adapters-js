@@ -10,9 +10,7 @@ export const inputParameters = new InputParameters({})
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: PoRProviderResponse & {
-    totalReserve?: number
-  }
+  Response: PoRProviderResponse
   Settings: typeof config.settings
 }
 

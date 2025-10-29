@@ -67,7 +67,6 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           data: {
             result: totalReserve,
             ripcord,
-            totalReserve,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),

@@ -5,7 +5,6 @@ exports[`execute reserve endpoint should return success 1`] = `
   "data": {
     "result": 23923,
     "ripcord": false,
-    "totalReserve": 23923,
   },
   "result": 23923,
   "statusCode": 200,
