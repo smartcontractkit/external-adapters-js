@@ -606,6 +606,9 @@
       "path": "./sources/stasis"
     },
     {
+      "path": "./sources/streamex"
+    },
+    {
       "path": "./sources/superstate"
     },
     {
