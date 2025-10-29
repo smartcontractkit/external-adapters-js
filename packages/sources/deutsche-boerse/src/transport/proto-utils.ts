@@ -79,7 +79,8 @@ export function hasMidPriceSpreadFrame(dat?: DataProto): boolean {
   const hasSpread = pxs.some(
     (entry) =>
       entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
-      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD,
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD &&
+      isDecimalPrice(entry.Sz),
   )
 
   const hasNormalRate = pxs.some(
