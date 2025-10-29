@@ -202,16 +202,16 @@ function processMidPriceSpreadFrame(
       entry.Sz,
   )
 
+  if (spreadEntries.length === 0) {
+    logger.error({ market, isin }, 'No PRICE_SPREAD entries found in Pxs array')
+    return null
+  }
+
   spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
     const sizeA = decimalToNumber(a.Sz)
     const sizeB = decimalToNumber(b.Sz)
     return sizeA - sizeB
   })
-
-  if (spreadEntries.length === 0) {
-    logger.error('No PRICE_SPREAD entries found in Pxs array')
-    return null
-  }
 
   const lowestSpreadEntry = spreadEntries[0]
   const spread = decimalToNumber(lowestSpreadEntry.Px)
@@ -225,7 +225,7 @@ function processMidPriceSpreadFrame(
   )
 
   if (!normalRateEntry) {
-    logger.error('No NORMAL_RATE entry found in Pxs array')
+    logger.error({ market, isin }, 'No NORMAL_RATE entry found in Pxs array')
     return null
   }
 
