@@ -10,6 +10,7 @@ import {
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
+import pLimit from 'p-limit'
 
 const logger = makeLogger('View Function Multi Chain')
 
@@ -19,7 +20,7 @@ interface RequestParams {
   inputParams?: Array<string>
   network: string
   resultField?: string
-  data?: Record<string, RequestParams>
+  additionalRequests?: Record<string, RequestParams>
 }
 
 export type RawOnchainResponse = {
@@ -84,25 +85,39 @@ export class MultiChainFunctionTransport<
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network, data } = param
+    const { address, signature, inputParams, network, additionalRequests } = param
 
-    const mainResult = await this._executeFunction({
-      address,
-      signature,
-      inputParams,
-      network,
-      resultField: param.resultField,
-    })
+    const [mainResult, nestedResultOutcome] = await Promise.allSettled([
+      this._executeFunction({
+        address,
+        signature,
+        inputParams,
+        network,
+        resultField: param.resultField,
+      }),
+      this._processNestedDataRequest(additionalRequests, address, network),
+    ])
 
-    const nestedResults = await this._processNestedDataRequest(data, address, network)
+    if (mainResult.status === 'rejected') {
+      throw new AdapterError({
+        statusCode: mainResult.reason?.statusCode || null,
+        message: `${mainResult.reason}`,
+      })
+    }
 
-    const combinedData = { result: mainResult.result, ...nestedResults }
+    // Nested result is optional
+    const nestedResults =
+      nestedResultOutcome.status === 'fulfilled'
+        ? nestedResultOutcome.value
+        : (console.warn('Nested result failed:', nestedResultOutcome.reason), null)
+
+    const combinedData = { result: mainResult.value.result, ...nestedResults }
 
     return {
       data: combinedData,
       statusCode: 200,
-      result: mainResult.result,
-      timestamps: mainResult.timestamps,
+      result: mainResult.value.result,
+      timestamps: mainResult.value.timestamps,
     }
   }
 
@@ -161,36 +176,48 @@ export class MultiChainFunctionTransport<
   }
 
   private async _processNestedDataRequest(
-    data: Record<string, unknown> | undefined,
+    additionalRequests: Record<string, RequestParams> | undefined,
     parentAddress: string,
     parentNetwork: string,
   ): Promise<Record<string, any>> {
-    if (!data || typeof data !== 'object') return {}
-
+    const limit = pLimit(5)
     const results: Record<string, any> = {}
 
-    for (const [key, subReq] of Object.entries(data)) {
-      try {
-        const req = subReq as RequestParams
+    if (!additionalRequests || typeof additionalRequests !== 'object') return results
 
-        if (!req.signature) {
-          logger.warn(`Skipping nested key "${key}" — no signature provided.`)
-          continue
+    const tasks = Object.entries(additionalRequests).map(([key, subReq]) =>
+      limit(async () => {
+        try {
+          const req = subReq as RequestParams
+
+          if (!req.signature) {
+            logger.warn(`Skipping nested key "${key}" — no signature provided.`)
+            return [key, null]
+          }
+
+          const nestedParam = {
+            address: req.address || parentAddress,
+            network: req.network || parentNetwork,
+            signature: req.signature,
+            inputParams: req.inputParams,
+            resultField: req.resultField,
+          }
+
+          const subRes = await this._executeFunction(nestedParam)
+          return [key, subRes.result]
+        } catch (err) {
+          logger.warn(`Nested function "${key}" failed: ${err}`)
+          return [key, null]
         }
+      }),
+    )
 
-        const nestedParam = {
-          address: req.address || parentAddress,
-          network: req.network || parentNetwork,
-          signature: req.signature,
-          inputParams: req.inputParams,
-          resultField: req.resultField,
-        }
+    const settled = await Promise.allSettled(tasks)
 
-        const subRes = await this._executeFunction(nestedParam)
-        results[key] = subRes.result
-      } catch (err) {
-        logger.warn(`Nested function "${key}" failed: ${err}`)
-        results[key] = null
+    for (const outcome of settled) {
+      if (outcome.status === 'fulfilled') {
+        const [key, value] = outcome.value as [string, string]
+        results[key] = value
       }
     }
 
