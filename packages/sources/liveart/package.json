@@ -1,5 +1,5 @@
 {
-  "name": "@chainlink/liveart-external-adapter",
+  "name": "@chainlink/liveart-adapter",
   "version": "1.0.0",
   "description": "LiveArt NAV external adapter for Chainlink",
   "main": "dist/index.js",

@@ -655,7 +655,7 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lition"\
     },\
     {\
-      "name": "@chainlink/liveart-external-adapter",\
+      "name": "@chainlink/liveart-adapter",\
       "reference": "workspace:packages/sources/liveart"\
     },\
     {\
@@ -1118,7 +1118,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
-    ["@chainlink/liveart-external-adapter", ["workspace:packages/sources/liveart"]],\
+    ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
@@ -7796,11 +7796,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/liveart-external-adapter", [\
+    ["@chainlink/liveart-adapter", [\
       ["workspace:packages/sources/liveart", {\
         "packageLocation": "./packages/sources/liveart/",\
         "packageDependencies": [\
-          ["@chainlink/liveart-external-adapter", "workspace:packages/sources/liveart"],\
+          ["@chainlink/liveart-adapter", "workspace:packages/sources/liveart"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
