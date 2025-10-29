@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
-import { httpTransport } from '../transport/asset'
+import { httpTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters(
   {
@@ -18,8 +18,8 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export const asset = new AdapterEndpoint({
-  name: 'asset',
+export const nav = new AdapterEndpoint({
+  name: 'nav',
   transport: httpTransport,
   inputParameters,
 })

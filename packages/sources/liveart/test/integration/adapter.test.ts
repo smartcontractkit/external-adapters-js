@@ -4,13 +4,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
-import { asset } from '../../src/endpoint/asset'
-import { assets } from '../../src/endpoint/assets'
-import {
-  mockHappyPathResponseSuccessAsset,
-  mockHappyPathResponseSuccessAssets,
-  mockResponseFailureAsset,
-} from './utils/fixtures'
+import { nav } from '../../src/endpoint/nav'
+import { mockHappyPathResponseSuccessAsset, mockResponseFailureAsset } from './utils/fixtures'
 import { TEST_FAILURE_ASSET_ID, TEST_SUCCESS_ASSET_ID, TEST_URL } from './utils/testConfig'
 import { clearTestCache } from './utils/utilFunctions'
 
@@ -47,25 +42,11 @@ describe('LiveArt NAV', () => {
   })
 
   describe('endpoints', () => {
-    describe('/assets', () => {
-      it('should return success', async () => {
-        const dataInput = {
-          endpoint: assets.name,
-        }
-
-        mockHappyPathResponseSuccessAssets()
-        const response = await testAdapter.request(dataInput)
-
-        expect(response.statusCode).toBe(200)
-        expect(response.json()).toMatchSnapshot()
-      })
-    })
-
-    describe('/asset/${asset_id}', () => {
+    describe('nav', () => {
       it('should return success for valid asset_id', async () => {
         const dataInput = {
           asset_id: TEST_SUCCESS_ASSET_ID,
-          endpoint: asset.name,
+          endpoint: nav.name,
         }
 
         mockHappyPathResponseSuccessAsset(dataInput.asset_id)
@@ -78,13 +59,15 @@ describe('LiveArt NAV', () => {
       it('should handle upstream bad response for asset_id', async () => {
         const data = {
           asset_id: TEST_FAILURE_ASSET_ID,
-          endpoint: asset.name,
+          endpoint: nav.name,
         }
 
         mockResponseFailureAsset(data.asset_id)
 
         const response = await testAdapter.request(data)
-        expect(response.json()).toMatchSnapshot()
+        const responseJson = response.json()
+        expect(responseJson.statusCode).toBe(502)
+        expect(responseJson).toMatchSnapshot()
       })
     })
   })

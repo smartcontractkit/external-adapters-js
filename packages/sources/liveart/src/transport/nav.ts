@@ -1,22 +1,37 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports/http'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config/config'
-import { inputParameters } from '../endpoint/asset'
-import { Asset } from './types'
+import { inputParameters } from '../endpoint/nav'
+
+export interface ResponseSchema {
+  asset_id: string
+  asset_info_category: string
+  asset_info_creator: string
+  asset_info_title: string
+  asset_info_year_created: string
+  asset_info_description: string
+  asset_info_url: string
+  current_estimated_nav_usd: string
+  current_estimated_nav_updated_at: string
+  token_total_shares: number
+  token_current_estimated_nav_per_share_usd: string
+  offering_price_usd: string
+  success: boolean
+  message: string
+  response_timestamp: string
+}
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: {
-    Data: Asset
-    Result: null
-  }
+  Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
-    ResponseBody: Asset
+    ResponseBody: ResponseSchema
   }
 }
 
@@ -39,16 +54,31 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           params: param,
           response: {
             errorMessage: `Mismatched asset_id in response. Expected ${param.asset_id}, got ${response.data.asset_id}`,
-            statusCode: 500,
+            statusCode: 502,
           },
         }
       }
+      const responseData = response.data
+
+      if (!responseData.success)
+        return {
+          params: param,
+          response: {
+            errorMessage: responseData.message,
+            statusCode: 502,
+          },
+        }
+
+      const navString = responseData.token_current_estimated_nav_per_share_usd
+      const nav = parseFloat(navString)
 
       return {
         params: param,
         response: {
-          result: null,
-          data: response.data,
+          result: nav,
+          data: {
+            result: nav,
+          },
         },
       }
     })
