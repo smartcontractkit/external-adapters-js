@@ -1,5 +1,5 @@
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
-import { getFund } from './fund'
+import { ACCOUNTING_DATE_KEY, getFund, NAV_PER_SHARE_KEY, NEXT_NAV_PRICE_KEY } from './fund'
 import { getFundDates } from './fund-dates'
 
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -31,11 +31,16 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
     this.config = adapterSettings
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    // Only sleep more if we have requests, avoids long startup delay for first asset
+    if (entries.length == 0) {
+      await sleep(1_000)
+    } else {
+      await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    }
   }
 
-  async handleRequest(_context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
@@ -91,8 +96,6 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       requester: this.requester,
     })
 
-    const ACCOUNTING_DATE_KEY = 'Accounting Date'
-    const NAV_PER_SHARE_KEY = 'NAV Per Share'
     // Find the latest NAV entry by Accounting Date
     const latest = fund.reduce((latestRow, row) =>
       parseDateString(row[ACCOUNTING_DATE_KEY]) > parseDateString(latestRow[ACCOUNTING_DATE_KEY])
@@ -107,7 +110,9 @@ export class NavLibreTransport extends SubscriptionTransport<BaseEndpointTypes> 
       data: {
         globalFundID: param.globalFundID,
         navPerShare: latest[NAV_PER_SHARE_KEY],
+        nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
+        navDateTimestampMs: parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime(),
       },
       timestamps: {
         providerDataRequestedUnixMs,
