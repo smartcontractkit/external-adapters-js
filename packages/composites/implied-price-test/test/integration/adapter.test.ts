@@ -41,6 +41,7 @@ describe('execute', () => {
     it('should return error for missing source', async () => {
       const data = {
         operand1Sources: ['ncfx', 'elwood', 'coinpaprika'],
+        operand1MinAnswers: 3,
         operand1Input: JSON.stringify({
           from: 'LINK',
           to: 'USD',
@@ -66,7 +67,7 @@ describe('execute', () => {
       mockDPResponseSuccess('ncfx', 20)
       mockDPResponseSuccess('elwood', 5)
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
       expect(response.json()).toMatchSnapshot()
     })
 
@@ -162,6 +163,37 @@ describe('execute', () => {
         }),
       }
       mockDPResponseSuccess('tiingo', 10)
+      mockDPResponseSuccess('ncfx', 20)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for partial source success', async () => {
+      const data = {
+        dividendSources: ['ncfx', 'tiingo'],
+        dividendInput: JSON.stringify({
+          from: 'LINK',
+          to: 'USD',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        divisorSources: ['tiingo', 'elwood'],
+        divisorInput: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+      }
+      mockDPResponseError('tiingo')
       mockDPResponseSuccess('ncfx', 20)
       mockDPResponseSuccess('elwood', 5)
       const response = await testAdapter.request(data)

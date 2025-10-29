@@ -1,6 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { computedPriceTransport } from '../transport/computePrice'
 
@@ -57,26 +60,10 @@ export const inputParameters = new InputParameters(
     {
       operand1Sources: ['coingecko'],
       operand1MinAnswers: 1,
-      operand1Input: JSON.stringify({
-        from: 'LINK',
-        to: 'USD',
-        overrides: {
-          coingecko: {
-            LINK: 'chainlink',
-          },
-        },
-      }),
+      operand1Input: '{"from":"LINK","to":"USD","overrides":{"coingecko":{"LINK":"chainlink"}}}',
       operand2Sources: ['coingecko'],
       operand2MinAnswers: 1,
-      operand2Input: JSON.stringify({
-        from: 'ETH',
-        to: 'USD',
-        overrides: {
-          coingecko: {
-            ETH: 'ethereum',
-          },
-        },
-      }),
+      operand2Input: '{"from":"ETH","to":"USD","overrides":{"coingecko":{"ETH":"ethereum"}}}',
       operation: 'multiply',
     },
   ],
@@ -99,21 +86,38 @@ export const endpoint = new AdapterEndpoint({
   transport: computedPriceTransport,
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
-    const { operand1Sources, operand2Sources } = req.requestContext.data
-    const missingEnvVars: Set<string> = new Set()
-    ;[...operand1Sources, ...operand2Sources].forEach((source: string) => {
-      if (!process.env[`${source.toUpperCase()}_ADAPTER_URL`]) {
-        missingEnvVars.add(`${source.toUpperCase()}_ADAPTER_URL`)
-      }
-    })
-    if (missingEnvVars.size > 0) {
-      return new AdapterInputError({
-        statusCode: 400,
-        message: `Missing the following environment variables for the specified sources: ${[
-          ...missingEnvVars,
-        ].join(', ')}`,
-      })
-    }
+    const { operand1Sources, operand2Sources, operand1MinAnswers, operand2MinAnswers } =
+      req.requestContext.data
+    let e = validateSources(operand1Sources, operand1MinAnswers)
+    if (e) return e
+    e = validateSources(operand2Sources, operand2MinAnswers)
+    if (e) return e
     return
   },
 })
+
+const validateSources = (sources: string[], minAnswers: number) => {
+  if (sources.length < minAnswers) {
+    return new AdapterInputError({
+      statusCode: 400,
+      message: `Not enough sources: got ${sources.length} sources, requiring at least ${minAnswers} answers`,
+    })
+  }
+
+  const urls = sources
+    .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
+    .filter((url) => url !== undefined)
+  const missingUrlCount = minAnswers - urls.length
+  if (missingUrlCount > 0) {
+    const missingEnvVars = sources
+      .map((source) => `${source.toUpperCase()}_ADAPTER_URL`)
+      .filter((envVar) => !process.env[envVar])
+    return new AdapterError({
+      statusCode: 500,
+      message: `Not enough sources configured. Make sure ${missingUrlCount} of the following are set in the environment: ${missingEnvVars.join(
+        ', ',
+      )}`,
+    })
+  }
+  return
+}

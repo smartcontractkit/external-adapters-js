@@ -25,11 +25,11 @@ exports[`execute computePrice endpoint should return error for minimum number of
 exports[`execute computePrice endpoint should return error for missing source 1`] = `
 {
   "error": {
-    "message": "Missing the following environment variables for the specified sources: COINPAPRIKA_ADAPTER_URL",
+    "message": "Not enough sources configured. Make sure 1 of the following are set in the environment: COINPAPRIKA_ADAPTER_URL",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 500,
 }
 `;
 
@@ -67,6 +67,20 @@ exports[`execute computePrice endpoint should return success for multiply 1`] = 
     "result": "200",
   },
   "result": "200",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for partial source success 1`] = `
+{
+  "data": {
+    "result": "1.5",
+  },
+  "result": "1.5",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
