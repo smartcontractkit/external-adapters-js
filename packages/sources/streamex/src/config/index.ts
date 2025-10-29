@@ -1,7 +1,7 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  STREAMEX_API_KEY: {
+  API_KEY: {
     description: 'An API key for Streamex',
     type: 'string',
     required: true,

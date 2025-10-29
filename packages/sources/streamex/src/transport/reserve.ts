@@ -1,4 +1,7 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/reserve'
 
 export interface ResponseSchema {
@@ -16,7 +19,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       return {
@@ -25,7 +28,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           url: '/gldy-status',
           headers: {
-            'x-api-key': config.STREAMEX_API_KEY,
+            'x-api-key': config.API_KEY,
             'Content-Type': 'application/json',
           },
         },
@@ -34,21 +37,18 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      const ripcord =
-        response.data.ripcord || response.data.ripcord.toString().toLowerCase() === 'true'
-      const ripcordAsInt = ripcord ? 1 : 0
+      const ripcord = response.data.ripcord
 
       // If ripcord is true, return 502 error
       if (ripcord) {
         const ripcordDetails = response.data.ripcordDetails.join(', ')
-        const message = `Ripcord indicator true. Details: ${ripcordDetails}`
+        const errorMessage = `Ripcord indicator true. Details: ${ripcordDetails}`
 
         return {
           params: param,
           response: {
-            errorMessage: message,
+            errorMessage,
             ripcord,
-            ripcordAsInt,
             ripcordDetails,
             statusCode: 502,
             timestamps: {
@@ -67,7 +67,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           data: {
             result: totalReserve,
             ripcord,
-            ripcordAsInt,
             totalReserve,
           },
           timestamps: {
@@ -77,4 +76,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-})
+}
+
+// Exported for testing
+export class ReserveTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super(transportConfig)
+  }
+}
+
+export const httpTransport = new ReserveTransport()

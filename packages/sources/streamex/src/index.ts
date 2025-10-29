@@ -12,7 +12,6 @@ export const adapter = new Adapter({
     tiers: {
       default: {
         rateLimit1m: 10, // 10 requests per minute
-        rateLimit1s: 2, // 20 per 10s = ~2 per second
       },
     },
   },

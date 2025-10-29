@@ -4,7 +4,6 @@ exports[`execute reserve endpoint when ripcord true should fail with 502 error 1
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
   "ripcord": true,
-  "ripcordAsInt": 1,
   "ripcordDetails": "Balances",
   "statusCode": 502,
   "timestamps": {

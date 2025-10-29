@@ -11,7 +11,6 @@ export const inputParameters = new InputParameters({})
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: PoRProviderResponse & {
-    ripcordAsInt?: number
     totalReserve?: number
   }
   Settings: typeof config.settings
