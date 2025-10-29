@@ -27,7 +27,7 @@ export const inputParamDefinition = {
     description: 'RPC network name',
     type: 'string',
   },
-  data: {
+  additionalRequests: {
     description: 'Optional map of function calls',
     type: 'object' as unknown as Record<string, any>,
     required: false,

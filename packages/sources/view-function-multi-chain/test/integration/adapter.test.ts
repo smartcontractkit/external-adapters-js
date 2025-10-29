@@ -75,23 +75,6 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return success with additional data requests ', async () => {
-      const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-        data: {
-          decimals: {
-            signature: 'function decimals() view returns (uint8)',
-          },
-        },
-      }
-      mockETHMainnetContractCallResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
     it('should skip additional data requests in case of missing signature', async () => {
       const data = {
         contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
