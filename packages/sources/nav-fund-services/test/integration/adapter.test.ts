@@ -12,9 +12,9 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY_1234 = process.env.API_KEY_1234 ?? 'fake-api-key'
+    process.env.API_KEY_1234 = 'fake-api-key'
     process.env.SECRET_KEY_1234 = 'SOME_SECRET_KEY'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T00:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
