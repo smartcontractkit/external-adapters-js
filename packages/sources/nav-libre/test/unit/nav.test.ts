@@ -42,8 +42,8 @@ const FUND_DATES_RES = makeStub('fundDatesRes', {
 })
 
 const FUND_ROWS = [
-  { 'NAV Per Share': 50, 'Accounting Date': '06-10-2025' },
-  { 'NAV Per Share': 150, 'Accounting Date': '06-25-2025' },
+  { 'NAV Per Share': 50, 'Next NAV Price': 51, 'Accounting Date': '06-10-2025' },
+  { 'NAV Per Share': 150, 'Next NAV Price': 151, 'Accounting Date': '06-25-2025' },
 ]
 
 const FUND_RES = makeStub('fundRes', {
@@ -65,7 +65,7 @@ describe('NavLibreTransport – handleRequest', () => {
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(responseCache.write).toHaveBeenCalledTimes(1)
 
@@ -76,7 +76,9 @@ describe('NavLibreTransport – handleRequest', () => {
       data: {
         globalFundID: FUND_ID,
         navPerShare: 150,
+        nextNavPerShare: 151,
         navDate: '06-25-2025',
+        navDateTimestampMs: 1750809600000,
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),
@@ -107,7 +109,7 @@ describe('NavLibreTransport – handleRequest', () => {
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(responseCache.write).toHaveBeenCalledTimes(1)
     const cached = getCachedResponse()
@@ -122,15 +124,15 @@ describe('NavLibreTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(shortSpanDates)
 
     const fundRows = [
-      { 'NAV Per Share': 42, 'Accounting Date': '06-30-2025' },
-      { 'NAV Per Share': 43, 'Accounting Date': '07-01-2025' },
+      { 'NAV Per Share': 42, 'Next NAV Price': 142, 'Accounting Date': '06-30-2025' },
+      { 'NAV Per Share': 43, 'Next NAV Price': 143, 'Accounting Date': '07-01-2025' },
     ]
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
     requester.request.mockResolvedValueOnce(fundRes)
 
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     expect(requester.request).toHaveBeenNthCalledWith(
       2,
@@ -148,7 +150,7 @@ describe('NavLibreTransport – handleRequest', () => {
     )
     const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
 
-    await transport.handleRequest({ adapterSettings } as any, param)
+    await transport.handleRequest(param)
 
     const cached = getCachedResponse()
     expect(cached.statusCode).toBe(400)
