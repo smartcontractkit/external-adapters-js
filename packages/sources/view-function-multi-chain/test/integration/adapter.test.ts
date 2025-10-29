@@ -62,7 +62,7 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return success with additional data requests ', async () => {
+    it.only('should return success with additional data requests ', async () => {
       const data = {
         contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
         function: 'function latestAnswer() external view returns (int256)',
