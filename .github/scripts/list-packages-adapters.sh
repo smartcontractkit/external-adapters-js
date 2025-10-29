@@ -1,7 +1,10 @@
 #!/bin/bash -e
 
-# If BUILD_ALL is true, then we want to generate lists with all packages regardless of changes
-if [[ $BUILD_ALL = true ]]; then
+SOURCE_DIR="$(dirname "$0")"
+
+UPSTREAM_BRANCH="${1:-}"
+
+if [[ -z "$UPSTREAM_BRANCH" ]]; then
   PACKAGE_LIST=$(yarn workspaces list -R --json)
 else
   PACKAGE_LIST=$(yarn workspaces list -R --json --since=$UPSTREAM_BRANCH)
@@ -24,10 +27,10 @@ CHANGED_PACKAGES=$(
 )
 
 # Build a list to use with matrix strategies
-CHANGED_ADAPTERS=$(
-  echo $CHANGED_PACKAGES \
+echo $CHANGED_PACKAGES \
   | jq -cr '{
-      adapter: [
+      packages: .,
+      adapters: [
         .[]
         | select(
           .location
@@ -35,7 +38,3 @@ CHANGED_ADAPTERS=$(
           | .shortName = (.name | match("@chainlink/(.*)-adapter").captures[0].string)
       ]
     }'
-)
-
-echo "CHANGED_PACKAGES=$CHANGED_PACKAGES" >> $GITHUB_OUTPUT
-echo "CHANGED_ADAPTERS=$CHANGED_ADAPTERS" >> $GITHUB_OUTPUT
