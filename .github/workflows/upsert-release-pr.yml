@@ -66,6 +66,9 @@ jobs:
           jq ".version = \"$BUMPED_VERSION\"" package.json > package.tmp.json
           mv package.tmp.json package.json
           echo "BUMPED_VERSION=$BUMPED_VERSION" >> $GITHUB_ENV
+      - name: Update public adapter versions
+        run: |
+          .github/scripts/update-all-public-adapter-versions.sh
       - name: Generate documentation
         run: |
           yarn generate:master-list -v

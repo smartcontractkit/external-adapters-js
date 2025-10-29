@@ -498,6 +498,9 @@
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
+      "path": "./sources/nav-fund-services/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nav-generic/tsconfig.test.json"
     },
     {
