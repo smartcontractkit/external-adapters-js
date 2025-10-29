@@ -91,10 +91,13 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     )
     const providerDataRequestedUnixMs = Date.now()
 
+    const operand1SourceUrls = this.getOperandSourceUrls(operand1Sources)
+    const operand2SourceUrls = this.getOperandSourceUrls(operand2Sources)
+
     // Fetch data from sources for both operands
     const [operand1Result, operand2Result] = await Promise.all([
-      this.fetchFromSources(operand1Sources, operand1Input, operand1MinAnswers),
-      this.fetchFromSources(operand2Sources, operand2Input, operand2MinAnswers),
+      this.fetchFromSources(operand1SourceUrls, operand1Input, operand1MinAnswers),
+      this.fetchFromSources(operand2SourceUrls, operand2Input, operand2MinAnswers),
     ])
 
     // Get the median
@@ -109,12 +112,10 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       throw new Error('operand2Median result is zero')
     }
 
-    let result = ''
-    if (operation === 'divide') {
-      result = operand1Median.div(operand2Median).toFixed()
-    } else if (operation === 'multiply') {
-      result = operand1Median.mul(operand2Median).toFixed()
-    }
+    const result =
+      operation === 'divide'
+        ? operand1Median.div(operand2Median).toFixed()
+        : operand1Median.mul(operand2Median).toFixed()
 
     return {
       data: {
@@ -139,26 +140,21 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     input: string,
     minAnswers: number,
   ): Promise<number[]> {
-    const promises = sources.map(async (source) => {
-      // Already validated in customInputValidation
-      const envKey = `${source.toUpperCase()}_ADAPTER_URL`
-      const url = process.env[envKey]
-
-      const requestConfig = {
-        url,
-        method: 'POST',
-        data: { data: JSON.parse(input) },
-      }
-
+    const promises = sources.map(async (url) => {
       try {
+        const requestConfig = {
+          url,
+          method: 'POST',
+          data: { data: JSON.parse(input) },
+        }
         const result = await this.requester.request<{ result?: number }>(
           JSON.stringify(requestConfig),
           requestConfig,
         )
-        return { source, success: true, result }
+        return { url, success: true, result }
       } catch (error) {
-        logger.error(`Error fetching from source ${source}: ${error}`)
-        return { source, success: false, error }
+        logger.error(`Error fetching from source ${url}: ${error}`)
+        return { url, success: false, error }
       }
     })
 
@@ -173,6 +169,12 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     }
 
     return successfulResults.map((r) => r?.response.data.result as number)
+  }
+
+  private getOperandSourceUrls(sources: string[]): string[] {
+    return sources
+      .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
+      .filter((url) => url) as string[]
   }
 }
 

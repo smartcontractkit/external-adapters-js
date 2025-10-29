@@ -22,7 +22,7 @@ export const mockDPResponseError = (dp: string): nock.Scope =>
     .post(`/${dp}`, (body) => {
       return body && typeof body.data === 'object' && body.data !== null
     })
-    .reply(400, () => ({
+    .reply(500, () => ({
       status: 'errored',
       statusCode: 500,
       error: {
