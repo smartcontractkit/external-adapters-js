@@ -1,5 +1,13 @@
 # @chainlink/tradinghours-adapter
 
+## 0.2.4
+
+### Patch Changes
+
+- [#4121](https://github.com/smartcontractkit/external-adapters-js/pull/4121) [`b86218a`](https://github.com/smartcontractkit/external-adapters-js/commit/b86218a321dfef42ced38c75585e6fb352c6052c) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update underlying euro market finIds
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
 ## 0.2.3
 
 ### Patch Changes

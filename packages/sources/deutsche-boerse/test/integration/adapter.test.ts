@@ -16,6 +16,7 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataLwba = {
+    endpoint: 'lwba',
     isin: TEST_ISIN,
     market: STREAM,
   }
@@ -27,7 +28,22 @@ describe('websocket', () => {
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebsocketServer(wsFull)
-
+    const MockWS: any = WebSocketClassProvider.get()
+    if (MockWS?.prototype) {
+      if (
+        typeof MockWS.prototype.on !== 'function' &&
+        typeof MockWS.prototype.addEventListener === 'function'
+      ) {
+        MockWS.prototype.on = function (event: string, cb: (...args: any[]) => void) {
+          return this.addEventListener(event, cb)
+        }
+      }
+      if (typeof MockWS.prototype.ping !== 'function') {
+        MockWS.prototype.ping = function () {
+          // no-op in tests
+        }
+      }
+    }
     const { adapter } = await import('./../../src')
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tradinghours-adapter",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Chainlink TradingHours adapter",
   "keywords": [
     "Chainlink",

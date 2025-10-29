@@ -2,6 +2,10 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getRequestHeaders } from './authentication'
 
+export const ACCOUNTING_DATE_KEY = 'Accounting Date'
+export const NAV_PER_SHARE_KEY = 'NAV Per Share'
+export const NEXT_NAV_PRICE_KEY = 'Next NAV Price'
+
 interface FundResponse {
   Data: {
     'Trading Level Net ROR': {
@@ -18,9 +22,9 @@ interface FundResponse {
       YTD: number
       ITD: number
     }
-    'NAV Per Share': number
-    'Next NAV Price': number
-    'Accounting Date': string
+    [NAV_PER_SHARE_KEY]: number
+    [NEXT_NAV_PRICE_KEY]: number
+    [ACCOUNTING_DATE_KEY]: string
     'Ending Balance': number
   }[]
 }

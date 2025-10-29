@@ -4,6 +4,8 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  mockBlocksizeCapitalEAResponseFailure,
+  mockBlocksizeCapitalEAResponseSuccess,
   mockBotanixRPCResponses,
   mockCoinmetricsEAResponseFailure,
   mockCoinmetricsEAResponseSuccess,
@@ -26,6 +28,8 @@ describe('GM-token price execute', () => {
     process.env.NCFX_ADAPTER_URL = process.env.NCFX_ADAPTER_URL ?? 'http://localhost:8082'
     process.env.COINMETRICS_ADAPTER_URL =
       process.env.COINMETRICS_ADAPTER_URL ?? 'http://localhost:8083'
+    process.env.BLOCKSIZE_CAPITAL_ADAPTER_URL =
+      process.env.BLOCKSIZE_CAPITAL_ADAPTER_URL ?? 'http://localhost:8084'
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
     process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
 
@@ -63,6 +67,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('LINK')
       mockNCFXEAResponseSuccess('LINK')
       mockCoinmetricsEAResponseSuccess('LINK')
+      mockBlocksizeCapitalEAResponseSuccess('LINK')
       mockRPCResponses()
 
       const data = {
@@ -86,6 +91,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('ETH')
       mockNCFXEAResponseFailure('ETH')
       mockCoinmetricsEAResponseFailure('ETH')
+      mockBlocksizeCapitalEAResponseFailure('ETH')
       mockRPCResponses()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
@@ -100,6 +106,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('LINK')
       mockNCFXEAResponseSuccess('LINK')
       mockCoinmetricsEAResponseSuccess('LINK')
+      mockBlocksizeCapitalEAResponseSuccess('LINK')
       mockBotanixRPCResponses()
 
       const data = {
@@ -123,6 +130,7 @@ describe('GM-token price execute', () => {
       mockTiingoEAResponseSuccess('DOGE')
       mockNCFXEAResponseSuccess('DOGE')
       mockCoinmetricsEAResponseSuccess('DOGE')
+      mockBlocksizeCapitalEAResponseSuccess('DOGE')
 
       const res = await testAdapter.request({
         index: 'DOGE',

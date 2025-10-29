@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/allium-state-adapter",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Chainlink allium-state adapter.",
   "keywords": [
     "Chainlink",

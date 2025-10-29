@@ -1,5 +1,16 @@
 # @chainlink/icap-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#4130](https://github.com/smartcontractkit/external-adapters-js/pull/4130) [`07c06de`](https://github.com/smartcontractkit/external-adapters-js/commit/07c06de5dd6949675c654080de63dd6694b4348e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix a websocket connection issue
+
+### Patch Changes
+
+- Updated dependencies [[`07c06de`](https://github.com/smartcontractkit/external-adapters-js/commit/07c06de5dd6949675c654080de63dd6694b4348e)]:
+  - @chainlink/tp-adapter@1.10.0
+
 ## 1.4.9
 
 ### Patch Changes

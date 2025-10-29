@@ -60,9 +60,9 @@ Response:
 {
   "jobRunID": "1",
   "data": {
-    "result": 1050
+    "result": 1000
   },
-  "result": 1050,
+  "result": 1000,
   "statusCode": 200
 }
 ```
