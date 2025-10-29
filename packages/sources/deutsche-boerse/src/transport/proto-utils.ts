@@ -1,5 +1,7 @@
 import Decimal from 'decimal.js'
 import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
   Instrument_SecurityType,
   type Data as DataProto,
   type Decimal as DecimalProto,
@@ -74,16 +76,16 @@ export function hasMidPriceSpreadFrame(dat?: DataProto): boolean {
   }
   const hasSpread = pxs.some(
     (entry) =>
-      entry.Typ === 8 && // MID_PRICE
-      entry.PxTyp?.Value === 12 && // PRICE_SPREAD
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD &&
       isDecimalPrice(entry.Px) &&
       isDecimalPrice(entry.Sz),
   )
 
   const hasNormalRate = pxs.some(
     (entry) =>
-      entry.Typ === 8 && // MID_PRICE
-      entry.PxTyp?.Value === 20 && // NORMAL_RATE
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.NORMAL_RATE &&
       isDecimalPrice(entry.Px),
   )
 

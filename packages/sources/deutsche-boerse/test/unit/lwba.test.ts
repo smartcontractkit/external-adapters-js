@@ -3,6 +3,8 @@ import { anyPack, type Any } from '@bufbuild/protobuf/wkt'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { RequestSchema, StreamMessageSchema } from '../../src/gen/client_pb'
 import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
   DataSchema,
   DecimalSchema,
   Instrument_SecurityType,
@@ -35,6 +37,25 @@ function makeStreamBufferTwoMsgs(md1: MarketDataInit, md2: MarketDataInit, subs:
   const any2: Any = anyPack(MarketDataSchema, create(MarketDataSchema, md2))
   const sm = create(StreamMessageSchema, { subs, messages: [any1, any2] })
   return Buffer.from(toBinary(StreamMessageSchema, sm))
+}
+
+// Helper to create a spread entry (MID_PRICE with PRICE_SPREAD)
+function makeSpreadEntry(spreadValue: bigint, exponent: number, size: bigint) {
+  return {
+    Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+    PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+    Px: dec(spreadValue, exponent),
+    Sz: dec(size, 0),
+  }
+}
+
+// Helper to create a normal rate entry (MID_PRICE with NORMAL_RATE)
+function makeNormalRateEntry(priceValue: bigint, exponent: number) {
+  return {
+    Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+    PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+    Px: dec(priceValue, exponent),
+  }
 }
 
 describe('LWBA websocket transport base functionality', () => {
@@ -316,17 +337,8 @@ describe('LWBA Spread Parsing', () => {
     // Mid price + spread frame
     const spreadDat = create(DataSchema, {
       Pxs: [
-        {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 12 }, // PRICE_SPREAD
-          Px: dec(BigInt(10), -4), // spread of 0.001
-          Sz: dec(BigInt(1000000), 0), // size of 1,000,000
-        },
-        {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 20 }, // NORMAL_RATE
-          Px: dec(BigInt(577), -3), // mid price of 0.577
-        },
+        makeSpreadEntry(BigInt(10), -4, BigInt(1000000)), // spread of 0.001, size 1M
+        makeNormalRateEntry(BigInt(577), -3), // mid price of 0.577
       ],
       Tm: BigInt(15_000_000),
     } as any)
@@ -345,7 +357,7 @@ describe('LWBA Spread Parsing', () => {
     expect(d.askSize).toBe(1000000)
   })
 
-  test('selects smallest spread when multiple spreads present', () => {
+  test('selects smallest spread based on sizewhen multiple spreads present', () => {
     const t = lwbaProtobufWsTransport as any
     const MULTI_SPREAD_ISIN = 'SPREAD0002'
     t.config.builders.subscribeMessage({ market: MARKET, isin: MULTI_SPREAD_ISIN })
@@ -353,29 +365,10 @@ describe('LWBA Spread Parsing', () => {
     // Multiple spread entries with different sizes
     const multiSpreadDat = create(DataSchema, {
       Pxs: [
-        {
-          Typ: 8,
-          PxTyp: { Value: 12 },
-          Px: dec(BigInt(20), -4), // spread of 0.002
-          Sz: dec(BigInt(500000), 0), // size 500k
-        },
-        {
-          Typ: 8,
-          PxTyp: { Value: 12 },
-          Px: dec(BigInt(10), -4), // spread of 0.001 (smallest size)
-          Sz: dec(BigInt(250000), 0), // size 250k
-        },
-        {
-          Typ: 8,
-          PxTyp: { Value: 12 },
-          Px: dec(BigInt(30), -4), // spread of 0.003
-          Sz: dec(BigInt(1000000), 0), // size 1M
-        },
-        {
-          Typ: 8,
-          PxTyp: { Value: 20 },
-          Px: dec(BigInt(100), -2), // mid price of 1.00
-        },
+        makeSpreadEntry(BigInt(20), -4, BigInt(500000)), // spread 0.002, size 500k
+        makeSpreadEntry(BigInt(10), -4, BigInt(250000)), // spread 0.001, size 250k (smallest)
+        makeSpreadEntry(BigInt(30), -4, BigInt(1000000)), // spread 0.003, size 1M
+        makeNormalRateEntry(BigInt(100), -2), // mid price of 1.00
       ],
       Tm: BigInt(16_000_000),
     } as any)
@@ -403,12 +396,7 @@ describe('LWBA Spread Parsing', () => {
     // Spread without normal rate
     const noNormalRateDat = create(DataSchema, {
       Pxs: [
-        {
-          Typ: 8,
-          PxTyp: { Value: 12 },
-          Px: dec(BigInt(10), -4),
-          Sz: dec(BigInt(1000000), 0),
-        },
+        makeSpreadEntry(BigInt(10), -4, BigInt(1000000)),
         // Missing NORMAL_RATE entry
       ],
       Tm: BigInt(17_000_000),
@@ -431,11 +419,7 @@ describe('LWBA Spread Parsing', () => {
     // Normal rate without spread
     const noSpreadDat = create(DataSchema, {
       Pxs: [
-        {
-          Typ: 8,
-          PxTyp: { Value: 20 },
-          Px: dec(BigInt(577), -3),
-        },
+        makeNormalRateEntry(BigInt(577), -3),
         // Missing PRICE_SPREAD entry
       ],
       Tm: BigInt(18_000_000),
@@ -459,16 +443,12 @@ describe('LWBA Spread Parsing', () => {
     const noSizeDat = create(DataSchema, {
       Pxs: [
         {
-          Typ: 8,
-          PxTyp: { Value: 12 },
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
           Px: dec(BigInt(10), -4),
           // Sz is missing
         },
-        {
-          Typ: 8,
-          PxTyp: { Value: 20 },
-          Px: dec(BigInt(577), -3),
-        },
+        makeNormalRateEntry(BigInt(577), -3),
       ],
       Tm: BigInt(19_000_000),
     } as any)

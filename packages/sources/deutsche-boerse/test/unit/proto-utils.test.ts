@@ -1,5 +1,7 @@
 import { create } from '@bufbuild/protobuf'
 import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
   DataSchema,
   DecimalSchema,
   Instrument_SecurityType,
@@ -79,14 +81,14 @@ describe('proto-utils', () => {
     const datWithSpread: Data = create(DataSchema, {
       Pxs: [
         {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 12 }, // PRICE_SPREAD
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
           Px: dec(10n, -4), // spread of 0.001
           Sz: dec(1000000n, 0),
         },
         {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 20 }, // NORMAL_RATE
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
           Px: dec(577n, -3), // mid price of 0.577
         },
       ],
@@ -99,8 +101,8 @@ describe('proto-utils', () => {
     const datOnlySpread: Data = create(DataSchema, {
       Pxs: [
         {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 12 }, // PRICE_SPREAD
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
           Px: dec(10n, -4),
           Sz: dec(1000000n, 0),
         },
@@ -114,8 +116,8 @@ describe('proto-utils', () => {
     const datOnlyNormalRate: Data = create(DataSchema, {
       Pxs: [
         {
-          Typ: 8, // MID_PRICE
-          PxTyp: { Value: 20 }, // NORMAL_RATE
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
           Px: dec(577n, -3),
         },
       ],
@@ -138,14 +140,14 @@ describe('proto-utils', () => {
     const datNoSize: Data = create(DataSchema, {
       Pxs: [
         {
-          Typ: 8,
-          PxTyp: { Value: 12 },
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
           Px: dec(10n, -4),
           // Sz is missing
         },
         {
-          Typ: 8,
-          PxTyp: { Value: 20 },
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
           Px: dec(577n, -3),
         },
       ],

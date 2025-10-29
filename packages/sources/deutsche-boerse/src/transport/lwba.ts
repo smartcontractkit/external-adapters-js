@@ -1,6 +1,7 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import Decimal from 'decimal.js'
 import { config } from '../config'
 import { BaseEndpointTypes, Market, MARKET_EUREX_MICRO, MARKETS } from '../endpoint/lwba'
 import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
@@ -11,7 +12,14 @@ import {
   UnsubscribeSchema,
   type StreamMessage,
 } from '../gen/client_pb'
-import { MarketDataSchema, type Data_MDEntryPrices, type MarketData } from '../gen/md_cef_pb'
+import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
+  MarketDataSchema,
+  type Data_MDEntryPrices,
+  type Data as DataProto,
+  type MarketData,
+} from '../gen/md_cef_pb'
 import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
@@ -104,7 +112,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         }
         const responseData = extractData(quote)
         if (!responseData) {
-          logger.info('Failed to extract response data from quote')
+          logger.warn('Failed to extract response data from quote')
           return []
         }
         return [
@@ -178,7 +186,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
 }
 
 function parseMidPriceSpreadFrame(
-  dat: any,
+  dat: DataProto,
   market: string,
   isin: string,
   cache: InstrumentQuoteCache,
@@ -188,8 +196,8 @@ function parseMidPriceSpreadFrame(
 
   const spreadEntries = pxs.filter(
     (entry: Data_MDEntryPrices) =>
-      entry.Typ === 8 && // MID_PRICE
-      entry.PxTyp?.Value === 12 && // PRICE_SPREAD
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD &&
       entry.Px &&
       entry.Sz,
   )
@@ -201,6 +209,7 @@ function parseMidPriceSpreadFrame(
   })
 
   if (spreadEntries.length === 0) {
+    logger.error('No PRICE_SPREAD entries found in Pxs array')
     return null
   }
 
@@ -210,19 +219,20 @@ function parseMidPriceSpreadFrame(
 
   const normalRateEntry = pxs.find(
     (entry: Data_MDEntryPrices) =>
-      entry.Typ === 8 && // MID_PRICE
-      entry.PxTyp?.Value === 20 && // NORMAL_RATE
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.NORMAL_RATE &&
       entry.Px,
   )
 
   if (!normalRateEntry) {
+    logger.error('No NORMAL_RATE entry found in Pxs array')
     return null
   }
 
   const mid = decimalToNumber(normalRateEntry.Px)
-  const halfSpread = spread / 2
-  const bidPx = mid - halfSpread
-  const askPx = mid + halfSpread
+  const halfSpread = new Decimal(spread).div(2)
+  const bidPx = new Decimal(mid).minus(halfSpread).toNumber()
+  const askPx = new Decimal(mid).plus(halfSpread).toNumber()
 
   cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
 
@@ -258,7 +268,7 @@ function processMarketData(
     return null
   }
 
-  const dat: any = (md as MarketData)?.Dat
+  const dat = (md as MarketData)?.Dat
   if (!dat) {
     logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
@@ -268,7 +278,7 @@ function processMarketData(
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat!.Px)
     cache.addTrade(market, isin, latestPrice, providerTime)
-    logger.info(
+    logger.debug(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
     )
@@ -277,10 +287,7 @@ function processMarketData(
 
   // Handle Pxs array with MID_PRICE and PRICE_SPREAD
   if (hasMidPriceSpreadFrame(dat)) {
-    const spreadResult = parseMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
-    if (spreadResult) {
-      return spreadResult
-    }
+    return parseMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
   }
 
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
