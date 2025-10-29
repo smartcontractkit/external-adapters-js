@@ -498,6 +498,9 @@
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
+      "path": "./sources/nav-fund-services/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nav-generic/tsconfig.test.json"
     },
     {
@@ -601,6 +604,9 @@
     },
     {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/streamex/tsconfig.test.json"
     },
     {
       "path": "./sources/superstate/tsconfig.test.json"
