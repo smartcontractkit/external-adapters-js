@@ -101,8 +101,8 @@ export class MultiChainFunctionTransport<
     return {
       data: combinedData,
       statusCode: 200,
-      result: mainResult.result,
-      timestamps: mainResult.timestamps,
+      result: mainResult.value.result,
+      timestamps: mainResult.value.timestamps,
     }
   }
 
