@@ -185,7 +185,7 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-function parseMidPriceSpreadFrame(
+function processMidPriceSpreadFrame(
   dat: DataProto,
   market: string,
   isin: string,
@@ -287,7 +287,7 @@ function processMarketData(
 
   // Handle Pxs array with MID_PRICE and PRICE_SPREAD
   if (hasMidPriceSpreadFrame(dat)) {
-    return parseMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
+    return processMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
   }
 
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
