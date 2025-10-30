@@ -241,6 +241,6 @@ export const validateInputPayload = (input: string | object, inputName: string) 
 
   throw new AdapterInputError({
     statusCode: 400,
-    message: `Invalid input payload type "${typeof input}" for "${inputName}", expected JSON string or object`,
+    message: `Invalid input payload type for "${inputName}", expected JSON string or object`,
   })
 }

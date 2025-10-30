@@ -825,7 +825,7 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
       })
 
-      it('returns returns error if dividendInput has invalid JSON', async () => {
+      it('returns error if dividendInput has invalid JSON', async () => {
         mockSuccessfulResponseCoingecko()
         mockSuccessfulResponseCoinpaprika()
         const data: AdapterRequest = {
@@ -852,7 +852,7 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
       })
 
-      it('returns returns error if dividendInput has invalid type', async () => {
+      it('returns error if dividendInput has invalid type', async () => {
         mockSuccessfulResponseCoingecko()
         mockSuccessfulResponseCoinpaprika()
         const data: AdapterRequest = {
@@ -879,7 +879,7 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
       })
 
-      it('returns returns error if divisorInput has invalid JSON', async () => {
+      it('returns error if divisorInput has invalid JSON', async () => {
         mockSuccessfulResponseCoingecko()
         mockSuccessfulResponseCoinpaprika()
         const data: AdapterRequest = {
@@ -906,7 +906,7 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
       })
 
-      it('returns returns error if divisorInput has invalid type', async () => {
+      it('returns error if divisorInput has invalid type', async () => {
         mockSuccessfulResponseCoingecko()
         mockSuccessfulResponseCoinpaprika()
         const data: AdapterRequest = {
