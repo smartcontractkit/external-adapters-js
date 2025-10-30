@@ -163,6 +163,7 @@ jobs:
           --ref main "Infra-k8s Image Dispatcher"
           -F imageRepos="$(echo $CHANGED_ADAPTERS | jq -r "\"$ECR_URL/adapters/\" + (.adapter | .[].shortName) + \"-adapter\"" | tr '\n' ' ')"
           -F gitRepo=${{ github.event.repository.name }}
+          -F per-adapter-prs=true
         env:
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
 
