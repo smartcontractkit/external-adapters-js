@@ -28,17 +28,6 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute function endpoint should fail additional data requests in case of missing signature 1`] = `
-{
-  "errorMessage": "Nested function "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
-  },
-}
-`;
-
 exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
@@ -98,10 +87,32 @@ exports[`execute function endpoint should return success with parameters 1`] = `
 
 exports[`execute function endpoint should skip additional data requests in case of missing signature 1`] = `
 {
-  "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "error": {
+    "message": "[Param: additionalRequests] input value must be a non-empty array",
+    "name": "AdapterError",
   },
-  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute function-response-selector endpoint should fail with non-existant resultField 1`] = `
+{
+  "errorMessage": "AdapterError: Invalid resultField not found in response",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute function-response-selector endpoint should return success with resultField 1`] = `
+{
+  "data": {
+    "result": "123456789",
+  },
+  "result": "123456789",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
