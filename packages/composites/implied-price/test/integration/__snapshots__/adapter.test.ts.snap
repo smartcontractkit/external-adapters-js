@@ -255,18 +255,6 @@ exports[`impliedPrice with endpoint impliedPrice erroring calls returns error if
 }
 `;
 
-exports[`impliedPrice with endpoint impliedPrice returns success with JSON inputs 1`] = `
-{
-  "data": {
-    "result": "0.0038975944001909025829",
-  },
-  "jobRunID": "1",
-  "providerStatusCode": 200,
-  "result": "0.0038975944001909025829",
-  "statusCode": 200,
-}
-`;
-
 exports[`impliedPrice with endpoint impliedPrice successful calls return success without comma separated sources 1`] = `
 {
   "data": {
