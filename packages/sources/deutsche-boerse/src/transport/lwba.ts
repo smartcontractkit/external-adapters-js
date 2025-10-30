@@ -112,7 +112,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         }
         const responseData = extractData(quote)
         if (!responseData) {
-          logger.warn({ quote, isin }, 'Failed to extract response data from quote')
+          logger.debug({ quote, isin }, 'Failed to extract response data from quote')
           return []
         }
         return [
