@@ -30,15 +30,13 @@ describe('LiveArt NAV', () => {
     })
   })
 
-  afterEach(async () => {
-    setEnvVariables(oldEnv)
-    nock.cleanAll()
-    clearTestCache(testAdapter)
-  })
-
   afterAll(async () => {
-    spy.mockRestore()
+    clearTestCache(testAdapter)
     await testAdapter.api.close()
+    spy.mockRestore()
+    setEnvVariables(oldEnv)
+    nock.restore()
+    nock.cleanAll()
   })
 
   describe('endpoints', () => {
@@ -56,7 +54,22 @@ describe('LiveArt NAV', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should handle upstream bad response for asset_id', async () => {
+      it('should return error for invalid asset_id', async () => {
+        const data = {
+          asset_id: 'invalid-asset-id',
+          endpoint: nav.name,
+        }
+
+        // Mock for other asset_id
+        mockHappyPathResponseSuccessAsset(data.asset_id)
+
+        const response = await testAdapter.request(data)
+        const responseJson = response.json()
+        expect(responseJson.statusCode).toBe(502)
+        expect(responseJson).toMatchSnapshot()
+      })
+
+      it('should handle upstream bad response for unsuccessful request', async () => {
         const data = {
           asset_id: TEST_FAILURE_ASSET_ID,
           endpoint: nav.name,
