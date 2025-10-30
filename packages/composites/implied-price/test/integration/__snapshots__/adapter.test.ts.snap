@@ -39,6 +39,32 @@ exports[`impliedPrice with endpoint computedPrice erroring calls returns error i
 }
 `;
 
+exports[`impliedPrice with endpoint computedPrice erroring calls returns error if operand1 has invalid JSON 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":"coingecko,coinpaprika","operand2Sources":"coingecko,coinpaprika","operand1Input":"invalid json","operand2Input":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","operation":"divide"}}",
+    "message": "Input payload for "operand1Input" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint computedPrice erroring calls returns error if operand1 has invalid type 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":"coingecko,coinpaprika","operand2Sources":"coingecko,coinpaprika","operand1Input":false,"operand2Input":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","operation":"divide"}}",
+    "message": "Invalid input payload type "boolean" for "operand1Input", expected JSON string or object",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`impliedPrice with endpoint computedPrice erroring calls returns error if operand1 has zero price 1`] = `
 {
   "error": {
@@ -49,6 +75,32 @@ exports[`impliedPrice with endpoint computedPrice erroring calls returns error i
   "jobRunID": "1",
   "status": "errored",
   "statusCode": 500,
+}
+`;
+
+exports[`impliedPrice with endpoint computedPrice erroring calls returns error if operand2 has invalid JSON 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":"coingecko,coinpaprika","operand2Sources":"coingecko,coinpaprika","operand1Input":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","operand2Input":"{{a: b}","operation":"divide"}}",
+    "message": "Input payload for "operand2Input" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint computedPrice erroring calls returns error if operand2 has invalid type 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":"coingecko,coinpaprika","operand2Sources":"coingecko,coinpaprika","operand1Input":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","operand2Input":12345,"operation":"divide"}}",
+    "message": "Invalid input payload type "number" for "operand2Input", expected JSON string or object",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
 }
 `;
 
@@ -252,6 +304,58 @@ exports[`impliedPrice with endpoint impliedPrice erroring calls returns error if
   "jobRunID": "1",
   "status": "errored",
   "statusCode": 500,
+}
+`;
+
+exports[`impliedPrice with endpoint impliedPrice erroring calls returns returns error if dividendInput has invalid JSON 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"impliedPrice","dividendSources":"coingecko,coinpaprika","divisorSources":"coingecko,coinpaprika","dividendInput":"invalid json","divisorInput":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}"}}",
+    "message": "Input payload for "dividendInput" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint impliedPrice erroring calls returns returns error if dividendInput has invalid type 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"impliedPrice","dividendSources":"coingecko,coinpaprika","divisorSources":"coingecko,coinpaprika","dividendInput":[1,2,3],"divisorInput":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}"}}",
+    "message": "Invalid input payload type "object" for "dividendInput", expected JSON string or object",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint impliedPrice erroring calls returns returns error if divisorInput has invalid JSON 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"impliedPrice","dividendSources":"coingecko,coinpaprika","divisorSources":"coingecko,coinpaprika","dividendInput":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","divisorInput":"invalid json"}}",
+    "message": "Input payload for "divisorInput" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint impliedPrice erroring calls returns returns error if divisorInput has invalid type 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"impliedPrice","dividendSources":"coingecko,coinpaprika","divisorSources":"coingecko,coinpaprika","dividendInput":"{\\"from\\":\\"ETH\\",\\"to\\":\\"USD\\"}","divisorInput":true}}",
+    "message": "Invalid input payload type "boolean" for "divisorInput", expected JSON string or object",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
 }
 `;
 

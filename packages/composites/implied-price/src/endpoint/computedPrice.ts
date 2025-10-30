@@ -1,14 +1,12 @@
-import type {
+import {
+  AdapterError,
+  AdapterInputError,
   AdapterRequest,
+  AdapterResponseInvalidError,
   AxiosRequestConfig,
   Config,
   ExecuteWithConfig,
   InputParameters,
-} from '@chainlink/ea-bootstrap'
-import {
-  AdapterError,
-  AdapterInputError,
-  AdapterResponseInvalidError,
   Requester,
   util,
   Validator,
@@ -73,9 +71,11 @@ export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
   const validator = new Validator(input, inputParameters)
   validator.validated.data.operand1Input = validateInputPayload(
     validator.validated.data.operand1Input,
+    'operand1Input',
   )
   validator.validated.data.operand2Input = validateInputPayload(
     validator.validated.data.operand2Input,
+    'operand2Input',
   )
   return executeComputedPrice(validator.validated.id, validator.validated.data, config)
 }
@@ -227,14 +227,20 @@ export const median = (values: number[]): Decimal => {
   return new Decimal(values[half - 1] + values[half]).div(2)
 }
 
-export const validateInputPayload = (input: string | object) => {
+export const validateInputPayload = (input: string | object, inputName: string) => {
   if (typeof input === 'string') {
     try {
       return JSON.parse(input)
     } catch (e) {
-      throw new Error('Invalid JSON input payload')
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Input payload for "${inputName}" is not valid JSON.`,
+      })
     }
-  } else if (typeof input === 'object' && input !== null) return input
+  } else if (typeof input === 'object' && input !== null && !Array.isArray(input)) return input
 
-  throw new Error('Invalid input payload')
+  throw new AdapterInputError({
+    statusCode: 400,
+    message: `Invalid input payload type "${typeof input}" for "${inputName}", expected JSON string or object`,
+  })
 }

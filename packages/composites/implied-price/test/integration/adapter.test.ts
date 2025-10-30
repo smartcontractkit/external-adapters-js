@@ -341,6 +341,118 @@ describe('impliedPrice', () => {
           .expect(500)
         expect(response.body).toMatchSnapshot()
       })
+
+      it('returns error if operand1 has invalid type', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: false,
+            operand2Input: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if operand1 has invalid JSON', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: 'invalid json',
+            operand2Input: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if operand2 has invalid type', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            operand2Input: 12345,
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if operand2 has invalid JSON', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            operand2Input: '{{a: b}',
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
     })
 
     describe('validation error', () => {
@@ -710,6 +822,114 @@ describe('impliedPrice', () => {
           .set('Content-Type', 'application/json')
           .expect('Content-Type', /json/)
           .expect(500)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns returns error if dividendInput has invalid JSON', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: 'invalid json',
+            divisorInput: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns returns error if dividendInput has invalid type', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: [1, 2, 3],
+            divisorInput: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns returns error if divisorInput has invalid JSON', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            divisorInput: 'invalid json',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns returns error if divisorInput has invalid type', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            divisorInput: true,
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
         expect(response.body).toMatchSnapshot()
       })
     })

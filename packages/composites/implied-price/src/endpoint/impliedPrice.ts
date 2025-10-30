@@ -76,8 +76,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     operation: 'divide',
   }
 
-  validatedData.operand1Input = validateInputPayload(dividendInput)
-  validatedData.operand2Input = validateInputPayload(divisorInput)
+  validatedData.operand1Input = validateInputPayload(dividendInput, 'dividendInput')
+  validatedData.operand2Input = validateInputPayload(divisorInput, 'divisorInput')
 
   return executeComputedPrice(validator.validated.id, validatedData, config)
 }
