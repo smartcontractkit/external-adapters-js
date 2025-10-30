@@ -22,6 +22,8 @@ concurrency:
 jobs:
   calculate-changes:
     name: Compute changed adapters
+    permissions:
+      contents: read
     runs-on: [ubuntu-latest]
     env:
       BUILD_ALL: ${{ inputs.build-all }}
