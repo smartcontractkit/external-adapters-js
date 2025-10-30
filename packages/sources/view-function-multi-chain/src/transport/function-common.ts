@@ -5,22 +5,19 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import pLimit from 'p-limit'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
 
 const logger = makeLogger('View Function Multi Chain')
 
-interface RequestParams {
-  signature: string
-  address: string
-  inputParams?: Array<string>
-  network: string
+type RequestParams = typeof inputParameters.validated & {
   resultField?: string
-  additionalRequests?: Record<string, RequestParams>
 }
 
 export type RawOnchainResponse = {
@@ -37,6 +34,7 @@ export type HexResultPostProcessor = (
 export class MultiChainFunctionTransport<
   T extends TransportGenerics,
 > extends SubscriptionTransport<T> {
+  config!: BaseEndpointTypes['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
   hexResultPostProcessor: HexResultPostProcessor
 
@@ -52,6 +50,7 @@ export class MultiChainFunctionTransport<
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings as BaseEndpointTypes['Settings']
   }
 
   async backgroundHandler(context: EndpointContext<T>, entries: Array<T['Parameters']>) {
@@ -81,7 +80,10 @@ export class MultiChainFunctionTransport<
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: param as any, response }])
+
+    await this.responseCache.write(this.name, [
+      { params: param as TypeFromDefinition<T['Parameters']>, response },
+    ])
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
@@ -176,31 +178,35 @@ export class MultiChainFunctionTransport<
   }
 
   private async _processNestedDataRequest(
-    additionalRequests: Record<string, RequestParams> | undefined,
+    additionalRequests:
+      | Array<{
+          name: string
+          signature: string
+        }>
+      | undefined,
     parentAddress: string,
     parentNetwork: string,
-  ): Promise<Record<string, any>> {
-    const limit = pLimit(5)
-    const results: Record<string, any> = {}
+  ): Promise<Record<string, string>> {
+    const results: Record<string, string> = {}
 
-    if (!additionalRequests || typeof additionalRequests !== 'object') return results
+    if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
+      return results
+    }
 
-    const tasks = Object.entries(additionalRequests).map(([key, subReq]) =>
-      limit(async () => {
+    const runner = new GroupRunner(this.config.GROUP_SIZE)
+
+    const processNested = runner.wrapFunction(
+      async (req: { name: string; signature: string }): Promise<[string, string | null]> => {
+        const key = req.name
         try {
-          const req = subReq as RequestParams
-
           if (!req.signature) {
-            logger.warn(`Skipping nested key "${key}" — no signature provided.`)
-            return [key, null]
+            throw new Error(`Missing signature for nested key "${key}"`)
           }
 
           const nestedParam = {
-            address: req.address || parentAddress,
-            network: req.network || parentNetwork,
+            address: parentAddress,
+            network: parentNetwork,
             signature: req.signature,
-            inputParams: req.inputParams,
-            resultField: req.resultField,
           }
 
           const subRes = await this._executeFunction(nestedParam)
@@ -209,14 +215,15 @@ export class MultiChainFunctionTransport<
           logger.warn(`Nested function "${key}" failed: ${err}`)
           return [key, null]
         }
-      }),
+      },
     )
 
-    const settled = await Promise.allSettled(tasks)
+    const settled: [string, string | null][] = await Promise.all(
+      additionalRequests.map(processNested),
+    )
 
-    for (const outcome of settled) {
-      if (outcome.status === 'fulfilled') {
-        const [key, value] = outcome.value as [string, string]
+    for (const [key, value] of settled) {
+      if (value !== null) {
         results[key] = value
       }
     }
