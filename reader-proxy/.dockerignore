@@ -1,0 +1,50 @@
+# Binaries
+reader-proxy
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test files
+*_test.go
+*.test
+
+# Development files
+.env
+.env.local
+.env.example
+
+# Documentation
+README.md
+QUICKSTART.md
+BUILD_INSTRUCTIONS.md
+
+# Docker files (not needed in container)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Test scripts
+test_proxy.sh
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.out
+coverage.txt
+
+# Git
+.git
+.gitignore
+
+# Supervisor config (copied separately in main Dockerfile.with-proxy)
+supervisord.conf
+

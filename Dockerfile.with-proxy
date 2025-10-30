@@ -1,0 +1,72 @@
+# Stage 1: Build Go proxy
+FROM golang:1.21-alpine AS go-builder
+
+WORKDIR /app/proxy
+
+# Copy go mod files
+COPY reader-proxy/go.mod reader-proxy/go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy source code
+COPY reader-proxy/*.go ./
+
+# Build the Go proxy
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o reader-proxy .
+
+# Stage 2: Build Node.js application
+FROM node:22 AS node-builder
+ARG location
+ARG package
+
+WORKDIR /home/node/app
+COPY . .
+
+RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea-test-helpers @chainlink/ea-reference-data-reader @chainlink/ea-factories
+RUN yarn workspace $package build
+RUN yarn bundle $location -o $location/bundle
+
+# Stage 3: Final image with both services
+FROM node:22-alpine
+ARG location
+
+# Install supervisor to manage both processes
+RUN apk --no-cache add supervisor ca-certificates
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /home/node/app /var/log/supervisor /var/run/supervisor && \
+    chown -R node:node /home/node/app /var/log/supervisor /var/run/supervisor
+
+WORKDIR /home/node/app
+
+# Copy Node.js bundle from builder
+COPY --chown=node:node --from=node-builder /home/node/app/$location/bundle ./
+# Wildcards are included to handle cases where this file doesnt exist
+COPY --chown=node:node --from=node-builder /home/node/app/$location/package.json /home/node/app/$location/*test-payload.js* ./
+
+# Copy Go proxy binary from builder
+COPY --from=go-builder /app/proxy/reader-proxy /usr/local/bin/reader-proxy
+RUN chmod +x /usr/local/bin/reader-proxy
+
+# Copy supervisor configuration
+COPY reader-proxy/supervisord.conf /etc/supervisord.conf
+
+# Expose proxy port (external traffic goes through the proxy)
+EXPOSE 8080
+
+# Set default environment variables for the proxy
+ENV CACHE_TTL=1s \
+    CACHE_CLEANUP_INTERVAL=60s \
+    DOWNSTREAM_TIMEOUT=30s \
+    CACHE_404=false
+
+# Health check through the proxy
+# HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+#     CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+
+# Switch to non-root user
+USER node
+
+# Start both services via supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

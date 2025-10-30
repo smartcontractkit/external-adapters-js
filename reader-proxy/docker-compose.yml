@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  reader-proxy:
+    build: .
+    ports:
+      - '8080:8080'
+    environment:
+      - PORT=8080
+      - DOWNSTREAM_URL=http://httpbin:80
+      - CACHE_TTL=30s
+      - CACHE_CLEANUP_INTERVAL=60s
+      - CACHE_404=false
+      - DOWNSTREAM_TIMEOUT=30s
+    networks:
+      - proxy-network
+    depends_on:
+      - httpbin
+
+  # Example downstream service for testing
+  httpbin:
+    image: kennethreitz/httpbin
+    ports:
+      - '8081:80'
+    networks:
+      - proxy-network
+
+networks:
+  proxy-network:
+    driver: bridge
