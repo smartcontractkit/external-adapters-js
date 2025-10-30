@@ -93,6 +93,37 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
       })
 
+      it('returns success with JSON inputs', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: 'coingecko,coinpaprika',
+            operand2Sources: 'coingecko,coinpaprika',
+            operand1Input: JSON.stringify({
+              from: 'LINK',
+              to: 'USD',
+            }),
+            operand2Input: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
+            operation: 'divide',
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
       it('can multiply operands', async () => {
         mockSuccessfulResponseCoingecko()
         mockSuccessfulResponseCoinpaprika()
@@ -490,6 +521,36 @@ describe('impliedPrice', () => {
               from: 'ETH',
               to: 'USD',
             },
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns success with JSON inputs', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            dividendSources: 'coingecko,coinpaprika',
+            divisorSources: 'coingecko,coinpaprika',
+            dividendInput: JSON.stringify({
+              from: 'LINK',
+              to: 'USD',
+            }),
+            divisorInput: JSON.stringify({
+              from: 'ETH',
+              to: 'USD',
+            }),
           },
         }
 

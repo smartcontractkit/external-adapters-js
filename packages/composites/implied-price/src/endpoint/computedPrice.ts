@@ -44,7 +44,6 @@ const inputParameters: InputParameters<TInputParameters> = {
   },
   operand1Input: {
     required: true,
-    type: 'object',
     description: 'The payload to send to the operand1 sources',
   },
   operand2Sources: {
@@ -60,7 +59,6 @@ const inputParameters: InputParameters<TInputParameters> = {
   },
   operand2Input: {
     required: true,
-    type: 'object',
     description: 'The payload to send to the operand2 sources',
   },
   operation: {
@@ -73,6 +71,12 @@ const inputParameters: InputParameters<TInputParameters> = {
 
 export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
   const validator = new Validator(input, inputParameters)
+  validator.validated.data.operand1Input = validateInputPayload(
+    validator.validated.data.operand1Input,
+  )
+  validator.validated.data.operand2Input = validateInputPayload(
+    validator.validated.data.operand2Input,
+  )
   return executeComputedPrice(validator.validated.id, validator.validated.data, config)
 }
 
@@ -221,4 +225,16 @@ export const median = (values: number[]): Decimal => {
   const half = Math.floor(values.length / 2)
   if (values.length % 2) return new Decimal(values[half])
   return new Decimal(values[half - 1] + values[half]).div(2)
+}
+
+export const validateInputPayload = (input: string | object) => {
+  if (typeof input === 'string') {
+    try {
+      return JSON.parse(input)
+    } catch (e) {
+      throw new Error('Invalid JSON input payload')
+    }
+  } else if (typeof input === 'object' && input !== null) return input
+
+  throw new Error('Invalid input payload')
 }
