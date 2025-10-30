@@ -112,7 +112,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         }
         const responseData = extractData(quote)
         if (!responseData) {
-          logger.warn({ quote }, 'Failed to extract response data from quote')
+          logger.debug({ quote, isin }, 'Failed to extract response data from quote')
           return []
         }
         return [
@@ -253,7 +253,7 @@ function processMarketData(
 } | null {
   const isin = parseIsin(md)
   if (!isin) {
-    logger.warn('Could not parse ISIN from MarketData')
+    logger.debug('ISIN not present in MarketData, ignoring message')
     return null
   }
 
