@@ -1,17 +1,6 @@
 name: Upsert Release PR
 
 on:
-  push:
-    branches:
-      - main
-    # The only commits that will contain changes to the masterlist will be releases
-    paths-ignore:
-      - 'MASTERLIST.md'
-      - 'package.json'
-      - '.changeset/**'
-      - 'packages/**/CHANGELOG.md'
-      - 'packages/**/README.md'
-      - 'packages/**/package.json'
   workflow_dispatch:
     inputs:
       # For this workflow, BUILD_ALL will only affect the generate documentation step
