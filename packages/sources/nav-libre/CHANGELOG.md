@@ -1,5 +1,11 @@
 # @chainlink/nav-libre-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4161](https://github.com/smartcontractkit/external-adapters-js/pull/4161) [`7db60b6`](https://github.com/smartcontractkit/external-adapters-js/commit/7db60b60239954de5b8293297a89369feef67362) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Report nextNavPerShare
+
 ## 1.0.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.1.0
+
+### Minor Changes
+
+- [#4158](https://github.com/smartcontractkit/external-adapters-js/pull/4158) [`27ca10a`](https://github.com/smartcontractkit/external-adapters-js/commit/27ca10a529b36aec92592564105c1826fc248985) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add stock quotes
+
 ## 2.0.29
 
 ### Patch Changes

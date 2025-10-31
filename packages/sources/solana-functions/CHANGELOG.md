@@ -1,5 +1,11 @@
 # @chainlink/solana-functions-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4156](https://github.com/smartcontractkit/external-adapters-js/pull/4156) [`8d4db8a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d4db8a0b33918240e8d8a2e1bbf560def31837a) Thanks [@dskloetc](https://github.com/dskloetc)! - Add buffer-layout endpoint
+
 ## 1.1.2
 
 ### Patch Changes
