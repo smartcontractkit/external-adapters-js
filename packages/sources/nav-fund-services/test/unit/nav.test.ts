@@ -17,11 +17,12 @@ let transport: NavTransport
 // adapter settings stub
 const adapterSettings = makeStub('adapterSettings', {
   API_ENDPOINT: 'https://api.navfund.com',
-  API_KEY: 'apiKey',
-  SECRET_KEY: 'secret',
   BACKGROUND_EXECUTE_MS: 0,
   WARMUP_SUBSCRIPTION_TTL: 10_000,
 } as unknown as BaseEndpointTypes['Settings'])
+
+process.env.API_KEY_123 = 'apiKey'
+process.env.SECRET_KEY_123 = 'secret'
 
 // requester stub that we'll control per‑test
 const requester = makeStub('requester', { request: jest.fn() })
