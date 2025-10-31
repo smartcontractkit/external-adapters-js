@@ -27,6 +27,24 @@ export const inputParamDefinition = {
     description: 'RPC network name',
     type: 'string',
   },
+  additionalRequests: {
+    description: 'Optional map of function calls',
+    array: true,
+    type: {
+      name: {
+        required: true,
+        type: 'string',
+        description: 'Unique name or identifier for this additional request',
+      },
+      signature: {
+        required: true,
+        type: 'string',
+        description:
+          'Function signature, formatted as human-readable ABI (e.g., balanceOf(address))',
+      },
+    },
+    required: false,
+  },
 } as const
 
 export const inputParameters = new InputParameters(inputParamDefinition)
