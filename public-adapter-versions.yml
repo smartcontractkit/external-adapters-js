@@ -301,8 +301,6 @@ adapters:
     version: 1.0.0
   - name: nav-generic
     version: 1.0.4
-  - name: nav-libre
-    version: 1.1.0
   - name: ncfx
     version: 4.4.6
   - name: nexus-kiln
