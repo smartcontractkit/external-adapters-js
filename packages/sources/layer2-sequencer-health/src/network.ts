@@ -1,11 +1,11 @@
 import { Logger, Requester, util } from '@chainlink/ea-bootstrap'
-import { HEALTH_ENDPOINTS, Networks, ExtendedConfig } from './config'
+import { ExtendedConfig, HEALTH_ENDPOINTS, Networks } from './config'
 
+import { checkOptimisticRollupBlockHeight, sendEVMDummyTransaction } from './evm'
 import {
   checkStarkwareSequencerPendingTransactions,
   sendDummyStarkwareTransaction,
 } from './starkware'
-import { checkOptimisticRollupBlockHeight, sendEVMDummyTransaction } from './evm'
 
 const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
@@ -33,6 +33,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Unichain]: ['intrinsic gas too low: gas 0'],
   [Networks.Soneium]: ['intrinsic gas too low: gas 0'],
   [Networks.Celo]: ['intrinsic gas too low'],
+  [Networks.Xlayer]: ['intrinsic gas too low'],
 }
 
 export interface NetworkHealthCheck {
@@ -104,6 +105,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Unichain]: ['error', 'message'],
       [Networks.Soneium]: ['error', 'message'],
       [Networks.Celo]: ['error', 'message'],
+      [Networks.Xlayer]: ['error', 'message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }
