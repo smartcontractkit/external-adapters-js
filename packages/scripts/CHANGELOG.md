@@ -1,5 +1,13 @@
 # @chainlink/ea-scripts
 
+## 2.8.10
+
+### Patch Changes
+
+- [#4157](https://github.com/smartcontractkit/external-adapters-js/pull/4157) [`8deb845`](https://github.com/smartcontractkit/external-adapters-js/commit/8deb84568d09079a9b65fdaee15d81ec4d88a643) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix README generation
+
+- [#4160](https://github.com/smartcontractkit/external-adapters-js/pull/4160) [`9121f1b`](https://github.com/smartcontractkit/external-adapters-js/commit/9121f1b01c0a8e1b75e53403950a2cd57a8e45d4) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete google-bigquery EA
+
 ## 2.8.9
 
 ### Patch Changes
