@@ -75,6 +75,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/implied-price"\
     },\
     {\
+      "name": "@chainlink/implied-price-test-adapter",\
+      "reference": "workspace:packages/composites/implied-price-test"\
+    },\
+    {\
       "name": "@chainlink/linear-finance-adapter",\
       "reference": "workspace:packages/composites/linear-finance"\
     },\
@@ -1100,6 +1104,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
+    ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
@@ -6944,6 +6949,24 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
+      ["npm:2.7.2", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.7.2-65504e4ff9-eaf5b42e53.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.12.2"],\
+          ["eventsource", "npm:4.0.0"],\
+          ["fastify", "npm:5.6.1"],\
+          ["ioredis", "npm:5.8.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.0.0"],\
+          ["pino-pretty", "npm:13.1.2"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:2b0ebd274061d58a894ebe82ebe3055b9e3b997d390eff79d1de97618fbd29a60316ae14d1eb77730f30500bdd26ea2c1f106acca02a515527d5f418f1f627ec#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7539,6 +7562,22 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/implied-price-test-adapter", [\
+      ["workspace:packages/composites/implied-price-test", {\
+        "packageLocation": "./packages/composites/implied-price-test/",\
+        "packageDependencies": [\
+          ["@chainlink/implied-price-test-adapter", "workspace:packages/composites/implied-price-test"],\
+          ["@chainlink/external-adapter-framework", "npm:2.7.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -28298,6 +28337,24 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pino", [\
+      ["npm:10.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.0.0-39fff26f8f-32c7da2745.zip/node_modules/pino/",\
+        "packageDependencies": [\
+          ["pino", "npm:10.0.0"],\
+          ["atomic-sleep", "npm:1.0.0"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pino-std-serializers", "npm:7.0.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["quick-format-unescaped", "npm:4.0.4"],\
+          ["real-require", "npm:0.2.0"],\
+          ["safe-stable-stringify", "npm:2.5.0"],\
+          ["slow-redact", "npm:0.3.2"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["thread-stream", "npm:3.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:10.1.0", {\
         "packageLocation": "./.yarn/cache/pino-npm-10.1.0-3dcf993335-6f9c865726.zip/node_modules/pino/",\
         "packageDependencies": [\
@@ -30465,6 +30522,15 @@ const RAW_RUNTIME_STATE =
           ["ansi-styles", "npm:4.3.0"],\
           ["astral-regex", "npm:2.0.0"],\
           ["is-fullwidth-code-point", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["slow-redact", [\
+      ["npm:0.3.2", {\
+        "packageLocation": "./.yarn/cache/slow-redact-npm-0.3.2-f92d19539e-53889cc431.zip/node_modules/slow-redact/",\
+        "packageDependencies": [\
+          ["slow-redact", "npm:0.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
