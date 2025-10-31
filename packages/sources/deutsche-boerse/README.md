@@ -1,6 +1,6 @@
 # DEUTSCHE_BOERSE
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/deutsche-boerse/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,10 +32,10 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |  Name  |       Aliases        |                  Description                   |  Type  |             Options              | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------------: | :--------------------------------------------: | :----: | :------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |  isin  | `ISIN`, `instrument` | The ISIN identifier of the instrument to query | string |                                  |         |            |                |
-|    ✅     | market |       `stream`       |  The market identifier of the stream to query  | string | `md-tradegate`, `md-xetraetfetp` |         |            |                |
+| Required? |  Name  |       Aliases        |                  Description                   |  Type  |                               Options                                | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------------: | :--------------------------------------------: | :----: | :------------------------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |  isin  | `ISIN`, `instrument` | The ISIN identifier of the instrument to query | string |                                                                      |         |            |                |
+|    ✅     | market |       `stream`       |  The market identifier of the stream to query  | string | `md-360t.spot`, `md-microproducts`, `md-tradegate`, `md-xetraetfetp` |         |            |                |
 
 ### Example
 
@@ -59,10 +59,10 @@ Request:
 
 ### Input Params
 
-| Required? |  Name  |       Aliases        |                  Description                   |  Type  |             Options              | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------------------: | :--------------------------------------------: | :----: | :------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |  isin  | `ISIN`, `instrument` | The ISIN identifier of the instrument to query | string |                                  |         |            |                |
-|    ✅     | market |       `stream`       |  The market identifier of the stream to query  | string | `md-tradegate`, `md-xetraetfetp` |         |            |                |
+| Required? |  Name  |       Aliases        |                  Description                   |  Type  |                       Options                        | Default | Depends On | Not Valid With |
+| :-------: | :----: | :------------------: | :--------------------------------------------: | :----: | :--------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |  isin  | `ISIN`, `instrument` | The ISIN identifier of the instrument to query | string |                                                      |         |            |                |
+|    ✅     | market |       `stream`       |  The market identifier of the stream to query  | string | `md-microproducts`, `md-tradegate`, `md-xetraetfetp` |         |            |                |
 
 ### Example
 

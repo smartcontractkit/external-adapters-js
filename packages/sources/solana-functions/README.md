@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                         Options                                                          |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [eusx-price](#eusx-price-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                              Options                                                                               |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -114,6 +114,33 @@ Request:
 {
   "data": {
     "endpoint": "sanctum-infinity"
+  }
+}
+```
+
+---
+
+## Buffer-layout Endpoint
+
+`buffer-layout` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |        Name         | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stateAccountAddress |         |        The state account address for the program         | string |         |         |            |                |
+|    ✅     |        field        |         | The name of the field to retrieve from the state account | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "buffer-layout",
+    "stateAccountAddress": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+    "field": "supply"
   }
 }
 ```
