@@ -5,8 +5,12 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
+import pLimit from 'p-limit'
 
 const logger = makeLogger('View Function Multi Chain')
 
@@ -16,6 +20,7 @@ interface RequestParams {
   inputParams?: Array<string>
   network: string
   resultField?: string
+  additionalRequests?: Record<string, RequestParams>
 }
 
 export type RawOnchainResponse = {
@@ -80,7 +85,50 @@ export class MultiChainFunctionTransport<
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network } = param
+    const { address, signature, inputParams, network, additionalRequests } = param
+
+    const [mainResult, nestedResultOutcome] = await Promise.allSettled([
+      this._executeFunction({
+        address,
+        signature,
+        inputParams,
+        network,
+        resultField: param.resultField,
+      }),
+      this._processNestedDataRequest(additionalRequests, address, network),
+    ])
+
+    if (mainResult.status === 'rejected') {
+      throw new AdapterError({
+        statusCode: mainResult.reason?.statusCode || null,
+        message: `${mainResult.reason}`,
+      })
+    }
+
+    // Nested result is optional
+    const nestedResults =
+      nestedResultOutcome.status === 'fulfilled'
+        ? nestedResultOutcome.value
+        : (console.warn('Nested result failed:', nestedResultOutcome.reason), null)
+
+    const combinedData = { result: mainResult.value.result, ...nestedResults }
+
+    return {
+      data: combinedData,
+      statusCode: 200,
+      result: mainResult.value.result,
+      timestamps: mainResult.value.timestamps,
+    }
+  }
+
+  private async _executeFunction(params: {
+    address: string
+    signature: string
+    inputParams?: Array<string>
+    network: string
+    resultField?: string
+  }) {
+    const { address, signature, inputParams, network, resultField } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -102,13 +150,19 @@ export class MultiChainFunctionTransport<
 
     const iface = new ethers.Interface([signature])
     const fnName = iface.getFunctionName(signature)
-    const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
+    const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
     const providerDataRequestedUnixMs = Date.now()
-    const encodedResult = await this.providers[networkName].call({
-      to: address,
-      data: encoded,
-    })
+
+    let encodedResult
+    try {
+      encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
+    } catch (err) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `RPC call failed for ${fnName} on ${networkName}: ${err}`,
+      })
+    }
 
     const timestamps = {
       providerDataRequestedUnixMs,
@@ -116,16 +170,58 @@ export class MultiChainFunctionTransport<
       providerIndicatedTimeUnixMs: undefined,
     }
 
-    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, param.resultField)
+    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, resultField)
 
-    return {
-      data: {
-        result,
-      },
-      statusCode: 200,
-      result,
-      timestamps,
+    return { result, timestamps }
+  }
+
+  private async _processNestedDataRequest(
+    additionalRequests: Record<string, RequestParams> | undefined,
+    parentAddress: string,
+    parentNetwork: string,
+  ): Promise<Record<string, any>> {
+    const limit = pLimit(5)
+    const results: Record<string, any> = {}
+
+    if (!additionalRequests || typeof additionalRequests !== 'object') return results
+
+    const tasks = Object.entries(additionalRequests).map(([key, subReq]) =>
+      limit(async () => {
+        try {
+          const req = subReq as RequestParams
+
+          if (!req.signature) {
+            logger.warn(`Skipping nested key "${key}" — no signature provided.`)
+            return [key, null]
+          }
+
+          const nestedParam = {
+            address: req.address || parentAddress,
+            network: req.network || parentNetwork,
+            signature: req.signature,
+            inputParams: req.inputParams,
+            resultField: req.resultField,
+          }
+
+          const subRes = await this._executeFunction(nestedParam)
+          return [key, subRes.result]
+        } catch (err) {
+          logger.warn(`Nested function "${key}" failed: ${err}`)
+          return [key, null]
+        }
+      }),
+    )
+
+    const settled = await Promise.allSettled(tasks)
+
+    for (const outcome of settled) {
+      if (outcome.status === 'fulfilled') {
+        const [key, value] = outcome.value as [string, string]
+        results[key] = value
+      }
     }
+
+    return results
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
