@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nav-fund-services-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink nav-fund-services adapter.",
   "keywords": [
     "Chainlink",

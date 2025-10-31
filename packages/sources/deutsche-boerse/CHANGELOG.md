@@ -1,5 +1,19 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4153](https://github.com/smartcontractkit/external-adapters-js/pull/4153) [`5071a20`](https://github.com/smartcontractkit/external-adapters-js/commit/5071a20019ac941c7ad04299cf6b478e2b1a7c5a) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Added support for SPOT from 360T
+
+- [#4151](https://github.com/smartcontractkit/external-adapters-js/pull/4151) [`69e1ebb`](https://github.com/smartcontractkit/external-adapters-js/commit/69e1ebb0e18f5d92d94567188b50dc49f0092b2c) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds support to Eurex market
+
+- [#4174](https://github.com/smartcontractkit/external-adapters-js/pull/4174) [`c18e838`](https://github.com/smartcontractkit/external-adapters-js/commit/c18e838b246f1b2af06295266a4f382d89b86162) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Changed logging levels
+
+### Patch Changes
+
+- [#4173](https://github.com/smartcontractkit/external-adapters-js/pull/4173) [`c3dc2af`](https://github.com/smartcontractkit/external-adapters-js/commit/c3dc2af5125e6996a8ef889a8e84d062bd2171c2) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds input validation for price endpoint
+
 ## 1.3.0
 
 ### Minor Changes
