@@ -107,13 +107,14 @@ export class MultiChainFunctionTransport<
       })
     }
 
-    // Nested result is optional
-    const nestedResults =
-      nestedResultOutcome.status === 'fulfilled'
-        ? nestedResultOutcome.value
-        : (console.warn('Nested result failed:', nestedResultOutcome.reason), null)
+    if (nestedResultOutcome.status === 'rejected') {
+      throw new AdapterError({
+        statusCode: nestedResultOutcome.reason?.statusCode || null,
+        message: `${nestedResultOutcome.reason}`,
+      })
+    }
 
-    const combinedData = { result: mainResult.value.result, ...nestedResults }
+    const combinedData = { result: mainResult.value.result, ...nestedResultOutcome.value }
 
     return {
       data: combinedData,
@@ -212,8 +213,7 @@ export class MultiChainFunctionTransport<
           const subRes = await this._executeFunction(nestedParam)
           return [key, subRes.result]
         } catch (err) {
-          logger.warn(`Nested function "${key}" failed: ${err}`)
-          return [key, null]
+          throw new Error(`Nested function "${key}" failed: ${err}`)
         }
       },
     )
