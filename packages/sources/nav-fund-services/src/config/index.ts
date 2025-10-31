@@ -17,6 +17,7 @@ export const config = new AdapterConfig(
   {
     envDefaultOverrides: {
       CACHE_MAX_AGE: 900_000, // 15 minute cache
+      BACKGROUND_EXECUTE_TIMEOUT: 180_000, // 2 minutes wait + 60 seconds for execution
       RETRY: 0, // Disables retry on Framework
     },
   },
