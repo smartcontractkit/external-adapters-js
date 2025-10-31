@@ -1,5 +1,11 @@
 # @chainlink/implied-price-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4170](https://github.com/smartcontractkit/external-adapters-js/pull/4170) [`c48cec8`](https://github.com/smartcontractkit/external-adapters-js/commit/c48cec828fc477b1bd9bebd7e5b54ab88babea2c) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added support for JSON string input payload for operands
+
 ## 1.3.2
 
 ### Patch Changes
