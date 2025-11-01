@@ -18965,7 +18965,7 @@ const RAW_RUNTIME_STATE =
           ["class-validator", "npm:0.14.2"],\
           ["@types/validator", "npm:13.12.2"],\
           ["libphonenumber-js", "npm:1.12.8"],\
-          ["validator", "npm:13.12.0"]\
+          ["validator", "npm:13.15.20"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -32800,10 +32800,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["validator", [\
-      ["npm:13.12.0", {\
-        "packageLocation": "./.yarn/cache/validator-npm-13.12.0-6c8a423cbf-db6eb0725e.zip/node_modules/validator/",\
+      ["npm:13.15.20", {\
+        "packageLocation": "./.yarn/cache/validator-npm-13.15.20-81be70a87b-498f9b201d.zip/node_modules/validator/",\
         "packageDependencies": [\
-          ["validator", "npm:13.12.0"]\
+          ["validator", "npm:13.15.20"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -33876,7 +33876,7 @@ const RAW_RUNTIME_STATE =
           ["commander", "npm:2.20.3"],\
           ["lodash.get", "npm:4.4.2"],\
           ["lodash.isequal", "npm:4.5.0"],\
-          ["validator", "npm:13.12.0"]\
+          ["validator", "npm:13.15.20"]\
         ],\
         "linkType": "HARD"\
       }]\
