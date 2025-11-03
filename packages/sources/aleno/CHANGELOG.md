@@ -1,5 +1,11 @@
 # @chainlink/aleno-adapter
 
+## 2.1.8
+
+### Patch Changes
+
+- [#4178](https://github.com/smartcontractkit/external-adapters-js/pull/4178) [`ccbb7fb`](https://github.com/smartcontractkit/external-adapters-js/commit/ccbb7fb88c20f675da1df662f4e1d11a5b2d54d1) Thanks [@dskloetc](https://github.com/dskloetc)! - Empty update to test the release process
+
 ## 2.1.7
 
 ### Patch Changes
