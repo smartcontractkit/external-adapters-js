@@ -1,5 +1,5 @@
 ---
-'@chainlink/liveart-external-adapter': major
+'@chainlink/liveart-adapter': major
 ---
 
 LiveArt EA initial release
