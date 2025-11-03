@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute packages endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 2.3,
+  },
+  "result": 2.3,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute wallet endpoint should return success 1`] = `
 {
   "data": {
