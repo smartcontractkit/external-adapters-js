@@ -31,11 +31,6 @@ export type HexResultPostProcessor = (
   resultField?: string | undefined,
 ) => string
 
-function toBytes32Hex(value: number | bigint): string {
-  const hex = BigInt(value).toString(16)
-  return '0x' + hex.padStart(64, '0')
-}
-
 export class MultiChainFunctionTransport<
   T extends TransportGenerics,
 > extends SubscriptionTransport<T> {
@@ -92,7 +87,7 @@ export class MultiChainFunctionTransport<
   }
 
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network, additionalRequests } = param
+    const { address, signature, inputParams, network, additionalRequests, resultField } = param
 
     const [mainResult, nestedResultOutcome] = await Promise.all([
       this._executeFunction({
@@ -100,7 +95,7 @@ export class MultiChainFunctionTransport<
         signature,
         inputParams,
         network,
-        resultField: param.resultField,
+        resultField,
       }),
       this._processNestedDataRequest(additionalRequests, address, network),
     ])
@@ -185,27 +180,12 @@ export class MultiChainFunctionTransport<
       return results
     }
 
-    const HARDCODED_VALUES: Record<string, Record<string, number>> = {
-      '0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC': {
-        decimals: 6,
-      },
-    }
-
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
       async (req: { name: string; signature: string }): Promise<[string, string | null]> => {
         const key = req.name
         try {
-          if (!req.signature) {
-            throw new Error(`Missing signature for nested key "${key}"`)
-          }
-
-          const hardcoded = HARDCODED_VALUES[parentAddress]?.[key]
-          if (hardcoded !== undefined) {
-            return [key, toBytes32Hex(hardcoded)]
-          }
-
           const nestedParam = {
             address: parentAddress,
             network: parentNetwork,
@@ -225,9 +205,10 @@ export class MultiChainFunctionTransport<
     )
 
     for (const [key, value] of settled) {
-      if (value !== null) {
-        results[key] = value
+      if (value === null) {
+        throw new Error(`Nested result for "${key}" is null`)
       }
+      results[key] = value
     }
 
     return results
