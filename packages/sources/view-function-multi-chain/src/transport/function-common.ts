@@ -31,6 +31,11 @@ export type HexResultPostProcessor = (
   resultField?: string | undefined,
 ) => string
 
+function toBytes32Hex(value: number | bigint): string {
+  const hex = BigInt(value).toString(16) // convert to hex without 0x
+  return '0x' + hex.padStart(64, '0')
+}
+
 export class MultiChainFunctionTransport<
   T extends TransportGenerics,
 > extends SubscriptionTransport<T> {
@@ -89,7 +94,7 @@ export class MultiChainFunctionTransport<
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
     const { address, signature, inputParams, network, additionalRequests } = param
 
-    const [mainResult, nestedResultOutcome] = await Promise.allSettled([
+    const [mainResult, nestedResultOutcome] = await Promise.all([
       this._executeFunction({
         address,
         signature,
@@ -100,27 +105,13 @@ export class MultiChainFunctionTransport<
       this._processNestedDataRequest(additionalRequests, address, network),
     ])
 
-    if (mainResult.status === 'rejected') {
-      throw new AdapterError({
-        statusCode: mainResult.reason?.statusCode || null,
-        message: `${mainResult.reason}`,
-      })
-    }
-
-    if (nestedResultOutcome.status === 'rejected') {
-      throw new AdapterError({
-        statusCode: nestedResultOutcome.reason?.statusCode || null,
-        message: `${nestedResultOutcome.reason}`,
-      })
-    }
-
-    const combinedData = { result: mainResult.value.result, ...nestedResultOutcome.value }
+    const combinedData = { result: mainResult.result, ...nestedResultOutcome }
 
     return {
       data: combinedData,
       statusCode: 200,
-      result: mainResult.value.result,
-      timestamps: mainResult.value.timestamps,
+      result: mainResult.result,
+      timestamps: mainResult.timestamps,
     }
   }
 
@@ -194,6 +185,12 @@ export class MultiChainFunctionTransport<
       return results
     }
 
+    const HARDCODED_VALUES: Record<string, Record<string, number>> = {
+      '0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC': {
+        decimals: 6,
+      },
+    }
+
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
@@ -202,6 +199,11 @@ export class MultiChainFunctionTransport<
         try {
           if (!req.signature) {
             throw new Error(`Missing signature for nested key "${key}"`)
+          }
+
+          const hardcoded = HARDCODED_VALUES[parentAddress]?.[key]
+          if (hardcoded !== undefined) {
+            return [key, toBytes32Hex(hardcoded)]
           }
 
           const nestedParam = {
