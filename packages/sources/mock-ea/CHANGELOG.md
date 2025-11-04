@@ -1,5 +1,19 @@
 # @chainlink/example-source-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#4165](https://github.com/smartcontractkit/external-adapters-js/pull/4165) [`604ecdb`](https://github.com/smartcontractkit/external-adapters-js/commit/604ecdb0f9b111a18f79b7efb59d91e0f90527c5) Thanks [@dskloetc](https://github.com/dskloetc)! - Only start deviating after the first response, which is now always 1000.
+
+## 2.1.47
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 2.1.46
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @chainlink/enzyme-adapter
 
+## 2.0.33
+
+### Patch Changes
+
+- [#4157](https://github.com/smartcontractkit/external-adapters-js/pull/4157) [`8deb845`](https://github.com/smartcontractkit/external-adapters-js/commit/8deb84568d09079a9b65fdaee15d81ec4d88a643) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix README generation
+
+## 2.0.32
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 2.0.31
 
 ### Patch Changes

@@ -3,10 +3,8 @@ import { TransportRoutes } from '@chainlink/external-adapter-framework/transport
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { customInputValidation } from './utils'
-import { makeRestTransport } from '../transport/crypto-http'
 import { makeWsTransport } from '../transport/crypto-ws'
-import { requestTransform } from './utils'
+import { customInputValidation, requestTransform } from './utils'
 
 export type Params = { index?: string; base?: string; quote?: string }
 export type RequestParams = { Params: Params }
@@ -58,14 +56,11 @@ export const endpoint = new CryptoPriceEndpoint({
   inputParameters,
   requestTransforms,
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-    .register('rest', makeRestTransport('primary'))
-    .register('restsecondary', makeRestTransport('secondary'))
     .register('ws', makeWsTransport('primary'))
     .register('wssecondary', makeWsTransport('secondary')),
   defaultTransport: 'ws',
   customRouter: (req, adapterConfig) => {
     if (adapterConfig.API_SECONDARY) {
-      if (req.requestContext.transportName === 'rest') return 'restsecondary'
       return 'wssecondary'
     } else {
       return req.requestContext.transportName

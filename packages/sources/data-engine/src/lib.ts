@@ -6,10 +6,10 @@ import { BaseEndpointTypes as CryptoV3Types } from './endpoint/cryptoV3'
 import { BaseEndpointTypes as RwaV8Types } from './endpoint/rwaV8'
 
 export const getCryptoPrice = async (feedId: string, url: string, requester: Requester) =>
-  (await callEA<CryptoV3Types['Response']>(feedId, 'crypto-v3', url, requester)).Data
+  callEA<CryptoV3Types['Response']['Data']>(feedId, 'crypto-v3', url, requester)
 
 export const getRwaPrice = async (feedId: string, url: string, requester: Requester) =>
-  (await callEA<RwaV8Types['Response']>(feedId, 'rwa-v8', url, requester)).Data
+  callEA<RwaV8Types['Response']['Data']>(feedId, 'rwa-v8', url, requester)
 
 const callEA = async <T>(feedId: string, endpoint: string, url: string, requester: Requester) => {
   const requestConfig = {
@@ -24,17 +24,18 @@ const callEA = async <T>(feedId: string, endpoint: string, url: string, requeste
   }
 
   try {
-    const response = await requester.request<T>(JSON.stringify(requestConfig), requestConfig)
+    const response = await requester.request(JSON.stringify(requestConfig), requestConfig)
 
     const data = response?.response?.data
-    if (!data || !(data as any).Data) {
+    if (!data || !(data as any).data) {
       throw new AdapterError({
         statusCode: (data as any)?.statusCode || 500,
-        message: `EA request failed: ${JSON.stringify(response?.response)}`,
+        message: `EA request failed: ${JSON.stringify(response?.response?.data)} ${
+          response?.response?.status
+        } ${response?.response?.statusText}`,
       })
     }
-
-    return data
+    return (data as any).data as T
   } catch (e) {
     if (e instanceof AdapterError) {
       e.message = `${e.message} ${JSON.stringify(e?.errorResponse) || e.name}`

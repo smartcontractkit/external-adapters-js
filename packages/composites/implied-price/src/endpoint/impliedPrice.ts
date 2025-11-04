@@ -1,12 +1,12 @@
-import { Validator } from '@chainlink/ea-bootstrap'
 import type {
   AdapterRequest,
-  ExecuteWithConfig,
-  Config,
-  InputParameters,
   AxiosRequestConfig,
+  Config,
+  ExecuteWithConfig,
+  InputParameters,
 } from '@chainlink/ea-bootstrap'
-import { executeComputedPrice } from './computedPrice'
+import { Validator } from '@chainlink/ea-bootstrap'
+import { executeComputedPrice, validateInputPayload } from './computedPrice'
 
 export const supportedEndpoints = ['impliedPrice']
 
@@ -35,7 +35,6 @@ const inputParameters: InputParameters<TInputParameters> = {
   },
   dividendInput: {
     required: true,
-    type: 'object',
     description: 'The payload to send to the dividend sources',
   },
   divisorSources: {
@@ -51,7 +50,6 @@ const inputParameters: InputParameters<TInputParameters> = {
   },
   divisorInput: {
     required: true,
-    type: 'object',
     description: 'The payload to send to the divisor sources',
   },
 }
@@ -77,6 +75,9 @@ export const execute: ExecuteWithConfig<Config> = async (input, _, config) => {
     operand2Input: divisorInput,
     operation: 'divide',
   }
+
+  validatedData.operand1Input = validateInputPayload(dividendInput, 'dividendInput')
+  validatedData.operand2Input = validateInputPayload(divisorInput, 'divisorInput')
 
   return executeComputedPrice(validator.validated.id, validatedData, config)
 }

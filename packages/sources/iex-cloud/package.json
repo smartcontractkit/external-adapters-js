@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/iex-cloud-adapter",
-  "version": "2.0.39",
+  "version": "2.0.41",
   "description": "Chainlink iex-cloud adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

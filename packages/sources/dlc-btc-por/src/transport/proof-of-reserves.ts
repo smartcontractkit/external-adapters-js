@@ -209,8 +209,8 @@ export class DLCBTCPorTransport extends SubscriptionTransport<TransportTypes> {
     const result = response.data.result
 
     if (!result) {
-      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, txId: ', txId)
-      logger.error('BITCOIN_RPC_URL - getrawtransaction failed, response: ', response)
+      logger.error(`BITCOIN_RPC_URL - getrawtransaction failed, txId: ${txId}`)
+      logger.error(`BITCOIN_RPC_URL - getrawtransaction failed, response: ${response}`)
     }
 
     return result
