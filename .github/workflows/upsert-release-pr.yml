@@ -2,12 +2,6 @@ name: Upsert Release PR
 
 on:
   workflow_dispatch:
-    inputs:
-      # For this workflow, BUILD_ALL will only affect the generate documentation step
-      build-all:
-        description: whether to run steps for all adapters, regardless of whether they were changed in this event
-        required: false
-        default: 'false'
 
 # TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
 # - Readme generation did not require built TS files
@@ -21,7 +15,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
-      BUILD_ALL: ${{ github.event.inputs.build-all }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4

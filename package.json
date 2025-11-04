@@ -24,7 +24,6 @@
     "test:ci:unit": "METRICS_ENABLED=false jest --coverage unit",
     "test:ci:integration": "EA_PORT=0 METRICS_ENABLED=false jest --coverage integration",
     "generate:docker-compose": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/docker-build",
-    "generate:gha:matrix": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/gha",
     "generate:healthcheck:payloads": "ts-node-transpile-only ./packages/scripts/src/healthchecks",
     "generate:image-name": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-image-name",
     "generate:master-list": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-master-list",
