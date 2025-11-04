@@ -491,6 +491,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ethgaswatch"\
     },\
     {\
+      "name": "@chainlink/exchange-copter-adapter",\
+      "reference": "workspace:packages/sources/exchange-copter"\
+    },\
+    {\
       "name": "@chainlink/expand-network-adapter",\
       "reference": "workspace:packages/sources/expand-network"\
     },\
@@ -1063,6 +1067,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
+    ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
     ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
@@ -6917,6 +6922,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/exchange-copter-adapter", [\
+      ["workspace:packages/sources/exchange-copter", {\
+        "packageLocation": "./packages/sources/exchange-copter/",\
+        "packageDependencies": [\
+          ["@chainlink/exchange-copter-adapter", "workspace:packages/sources/exchange-copter"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
