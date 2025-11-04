@@ -13,4 +13,29 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 1_000,
   },
+  URL: {
+    description: 'The Canton JSON API URL',
+    type: 'string',
+    required: true,
+  },
+  TEMPLATE_ID: {
+    description: 'The template ID to query contracts for (format: packageId:Module:Template)',
+    type: 'string',
+    required: true,
+  },
+  CHOICE: {
+    description: 'The non-consuming choice to exercise on the contract',
+    type: 'string',
+    required: true,
+  },
+  ARGUMENT: {
+    description: 'The argument for the choice (JSON string)',
+    type: 'string',
+    required: false,
+  },
+  CONTRACT_FILTER: {
+    description: 'Filter to query contracts when contractId is not provided (JSON string)',
+    type: 'string',
+    required: false,
+  },
 })

@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 
 export interface CantonClientConfig {
   AUTH_TOKEN: string
+  URL: string
 }
 
 export interface QueryContractByTemplateRequest {
@@ -52,11 +53,8 @@ export class CantonClient {
   /**
    * Query contracts by template ID with an optional filter
    */
-  async queryContractsByTemplate(
-    url: string,
-    request: QueryContractByTemplateRequest,
-  ): Promise<Contract[]> {
-    const baseURL = `${url}/v1/query`
+  async queryContractsByTemplate(request: QueryContractByTemplateRequest): Promise<Contract[]> {
+    const baseURL = `${this.config.URL}/v1/query`
 
     const requestData: any = {
       templateIds: request.templateIds,
@@ -65,6 +63,7 @@ export class CantonClient {
     if (request.filter) {
       requestData.query =
         typeof request.filter === 'string' ? JSON.parse(request.filter) : request.filter
+      //todo: filter should only have one unique result, so fail if it's not
     }
 
     const requestConfig = {
@@ -89,8 +88,8 @@ export class CantonClient {
   /**
    * Exercise a non-consuming choice on a contract
    */
-  async exerciseChoice(url: string, payload: ExerciseChoiceRequest): Promise<ExerciseResult> {
-    const baseURL = `${url}/v1/exercise`
+  async exerciseChoice(payload: ExerciseChoiceRequest): Promise<ExerciseResult> {
+    const baseURL = `${this.config.URL}/v1/exercise`
 
     const requestConfig = {
       method: 'POST',

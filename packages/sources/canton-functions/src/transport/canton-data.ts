@@ -4,7 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/canton-data'
-import { CantonClient, QueryContractByTemplateRequest } from '../shared/canton-client'
+import { CantonClient, Contract, QueryContractByTemplateRequest } from '../shared/canton-client'
 
 const logger = makeLogger('CantonDataTransport')
 
@@ -22,18 +22,21 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.cantonClient = CantonClient.getInstance(dependencies.requester, {
       AUTH_TOKEN: adapterSettings.AUTH_TOKEN,
+      URL: adapterSettings.URL,
     })
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(
+      entries.map(async (param) => this.handleRequest(param, context.adapterSettings)),
+    )
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(param: RequestParams, adapterSettings: BaseEndpointTypes['Settings']) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest(param, adapterSettings)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -53,11 +56,13 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
 
   async _handleRequest(
     params: RequestParams,
+    adapterSettings: BaseEndpointTypes['Settings'],
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const url = params.url
-    const templateId = params.templateId
-    const choice = params.choice
+    const templateId = adapterSettings.TEMPLATE_ID
+    const choice = adapterSettings.CHOICE
+    const argument = adapterSettings.ARGUMENT
+    const contractFilter = adapterSettings.CONTRACT_FILTER
 
     let contractId: string
 
@@ -66,10 +71,10 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     } else {
       const payload: QueryContractByTemplateRequest = { templateIds: [templateId] }
 
-      if (params.contractFilter) {
-        payload.filter = params.contractFilter
+      if (contractFilter) {
+        payload.filter = contractFilter
       }
-      const contracts = await this.cantonClient.queryContractsByTemplate(url, payload)
+      const contracts = await this.cantonClient.queryContractsByTemplate(payload)
 
       if (!contracts || contracts.length === 0) {
         throw new AdapterInputError({
@@ -82,11 +87,11 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     }
 
     // Exercise a non-consuming choice on the contract
-    const exerciseResult = await this.cantonClient.exerciseChoice(url, {
+    const exerciseResult = await this.cantonClient.exerciseChoice({
       contractId,
       templateId,
       choice,
-      argument: params.argument ? JSON.parse(params.argument) : {},
+      argument: argument ? JSON.parse(argument) : {},
     })
 
     const result = JSON.stringify(exerciseResult)
@@ -109,7 +114,7 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
   /**
    * Find the latest contract by createdAt date
    */
-  private findLatestContract(contracts: any[]): any {
+  private findLatestContract(contracts: Contract[]): Contract {
     if (contracts.length === 1) {
       return contracts[0]
     }
