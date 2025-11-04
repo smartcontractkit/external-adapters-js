@@ -9,8 +9,8 @@ import { wsTransport } from '../transport/price'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
-    base: 'BTC',
-    quote: 'USD',
+    base: 'EZETH',
+    quote: 'ETH',
   },
 ])
 

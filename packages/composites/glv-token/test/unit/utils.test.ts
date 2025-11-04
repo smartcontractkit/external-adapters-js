@@ -1,4 +1,4 @@
-import { toFixed, median } from '../../src/transport/utils'
+import { median, toFixed, toNumFromDS } from '../../src/transport/utils'
 
 describe('toFixed', () => {
   it('should return a string with correct precision', () => {
@@ -15,5 +15,12 @@ describe('median', () => {
     expect(res).toBe(3)
     res = median([1, 2, 3, 4])
     expect(res).toBe(2.5)
+  })
+})
+
+describe('toNumFromDS', () => {
+  it('divides DS ints by decimals using Decimal.js', () => {
+    // 2.001 * 1e18 → "2001000000000000000"
+    expect(toNumFromDS('2001000000000000000', 18)).toBe(2.001)
   })
 })

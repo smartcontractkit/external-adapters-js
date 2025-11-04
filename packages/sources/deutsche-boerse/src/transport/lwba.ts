@@ -1,6 +1,10 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
+import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import Decimal from 'decimal.js'
+import { config } from '../config'
+import { BaseEndpointTypes, Market, MARKET_EUREX_MICRO, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
 import {
   RequestSchema,
   StreamMessageSchema,
@@ -8,37 +12,60 @@ import {
   UnsubscribeSchema,
   type StreamMessage,
 } from '../gen/client_pb'
-import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
-import { InstrumentQuoteCache } from './instrument-quote-cache'
+import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
+  MarketDataSchema,
+  type Data_MDEntryPrices,
+  type Data as DataProto,
+  type MarketData,
+} from '../gen/md_cef_pb'
+import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
-  isSingleQuoteFrame,
+  hasMidPriceSpreadFrame,
+  hasSingleBidFrame,
+  hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
 } from './proto-utils'
 import { ProtobufWsTransport } from './protobuf-wstransport'
 
-export type WsTransportTypes = BaseEndpointTypes & {
+export type WsTransportTypes = (BaseEndpointTypes | PriceBaseEndpointTypes) & {
   Provider: {
     WsMessage: Buffer
   }
 }
 
+type BaseTransportTypes = {
+  Parameters: TransportGenerics['Parameters']
+  Response: TransportGenerics['Response']
+  Settings: TransportGenerics['Settings'] & typeof config.settings
+}
+
 const logger = makeLogger('DeutscheBoerseTransport')
 
-export function createLwbaWsTransport() {
+export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTypes>(
+  extractData: (quote: Quote) => BaseEndpointTypes['Response']['Data'],
+) {
   const cache = new InstrumentQuoteCache()
-
-  return new ProtobufWsTransport<WsTransportTypes>({
+  const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
       headers: { 'X-API-Key': context.adapterSettings.API_KEY },
       followRedirects: true,
     }),
     handlers: {
-      open: () => {
+      open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
+
+        // Start heartbeat to keep connection alive
+        transport.startHeartbeat(
+          context.adapterSettings.HEARTBEAT_INTERVAL_MS,
+          context.adapterSettings.CACHE_MAX_AGE,
+        )
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -48,6 +75,9 @@ export function createLwbaWsTransport() {
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
+
+        // Stop heartbeat
+        transport.stopHeartbeat()
       },
       message(buf) {
         logger.debug(
@@ -62,50 +92,35 @@ export function createLwbaWsTransport() {
         if (!sm) {
           return []
         }
+        transport.lastMessageReceivedAt = Date.now()
         const decoded = decodeSingleMarketData(sm)
         if (!decoded) {
           return []
         }
         const { market, md } = decoded
-        const result = processMarketData(md, cache)
+        const result = processMarketData(md, cache, market)
         if (!result) {
           return []
         }
         const { isin, providerTime } = result
-        const quote = cache.get(isin)
+
+        const quote = cache.get(market, isin)
+
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
-        if (
-          quote.mid == null ||
-          quote.ask == null ||
-          quote.bid == null ||
-          quote.latestPrice == null ||
-          quote.quoteProviderTimeUnixMs == null ||
-          quote.tradeProviderTimeUnixMs == null
-        ) {
-          logger.error(
-            { isin, market },
-            'Neither mid nor latestPrice present after processing frame',
-          )
-          logger.debug({ isin, market }, 'Awaiting complete quote before emitting')
+        const responseData = extractData(quote)
+        if (!responseData) {
+          logger.debug({ quote, isin }, 'Failed to extract response data from quote')
           return []
         }
-
         return [
           {
             params: { isin, market },
             response: {
               result: null,
-              data: {
-                mid: quote.mid,
-                bid: quote.bid,
-                ask: quote.ask,
-                latestPrice: quote.latestPrice,
-                quoteProviderIndicatedTimeUnixMs: quote.quoteProviderTimeUnixMs,
-                tradeProviderIndicatedTimeUnixMs: quote.tradeProviderTimeUnixMs,
-              },
+              data: responseData as WsTransportTypes['Response']['Data'],
               timestamps: { providerIndicatedTimeUnixMs: providerTime },
             },
           },
@@ -114,22 +129,20 @@ export function createLwbaWsTransport() {
     },
     builders: {
       subscribeMessage: (p: { market: string; isin: string }) => {
-        if (cache.isEmpty()) {
-          cache.activate(p.isin)
+        const firstForMarket = !cache.hasMarket(p.market)
+        cache.activate(p.market, p.isin)
+        if (firstForMarket) {
+          const markets = cache.getMarkets()
           const req = create(RequestSchema, {
             event: 'subscribe',
             requestId: BigInt(Date.now()),
             subscribe: create(SubscribeSchema, {
-              stream: [{ stream: p.market }],
+              stream: markets.map((m) => ({ stream: m })),
             }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'Building initial subscribe request (first instrument activates stream)',
-          )
+          logger.info({ markets }, 'Subscribing market streams (first activation for this market)')
           return toBinary(RequestSchema, req)
         }
-        cache.activate(p.isin)
         logger.debug(
           { isin: p.isin, market: p.market },
           'Instrument activated; stream already subscribed, no outbound subscribe message sent',
@@ -138,17 +151,17 @@ export function createLwbaWsTransport() {
       },
 
       unsubscribeMessage: (p: { market: string; isin: string }) => {
-        cache.deactivate(p.isin)
-        if (cache.isEmpty()) {
+        cache.deactivate(p.market, p.isin)
+
+        if (!cache.hasMarket(p.market)) {
           const req = create(RequestSchema, {
             event: 'unsubscribe',
             requestId: BigInt(Date.now()),
-            unsubscribe: create(UnsubscribeSchema, { stream: [p.market] }),
+            unsubscribe: create(UnsubscribeSchema, {
+              stream: [p.market],
+            }),
           })
-          logger.info(
-            { isin: p.isin, market: p.market },
-            'All instruments deactivated; building unsubscribe request',
-          )
+          logger.info({ market: p.market }, 'Unsubscribing market stream (market now empty)')
           return toBinary(RequestSchema, req)
         }
         logger.debug(
@@ -159,6 +172,7 @@ export function createLwbaWsTransport() {
       },
     },
   })
+  return transport
 }
 
 // --- helpers -----------------------------------------------------------------
@@ -171,32 +185,99 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
+function processMidPriceSpreadFrame(
+  dat: DataProto,
+  market: string,
+  isin: string,
+  cache: InstrumentQuoteCache,
+  providerTime: number,
+): { isin: string; providerTime: number } | null {
+  const pxs = dat!.Pxs
+
+  const spreadEntries = pxs.filter(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD &&
+      entry.Px &&
+      entry.Sz,
+  )
+
+  if (spreadEntries.length === 0) {
+    logger.error({ market, isin }, 'No PRICE_SPREAD entries found in Pxs array')
+    return null
+  }
+
+  spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
+    const sizeA = decimalToNumber(a.Sz)
+    const sizeB = decimalToNumber(b.Sz)
+    return sizeA - sizeB
+  })
+
+  const lowestSpreadEntry = spreadEntries[0]
+  const spread = decimalToNumber(lowestSpreadEntry.Px)
+  const size = decimalToNumber(lowestSpreadEntry.Sz)
+
+  const normalRateEntry = pxs.find(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.NORMAL_RATE &&
+      entry.Px,
+  )
+
+  if (!normalRateEntry) {
+    logger.error({ market, isin }, 'No NORMAL_RATE entry found in Pxs array')
+    return null
+  }
+
+  const mid = decimalToNumber(normalRateEntry.Px)
+  const halfSpread = new Decimal(spread).div(2)
+  const bidPx = new Decimal(mid).minus(halfSpread).toNumber()
+  const askPx = new Decimal(mid).plus(halfSpread).toNumber()
+
+  cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
+
+  logger.debug(
+    { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
+    'Processed mid price + spread frame',
+  )
+  return { isin, providerTime }
+}
+
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
+  market: string,
 ): {
   isin: string
   providerTime: number
 } | null {
   const isin = parseIsin(md)
-  const dat: any = (md as any)?.Dat ?? {}
-
   if (!isin) {
-    logger.warn({ md }, 'Could not parse ISIN from MarketData.Instrmt.Sym')
+    logger.debug('ISIN not present in MarketData, ignoring message')
     return null
   }
 
-  const quote = cache.get(isin)
+  const quote = cache.get(market, isin)
   if (!quote) {
-    logger.debug({ isin }, 'Ignoring message for inactive instrument (not in cache)')
+    logger.debug('Ignoring message for inactive instrument (not in cache)')
+    return null
+  }
+
+  if (market === MARKET_EUREX_MICRO && !isFutureInstrument(md)) {
+    logger.debug({ isin, market }, 'Ignoring non-FUT instrument for FUT-only market')
+    return null
+  }
+
+  const dat = (md as MarketData)?.Dat
+  if (!dat) {
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
     return null
   }
 
   const providerTime = pickProviderTime(dat)
-
   if (isSingleTradeFrame(dat)) {
-    const latestPrice = decimalToNumber(dat.Px)
-    cache.addTrade(isin, latestPrice, providerTime)
+    const latestPrice = decimalToNumber(dat!.Px)
+    cache.addTrade(market, isin, latestPrice, providerTime)
     logger.debug(
       { isin, latestPrice, providerTimeUnixMs: providerTime },
       'Processed single trade frame',
@@ -204,13 +285,41 @@ function processMarketData(
     return { isin, providerTime }
   }
 
-  if (isSingleQuoteFrame(dat)) {
+  // Handle Pxs array with MID_PRICE and PRICE_SPREAD
+  if (hasMidPriceSpreadFrame(dat)) {
+    return processMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
+  }
+
+  if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)
-    cache.addQuote(isin, bidPx, askPx, providerTime)
+    const bidSz = decimalToNumber(dat!.Bid!.Sz)
+    const askSz = decimalToNumber(dat!.Offer!.Sz)
+    cache.addQuote(market, isin, bidPx, askPx, providerTime, bidSz, askSz)
     logger.debug(
       { isin, bid: bidPx, ask: askPx, mid: (bidPx + askPx) / 2, providerTimeUnixMs: providerTime },
       'Processed single quote frame',
+    )
+    return { isin, providerTime }
+  }
+  if (hasSingleBidFrame(dat)) {
+    const bidPx = decimalToNumber(dat!.Bid!.Px)
+    const bidSz = decimalToNumber(dat!.Bid!.Sz)
+    cache.addBid(market, isin, bidPx, providerTime, bidSz)
+    logger.debug(
+      { isin, bid: bidPx, providerTimeUnixMs: providerTime },
+      'Processed single bid frame',
+    )
+    return { isin, providerTime }
+  }
+
+  if (hasSingleOfferFrame(dat)) {
+    const askPx = decimalToNumber(dat!.Offer!.Px)
+    const askSz = decimalToNumber(dat!.Offer!.Sz)
+    cache.addAsk(market, isin, askPx, providerTime, askSz)
+    logger.debug(
+      { isin, ask: askPx, providerTimeUnixMs: providerTime },
+      'Processed single offer frame',
     )
     return { isin, providerTime }
   }
@@ -246,4 +355,23 @@ function decodeSingleMarketData(sm: StreamMessage): { market: Market; md: Market
 function isMarket(x: string): x is Market {
   return (MARKETS as readonly string[]).includes(x)
 }
-export const wsTransport = createLwbaWsTransport()
+
+export const lwbaProtobufWsTransport = createLwbaWsTransport((quote) => {
+  if (
+    quote.bid == null ||
+    quote.ask == null ||
+    quote.mid == null ||
+    quote.bidSize == null ||
+    quote.askSize == null
+  ) {
+    return undefined
+  }
+
+  return {
+    bid: quote.bid,
+    ask: quote.ask,
+    mid: quote.mid,
+    bidSize: quote.bidSize,
+    askSize: quote.askSize,
+  }
+})

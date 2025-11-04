@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint should return success for GMCI30 1`] = `
+{
+  "data": {
+    "result": 183.7141917913536,
+    "symbol": "GMCI30",
+  },
+  "result": 183.7141917913536,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1752394072746,
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success for GML2 1`] = `
+{
+  "data": {
+    "result": 33.39,
+    "symbol": "GML2",
+  },
+  "result": 33.39,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1752394072746,
+  },
+}
+`;

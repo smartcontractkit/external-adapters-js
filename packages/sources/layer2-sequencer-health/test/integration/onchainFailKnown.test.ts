@@ -1,10 +1,10 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
-import { mockResponseFailureHealth, mockResponseFailureBlock } from './fixtures'
-import { ethers } from 'ethers'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
+import { ethers } from 'ethers'
 import { SuperTest, Test } from 'supertest'
+import { server as startServer } from '../../src'
+import { mockResponseFailureBlock, mockResponseFailureHealth } from './fixtures'
 
 const mockMessages = {
   'https://arb1.arbitrum.io/rpc': 'gas price too low',
@@ -20,6 +20,7 @@ const mockMessages = {
   'https://mainnet.unichain.org': 'intrinsic gas too low: gas 0',
   'https://rpc.soneium.org': 'intrinsic gas too low: gas 0',
   'https://forno.celo.org': 'intrinsic gas too low: gas 0',
+  'https://xlayerrpc.okx.com': 'intrinsic gas too low: gas 0',
 }
 
 jest.mock('ethers', () => {
@@ -420,6 +421,35 @@ describe('execute', () => {
         id,
         data: {
           network: 'celo',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('xlayer network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'xlayer',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'xlayer',
         },
       }
 

@@ -407,7 +407,7 @@ export class ReadmeGenerator {
       if (this.verbose)
         console.log(`${this.adapterPath}: Running integration tests to get updated I/O examples`)
 
-      const testOutput = exec(`yarn test ${this.integrationTestPath}`, {
+      const testOutput = exec(`yarn test --runInBand ${this.integrationTestPath}`, {
         fatal: true,
         silent: true,
         env: { ...process.env, ...testEnvOverrides },

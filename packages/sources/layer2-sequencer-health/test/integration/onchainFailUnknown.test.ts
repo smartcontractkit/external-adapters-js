@@ -1,12 +1,12 @@
 import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
-import { mockResponseFailureHealth, mockResponseFailureBlock } from './fixtures'
-import { AddressInfo } from 'net'
-import { ethers } from 'ethers'
 import { setEnvVariables } from '@chainlink/ea-test-helpers'
+import { ethers } from 'ethers'
+import { AddressInfo } from 'net'
+import * as nock from 'nock'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { server as startServer } from '../../src'
+import { mockResponseFailureBlock, mockResponseFailureHealth } from './fixtures'
 
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
@@ -207,6 +207,22 @@ describe('execute', () => {
       id,
       data: {
         network: 'celo',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('xlayer network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'xlayer',
       },
     }
 

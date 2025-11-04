@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/securitize-adapter",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Chainlink securitize adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.0",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "tslib": "2.4.1",
     "tweetnacl": "^1.0.3"
   }

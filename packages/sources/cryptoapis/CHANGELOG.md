@@ -1,5 +1,14 @@
 # @chainlink/cryptoapis-adapter
 
+## 1.2.47
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-factories@1.2.44
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.2.46
 
 ### Patch Changes

@@ -1,7 +1,10 @@
 import { create } from '@bufbuild/protobuf'
 import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
   DataSchema,
   DecimalSchema,
+  Instrument_SecurityType,
   MarketDataSchema,
   type Data,
   type Decimal,
@@ -10,7 +13,10 @@ import {
 import {
   convertNsToMs,
   decimalToNumber,
-  isSingleQuoteFrame,
+  hasMidPriceSpreadFrame,
+  hasSingleBidFrame,
+  hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -19,29 +25,20 @@ import {
 describe('proto-utils', () => {
   const dec = (m: bigint, e: number): Decimal => create(DecimalSchema, { m, e })
 
-  test('decimalToNumber – basic fractional', () => {
+  test('decimalToNumber – basic fractional and integer scaling', () => {
     expect(decimalToNumber(dec(123n, -2))).toBeCloseTo(1.23)
-  })
-
-  test('decimalToNumber – integer scaling', () => {
     expect(decimalToNumber(dec(42n, 0))).toBe(42)
     expect(decimalToNumber(dec(42n, 1))).toBe(420)
   })
 
-  // Boundary: exactly 15 significant digits passes
   test('decimalToNumber – exactly 15 significant digits passes', () => {
     expect(decimalToNumber(dec(999_999_999_999_999n, 0))).toBe(999_999_999_999_999)
   })
 
-  // Fail: > 15 significant digits (16-digit mantissa)
   test('decimalToNumber – throws when value has > 15 significant digits', () => {
     expect(() => decimalToNumber(dec(1_234_567_890_123_456n, 0))).toThrow(
       /more than 15 significant digits/i,
     )
-  })
-
-  // Fail: still > 15 significant digits even after scaling (exponent doesn’t reduce sig-digits)
-  test('decimalToNumber – throws for 16-digit mantissa with negative exponent', () => {
     expect(() => decimalToNumber(dec(1_234_567_890_123_456n, -5))).toThrow(
       /more than 15 significant digits/i,
     )
@@ -52,7 +49,7 @@ describe('proto-utils', () => {
     expect(convertNsToMs(1_999_999n)).toBe(1)
   })
 
-  test('getIsin (uses Instrmt.Sym)', () => {
+  test('parseIsin uses Instrmt.Sym', () => {
     const md: MarketData = create(MarketDataSchema, {
       Instrmt: { Sym: 'IE00B53L3W79' as string },
     } as any)
@@ -64,20 +61,116 @@ describe('proto-utils', () => {
     expect(pickProviderTime(dat)).toBe(5)
   })
 
-  test('isSingleTradeFrame', () => {
+  test('frame guards: trade/bid/offer', () => {
     const datWithTrade: Data = create(DataSchema, { Px: dec(100n, -2) } as any)
-    const datNoTrade: Data = create(DataSchema, {} as any)
+    const datWithBid: Data = create(DataSchema, { Bid: { Px: dec(9999n, -2) } } as any)
+    const datWithOffer: Data = create(DataSchema, { Offer: { Px: dec(10050n, -2) } } as any)
+    const datEmpty: Data = create(DataSchema, {} as any)
+
     expect(isSingleTradeFrame(datWithTrade)).toBe(true)
-    expect(isSingleTradeFrame(datNoTrade)).toBe(false)
+    expect(isSingleTradeFrame(datEmpty)).toBe(false)
+
+    expect(hasSingleBidFrame(datWithBid)).toBe(true)
+    expect(hasSingleBidFrame(datEmpty)).toBe(false)
+
+    expect(hasSingleOfferFrame(datWithOffer)).toBe(true)
+    expect(hasSingleOfferFrame(datEmpty)).toBe(false)
   })
 
-  test('isSingleQuoteFrame', () => {
-    const datWithQuote: Data = create(DataSchema, {
-      Bid: { Px: dec(10000n, -2) },
-      Offer: { Px: dec(10050n, -2) },
+  test('hasMidPriceSpreadFrame – with valid spread and normal rate', () => {
+    const datWithSpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4), // spread of 0.001
+          Sz: dec(1000000n, 0),
+        },
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3), // mid price of 0.577
+        },
+      ],
     } as any)
-    const datMissing: Data = create(DataSchema, { Bid: {} } as any)
-    expect(isSingleQuoteFrame(datWithQuote)).toBe(true)
-    expect(isSingleQuoteFrame(datMissing)).toBe(false)
+
+    expect(hasMidPriceSpreadFrame(datWithSpread)).toBe(true)
   })
+
+  test('hasMidPriceSpreadFrame – missing NORMAL_RATE returns false', () => {
+    const datOnlySpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4),
+          Sz: dec(1000000n, 0),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlySpread)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing PRICE_SPREAD returns false', () => {
+    const datOnlyNormalRate: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlyNormalRate)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – empty Pxs array returns false', () => {
+    const datEmpty: Data = create(DataSchema, { Pxs: [] } as any)
+    expect(hasMidPriceSpreadFrame(datEmpty)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing Pxs returns false', () => {
+    const datNoArray: Data = create(DataSchema, {} as any)
+    expect(hasMidPriceSpreadFrame(datNoArray)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – spread entry missing Sz returns false', () => {
+    const datNoSize: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4),
+          // Sz is missing
+        },
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datNoSize)).toBe(false)
+  })
+})
+
+test('isFutureInstrument returns true for FUT', () => {
+  const md: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'FUT-ISIN', SecTyp: Instrument_SecurityType.FUT },
+  } as any)
+  expect(isFutureInstrument(md)).toBe(true)
+})
+
+test('isFutureInstrument returns false when SecTyp is missing or non-FUT', () => {
+  const mdMissing: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'NOSEC-ISIN' }, // no SecTyp
+  } as any)
+  const mdOther: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'OTHER-ISIN', SecTyp: 0 as any }, // some non-FUT enum
+  } as any)
+  expect(isFutureInstrument(mdMissing)).toBe(false)
+  expect(isFutureInstrument(mdOther)).toBe(false)
 })

@@ -1,11 +1,12 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
+import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
+import { request } from './requester'
 import { getApiInfo } from './utils'
 
 const logger = makeLogger('WalletTransport')
@@ -15,41 +16,36 @@ type RequestParams = typeof inputParameters.validated
 export type WalletTransportTypes = BaseEndpointTypes
 
 interface WalletResponse {
-  data: {
-    assets: {
+  assets: {
+    assetType: string
+    availableBalance: {
       assetType: string
-      availableBalance: {
-        assetType: string
-        currentPrice: string
-        currentUSDValue: string
-        quantity: string
-      }
-      totalBalance: {
-        assetType: string
-        currentPrice: string
-        currentUSDValue: string
-        quantity: string
-      }
-    }[]
-    depositAddress: {
-      address: string
-      addressId: string
-      addressSignaturePayload: string
-      addressID: string
-      signature: string
+      currentPrice: string
+      currentUSDValue: string
+      quantity: string
     }
-    isDefault: boolean
-    networkId: string
-    subaccountId: string
-    type: string
-    vaultId: string
-    vaultName: string
-    walletId: string
-    walletName: string
+    totalBalance: {
+      assetType: string
+      currentPrice: string
+      currentUSDValue: string
+      quantity: string
+    }
   }[]
-  page: {
-    next: string | null
+  depositAddress: {
+    address: string
+    addressId: string
+    addressSignaturePayload: string
+    addressID: string
+    signature: string
   }
+  isDefault: boolean
+  networkId: string
+  subaccountId: string
+  type: string
+  vaultId: string
+  vaultName: string
+  walletId: string
+  walletName: string
 }
 
 export class WalletTransport extends SubscriptionTransport<WalletTransportTypes> {
@@ -131,30 +127,15 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
   }
 
   async fetchWallets(vaultId: string, coin: string, apiKey: string) {
-    const wallets = []
-    let hasNext = true
-    const requestConfig = {
-      baseURL: this.settings.API_ENDPOINT,
-      url: `/v2/vaults/${vaultId}/wallets?limit=${this.settings.API_LIMIT}`,
-      headers: {
-        'Api-Access-Key': apiKey,
-      },
-    }
+    const response = await request<WalletResponse>(
+      this.requester,
+      this.settings.API_ENDPOINT,
+      `/v2/vaults/${vaultId}/wallets`,
+      apiKey,
+      this.settings.API_LIMIT,
+    )
 
-    while (hasNext) {
-      const reqKey = `${requestConfig.baseURL}${requestConfig.url}`
-      const response = await this.requester.request<WalletResponse>(reqKey, requestConfig)
-      wallets.push(
-        ...response.response.data.data.filter(
-          (w) => w.networkId.toUpperCase() === coin.toUpperCase(),
-        ),
-      )
-      hasNext = response.response.data.page.next !== null
-      if (response.response.data.page.next) {
-        requestConfig.url = response.response.data.page.next
-      }
-    }
-    return wallets
+    return response.filter((w) => w.networkId.toUpperCase() == coin.toUpperCase())
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: WalletTransportTypes['Settings']): number {

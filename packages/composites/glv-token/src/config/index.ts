@@ -1,5 +1,4 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
-import { validator } from '@chainlink/external-adapter-framework/validation/utils'
 
 export const config = new AdapterConfig(
   {
@@ -26,27 +25,10 @@ export const config = new AdapterConfig(
       required: true,
       default: '0x6a9505D0B44cFA863d9281EA5B0b34cB36243b45',
     },
-    TIINGO_ADAPTER_URL: {
-      description: 'URL of Tiingo EA',
+    DATA_ENGINE_ADAPTER_URL: {
+      description: 'URL of Data Engine EA',
       type: 'string',
       required: true,
-    },
-    NCFX_ADAPTER_URL: {
-      description: 'URL of NCFX EA',
-      type: 'string',
-      required: true,
-    },
-    COINMETRICS_ADAPTER_URL: {
-      description: 'URL of Coinmetrics EA',
-      type: 'string',
-      required: true,
-    },
-    MIN_REQUIRED_SOURCE_SUCCESS: {
-      description: 'Minimum number of source EAs that need to successfully return a value.',
-      type: 'number',
-      required: true,
-      default: 2,
-      validate: validator.integer({ min: 1, max: 3 }),
     },
     MARKET_INFO_API: {
       description: 'URL market meta data supported by Glv',

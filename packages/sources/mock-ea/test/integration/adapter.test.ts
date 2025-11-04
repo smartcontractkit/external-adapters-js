@@ -1,8 +1,8 @@
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
-import { server as startServer } from '../../src'
-import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import type { SuiteContext } from '@chainlink/ea-test-helpers'
+import { setupExternalAdapterTest } from '@chainlink/ea-test-helpers'
 import { SuperTest, Test } from 'supertest'
+import { server as startServer } from '../../src'
 
 describe('execute', () => {
   const id = '1'
@@ -27,7 +27,7 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-      expect([950, 1050]).toContain(response.body.data.result)
+      expect(response.body.data.result).toBe(1000)
     })
   })
 })

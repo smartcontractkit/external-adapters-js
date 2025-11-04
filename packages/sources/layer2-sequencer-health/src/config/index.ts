@@ -1,7 +1,12 @@
-import { AdapterConfigError, Requester, util } from '@chainlink/ea-bootstrap'
-import { AdapterContext, Config } from '@chainlink/ea-bootstrap'
-import { envDefaultOverrides } from './envDefaultOverrides'
+import {
+  AdapterConfigError,
+  AdapterContext,
+  Config,
+  Requester,
+  util,
+} from '@chainlink/ea-bootstrap'
 import { RpcProvider } from 'starknet'
+import { envDefaultOverrides } from './envDefaultOverrides'
 
 export const NAME = 'LAYER2_SEQUENCER_HEALTH'
 export const DEFAULT_PRIVATE_KEY =
@@ -36,6 +41,7 @@ export const ENV_MANTLE_RPC_ENDPOINT = 'MANTLE_RPC_ENDPOINT'
 export const ENV_UNICHAIN_RPC_ENDPOINT = 'UNICHAIN_RPC_ENDPOINT'
 export const ENV_SONEIUM_RPC_ENDPOINT = 'SONEIUM_RPC_ENDPOINT'
 export const ENV_CELO_RPC_ENDPOINT = 'CELO_RPC_ENDPOINT'
+export const ENV_XLAYER_RPC_ENDPOINT = 'XLAYER_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
@@ -49,6 +55,7 @@ export const ENV_MANTLE_CHAIN_ID = 'MANTLE_CHAIN_ID'
 export const ENV_UNICHAIN_CHAIN_ID = 'UNICHAIN_CHAIN_ID'
 export const ENV_SONEIUM_CHAIN_ID = 'SONEIUM_CHAIN_ID'
 export const ENV_CELO_CHAIN_ID = 'CELO_CHAIN_ID'
+export const ENV_XLAYER_CHAIN_ID = 'XLAYER_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
@@ -62,6 +69,7 @@ export const DEFAULT_MANTLE_CHAIN_ID = '5000'
 export const DEFAULT_UNICHAIN_CHAIN_ID = '130'
 export const DEFAULT_SONEIUM_CHAIN_ID = '1868'
 export const DEFAULT_CELO_CHAIN_ID = '42220'
+export const DEFAULT_XLAYER_CHAIN_ID = '196'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -77,6 +85,7 @@ export enum Networks {
   Unichain = 'unichain',
   Soneium = 'soneium',
   Celo = 'celo',
+  Xlayer = 'xlayer',
 }
 
 export type EVMNetworks = Exclude<Networks, Networks.Starkware>
@@ -93,6 +102,7 @@ const DEFAULT_MANTLE_RPC_ENDPOINT = 'https://rpc.mantle.xyz'
 const DEFAULT_UNICHAIN_RPC_ENDPOINT = 'https://mainnet.unichain.org'
 const DEFAULT_SONEIUM_RPC_ENDPOINT = 'https://rpc.soneium.org'
 const DEFAULT_CELO_RPC_ENDPOINT = 'https://forno.celo.org'
+const DEFAULT_XLAYER_RPC_ENDPOINT = 'https://xlayerrpc.okx.com'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
@@ -107,6 +117,7 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Unichain]: util.getEnv(ENV_UNICHAIN_RPC_ENDPOINT) || DEFAULT_UNICHAIN_RPC_ENDPOINT,
   [Networks.Soneium]: util.getEnv(ENV_SONEIUM_RPC_ENDPOINT) || DEFAULT_SONEIUM_RPC_ENDPOINT,
   [Networks.Celo]: util.getEnv(ENV_CELO_RPC_ENDPOINT) || DEFAULT_CELO_RPC_ENDPOINT,
+  [Networks.Xlayer]: util.getEnv(ENV_XLAYER_RPC_ENDPOINT) || DEFAULT_XLAYER_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -146,6 +157,9 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.Celo]:
     parseInt(util.getEnv(ENV_CELO_CHAIN_ID) || DEFAULT_CELO_CHAIN_ID) ||
     util.getEnv(ENV_CELO_CHAIN_ID),
+  [Networks.Xlayer]:
+    parseInt(util.getEnv(ENV_XLAYER_CHAIN_ID) || DEFAULT_XLAYER_CHAIN_ID) ||
+    util.getEnv(ENV_XLAYER_CHAIN_ID),
 }
 
 export const CHAIN_DELTA: Record<Networks, number> = {
@@ -162,6 +176,7 @@ export const CHAIN_DELTA: Record<Networks, number> = {
   [Networks.Unichain]: Number(util.getEnv('UNICHAIN_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Soneium]: Number(util.getEnv('SONEIUM_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Celo]: Number(util.getEnv('CELO_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Xlayer]: Number(util.getEnv('XLAYER_DELTA')) || DEFAULT_DELTA_TIME,
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
@@ -239,6 +254,11 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   },
   [Networks.Celo]: {
     endpoint: util.getEnv('CELO_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Xlayer]: {
+    endpoint: util.getEnv('XLAYER_HEALTH_ENDPOINT'),
     responsePath: [],
     processResponse: () => undefined,
   },

@@ -225,3 +225,46 @@ export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
 
   return mockWsServer
 }
+
+export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
+    {
+      status_code: 200,
+      message: 'Connect',
+    },
+    {
+      s: 'AAPL',
+      a: 'lol', // In-valid fields
+      as: '1',
+      b: '2',
+      bs: '3',
+      t: 4,
+    },
+    {
+      s: 'AAPL',
+      a: '5',
+      as: '6',
+      b: '7',
+      bs: '8',
+      t: 9,
+    },
+    {
+      s: 'FALLBACK',
+      ap: '10',
+      as: '11',
+      bp: '12',
+      bs: '13',
+      t: 14,
+    },
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+
+  return mockWsServer
+}

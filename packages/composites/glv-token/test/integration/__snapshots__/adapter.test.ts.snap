@@ -1,21 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute lwba endpoint should return success 1`] = `
+exports[`execute lwba endpoint returns success and valid LWBA triplet 1`] = `
 {
   "data": {
     "ask": 1.1473068612168396,
     "bid": 1.1470467994160611,
     "mid": 1.1471768303164502,
     "sources": {
-      "ETH": [
-        "tiingo",
-        "coinmetrics",
-        "ncfx",
-      ],
       "USDC": [
-        "tiingo",
-        "coinmetrics",
-        "ncfx",
+        "data-engine",
+      ],
+      "WETH": [
+        "data-engine",
       ],
     },
   },
@@ -28,20 +24,16 @@ exports[`execute lwba endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute price endpoint should return success 1`] = `
+exports[`execute price endpoint returns success with data-engine + metadata 1`] = `
 {
   "data": {
     "result": 1.1471768303164502,
     "sources": {
-      "ETH": [
-        "tiingo",
-        "coinmetrics",
-        "ncfx",
-      ],
       "USDC": [
-        "tiingo",
-        "coinmetrics",
-        "ncfx",
+        "data-engine",
+      ],
+      "WETH": [
+        "data-engine",
       ],
     },
   },

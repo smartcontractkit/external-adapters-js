@@ -1,6 +1,6 @@
-import { InstrumentPartialUpdate, StreamingClient } from '../../src/transport/netdania'
-import { config } from '../../src/config'
 import { sleep } from '@chainlink/external-adapter-framework/util'
+import { config } from '../../src/config'
+import { InstrumentPartialUpdate, StreamingClient } from '../../src/transport/netdania'
 
 // base mock log, useful for asserting regardless of level
 const mlog: jest.Mock = jest.fn((a) => {
@@ -14,6 +14,7 @@ const mlogger: {
   info: jest.Mock
   debug: jest.Mock
   trace: jest.Mock
+  msgPrefix: 'mock-logger'
 } = {
   fatal: jest.fn((...args) => mlog(['fatal'].concat(args))),
   error: jest.fn((...args) => mlog(['error'].concat(args))),
@@ -21,6 +22,7 @@ const mlogger: {
   info: jest.fn((...args) => mlog(['info'].concat(args))),
   debug: jest.fn((...args) => mlog(['debug'].concat(args))),
   trace: jest.fn((...args) => mlog(['trace'].concat(args))),
+  msgPrefix: 'mock-logger',
 }
 
 export const loggerFactory: {
@@ -31,6 +33,7 @@ export const loggerFactory: {
     info: jest.Mock
     debug: jest.Mock
     trace: jest.Mock
+    msgPrefix: 'mock-logger'
   }
 } = { child: () => mlogger }
 

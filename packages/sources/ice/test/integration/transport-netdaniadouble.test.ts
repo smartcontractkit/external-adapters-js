@@ -1,10 +1,10 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { MockXhrServer, newServer } from 'mock-xmlhttprequest'
 import { config } from '../../src/config'
-import { NetDaniaDouble } from './netdania.double'
-import mockXhr from 'mock-xmlhttprequest'
 import { window } from '../../src/transport/netdania/jsApi/jsapi-nodejs'
 import { clientTests, loggerFactory } from './client-common.cases'
-import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { NetDaniaDouble } from './netdania.double'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore this should be the single place we do this
 const JsApi = window.NetDania.JsApi
@@ -13,7 +13,7 @@ LoggerFactoryProvider.set(loggerFactory)
 
 describe('API client tests (against our double)', () => {
   let netDaniaDouble: NetDaniaDouble
-  let server: mockXhr.MockXhrServer
+  let server: MockXhrServer
   let savedJXhr: () => XMLHttpRequest // the original jXHR from the NetDania client, to be restored after the test
   let oldEnv: NodeJS.ProcessEnv
 
@@ -37,7 +37,7 @@ describe('API client tests (against our double)', () => {
 
     netDaniaDouble = NetDaniaDouble.getInstance(config.settings)
 
-    server = mockXhr.newServer({
+    server = newServer({
       get: [
         (uri: string) => uri.startsWith(mockedApiEndpoint),
         (request) => {

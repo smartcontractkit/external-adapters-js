@@ -3,19 +3,20 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockPackagesResponseSuccess, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
+  let testAdapter: TestAdapter<any>
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.ETHHOL_API_KEY = process.env.ETHHOL_API_KEY ?? 'fake-api-key'
-    process.env.API_ENDPOINT = process.env.API_ENDPOINT ?? 'https://localhost:3324'
-    process.env.API_LIMIT = process.env.API_LIMIT ?? '1'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    process.env.ETHHOL_API_KEY = 'fake-api-key'
+    process.env.COLLATERAL_API_KEY = 'fake-collateral-api-key'
+    process.env.API_ENDPOINT = 'https://localhost:3324'
+    process.env.API_LIMIT = '1'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -45,6 +46,21 @@ describe('execute', () => {
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('packages endpoint', () => {
+    it('should return success', async () => {
+      mockPackagesResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'packages',
+        clientReferenceId: '123456',
+        assetType: 'BTC',
+      })
+
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

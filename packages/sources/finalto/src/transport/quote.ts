@@ -76,7 +76,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       },
       message(message) {
         if (message.MsgType !== 'SymbolPrices') {
-          logger.warn(JSON.stringify(message), 'Unexpected message')
+          logger.warn(`Unexpected message: ${JSON.stringify(message)}`)
           return
         }
 

@@ -1,308 +1,57 @@
 import nock from 'nock'
 
-export const mockTiingoEAResponseSuccess = (base): nock.Scope =>
-  nock('http://localhost:8081', {
-    encodedQueryParams: true,
-  })
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base,
-        quote: 'USD',
-      },
-    })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 15.694322872166047,
-          bid: 15.763680197921362,
-          mid: 15.729001535,
+export const mockTokenInfoApiSuccess = (): nock.Scope =>
+  nock(process.env.TOKEN_INFO_API!, { encodedQueryParams: true })
+    .get('/')
+    .reply(200, {
+      tokens: [
+        {
+          symbol: 'WETH',
+          address: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+          decimals: 18,
+          synthetic: null,
         },
-        result: null,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
+        {
+          symbol: 'USDC',
+          address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+          decimals: 6,
+          synthetic: null,
         },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
       ],
-    )
-    .persist()
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base: 'USDC',
-        quote: 'USD',
-      },
     })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 1.0012,
-          bid: 1.01,
-          mid: 1.0056,
-        },
-        result: null,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
     .persist()
 
-export const mockNCFXEAResponseSuccess = (base): nock.Scope =>
-  nock('http://localhost:8082', {
-    encodedQueryParams: true,
-  })
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base,
-        quote: 'USD',
-      },
-    })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 15.614322872166047,
-          bid: 15.863680197921362,
-          mid: 15.739001535,
+export const mockMarketInfoApiSuccess = (): nock.Scope =>
+  nock(process.env.MARKET_INFO_API!, { encodedQueryParams: true })
+    .get('/')
+    .reply(200, {
+      markets: [
+        {
+          marketToken: '0x70d95587d40A2caf56bd97485aB3Eec10Bee6336',
+          indexToken: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', // WETH as index token
+          longToken: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+          shortToken: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+          isListed: true,
         },
-        result: 15.739001535,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
       ],
-    )
-    .persist()
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base: 'USDC',
-        quote: 'USD',
-      },
     })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 1.001,
-          bid: 1.002,
-          mid: 1.0015,
-        },
-        result: null,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
     .persist()
 
-export const mockCoinmetricsEAResponseSuccess = (base): nock.Scope =>
-  nock('http://localhost:8083', {
-    encodedQueryParams: true,
-  })
-    .post('/', {
+export const mockDataEngineEAResponseSuccess = () =>
+  nock(process.env.DATA_ENGINE_ADAPTER_URL!)
+    .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
+    .times(10)
+    .reply(200, {
       data: {
-        endpoint: 'crypto-lwba',
-        base,
-        quote: 'USD',
+        bid: '1999000000000000000',
+        ask: '2001000000000000000',
+        decimals: 18,
       },
+      statusCode: 200,
     })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 15.59,
-          bid: 15.64,
-          mid: 15.61,
-        },
-        result: 15.739001535,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-    .persist()
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base: 'USDC',
-        quote: 'USD',
-      },
-    })
-    .reply(
-      200,
-      () => ({
-        data: {
-          ask: 1,
-          bid: 1.002,
-          mid: 1.001,
-        },
-        result: null,
-        statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: 2028,
-          providerDataStreamEstablishedUnixMs: 2020,
-          providerIndicatedTimeUnixMs: 1680187094577,
-        },
-      }),
-      [
-        'Content-Type',
-        'application/json',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Vary',
-        'Origin',
-      ],
-    )
-    .persist()
 
-export const mockNCFXEAResponseFailure = (base): nock.Scope =>
-  nock('http://localhost:8082', {
-    encodedQueryParams: true,
-  })
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base,
-        quote: 'USD',
-      },
-    })
-    .reply(500, () => ({}), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .persist()
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base: 'USDC',
-        quote: 'USD',
-      },
-    })
-    .reply(500, () => ({}), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .persist()
-
-export const mockCoinmetricsEAResponseFailure = (base): nock.Scope =>
-  nock('http://localhost:8083', {
-    encodedQueryParams: true,
-  })
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base,
-        quote: 'USD',
-      },
-    })
-    .reply(500, () => ({}), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .persist()
-    .post('/', {
-      data: {
-        endpoint: 'crypto-lwba',
-        base: 'USDC',
-        quote: 'USD',
-      },
-    })
-    .reply(500, () => ({}), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-    .persist()
+export const mockDataEngineEAResponseFailure = () =>
+  nock(process.env.DATA_ENGINE_ADAPTER_URL!)
+    .post('/', (body) => body?.data?.endpoint === 'crypto-v3')
+    .times(10)
+    .reply(500, { statusCode: 500 })

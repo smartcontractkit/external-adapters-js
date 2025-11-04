@@ -1,17 +1,17 @@
 import { AdapterRequest, FastifyInstance } from '@chainlink/ea-bootstrap'
-import request, { SuperTest, Test } from 'supertest'
-import * as process from 'process'
-import { server as startServer } from '../../src'
-import * as nock from 'nock'
-import {
-  mockResponseSuccessHealth,
-  mockResponseSuccessBlock,
-  mockResponseFailureHealth,
-  mockResponseFailureBlock,
-} from './fixtures'
-import { AddressInfo } from 'net'
-import { ethers } from 'ethers'
 import { setEnvVariables } from '@chainlink/ea-test-helpers'
+import { ethers } from 'ethers'
+import { AddressInfo } from 'net'
+import * as nock from 'nock'
+import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { server as startServer } from '../../src'
+import {
+  mockResponseFailureBlock,
+  mockResponseFailureHealth,
+  mockResponseSuccessBlock,
+  mockResponseSuccessHealth,
+} from './fixtures'
 
 jest.mock('ethers', () => {
   const originalModule = jest.requireActual('ethers')
@@ -646,6 +646,51 @@ describe('execute', () => {
         id,
         data: {
           network: 'celo',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('xlayer network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'xlayer',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'xlayer',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'xlayer',
         },
       }
 

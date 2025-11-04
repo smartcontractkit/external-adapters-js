@@ -1,5 +1,19 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.9.0
+
+### Minor Changes
+
+- [#4172](https://github.com/smartcontractkit/external-adapters-js/pull/4172) [`996e45e`](https://github.com/smartcontractkit/external-adapters-js/commit/996e45efb2dcbf51879cbeea0f4feb99add5c4a1) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Supports xLayer for L2EP
+
+## 4.8.4
+
+### Patch Changes
+
+- Updated dependencies [[`9824332`](https://github.com/smartcontractkit/external-adapters-js/commit/9824332a719c0649972fc0e5d564bd6e4a7c53a7)]:
+  - @chainlink/ea-bootstrap@2.29.11
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 4.8.3
 
 ### Patch Changes

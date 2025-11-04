@@ -77,25 +77,33 @@ describe('ea.ts', () => {
 
       requester.request.mockResolvedValueOnce({})
       await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow(
-        'EA request failed: undefined',
+        'EA request failed: undefined undefined undefined AdapterError',
       )
 
       requester.request.mockResolvedValueOnce({ response: {} })
-      await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow('EA request failed: {}')
-
-      requester.request.mockResolvedValueOnce({ response: { data: {} } })
       await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow(
-        'EA request failed: {"data":{}}',
+        'EA request failed: undefined undefined undefined AdapterError',
       )
 
-      requester.request.mockResolvedValueOnce({ response: { data: { result: null } } })
+      requester.request.mockResolvedValueOnce({
+        response: { data: {}, status: 404, statusText: 'fail' },
+      })
       await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow(
-        'EA request failed: {"data":{"result":null}}',
+        'EA request failed: {} 404 fail AdapterError',
       )
 
-      requester.request.mockResolvedValueOnce({ response: { data: { result: 0 } } })
+      requester.request.mockResolvedValueOnce({
+        response: { data: { result: null }, status: 200, statusText: 'ok' },
+      })
       await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow(
-        'EA request failed: {"data":{"result":0}}',
+        'EA request failed: {"result":null} 200 ok AdapterError',
+      )
+
+      requester.request.mockResolvedValueOnce({
+        response: { data: { result: 0 }, status: 200, statusText: 'ok' },
+      })
+      await expect(() => getRawNav('ea', '{}', requester)).rejects.toThrow(
+        'EA request failed: {"result":0} 200 ok AdapterError',
       )
     })
 

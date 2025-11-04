@@ -42,9 +42,6 @@
       "path": "./composites/gm-token"
     },
     {
-      "path": "./composites/google-weather"
-    },
-    {
       "path": "./composites/historical-average"
     },
     {
@@ -79,9 +76,6 @@
     },
     {
       "path": "./composites/proof-of-reserves"
-    },
-    {
-      "path": "./composites/reference-transform"
     },
     {
       "path": "./composites/rocket-pool"
@@ -201,6 +195,9 @@
       "path": "./sources/blocksize-capital"
     },
     {
+      "path": "./sources/blocksize-capital-state"
+    },
+    {
       "path": "./sources/blockstream"
     },
     {
@@ -259,6 +256,9 @@
     },
     {
       "path": "./sources/coinpaprika"
+    },
+    {
+      "path": "./sources/coinpaprika-state"
     },
     {
       "path": "./sources/coinranking"
@@ -393,13 +393,13 @@
       "path": "./sources/gemini"
     },
     {
+      "path": "./sources/generic-api"
+    },
+    {
       "path": "./sources/genesis-volatility"
     },
     {
       "path": "./sources/gmci"
-    },
-    {
-      "path": "./sources/google-bigquery"
     },
     {
       "path": "./sources/gramchain"
@@ -474,9 +474,6 @@
       "path": "./sources/m0"
     },
     {
-      "path": "./sources/marketstack"
-    },
-    {
       "path": "./sources/messari"
     },
     {
@@ -501,10 +498,10 @@
       "path": "./sources/nav-consulting"
     },
     {
-      "path": "./sources/nav-generic"
+      "path": "./sources/nav-fund-services"
     },
     {
-      "path": "./sources/nav-libre"
+      "path": "./sources/nav-generic"
     },
     {
       "path": "./sources/ncfx"
@@ -588,9 +585,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/spectral-macro-score"
-    },
-    {
       "path": "./sources/sportsdataio"
     },
     {
@@ -607,6 +601,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/streamex"
     },
     {
       "path": "./sources/superstate"
@@ -685,6 +682,9 @@
     },
     {
       "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wintermute"
     },
     {
       "path": "./sources/wisdomtree"

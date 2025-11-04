@@ -1,17 +1,18 @@
 import {
+  AdapterDataProviderError,
+  ExecuteWithConfig,
+  InputParameters,
   Logger,
   Requester,
-  Validator,
-  AdapterDataProviderError,
   util,
+  Validator,
 } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig, Networks } from '../config'
 import {
-  checkSequencerHealth,
-  NetworkHealthCheck,
-  getStatusByTransaction,
   checkNetworkProgress,
+  checkSequencerHealth,
+  getStatusByTransaction,
+  NetworkHealthCheck,
 } from '../network'
 
 export const supportedEndpoints = ['health']
@@ -30,6 +31,7 @@ const defaultRequireTxFailure = {
   [Networks.Unichain]: false,
   [Networks.Soneium]: false,
   [Networks.Celo]: false,
+  [Networks.Xlayer]: false,
 }
 
 export type TInputParameters = {
@@ -53,6 +55,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Unichain,
       Networks.Soneium,
       Networks.Celo,
+      Networks.Xlayer,
     ],
   },
   requireTxFailure: {

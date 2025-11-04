@@ -1,5 +1,24 @@
 # @chainlink/glv-token-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#4129](https://github.com/smartcontractkit/external-adapters-js/pull/4129) [`1b3ecd1`](https://github.com/smartcontractkit/external-adapters-js/commit/1b3ecd153b03e17452aa3191260c2f32188685a8) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Refactors GLV-token EA to use Data Engine as the main data provider.
+  This replaces the COINMETRICS_ADAPTER_URL, NCFX_ADAPTER_URL and TIINGO_ADAPTER_URL with DATA_ENGINE_ADAPTER_URL.
+
+## 1.2.3
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
+## 1.2.2
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.2.1
 
 ### Patch Changes
