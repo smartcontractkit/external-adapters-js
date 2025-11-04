@@ -2,6 +2,11 @@ name: Upsert Release PR
 
 on:
   workflow_dispatch:
+    inputs:
+      selected-adapters:
+        description: comma (and/or space) separated list of adapters to release (if empty, all changed adapters with changesets will be released)
+        required: false
+        default: ''
 
 # TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
 # - Readme generation did not require built TS files
@@ -15,6 +20,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
+      SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -31,9 +37,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get changeset arguments
+        run: |
+          set -e
+          CHANGESET_ARGUMENTS="$(.github/scripts/get-changeset-arguments.sh "$SELECTED_ADAPTERS")"
+          echo "CHANGESET_ARGUMENTS=$CHANGESET_ARGUMENTS" >> "$GITHUB_ENV"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
-          yarn changeset version
+          yarn changeset version $CHANGESET_ARGUMENTS
           git add -A
           git commit -m "Changesets mock"
       - name: Set up and install dependencies
@@ -72,7 +83,7 @@ jobs:
           # performs git resets and we want to keep those changes, so we stash and then pop them here.
           # All the previous steps would technically make more sense in the script itself, but we
           # keep them as separate ones so it's easier to see them from the github UI to debug.
-          version: ./.github/scripts/run-changesets.sh
+          version: ./.github/scripts/run-changesets.sh ${{ env.CHANGESET_ARGUMENTS }}
           title: 'Release ${{ env.BUMPED_VERSION }}'
           commit: 'Release ${{ env.BUMPED_VERSION }}'
       - name: Tag changesets commit
