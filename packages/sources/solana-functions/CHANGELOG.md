@@ -1,5 +1,11 @@
 # @chainlink/solana-functions-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [`0870582`](https://github.com/smartcontractkit/external-adapters-js/commit/0870582c8ea50770ddb4bd290574a5ccc09babd3) Thanks [@dskloetc](https://github.com/dskloetc)! - test
+
 ## 1.2.0
 
 ### Minor Changes
