@@ -32,7 +32,7 @@ export type HexResultPostProcessor = (
 ) => string
 
 function toBytes32Hex(value: number | bigint): string {
-  const hex = BigInt(value).toString(16) // convert to hex without 0x
+  const hex = BigInt(value).toString(16)
   return '0x' + hex.padStart(64, '0')
 }
 
