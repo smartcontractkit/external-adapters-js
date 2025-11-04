@@ -4,6 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/packages'
 import { request } from './requester'
 
@@ -85,15 +86,16 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
     const result = assets
       .filter((r) => r.asset.assetType.toUpperCase() == params.assetType.toUpperCase())
       .reduce((sum, current) => {
-        return sum + Number(current.quantity)
-      }, 0)
+        return sum.add(new Decimal(current.quantity))
+      }, new Decimal(0))
 
     return {
       data: {
-        result,
+        result: result.toString(),
+        assets,
       },
       statusCode: 200,
-      result,
+      result: result.toString(),
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),

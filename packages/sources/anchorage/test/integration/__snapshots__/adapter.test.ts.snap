@@ -3,9 +3,29 @@
 exports[`execute packages endpoint should return success 1`] = `
 {
   "data": {
-    "result": 2.3,
+    "assets": [
+      {
+        "asset": {
+          "assetType": "BTC",
+        },
+        "quantity": "1.5",
+      },
+      {
+        "asset": {
+          "assetType": "ETH",
+        },
+        "quantity": "2.3",
+      },
+      {
+        "asset": {
+          "assetType": "BTC",
+        },
+        "quantity": "0.8",
+      },
+    ],
+    "result": "2.3",
   },
-  "result": 2.3,
+  "result": "2.3",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
