@@ -1,0 +1,70 @@
+name: Create public versions PR
+
+on:
+  push:
+    branches:
+      - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths:
+      - 'MASTERLIST.md'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-and-release
+  cancel-in-progress: false
+
+jobs:
+  create-public-versions-pr:
+    name: Create Public Versions PR
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          # Fetch current and previous commit to compare
+          fetch-depth: 2
+      - name: Update public-adapter-versions.yml
+        run: |
+          ./.github/scripts/update-all-public-adapter-versions.sh HEAD~1
+      - name: Set branch name
+        run: |
+          echo "BRANCH=public-versions-update-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+      - name: Set PR description
+        run: |
+          # Output old and new version of each changed adapter
+          {
+            echo "PR_DESCRIPTION<<EOF"
+            echo "Updated public adapter versions:"
+            echo '```'
+            git diff --unified=1 | grep '^- ' -C 1
+            echo '```'
+            echo EFO
+          } >> "$GITHUB_ENV"
+      - name: Configure git
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Sign commit and push
+        uses: planetscale/ghcommit-action@f035dd97212c4009aaa9e3197abf88f80d1d8d91 # v0.2.8
+        with:
+          commit_message: 'Update public adapter versions'
+          repo: ${{ github.repository }}
+          branch: ${{ env.BRANCH }}
+          empty: false
+          file_pattern: 'public-adapter-versions.yml'
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+      - name: Create Pull request
+        run: |
+          gh pr create --base main \
+          --head ${{ env.BRANCH }} \
+          --title 'Update public adapter versions' \
+          --body ${{ env.PR_DESCRIPTION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
