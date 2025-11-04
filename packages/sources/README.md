@@ -132,7 +132,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [nav-consulting](./nav-consulting/README.md)
 - [nav-fund-services](./nav-fund-services/README.md)
 - [nav-generic](./nav-generic/README.md)
-- [nav-libre](./nav-libre/README.md)
 - [ncfx](./ncfx/README.md)
 - [nft-blue-chip](./nft-blue-chip/README.md)
 - [nikkei](./nikkei/README.md)
