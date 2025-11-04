@@ -148,3 +148,38 @@ export function mockExerciseCheckValueAboveOnFilteredContract() {
     })
     .reply(200, mockCantonExerciseResponse)
 }
+
+// Custom handler test: exercise with price in response
+export function mockExerciseWithPriceResponse() {
+  nock(TEST_URL, {
+    reqheaders: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer test-jwt-token',
+    },
+  })
+    .post('/v1/exercise')
+    .reply(200, {
+      exerciseResult: {
+        price: 2500.5,
+        name: 'Asset Name',
+      },
+      events: [],
+    })
+}
+
+// Custom handler test: exercise without price field (for testing default value)
+export function mockExerciseWithoutPriceResponse(contractId: string) {
+  nock(TEST_URL, {
+    reqheaders: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer test-jwt-token',
+    },
+  })
+    .post('/v1/exercise', (body) => body.contractId === contractId)
+    .reply(200, {
+      exerciseResult: {
+        name: 'Asset Name',
+      },
+      events: [],
+    })
+}

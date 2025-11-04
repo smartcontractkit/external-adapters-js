@@ -63,7 +63,6 @@ export class CantonClient {
     if (request.filter) {
       requestData.query =
         typeof request.filter === 'string' ? JSON.parse(request.filter) : request.filter
-      //todo: filter should only have one unique result, so fail if it's not
     }
 
     const requestConfig = {
@@ -82,7 +81,16 @@ export class CantonClient {
       throw new Error(`Failed to query contracts: ${response.response?.statusText}`)
     }
 
-    return response.response.data.result
+    const contracts = response.response.data.result
+
+    // When a filter is provided, it should return exactly one contract
+    if (request.filter && contracts.length > 1) {
+      throw new Error(
+        `Filter query returned ${contracts.length} contracts, but expected exactly 1. `,
+      )
+    }
+
+    return contracts
   }
 
   /**
