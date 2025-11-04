@@ -11,3 +11,14 @@ export const adapter = new Adapter({
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
+
+// Export types and utilities for secondary adapters
+export { BaseEndpointTypes, inputParameters } from './endpoint/canton-data'
+export type {
+  Contract,
+  ExerciseChoiceRequest,
+  ExerciseResult,
+  QueryContractByTemplateRequest,
+} from './shared/canton-client'
+export { CantonDataTransport, ResultHandler } from './transport/canton-data'
+export { config as cantonConfig }

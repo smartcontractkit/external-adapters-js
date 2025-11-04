@@ -4,14 +4,31 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/canton-data'
-import { CantonClient, Contract, QueryContractByTemplateRequest } from '../shared/canton-client'
+import {
+  CantonClient,
+  Contract,
+  ExerciseResult,
+  QueryContractByTemplateRequest,
+} from '../shared/canton-client'
 
 const logger = makeLogger('CantonDataTransport')
 
 type RequestParams = typeof inputParameters.validated
 
+/**
+ * Result handler function type that can be used to transform the exercise result
+ * into a custom response format
+ */
+export type ResultHandler = (exerciseResult: ExerciseResult, params: RequestParams) => any
+
 export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes> {
   cantonClient!: CantonClient
+  private resultHandler?: ResultHandler
+
+  constructor(resultHandler?: ResultHandler) {
+    super()
+    this.resultHandler = resultHandler
+  }
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -94,15 +111,14 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
       argument: argument ? JSON.parse(argument) : {},
     })
 
-    const result = JSON.stringify(exerciseResult)
+    const result = this.resultHandler
+      ? this.resultHandler(exerciseResult, params)
+      : exerciseResult.exerciseResult
 
     return {
-      data: {
-        result,
-        exerciseResult,
-      },
+      data: exerciseResult.exerciseResult,
       statusCode: 200,
-      result,
+      result: result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
