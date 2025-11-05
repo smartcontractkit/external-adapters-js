@@ -58,10 +58,7 @@ export class MultiChainFunctionTransport<
 
   async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(
-      (context.adapterSettings as unknown as { BACKGROUND_EXECUTE_MS: number })
-        .BACKGROUND_EXECUTE_MS,
-    )
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams<T>) {
@@ -82,9 +79,7 @@ export class MultiChainFunctionTransport<
       }
     }
 
-    await this.responseCache.write(this.name, [
-      { params: param as TypeFromDefinition<T['Parameters']>, response },
-    ])
+    await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
   async _handleRequest(param: RequestParams<T>): Promise<AdapterResponse<T['Response']>> {
@@ -216,7 +211,7 @@ export class MultiChainFunctionTransport<
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
-    return (adapterSettings as { WARMUP_SUBSCRIPTION_TTL: number }).WARMUP_SUBSCRIPTION_TTL
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
