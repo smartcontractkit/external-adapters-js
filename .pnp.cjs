@@ -443,10 +443,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dxfeed"\
     },\
     {\
-      "name": "@chainlink/dxfeed-secondary-adapter",\
-      "reference": "workspace:packages/sources/dxfeed-secondary"\
-    },\
-    {\
       "name": "@chainlink/elven-adapter",\
       "reference": "workspace:packages/sources/elven"\
     },\
@@ -1045,7 +1041,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
-    ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
     ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
     ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],\
@@ -6538,25 +6533,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/dxfeed-secondary-adapter", [\
-      ["workspace:packages/sources/dxfeed-secondary", {\
-        "packageLocation": "./packages/sources/dxfeed-secondary/",\
-        "packageDependencies": [\
-          ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
-          ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
