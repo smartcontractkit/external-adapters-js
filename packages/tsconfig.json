@@ -414,6 +414,9 @@
       "path": "./sources/hashnote"
     },
     {
+      "path": "./sources/hastra"
+    },
+    {
       "path": "./sources/icap"
     },
     {

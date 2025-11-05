@@ -414,6 +414,9 @@
       "path": "./sources/hashnote/tsconfig.test.json"
     },
     {
+      "path": "./sources/hastra/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
