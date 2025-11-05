@@ -13,7 +13,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      contractAddress: 'EGes1v9m11KCodY1a1fYsVDinTwkRZxtTF9NW2NiNe1G',
+      contractAddress: 'E123456789qwertyuiopASDFGHJKLzxcvbnm12345678',
     },
   ],
 )
