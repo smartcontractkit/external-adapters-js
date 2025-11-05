@@ -1,6 +1,6 @@
 {
  "requests": [{
-  "from": "BTC",
-  "to": "USD"
+  "endpoint": "accrued-interest",
+  "contractAddress": "EGes1v9m11KCodY1a1fYsVDinTwkRZxtTF9NW2NiNe1G"
  }]
 }

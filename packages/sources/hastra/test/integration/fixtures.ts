@@ -1,22 +1,35 @@
 import nock from 'nock'
 
-export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
+export const mockResponseSuccess = ({
+  tokenName,
+  contractAddress,
+  accruedInterest,
+}: {
+  tokenName: string
+  contractAddress: string
+  accruedInterest: string
+}): nock.Scope =>
+  nock('https://hastra-api', {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .get(`/tokens/interest_accrued/${contractAddress}`)
+    .reply(
+      200,
+      () => ({
+        token_name: tokenName,
+        contract_address: contractAddress,
+        outstanding_interest_accrued: accruedInterest,
+        as_of_datetime: new Date(Date.now()).toISOString(),
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .persist()

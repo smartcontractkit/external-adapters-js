@@ -1,36 +1,35 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/accrued-interest'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    contractAddress: {
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The contract address of the token to get accrued interest for',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      contractAddress: 'EGes1v9m11KCodY1a1fYsVDinTwkRZxtTF9NW2NiNe1G',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: string
+    Data: {
+      result: string
+      token_name: string
+      contract_address: string
+      outstanding_interest_accrued: string
+      as_of_datetime: string
+    }
+  }
   Settings: typeof config.settings
 }
 
@@ -39,5 +38,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['hastra'],
 })
