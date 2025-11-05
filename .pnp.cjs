@@ -579,6 +579,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/hashnote"\
     },\
     {\
+      "name": "@chainlink/hastra-adapter",\
+      "reference": "workspace:packages/sources/hastra"\
+    },\
+    {\
       "name": "@chainlink/icap-adapter",\
       "reference": "workspace:packages/sources/icap"\
     },\
@@ -1085,6 +1089,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
+    ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
@@ -7403,6 +7408,21 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/hastra-adapter", [\
+      ["workspace:packages/sources/hastra", {\
+        "packageLocation": "./packages/sources/hastra/",\
+        "packageDependencies": [\
+          ["@chainlink/hastra-adapter", "workspace:packages/sources/hastra"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
