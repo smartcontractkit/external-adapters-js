@@ -14,3 +14,9 @@ export const calculateMedian = (values: number[]): Decimal => {
     return new Decimal(sortedValues[middleIndex])
   }
 }
+
+export const getOperandSourceUrls = (sources: string[]) => {
+  return sources
+    .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
+    .filter((url) => url) as string[]
+}

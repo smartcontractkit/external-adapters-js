@@ -1,12 +1,11 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/computedPrice'
-import { calculateMedian } from './utils'
+import { calculateMedian, getOperandSourceUrls } from './utils'
 
 const logger = makeLogger('ComputedPriceTransport')
 
@@ -20,8 +19,6 @@ export type ComputedPriceTransportTypes = BaseEndpointTypes & {
 }
 
 export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceTransportTypes> {
-  name!: string
-  responseCache!: ResponseCache<ComputedPriceTransportTypes>
   requester!: Requester
   settings!: ComputedPriceTransportTypes['Settings']
 
@@ -34,7 +31,6 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.settings = adapterSettings
-    this.name = transportName
   }
 
   async backgroundHandler(
@@ -91,8 +87,8 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     )
     const providerDataRequestedUnixMs = Date.now()
 
-    const operand1SourceUrls = this.getOperandSourceUrls(operand1Sources)
-    const operand2SourceUrls = this.getOperandSourceUrls(operand2Sources)
+    const operand1SourceUrls = getOperandSourceUrls(operand1Sources)
+    const operand2SourceUrls = getOperandSourceUrls(operand2Sources)
 
     // Fetch data from sources for both operands
     const [operand1Result, operand2Result] = await Promise.all([
@@ -169,12 +165,6 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     }
 
     return successfulResults.map((r) => r?.response.data.result as number)
-  }
-
-  private getOperandSourceUrls(sources: string[]): string[] {
-    return sources
-      .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
-      .filter((url) => url) as string[]
   }
 }
 

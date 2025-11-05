@@ -19,6 +19,7 @@ describe('execute', () => {
     process.env.NCFX_ADAPTER_URL = process.env.NCFX_ADAPTER_URL ?? 'http://localhost:8080/ncfx'
     process.env.ELWOOD_ADAPTER_URL =
       process.env.ELWOOD_ADAPTER_URL ?? 'http://localhost:8080/elwood'
+    process.env.KAIKO_ADAPTER_URL = process.env.KAIKO_ADAPTER_URL ?? 'http://localhost:8080/kaiko'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -44,7 +45,7 @@ describe('execute', () => {
         operand1MinAnswers: 3,
         operand1Input: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD0',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -54,7 +55,7 @@ describe('execute', () => {
         operand2Sources: ['tiingo'],
         operand2Input: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD0',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -69,6 +70,7 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(500)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return error for minimum number of operand 1 sources', async () => {
@@ -76,7 +78,7 @@ describe('execute', () => {
         operand1Sources: ['ncfx', 'elwood'],
         operand1Input: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD1',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -87,7 +89,7 @@ describe('execute', () => {
         operand2Sources: ['tiingo'],
         operand2Input: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD1',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -103,6 +105,7 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return error for minimum number of operand 2 sources', async () => {
@@ -110,7 +113,7 @@ describe('execute', () => {
         operand1Sources: ['ncfx'],
         operand1Input: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD2',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -121,7 +124,7 @@ describe('execute', () => {
         operand2Sources: ['tiingo', 'elwood'],
         operand2Input: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD2',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -137,6 +140,109 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns error if operand1 has invalid input', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: 'invalid json',
+        operand2Sources: ['elwood'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+        }),
+        operation: 'multiply',
+      }
+      mockDPResponseSuccess('ncfx', 100)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns error if operand2 has invalid input', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+        }),
+        operand2Sources: ['elwood'],
+        operand2Input: 'invalid json',
+        operation: 'multiply',
+      }
+      mockDPResponseSuccess('ncfx', 100)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns error if operand1 has zero price', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['elwood'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+      }
+      mockDPResponseSuccess('ncfx', 0)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns error if operand2 has zero price', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'ETH',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['elwood'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'LINK',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+      }
+      mockDPResponseSuccess('ncfx', 30)
+      mockDPResponseSuccess('elwood', 0)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return success for legacy divisions', async () => {
@@ -144,7 +250,7 @@ describe('execute', () => {
         dividendSources: ['ncfx'],
         dividendInput: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD3',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -154,7 +260,7 @@ describe('execute', () => {
         divisorSources: ['tiingo', 'elwood'],
         divisorInput: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD3',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -168,6 +274,7 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return success for partial source success', async () => {
@@ -175,7 +282,7 @@ describe('execute', () => {
         dividendSources: ['ncfx', 'tiingo'],
         dividendInput: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD4',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -185,7 +292,7 @@ describe('execute', () => {
         divisorSources: ['tiingo', 'elwood'],
         divisorInput: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD4',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -199,15 +306,16 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return success for multiply', async () => {
       const data = {
-        operand1Sources: ['ncfx', 'elwood'],
+        operand1Sources: ['ncfx', 'elwood', 'kaiko'],
         operand1MinAnswers: 1,
         operand1Input: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD5',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -218,7 +326,7 @@ describe('execute', () => {
         operand2MinAnswers: 1,
         operand2Input: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD5',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -230,9 +338,11 @@ describe('execute', () => {
       mockDPResponseSuccess('tiingo', 10)
       mockDPResponseSuccess('ncfx', 20)
       mockDPResponseSuccess('elwood', 5)
+      mockDPResponseSuccess('kaiko', 50)
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
     })
 
     it('should return success for divide', async () => {
@@ -240,7 +350,7 @@ describe('execute', () => {
         operand1Sources: ['ncfx', 'elwood'],
         operand1Input: JSON.stringify({
           from: 'LINK',
-          to: 'USD',
+          to: 'USD6',
           overrides: {
             coingecko: {
               LINK: 'chainlink',
@@ -250,7 +360,7 @@ describe('execute', () => {
         operand2Sources: ['tiingo'],
         operand2Input: JSON.stringify({
           from: 'ETH',
-          to: 'USD',
+          to: 'USD6',
           overrides: {
             coingecko: {
               ETH: 'ethereum',
@@ -265,6 +375,42 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('should return number > e+21 as fixed point rather than exponential', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD7',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD7',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+      }
+      mockDPResponseSuccess('elwood', 17.2)
+      mockDPResponseSuccess('ncfx', 17.1)
+      mockDPResponseSuccess('tiingo', 1_000_000_000_000_000_000_000_000)
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.body).not.toContain('e+')
+      nock.cleanAll()
     })
   })
 })

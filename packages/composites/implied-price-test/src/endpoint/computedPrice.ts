@@ -6,6 +6,7 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { computedPriceTransport } from '../transport/computePrice'
+import { getOperandSourceUrls } from '../transport/utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -86,33 +87,37 @@ export const endpoint = new AdapterEndpoint({
   transport: computedPriceTransport,
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
-    const { operand1Sources, operand2Sources, operand1MinAnswers, operand2MinAnswers } =
-      req.requestContext.data
-    let e = validateSources(operand1Sources, operand1MinAnswers)
-    if (e) return e
-    e = validateSources(operand2Sources, operand2MinAnswers)
-    if (e) return e
+    const {
+      operand1Sources,
+      operand2Sources,
+      operand1MinAnswers,
+      operand2MinAnswers,
+      operand1Input,
+      operand2Input,
+    } = req.requestContext.data
+    validateSources(operand1Sources, operand1MinAnswers)
+    validateSources(operand2Sources, operand2MinAnswers)
+    validateInputPayload(operand1Input, 'operand1Input')
+    validateInputPayload(operand2Input, 'operand2Input')
     return
   },
 })
 
 const validateSources = (sources: string[], minAnswers: number) => {
   if (sources.length < minAnswers) {
-    return new AdapterInputError({
+    throw new AdapterInputError({
       statusCode: 400,
       message: `Not enough sources: got ${sources.length} sources, requiring at least ${minAnswers} answers`,
     })
   }
 
-  const urls = sources
-    .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
-    .filter((url) => url !== undefined)
+  const urls = getOperandSourceUrls(sources)
   const missingUrlCount = minAnswers - urls.length
   if (missingUrlCount > 0) {
     const missingEnvVars = sources
       .map((source) => `${source.toUpperCase()}_ADAPTER_URL`)
       .filter((envVar) => !process.env[envVar])
-    return new AdapterError({
+    throw new AdapterError({
       statusCode: 500,
       message: `Not enough sources configured. Make sure ${missingUrlCount} of the following are set in the environment: ${missingEnvVars.join(
         ', ',
@@ -120,4 +125,15 @@ const validateSources = (sources: string[], minAnswers: number) => {
     })
   }
   return
+}
+
+const validateInputPayload = (input: string, inputName: string) => {
+  try {
+    return JSON.parse(input)
+  } catch (e) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Input payload for "${inputName}" is not valid JSON.`,
+    })
+  }
 }
