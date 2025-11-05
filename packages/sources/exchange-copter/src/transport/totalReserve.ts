@@ -31,7 +31,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: '',
           method: 'GET',
         },
       }
@@ -45,12 +44,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       const ripcord = res.data.ripcord || res.data.ripcord.toString().toLowerCase() === 'true'
       const ripcordAsInt = ripcord ? 1 : 0
 
-      // Populate ripcord details if ripcord is true
       if (ripcord) {
         const ripcordDetails = res.data.ripcordDetails.join(', ')
         const message = `Ripcord indicator true. Details: ${ripcordDetails}`
 
-        // If noErrorOnRipcord is false and ripcord is true return 502
         if (!noErrorOnRipcord) {
           return {
             params: param,
@@ -70,12 +67,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       }
 
-      // Find the account in the response that matches the accountName
       const accountData = res.data.accounts.find(
         (account: AccountSchema) => account.accountName === accountName,
       )
 
-      // If the account is not found, throw an error
       if (!accountData) {
         return {
           params: param,
@@ -89,7 +84,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       }
 
-      // Ensure totalReserve and totalToken are numbers, keep result as is for backwards compatibility
       const result = accountData.totalReserve
       const totalReserve = Number(result)
       const totalToken = Number(accountData.totalToken)
