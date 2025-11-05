@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
-    },
-    {
       "path": "./sources/elven"
     },
     {
