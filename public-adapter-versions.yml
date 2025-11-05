@@ -1,10 +1,10 @@
 adapters:
   - name: 1forge
-    version: 1.6.48
+    version: 2.6.48
   - name: ada-balance
     version: 2.5.47
   - name: aleno
-    version: 2.1.8
+    version: 3.1.8
   - name: allium-state
     version: 1.0.3
   - name: alphachain
