@@ -1,8 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import {
-  TransportDependencies,
-  TransportGenerics,
-} from '@chainlink/external-adapter-framework/transports'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
@@ -12,7 +9,8 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/function'
+import { BaseEndpointTypes as FunctionEndpointTypes, inputParameters } from '../endpoint/function'
+import { BaseEndpointTypes as FunctionResponseSelectorEndpointTypes } from '../endpoint/function-response-selector'
 
 const logger = makeLogger('View Function Multi Chain')
 
@@ -31,10 +29,12 @@ export type HexResultPostProcessor = (
   resultField?: string | undefined,
 ) => string
 
+type GenericFunctionEndpointTypes = FunctionEndpointTypes | FunctionResponseSelectorEndpointTypes
+
 export class MultiChainFunctionTransport<
-  T extends TransportGenerics,
+  T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
-  config!: BaseEndpointTypes['Settings']
+  config!: T['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
   hexResultPostProcessor: HexResultPostProcessor
 
@@ -50,10 +50,13 @@ export class MultiChainFunctionTransport<
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.config = adapterSettings as BaseEndpointTypes['Settings']
+    this.config = adapterSettings
   }
 
-  async backgroundHandler(context: EndpointContext<T>, entries: Array<T['Parameters']>) {
+  async backgroundHandler(
+    context: EndpointContext<T>,
+    entries: TypeFromDefinition<T['Parameters']>[],
+  ) {
     await Promise.all(
       entries.map(async (param) => this.handleRequest(param as unknown as RequestParams)),
     )
@@ -220,7 +223,7 @@ export class MultiChainFunctionTransport<
 }
 
 // Export a factory function to create transport instances
-export function createMultiChainFunctionTransport<T extends TransportGenerics>(
+export function createMultiChainFunctionTransport<T extends GenericFunctionEndpointTypes>(
   postProcessor: HexResultPostProcessor,
 ): MultiChainFunctionTransport<T> {
   return new MultiChainFunctionTransport<T>(postProcessor)
