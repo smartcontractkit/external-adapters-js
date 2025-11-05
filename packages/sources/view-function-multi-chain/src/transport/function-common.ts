@@ -9,14 +9,19 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes as FunctionEndpointTypes, inputParameters } from '../endpoint/function'
+import { BaseEndpointTypes as FunctionEndpointTypes } from '../endpoint/function'
 import { BaseEndpointTypes as FunctionResponseSelectorEndpointTypes } from '../endpoint/function-response-selector'
 
 const logger = makeLogger('View Function Multi Chain')
 
-type RequestParams = typeof inputParameters.validated & {
-  resultField?: string
-}
+type GenericFunctionEndpointTypes = FunctionEndpointTypes | FunctionResponseSelectorEndpointTypes
+
+// The `extends any ? ... : never` construct forces the compiler to distribute
+// over unions. Without it, the compiler doesn't know that T is either
+// FunctionEndpointTypes or FunctionResponseSelectorEndpointTypes.
+type RequestParams<T extends GenericFunctionEndpointTypes> = T extends any
+  ? TypeFromDefinition<T['Parameters']>
+  : never
 
 export type RawOnchainResponse = {
   iface: ethers.Interface
@@ -28,8 +33,6 @@ export type HexResultPostProcessor = (
   onchainResponse: RawOnchainResponse,
   resultField?: string | undefined,
 ) => string
-
-type GenericFunctionEndpointTypes = FunctionEndpointTypes | FunctionResponseSelectorEndpointTypes
 
 export class MultiChainFunctionTransport<
   T extends GenericFunctionEndpointTypes,
@@ -53,20 +56,15 @@ export class MultiChainFunctionTransport<
     this.config = adapterSettings
   }
 
-  async backgroundHandler(
-    context: EndpointContext<T>,
-    entries: TypeFromDefinition<T['Parameters']>[],
-  ) {
-    await Promise.all(
-      entries.map(async (param) => this.handleRequest(param as unknown as RequestParams)),
-    )
+  async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(
       (context.adapterSettings as unknown as { BACKGROUND_EXECUTE_MS: number })
         .BACKGROUND_EXECUTE_MS,
     )
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(param: RequestParams<T>) {
     let response: AdapterResponse<T['Response']>
     try {
       response = await this._handleRequest(param)
@@ -89,7 +87,7 @@ export class MultiChainFunctionTransport<
     ])
   }
 
-  async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
+  async _handleRequest(param: RequestParams<T>): Promise<AdapterResponse<T['Response']>> {
     const { address, signature, inputParams, network, additionalRequests, resultField } = param
 
     const [mainResult, nestedResultOutcome] = await Promise.all([
