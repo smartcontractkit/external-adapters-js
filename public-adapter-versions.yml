@@ -342,9 +342,9 @@ adapters:
   - name: por-indexer
     version: 2.2.4
   - name: proof-of-reserves
-    version: 1.30.6
+    version: 1.30.7
   - name: renvm-address-set
-    version: 1.5.131
+    version: 1.5.132
   - name: rocket-pool
     version: 1.1.22
   - name: s3-csv-reader
