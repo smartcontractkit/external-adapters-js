@@ -31,7 +31,6 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
         )
       } else if (parsed.id === 'U_BTCUSD_RTI') {
         // lwba endpoint invariant violation
-        console.log('return second eth request')
         return socket.send(
           JSON.stringify({
             type: 'rti_stats',
