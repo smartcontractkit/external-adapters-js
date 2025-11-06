@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute totalReserve endpoint should fail if accountName is not found 1`] = `
+{
+  "errorMessage": "Account Invalid Account not found in response",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1761122519058,
+  },
+}
+`;
+
+exports[`execute totalReserve endpoint should fail if accountName is not provided 1`] = `
+{
+  "error": {
+    "message": "[Param: accountName] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute totalReserve endpoint should return success for Arsx Base Testnet 1`] = `
+{
+  "data": {
+    "result": 88072,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "totalReserve": 88072,
+    "totalToken": 85426,
+  },
+  "result": 88072,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1761122519058,
+  },
+}
+`;
+
+exports[`execute totalReserve endpoint should return success for Worldchain Base Testnet 1`] = `
+{
+  "data": {
+    "result": 0,
+    "ripcord": false,
+    "ripcordAsInt": 0,
+    "totalReserve": 0,
+    "totalToken": 0,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1761122519058,
+  },
+}
+`;
