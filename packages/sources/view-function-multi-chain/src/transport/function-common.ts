@@ -110,6 +110,8 @@ export class MultiChainFunctionTransport<
       data: encoded,
     })
 
+    let decimals = await this._get_decimals(networkName, address)
+
     const timestamps = {
       providerDataRequestedUnixMs,
       providerDataReceivedUnixMs: Date.now(),
@@ -120,12 +122,32 @@ export class MultiChainFunctionTransport<
 
     return {
       data: {
-        result,
+        result: result,
+        decimals: decimals,
       },
       statusCode: 200,
       result,
       timestamps,
     }
+  }
+
+  async _get_decimals(networkName: string, address: string): Promise<number> {
+    let decimals: number = 0
+
+    try {
+      const decimalsIface = new ethers.Interface(['function decimals() view returns (uint8)'])
+      const decimalsData = decimalsIface.encodeFunctionData('decimals')
+      const decimalsEncoded = await this.providers[networkName].call({
+        to: address,
+        data: decimalsData,
+      })
+      const [decodedDecimals] = decimalsIface.decodeFunctionResult('decimals', decimalsEncoded)
+      decimals = Number(decodedDecimals)
+    } catch (err) {
+      logger.warn(`Error fetching decimals, defaulting to 0: ${err}`)
+    }
+
+    return decimals
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
