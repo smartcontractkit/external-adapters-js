@@ -16,7 +16,7 @@ adapters:
   - name: anchor
     version: 4.0.31
   - name: anchorage
-    version: 1.0.22
+    version: 2.0.0
   - name: anyblock
     version: 2.1.13
   - name: ap-election
