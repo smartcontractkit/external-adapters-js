@@ -179,7 +179,7 @@ export class MultiChainFunctionTransport<
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
-      async (req: { name: string; signature: string }): Promise<[string, string | null]> => {
+      async (req: { name: string; signature: string }): Promise<[string, string]> => {
         const key = req.name
         try {
           const nestedParam = {
@@ -196,14 +196,9 @@ export class MultiChainFunctionTransport<
       },
     )
 
-    const settled: [string, string | null][] = await Promise.all(
-      additionalRequests.map(processNested),
-    )
+    const settled: [string, string][] = await Promise.all(additionalRequests.map(processNested))
 
     for (const [key, value] of settled) {
-      if (value === null) {
-        throw new Error(`Nested result for "${key}" is null`)
-      }
       results[key] = value
     }
 
