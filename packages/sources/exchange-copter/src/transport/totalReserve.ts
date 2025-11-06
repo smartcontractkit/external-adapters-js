@@ -62,8 +62,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
               },
             },
           }
-        } else {
-          logger.debug(message)
         }
       }
 
