@@ -170,10 +170,8 @@ export class MultiChainFunctionTransport<
     parentAddress: string,
     parentNetwork: string,
   ): Promise<Record<string, string>> {
-    const results: Record<string, string> = {}
-
     if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
-      return results
+      return {}
     }
 
     const runner = new GroupRunner(this.config.GROUP_SIZE)
@@ -197,12 +195,7 @@ export class MultiChainFunctionTransport<
     )
 
     const settled: [string, string][] = await Promise.all(additionalRequests.map(processNested))
-
-    for (const [key, value] of settled) {
-      results[key] = value
-    }
-
-    return results
+    return Object.fromEntries(settled)
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
