@@ -1,11 +1,5 @@
 # @chainlink/nav-fund-services-adapter
 
-## 1.0.1
-
-### Patch Changes
-
-- [#4179](https://github.com/smartcontractkit/external-adapters-js/pull/4179) [`74e58a3`](https://github.com/smartcontractkit/external-adapters-js/commit/74e58a394744c2406a70ffda5d3fca0d78fdff45) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump BACKGROUND_EXECUTE_TIMEOUT
-
 ## 1.0.0
 
 ### Major Changes
