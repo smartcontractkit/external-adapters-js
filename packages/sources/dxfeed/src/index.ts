@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price } from './endpoint'
+import { price, stockQuote } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: price.name,
   name: 'DXFEED',
   config,
-  endpoints: [price],
+  endpoints: [price, stockQuote],
   rateLimiting: {
     tiers: {
       unlimited: {
