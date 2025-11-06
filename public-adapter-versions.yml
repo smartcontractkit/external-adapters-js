@@ -16,7 +16,7 @@ adapters:
   - name: anchor
     version: 4.0.31
   - name: anchorage
-    version: 1.0.22
+    version: 2.0.0
   - name: anyblock
     version: 2.1.13
   - name: ap-election
@@ -225,6 +225,8 @@ adapters:
     version: 1.1.21
   - name: hashnote
     version: 1.0.3
+  - name: hastra
+    version: 1.0.0
   - name: historical-average
     version: 1.2.85
   - name: icap
@@ -290,13 +292,13 @@ adapters:
   - name: moore-hk
     version: 1.0.28
   - name: multi-address-list
-    version: 1.0.22
+    version: 1.0.23
   - name: mycryptoapi
     version: 1.3.47
   - name: nav-consulting
     version: 1.2.6
   - name: nav-fund-services
-    version: 1.0.0
+    version: 1.0.1
   - name: nav-generic
     version: 1.0.4
   - name: ncfx
@@ -342,9 +344,9 @@ adapters:
   - name: por-indexer
     version: 2.2.4
   - name: proof-of-reserves
-    version: 1.30.6
+    version: 1.30.7
   - name: renvm-address-set
-    version: 1.5.131
+    version: 1.5.132
   - name: rocket-pool
     version: 1.1.22
   - name: s3-csv-reader
