@@ -5,7 +5,8 @@ export const inputParameters = new InputParameters(
     base: {
       aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
       type: 'string',
-      description: 'The symbol of the currency to query',
+      description:
+        'The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints',
       required: true,
     },
   },
