@@ -1,10 +1,12 @@
+import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from '../config'
 
 const logger = makeLogger('DxFeed Websocket')
 
-export type DXFeedMessage = {
+type DXFeedMessage = {
   channel: string
   clientId?: string
   id: string
@@ -17,7 +19,13 @@ export type DXFeedMessage = {
   }
 }[]
 
-export type WsTransportTypes = BaseEndpointTypes & {
+type BaseTransportTypes = {
+  Parameters: TransportGenerics['Parameters']
+  Response: TransportGenerics['Response']
+  Settings: TransportGenerics['Settings'] & typeof config.settings
+}
+
+type ProviderTypes = {
   Provider: {
     WsMessage: DXFeedMessage
   }
@@ -28,10 +36,9 @@ const META_CONNECT = '/meta/connect'
 const SERVICE_SUB = '/service/sub'
 const SERVICE_DATA = '/service/data'
 
-const tickerIndex = 0
-const priceIndex = 6
-
-class DxFeedWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
+class DxFeedWebsocketTransport<T extends BaseTransportTypes> extends WebSocketTransport<
+  T & ProviderTypes
+> {
   private _connectionClientId = ''
   id = 0
 
@@ -85,8 +92,15 @@ class DxFeedWebsocketTransport extends WebSocketTransport<WsTransportTypes> {
   }
 }
 
-export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
-  const wsTransport: DxFeedWebsocketTransport = new DxFeedWebsocketTransport({
+export function buildWsTransport<T extends BaseTransportTypes>(
+  formatTicker: (
+    base: TypeFromDefinition<(T & ProviderTypes)['Parameters']>,
+  ) => Record<string, string[]>,
+  processMessage: (message: DXFeedMessage) => ProviderResult<T & ProviderTypes>,
+): WebSocketTransport<T & ProviderTypes> {
+  const wsTransport: DxFeedWebsocketTransport<T & ProviderTypes> = new DxFeedWebsocketTransport<
+    T & ProviderTypes
+  >({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
     handlers: {
@@ -104,6 +118,7 @@ export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
               resolve()
             }
           })
+
           connection.send(JSON.stringify(wsTransport.handshakeMsg))
         })
       },
@@ -118,19 +133,7 @@ export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
           return []
         }
 
-        const base = message[0].data[1][tickerIndex]
-        const price = message[0].data[1][priceIndex]
-        return [
-          {
-            params: { base },
-            response: {
-              result: price,
-              data: {
-                result: price,
-              },
-            },
-          },
-        ]
+        return [processMessage(message)]
       },
     },
 
@@ -139,8 +142,8 @@ export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
         return [
           {
             channel: SERVICE_SUB,
-            data: { add: { Quote: [params.base.toUpperCase()] } },
-            clientId: `${wsTransport.connectionClientId}`,
+            data: { add: formatTicker(params) },
+            clientId: wsTransport.connectionClientId,
           },
         ]
       },
@@ -148,12 +151,13 @@ export function buildDxFeedWsTransport(): DxFeedWebsocketTransport {
         return [
           {
             channel: SERVICE_SUB,
-            data: { remove: { Quote: [params.base.toUpperCase()] } },
-            clientId: `${wsTransport.connectionClientId}`,
+            data: { remove: formatTicker(params) },
+            clientId: wsTransport.connectionClientId,
           },
         ]
       },
     },
   })
+
   return wsTransport
 }
