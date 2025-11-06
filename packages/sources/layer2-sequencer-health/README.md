@@ -59,6 +59,10 @@ Adapter that checks the Layer 2 Sequencer status
 |           |      `CELO_HEALTH_ENDPOINT`       |                                   Celo Health Endpoint                                    |         |                                                                  |
 |           |          `CELO_CHAIN_ID`          |                              The chain id to connect to Celo                              |         |                              42220                               |
 |           |           `CELO_DELTA`            |   Maximum time in milliseconds from last seen block to consider Celo sequencer healthy    |         |                          120000 (2 min)                          |
+|           |       `XLAYER_RPC_ENDPOINT`       |                                    xLayer RPC Endpoint                                    |         |                    https://xlayerrpc.okx.com                     |
+|           |     `XLAYER_HEALTH_ENDPOINT`      |                                  xLayer Health Endpoint                                   |         |                                                                  |
+|           |         `XLAYER_CHAIN_ID`         |                             The chain id to connect to xLayer                             |         |                               196                                |
+|           |          `XLAYER_DELTA`           |   Maximum time in milliseconds from last seen block to consider Celo sequencer healthy    |         |                          120000 (2 min)                          |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -66,9 +70,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                                                              Options                                                              | Defaults to |
-| :-------: | :-----: | :----------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync`, `ink`, `mantle`, `unichain`, `soneium`, `celo` |             |
+| Required? |  Name   |       Description        |                                                                   Options                                                                   | Defaults to |
+| :-------: | :-----: | :----------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync`, `ink`, `mantle`, `unichain`, `soneium`, `celo`, `xlayer` |             |
 
 ---
 

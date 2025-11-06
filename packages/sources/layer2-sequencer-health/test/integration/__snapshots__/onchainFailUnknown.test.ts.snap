@@ -98,3 +98,14 @@ exports[`execute unichain network should return failure when transaction submiss
   "statusCode": 200,
 }
 `;
+
+exports[`execute xlayer network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;

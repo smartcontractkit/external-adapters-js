@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {
-      "path": "./sources/dxfeed-secondary/tsconfig.test.json"
-    },
-    {
       "path": "./sources/elven/tsconfig.test.json"
     },
     {
@@ -417,6 +414,9 @@
       "path": "./sources/hashnote/tsconfig.test.json"
     },
     {
+      "path": "./sources/hastra/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
@@ -498,10 +498,10 @@
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
-      "path": "./sources/nav-generic/tsconfig.test.json"
+      "path": "./sources/nav-fund-services/tsconfig.test.json"
     },
     {
-      "path": "./sources/nav-libre/tsconfig.test.json"
+      "path": "./sources/nav-generic/tsconfig.test.json"
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
@@ -601,6 +601,9 @@
     },
     {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/streamex/tsconfig.test.json"
     },
     {
       "path": "./sources/superstate/tsconfig.test.json"

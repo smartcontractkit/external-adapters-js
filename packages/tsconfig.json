@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
-    },
-    {
       "path": "./sources/elven"
     },
     {
@@ -417,6 +414,9 @@
       "path": "./sources/hashnote"
     },
     {
+      "path": "./sources/hastra"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -498,10 +498,10 @@
       "path": "./sources/nav-consulting"
     },
     {
-      "path": "./sources/nav-generic"
+      "path": "./sources/nav-fund-services"
     },
     {
-      "path": "./sources/nav-libre"
+      "path": "./sources/nav-generic"
     },
     {
       "path": "./sources/ncfx"
@@ -601,6 +601,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/streamex"
     },
     {
       "path": "./sources/superstate"

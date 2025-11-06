@@ -443,10 +443,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dxfeed"\
     },\
     {\
-      "name": "@chainlink/dxfeed-secondary-adapter",\
-      "reference": "workspace:packages/sources/dxfeed-secondary"\
-    },\
-    {\
       "name": "@chainlink/elven-adapter",\
       "reference": "workspace:packages/sources/elven"\
     },\
@@ -583,6 +579,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/hashnote"\
     },\
     {\
+      "name": "@chainlink/hastra-adapter",\
+      "reference": "workspace:packages/sources/hastra"\
+    },\
+    {\
       "name": "@chainlink/icap-adapter",\
       "reference": "workspace:packages/sources/icap"\
     },\
@@ -691,12 +691,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nav-consulting"\
     },\
     {\
-      "name": "@chainlink/nav-generic-adapter",\
-      "reference": "workspace:packages/sources/nav-generic"\
+      "name": "@chainlink/nav-fund-services-adapter",\
+      "reference": "workspace:packages/sources/nav-fund-services"\
     },\
     {\
-      "name": "@chainlink/nav-libre-adapter",\
-      "reference": "workspace:packages/sources/nav-libre"\
+      "name": "@chainlink/nav-generic-adapter",\
+      "reference": "workspace:packages/sources/nav-generic"\
     },\
     {\
       "name": "@chainlink/ncfx-adapter",\
@@ -829,6 +829,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/stasis-adapter",\
       "reference": "workspace:packages/sources/stasis"\
+    },\
+    {\
+      "name": "@chainlink/streamex-adapter",\
+      "reference": "workspace:packages/sources/streamex"\
     },\
     {\
       "name": "@chainlink/superstate-adapter",\
@@ -1041,7 +1045,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxdao-adapter", ["workspace:packages/composites/dxdao"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
-    ["@chainlink/dxfeed-secondary-adapter", ["workspace:packages/sources/dxfeed-secondary"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
     ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
     ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],\
@@ -1086,6 +1089,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
+    ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
@@ -1121,8 +1125,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
+    ["@chainlink/nav-fund-services-adapter", ["workspace:packages/sources/nav-fund-services"]],\
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
-    ["@chainlink/nav-libre-adapter", ["workspace:packages/sources/nav-libre"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
@@ -1167,6 +1171,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
     ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
+    ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
@@ -5317,6 +5322,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6538,25 +6544,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dxfeed-secondary-adapter", [\
-      ["workspace:packages/sources/dxfeed-secondary", {\
-        "packageLocation": "./packages/sources/dxfeed-secondary/",\
-        "packageDependencies": [\
-          ["@chainlink/dxfeed-secondary-adapter", "workspace:packages/sources/dxfeed-secondary"],\
-          ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/dydx-stark-adapter", [\
       ["workspace:packages/targets/dydx-stark", {\
         "packageLocation": "./packages/targets/dydx-stark/",\
@@ -7428,6 +7415,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/hastra-adapter", [\
+      ["workspace:packages/sources/hastra", {\
+        "packageLocation": "./packages/sources/hastra/",\
+        "packageDependencies": [\
+          ["@chainlink/hastra-adapter", "workspace:packages/sources/hastra"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/historical-average-adapter", [\
       ["workspace:packages/composites/historical-average", {\
         "packageLocation": "./packages/composites/historical-average/",\
@@ -8044,6 +8046,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/nav-fund-services-adapter", [\
+      ["workspace:packages/sources/nav-fund-services", {\
+        "packageLocation": "./packages/sources/nav-fund-services/",\
+        "packageDependencies": [\
+          ["@chainlink/nav-fund-services-adapter", "workspace:packages/sources/nav-fund-services"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["uuid", "npm:11.1.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/nav-generic-adapter", [\
       ["workspace:packages/sources/nav-generic", {\
         "packageLocation": "./packages/sources/nav-generic/",\
@@ -8055,25 +8076,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nav-libre-adapter", [\
-      ["workspace:packages/sources/nav-libre", {\
-        "packageLocation": "./packages/sources/nav-libre/",\
-        "packageDependencies": [\
-          ["@chainlink/nav-libre-adapter", "workspace:packages/sources/nav-libre"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/crypto-js", "npm:4.2.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["crypto-js", "npm:4.2.0"],\
-          ["date-fns", "npm:4.1.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["uuid", "npm:11.1.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -8882,6 +8884,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/streamex-adapter", [\
+      ["workspace:packages/sources/streamex", {\
+        "packageLocation": "./packages/sources/streamex/",\
+        "packageDependencies": [\
+          ["@chainlink/streamex-adapter", "workspace:packages/sources/streamex"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

@@ -2585,6 +2585,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
+    decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3642,7 +3643,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxfeed-adapter@workspace:*, @chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
+"@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
@@ -3652,23 +3653,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dxfeed-secondary-adapter@workspace:packages/sources/dxfeed-secondary"
-  dependencies:
-    "@chainlink/dxfeed-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    mock-socket: "npm:9.3.1"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4458,6 +4442,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/hastra-adapter@workspace:packages/sources/hastra":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/hastra-adapter@workspace:packages/sources/hastra"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average":
   version: 0.0.0-use.local
   resolution: "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average"
@@ -5004,22 +5001,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nav-generic-adapter@workspace:packages/sources/nav-generic":
+"@chainlink/nav-fund-services-adapter@workspace:packages/sources/nav-fund-services":
   version: 0.0.0-use.local
-  resolution: "@chainlink/nav-generic-adapter@workspace:packages/sources/nav-generic"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/nav-libre-adapter@workspace:packages/sources/nav-libre":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/nav-libre-adapter@workspace:packages/sources/nav-libre"
+  resolution: "@chainlink/nav-fund-services-adapter@workspace:packages/sources/nav-fund-services"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/crypto-js": "npm:^4"
@@ -5031,6 +5015,19 @@ __metadata:
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
     uuid: "npm:^11.1.0"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/nav-generic-adapter@workspace:packages/sources/nav-generic":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/nav-generic-adapter@workspace:packages/sources/nav-generic"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -5751,6 +5748,19 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/streamex-adapter@workspace:packages/sources/streamex":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/streamex-adapter@workspace:packages/sources/streamex"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft

@@ -6,7 +6,13 @@ import { lwbaProtobufWsTransport } from '../transport/lwba'
 export const MARKET_XETRA_ETFETP = 'md-xetraetfetp' as const
 export const MARKET_TRADEGATE = 'md-tradegate' as const
 export const MARKET_EUREX_MICRO = 'md-microproducts' as const
-export const MARKETS = [MARKET_XETRA_ETFETP, MARKET_TRADEGATE, MARKET_EUREX_MICRO] as const
+export const MARKET_360T_SPOT = 'md-360t.spot' as const
+export const MARKETS = [
+  MARKET_XETRA_ETFETP,
+  MARKET_TRADEGATE,
+  MARKET_EUREX_MICRO,
+  MARKET_360T_SPOT,
+] as const
 export type Market = (typeof MARKETS)[number]
 
 export const inputParameters = new InputParameters(
