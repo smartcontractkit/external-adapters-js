@@ -34,15 +34,38 @@ jobs:
       - name: Set branch name
         run: |
           echo "BRANCH=public-versions-update-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
+      - name: Set PR title
+        run: |
+          PR_TITLE="$(
+            .github/scripts/list-public-adapter-version-changes.sh | jq -r '
+              if ((length) == 1) then
+                .[] | "Update public version of \(.name) from \(.old_version) to \(.new_version)"
+              else
+                "Update public version of \(length) adapters"
+              end'
+          )"
+          echo "Using the following PR title:"
+          echo "$PR_TITLE"
+          echo "PR_TITLE=$PR_TITLE" >> "$GITHUB_ENV"
       - name: Set PR description
         run: |
           # Output old and new version of each changed adapter
+          PR_DESCRIPTION="$(
+            .github/scripts/list-public-adapter-version-changes.sh | jq -r '
+              .[] |
+              if (.old_version == null) then
+                "- \(.name) is new with version \(.new_version)"
+              elif (.new_version == null) then
+                "- \(.name) was removed"
+              else
+                "- \(.name) changed version from \(.old_version) to \(.new_version)"
+              end'
+          )"
+          echo "Using the following PR description:"
+          echo "$PR_DESCRIPTION"
           {
             echo "PR_DESCRIPTION<<EOF"
-            echo "Updated public adapter versions:"
-            echo '```'
-            git diff --unified=1 | grep '^- ' -C 1
-            echo '```'
+            echo "$PR_DESCRIPTION"
             echo EOF
           } >> "$GITHUB_ENV"
       - name: Configure git
@@ -67,7 +90,7 @@ jobs:
         run: |
           gh pr create --base main \
           --head ${{ env.BRANCH }} \
-          --title 'Update public adapter versions' \
+          --title ${{ env.PR_TITLE }} \
           --body '${{ env.PR_DESCRIPTION }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
