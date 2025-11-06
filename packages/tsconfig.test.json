@@ -345,6 +345,9 @@
       "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
+      "path": "./sources/exchange-copter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/expand-network/tsconfig.test.json"
     },
     {

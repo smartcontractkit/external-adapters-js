@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute totalReserve endpoint when ripcord true should return error when ripcord is true 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordAsInt": 1,
+  "ripcordDetails": "Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1761122519058,
+  },
+}
+`;
+
+exports[`execute totalReserve endpoint when ripcord true should succeed with noErrorOnRipcord when ripcord is true 1`] = `
+{
+  "data": {
+    "result": 88072,
+    "ripcord": true,
+    "ripcordAsInt": 1,
+    "totalReserve": 88072,
+    "totalToken": 85426,
+  },
+  "result": 88072,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1761122519058,
+  },
+}
+`;
