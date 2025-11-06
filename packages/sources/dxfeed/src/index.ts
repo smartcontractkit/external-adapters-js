@@ -19,6 +19,3 @@ export const adapter = new Adapter({
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
-
-export default { config }
-export * from './endpoint'

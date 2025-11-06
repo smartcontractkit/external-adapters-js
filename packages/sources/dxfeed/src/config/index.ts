@@ -14,8 +14,9 @@ export const config = new AdapterConfig({
     sensitive: true,
   },
   WS_API_ENDPOINT: {
-    description: 'The websocket url for dxfeed',
+    description: 'The websocket url for dxfeed including username and password',
     type: 'string',
+    sensitive: true,
   },
   API_ENDPOINT: {
     description: 'The API url for dxfeed',
