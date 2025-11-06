@@ -98,9 +98,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
   ) => Record<string, string[]>,
   processMessage: (message: DXFeedMessage) => ProviderResult<T & ProviderTypes>,
 ): WebSocketTransport<T & ProviderTypes> {
-  const wsTransport: DxFeedWebsocketTransport<T & ProviderTypes> = new DxFeedWebsocketTransport<
-    T & ProviderTypes
-  >({
+  const wsTransport: DxFeedWebsocketTransport<T> = new DxFeedWebsocketTransport({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
 
     handlers: {
