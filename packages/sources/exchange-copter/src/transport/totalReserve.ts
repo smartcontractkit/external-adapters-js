@@ -1,5 +1,4 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/totalReserve'
 
 export interface AccountSchema {
@@ -21,8 +20,6 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
-
-const logger = makeLogger('TotalReserveHTTPTransport')
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
