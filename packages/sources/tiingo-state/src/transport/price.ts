@@ -46,7 +46,9 @@ class TiingoStateWSTransport extends WebSocketTransport<WsTransportTypes> {
 }
 
 export const wsTransport = new TiingoStateWSTransport({
-  url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`,
+  url: (context) => {
+    return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
+  },
   handlers: {
     message(message) {
       if (!message?.data?.length || message.messageType !== 'A' || !message.data[priceIndex]) {
