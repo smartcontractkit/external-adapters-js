@@ -139,7 +139,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
       message(message) {
         // If dxfeed errors there is no information about failed feeds/params in the message, returning empty array. We need strict comparison because dxfeed sends info messages also that don't contain `successful` property.
         if (message[0].successful === false) {
-          logger.warn(`Dxfeed returned unsuccessful message: ${message[0]}`)
+          logger.warn(`Dxfeed returned unsuccessful message: ${JSON.stringify(message[0])}`)
           return []
         }
 
