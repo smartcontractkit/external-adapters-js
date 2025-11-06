@@ -1,23 +1,29 @@
 import { BaseEndpointTypes } from '../endpoint/price'
 import { buildWsTransport } from './ws'
 
-const tickerIndex = 0
+const eventSymbolIndex = 0
 const priceIndex = 6
 
 export const transport = buildWsTransport<BaseEndpointTypes>(
-  (params) => ({ Quote: [params.base.toUpperCase()] }),
+  (params) => ({ Trade: [params.base.toUpperCase()] }),
   (message) => {
-    const base = message[0].data[1][tickerIndex]
+    if (message[0].data[0] != 'Trade' && message[0].data[0][0] != 'Trade') {
+      return []
+    }
+
+    const base = message[0].data[1][eventSymbolIndex]
     const price = message[0].data[1][priceIndex]
 
-    return {
-      params: { base },
-      response: {
-        result: price,
-        data: {
+    return [
+      {
+        params: { base },
+        response: {
           result: price,
+          data: {
+            result: price,
+          },
         },
       },
-    }
+    ]
   },
 )

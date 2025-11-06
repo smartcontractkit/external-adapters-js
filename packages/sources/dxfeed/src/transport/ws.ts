@@ -10,7 +10,23 @@ type DXFeedMessage = {
   channel: string
   clientId?: string
   id: string
-  data: [string, [string, number, number, number, number, string, number, string, number, number]]
+  data: [
+    string,
+    [
+      string,
+      number,
+      number,
+      number,
+      number,
+      string,
+      number,
+      string,
+      number,
+      number,
+      number,
+      number,
+    ],
+  ]
   successful?: boolean
   advice?: {
     interval: number
@@ -96,7 +112,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
   formatTicker: (
     base: TypeFromDefinition<(T & ProviderTypes)['Parameters']>,
   ) => Record<string, string[]>,
-  processMessage: (message: DXFeedMessage) => ProviderResult<T & ProviderTypes>,
+  processMessage: (message: DXFeedMessage) => ProviderResult<T & ProviderTypes>[],
 ): WebSocketTransport<T & ProviderTypes> {
   const wsTransport: DxFeedWebsocketTransport<T> = new DxFeedWebsocketTransport({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT || '',
@@ -123,7 +139,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
       message(message) {
         // If dxfeed errors there is no information about failed feeds/params in the message, returning empty array. We need strict comparison because dxfeed sends info messages also that don't contain `successful` property.
         if (message[0].successful === false) {
-          logger.warn('Dxfeed returned unsuccessful message')
+          logger.warn(`Dxfeed returned unsuccessful message: ${message[0]}`)
           return []
         }
 
@@ -131,7 +147,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
           return []
         }
 
-        return [processMessage(message)]
+        return processMessage(message)
       },
     },
 
