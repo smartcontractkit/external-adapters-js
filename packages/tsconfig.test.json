@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {
-      "path": "./sources/dxfeed-secondary/tsconfig.test.json"
-    },
-    {
       "path": "./sources/elven/tsconfig.test.json"
     },
     {
@@ -418,6 +415,9 @@
     },
     {
       "path": "./sources/hashnote/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/hastra/tsconfig.test.json"
     },
     {
       "path": "./sources/icap/tsconfig.test.json"

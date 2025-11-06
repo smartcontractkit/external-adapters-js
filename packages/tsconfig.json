@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
-    },
-    {
       "path": "./sources/elven"
     },
     {
@@ -418,6 +415,9 @@
     },
     {
       "path": "./sources/hashnote"
+    },
+    {
+      "path": "./sources/hastra"
     },
     {
       "path": "./sources/icap"

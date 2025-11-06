@@ -1,18 +1,17 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price } from './endpoint'
+import { accruedInterest } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: price.name,
-  name: 'DXFEED',
+  defaultEndpoint: accruedInterest.name,
+  name: 'HASTRA',
   config,
-  endpoints: [price],
+  endpoints: [accruedInterest],
   rateLimiting: {
     tiers: {
-      unlimited: {
-        rateLimit1s: 100,
-        note: 'Dxfeed does not describe a rate limit, but setting reasonable limits',
+      default: {
+        rateLimit1m: 20,
       },
     },
   },

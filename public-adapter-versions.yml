@@ -149,8 +149,6 @@ adapters:
     version: 2.0.113
   - name: dxfeed
     version: 2.0.39
-  - name: dxfeed-secondary
-    version: 2.0.39
   - name: dydx-stark
     version: 2.0.31
   - name: elven
