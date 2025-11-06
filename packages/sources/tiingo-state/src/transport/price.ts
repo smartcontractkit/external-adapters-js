@@ -1,6 +1,11 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseCryptoEndpointTypes } from '../endpoint/price'
 import { wsMessageContent } from './utils'
+
+const logger = makeLogger('TiingoStateWSTransport')
+const URL_SELECTION_CYCLE_LENGTH = 6
 
 interface Message {
   service: string
@@ -18,11 +23,30 @@ type WsTransportTypes = BaseCryptoEndpointTypes & {
   }
 }
 
-export const wsTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => {
-    return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
-  },
+class TiingoStateWSTransport extends WebSocketTransport<WsTransportTypes> {
+  // business logic connection attempts (repeats):
+  //   5x try connecting to primary url
+  //   1x try connection to secondary url
+  override async determineUrlChange(
+    context: EndpointContext<WsTransportTypes>,
+  ): Promise<{ urlChanged: boolean; url: string }> {
+    const primaryUrl = `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
+    const secondaryUrl = `${context.adapterSettings.SECONDARY_WS_API_ENDPOINT}/crypto-synth-state`
 
+    const zeroIndexedNumAttemptedConnections = this.streamHandlerInvocationsWithNoConnection - 1
+    const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
+    const url = cycle !== URL_SELECTION_CYCLE_LENGTH - 1 ? primaryUrl : secondaryUrl
+    const urlChanged = this.currentUrl !== url
+
+    logger.trace(
+      `determineUrlChange: connection attempts ${zeroIndexedNumAttemptedConnections}, url: ${url}`,
+    )
+    return { urlChanged, url }
+  }
+}
+
+export const wsTransport = new TiingoStateWSTransport({
+  url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`,
   handlers: {
     message(message) {
       if (!message?.data?.length || message.messageType !== 'A' || !message.data[priceIndex]) {
@@ -45,7 +69,6 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       ]
     },
   },
-
   builders: {
     subscribeMessage: (params, context) => {
       return wsMessageContent(
