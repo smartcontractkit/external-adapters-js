@@ -36,13 +36,40 @@ jobs:
           echo "BRANCH=public-versions-update-${GITHUB_SHA::8}" >> "$GITHUB_ENV"
       - name: Set PR description
         run: |
+          git diff -- public-adapter-versions.yml
           # Output old and new version of each changed adapter
+          PR_DESCRIPTION="$(
+            echo "Updated public adapter versions:"
+            git diff -- public-adapter-versions.yml | awk '
+              /^-  - name:/ {
+                match($0, /- name: */)
+                name = substr($0, RSTART + RLENGTH)
+                print "-", name, "was removed"
+              }
+              /^[ +]  - name:/ {
+                match($0, /- name: */)
+                name = substr($0, RSTART + RLENGTH)
+              }
+              /^-    version:/{
+                match($0, /version: */)
+                old_version = substr($0, RSTART + RLENGTH)
+              }
+              /^\+    version:/ {
+                match($0, /version: */)
+                new_version =  substr($0, RSTART + RLENGTH)
+                if (old_version) {
+                  print "-", name, "changed version from", old_version, "to", new_version
+                } else {
+                  print "-", name, "is new with version", new_version
+                }
+                old_version = ""
+              }'
+          )"
+          echo "Using the following PR description:"
+          echo "$PR_DESCRIPTION"
           {
             echo "PR_DESCRIPTION<<EOF"
-            echo "Updated public adapter versions:"
-            echo '```'
-            git diff --unified=1 | grep '^- ' -C 1
-            echo '```'
+            echo "$PR_DESCRIPTION"
             echo EOF
           } >> "$GITHUB_ENV"
       - name: Configure git
