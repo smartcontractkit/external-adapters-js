@@ -67,7 +67,7 @@ COINPAPRIKA_ADAPTER_URL=https://coinpaprika_adapter_url/
 
 ### impliedPrice endpoint
 
-This legacy endpoint is the default endpoint for backward compatibility.
+`impliedPrice` is just an alias of `computedPrice` endpoint for backwards compatibility.
 
 #### Input Params
 
