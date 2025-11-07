@@ -18,6 +18,11 @@ export const config = new AdapterConfig(
       default: 'wss://api.tiingo.com',
       type: 'string',
     },
+    SECONDARY_WS_API_ENDPOINT: {
+      description: 'Secondary websocket endpoint for tiingo',
+      default: 'wss://api.redundantstack.com',
+      type: 'string',
+    },
   },
   {
     envDefaultOverrides: {

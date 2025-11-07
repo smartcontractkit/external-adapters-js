@@ -1,6 +1,6 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseCryptoEndpointTypes } from '../endpoint/utils'
-import { TiingoWebsocketTransport, wsMessageContent } from './utils'
+import { TiingoWebsocketTransport, wsMessageContent, wsSelectUrl } from './utils'
 
 const logger = makeLogger('TiingoWebsocketTransport')
 
@@ -26,9 +26,14 @@ type WsTransportTypes = BaseCryptoEndpointTypes & {
 
 export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
   new TiingoWebsocketTransport<WsTransportTypes>({
-    url: (context) => {
+    url: (context, _desiredSubs, urlConfigFunctionParameters) => {
       wsTransport.apiKey = context.adapterSettings.API_KEY
-      return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth`
+      return wsSelectUrl(
+        context.adapterSettings.WS_API_ENDPOINT,
+        context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
+        'crypto-synth',
+        urlConfigFunctionParameters,
+      )
     },
 
     handlers: {

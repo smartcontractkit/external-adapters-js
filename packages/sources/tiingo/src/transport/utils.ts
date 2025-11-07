@@ -1,9 +1,12 @@
-import { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebsocketTransportGenerics,
+  WebSocketUrlConfigFunctionParameters,
+} from '@chainlink/external-adapter-framework/transports'
 import {
   WebsocketReverseMappingTransport,
   WebSocketTransport,
 } from '@chainlink/external-adapter-framework/transports/websocket'
-import { splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseCryptoEndpointTypes, inputParameters } from '../endpoint/utils'
 export interface ProviderResponseBody {
@@ -27,6 +30,9 @@ export interface ProviderResponseBody {
     tradesDone: number
   }[]
 }
+
+const logger = makeLogger('TiingoUtils')
+const URL_SELECTION_CYCLE_LENGTH = 6
 
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
@@ -134,6 +140,31 @@ export const wsMessageContent = (
       tickers: [ticker.toLowerCase()],
     },
   }
+}
+
+// There exists similar functionality in tiingo-state EA
+// urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection is 1-indexed
+export const wsSelectUrl = (
+  primaryBaseUrl: string,
+  secondaryBaseUrl: string,
+  urlSuffix: string,
+  urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
+): string => {
+  // business logic connection attempts (repeats):
+  //   5x try connecting to primary url
+  //   1x try connection to secondary url
+  const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
+  const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
+
+  const zeroIndexedNumAttemptedConnections =
+    urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
+  const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
+  const url = cycle !== URL_SELECTION_CYCLE_LENGTH - 1 ? primaryUrl : secondaryUrl
+
+  logger.trace(
+    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, url: ${url}`,
+  )
+  return url
 }
 
 export class TiingoWebsocketTransport<
