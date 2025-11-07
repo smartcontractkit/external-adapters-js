@@ -27,6 +27,7 @@
     "harmony",
     "historical-average",
     "implied-price",
+    "implied-price-test",
     "json-rpc",
     "layer2-sequencer-health",
     "linear-finance",
