@@ -35,7 +35,7 @@
     "get-changed-adapters": "ts-node-transpile-only ./packages/scripts/src/get-changed-adapters",
     "validate-codecov": "curl --data-binary @codecov.yml https://codecov.io/validate",
     "framework-bump": "./packages/scripts/src/framework/version-bump.sh",
-    "unreleased-adapters": ".github/scripts/get-unreleased-adapters.sh"
+    "unreleased-packages": ".github/scripts/get-unreleased-packages.sh"
   },
   "dependencies": {
     "@babel/core": "7.26.10",

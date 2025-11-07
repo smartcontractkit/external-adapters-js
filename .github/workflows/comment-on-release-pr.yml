@@ -25,7 +25,7 @@ jobs:
         run: |
           {
             echo "UNRELEASED_PACKAGES<<EOF"
-            ./.github/scripts/get-unreleased-adapters.sh
+            ./.github/scripts/get-unreleased-packages.sh
             echo "EOF"
           } >> $GITHUB_ENV
       - name: Find previous comment
