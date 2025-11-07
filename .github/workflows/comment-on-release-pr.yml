@@ -25,9 +25,7 @@ jobs:
         run: |
           {
             echo "UNRELEASED_PACKAGES<<EOF"
-            git grep -Eh "^'@chainlink/[^']*': (major|minor|patch)$" .changeset |
-            sed -E "s#^'(@chainlink/[^']*)': (major|minor|patch).*\$#- \\1#" |
-            sort -u
+            ./.github/scripts/get-unreleased-packages.sh
             echo "EOF"
           } >> $GITHUB_ENV
       - name: Find previous comment
