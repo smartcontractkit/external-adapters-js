@@ -14,7 +14,7 @@ export const config = new AdapterConfig(
       sensitive: true,
     },
     WS_API_ENDPOINT: {
-      description: 'websocket endpoint for tiingo',
+      description: 'Websocket endpoint for tiingo',
       default: 'wss://api.tiingo.com',
       type: 'string',
     },
