@@ -79,6 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - calculate-changes
+      - create-ecr
     environment: release
     permissions: # These are needed for the configure-aws-credentials action
       id-token: write
