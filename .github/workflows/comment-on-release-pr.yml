@@ -21,6 +21,7 @@ jobs:
         with:
           sparse-checkout: |
             .changeset
+            .github
       - name: Create list of unreleased packages
         run: |
           {
