@@ -3,16 +3,16 @@ import {
   makeStub,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as usdcMinterAccountData from '../fixtures/usdc-minter-account-data-2025-10-27.json'
+import * as galaxyMinterAccountData from '../fixtures/galaxy-digital-inc-account-data-2025-11-07.json'
 
-const usdcMinterAddress = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'
+const galaxyMinterAddress = '2HehXG149TXuVptQhbiWAWDjbbuCsXSAtLTB5wc2aajK'
 
 const solanaRpc = makeStub('solanaRpc', {
   getAccountInfo: (address: string) => ({
     async send() {
       switch (address) {
-        case usdcMinterAddress:
-          return usdcMinterAccountData.result
+        case galaxyMinterAddress:
+          return galaxyMinterAccountData.result
       }
       throw new Error(`Unexpected account address: ${address}`)
     },
@@ -52,12 +52,38 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('buffer-layout', () => {
-    it('should return success USDC supply', async () => {
+  describe('extension', () => {
+    it('should return scaled UI amount fields', async () => {
       const data = {
-        endpoint: 'buffer-layout',
-        stateAccountAddress: usdcMinterAddress,
-        field: 'supply',
+        endpoint: 'extension',
+        stateAccountAddress: galaxyMinterAddress,
+        baseFields: [
+          {
+            name: 'supply',
+            offset: 36,
+            type: 'uint64',
+          },
+        ],
+        extensionFields: [
+          {
+            extensionType: 25,
+            name: 'currentMultiplier',
+            offset: 32,
+            type: 'float64',
+          },
+          {
+            extensionType: 25,
+            name: 'newMultiplier',
+            offset: 48,
+            type: 'float64',
+          },
+          {
+            extensionType: 25,
+            name: 'activationDateTime',
+            offset: 40,
+            type: 'int64',
+          },
+        ],
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()

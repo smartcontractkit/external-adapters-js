@@ -3,16 +3,67 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/buffer-layout'
-import { fetchFieldFromBufferLayoutStateAccount } from '../shared/buffer-layout-accounts'
+import { BaseEndpointTypes, RequestParams } from '../endpoint/extension'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
-const logger = makeLogger('BufferLayoutTransport')
+const logger = makeLogger('ExtensionTransport')
 
-type RequestParams = typeof inputParameters.validated
+const getFieldFromBuffer = (
+  field: { name: string; type: string; offset: number },
+  buffer: Buffer,
+): number | string => {
+  switch (field.type) {
+    case 'uint64':
+      return buffer.readBigUInt64LE(field.offset).toString()
+    case 'int64':
+      return buffer.readBigInt64LE(field.offset).toString()
+    case 'float64':
+      return buffer.readDoubleLE(field.offset)
+    default:
+      throw new AdapterInputError({
+        message: `Unsupported base field type '${field.type}'`,
+        statusCode: 400,
+      })
+  }
+}
 
-export class BufferLayoutTransport extends SubscriptionTransport<BaseEndpointTypes> {
+const getExtensionField = (
+  field: { name: string; type: string; extensionType: number; offset: number },
+  extensionDataByType: Record<number, Buffer>,
+): number | string => {
+  const extensionData = extensionDataByType[field.extensionType]
+  if (!extensionData) {
+    throw new AdapterInputError({
+      message: `No extension data found for extension type '${field.extensionType}'`,
+      statusCode: 400,
+    })
+  }
+  return getFieldFromBuffer(field, extensionData)
+}
+
+const getExtensionDataByType = (buffer: Buffer, offset: number): Record<number, Buffer> => {
+  const extensionDataByType: Record<number, Buffer> = {}
+  while (offset + 4 <= buffer.length) {
+    const extensionType = buffer.readUInt16LE(offset)
+    offset += 2
+    const extensionLength = buffer.readUInt16LE(offset)
+    offset += 2
+    const extensionData = buffer.slice(offset, offset + extensionLength)
+    extensionDataByType[extensionType] = extensionData
+    offset += extensionLength
+  }
+  if (offset !== buffer.length) {
+    throw new AdapterInputError({
+      message: `Extension data parsing did not consume entire buffer. Final offset: ${offset}, buffer length: ${buffer.length}`,
+      statusCode: 400,
+    })
+  }
+  return extensionDataByType
+}
+
+export class ExtensionTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
 
   async initialize(
@@ -56,18 +107,31 @@ export class BufferLayoutTransport extends SubscriptionTransport<BaseEndpointTyp
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const result = await fetchFieldFromBufferLayoutStateAccount({
-      stateAccountAddress: params.stateAccountAddress,
-      field: params.field,
-      rpc: this.rpc,
-    })
+    const encoding = 'base64'
+    const resp = await this.rpc
+      .getAccountInfo(params.stateAccountAddress as Address, { encoding })
+      .send()
+    const data = Buffer.from(resp.value?.data[0] as string, encoding)
+    const resultData: Record<string, number | string> = {}
+
+    if (params.baseFields?.length ?? 0 > 0) {
+      for (const baseField of params.baseFields) {
+        resultData[baseField.name] = getFieldFromBuffer(baseField, data)
+      }
+    }
+
+    if (params.extensionFields?.length ?? 0 > 0) {
+      const extensionDataByType = getExtensionDataByType(data, params.extensionDataOffset)
+
+      for (const extensionField of params.extensionFields) {
+        resultData[extensionField.name] = getExtensionField(extensionField, extensionDataByType)
+      }
+    }
 
     return {
-      data: {
-        result,
-      },
+      data: resultData,
       statusCode: 200,
-      result,
+      result: null,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -81,4 +145,4 @@ export class BufferLayoutTransport extends SubscriptionTransport<BaseEndpointTyp
   }
 }
 
-export const bufferLayoutTransport = new BufferLayoutTransport()
+export const extensionTransport = new ExtensionTransport()
