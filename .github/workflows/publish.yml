@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-          fetch-depth: 2
+          fetch-depth: 5
       - name: Set up and install dependencies
         uses: ./.github/actions/setup
         with:
@@ -41,84 +41,40 @@ jobs:
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         env:
-          UPSTREAM_BRANCH: HEAD~1
+          UPSTREAM_BRANCH: d26adff1a6985f6d45c6a800ef1d8cb6d9c52847~1
         run: |
           echo "CHANGED_ADAPTERS=$(./.github/scripts/list-changed-public-adapters.sh)" >> $GITHUB_OUTPUT
 
-  create-ecr:
-    name: Create ECR for ${{ matrix.adapter.shortName }}
+  comment-ecr-urls:
     runs-on: ubuntu-latest
-    needs: [calculate-changes]
-    if: needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}'
-    permissions: # These are needed for the configure-aws-credentials action
-      id-token: write
+    permissions:
       contents: read
-    environment: release
-    strategy:
-      max-parallel: 20
-      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
-    env:
-      ECR_URL: public.ecr.aws/chainlink
-      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
-      IMAGE_VERSION: ${{ matrix.adapter.version }}
+      pull-requests: write
+    needs: [calculate-changes] #, publish-adapter-images]
     steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - name: Create ECR for ${{ matrix.adapter.shortName }}
-        uses: ./.github/actions/create-ecrs
-        with:
-          aws-ecr-url: ${{ env.ECR_URL }}
-          aws-ecr-repo: ${{ env.ECR_REPO }}
-          aws-region: us-east-1
-          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-ecr-private: false
-
-  publish-adapter-images:
-    name: Fetch and publish ${{ matrix.adapter.shortName }}
-    runs-on: ubuntu-latest
-    needs:
-      - calculate-changes
-      - create-ecr
-    environment: release
-    permissions: # These are needed for the configure-aws-credentials action
-      id-token: write
-      contents: read
-    strategy:
-      max-parallel: 20
-      matrix: ${{fromJson(needs.calculate-changes.outputs.adapter-list)}}
-    env:
-      PUBLIC_ECR_URL: public.ecr.aws/chainlink
-      PRIVATE_ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
-      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@ececac1a45f3b08a01d2dd070d28d111c5fe6722 # v4.1.0
-        with:
-          role-to-assume: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          mask-aws-account-id: true
-      - name: Copy images with attestations from private to public ECR
+      - name: Comment ECR URLs on PR
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
-          SOURCE_IMAGE: ${{ env.PRIVATE_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
-          DEST_IMAGE: ${{ env.PUBLIC_ECR_URL }}/${{ env.ECR_REPO }}:${{ matrix.adapter.version }}
-        run: |
-          PRIVATE_ECR_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
-          echo "::add-mask::${PRIVATE_ECR_PASSWORD}"
-          PUBLIC_ECR_PASSWORD=$(aws ecr-public get-login-password --region us-east-1)
-          echo "::add-mask::${PUBLIC_ECR_PASSWORD}"
-
-          # Copy all architectures, attestations (SBOM, provenance), and signatures
-          echo "Copying versioned image: ${SOURCE_IMAGE} -> ${DEST_IMAGE}"
-          skopeo copy \
-            --all \
-            --preserve-digests \
-            --retry-times 3 \
-            --src-creds AWS:${PRIVATE_ECR_PASSWORD} \
-            --dest-creds AWS:${PUBLIC_ECR_PASSWORD} \
-            docker://${SOURCE_IMAGE} \
-            docker://${DEST_IMAGE}
+          ADAPTER_LIST: ${{ needs.calculate-changes.outputs.adapter-list }}
+        with:
+          script: |
+            const adapters = JSON.parse(process.env.ADAPTER_LIST).adapter;
+            console.log("Parsed adapters:", adapters);
+            const body = adapters.map(({shortName}) =>
+              `- https://gallery.ecr.aws/chainlink/adapters/${shortName}-adapter`
+            ).join('\n');
+            console.log("Body:", body);
+            const {owner, repo} = context.repo;
+            const commit_sha = 'd26adff1a6985f6d45c6a800ef1d8cb6d9c52847'; //context.sha;
+            console.log("commit_sha:", commit_sha);
+            const {data: prs} = await github.rest.repos.listPullRequestsAssociatedWithCommit({ owner, repo, commit_sha });
+            console.log("prs", prs);
+            const mergedPrs = prs.filter(pr => pr.merged_at);
+            console.log("merged prs", mergedPrs);
+            if (mergedPrs.length) {
+              await github.rest.issues.createComment({
+                owner, repo,
+                issue_number: mergedPrs[0].number,
+                body
+              });
+            }
