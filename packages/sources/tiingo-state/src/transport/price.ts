@@ -1,4 +1,3 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseCryptoEndpointTypes } from '../endpoint/price'
@@ -23,31 +22,23 @@ type WsTransportTypes = BaseCryptoEndpointTypes & {
   }
 }
 
-class TiingoStateWSTransport extends WebSocketTransport<WsTransportTypes> {
-  // business logic connection attempts (repeats):
-  //   5x try connecting to primary url
-  //   1x try connection to secondary url
-  override async determineUrlChange(
-    context: EndpointContext<WsTransportTypes>,
-  ): Promise<{ urlChanged: boolean; url: string }> {
+export const wsTransport = new WebSocketTransport<WsTransportTypes>({
+  url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+    // business logic connection attempts (repeats):
+    //   5x try connecting to primary url
+    //   1x try connection to secondary url
     const primaryUrl = `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
     const secondaryUrl = `${context.adapterSettings.SECONDARY_WS_API_ENDPOINT}/crypto-synth-state`
 
-    const zeroIndexedNumAttemptedConnections = this.streamHandlerInvocationsWithNoConnection - 1
+    const zeroIndexedNumAttemptedConnections =
+      urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
     const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
     const url = cycle !== URL_SELECTION_CYCLE_LENGTH - 1 ? primaryUrl : secondaryUrl
-    const urlChanged = this.currentUrl !== url
 
     logger.trace(
       `determineUrlChange: connection attempts ${zeroIndexedNumAttemptedConnections}, url: ${url}`,
     )
-    return { urlChanged, url }
-  }
-}
-
-export const wsTransport = new TiingoStateWSTransport({
-  url: (context) => {
-    return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-state`
+    return url
   },
   handlers: {
     message(message) {
