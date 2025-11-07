@@ -40,6 +40,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
     )
     return url
   },
+
   handlers: {
     message(message) {
       if (!message?.data?.length || message.messageType !== 'A' || !message.data[priceIndex]) {
@@ -62,6 +63,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       ]
     },
   },
+
   builders: {
     subscribeMessage: (params, context) => {
       return wsMessageContent(
