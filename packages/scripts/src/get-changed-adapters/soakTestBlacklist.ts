@@ -33,6 +33,7 @@ export const SoakTestBlacklist: string[] = [
   'gm-token', // Composite EA - Missing underlying source EAs
   'harmony',
   'historical-average',
+  'implied-price-test',
   'jpegd',
   'json-rpc',
   'layer2-sequencer-health',
