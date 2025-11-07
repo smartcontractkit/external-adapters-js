@@ -9,10 +9,6 @@ on:
       - 'MASTERLIST.md'
   workflow_dispatch:
 
-concurrency:
-  group: deploy-and-release
-  cancel-in-progress: false
-
 jobs:
   create-public-versions-pr:
     name: Create Public Versions PR
