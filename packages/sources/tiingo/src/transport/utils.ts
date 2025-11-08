@@ -31,7 +31,7 @@ export interface ProviderResponseBody {
   }[]
 }
 
-const logger = makeLogger('TiingoUtils')
+const logger = makeLogger('TiingoTransportUtils')
 const URL_SELECTION_CYCLE_LENGTH = 6
 
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
