@@ -1,5 +1,11 @@
 # @chainlink/wisdomtree-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#4164](https://github.com/smartcontractkit/external-adapters-js/pull/4164) [`77ae1fb`](https://github.com/smartcontractkit/external-adapters-js/commit/77ae1fb7f8666ae8b6a3456d779c6443efc1e453) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update default rate limit
+
 ## 1.0.3
 
 ### Patch Changes

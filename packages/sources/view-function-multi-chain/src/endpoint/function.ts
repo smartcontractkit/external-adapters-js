@@ -29,7 +29,20 @@ export const inputParamDefinition = {
   },
   additionalRequests: {
     description: 'Optional map of function calls',
-    type: 'object' as unknown as Record<string, any>,
+    array: true,
+    type: {
+      name: {
+        required: true,
+        type: 'string',
+        description: 'Unique name or identifier for this additional request',
+      },
+      signature: {
+        required: true,
+        type: 'string',
+        description:
+          'Function signature, formatted as human-readable ABI (e.g., balanceOf(address))',
+      },
+    },
     required: false,
   },
 } as const

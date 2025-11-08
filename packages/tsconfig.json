@@ -48,6 +48,9 @@
       "path": "./composites/implied-price"
     },
     {
+      "path": "./composites/implied-price-test"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -312,9 +315,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
-    },
-    {
       "path": "./sources/elven"
     },
     {
@@ -346,6 +346,9 @@
     },
     {
       "path": "./sources/ethgaswatch"
+    },
+    {
+      "path": "./sources/exchange-copter"
     },
     {
       "path": "./sources/expand-network"
@@ -415,6 +418,9 @@
     },
     {
       "path": "./sources/hashnote"
+    },
+    {
+      "path": "./sources/hastra"
     },
     {
       "path": "./sources/icap"
@@ -498,10 +504,10 @@
       "path": "./sources/nav-consulting"
     },
     {
-      "path": "./sources/nav-generic"
+      "path": "./sources/nav-fund-services"
     },
     {
-      "path": "./sources/nav-libre"
+      "path": "./sources/nav-generic"
     },
     {
       "path": "./sources/ncfx"
@@ -601,6 +607,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/streamex"
     },
     {
       "path": "./sources/superstate"

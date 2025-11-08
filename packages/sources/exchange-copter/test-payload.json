@@ -1,0 +1,10 @@
+{
+  "requests": [
+    {
+      "accountName": "Arsx Base Testnet"
+    },
+    {
+      "accountName": "Worldchain Base Testnet"
+    }
+  ]
+}
