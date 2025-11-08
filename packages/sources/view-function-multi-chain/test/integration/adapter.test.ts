@@ -70,12 +70,8 @@ describe('execute', () => {
         additionalRequests: [
           {
             name: 'decimals',
-        additionalRequests: [
-          {
-            name: 'decimals',
             signature: 'function decimals() view returns (uint8)',
           },
-        ],
         ],
       }
       mockETHMainnetContractCallResponseSuccess()

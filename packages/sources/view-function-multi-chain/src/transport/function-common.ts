@@ -101,8 +101,8 @@ export class MultiChainFunctionTransport<
     return {
       data: combinedData,
       statusCode: 200,
-      result: mainResult.value.result,
-      timestamps: mainResult.value.timestamps,
+      result: mainResult.result,
+      timestamps: mainResult.timestamps,
     }
   }
 
@@ -196,48 +196,6 @@ export class MultiChainFunctionTransport<
 
     const settled: [string, string][] = await Promise.all(additionalRequests.map(processNested))
     return Object.fromEntries(settled)
-  }
-
-  async getDecimals(address: string, networkName: string) {
-    if (!ethers.isAddress(address)) throw new Error('Invalid address')
-
-    const provider = this.providers?.[networkName]
-    if (!provider) throw new Error(`No provider for network: ${networkName}`)
-
-    const abi = ['function decimals() view returns (uint8)']
-    const token = new ethers.Contract(address, abi, provider)
-
-    try {
-      const decimals = await token.decimals()
-      return Number(decimals)
-    } catch (err) {
-      if (err instanceof Error) {
-        console.warn(`Failed to fetch decimals for ${address}:`, err.message)
-      }
-    }
-
-    return results
-  }
-
-  async getDecimals(address: string, networkName: string) {
-    if (!ethers.isAddress(address)) throw new Error('Invalid address')
-
-    const provider = this.providers?.[networkName]
-    if (!provider) throw new Error(`No provider for network: ${networkName}`)
-
-    const abi = ['function decimals() view returns (uint8)']
-    const token = new ethers.Contract(address, abi, provider)
-
-    try {
-      const decimals = await token.decimals()
-      return Number(decimals)
-    } catch (err) {
-      if (err instanceof Error) {
-        console.warn(`Failed to fetch decimals for ${address}:`, err.message)
-      }
-    }
-
-    return results
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
