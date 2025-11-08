@@ -7912,8 +7912,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
