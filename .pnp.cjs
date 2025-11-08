@@ -9135,7 +9135,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
