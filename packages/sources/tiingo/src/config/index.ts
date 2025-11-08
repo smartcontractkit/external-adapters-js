@@ -8,7 +8,7 @@ export const config = new AdapterConfig(
       type: 'string',
     },
     API_KEY: {
-      description: 'API key for tiingo, valid for both all endpoints',
+      description: 'API key for tiingo, valid for all endpoints',
       type: 'string',
       required: true,
       sensitive: true,
