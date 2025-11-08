@@ -3983,6 +3983,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/exchange-copter-adapter@workspace:packages/sources/exchange-copter":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/exchange-copter-adapter@workspace:packages/sources/exchange-copter"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/expand-network-adapter@workspace:packages/sources/expand-network":
   version: 0.0.0-use.local
   resolution: "@chainlink/expand-network-adapter@workspace:packages/sources/expand-network"
@@ -3998,7 +4011,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/external-adapter-framework@npm:2.8.0":
+"@chainlink/external-adapter-framework@npm:2.8.0, @chainlink/external-adapter-framework@npm:^2.8.0":
   version: 2.8.0
   resolution: "@chainlink/external-adapter-framework@npm:2.8.0"
   dependencies:
@@ -4566,6 +4579,20 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/implied-price-test-adapter@workspace:packages/composites/implied-price-test":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/implied-price-test-adapter@workspace:packages/composites/implied-price-test"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:^2.8.0"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    decimal.js: "npm:^10.3.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft

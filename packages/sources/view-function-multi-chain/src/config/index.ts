@@ -13,6 +13,12 @@ export const config = new AdapterConfig({
     required: false,
     default: '',
   },
+  GROUP_SIZE: {
+    description:
+      'Number of requests to execute asynchronously before the adapter waits to execute the next group of requests.',
+    type: 'number',
+    default: 10,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

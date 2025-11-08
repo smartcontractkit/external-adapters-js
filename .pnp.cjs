@@ -75,6 +75,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/implied-price"\
     },\
     {\
+      "name": "@chainlink/implied-price-test-adapter",\
+      "reference": "workspace:packages/composites/implied-price-test"\
+    },\
+    {\
       "name": "@chainlink/linear-finance-adapter",\
       "reference": "workspace:packages/composites/linear-finance"\
     },\
@@ -485,6 +489,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/ethgaswatch-adapter",\
       "reference": "workspace:packages/sources/ethgaswatch"\
+    },\
+    {\
+      "name": "@chainlink/exchange-copter-adapter",\
+      "reference": "workspace:packages/sources/exchange-copter"\
     },\
     {\
       "name": "@chainlink/expand-network-adapter",\
@@ -1062,6 +1070,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
+    ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
     ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
@@ -1096,6 +1105,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
+    ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
@@ -6903,6 +6913,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/exchange-copter-adapter", [\
+      ["workspace:packages/sources/exchange-copter", {\
+        "packageLocation": "./packages/sources/exchange-copter/",\
+        "packageDependencies": [\
+          ["@chainlink/exchange-copter-adapter", "workspace:packages/sources/exchange-copter"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/expand-network-adapter", [\
       ["workspace:packages/sources/expand-network", {\
         "packageLocation": "./packages/sources/expand-network/",\
@@ -7549,6 +7574,22 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/implied-price-test-adapter", [\
+      ["workspace:packages/composites/implied-price-test", {\
+        "packageLocation": "./packages/composites/implied-price-test/",\
+        "packageDependencies": [\
+          ["@chainlink/implied-price-test-adapter", "workspace:packages/composites/implied-price-test"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.4.3"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
