@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/exchange-copter-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink exchange-copter adapter.",
   "keywords": [
     "Chainlink",
