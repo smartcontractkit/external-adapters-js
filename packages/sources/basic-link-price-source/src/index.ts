@@ -5,10 +5,10 @@ import { linkEth, linkUsdc } from './endpoint' // Ensure this exports the endpoi
 
 export const adapter = new PriceAdapter({
   // Switch to PriceAdapter
-  defaultEndpoint: linkEth.name,
+  defaultEndpoint: linkUsdc.name,
   name: 'BASIC_LINK-PRICE-SOURCE',
   config,
-  endpoints: [linkEth, linkUsdc],
+  endpoints: [linkUsdc, linkEth],
   // includes: [...] // Optional: Add if you have an includes.json for inverse pairs (e.g., ETH/LINK as 1 / LINK/ETH)
 })
 

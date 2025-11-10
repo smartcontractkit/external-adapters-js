@@ -1,16 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  ETH_RPC_URL: {
-    description: 'RPC URL for Ethereum Mainnet',
+  RPC_URL_ETHEREUM: {
     type: 'string',
-    required: true,
+    description: 'Ethereum RPC URL',
+    default: 'https://ethereum-rpc.publicnode.com',
   },
-  ARB_RPC_URL: {
-    description: 'RPC URL for Arbitrum One',
+  RPC_URL_ARBITRUM: {
     type: 'string',
-    required: true,
+    description: 'Arbitrum RPC URL',
+    default: 'https://arbitrum-one-rpc.publicnode.com',
   },
-  BACKGROUND_EXECUTE_MS: AdapterConfig.DEFAULT_BACKGROUND_EXECUTE_MS_WS,
-  // Remove API_ENDPOINT if not using off-chain
 })
