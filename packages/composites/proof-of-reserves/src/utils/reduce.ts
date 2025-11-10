@@ -113,19 +113,28 @@ export const runReduceAdapter = async (
         })
       }
       break
-    case viewFunctionMultiChain.name:
-      if (!viewFunctionIndexerResultDecimals) {
+    case viewFunctionMultiChain.name: {
+      let decimalsOffset: number
+
+      const decimalsHex = input.data.decimals
+      if (decimalsHex != null) {
+        decimalsOffset = 18 - Number(decimalsHex)
+      } else if (viewFunctionIndexerResultDecimals != null) {
+        decimalsOffset = 18 - Number(viewFunctionIndexerResultDecimals)
+      } else {
         throw new Error(
-          'viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer',
+          `Missing decimals: neither input.data.decimals nor viewFunctionIndexerResultDecimals provided`,
         )
       }
+
       return returnParsedUnits(
         input.jobRunID,
         parseHexToBigInt(input.data.result).toString(),
-        18 - (viewFunctionIndexerResultDecimals as number),
+        decimalsOffset,
         false,
         18,
       )
+    }
   }
 
   const next = {
