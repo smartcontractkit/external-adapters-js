@@ -1,17 +1,12 @@
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterName, marketAdapters } from '../config/adapters'
+import { marketAdapters } from '../config/adapters'
 import type { MarketStatusEndpointTypes } from '../endpoint/market-status'
 import { inputParameters } from '../endpoint/market-status'
+import type { MarketStatusResult } from './base-market-status'
 import { BaseMarketStatusTransport } from './base-market-status'
 
 const logger = makeLogger('MarketStatusTransport')
-
-type MarketStatusResult = {
-  marketStatus: MarketStatus
-  providerIndicatedTimeUnixMs: number
-  source?: AdapterName
-}
 
 type RequestParams = typeof inputParameters.validated
 
@@ -43,6 +38,7 @@ export class MarketStatusTransport extends BaseMarketStatusTransport<MarketStatu
 
     return {
       marketStatus: MarketStatus.UNKNOWN,
+      statusString: MarketStatus[MarketStatus.UNKNOWN],
       providerIndicatedTimeUnixMs: Date.now(),
     }
   }

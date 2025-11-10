@@ -9,6 +9,7 @@ export const mockTradinghoursOpen = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 2,
+        statusString: 'OPEN',
       },
     })
 }
@@ -22,6 +23,7 @@ export const mockTradinghoursClosed = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 1,
+        statusString: 'CLOSED',
       },
     })
 }
@@ -35,6 +37,7 @@ export const mockTradinghoursUnknown = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
     })
 }
@@ -55,6 +58,7 @@ export const mockNCFXOpen = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 2,
+        statusString: 'OPEN',
       },
     })
 }
@@ -68,6 +72,7 @@ export const mockNCFXUnknown = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
     })
 }
@@ -88,6 +93,7 @@ export const mockFinnhubSecondaryOpen = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 2,
+        statusString: 'OPEN',
       },
     })
 }
@@ -101,6 +107,7 @@ export const mockFinnhubSecondaryClosed = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 1,
+        statusString: 'CLOSED',
       },
     })
 }
@@ -114,6 +121,7 @@ export const mockFinnhubSecondaryUnknown = (market: string): nock.Scope => {
       statusCode: 200,
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
     })
 }

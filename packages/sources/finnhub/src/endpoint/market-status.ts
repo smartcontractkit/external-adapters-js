@@ -1,6 +1,7 @@
 import {
   MarketStatusEndpoint,
   MarketStatusResultResponse,
+  marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
@@ -16,6 +17,7 @@ const getAllMarketOptions = (): string[] => {
 }
 
 const inputParameters = new InputParameters({
+  ...marketStatusEndpointInputParametersDefinition,
   market: {
     aliases: [],
     type: 'string',

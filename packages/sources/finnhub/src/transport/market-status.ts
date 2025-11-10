@@ -70,17 +70,17 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
       // Set marketStatus to unknown if allNull is true, otherwise parse normally
       const marketStatus = allNull ? MarketStatus.UNKNOWN : parseMarketStatus(res.data?.session)
 
-      const response: any = {
+      const response = {
         result: marketStatus,
         data: {
           result: marketStatus,
+          statusString: MarketStatus[marketStatus],
         },
-      }
-
-      if (res.data?.t) {
-        response.timestamps = {
-          providerIndicatedTimeUnixMs: new Date(res.data.t * 1000).getTime(),
-        }
+        timestamps: res.data?.t
+          ? {
+              providerIndicatedTimeUnixMs: new Date(res.data.t * 1000).getTime(),
+            }
+          : undefined,
       }
 
       return {

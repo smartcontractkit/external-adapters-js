@@ -3,15 +3,10 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterName, marketAdapters } from '../config/adapters'
 import type { MultiMarketStatusEndpointTypes } from '../endpoint/multi-market-status'
 import { inputParameters } from '../endpoint/multi-market-status'
+import type { MarketStatusResult } from './base-market-status'
 import { BaseMarketStatusTransport } from './base-market-status'
 
 const logger = makeLogger('MarketStatusTransport')
-
-type MarketStatusResult = {
-  marketStatus: MarketStatus
-  providerIndicatedTimeUnixMs: number
-  source?: AdapterName
-}
 
 type RequestParams = typeof inputParameters.validated
 
@@ -26,6 +21,7 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
       market,
       source: adapterName,
       marketStatus: response.marketStatus,
+      statusString: response.statusString,
       providerIndicatedTimeUnixMs: response.providerIndicatedTimeUnixMs,
     }
   }
@@ -56,6 +52,7 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     ) {
       return {
         marketStatus: MarketStatus.OPEN,
+        statusString: MarketStatus[MarketStatus.OPEN],
         providerIndicatedTimeUnixMs: Date.now(),
       }
     }
@@ -68,6 +65,7 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     ) {
       return {
         marketStatus: MarketStatus.CLOSED,
+        statusString: MarketStatus[MarketStatus.CLOSED],
         providerIndicatedTimeUnixMs: Date.now(),
       }
     }
@@ -83,6 +81,7 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
 
     return {
       marketStatus: MarketStatus.UNKNOWN,
+      statusString: MarketStatus[MarketStatus.UNKNOWN],
       providerIndicatedTimeUnixMs: Date.now(),
     }
   }

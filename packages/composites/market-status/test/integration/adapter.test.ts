@@ -54,6 +54,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 2,
+        statusString: 'OPEN',
         source: 'TRADINGHOURS',
       },
       result: 2,
@@ -74,6 +75,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 1,
+        statusString: 'CLOSED',
         source: 'TRADINGHOURS',
       },
       result: 1,
@@ -95,6 +97,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 2,
+        statusString: 'OPEN',
         source: 'NCFX',
       },
       result: 2,
@@ -116,6 +119,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 2,
+        statusString: 'OPEN',
         source: 'NCFX',
       },
       result: 2,
@@ -137,6 +141,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
       result: 0,
       statusCode: 200,
@@ -157,6 +162,7 @@ describe('execute', () => {
     expect(response.json()).toEqual({
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
       result: 0,
       statusCode: 200,
@@ -182,6 +188,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
+          statusString: 'OPEN',
           source: 'TRADINGHOURS',
         },
         result: 2,
@@ -202,6 +209,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
+          statusString: 'OPEN',
           source: 'FINNHUB_SECONDARY',
         },
         result: 2,
@@ -239,6 +247,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
+          statusString: 'OPEN',
         },
         result: 2,
         statusCode: 200,
@@ -269,6 +278,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 0,
+          statusString: 'UNKNOWN',
         },
         result: 0,
         statusCode: 200,
@@ -297,6 +307,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 1,
+          statusString: 'CLOSED',
         },
         result: 1,
         statusCode: 200,
@@ -327,6 +338,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 1,
+          statusString: 'CLOSED',
         },
         result: 1,
         statusCode: 200,
@@ -357,6 +369,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 0,
+          statusString: 'UNKNOWN',
         },
         result: 0,
         statusCode: 200,
@@ -387,6 +400,7 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
+          statusString: 'OPEN',
         },
         result: 2,
         statusCode: 200,
