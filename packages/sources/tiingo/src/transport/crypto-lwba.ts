@@ -1,5 +1,5 @@
 import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
-import { TiingoWebsocketTransport, wsMessageContent } from './utils'
+import { TiingoWebsocketTransport, wsMessageContent, wsSelectUrl } from './utils'
 
 interface Message {
   service: string
@@ -27,10 +27,16 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 export const transport: TiingoWebsocketTransport<WsTransportTypes> =
   new TiingoWebsocketTransport<WsTransportTypes>({
-    url: (context) => {
+    url: (context, _desiredSubs, urlConfigFunctionParameters) => {
       transport.apiKey = context.adapterSettings.API_KEY
-      return `${context.adapterSettings.WS_API_ENDPOINT}/crypto-synth-top`
+      return wsSelectUrl(
+        context.adapterSettings.WS_API_ENDPOINT,
+        context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
+        'crypto-synth-top',
+        urlConfigFunctionParameters,
+      )
     },
+
     handlers: {
       message(message) {
         if (!message?.data?.length || message.messageType !== 'A') {
@@ -55,6 +61,7 @@ export const transport: TiingoWebsocketTransport<WsTransportTypes> =
         ]
       },
     },
+
     builders: {
       subscribeMessage: (params) => {
         return wsMessageContent('subscribe', transport.apiKey, 4, params.base, params.quote)
