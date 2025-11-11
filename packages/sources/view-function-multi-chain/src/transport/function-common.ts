@@ -97,7 +97,11 @@ export class MultiChainFunctionTransport<
         network,
         resultField,
       }),
-      this._processNestedDataRequest(additionalRequests, address, network),
+      this._processNestedDataRequest({
+        additionalRequests,
+        parentAddress: address,
+        parentNetwork: network,
+      }),
     ])
 
     const combinedData = { result: mainResult.result, ...nestedResultOutcome }
@@ -164,11 +168,15 @@ export class MultiChainFunctionTransport<
     return { result, timestamps }
   }
 
-  private async _processNestedDataRequest(
-    additionalRequests: AdditionalRequest[] | undefined,
-    parentAddress: string,
-    parentNetwork: string,
-  ): Promise<Record<string, string>> {
+  private async _processNestedDataRequest({
+    additionalRequests,
+    parentAddress,
+    parentNetwork,
+  }: {
+    additionalRequests?: AdditionalRequest[]
+    parentAddress: string
+    parentNetwork: string
+  }): Promise<Record<string, string>> {
     if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
       return {}
     }
