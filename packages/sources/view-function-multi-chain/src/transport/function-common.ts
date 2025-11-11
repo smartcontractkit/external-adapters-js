@@ -34,6 +34,10 @@ export type HexResultPostProcessor = (
   resultField?: string | undefined,
 ) => string
 
+type FunctionEndpointParams = TypeFromDefinition<FunctionEndpointTypes['Parameters']>
+
+type AdditionalRequest = FunctionEndpointParams['additionalRequests'][number]
+
 export class MultiChainFunctionTransport<
   T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
@@ -161,12 +165,7 @@ export class MultiChainFunctionTransport<
   }
 
   private async _processNestedDataRequest(
-    additionalRequests:
-      | Array<{
-          name: string
-          signature: string
-        }>
-      | undefined,
+    additionalRequests: AdditionalRequest[] | undefined,
     parentAddress: string,
     parentNetwork: string,
   ): Promise<Record<string, string>> {
@@ -177,7 +176,7 @@ export class MultiChainFunctionTransport<
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
-      async (req: { name: string; signature: string }): Promise<[string, string]> => {
+      async (req: AdditionalRequest): Promise<[string, string]> => {
         const key = req.name
         try {
           const nestedParam = {
