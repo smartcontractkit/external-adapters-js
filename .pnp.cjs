@@ -8820,7 +8820,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/solana-functions/",\
         "packageDependencies": [\
           ["@chainlink/solana-functions-adapter", "workspace:packages/sources/solana-functions"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.10.0"],\
           ["@coral-xyz/anchor", "npm:0.31.1"],\
           ["@solana/addresses", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/buffer-layout", "npm:4.0.1"],\

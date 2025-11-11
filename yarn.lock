@@ -5690,7 +5690,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/solana-functions-adapter@workspace:packages/sources/solana-functions"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@chainlink/external-adapter-framework": "npm:2.10.0"
     "@coral-xyz/anchor": "npm:^0.31.1"
     "@solana/addresses": "npm:^3.0.2"
     "@solana/buffer-layout": "npm:^4.0.1"
