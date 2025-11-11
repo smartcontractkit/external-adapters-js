@@ -1,5 +1,19 @@
 # @chainlink/ea-scripts
 
+## 2.8.11
+
+### Patch Changes
+
+- [#4209](https://github.com/smartcontractkit/external-adapters-js/pull/4209) [`1a70ddd`](https://github.com/smartcontractkit/external-adapters-js/commit/1a70dddf95f43373f374a6bf6aa80721cbc62674) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused generate-image-name script
+
+- [#4181](https://github.com/smartcontractkit/external-adapters-js/pull/4181) [`71a06dc`](https://github.com/smartcontractkit/external-adapters-js/commit/71a06dc06dabd06a8f0f6aa51a13fa92ff22b87f) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused packages/scripts/src/gha
+
+- [#4191](https://github.com/smartcontractkit/external-adapters-js/pull/4191) [`cba26f1`](https://github.com/smartcontractkit/external-adapters-js/commit/cba26f1a0afe54ecaa7f51a580110ff4aa4d0d08) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Delete dxfeed 2nd
+
+- [#4212](https://github.com/smartcontractkit/external-adapters-js/pull/4212) [`0e3d1ed`](https://github.com/smartcontractkit/external-adapters-js/commit/0e3d1ed8ab2ee518e1af0b201fb094e82e34510e) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused healthchecks script
+
+- [#4210](https://github.com/smartcontractkit/external-adapters-js/pull/4210) [`326237c`](https://github.com/smartcontractkit/external-adapters-js/commit/326237c990dcf8486b92509ddcdeb84393905ad1) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused generate-release-notes script
+
 ## 2.8.10
 
 ### Patch Changes
