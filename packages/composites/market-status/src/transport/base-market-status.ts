@@ -15,8 +15,9 @@ import { inputParameters } from '../endpoint/market-status'
 
 const logger = makeLogger('BaseMarketStatusTransport')
 
-type MarketStatusResult = {
-  marketStatus: MarketStatus
+export type MarketStatusResult = {
+  marketStatus: MarketStatusResultResponse['Result']
+  statusString: string
   providerIndicatedTimeUnixMs: number
   source?: AdapterName
 }
@@ -52,6 +53,7 @@ export abstract class BaseMarketStatusTransport<
       response = {
         data: {
           result: result.marketStatus,
+          statusString: result.statusString,
           source: result.source,
         },
         result: result.marketStatus,
@@ -108,6 +110,8 @@ export abstract class BaseMarketStatusTransport<
       if (resp.response.status === 200) {
         return {
           marketStatus: resp.response.data?.result ?? MarketStatus.UNKNOWN,
+          statusString:
+            resp.response.data?.data?.statusString ?? MarketStatus[MarketStatus.UNKNOWN],
           providerIndicatedTimeUnixMs:
             resp.response.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
           source: adapterName,
@@ -123,6 +127,7 @@ export abstract class BaseMarketStatusTransport<
 
     return {
       marketStatus: MarketStatus.UNKNOWN,
+      statusString: MarketStatus[MarketStatus.UNKNOWN],
       providerIndicatedTimeUnixMs: Date.now(),
     }
   }

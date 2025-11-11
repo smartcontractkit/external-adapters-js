@@ -104,6 +104,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             result: marketStatus,
             data: {
               result: marketStatus,
+              statusString: MarketStatus[marketStatus],
             },
           },
         },

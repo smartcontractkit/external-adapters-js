@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/iex'
-import { TiingoWebsocketTransport } from './utils'
+import { TiingoWebsocketTransport, wsSelectUrl } from './utils'
 
 const logger = makeLogger('TiingoWebsocketTransport')
 
@@ -32,9 +32,14 @@ const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: n
 
 export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
   new TiingoWebsocketTransport<WsTransportTypes>({
-    url: (context) => {
+    url: (context, _desiredSubs, urlConfigFunctionParameters) => {
       wsTransport.apiKey = context.adapterSettings.API_KEY
-      return `${context.adapterSettings.WS_API_ENDPOINT}/iex`
+      return wsSelectUrl(
+        context.adapterSettings.WS_API_ENDPOINT,
+        context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
+        'iex',
+        urlConfigFunctionParameters,
+      )
     },
 
     handlers: {
