@@ -37,6 +37,7 @@ add_changeset_deps() {
   packages="$1"
   {
     for package in $packages; do
+      echo $package
       pattern="^'$package': (major|minor|patch)\$"
       for changeset_file in $(git grep -lE "$pattern" .changeset); do
         get_packages_from_changeset_files "$changeset_file"
