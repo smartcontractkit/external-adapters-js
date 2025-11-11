@@ -6,8 +6,9 @@ exports[`execute price endpoint should return success 1`] = `
     "ask": 1.14816,
     "bid": 1.14813,
     "mid": 1.14814,
+    "result": 1.14814,
   },
-  "result": null,
+  "result": 1.14814,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
