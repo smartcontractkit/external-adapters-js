@@ -34,6 +34,10 @@ export type HexResultPostProcessor = (
   resultField?: string | undefined,
 ) => string
 
+type FunctionEndpointParams = TypeFromDefinition<FunctionEndpointTypes['Parameters']>
+
+type AdditionalRequest = FunctionEndpointParams['additionalRequests'][number]
+
 export class MultiChainFunctionTransport<
   T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
@@ -93,7 +97,11 @@ export class MultiChainFunctionTransport<
         network,
         resultField,
       }),
-      this._processNestedDataRequest(additionalRequests, address, network),
+      this._processNestedDataRequest({
+        additionalRequests,
+        parentAddress: address,
+        parentNetwork: network,
+      }),
     ])
 
     const combinedData = { result: mainResult.result, ...nestedResultOutcome }
@@ -160,16 +168,15 @@ export class MultiChainFunctionTransport<
     return { result, timestamps }
   }
 
-  private async _processNestedDataRequest(
-    additionalRequests:
-      | Array<{
-          name: string
-          signature: string
-        }>
-      | undefined,
-    parentAddress: string,
-    parentNetwork: string,
-  ): Promise<Record<string, string>> {
+  private async _processNestedDataRequest({
+    additionalRequests,
+    parentAddress,
+    parentNetwork,
+  }: {
+    additionalRequests?: AdditionalRequest[]
+    parentAddress: string
+    parentNetwork: string
+  }): Promise<Record<string, string>> {
     if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
       return {}
     }
@@ -177,7 +184,7 @@ export class MultiChainFunctionTransport<
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
-      async (req: { name: string; signature: string }): Promise<[string, string]> => {
+      async (req: AdditionalRequest): Promise<[string, string]> => {
         const key = req.name
         try {
           const nestedParam = {
