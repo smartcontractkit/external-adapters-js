@@ -135,7 +135,7 @@ https://developers.cryptoapis.io/technical-documentation/blockchain-data/unified
 |           | `confirmations` |                           Confirmations parameter                           |         |      6      |
 |           |   `addresses`   | Array of addresses to query (this may also be under the `result` parameter) |         |             |
 
-Addresses is an an array of objects that contain the following information:
+Addresses is an array of objects that contain the following information:
 
 | Required? |   Name    |                                                            Description                                                             |                         Options                          | Defaults to |
 | :-------: | :-------: | :--------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------: | :---------: |

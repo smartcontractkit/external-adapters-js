@@ -48,6 +48,9 @@
       "path": "./composites/implied-price/tsconfig.test.json"
     },
     {
+      "path": "./composites/implied-price-test/tsconfig.test.json"
+    },
+    {
       "path": "./composites/linear-finance/tsconfig.test.json"
     },
     {
@@ -343,6 +346,9 @@
     },
     {
       "path": "./sources/ethgaswatch/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/exchange-copter/tsconfig.test.json"
     },
     {
       "path": "./sources/expand-network/tsconfig.test.json"

@@ -1,5 +1,11 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#4107](https://github.com/smartcontractkit/external-adapters-js/pull/4107) [`0486d98`](https://github.com/smartcontractkit/external-adapters-js/commit/0486d986453b7ffb9c10f79847f7b40478ed023a) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add functionality to query decimals from contract
+
 ## 1.4.3
 
 ### Patch Changes

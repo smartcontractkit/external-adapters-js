@@ -148,7 +148,7 @@ adapters:
   - name: dxdao
     version: 2.0.113
   - name: dxfeed
-    version: 2.0.39
+    version: 2.1.0
   - name: dydx-stark
     version: 2.0.31
   - name: elven
@@ -296,7 +296,7 @@ adapters:
   - name: nav-consulting
     version: 1.2.6
   - name: nav-fund-services
-    version: 1.0.0
+    version: 1.0.1
   - name: nav-generic
     version: 1.0.4
   - name: ncfx

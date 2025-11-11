@@ -48,6 +48,9 @@
       "path": "./composites/implied-price"
     },
     {
+      "path": "./composites/implied-price-test"
+    },
+    {
       "path": "./composites/linear-finance"
     },
     {
@@ -343,6 +346,9 @@
     },
     {
       "path": "./sources/ethgaswatch"
+    },
+    {
+      "path": "./sources/exchange-copter"
     },
     {
       "path": "./sources/expand-network"

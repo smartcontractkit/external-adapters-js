@@ -1,5 +1,18 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.31.0
+
+### Minor Changes
+
+- [#4109](https://github.com/smartcontractkit/external-adapters-js/pull/4109) [`f84b929`](https://github.com/smartcontractkit/external-adapters-js/commit/f84b929b2a4347ebb411ce5584a4d21e75c5ef4a) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Add support for decimals value being returned by view-function-multi-chain
+
+### Patch Changes
+
+- Updated dependencies [[`0486d98`](https://github.com/smartcontractkit/external-adapters-js/commit/0486d986453b7ffb9c10f79847f7b40478ed023a)]:
+  - @chainlink/view-function-multi-chain-adapter@1.5.0
+  - @chainlink/multi-address-list-adapter@1.0.23
+  - @chainlink/renvm-address-set-adapter@1.5.132
+
 ## 1.30.6
 
 ### Patch Changes

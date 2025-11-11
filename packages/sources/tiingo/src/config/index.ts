@@ -8,14 +8,19 @@ export const config = new AdapterConfig(
       type: 'string',
     },
     API_KEY: {
-      description: 'API key for tiingo',
+      description: 'API key for tiingo, valid for all endpoints',
       type: 'string',
       required: true,
       sensitive: true,
     },
     WS_API_ENDPOINT: {
-      description: 'websocket endpoint for tiingo',
+      description: 'Websocket endpoint for tiingo',
       default: 'wss://api.tiingo.com',
+      type: 'string',
+    },
+    SECONDARY_WS_API_ENDPOINT: {
+      description: 'Secondary websocket endpoint for tiingo',
+      default: 'wss://api.redundantstack.com',
       type: 'string',
     },
   },
