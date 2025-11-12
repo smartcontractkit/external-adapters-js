@@ -9479,7 +9479,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.10.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.15.0"],\
