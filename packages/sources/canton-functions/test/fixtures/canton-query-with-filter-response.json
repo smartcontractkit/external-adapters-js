@@ -1,0 +1,35 @@
+{
+  "result": [
+    {
+      "contractId": "22a3b7c8d0b1a9f6e5c4d3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2",
+      "templateId": "example-package-id:Main:Asset",
+      "payload": {
+        "issuer": "Alice",
+        "owner": "Bob",
+        "amount": "1500",
+        "currency": "USD",
+        "isin": "US0378331005"
+      },
+      "signatories": ["Alice"],
+      "observers": ["Bob"],
+      "agreementText": "Asset transfer agreement",
+      "createdAt": "2025-10-16T10:00:00Z"
+    },
+    {
+      "contractId": "33b4c8d9e1c2b0a7f6e5d4c3b2d1e0a9f8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3",
+      "templateId": "example-package-id:Main:Asset",
+      "payload": {
+        "issuer": "Alice",
+        "owner": "Bob",
+        "amount": "2000",
+        "currency": "USD",
+        "isin": "US0378331005"
+      },
+      "signatories": ["Alice"],
+      "observers": ["Bob"],
+      "agreementText": "Asset transfer agreement",
+      "createdAt": "2025-10-17T12:00:00Z"
+    }
+  ],
+  "status": 200
+}
