@@ -707,10 +707,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ncfx"\
     },\
     {\
-      "name": "@chainlink/nft-blue-chip-adapter",\
-      "reference": "workspace:packages/sources/nft-blue-chip"\
-    },\
-    {\
       "name": "@chainlink/nikkei-adapter",\
       "reference": "workspace:packages/sources/nikkei"\
     },\
@@ -1134,7 +1130,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
-    ["@chainlink/nft-blue-chip-adapter", ["workspace:packages/sources/nft-blue-chip"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
@@ -8160,24 +8155,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.13.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nft-blue-chip-adapter", [\
-      ["workspace:packages/sources/nft-blue-chip", {\
-        "packageLocation": "./packages/sources/nft-blue-chip/",\
-        "packageDependencies": [\
-          ["@chainlink/nft-blue-chip-adapter", "workspace:packages/sources/nft-blue-chip"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:5.8.0"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
