@@ -30,8 +30,30 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
 
 exports[`execute calculated-multi-function endpoint should fail additional data requests in case of missing signature 1`] = `
 {
-  "errorMessage": "Nested function "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
+  "errorMessage": "Function call "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
   "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return error for missing RPC url env var 1`] = `
+{
+  "errorMessage": "Function call "result" failed: AdapterError: Missing 'ARBITRUM_MAINNET_RPC_URL' or 'ARBITRUM_MAINNET_CHAIN_ID' environment variables.",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return error for missing chain id env var 1`] = `
+{
+  "errorMessage": "Function call "result" failed: AdapterError: Missing 'ARBITRUM_MAINNET_RPC_URL' or 'ARBITRUM_MAINNET_CHAIN_ID' environment variables.",
+  "statusCode": 400,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
     "providerDataRequestedUnixMs": 0,
@@ -67,7 +89,7 @@ exports[`execute calculated-multi-function endpoint should return success for di
 }
 `;
 
-exports[`execute calculated-multi-function endpoint should return success with additional data requests  1`] = `
+exports[`execute calculated-multi-function endpoint should return success with multiple data requests  1`] = `
 {
   "data": {
     "decimals": "0x0000000000000000000000000000000000000000000000000000000000000008",

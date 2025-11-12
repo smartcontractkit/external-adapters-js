@@ -194,109 +194,158 @@ describe('execute', () => {
     })
   })
 
-  describe('function endpoint', () => {
+  describe('calculated-multi-function endpoint', () => {
     it('should return success', async () => {
       const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-      }
-      mockETHMainnetContractCallResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return success with additional data requests ', async () => {
-      const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-        additionalRequests: [
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
           {
-            name: 'decimals',
-            signature: 'function decimals() view returns (uint8)',
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
           },
         ],
       }
       mockETHMainnetContractCallResponseSuccess()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success with multiple data requests ', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
+          },
+          {
+            name: 'decimals',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function decimals() view returns (uint8)',
+            network: 'ethereum_mainnet',
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('should fail additional data requests in case of missing signature', async () => {
       const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-        additionalRequests: [
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
+          },
           {
             name: 'decimals',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
             signature: '',
+            network: 'ethereum_mainnet',
           },
         ],
       }
       mockETHMainnetContractCallResponseSuccess()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(502)
     })
 
     it('should return success for different network', async () => {
       const data = {
-        contract: '0x779877a7b0d9e8603169ddbd7836e478b4624789',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ETHEREUM_GOERLI',
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x779877a7b0d9e8603169ddbd7836e478b4624789',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ETHEREUM_GOERLI',
+          },
+        ],
       }
       mockETHGoerliContractCallResponseSuccess()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('should return success with parameters', async () => {
       const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function getAnswer(uint256 roundId) external view returns (int256)',
-        inputParams: ['110680464442257317364'],
-        network: 'ethereum_mainnet',
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function getAnswer(uint256 roundId) external view returns (int256)',
+            inputParams: ['110680464442257317364'],
+            network: 'ethereum_mainnet',
+          },
+        ],
       }
       mockETHMainnetContractCallResponseSuccess()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('should return error for missing RPC url env var', async () => {
       const data = {
-        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-        function: 'function getAnswer(uint256 roundId) external view returns (int256)',
-        network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_RPC_URL is not provided
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+            signature: 'function getAnswer(uint256 roundId) external view returns (int256)',
+            network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_RPC_URL is not provided
+          },
+        ],
       }
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(400)
     })
 
     it('should return error for missing chain id env var', async () => {
       process.env.ARBITRUM_MAINNET_RPC_URL = 'http://localhost:8546'
       const data = {
-        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-        function: 'function getAnswer(uint256 roundId) external view returns (int256)',
-        network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_CHAIN_ID is not provided
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+            signature: 'function getAnswer(uint256 roundId) external view returns (int256)',
+            network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_CHAIN_ID is not provided
+          },
+        ],
       }
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(400)
     })
 
     it('should return error for invalid input', async () => {
       const data = {
-        contract: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-        function: 'symbol() view returns (string)', // missing 'function' keyword
-        network: 'ethereum_mainnet',
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+            signature: 'symbol() view returns (string)', // missing 'function' keyword
+            network: 'ethereum_mainnet',
+          },
+        ],
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
       expect(response.json()).toEqual({
         errorMessage: expect.stringMatching(
           /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
@@ -304,6 +353,7 @@ describe('execute', () => {
         statusCode: 502,
         timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
       })
+      expect(response.statusCode).toBe(502)
     })
   })
 

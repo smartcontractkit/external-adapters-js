@@ -9,19 +9,13 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes as FunctionEndpointTypes } from '../endpoint/function'
-import { BaseEndpointTypes as FunctionResponseSelectorEndpointTypes } from '../endpoint/function-response-selector'
+import { BaseEndpointTypes } from '../endpoint/calculated-multi-function'
 
-const logger = makeLogger('View Function Multi Chain')
+const logger = makeLogger('CalculatedMultiFunctionTransport')
 
-type GenericFunctionEndpointTypes = FunctionEndpointTypes | FunctionResponseSelectorEndpointTypes
+type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 
-// The `extends any ? ... : never` construct forces the compiler to distribute
-// over unions. Without it, the compiler doesn't know that T is either
-// FunctionEndpointTypes or FunctionResponseSelectorEndpointTypes.
-type RequestParams<T extends GenericFunctionEndpointTypes> = T extends any
-  ? TypeFromDefinition<T['Parameters']>
-  : never
+type FunctionCall = RequestParams['functionCalls'][number]
 
 export type RawOnchainResponse = {
   iface: ethers.Interface
@@ -29,30 +23,13 @@ export type RawOnchainResponse = {
   encodedResult: string
 }
 
-export type HexResultPostProcessor = (
-  onchainResponse: RawOnchainResponse,
-  resultField?: string | undefined,
-) => string
-
-type FunctionEndpointParams = TypeFromDefinition<FunctionEndpointTypes['Parameters']>
-
-type AdditionalRequest = FunctionEndpointParams['additionalRequests'][number]
-
-export class MultiChainFunctionTransport<
-  T extends GenericFunctionEndpointTypes,
-> extends SubscriptionTransport<T> {
-  config!: T['Settings']
+export class CalculatedMultiFunctionTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  config!: BaseEndpointTypes['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
-  hexResultPostProcessor: HexResultPostProcessor
-
-  constructor(hexResultPostProcessor: HexResultPostProcessor) {
-    super()
-    this.hexResultPostProcessor = hexResultPostProcessor
-  }
 
   async initialize(
-    dependencies: TransportDependencies<T>,
-    adapterSettings: T['Settings'],
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -60,13 +37,13 @@ export class MultiChainFunctionTransport<
     this.config = adapterSettings
   }
 
-  async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams<T>) {
-    let response: AdapterResponse<T['Response']>
+  async handleRequest(param: RequestParams) {
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
     } catch (e: unknown) {
@@ -86,31 +63,26 @@ export class MultiChainFunctionTransport<
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(param: RequestParams<T>): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network, additionalRequests, resultField } = param
+  async _handleRequest(
+    param: RequestParams,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
 
-    const [mainResult, nestedResultOutcome] = await Promise.all([
-      this._executeFunction({
-        address,
-        signature,
-        inputParams,
-        network,
-        resultField,
-      }),
-      this._processNestedDataRequest({
-        additionalRequests,
-        parentAddress: address,
-        parentNetwork: network,
-      }),
-    ])
+    const nestedResultOutcome = await this._processNestedDataRequest(param.functionCalls)
 
-    const combinedData = { result: mainResult.result, ...nestedResultOutcome }
+    const timestamps = {
+      providerDataRequestedUnixMs,
+      providerDataReceivedUnixMs: Date.now(),
+      providerIndicatedTimeUnixMs: undefined,
+    }
+
+    const result = nestedResultOutcome['result'] ?? null
 
     return {
-      data: combinedData,
+      data: nestedResultOutcome,
       statusCode: 200,
-      result: mainResult.result,
-      timestamps: mainResult.timestamps,
+      result,
+      timestamps,
     }
   }
 
@@ -121,7 +93,7 @@ export class MultiChainFunctionTransport<
     network: string
     resultField?: string
   }) {
-    const { address, signature, inputParams, network, resultField } = params
+    const { address, signature, inputParams, network } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -147,9 +119,9 @@ export class MultiChainFunctionTransport<
 
     const providerDataRequestedUnixMs = Date.now()
 
-    let encodedResult
+    let result
     try {
-      encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
+      result = await this.providers[networkName].call({ to: address, data: encoded })
     } catch (err) {
       throw new AdapterError({
         statusCode: 500,
@@ -163,56 +135,48 @@ export class MultiChainFunctionTransport<
       providerIndicatedTimeUnixMs: undefined,
     }
 
-    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, resultField)
-
     return { result, timestamps }
   }
 
-  private async _processNestedDataRequest({
-    additionalRequests,
-    parentAddress,
-    parentNetwork,
-  }: {
-    additionalRequests?: AdditionalRequest[]
-    parentAddress: string
-    parentNetwork: string
-  }): Promise<Record<string, string>> {
-    if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
+  private async _processNestedDataRequest(
+    functionCalls: FunctionCall[],
+  ): Promise<Record<string, string>> {
+    if (!Array.isArray(functionCalls) || functionCalls.length === 0) {
       return {}
     }
 
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
     const processNested = runner.wrapFunction(
-      async (req: AdditionalRequest): Promise<[string, string]> => {
+      async (req: FunctionCall): Promise<[string, string]> => {
         const key = req.name
         try {
           const nestedParam = {
-            address: parentAddress,
-            network: parentNetwork,
+            address: req.address,
+            network: req.network,
             signature: req.signature,
+            inputParams: req.inputParams,
           }
 
           const subRes = await this._executeFunction(nestedParam)
           return [key, subRes.result]
         } catch (err) {
-          throw new Error(`Nested function "${key}" failed: ${err}`)
+          const statusCode = err instanceof AdapterError ? err.statusCode : 502
+          throw new AdapterError({
+            statusCode,
+            message: `Function call "${key}" failed: ${err}`,
+          })
         }
       },
     )
 
-    const settled: [string, string][] = await Promise.all(additionalRequests.map(processNested))
+    const settled: [string, string][] = await Promise.all(functionCalls.map(processNested))
     return Object.fromEntries(settled)
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-// Export a factory function to create transport instances
-export function createMultiChainFunctionTransport<T extends GenericFunctionEndpointTypes>(
-  postProcessor: HexResultPostProcessor,
-): MultiChainFunctionTransport<T> {
-  return new MultiChainFunctionTransport<T>(postProcessor)
-}
+export const calculatedMultiFunctionTransport = new CalculatedMultiFunctionTransport()
