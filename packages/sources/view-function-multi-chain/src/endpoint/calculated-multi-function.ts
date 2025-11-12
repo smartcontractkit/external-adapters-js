@@ -1,5 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { calculatedMultiFunctionTransport } from '../transport/calculated-multi-function'
 
@@ -77,4 +81,23 @@ export const endpoint = new AdapterEndpoint({
   name: 'calculated-multi-function',
   transport: calculatedMultiFunctionTransport,
   inputParameters,
+  customInputValidation: (req): AdapterError | undefined => {
+    const functionCalls = req.requestContext.data.functionCalls
+    for (const fc of functionCalls) {
+      const networkName = fc.network.toUpperCase()
+      const networkEnvName = `${networkName}_RPC_URL`
+      const chainIdEnvName = `${networkName}_CHAIN_ID`
+
+      const rpcUrl = process.env[networkEnvName]
+      const chainId = Number(process.env[chainIdEnvName])
+
+      if (!rpcUrl || isNaN(chainId)) {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
+        })
+      }
+    }
+    return
+  },
 })

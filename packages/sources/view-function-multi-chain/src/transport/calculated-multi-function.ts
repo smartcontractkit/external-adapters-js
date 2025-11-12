@@ -102,13 +102,6 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const rpcUrl = process.env[networkEnvName]
     const chainId = Number(process.env[chainIdEnvName])
 
-    if (!rpcUrl || isNaN(chainId)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
-      })
-    }
-
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.JsonRpcProvider(rpcUrl, chainId)
     }
