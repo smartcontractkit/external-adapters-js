@@ -3,6 +3,7 @@
   "include": ["src/**/*", "**/test", "src/**/*.json"],
   "compilerOptions": {
     "target": "ESNext",
-    "noEmit": true
+    "noEmit": true,
+    "types": ["jest", "node"]
   }
 }
