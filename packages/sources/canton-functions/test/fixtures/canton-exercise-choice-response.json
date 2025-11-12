@@ -1,15 +1,17 @@
 {
-  "exerciseResult": {
-    "value": "1000",
-    "currency": "USD"
+  "result": {
+    "exerciseResult": {
+      "value": "1000",
+      "currency": "USD"
+    },
+    "events": [
+      {
+        "eventId": "event-123",
+        "contractId": "00e1f5c6d8b9a7f4e3c2d1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0",
+        "templateId": "example-package-id:Main:Asset",
+        "eventType": "ChoiceExercised"
+      }
+    ]
   },
-  "events": [
-    {
-      "eventId": "event-123",
-      "contractId": "00e1f5c6d8b9a7f4e3c2d1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0",
-      "templateId": "example-package-id:Main:Asset",
-      "eventType": "ChoiceExercised"
-    }
-  ],
   "status": 200
 }

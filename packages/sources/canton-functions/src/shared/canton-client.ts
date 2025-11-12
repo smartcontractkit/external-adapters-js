@@ -28,8 +28,14 @@ export interface Contract {
 }
 
 export interface ExerciseResult {
-  exerciseResult: any
+  completionOffset: string
   events: any[]
+  exerciseResult: any
+}
+
+export interface ExerciseResponse {
+  result: any
+  status: number
 }
 
 export class CantonClient {
@@ -109,12 +115,12 @@ export class CantonClient {
       data: payload,
     }
 
-    const response = await this.requester.request<ExerciseResult>(baseURL, requestConfig)
+    const response = await this.requester.request<ExerciseResponse>(baseURL, requestConfig)
 
     if (response.response?.status !== 200) {
       throw new Error(`Failed to exercise choice: ${response.response?.statusText}`)
     }
 
-    return response.response.data
+    return response.response.data.result
   }
 }

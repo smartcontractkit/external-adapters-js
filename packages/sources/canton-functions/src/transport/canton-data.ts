@@ -4,12 +4,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/canton-data'
-import {
-  CantonClient,
-  Contract,
-  ExerciseResult,
-  QueryContractByTemplateRequest,
-} from '../shared/canton-client'
+import { CantonClient, Contract, QueryContractByTemplateRequest } from '../shared/canton-client'
 
 const logger = makeLogger('CantonDataTransport')
 
@@ -19,7 +14,7 @@ type RequestParams = typeof inputParameters.validated
  * Result handler function type that can be used to transform the exercise result
  * into a custom response format
  */
-export type ResultHandler = (exerciseResult: ExerciseResult, params: RequestParams) => any
+export type ResultHandler = (exerciseResult: any, params: RequestParams) => any
 
 export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes> {
   cantonClient!: CantonClient
@@ -112,7 +107,7 @@ export class CantonDataTransport extends SubscriptionTransport<BaseEndpointTypes
     })
 
     const result = this.resultHandler
-      ? this.resultHandler(exerciseResult, params)
+      ? this.resultHandler(exerciseResult.exerciseResult, params)
       : exerciseResult.exerciseResult
 
     return {
