@@ -16,7 +16,7 @@ adapters:
   - name: anchor
     version: 4.0.31
   - name: anchorage
-    version: 1.0.22
+    version: 2.0.0
   - name: anyblock
     version: 2.1.13
   - name: ap-election
@@ -24,7 +24,7 @@ adapters:
   - name: apex
     version: 1.0.11
   - name: apy-finance
-    version: 2.0.113
+    version: 2.0.114
   - name: asseto-finance
     version: 1.0.2
   - name: augur
@@ -56,7 +56,7 @@ adapters:
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.4.6
+    version: 2.5.0
   - name: blocksize-capital-state
     version: 1.0.0
   - name: blockstream
@@ -66,7 +66,7 @@ adapters:
   - name: bravenewcoin
     version: 1.3.47
   - name: bsol-price
-    version: 2.2.132
+    version: 2.2.133
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -76,7 +76,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.5.2
+    version: 2.6.0
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: circuit-breaker
@@ -92,17 +92,17 @@ adapters:
   - name: coinbase-prime
     version: 1.2.23
   - name: coingecko
-    version: 2.0.42
+    version: 2.1.0
   - name: coinlore
     version: 1.3.47
   - name: coinmarketcap
-    version: 2.0.47
+    version: 2.1.0
   - name: coinmetrics
-    version: 3.9.4
+    version: 3.10.0
   - name: coinmetrics-lwba
-    version: 2.1.3
+    version: 2.2.0
   - name: coinpaprika
-    version: 2.1.21
+    version: 2.2.0
   - name: coinpaprika-state
     version: 1.0.0
   - name: coinranking
@@ -112,13 +112,13 @@ adapters:
   - name: cryptex
     version: 2.0.31
   - name: crypto-volatility-index
-    version: 1.4.28
+    version: 1.4.29
   - name: cryptoapis
     version: 1.2.47
   - name: cryptoapis-v2
     version: 1.2.47
   - name: cryptocompare
-    version: 3.3.21
+    version: 3.4.0
   - name: cryptoid
     version: 1.3.47
   - name: cryptomkt
@@ -128,15 +128,15 @@ adapters:
   - name: curve
     version: 2.0.31
   - name: curve-3pool
-    version: 3.0.113
+    version: 3.0.114
   - name: data-engine
     version: 1.0.4
   - name: deep-blue
     version: 1.0.20
   - name: defi-dozen
-    version: 1.2.132
+    version: 1.2.133
   - name: defi-pulse
-    version: 1.2.132
+    version: 1.2.133
   - name: deribit
     version: 1.2.47
   - name: deutsche-boerse
@@ -146,7 +146,7 @@ adapters:
   - name: dns-query
     version: 1.6.40
   - name: dxdao
-    version: 2.0.113
+    version: 2.0.114
   - name: dxfeed
     version: 2.1.0
   - name: dydx-stark
@@ -178,13 +178,13 @@ adapters:
   - name: fcsapi
     version: 1.2.48
   - name: finage
-    version: 2.1.0
+    version: 2.2.0
   - name: finalto
     version: 1.1.3
   - name: finnhub
-    version: 3.0.3
+    version: 3.1.0
   - name: finnhub-secondary
-    version: 0.4.5
+    version: 0.5.0
   - name: fireblocks
     version: 1.0.18
   - name: fixer
@@ -225,8 +225,10 @@ adapters:
     version: 1.1.21
   - name: hashnote
     version: 1.0.3
+  - name: hastra
+    version: 1.0.0
   - name: historical-average
-    version: 1.2.85
+    version: 1.3.0
   - name: icap
     version: 1.5.0
   - name: ice
@@ -237,6 +239,8 @@ adapters:
     version: 1.0.16
   - name: implied-price
     version: 1.4.0
+  - name: implied-price-test
+    version: 1.0.0
   - name: instruxi-sxt
     version: 2.0.8
   - name: intrinio
@@ -248,7 +252,7 @@ adapters:
   - name: json-rpc
     version: 1.3.47
   - name: kaiko
-    version: 2.2.30
+    version: 2.3.0
   - name: kaiko-state
     version: 1.1.3
   - name: layer2-sequencer-health
@@ -260,7 +264,7 @@ adapters:
   - name: lido-por
     version: 1.1.16
   - name: linear-finance
-    version: 2.3.121
+    version: 2.3.122
   - name: linkpool
     version: 1.2.47
   - name: lition
@@ -272,9 +276,9 @@ adapters:
   - name: m0
     version: 0.0.17
   - name: market-closure
-    version: 1.3.56
+    version: 1.3.57
   - name: market-status
-    version: 1.4.2
+    version: 1.5.0
   - name: medianizer
     version: 1.2.44
   - name: messari
@@ -290,7 +294,7 @@ adapters:
   - name: moore-hk
     version: 1.0.28
   - name: multi-address-list
-    version: 1.0.22
+    version: 1.0.23
   - name: mycryptoapi
     version: 1.3.47
   - name: nav-consulting
@@ -300,7 +304,7 @@ adapters:
   - name: nav-generic
     version: 1.0.4
   - name: ncfx
-    version: 4.4.6
+    version: 4.5.0
   - name: nexus-kiln
     version: 1.0.18
   - name: nft-blue-chip
@@ -342,9 +346,9 @@ adapters:
   - name: por-indexer
     version: 2.2.4
   - name: proof-of-reserves
-    version: 1.30.6
+    version: 1.31.0
   - name: renvm-address-set
-    version: 1.5.131
+    version: 1.5.132
   - name: rocket-pool
     version: 1.1.22
   - name: s3-csv-reader
@@ -352,13 +356,13 @@ adapters:
   - name: satoshitango
     version: 1.3.47
   - name: savax-price
-    version: 3.0.114
+    version: 3.0.115
   - name: secure-mint
     version: 1.0.7
   - name: securitize
     version: 1.0.2
   - name: set-token-index
-    version: 3.0.40
+    version: 3.0.41
   - name: snowflake
     version: 1.2.47
   - name: sochain
@@ -402,9 +406,9 @@ adapters:
   - name: therundown
     version: 1.3.47
   - name: tiingo
-    version: 2.8.8
+    version: 2.9.0
   - name: tiingo-state
-    version: 0.1.17
+    version: 0.2.0
   - name: token-balance
     version: 3.2.3
   - name: tp
@@ -412,7 +416,7 @@ adapters:
   - name: tradermade
     version: 2.1.29
   - name: tradinghours
-    version: 0.2.4
+    version: 0.3.0
   - name: trueusd
     version: 3.0.34
   - name: trumatic-matic-exchange-rate
@@ -430,11 +434,11 @@ adapters:
   - name: uscpi-one
     version: 1.3.47
   - name: vesper
-    version: 2.0.113
+    version: 2.0.114
   - name: view-function
     version: 3.1.18
   - name: view-function-multi-chain
-    version: 1.4.3
+    version: 1.5.0
   - name: view-starknet-latest-answer
     version: 1.0.26
   - name: wbtc-address-set
@@ -450,4 +454,4 @@ adapters:
   - name: xbto
     version: 1.3.48
   - name: xsushi-price
-    version: 2.0.113
+    version: 2.0.114
