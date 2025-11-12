@@ -747,10 +747,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/openexchangerates"\
     },\
     {\
-      "name": "@chainlink/orchid-bandwidth-adapter",\
-      "reference": "workspace:packages/sources/orchid-bandwidth"\
-    },\
-    {\
       "name": "@chainlink/paxos-adapter",\
       "reference": "workspace:packages/sources/paxos"\
     },\
@@ -1146,7 +1142,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/orchid-bandwidth-adapter", ["workspace:packages/sources/orchid-bandwidth"]],\
     ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
     ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
@@ -8373,24 +8368,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/orchid-bandwidth-adapter", [\
-      ["workspace:packages/sources/orchid-bandwidth", {\
-        "packageLocation": "./packages/sources/orchid-bandwidth/",\
-        "packageDependencies": [\
-          ["@chainlink/orchid-bandwidth-adapter", "workspace:packages/sources/orchid-bandwidth"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
