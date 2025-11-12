@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
-    "socket.io-client": "^4.8.1",
-    "tslib": "2.4.1"
+    "socket.io-client": "^4.8.1"
   }
 }

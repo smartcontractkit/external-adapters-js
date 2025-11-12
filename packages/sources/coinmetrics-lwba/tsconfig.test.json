@@ -4,6 +4,7 @@
   "compilerOptions": {
     "noEmit": false,
     "moduleResolution": "node16",
-    "module": "node16"
+    "module": "node16",
+    "types": ["jest", "node"]
   }
 }

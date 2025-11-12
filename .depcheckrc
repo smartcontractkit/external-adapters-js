@@ -1,0 +1,5 @@
+{
+  "detectiveOptions": {
+    "typescript": { "tsConfigPath": "tsconfig.test.json" }
+  }
+}
