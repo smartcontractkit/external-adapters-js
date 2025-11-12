@@ -2588,7 +2588,6 @@ __metadata:
     nock: "npm:13.5.6"
     socket.io-client: "npm:^4.8.1"
     socket.io-mock-ts: "npm:1.0.2"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2603,7 +2602,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2726,7 +2724,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2736,7 +2733,6 @@ __metadata:
   resolution: "@chainlink/apy-finance-adapter@workspace:packages/composites/apy-finance"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2755,7 +2751,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2786,7 +2781,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2799,7 +2793,6 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2812,7 +2805,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
-    fastify: "npm:^5.0.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2893,7 +2885,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2947,7 +2938,6 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     tslib: "npm:^2.3.1"
@@ -2979,7 +2969,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2994,7 +2983,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3063,7 +3051,6 @@ __metadata:
     "@types/supertest": "npm:2.0.16"
     bignumber.js: "npm:^9.0.0"
     bn.js: "npm:^5.2.0"
-    ethers: "npm:^5.5.1"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3147,7 +3134,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3189,7 +3175,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3310,7 +3295,6 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3326,7 +3310,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3354,7 +3337,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3466,7 +3448,6 @@ __metadata:
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3542,7 +3523,6 @@ __metadata:
   resolution: "@chainlink/curve-3pool-adapter@workspace:packages/composites/curve-3pool"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3582,7 +3562,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3610,7 +3589,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3637,7 +3615,6 @@ __metadata:
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/token-allocation-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3690,7 +3667,6 @@ __metadata:
     "@bitcoinerlab/secp256k1": "npm:1.1.1"
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@noble/hashes": "npm:1.4.0"
-    "@scure/base": "npm:1.1.9"
     "@scure/btc-signer": "npm:1.2.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3771,7 +3747,6 @@ __metadata:
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
     "@reduxjs/toolkit": "npm:^1.6.1"
-    "@types/fast-redact": "npm:3.0.4"
     "@types/jest": "npm:^29.5.14"
     "@types/lodash": "npm:4.17.17"
     "@types/lru-cache": "npm:5.1.1"
@@ -3781,7 +3756,6 @@ __metadata:
     "@types/pino": "npm:6.3.12"
     "@types/pino-pretty": "npm:4.7.5"
     "@types/promise-timeout": "npm:1.3.3"
-    "@types/redux-logger": "npm:3.0.13"
     "@types/remote-redux-devtools": "npm:0.5.8"
     "@types/sinon": "npm:10.0.20"
     "@types/uuid": "npm:8.3.4"
@@ -3789,7 +3763,6 @@ __metadata:
     ajv: "npm:^8.6.2"
     axios: "npm:1.9.0"
     decimal.js: "npm:^10.3.1"
-    fast-redact: "npm:^3.0.1"
     fastify: "npm:^5.0.0"
     lodash: "npm:^4.17.21"
     lru-cache: "npm:^6.0.0"
@@ -3802,7 +3775,6 @@ __metadata:
     promise-timeout: "npm:^1.3.0"
     redis: "npm:^4.0.0"
     redux: "npm:^4.1.1"
-    redux-logger: "npm:^3.0.6"
     redux-observable: "npm:^1.2.0"
     remote-redux-devtools: "npm:^0.5.16"
     rxjs: "npm:^6.6.3"
@@ -3907,7 +3879,6 @@ __metadata:
     "@types/supertest": "npm:2.0.16"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3983,7 +3954,6 @@ __metadata:
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-factories": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4083,7 +4053,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4098,7 +4067,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4286,7 +4254,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4363,7 +4330,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/ssh2-sftp-client": "npm:^9.0.5"
     csv-parse: "npm:5.5.6"
-    decimal.js: "npm:^10.5.0"
     jest: "npm:^29.7.0"
     jest-util: "npm:^29.7.0"
     nock: "npm:13.5.6"
@@ -4417,7 +4383,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4494,7 +4459,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4507,7 +4471,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4536,7 +4499,6 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
     axios: "npm:1.9.0"
-    crypto: "npm:1.0.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4555,10 +4517,8 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4571,7 +4531,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4585,7 +4544,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     axios: "npm:1.9.0"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4598,7 +4556,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4617,7 +4574,6 @@ __metadata:
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4661,7 +4617,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4674,7 +4629,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4719,7 +4673,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4748,7 +4701,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4875,9 +4827,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    csv-parse: "npm:^4.16.0"
     decimal.js: "npm:^10.3.1"
-    moment: "npm:^2.29.4"
     moment-timezone: "npm:^0.5.34"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -4935,7 +4885,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.4.7"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4948,7 +4897,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4961,7 +4909,6 @@ __metadata:
     "@chainlink/ea-reference-data-reader": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@chainlink/fcsapi-adapter": "workspace:*"
-    "@chainlink/finnhub-adapter": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     market-closure: "npm:^0.1.2"
@@ -4983,7 +4930,6 @@ __metadata:
     mock-socket: "npm:9.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5043,7 +4989,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5076,7 +5021,6 @@ __metadata:
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5089,7 +5033,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5170,7 +5113,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5263,7 +5205,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5276,7 +5217,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5344,7 +5284,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5357,7 +5296,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5397,7 +5335,6 @@ __metadata:
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinon": "npm:10.0.20"
@@ -5448,7 +5385,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5537,7 +5473,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
@@ -5570,7 +5505,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
-    object-path: "npm:^0.11.5"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5586,7 +5520,6 @@ __metadata:
     "@chainlink/proof-of-reserves-adapter": "workspace:*"
     "@renproject/interfaces": "npm:^2.5.1"
     "@renproject/ren": "npm:^2.5.1"
-    "@renproject/utils": "npm:^2.5.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -5676,7 +5609,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.14.3"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5758,7 +5690,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5774,7 +5705,6 @@ __metadata:
     "@solana/codecs-strings": "npm:^3.0.2"
     "@solana/rpc": "npm:^3.0.2"
     "@solana/spl-token": "npm:^0.4.14"
-    "@solana/web3.js": "npm:^1.95.8"
     "@types/bn.js": "npm:^5.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5828,7 +5758,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5875,7 +5804,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:14.0.6"
     starknet: "npm:6.9.0"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5904,7 +5832,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6032,7 +5959,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6078,7 +6004,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6192,7 +6117,6 @@ __metadata:
     mock-socket: "npm:9.3.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6205,7 +6129,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6251,7 +6174,6 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6345,7 +6267,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6359,7 +6280,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6373,7 +6293,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:14.0.6"
     starknet: "npm:6.9.0"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6386,7 +6305,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6401,7 +6319,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -6414,7 +6331,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -9567,7 +9483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@renproject/utils@npm:^2.5.1, @renproject/utils@npm:^2.6.0":
+"@renproject/utils@npm:^2.6.0":
   version: 2.6.0
   resolution: "@renproject/utils@npm:2.6.0"
   dependencies:
@@ -9594,7 +9510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/base@npm:1.1.9, @scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0, @scure/base@npm:~1.1.3, @scure/base@npm:~1.1.5, @scure/base@npm:~1.1.6":
+"@scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0, @scure/base@npm:~1.1.3, @scure/base@npm:~1.1.5, @scure/base@npm:~1.1.6":
   version: 1.1.9
   resolution: "@scure/base@npm:1.1.9"
   checksum: 10/f0ab7f687bbcdee2a01377fe3cd808bf63977999672751295b6a92625d5322f4754a96d40f6bd579bc367aad48ecf8a4e6d0390e70296e6ded1076f52adb16bb
@@ -11373,13 +11289,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fast-redact@npm:3.0.4":
-  version: 3.0.4
-  resolution: "@types/fast-redact@npm:3.0.4"
-  checksum: 10/d130c7c2d322e761c65ec8ecd821bf56e132672cd9de1703a53a65e051d2f43af6062040d3f0afdd48b364e1e4b29b858a748517ba9a6a7f1dab12ce7000103a
-  languageName: node
-  linkType: hard
-
 "@types/glob@npm:*":
   version: 8.1.0
   resolution: "@types/glob@npm:8.1.0"
@@ -11745,15 +11654,6 @@ __metadata:
   version: 1.2.7
   resolution: "@types/range-parser@npm:1.2.7"
   checksum: 10/95640233b689dfbd85b8c6ee268812a732cf36d5affead89e806fe30da9a430767af8ef2cd661024fd97e19d61f3dec75af2df5e80ec3bea000019ab7028629a
-  languageName: node
-  linkType: hard
-
-"@types/redux-logger@npm:3.0.13":
-  version: 3.0.13
-  resolution: "@types/redux-logger@npm:3.0.13"
-  dependencies:
-    redux: "npm:^5.0.0"
-  checksum: 10/fb8386c6a0940a3b3864039b5ceb420c5f75186e9ad2b166820e27201b3b0ca6a387bcb766d778343f69b1af768c624911e62e6bca19392e9d5b89c524ef176c
   languageName: node
   linkType: hard
 
@@ -15072,7 +14972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto@npm:1.0.1, crypto@npm:^1.0.1":
+"crypto@npm:^1.0.1":
   version: 1.0.1
   resolution: "crypto@npm:1.0.1"
   checksum: 10/087fe3165bd94c333a49e6ed66a0193911f63eac38a24f379b3001a5fe260a59c413646e53a0f67875ba13902b2686d81dc703cb2c147a4ec727dcdc04e5645e
@@ -15095,13 +14995,6 @@ __metadata:
   version: 5.5.6
   resolution: "csv-parse@npm:5.5.6"
   checksum: 10/8682bd3846d8159eb6f686423d16493fffeceeef742d947e39ea3a3fb9b4a243b41a4cfbac56d721a2f7825b01335ba9b993bf68c4817e7abee0bd20754ee78d
-  languageName: node
-  linkType: hard
-
-"csv-parse@npm:^4.16.0":
-  version: 4.16.3
-  resolution: "csv-parse@npm:4.16.3"
-  checksum: 10/b873dd2d312ac0329200f13788176bae3073862241483b0339a4777c9eddcebd9f2f48f13d02dc0baf4bc02e957f886ea03a9cb22160d70836b0017432f8fa41
   languageName: node
   linkType: hard
 
@@ -15291,13 +15184,6 @@ __metadata:
     babel-plugin-macros:
       optional: true
   checksum: 10/e5277f6268f288649503125b781a7b7a2c9b22d011139688c0b3619fe40121e600eb1f077c891938d4b2428bdb6326cc3c77a763e4b1cc681bd9666ab1bad2a1
-  languageName: node
-  linkType: hard
-
-"deep-diff@npm:^0.3.5":
-  version: 0.3.8
-  resolution: "deep-diff@npm:0.3.8"
-  checksum: 10/d995680fa7913a2d5eda1f35a2676d29d97a64ac3ab56ac8b0511725eb74afc54476a2621fa5248e8b510de0e5357c30fc09efd69459346a74ad6b61fd4594d8
   languageName: node
   linkType: hard
 
@@ -16751,7 +16637,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-redact@npm:^3.0.0, fast-redact@npm:^3.0.1, fast-redact@npm:^3.1.1":
+"fast-redact@npm:^3.0.0, fast-redact@npm:^3.1.1":
   version: 3.5.0
   resolution: "fast-redact@npm:3.5.0"
   checksum: 10/24b27e2023bd5a62f908d97a753b1adb8d89206b260f97727728e00b693197dea2fc2aa3711147a385d0ec6e713569fd533df37a4ef947e08cb65af3019c7ad5
@@ -23751,15 +23637,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux-logger@npm:^3.0.6":
-  version: 3.0.6
-  resolution: "redux-logger@npm:3.0.6"
-  dependencies:
-    deep-diff: "npm:^0.3.5"
-  checksum: 10/bf98b53288423c345c58c1cd6b166513e173389d15ddef8ba3cb40459aa2efa309fc293407f1caebcfed0e7ab4ef21c32568e0a5153689ac6d1662eba74311a2
-  languageName: node
-  linkType: hard
-
 "redux-observable@npm:^1.2.0":
   version: 1.2.0
   resolution: "redux-observable@npm:1.2.0"
@@ -23785,13 +23662,6 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.9.2"
   checksum: 10/371e4833b671193303a7dea7803c8fdc8e0d566740c78f580e0a3b77b4161da25037626900a2205a5d616117fa6ad09a4232e5a110bd437186b5c6355a041750
-  languageName: node
-  linkType: hard
-
-"redux@npm:^5.0.0":
-  version: 5.0.1
-  resolution: "redux@npm:5.0.1"
-  checksum: 10/a373f9ed65693ead58bea5ef61c1d6bef39da9f2706db3be6f84815f3a1283230ecd1184efb1b3daa7f807d8211b0181564ca8f336fc6ee0b1e2fa0ba06737c2
   languageName: node
   linkType: hard
 

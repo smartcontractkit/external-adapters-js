@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
-    "starknet": "6.9.0",
-    "tslib": "2.4.1"
+    "starknet": "6.9.0"
   }
 }

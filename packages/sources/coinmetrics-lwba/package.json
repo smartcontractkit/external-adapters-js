@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@chainlink/coinmetrics-adapter": "workspace:^",
-    "@chainlink/external-adapter-framework": "2.10.0",
-    "tslib": "2.4.1"
+    "@chainlink/external-adapter-framework": "2.10.0"
   }
 }
