@@ -540,9 +540,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/orchid-bandwidth"
-    },
-    {
       "path": "./sources/paxos"
     },
     {
