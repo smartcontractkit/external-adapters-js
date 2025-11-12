@@ -305,8 +305,6 @@ adapters:
     version: 4.5.0
   - name: nexus-kiln
     version: 1.0.18
-  - name: nft-blue-chip
-    version: 1.1.50
   - name: nftx
     version: 3.0.31
   - name: nikkei
