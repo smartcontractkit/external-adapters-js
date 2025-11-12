@@ -537,9 +537,6 @@
       "path": "./sources/openexchangerates/tsconfig.test.json"
     },
     {
-      "path": "./sources/orchid-bandwidth/tsconfig.test.json"
-    },
-    {
       "path": "./sources/paxos/tsconfig.test.json"
     },
     {
