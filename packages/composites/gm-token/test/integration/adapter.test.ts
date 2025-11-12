@@ -1,8 +1,10 @@
+import { SettingsDefinitionFromConfig } from '@chainlink/external-adapter-framework/config'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
+import { config } from '../../src/config'
 import {
   mockBlocksizeCapitalEAResponseFailure,
   mockBlocksizeCapitalEAResponseSuccess,
@@ -18,7 +20,7 @@ import {
 
 describe('GM-token price execute', () => {
   let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
+  let testAdapter: TestAdapter<SettingsDefinitionFromConfig<typeof config>>
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
