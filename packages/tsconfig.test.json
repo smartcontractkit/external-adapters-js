@@ -444,9 +444,6 @@
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
-      "path": "./sources/jpegd/tsconfig.test.json"
-    },
-    {
       "path": "./sources/json-rpc/tsconfig.test.json"
     },
     {

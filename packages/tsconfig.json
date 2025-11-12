@@ -444,9 +444,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/jpegd"
-    },
-    {
       "path": "./sources/json-rpc"
     },
     {

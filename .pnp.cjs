@@ -619,10 +619,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ion.au"\
     },\
     {\
-      "name": "@chainlink/jpegd-adapter",\
-      "reference": "workspace:packages/sources/jpegd"\
-    },\
-    {\
       "name": "@chainlink/json-rpc-adapter",\
       "reference": "workspace:packages/sources/json-rpc"\
     },\
@@ -1109,7 +1105,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
-    ["@chainlink/jpegd-adapter", ["workspace:packages/sources/jpegd"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
@@ -7656,24 +7651,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/jpegd-adapter", [\
-      ["workspace:packages/sources/jpegd", {\
-        "packageLocation": "./packages/sources/jpegd/",\
-        "packageDependencies": [\
-          ["@chainlink/jpegd-adapter", "workspace:packages/sources/jpegd"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.3.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
