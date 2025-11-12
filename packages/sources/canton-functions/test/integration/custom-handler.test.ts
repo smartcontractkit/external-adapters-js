@@ -7,7 +7,6 @@ import nock from 'nock'
 import * as process from 'process'
 import { config } from '../../src/config'
 import { inputParameters } from '../../src/endpoint/canton-data'
-import { ExerciseResult } from '../../src/shared/canton-client'
 import { CantonDataTransport, ResultHandler } from '../../src/transport/canton-data'
 import {
   TEST_TEMPLATE_ID,
@@ -34,8 +33,8 @@ describe('Canton adapter with custom result handler', () => {
     const mockDate = new Date('2025-10-14T00:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const customResultHandler: ResultHandler = (exerciseResult: ExerciseResult) => {
-      return exerciseResult.exerciseResult?.price || 0
+    const customResultHandler: ResultHandler = (exerciseResult: any) => {
+      return exerciseResult?.price || 0
     }
 
     const endpointWithCustomTransport = new AdapterEndpoint({

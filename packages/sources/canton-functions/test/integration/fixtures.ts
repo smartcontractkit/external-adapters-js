@@ -159,11 +159,13 @@ export function mockExerciseWithPriceResponse() {
   })
     .post('/v1/exercise')
     .reply(200, {
-      exerciseResult: {
-        price: 2500.5,
-        name: 'Asset Name',
+      result: {
+        exerciseResult: {
+          price: 2500.5,
+          name: 'Asset Name',
+        },
+        events: [],
       },
-      events: [],
     })
 }
 
@@ -177,9 +179,11 @@ export function mockExerciseWithoutPriceResponse(contractId: string) {
   })
     .post('/v1/exercise', (body) => body.contractId === contractId)
     .reply(200, {
-      exerciseResult: {
-        name: 'Asset Name',
+      result: {
+        exerciseResult: {
+          name: 'Asset Name',
+        },
+        events: [],
       },
-      events: [],
     })
 }

@@ -17,7 +17,7 @@ export { BaseEndpointTypes, inputParameters } from './endpoint/canton-data'
 export type {
   Contract,
   ExerciseChoiceRequest,
-  ExerciseResult,
+  ExerciseResponse,
   QueryContractByTemplateRequest,
 } from './shared/canton-client'
 export { CantonDataTransport, ResultHandler } from './transport/canton-data'
