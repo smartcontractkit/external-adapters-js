@@ -444,9 +444,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/jpegd"
-    },
-    {
       "path": "./sources/json-rpc"
     },
     {
@@ -513,9 +510,6 @@
       "path": "./sources/ncfx"
     },
     {
-      "path": "./sources/nft-blue-chip"
-    },
-    {
       "path": "./sources/nikkei"
     },
     {
@@ -541,9 +535,6 @@
     },
     {
       "path": "./sources/openexchangerates"
-    },
-    {
-      "path": "./sources/orchid-bandwidth"
     },
     {
       "path": "./sources/paxos"

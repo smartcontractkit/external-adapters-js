@@ -444,9 +444,6 @@
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
-      "path": "./sources/jpegd/tsconfig.test.json"
-    },
-    {
       "path": "./sources/json-rpc/tsconfig.test.json"
     },
     {
@@ -513,9 +510,6 @@
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
-      "path": "./sources/nft-blue-chip/tsconfig.test.json"
-    },
-    {
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
@@ -541,9 +535,6 @@
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/orchid-bandwidth/tsconfig.test.json"
     },
     {
       "path": "./sources/paxos/tsconfig.test.json"
