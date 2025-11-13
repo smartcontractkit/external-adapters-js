@@ -18,19 +18,63 @@ if [[ -z "$*" ]]; then
   exit 0
 fi
 
+get_packages_from_changeset_files() {
+  git grep -Eh "^'@chainlink/[^']*-adapter': (major|minor|patch)$" "$@" | sed -E "s#^'(@chainlink/[^']*-adapter)': (major|minor|patch).*\$#\\1#" | sort -u
+}
+
+CHANGED_PACKAGES_RECURSIVE="$(get_packages_from_changeset_files)"
+
+is_changed() {
+  package="$1"
+  echo "$CHANGED_PACKAGES_RECURSIVE" | grep -Fxq "$package"
+}
+
+add_reverse_package_deps() {
+  packages="$1"
+  {
+    for package in $packages; do
+      echo $package
+      # We need to include reverse dependencies because if a dependency is
+      # bumped, this also results in a patch bump of the dependent package.
+      # But if the dependency is not actually changed (either directly or
+      # transitively), but only included because of a requirement of
+      # `changeset version`, we don't want to include it. Otherwise almost all
+      # packages get included through common dependencies such as
+      # @chainlink/ea-test-helpers.
+      if ! is_changed $package; then
+        continue
+      fi
+      # git grep is a fast way to find candidate package.json files that probably depend on $package
+      for reverse_dep_package_file in $(git grep -l '"'"$package"'": "workspace:\*"' 'packages/*/*/package.json'); do
+        # Check to make sure the candidate package.json file actually depends on $package
+        if jq -e --arg package "$package" '[ .dependencies | select(. | has($package)) ] | length > 0' "$reverse_dep_package_file" > /dev/null; then
+          jq -r '.name' "$reverse_dep_package_file"
+        fi
+      done
+    done
+  } | sort -u
+}
+
+# Make sure CHANGED_PACKAGES_RECURSIVE contains transitive reverse dependencies.
+new_changed_packages=$(add_reverse_package_deps "$CHANGED_PACKAGES_RECURSIVE")
+while [[ "$new_changed_packages" != "$CHANGED_PACKAGES_RECURSIVE" ]]; do
+  CHANGED_PACKAGES_RECURSIVE="$new_changed_packages"
+  new_changed_packages="$(add_reverse_package_deps "$CHANGED_PACKAGES_RECURSIVE")"
+done
+
 add_package_deps() {
   packages="$1"
   {
     for package in $packages; do
       echo $package
       package_file="$(git grep -l '"name": "'"$package"'"' packages)"
-      jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/' | grep -v '@chainlink/external-adapter-framework'
+      if [[ -z "$package_file" ]]; then
+        # This package is from another repo
+        continue
+      fi
+      jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/'
     done
   } | sort -u
-}
-
-get_packages_from_changeset_files() {
-  git grep -Eh "^'@chainlink/[^']*-adapter': (major|minor|patch)$" "$@" | sed -E "s#^'(@chainlink/[^']*-adapter)': (major|minor|patch).*\$#\\1#" | sort -u
 }
 
 add_changeset_deps() {
@@ -50,6 +94,7 @@ add_deps() {
   packages="$1"
   packages=$(add_changeset_deps "$packages")
   packages=$(add_package_deps "$packages")
+  packages=$(add_reverse_package_deps "$packages")
   echo "$packages"
 }
 
