@@ -89,6 +89,21 @@ exports[`execute calculated-multi-function endpoint should return success for di
 }
 `;
 
+exports[`execute calculated-multi-function endpoint should return success with constants 1`] = `
+{
+  "data": {
+    "decimals": "18",
+    "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  },
+  "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute calculated-multi-function endpoint should return success with multiple data requests  1`] = `
 {
   "data": {
@@ -96,6 +111,20 @@ exports[`execute calculated-multi-function endpoint should return success with m
     "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return success with only constants 1`] = `
+{
+  "data": {
+    "result": "18",
+  },
+  "result": "18",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

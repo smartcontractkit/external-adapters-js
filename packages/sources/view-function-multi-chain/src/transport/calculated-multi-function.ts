@@ -17,6 +17,8 @@ type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 
 type FunctionCall = RequestParams['functionCalls'][number]
 
+type ConstantParam = RequestParams['constants'][number]
+
 export type RawOnchainResponse = {
   iface: ethers.Interface
   fnName: string
@@ -75,6 +77,8 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
       providerDataReceivedUnixMs: Date.now(),
       providerIndicatedTimeUnixMs: undefined,
     }
+
+    this.addConstantResults(param.constants, nestedResultOutcome)
 
     const result = nestedResultOutcome['result'] ?? null
 
@@ -165,6 +169,12 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
 
     const settled: [string, string][] = await Promise.all(functionCalls.map(processNested))
     return Object.fromEntries(settled)
+  }
+
+  addConstantResults(constants: ConstantParam[], data: Record<string, string>) {
+    for (const constant of constants) {
+      data[constant.name] = constant.value
+    }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
