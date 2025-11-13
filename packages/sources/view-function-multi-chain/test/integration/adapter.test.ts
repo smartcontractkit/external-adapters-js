@@ -339,6 +339,33 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
     })
 
+    it('should return success with operations', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'a',
+            value: '3',
+          },
+          {
+            name: 'b',
+            value: '5',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'multiply',
+            args: ['a', 'b'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
     it('should return error for missing RPC url env var', async () => {
       const data = {
         endpoint: 'calculated-multi-function',
