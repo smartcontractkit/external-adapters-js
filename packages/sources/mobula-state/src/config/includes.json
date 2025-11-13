@@ -2319,5 +2319,38 @@
         "inverse": false
       }
     ]
+  },
+  {
+    "from": "HYPE",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102498883",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "S",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501606",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BBSOL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
   }
 ]
