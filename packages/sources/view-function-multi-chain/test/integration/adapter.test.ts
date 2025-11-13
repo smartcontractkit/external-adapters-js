@@ -298,6 +298,47 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
     })
 
+    it('should return success with constants', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function getAnswer(uint256 roundId) external view returns (int256)',
+            inputParams: ['110680464442257317364'],
+            network: 'ethereum_mainnet',
+          },
+        ],
+        constants: [
+          {
+            name: 'decimals',
+            value: '18',
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success with only constants', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'result',
+            value: '18',
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
     it('should return error for missing RPC url env var', async () => {
       const data = {
         endpoint: 'calculated-multi-function',
