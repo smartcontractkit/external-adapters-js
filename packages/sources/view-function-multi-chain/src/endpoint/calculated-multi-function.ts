@@ -82,7 +82,7 @@ export const inputParameters = new InputParameters(
           array: true,
           type: 'string',
           description:
-            'Inputs to the expression. Can be names of other results or specific values depending on the type of operation',
+            'Inputs to the expression. Can be names of functionCalls or constants or specific values depending on the type of operation',
         },
       },
     },
@@ -117,6 +117,25 @@ export const inputParameters = new InputParameters(
           name: 'scaled_result',
           type: 'multiply',
           args: ['result', 'constant_example'],
+        },
+      ],
+    },
+    {
+      functionCalls: [
+        {
+          name: 'priceLowHigh',
+          address: '0x56f40A33e3a3fE2F1614bf82CBeb35987ac10194',
+          network: 'ethereum',
+          signature: 'function price() external view returns (uint192 low, uint192 high)',
+          inputParams: [],
+        },
+      ],
+      constants: [],
+      operations: [
+        {
+          name: 'priceLow',
+          type: 'select',
+          args: ['priceLowHigh', 'low'],
         },
       ],
     },

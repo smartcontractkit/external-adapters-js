@@ -86,9 +86,7 @@ const validateNames = ({
   argNames: string[]
   definedNames: Set<string>
 }) => {
-  for (const argName of argNames) {
-    validateName({ operationName, argName, definedNames })
-  }
+  argNames.forEach((argName) => validateName({ operationName, argName, definedNames }))
 }
 
 const validateSelect = (operation: OperationParam, params: RequestParams): void => {
