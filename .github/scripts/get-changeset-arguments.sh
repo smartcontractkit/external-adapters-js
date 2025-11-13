@@ -68,7 +68,11 @@ add_package_deps() {
     for package in $packages; do
       echo $package
       package_file="$(git grep -l '"name": "'"$package"'"' packages)"
-      jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/' | grep -v '@chainlink/external-adapter-framework'
+      if [[ -z "$package_file" ]]; then
+        # This package is from another repo
+        continue
+      fi
+      jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/'
     done
   } | sort -u
 }
