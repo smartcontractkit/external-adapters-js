@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters(
   {
     functionCalls: {
       description: 'Array view-function calls to be made to the blockchain',
-      required: true,
+      required: false,
       array: true,
       type: {
         name: {
@@ -42,6 +42,23 @@ export const inputParameters = new InputParameters(
         },
       },
     },
+    constants: {
+      description: 'Constant value to be included in the response',
+      required: false,
+      array: true,
+      type: {
+        name: {
+          type: 'string',
+          required: true,
+          description: 'Name of the constant result',
+        },
+        value: {
+          type: 'string',
+          required: true,
+          description: 'Value of the constant',
+        },
+      },
+    },
   },
   [
     {
@@ -60,6 +77,12 @@ export const inputParameters = new InputParameters(
           address: '0xc8CF6D7991f15525488b2A83Df53468D682Ba4B0',
           inputParams: [],
           network: 'ethereum',
+        },
+      ],
+      constants: [
+        {
+          name: 'constant_example',
+          value: '42',
         },
       ],
     },
