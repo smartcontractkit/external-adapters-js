@@ -14,11 +14,14 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	cache "streams-adapter/cache"
 	types "streams-adapter/common"
 	config "streams-adapter/config"
 	"streams-adapter/helpers"
+	appMetrics "streams-adapter/metrics"
+	"streams-adapter/middleware"
 )
 
 // RequestData represents the structure of incoming request data
@@ -71,6 +74,7 @@ type Server struct {
 	router              *gin.Engine
 	httpClient          *http.Client
 	subscriptionTracker sync.Map
+	metrics             *appMetrics.Metrics
 }
 
 // New creates a new HTTP server
@@ -85,8 +89,14 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 	// Create router without default middleware
 	router := gin.New()
 
+	// Initialize metrics
+	metrics := appMetrics.NewMetrics()
+
 	// Always add recovery middleware for panic handling
 	router.Use(gin.Recovery())
+
+	// Add metrics middleware to track all HTTP requests
+	router.Use(middleware.MetricsMiddleware(metrics))
 
 	// Only add logger middleware in debug mode
 	if cfg.LogLevel == "debug" {
@@ -117,6 +127,7 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 		logger:     logger.With("component", "server"),
 		router:     router,
 		httpClient: httpClient,
+		metrics:    metrics,
 	}
 
 	server.setupRoutes()
@@ -131,6 +142,9 @@ func (s *Server) setupRoutes() {
 
 	// Main adapter endpoint
 	s.router.POST("/", s.adapterHandler)
+
+	// Prometheus metrics endpoint
+	s.router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Debug endpoints (for debugging and profiling)
 	s.router.GET("/debug/cache/stats", s.cacheStatsHandler)
@@ -200,13 +214,11 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		Endpoint: reqData.Data.Endpoint,
 	}
 
+	// Set asset_pair for metrics tracking
+	middleware.SetAssetPair(c, assetPair.Base, assetPair.Quote, assetPair.Endpoint)
+
 	// Check if pre-marshaled JSON response exists in cache
 	cachedResponse := s.cache.Get(assetPair)
-
-	if s.config.LogLevel == "debug" {
-		s.logger.Debug("Returning cached response for asset pair",
-			"base", assetPair.Base, "quote", assetPair.Quote, "endpoint", assetPair.Endpoint)
-	}
 
 	// Check if observation exists in cache
 	if cachedResponse == nil {
