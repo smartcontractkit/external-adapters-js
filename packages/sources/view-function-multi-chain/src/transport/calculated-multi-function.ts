@@ -7,17 +7,16 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes } from '../endpoint/calculated-multi-function'
+import {
+  BaseEndpointTypes,
+  ConstantParam,
+  FunctionCall,
+  RequestParams,
+} from '../endpoint/calculated-multi-function'
+import { evaluateOperation } from '../utils/operations'
 
 const logger = makeLogger('CalculatedMultiFunctionTransport')
-
-type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
-
-type FunctionCall = RequestParams['functionCalls'][number]
-
-type ConstantParam = RequestParams['constants'][number]
 
 export type RawOnchainResponse = {
   iface: ethers.Interface
@@ -79,6 +78,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     }
 
     this.addConstantResults(param.constants, nestedResultOutcome)
+    this.addOperationResults(param, nestedResultOutcome)
 
     const result = nestedResultOutcome['result'] ?? null
 
@@ -174,6 +174,12 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   addConstantResults(constants: ConstantParam[], data: Record<string, string>) {
     for (const constant of constants) {
       data[constant.name] = constant.value
+    }
+  }
+
+  private addOperationResults(params: RequestParams, data: Record<string, string>) {
+    for (const { name, type, args } of params.operations) {
+      data[name] = evaluateOperation(type, args, data, params)
     }
   }
 
