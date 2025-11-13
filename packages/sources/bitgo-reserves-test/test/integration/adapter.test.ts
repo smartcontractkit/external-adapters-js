@@ -29,7 +29,7 @@ describe('execute', () => {
     jest.mock('crypto', () => ({
       createVerify: jest.fn().mockImplementation((_algo) => ({
         update: jest.fn().mockReturnThis(),
-        verify: jest.fn().mockImplementationOnce((a, b, c) => true),
+        verify: jest.fn().mockImplementationOnce(() => true),
       })),
     }))
     const adapter = (await import('../../src')).adapter

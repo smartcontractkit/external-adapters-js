@@ -1,5 +1,17 @@
 # @chainlink/tp-adapter
 
+## 1.10.0
+
+### Minor Changes
+
+- [#4130](https://github.com/smartcontractkit/external-adapters-js/pull/4130) [`07c06de`](https://github.com/smartcontractkit/external-adapters-js/commit/07c06de5dd6949675c654080de63dd6694b4348e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix a websocket connection issue
+
+## 1.9.9
+
+### Patch Changes
+
+- [#4118](https://github.com/smartcontractkit/external-adapters-js/pull/4118) [`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version
+
 ## 1.9.8
 
 ### Patch Changes

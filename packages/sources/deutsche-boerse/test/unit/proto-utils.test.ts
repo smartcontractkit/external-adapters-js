@@ -1,7 +1,10 @@
 import { create } from '@bufbuild/protobuf'
 import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
   DataSchema,
   DecimalSchema,
+  Instrument_SecurityType,
   MarketDataSchema,
   type Data,
   type Decimal,
@@ -10,8 +13,10 @@ import {
 import {
   convertNsToMs,
   decimalToNumber,
+  hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -71,4 +76,101 @@ describe('proto-utils', () => {
     expect(hasSingleOfferFrame(datWithOffer)).toBe(true)
     expect(hasSingleOfferFrame(datEmpty)).toBe(false)
   })
+
+  test('hasMidPriceSpreadFrame – with valid spread and normal rate', () => {
+    const datWithSpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4), // spread of 0.001
+          Sz: dec(1000000n, 0),
+        },
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3), // mid price of 0.577
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datWithSpread)).toBe(true)
+  })
+
+  test('hasMidPriceSpreadFrame – missing NORMAL_RATE returns false', () => {
+    const datOnlySpread: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4),
+          Sz: dec(1000000n, 0),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlySpread)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing PRICE_SPREAD returns false', () => {
+    const datOnlyNormalRate: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datOnlyNormalRate)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – empty Pxs array returns false', () => {
+    const datEmpty: Data = create(DataSchema, { Pxs: [] } as any)
+    expect(hasMidPriceSpreadFrame(datEmpty)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – missing Pxs returns false', () => {
+    const datNoArray: Data = create(DataSchema, {} as any)
+    expect(hasMidPriceSpreadFrame(datNoArray)).toBe(false)
+  })
+
+  test('hasMidPriceSpreadFrame – spread entry missing Sz returns false', () => {
+    const datNoSize: Data = create(DataSchema, {
+      Pxs: [
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.PRICE_SPREAD },
+          Px: dec(10n, -4),
+          // Sz is missing
+        },
+        {
+          Typ: Data_MDEntryPrices_MDEntryType.MID_PRICE,
+          PxTyp: { Value: Data_PriceTypeValue_PriceType.NORMAL_RATE },
+          Px: dec(577n, -3),
+        },
+      ],
+    } as any)
+
+    expect(hasMidPriceSpreadFrame(datNoSize)).toBe(false)
+  })
+})
+
+test('isFutureInstrument returns true for FUT', () => {
+  const md: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'FUT-ISIN', SecTyp: Instrument_SecurityType.FUT },
+  } as any)
+  expect(isFutureInstrument(md)).toBe(true)
+})
+
+test('isFutureInstrument returns false when SecTyp is missing or non-FUT', () => {
+  const mdMissing: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'NOSEC-ISIN' }, // no SecTyp
+  } as any)
+  const mdOther: MarketData = create(MarketDataSchema, {
+    Instrmt: { Sym: 'OTHER-ISIN', SecTyp: 0 as any }, // some non-FUT enum
+  } as any)
+  expect(isFutureInstrument(mdMissing)).toBe(false)
+  expect(isFutureInstrument(mdOther)).toBe(false)
 })

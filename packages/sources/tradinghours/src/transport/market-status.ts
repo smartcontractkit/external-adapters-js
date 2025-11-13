@@ -23,8 +23,8 @@ const marketToFinId: Record<Market, string> = {
   metals: 'US.CHNLNK.METAL',
   wti: 'US.CHNLNK.WTI',
   nyse: 'US.NYSE',
-  lse: 'GB.LSE.SETS',
-  xetra: 'DE.XETR.OTHERGERMAN',
+  lse: 'GB.LSE',
+  xetra: 'DE.XETR',
   six: 'CH.SIX',
   euronext_milan: 'IT.EURONEXT',
   euronext_paris: 'FR.EURONEXT',
@@ -104,6 +104,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
             result: marketStatus,
             data: {
               result: marketStatus,
+              statusString: MarketStatus[marketStatus],
             },
           },
         },

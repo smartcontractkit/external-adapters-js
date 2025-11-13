@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                         Options                                                          |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [eusx-price](#eusx-price-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                               Options                                                                                                |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -114,6 +114,96 @@ Request:
 {
   "data": {
     "endpoint": "sanctum-infinity"
+  }
+}
+```
+
+---
+
+## Buffer-layout Endpoint
+
+`buffer-layout` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |        Name         | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stateAccountAddress |         |        The state account address for the program         | string |         |         |            |                |
+|    ✅     |        field        |         | The name of the field to retrieve from the state account | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "buffer-layout",
+    "stateAccountAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "field": "supply"
+  }
+}
+```
+
+---
+
+## Extension Endpoint
+
+`extension` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |             Name              | Aliases |                             Description                             |   Type   |           Options            | Default | Depends On | Not Valid With |
+| :-------: | :---------------------------: | :-----: | :-----------------------------------------------------------------: | :------: | :--------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |      stateAccountAddress      |         |              The state account address for the program              |  string  |                              |         |            |                |
+|           |          baseFields           |         |       Fields to get from the base section of the account data       | object[] |                              |         |            |                |
+|    ✅     |        baseFields.name        |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
+|    ✅     |       baseFields.offset       |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
+|    ✅     |        baseFields.type        |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |      extensionDataOffset      |         | Byte offset where the extensions section starts in the account data |  number  |                              |  `166`  |            |                |
+|           |        extensionFields        |         | Fields to get from the token extension section of the account data  | object[] |                              |         |            |                |
+|    ✅     | extensionFields.extensionType |         |              The number identifying the extension type              |  number  |                              |         |            |                |
+|    ✅     |     extensionFields.name      |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
+|    ✅     |    extensionFields.offset     |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
+|    ✅     |     extensionFields.type      |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "extension",
+    "stateAccountAddress": "2HehXG149TXuVptQhbiWAWDjbbuCsXSAtLTB5wc2aajK",
+    "baseFields": [
+      {
+        "name": "supply",
+        "offset": 36,
+        "type": "uint64"
+      }
+    ],
+    "extensionDataOffset": 166,
+    "extensionFields": [
+      {
+        "extensionType": 25,
+        "name": "currentMultiplier",
+        "offset": 32,
+        "type": "float64"
+      },
+      {
+        "extensionType": 25,
+        "name": "newMultiplier",
+        "offset": 48,
+        "type": "float64"
+      },
+      {
+        "extensionType": 25,
+        "name": "activationDateTime",
+        "offset": 40,
+        "type": "int64"
+      }
+    ]
   }
 }
 ```

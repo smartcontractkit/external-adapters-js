@@ -42,11 +42,12 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       return markets.map((market) => {
         const marketStatus = parseMarketStatus(message.marketStatus[marketToNcfxMarket[market]])
         return {
-          params: { market },
+          params: { market, type: 'regular' }, // Only regular is supported
           response: {
             result: marketStatus,
             data: {
               result: marketStatus,
+              statusString: MarketStatus[marketStatus],
             },
             timestamps: {
               providerIndicatedTimeUnixMs: new Date(message.timestamp).getTime(),

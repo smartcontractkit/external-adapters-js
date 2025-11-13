@@ -1,4 +1,5 @@
 export { endpoint as aptosEndpoint } from './aptos'
 export { endpoint as aptosDfReaderEndpoint } from './aptos-df-reader'
+export { endpoint as calculatedMultiFunctionEndpoint } from './calculated-multi-function'
 export { endpoint as functionEndpoint } from './function'
 export { endpoint as functionResponseSelectorEndpoint } from './function-response-selector'

@@ -1,5 +1,33 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.4.29
+
+### Patch Changes
+
+- Updated dependencies [[`8d06b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d06b4ab8f64e0c5ecbf8e69e5a1786dc0061d77), [`bf10006`](https://github.com/smartcontractkit/external-adapters-js/commit/bf100063b8068e1ce0f3a3e4d410a0babc61c2f9)]:
+  - @chainlink/token-allocation-adapter@1.14.0
+
+## 1.4.28
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.13.26
+
+## 1.4.27
+
+### Patch Changes
+
+- Updated dependencies [[`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e)]:
+  - @chainlink/token-allocation-adapter@1.13.25
+
+## 1.4.26
+
+### Patch Changes
+
+- Updated dependencies [[`1136034`](https://github.com/smartcontractkit/external-adapters-js/commit/113603435a15a9f760ba1d16c4d70822dc358b75)]:
+  - @chainlink/token-allocation-adapter@1.13.24
+
 ## 1.4.25
 
 ### Patch Changes

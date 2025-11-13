@@ -1,6 +1,12 @@
 import nock from 'nock'
 
-export const mockTiingoEAResponseSuccess = (base): nock.Scope =>
+type JsonRpcPayload = {
+  id: number
+  method: string
+  params: Array<{ to: string; data: string }>
+}
+
+export const mockTiingoEAResponseSuccess = (base: string): nock.Scope =>
   nock('http://localhost:8081', {
     encodedQueryParams: true,
   })
@@ -75,7 +81,7 @@ export const mockTiingoEAResponseSuccess = (base): nock.Scope =>
     )
     .persist()
 
-export const mockNCFXEAResponseSuccess = (base): nock.Scope =>
+export const mockNCFXEAResponseSuccess = (base: string): nock.Scope =>
   nock('http://localhost:8082', {
     encodedQueryParams: true,
   })
@@ -150,7 +156,7 @@ export const mockNCFXEAResponseSuccess = (base): nock.Scope =>
     )
     .persist()
 
-export const mockCoinmetricsEAResponseSuccess = (base): nock.Scope =>
+export const mockCoinmetricsEAResponseSuccess = (base: string): nock.Scope =>
   nock('http://localhost:8083', {
     encodedQueryParams: true,
   })
@@ -225,7 +231,7 @@ export const mockCoinmetricsEAResponseSuccess = (base): nock.Scope =>
     )
     .persist()
 
-export const mockNCFXEAResponseFailure = (base): nock.Scope =>
+export const mockNCFXEAResponseFailure = (base: string): nock.Scope =>
   nock('http://localhost:8082', {
     encodedQueryParams: true,
   })
@@ -266,8 +272,124 @@ export const mockNCFXEAResponseFailure = (base): nock.Scope =>
     ])
     .persist()
 
-export const mockCoinmetricsEAResponseFailure = (base): nock.Scope =>
+export const mockCoinmetricsEAResponseFailure = (base: string): nock.Scope =>
   nock('http://localhost:8083', {
+    encodedQueryParams: true,
+  })
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base,
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base: 'USDC',
+        quote: 'USD',
+      },
+    })
+    .reply(500, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+
+export const mockBlocksizeCapitalEAResponseSuccess = (base: string): nock.Scope =>
+  nock('http://localhost:8084', {
+    encodedQueryParams: true,
+  })
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base,
+        quote: 'USD',
+      },
+    })
+    .reply(
+      200,
+      () => ({
+        data: {
+          ask: 15.59,
+          bid: 15.64,
+          mid: 15.61,
+        },
+        result: 15.739001535,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 2028,
+          providerDataStreamEstablishedUnixMs: 2020,
+          providerIndicatedTimeUnixMs: 1680187094577,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+    .post('/', {
+      data: {
+        endpoint: 'crypto-lwba',
+        base: 'USDC',
+        quote: 'USD',
+      },
+    })
+    .reply(
+      200,
+      () => ({
+        data: {
+          ask: 1,
+          bid: 1.002,
+          mid: 1.001,
+        },
+        result: null,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 2028,
+          providerDataStreamEstablishedUnixMs: 2020,
+          providerIndicatedTimeUnixMs: 1680187094577,
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+
+export const mockBlocksizeCapitalEAResponseFailure = (base: string): nock.Scope =>
+  nock('http://localhost:8084', {
     encodedQueryParams: true,
   })
     .post('/', {
@@ -313,16 +435,20 @@ export const mockRPCResponses = (): nock.Scope =>
   })
     .persist()
     .post('/', { method: 'eth_chainId', params: [], id: /^\d+$/, jsonrpc: '2.0' })
-    .reply(200, (_, request) => ({ jsonrpc: '2.0', id: request['id'], result: '0xa4b1' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .reply(
+      200,
+      (_, request: JsonRpcPayload) => ({ jsonrpc: '2.0', id: request['id'], result: '0xa4b1' }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .post('/', {
       method: 'eth_call',
       params: [
@@ -337,7 +463,7 @@ export const mockRPCResponses = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: JsonRpcPayload) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:
@@ -369,7 +495,7 @@ export const mockRPCResponses = (): nock.Scope =>
     })
     .reply(
       200,
-      (_, request) => ({
+      (_, request: JsonRpcPayload) => ({
         jsonrpc: '2.0',
         id: request['id'],
         result:

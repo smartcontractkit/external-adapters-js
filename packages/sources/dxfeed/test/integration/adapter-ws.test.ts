@@ -1,13 +1,13 @@
-import { mockWebSocketServer } from './fixtures'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -15,9 +15,14 @@ describe('websocket', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
 
-  const data = {
+  const stockData = {
     base: 'TSLA',
     transport: 'ws',
+  }
+
+  const quoteData = {
+    base: 'TSLA',
+    endpoint: 'stock_quotes',
   }
 
   beforeAll(async () => {
@@ -38,8 +43,9 @@ describe('websocket', () => {
     })
 
     // Send initial request to start background execute and wait for cache to be filled with result
-    await testAdapter.request(data)
-    await testAdapter.waitForCache()
+    await testAdapter.request(quoteData)
+    await testAdapter.request(stockData)
+    await testAdapter.waitForCache(2)
   })
 
   afterAll(async () => {
@@ -49,9 +55,16 @@ describe('websocket', () => {
     await testAdapter.api.close()
   })
 
-  describe('price endpoint', () => {
+  describe('stock endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(data)
+      const response = await testAdapter.request(stockData)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('quote endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(quoteData)
       expect(response.json()).toMatchSnapshot()
     })
   })

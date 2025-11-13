@@ -1,5 +1,4 @@
-import { Requester, Validator } from '@chainlink/ea-bootstrap'
-import { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import { ExecuteWithConfig, InputParameters, Requester, Validator } from '@chainlink/ea-bootstrap'
 import { ExtendedConfig } from '../config'
 
 export const supportedEndpoints = ['price']
@@ -28,7 +27,9 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
   const jobRunID = validator.validated.id
   const lastUpdated = responseInfo.lastUpdated
   const now = Date.now()
-  if (!lastUpdated || now - lastUpdated >= config.updateIntervalInMS) {
+  if (!lastUpdated) {
+    responseInfo.lastUpdated = now
+  } else if (now - lastUpdated >= config.updateIntervalInMS) {
     const amountToDeviate = (config.deviationAmount * responseInfo.result) / 100
     responseInfo.result =
       now % 2 === 0 ? responseInfo.result + amountToDeviate : responseInfo.result - amountToDeviate

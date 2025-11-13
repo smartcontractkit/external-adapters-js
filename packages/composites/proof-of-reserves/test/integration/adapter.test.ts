@@ -9,6 +9,7 @@ import {
   mockLotusSuccess,
   mockPoRindexerSuccess,
   mockViewFunctionMultiChainSuccess,
+  mockViewFunctionMultiChainSuccess2,
 } from './fixtures'
 
 describe('execute', () => {
@@ -223,7 +224,41 @@ describe('execute', () => {
       expect(response.body).toMatchSnapshot()
     })
 
-    it('view-function-multi-chain fails', async () => {
+    it('view-function-multi-chain should return success - decimals value', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'reserves',
+          protocol: 'list',
+          addresses: [''],
+          indexer: 'view_function_multi_chain',
+          indexerEndpoint: 'function',
+          indexerParams: {
+            signature: 'function getPending() public view returns (uint256)',
+            address: '0xa69b964a597435A2F938cc55FaAbe34F2A9AF278',
+            network: 'BASE',
+            data: {
+              decimals: {
+                signature: 'function decimals() view returns (uint8)',
+              },
+            },
+          },
+          disableDuplicateAddressFiltering: true,
+        },
+      }
+      mockViewFunctionMultiChainSuccess2()
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('view-function-multi-chain should fail', async () => {
       const data: AdapterRequest = {
         id: '1',
         data: {
@@ -249,7 +284,6 @@ describe('execute', () => {
         .set('Content-Type', 'application/json')
         .expect('Content-Type', /json/)
         .expect(500)
-
       expect(response.body).toMatchSnapshot()
     })
   })

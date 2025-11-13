@@ -1,5 +1,6 @@
-import { LocalPriceCache } from '../../src/transport/cache'
+import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import fs from 'fs'
+import { LocalPriceCache } from '../../src/transport/cache'
 import {
   Instrument,
   InstrumentPartialUpdate,
@@ -9,7 +10,6 @@ import {
   Utils,
 } from '../../src/transport/netdania'
 import { FullPriceUpdate } from '../../src/transport/price'
-import { LoggerFactory, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 
 const log = console.log
 const logger = {
@@ -19,6 +19,7 @@ const logger = {
   info: log,
   debug: log,
   trace: log,
+  msgPrefix: 'mock-logger',
 }
 
 const loggerFactory: LoggerFactory = {

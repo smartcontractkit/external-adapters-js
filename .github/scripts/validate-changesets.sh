@@ -8,6 +8,10 @@ has_changeset=0
 
 while IFS= read -r file
 do
+if ! [[ -f $file ]]; then
+    echo "$file was removed"
+    continue
+fi
 echo $file
 if [[ $file == packages/sources/*/src/* || $file == packages/composites/*/src/* || $file == packages/targets/*/src/* ]]; then
     # echo "This PR contains an adapter src code change."

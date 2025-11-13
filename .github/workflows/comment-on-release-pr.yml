@@ -1,0 +1,57 @@
+name: Comment on Release PR
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    branches:
+      - main
+    # The only commits that will contain changes to the masterlist will be releases
+    paths:
+      - MASTERLIST.md
+
+jobs:
+  comment-unreleased-packages:
+    name: Comment with unreleased packages
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout .changesets directory
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .changeset
+            .github
+      - name: Create list of unreleased packages
+        run: |
+          {
+            echo "UNRELEASED_PACKAGES<<EOF"
+            ./.github/scripts/get-unreleased-packages.sh
+            echo "EOF"
+          } >> $GITHUB_ENV
+      - name: Find previous comment
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: unreleased changes
+      - name: Post packages
+        if: env.UNRELEASED_PACKAGES != ''
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### The following packages have unreleased changes:
+            ${{ env.UNRELEASED_PACKAGES }}
+          edit-mode: replace
+      - name: Post empty
+        if: env.UNRELEASED_PACKAGES == ''
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### There are no packages with unreleased changes.
+          edit-mode: replace

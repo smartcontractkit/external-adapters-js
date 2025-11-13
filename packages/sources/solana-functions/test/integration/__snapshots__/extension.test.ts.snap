@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute extension should return scaled UI amount fields 1`] = `
+{
+  "data": {
+    "activationDateTime": "0",
+    "currentMultiplier": 1,
+    "newMultiplier": 1,
+    "supply": "33475471118",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
