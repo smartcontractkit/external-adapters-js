@@ -48,7 +48,7 @@ export class SSEConnectionManager {
     callbacks: SSEConnectionCallbacks,
   ): Promise<void> {
     if (this.isConnected) {
-      logger.debug('Already connected, disconnecting first')
+      logger.info('Already connected, disconnecting first')
       await this.disconnect()
     }
 
@@ -57,7 +57,7 @@ export class SSEConnectionManager {
       return
     }
 
-    logger.debug(
+    logger.info(
       `Opening SSE connection for ${pairs.length} pairs: ${pairs
         .map((p) => `${p.base}/${p.quote}`)
         .join(', ')}`,
@@ -84,7 +84,7 @@ export class SSEConnectionManager {
 
       await this.setupStream(response.data as Readable, callbacks)
       this.isConnected = true
-      logger.debug('SSE connection established')
+      logger.info('SSE connection established')
     } catch (error) {
       this.cleanup()
       logger.error(`Failed to create SSE connection: ${error}`)
@@ -94,7 +94,7 @@ export class SSEConnectionManager {
 
   async disconnect(): Promise<void> {
     if (this.currentAbortController) {
-      logger.debug('Closing SSE connection')
+      logger.info('Closing SSE connection')
     }
     this.cleanup()
   }

@@ -98,8 +98,9 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
       onData: async (eventType: string, data: string) => {
         await this.handleSSEEvent(eventType, data)
       },
-      onError: (error: Error) => {
+      onError: async (error: Error) => {
         logger.error(`SSE stream error: ${error.message}`)
+        await this.connectionManager.disconnect()
       },
       onConnectionError: async (status: number) => {
         logger.error(`SSE connection error with status: ${status}`)
