@@ -2,12 +2,14 @@ import {
   EndpointContext,
   MarketStatus,
   MarketStatusResultResponse,
+  marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 import { AdapterName } from '../config/adapters'
 import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
@@ -88,16 +90,16 @@ export abstract class BaseMarketStatusTransport<
   async sendAdapterRequest(
     context: EndpointContext<T>,
     adapterName: AdapterName,
-    market: string,
+    param: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>,
   ): Promise<MarketStatusResult> {
-    const key = `${market}:${adapterName}`
+    const key = `${adapterName}:${JSON.stringify(param)}`
     const config = {
       method: 'POST',
       baseURL: context.adapterSettings[`${adapterName}_ADAPTER_URL`],
       data: {
         data: {
           endpoint: 'market-status',
-          market,
+          ...param,
         },
       },
     }
@@ -118,11 +120,13 @@ export abstract class BaseMarketStatusTransport<
         }
       } else {
         logger.error(
-          `Request to ${adapterName} for market ${market} got status ${resp.response.status}: ${resp.response.data}`,
+          `Request to ${adapterName} ${JSON.stringify(param)} got status ${resp.response.status}: ${
+            resp.response.data
+          }`,
         )
       }
     } catch (e) {
-      logger.error(`Request to ${adapterName} for market ${market} failed: ${e}`)
+      logger.error(`Request to ${adapterName} ${JSON.stringify(param)} failed: ${e}`)
     }
 
     return {
