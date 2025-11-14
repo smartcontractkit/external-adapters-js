@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- [#4256](https://github.com/smartcontractkit/external-adapters-js/pull/4256) [`e780274`](https://github.com/smartcontractkit/external-adapters-js/commit/e7802744e399b95c3053daf9979da3c2254dd3a8) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 24/5 market status
+
 ## 3.1.1
 
 ### Patch Changes
