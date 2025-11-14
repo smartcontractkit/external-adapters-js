@@ -1,6 +1,10 @@
-import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import {
+  EndpointContext,
+  MarketStatus,
+  TwentyfourFiveMarketStatus,
+} from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { marketAdapters } from '../config/adapters'
+import { getMarketAdapters } from '../config/adapters'
 import type { MarketStatusEndpointTypes } from '../endpoint/market-status'
 import { inputParameters } from '../endpoint/market-status'
 import type { MarketStatusResult } from './base-market-status'
@@ -10,30 +14,35 @@ const logger = makeLogger('MarketStatusTransport')
 
 type RequestParams = typeof inputParameters.validated
 
+const UNKNOWN_STATUS = [MarketStatus.UNKNOWN, TwentyfourFiveMarketStatus.UNKNOWN]
+
 export class MarketStatusTransport extends BaseMarketStatusTransport<MarketStatusEndpointTypes> {
   async _handleRequest(
     context: EndpointContext<MarketStatusEndpointTypes>,
     param: RequestParams,
   ): Promise<MarketStatusResult> {
-    const market = param.market
-    const adapterNames = marketAdapters[market] ?? marketAdapters.__default
+    const adapterNames = getMarketAdapters(param.type, param.market)
 
-    const primaryResponse = await this.sendAdapterRequest(context, adapterNames.primary, market)
-    if (primaryResponse.marketStatus !== MarketStatus.UNKNOWN) {
+    const primaryResponse = await this.sendAdapterRequest(context, adapterNames.primary, param)
+    if (!UNKNOWN_STATUS.includes(primaryResponse.marketStatus)) {
       return primaryResponse
     }
 
     logger.warn(
-      `Primary adapter ${adapterNames.primary} for market ${market} returned unknown market status`,
+      `Request ${JSON.stringify(param)} to primary adapter ${
+        adapterNames.primary
+      } returned unknown market status`,
     )
 
-    const secondaryResponse = await this.sendAdapterRequest(context, adapterNames.secondary, market)
-    if (secondaryResponse.marketStatus !== MarketStatus.UNKNOWN) {
+    const secondaryResponse = await this.sendAdapterRequest(context, adapterNames.secondary, param)
+    if (!UNKNOWN_STATUS.includes(secondaryResponse.marketStatus)) {
       return secondaryResponse
     }
 
     logger.error(
-      `Secondary adapter ${adapterNames.secondary} for market ${market} returned unknown market status, defaulting to UNKNOWN`,
+      `Request ${JSON.stringify(param)} tp secondary adapter ${
+        adapterNames.secondary
+      } returned unknown market status, defaulting to UNKNOWN`,
     )
 
     return {
