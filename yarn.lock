@@ -5183,6 +5183,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
+    "@chainlink/ea-bootstrap": "workspace:*"
     axios: "npm:1.9.0"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"

@@ -8221,6 +8221,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/observation/",\
         "packageDependencies": [\
           ["@chainlink/observation", "workspace:packages/observation"],\
+          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["axios", "npm:1.9.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
