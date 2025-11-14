@@ -4,8 +4,10 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { calculatedMultiFunctionTransport } from '../transport/calculated-multi-function'
+import { validateOperations } from '../utils/operations'
 
 export const inputParameters = new InputParameters(
   {
@@ -59,6 +61,31 @@ export const inputParameters = new InputParameters(
         },
       },
     },
+    operations: {
+      description: 'Results derived from other results by applying basic operations',
+      required: false,
+      array: true,
+      type: {
+        name: {
+          required: true,
+          type: 'string',
+          description: 'Name of the derived result',
+        },
+        type: {
+          required: true,
+          type: 'string',
+          description: 'The operation or source of the derived result',
+          options: ['select', 'multiply', 'divide', 'add', 'subtract', 'average'],
+        },
+        args: {
+          required: true,
+          array: true,
+          type: 'string',
+          description:
+            'Inputs to the expression. Can be names of functionCalls or constants or specific values depending on the type of operation',
+        },
+      },
+    },
   },
   [
     {
@@ -85,6 +112,32 @@ export const inputParameters = new InputParameters(
           value: '42',
         },
       ],
+      operations: [
+        {
+          name: 'scaled_result',
+          type: 'multiply',
+          args: ['result', 'constant_example'],
+        },
+      ],
+    },
+    {
+      functionCalls: [
+        {
+          name: 'priceLowHigh',
+          address: '0x56f40A33e3a3fE2F1614bf82CBeb35987ac10194',
+          network: 'ethereum',
+          signature: 'function price() external view returns (uint192 low, uint192 high)',
+          inputParams: [],
+        },
+      ],
+      constants: [],
+      operations: [
+        {
+          name: 'priceLow',
+          type: 'select',
+          args: ['priceLowHigh', 'low'],
+        },
+      ],
     },
   ],
 )
@@ -100,13 +153,19 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
+export type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
+export type FunctionCall = RequestParams['functionCalls'][number]
+export type ConstantParam = RequestParams['constants'][number]
+export type OperationParam = RequestParams['operations'][number]
+export type OperationType = OperationParam['type']
+
 export const endpoint = new AdapterEndpoint({
   name: 'calculated-multi-function',
   transport: calculatedMultiFunctionTransport,
   inputParameters,
   customInputValidation: (req): AdapterError | undefined => {
-    const functionCalls = req.requestContext.data.functionCalls
-    for (const fc of functionCalls) {
+    const params: RequestParams = req.requestContext.data
+    for (const fc of params.functionCalls) {
       const networkName = fc.network.toUpperCase()
       const networkEnvName = `${networkName}_RPC_URL`
       const chainIdEnvName = `${networkName}_CHAIN_ID`
@@ -121,6 +180,7 @@ export const endpoint = new AdapterEndpoint({
         })
       }
     }
+    validateOperations(params)
     return
   },
 })

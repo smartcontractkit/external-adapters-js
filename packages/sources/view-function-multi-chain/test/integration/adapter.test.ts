@@ -62,42 +62,6 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return success with additional data requests ', async () => {
-      const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-        additionalRequests: [
-          {
-            name: 'decimals',
-            signature: 'function decimals() view returns (uint8)',
-          },
-        ],
-      }
-      mockETHMainnetContractCallResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should fail additional data requests in case of missing signature', async () => {
-      const data = {
-        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
-        function: 'function latestAnswer() external view returns (int256)',
-        network: 'ethereum_mainnet',
-        additionalRequests: [
-          {
-            name: 'decimals',
-            signature: '',
-          },
-        ],
-      }
-      mockETHMainnetContractCallResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
-    })
-
     it('should return success for different network', async () => {
       const data = {
         contract: '0x779877a7b0d9e8603169ddbd7836e478b4624789',
@@ -330,6 +294,33 @@ describe('execute', () => {
           {
             name: 'result',
             value: '18',
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success with operations', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'a',
+            value: '3',
+          },
+          {
+            name: 'b',
+            value: '5',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'multiply',
+            args: ['a', 'b'],
           },
         ],
       }

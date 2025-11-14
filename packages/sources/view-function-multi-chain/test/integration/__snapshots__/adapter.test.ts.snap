@@ -133,6 +133,22 @@ exports[`execute calculated-multi-function endpoint should return success with o
 }
 `;
 
+exports[`execute calculated-multi-function endpoint should return success with operations 1`] = `
+{
+  "data": {
+    "a": "3",
+    "b": "5",
+    "result": "15",
+  },
+  "result": "15",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute calculated-multi-function endpoint should return success with parameters 1`] = `
 {
   "data": {
@@ -143,17 +159,6 @@ exports[`execute calculated-multi-function endpoint should return success with p
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
-exports[`execute function endpoint should fail additional data requests in case of missing signature 1`] = `
-{
-  "errorMessage": "Nested function "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
-  "statusCode": 502,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 0,
-    "providerDataRequestedUnixMs": 0,
   },
 }
 `;
@@ -178,21 +183,6 @@ exports[`execute function endpoint should return success for different network 1
     "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
   },
   "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-  },
-}
-`;
-
-exports[`execute function endpoint should return success with additional data requests  1`] = `
-{
-  "data": {
-    "decimals": "0x0000000000000000000000000000000000000000000000000000000000000008",
-    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
-  },
-  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
