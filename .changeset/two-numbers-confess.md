@@ -2,4 +2,4 @@
 '@chainlink/multi-address-list-adapter': minor
 ---
 
-added address-adhoc endpoint
+added address-debug endpoint

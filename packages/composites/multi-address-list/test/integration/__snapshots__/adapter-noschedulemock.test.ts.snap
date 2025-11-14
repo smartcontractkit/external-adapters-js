@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute address-adhoc endpoint should return success 1`] = `
+exports[`execute address-debug endpoint should return success 1`] = `
 {
   "data": {
     "result": [

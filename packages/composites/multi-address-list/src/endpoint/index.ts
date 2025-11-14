@@ -1,2 +1,2 @@
 export { endpoint as address } from './address'
-export { endpoint as addressAdhoc } from './address-adhoc'
+export { endpoint as addressDebug } from './address-debug'

@@ -8,7 +8,7 @@ import { AddressListTransportTypes, BaseAddressListTransport, RequestParams } fr
 
 const logger = makeLogger('BaseAddressListTransport')
 
-export class AddressAdhocTransport extends BaseAddressListTransport {
+export class AddressDebugTransport extends BaseAddressListTransport {
   name!: string
   responseCache!: ResponseCache<AddressListTransportTypes>
   requester!: Requester
@@ -61,4 +61,4 @@ export class AddressAdhocTransport extends BaseAddressListTransport {
   }
 }
 
-export const addressAdhocTransport = new AddressAdhocTransport()
+export const addressDebugTransport = new AddressDebugTransport()

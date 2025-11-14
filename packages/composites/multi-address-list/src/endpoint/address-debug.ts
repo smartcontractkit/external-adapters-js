@@ -1,14 +1,14 @@
 import { PoRAddressEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
-import { addressAdhocTransport } from '../transport/address-adhoc'
+import { addressDebugTransport } from '../transport/address-debug'
 import { customInputValidation, inputParameters } from './address'
 
 /**
- * This endpoint is meant to be used for debugging purposes
- * and not for production feeds.
+ * This endpoint is meant to be used for debug/diagnostic
+ * purposes and not for production feeds.
  */
 export const endpoint = new PoRAddressEndpoint({
-  name: 'address-adhoc',
-  transport: addressAdhocTransport,
+  name: 'address-debug',
+  transport: addressDebugTransport,
   inputParameters,
   customInputValidation,
 })

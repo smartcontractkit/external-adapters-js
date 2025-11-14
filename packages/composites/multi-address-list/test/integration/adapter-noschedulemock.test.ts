@@ -35,10 +35,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('address-adhoc endpoint', () => {
+  describe('address-debug endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'address-adhoc',
+        endpoint: 'address-debug',
         network: 'bitcoin',
         chainId: 'mainnet',
         anchorage: {
