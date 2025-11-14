@@ -127,7 +127,6 @@ const CLOSE = 'Closed'
 const REGULAR = 'PRIMARYTRADINGSESSION'
 const PRE = 'PRETRADINGSESSION'
 const POST = 'POSTTRADINGSESSION'
-const DAY = 'DAY'
 
 export function parseMarketStatus(
   param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
@@ -156,21 +155,15 @@ export function parseMarketStatus(
       let result = TwentyfourFiveMarketStatus.UNKNOWN
       if (isWeekendNow(param.weekend)) {
         result = TwentyfourFiveMarketStatus.WEEKEND
-      } else if (status === OPEN) {
-        if (reason?.includes(REGULAR)) {
-          result = TwentyfourFiveMarketStatus.REGULAR
-        } else {
-          logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)
-        }
+      } else if (reason?.includes(REGULAR)) {
+        result = TwentyfourFiveMarketStatus.REGULAR
       } else if (status === CLOSE) {
         if (reason?.includes(PRE)) {
           result = TwentyfourFiveMarketStatus.PRE_MARKET
         } else if (reason?.includes(POST)) {
           result = TwentyfourFiveMarketStatus.POST_MARKET
-        } else if (!reason || reason?.includes(DAY)) {
-          result = TwentyfourFiveMarketStatus.OVERNIGHT
         } else {
-          logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)
+          result = TwentyfourFiveMarketStatus.OVERNIGHT
         }
       } else {
         logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)

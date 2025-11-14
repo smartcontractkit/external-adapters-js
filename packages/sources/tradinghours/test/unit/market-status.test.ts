@@ -78,6 +78,16 @@ describe('parseMarketStatus', () => {
       })
     })
 
+    it('return REGULAR - closed', () => {
+      ;(isWeekendNow as jest.Mock).mockReturnValue(false)
+      expect(
+        parseMarketStatus(baseParam, 'Closed', 'Columbus Day - Primary Trading Session'),
+      ).toStrictEqual({
+        status: TwentyfourFiveMarketStatus.REGULAR,
+        string: 'REGULAR',
+      })
+    })
+
     it('return UNKNOWN - open', () => {
       ;(isWeekendNow as jest.Mock).mockReturnValue(false)
       expect(parseMarketStatus(baseParam, 'Open', 'random')).toStrictEqual({
@@ -122,11 +132,11 @@ describe('parseMarketStatus', () => {
       })
     })
 
-    it('return UNKNOWN - Closed', () => {
+    it('return OVERNIGHT - random value', () => {
       ;(isWeekendNow as jest.Mock).mockReturnValue(false)
       expect(parseMarketStatus(baseParam, 'Closed', 'random')).toStrictEqual({
-        status: TwentyfourFiveMarketStatus.UNKNOWN,
-        string: 'UNKNOWN',
+        status: TwentyfourFiveMarketStatus.OVERNIGHT,
+        string: 'OVERNIGHT',
       })
     })
   })
