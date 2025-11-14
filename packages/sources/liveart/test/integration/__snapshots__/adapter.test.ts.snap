@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiveArt NAV endpoints nav should handle upstream bad response for unsuccessful request 1`] = `
+{
+  "errorMessage": "Asset ID 'AssetId.ROLSUB' not found",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoints nav should return error for invalid asset_id 1`] = `
+{
+  "errorMessage": "Mismatched asset_id in response. Expected invalid-asset-id, got KUSPUM",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoints nav should return success for valid asset_id 1`] = `
+{
+  "data": {
+    "result": 0.09630117,
+  },
+  "result": 0.09630117,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
