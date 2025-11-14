@@ -1,6 +1,5 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import includes from '../config/includes.json'
 import { BaseEndpointTypes } from '../endpoint/price'
 
 export interface WSResponse {
@@ -29,22 +28,6 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WSResponse
   }
 }
-
-// Build a lookup map for symbol-to-asset-ID from includes.json
-// This is used for base symbol resolution
-const buildSymbolToAssetIdMap = (): Record<string, number> => {
-  const map: Record<string, number> = {}
-  for (const entry of includes) {
-    const symbol = entry.from.toUpperCase()
-    const assetId = Number.parseInt(entry.includes[0].from, 10)
-    if (!Number.isNaN(assetId)) {
-      map[symbol] = assetId
-    }
-  }
-  return map
-}
-
-const SYMBOL_TO_ASSET_ID = buildSymbolToAssetIdMap()
 
 // Hardcoded quote currency asset IDs
 // These are commonly used quotes that don't need includes.json entries
@@ -80,7 +63,7 @@ const getQuoteId = (quote: string): number | 'USD' => {
     return 'USD'
   }
 
-  // Check hardcoded quote mappings first (common crypto quotes)
+  // Check hardcoded quote mappings (common crypto quotes)
   const hardcodedId = QUOTE_ASSET_IDS[upperQuote]
   if (hardcodedId) {
     return hardcodedId
@@ -92,15 +75,9 @@ const getQuoteId = (quote: string): number | 'USD' => {
     return parsed
   }
 
-  // Look up quote symbol in includes.json-derived map (for less common quotes)
-  const assetId = SYMBOL_TO_ASSET_ID[upperQuote]
-  if (assetId) {
-    return assetId
-  }
-
-  // If not found, throw error
+  // Quote not found - must be in includes.json or use hardcoded quote
   throw new Error(
-    `Unable to resolve quote ID for symbol: ${quote}. Please ensure includes.json is configured for this quote currency.`,
+    `Unable to resolve quote ID for symbol: ${quote}. Please add a base/quote pair to includes.json or use a supported quote currency (BTC, ETH, SOL, HYPE, S, BBSOL, USD).`,
   )
 }
 
