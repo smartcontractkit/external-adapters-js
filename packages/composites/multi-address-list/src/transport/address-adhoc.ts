@@ -26,8 +26,6 @@ export class AddressAdhocTransport extends BaseAddressListTransport {
     this.settings = adapterSettings
   }
 
-  // backgroundHandler is used here to only update the subscription set and not to make the actual request.
-  // The actual request is made in the execute function by the scheduler.
   async backgroundHandler(
     context: EndpointContext<AddressListTransportTypes>,
     entries: RequestParams[],
