@@ -338,9 +338,9 @@ adapters:
   - name: por-indexer
     version: 2.2.4
   - name: proof-of-reserves
-    version: 1.31.0
+    version: 1.31.1
   - name: renvm-address-set
-    version: 1.5.132
+    version: 1.5.133
   - name: rocket-pool
     version: 1.1.22
   - name: s3-csv-reader
@@ -430,7 +430,7 @@ adapters:
   - name: view-function
     version: 3.1.18
   - name: view-function-multi-chain
-    version: 1.5.0
+    version: 1.6.0
   - name: view-starknet-latest-answer
     version: 1.0.26
   - name: wbtc-address-set
