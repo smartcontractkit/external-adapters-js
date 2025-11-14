@@ -405,9 +405,6 @@
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
-      "path": "./sources/gramchain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/graphql/tsconfig.test.json"
     },
     {
