@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
-import { config } from './config'
-import { address } from './endpoint'
 import { PoRAdapter } from '@chainlink/external-adapter-framework/adapter/por'
+import { config } from './config'
+import { address, addressAdhoc } from './endpoint'
 
 export const adapter = new PoRAdapter({
   defaultEndpoint: address.name,
   name: 'MULTI_ADDRESS_LIST',
   config,
-  endpoints: [address],
+  endpoints: [address, addressAdhoc],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

@@ -3,23 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { RecurrenceRule } from 'node-schedule'
 import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPSuccess } from './fixtures'
-
-jest.mock('node-schedule', () => {
-  const actualNodeSchedule = jest.requireActual('node-schedule')
-  return {
-    ...actualNodeSchedule,
-    RecurrenceRule: function () {
-      return
-    },
-    scheduleJob: function (_: RecurrenceRule, callback: () => void) {
-      setTimeout(() => {
-        callback()
-      }, 200)
-    },
-  }
-})
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -36,7 +20,7 @@ describe('execute', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -51,9 +35,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('address endpoint', () => {
+  describe('address-adhoc endpoint', () => {
     it('should return success', async () => {
       const data = {
+        endpoint: 'address-adhoc',
         network: 'bitcoin',
         chainId: 'mainnet',
         anchorage: {
