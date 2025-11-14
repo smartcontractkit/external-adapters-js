@@ -1,59 +1,31 @@
-import type {
-  Account,
-  AdapterContext,
-  AdapterResponse,
-  Config,
-  AdapterImplementation as v2AdapterImplementation,
-} from '@chainlink/ea-bootstrap'
-import { Adapter as v3AdapterImplementation } from '@chainlink/external-adapter-framework/adapter'
+import type { Account, AdapterContext, AdapterResponse, Config } from '@chainlink/ea-bootstrap'
 import { callAdapter, makeRequestFactory } from '.'
-
-// balance adapters
-import * as adaBalance from '@chainlink/ada-balance-adapter'
-import * as amberdata from '@chainlink/amberdata-adapter'
-import { adapter as avalanchePlatform } from '@chainlink/avalanche-platform-adapter'
-import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
-import * as blockchainCom from '@chainlink/blockchain.com-adapter'
-import * as blockchair from '@chainlink/blockchair-adapter'
-import * as btcCom from '@chainlink/btc.com-adapter'
-import { adapter as ceffu } from '@chainlink/ceffu-adapter'
-import * as cryptoapis from '@chainlink/cryptoapis-adapter'
-import * as ethBalance from '@chainlink/eth-balance-adapter'
-import { adapter as ethBeacon } from '@chainlink/eth-beacon-adapter'
-import { adapter as lotus } from '@chainlink/lotus-adapter'
-import { adapter as polkadotBalance } from '@chainlink/polkadot-balance-adapter'
-import { adapter as porIndexer } from '@chainlink/por-indexer-adapter'
-import * as sochain from '@chainlink/sochain-adapter'
-import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
-import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
-import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
 
 export const ETHEREUM_CL_INDEXER = 'ETHEREUM_CL_INDEXER'
 
-// TODO: type
-export const adaptersV2: v2AdapterImplementation[] = [
-  amberdata as unknown as v2AdapterImplementation,
-  bitcoinJsonRpc as unknown as v2AdapterImplementation,
-  blockchainCom as unknown as v2AdapterImplementation,
-  blockchair as unknown as v2AdapterImplementation,
-  btcCom as unknown as v2AdapterImplementation,
-  cryptoapis as unknown as v2AdapterImplementation,
-  sochain as unknown as v2AdapterImplementation,
-  ethBalance as unknown as v2AdapterImplementation,
-  adaBalance as unknown as v2AdapterImplementation,
-]
+export const adapterNamesV2 = {
+  amberdata: 'AMBERDATA',
+  bitcoinJsonRpc: 'BITCOIN_JSON_RPC',
+  blockchainCom: 'BLOCKCHAIN_COM',
+  blockchair: 'BLOCKCHAIR',
+  btcCom: 'BTC_COM',
+  cryptoapis: 'CRYPTOAPIS',
+  sochain: 'SOCHAIN',
+  ethBalance: 'ETH_BALANCE',
+  adaBalance: 'ADA_BALANCE',
+}
 
-export const adaptersV3: v3AdapterImplementation[] = [
-  polkadotBalance,
-  staderBalance,
-  ethBeacon,
-  avalanchePlatform,
-  lotus,
-  porIndexer,
-  tokenBalance,
-  ceffu,
-  viewFunctionMultiChain,
-]
+export const adapterNamesV3 = {
+  polkadotBalance: 'POLKADOT_BALANCE',
+  staderBalance: 'STADER_BALANCE',
+  ethBeacon: 'ETH_BEACON',
+  avalanchePlatform: 'AVALANCHE_PLATFORM',
+  lotus: 'LOTUS',
+  porIndexer: 'POR_INDEXER',
+  tokenBalance: 'TOKEN_BALANCE',
+  ceffu: 'CEFFU',
+  viewFunctionMultiChain: 'VIEW_FUNCTION_MULTI_CHAIN',
+}
 
 // Get balances for address set
 export const runBalanceAdapter = async (
@@ -69,19 +41,19 @@ export const runBalanceAdapter = async (
   const execute = makeRequestFactory(config, indexer, postfix)
   let next
   switch (indexer) {
-    case bitcoinJsonRpc.NAME:
+    case adapterNamesV2.bitcoinJsonRpc:
       next = buildLocalBitcoinNodeRequest(input)
       break
-    case porIndexer.name:
+    case adapterNamesV3.porIndexer:
       next = buildPorIndexerRequest(input, confirmations)
       break
-    case tokenBalance.name:
+    case adapterNamesV3.tokenBalance:
       next = buildTokenBalanceRequest(input, confirmations)
       break
-    case ceffu.name:
+    case adapterNamesV3.ceffu:
       next = buildCeffuRequest(input)
       break
-    case ethBeacon.name:
+    case adapterNamesV3.ethBeacon:
       next = {
         id: input.jobRunID,
         data: {
@@ -94,7 +66,7 @@ export const runBalanceAdapter = async (
         },
       }
       break
-    case staderBalance.name:
+    case adapterNamesV3.staderBalance:
       next = {
         id: input.jobRunID,
         data: {
