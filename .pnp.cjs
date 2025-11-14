@@ -567,10 +567,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/gmci"\
     },\
     {\
-      "name": "@chainlink/gramchain-adapter",\
-      "reference": "workspace:packages/sources/gramchain"\
-    },\
-    {\
       "name": "@chainlink/graphql-adapter",\
       "reference": "workspace:packages/sources/graphql"\
     },\
@@ -1080,7 +1076,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
-    ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
@@ -7370,21 +7365,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/gramchain-adapter", [\
-      ["workspace:packages/sources/gramchain", {\
-        "packageLocation": "./packages/sources/gramchain/",\
-        "packageDependencies": [\
-          ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
