@@ -130,8 +130,15 @@ if [[ -z "$packages_to_include" ]]; then
   exit 1
 fi
 
-echo "Not ignoring the following transitive dependencies:" >&2
-echo "$packages_to_include" >&2
+{
+  echo "Not ignoring the following transitive dependencies:"
+  echo "$packages_to_include"
+  echo
+  echo "Expecting the following packages to be released:"
+  grep -Fxf <(echo "$packages_to_include") <<< "$CHANGED_PACKAGES_RECURSIVE"
+  echo
+} >&2
+
 
 all_packages=$(yarn workspaces list --json | jq -r '.name' | grep -v '@chainlink/external-adapters-js')
 packages_to_ignore=$(echo "$all_packages" | grep -vFf <(echo "$packages_to_include"))

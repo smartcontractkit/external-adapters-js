@@ -1,6 +1,6 @@
 import { AdapterData, AdapterRequest, AdapterRequestData, Execute } from '@chainlink/ea-bootstrap'
 import nock from 'nock'
-import * as apyFinanceAdapter from '../../src/index'
+import * as curve3poolAdapter from '../../src/index'
 import { mockEthereumCalls, mockTiingoResponse } from './fixtures'
 let oldEnv: NodeJS.ProcessEnv
 
@@ -9,7 +9,7 @@ describe('execute', () => {
   const id = '1'
 
   beforeAll(async () => {
-    execute = await apyFinanceAdapter.makeExecute()
+    execute = await curve3poolAdapter.makeExecute()
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.CACHE_ENABLED = 'false'
     process.env.TIINGO_DATA_PROVIDER_URL =
