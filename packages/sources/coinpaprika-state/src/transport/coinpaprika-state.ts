@@ -105,9 +105,6 @@ export class CoinpaprikaStateTransport extends StreamingTransport<TransportTypes
       onConnectionError: async (status: number) => {
         logger.error(`SSE connection error with status: ${status}`)
       },
-      onReconnectNeeded: () => {
-        logger.info('SSE ended; will reconnect on next cycle')
-      },
     }
 
     await this.connectionManager.connect(pairs, config, callbacks)
