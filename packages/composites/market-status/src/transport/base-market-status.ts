@@ -99,7 +99,9 @@ export abstract class BaseMarketStatusTransport<
       data: {
         data: {
           endpoint: 'market-status',
-          ...param,
+          market: param.market,
+          type: param.type,
+          weekend: param.weekend,
         },
       },
     }
