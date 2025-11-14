@@ -6,7 +6,7 @@ import {
 import FakeTimers from '@sinonjs/fake-timers'
 
 import nock from 'nock'
-import * as fixtures from './fixtures'
+import { mockClosed, mockError, mockOpen, mockUnknown } from './fixtures'
 
 describe('execute', () => {
   let clock: FakeTimers.InstalledClock
@@ -44,9 +44,15 @@ describe('execute', () => {
     }
   }
 
+  const timestamps = {
+    providerDataReceivedUnixMs: expect.any(Number),
+    providerDataRequestedUnixMs: expect.any(Number),
+    providerIndicatedTimeUnixMs: expect.any(Number),
+  }
+
   it('returns open if tradinghours is open', async () => {
     const market = 'test-1'
-    fixtures.mockTradinghoursOpen(market)
+    mockOpen(market, process.env.TRADINGHOURS_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     await testAdapter.waitForCache()
@@ -59,17 +65,13 @@ describe('execute', () => {
       },
       result: 2,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
     })
   })
 
   it('returns closed if tradinghours is closed', async () => {
     const market = 'test-2'
-    fixtures.mockTradinghoursClosed(market)
+    mockClosed(market, process.env.TRADINGHOURS_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
@@ -80,18 +82,14 @@ describe('execute', () => {
       },
       result: 1,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
     })
   })
 
   it('returns ncfx if tradinghours is unknown', async () => {
     const market = 'test-3'
-    fixtures.mockTradinghoursUnknown(market)
-    fixtures.mockNCFXOpen(market)
+    mockUnknown(market, process.env.TRADINGHOURS_ADAPTER_URL)
+    mockOpen(market, process.env.NCFX_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
@@ -102,18 +100,14 @@ describe('execute', () => {
       },
       result: 2,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
     })
   })
 
   it('returns ncfx if tradinghours is failing', async () => {
     const market = 'test-4'
-    fixtures.mockTradinghoursError(market)
-    fixtures.mockNCFXOpen(market)
+    mockError(market, process.env.TRADINGHOURS_ADAPTER_URL)
+    mockOpen(market, process.env.NCFX_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
@@ -124,18 +118,14 @@ describe('execute', () => {
       },
       result: 2,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
     })
   })
 
   it('returns unknown if tradinghours is failing and ncfx is failing', async () => {
     const market = 'test-5'
-    fixtures.mockTradinghoursError(market)
-    fixtures.mockNCFXError(market)
+    mockError(market, process.env.TRADINGHOURS_ADAPTER_URL)
+    mockError(market, process.env.NCFX_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
@@ -145,18 +135,14 @@ describe('execute', () => {
       },
       result: 0,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
     })
   })
 
   it('returns unknown if tradinghours is failing and ncfx is unknown', async () => {
     const market = 'test-6'
-    fixtures.mockTradinghoursError(market)
-    fixtures.mockNCFXUnknown(market)
+    mockError(market, process.env.TRADINGHOURS_ADAPTER_URL)
+    mockUnknown(market, process.env.NCFX_ADAPTER_URL)
 
     const response = await waitForSuccessfulRequest({ market })
     expect(response.json()).toEqual({
@@ -166,11 +152,100 @@ describe('execute', () => {
       },
       result: 0,
       statusCode: 200,
-      timestamps: {
-        providerDataReceivedUnixMs: expect.any(Number),
-        providerDataRequestedUnixMs: expect.any(Number),
-        providerIndicatedTimeUnixMs: expect.any(Number),
-      },
+      timestamps,
+    })
+  })
+
+  describe('24/5', () => {
+    it('returns primary', async () => {
+      const market = '24/5-test-1'
+      mockOpen(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
+
+      const response = await waitForSuccessfulRequest({
+        market,
+        type: '24/5',
+        weekend: '220-320:UTC',
+      })
+      await testAdapter.waitForCache()
+
+      expect(response.json()).toEqual({
+        data: {
+          result: 2,
+          statusString: 'OPEN',
+          source: 'TRADINGHOURS',
+        },
+        result: 2,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+    it('returns secondary if primary is unknown', async () => {
+      const market = '24/5-test-2'
+      mockUnknown(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
+      mockOpen(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
+
+      const response = await waitForSuccessfulRequest({
+        market,
+        type: '24/5',
+        weekend: '220-320:UTC',
+      })
+      await testAdapter.waitForCache()
+
+      expect(response.json()).toEqual({
+        data: {
+          result: 2,
+          statusString: 'OPEN',
+          source: 'FINNHUB_SECONDARY',
+        },
+        result: 2,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+    it('returns secondary if primary is down', async () => {
+      const market = '24/5-test-3'
+      mockError(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
+      mockOpen(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
+
+      const response = await waitForSuccessfulRequest({
+        market,
+        type: '24/5',
+        weekend: '220-320:UTC',
+      })
+      await testAdapter.waitForCache()
+
+      expect(response.json()).toEqual({
+        data: {
+          result: 2,
+          statusString: 'OPEN',
+          source: 'FINNHUB_SECONDARY',
+        },
+        result: 2,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+    it('returns unknown if both is down', async () => {
+      const market = '24/5-test-4'
+      mockError(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
+      mockError(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
+
+      const response = await waitForSuccessfulRequest({
+        market,
+        type: '24/5',
+        weekend: '220-320:UTC',
+      })
+      await testAdapter.waitForCache()
+
+      expect(response.json()).toEqual({
+        data: {
+          result: 0,
+          statusString: 'UNKNOWN',
+        },
+        result: 0,
+        statusCode: 200,
+        timestamps,
+      })
     })
   })
 
@@ -182,9 +257,11 @@ describe('execute', () => {
 
     it('returns open if tradinghours is open', async () => {
       const market = 'nyse'
-      fixtures.mockTradinghoursOpen(market)
-      fixtures.mockFinnhubSecondaryClosed(market)
+      mockOpen(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+
       const response = await waitForSuccessfulRequest({ market })
+
       expect(response.json()).toEqual({
         data: {
           result: 2,
@@ -193,19 +270,17 @@ describe('execute', () => {
         },
         result: 2,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
     it('returns open if tradinghours is unknown and finnhub is open', async () => {
       const market = 'nyse'
-      fixtures.mockTradinghoursUnknown(market)
-      fixtures.mockFinnhubSecondaryOpen(market)
+      mockUnknown(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      mockOpen(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+
       const response = await waitForSuccessfulRequest({ market })
+
       expect(response.json()).toEqual({
         data: {
           result: 2,
@@ -214,11 +289,7 @@ describe('execute', () => {
         },
         result: 2,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
   })
@@ -229,6 +300,25 @@ describe('execute', () => {
       await testAdapter.mockCache?.cache.clear()
     })
 
+    it('returns error if type is 24/5', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'multi-market-status',
+        market: 'lse,xetra,euronext_milan',
+        openMode: 'any',
+        type: '24/5',
+      })
+
+      expect(response.json()).toEqual({
+        error: {
+          errorResponse: '[Param: type] must be regular for multi-market-status endpoint',
+          message: 'There was an unexpected error in the adapter.',
+          name: 'AdapterError',
+        },
+        status: 'errored',
+        statusCode: 400,
+      })
+    })
+
     it('returns open if any 1 is open with openMode: any', async () => {
       const data = {
         endpoint: 'multi-market-status',
@@ -236,12 +326,12 @@ describe('execute', () => {
         openMode: 'any',
       }
 
-      fixtures.mockTradinghoursClosed('lse')
-      fixtures.mockFinnhubSecondaryClosed('lse')
-      fixtures.mockTradinghoursOpen('xetra')
-      fixtures.mockFinnhubSecondaryClosed('xetra')
-      fixtures.mockTradinghoursUnknown('euronext_milan')
-      fixtures.mockFinnhubSecondaryClosed('euronext_milan')
+      mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockOpen('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockUnknown('euronext_milan', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
 
       const response = await waitForSuccessfulRequest(data)
       expect(response.json()).toEqual({
@@ -251,11 +341,7 @@ describe('execute', () => {
         },
         result: 2,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
@@ -267,12 +353,12 @@ describe('execute', () => {
         closedMode: 'all',
       }
 
-      fixtures.mockTradinghoursClosed('lse')
-      fixtures.mockFinnhubSecondaryClosed('lse')
-      fixtures.mockTradinghoursUnknown('xetra')
-      fixtures.mockFinnhubSecondaryUnknown('xetra')
-      fixtures.mockTradinghoursClosed('euronext_milan')
-      fixtures.mockFinnhubSecondaryClosed('euronext_milan')
+      mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockUnknown('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockUnknown('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
 
       const response = await waitForSuccessfulRequest(data)
       expect(response.json()).toEqual({
@@ -282,11 +368,7 @@ describe('execute', () => {
         },
         result: 0,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
@@ -299,8 +381,8 @@ describe('execute', () => {
       }
 
       for (const market of data.market.split(',')) {
-        fixtures.mockTradinghoursClosed(market)
-        fixtures.mockFinnhubSecondaryClosed(market)
+        mockClosed(market, process.env.TRADINGHOURS_ADAPTER_URL)
+        mockClosed(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL)
       }
 
       const response = await waitForSuccessfulRequest(data)
@@ -311,11 +393,7 @@ describe('execute', () => {
         },
         result: 1,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
@@ -327,12 +405,12 @@ describe('execute', () => {
         closedMode: 'any',
       }
 
-      fixtures.mockTradinghoursClosed('lse')
-      fixtures.mockFinnhubSecondaryClosed('lse')
-      fixtures.mockTradinghoursOpen('xetra')
-      fixtures.mockFinnhubSecondaryOpen('xetra')
-      fixtures.mockTradinghoursClosed('euronext_milan')
-      fixtures.mockFinnhubSecondaryUnknown('euronext_milan')
+      mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockOpen('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockOpen('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockUnknown('euronext_milan', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
 
       const response = await waitForSuccessfulRequest(data)
       expect(response.json()).toEqual({
@@ -342,11 +420,7 @@ describe('execute', () => {
         },
         result: 1,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
@@ -358,12 +432,12 @@ describe('execute', () => {
         closedMode: 'all',
       }
 
-      fixtures.mockTradinghoursClosed('lse')
-      fixtures.mockFinnhubSecondaryClosed('lse')
-      fixtures.mockTradinghoursOpen('xetra')
-      fixtures.mockFinnhubSecondaryOpen('xetra')
-      fixtures.mockTradinghoursClosed('euronext_milan')
-      fixtures.mockFinnhubSecondaryUnknown('euronext_milan')
+      mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockOpen('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockOpen('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockUnknown('euronext_milan', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
 
       const response = await waitForSuccessfulRequest(data)
       expect(response.json()).toEqual({
@@ -373,11 +447,7 @@ describe('execute', () => {
         },
         result: 0,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
 
@@ -389,12 +459,12 @@ describe('execute', () => {
         closedMode: 'any',
       }
 
-      fixtures.mockTradinghoursClosed('lse')
-      fixtures.mockFinnhubSecondaryClosed('lse')
-      fixtures.mockTradinghoursOpen('xetra')
-      fixtures.mockFinnhubSecondaryOpen('xetra')
-      fixtures.mockTradinghoursClosed('euronext_milan')
-      fixtures.mockFinnhubSecondaryUnknown('euronext_milan')
+      mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockOpen('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockOpen('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+      mockClosed('euronext_milan', process.env.TRADINGHOURS_ADAPTER_URL)
+      mockUnknown('euronext_milan', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
 
       const response = await waitForSuccessfulRequest(data)
       expect(response.json()).toEqual({
@@ -404,11 +474,7 @@ describe('execute', () => {
         },
         result: 2,
         statusCode: 200,
-        timestamps: {
-          providerDataReceivedUnixMs: expect.any(Number),
-          providerDataRequestedUnixMs: expect.any(Number),
-          providerIndicatedTimeUnixMs: expect.any(Number),
-        },
+        timestamps,
       })
     })
   })

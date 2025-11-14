@@ -1,17 +1,16 @@
-import { ExtendedConfig, Networks } from '../../src/config'
+import { AxiosResponse, Requester } from '@chainlink/ea-bootstrap'
 import { useFakeTimers } from 'sinon'
-import { Requester } from '@chainlink/ea-bootstrap'
+import { ExtendedConfig, makeConfig, Networks } from '../../src/config'
 import * as evm from '../../src/evm'
-import { makeConfig } from '../../src/config'
-import { AxiosResponse } from '@chainlink/ea-bootstrap'
 
-const getMockAxiosResponse = (response: unknown): AxiosResponse => ({
-  status: 204,
-  statusText: 'success',
-  headers: {},
-  config: {},
-  data: response,
-})
+const getMockAxiosResponse = (response: unknown): AxiosResponse =>
+  ({
+    status: 204,
+    statusText: 'success',
+    headers: {},
+    config: {},
+    data: response,
+  } as AxiosResponse)
 
 const deltaChain = {
   [Networks.Arbitrum]: 30000,
