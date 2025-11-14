@@ -5002,7 +5002,7 @@ __metadata:
     "@chainlink/anchorage-adapter": "workspace:*"
     "@chainlink/bitgo-adapter": "workspace:*"
     "@chainlink/coinbase-prime-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.11.0"
+    "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/node-schedule": "npm:2.1.7"

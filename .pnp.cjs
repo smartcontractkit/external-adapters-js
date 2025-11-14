@@ -8016,7 +8016,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/anchorage-adapter", "workspace:packages/sources/anchorage"],\
           ["@chainlink/bitgo-adapter", "workspace:packages/sources/bitgo"],\
           ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/node-schedule", "npm:2.1.7"],\
