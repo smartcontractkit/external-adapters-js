@@ -1,6 +1,7 @@
-import { AdapterRequest, AdapterResponse, Execute } from '../../../src/types'
-import * as metrics from '../../../src/lib/metrics'
 import * as client from 'prom-client'
+import * as metrics from '../../../src/lib/metrics'
+import { AdapterError } from '../../../src/lib/modules/error'
+import { AdapterRequest, AdapterResponse, Execute } from '../../../src/types'
 
 // This is a workaround to mock METRICS_ENABLED, which is usually defined before jest is able to mock it's value
 jest.mock('../../../src/lib/util', () => ({
@@ -138,7 +139,10 @@ describe('withMetrics middleware', () => {
     try {
       await wrappedExecute(request, {})
     } catch (error) {
-      expect(error.message).toEqual("Cannot read properties of undefined (reading 'maxAge')")
+      expect(error instanceof AdapterError).toBe(true)
+      expect((error as AdapterError).message).toEqual(
+        "Cannot read properties of undefined (reading 'maxAge')",
+      )
       expect(spy).toBeCalledWith(expectedLabels)
     }
   })
