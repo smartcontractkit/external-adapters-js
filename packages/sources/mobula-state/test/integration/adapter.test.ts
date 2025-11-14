@@ -136,7 +136,7 @@ describe('websocket', () => {
         endpoint: 'price',
         transport: 'ws',
         overrides: {
-          'mobula-state': {
+          MOBULA_STATE: {
             TESTCOIN: '999888777',
           },
         },
@@ -151,7 +151,7 @@ describe('websocket', () => {
         endpoint: 'price',
         transport: 'ws',
         overrides: {
-          'mobula-state': {
+          MOBULA_STATE: {
             ANOTHERCOIN: '111222333',
           },
         },
@@ -166,7 +166,7 @@ describe('websocket', () => {
         endpoint: 'price',
         transport: 'ws',
         overrides: {
-          'mobula-state': {
+          MOBULA_STATE: {
             CUSTOMTOKEN: '444555666',
           },
         },
@@ -181,7 +181,7 @@ describe('websocket', () => {
         endpoint: 'price',
         transport: 'ws',
         overrides: {
-          'mobula-state': {
+          MOBULA_STATE: {
             CUSTOMQUOTE: '100004304', // ETH asset ID as quote override
           },
         },

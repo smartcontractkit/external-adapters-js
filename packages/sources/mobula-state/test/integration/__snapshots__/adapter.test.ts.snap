@@ -10,8 +10,8 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 23238,
-    "providerDataStreamEstablishedUnixMs": 23230,
+    "providerDataReceivedUnixMs": 21218,
+    "providerDataStreamEstablishedUnixMs": 21210,
   },
 }
 `;
@@ -26,8 +26,8 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 23238,
-    "providerDataStreamEstablishedUnixMs": 23230,
+    "providerDataReceivedUnixMs": 21218,
+    "providerDataStreamEstablishedUnixMs": 21210,
   },
 }
 `;
@@ -205,12 +205,16 @@ exports[`websocket price endpoint direct base asset ID should return success 1`]
 
 exports[`websocket price endpoint quote override with asset ID should return success 1`] = `
 {
-  "error": {
-    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
-    "name": "AdapterError",
+  "data": {
+    "result": 1.0612,
   },
-  "status": "errored",
-  "statusCode": 504,
+  "result": 1.0612,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
 }
 `;
 
