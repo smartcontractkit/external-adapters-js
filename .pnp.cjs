@@ -395,10 +395,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cryptoapis"\
     },\
     {\
-      "name": "@chainlink/cryptoapis-v2-adapter",\
-      "reference": "workspace:packages/sources/cryptoapis-v2"\
-    },\
-    {\
       "name": "@chainlink/cryptocompare-adapter",\
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
@@ -1020,7 +1016,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
-    ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
     ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
@@ -6198,23 +6193,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/cryptoapis-v2-adapter", [\
-      ["workspace:packages/sources/cryptoapis-v2", {\
-        "packageLocation": "./packages/sources/cryptoapis-v2/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/cryptocompare-adapter", [\
       ["workspace:packages/sources/cryptocompare", {\
         "packageLocation": "./packages/sources/cryptocompare/",\
@@ -8243,6 +8221,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/observation/",\
         "packageDependencies": [\
           ["@chainlink/observation", "workspace:packages/observation"],\
+          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["axios", "npm:1.9.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
