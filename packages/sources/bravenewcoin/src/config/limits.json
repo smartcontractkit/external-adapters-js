@@ -1,4 +1,17 @@
 {
-  "http": {},
+  "http": {
+    "free": {
+      "rateLimit1s": 1,
+      "rateLimit1m": 5,
+      "rateLimit1h": 50,
+      "note": "Based on 600/month free limit (~1 every few minutes avg, but allow small bursts)"
+    },
+    "pro": {
+      "rateLimit1s": 5,
+      "rateLimit1m": 100,
+      "rateLimit1h": 1000,
+      "note": "For paid BNC plans with higher quotas"
+    }
+  },
   "ws": {}
 }

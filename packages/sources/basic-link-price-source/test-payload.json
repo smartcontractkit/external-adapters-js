@@ -1,0 +1,7 @@
+{
+  "requests": [{
+    "base": "LINK",
+    "quote": "USDC",
+    "chain": "ethereum"
+  }]
+}
