@@ -22,13 +22,19 @@ type SortedSetMember struct {
 	score  float64
 }
 
+// itemWithExpiry represents a value with an expiration time
+type itemWithExpiry struct {
+	value  []byte
+	expiry time.Time
+}
+
 // Server represents a Redis-compatible server
 type RedconServer struct {
 	addr         string
 	cache        *cache.Cache
 	logger       *slog.Logger
 	mu           sync.RWMutex
-	items        map[string][]byte
+	items        map[string]itemWithExpiry
 	sortedSets   map[string]map[string]float64 // key -> (member -> score)
 	commandStats map[string]int64              // command -> call count
 	server       *redcon.Server
@@ -43,18 +49,24 @@ type Config struct {
 
 // New creates a new Redis server instance
 func New(cfg Config) *RedconServer {
-	return &RedconServer{
+	rs := &RedconServer{
 		addr:         cfg.Addr,
 		cache:        cfg.Cache,
 		logger:       cfg.Logger,
-		items:        make(map[string][]byte),
+		items:        make(map[string]itemWithExpiry),
 		sortedSets:   make(map[string]map[string]float64),
 		commandStats: make(map[string]int64),
 	}
+
+	// Start background goroutine to clean up expired keys
+	go rs.cleanupExpiredKeys()
+
+	return rs
 }
 
 // Start starts the Redis server
 func (s *RedconServer) Start() error {
+	s.logger.Info("Starting Redis-compatible server", "addr", s.addr)
 	return redcon.ListenAndServe(s.addr,
 		s.handleCommand,
 		s.handleConnect,
@@ -94,6 +106,8 @@ func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
 		s.handleExec(conn)
 	case "get":
 		s.handleGet(conn, cmd)
+	case "pexpire":
+		s.handlePExpire(conn, cmd)
 	case "eval", "evalsha":
 		s.handleEval(conn, cmd)
 	case "zadd":
@@ -112,6 +126,7 @@ func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
 
 // handleConnect is called when a new connection is established
 func (s *RedconServer) handleConnect(conn redcon.Conn) bool {
+	s.logger.Info("Redis client connected", "remote_addr", conn.RemoteAddr())
 	return true
 }
 
@@ -216,24 +231,38 @@ func (s *RedconServer) handleGet(conn redcon.Conn, cmd redcon.Command) {
 	}
 	key := string(cmd.Args[1])
 	s.mu.RLock()
-	val, ok := s.items[key]
+	item, ok := s.items[key]
 	s.mu.RUnlock()
+
 	if !ok {
 		s.logger.Debug("GET: key not found", "key", key)
 		conn.WriteNull()
-	} else {
-		s.logger.Debug("GET: found value", "key", key)
-		conn.WriteBulk(val)
+		return
 	}
+
+	// Check if key has expired
+	if !item.expiry.IsZero() && time.Now().After(item.expiry) {
+		// Key has expired, remove it
+		s.mu.Lock()
+		delete(s.items, key)
+		s.mu.Unlock()
+		s.logger.Debug("GET: key expired", "key", key)
+		conn.WriteNull()
+		return
+	}
+
+	s.logger.Debug("GET: found value", "key", key)
+	conn.WriteBulk(item.value)
 }
 
 // handleEval handles the EVAL and EVALSHA commands
 func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	key := string(cmd.Args[3])
 
-	pair, ok := helpers.AssetPairFromKey(key)
+	// Extract request parameters from the key
+	params, ok := helpers.RequestParamsFromKey(key)
 	if !ok {
-		s.logger.Debug("unable to parse asset pair from key", "key", key)
+		s.logger.Debug("unable to parse request params from key", "key", key)
 		conn.WriteInt(1)
 		return
 	}
@@ -264,7 +293,7 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 		obs.Data = data
 	}
 
-	s.cache.Set(pair, obs, time.Now())
+	s.cache.Set(params, obs, time.Now())
 	conn.WriteInt(1)
 }
 
@@ -389,5 +418,49 @@ func (s *RedconServer) handleZRange(conn redcon.Conn, cmd redcon.Command) {
 	conn.WriteArray(len(members))
 	for _, m := range members {
 		conn.WriteBulkString(m.member)
+	}
+}
+
+// handlePExpire handles the PEXPIRE command (milliseconds)
+func (s *RedconServer) handlePExpire(conn redcon.Conn, cmd redcon.Command) {
+	if len(cmd.Args) != 3 {
+		conn.WriteError("ERR wrong number of arguments for 'pexpire' command")
+		return
+	}
+	key := string(cmd.Args[1])
+	milliseconds, err := strconv.ParseInt(string(cmd.Args[2]), 10, 64)
+	if err != nil {
+		conn.WriteError("ERR value is not an integer or out of range")
+		return
+	}
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	item, ok := s.items[key]
+	if !ok {
+		conn.WriteInt(0) // Key doesn't exist
+		return
+	}
+
+	item.expiry = time.Now().Add(time.Duration(milliseconds) * time.Millisecond)
+	s.items[key] = item
+	conn.WriteInt(1) // Expiration was set
+}
+
+// cleanupExpiredKeys runs in the background to periodically remove expired keys
+func (s *RedconServer) cleanupExpiredKeys() {
+	ticker := time.NewTicker(1 * time.Minute)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		now := time.Now()
+		s.mu.Lock()
+		for key, item := range s.items {
+			if !item.expiry.IsZero() && now.After(item.expiry) {
+				delete(s.items, key)
+			}
+		}
+		s.mu.Unlock()
 	}
 }

@@ -6,16 +6,11 @@ import (
 	"github.com/goccy/go-json"
 )
 
-// DataProvider interface
-type DataProvider interface {
-	Start() error
-	Close() error
-	Subscribe(assetPair AssetPair)
-	IsConnected() error
-	GetSubscriptions() []AssetPair
-}
+// RequestParams represents dynamic request parameters
+// All request parameters are treated equally (endpoint, base, quote, isin, market, fundId, etc.)
+type RequestParams map[string]string
 
-// Observation
+// Observation represents the data returned from an adapter
 type Observation struct {
 	Data    json.RawMessage `json:"data"`
 	Success bool            `json:"success"`
@@ -28,20 +23,16 @@ type CacheItem struct {
 	Timestamp   time.Time // Last write time
 }
 
+// Cache interface for storing and retrieving observations
 type Cache interface {
-	Set(assetPair AssetPair, observation *Observation, timestamp time.Time)
-	Get(assetPair AssetPair) *Observation
+	Set(params RequestParams, observation *Observation, timestamp time.Time)
+	Get(params RequestParams) *Observation
 }
 
+// Config interface for configuration management
 type Config interface {
 	Set(string, any)
 	Get(string) any
-}
-
-type AssetPair struct {
-	Base     string
-	Quote    string
-	Endpoint string
 }
 
 // Server interface

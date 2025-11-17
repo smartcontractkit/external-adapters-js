@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 
+	types "streams-adapter/common"
+	"streams-adapter/helpers"
 	"streams-adapter/metrics"
 )
 
@@ -61,14 +62,12 @@ func determineRequestType(c *gin.Context) string {
 	}
 }
 
-// SetAssetPair sets the asset pair in the gin context for metrics tracking
-// The asset pair is formatted as "{base}-{quote}-{endpoint}"
-// Example: For request {"data":{"endpoint":"cryptolwba","from":"LINK","to":"USD"}}
-//
-//	the asset_pair will be "LINK-USD-cryptolwba"
-func SetAssetPair(c *gin.Context, base, quote, endpoint string) {
-	if base != "" && quote != "" {
-		assetPair := fmt.Sprintf("%s-%s-%s", base, quote, endpoint)
-		c.Set("asset_pair", assetPair)
+// SetRequestParams sets the request parameters in the gin context for metrics tracking
+// The params are formatted using the same logic as cache keys
+func SetRequestParams(c *gin.Context, params types.RequestParams) {
+	if len(params) > 0 {
+		// Use the same key generation logic as cache for consistency
+		requestKey := helpers.CalculateCacheKey(params)
+		c.Set("asset_pair", requestKey)
 	}
 }

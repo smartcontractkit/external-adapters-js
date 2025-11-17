@@ -14,7 +14,11 @@ func TestCacheSetGetKeysSize(t *testing.T) {
 	c := New(cfg)
 	defer c.Stop()
 
-	pair := types.AssetPair{Base: "LINK", Quote: "USD", Endpoint: "cryptolwba"}
+	params := types.RequestParams{
+		"base":     "LINK",
+		"quote":    "USD",
+		"endpoint": "cryptolwba",
+	}
 	obs := &types.Observation{Data: json.RawMessage(`{
 		"mid": 17.889088702834176,
 		"bid": 17.88511476884297,
@@ -22,9 +26,9 @@ func TestCacheSetGetKeysSize(t *testing.T) {
 	}`), Success: true}
 	now := time.Now()
 
-	c.Set(pair, obs, now)
+	c.Set(params, obs, now)
 
-	got := c.Get(pair)
+	got := c.Get(params)
 	if got == nil {
 		t.Fatalf("expected observation, got nil")
 	}
@@ -48,17 +52,21 @@ func TestCacheExpiration(t *testing.T) {
 	c := New(cfg)
 	defer c.Stop()
 
-	pair := types.AssetPair{Base: "ETH", Quote: "USD", Endpoint: "price"}
+	params := types.RequestParams{
+		"base":     "ETH",
+		"quote":    "USD",
+		"endpoint": "price",
+	}
 	obs := &types.Observation{Data: json.RawMessage(`{
 		"mid": 17.889088702834176,
 		"bid": 17.88511476884297,
 		"ask": 17.89306263682538
 	}`), Success: true}
-	c.Set(pair, obs, time.Now())
+	c.Set(params, obs, time.Now())
 
 	time.Sleep(ttl + 50*time.Millisecond)
 
-	if got := c.Get(pair); got != nil {
+	if got := c.Get(params); got != nil {
 		t.Fatalf("expected expired item to be removed, got non-nil observation")
 	}
 	if c.Size() != 0 {

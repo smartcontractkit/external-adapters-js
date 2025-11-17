@@ -50,24 +50,24 @@ func New(cfg Config) *Cache {
 
 }
 
-// Set stores an observation for the given asset pair with a timestamp
-func (c *Cache) Set(pair types.AssetPair, obs *types.Observation, timestamp time.Time) {
+// Set stores an observation for the given request parameters with a timestamp
+func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestamp time.Time) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	key := helpers.CalculateCacheKey(pair)
+	key := helpers.CalculateCacheKey(params)
 	c.items[key] = &types.CacheItem{
 		Observation: obs,
 		Timestamp:   timestamp,
 	}
 }
 
-// Get retrieves an observation for the given asset pair
-func (c *Cache) Get(pair types.AssetPair) *types.Observation {
+// Get retrieves an observation for the given request parameters
+func (c *Cache) Get(params types.RequestParams) *types.Observation {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
-	key := helpers.CalculateCacheKey(pair)
+	key := helpers.CalculateCacheKey(params)
 	if item, exists := c.items[key]; exists {
 		return item.Observation
 	}

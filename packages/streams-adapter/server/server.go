@@ -10,6 +10,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 
@@ -26,11 +27,7 @@ import (
 
 // RequestData represents the structure of incoming request data
 type RequestData struct {
-	Data struct {
-		Endpoint string `json:"endpoint" binding:"required"`
-		From     string `json:"from" binding:"required"`
-		To       string `json:"to" binding:"required"`
-	} `json:"data" binding:"required"`
+	Data map[string]interface{} `json:"data" binding:"required"`
 }
 
 // ResponseData represents the structure of the response
@@ -207,36 +204,48 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		return
 	}
 
-	// Extract asset pair data from request
-	assetPair := types.AssetPair{
-		Base:     reqData.Data.From,
-		Quote:    reqData.Data.To,
-		Endpoint: reqData.Data.Endpoint,
+	// Convert dynamic request data to RequestParams
+	requestParams := make(types.RequestParams)
+	for key, value := range reqData.Data {
+		// Skip the overrides key
+		if key == "overrides" {
+			continue
+		}
+		// Convert all values to strings and normalize to lowercase
+		var strValue string
+		if str, ok := value.(string); ok {
+			strValue = str
+		} else {
+			// Handle non-string values by converting to string
+			strValue = fmt.Sprintf("%v", value)
+		}
+		// Normalize to lowercase for consistent matching
+		requestParams[strings.ToLower(key)] = strings.ToLower(strValue)
 	}
 
-	// Set asset_pair for metrics tracking
-	middleware.SetAssetPair(c, assetPair.Base, assetPair.Quote, assetPair.Endpoint)
+	// Set request params for metrics tracking
+	middleware.SetRequestParams(c, requestParams)
 
-	// Check if pre-marshaled JSON response exists in cache
-	cachedResponse := s.cache.Get(assetPair)
+	// Check if cached response exists
+	cachedResponse := s.cache.Get(requestParams)
 
 	// Check if observation exists in cache
 	if cachedResponse == nil {
-		subscriptionKey := helpers.CalculateCacheKey(assetPair)
+		subscriptionKey := helpers.CalculateCacheKey(requestParams)
 
-		// Only subscribe if we're not already subscribing to this asset pair
+		// Only subscribe if we're not already subscribing to this request
 		// This prevents thundering herd of duplicate subscription requests
 		if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(subscriptionKey, true); !alreadySubscribing {
 			if s.config.LogLevel == "debug" {
 				s.logger.Debug("Initiating new subscription", "key", subscriptionKey)
 			}
-			go func(key string, pair types.AssetPair) {
-				s.subscribeToAsset(pair)
+			go func(key string, params types.RequestParams) {
+				s.subscribeToAsset(params)
 				// Remove from tracker after subscription attempt completes
 				// Allow retries after 10 seconds if data still not available
 				time.Sleep(10 * time.Second)
 				s.subscriptionTracker.Delete(key)
-			}(subscriptionKey, assetPair)
+			}(subscriptionKey, requestParams)
 		} else if s.config.LogLevel == "debug" {
 			s.logger.Debug("Subscription already in progress, skipping", "key", subscriptionKey)
 		}
@@ -256,14 +265,16 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, cachedResponse)
 }
 
-// subscribeToAsset sends a subscription request for the given asset pair
-func (s *Server) subscribeToAsset(assetPair types.AssetPair) {
+// subscribeToAsset sends a subscription request for the given request parameters
+func (s *Server) subscribeToAsset(params types.RequestParams) {
+	// Convert RequestParams back to the format expected by the EA
+	dataMap := make(map[string]string)
+	for key, value := range params {
+		dataMap[key] = value
+	}
+
 	subscribeBody := map[string]interface{}{
-		"data": map[string]string{
-			"endpoint": assetPair.Endpoint,
-			"from":     assetPair.Base,
-			"to":       assetPair.Quote,
-		},
+		"data": dataMap,
 	}
 
 	jsonBody, err := json.Marshal(subscribeBody)
