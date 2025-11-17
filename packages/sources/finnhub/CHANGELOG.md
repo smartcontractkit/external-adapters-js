@@ -1,5 +1,29 @@
 # @chainlink/finnhub-adapter
 
+## 3.2.0
+
+### Minor Changes
+
+- [#4256](https://github.com/smartcontractkit/external-adapters-js/pull/4256) [`e780274`](https://github.com/smartcontractkit/external-adapters-js/commit/e7802744e399b95c3053daf9979da3c2254dd3a8) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 24/5 market status
+
+## 3.1.1
+
+### Patch Changes
+
+- [#4253](https://github.com/smartcontractkit/external-adapters-js/pull/4253) [`f3c0e08`](https://github.com/smartcontractkit/external-adapters-js/commit/f3c0e08c67a8f61524ae0330810187059aef237d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
+## 3.1.0
+
+### Minor Changes
+
+- [#4231](https://github.com/smartcontractkit/external-adapters-js/pull/4231) [`8d06b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d06b4ab8f64e0c5ecbf8e69e5a1786dc0061d77) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump market status dependency
+
+## 3.0.3
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
 ## 3.0.2
 
 ### Patch Changes

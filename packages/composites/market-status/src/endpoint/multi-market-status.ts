@@ -3,6 +3,7 @@ import {
   marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { transport } from '../transport/multi-market-status'
 import { BaseMarketStatusEndpointTypes } from './common'
 
@@ -34,4 +35,13 @@ export const endpoint = new AdapterEndpoint({
   name: 'multi-market-status',
   transport,
   inputParameters,
+  customInputValidation: (req): AdapterInputError | undefined => {
+    if (req.requestContext.data.type !== 'regular') {
+      throw new AdapterInputError({
+        statusCode: 400,
+        errorResponse: '[Param: type] must be regular for multi-market-status endpoint',
+      })
+    }
+    return
+  },
 })

@@ -7,11 +7,21 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
   },
+  COLLATERAL_API_KEY: {
+    description: 'API key for Anchorage collateral_management endpoints',
+    type: 'string',
+    sensitive: true,
+  },
+  COLLATERAL_API_ENDPOINT: {
+    description: 'An API endpoint for Anchorage collateral_management endpoints',
+    type: 'string',
+    default: 'https://api.anchorage.com',
+  },
   API_LIMIT: {
     description: 'The maximum number of results to request from the API',
     type: 'number',
     default: 50,
-    validate: validator.integer({ min: 1, max: 500 }),
+    validate: validator.integer({ min: 1, max: 100 }),
   },
   BACKGROUND_EXECUTE_MS: {
     description:

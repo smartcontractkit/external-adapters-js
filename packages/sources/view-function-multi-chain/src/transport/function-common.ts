@@ -1,22 +1,26 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import {
-  TransportDependencies,
-  TransportGenerics,
-} from '@chainlink/external-adapter-framework/transports'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
+import { BaseEndpointTypes as FunctionEndpointTypes } from '../endpoint/function'
+import { BaseEndpointTypes as FunctionResponseSelectorEndpointTypes } from '../endpoint/function-response-selector'
 
 const logger = makeLogger('View Function Multi Chain')
 
-interface RequestParams {
-  signature: string
-  address: string
-  inputParams?: Array<string>
-  network: string
-  resultField?: string
-}
+type GenericFunctionEndpointTypes = FunctionEndpointTypes | FunctionResponseSelectorEndpointTypes
+
+// The `extends any ? ... : never` construct forces the compiler to distribute
+// over unions. Without it, the compiler doesn't know that T is either
+// FunctionEndpointTypes or FunctionResponseSelectorEndpointTypes.
+type RequestParams<T extends GenericFunctionEndpointTypes> = T extends any
+  ? TypeFromDefinition<T['Parameters']>
+  : never
 
 export type RawOnchainResponse = {
   iface: ethers.Interface
@@ -30,7 +34,7 @@ export type HexResultPostProcessor = (
 ) => string
 
 export class MultiChainFunctionTransport<
-  T extends TransportGenerics,
+  T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
   providers: Record<string, ethers.JsonRpcProvider> = {}
   hexResultPostProcessor: HexResultPostProcessor
@@ -49,17 +53,12 @@ export class MultiChainFunctionTransport<
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
   }
 
-  async backgroundHandler(context: EndpointContext<T>, entries: Array<T['Parameters']>) {
-    await Promise.all(
-      entries.map(async (param) => this.handleRequest(param as unknown as RequestParams)),
-    )
-    await sleep(
-      (context.adapterSettings as unknown as { BACKGROUND_EXECUTE_MS: number })
-        .BACKGROUND_EXECUTE_MS,
-    )
+  async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(param: RequestParams<T>) {
     let response: AdapterResponse<T['Response']>
     try {
       response = await this._handleRequest(param)
@@ -76,11 +75,37 @@ export class MultiChainFunctionTransport<
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: param as any, response }])
+
+    await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network } = param
+  async _handleRequest(param: RequestParams<T>): Promise<AdapterResponse<T['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+
+    const result = await this._executeFunction(param)
+
+    return {
+      data: {
+        result,
+      },
+      statusCode: 200,
+      result,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
+    }
+  }
+
+  private async _executeFunction(params: {
+    address: string
+    signature: string
+    inputParams?: Array<string>
+    network: string
+    resultField?: string
+  }) {
+    const { address, signature, inputParams, network, resultField } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -102,39 +127,30 @@ export class MultiChainFunctionTransport<
 
     const iface = new ethers.Interface([signature])
     const fnName = iface.getFunctionName(signature)
-    const encoded = iface.encodeFunctionData(fnName, [...(inputParams || [])])
+    const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
-    const providerDataRequestedUnixMs = Date.now()
-    const encodedResult = await this.providers[networkName].call({
-      to: address,
-      data: encoded,
-    })
-
-    const timestamps = {
-      providerDataRequestedUnixMs,
-      providerDataReceivedUnixMs: Date.now(),
-      providerIndicatedTimeUnixMs: undefined,
+    let encodedResult
+    try {
+      encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
+    } catch (err) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `RPC call failed for ${fnName} on ${networkName}: ${err}`,
+      })
     }
 
-    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, param.resultField)
+    const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, resultField)
 
-    return {
-      data: {
-        result,
-      },
-      statusCode: 200,
-      result,
-      timestamps,
-    }
+    return result
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
-    return (adapterSettings as { WARMUP_SUBSCRIPTION_TTL: number }).WARMUP_SUBSCRIPTION_TTL
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
 // Export a factory function to create transport instances
-export function createMultiChainFunctionTransport<T extends TransportGenerics>(
+export function createMultiChainFunctionTransport<T extends GenericFunctionEndpointTypes>(
   postProcessor: HexResultPostProcessor,
 ): MultiChainFunctionTransport<T> {
   return new MultiChainFunctionTransport<T>(postProcessor)

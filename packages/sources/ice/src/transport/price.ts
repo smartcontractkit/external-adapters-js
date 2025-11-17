@@ -1,18 +1,10 @@
-import {
-  EndpointContext,
-  LwbaResponseDataFields,
-} from '@chainlink/external-adapter-framework/adapter'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import {
   StreamingTransport,
   SubscriptionDeltas,
 } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
-import {
-  makeLogger,
-  ResponseGenerics,
-  sleep,
-  TimestampedAdapterResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { LocalPriceCache } from './cache'
 import { InstrumentPartialUpdate, PartialPriceUpdate, StreamingClient } from './netdania'
@@ -45,11 +37,10 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
 
       const coalesced: FullPriceUpdate = this.localCache.coalesceAndGet(update)
 
-      const bidAskMidResponse: TimestampedAdapterResponse<
-        ResponseGenerics & LwbaResponseDataFields
-      > = {
-        result: null,
+      const bidAskMidResponse = {
+        result: coalesced.mid,
         data: {
+          result: coalesced.mid,
           bid: coalesced.bid,
           mid: coalesced.mid,
           ask: coalesced.ask,

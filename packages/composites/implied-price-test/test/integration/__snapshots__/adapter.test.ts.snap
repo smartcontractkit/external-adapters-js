@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute computePrice endpoint returns error if operand1 has invalid input 1`] = `
+{
+  "error": {
+    "message": "Input payload for "operand1Input" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute computePrice endpoint returns error if operand1 has zero price 1`] = `
+{
+  "errorMessage": "operand1Median result is zero",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint returns error if operand2 has invalid input 1`] = `
+{
+  "error": {
+    "message": "Input payload for "operand2Input" is not valid JSON.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute computePrice endpoint returns error if operand2 has zero price 1`] = `
+{
+  "errorMessage": "operand2Median result is zero",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return error for minimum number of operand 1 sources 1`] = `
+{
+  "errorMessage": "Insufficient responses: got 1, required 2",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return error for minimum number of operand 2 sources 1`] = `
+{
+  "errorMessage": "Insufficient responses: got 1, required 2",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return error for missing source 1`] = `
+{
+  "error": {
+    "message": "Not enough sources configured. Make sure 1 of the following are set in the environment: COINPAPRIKA_ADAPTER_URL",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
+exports[`execute computePrice endpoint should return number > e+21 as fixed point rather than exponential 1`] = `
+{
+  "data": {
+    "result": "17150000000000000000000000",
+  },
+  "result": "17150000000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for divide 1`] = `
+{
+  "data": {
+    "result": "1.25",
+  },
+  "result": "1.25",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for legacy divisions 1`] = `
+{
+  "data": {
+    "result": "2.6666666666666666667",
+  },
+  "result": "2.6666666666666666667",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for multiply 1`] = `
+{
+  "data": {
+    "result": "200",
+  },
+  "result": "200",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for partial source success 1`] = `
+{
+  "data": {
+    "result": "4",
+  },
+  "result": "4",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

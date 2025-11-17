@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute accrued-interest endpoint should return success 1`] = `
+{
+  "data": {
+    "as_of_datetime": "2001-01-01T11:11:11.111Z",
+    "contract_address": "0x1234567890abcdef1234567890abcdef12345678",
+    "outstanding_interest_accrued": "1234.5678",
+    "result": "1234.5678",
+    "token_name": "PRIMEprm2",
+  },
+  "result": "1234.5678",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

@@ -5,7 +5,7 @@ export const SIGNED_PRICE_DECIMALS = 30
 
 export type PriceData = { [asset: string]: { bids: number[]; asks: number[] } }
 
-export type Source = { url: string; name: string }
+export type Source = { url: string | undefined; name: string }
 
 export const median = (values: number[]): number => {
   if (values.length === 0) {

@@ -1,5 +1,21 @@
 # @chainlink/anchorage-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#4184](https://github.com/smartcontractkit/external-adapters-js/pull/4184) [`2a5bf50`](https://github.com/smartcontractkit/external-adapters-js/commit/2a5bf50fdb14aeaffaa1ef6986ca54444d635f57) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - The maximum API_LIMIT is now reduced from 500 to 100
+
+### Minor Changes
+
+- [#4187](https://github.com/smartcontractkit/external-adapters-js/pull/4187) [`440d4ba`](https://github.com/smartcontractkit/external-adapters-js/commit/440d4bae280c383bf8ec1d44ada17bf886f9c238) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new endpoint
+
+## 1.0.22
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
 ## 1.0.21
 
 ### Patch Changes

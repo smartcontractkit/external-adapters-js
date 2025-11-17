@@ -1,5 +1,21 @@
 # @chainlink/dxfeed-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#4211](https://github.com/smartcontractkit/external-adapters-js/pull/4211) [`4d2dd39`](https://github.com/smartcontractkit/external-adapters-js/commit/4d2dd3925cff62f1a7131b13e7abd48efa2a10ac) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support over-night hours
+
+### Patch Changes
+
+- [#4195](https://github.com/smartcontractkit/external-adapters-js/pull/4195) [`2a4a4eb`](https://github.com/smartcontractkit/external-adapters-js/commit/2a4a4eb2618ee3bd0866cffea3ae656c8bbc20f7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
+## 2.0.39
+
+### Patch Changes
+
+- [#4131](https://github.com/smartcontractkit/external-adapters-js/pull/4131) [`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bumped framework version to fix a websocket connection issue
+
 ## 2.0.38
 
 ### Patch Changes

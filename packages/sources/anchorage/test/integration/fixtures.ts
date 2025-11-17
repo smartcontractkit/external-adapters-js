@@ -155,3 +155,88 @@ export const mockResponseSuccess = (): nock.Scope =>
       page: { next: null },
     }))
     .persist()
+
+export const mockPackagesResponseSuccess = (): nock.Scope =>
+  nock('https://localhost:3325', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get(`/v2/collateral_management/packages?limit=1`)
+    .reply(
+      200,
+      () => ({
+        data: [
+          {
+            clientReferenceId: '123456',
+            collateralAssets: [
+              {
+                asset: {
+                  assetType: 'BTC',
+                },
+                quantity: '1.5',
+              },
+              {
+                asset: {
+                  assetType: 'ETH',
+                },
+                quantity: '2.3',
+              },
+            ],
+          },
+        ],
+        page: {
+          next: '/v2/collateral_management/packages?afterId=123456&limit=1',
+        },
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+    .get(`/v2/collateral_management/packages?afterId=123456&limit=1`)
+    .reply(200, () => ({
+      data: [
+        {
+          clientReferenceId: '123456',
+          collateralAssets: [
+            {
+              asset: {
+                assetType: 'BTC',
+              },
+              quantity: '0.8',
+            },
+          ],
+        },
+      ],
+      page: {
+        next: '/v2/collateral_management/packages?afterId=789012&limit=1',
+      },
+    }))
+    .persist()
+    .get(`/v2/collateral_management/packages?afterId=789012&limit=1`)
+    .reply(200, () => ({
+      data: [
+        {
+          clientReferenceId: '789012',
+          collateralAssets: [
+            {
+              asset: {
+                assetType: 'BTC',
+              },
+              quantity: '5.0',
+            },
+          ],
+        },
+      ],
+      page: {
+        next: null,
+      },
+    }))
+    .persist()

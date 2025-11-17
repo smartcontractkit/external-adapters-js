@@ -29,7 +29,14 @@ export const inputParamDefinition = {
   },
 } as const
 
-export const inputParameters = new InputParameters(inputParamDefinition)
+export const inputParameters = new InputParameters(inputParamDefinition, [
+  {
+    signature: 'function convertToAssets(uint256 shares) external view returns (uint256 assets)',
+    address: '0xc8CF6D7991f15525488b2A83Df53468D682Ba4B0',
+    inputParams: ['1000000000000000000'],
+    network: 'ethereum',
+  },
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

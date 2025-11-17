@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/multi-address-list-adapter",
-  "version": "1.0.21",
+  "version": "1.0.23",
   "description": "Chainlink multi-address-list adapter.",
   "keywords": [
     "Chainlink",

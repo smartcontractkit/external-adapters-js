@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint when ripcord true should fail with 502 error 1`] = `
+{
+  "errorMessage": "Ripcord indicator true. Details: Balances",
+  "ripcord": true,
+  "ripcordDetails": "Balances",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1760583701362,
+  },
+}
+`;

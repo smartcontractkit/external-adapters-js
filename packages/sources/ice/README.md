@@ -1,6 +1,6 @@
 # ICE
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ice/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ice/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -27,13 +27,13 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                          Options                                                                                                           | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [crypto-lwba](#price-endpoint), [crypto_lwba](#price-endpoint), [cryptolwba](#price-endpoint), [data-price](#price-endpoint), [getreqobjprice](#price-endpoint), [latest-price](#price-endpoint), [price](#price-endpoint) | `price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                             Options                                                                                              | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#price-endpoint), [forex](#price-endpoint), [fx](#price-endpoint), [getreqobjprice](#price-endpoint), [price](#price-endpoint), [quote](#price-endpoint), [stock](#price-endpoint) | `price` |
 
 ## Price Endpoint
 
-Supported names for this endpoint are: `crypto-lwba`, `crypto_lwba`, `cryptolwba`, `data-price`, `getreqobjprice`, `latest-price`, `price`.
+Supported names for this endpoint are: `commodities`, `forex`, `fx`, `getreqobjprice`, `price`, `quote`, `stock`.
 
 ### Input Params
 

@@ -47,7 +47,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   },
 
   handlers: {
-    message(message) {
+    message(message, context) {
       if (message.success === false) {
         logger.warn(message, `Got error response from websocket: '${message.reason}'`)
         return
@@ -55,7 +55,12 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
       return [
         {
-          params: { index: message.id, base: undefined, quote: undefined },
+          params: {
+            index: message.id,
+            base: undefined,
+            quote: undefined,
+            ...(context.adapterSettings.API_SECONDARY && { adapterNameOverride: 'cfbenchmarks2' }),
+          },
           response: {
             result: null,
             data: {

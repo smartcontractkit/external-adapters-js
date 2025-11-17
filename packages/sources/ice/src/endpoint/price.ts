@@ -1,13 +1,13 @@
 import {
-  LwbaEndpoint,
-  lwbaEndpointInputParametersDefinition,
-  LwbaResponseDataFields,
+  PriceEndpoint,
+  priceEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/price'
 
-export const inputParameters = new InputParameters(lwbaEndpointInputParametersDefinition, [
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
     base: 'EUR',
     quote: 'USD',
@@ -16,13 +16,13 @@ export const inputParameters = new InputParameters(lwbaEndpointInputParametersDe
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: LwbaResponseDataFields
+  Response: SingleNumberResultResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new LwbaEndpoint({
+export const endpoint = new PriceEndpoint({
   name: 'price',
-  aliases: ['latest-price', 'data-price', 'getReqObjPrice'],
+  aliases: ['forex', 'fx', 'commodities', 'stock', 'quote', 'getReqObjPrice'],
   transport: transport,
   inputParameters,
 })

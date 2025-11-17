@@ -42,13 +42,13 @@
       "path": "./composites/gm-token/tsconfig.test.json"
     },
     {
-      "path": "./composites/google-weather/tsconfig.test.json"
-    },
-    {
       "path": "./composites/historical-average/tsconfig.test.json"
     },
     {
       "path": "./composites/implied-price/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/implied-price-test/tsconfig.test.json"
     },
     {
       "path": "./composites/linear-finance/tsconfig.test.json"
@@ -79,9 +79,6 @@
     },
     {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/reference-transform/tsconfig.test.json"
     },
     {
       "path": "./composites/rocket-pool/tsconfig.test.json"
@@ -264,6 +261,9 @@
       "path": "./sources/coinpaprika/tsconfig.test.json"
     },
     {
+      "path": "./sources/coinpaprika-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
@@ -274,9 +274,6 @@
     },
     {
       "path": "./sources/cryptoapis/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cryptoapis-v2/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
@@ -315,9 +312,6 @@
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {
-      "path": "./sources/dxfeed-secondary/tsconfig.test.json"
-    },
-    {
       "path": "./sources/elven/tsconfig.test.json"
     },
     {
@@ -349,6 +343,9 @@
     },
     {
       "path": "./sources/ethgaswatch/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/exchange-copter/tsconfig.test.json"
     },
     {
       "path": "./sources/expand-network/tsconfig.test.json"
@@ -396,16 +393,13 @@
       "path": "./sources/gemini/tsconfig.test.json"
     },
     {
+      "path": "./sources/generic-api/tsconfig.test.json"
+    },
+    {
       "path": "./sources/genesis-volatility/tsconfig.test.json"
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/google-bigquery/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/gramchain/tsconfig.test.json"
     },
     {
       "path": "./sources/graphql/tsconfig.test.json"
@@ -418,6 +412,9 @@
     },
     {
       "path": "./sources/hashnote/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/hastra/tsconfig.test.json"
     },
     {
       "path": "./sources/icap/tsconfig.test.json"
@@ -439,9 +436,6 @@
     },
     {
       "path": "./sources/ion.au/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/jpegd/tsconfig.test.json"
     },
     {
       "path": "./sources/json-rpc/tsconfig.test.json"
@@ -480,9 +474,6 @@
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
-      "path": "./sources/marketstack/tsconfig.test.json"
-    },
-    {
       "path": "./sources/messari/tsconfig.test.json"
     },
     {
@@ -507,16 +498,13 @@
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
+      "path": "./sources/nav-fund-services/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nav-generic/tsconfig.test.json"
     },
     {
-      "path": "./sources/nav-libre/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ncfx/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nft-blue-chip/tsconfig.test.json"
     },
     {
       "path": "./sources/nikkei/tsconfig.test.json"
@@ -544,9 +532,6 @@
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/orchid-bandwidth/tsconfig.test.json"
     },
     {
       "path": "./sources/paxos/tsconfig.test.json"
@@ -594,9 +579,6 @@
       "path": "./sources/solana-view-function/tsconfig.test.json"
     },
     {
-      "path": "./sources/spectral-macro-score/tsconfig.test.json"
-    },
-    {
       "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
@@ -613,6 +595,9 @@
     },
     {
       "path": "./sources/stasis/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/streamex/tsconfig.test.json"
     },
     {
       "path": "./sources/superstate/tsconfig.test.json"
@@ -691,6 +676,9 @@
     },
     {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/wintermute/tsconfig.test.json"
     },
     {
       "path": "./sources/wisdomtree/tsconfig.test.json"

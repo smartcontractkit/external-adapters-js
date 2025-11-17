@@ -1,8 +1,9 @@
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import Decimal from 'decimal.js'
 import { config } from '../config'
-import { BaseEndpointTypes, Market, MARKETS } from '../endpoint/lwba'
+import { BaseEndpointTypes, Market, MARKET_EUREX_MICRO, MARKETS } from '../endpoint/lwba'
 import { BaseEndpointTypes as PriceBaseEndpointTypes } from '../endpoint/price'
 import {
   RequestSchema,
@@ -11,12 +12,21 @@ import {
   UnsubscribeSchema,
   type StreamMessage,
 } from '../gen/client_pb'
-import { MarketDataSchema, type MarketData } from '../gen/md_cef_pb'
+import {
+  Data_MDEntryPrices_MDEntryType,
+  Data_PriceTypeValue_PriceType,
+  MarketDataSchema,
+  type Data_MDEntryPrices,
+  type Data as DataProto,
+  type MarketData,
+} from '../gen/md_cef_pb'
 import { InstrumentQuoteCache, Quote } from './instrument-quote-cache'
 import {
   decimalToNumber,
+  hasMidPriceSpreadFrame,
   hasSingleBidFrame,
   hasSingleOfferFrame,
+  isFutureInstrument,
   isSingleTradeFrame,
   parseIsin,
   pickProviderTime,
@@ -41,7 +51,6 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
   extractData: (quote: Quote) => BaseEndpointTypes['Response']['Data'],
 ) {
   const cache = new InstrumentQuoteCache()
-  let ttlInterval: ReturnType<typeof setInterval> | undefined
   const transport = new ProtobufWsTransport<WsTransportTypes>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/stream?format=proto`,
     options: async (context) => ({
@@ -52,27 +61,11 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
       open: async (_connection, context) => {
         logger.info('LWBA websocket connection established')
 
-        // Clear any previous interval
-        if (ttlInterval) {
-          clearInterval(ttlInterval)
-          ttlInterval = undefined
-        }
-
-        const doRefresh = async () => {
-          try {
-            await updateTTL(transport, context.adapterSettings.CACHE_MAX_AGE)
-            logger.info(
-              { refreshMs: context.adapterSettings.CACHE_TTL_REFRESH_MS },
-              'Refreshed TTL for active subscriptions',
-            )
-          } catch (err) {
-            logger.error({ err }, 'Failed TTL refresh')
-          }
-        }
-
-        // Refresh immediately, then every minute
-        await doRefresh()
-        ttlInterval = setInterval(doRefresh, context.adapterSettings.CACHE_TTL_REFRESH_MS)
+        // Start heartbeat to keep connection alive
+        transport.startHeartbeat(
+          context.adapterSettings.HEARTBEAT_INTERVAL_MS,
+          context.adapterSettings.CACHE_MAX_AGE,
+        )
       },
       error: (errorEvent) => {
         logger.error({ errorEvent }, 'LWBA websocket error')
@@ -82,10 +75,9 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         const reason = (closeEvent as any)?.reason
         const wasClean = (closeEvent as any)?.wasClean
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
-        if (ttlInterval) {
-          clearInterval(ttlInterval)
-          ttlInterval = undefined
-        }
+
+        // Stop heartbeat
+        transport.stopHeartbeat()
       },
       message(buf) {
         logger.debug(
@@ -111,13 +103,16 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
           return []
         }
         const { isin, providerTime } = result
+
         const quote = cache.get(market, isin)
+
         if (quote == null) {
           logger.error({ isin, market }, 'Quote missing from cache after processing frame')
           return []
         }
         const responseData = extractData(quote)
         if (!responseData) {
+          logger.debug({ quote, isin }, 'Failed to extract response data from quote')
           return []
         }
         return [
@@ -190,10 +185,64 @@ function decodeStreamMessage(buf: Buffer): StreamMessage | null {
   }
 }
 
-const updateTTL = async (transport: ProtobufWsTransport<WsTransportTypes>, ttl: number) => {
-  const params = await transport.subscriptionSet.getAll()
-  transport.responseCache.writeTTL(transport.name, params, ttl)
+function processMidPriceSpreadFrame(
+  dat: DataProto,
+  market: string,
+  isin: string,
+  cache: InstrumentQuoteCache,
+  providerTime: number,
+): { isin: string; providerTime: number } | null {
+  const pxs = dat!.Pxs
+
+  const spreadEntries = pxs.filter(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.PRICE_SPREAD &&
+      entry.Px &&
+      entry.Sz,
+  )
+
+  if (spreadEntries.length === 0) {
+    logger.error({ market, isin }, 'No PRICE_SPREAD entries found in Pxs array')
+    return null
+  }
+
+  spreadEntries.sort((a: Data_MDEntryPrices, b: Data_MDEntryPrices) => {
+    const sizeA = decimalToNumber(a.Sz)
+    const sizeB = decimalToNumber(b.Sz)
+    return sizeA - sizeB
+  })
+
+  const lowestSpreadEntry = spreadEntries[0]
+  const spread = decimalToNumber(lowestSpreadEntry.Px)
+  const size = decimalToNumber(lowestSpreadEntry.Sz)
+
+  const normalRateEntry = pxs.find(
+    (entry: Data_MDEntryPrices) =>
+      entry.Typ === Data_MDEntryPrices_MDEntryType.MID_PRICE &&
+      entry.PxTyp?.Value === Data_PriceTypeValue_PriceType.NORMAL_RATE &&
+      entry.Px,
+  )
+
+  if (!normalRateEntry) {
+    logger.error({ market, isin }, 'No NORMAL_RATE entry found in Pxs array')
+    return null
+  }
+
+  const mid = decimalToNumber(normalRateEntry.Px)
+  const halfSpread = new Decimal(spread).div(2)
+  const bidPx = new Decimal(mid).minus(halfSpread).toNumber()
+  const askPx = new Decimal(mid).plus(halfSpread).toNumber()
+
+  cache.addQuote(market, isin, bidPx, askPx, providerTime, size, size)
+
+  logger.debug(
+    { isin, bid: bidPx, ask: askPx, mid, spread, size, providerTimeUnixMs: providerTime },
+    'Processed mid price + spread frame',
+  )
+  return { isin, providerTime }
 }
+
 function processMarketData(
   md: MarketData,
   cache: InstrumentQuoteCache,
@@ -204,12 +253,7 @@ function processMarketData(
 } | null {
   const isin = parseIsin(md)
   if (!isin) {
-    logger.warn('Could not parse ISIN from MarketData')
-    return null
-  }
-  const dat: any = (md as MarketData)?.Dat
-  if (!dat) {
-    logger.warn('Could not parse MarketData from MarketData.Instrmt')
+    logger.debug('ISIN not present in MarketData, ignoring message')
     return null
   }
 
@@ -219,8 +263,18 @@ function processMarketData(
     return null
   }
 
-  const providerTime = pickProviderTime(dat)
+  if (market === MARKET_EUREX_MICRO && !isFutureInstrument(md)) {
+    logger.debug({ isin, market }, 'Ignoring non-FUT instrument for FUT-only market')
+    return null
+  }
 
+  const dat = (md as MarketData)?.Dat
+  if (!dat) {
+    logger.warn('Could not parse MarketData from MarketData.Instrmt')
+    return null
+  }
+
+  const providerTime = pickProviderTime(dat)
   if (isSingleTradeFrame(dat)) {
     const latestPrice = decimalToNumber(dat!.Px)
     cache.addTrade(market, isin, latestPrice, providerTime)
@@ -230,6 +284,12 @@ function processMarketData(
     )
     return { isin, providerTime }
   }
+
+  // Handle Pxs array with MID_PRICE and PRICE_SPREAD
+  if (hasMidPriceSpreadFrame(dat)) {
+    return processMidPriceSpreadFrame(dat, market, isin, cache, providerTime)
+  }
+
   if (hasSingleBidFrame(dat) && hasSingleOfferFrame(dat)) {
     const bidPx = decimalToNumber(dat!.Bid!.Px)
     const askPx = decimalToNumber(dat!.Offer!.Px)

@@ -1,20 +1,19 @@
+import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
+import { Server, WebSocket } from 'mock-socket'
 import * as process from 'process'
 import { SuperTest, Test } from 'supertest'
-import { Server, WebSocket } from 'mock-socket'
-import tp from '@chainlink/tp-adapter'
+import { priceEndpoint } from '../../src/endpoint'
 import {
-  mockUSDCADResponse,
-  mockTPPriceResponse,
   mockInversePriceResponse,
   mockPriceResponse,
+  mockSeparateSourcePriceResponse,
   mockStalePriceResponse,
   mockSubscribeResponse,
-  mockSeparateSourcePriceResponse,
+  mockTPPriceResponse,
+  mockUSDCADResponse,
 } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
-import { priceEndpoint } from '../../src/endpoint'
-import { ServerInstance } from '@chainlink/external-adapter-framework'
 
 import { config } from '../../src/config'
 import includes from '../../src/config/includes.json'

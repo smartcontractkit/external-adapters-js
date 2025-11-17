@@ -1,5 +1,26 @@
 # @chainlink/dxdao-adapter
 
+## 2.0.114
+
+### Patch Changes
+
+- Updated dependencies [[`8d06b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d06b4ab8f64e0c5ecbf8e69e5a1786dc0061d77), [`bf10006`](https://github.com/smartcontractkit/external-adapters-js/commit/bf100063b8068e1ce0f3a3e4d410a0babc61c2f9)]:
+  - @chainlink/token-allocation-adapter@1.14.0
+
+## 2.0.113
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.13.26
+
+## 2.0.112
+
+### Patch Changes
+
+- Updated dependencies [[`4c94fd9`](https://github.com/smartcontractkit/external-adapters-js/commit/4c94fd916bd8b57898ae61cde0888a09fc543a6e)]:
+  - @chainlink/token-allocation-adapter@1.13.25
+
 ## 2.0.111
 
 ### Patch Changes

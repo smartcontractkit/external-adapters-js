@@ -42,13 +42,13 @@
       "path": "./composites/gm-token"
     },
     {
-      "path": "./composites/google-weather"
-    },
-    {
       "path": "./composites/historical-average"
     },
     {
       "path": "./composites/implied-price"
+    },
+    {
+      "path": "./composites/implied-price-test"
     },
     {
       "path": "./composites/linear-finance"
@@ -79,9 +79,6 @@
     },
     {
       "path": "./composites/proof-of-reserves"
-    },
-    {
-      "path": "./composites/reference-transform"
     },
     {
       "path": "./composites/rocket-pool"
@@ -264,6 +261,9 @@
       "path": "./sources/coinpaprika"
     },
     {
+      "path": "./sources/coinpaprika-state"
+    },
+    {
       "path": "./sources/coinranking"
     },
     {
@@ -274,9 +274,6 @@
     },
     {
       "path": "./sources/cryptoapis"
-    },
-    {
-      "path": "./sources/cryptoapis-v2"
     },
     {
       "path": "./sources/cryptocompare"
@@ -315,9 +312,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/dxfeed-secondary"
-    },
-    {
       "path": "./sources/elven"
     },
     {
@@ -349,6 +343,9 @@
     },
     {
       "path": "./sources/ethgaswatch"
+    },
+    {
+      "path": "./sources/exchange-copter"
     },
     {
       "path": "./sources/expand-network"
@@ -396,16 +393,13 @@
       "path": "./sources/gemini"
     },
     {
+      "path": "./sources/generic-api"
+    },
+    {
       "path": "./sources/genesis-volatility"
     },
     {
       "path": "./sources/gmci"
-    },
-    {
-      "path": "./sources/google-bigquery"
-    },
-    {
-      "path": "./sources/gramchain"
     },
     {
       "path": "./sources/graphql"
@@ -418,6 +412,9 @@
     },
     {
       "path": "./sources/hashnote"
+    },
+    {
+      "path": "./sources/hastra"
     },
     {
       "path": "./sources/icap"
@@ -439,9 +436,6 @@
     },
     {
       "path": "./sources/ion.au"
-    },
-    {
-      "path": "./sources/jpegd"
     },
     {
       "path": "./sources/json-rpc"
@@ -480,9 +474,6 @@
       "path": "./sources/m0"
     },
     {
-      "path": "./sources/marketstack"
-    },
-    {
       "path": "./sources/messari"
     },
     {
@@ -507,16 +498,13 @@
       "path": "./sources/nav-consulting"
     },
     {
+      "path": "./sources/nav-fund-services"
+    },
+    {
       "path": "./sources/nav-generic"
     },
     {
-      "path": "./sources/nav-libre"
-    },
-    {
       "path": "./sources/ncfx"
-    },
-    {
-      "path": "./sources/nft-blue-chip"
     },
     {
       "path": "./sources/nikkei"
@@ -544,9 +532,6 @@
     },
     {
       "path": "./sources/openexchangerates"
-    },
-    {
-      "path": "./sources/orchid-bandwidth"
     },
     {
       "path": "./sources/paxos"
@@ -594,9 +579,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/spectral-macro-score"
-    },
-    {
       "path": "./sources/sportsdataio"
     },
     {
@@ -613,6 +595,9 @@
     },
     {
       "path": "./sources/stasis"
+    },
+    {
+      "path": "./sources/streamex"
     },
     {
       "path": "./sources/superstate"
@@ -691,6 +676,9 @@
     },
     {
       "path": "./sources/wbtc-address-set"
+    },
+    {
+      "path": "./sources/wintermute"
     },
     {
       "path": "./sources/wisdomtree"
