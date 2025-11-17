@@ -1,7 +1,14 @@
 {
   "name": "@chainlink/liveart-adapter",
-  "version": "1.0.0",
-  "description": "LiveArt NAV external adapter for Chainlink",
+  "version": "0.0.0",
+  "description": "Chainlink liveart adapter.",
+  "keywords": [
+    "Chainlink",
+    "LINK",
+    "blockchain",
+    "oracle",
+    "liveart"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -13,11 +20,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "prepack": "yarn build",
     "build": "tsc -b",
-    "server": "node -e 'require(\"./src/index.ts\").server()'",
+    "server": "node -e 'require(\"./index.js\").server()'",
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
@@ -28,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.0",
     "tslib": "2.4.1"
   }
 }
