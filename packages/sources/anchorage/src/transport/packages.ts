@@ -71,7 +71,7 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
 
     const response = await request<PackageResponse>(
       this.requester,
-      this.settings.API_ENDPOINT,
+      this.settings.COLLATERAL_API_ENDPOINT,
       'v2/collateral_management/packages',
       // Validated not null in endpoint
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
