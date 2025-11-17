@@ -18,7 +18,7 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-export const nav = new AdapterEndpoint({
+export const endpoint = new AdapterEndpoint({
   name: 'nav',
   transport: httpTransport,
   inputParameters,

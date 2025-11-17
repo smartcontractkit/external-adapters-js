@@ -1,7 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports/http'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { config } from '../config/config'
+import { config } from '../config'
 import { inputParameters } from '../endpoint/nav'
 
 export interface ResponseSchema {
@@ -48,7 +47,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (params, response) => {
-    return params.map((param: TypeFromDefinition<typeof inputParameters.definition>) => {
+    return params.map((param) => {
       if (param.assetId !== response.data.asset_id) {
         return {
           params: param,
@@ -70,14 +69,14 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
 
       const navString = responseData.token_current_estimated_nav_per_share_usd
-      const nav = parseFloat(navString)
+      const result = parseFloat(navString)
 
       return {
         params: param,
         response: {
-          result: nav,
+          result,
           data: {
-            result: nav,
+            result,
           },
         },
       }
