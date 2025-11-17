@@ -78,7 +78,7 @@ export const getRpcUrl = (network: string): string => {
   const rpcUrlWithNetwork = util.getEnv(`${network.toUpperCase()}_RPC_URL`)
   if (rpcUrlWithNetwork) return rpcUrlWithNetwork
 
-  // Backwards compatability for RPC_URL
+  // Backwards compatibility for RPC_URL
   const rpcURL = util.getEnv('RPC_URL')
   if (rpcURL) {
     Logger.warn(

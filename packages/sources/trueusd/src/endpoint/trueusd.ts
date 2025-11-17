@@ -13,7 +13,7 @@ export const inputParameters = new InputParameters(
       type: 'string',
     },
     field: {
-      // Deprecated - kept for backwards compatability
+      // Deprecated - kept for backwards compatibility
       default: 'totalTrust',
       description:
         'The object-path string to parse a single `result` value. When not provided the entire response will be provided.',
