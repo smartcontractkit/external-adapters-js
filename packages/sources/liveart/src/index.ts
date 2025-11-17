@@ -9,6 +9,14 @@ export const adapter = new Adapter({
   name: 'LIVE_ART',
   config,
   endpoints: [nav],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 1,
+        note: 'Setting reasonable default limits',
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
