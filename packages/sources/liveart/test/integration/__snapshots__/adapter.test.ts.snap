@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LiveArt NAV endpoints nav framework should handle API 422 bad response 1`] = `
+{
+  "errorMessage": "Provider request failed with status 422: {"detail":[{"type":"enum","loc":["path","asset_id"],"msg":"Input should be 'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'","input":"abcd","ctx":{"expected":"'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'"}}]}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`LiveArt NAV endpoints nav should handle upstream bad response for unsuccessful request 1`] = `
 {
   "errorMessage": "Asset ID 'AssetId.ROLSUB' not found",

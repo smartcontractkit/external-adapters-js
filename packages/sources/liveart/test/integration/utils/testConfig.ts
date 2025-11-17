@@ -1,4 +1,4 @@
-export const TEST_URL = 'https://test.liveart.ai'
+export const TEST_URL = 'https://localhost:12345'
 export const TEST_SUCCESS_ASSET_ID = 'KUSPUM'
 export const TEST_FAILURE_ASSET_ID = 'ROLSUB'
 

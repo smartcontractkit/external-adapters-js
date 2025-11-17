@@ -4,7 +4,11 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
-import { mockHappyPathResponseSuccessAsset, mockResponseFailureAsset } from './utils/fixtures'
+import {
+  mockHappyPathResponseSuccessAsset,
+  mockResponseApiFailureAsset,
+  mockResponseFailureAsset,
+} from './utils/fixtures'
 import { TEST_FAILURE_ASSET_ID, TEST_SUCCESS_ASSET_ID, TEST_URL } from './utils/testConfig'
 import { clearTestCache } from './utils/utilFunctions'
 
@@ -20,6 +24,7 @@ describe('LiveArt NAV', () => {
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
     // Set environment variables
     process.env.API_BASE_URL = TEST_URL
+    process.env.BACKGROUND_EXECUTE_MS = '0'
 
     // Create adapter instance only once
     const adapter = (await import('../../src')).adapter
@@ -63,9 +68,8 @@ describe('LiveArt NAV', () => {
         mockHappyPathResponseSuccessAsset(data.assetId)
 
         const response = await testAdapter.request(data)
-        const responseJson = response.json()
-        expect(responseJson.statusCode).toBe(502)
-        expect(responseJson).toMatchSnapshot()
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
       })
 
       it('should handle upstream bad response for unsuccessful request', async () => {
@@ -77,9 +81,24 @@ describe('LiveArt NAV', () => {
         mockResponseFailureAsset(data.assetId)
 
         const response = await testAdapter.request(data)
-        const responseJson = response.json()
-        expect(responseJson.statusCode).toBe(502)
-        expect(responseJson).toMatchSnapshot()
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
+      })
+
+      it('framework should handle API 422 bad response', async () => {
+        const data = {
+          assetId: 'abcd',
+          endpoint: 'nav',
+        }
+
+        // prep cache
+        await testAdapter.request(data)
+
+        mockResponseApiFailureAsset()
+
+        const response = await testAdapter.request(data)
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
       })
     })
   })

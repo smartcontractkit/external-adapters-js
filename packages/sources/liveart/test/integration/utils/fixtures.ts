@@ -35,3 +35,33 @@ export const mockResponseFailureAsset = (assetId: string): nock.Scope =>
         'Origin',
       ],
     )
+
+export const mockResponseApiFailureAsset = (): nock.Scope =>
+  nock(TEST_URL)
+    .get(`/asset/abcd`)
+    .reply(
+      422,
+      () => ({
+        detail: [
+          {
+            type: 'enum',
+            loc: ['path', 'asset_id'],
+            msg: "Input should be 'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'",
+            input: 'abcd',
+            ctx: {
+              expected: "'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'",
+            },
+          },
+        ],
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
