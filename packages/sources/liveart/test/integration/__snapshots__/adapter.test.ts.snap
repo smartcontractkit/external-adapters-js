@@ -11,7 +11,7 @@ exports[`LiveArt NAV endpoints nav should handle upstream bad response for unsuc
 }
 `;
 
-exports[`LiveArt NAV endpoints nav should return error for invalid asset_id 1`] = `
+exports[`LiveArt NAV endpoints nav should return error for invalid assetId 1`] = `
 {
   "errorMessage": "Mismatched asset_id in response. Expected invalid-asset-id, got KUSPUM",
   "statusCode": 502,
@@ -22,7 +22,7 @@ exports[`LiveArt NAV endpoints nav should return error for invalid asset_id 1`] 
 }
 `;
 
-exports[`LiveArt NAV endpoints nav should return success for valid asset_id 1`] = `
+exports[`LiveArt NAV endpoints nav should return success for valid assetId 1`] = `
 {
   "data": {
     "result": 0.09630117,
