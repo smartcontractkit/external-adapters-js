@@ -47,7 +47,7 @@ export const endpoint = new AdapterEndpoint({
   transport: packagesTransport,
   inputParameters,
   customInputValidation: (_, adapterSettings): AdapterInputError | undefined => {
-    if (!adapterSettings.COLLATERAL_API_KEY) {
+    if (!adapterSettings.COLLATERAL_API_ENDPOINT) {
       throw new AdapterInputError({
         message: 'Missing COLLATERAL_API_KEY',
         statusCode: 400,
