@@ -5,7 +5,7 @@ import { httpTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters(
   {
-    asset_id: {
+    assetId: {
       required: true,
       type: 'string',
       description: 'The ID of the artwork asset to fetch',
@@ -13,7 +13,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      asset_id: 'KUSPUM',
+      assetId: 'KUSPUM',
     },
   ],
 )

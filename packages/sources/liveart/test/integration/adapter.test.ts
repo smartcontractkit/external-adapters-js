@@ -4,7 +4,6 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
-import { nav } from '../../src/endpoint/nav'
 import { mockHappyPathResponseSuccessAsset, mockResponseFailureAsset } from './utils/fixtures'
 import { TEST_FAILURE_ASSET_ID, TEST_SUCCESS_ASSET_ID, TEST_URL } from './utils/testConfig'
 import { clearTestCache } from './utils/utilFunctions'
@@ -41,27 +40,27 @@ describe('LiveArt NAV', () => {
 
   describe('endpoints', () => {
     describe('nav', () => {
-      it('should return success for valid asset_id', async () => {
+      it('should return success for valid assetId', async () => {
         const dataInput = {
-          asset_id: TEST_SUCCESS_ASSET_ID,
-          endpoint: nav.name,
+          assetId: TEST_SUCCESS_ASSET_ID,
+          endpoint: 'nav',
         }
 
-        mockHappyPathResponseSuccessAsset(dataInput.asset_id)
+        mockHappyPathResponseSuccessAsset(dataInput.assetId)
         const response = await testAdapter.request(dataInput)
 
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should return error for invalid asset_id', async () => {
+      it('should return error for invalid assetId', async () => {
         const data = {
-          asset_id: 'invalid-asset-id',
-          endpoint: nav.name,
+          assetId: 'invalid-asset-id',
+          endpoint: 'nav',
         }
 
-        // Mock for other asset_id
-        mockHappyPathResponseSuccessAsset(data.asset_id)
+        // Mock for other assetId
+        mockHappyPathResponseSuccessAsset(data.assetId)
 
         const response = await testAdapter.request(data)
         const responseJson = response.json()
@@ -71,11 +70,11 @@ describe('LiveArt NAV', () => {
 
       it('should handle upstream bad response for unsuccessful request', async () => {
         const data = {
-          asset_id: TEST_FAILURE_ASSET_ID,
-          endpoint: nav.name,
+          assetId: TEST_FAILURE_ASSET_ID,
+          endpoint: 'nav',
         }
 
-        mockResponseFailureAsset(data.asset_id)
+        mockResponseFailureAsset(data.assetId)
 
         const response = await testAdapter.request(data)
         const responseJson = response.json()

@@ -42,18 +42,18 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: adapterSettings.API_BASE_URL,
-          url: `/asset/${param.asset_id}`,
+          url: `/asset/${param.assetId}`,
         },
       }
     })
   },
   parseResponse: (params, response) => {
     return params.map((param: TypeFromDefinition<typeof inputParameters.definition>) => {
-      if (param.asset_id !== response.data.asset_id) {
+      if (param.assetId !== response.data.asset_id) {
         return {
           params: param,
           response: {
-            errorMessage: `Mismatched asset_id in response. Expected ${param.asset_id}, got ${response.data.asset_id}`,
+            errorMessage: `Mismatched asset_id in response. Expected ${param.assetId}, got ${response.data.asset_id}`,
             statusCode: 502,
           },
         }
