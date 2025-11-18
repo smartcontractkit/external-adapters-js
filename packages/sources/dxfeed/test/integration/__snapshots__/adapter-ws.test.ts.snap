@@ -1,5 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket quote endpoint should return ask when bid is 0 1`] = `
+{
+  "data": {
+    "ask_price": 172,
+    "ask_volume": 100,
+    "bid_price": 0,
+    "bid_volume": 148,
+    "mid_price": 172,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
+}
+`;
+
+exports[`websocket quote endpoint should return bid when ask is 0 1`] = `
+{
+  "data": {
+    "ask_price": 0,
+    "ask_volume": 100,
+    "bid_price": 170,
+    "bid_volume": 148,
+    "mid_price": 170,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
+}
+`;
+
 exports[`websocket quote endpoint should return success 1`] = `
 {
   "data": {
@@ -7,12 +45,14 @@ exports[`websocket quote endpoint should return success 1`] = `
     "ask_volume": 100,
     "bid_price": 170,
     "bid_volume": 148,
+    "mid_price": 170.80645161290323,
   },
   "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
   },
 }
 `;

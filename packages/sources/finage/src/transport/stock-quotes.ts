@@ -48,16 +48,31 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return []
       }
 
+      const bidPrice = isValidNumber(message.b) ? Number(message.b) : Number(message.bp)
+      const bidVolume = Number(message.bs)
+      const askPrice = isValidNumber(message.a) ? Number(message.a) : Number(message.ap)
+      const askVolume = Number(message.as)
+
+      let midPrice: number
+      if (bidPrice == 0) {
+        midPrice = askPrice
+      } else if (askPrice == 0) {
+        midPrice = bidPrice
+      } else {
+        midPrice = (bidPrice * bidVolume + askPrice * askVolume) / (bidVolume + askVolume)
+      }
+
       return [
         {
           params: { base: message.s },
           response: {
             result: null,
             data: {
-              bid_price: isValidNumber(message.b) ? Number(message.b) : Number(message.bp),
-              bid_volume: Number(message.bs),
-              ask_price: isValidNumber(message.a) ? Number(message.a) : Number(message.ap),
-              ask_volume: Number(message.as),
+              mid_price: midPrice,
+              bid_price: bidPrice,
+              bid_volume: bidVolume,
+              ask_price: askPrice,
+              ask_volume: askVolume,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: message.t,
