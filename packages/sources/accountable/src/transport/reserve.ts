@@ -27,7 +27,7 @@ export const getApiKey = (client: string) => {
   if (!apiKeyValue) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: `Missing '${apiKeyName}' environment variables.`,
+      message: `Missing '${apiKeyName}' environment variable.`,
     })
   }
 

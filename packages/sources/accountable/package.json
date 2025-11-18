@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/accountable-adapter",
   "version": "1.5.3",
-  "description": "Chainlink's The Network Firm adapter.",
+  "description": "Chainlink's Accountable adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
