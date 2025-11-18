@@ -1,0 +1,287 @@
+# EA Requirements - Asseto Finance
+# JIRA: OPDATA-3797
+# Created from: templates/ea_requirements_template.yaml
+# Reference: requirements/OPDATA-3797.md
+
+# Basic adapter information
+adapter_name: asseto-finance
+adapter_type: source
+description: External Adapter for querying NAV and Reserves (PoR) endpoints for Asseto tokenized funds (AoABT, CASH+, AoMMF)
+
+# API protocol configuration
+data_source_base_url:
+  base_url: https://open.syncnav.com/api
+
+# Authentication configuration
+data_source_authentication:
+  type: oauth
+  credentials:
+    oauth_endpoint: https://open.syncnav.com/api/oauth/token
+    token_request:
+      method: POST
+      content_type: application/json
+      body_parameters:
+        clientId: chainlink_18
+        clientSecret: "{CLIENT_SECRET}" # From env var CLIENT_SECRET
+        grant_type: client_credentials
+    token_response:
+      access_token_field: access_token # Extract this field from OAuth response
+    token_usage:
+      header_name: Authorization
+      header_format: Bearer {access_token}
+    # Token refresh configuration
+    background_execute_ms: 10000
+    token_expiration_seconds: 604800 # 7 days
+
+# Endpoint definitions
+data_source_endpoints:
+  # ==================================================================================
+  # Reserves (PoR) Endpoint
+  # ==================================================================================
+  - name: reserves
+    aliases: [por, proof-of-reserves]
+    method: GET
+    path: /api/funds/{fundId}/reserves
+    description: Query total AUM (Proof of Reserves) for a specific fund
+
+    # Request parameters
+    parameters:
+      required:
+        - fundId # 2=AoABT, 8=CashPlus_BSC, future: AoMMF
+      optional: []
+
+    # HTTP headers
+    headers:
+      - key: accept
+        value: application/json
+      - key: authorization
+        value: Bearer {oauth_token} # Automatically managed by AuthManager
+
+    timeout_ms: 10000
+
+    # Rate limiting configuration
+    rate_limit:
+      requests_per_second: 10
+      burst_size: 20
+
+    # Sample Response
+    # GET https://open.syncnav.com/api/funds/2/reserves
+    sample_response: |
+      {
+        "code": 0,
+        "message": "success",
+        "data": {
+          "fundId": 2,
+          "fundName": "AoABT",
+          "totalAum": "1814378.73451552",
+          "totalSupply": "1791.99669579",
+          "updatedAt": "2025-09-08 17:00:00",
+          "ripcord": false,
+          "ripcordDetails": null
+        },
+        "timestamp": 1757322345,
+        "traceID": "d75226c85c43631823b6dc384a67afaf"
+      }
+
+    # Response mapping
+    response_mapping:
+      result_field: data.totalAum # Output as PoR result with 18 decimals
+      ripcord_field: data.ripcord # Ripcord flag for EA logic
+      timestamp_field: data.updatedAt # Data freshness validation
+
+    # Data freshness validation
+    data_freshness:
+      timestamp_field: data.updatedAt # Format: "2025-09-08 17:00:00"
+      max_age_seconds: 86400 # 24 hours
+
+  # ==================================================================================
+  # NAV (Net Asset Value) Endpoint
+  # ==================================================================================
+  - name: nav
+    aliases: [net-asset-value, daily-nav]
+    method: GET
+    path: /api/funds/{fundId}/nav-daily
+    description: Query daily Net Asset Value for a specific fund
+
+    # Request parameters
+    parameters:
+      required:
+        - fundId # 2=AoABT, 8=CashPlus_BSC, future: AoMMF
+      optional: []
+
+    # HTTP headers
+    headers:
+      - key: accept
+        value: application/json
+      - key: authorization
+        value: Bearer {oauth_token} # Automatically managed by AuthManager
+
+    timeout_ms: 10000
+
+    # Rate limiting configuration
+    rate_limit:
+      requests_per_second: 10
+      burst_size: 20
+
+    # Sample Response
+    # GET https://open.syncnav.com/api/funds/8/nav-daily
+    sample_response: |
+      {
+        "code": 0,
+        "message": "success",
+        "data": {
+          "list": [
+            {
+              "fundId": 8,
+              "fundName": "CashPlus_BSC",
+              "netAssetValueDate": "2025-08-26",
+              "netAssetValue": "105.129",
+              "assetsUnderManagement": "1001295.273276",
+              "outstandingShares": "9524.444",
+              "netIncomeExpenses": "0"
+            },
+            {
+              "fundId": 8,
+              "fundName": "CashPlus_BSC",
+              "netAssetValueDate": "2025-08-25",
+              "netAssetValue": "105.117",
+              "assetsUnderManagement": "1001180.979948",
+              "outstandingShares": "9524.444",
+              "netIncomeExpenses": "0"
+            },
+            {
+              "fundId": 8,
+              "fundName": "CashPlus_BSC",
+              "netAssetValueDate": "2024-08-09",
+              "netAssetValue": "100",
+              "assetsUnderManagement": "0",
+              "outstandingShares": "0",
+              "netIncomeExpenses": "0"
+            }
+          ]
+        },
+        "timestamp": 1757321913,
+        "traceID": "9421df2ff842631820b6dc38c009f7b6"
+      }
+
+    # Response mapping
+    response_mapping:
+      result_field: data.list[0].netAssetValue # Most recent NAV (first item), output with 18 decimals
+      timestamp_field: data.list[0].netAssetValueDate # Data freshness validation
+
+    # Data freshness validation
+    data_freshness:
+      timestamp_field: data.list[0].netAssetValueDate # Format: "2025-08-26"
+      max_age_seconds: 86400 # 24 hours
+
+# Symbol mapping (fund ID mapping)
+symbol_mapping:
+  # Fund ID to name mapping
+  fund_mapping:
+    - id: 2
+      name: AoABT
+      description: Asseto Orient Arbitrage Token
+      chains: [arbitrum]
+    - id: 8
+      name: CashPlus_BSC
+      description: Asseto CASH+ (1:1 asset-backed token)
+      chains: [bsc, ethereum-mainnet]
+
+# Data source information
+data_source:
+  provider_name: Asseto Finance
+  api_documentation_url: https://asseto.gitbook.io/asseto/products/aoabt
+  api_base_documentation: Refer to uploaded API Docs (API for Oracle.pdf)
+  support_contact: Contact via Joshua Chieng
+
+# Project metadata
+metadata:
+  business_owner: Data Feeds Team
+  technical_owner: Data Products Feeds
+  jira_ticket: OPDATA-3797
+  documentation_url: https://smartcontract-it.atlassian.net/browse/OPDATA-3797
+  deployment_target_date: "2025-09-25"
+
+  # Target deployment chains
+  deployment_chains:
+    - arbitrum # AoABT PoR, AoABT NAV, AoABTb NAV
+    - bsc # CASH+ NAV
+    - ethereum-mainnet # CASH+ NAV
+
+external_adapter_configuration:
+  environment_variables:
+    - API_ENDPOINT: https://open.syncnav.com/api
+    - CLIENT_ID: chainlink
+    - CLIENT_SECRET:
+    - GRANT_TYPE: client_credentials
+    - BACKGROUND_EXECUTE_MS: 10000
+  endpoints:
+    - name: nav
+      description: net asset value of the fund
+      input_parameters:
+        - name: fundId
+          type: number
+          description: The fund id of the reserves to query
+          required: true
+          default: null
+    - name: reserves
+      description: proof of reserves of the fund
+      input_parameters:
+        - name: fundId
+          type: number
+          description: The fund id of the reserves to query
+          required: true
+          default: null
+  required_ea_requests_responses_schemas:
+    - endpoint: reserves
+      request: |
+        {
+          "data": {
+            "endpoint": "reserves",
+            "fundId": 8
+          }
+        }
+      response: |
+        {
+          "statusCode": 200,
+          "result": 0,
+          "data": {
+            "fundId": 8,
+            "fundName": "CashPlus_BSC",
+            "totalAUM": 0,
+            "totalDate": "2025-09-22 20:00:01",
+            "ripcord": false
+          },
+          "timestamps": {
+            "providerDataRequestedUnixMs": 978347471111,
+            "providerDataReceivedUnixMs": 978347471111,
+            "providerIndicatedTimeUnixMs": 1758542882000
+          }
+        }
+    - endpoint: nav
+      request: |
+        {
+          "data": {
+            "endpoint": "nav",
+            "fundId": 8
+          }
+        }
+      response: |
+        {
+          "statusCode": 200,
+          "result": 105.129,
+          "data": {
+            "fundId": 8,
+            "fundName": "CashPlus_BSC",
+            "netAssetValue": 105.129,
+            "navDate": "2025-08-26"
+          },
+          "timestamps": {
+            "providerDataRequestedUnixMs": 978347471111,
+            "providerDataReceivedUnixMs": 978347471111,
+            "providerIndicatedTimeUnixMs": 1756166400000
+          }
+        }
+context: 
+    - fundId parameter is required for all requests
+    - Latest data point is always first in nav-daily list array
