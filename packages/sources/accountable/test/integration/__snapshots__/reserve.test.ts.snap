@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserve endpoint should fail if client name is not present or wrong 1`] = `
+{
+  "error": {
+    "message": "[Param: client] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute reserve endpoint should return success for axis 1`] = `
+{
+  "data": {
+    "result": "40438382.35",
+    "ripcord": false,
+    "totalReserve": 40438382.35,
+  },
+  "result": "40438382.35",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserve endpoint should return success for unitas 1`] = `
+{
+  "data": {
+    "result": "40438382.35",
+    "ripcord": false,
+    "totalReserve": 40438382.35,
+  },
+  "result": "40438382.35",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
