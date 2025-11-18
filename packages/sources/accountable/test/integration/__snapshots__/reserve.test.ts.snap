@@ -30,11 +30,11 @@ exports[`execute reserve endpoint should return success for axis 1`] = `
 exports[`execute reserve endpoint should return success for unitas 1`] = `
 {
   "data": {
-    "result": "40438382.35",
+    "result": "25559832.85",
     "ripcord": false,
-    "totalReserve": 40438382.35,
+    "totalReserve": 25559832.85,
   },
-  "result": "40438382.35",
+  "result": "25559832.85",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

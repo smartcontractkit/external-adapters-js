@@ -43,7 +43,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         request: {
           baseURL: config.API_ENDPOINT,
           params: {
-            client: params[0].client,
+            client: client,
           },
           headers: {
             'Content-Type': 'application/json',
