@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/multi-address-list-adapter",
-  "version": "1.0.24",
-  "description": "Chainlink multi-address-list adapter.",
+  "name": "@chainlink/liveart-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink liveart adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "multi-address-list"
+    "liveart"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,16 +30,11 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/node-schedule": "2.1.7",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/anchorage-adapter": "workspace:*",
-    "@chainlink/bitgo-adapter": "workspace:*",
-    "@chainlink/coinbase-prime-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.8.0",
-    "node-schedule": "2.1.1",
+    "@chainlink/external-adapter-framework": "2.11.0",
     "tslib": "2.4.1"
   }
 }

@@ -1,5 +1,11 @@
 # @chainlink/anchorage-adapter
 
+## 2.1.0
+
+### Minor Changes
+
+- [#4286](https://github.com/smartcontractkit/external-adapters-js/pull/4286) [`09e5852`](https://github.com/smartcontractkit/external-adapters-js/commit/09e5852033b2eeda6bdb690bede1c974c5576a30) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use different endpoint for COLLATERAL_API
+
 ## 2.0.0
 
 ### Major Changes
