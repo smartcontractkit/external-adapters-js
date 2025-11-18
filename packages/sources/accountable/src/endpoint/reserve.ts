@@ -36,5 +36,6 @@ export const endpoint = new PoRProviderEndpoint({
     if (request.requestContext.data.client) {
       getApiKey(request.requestContext.data.client)
     }
+    return
   },
 })
