@@ -22,22 +22,14 @@ type SortedSetMember struct {
 	score  float64
 }
 
-// itemWithExpiry represents a value with an expiration time
-type itemWithExpiry struct {
-	value  []byte
-	expiry time.Time
-}
-
 // Server represents a Redis-compatible server
 type RedconServer struct {
-	addr         string
-	cache        *cache.Cache
-	logger       *slog.Logger
-	mu           sync.RWMutex
-	items        map[string]itemWithExpiry
-	sortedSets   map[string]map[string]float64 // key -> (member -> score)
-	commandStats map[string]int64              // command -> call count
-	server       *redcon.Server
+	addr       string
+	cache      *cache.Cache
+	logger     *slog.Logger
+	mu         sync.RWMutex
+	sortedSets map[string]map[string]float64 // key -> (member -> score)
+	server     *redcon.Server
 }
 
 // Config holds the Redis server configuration
@@ -49,24 +41,16 @@ type Config struct {
 
 // New creates a new Redis server instance
 func New(cfg Config) *RedconServer {
-	rs := &RedconServer{
-		addr:         cfg.Addr,
-		cache:        cfg.Cache,
-		logger:       cfg.Logger,
-		items:        make(map[string]itemWithExpiry),
-		sortedSets:   make(map[string]map[string]float64),
-		commandStats: make(map[string]int64),
+	return &RedconServer{
+		addr:       cfg.Addr,
+		cache:      cfg.Cache,
+		logger:     cfg.Logger,
+		sortedSets: make(map[string]map[string]float64),
 	}
-
-	// Start background goroutine to clean up expired keys
-	go rs.cleanupExpiredKeys()
-
-	return rs
 }
 
 // Start starts the Redis server
 func (s *RedconServer) Start() error {
-	s.logger.Info("Starting Redis-compatible server", "addr", s.addr)
 	return redcon.ListenAndServe(s.addr,
 		s.handleCommand,
 		s.handleConnect,
@@ -86,11 +70,6 @@ func (s *RedconServer) Stop() error {
 func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
 	cmdName := strings.ToLower(string(cmd.Args[0]))
 
-	// Track command statistics
-	s.mu.Lock()
-	s.commandStats[cmdName]++
-	s.mu.Unlock()
-
 	switch cmdName {
 	case "info":
 		s.handleInfo(conn)
@@ -105,9 +84,9 @@ func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
 	case "exec":
 		s.handleExec(conn)
 	case "get":
-		s.handleGet(conn, cmd)
+		s.handleGet(conn)
 	case "pexpire":
-		s.handlePExpire(conn, cmd)
+		s.handlePExpire(conn)
 	case "eval", "evalsha":
 		s.handleEval(conn, cmd)
 	case "zadd":
@@ -126,7 +105,6 @@ func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
 
 // handleConnect is called when a new connection is established
 func (s *RedconServer) handleConnect(conn redcon.Conn) bool {
-	s.logger.Info("Redis client connected", "remote_addr", conn.RemoteAddr())
 	return true
 }
 
@@ -139,39 +117,7 @@ func (s *RedconServer) handleDisconnect(conn redcon.Conn, err error) {
 
 // handleInfo handles the INFO command
 func (s *RedconServer) handleInfo(conn redcon.Conn) {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
-
 	infoResponse := "# Server\nredis_version:7.0.0\nredis_mode:standalone\n\n"
-
-	// Memory stats
-	infoResponse += "# Memory\n"
-	infoResponse += "keys_count:" + strconv.Itoa(len(s.items)) + "\n"
-	infoResponse += "sorted_sets_count:" + strconv.Itoa(len(s.sortedSets)) + "\n\n"
-
-	// Command stats
-	infoResponse += "# Stats\n"
-
-	// Calculate total first
-	var totalCommands int64
-	for _, count := range s.commandStats {
-		totalCommands += count
-	}
-	infoResponse += "total_commands_processed:" + strconv.FormatInt(totalCommands, 10) + "\n\n"
-
-	// Sort commands by name for consistent output
-	infoResponse += "# Commandstats\n"
-	cmdNames := make([]string, 0, len(s.commandStats))
-	for cmd := range s.commandStats {
-		cmdNames = append(cmdNames, cmd)
-	}
-	sort.Strings(cmdNames)
-
-	for _, cmd := range cmdNames {
-		count := s.commandStats[cmd]
-		infoResponse += cmd + ":calls=" + strconv.FormatInt(count, 10) + "\n"
-	}
-
 	conn.WriteBulkString(infoResponse)
 }
 
@@ -180,12 +126,8 @@ func (s *RedconServer) handlePing(conn redcon.Conn) {
 	conn.WriteString("PONG")
 }
 
-// handleAuth handles the AUTH command
-// This is a no-op since we don't require authentication for local connections
-// But we need to respond with OK to satisfy Redis clients that send AUTH
-func (s *RedconServer) handleAuth(conn redcon.Conn, cmd redcon.Command) {
-	// Simply accept any authentication attempt
-	// In a production environment, you might want to validate credentials
+// Simply accept any authentication attempt
+func (s *RedconServer) handleAuth(conn redcon.Conn, _ redcon.Command) {
 	conn.WriteString("OK")
 }
 
@@ -224,35 +166,8 @@ func (s *RedconServer) handleExec(conn redcon.Conn) {
 }
 
 // handleGet handles the GET command
-func (s *RedconServer) handleGet(conn redcon.Conn, cmd redcon.Command) {
-	if len(cmd.Args) != 2 {
-		conn.WriteError("ERR wrong number of arguments for '" + string(cmd.Args[0]) + "' command")
-		return
-	}
-	key := string(cmd.Args[1])
-	s.mu.RLock()
-	item, ok := s.items[key]
-	s.mu.RUnlock()
-
-	if !ok {
-		s.logger.Debug("GET: key not found", "key", key)
-		conn.WriteNull()
-		return
-	}
-
-	// Check if key has expired
-	if !item.expiry.IsZero() && time.Now().After(item.expiry) {
-		// Key has expired, remove it
-		s.mu.Lock()
-		delete(s.items, key)
-		s.mu.Unlock()
-		s.logger.Debug("GET: key expired", "key", key)
-		conn.WriteNull()
-		return
-	}
-
-	s.logger.Debug("GET: found value", "key", key)
-	conn.WriteBulk(item.value)
+func (s *RedconServer) handleGet(conn redcon.Conn) {
+	conn.WriteNull()
 }
 
 // handleEval handles the EVAL and EVALSHA commands
@@ -330,8 +245,6 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 		addedCount = 1
 	}
 	zset[member] = score
-
-	s.logger.Debug("zadd", "key", key, "score", scoreStr, "member", member)
 	conn.WriteInt(addedCount)
 }
 
@@ -421,46 +334,7 @@ func (s *RedconServer) handleZRange(conn redcon.Conn, cmd redcon.Command) {
 	}
 }
 
-// handlePExpire handles the PEXPIRE command (milliseconds)
-func (s *RedconServer) handlePExpire(conn redcon.Conn, cmd redcon.Command) {
-	if len(cmd.Args) != 3 {
-		conn.WriteError("ERR wrong number of arguments for 'pexpire' command")
-		return
-	}
-	key := string(cmd.Args[1])
-	milliseconds, err := strconv.ParseInt(string(cmd.Args[2]), 10, 64)
-	if err != nil {
-		conn.WriteError("ERR value is not an integer or out of range")
-		return
-	}
-
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	item, ok := s.items[key]
-	if !ok {
-		conn.WriteInt(0) // Key doesn't exist
-		return
-	}
-
-	item.expiry = time.Now().Add(time.Duration(milliseconds) * time.Millisecond)
-	s.items[key] = item
-	conn.WriteInt(1) // Expiration was set
-}
-
-// cleanupExpiredKeys runs in the background to periodically remove expired keys
-func (s *RedconServer) cleanupExpiredKeys() {
-	ticker := time.NewTicker(1 * time.Minute)
-	defer ticker.Stop()
-
-	for range ticker.C {
-		now := time.Now()
-		s.mu.Lock()
-		for key, item := range s.items {
-			if !item.expiry.IsZero() && now.After(item.expiry) {
-				delete(s.items, key)
-			}
-		}
-		s.mu.Unlock()
-	}
+// handlePExpire handles the PEXPIRE command
+func (s *RedconServer) handlePExpire(conn redcon.Conn) {
+	conn.WriteInt(1)
 }

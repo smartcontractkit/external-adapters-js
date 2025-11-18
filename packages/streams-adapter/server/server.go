@@ -144,7 +144,7 @@ func (s *Server) setupRoutes() {
 	s.router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Debug endpoints (for debugging and profiling)
-	s.router.GET("/debug/cache/stats", s.cacheStatsHandler)
+	s.router.GET("/debug/cache/keys", s.cacheKeysHandler)
 	s.router.GET("/debug/metrics", s.metricsHandler)
 
 	// pprof endpoints (standard Go profiling)
@@ -298,8 +298,8 @@ func (s *Server) subscribeToAsset(params types.RequestParams) {
 	}
 }
 
-// cacheStatsHandler provides cache statistics for debugging
-func (s *Server) cacheStatsHandler(c *gin.Context) {
+// cacheKeysHandler provides cache keys for debugging
+func (s *Server) cacheKeysHandler(c *gin.Context) {
 	keys := s.cache.Keys()
 
 	stats := gin.H{
