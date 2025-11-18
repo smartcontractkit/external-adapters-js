@@ -399,10 +399,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cryptoapis"\
     },\
     {\
-      "name": "@chainlink/cryptoapis-v2-adapter",\
-      "reference": "workspace:packages/sources/cryptoapis-v2"\
-    },\
-    {\
       "name": "@chainlink/cryptocompare-adapter",\
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
@@ -571,10 +567,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/gmci"\
     },\
     {\
-      "name": "@chainlink/gramchain-adapter",\
-      "reference": "workspace:packages/sources/gramchain"\
-    },\
-    {\
       "name": "@chainlink/graphql-adapter",\
       "reference": "workspace:packages/sources/graphql"\
     },\
@@ -657,6 +649,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/lition-adapter",\
       "reference": "workspace:packages/sources/lition"\
+    },\
+    {\
+      "name": "@chainlink/liveart-adapter",\
+      "reference": "workspace:packages/sources/liveart"\
     },\
     {\
       "name": "@chainlink/lotus-adapter",\
@@ -1029,7 +1025,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
-    ["@chainlink/cryptoapis-v2-adapter", ["workspace:packages/sources/cryptoapis-v2"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
     ["@chainlink/cryptomkt-adapter", ["workspace:packages/sources/cryptomkt"]],\
@@ -1085,7 +1080,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
-    ["@chainlink/gramchain-adapter", ["workspace:packages/sources/gramchain"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
@@ -1112,6 +1106,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
+    ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
@@ -6223,23 +6218,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/cryptoapis-v2-adapter", [\
-      ["workspace:packages/sources/cryptoapis-v2", {\
-        "packageLocation": "./packages/sources/cryptoapis-v2/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptoapis-v2-adapter", "workspace:packages/sources/cryptoapis-v2"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/cryptocompare-adapter", [\
       ["workspace:packages/sources/cryptocompare", {\
         "packageLocation": "./packages/sources/cryptocompare/",\
@@ -7397,21 +7375,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/gramchain-adapter", [\
-      ["workspace:packages/sources/gramchain", {\
-        "packageLocation": "./packages/sources/gramchain/",\
-        "packageDependencies": [\
-          ["@chainlink/gramchain-adapter", "workspace:packages/sources/gramchain"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/graphql-adapter", [\
       ["workspace:packages/sources/graphql", {\
         "packageLocation": "./packages/sources/graphql/",\
@@ -7864,6 +7827,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/liveart-adapter", [\
+      ["workspace:packages/sources/liveart", {\
+        "packageLocation": "./packages/sources/liveart/",\
+        "packageDependencies": [\
+          ["@chainlink/liveart-adapter", "workspace:packages/sources/liveart"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/llama-guard-adapter", [\
       ["workspace:packages/composites/llama-guard", {\
         "packageLocation": "./packages/composites/llama-guard/",\
@@ -8283,6 +8261,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/observation/",\
         "packageDependencies": [\
           ["@chainlink/observation", "workspace:packages/observation"],\
+          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["axios", "npm:1.9.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

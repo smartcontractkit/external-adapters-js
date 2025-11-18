@@ -73,7 +73,7 @@ jobs:
       - name: Compile tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-          FAILING_TESTS_PATTERN: '/core/bootstrap/|/sources/cryptocompare/|/sources/layer2-sequencer-health/|/k6/|/observation/'
+          FAILING_TESTS_PATTERN: '/k6/'
         run: |
           echo "Tests that should compile:"
           configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN" || true))

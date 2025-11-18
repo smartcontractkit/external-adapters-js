@@ -1,5 +1,11 @@
 # @chainlink/tradinghours-adapter
 
+## 0.4.0
+
+### Minor Changes
+
+- [#4259](https://github.com/smartcontractkit/external-adapters-js/pull/4259) [`00950bd`](https://github.com/smartcontractkit/external-adapters-js/commit/00950bd25c182c665195c379fbfb7063a2d9fc92) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 24/5 market status
+
 ## 0.3.1
 
 ### Patch Changes

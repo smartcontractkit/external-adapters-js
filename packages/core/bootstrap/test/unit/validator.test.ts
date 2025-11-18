@@ -1,5 +1,10 @@
-import type { InputParameters, AdapterRequest } from '../../src/types'
+import { AdapterInputError } from '../../src/lib/modules/error'
 import { Validator } from '../../src/lib/modules/validator'
+import type { AdapterRequest, InputParameters } from '../../src/types'
+
+const expectAdapterInputError: (error: unknown) => asserts error is AdapterInputError = (error) => {
+  expect(error instanceof AdapterInputError).toBe(true)
+}
 
 describe('Validator', () => {
   describe('with no input parameter configuration', () => {
@@ -51,6 +56,7 @@ describe('Validator', () => {
         const input = {}
         new Validator(input as AdapterRequest, params, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Required input parameter not supplied: keys')
@@ -69,6 +75,7 @@ describe('Validator', () => {
         }
         new Validator(input, params, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Required input parameter not supplied: keys')
@@ -87,6 +94,7 @@ describe('Validator', () => {
         }
         new Validator(input, params, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Required input parameter not supplied: keys')
@@ -105,6 +113,7 @@ describe('Validator', () => {
         }
         new Validator<TParams>(input, params, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Required parameter not supplied: test')
@@ -263,6 +272,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Required parameter key2 must be non-null and non-empty')
@@ -283,6 +293,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('page dependency limit not supplied')
@@ -305,6 +316,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('indexes cannot be supplied concurrently with limit')
@@ -324,6 +336,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('key2 parameter must be of type string')
@@ -344,6 +357,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('verbose parameter must be of type boolean')
@@ -364,6 +378,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('indexes parameter must be a non-empty array')
@@ -384,6 +399,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual(
@@ -406,6 +422,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('limit parameter must be of type number')
@@ -426,6 +443,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('bigInt parameter must be of type bigint')
@@ -446,6 +464,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual(
@@ -506,6 +525,7 @@ describe('Validator', () => {
       }
       new Validator(input as unknown as AdapterRequest, {}, {})
     } catch (error) {
+      expectAdapterInputError(error)
       expect(error?.jobRunID).toEqual('1')
       expect(error?.statusCode).toEqual(400)
       expect(error?.message).toEqual('Input parameter supplied with wrong format: "overrides"')
@@ -626,6 +646,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Duplicate Input Aliases')
@@ -649,6 +670,7 @@ describe('Validator', () => {
         }
         new Validator(input, inputConfig, {})
       } catch (error) {
+        expectAdapterInputError(error)
         expect(error?.jobRunID).toEqual('1')
         expect(error?.statusCode).toEqual(400)
         expect(error?.message).toEqual('Duplicate Input Aliases')

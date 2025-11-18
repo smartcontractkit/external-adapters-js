@@ -1,6 +1,11 @@
-import { MarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import {
+  MarketStatus,
+  TwentyfourFiveMarketStatus,
+} from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { isWeekendNow } from '@chainlink/external-adapter-framework/validation/market-status'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
@@ -96,15 +101,19 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
         return []
       }
 
-      const marketStatus = parseMarketStatus(res.data.data[finId].status)
+      const marketStatus = parseMarketStatus(
+        param,
+        res.data.data[finId].status,
+        res.data.data[finId].reason,
+      )
       return [
         {
           params: param,
           response: {
-            result: marketStatus,
+            result: marketStatus.status,
             data: {
-              result: marketStatus,
-              statusString: MarketStatus[marketStatus],
+              result: marketStatus.status,
+              statusString: marketStatus.string,
             },
           },
         },
@@ -113,13 +122,57 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
 })
 
-export function parseMarketStatus(marketStatus: string): MarketStatus {
-  if (marketStatus === 'Open') {
-    return MarketStatus.OPEN
+const OPEN = 'Open'
+const CLOSE = 'Closed'
+const REGULAR = 'PRIMARYTRADINGSESSION'
+const PRE = 'PRETRADINGSESSION'
+const POST = 'POSTTRADINGSESSION'
+
+export function parseMarketStatus(
+  param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
+  status: string,
+  reason?: string | null,
+) {
+  switch (param.type) {
+    case 'regular': {
+      let result = MarketStatus.UNKNOWN
+      if (status === OPEN) {
+        result = MarketStatus.OPEN
+      } else if (status === CLOSE) {
+        result = MarketStatus.CLOSED
+      } else {
+        logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)
+      }
+
+      return {
+        status: result,
+        string: MarketStatus[result],
+      }
+    }
+    case '24/5': {
+      reason = reason?.toUpperCase().replace(/[\s-]+/g, '') // All hyphens and spaces
+
+      let result = TwentyfourFiveMarketStatus.UNKNOWN
+      if (isWeekendNow(param.weekend)) {
+        result = TwentyfourFiveMarketStatus.WEEKEND
+      } else if (reason?.includes(REGULAR)) {
+        result = TwentyfourFiveMarketStatus.REGULAR
+      } else if (status === CLOSE) {
+        if (reason?.includes(PRE)) {
+          result = TwentyfourFiveMarketStatus.PRE_MARKET
+        } else if (reason?.includes(POST)) {
+          result = TwentyfourFiveMarketStatus.POST_MARKET
+        } else {
+          result = TwentyfourFiveMarketStatus.OVERNIGHT
+        }
+      } else {
+        logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)
+      }
+
+      return {
+        status: result,
+        string: TwentyfourFiveMarketStatus[result],
+      }
+    }
   }
-  if (marketStatus === 'Closed') {
-    return MarketStatus.CLOSED
-  }
-  logger.warn(`Unexpected market status value: ${marketStatus}`)
-  return MarketStatus.UNKNOWN
 }

@@ -27,24 +27,6 @@ export const inputParamDefinition = {
     description: 'RPC network name',
     type: 'string',
   },
-  additionalRequests: {
-    description: 'Optional map of function calls',
-    array: true,
-    type: {
-      name: {
-        required: true,
-        type: 'string',
-        description: 'Unique name or identifier for this additional request',
-      },
-      signature: {
-        required: true,
-        type: 'string',
-        description:
-          'Function signature, formatted as human-readable ABI (e.g., balanceOf(address))',
-      },
-    },
-    required: false,
-  },
 } as const
 
 export const inputParameters = new InputParameters(inputParamDefinition, [
@@ -53,12 +35,6 @@ export const inputParameters = new InputParameters(inputParamDefinition, [
     address: '0xc8CF6D7991f15525488b2A83Df53468D682Ba4B0',
     inputParams: ['1000000000000000000'],
     network: 'ethereum',
-    additionalRequests: [
-      {
-        name: 'decimals',
-        signature: 'function decimals() view returns (uint8)',
-      },
-    ],
   },
 ])
 

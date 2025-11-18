@@ -279,9 +279,6 @@
       "path": "./sources/cryptoapis"
     },
     {
-      "path": "./sources/cryptoapis-v2"
-    },
-    {
       "path": "./sources/cryptocompare"
     },
     {
@@ -408,9 +405,6 @@
       "path": "./sources/gmci"
     },
     {
-      "path": "./sources/gramchain"
-    },
-    {
       "path": "./sources/graphql"
     },
     {
@@ -472,6 +466,9 @@
     },
     {
       "path": "./sources/lition"
+    },
+    {
+      "path": "./sources/liveart"
     },
     {
       "path": "./sources/lotus"
