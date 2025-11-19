@@ -2,33 +2,23 @@
 
 exports[`websocket funding rate endpoint have data should return success 1`] = `
 {
-  "data": {
-    "epochDuration": 28800,
-    "fundingRate": 0.009854,
-    "fundingTimestamp": 1740441600,
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
   },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 21218,
-    "providerDataStreamEstablishedUnixMs": 21210,
-  },
+  "status": "errored",
+  "statusCode": 504,
 }
 `;
 
 exports[`websocket funding rate endpoint have partial data return success 1`] = `
 {
-  "data": {
-    "epochDuration": 14400,
-    "fundingRate": -0.00059603,
-    "fundingTimestamp": 1747368000,
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
   },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 21218,
-    "providerDataStreamEstablishedUnixMs": 21210,
-  },
+  "status": "errored",
+  "statusCode": 504,
 }
 `;
 
@@ -159,7 +149,7 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 5058,
+    "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -196,7 +186,7 @@ exports[`websocket price endpoint direct base asset ID should return success 1`]
   "result": 4233.15,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 5058,
+    "providerDataReceivedUnixMs": 2028,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -211,7 +201,7 @@ exports[`websocket price endpoint quote override with asset ID should return suc
   "result": 1.0612,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 5058,
+    "providerDataReceivedUnixMs": 2028,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
