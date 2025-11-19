@@ -1,8 +1,0 @@
-{
-   "requests": [
-      {
-         "endpoint": "reserve",
-         "client": "axis"
-      }
-   ]
-}

@@ -12,7 +12,8 @@ export const inputParameters = new InputParameters(
     client: {
       type: 'string',
       required: true,
-      description: 'The name of the Accountable client to consume from',
+      description:
+        'The name of the Accountable client to consume from. \n Used to match {client}_API_KEY env variable',
     },
   },
   [
