@@ -8,6 +8,7 @@ const bidSizeIndex = 7
 const askTimeIndex = 8
 const askPriceIndex = 10
 const askSizeIndex = 11
+const dataLength = 12
 
 export const transport = buildWsTransport<BaseEndpointTypes>(
   (params) => ({ Quote: [params.base.toUpperCase()] }),
@@ -17,6 +18,10 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
     }
 
     const data = message[0].data[1]
+
+    if (data.length != dataLength) {
+      return []
+    }
 
     const bidPrice = Number(data[bidPriceIndex])
     const askPrice = Number(data[askPriceIndex])

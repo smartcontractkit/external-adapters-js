@@ -81,6 +81,15 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+  const quoteReponse4 = [
+    {
+      data: [
+        'Quote',
+        ['INVALID_DATA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 0],
+      ],
+      channel: '/service/data',
+    },
+  ]
   const tradeResponse = [
     {
       data: [
@@ -118,6 +127,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(quoteReponse))
       socket.send(JSON.stringify(quoteReponse2))
       socket.send(JSON.stringify(quoteReponse3))
+      socket.send(JSON.stringify(quoteReponse4))
       socket.send(JSON.stringify(tradeResponse))
     })
   })
