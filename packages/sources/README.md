@@ -118,6 +118,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [lido-por](./lido-por/README.md)
 - [linkpool](./linkpool/README.md)
 - [lition](./lition/README.md)
+- [liveart](./liveart/README.md)
 - [lotus](./lotus/README.md)
 - [m0](./m0/README.md)
 - [messari](./messari/README.md)
