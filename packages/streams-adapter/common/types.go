@@ -19,13 +19,14 @@ type Observation struct {
 
 // CacheItem represents a cached value with metadata
 type CacheItem struct {
-	Observation *Observation
-	Timestamp   time.Time // Last write time
+	Observation        *Observation
+	Timestamp          time.Time // Last write time
+	OriginalAdapterKey string
 }
 
 // Cache interface for storing and retrieving observations
 type Cache interface {
-	Set(params RequestParams, observation *Observation, timestamp time.Time)
+	Set(params RequestParams, observation *Observation, timestamp time.Time, originalAdapterKey string)
 	Get(params RequestParams) *Observation
 }
 

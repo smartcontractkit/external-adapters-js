@@ -51,14 +51,15 @@ func New(cfg Config) *Cache {
 }
 
 // Set stores an observation for the given request parameters with a timestamp
-func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestamp time.Time) {
+func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
 	key := helpers.CalculateCacheKey(params)
 	c.items[key] = &types.CacheItem{
-		Observation: obs,
-		Timestamp:   timestamp,
+		Observation:        obs,
+		Timestamp:          timestamp,
+		OriginalAdapterKey: originalAdapterKey,
 	}
 }
 
@@ -92,6 +93,19 @@ func (c *Cache) Size() int {
 	defer c.mu.RUnlock()
 
 	return len(c.items)
+}
+
+// Items returns all items in the cache
+func (c *Cache) Items() map[string]*types.CacheItem {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	// Create a copy to avoid race conditions
+	items := make(map[string]*types.CacheItem, len(c.items))
+	for key, item := range c.items {
+		items[key] = item
+	}
+	return items
 }
 
 // cleanupLoop periodically removes expired items

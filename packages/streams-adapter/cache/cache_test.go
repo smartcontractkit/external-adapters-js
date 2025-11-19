@@ -26,7 +26,7 @@ func TestCacheSetGetKeysSize(t *testing.T) {
 	}`), Success: true}
 	now := time.Now()
 
-	c.Set(params, obs, now)
+	c.Set(params, obs, now, "test")
 
 	got := c.Get(params)
 	if got == nil {
@@ -53,16 +53,16 @@ func TestCacheExpiration(t *testing.T) {
 	defer c.Stop()
 
 	params := types.RequestParams{
-		"base":     "ETH",
+		"base":     "LINK",
 		"quote":    "USD",
-		"endpoint": "price",
+		"endpoint": "cryptolwba",
 	}
 	obs := &types.Observation{Data: json.RawMessage(`{
 		"mid": 17.889088702834176,
 		"bid": 17.88511476884297,
 		"ask": 17.89306263682538
 	}`), Success: true}
-	c.Set(params, obs, time.Now())
+	c.Set(params, obs, time.Now(), "test")
 
 	time.Sleep(ttl + 50*time.Millisecond)
 

@@ -145,6 +145,7 @@ func (s *Server) setupRoutes() {
 
 	// Debug endpoints (for debugging and profiling)
 	s.router.GET("/debug/cache/keys", s.cacheKeysHandler)
+	s.router.GET("/debug/cache/items", s.cacheItemsHandler)
 	s.router.GET("/debug/metrics", s.metricsHandler)
 
 	// pprof endpoints (standard Go profiling)
@@ -309,6 +310,19 @@ func (s *Server) cacheKeysHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, stats)
+}
+
+// cacheItemsHandler returns all items in the cache for debugging
+func (s *Server) cacheItemsHandler(c *gin.Context) {
+	items := s.cache.Items()
+
+	response := gin.H{
+		"size":      s.cache.Size(),
+		"items":     items,
+		"timestamp": time.Now().UTC(),
+	}
+
+	c.JSON(http.StatusOK, response)
 }
 
 // metricsHandler provides overall system metrics

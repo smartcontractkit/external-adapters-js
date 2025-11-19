@@ -208,7 +208,7 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 		obs.Data = data
 	}
 
-	s.cache.Set(params, obs, time.Now())
+	s.cache.Set(params, obs, time.Now(), key)
 	conn.WriteInt(1)
 }
 
