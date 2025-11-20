@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#4267](https://github.com/smartcontractkit/external-adapters-js/pull/4267) [`c5cb45b`](https://github.com/smartcontractkit/external-adapters-js/commit/c5cb45b33bf7b1960a7621734486366502f89570) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 24/5 status
+
 ## 1.5.1
 
 ### Patch Changes

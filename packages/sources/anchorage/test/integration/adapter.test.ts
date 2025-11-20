@@ -15,6 +15,7 @@ describe('execute', () => {
     process.env.ETHHOL_API_KEY = 'fake-api-key'
     process.env.COLLATERAL_API_KEY = 'fake-collateral-api-key'
     process.env.API_ENDPOINT = 'https://localhost:3324'
+    process.env.COLLATERAL_API_ENDPOINT = 'https://localhost:3325'
     process.env.API_LIMIT = '1'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
