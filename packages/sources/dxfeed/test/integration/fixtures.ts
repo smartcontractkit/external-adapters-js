@@ -62,6 +62,34 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+
+  const noBidQuoteReponse = [
+    {
+      data: [
+        'Quote',
+        ['NO_BID', 0, 0, 0, 1670868378000, 'V', 0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const noAskQuoteReponse = [
+    {
+      data: [
+        'Quote',
+        ['NO_ASK', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 0, 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const invalidQuoteReponse = [
+    {
+      data: [
+        'Quote',
+        ['INVALID_DATA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 0],
+      ],
+      channel: '/service/data',
+    },
+  ]
   const tradeResponse = [
     {
       data: [
@@ -97,6 +125,9 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     )
     socket.on('message', () => {
       socket.send(JSON.stringify(quoteReponse))
+      socket.send(JSON.stringify(noBidQuoteReponse))
+      socket.send(JSON.stringify(noAskQuoteReponse))
+      socket.send(JSON.stringify(invalidQuoteReponse))
       socket.send(JSON.stringify(tradeResponse))
     })
   })
