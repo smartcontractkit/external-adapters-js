@@ -1,5 +1,11 @@
 # @chainlink/xsushi-price-adapter
 
+## 2.0.115
+
+### Patch Changes
+
+- [#4262](https://github.com/smartcontractkit/external-adapters-js/pull/4262) [`7a2526e`](https://github.com/smartcontractkit/external-adapters-js/commit/7a2526e7744e6c4ca270477f50b57edd5db7d090) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Dependency bump
+
 ## 2.0.114
 
 ### Patch Changes

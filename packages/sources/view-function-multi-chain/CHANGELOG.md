@@ -1,5 +1,21 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#4261](https://github.com/smartcontractkit/external-adapters-js/pull/4261) [`ebbbbbb`](https://github.com/smartcontractkit/external-adapters-js/commit/ebbbbbb62fb4fa4cb156a79460da2a5b605ded46) Thanks [@dskloetc](https://github.com/dskloetc)! - Support operations in calculated-multi-function endpoint
+
+- [#4258](https://github.com/smartcontractkit/external-adapters-js/pull/4258) [`db7e31f`](https://github.com/smartcontractkit/external-adapters-js/commit/db7e31f1080ea1da89daeb864b4c39e510ff3ff0) Thanks [@dskloetc](https://github.com/dskloetc)! - Add constants to calculated-multi-function endpoint
+
+- [#4243](https://github.com/smartcontractkit/external-adapters-js/pull/4243) [`5504092`](https://github.com/smartcontractkit/external-adapters-js/commit/5504092632cda14c42e5f79cf4cca67f42be2df2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add calculated-multi-function endpoint.
+
+### Patch Changes
+
+- [#4266](https://github.com/smartcontractkit/external-adapters-js/pull/4266) [`a73a42d`](https://github.com/smartcontractkit/external-adapters-js/commit/a73a42d16b0bf4cef09a5a1f1a5cb0aace518d28) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove unused additionalRequests parameter from function endpoint
+
+- [#4237](https://github.com/smartcontractkit/external-adapters-js/pull/4237) [`7cd1282`](https://github.com/smartcontractkit/external-adapters-js/commit/7cd12826e6dfe651c84d8c6781d2f5d77b667530) Thanks [@dskloetc](https://github.com/dskloetc)! - Code cleanup
+
 ## 1.5.0
 
 ### Minor Changes

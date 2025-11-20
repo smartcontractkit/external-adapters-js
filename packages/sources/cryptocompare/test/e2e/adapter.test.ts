@@ -1,11 +1,10 @@
 /* eslint-disable max-nested-callbacks */
-import { adapter } from '../../src'
-import { expose } from '@chainlink/external-adapter-framework'
-import request, { SuperTest, Test } from 'supertest'
-import { ServerInstance } from '@chainlink/external-adapter-framework'
+import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { AdapterRequestBody, sleep } from '@chainlink/external-adapter-framework/util'
 import { AddressInfo } from 'net'
 import * as process from 'process'
+import request, { SuperTest, Test } from 'supertest'
+import { adapter } from '../../src'
 
 let adapterServer: ServerInstance | undefined
 
@@ -14,7 +13,7 @@ describe('execute', () => {
 
   jest.setTimeout(10000)
 
-  const successfulRequests = {
+  const successfulRequests: Record<string, AdapterRequestBody> = {
     crypto: {
       data: {
         base: 'ETH',
@@ -28,13 +27,14 @@ describe('execute', () => {
         overrides: {
           cryptocompare: {
             NONE: 'ETH',
+            transport: 'ws',
           },
         },
       },
     },
   }
 
-  const errorRequests = {
+  const errorRequests: Record<string, AdapterRequestBody> = {
     empty: {
       data: {},
     },
@@ -51,6 +51,7 @@ describe('execute', () => {
         overrides: {
           genesis: {
             NONE: 'BAD',
+            transport: 'ws',
           },
         },
       },

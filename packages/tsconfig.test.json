@@ -276,9 +276,6 @@
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoapis-v2/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {
@@ -313,9 +310,6 @@
     },
     {
       "path": "./sources/dxfeed/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/elven/tsconfig.test.json"
     },
     {
       "path": "./sources/elwood/tsconfig.test.json"
@@ -372,9 +366,6 @@
       "path": "./sources/fireblocks/tsconfig.test.json"
     },
     {
-      "path": "./sources/fixer/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fluent-finance/tsconfig.test.json"
     },
     {
@@ -403,9 +394,6 @@
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/gramchain/tsconfig.test.json"
     },
     {
       "path": "./sources/graphql/tsconfig.test.json"
@@ -469,6 +457,9 @@
     },
     {
       "path": "./sources/lition/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/liveart/tsconfig.test.json"
     },
     {
       "path": "./sources/lotus/tsconfig.test.json"
