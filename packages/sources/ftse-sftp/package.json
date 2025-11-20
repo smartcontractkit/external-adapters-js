@@ -30,7 +30,6 @@
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
     "csv-parse": "5.5.6",
-    "decimal.js": "^10.5.0",
     "ssh2-sftp-client": "^12.0.1",
     "tslib": "^2.3.1"
   },

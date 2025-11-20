@@ -5318,7 +5318,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/apy-finance-adapter", "workspace:packages/composites/apy-finance"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5404,7 +5403,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
-          ["fastify", "npm:5.3.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5557,7 +5555,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -5687,7 +5684,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["bn.js", "npm:5.2.2"],\
-          ["ethers", "npm:5.8.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6216,7 +6212,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/curve-3pool-adapter", "workspace:packages/composites/curve-3pool"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6330,7 +6325,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/defi-pulse-adapter", "workspace:packages/composites/defi-pulse"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6389,7 +6383,6 @@ const RAW_RUNTIME_STATE =
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/base", "npm:1.1.9"],\
           ["@scure/btc-signer", "npm:1.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6480,7 +6473,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
-          ["@types/fast-redact", "npm:3.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/lodash", "npm:4.17.17"],\
           ["@types/lru-cache", "npm:5.1.1"],\
@@ -6490,7 +6482,6 @@ const RAW_RUNTIME_STATE =
           ["@types/pino", "npm:6.3.12"],\
           ["@types/pino-pretty", "npm:4.7.5"],\
           ["@types/promise-timeout", "npm:1.3.3"],\
-          ["@types/redux-logger", "npm:3.0.13"],\
           ["@types/remote-redux-devtools", "npm:0.5.8"],\
           ["@types/sinon", "npm:10.0.20"],\
           ["@types/uuid", "npm:8.3.4"],\
@@ -6498,7 +6489,6 @@ const RAW_RUNTIME_STATE =
           ["ajv", "npm:8.17.1"],\
           ["axios", "npm:1.9.0"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["fast-redact", "npm:3.5.0"],\
           ["fastify", "npm:5.3.3"],\
           ["lodash", "npm:4.17.21"],\
           ["lru-cache", "npm:6.0.0"],\
@@ -6511,7 +6501,6 @@ const RAW_RUNTIME_STATE =
           ["promise-timeout", "npm:1.3.0"],\
           ["redis", "npm:4.7.1"],\
           ["redux", "npm:4.2.1"],\
-          ["redux-logger", "npm:3.0.6"],\
           ["redux-observable", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.2.0"],\
           ["remote-redux-devtools", "npm:0.5.16"],\
           ["rxjs", "npm:6.6.7"],\
@@ -6695,7 +6684,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7124,7 +7112,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/ssh2-sftp-client", "npm:9.0.5"],\
           ["csv-parse", "npm:5.5.6"],\
-          ["decimal.js", "npm:10.5.0"],\
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"],\
           ["nock", "npm:13.5.6"],\
@@ -7304,7 +7291,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["axios", "npm:1.9.0"],\
-          ["crypto", "npm:1.0.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7325,7 +7311,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -7687,9 +7672,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["csv-parse", "npm:4.16.3"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["moment", "npm:2.30.1"],\
           ["moment-timezone", "npm:0.5.48"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7800,7 +7783,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
-          ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["market-closure", "npm:0.1.2"],\
@@ -8259,7 +8241,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/outlier-detection-adapter", "workspace:packages/composites/outlier-detection"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinon", "npm:10.0.20"],\
@@ -8413,7 +8394,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -8450,7 +8430,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
-          ["object-path", "npm:0.11.8"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -8468,7 +8447,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
           ["@renproject/interfaces", "npm:2.6.0"],\
           ["@renproject/ren", "npm:2.6.0"],\
-          ["@renproject/utils", "npm:2.6.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -8678,7 +8656,6 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-strings", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/rpc", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/spl-token", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:0.4.14"],\
-          ["@solana/web3.js", "npm:1.95.8"],\
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -14781,7 +14758,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/buffer-layout-utils", "npm:0.2.0"],\
           ["@solana/spl-token-group", "virtual:f85b9df3c09530241432e8528c5d7b0a24faed684de6db6dadb26a05d51875c00812e2923b357752fbaf1289b43cdcd2d1ab531a17202370679abdc06950d4ec#npm:0.0.7"],\
           ["@solana/spl-token-metadata", "virtual:f85b9df3c09530241432e8528c5d7b0a24faed684de6db6dadb26a05d51875c00812e2923b357752fbaf1289b43cdcd2d1ab531a17202370679abdc06950d4ec#npm:0.1.6"],\
-          ["@solana/web3.js", "npm:1.95.8"],\
+          ["@solana/web3.js", null],\
           ["@types/solana__web3.js", null],\
           ["buffer", "npm:6.0.3"]\
         ],\
@@ -14805,7 +14782,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/spl-token-group", "virtual:f85b9df3c09530241432e8528c5d7b0a24faed684de6db6dadb26a05d51875c00812e2923b357752fbaf1289b43cdcd2d1ab531a17202370679abdc06950d4ec#npm:0.0.7"],\
           ["@solana/codecs", "virtual:e1a5071e9d2d0fef8eae41b11394fa6d44eb29834f789844dfe7b0d239f55a2654273e06d64a1427ebee461b6beca2668f79f9419f9adc6cf233837a42c69c0a#npm:2.0.0-rc.1"],\
-          ["@solana/web3.js", "npm:1.95.8"],\
+          ["@solana/web3.js", null],\
           ["@types/solana__web3.js", null]\
         ],\
         "packagePeers": [\
@@ -14828,7 +14805,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@solana/spl-token-metadata", "virtual:f85b9df3c09530241432e8528c5d7b0a24faed684de6db6dadb26a05d51875c00812e2923b357752fbaf1289b43cdcd2d1ab531a17202370679abdc06950d4ec#npm:0.1.6"],\
           ["@solana/codecs", "virtual:e1a5071e9d2d0fef8eae41b11394fa6d44eb29834f789844dfe7b0d239f55a2654273e06d64a1427ebee461b6beca2668f79f9419f9adc6cf233837a42c69c0a#npm:2.0.0-rc.1"],\
-          ["@solana/web3.js", "npm:1.95.8"],\
+          ["@solana/web3.js", null],\
           ["@types/solana__web3.js", null]\
         ],\
         "packagePeers": [\
@@ -15359,15 +15336,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/fast-redact", [\
-      ["npm:3.0.4", {\
-        "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
-        "packageDependencies": [\
-          ["@types/fast-redact", "npm:3.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/glob", [\
       ["npm:7.2.0", {\
         "packageLocation": "./.yarn/cache/@types-glob-npm-7.2.0-772334bf9a-6ae717fedf.zip/node_modules/@types/glob/",\
@@ -15767,16 +15735,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.7-a83c0b6429-95640233b6.zip/node_modules/@types/range-parser/",\
         "packageDependencies": [\
           ["@types/range-parser", "npm:1.2.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/redux-logger", [\
-      ["npm:3.0.13", {\
-        "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.13-2c5fb9a707-fb8386c6a0.zip/node_modules/@types/redux-logger/",\
-        "packageDependencies": [\
-          ["@types/redux-logger", "npm:3.0.13"],\
-          ["redux", "npm:5.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19248,13 +19206,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["csv-parse", [\
-      ["npm:4.16.3", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-4.16.3-792211a891-b873dd2d31.zip/node_modules/csv-parse/",\
-        "packageDependencies": [\
-          ["csv-parse", "npm:4.16.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.5.6", {\
         "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.6-ffa5dc42a0-8682bd3846.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
@@ -19526,15 +19477,6 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/babel-plugin-macros",\
           "babel-plugin-macros"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["deep-diff", [\
-      ["npm:0.3.8", {\
-        "packageLocation": "./.yarn/cache/deep-diff-npm-0.3.8-a2a66d74dd-d995680fa7.zip/node_modules/deep-diff/",\
-        "packageDependencies": [\
-          ["deep-diff", "npm:0.3.8"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -28520,13 +28462,6 @@ const RAW_RUNTIME_STATE =
           ["@babel/runtime", "npm:7.26.10"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:5.0.1", {\
-        "packageLocation": "./.yarn/cache/redux-npm-5.0.1-f8e6b1cb23-a373f9ed65.zip/node_modules/redux/",\
-        "packageDependencies": [\
-          ["redux", "npm:5.0.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["redux-devtools-core", [\
@@ -28563,16 +28498,6 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/redux",\
           "redux"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["redux-logger", [\
-      ["npm:3.0.6", {\
-        "packageLocation": "./.yarn/cache/redux-logger-npm-3.0.6-4c0c652262-bf98b53288.zip/node_modules/redux-logger/",\
-        "packageDependencies": [\
-          ["redux-logger", "npm:3.0.6"],\
-          ["deep-diff", "npm:0.3.8"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -20,7 +20,6 @@
     "@chainlink/ea-reference-data-reader": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/fcsapi-adapter": "workspace:*",
-    "@chainlink/finnhub-adapter": "workspace:*",
     "market-closure": "^0.1.2",
     "tslib": "^2.3.1"
   },
