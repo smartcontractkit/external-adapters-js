@@ -263,6 +263,8 @@ adapters:
     version: 1.2.47
   - name: lition
     version: 1.2.47
+  - name: liveart
+    version: 1.0.0
   - name: llama-guard
     version: 1.2.4
   - name: lotus
