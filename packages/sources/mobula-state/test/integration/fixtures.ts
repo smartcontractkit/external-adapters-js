@@ -165,42 +165,46 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
       }
 
       // Handle funding rate subscriptions
-      if (parsed.kind === 'funding-rate') {
-        socket.send(
-          JSON.stringify({
-            binanceFundingRate: {
-              symbol: 'BTCUSDC',
-              fundingTime: 1740441600000,
-              fundingRate: 0.009854,
-              marketPrice: '91505.25655876',
-              epochDurationMs: 28800000,
-            },
-            deribitFundingRate: {
-              symbol: 'BTC',
-              fundingTime: 1740466800000,
-              fundingRate: 0.00573193029855309,
-              marketPrice: 91250.36,
-              epochDurationMs: 28800000,
-            },
-            queryDetails: { base: 'BTC', quote: null },
-          }),
-        )
+      if (parsed.type === 'funding' && parsed.payload) {
+        const symbol = parsed.payload.symbol
 
-        socket.send(
-          JSON.stringify({
-            binanceFundingRate: {
-              symbol: 'AERGOUSDT',
-              fundingTime: 1747368000001,
-              fundingRate: -0.00059603,
-              marketPrice: '0.15456000',
-              epochDurationMs: 14400000,
-              fundingRateCap: 2,
-              fundingRateFloor: -2,
-            },
-            deribitFundingRate: null,
-            queryDetails: { base: 'AERGO', quote: null },
-          }),
-        )
+        if (symbol === 'BTC') {
+          socket.send(
+            JSON.stringify({
+              binanceFundingRate: {
+                symbol: 'BTCUSDC',
+                fundingTime: 1740441600000,
+                fundingRate: 0.009854,
+                marketPrice: '91505.25655876',
+                epochDurationMs: 28800000,
+              },
+              deribitFundingRate: {
+                symbol: 'BTC',
+                fundingTime: 1740466800000,
+                fundingRate: 0.00573193029855309,
+                marketPrice: 91250.36,
+                epochDurationMs: 28800000,
+              },
+              queryDetails: { base: 'BTC', quote: null },
+            }),
+          )
+        } else if (symbol === 'AERGO') {
+          socket.send(
+            JSON.stringify({
+              binanceFundingRate: {
+                symbol: 'AERGOUSDT',
+                fundingTime: 1747368000001,
+                fundingRate: -0.00059603,
+                marketPrice: '0.15456000',
+                epochDurationMs: 14400000,
+                fundingRateCap: 2,
+                fundingRateFloor: -2,
+              },
+              deribitFundingRate: null,
+              queryDetails: { base: 'AERGO', quote: null },
+            }),
+          )
+        }
       }
     })
   })
