@@ -59,6 +59,30 @@ describe('websocket', () => {
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(dataPriceIncludesMapping)
     await testAdapter.waitForCache(1)
+
+    // Prime cache with all test pairs to avoid timing issues in CI
+    await testAdapter.request({
+      base: 'TESTCOIN',
+      quote: 'USD',
+      endpoint: 'price',
+      transport: 'ws',
+      overrides: { MOBULA_STATE: { TESTCOIN: '999888777' } },
+    })
+    await testAdapter.request({
+      base: 'ANOTHERCOIN',
+      quote: 'BTC',
+      endpoint: 'price',
+      transport: 'ws',
+      overrides: { MOBULA_STATE: { ANOTHERCOIN: '111222333' } },
+    })
+    await testAdapter.request({
+      base: 'CUSTOMTOKEN',
+      quote: 'ETH',
+      endpoint: 'price',
+      transport: 'ws',
+      overrides: { MOBULA_STATE: { CUSTOMTOKEN: '444555666' } },
+    })
+    await testAdapter.waitForCache(4) // Wait for all primed pairs to be cached
   })
 
   afterAll(async () => {
