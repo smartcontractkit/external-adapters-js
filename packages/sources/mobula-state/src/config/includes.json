@@ -1,44 +1,11 @@
 [
   {
-    "from": "ANOTHERCOIN",
-    "to": "BTC",
-    "includes": [
-      {
-        "from": "111222333",
-        "to": "100001656",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "CUSTOMTOKEN",
-    "to": "ETH",
-    "includes": [
-      {
-        "from": "444555666",
-        "to": "100004304",
-        "inverse": false
-      }
-    ]
-  },
-  {
     "from": "EZETH",
     "to": "CUSTOMQUOTE",
     "includes": [
       {
         "from": "102478632",
         "to": "100004304",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "TESTCOIN",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "999888777",
-        "to": "USD",
         "inverse": false
       }
     ]
