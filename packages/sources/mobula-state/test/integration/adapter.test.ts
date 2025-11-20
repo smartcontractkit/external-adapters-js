@@ -82,7 +82,19 @@ describe('websocket', () => {
       transport: 'ws',
       overrides: { MOBULA_STATE: { CUSTOMTOKEN: '444555666' } },
     })
-    await testAdapter.waitForCache(4) // Wait for all primed pairs to be cached
+    await testAdapter.request({
+      base: '2921', // GHO asset ID directly
+      quote: '100001656', // BTC asset ID directly
+      endpoint: 'price',
+      transport: 'ws',
+    })
+    await testAdapter.request({
+      base: '102484658', // LBTC asset ID directly
+      quote: '100010811', // SOL asset ID directly
+      endpoint: 'price',
+      transport: 'ws',
+    })
+    await testAdapter.waitForCache(6) // Wait for all primed pairs to be cached
   })
 
   afterAll(async () => {

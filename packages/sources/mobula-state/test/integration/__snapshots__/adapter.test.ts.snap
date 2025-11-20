@@ -171,7 +171,7 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 6068,
+    "providerDataReceivedUnixMs": 7078,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -180,23 +180,31 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
 
 exports[`websocket price endpoint direct asset IDs with hardcoded SOL quote should return success 1`] = `
 {
-  "error": {
-    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
-    "name": "AdapterError",
+  "data": {
+    "result": 3.456,
   },
-  "status": "errored",
-  "statusCode": 504,
+  "result": 3.456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
 }
 `;
 
 exports[`websocket price endpoint direct base and quote asset IDs should return success 1`] = `
 {
-  "error": {
-    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
-    "name": "AdapterError",
+  "data": {
+    "result": 0.0000102,
   },
-  "status": "errored",
-  "statusCode": 504,
+  "result": 0.0000102,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
 }
 `;
 
