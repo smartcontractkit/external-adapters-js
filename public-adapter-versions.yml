@@ -183,8 +183,6 @@ adapters:
     version: 0.5.2
   - name: fireblocks
     version: 1.0.18
-  - name: fixer
-    version: 2.0.39
   - name: fluent-finance
     version: 2.0.21
   - name: fmpcloud
