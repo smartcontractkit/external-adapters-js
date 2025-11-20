@@ -1,5 +1,8 @@
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock-quotes'
 import { buildWsTransport } from './ws'
+
+const logger = makeLogger('StockQuotesTransport')
 
 const eventSymbolIndex = 0
 const bidTimeIndex = 4
@@ -20,6 +23,7 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
     const data = message[0].data[1]
 
     if (data.length != dataLength) {
+      logger.warn(`${JSON.stringify(data)} is invalid since it doesn't have ${dataLength} fields.`)
       return []
     }
 

@@ -63,7 +63,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     },
   ]
 
-  const quoteReponse2 = [
+  const noBidQuoteReponse = [
     {
       data: [
         'Quote',
@@ -72,7 +72,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
-  const quoteReponse3 = [
+  const noAskQuoteReponse = [
     {
       data: [
         'Quote',
@@ -81,7 +81,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
-  const quoteReponse4 = [
+  const invalidQuoteReponse = [
     {
       data: [
         'Quote',
@@ -125,9 +125,9 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     )
     socket.on('message', () => {
       socket.send(JSON.stringify(quoteReponse))
-      socket.send(JSON.stringify(quoteReponse2))
-      socket.send(JSON.stringify(quoteReponse3))
-      socket.send(JSON.stringify(quoteReponse4))
+      socket.send(JSON.stringify(noBidQuoteReponse))
+      socket.send(JSON.stringify(noAskQuoteReponse))
+      socket.send(JSON.stringify(invalidQuoteReponse))
       socket.send(JSON.stringify(tradeResponse))
     })
   })
