@@ -9,32 +9,18 @@ import (
 	types "streams-adapter/common"
 )
 
-// NormalizeString removes dashes and underscores for flexible matching
+// NormalizeString removes dashes and underscores for flexible matching.
 func NormalizeString(s string) string {
 	s = strings.ReplaceAll(s, "-", "")
 	s = strings.ReplaceAll(s, "_", "")
 	return strings.ToLower(s)
 }
 
-// RequestParamsFromKey extracts RequestParams from a key
-// Expected format: ADAPTER-{endpoint}-...{json_params}
-// Returns the params extracted from the JSON portion of the key
+// RequestParamsFromKey extracts RequestParams from a Redis key (OriginalAdapterKey).
+// Expected format (simplified): <prefix>-{...endpoint info...}-<json_params>
+// It parses the JSON params and uses the loaded alias index (if available)
+// to normalize endpoint and parameter names to their canonical forms.
 func RequestParamsFromKey(key string) (types.RequestParams, bool) {
-	// Extract endpoint from the key
-	var endpoint string
-	if strings.Contains(key, "crypto-lwba") {
-		endpoint = "cryptolwba"
-	} else {
-		// Find substring between first and second dashes
-		firstDash := strings.Index(key, "-")
-		if firstDash != -1 {
-			secondDash := strings.Index(key[firstDash+1:], "-")
-			if secondDash != -1 {
-				endpoint = key[firstDash+1 : firstDash+1+secondDash]
-			}
-		}
-	}
-
 	// Find the JSON portion of the key (starts with '{' and ends with '}')
 	jsonStart := strings.Index(key, "{")
 	jsonEnd := strings.LastIndex(key, "}")
@@ -52,39 +38,36 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 	}
 
 	// Convert all values to strings
-	params := make(types.RequestParams)
+	rawParams := make(types.RequestParams)
 	for k, v := range paramsMap {
 		if strVal, ok := v.(string); ok {
-			// Normalize parameter names: "base" -> "from", "quote" -> "to"
-			paramKey := k
-			switch k {
-			case "base":
-				paramKey = "from"
-			case "quote":
-				paramKey = "to"
-			}
-			params[paramKey] = strVal
+			rawParams[k] = strVal
 		}
 	}
 
-	// Add endpoint to params if we found one (normalize to lowercase)
-	if endpoint != "" {
-		params["endpoint"] = strings.ToLower(endpoint)
-	}
+	// Derive canonical endpoint for this key if possible.
+	endpointCanonical := findEndpointInKey(key)
+	canonical := normalizeParamsCanonical(rawParams, endpointCanonical)
 
-	return params, len(params) > 0
+	return canonical, len(canonical) > 0
 }
 
-// CalculateCacheKey generates a deterministic cache key from request parameters
-// Format: param1=value1:param2=value2:... (sorted alphabetically by parameter name)
+// CalculateCacheKey generates a deterministic cache key from request parameters.
+// It first normalizes parameter names using the alias index (if initialized),
+// then includes only the required parameters for that endpoint (plus endpoint itself)
+// when building the cache key.
 func CalculateCacheKey(params types.RequestParams) string {
 	if len(params) == 0 {
 		return ""
 	}
 
+	// Canonicalize parameters and filter to only required ones for keying.
+	canonical := normalizeParamsCanonical(params, "")
+	filtered := filterRequiredForKey(canonical)
+
 	// Extract and sort keys for deterministic ordering
-	keys := make([]string, 0, len(params))
-	for key := range params {
+	keys := make([]string, 0, len(filtered))
+	for key := range filtered {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
@@ -92,7 +75,7 @@ func CalculateCacheKey(params types.RequestParams) string {
 	// Build the cache key
 	var parts []string
 	for _, key := range keys {
-		value := params[key]
+		value := filtered[key]
 		if value != "" {
 			// Normalize both key and value for case-insensitive matching
 			normalizedKey := NormalizeString(key)

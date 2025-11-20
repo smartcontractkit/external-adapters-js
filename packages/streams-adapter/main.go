@@ -10,6 +10,7 @@ import (
 
 	cache "streams-adapter/cache"
 	config "streams-adapter/config"
+	helpers "streams-adapter/helpers"
 	redcon "streams-adapter/redcon"
 	server "streams-adapter/server"
 )
@@ -53,6 +54,11 @@ func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
 func main() {
 	cfg := config.Load()
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
+	// Initialize endpoint/parameter alias indices from generated JSON configuration.
+	if err := helpers.InitAliasIndex(cfg.AdapterName, "endpoint_aliases.json"); err != nil {
+		logger.Error("Failed to initialize alias index", "error", err)
+	}
 
 	cache := cache.New(cache.Config{
 		MaxSize:         cfg.CacheMaxSize,

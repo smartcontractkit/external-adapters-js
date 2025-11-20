@@ -18,7 +18,8 @@ type Config struct {
 	CacheCleanupInterval int // Cache cleanup interval in minutes (0 = default 1 minute)
 
 	// Other configuration
-	LogLevel string
+	LogLevel    string
+	AdapterName string
 }
 
 // Load reads configuration from environment variables
@@ -36,7 +37,8 @@ func Load() *Config {
 		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
 
 		// Other
-		LogLevel: getEnv("LOG_LEVEL", "info"),
+		LogLevel:    getEnv("LOG_LEVEL", "info"),
+		AdapterName: getEnv("ADAPTER_NAME", ""),
 	}
 
 	return cfg
