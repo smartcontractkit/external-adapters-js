@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {
-      "path": "./sources/elven/tsconfig.test.json"
-    },
-    {
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
@@ -367,9 +364,6 @@
     },
     {
       "path": "./sources/fireblocks/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/fixer/tsconfig.test.json"
     },
     {
       "path": "./sources/fluent-finance/tsconfig.test.json"

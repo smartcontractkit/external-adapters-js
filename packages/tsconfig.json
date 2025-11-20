@@ -312,9 +312,6 @@
       "path": "./sources/dxfeed"
     },
     {
-      "path": "./sources/elven"
-    },
-    {
       "path": "./sources/elwood"
     },
     {
@@ -367,9 +364,6 @@
     },
     {
       "path": "./sources/fireblocks"
-    },
-    {
-      "path": "./sources/fixer"
     },
     {
       "path": "./sources/fluent-finance"

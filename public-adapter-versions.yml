@@ -149,8 +149,6 @@ adapters:
     version: 2.1.0
   - name: dydx-stark
     version: 2.0.31
-  - name: elven
-    version: 1.0.34
   - name: elwood
     version: 3.1.22
   - name: ens
@@ -185,8 +183,6 @@ adapters:
     version: 0.5.2
   - name: fireblocks
     version: 1.0.18
-  - name: fixer
-    version: 2.0.39
   - name: fluent-finance
     version: 2.0.21
   - name: fmpcloud
@@ -263,6 +259,8 @@ adapters:
     version: 1.2.47
   - name: lition
     version: 1.2.47
+  - name: liveart
+    version: 1.0.0
   - name: llama-guard
     version: 1.2.4
   - name: lotus
