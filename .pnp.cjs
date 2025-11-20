@@ -439,10 +439,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dxfeed"\
     },\
     {\
-      "name": "@chainlink/elven-adapter",\
-      "reference": "workspace:packages/sources/elven"\
-    },\
-    {\
       "name": "@chainlink/elwood-adapter",\
       "reference": "workspace:packages/sources/elwood"\
     },\
@@ -1038,7 +1034,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],\
     ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
     ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
-    ["@chainlink/elven-adapter", ["workspace:packages/sources/elven"]],\
     ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
     ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
@@ -6612,23 +6607,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.19"],\
           ["mock-socket", "npm:9.3.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/elven-adapter", [\
-      ["workspace:packages/sources/elven", {\
-        "packageLocation": "./packages/sources/elven/",\
-        "packageDependencies": [\
-          ["@chainlink/elven-adapter", "workspace:packages/sources/elven"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
