@@ -275,8 +275,6 @@ adapters:
     version: 1.2.44
   - name: messari
     version: 1.2.47
-  - name: metalsapi
-    version: 1.7.47
   - name: mobula-state
     version: 1.3.8
   - name: mock-ea

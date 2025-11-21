@@ -651,10 +651,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/messari"\
     },\
     {\
-      "name": "@chainlink/metalsapi-adapter",\
-      "reference": "workspace:packages/sources/metalsapi"\
-    },\
-    {\
       "name": "@chainlink/mobula-state-adapter",\
       "reference": "workspace:packages/sources/mobula-state"\
     },\
@@ -1095,7 +1091,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
-    ["@chainlink/metalsapi-adapter", ["workspace:packages/sources/metalsapi"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
@@ -7834,24 +7829,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/metalsapi-adapter", [\
-      ["workspace:packages/sources/metalsapi", {\
-        "packageLocation": "./packages/sources/metalsapi/",\
-        "packageDependencies": [\
-          ["@chainlink/metalsapi-adapter", "workspace:packages/sources/metalsapi"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
