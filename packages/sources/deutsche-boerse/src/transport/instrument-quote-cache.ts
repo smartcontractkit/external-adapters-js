@@ -18,6 +18,10 @@ export class InstrumentQuoteCache {
     return this.map.size === 0
   }
 
+  clear(): void {
+    return this.map.clear()
+  }
+
   hasMarket(market: string): boolean {
     const marketMap = this.map.get(market)
     return !!marketMap && marketMap.size > 0
