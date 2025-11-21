@@ -120,7 +120,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [lotus](./lotus/README.md)
 - [m0](./m0/README.md)
 - [messari](./messari/README.md)
-- [metalsapi](./metalsapi/README.md)
 - [mobula-state](./mobula-state/README.md)
 - [mock-ea](./mock-ea/README.md)
 - [moonbeam-address-list](./moonbeam-address-list/README.md)
