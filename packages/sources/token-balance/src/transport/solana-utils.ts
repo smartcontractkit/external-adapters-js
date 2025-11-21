@@ -1,10 +1,14 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { config } from '../config'
-import { inputParameters } from '../endpoint/solvJlp'
 
 export const getToken = async (
-  addresses: typeof inputParameters.validated.addresses,
+  addresses: {
+    token?: string
+    network?: string
+    contractAddress: string
+    wallets: string[]
+  }[],
   token: string,
   connection?: Connection,
 ) => {
@@ -17,6 +21,9 @@ export const getToken = async (
 
   const response = await Promise.all(
     addresses
+      .filter((a) => {
+        return a.network == undefined || a.network.toLowerCase() == 'solana'
+      })
       .filter((a) => a.token?.toLowerCase() == token)
       .flatMap((a) =>
         a.wallets.map((wallet) => ({
