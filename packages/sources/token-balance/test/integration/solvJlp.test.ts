@@ -2,8 +2,8 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { JsonRpcProvider } from 'ethers'
 import { PublicKey } from '@solana/web3.js'
+import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
 
 jest.mock('@solana/web3.js', () => ({
@@ -93,6 +93,44 @@ describe('execute', () => {
         addresses: [
           {
             token: 'JLP',
+            contractAddress: '1',
+            wallets: ['2'],
+          },
+        ],
+        jlpUsdContract: 'jlp',
+        btcUsdContract: 'btc',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('return success with solana network', async () => {
+      const data = {
+        endpoint: 'solvJlp',
+        addresses: [
+          {
+            token: 'JLP',
+            network: 'SOLANA',
+            contractAddress: '1',
+            wallets: ['2'],
+          },
+        ],
+        jlpUsdContract: 'jlp',
+        btcUsdContract: 'btc',
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('filters non-solana networks', async () => {
+      const data = {
+        endpoint: 'solvJlp',
+        addresses: [
+          {
+            token: 'JLP',
+            network: 'ethereum',
             contractAddress: '1',
             wallets: ['2'],
           },

@@ -471,9 +471,6 @@
       "path": "./sources/messari/tsconfig.test.json"
     },
     {
-      "path": "./sources/metalsapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {
