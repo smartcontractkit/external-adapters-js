@@ -1,6 +1,6 @@
 import { getTokenPrice } from '../../src/transport/priceFeed'
-import { SolanaTransport } from '../../src/transport/solana'
 import { getToken } from '../../src/transport/solana-utils'
+import { SolanaMultiTransport } from '../../src/transport/solanaMulti'
 
 jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => {
   return {
@@ -8,7 +8,7 @@ jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscriptio
   }
 })
 
-const token = 'tbill'
+const token = 'wbtc'
 const ownerAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'
 const tokenMintContractAddress = '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6'
 const priceOracleAddress = '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40'
@@ -18,10 +18,10 @@ jest.mock('../../src/transport/priceFeed')
 jest.mock('../../src/transport/solana-utils')
 
 describe('solanaTransport._handleRequest', () => {
-  let transport: SolanaTransport
+  let transport: SolanaMultiTransport
 
   beforeEach(() => {
-    transport = new SolanaTransport()
+    transport = new SolanaMultiTransport()
     transport.connection = {} as any
     jest.clearAllMocks()
   })
@@ -54,11 +54,15 @@ describe('solanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: ownerAddress }],
-      tokenMint: {
-        token: token,
-        contractAddress: tokenMintContractAddress,
-      },
+      addresses: [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress],
+        },
+      ],
+      token,
       priceOracle: {
         contractAddress: priceOracleAddress,
         network: 'ethereum',
@@ -72,16 +76,66 @@ describe('solanaTransport._handleRequest', () => {
     expect(getToken).toHaveBeenCalledWith(
       [
         {
-          token: 'tbill',
+          token,
+          network: 'solana',
           contractAddress: tokenMintContractAddress,
           wallets: [ownerAddress],
         },
       ],
-      'tbill',
+      token,
       transport.connection,
     )
     expect(resp.statusCode).toBe(200)
     expect(resp.result).toBe(String(BigInt(expectedUsdBalance * 10 ** RESULT_DECIMALS)))
+  })
+
+  it('skips conversion if no price oracle is specified', async () => {
+    const tokenBalanceValue = 1000
+    const tokenBalanceDecimals = 6
+    jest.mocked(getToken).mockResolvedValue({
+      result: [
+        {
+          value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+      formattedResponse: [
+        {
+          token: tokenMintContractAddress,
+          wallet: ownerAddress,
+          value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+    })
+
+    const resp = await transport._handleRequest({
+      addresses: [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress],
+        },
+      ],
+      token,
+    })
+
+    expect(getTokenPrice).not.toHaveBeenCalled()
+    expect(getToken).toHaveBeenCalledWith(
+      [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress],
+        },
+      ],
+      token,
+      transport.connection,
+    )
+    expect(resp.statusCode).toBe(200)
+    expect(resp.result).toBe(String(BigInt(tokenBalanceValue * 10 ** RESULT_DECIMALS)))
   })
 
   it('test scaling of calculates correct USD result', async () => {
@@ -113,11 +167,15 @@ describe('solanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: ownerAddress }],
-      tokenMint: {
-        token: token,
-        contractAddress: tokenMintContractAddress,
-      },
+      addresses: [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress],
+        },
+      ],
+      token,
       priceOracle: {
         contractAddress: priceOracleAddress,
         network: 'ethereum',
@@ -131,12 +189,13 @@ describe('solanaTransport._handleRequest', () => {
     expect(getToken).toHaveBeenCalledWith(
       [
         {
-          token: 'tbill',
+          token,
+          network: 'solana',
           contractAddress: tokenMintContractAddress,
           wallets: [ownerAddress],
         },
       ],
-      'tbill',
+      token,
       transport.connection,
     )
 
@@ -149,11 +208,15 @@ describe('solanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: ownerAddress }],
-        tokenMint: {
-          token: token,
-          contractAddress: tokenMintContractAddress,
-        },
+        addresses: [
+          {
+            token,
+            network: 'solana',
+            contractAddress: tokenMintContractAddress,
+            wallets: [ownerAddress],
+          },
+        ],
+        token,
         priceOracle: {
           contractAddress: priceOracleAddress,
           network: 'ethereum',
@@ -174,11 +237,15 @@ describe('solanaTransport._handleRequest', () => {
 
     await expect(
       transport._handleRequest({
-        addresses: [{ address: ownerAddress }],
-        tokenMint: {
-          token: token,
-          contractAddress: tokenMintContractAddress,
-        },
+        addresses: [
+          {
+            token,
+            network: 'solana',
+            contractAddress: tokenMintContractAddress,
+            wallets: [ownerAddress],
+          },
+        ],
+        token,
         priceOracle: {
           contractAddress: priceOracleAddress,
           network: 'ethereum',
@@ -219,11 +286,15 @@ describe('solanaTransport._handleRequest', () => {
     })
 
     const resp = await transport._handleRequest({
-      addresses: [{ address: ownerAddress }, { address: '0xAnother' }, { address: '0xThird' }],
-      tokenMint: {
-        token: token,
-        contractAddress: tokenMintContractAddress,
-      },
+      addresses: [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress, '0xAnother', '0xThird'],
+        },
+      ],
+      token,
       priceOracle: {
         contractAddress: priceOracleAddress,
         network: 'ethereum',
@@ -238,12 +309,13 @@ describe('solanaTransport._handleRequest', () => {
     expect(getToken).toHaveBeenCalledWith(
       [
         {
-          token: 'tbill',
+          token,
+          network: 'solana',
           contractAddress: tokenMintContractAddress,
           wallets: [ownerAddress, '0xAnother', '0xThird'],
         },
       ],
-      'tbill',
+      token,
       transport.connection,
     )
 
@@ -255,7 +327,7 @@ describe('solanaTransport._handleRequest', () => {
     )
   })
 
-  it('throws error when multiple balances have different decimals', async () => {
+  it('works when multiple balances have different decimals', async () => {
     const tokenPriceValue = 5
     const tokenPriceDecimals = 8
 
@@ -264,6 +336,9 @@ describe('solanaTransport._handleRequest', () => {
       { value: 100, decimals: 6 },
       { value: 200, decimals: 8 },
     ]
+
+    // Expected total USD balance (before scaling)
+    const expectedUsdBalance = balances.reduce((acc, b) => acc + b.value * tokenPriceValue, 0)
 
     jest.mocked(getTokenPrice).mockResolvedValue({
       value: BigInt(tokenPriceValue * 10 ** tokenPriceDecimals),
@@ -284,18 +359,39 @@ describe('solanaTransport._handleRequest', () => {
       })),
     })
 
-    await expect(
-      transport._handleRequest({
-        addresses: [{ address: ownerAddress }, { address: '0xDiffDecimals' }],
-        tokenMint: {
-          token: token,
+    const resp = await transport._handleRequest({
+      addresses: [
+        {
+          token,
+          network: 'solana',
           contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress, '0xDiffDecimals'],
         },
-        priceOracle: {
-          contractAddress: priceOracleAddress,
-          network: 'ethereum',
+      ],
+      token,
+      priceOracle: {
+        contractAddress: priceOracleAddress,
+        network: 'ethereum',
+      },
+    })
+
+    expect(getTokenPrice).toHaveBeenCalledWith({
+      priceOracleAddress: priceOracleAddress,
+      priceOracleNetwork: 'ethereum',
+    })
+    expect(getToken).toHaveBeenCalledWith(
+      [
+        {
+          token,
+          network: 'solana',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress, '0xDiffDecimals'],
         },
-      }),
-    ).rejects.toThrow('Inconsistent balance decimals: 6 != 8')
+      ],
+      token,
+      transport.connection,
+    )
+    expect(resp.statusCode).toBe(200)
+    expect(resp.result).toBe(String(BigInt(expectedUsdBalance * 10 ** RESULT_DECIMALS)))
   })
 })

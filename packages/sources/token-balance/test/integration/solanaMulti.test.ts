@@ -87,19 +87,19 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('SolanaTransport endpoint', () => {
+  describe('SolanaMultiTransport endpoint', () => {
     it('returns success', async () => {
       const data = {
-        endpoint: 'solana',
+        endpoint: 'solanaMulti',
         addresses: [
           {
-            address: ownerAddress,
+            token,
+            network: 'solana',
+            contractAddress: mintAddress,
+            wallets: [ownerAddress],
           },
         ],
-        tokenMint: {
-          token: token,
-          contractAddress: mintAddress,
-        },
+        token,
         priceOracle: {
           contractAddress: priceOracleAddress,
           network: 'ETHEREUM',

@@ -2,23 +2,22 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection } from '@solana/web3.js'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/solana'
+import { ethers } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/solanaMulti'
 import { getTokenPrice } from './priceFeed'
 import { getToken } from './solana-utils'
 
-const logger = makeLogger('Token Balance - Solana')
+const logger = makeLogger('Token Balances - SolanaMulti')
 
 type RequestParams = typeof inputParameters.validated
 
 const RESULT_DECIMALS = 18
 
-export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class SolanaMultiTransport extends SubscriptionTransport<BaseEndpointTypes> {
   connection!: Connection
+  provider!: ethers.JsonRpcProvider
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -68,26 +67,40 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const { addresses, tokenMint } = param
+    const { addresses, token, priceOracle } = param
     const providerDataRequestedUnixMs = Date.now()
 
-    // 1. Fetch token price ONCE from oracle contract
-    const tokenPrice = await getTokenPrice({
-      priceOracleAddress: param.priceOracle.contractAddress,
-      priceOracleNetwork: param.priceOracle.network,
-    })
+    const [tokenResponse, tokenPrice] = await Promise.all([
+      getToken(addresses, token, this.connection),
+      this.getTokenPrice(priceOracle),
+    ])
 
-    // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE tokenPrice
-    const totalTokenUSD = await this.calculateTokenAumUSD(addresses, tokenMint, tokenPrice)
+    const maxTokenDecimals = tokenResponse.result.reduce(
+      (max, elem) => Math.max(elem.decimals, max),
+      0,
+    )
+    const tokenAmount = tokenResponse.result.reduce(
+      (sum, elem) => sum + elem.value * 10n ** BigInt(maxTokenDecimals - elem.decimals),
+      0n,
+    )
 
-    // 3. Build adapter response object
+    const result = (
+      (tokenAmount * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
+      10n ** BigInt(maxTokenDecimals + tokenPrice.decimal)
+    ).toString()
+
     return {
       data: {
-        result: String(totalTokenUSD), // formatted as string for API
+        result,
         decimals: RESULT_DECIMALS,
+        wallets: tokenResponse.formattedResponse,
+        tokenPrice: {
+          value: String(tokenPrice.value),
+          decimals: tokenPrice.decimal,
+        },
       },
       statusCode: 200,
-      result: String(totalTokenUSD),
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -96,57 +109,24 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async calculateTokenAumUSD(
-    addresses: typeof inputParameters.validated.addresses,
-    tokenMint: typeof inputParameters.validated.tokenMint,
-    tokenPrice: { value: bigint; decimal: number },
-  ): Promise<bigint> {
-    // 1. Transform new schema → getToken schema
-    const addressesForGetToken = [
-      {
-        token: tokenMint.token,
-        contractAddress: tokenMint.contractAddress,
-        wallets: addresses.map((a) => a.address),
-      },
-    ]
-
-    // 2. Fetch token balances for the given address on Solana
-    const { result: balances } = await getToken(
-      addressesForGetToken,
-      tokenMint.token,
-      this.connection,
-    )
-
-    // 3. Sum raw balances (all balances are for the same mint, so same decimals)
-    let totalRaw = 0n
-
-    let tokenDecimals = undefined
-    for (const bal of balances) {
-      totalRaw += bal.value
-      if (!bal.decimals) {
-        throw new AdapterError({
-          statusCode: 400,
-          message: 'Missing decimals on balance response',
-        })
+  async getTokenPrice(
+    priceOracle:
+      | {
+          contractAddress: string
+          network: string
+        }
+      | undefined,
+  ): Promise<{ value: bigint; decimal: number }> {
+    if (priceOracle === undefined) {
+      return {
+        value: 10n ** BigInt(RESULT_DECIMALS),
+        decimal: RESULT_DECIMALS,
       }
-      if (tokenDecimals !== undefined && bal.decimals !== tokenDecimals) {
-        throw new AdapterError({
-          statusCode: 400,
-          message: `Inconsistent balance decimals: ${tokenDecimals} != ${bal.decimals}`,
-        })
-      }
-      tokenDecimals = bal.decimals
     }
-    tokenDecimals ??= RESULT_DECIMALS
-
-    // 4. Calculate AUM
-    const totalAumUSD =
-      (totalRaw * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
-      10n ** BigInt(tokenDecimals) /
-      10n ** BigInt(tokenPrice.decimal)
-
-    // 5. Return total USD value for this address
-    return totalAumUSD
+    return getTokenPrice({
+      priceOracleAddress: priceOracle.contractAddress,
+      priceOracleNetwork: priceOracle.network,
+    })
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -154,4 +134,4 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const solanaTransport = new SolanaTransport()
+export const solanaMultiTransport = new SolanaMultiTransport()

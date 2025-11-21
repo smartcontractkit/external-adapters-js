@@ -1,10 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute SolanaTransport endpoint returns success 1`] = `
+exports[`execute SolanaMultiTransport endpoint returns success 1`] = `
 {
   "data": {
     "decimals": 18,
     "result": "1500000000000000000000",
+    "tokenPrice": {
+      "decimals": 8,
+      "value": "150000000",
+    },
+    "wallets": [
+      {
+        "decimals": 6,
+        "token": "4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6",
+        "value": "1000000000",
+        "wallet": "G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG",
+      },
+    ],
   },
   "result": "1500000000000000000000",
   "statusCode": 200,
