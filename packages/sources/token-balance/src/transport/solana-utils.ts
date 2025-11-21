@@ -22,6 +22,8 @@ export const getToken = async (
   const response = await Promise.all(
     addresses
       .filter((a) => {
+        // Filter out non-Solana addresses but keep addresses with no network
+        // specified.
         return a.network == undefined || a.network.toLowerCase() == 'solana'
       })
       .filter((a) => a.token?.toLowerCase() == token)
