@@ -78,6 +78,9 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
 
         // Stop heartbeat
         transport.stopHeartbeat()
+
+        // Reset state on disconnections / interrupts
+        cache.clear()
       },
       message(buf) {
         logger.debug(
