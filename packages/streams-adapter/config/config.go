@@ -7,10 +7,11 @@ import (
 
 // Config holds all configuration for the adapter
 type Config struct {
-	HTTPPort   string
-	EAPort     string
-	EAHost     string
-	RedconPort string
+	HTTPPort      string
+	EAPort        string
+	EAHost        string
+	RedconPort    string
+	GoMetricsPort string
 
 	// Cache configuration
 	CacheMaxSize         int // Maximum number of cache items (0 = default 10000)
@@ -26,10 +27,11 @@ type Config struct {
 func Load() *Config {
 	cfg := &Config{
 
-		HTTPPort:   getEnv("HTTP_PORT", "8080"),
-		EAPort:     getEnv("EA_PORT", "8070"),
-		EAHost:     getEnv("EA_INTERNAL_HOST", "localhost"),
-		RedconPort: getEnv("REDCON_PORT", "6379"),
+		HTTPPort:      getEnv("HTTP_PORT", "8080"),
+		EAPort:        getEnv("EA_PORT", "8070"),
+		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
+		RedconPort:    getEnv("REDCON_PORT", "6379"),
+		GoMetricsPort: getEnv("GO_METRICS_PORT", "9080"),
 
 		// Cache configuration
 		CacheMaxSize:         getEnvAsInt("CACHE_MAX_SIZE", 10000),

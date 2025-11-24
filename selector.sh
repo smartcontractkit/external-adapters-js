@@ -4,9 +4,9 @@
 
 if [ "$CACHE_TYPE" = "redis" ]; then
     echo "CACHE_TYPE=redis detected, starting streams-adapter..."
-    exec /usr/local/bin/streams-adapter
+    supervisorctl start group:streams-adapter
 else
-    echo "CACHE_TYPE is not 'redis' (current value: '$CACHE_TYPE'), skipping streams-adapter"
-    exit 0
+    echo "CACHE_TYPE is not 'redis', starting js-adapter..."
+    supervisorctl start js-adapter
 fi
 

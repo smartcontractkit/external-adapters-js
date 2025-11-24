@@ -68,6 +68,7 @@ type Server struct {
 	cache               *cache.Cache
 	logger              *slog.Logger
 	server              *http.Server
+	metricsServer       *http.Server
 	router              *gin.Engine
 	httpClient          *http.Client
 	subscriptionTracker sync.Map
@@ -140,9 +141,6 @@ func (s *Server) setupRoutes() {
 	// Main adapter endpoint
 	s.router.POST("/", s.adapterHandler)
 
-	// Prometheus metrics endpoint
-	s.router.GET("/metrics", gin.WrapH(promhttp.Handler()))
-
 	// Debug endpoints (for debugging and profiling)
 	s.router.GET("/debug/cache/keys", s.cacheKeysHandler)
 	s.router.GET("/debug/cache/items", s.cacheItemsHandler)
@@ -155,6 +153,22 @@ func (s *Server) setupRoutes() {
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
+	// Start a separate HTTP server for Prometheus metrics on port 9080
+	metricsMux := http.NewServeMux()
+	metricsMux.Handle("/metrics", promhttp.Handler())
+
+	s.metricsServer = &http.Server{
+		Addr:    ":" + s.config.GoMetricsPort,
+		Handler: metricsMux,
+	}
+
+	go func() {
+		s.logger.Info("Starting metrics server", "port", "9080")
+		if err := s.metricsServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			s.logger.Error("Metrics server error", "error", err)
+		}
+	}()
+
 	s.server = &http.Server{
 		Addr:           ":" + s.config.HTTPPort,
 		Handler:        s.router,
@@ -179,8 +193,20 @@ func (s *Server) Stop() error {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		return s.server.Shutdown(ctx)
+		if err := s.server.Shutdown(ctx); err != nil {
+			return err
+		}
 	}
+
+	if s.metricsServer != nil {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		if err := s.metricsServer.Shutdown(ctx); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
