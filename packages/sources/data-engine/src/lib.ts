@@ -3,6 +3,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
 import { BaseEndpointTypes as CryptoV3Types } from './endpoint/cryptoV3'
+import { BaseEndpointTypes as DeutscheBoerseV11Types } from './endpoint/deutscheBoerseV11'
 import { BaseEndpointTypes as RwaV8Types } from './endpoint/rwaV8'
 
 export const getCryptoPrice = async (feedId: string, url: string, requester: Requester) =>
@@ -10,6 +11,9 @@ export const getCryptoPrice = async (feedId: string, url: string, requester: Req
 
 export const getRwaPrice = async (feedId: string, url: string, requester: Requester) =>
   callEA<RwaV8Types['Response']['Data']>(feedId, 'rwa-v8', url, requester)
+
+export const getDeutscheBoersePrice = async (feedId: string, url: string, requester: Requester) =>
+  callEA<DeutscheBoerseV11Types['Response']['Data']>(feedId, 'deutscheBoerse-v11', url, requester)
 
 const callEA = async <T>(feedId: string, endpoint: string, url: string, requester: Requester) => {
   const requestConfig = {
