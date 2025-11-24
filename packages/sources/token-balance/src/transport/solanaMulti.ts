@@ -75,19 +75,13 @@ export class SolanaMultiTransport extends SubscriptionTransport<BaseEndpointType
       this.getTokenPrice(priceOracle),
     ])
 
-    const maxTokenDecimals = tokenResponse.result.reduce(
-      (max, elem) => Math.max(elem.decimals, max),
-      0,
-    )
     const tokenAmount = tokenResponse.result.reduce(
-      (sum, elem) => sum + elem.value * 10n ** BigInt(maxTokenDecimals - elem.decimals),
+      (sum, elem) =>
+        sum + (elem.value * 10n ** BigInt(RESULT_DECIMALS)) / 10n ** BigInt(elem.decimals),
       0n,
     )
 
-    const result = (
-      (tokenAmount * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
-      10n ** BigInt(maxTokenDecimals + tokenPrice.decimal)
-    ).toString()
+    const result = ((tokenAmount * tokenPrice.value) / 10n ** BigInt(tokenPrice.decimal)).toString()
 
     return {
       data: {
