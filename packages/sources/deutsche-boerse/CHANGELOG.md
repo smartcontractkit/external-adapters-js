@@ -1,5 +1,11 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#4300](https://github.com/smartcontractkit/external-adapters-js/pull/4300) [`810eba4`](https://github.com/smartcontractkit/external-adapters-js/commit/810eba4daabece8e6965009ab86e891f56e44880) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - DBAG: Reset state on disconnects
+
 ## 1.4.0
 
 ### Minor Changes
