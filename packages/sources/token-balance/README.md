@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.2.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -38,9 +38,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                         Options                                                                                                                          | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                            Options                                                                                                                                             | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -91,14 +91,15 @@ Request:
 
 ### Input Params
 
-| Required? |           Name            | Aliases |           Description            |   Type   | Options |                   Default                    | Depends On | Not Valid With |
-| :-------: | :-----------------------: | :-----: | :------------------------------: | :------: | :-----: | :------------------------------------------: | :--------: | :------------: |
-|    ✅     |         addresses         |         |    List of addresses to read     | object[] |         |                                              |            |                |
-|           |      addresses.token      |         |    only JLP will be processed    |  string  |         |                                              |            |                |
-|    ✅     | addresses.contractAddress |         |    Address of token contract     |  string  |         |                                              |            |                |
-|    ✅     |     addresses.wallets     |         | Array of wallets to sum balances | string[] |         |                                              |            |                |
-|           |      jlpUsdContract       |         |  JLP/USD price feed on arbitrum  |  string  |         | `0x702609AFaDda5b357bc7b0C5174645a4438A99F3` |            |                |
-|           |      btcUsdContract       |         |  BTC/USD price feed on arbitrum  |  string  |         | `0x6ce185860a4963106506C203335A2910413708e9` |            |                |
+| Required? |           Name            | Aliases |                           Description                            |   Type   | Options |                   Default                    | Depends On | Not Valid With |
+| :-------: | :-----------------------: | :-----: | :--------------------------------------------------------------: | :------: | :-----: | :------------------------------------------: | :--------: | :------------: |
+|    ✅     |         addresses         |         |                    List of addresses to read                     | object[] |         |                                              |            |                |
+|           |      addresses.token      |         |                    only JLP will be processed                    |  string  |         |                                              |            |                |
+|           |     addresses.network     |         | Addresses with a networks other than SOLANA will be filtered out |  string  |         |                                              |            |                |
+|    ✅     | addresses.contractAddress |         |                    Address of token contract                     |  string  |         |                                              |            |                |
+|    ✅     |     addresses.wallets     |         |                 Array of wallets to sum balances                 | string[] |         |                                              |            |                |
+|           |      jlpUsdContract       |         |                  JLP/USD price feed on arbitrum                  |  string  |         | `0x702609AFaDda5b357bc7b0C5174645a4438A99F3` |            |                |
+|           |      btcUsdContract       |         |                  BTC/USD price feed on arbitrum                  |  string  |         | `0x6ce185860a4963106506C203335A2910413708e9` |            |                |
 
 ### Example
 
@@ -294,6 +295,51 @@ Request:
     },
     "priceOracle": {
       "contractAddress": "0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40",
+      "network": "ETHEREUM"
+    }
+  }
+}
+```
+
+---
+
+## Solanamulti Endpoint
+
+`solanamulti` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |            Name             | Aliases |                                         Description                                          |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------------------: | :-----: | :------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |          addresses          |         | List of addresses in the format returned by the multichainAddress endpoint por-address-list. | object[] |         |         |            |                |
+|    ✅     |       addresses.token       |         |              Token the address is associated with to filter addresses by token               |  string  |         |         |            |                |
+|    ✅     |      addresses.network      |         |                  Addresses with a network other than SOLANA will be ignored                  |  string  |         |         |            |                |
+|    ✅     |  addresses.contractAddress  |         |                                  Address of token contract                                   |  string  |         |         |            |                |
+|    ✅     |      addresses.wallets      |         |                               Array of wallets to sum balances                               | string[] |         |         |            |                |
+|    ✅     |            token            |         |                            Token symbol used to filter addresses                             |  string  |         |         |            |                |
+|           |         priceOracle         |         |     Configuration of the on-chain price oracle that provides real-time token valuations.     |  object  |         |         |            |                |
+|    ✅     | priceOracle.contractAddress |         |             Contract address of the price oracle used to fetch token price data.             |  string  |         |         |            |                |
+|    ✅     |     priceOracle.network     |         |         Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).          |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "solanamulti",
+    "addresses": [
+      {
+        "token": "WBTC",
+        "network": "SOLANA",
+        "contractAddress": "3NZ9JMVBmGAqocybic2c7LQCJScmgsAZ6vQqTDzcqmJh",
+        "wallets": ["EXrqY7jLTLp83H38L8Zw3GvGkk1KoQbYTckPGBghwD8X"]
+      }
+    ],
+    "token": "WBTC",
+    "priceOracle": {
+      "contractAddress": "0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23",
       "network": "ETHEREUM"
     }
   }
