@@ -17,6 +17,28 @@ exports[`execute crypto-v3 endpoint should return success 1`] = `
 }
 `;
 
+exports[`execute deutscheBoerse-v11 endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": "225350000000000000000",
+    "askVolume": 2426047410323587000,
+    "bid": "225300000000000000000",
+    "bidVolume": 2426047410323587000,
+    "decimals": 18,
+    "lastSeenTimestampNs": "1763378650248000000",
+    "lastTradedPrice": "221900000000000000000",
+    "marketStatus": 0,
+    "mid": "225325000000000000000",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3134,
+    "providerDataStreamEstablishedUnixMs": 3030,
+  },
+}
+`;
+
 exports[`execute rwa-v8 endpoint should return success 1`] = `
 {
   "data": {

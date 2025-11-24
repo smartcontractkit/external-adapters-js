@@ -6243,7 +6243,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/data-engine/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4"],\
+          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6257,17 +6257,17 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/data-streams-sdk", [\
-      ["npm:1.0.4", {\
-        "packageLocation": "./.yarn/cache/@chainlink-data-streams-sdk-npm-1.0.4-d97dafd3a1-32e33c3e87.zip/node_modules/@chainlink/data-streams-sdk/",\
+      ["npm:1.2.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-data-streams-sdk-npm-1.2.0-dfeb351ad4-6ee4c81187.zip/node_modules/@chainlink/data-streams-sdk/",\
         "packageDependencies": [\
-          ["@chainlink/data-streams-sdk", "npm:1.0.4"]\
+          ["@chainlink/data-streams-sdk", "npm:1.2.0"]\
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4", {\
-        "packageLocation": "./.yarn/__virtual__/@chainlink-data-streams-sdk-virtual-9de718856d/0/cache/@chainlink-data-streams-sdk-npm-1.0.4-d97dafd3a1-32e33c3e87.zip/node_modules/@chainlink/data-streams-sdk/",\
+      ["virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0", {\
+        "packageLocation": "./.yarn/__virtual__/@chainlink-data-streams-sdk-virtual-df3bfd0507/0/cache/@chainlink-data-streams-sdk-npm-1.2.0-dfeb351ad4-6ee4c81187.zip/node_modules/@chainlink/data-streams-sdk/",\
         "packageDependencies": [\
-          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.0.4"],\
+          ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0"],\
           ["@types/dotenv", null],\
           ["dotenv", null],\
           ["ethers", "npm:6.15.0"],\

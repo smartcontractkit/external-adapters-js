@@ -22,6 +22,11 @@ describe('execute', () => {
     feedId: '0x0008',
   }
 
+  const v11Data = {
+    endpoint: 'deutscheBoerse-v11',
+    feedId: '0x000b5',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.WS_API_ENDPOINT = wsEndpoint
@@ -41,7 +46,8 @@ describe('execute', () => {
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(v3Data)
     await testAdapter.request(v8Data)
-    await testAdapter.waitForCache(2)
+    await testAdapter.request(v11Data)
+    await testAdapter.waitForCache(3)
   })
 
   afterAll(async () => {
@@ -62,6 +68,14 @@ describe('execute', () => {
   describe('rwa-v8 endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(v8Data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('deutscheBoerse-v11 endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(v11Data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
