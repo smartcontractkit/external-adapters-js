@@ -45,7 +45,7 @@ add_reverse_package_deps() {
         continue
       fi
       # git grep is a fast way to find candidate package.json files that probably depend on $package
-      for reverse_dep_package_file in $(git grep -l '"'"$package"'": "workspace:\*"' 'packages/*/*/package.json'); do
+      for reverse_dep_package_file in $(git grep -l '"'"$package"'": "' 'packages/*/*/package.json'); do
         # Check to make sure the candidate package.json file actually depends on $package
         if jq -e --arg package "$package" '[ .dependencies | select(. | has($package)) ] | length > 0' "$reverse_dep_package_file" > /dev/null; then
           jq -r '.name' "$reverse_dep_package_file"
