@@ -202,7 +202,7 @@ adapters:
   - name: genesis-volatility
     version: 1.3.47
   - name: glv-token
-    version: 2.0.0
+    version: 2.0.1
   - name: gm-token
     version: 1.3.0
   - name: gmci
