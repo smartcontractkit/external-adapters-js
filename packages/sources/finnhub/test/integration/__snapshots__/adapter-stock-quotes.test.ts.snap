@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest stock quote endpoint - success should return ask for missing bid 1`] = `
+{
+  "data": {
+    "ask_price": 275.65999999999997,
+    "ask_volume": 220,
+    "bid_price": 0,
+    "bid_volume": 110,
+    "mid_price": 275.65999999999997,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1764018000000,
+  },
+}
+`;
+
+exports[`rest stock quote endpoint - success should return bid for missing ask 1`] = `
+{
+  "data": {
+    "ask_price": 0,
+    "ask_volume": 220,
+    "bid_price": 275.23,
+    "bid_volume": 110,
+    "mid_price": 275.23,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1764018000000,
+  },
+}
+`;
+
+exports[`rest stock quote endpoint - success should return error for missing data 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`rest stock quote endpoint - success should return error for missing timestamp 1`] = `
+{
+  "errorMessage": "Timestamp received for MISSING_TIME is 0",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest stock quote endpoint - success should return success for full symbol 1`] = `
+{
+  "data": {
+    "ask_price": 275.65999999999997,
+    "ask_volume": 220,
+    "bid_price": 275.23,
+    "bid_volume": 110,
+    "mid_price": 275.51666666666665,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+    "providerIndicatedTimeUnixMs": 1764018000000,
+  },
+}
+`;

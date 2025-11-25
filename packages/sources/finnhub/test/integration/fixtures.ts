@@ -143,3 +143,56 @@ export const mockMarketStatusResponseSuccess = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
+
+export const mockStockQuoteResponseSuccess = (): nock.Scope => {
+  return nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/bidask-snapshot')
+    .query({ token: 'fake-api-key' })
+    .reply(200, () => [
+      {
+        a: 275.65999999999997,
+        av: 220,
+        b: 275.23,
+        bv: 110,
+        t: 1764018000000,
+        s: 'AAPL',
+      },
+      {
+        a: 275.65999999999997,
+        av: 220,
+        b: 0,
+        bv: 110,
+        t: 1764018000000,
+        s: 'NO_BID',
+      },
+      {
+        a: 0,
+        av: 220,
+        b: 275.23,
+        bv: 110,
+        t: 1764018000000,
+        s: 'NO_ASK',
+      },
+      {
+        a: 0,
+        av: 220,
+        b: 275.23,
+        bv: 110,
+        t: 0,
+        s: 'MISSING_TIME',
+      },
+    ])
+}
+
+export const mockStockQuoteResponseFailure = (): nock.Scope => {
+  return nock('https://finnhub.io/api/v1', {
+    encodedQueryParams: true,
+  })
+    .persist()
+    .get('/stock/bidask-snapshot')
+    .query({ token: 'fake-api-key' })
+    .reply(200, () => [])
+}
