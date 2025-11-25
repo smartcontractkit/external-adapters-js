@@ -396,7 +396,7 @@ adapters:
   - name: tiingo-state
     version: 0.2.1
   - name: token-balance
-    version: 3.2.3
+    version: 3.3.0
   - name: tp
     version: 1.10.0
   - name: tradermade
