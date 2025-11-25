@@ -1,5 +1,15 @@
 # @chainlink/token-balance-adapter
 
+## 3.3.0
+
+### Minor Changes
+
+- [#4303](https://github.com/smartcontractkit/external-adapters-js/pull/4303) [`a63b398`](https://github.com/smartcontractkit/external-adapters-js/commit/a63b398fd7394a9349b620cba4902a8a69a7b2c4) Thanks [@dskloetc](https://github.com/dskloetc)! - Add solanaMulti endpoint
+
+### Patch Changes
+
+- [#4299](https://github.com/smartcontractkit/external-adapters-js/pull/4299) [`c925208`](https://github.com/smartcontractkit/external-adapters-js/commit/c9252088de1e1d8770bb525bfc0b78e40578faab) Thanks [@dskloetc](https://github.com/dskloetc)! - Filter out non-solana networks in solvJlp endpoint
+
 ## 3.2.3
 
 ### Patch Changes
