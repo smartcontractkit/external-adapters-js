@@ -4,9 +4,10 @@
 
 if [ "$CACHE_TYPE" = "redis" ]; then
     echo "CACHE_TYPE=redis detected, starting streams-adapter..."
-    supervisorctl start group:streams-adapter
+    # Start all processes in the 'streams-adapter' group
+    supervisorctl start streams-adapter:
 else
     echo "CACHE_TYPE is not 'redis', starting js-adapter..."
-    supervisorctl start js-adapter
+    supervisorctl start js-adapter-original
 fi
 

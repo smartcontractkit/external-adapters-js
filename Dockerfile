@@ -37,10 +37,10 @@ COPY --from=builder /home/node/app/$location/package.json /home/node/app/$locati
 # Copy Go binary and alias config
 COPY --from=go-builder /build/streams-adapter /usr/local/bin/streams-adapter
 COPY --from=go-builder /build/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
-COPY --from=builder /home/node/app/streams-adapter.sh /usr/local/bin/streams-adapter.sh
+COPY --from=builder /home/node/app/selector.sh /usr/local/bin/selector.sh
 
 # Make scripts executable
-RUN chmod +x /usr/local/bin/streams-adapter.sh /usr/local/bin/streams-adapter
+RUN chmod +x /usr/local/bin/selector.sh /usr/local/bin/streams-adapter
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisord.conf
