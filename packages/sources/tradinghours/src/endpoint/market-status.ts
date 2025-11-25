@@ -1,15 +1,15 @@
 import {
   MarketStatusEndpoint,
   MarketStatusResultResponse,
+  marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 import { config } from '../config'
 import { markets, transport } from '../transport/market-status'
 
 const inputParameters = new InputParameters({
+  ...marketStatusEndpointInputParametersDefinition,
   market: {
     aliases: [],
     type: 'string',
@@ -31,7 +31,7 @@ export const marketStatusEndpoint = new MarketStatusEndpoint({
   transport,
   inputParameters,
   requestTransforms: [
-    (req: AdapterRequest<TypeFromDefinition<typeof inputParameters.definition>>) => {
+    (req) => {
       const data = req.requestContext.data
       data.market = data.market.toLowerCase()
       return req

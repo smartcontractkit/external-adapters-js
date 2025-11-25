@@ -276,9 +276,6 @@
       "path": "./sources/cryptoapis"
     },
     {
-      "path": "./sources/cryptoapis-v2"
-    },
-    {
       "path": "./sources/cryptocompare"
     },
     {
@@ -313,9 +310,6 @@
     },
     {
       "path": "./sources/dxfeed"
-    },
-    {
-      "path": "./sources/elven"
     },
     {
       "path": "./sources/elwood"
@@ -372,9 +366,6 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fixer"
-    },
-    {
       "path": "./sources/fluent-finance"
     },
     {
@@ -403,9 +394,6 @@
     },
     {
       "path": "./sources/gmci"
-    },
-    {
-      "path": "./sources/gramchain"
     },
     {
       "path": "./sources/graphql"
@@ -444,9 +432,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/jpegd"
-    },
-    {
       "path": "./sources/json-rpc"
     },
     {
@@ -474,6 +459,9 @@
       "path": "./sources/lition"
     },
     {
+      "path": "./sources/liveart"
+    },
+    {
       "path": "./sources/lotus"
     },
     {
@@ -481,9 +469,6 @@
     },
     {
       "path": "./sources/messari"
-    },
-    {
-      "path": "./sources/metalsapi"
     },
     {
       "path": "./sources/mobula-state"
@@ -513,9 +498,6 @@
       "path": "./sources/ncfx"
     },
     {
-      "path": "./sources/nft-blue-chip"
-    },
-    {
       "path": "./sources/nikkei"
     },
     {
@@ -541,9 +523,6 @@
     },
     {
       "path": "./sources/openexchangerates"
-    },
-    {
-      "path": "./sources/orchid-bandwidth"
     },
     {
       "path": "./sources/paxos"

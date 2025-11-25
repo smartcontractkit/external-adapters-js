@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+SOURCE_DIR=$(dirname "$0")
+
 # This script takes a list of adapter names to release and outputs the
 # arguments to pass to `yarn changeset version`.
 #
@@ -18,25 +20,53 @@ if [[ -z "$*" ]]; then
   exit 0
 fi
 
+get_packages_from_changeset_files() {
+  git grep -Eh "^'@chainlink/[^']*-adapter': (major|minor|patch)$" "$@" | sed -E "s#^'(@chainlink/[^']*-adapter)': (major|minor|patch).*\$#\\1#" | sort -u
+}
+
+CHANGED_PACKAGES_RECURSIVE="$($SOURCE_DIR/get-reverse-dependencies.sh $(get_packages_from_changeset_files) )"
+
+intersect() {
+  list1="$1"
+  list2="$2"
+  grep -Fxf <(echo "$list1") <<< "$list2"
+}
+
+add_changed_reverse_package_deps() {
+  packages="$1"
+  # We need to include reverse dependencies because if a dependency is
+  # bumped, this also results in a patch bump of the dependent package.
+  # But if the dependency is not actually changed (either directly or
+  # transitively), but only included because of a requirement of
+  # `changeset version`, we don't want to include it. Otherwise almost all
+  # packages get included through common dependencies such as
+  # @chainlink/ea-test-helpers.
+  intersect "$($SOURCE_DIR/get-reverse-dependencies.sh $packages)" "$CHANGED_PACKAGES_RECURSIVE"
+}
+
 add_package_deps() {
   packages="$1"
   {
     for package in $packages; do
       echo $package
       package_file="$(git grep -l '"name": "'"$package"'"' packages)"
-      jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/' | grep -v '@chainlink/external-adapter-framework'
+      for dep in $(jq -r '.dependencies | keys[]' "$package_file" | grep '@chainlink/'); do
+        dep_file="$(git grep -l '"name": "'"$dep"'"' packages)"
+        if [[ -z "$dep_file" ]]; then
+          # This package is from another repo
+          continue
+        fi
+        echo $dep
+      done
     done
   } | sort -u
-}
-
-get_packages_from_changeset_files() {
-  git grep -Eh "^'@chainlink/[^']*-adapter': (major|minor|patch)$" "$@" | sed -E "s#^'(@chainlink/[^']*-adapter)': (major|minor|patch).*\$#\\1#" | sort -u
 }
 
 add_changeset_deps() {
   packages="$1"
   {
     for package in $packages; do
+      echo $package
       pattern="^'$package': (major|minor|patch)\$"
       for changeset_file in $(git grep -lE "$pattern" .changeset); do
         get_packages_from_changeset_files "$changeset_file"
@@ -49,6 +79,7 @@ add_deps() {
   packages="$1"
   packages=$(add_changeset_deps "$packages")
   packages=$(add_package_deps "$packages")
+  packages=$(add_changed_reverse_package_deps "$packages")
   echo "$packages"
 }
 
@@ -84,8 +115,15 @@ if [[ -z "$packages_to_include" ]]; then
   exit 1
 fi
 
-echo "Not ignoring the following transitive dependencies:" >&2
-echo "$packages_to_include" >&2
+{
+  echo "Not ignoring the following transitive dependencies:"
+  echo "$packages_to_include"
+  echo
+  echo "Expecting the following packages to be released:"
+  grep -Fxf <(echo "$packages_to_include") <<< "$CHANGED_PACKAGES_RECURSIVE"
+  echo
+} >&2
+
 
 all_packages=$(yarn workspaces list --json | jq -r '.name' | grep -v '@chainlink/external-adapters-js')
 packages_to_ignore=$(echo "$all_packages" | grep -vFf <(echo "$packages_to_include"))

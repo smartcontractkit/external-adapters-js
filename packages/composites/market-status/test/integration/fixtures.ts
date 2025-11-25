@@ -1,119 +1,46 @@
 import nock from 'nock'
 
-export const mockTradinghoursOpen = (market: string): nock.Scope => {
-  return nock('https://tradinghours-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
+export const mockOpen = (market: string, url?: string, type = 'regular', weekend?: string) =>
+  nock(url || '')
+    .post('/', { data: { endpoint: 'market-status', market, type, weekend } })
     .reply(200, {
       result: 2,
       statusCode: 200,
       data: {
         result: 2,
+        statusString: 'OPEN',
       },
     })
-}
-
-export const mockTradinghoursClosed = (market: string): nock.Scope => {
-  return nock('https://tradinghours-adapter.com')
     .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
+
+export const mockClosed = (market: string, url?: string, type = 'regular', weekend?: string) =>
+  nock(url || '')
+    .post('/', { data: { endpoint: 'market-status', market, type, weekend } })
     .reply(200, {
       result: 1,
       statusCode: 200,
       data: {
         result: 1,
+        statusString: 'CLOSED',
       },
     })
-}
-
-export const mockTradinghoursUnknown = (market: string): nock.Scope => {
-  return nock('https://tradinghours-adapter.com')
     .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
+
+export const mockUnknown = (market: string, url?: string, type = 'regular', weekend?: string) =>
+  nock(url || '')
+    .post('/', { data: { endpoint: 'market-status', market, type, weekend } })
     .reply(200, {
       result: 0,
       statusCode: 200,
       data: {
         result: 0,
+        statusString: 'UNKNOWN',
       },
     })
-}
-
-export const mockTradinghoursError = (market: string): nock.Scope => {
-  return nock('https://tradinghours-adapter.com')
     .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
+
+export const mockError = (market: string, url?: string, type = 'regular', weekend?: string) =>
+  nock(url || '')
+    .post('/', { data: { endpoint: 'market-status', market, type, weekend } })
     .reply(500, {})
-}
-
-export const mockNCFXOpen = (market: string): nock.Scope => {
-  return nock('https://ncfx-adapter.com')
     .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(200, {
-      result: 2,
-      statusCode: 200,
-      data: {
-        result: 2,
-      },
-    })
-}
-
-export const mockNCFXUnknown = (market: string): nock.Scope => {
-  return nock('https://ncfx-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(200, {
-      result: 0,
-      statusCode: 200,
-      data: {
-        result: 0,
-      },
-    })
-}
-
-export const mockNCFXError = (market: string): nock.Scope => {
-  return nock('https://ncfx-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(500, {})
-}
-
-export const mockFinnhubSecondaryOpen = (market: string): nock.Scope => {
-  return nock('https://finnhub-secondary-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(200, {
-      result: 2,
-      statusCode: 200,
-      data: {
-        result: 2,
-      },
-    })
-}
-
-export const mockFinnhubSecondaryClosed = (market: string): nock.Scope => {
-  return nock('https://finnhub-secondary-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(200, {
-      result: 1,
-      statusCode: 200,
-      data: {
-        result: 1,
-      },
-    })
-}
-
-export const mockFinnhubSecondaryUnknown = (market: string): nock.Scope => {
-  return nock('https://finnhub-secondary-adapter.com')
-    .persist()
-    .post('/', { data: { endpoint: 'market-status', market } })
-    .reply(200, {
-      result: 0,
-      statusCode: 200,
-      data: {
-        result: 0,
-      },
-    })
-}

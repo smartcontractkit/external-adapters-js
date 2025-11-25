@@ -12,9 +12,8 @@ Thank you for your interest in improving the Chainlink External Adapter codebase
 6. [Running Integration Tests](#Running-Integration-Tests)
 7. [Generating Changesets](#Generating-Changesets)
 8. [Common Patterns](#Common-Patterns)
-9. [Soak Testing (Chainlink Labs)](<#Soak-Testing-(Chainlink-Labs)>)
-10. [Logging Censorship](#logging-censorship)
-11. [Framework Development](#framework-development)
+9. [Logging Censorship](#logging-censorship)
+10. [Framework Development](#framework-development)
 
 ## Creating A New Adapter
 
@@ -145,138 +144,6 @@ When making changes to an adapter, a changeset should be added for each feature 
 ```js
 Decimal.set({ precision: 100 })
 ```
-
-## Soak Testing (Chainlink Labs)
-
-In order to soak test adapters we need to create and push the adapter out to the sdlc cluster. From there we can use the Flux Emulator or K6 to send traffic to it for the amount of time you need.
-
-Prerequisites to starting an external adapter in the sdlc cluster
-
-1. You must be on the vpn to access the k8s cluster.
-2. You must have your kubeconfig set to the sdlc cluster which also requires you be logged into the aws secure-sdlc account as a user with k8s permissions. To do so it would look something like this but with your specific profile name `aws sso login --profile sdlc`. Instructions to set this up and set your kubeconfig can be found in [QA Kubernetes Cluster](https://www.notion.so/chainlink/QA-Kubernetes-Cluster-ca3f1a64e6fd4476ac5a76c8bfcd8624)
-3. In order to pull the external adapter helm chart you need to have a GitHub PAT and add the chainlik helm repo using the instructions in [smartcontractkit/charts](https://github.com/smartcontractkit/charts)
-
-To spin up an adapter in the sdlc cluster:
-
-```bash
-# Build all packages
-yarn install
-yarn setup
-
-# Build the docker-compose
-# The uniqueName can be your name or something unique to you, for example in ci it will use the PR number
-# Change the adapter name to the adapter you are testing
-export AWS_PROFILE=sdlc
-export AWS_REGION=us-west-2
-export UNIQUE_NAME=unique-name
-export ADAPTER_NAME=coingecko
-export IMAGE_PREFIX=795953128386.dkr.ecr.us-west-2.amazonaws.com/adapters/
-export IMAGE_TAG=pr${UNIQUE_NAME}
-IMAGE_TAG=${IMAGE_TAG} IMAGE_PREFIX=${IMAGE_PREFIX} yarn generate:docker-compose
-
-# Build the docker image
-docker-compose -f docker-compose.generated.yaml build ${ADAPTER_NAME}-adapter
-
-# Push adapter image to private ecr
-# If you haven't logged into the docker repository you may need to do this before the push will work
-# aws ecr get-login-password --region ${AWS_REGION} --profile ${AWS_PROFILE} | docker login --username AWS --password-stdin ${IMAGE_PREFIX}
-# If you need to create a repository for a new adapter it can be done like so:
-# aws ecr create-repository --region ${AWS_REGION} --profile ${AWS_PROFILE} --repository-name adapters/${ADAPTER_NAME} || true
-docker push ${IMAGE_PREFIX}${ADAPTER_NAME}-adapter:${IMAGE_TAG}
-
-# Start the adapter in the sdlc cluster
-yarn qa:adapter start ${ADAPTER_NAME} ${UNIQUE_NAME} ${IMAGE_TAG}
-```
-
-To tear down the deployment made above after you are done testing:
-
-```bash
-yarn qa:adapter stop ${ADAPTER_NAME} ${UNIQUE_NAME} ${UNIQUE_NAME}
-```
-
-To start running a test via Flux Emulator:
-
-```bash
-# Use the same unique and adapter name from when you started the adapter
-export UNIQUE_NAME=unique-name
-export ADAPTER_NAME=coingecko
-export MASTER_CONFIG=url
-yarn qa:flux:configure start ${ADAPTER_NAME} ${UNIQUE_NAME}
-```
-
-To stop running a test via Flux Emulator:
-
-```bash
-yarn qa:flux:configure stop ${ADAPTER_NAME} ${UNIQUE_NAME}
-```
-
-To build a K6 payload file from the Flux Emulator config using test-payload.json files:
-
-```bash
-yarn qa:flux:configure k6payload ${ADAPTER_NAME} ${UNIQUE_NAME}
-```
-
-To start a test using k6 and the generated payload. Note read the k6 readme ./packages/k6/README.md It contains more information on how to configure the test to point to the adapter you have deployed among other things.
-
-```bash
-export UNIQUE_NAME=unique
-export ADAPTER_NAME=coingecko
-# create the config
-yarn qa:flux:configure k6payload ${ADAPTER_NAME} ${UNIQUE_NAME}
-
-# Move to the k6 package and build/push
-UNIQUE_NAME=${UNIQUE_NAME} ./packages/k6/buildAndPushImage.sh
-
-# start the test pod
-UNIQUE_NAME=${UNIQUE_NAME} ADAPTER=${ADAPTER_NAME} ./packages/k6/start.sh
-```
-
-To stop or tear down a test using k6 in the cluster do the below.
-
-```bash
-UNIQUE_NAME=${UNIQUE_NAME} ADAPTER=${ADAPTER} ./packages/k6/stop.sh
-```
-
-When you are done testing please remember to tear down any adapters and k6 deployments in the cluster. If you used the same UNIQUE_NAME for all of the above you can clean up both the adapters and the k6 tests with this:
-
-```bash
-PR_NUMBER=${UNIQUE_NAME} ./packages/scripts/src/ephemeral-adapters/cleanup.sh
-```
-
-### Output testing
-
-Soak testing additionally can test the responses output. The output testing runs against assertions placed in `./packages/k6/src/config/assertions`. Common assertions are in `assertions.json`, adapter-specific ones will be loaded from `${adapterName}-assertions.json`. Assertions can be applied for all the requests or specific set of parameters. See examples in the folder.
-
-The output testing checks the variety of input parameters, should be at least 10. For new adapters various parameters should be defined in `test-payload.json`.
-
-Input parameters in `test-payload.json` should include the following pairs:
-
-**High/low volume pairs**
-
-```
-[{"from": "OGN", "to": "ETH"}, {"from": "CSPR", "to": "USD"}, {"from": "CTSI", "to": "ETH"}, {"from": "BADGER", "to": "ETH"}, {"from": "BADGER", "to": "USD"}, {"from": "BSW", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "KNC", "to": "USD"}, {"from": "QUICK", "to": "ETH"}, {"from": "QUICK", "to": "USD"}, {"from": "FIS", "to": "USD"}, {"from": "MBOX", "to": "USD"}, {"from": "FOR", "to": "USD"}, {"from": "DGB", "to": "USD"}, {"from": "SUSD", "to": "ETH"}, {"from": "SUSD", "to": "USD"}, {"from": "WIN", "to": "USD"}, {"from": "SRM", "to": "ETH"}, {"from": "SRM", "to": "USD"}, {"from": "ALCX", "to": "ETH"}, {"from": "ALCX", "to": "USD"}, {"from": "ADX", "to": "USD"}, {"from": "NEXO", "to": "USD"}, {"from": "ANT", "to": "ETH"}, {"from": "ANT", "to": "USD"}, {"from": "LOOKS", "to": "USD"}, {"from": "WNXM", "to": "USD"}, {"from": "MDX", "to": "USD"}, {"from": "ALPHA", "to": "BNB"}, {"from": "ALPHA", "to": "USD"}, {"from": "NMR", "to": "ETH"}, {"from": "NMR", "to": "USD"}, {"from": "PHA", "to": "USD"}, {"from": "OHM", "to": "ETH"}, {"from": "BAL", "to": "ETH"}, {"from": "BAL", "to": "USD"}, {"from": "CVX", "to": "USD"}, {"from": "MOVR", "to": "USD"}, {"from": "DEGO", "to": "USD"}, {"from": "USDD", "to": "USD"}, {"from": "QI", "to": "USD"}, {"from": "MIM", "to": "USD"}, {"from": "KP3R", "to": "ETH"}, {"from": "REP", "to": "ETH"}, {"from": "REP", "to": "USD"}, {"from": "WING", "to": "USD"}, {"from": "XVS", "to": "BNB"}, {"from": "XVS", "to": "USD"}, {"from": "BOND", "to": "ETH"}, {"from": "BOND", "to": "USD"}, {"from": "REQ", "to": "USD"}, {"from": "LEO", "to": "USD"}, {"from": "ORN", "to": "ETH"}, {"from": "ALPACA", "to": "USD"}, {"from": "AGEUR", "to": "USD"}, {"from": "VAI", "to": "USD"}, {"from": "BIFI", "to": "USD"}, {"from": "AUTO", "to": "USD"}, {"from": "CEL", "to": "ETH"}, {"from": "CEL", "to": "USD"}, {"from": "HT", "to": "USD"}, {"from": "GLM", "to": "USD"}, {"from": "OM", "to": "USD"}, {"from": "BIT", "to": "USD"}, {"from": "ERN", "to": "USD"}, {"from": "PLA", "to": "USD"}, {"from": "FARM", "to": "ETH"}, {"from": "FARM", "to": "USD"}, {"from": "FORTH", "to": "USD"}, {"from": "OXT", "to": "USD"}, {"from": "MLN", "to": "ETH"}, {"from": "MLN", "to": "USD"}, {"from": "ONG", "to": "USD"}, {"from": "GUSD", "to": "ETH"}, {"from": "GUSD", "to": "USD"}, {"from": "DFI", "to": "USD"}, {"from": "SWAP", "to": "ETH"}, {"from": "ALUD", "to": "USD"}, {"from": "CREAM", "to": "BNB"}, {"from": "CREAM", "to": "USD"}, {"from": "GNO", "to": "ETH"}, {"from": "XAVA", "to": "USD"}, {"from": "BOO", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "AMPL", "to": "USD"}, {"from": "RAI", "to": "ETH"}, {"from": "RAI", "to": "USD"}, {"from": "FEI", "to": "ETH"}, {"from": "FEI", "to": "USD"}, {"from": "DPX", "to": "USD"}, {"from": "EURT", "to": "USD"}, {"from": "LON", "to": "ETH"}, {"from": "BORING", "to": "BNB"}, {"from": "BORING", "to": "USD"}, {"from": "RARI", "to": "ETH"}, {"from": "DNT", "to": "ETH"}, {"from": "FOX", "to": "USD"}, {"from": "XHV", "to": "USD"}, {"from": "TRIBE", "to": "ETH"}, {"from": "UMEE", "to": "ETH"}, {"from": "UST", "to": "ETH"}, {"from": "UST", "to": "USD"}, {"from": "ZCN", "to": "USD"}, {"from": "DPI", "to": "USD"}]
-```
-
-**Collision risks**
-
-```
-[{"from": "MIM", "to": "USD"}, {"from": "LRC", "to": "USD"}, {"from": "OHM", "to": "USD"}, {"from": "QUICK", "to": "USD"}]
-```
-
-**Forex feeds**
-
-```
-[{"from": "AED", "to": "USD"}, {"from": "AUD", "to": "USD"}, {"from": "BRL", "to": "USD"}, {"from": "CAD", "to": "USD"}, {"from": "CHF", "to": "USD"}, {"from": "CNY", "to": "USD"}, {"from": "COP", "to": "USD"}, {"from": "CZK", "to": "USD"}, {"from": "EUR", "to": "USD"}, {"from": "GBP", "to": "USD"}, {"from": "HKD", "to": "USD"}, {"from": "IDR", "to": "USD"}, {"from": "ILS", "to": "USD"}, {"from": "INR", "to": "USD"}, {"from": "JPY", "to": "USD"}, {"from": "KRW", "to": "USD"}, {"from": "MXN", "to": "USD"}, {"from": "NZD", "to": "USD"}, {"from": "PHP", "to": "USD"}, {"from": "PLN", "to": "USD"}, {"from": "SEK", "to": "USD"}, {"from": "SGD", "to": "USD"}, {"from": "THB", "to": "USD"}, {"from": "TRY", "to": "USD"}, {"from": "TZS", "to": "USD"}, {"from": "VND", "to": "USD"}, {"from": "XAG", "to": "USD"}, {"from": "XAU", "to": "USD"}, {"from": "XPT", "to": "USD"}, {"from": "ZAR", "to": "USD"}, {"from": "ZEC", "to": "USD"}, {"from": "ZIL", "to": "USD"}, {"from": "ZRX", "to": "ETH"}, {"from": "ZRX", "to": "USD"}]
-```
-
-Available types of assertions:
-
-- `minPrecision` - minimum precision for a numeric value
-- `greaterThan` - minimum numeric value
-- `lessThan` - maximum numeric value
-- `minItems` - list contains at least the required number of items
-- `contains` - list contains a specific item (string or number)
-- `hasKey` - an object contains a specific key
 
 ## Framework Development
 

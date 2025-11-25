@@ -2,7 +2,6 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import {
   AdapterError,
   AdapterInputError,
@@ -37,7 +36,6 @@ export type HexResultPostProcessor = (
 export class MultiChainFunctionTransport<
   T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
-  config!: T['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
   hexResultPostProcessor: HexResultPostProcessor
 
@@ -53,7 +51,6 @@ export class MultiChainFunctionTransport<
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    this.config = adapterSettings
   }
 
   async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
@@ -83,26 +80,21 @@ export class MultiChainFunctionTransport<
   }
 
   async _handleRequest(param: RequestParams<T>): Promise<AdapterResponse<T['Response']>> {
-    const { address, signature, inputParams, network, additionalRequests, resultField } = param
+    const providerDataRequestedUnixMs = Date.now()
 
-    const [mainResult, nestedResultOutcome] = await Promise.all([
-      this._executeFunction({
-        address,
-        signature,
-        inputParams,
-        network,
-        resultField,
-      }),
-      this._processNestedDataRequest(additionalRequests, address, network),
-    ])
-
-    const combinedData = { result: mainResult.result, ...nestedResultOutcome }
+    const result = await this._executeFunction(param)
 
     return {
-      data: combinedData,
+      data: {
+        result,
+      },
       statusCode: 200,
-      result: mainResult.result,
-      timestamps: mainResult.timestamps,
+      result,
+      timestamps: {
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+        providerIndicatedTimeUnixMs: undefined,
+      },
     }
   }
 
@@ -137,8 +129,6 @@ export class MultiChainFunctionTransport<
     const fnName = iface.getFunctionName(signature)
     const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
-    const providerDataRequestedUnixMs = Date.now()
-
     let encodedResult
     try {
       encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
@@ -149,53 +139,9 @@ export class MultiChainFunctionTransport<
       })
     }
 
-    const timestamps = {
-      providerDataRequestedUnixMs,
-      providerDataReceivedUnixMs: Date.now(),
-      providerIndicatedTimeUnixMs: undefined,
-    }
-
     const result = this.hexResultPostProcessor({ iface, fnName, encodedResult }, resultField)
 
-    return { result, timestamps }
-  }
-
-  private async _processNestedDataRequest(
-    additionalRequests:
-      | Array<{
-          name: string
-          signature: string
-        }>
-      | undefined,
-    parentAddress: string,
-    parentNetwork: string,
-  ): Promise<Record<string, string>> {
-    if (!Array.isArray(additionalRequests) || additionalRequests.length === 0) {
-      return {}
-    }
-
-    const runner = new GroupRunner(this.config.GROUP_SIZE)
-
-    const processNested = runner.wrapFunction(
-      async (req: { name: string; signature: string }): Promise<[string, string]> => {
-        const key = req.name
-        try {
-          const nestedParam = {
-            address: parentAddress,
-            network: parentNetwork,
-            signature: req.signature,
-          }
-
-          const subRes = await this._executeFunction(nestedParam)
-          return [key, subRes.result]
-        } catch (err) {
-          throw new Error(`Nested function "${key}" failed: ${err}`)
-        }
-      },
-    )
-
-    const settled: [string, string][] = await Promise.all(additionalRequests.map(processNested))
-    return Object.fromEntries(settled)
+    return result
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {

@@ -256,6 +256,22 @@ export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer
       bs: '13',
       t: 14,
     },
+    {
+      s: 'NO_BID',
+      a: '5',
+      as: '6',
+      b: '0',
+      bs: '8',
+      t: 7,
+    },
+    {
+      s: 'NO_ASK',
+      a: '0',
+      as: '6',
+      b: '7',
+      bs: '8',
+      t: 5,
+    },
   ]
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {

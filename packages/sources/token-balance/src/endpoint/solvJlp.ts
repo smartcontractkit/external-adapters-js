@@ -13,6 +13,11 @@ export const inputParameters = new InputParameters(
           type: 'string',
           description: 'only JLP will be processed',
         },
+        network: {
+          required: false,
+          type: 'string',
+          description: 'Addresses with a networks other than SOLANA will be filtered out',
+        },
         contractAddress: {
           required: true,
           type: 'string',

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/proof-of-reserves-adapter",
-  "version": "1.30.6",
+  "version": "1.31.2",
   "description": "Chainlink BTC Proof of Reserves composite adapter. Combines multiple adapters to find total balance in custody for wBTC or renBTC.",
   "keywords": [
     "Chainlink",
@@ -31,6 +31,13 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
+    "@chainlink/ea-bootstrap": "workspace:*",
+    "@chainlink/reduce-adapter": "workspace:*",
+    "decimal.js": "^10.3.1",
+    "ethers": "^5.4.6",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
     "@chainlink/ada-balance-adapter": "workspace:*",
     "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/avalanche-platform-adapter": "workspace:*",
@@ -43,10 +50,10 @@
     "@chainlink/chain-reserve-wallet-adapter": "workspace:*",
     "@chainlink/coinbase-prime-adapter": "workspace:*",
     "@chainlink/cryptoapis-adapter": "workspace:*",
-    "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",
     "@chainlink/eth-beacon-adapter": "workspace:*",
+    "@chainlink/external-adapter-framework": "2.8.0",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/ignition-address-list-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
@@ -55,7 +62,6 @@
     "@chainlink/polkadot-balance-adapter": "workspace:*",
     "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/por-indexer-adapter": "workspace:*",
-    "@chainlink/reduce-adapter": "workspace:*",
     "@chainlink/renvm-address-set-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
     "@chainlink/stader-address-list-adapter": "workspace:*",
@@ -65,12 +71,6 @@
     "@chainlink/view-function-multi-chain-adapter": "workspace:*",
     "@chainlink/wbtc-address-set-adapter": "workspace:*",
     "@chainlink/wrapped-adapter": "workspace:*",
-    "decimal.js": "^10.3.1",
-    "ethers": "^5.4.6",
-    "tslib": "^2.3.1"
-  },
-  "devDependencies": {
-    "@chainlink/external-adapter-framework": "2.8.0",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
     "@types/supertest": "2.0.16",

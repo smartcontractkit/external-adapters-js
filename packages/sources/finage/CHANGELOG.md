@@ -1,5 +1,27 @@
 ## v1.1.0
 
+## 2.3.0
+
+### Minor Changes
+
+- [#4292](https://github.com/smartcontractkit/external-adapters-js/pull/4292) [`c3a9d9b`](https://github.com/smartcontractkit/external-adapters-js/commit/c3a9d9b44cd353afd5a597c1c6211c0c0f4409fa) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add mid to stock quotes
+
+## 2.2.1
+
+### Patch Changes
+
+- [#4253](https://github.com/smartcontractkit/external-adapters-js/pull/4253) [`f3c0e08`](https://github.com/smartcontractkit/external-adapters-js/commit/f3c0e08c67a8f61524ae0330810187059aef237d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
+## 2.2.0
+
+### Minor Changes
+
+- [#4231](https://github.com/smartcontractkit/external-adapters-js/pull/4231) [`8d06b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d06b4ab8f64e0c5ecbf8e69e5a1786dc0061d77) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump market status dependency
+
+### Patch Changes
+
+- [#4198](https://github.com/smartcontractkit/external-adapters-js/pull/4198) [`bf10006`](https://github.com/smartcontractkit/external-adapters-js/commit/bf100063b8068e1ce0f3a3e4d410a0babc61c2f9) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - framework dependency bump
+
 ## 2.1.0
 
 ### Minor Changes

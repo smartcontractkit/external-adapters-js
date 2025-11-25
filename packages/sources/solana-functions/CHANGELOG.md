@@ -1,5 +1,15 @@
 # @chainlink/solana-functions-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4220](https://github.com/smartcontractkit/external-adapters-js/pull/4220) [`251386a`](https://github.com/smartcontractkit/external-adapters-js/commit/251386abd36ab907c48c734d7ebe164eef30a1f5) Thanks [@dskloetc](https://github.com/dskloetc)! - Add extension endpoint
+
+### Patch Changes
+
+- [#4236](https://github.com/smartcontractkit/external-adapters-js/pull/4236) [`b1c2cb1`](https://github.com/smartcontractkit/external-adapters-js/commit/b1c2cb11e761ebb5efc0ba96bd0b2b3f91019668) Thanks [@dskloetc](https://github.com/dskloetc)! - Update framework dependency
+
 ## 1.2.0
 
 ### Minor Changes

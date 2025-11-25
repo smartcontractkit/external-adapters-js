@@ -73,22 +73,14 @@ jobs:
       - name: Compile tests
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
-          FAILING_TESTS_PATTERN: '/composites/gm-token/|/core/bootstrap/|/sources/bitgo-reserves-test/|/sources/bitgo-reserves/|/sources/coinpaprika/|/sources/cryptocompare/|/sources/icap/|/sources/layer2-sequencer-health/|/k6/|/observation/'
         run: |
           echo "Tests that should compile:"
-          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r | grep -v -E "$FAILING_TESTS_PATTERN" || true))
+          configs_to_compile=($(echo "$CHANGED_PACKAGES" | jq '.[].location + "/tsconfig.test.json"' -r || true))
           if [ ${#configs_to_compile[@]} -eq 0 ]; then
             echo "No tests to compile."
           else
             yarn tsc -b --noEmit "${configs_to_compile[@]}"
           fi
-          echo "Tests that should not compile:"
-          for package in $(echo "$CHANGED_PACKAGES" | jq '.[].location + "/"' -r | grep -E "$FAILING_TESTS_PATTERN"); do
-            if yarn tsc -b --noEmit "${package}tsconfig.test.json"; then
-              echo "Compilation succeeded for $package. Remove it from FAILING_TESTS_PATTERN so it doesn't break again in the future."
-              exit 1
-            fi
-          done
 
   # Run unit tests
   unit-tests:
@@ -147,7 +139,7 @@ jobs:
         run: |
           # TODO: Reduce the ignored patterns to only /dist/, /test/unit/ and
           # /test/integration/ by making the other tests actually pass.
-          yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/"' -r | tr '\n' ' ') --testPathIgnorePatterns="$(echo $CHANGED_PACKAGES | jq --raw-output 'map(.location | . + "/dist/|" + . + "/test/unit/|" + . + "/test/integration") | join("|")')|/test/e2e/|/test/transports/|packages/scripts/src/docker-build/|packages/scripts/src/schema-flatten/|packages/scripts/src/flux-emulator/|packages/k6/src/"
+          yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/"' -r | tr '\n' ' ') --testPathIgnorePatterns="$(echo $CHANGED_PACKAGES | jq --raw-output 'map(.location | . + "/dist/|" + . + "/test/unit/|" + . + "/test/integration") | join("|")')|/test/e2e/|/test/transports/"
 
   # Run linters
   linters:

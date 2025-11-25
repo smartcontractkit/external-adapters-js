@@ -313,4 +313,19 @@ describe('InstrumentQuoteCache', () => {
     const q = cache.get(MARKET, ISIN)!
     expect(q.mid).toBe(1_234_567_890_124.5)
   })
+
+  test('clears all entries and is idempotent', () => {
+    const cache = new InstrumentQuoteCache() as any
+    // Access private map in tests via `as any` to avoid changing prod code
+    cache.map.set('ABC', { bid: 1, ask: 2 })
+    cache.map.set('DEF', { bid: 3, ask: 4 })
+    expect(cache.map.size).toBe(2)
+
+    cache.clear()
+    expect(cache.map.size).toBe(0)
+
+    // second call does nothing harmful
+    cache.clear()
+    expect(cache.map.size).toBe(0)
+  })
 })

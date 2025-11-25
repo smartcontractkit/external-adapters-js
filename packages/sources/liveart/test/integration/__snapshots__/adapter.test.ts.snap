@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LiveArt NAV endpoints nav framework should handle API 422 bad response 1`] = `
+{
+  "errorMessage": "Provider request failed with status 422: {"detail":[{"type":"enum","loc":["path","asset_id"],"msg":"Input should be 'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'","input":"abcd","ctx":{"expected":"'KUSPUM', 'ROLSUB', 'KOODOG', 'BANGIR', 'MURFLO', 'HOCPOOL' or 'HARPLA'"}}]}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoints nav should handle upstream bad response for unsuccessful request 1`] = `
+{
+  "errorMessage": "Asset ID 'AssetId.ROLSUB' not found",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoints nav should return error for invalid assetId 1`] = `
+{
+  "errorMessage": "Mismatched asset_id in response. Expected invalid-asset-id, got KUSPUM",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`LiveArt NAV endpoints nav should return success for valid assetId 1`] = `
+{
+  "data": {
+    "result": 0.09630117,
+  },
+  "result": 0.09630117,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

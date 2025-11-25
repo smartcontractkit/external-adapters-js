@@ -1,4 +1,4 @@
-import { getCryptoPrice, getRwaPrice } from '../../src/lib'
+import { getCryptoPrice, getDeutscheBoersePrice, getRwaPrice } from '../../src/lib'
 
 describe('lib.ts', () => {
   it('getCryptoPrice - should return result', async () => {
@@ -17,6 +17,25 @@ describe('lib.ts', () => {
     requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
 
     await expect(getRwaPrice('feed-2', 'ea-url', requester)).resolves.toEqual(data)
+  })
+
+  it('getDeutscheBoersePrice - should return result', async () => {
+    const requester = { request: jest.fn() } as any
+    const data = {
+      mid: '1',
+      lastSeenTimestampNs: '2',
+      bid: '3',
+      bidVolume: 4,
+      ask: '5',
+      askVolume: 6,
+      lastTradedPrice: '7',
+      marketStatus: 8,
+      decimals: 9,
+    }
+
+    requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
+
+    await expect(getDeutscheBoersePrice('feed-3', 'ea-url', requester)).resolves.toEqual(data)
   })
 
   it('should throw if empty', async () => {
