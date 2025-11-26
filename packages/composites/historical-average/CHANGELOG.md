@@ -1,5 +1,14 @@
 # @chainlink/historical-average-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- [#4323](https://github.com/smartcontractkit/external-adapters-js/pull/4323) [`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
+- Updated dependencies [[`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021)]:
+  - @chainlink/coinmarketcap-adapter@2.1.2
+
 ## 1.3.1
 
 ### Patch Changes

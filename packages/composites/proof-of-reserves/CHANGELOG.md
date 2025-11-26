@@ -1,5 +1,11 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.31.3
+
+### Patch Changes
+
+- [#4279](https://github.com/smartcontractkit/external-adapters-js/pull/4279) [`af6a86f`](https://github.com/smartcontractkit/external-adapters-js/commit/af6a86f376b238bcefbfdce7bffc531d5c99d590) Thanks [@dskloetc](https://github.com/dskloetc)! - Decouple from adapter dependencies
+
 ## 1.31.2
 
 ### Patch Changes
