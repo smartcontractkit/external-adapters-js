@@ -86,5 +86,27 @@ describe('rest', () => {
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should return error for negative number', async () => {
+      const data = {
+        endpoint: 'stock_quotes',
+        base: 'NEGATIVE',
+      }
+      mockStockQuoteResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error for 0 volume', async () => {
+      const data = {
+        endpoint: 'stock_quotes',
+        base: 'ZERO_VOLUME',
+      }
+      mockStockQuoteResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

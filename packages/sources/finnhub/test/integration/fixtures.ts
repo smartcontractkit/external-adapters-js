@@ -164,7 +164,7 @@ export const mockStockQuoteResponseSuccess = (): nock.Scope => {
         a: 275.65999999999997,
         av: 220,
         b: 0,
-        bv: 110,
+        bv: 0,
         t: 1764018000000,
         s: 'NO_BID',
       },
@@ -183,6 +183,22 @@ export const mockStockQuoteResponseSuccess = (): nock.Scope => {
         bv: 110,
         t: 0,
         s: 'MISSING_TIME',
+      },
+      {
+        a: -1,
+        av: 220,
+        b: 275.23,
+        bv: 110,
+        t: 1764018000000,
+        s: 'NEGATIVE',
+      },
+      {
+        a: 123,
+        av: 0,
+        b: 275.23,
+        bv: 0,
+        t: 1764018000000,
+        s: 'ZERO_VOLUME',
       },
     ])
 }

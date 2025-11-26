@@ -6,7 +6,7 @@ exports[`rest stock quote endpoint - success should return ask for missing bid 1
     "ask_price": 275.65999999999997,
     "ask_volume": 220,
     "bid_price": 0,
-    "bid_volume": 110,
+    "bid_volume": 0,
     "mid_price": 275.65999999999997,
   },
   "result": null,
@@ -38,6 +38,17 @@ exports[`rest stock quote endpoint - success should return bid for missing ask 1
 }
 `;
 
+exports[`rest stock quote endpoint - success should return error for 0 volume 1`] = `
+{
+  "errorMessage": "In-valid data {"a":123,"av":0,"b":275.23,"bv":0,"t":1764018000000,"s":"ZERO_VOLUME"} received for ZERO_VOLUME",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
 exports[`rest stock quote endpoint - success should return error for missing data 1`] = `
 {
   "error": {
@@ -51,7 +62,18 @@ exports[`rest stock quote endpoint - success should return error for missing dat
 
 exports[`rest stock quote endpoint - success should return error for missing timestamp 1`] = `
 {
-  "errorMessage": "Timestamp received for MISSING_TIME is 0",
+  "errorMessage": "In-valid data {"a":0,"av":220,"b":275.23,"bv":110,"t":0,"s":"MISSING_TIME"} received for MISSING_TIME",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
+exports[`rest stock quote endpoint - success should return error for negative number 1`] = `
+{
+  "errorMessage": "In-valid data {"a":-1,"av":220,"b":275.23,"bv":110,"t":1764018000000,"s":"NEGATIVE"} received for NEGATIVE",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1641035471111,

@@ -47,12 +47,19 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     return res.data.map((data) => {
-      if (data.t == 0) {
+      if (
+        data.a < 0 ||
+        data.av < 0 ||
+        data.b < 0 ||
+        data.bv < 0 ||
+        data.t == 0 ||
+        (data.av == 0 && data.bv == 0)
+      ) {
         return {
           params: { base: data.s },
           response: {
             statusCode: 502,
-            errorMessage: `Timestamp received for ${data.s} is 0`,
+            errorMessage: `In-valid data ${JSON.stringify(data)} received for ${data.s}`,
           },
         }
       }
