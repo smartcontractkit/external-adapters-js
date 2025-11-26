@@ -1,15 +1,8 @@
-import * as adaBalance from '@chainlink/ada-balance-adapter'
-import * as bitcoinJsonRpc from '@chainlink/bitcoin-json-rpc-adapter'
-import { adapter as ceffu } from '@chainlink/ceffu-adapter'
 import { AdapterContext, AdapterError, AdapterResponse } from '@chainlink/ea-bootstrap'
-import { adapter as lotus } from '@chainlink/lotus-adapter'
-import { adapter as bitcoinPorIndexer } from '@chainlink/por-indexer-adapter'
 import * as reduce from '@chainlink/reduce-adapter'
-import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
-import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
 import { ethers } from 'ethers'
 import { callAdapter } from '.'
-import { ETHEREUM_CL_INDEXER } from './balance'
+import { adapterNamesV2, adapterNamesV3, ETHEREUM_CL_INDEXER } from './balance'
 
 export function parseHexToBigInt(value: unknown): bigint {
   if (typeof value !== 'string') {
@@ -54,17 +47,17 @@ export const runReduceAdapter = async (
   // Some adapters' balances come already reduced
   // but needs to be converted from their base unit
   switch (indexer) {
-    case bitcoinJsonRpc.NAME:
-    case bitcoinPorIndexer.name:
+    case adapterNamesV2.bitcoinJsonRpc:
+    case adapterNamesV3.porIndexer:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
-    case tokenBalance.name:
+    case adapterNamesV3.tokenBalance:
       // For xrp and solana-balance, we use the default processing below the
       // switch block.
       if (!['xrp', 'solana-balance'].includes(indexerEndpoint as string)) {
         return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
       }
       break
-    case ceffu.name:
+    case adapterNamesV3.ceffu:
       return returnParsedUnits(
         input.jobRunID,
         input.data.result as string,
@@ -72,8 +65,8 @@ export const runReduceAdapter = async (
         false,
         18,
       )
-    case lotus.name:
-    case adaBalance.NAME:
+    case adapterNamesV3.lotus:
+    case adapterNamesV2.adaBalance:
       // TODO: type makeExecute response
       return returnParsedUnits(input.jobRunID, input.data.result as string, 0)
     case ETHEREUM_CL_INDEXER:
@@ -113,19 +106,28 @@ export const runReduceAdapter = async (
         })
       }
       break
-    case viewFunctionMultiChain.name:
-      if (!viewFunctionIndexerResultDecimals) {
+    case adapterNamesV3.viewFunctionMultiChain: {
+      let decimalsOffset: number
+
+      const decimalsHex = input.data.decimals
+      if (decimalsHex != null) {
+        decimalsOffset = 18 - Number(decimalsHex)
+      } else if (viewFunctionIndexerResultDecimals != null) {
+        decimalsOffset = 18 - Number(viewFunctionIndexerResultDecimals)
+      } else {
         throw new Error(
-          'viewFunctionIndexerResultDecimals is a required parameter when using the view-function-multi-chain indexer',
+          `Missing decimals: neither input.data.decimals nor viewFunctionIndexerResultDecimals provided`,
         )
       }
+
       return returnParsedUnits(
         input.jobRunID,
         parseHexToBigInt(input.data.result).toString(),
-        18 - (viewFunctionIndexerResultDecimals as number),
+        decimalsOffset,
         false,
         18,
       )
+    }
   }
 
   const next = {

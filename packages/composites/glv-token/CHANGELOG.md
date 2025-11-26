@@ -1,5 +1,11 @@
 # @chainlink/glv-token-adapter
 
+## 2.0.1
+
+### Patch Changes
+
+- [#4312](https://github.com/smartcontractkit/external-adapters-js/pull/4312) [`7d8e67b`](https://github.com/smartcontractkit/external-adapters-js/commit/7d8e67b958c7bcc998023ed841295ea4c2d81da7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump dependency
+
 ## 2.0.0
 
 ### Major Changes

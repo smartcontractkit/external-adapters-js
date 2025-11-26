@@ -27,7 +27,7 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new PriceEndpoint({
   name: 'quote',
-  aliases: ['forex', 'fx', 'commodities', 'stock'],
+  aliases: ['forex', 'fx', 'commodities', 'stock', 'stock_quotes'],
   transport: wsTransport,
   inputParameters,
 })

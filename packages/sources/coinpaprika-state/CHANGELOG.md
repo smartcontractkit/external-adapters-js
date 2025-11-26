@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-state-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4263](https://github.com/smartcontractkit/external-adapters-js/pull/4263) [`09e8efd`](https://github.com/smartcontractkit/external-adapters-js/commit/09e8efd250618ed6901dbd4391938bc8ba5dca9b) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fix reconnection issue
+
 ## 1.0.0
 
 ### Major Changes

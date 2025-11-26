@@ -18,7 +18,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      stateAccountAddress: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+      stateAccountAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
       field: 'supply',
     },
   ],

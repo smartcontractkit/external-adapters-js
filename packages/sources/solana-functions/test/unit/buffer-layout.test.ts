@@ -147,7 +147,7 @@ describe('BufferLayoutTransport', () => {
   })
 
   describe('_handleRequest', () => {
-    it('should return token price', async () => {
+    it('should return token supply', async () => {
       getUsdMintercAccountInfoMock.mockResolvedValue(usdcMinterAccountData.result)
 
       const param = makeStub('param', {

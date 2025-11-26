@@ -11,6 +11,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: null
     Data: {
+      mid_price: number
       bid_price: number
       bid_volume: number
       ask_price: number

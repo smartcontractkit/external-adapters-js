@@ -1,5 +1,27 @@
 # @chainlink/market-status-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#4267](https://github.com/smartcontractkit/external-adapters-js/pull/4267) [`c5cb45b`](https://github.com/smartcontractkit/external-adapters-js/commit/c5cb45b33bf7b1960a7621734486366502f89570) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support 24/5 status
+
+## 1.5.1
+
+### Patch Changes
+
+- [#4253](https://github.com/smartcontractkit/external-adapters-js/pull/4253) [`f3c0e08`](https://github.com/smartcontractkit/external-adapters-js/commit/f3c0e08c67a8f61524ae0330810187059aef237d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
+## 1.5.0
+
+### Minor Changes
+
+- [#4231](https://github.com/smartcontractkit/external-adapters-js/pull/4231) [`8d06b4a`](https://github.com/smartcontractkit/external-adapters-js/commit/8d06b4ab8f64e0c5ecbf8e69e5a1786dc0061d77) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump market status dependency
+
+### Patch Changes
+
+- [#4226](https://github.com/smartcontractkit/external-adapters-js/pull/4226) [`d4fb860`](https://github.com/smartcontractkit/external-adapters-js/commit/d4fb860508e51ffe709df3714f53bd10e9ca8f59) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - remove unused dependencies
+
 ## 1.4.2
 
 ### Patch Changes

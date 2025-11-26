@@ -4,6 +4,7 @@ import { config } from './config'
 import {
   aptosDfReaderEndpoint,
   aptosEndpoint,
+  calculatedMultiFunctionEndpoint,
   functionEndpoint,
   functionResponseSelectorEndpoint,
 } from './endpoint'
@@ -17,6 +18,7 @@ export const adapter = new Adapter({
     functionResponseSelectorEndpoint,
     aptosEndpoint,
     aptosDfReaderEndpoint,
+    calculatedMultiFunctionEndpoint,
   ],
   rateLimiting: {
     tiers: {

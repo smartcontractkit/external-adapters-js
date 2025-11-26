@@ -9,7 +9,6 @@ export interface SSEConnectionCallbacks {
   onData: (eventType: string, data: string) => Promise<void>
   onError: (error: Error) => void
   onConnectionError: (status: number) => Promise<void>
-  onReconnectNeeded: () => void
 }
 
 export interface SSEConnectionConfig {
@@ -48,7 +47,7 @@ export class SSEConnectionManager {
     callbacks: SSEConnectionCallbacks,
   ): Promise<void> {
     if (this.isConnected) {
-      logger.debug('Already connected, disconnecting first')
+      logger.info('Already connected, disconnecting first')
       await this.disconnect()
     }
 
@@ -57,7 +56,7 @@ export class SSEConnectionManager {
       return
     }
 
-    logger.debug(
+    logger.info(
       `Opening SSE connection for ${pairs.length} pairs: ${pairs
         .map((p) => `${p.base}/${p.quote}`)
         .join(', ')}`,
@@ -84,7 +83,7 @@ export class SSEConnectionManager {
 
       await this.setupStream(response.data as Readable, callbacks)
       this.isConnected = true
-      logger.debug('SSE connection established')
+      logger.info('SSE connection established')
     } catch (error) {
       this.cleanup()
       logger.error(`Failed to create SSE connection: ${error}`)
@@ -94,7 +93,7 @@ export class SSEConnectionManager {
 
   async disconnect(): Promise<void> {
     if (this.currentAbortController) {
-      logger.debug('Closing SSE connection')
+      logger.info('Closing SSE connection')
     }
     this.cleanup()
   }
@@ -137,7 +136,6 @@ export class SSEConnectionManager {
   }
 
   private async setupStream(stream: Readable, callbacks: SSEConnectionCallbacks): Promise<void> {
-    let aborted = false
     this.sseParser = new SSEParser(this.defaultEventType, (eventType, data) => {
       callbacks.onData(eventType, data).catch((err) => {
         logger.error(`Error in SSE data callback: ${err}`)
@@ -152,23 +150,13 @@ export class SSEConnectionManager {
     }
 
     const onError = (err: Error) => {
-      if (err.name === 'CanceledError' || err.name === 'AbortError') {
-        aborted = true
-      } else {
-        logger.error(`Stream error: ${err}`)
-        callbacks.onError(err)
-      }
+      callbacks.onError(err)
     }
 
     const onEnd = () => {
       stream.off('data', onData)
       stream.off('error', onError)
       this.cleanup()
-
-      if (!aborted) {
-        logger.info('SSE ended unexpectedly')
-        callbacks.onReconnectNeeded()
-      }
     }
 
     stream.on('data', onData)

@@ -62,6 +62,7 @@ exports[`websocket market status endpoint should return success with closed 1`] 
 {
   "data": {
     "result": 1,
+    "statusString": "CLOSED",
   },
   "result": 1,
   "statusCode": 200,
@@ -77,6 +78,7 @@ exports[`websocket market status endpoint should return success with open 1`] = 
 {
   "data": {
     "result": 2,
+    "statusString": "OPEN",
   },
   "result": 2,
   "statusCode": 200,

@@ -276,9 +276,6 @@
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoapis-v2/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {
@@ -313,9 +310,6 @@
     },
     {
       "path": "./sources/dxfeed/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/elven/tsconfig.test.json"
     },
     {
       "path": "./sources/elwood/tsconfig.test.json"
@@ -372,9 +366,6 @@
       "path": "./sources/fireblocks/tsconfig.test.json"
     },
     {
-      "path": "./sources/fixer/tsconfig.test.json"
-    },
-    {
       "path": "./sources/fluent-finance/tsconfig.test.json"
     },
     {
@@ -403,9 +394,6 @@
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/gramchain/tsconfig.test.json"
     },
     {
       "path": "./sources/graphql/tsconfig.test.json"
@@ -444,9 +432,6 @@
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
-      "path": "./sources/jpegd/tsconfig.test.json"
-    },
-    {
       "path": "./sources/json-rpc/tsconfig.test.json"
     },
     {
@@ -474,6 +459,9 @@
       "path": "./sources/lition/tsconfig.test.json"
     },
     {
+      "path": "./sources/liveart/tsconfig.test.json"
+    },
+    {
       "path": "./sources/lotus/tsconfig.test.json"
     },
     {
@@ -481,9 +469,6 @@
     },
     {
       "path": "./sources/messari/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/metalsapi/tsconfig.test.json"
     },
     {
       "path": "./sources/mobula-state/tsconfig.test.json"
@@ -513,9 +498,6 @@
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
-      "path": "./sources/nft-blue-chip/tsconfig.test.json"
-    },
-    {
       "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
@@ -541,9 +523,6 @@
     },
     {
       "path": "./sources/openexchangerates/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/orchid-bandwidth/tsconfig.test.json"
     },
     {
       "path": "./sources/paxos/tsconfig.test.json"

@@ -1,5 +1,11 @@
 # @chainlink/ice-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4240](https://github.com/smartcontractkit/external-adapters-js/pull/4240) [`540e192`](https://github.com/smartcontractkit/external-adapters-js/commit/540e1928191773f28d12eec6297256f0f5177ed4) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Added inversion pairs
+
 ## 1.0.3
 
 ### Patch Changes
