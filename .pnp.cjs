@@ -8426,6 +8426,8 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@polkadot/api", "npm:9.14.2"],\
+          ["@polkadot/types", "npm:9.14.2"],\
+          ["@polkadot/types-codec", "npm:9.14.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\

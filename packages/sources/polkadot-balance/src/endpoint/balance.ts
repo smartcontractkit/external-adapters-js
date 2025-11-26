@@ -1,13 +1,12 @@
 import {
   PoRBalanceEndpoint,
   porBalanceEndpointInputParametersDefinition,
-  PoRBalanceResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { transport } from '../transport/balance'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(porBalanceEndpointInputParametersDefinition, [
   {
@@ -22,10 +21,22 @@ export const inputParameters = new InputParameters(porBalanceEndpointInputParame
   },
 ])
 
+export type PolkadotBalance = {
+  address: string
+  free: string
+  reserved: string
+  balance: string // sum of free and reserved
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: PoRBalanceResponse
+  Response: {
+    Result: null
+    Data: {
+      result: PolkadotBalance[]
+    }
+  }
 }
 
 export const balanceEndpoint = new PoRBalanceEndpoint({
