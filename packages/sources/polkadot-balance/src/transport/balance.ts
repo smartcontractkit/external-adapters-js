@@ -1,19 +1,10 @@
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { ApiPromise, WsProvider } from '@polkadot/api'
-
-const logger = makeLogger('PolkadotBalanceLogger')
-
-interface ProviderResponse {
-  nonce: number
-  data?: {
-    free?: string
-  }
-}
+import { AccountInfo } from '@polkadot/types/interfaces'
+import { BaseEndpointTypes, inputParameters, PolkadotBalance } from '../endpoint/balance'
 
 export type BalanceTransportTypes = BaseEndpointTypes
 
@@ -66,43 +57,28 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const result: { address: string; balance: string }[] = []
+    const result: PolkadotBalance[] = []
 
-    // Can't utilize a "multi" query here since it doesn't retrieve a snapshot of the balance directly
-    // Also addresses are not returned in the results preventing balances to be mapped to them
     const addresses = params.addresses.map(({ address }) => address)
-    try {
-      // Break addresses down into batches to execute asynchronously
-      // Firing requests for all addresses all at once could hit rate limiting for large address pools
-      const runner = new GroupRunner(this.config.BATCH_SIZE)
-      const queryAccount = runner.wrapFunction((address) => this.api.query.system.account(address))
+    const accounts: AccountInfo[] = await this.api.query.system.account.multi(addresses)
+    accounts.forEach((acc, i) => {
+      const address = addresses[i]
+      // `free` and `reserved` are of type Balance, which renders sometimes as
+      // number and sometimes as hex string. Passing to BigInt takes care of
+      // both.
+      const { free: freeResponse, reserved: reservedResponse } = acc.data
 
-      await Promise.all(
-        addresses.map((address) => {
-          const balancePromise = queryAccount(address).then((codec) => {
-            const balance = codec.toJSON() as unknown as ProviderResponse
-            if (balance) {
-              result.push({
-                address,
-                balance: parseInt(balance.data?.free || '0x0', 16).toString(),
-              })
-            }
-          })
-          return balancePromise
-        }),
-      )
-    } catch (e) {
-      logger.error(e, 'Failed to retrieve balances')
-      return {
-        statusCode: 500,
-        errorMessage: 'Failed to retrieve balances',
-        timestamps: {
-          providerDataRequestedUnixMs,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
-    }
+      const free = BigInt(freeResponse.toString())
+      const reserved = BigInt(reservedResponse.toString())
+      const balance = free + reserved
+
+      result.push({
+        address,
+        free: free.toString(),
+        reserved: reserved.toString(),
+        balance: balance.toString(),
+      })
+    })
 
     const response = {
       data: {
