@@ -5,7 +5,7 @@ exports[`execute price endpoint should return success - aum 1`] = `
   "data": {
     "aum": 88412710.73007037,
     "nav": 10.170643,
-    "navDate": "2025-11-25T00:00:00.000Z",
+    "navDate": 1764028800000,
     "result": 88412710.73007037,
   },
   "result": 88412710.73007037,
@@ -22,7 +22,7 @@ exports[`execute price endpoint should return success - nav 1`] = `
   "data": {
     "aum": 88412710.73007037,
     "nav": 10.170643,
-    "navDate": "2025-11-25T00:00:00.000Z",
+    "navDate": 1764028800000,
     "result": 10.170643,
   },
   "result": 10.170643,

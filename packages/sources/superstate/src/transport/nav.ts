@@ -36,9 +36,10 @@ const END_TIME = '12:00:00'
 
 type ReportValueType = typeof inputParameters.validated.reportValue
 
-const convertToISO8601 = (dateString: string): string => {
-  const [month, day, year] = dateString.split('/')
-  return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day))).toISOString()
+// Convert date string (MM/DD/YYYY) to Unix timestamp in milliseconds
+const convertToTimestampMs = (dateString: string): number => {
+  const [month, day, year] = dateString.split('/').map(Number)
+  return Date.UTC(year, month - 1, day, 0, 0, 0, 0)
 }
 
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
@@ -171,7 +172,7 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
         result,
         nav: Number(data.net_asset_value),
         aum: Number(data.assets_under_management),
-        navDate: convertToISO8601(data.net_asset_value_date),
+        navDate: convertToTimestampMs(data.net_asset_value_date),
       },
       result,
       statusCode: 200,
