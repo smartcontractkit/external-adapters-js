@@ -163,6 +163,7 @@ func InitAliasIndex(adapterName, configPath string) error {
 	return nil
 }
 
+// Adds endpoint alias to the alias index.
 func (a *adapterAliasIndex) addEndpointAlias(alias, canonicalEndpoint string) {
 	if alias == "" {
 		return
@@ -196,13 +197,28 @@ func findEndpointInKey(key string) string {
 	return ""
 }
 
-// normalizeParamsCanonical takes RequestParams and looks up the canonicall endpoint and input parameters
-func normalizeParamsCanonical(params types.RequestParams) (types.RequestParams, error) {
+// BuildCacheKeyParams converts raw request-like data into canonical RequestParams suitable for cache keying.
+// It applies endpoint/parameter aliases and per-adapter overrides, then filters down
+// to only those canonical parameters required for keying:
+//   - always contains a canonical "endpoint"
+//   - uses canonical parameter names for the active adapter
+//   - contains only lowercased parameter values
+//   - does NOT include the original "overrides" field (overrides are applied to values instead)
+//   - omits non-required parameters for the endpoint
+func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, error) {
 	out := make(types.RequestParams)
 
-	ep, ok := params["endpoint"]
-	if !ok || strings.TrimSpace(ep) == "" {
-		return nil, fmt.Errorf("endpoint parameter is required")
+	// Resolve endpoint from the raw data (case-insensitive key lookup).
+	var ep string
+	for k, v := range data {
+		if strings.EqualFold(k, "endpoint") {
+			if s, ok := v.(string); ok {
+				ep = s
+			} else if v != nil {
+				ep = fmt.Sprintf("%v", v)
+			}
+			break
+		}
 	}
 
 	epLower := strings.ToLower(ep)
@@ -218,35 +234,62 @@ func normalizeParamsCanonical(params types.RequestParams) (types.RequestParams, 
 
 	out["endpoint"] = canonicalEndpoint
 
-	// Handle overrides (if provided).
+	// Handle overrides (if provided) directly from the decoded JSON structure.
 	var adapterOverrides map[string]string
-	if rawOverrides, ok := params["overrides"]; ok && strings.TrimSpace(rawOverrides) != "" {
-		var allOverrides map[string]map[string]string
-		if err := json.Unmarshal([]byte(rawOverrides), &allOverrides); err == nil {
-			if perAdapter, ok := allOverrides[activeAdapter]; ok {
-				adapterOverrides = make(map[string]string, len(perAdapter))
-				for symbol, override := range perAdapter {
-					adapterOverrides[strings.ToLower(symbol)] = override
+	if rawOverrides, ok := data["overrides"]; ok && rawOverrides != nil {
+		if ov, ok := rawOverrides.(map[string]interface{}); ok {
+			// Expected structure:
+			// {
+			//   "<adapterName>": {
+			//     "<SYMBOL>": "<override>",
+			//     ...
+			//   },
+			//   ...
+			// }
+			if perAdapterRaw, ok := ov[activeAdapter]; ok && perAdapterRaw != nil {
+				if perAdapterMap, ok := perAdapterRaw.(map[string]interface{}); ok {
+					adapterOverrides = make(map[string]string, len(perAdapterMap))
+					for symbol, overrideVal := range perAdapterMap {
+						if o, ok := overrideVal.(string); ok && o != "" {
+							adapterOverrides[strings.ToLower(symbol)] = o
+						}
+					}
 				}
 			}
 		}
 	}
 
 	// Normalize all other parameters through the alias index if available.
-	for k, v := range params {
+	// Also, filter to only those canonical parameters that are required for this endpoint
+	// when we have requirement metadata.
+	requiredForEndpoint, haveReq := activeAliasIndex.requiredParams[canonicalEndpoint]
 
-		// ignore the `endpoint` and `overrides` keys
-		if k == "endpoint" || k == "overrides" || v == "" {
+	for k, v := range data {
+		// Ignore the `endpoint` and `overrides` keys.
+		if strings.EqualFold(k, "endpoint") || strings.EqualFold(k, "overrides") || v == nil {
 			continue
 		}
 
 		keyLower := strings.ToLower(k)
-		value := v
+
+		// Convert value to string.
+		var rawValue string
+		switch tv := v.(type) {
+		case string:
+			rawValue = tv
+		default:
+			rawValue = fmt.Sprintf("%v", tv)
+		}
+		if rawValue == "" {
+			continue
+		}
+
+		value := rawValue
 
 		// If there are per-adapter overrides, and the current value has an
 		// override defined for the active adapter, use the override instead.
 		if adapterOverrides != nil {
-			if ov, ok := adapterOverrides[strings.ToLower(v)]; ok && ov != "" {
+			if ov, ok := adapterOverrides[strings.ToLower(rawValue)]; ok && ov != "" {
 				value = ov
 			}
 		}
@@ -259,45 +302,18 @@ func normalizeParamsCanonical(params types.RequestParams) (types.RequestParams, 
 				canonicalKey = pIdx.CanonicalName
 			}
 		}
-		out[canonicalKey] = valueLower
+
+		// If we don't have requirement metadata for this endpoint, keep all params.
+		if !haveReq {
+			out[canonicalKey] = valueLower
+			continue
+		}
+
+		// Otherwise, only keep parameters that are marked as required.
+		if required, ok := requiredForEndpoint[canonicalKey]; ok && required {
+			out[canonicalKey] = valueLower
+		}
 	}
 
 	return out, nil
-}
-
-// filterRequiredForKey builds a filtered copy of params that contains:
-//   - endpoint
-//   - only those canonical parameters that are marked as Required for this endpoint.
-//
-// If alias indices are not initialized or endpoint is unknown, it conservatively
-// keeps all params instead of dropping anything.
-func filterRequiredForKey(params types.RequestParams) types.RequestParams {
-	if activeAliasIndex == nil {
-		return params
-	}
-
-	endpoint, ok := params["endpoint"]
-	if !ok || endpoint == "" {
-		return params
-	}
-	endpoint = strings.ToLower(endpoint)
-
-	requiredForEndpoint, ok := activeAliasIndex.requiredParams[endpoint]
-	if !ok {
-		return params
-	}
-
-	out := make(types.RequestParams)
-	// Always include canonical endpoint.
-	out["endpoint"] = endpoint
-
-	for k, v := range params {
-		if k == "endpoint" || v == "" {
-			continue
-		}
-		if required, ok := requiredForEndpoint[k]; ok && required {
-			out[k] = v
-		}
-	}
-	return out
 }

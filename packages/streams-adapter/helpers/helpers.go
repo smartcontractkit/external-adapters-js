@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"errors"
 	"sort"
 	"strings"
 
@@ -37,49 +38,30 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 		return nil, false
 	}
 
-	// Convert all values to strings
-	rawParams := make(types.RequestParams)
-	for k, v := range paramsMap {
-		if strVal, ok := v.(string); ok {
-			rawParams[k] = strVal
-		}
-	}
-
 	// Ensure we have an endpoint hint: prefer explicit param, otherwise try to
 	// derive it from the key and inject it as the endpoint parameter.
-	if _, ok := rawParams["endpoint"]; !ok {
+	if _, ok := paramsMap["endpoint"]; !ok {
 		if epAlias := findEndpointInKey(key); epAlias != "" {
-			rawParams["endpoint"] = epAlias
+			paramsMap["endpoint"] = epAlias
 		}
 	}
 
-	canonical, err := normalizeParamsCanonical(rawParams)
+	canonical, err := BuildCacheKeyParams(paramsMap)
 	if err != nil {
 		return nil, false
 	}
-
 	return canonical, len(canonical) > 0
 }
 
 // CalculateCacheKey generates a deterministic cache key from request parameters.
-// It first normalizes parameter names using the alias index (if initialized),
-// then includes only the required parameters for that endpoint (plus endpoint itself)
-// when building the cache key.
-func CalculateCacheKey(params types.RequestParams) string {
+func CalculateCacheKey(params types.RequestParams) (string, error) {
 	if len(params) == 0 {
-		return ""
+		return "", errors.New("cannot calculate cache key: empty request params")
 	}
-
-	// Canonicalize parameters and filter to only required ones for keying.
-	canonical, err := normalizeParamsCanonical(params)
-	if err != nil {
-		return ""
-	}
-	filtered := filterRequiredForKey(canonical)
 
 	// Extract and sort keys for deterministic ordering
-	keys := make([]string, 0, len(filtered))
-	for key := range filtered {
+	keys := make([]string, 0, len(params))
+	for key := range params {
 		keys = append(keys, key)
 	}
 	sort.Strings(keys)
@@ -87,7 +69,7 @@ func CalculateCacheKey(params types.RequestParams) string {
 	// Build the cache key
 	var parts []string
 	for _, key := range keys {
-		value := filtered[key]
+		value := params[key]
 		if value != "" {
 			// Normalize both key and value for case-insensitive matching
 			normalizedKey := NormalizeString(key)
@@ -96,5 +78,5 @@ func CalculateCacheKey(params types.RequestParams) string {
 		}
 	}
 
-	return strings.Join(parts, ":")
+	return strings.Join(parts, ":"), nil
 }

@@ -55,7 +55,11 @@ func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestam
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	key := helpers.CalculateCacheKey(params)
+	key, err := helpers.CalculateCacheKey(params)
+	if err != nil {
+		// If we cannot generate a cache key, skip caching this observation
+		return
+	}
 	c.items[key] = &types.CacheItem{
 		Observation:        obs,
 		Timestamp:          timestamp,
@@ -68,7 +72,10 @@ func (c *Cache) Get(params types.RequestParams) *types.Observation {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
-	key := helpers.CalculateCacheKey(params)
+	key, err := helpers.CalculateCacheKey(params)
+	if err != nil {
+		return nil
+	}
 	if item, exists := c.items[key]; exists {
 		return item.Observation
 	}
