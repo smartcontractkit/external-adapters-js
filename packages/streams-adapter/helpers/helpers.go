@@ -45,9 +45,18 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 		}
 	}
 
-	// Derive canonical endpoint for this key if possible.
-	endpointCanonical := findEndpointInKey(key)
-	canonical := normalizeParamsCanonical(rawParams, endpointCanonical)
+	// Ensure we have an endpoint hint: prefer explicit param, otherwise try to
+	// derive it from the key and inject it as the endpoint parameter.
+	if _, ok := rawParams["endpoint"]; !ok {
+		if epAlias := findEndpointInKey(key); epAlias != "" {
+			rawParams["endpoint"] = epAlias
+		}
+	}
+
+	canonical, err := normalizeParamsCanonical(rawParams)
+	if err != nil {
+		return nil, false
+	}
 
 	return canonical, len(canonical) > 0
 }
@@ -62,7 +71,10 @@ func CalculateCacheKey(params types.RequestParams) string {
 	}
 
 	// Canonicalize parameters and filter to only required ones for keying.
-	canonical := normalizeParamsCanonical(params, "")
+	canonical, err := normalizeParamsCanonical(params)
+	if err != nil {
+		return ""
+	}
 	filtered := filterRequiredForKey(canonical)
 
 	// Extract and sort keys for deterministic ordering
@@ -86,5 +98,3 @@ func CalculateCacheKey(params types.RequestParams) string {
 
 	return strings.Join(parts, ":")
 }
-
-

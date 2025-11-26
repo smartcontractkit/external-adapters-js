@@ -38,11 +38,35 @@ type paramIndex struct {
 }
 
 type adapterAliasIndex struct {
-	// endpointAlias maps endpoint alias (lowercased) -> canonical endpoint name
+	// endpointAlias maps endpoint alias (lowercased) to canonical endpoint name
+	// example:
+	// {
+	//    "stock":       "stock",
+	//    "iex":         "stock",
+	//    "crypto-lwba": "cryptolwba",
+	//    "cryptolwba":  "crypto-lwba",
+	//    "crypto_lwba": "crypto-lwba",
+	//    "forex":       "forex",
+	// }
 	endpointAlias map[string]string
-	// paramAlias maps canonical endpoint -> param alias (lowercased) -> paramIndex
+	// paramAlias maps input parameters to their canonical names
+	// example:
+	// {
+	//    "stock": {
+	// 	    "from":  {CanonicalName:"base",  Required:true},
+	// 	    "base":  {CanonicalName:"base",  Required:true},
+	// 	    "to":    {CanonicalName:"quote", Required:false},
+	// 	    "quote": {CanonicalName:"quote", Required:false},
+	// 	},
+	// 	  "cryptolwba": {
+	// 	 		"from":  {CanonicalName:"base",  Required:true},
+	// 			"base":  {CanonicalName:"base",  Required:true},
+	// 			"to":    {CanonicalName:"quote", Required:true},
+	// 			"quote": {CanonicalName:"quote", Required:true},
+	// 	}
+	// }
 	paramAlias map[string]map[string]paramIndex
-	// requiredParams maps canonical endpoint -> canonical param name -> required?
+	// requiredParams flags if a parameter is required for an endpoint. See axample above
 	requiredParams map[string]map[string]bool
 	// orderedEndpointAliases is a list of endpoint aliases sorted by length desc
 	// for more specific matching when scanning Redis keys.
@@ -50,13 +74,13 @@ type adapterAliasIndex struct {
 }
 
 var (
+	// Aliases index map for the adapter
 	activeAliasIndex *adapterAliasIndex
 	activeAdapter    string
 )
 
 // InitAliasIndex loads endpoint_aliases.json and builds alias indices for the given adapter.
 func InitAliasIndex(adapterName, configPath string) error {
-	adapterName = strings.ToLower(strings.TrimSpace(adapterName))
 	if adapterName == "" {
 		return fmt.Errorf("ADAPTER_NAME must be set to enable alias mapping")
 	}
@@ -90,13 +114,11 @@ func InitAliasIndex(adapterName, configPath string) error {
 
 	// Build endpoint alias index and parameter indices.
 	for canonicalEndpoint, epCfg := range adapterCfg.Endpoints {
-		canonicalEndpointLower := strings.ToLower(canonicalEndpoint)
 
 		// Ensure we always treat the canonical endpoint name as an alias of itself.
-		idx.addEndpointAlias(canonicalEndpointLower, canonicalEndpointLower)
+		idx.addEndpointAlias(canonicalEndpoint, canonicalEndpoint)
 		for _, alias := range epCfg.Aliases {
-			aliasLower := strings.ToLower(alias)
-			idx.addEndpointAlias(aliasLower, canonicalEndpointLower)
+			idx.addEndpointAlias(alias, canonicalEndpoint)
 		}
 
 		// Parameter specs.
@@ -104,23 +126,21 @@ func InitAliasIndex(adapterName, configPath string) error {
 			continue
 		}
 
-		if _, ok := idx.paramAlias[canonicalEndpointLower]; !ok {
-			idx.paramAlias[canonicalEndpointLower] = make(map[string]paramIndex)
+		if _, ok := idx.paramAlias[canonicalEndpoint]; !ok {
+			idx.paramAlias[canonicalEndpoint] = make(map[string]paramIndex)
 		}
-		if _, ok := idx.requiredParams[canonicalEndpointLower]; !ok {
-			idx.requiredParams[canonicalEndpointLower] = make(map[string]bool)
+		if _, ok := idx.requiredParams[canonicalEndpoint]; !ok {
+			idx.requiredParams[canonicalEndpoint] = make(map[string]bool)
 		}
 
 		for canonicalParam, pSpec := range epCfg.Params {
-			canonicalParamLower := strings.ToLower(canonicalParam)
 			// Canonical name is also a valid alias.
-			idx.paramAlias[canonicalEndpointLower][canonicalParamLower] = paramIndex{CanonicalName: canonicalParamLower}
-			idx.requiredParams[canonicalEndpointLower][canonicalParamLower] = pSpec.Required
+			idx.paramAlias[canonicalEndpoint][canonicalParam] = paramIndex{CanonicalName: canonicalParam}
+			idx.requiredParams[canonicalEndpoint][canonicalParam] = pSpec.Required
 
 			for _, alias := range pSpec.Aliases {
-				aliasLower := strings.ToLower(alias)
 				// Record alias -> canonical param mapping
-				idx.paramAlias[canonicalEndpointLower][aliasLower] = paramIndex{CanonicalName: canonicalParamLower}
+				idx.paramAlias[canonicalEndpoint][alias] = paramIndex{CanonicalName: canonicalParam}
 			}
 		}
 	}
@@ -143,13 +163,13 @@ func InitAliasIndex(adapterName, configPath string) error {
 	return nil
 }
 
-func (a *adapterAliasIndex) addEndpointAlias(aliasLower, canonicalEndpoint string) {
-	if aliasLower == "" {
+func (a *adapterAliasIndex) addEndpointAlias(alias, canonicalEndpoint string) {
+	if alias == "" {
 		return
 	}
 	// If already mapped, keep the first mapping to avoid surprises.
-	if _, exists := a.endpointAlias[aliasLower]; !exists {
-		a.endpointAlias[aliasLower] = canonicalEndpoint
+	if _, exists := a.endpointAlias[alias]; !exists {
+		a.endpointAlias[alias] = canonicalEndpoint
 	}
 }
 
@@ -176,61 +196,73 @@ func findEndpointInKey(key string) string {
 	return ""
 }
 
-// normalizeParamsCanonical takes arbitrary params and an optional canonical endpoint
-// and returns a new RequestParams map with:
-//   - endpoint normalized to its canonical name (if known)
-//   - parameter names normalized to their canonical names according to alias config.
-func normalizeParamsCanonical(params types.RequestParams, endpointCanonical string) types.RequestParams {
+// normalizeParamsCanonical takes RequestParams and looks up the canonicall endpoint and input parameters
+func normalizeParamsCanonical(params types.RequestParams) (types.RequestParams, error) {
 	out := make(types.RequestParams)
 
-	// Normalize endpoint if present in params or provided explicitly.
-	if ep, ok := params["endpoint"]; ok && ep != "" {
-		epLower := strings.ToLower(ep)
-		if activeAliasIndex != nil {
-			if canonical := resolveEndpointAlias(epLower); canonical != "" {
-				endpointCanonical = canonical
-			} else {
-				endpointCanonical = epLower
-			}
-		} else {
-			endpointCanonical = epLower
-		}
+	ep, ok := params["endpoint"]
+	if !ok || strings.TrimSpace(ep) == "" {
+		return nil, fmt.Errorf("endpoint parameter is required")
 	}
 
-	if endpointCanonical != "" {
-		out["endpoint"] = endpointCanonical
+	epLower := strings.ToLower(ep)
+
+	// Resolve endpoint alias from the active alias index.
+	if activeAliasIndex == nil {
+		return nil, fmt.Errorf("alias index not initialized")
+	}
+	canonicalEndpoint, ok := activeAliasIndex.endpointAlias[epLower]
+	if !ok || canonicalEndpoint == "" {
+		return nil, fmt.Errorf("unknown or unsupported endpoint %q", ep)
+	}
+
+	out["endpoint"] = canonicalEndpoint
+
+	// Handle overrides (if provided).
+	var adapterOverrides map[string]string
+	if rawOverrides, ok := params["overrides"]; ok && strings.TrimSpace(rawOverrides) != "" {
+		var allOverrides map[string]map[string]string
+		if err := json.Unmarshal([]byte(rawOverrides), &allOverrides); err == nil {
+			if perAdapter, ok := allOverrides[activeAdapter]; ok {
+				adapterOverrides = make(map[string]string, len(perAdapter))
+				for symbol, override := range perAdapter {
+					adapterOverrides[strings.ToLower(symbol)] = override
+				}
+			}
+		}
 	}
 
 	// Normalize all other parameters through the alias index if available.
 	for k, v := range params {
-		if k == "endpoint" || v == "" {
+
+		// ignore the `endpoint` and `overrides` keys
+		if k == "endpoint" || k == "overrides" || v == "" {
 			continue
 		}
+
 		keyLower := strings.ToLower(k)
-		valueLower := strings.ToLower(v)
+		value := v
+
+		// If there are per-adapter overrides, and the current value has an
+		// override defined for the active adapter, use the override instead.
+		if adapterOverrides != nil {
+			if ov, ok := adapterOverrides[strings.ToLower(v)]; ok && ov != "" {
+				value = ov
+			}
+		}
+
+		valueLower := strings.ToLower(value)
 
 		canonicalKey := keyLower
-		if activeAliasIndex != nil && endpointCanonical != "" {
-			if pm, ok := activeAliasIndex.paramAlias[endpointCanonical]; ok {
-				if pIdx, ok := pm[keyLower]; ok {
-					canonicalKey = pIdx.CanonicalName
-				}
+		if pm, ok := activeAliasIndex.paramAlias[canonicalEndpoint]; ok {
+			if pIdx, ok := pm[keyLower]; ok {
+				canonicalKey = pIdx.CanonicalName
 			}
 		}
 		out[canonicalKey] = valueLower
 	}
 
-	return out
-}
-
-func resolveEndpointAlias(alias string) string {
-	if activeAliasIndex == nil {
-		return ""
-	}
-	if canonical, ok := activeAliasIndex.endpointAlias[alias]; ok {
-		return canonical
-	}
-	return ""
+	return out, nil
 }
 
 // filterRequiredForKey builds a filtered copy of params that contains:
