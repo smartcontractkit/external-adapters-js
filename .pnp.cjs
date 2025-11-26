@@ -6858,25 +6858,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.11.1", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.1-3ad4f998bb-5d0ba40462.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
-          ["@date-fns/tz", "npm:1.4.1"],\
-          ["ajv", "npm:8.17.1"],\
-          ["axios", "npm:1.13.2"],\
-          ["eventsource", "npm:4.1.0"],\
-          ["fastify", "npm:5.6.2"],\
-          ["ioredis", "npm:5.8.2"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:10.1.0"],\
-          ["pino-pretty", "npm:13.1.2"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -8808,7 +8789,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.0"],\
           ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -20667,14 +20648,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/eventsource-npm-4.0.0-b5fd928b64-8717a1f87c.zip/node_modules/eventsource/",\
         "packageDependencies": [\
           ["eventsource", "npm:4.0.0"],\
-          ["eventsource-parser", "npm:3.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.1.0", {\
-        "packageLocation": "./.yarn/cache/eventsource-npm-4.1.0-25402cd95c-d23b1c2a56.zip/node_modules/eventsource/",\
-        "packageDependencies": [\
-          ["eventsource", "npm:4.1.0"],\
           ["eventsource-parser", "npm:3.0.3"]\
         ],\
         "linkType": "HARD"\
