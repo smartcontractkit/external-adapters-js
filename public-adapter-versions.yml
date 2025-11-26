@@ -180,9 +180,9 @@ adapters:
   - name: finalto
     version: 1.2.0
   - name: finnhub
-    version: 3.3.0
+    version: 3.3.1
   - name: finnhub-secondary
-    version: 0.5.4
+    version: 0.5.5
   - name: fireblocks
     version: 1.0.18
   - name: fluent-finance
@@ -270,7 +270,7 @@ adapters:
   - name: m0
     version: 0.0.17
   - name: market-closure
-    version: 1.3.60
+    version: 1.3.61
   - name: market-status
     version: 1.6.1
   - name: medianizer
