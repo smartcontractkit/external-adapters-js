@@ -36,6 +36,11 @@ const END_TIME = '12:00:00'
 
 type ReportValueType = typeof inputParameters.validated.reportValue
 
+const convertToISO8601 = (dateString: string): string => {
+  const [month, day, year] = dateString.split('/')
+  return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day))).toISOString()
+}
+
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
 // on a specific time every day, after receiving a signal from scheduler.
 export class NavTransport implements Transport<BaseEndpointTypes> {
@@ -164,6 +169,9 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     const response = {
       data: {
         result,
+        nav: Number(data.net_asset_value),
+        aum: Number(data.assets_under_management),
+        navDate: convertToISO8601(data.net_asset_value_date),
       },
       result,
       statusCode: 200,
