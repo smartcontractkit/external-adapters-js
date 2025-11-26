@@ -1,6 +1,6 @@
 # FINNHUB
 
-![3.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,9 +32,9 @@ If `CACHE_MAX_AGE` is set below a current heartbeat interval (60000ms), the exte
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                        Options                                                                                                                                         | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [commodities](#quote-endpoint), [commodity-quote](#quote-endpoint), [common](#quote-endpoint), [equity-quote](#quote-endpoint), [forex-quote](#quote-endpoint), [forex](#quote-endpoint), [market-status](#market-status-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint) | `quote` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                            Options                                                                                                                                                             | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [commodities](#quote-endpoint), [commodity-quote](#quote-endpoint), [common](#quote-endpoint), [equity-quote](#quote-endpoint), [forex-quote](#quote-endpoint), [forex](#quote-endpoint), [market-status](#market-status-endpoint), [quote](#quote-endpoint), [stock](#quote-endpoint), [stock_quotes](#stock_quotes-endpoint) | `quote` |
 
 ## Quote Endpoint
 
@@ -62,6 +62,22 @@ Request:
   }
 }
 ```
+
+---
+
+## Stock_quotes Endpoint
+
+`stock_quotes` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
+
+### Example
+
+There are no examples for this endpoint.
 
 ---
 

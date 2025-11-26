@@ -1,5 +1,17 @@
 # @chainlink/ea-scripts
 
+## 2.9.0
+
+### Minor Changes
+
+- [#4278](https://github.com/smartcontractkit/external-adapters-js/pull/4278) [`393e7b4`](https://github.com/smartcontractkit/external-adapters-js/commit/393e7b4377c12264b8e4a0a79c4fedd72b8d8cd9) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete Soak test and related code
+
+### Patch Changes
+
+- [#4245](https://github.com/smartcontractkit/external-adapters-js/pull/4245) [`f775358`](https://github.com/smartcontractkit/external-adapters-js/commit/f775358468649d81bd0b270a974b4e3116f08572) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused jpegd EA
+
+- [#4275](https://github.com/smartcontractkit/external-adapters-js/pull/4275) [`76b4953`](https://github.com/smartcontractkit/external-adapters-js/commit/76b49533c0d5222454c8802d6dbb9e0db63e26d4) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete cryptoapis-v2 EA
+
 ## 2.8.11
 
 ### Patch Changes

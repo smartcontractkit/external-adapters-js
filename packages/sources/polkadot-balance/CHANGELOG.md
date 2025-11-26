@@ -1,5 +1,11 @@
 # @chainlink/polkadot-balance-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#4326](https://github.com/smartcontractkit/external-adapters-js/pull/4326) [`42303c0`](https://github.com/smartcontractkit/external-adapters-js/commit/42303c0bb94caa4ac7487e82e95f545f3fa7e2e9) Thanks [@dskloetc](https://github.com/dskloetc)! - Include reserved/staked amounts in balance. Make sure `RPC_URL` is set to a valid Polkadot/Substrate node URL for the Asset Hub chain.
+
 ## 1.3.30
 
 ### Patch Changes

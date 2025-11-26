@@ -34,14 +34,18 @@ intersect() {
 
 add_changed_reverse_package_deps() {
   packages="$1"
-  # We need to include reverse dependencies because if a dependency is
-  # bumped, this also results in a patch bump of the dependent package.
-  # But if the dependency is not actually changed (either directly or
-  # transitively), but only included because of a requirement of
-  # `changeset version`, we don't want to include it. Otherwise almost all
-  # packages get included through common dependencies such as
-  # @chainlink/ea-test-helpers.
-  intersect "$($SOURCE_DIR/get-reverse-dependencies.sh $packages)" "$CHANGED_PACKAGES_RECURSIVE"
+  {
+    # Keep the existing packages.
+    echo "$packages"
+    # We need to include reverse dependencies because if a dependency is
+    # bumped, this also results in a patch bump of the dependent package.
+    # But if the dependency is not actually changed (either directly or
+    # transitively), but only included because of a requirement of
+    # `changeset version`, we don't want to include it. Otherwise almost all
+    # packages get included through common dependencies such as
+    # @chainlink/ea-test-helpers.
+    intersect "$($SOURCE_DIR/get-reverse-dependencies.sh $packages)" "$CHANGED_PACKAGES_RECURSIVE"
+  } | sort -u
 }
 
 add_package_deps() {
