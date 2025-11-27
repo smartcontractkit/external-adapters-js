@@ -70,7 +70,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "60896",
+        "from": "914",
         "to": "USD",
         "inverse": false
       }
@@ -170,17 +170,6 @@
     "includes": [
       {
         "from": "1501",
-        "to": "USD",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "BTC",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "100001656",
         "to": "USD",
         "inverse": false
       }
@@ -292,6 +281,17 @@
       {
         "from": "100029813",
         "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CBETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100029813",
+        "to": "USD",
         "inverse": false
       }
     ]
@@ -719,7 +719,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "3248",
+        "from": "102479726",
         "to": "USD",
         "inverse": false
       }
@@ -2135,21 +2135,10 @@
   },
   {
     "from": "WBTC",
-    "to": "BTC",
-    "includes": [
-      {
-        "from": "9993",
-        "to": "100001656",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "WBTC",
     "to": "ETH",
     "includes": [
       {
-        "from": "9993",
+        "from": "100001656",
         "to": "100004304",
         "inverse": false
       }
