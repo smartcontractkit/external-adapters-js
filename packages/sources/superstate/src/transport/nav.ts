@@ -12,6 +12,7 @@ import schedule from 'node-schedule'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
 import {
   AssetsUnderManagement,
+  convertToTimestampMs,
   getPreviousNonWeekendDay,
   getStartingAndEndingDates,
   isBeforeTime,
@@ -35,12 +36,6 @@ const START_TIME = '09:08:00'
 const END_TIME = '12:00:00'
 
 type ReportValueType = typeof inputParameters.validated.reportValue
-
-// Convert date string (MM/DD/YYYY) to Unix timestamp in milliseconds
-const convertToTimestampMs = (dateString: string): number => {
-  const [month, day, year] = dateString.split('/').map(Number)
-  return Date.UTC(year, month - 1, day, 0, 0, 0, 0)
-}
 
 // Custom transport implementation that takes incoming requests, adds them into a SET, and makes requests to DP
 // on a specific time every day, after receiving a signal from scheduler.
@@ -172,7 +167,8 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
         result,
         nav: Number(data.net_asset_value),
         aum: Number(data.assets_under_management),
-        navDate: convertToTimestampMs(data.net_asset_value_date),
+        navDate: data.net_asset_value_date,
+        navDateTimestampMs: convertToTimestampMs(data.net_asset_value_date),
       },
       result,
       statusCode: 200,
