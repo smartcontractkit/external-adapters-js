@@ -521,7 +521,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102478915",
+        "from": "102500349",
         "to": "USD",
         "inverse": false
       }
@@ -2028,7 +2028,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102483988",
+        "from": "102483737",
         "to": "USD",
         "inverse": false
       }
@@ -2359,6 +2359,39 @@
     "includes": [
       {
         "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTC.B",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "101650461",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTCB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102500249",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USDM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "6038",
         "to": "USD",
         "inverse": false
       }
