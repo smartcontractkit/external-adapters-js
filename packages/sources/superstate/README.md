@@ -6,15 +6,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |          Name          |                                          Description                                          |  Type  | Options |            Default             |
-| :-------: | :--------------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
-|           |      API_ENDPOINT      |                                An API endpoint for Superstate                                 | string |         | `https://api.superstate.co/v1` |
-|           |  TRANSACTION_API_KEY   |                          Api key for /v2/transactions API endpoints                           | string |         |                                |
-|           | TRANSACTION_API_SECRET |                         Api secret for /v2/transactions API endpoints                         | string |         |                                |
-|           |     LOOKBACK_DAYS      |                       The number of days of historical data to retrieve                       | number |         |              `10`              |
-|           |   RETRY_INTERVAL_MS    | The amount of time (in ms) to wait before sending a new request for getting an updated price. | number |         |            `60000`             |
-|           | BACKGROUND_EXECUTE_MS  |   The amount of time the background execute should sleep before performing the next request   | number |         |            `10000`             |
-|           | NAV_CRON_INTERVAL_MIN  |              How many minutes do we wait between each cron job that fetches Nav               | number |         |              `10`              |
+| Required? |          Name          |                                          Description                                          |  Type  | Options | Default |
+| :-------: | :--------------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |      API_ENDPOINT      |                                An API endpoint for Superstate                                 | string |         |         |
+|           |  TRANSACTION_API_KEY   |                          Api key for /v2/transactions API endpoints                           | string |         |         |
+|           | TRANSACTION_API_SECRET |                         Api secret for /v2/transactions API endpoints                         | string |         |         |
+|           |     LOOKBACK_DAYS      |                       The number of days of historical data to retrieve                       | number |         |  `10`   |
+|           |   RETRY_INTERVAL_MS    | The amount of time (in ms) to wait before sending a new request for getting an updated price. | number |         | `60000` |
+|           | BACKGROUND_EXECUTE_MS  |   The amount of time the background execute should sleep before performing the next request   | number |         | `10000` |
+|           | NAV_CRON_INTERVAL_MIN  |              How many minutes do we wait between each cron job that fetches Nav               | number |         |  `10`   |
 
 ---
 
