@@ -91,11 +91,11 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
 
     return {
       data: {
-        result: result.toString(),
+        result: result.toNumber(),
         assets,
       },
       statusCode: 200,
-      result: result.toString(),
+      result: result.toNumber(),
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
