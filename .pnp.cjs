@@ -247,6 +247,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bank-frick"\
     },\
     {\
+      "name": "@chainlink/basic-link-price-source-adapter",\
+      "reference": "workspace:packages/sources/basic-link-price-source"\
+    },\
+    {\
       "name": "@chainlink/bea-adapter",\
       "reference": "workspace:packages/sources/bea"\
     },\
@@ -964,6 +968,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
+    ["@chainlink/basic-link-price-source-adapter", ["workspace:packages/sources/basic-link-price-source"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
@@ -5397,6 +5402,22 @@ const RAW_RUNTIME_STATE =
           ["fastify", "npm:5.3.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/basic-link-price-source-adapter", [\
+      ["workspace:packages/sources/basic-link-price-source", {\
+        "packageLocation": "./packages/sources/basic-link-price-source/",\
+        "packageDependencies": [\
+          ["@chainlink/basic-link-price-source-adapter", "workspace:packages/sources/basic-link-price-source"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
