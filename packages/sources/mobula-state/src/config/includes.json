@@ -521,7 +521,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102478915",
+        "from": "102500349",
         "to": "USD",
         "inverse": false
       }
@@ -2028,7 +2028,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102483988",
+        "from": "102483737",
         "to": "USD",
         "inverse": false
       }
@@ -2359,6 +2359,391 @@
     "includes": [
       {
         "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AGEUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "AI16Z",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102499018",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CBETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "100029813",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EURA",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "ETHX",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "6409",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EZETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102478632",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "JITOSOL",
+    "to": "SOL",
+    "includes": [
+      {
+        "from": "3576",
+        "to": "100010811",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "KHYPE",
+    "to": "HYPE",
+    "includes": [
+      {
+        "from": "61053",
+        "to": "102498883",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "KUDAI",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501730",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "LSETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "3881",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "MKR",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "10982",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "OETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "4953",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "OS",
+    "to": "S",
+    "includes": [
+      {
+        "from": "102502587",
+        "to": "102501606",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "PUFETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102480107",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "RAI",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "100009665",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "RETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "100009986",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "RSWETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102478385",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SCBTC",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "102504365",
+        "to": "100001656",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SCETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102503669",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SOLVBTC",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "102497875",
+        "to": "100001656",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SUPEROETHB",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102502963",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SWETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "6571",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USDM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "6038",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USDU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "61466",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "WSTETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102501417",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "YBTC.B",
+    "to": "BTC",
+    "includes": [
+      {
+        "from": "60778",
+        "to": "100001656",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FEUSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504433",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FRAX.OLD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100004855",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "OHMV2",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100508618",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "PYUSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102502671",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "THBILL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "63417",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USD+BASE",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501128",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "WSTHYPE",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102503958",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTC.B",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "101650461",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTCB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102500249",
         "to": "USD",
         "inverse": false
       }
