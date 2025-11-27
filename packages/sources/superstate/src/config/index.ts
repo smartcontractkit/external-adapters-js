@@ -5,7 +5,7 @@ export const config = new AdapterConfig(
     API_ENDPOINT: {
       description: 'An API endpoint for Superstate',
       type: 'string',
-      required: true,
+      default: 'https://api.superstate.com/v1',
     },
     TRANSACTION_API_KEY: {
       description: 'Api key for /v2/transactions API endpoints',

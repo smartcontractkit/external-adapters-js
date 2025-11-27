@@ -1,4 +1,5 @@
 import {
+  convertToTimestampMs,
   getPreviousNonWeekendDay,
   getStartingAndEndingDates,
   isAfterTime,
@@ -159,6 +160,54 @@ describe('timeFunctions', () => {
       const timezone = 'America/New_York'
       const pnwd = getPreviousNonWeekendDay(timezone)
       expect(pnwd).toBe('05/17/2024') // Friday
+    })
+  })
+
+  describe('convertToTimestampMs', () => {
+    it('should convert MM/DD/YYYY date string to Unix timestamp in milliseconds', () => {
+      const dateString = '01/23/2024'
+      const result = convertToTimestampMs(dateString)
+      // January 23, 2024 at 00:00:00 UTC
+      expect(result).toBe(1705968000000)
+    })
+
+    it('should handle single digit month and day', () => {
+      const dateString = '5/3/2024'
+      const result = convertToTimestampMs(dateString)
+      // May 3, 2024 at 00:00:00 UTC
+      expect(result).toBe(1714694400000)
+    })
+
+    it('should handle end of year date', () => {
+      const dateString = '12/31/2024'
+      const result = convertToTimestampMs(dateString)
+      // December 31, 2024 at 00:00:00 UTC
+      expect(result).toBe(1735603200000)
+    })
+
+    it('should handle start of year date', () => {
+      const dateString = '01/01/2025'
+      const result = convertToTimestampMs(dateString)
+      // January 1, 2025 at 00:00:00 UTC
+      expect(result).toBe(1735689600000)
+    })
+
+    it('should handle leap year date', () => {
+      const dateString = '02/29/2024'
+      const result = convertToTimestampMs(dateString)
+      // February 29, 2024 at 00:00:00 UTC (2024 is a leap year)
+      expect(result).toBe(1709164800000)
+    })
+
+    it('should return timestamp at midnight UTC', () => {
+      const dateString = '06/15/2024'
+      const result = convertToTimestampMs(dateString)
+      const date = new Date(result)
+
+      expect(date.getUTCHours()).toBe(0)
+      expect(date.getUTCMinutes()).toBe(0)
+      expect(date.getUTCSeconds()).toBe(0)
+      expect(date.getUTCMilliseconds()).toBe(0)
     })
   })
 })
