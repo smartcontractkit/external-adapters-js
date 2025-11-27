@@ -1,5 +1,5 @@
-import { formatInTimeZone } from 'date-fns-tz'
 import { format, isAfter, isBefore, isSaturday, isSunday, subDays } from 'date-fns'
+import { formatInTimeZone } from 'date-fns-tz'
 
 export const NetAssetValue = 'net_asset_value'
 export const AssetsUnderManagement = 'assets_under_management'
@@ -47,4 +47,10 @@ export const getPreviousNonWeekendDay = (timezone: string): string => {
     pnwd = subDays(todayTZ, 3)
   }
   return format(pnwd, 'MM/dd/yyyy')
+}
+
+// Convert date string (MM/DD/YYYY) to Unix timestamp in milliseconds
+export const convertToTimestampMs = (dateString: string): number => {
+  const [month, day, year] = dateString.split('/').map(Number)
+  return Date.UTC(year, month - 1, day, 0, 0, 0, 0)
 }

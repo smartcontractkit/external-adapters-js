@@ -8791,7 +8791,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/superstate/",\
         "packageDependencies": [\
           ["@chainlink/superstate-adapter", "workspace:packages/sources/superstate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

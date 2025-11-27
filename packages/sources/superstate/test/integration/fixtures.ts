@@ -2,7 +2,7 @@ import nock from 'nock'
 import { getPreviousNonWeekendDay } from '../../src/transport/utils'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://api.superstate.co/v1/funds', {
+  nock('http://test-api.com/funds', {
     encodedQueryParams: true,
   })
     .get('/1/nav-daily')
