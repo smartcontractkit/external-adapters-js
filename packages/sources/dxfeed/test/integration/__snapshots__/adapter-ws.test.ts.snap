@@ -30,6 +30,25 @@ exports[`websocket quote endpoint should return ask when bid is 0 1`] = `
 }
 `;
 
+exports[`websocket quote endpoint should return average when no volume 1`] = `
+{
+  "data": {
+    "ask_price": 639.69,
+    "ask_volume": 0,
+    "bid_price": 579.99,
+    "bid_volume": 0,
+    "mid_price": 609.84,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 17642052000,
+  },
+}
+`;
+
 exports[`websocket quote endpoint should return bid when ask is 0 1`] = `
 {
   "data": {

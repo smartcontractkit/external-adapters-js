@@ -84,6 +84,14 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return average when no volume', async () => {
+      const response = await testAdapter.request({
+        base: 'NO_VOLUME',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('error when data length is not valid', async () => {
       const response = await testAdapter.request({
         base: 'INVALID_DATA',
