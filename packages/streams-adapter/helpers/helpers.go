@@ -41,16 +41,18 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 	// Ensure we have an endpoint hint: prefer explicit param, otherwise try to
 	// derive it from the key and inject it as the endpoint parameter.
 	if _, ok := paramsMap["endpoint"]; !ok {
-		if epAlias := findEndpointInKey(key); epAlias != "" {
-			paramsMap["endpoint"] = epAlias
+		epAlias, err := findEndpointInKey(key)
+		if err != nil {
+			return nil, false
 		}
+		paramsMap["endpoint"] = epAlias
 	}
 
 	canonical, err := BuildCacheKeyParams(paramsMap)
 	if err != nil {
 		return nil, false
 	}
-	return canonical, len(canonical) > 0
+	return canonical, true
 }
 
 // CalculateCacheKey generates a deterministic cache key from request parameters.

@@ -176,9 +176,11 @@ func (a *adapterAliasIndex) addEndpointAlias(alias, canonicalEndpoint string) {
 
 // findEndpointInKey attempts to find a canonical endpoint name for the active adapter
 // by scanning the Redis key (OriginalAdapterKey) for any known endpoint aliases.
-func findEndpointInKey(key string) string {
+// It returns an error when the alias index is not initialized or when no matching
+// endpoint alias can be found.
+func findEndpointInKey(key string) (string, error) {
 	if activeAliasIndex == nil {
-		return ""
+		return "", fmt.Errorf("alias index not initialized")
 	}
 	lowerKey := strings.ToLower(key)
 
@@ -190,11 +192,11 @@ func findEndpointInKey(key string) string {
 	for _, alias := range activeAliasIndex.orderedEndpointAliases {
 		if strings.Contains(lowerKey, alias) {
 			if canonical, ok := activeAliasIndex.endpointAlias[alias]; ok {
-				return canonical
+				return canonical, nil
 			}
 		}
 	}
-	return ""
+	return "", fmt.Errorf("could not derive endpoint from key %q", key)
 }
 
 // BuildCacheKeyParams converts raw request-like data into canonical RequestParams suitable for cache keying.
