@@ -2385,5 +2385,93 @@
         "inverse": false
       }
     ]
+  },
+  {
+    "from": "21BTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102482302",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "APU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102480878",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BOLD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "63471",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EURA",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "KUDAI",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501730",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "METRO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102503398",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SRM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100010390",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XSGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100013108",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
   }
 ]
