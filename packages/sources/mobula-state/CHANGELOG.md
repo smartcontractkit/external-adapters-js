@@ -1,5 +1,21 @@
 # @chainlink/mobula-state-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#4136](https://github.com/smartcontractkit/external-adapters-js/pull/4136) [`649c81b`](https://github.com/smartcontractkit/external-adapters-js/commit/649c81bac10684d944adbb934f89672d8ace33e8) Thanks [@FionnL](https://github.com/FionnL)! - **BREAKING CHANGE:** Migrated from v1 firehose WebSocket API to v2 targeted asset_id-based subscriptions.
+
+  ## Upgrade Instructions
+
+  No changes are required on the NOPs part in order to upgrade.
+
+  **Do not upgrade to this version until instructed to do so.**
+
+### Patch Changes
+
+- [#4342](https://github.com/smartcontractkit/external-adapters-js/pull/4342) [`1d7e193`](https://github.com/smartcontractkit/external-adapters-js/commit/1d7e193c9cb7f17cb89812d397246b6f4e54c919) Thanks [@FionnL](https://github.com/FionnL)! - Add missing production pairs and regression fixes to includes.json (AGEUR, EURA, APU, 21BTC, BOLD, KUDAI, METRO, SRM, XSGD, BTC.B, BTCB, USDM)
+
 ## 1.3.8
 
 ### Patch Changes
