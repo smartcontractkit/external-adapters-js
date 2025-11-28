@@ -10,10 +10,12 @@ export const config = new AdapterConfig(
     TRANSACTION_API_KEY: {
       description: 'Api key for /v2/transactions API endpoints',
       type: 'string',
+      sensitive: true,
     },
     TRANSACTION_API_SECRET: {
       description: 'Api secret for /v2/transactions API endpoints',
       type: 'string',
+      sensitive: true,
     },
     LOOKBACK_DAYS: {
       description: 'The number of days of historical data to retrieve',

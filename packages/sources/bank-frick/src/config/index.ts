@@ -21,6 +21,7 @@ export const config = new AdapterConfig({
     description: 'The API key to use for making requests to the Bank Frick API',
     type: 'string',
     required: true,
+    sensitive: true,
   },
   PAGE_SIZE: {
     description: 'The number of accounts to fetch per call to /accounts. Must be >= 1 and <= 500.',
@@ -33,6 +34,7 @@ export const config = new AdapterConfig({
     description: '',
     type: 'string',
     required: true,
+    sensitive: true,
     validate: {
       meta: {
         details: 'Invalid private key',
