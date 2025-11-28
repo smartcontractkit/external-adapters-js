@@ -1,5 +1,19 @@
 # @chainlink/apy-finance-adapter
 
+## 2.0.116
+
+### Patch Changes
+
+- Updated dependencies [[`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021)]:
+  - @chainlink/token-allocation-adapter@1.14.3
+
+## 2.0.115
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.2
+
 ## 2.0.114
 
 ### Patch Changes

@@ -23,9 +23,9 @@ exports[`execute packages endpoint should return success 1`] = `
         "quantity": "0.8",
       },
     ],
-    "result": "2.3",
+    "result": 2.3,
   },
-  "result": "2.3",
+  "result": 2.3,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

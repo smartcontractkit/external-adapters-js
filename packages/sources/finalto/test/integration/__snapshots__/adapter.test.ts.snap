@@ -4,8 +4,13 @@ exports[`websocket forex endpoint should return success 1`] = `
 {
   "data": {
     "ask": 6.82543,
+    "ask_price": 6.82543,
+    "ask_volume": 1000000,
     "bid": 6.82427,
+    "bid_price": 6.82427,
+    "bid_volume": 1000000,
     "mid": 6.82485,
+    "mid_price": 6.82485,
     "result": 6.82485,
   },
   "result": 6.82485,
@@ -22,8 +27,13 @@ exports[`websocket stock endpoint should return success 1`] = `
 {
   "data": {
     "ask": 200.88,
+    "ask_price": 200.88,
+    "ask_volume": 1000000,
     "bid": 200.84,
+    "bid_price": 200.84,
+    "bid_volume": 1000000,
     "mid": 200.86,
+    "mid_price": 200.86,
     "result": 200.86,
   },
   "result": 200.86,
@@ -40,8 +50,13 @@ exports[`websocket stock endpoint should return success with base override 1`] =
 {
   "data": {
     "ask": 461.96,
+    "ask_price": 461.96,
+    "ask_volume": 1000000,
     "bid": 461.92,
+    "bid_price": 461.92,
+    "bid_volume": 1000000,
     "mid": 461.94,
+    "mid_price": 461.94,
     "result": 461.94,
   },
   "result": 461.94,
