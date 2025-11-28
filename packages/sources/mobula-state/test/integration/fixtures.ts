@@ -149,6 +149,10 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
 
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (message) => {
+      // Skip if message is undefined (happens when subscribeMessage returns undefined)
+      if (!message || message === 'undefined') {
+        return
+      }
       const parsed = JSON.parse(message as string)
 
       // Handle Mobula v2 price subscriptions (asset_ids based)
