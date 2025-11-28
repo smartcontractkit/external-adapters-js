@@ -70,7 +70,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "60896",
+        "from": "914",
         "to": "USD",
         "inverse": false
       }
@@ -170,17 +170,6 @@
     "includes": [
       {
         "from": "1501",
-        "to": "USD",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "BTC",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "100001656",
         "to": "USD",
         "inverse": false
       }
@@ -292,6 +281,17 @@
       {
         "from": "100029813",
         "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "CBETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100029813",
+        "to": "USD",
         "inverse": false
       }
     ]
@@ -521,7 +521,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102478915",
+        "from": "102500349",
         "to": "USD",
         "inverse": false
       }
@@ -719,7 +719,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "3248",
+        "from": "102479726",
         "to": "USD",
         "inverse": false
       }
@@ -2028,7 +2028,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102483988",
+        "from": "102483737",
         "to": "USD",
         "inverse": false
       }
@@ -2135,21 +2135,10 @@
   },
   {
     "from": "WBTC",
-    "to": "BTC",
-    "includes": [
-      {
-        "from": "9993",
-        "to": "100001656",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "WBTC",
     "to": "ETH",
     "includes": [
       {
-        "from": "9993",
+        "from": "100001656",
         "to": "100004304",
         "inverse": false
       }
@@ -2359,6 +2348,127 @@
     "includes": [
       {
         "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTC.B",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "101650461",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTCB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102500249",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USDM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "6038",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "21BTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102482302",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "APU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102480878",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BOLD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "63471",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "EURA",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "KUDAI",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501730",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "METRO",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102503398",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SRM",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100010390",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "XSGD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100013108",
         "to": "USD",
         "inverse": false
       }
