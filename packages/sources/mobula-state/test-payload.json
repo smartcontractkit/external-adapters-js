@@ -1,6 +1,54 @@
 {
- "requests": [{
-  "from": "ETH",
-  "to": "USD"
- }]
+ "requests": [
+  {
+   "from": "EZETH",
+   "to": "USD"
+  },
+  {
+   "from": "EZETH", 
+   "to": "ETH"
+  },
+  {
+   "from": "CBETH",
+   "to": "ETH"
+  },
+  {
+   "from": "LBTC",
+   "to": "BTC"
+  },
+  {
+   "from": "GHO",
+   "to": "USD"
+  },
+  {
+   "from": "TESTCOIN",
+   "to": "USD",
+   "overrides": {
+    "mobula-state": {
+     "TESTCOIN": "999888777"
+    }
+   }
+  },
+  {
+   "from": "ANOTHERCOIN",
+   "to": "BTC", 
+   "overrides": {
+    "mobula-state": {
+     "ANOTHERCOIN": "111222333"
+    }
+   }
+  },
+  {
+   "from": "102478632",
+   "to": "USD"
+  },
+  {
+   "from": "2921",
+   "to": "100001656"
+  },
+  {
+   "from": "100029813",
+   "to": "100004304"
+  }
+ ]
 }
