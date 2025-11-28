@@ -90,6 +90,15 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+  const noVolumeReponse = [
+    {
+      data: [
+        'Quote',
+        ['NO_VOLUME', 0, 0, 0, 17642052000, 'X', 579.99, 'NaN', 17642052000, 'X', 639.69, 'NaN'],
+      ],
+      channel: '/service/data',
+    },
+  ]
   const tradeResponse = [
     {
       data: [
@@ -128,6 +137,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(noBidQuoteReponse))
       socket.send(JSON.stringify(noAskQuoteReponse))
       socket.send(JSON.stringify(invalidQuoteReponse))
+      socket.send(JSON.stringify(noVolumeReponse))
       socket.send(JSON.stringify(tradeResponse))
     })
   })

@@ -29,6 +29,8 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
 
     const bidPrice = Number(data[bidPriceIndex])
     const askPrice = Number(data[askPriceIndex])
+    const bidVolume = Number(data[bidSizeIndex]) || 0
+    const askVolume = Number(data[askSizeIndex]) || 0
 
     let midPrice: number
 
@@ -36,10 +38,10 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
       midPrice = askPrice
     } else if (askPrice == 0) {
       midPrice = bidPrice
+    } else if (bidVolume == 0 && askVolume == 0) {
+      midPrice = (bidPrice + askPrice) / 2
     } else {
-      midPrice =
-        (bidPrice * Number(data[bidSizeIndex]) + askPrice * Number(data[askSizeIndex])) /
-        (Number(data[bidSizeIndex]) + Number(data[askSizeIndex]))
+      midPrice = (bidPrice * bidVolume + askPrice * askVolume) / (bidVolume + askVolume)
     }
 
     return [
@@ -50,9 +52,9 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
           data: {
             mid_price: midPrice,
             bid_price: bidPrice,
-            bid_volume: Number(data[bidSizeIndex]),
+            bid_volume: bidVolume,
             ask_price: askPrice,
-            ask_volume: Number(data[askSizeIndex]),
+            ask_volume: askVolume,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: Math.max(
