@@ -28,6 +28,8 @@ export type EnvVars = {
     description?: string
     options?: readonly string[]
     type?: string
+    sensitive?: boolean
+    required?: boolean
   }
 }
 
