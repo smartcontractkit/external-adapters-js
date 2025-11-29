@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/token-allocation-adapter": "workspace:*",
     "ethers": "^5.8.0",
     "tslib": "^2.3.1"

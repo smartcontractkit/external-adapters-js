@@ -33,7 +33,6 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/reduce-adapter": "workspace:*",
-    "decimal.js": "^10.3.1",
     "ethers": "^5.4.6",
     "tslib": "^2.3.1"
   },

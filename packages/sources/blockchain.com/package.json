@@ -35,7 +35,6 @@
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

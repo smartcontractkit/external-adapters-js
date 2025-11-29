@@ -36,7 +36,6 @@
     "@chainlink/proof-of-reserves-adapter": "workspace:*",
     "@renproject/interfaces": "^2.5.1",
     "@renproject/ren": "^2.5.1",
-    "@renproject/utils": "^2.5.1",
     "bitcoinjs-lib": "^5.2.0",
     "tslib": "^2.3.1"
   },
