@@ -8408,7 +8408,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/r25/",\
         "packageDependencies": [\
           ["@chainlink/r25-adapter", "workspace:packages/sources/r25"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
