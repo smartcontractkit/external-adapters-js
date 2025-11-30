@@ -747,6 +747,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/por-indexer"\
     },\
     {\
+      "name": "@chainlink/r25-adapter",\
+      "reference": "workspace:packages/sources/r25"\
+    },\
+    {\
       "name": "@chainlink/renvm-address-set-adapter",\
       "reference": "workspace:packages/sources/renvm-address-set"\
     },\
@@ -1121,6 +1125,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
+    ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
     ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
@@ -8393,6 +8398,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/r25-adapter", [\
+      ["workspace:packages/sources/r25", {\
+        "packageLocation": "./packages/sources/r25/",\
+        "packageDependencies": [\
+          ["@chainlink/r25-adapter", "workspace:packages/sources/r25"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
