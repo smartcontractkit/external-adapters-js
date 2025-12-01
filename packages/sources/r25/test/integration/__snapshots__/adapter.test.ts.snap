@@ -1,8 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute nav endpoint should return error for invalid chainType 1`] = `
+{
+  "errorMessage": "Invalid chainType combination",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return error for invalid chainType and tokenName 1`] = `
+{
+  "errorMessage": "Invalid tokenName combination",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute nav endpoint should return error for invalid token 1`] = `
 {
-  "errorMessage": "Token not found",
+  "errorMessage": "Invalid tokenName combination",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -12,21 +34,6 @@ exports[`execute nav endpoint should return error for invalid token 1`] = `
 `;
 
 exports[`execute nav endpoint should return success 1`] = `
-{
-  "data": {
-    "result": 1.020408163265306,
-  },
-  "result": 1.020408163265306,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 978347471111,
-    "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1762880153448,
-  },
-}
-`;
-
-exports[`execute nav endpoint should return success using price alias 1`] = `
 {
   "data": {
     "result": 1.020408163265306,

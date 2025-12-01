@@ -1,5 +1,14 @@
 import CryptoJS from 'crypto-js'
 
+export interface GetRequestHeadersParams {
+  method: string
+  path: string
+  params: Record<string, string>
+  apiKey: string
+  secret: string
+  timestamp: number
+}
+
 /**
  * Generate the HMAC-SHA256 signature for R25 API requests.
  *
@@ -20,14 +29,7 @@ export const getRequestHeaders = ({
   apiKey,
   secret,
   timestamp,
-}: {
-  method: string
-  path: string
-  params: Record<string, string>
-  apiKey: string
-  secret: string
-  timestamp: number
-}): Record<string, string> => {
+}: GetRequestHeadersParams): Record<string, string> => {
   // Sort parameters by key in lexicographical order and format as key=value
   const sortedParams = Object.keys(params)
     .sort()

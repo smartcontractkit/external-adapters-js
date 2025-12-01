@@ -57,28 +57,27 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   },
   parseResponse: (params, response) => {
     return params.map((param) => {
-      if (!response.data.success) {
+      const apiResponse = response.data as ResponseSchema
+      if (!apiResponse.success) {
         return {
           params: param,
           response: {
-            errorMessage: response.data.message || 'Request failed',
+            errorMessage: apiResponse.message || 'Request failed',
             statusCode: 502,
           },
         }
       }
 
-      const currentNav = Number(response.data.data.currentNav)
-      const lastUpdate = response.data.data.lastUpdate
-
+      const result = Number(apiResponse.data.currentNav)
       return {
         params: param,
         response: {
-          result: currentNav,
+          result,
           data: {
-            result: currentNav,
+            result,
           },
           timestamps: {
-            providerIndicatedTimeUnixMs: new Date(lastUpdate).getTime(),
+            providerIndicatedTimeUnixMs: new Date(apiResponse.data.lastUpdate).getTime(),
           },
         },
       }

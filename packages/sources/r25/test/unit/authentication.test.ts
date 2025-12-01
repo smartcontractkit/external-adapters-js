@@ -16,23 +16,7 @@ describe('authentication', () => {
       const secret = 'xxxxxxxx'
 
       // Expected signature string from documentation:
-      // get
-      // /api/public/current/nav
-      // chainType=chain&tokenName=rcusd
-      // 1731344153448
-      // xxx
-      const expectedStringToSign = [
-        'get',
-        '/api/public/current/nav',
-        'chainType=chain&tokenName=rcusd',
-        '1731344153448',
-        'xxx',
-      ].join('\n')
-
-      const expectedSignature = CryptoJS.HmacSHA256(expectedStringToSign, secret).toString(
-        CryptoJS.enc.Hex,
-      )
-
+      const expectedSignature = '208966c881a8194fd63b6107c7b9cdbf4c49cc4e0b29b68bcbe18cf7c273bcf7'
       const headers = getRequestHeaders({
         method,
         path,

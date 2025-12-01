@@ -1,1 +1,1 @@
-export * as nav from './nav'
+export { endpoint as nav } from './nav'

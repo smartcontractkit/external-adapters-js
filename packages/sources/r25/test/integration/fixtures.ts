@@ -21,7 +21,7 @@ export const mockNavResponseSuccess = (): nock.Scope =>
     })
     .persist()
 
-export const mockNavResponseFailure = (): nock.Scope =>
+export const mockNavResponseInvalidToken = (): nock.Scope =>
   nock('https://app.r25.xyz', {
     encodedQueryParams: true,
   })
@@ -30,7 +30,35 @@ export const mockNavResponseFailure = (): nock.Scope =>
     .reply(200, {
       code: 'R9999_0001',
       success: false,
-      message: 'Token not found',
+      message: 'Invalid tokenName combination',
+      data: {},
+    })
+    .persist()
+
+export const mockNavResponseInvalidChainType = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'invalid', tokenName: 'rcusdp' })
+    .reply(200, {
+      code: 'R9999_0002',
+      success: false,
+      message: 'Invalid chainType combination',
+      data: {},
+    })
+    .persist()
+
+export const mockNavResponseInvalidChainTypeAndTokenName = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'invalid', tokenName: 'invalid' })
+    .reply(200, {
+      code: 'R9999_0001',
+      success: false,
+      message: 'Invalid tokenName combination',
       data: {},
     })
     .persist()

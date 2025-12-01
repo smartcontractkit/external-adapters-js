@@ -3,7 +3,12 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockNavResponseFailure, mockNavResponseSuccess } from './fixtures'
+import {
+  mockNavResponseInvalidChainType,
+  mockNavResponseInvalidChainTypeAndTokenName,
+  mockNavResponseInvalidToken,
+  mockNavResponseSuccess,
+} from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -49,20 +54,6 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return success using price alias', async () => {
-      const data = {
-        endpoint: 'price',
-        chainType: 'polygon',
-        tokenName: 'rcusdp',
-      }
-
-      mockNavResponseSuccess()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
     it('should return error for invalid token', async () => {
       const data = {
         endpoint: 'nav',
@@ -70,7 +61,7 @@ describe('execute', () => {
         tokenName: 'invalid',
       }
 
-      mockNavResponseFailure()
+      mockNavResponseInvalidToken()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
@@ -120,6 +111,38 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
       expect(response.json().error).toBeDefined()
+    })
+
+    it('should return error for invalid chainType', async () => {
+      const data = {
+        endpoint: 'nav',
+        chainType: 'invalid',
+        tokenName: 'rcusdp',
+      }
+
+      mockNavResponseInvalidChainType()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      const json = response.json()
+      expect(json.errorMessage).toBe('Invalid chainType combination')
+      expect(json).toMatchSnapshot()
+    })
+
+    it('should return error for invalid chainType and tokenName', async () => {
+      const data = {
+        endpoint: 'nav',
+        chainType: 'invalid',
+        tokenName: 'invalid',
+      }
+
+      mockNavResponseInvalidChainTypeAndTokenName()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      const json = response.json()
+      expect(json.errorMessage).toBe('Invalid tokenName combination')
+      expect(json).toMatchSnapshot()
     })
   })
 })
