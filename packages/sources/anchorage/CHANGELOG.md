@@ -1,5 +1,11 @@
 # @chainlink/anchorage-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#4340](https://github.com/smartcontractkit/external-adapters-js/pull/4340) [`d61b0e6`](https://github.com/smartcontractkit/external-adapters-js/commit/d61b0e699224ea2b393d717f2cfb4376f921444c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Return number instead of string
+
 ## 2.1.0
 
 ### Minor Changes
