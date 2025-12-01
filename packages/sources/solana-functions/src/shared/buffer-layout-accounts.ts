@@ -2,7 +2,7 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { type Address } from '@solana/addresses'
 import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { MintLayout } from '@solana/spl-token'
+import { AccountLayout, MintLayout } from '@solana/spl-token'
 
 interface SanctumPoolState {
   total_sol_value: bigint
@@ -37,8 +37,11 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
 const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
+// Token Program account sizes
+const MINT_SIZE = 82
+const TOKEN_ACCOUNT_SIZE = 165
+
 const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>> = {
-  [solanaTokenProgramAddress]: MintLayout,
   [sanctumControllerProgramAddress]: SanctumPoolStateLayout,
 }
 
@@ -61,16 +64,32 @@ export const fetchFieldFromBufferLayoutStateAccount = async ({
     })
   }
 
-  const layout = programToBufferLayoutMap[programAddress.toString()]
-
-  if (!layout) {
-    throw new AdapterInputError({
-      message: `No layout known for program address '${programAddress}'`,
-      statusCode: 500,
-    })
-  }
-
   const data = Buffer.from(resp.value.data[0] as string, encoding)
+
+  // Dynamically select layout for Token Program accounts based on size
+  let layout: BufferLayout.Layout<unknown>
+
+  if (programAddress.toString() === solanaTokenProgramAddress) {
+    if (data.length === MINT_SIZE) {
+      layout = MintLayout
+    } else if (data.length === TOKEN_ACCOUNT_SIZE) {
+      layout = AccountLayout
+    } else {
+      throw new AdapterInputError({
+        message: `Unsupported Token Program account size: ${data.length} bytes. Expected ${MINT_SIZE} (Mint) or ${TOKEN_ACCOUNT_SIZE} (Token Account)`,
+        statusCode: 500,
+      })
+    }
+  } else {
+    layout = programToBufferLayoutMap[programAddress.toString()]
+
+    if (!layout) {
+      throw new AdapterInputError({
+        message: `No layout known for program address '${programAddress}'`,
+        statusCode: 500,
+      })
+    }
+  }
   const dataDecoded = layout.decode(data) as Record<string, unknown>
   const resultValue = dataDecoded[field]
 
