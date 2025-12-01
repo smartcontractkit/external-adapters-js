@@ -1,5 +1,11 @@
 # @chainlink/superstate-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#4325](https://github.com/smartcontractkit/external-adapters-js/pull/4325) [`3ddd7ce`](https://github.com/smartcontractkit/external-adapters-js/commit/3ddd7ce9b9a790b24af861dd2250441b7c08b186) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Modify result data
+
 ## 1.4.3
 
 ### Patch Changes
