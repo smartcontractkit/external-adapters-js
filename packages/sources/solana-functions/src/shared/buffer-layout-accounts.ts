@@ -37,8 +37,9 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
 const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
-// Token Program account sizes
+// https://github.com/solana-labs/solana-program-library/blob/token-v4.0.0/token/program/src/state.rs#L37
 const MINT_SIZE = 82
+// https://github.com/solana-labs/solana-program-library/blob/token-v4.0.0/token/program/src/state.rs#L129
 const TOKEN_ACCOUNT_SIZE = 165
 
 const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>> = {
