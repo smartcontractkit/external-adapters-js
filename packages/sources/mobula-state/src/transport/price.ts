@@ -115,7 +115,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         // Check if we successfully resolved both IDs
         if (assetId === undefined || quoteId === undefined) {
           // Log warning but don't crash - this allows other subscriptions to continue
-          console.warn(
+          context.logger.warn(
             `Skipping subscription for ${params.base}/${params.quote}: ` +
               `Unable to resolve ${assetId === undefined ? 'base asset ID' : 'quote ID'}. ` +
               `Ensure this pair is in includes.json or use direct asset IDs.`,

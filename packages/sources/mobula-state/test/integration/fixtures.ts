@@ -150,7 +150,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (message) => {
       // Skip if message is undefined (happens when subscribeMessage returns undefined)
-      if (!message || message === 'undefined') {
+      if (!message) {
         return
       }
       const parsed = JSON.parse(message as string)
