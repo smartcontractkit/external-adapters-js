@@ -21,13 +21,15 @@ func NormalizeString(s string) string {
 // Expected format (simplified): <prefix>-{...endpoint info...}-<json_params>
 // It parses the JSON params and uses the loaded alias index (if available)
 // to normalize endpoint and parameter names to their canonical forms.
-func RequestParamsFromKey(key string) (types.RequestParams, bool) {
+// Returns an error when the key is malformed, JSON cannot be parsed, or the
+// endpoint cannot be derived.
+func RequestParamsFromKey(key string) (types.RequestParams, error) {
 	// Find the JSON portion of the key (starts with '{' and ends with '}')
 	jsonStart := strings.Index(key, "{")
 	jsonEnd := strings.LastIndex(key, "}")
 
 	if jsonStart == -1 || jsonEnd == -1 || jsonEnd <= jsonStart {
-		return nil, false
+		return nil, errors.New("invalid key format: missing or malformed JSON portion")
 	}
 
 	jsonStr := key[jsonStart : jsonEnd+1]
@@ -35,7 +37,7 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 	// Parse the JSON to extract all parameters
 	var paramsMap map[string]interface{}
 	if err := json.Unmarshal([]byte(jsonStr), &paramsMap); err != nil {
-		return nil, false
+		return nil, err
 	}
 
 	// Ensure we have an endpoint hint: prefer explicit param, otherwise try to
@@ -43,16 +45,16 @@ func RequestParamsFromKey(key string) (types.RequestParams, bool) {
 	if _, ok := paramsMap["endpoint"]; !ok {
 		epAlias, err := findEndpointInKey(key)
 		if err != nil {
-			return nil, false
+			return nil, err
 		}
 		paramsMap["endpoint"] = epAlias
 	}
 
 	canonical, err := BuildCacheKeyParams(paramsMap)
 	if err != nil {
-		return nil, false
+		return nil, err
 	}
-	return canonical, true
+	return canonical, nil
 }
 
 // CalculateCacheKey generates a deterministic cache key from request parameters.
