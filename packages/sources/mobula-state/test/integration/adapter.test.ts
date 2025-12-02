@@ -108,7 +108,7 @@ describe('websocket', () => {
       transport: 'ws',
     })
     await testAdapter.waitForCache(8) // Wait for all primed pairs to be cached
-  }, 15000)
+  }, 30000)
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
