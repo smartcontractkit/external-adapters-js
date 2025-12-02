@@ -13,13 +13,17 @@ export interface ResponseSchema {
     totalSupply: number
     totalAsset: number
     currentNav: string
-  }
+  } | null
+}
+
+export interface ErrorResponseSchema {
+  error: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
-    ResponseBody: ResponseSchema
+    ResponseBody: ResponseSchema | ErrorResponseSchema
   }
 }
 
@@ -58,11 +62,12 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     return params.map((param) => {
       const apiResponse = response.data as ResponseSchema
-      if (!apiResponse.success) {
+      if ('error' in response.data || !apiResponse.success || !apiResponse.data) {
+        const errorResponse = response.data as ErrorResponseSchema
         return {
           params: param,
           response: {
-            errorMessage: apiResponse.message || 'Request failed',
+            errorMessage: apiResponse.message || errorResponse.error,
             statusCode: 502,
           },
         }

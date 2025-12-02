@@ -33,7 +33,6 @@ export const mockNavResponseInvalidToken = (): nock.Scope =>
       message: 'Invalid tokenName combination',
       data: {},
     })
-    .persist()
 
 export const mockNavResponseInvalidChainType = (): nock.Scope =>
   nock('https://app.r25.xyz', {
@@ -47,7 +46,6 @@ export const mockNavResponseInvalidChainType = (): nock.Scope =>
       message: 'Invalid chainType combination',
       data: {},
     })
-    .persist()
 
 export const mockNavResponseInvalidChainTypeAndTokenName = (): nock.Scope =>
   nock('https://app.r25.xyz', {
@@ -61,4 +59,70 @@ export const mockNavResponseInvalidChainTypeAndTokenName = (): nock.Scope =>
       message: 'Invalid tokenName combination',
       data: {},
     })
-    .persist()
+
+export const mockNavResponseAuthenticationFailed = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'optimism', tokenName: 'rcusd' })
+    .reply(401, {
+      error: 'authentication failed',
+    })
+
+export const mockNavResponseSignatureFailed = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'avalanche', tokenName: 'rcusd' })
+    .reply(401, {
+      error: 'signature failed',
+    })
+
+export const mockNavResponseInternalServerError = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'polygon', tokenName: 'rcusdp' })
+    .reply(200, {
+      code: 'R0005_00001',
+      success: false,
+      message: 'System busy, please try again later.',
+      data: null,
+    })
+
+export const mockNavResponseSupplyQueryFailed = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'ethereum', tokenName: 'rcusd' })
+    .reply(200, {
+      code: 'R0000_00001',
+      success: false,
+      message: 'internal error',
+      data: null,
+    })
+
+export const mockNavResponseExpiredTimestamp = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'arbitrum', tokenName: 'rcusd' })
+    .reply(400, {
+      error: 'expired timestamp',
+    })
+
+export const mockNavResponseParamsMissing = (): nock.Scope =>
+  nock('https://app.r25.xyz', {
+    encodedQueryParams: true,
+    badheaders: ['x-api-key'],
+  })
+    .get('/api/public/current/nav')
+    .query({ chainType: 'base', tokenName: 'rcusdc' })
+    .reply(400, {
+      error: 'params missing',
+    })

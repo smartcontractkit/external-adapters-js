@@ -22,14 +22,11 @@ export interface GetRequestHeadersParams {
  * - timestamp: Current UTC timestamp in milliseconds
  * - api_key: API key
  */
-export const getRequestHeaders = ({
-  method,
-  path,
-  params,
-  apiKey,
-  secret,
-  timestamp,
-}: GetRequestHeadersParams): Record<string, string> => {
+export const getRequestHeaders = (
+  getRequestHeadersParams: GetRequestHeadersParams,
+): Record<string, string> => {
+  const { method, path, params, apiKey, secret, timestamp } = getRequestHeadersParams
+
   // Sort parameters by key in lexicographical order and format as key=value
   const sortedParams = Object.keys(params)
     .sort()
