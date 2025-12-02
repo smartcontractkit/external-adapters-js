@@ -6,10 +6,7 @@
     "baseUrl": "../../",
     "paths": {
       "@chainlink/ea-bootstrap": ["core/bootstrap/src/index.ts"],
-      "@chainlink/ea-test-helpers": ["core/test-helpers/src/index.ts"],
-      "@chainlink/external-adapter-framework": [
-        "../../.yarn/cache/@chainlink-external-adapter-framework-npm-*.zip/node_modules/@chainlink/external-adapter-framework"
-      ] // Adjust the exact zip name if needed (find via `yarn info @chainlink/external-adapter-framework`)
+      "@chainlink/ea-test-helpers": ["core/test-helpers/src/index.ts"]
     }
   },
   "include": ["src/**/*", "src/**/*.json"],
