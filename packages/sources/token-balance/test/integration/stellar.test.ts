@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockXrpResponseSuccess } from './fixtures'
+import { mockStellarResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -12,7 +12,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.XRPL_RPC_URL = 'http://localhost-xrpl:8080'
+    process.env.STELLAR_RPC_URL = 'http://localhost-stellar:8080'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -33,18 +33,20 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('xrpl endpoint', () => {
+  describe('stellar endpoint', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'xrp',
-        tokenIssuerAddress: 'rJNE2NNz83GJYtWVLwMvchDWEon3huWnFn',
+        endpoint: 'stellar',
         addresses: [
           {
-            address: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+            address: 'GBZYS4XMGENS4IQCS2J2R7XUAY2VJST3VM62ZDSC24JONYASS5MAVROB',
+          },
+          {
+            address: 'GB4SJVA7KAFDZJFVTSEV2YWZZA3VEANHHK3WSJRHO2XS2GDYJCGWKDB5',
           },
         ],
       }
-      mockXrpResponseSuccess()
+      mockStellarResponseSuccess()
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)

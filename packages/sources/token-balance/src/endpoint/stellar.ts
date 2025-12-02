@@ -1,9 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { xrpTransport } from '../transport/xrp'
-import { getXrplRpcUrl } from '../transport/xrpl-utils'
+import { stellarTransport } from '../transport/stellar'
 
 export const inputParameters = new InputParameters(
   {
@@ -49,11 +51,16 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'xrp',
-  transport: xrpTransport,
+  name: 'stellar',
+  transport: stellarTransport,
   inputParameters,
   customInputValidation: (_request, settings): AdapterError | undefined => {
-    getXrplRpcUrl(settings)
+    if (!settings.STELLAR_RPC_URL) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: 'Environment variable STELLAR_RPC_URL is missing',
+      })
+    }
     return
   },
 })

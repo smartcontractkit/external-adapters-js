@@ -3,55 +3,31 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/xrp'
-import { getXrplRpcUrl } from './xrpl-utils'
+import { StrKey, xdr } from '@stellar/stellar-sdk'
+import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/stellar'
 
-const logger = makeLogger('Token Balance - XRPL')
+const logger = makeLogger('Token Balance - Stellar')
 
 type RequestParams = typeof inputParameters.validated
 
-const RESULT_DECIMALS = 6
+const RESULT_DECIMALS = 7
 
-type AccountInfoResponse = {
+type GetLedgerEntriesResponse = {
+  jsonrpc: string
+  id: number
   result: {
-    account_data: {
-      Account: string
-      Balance: string
-      Flags: number
-      LedgerEntryType: string
-      OwnerCount: number
-      PreviousTxnID: string
-      PreviousTxnLgrSeq: number
-      Sequence: number
-      index: string
-    }
-    account_flags: {
-      allowTrustLineClawback: boolean
-      defaultRipple: boolean
-      depositAuth: boolean
-      disableMasterKey: boolean
-      disallowIncomingCheck: boolean
-      disallowIncomingNFTokenOffer: boolean
-      disallowIncomingPayChan: boolean
-      disallowIncomingTrustline: boolean
-      disallowIncomingXRP: boolean
-      globalFreeze: boolean
-      noFreeze: boolean
-      passwordSpent: boolean
-      requireAuthorization: boolean
-      requireDestinationTag: boolean
-    }
-    ledger_hash: string
-    ledger_index: number
-    status: string
-    validated: boolean
+    entries: {
+      key: string
+      xdr: string
+      lastModifiedLedgerSeq: number
+      extXdr: string
+    }[]
   }
 }
 
-export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class StellarTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
   requester!: Requester
@@ -119,35 +95,22 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       address: string
     }[],
   ): Promise<AddressWithBalance[]> {
-    const runner = new GroupRunner(this.config.GROUP_SIZE)
-    const getBalance = runner.wrapFunction(
-      async ({ address }: { address: string }): Promise<AddressWithBalance> => {
-        const balance = await this.getTokenBalance(address)
-        return {
-          address,
-          balance,
-        }
-      },
-    )
-    return await Promise.all(addresses.map(getBalance))
-  }
+    const keys = addresses.map((a) => this.getAddressKey(a.address))
 
-  async getTokenBalance(address: string): Promise<string> {
     const requestConfig = {
       method: 'POST',
-      baseURL: getXrplRpcUrl(this.config),
+      baseURL: this.config.STELLAR_RPC_URL,
       data: {
-        method: 'account_info',
-        params: [
-          {
-            account: address,
-            ledger_index: 'validated',
-          },
-        ],
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'getLedgerEntries',
+        params: {
+          keys,
+        },
       },
     }
 
-    const result = await this.requester.request<AccountInfoResponse>(
+    const result = await this.requester.request<GetLedgerEntriesResponse>(
       calculateHttpRequestKey<BaseEndpointTypes>({
         context: {
           adapterSettings: this.config,
@@ -160,7 +123,23 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
       requestConfig,
     )
 
-    return result.response.data.result.account_data.Balance
+    return result.response.data.result.entries.map((entry, index) => {
+      const entryXdrB64 = entry.xdr
+      const data = xdr.LedgerEntryData.fromXDR(entryXdrB64, 'base64')
+      const stroops = data.account().balance().toString()
+      return {
+        address: addresses[index].address,
+        balance: stroops,
+      }
+    })
+  }
+
+  getAddressKey(address: string): string {
+    const rawPublicKey = StrKey.decodeEd25519PublicKey(address)
+    const xdrPublicKey = xdr.PublicKey.publicKeyTypeEd25519(rawPublicKey)
+    const ledgerKeyAccount = new xdr.LedgerKeyAccount({ accountId: xdrPublicKey })
+    const ledgerKey = xdr.LedgerKey.account(ledgerKeyAccount)
+    return ledgerKey.toXDR('base64')
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -168,4 +147,4 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const xrpTransport = new XrpTransport()
+export const stellarTransport = new StellarTransport()
