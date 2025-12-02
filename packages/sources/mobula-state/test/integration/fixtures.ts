@@ -69,6 +69,20 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
         quoteID: 'USD',
       },
     ],
+    // RSETH responses
+    '102479784': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 2950.12,
+        marketDepthUSDUp: 1500000000,
+        marketDepthUSDDown: 1400000000,
+        volume24h: 15000000000,
+        baseSymbol: 'RSETH',
+        quoteSymbol: 'USD',
+        baseID: '102479784',
+        quoteID: 'USD',
+      },
+    ],
     // CBETH responses
     '100029813': [
       {

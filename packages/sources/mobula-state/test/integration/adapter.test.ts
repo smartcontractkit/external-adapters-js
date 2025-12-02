@@ -96,13 +96,13 @@ describe('websocket', () => {
     })
     // Prime cache for graceful error handling tests
     await testAdapter.request({
-      base: 'btc', // Lowercase test - should get uppercased to BTC
+      base: 'ezeth', // Lowercase test - should get uppercased to EZETH
       quote: 'usd',
       endpoint: 'price',
       transport: 'ws',
     })
     await testAdapter.request({
-      base: 'ETH', // For the valid request after invalid test
+      base: 'RSETH', // For the valid request after invalid test
       quote: 'USD',
       endpoint: 'price',
       transport: 'ws',
@@ -304,7 +304,7 @@ describe('websocket', () => {
   describe('graceful error handling and case-insensitive requests', () => {
     it('should handle lowercase symbols (case-insensitive)', async () => {
       const response = await testAdapter.request({
-        base: 'btc',
+        base: 'ezeth',
         quote: 'usd',
       })
       expect(response.statusCode).toBe(200)
@@ -330,7 +330,7 @@ describe('websocket', () => {
 
       // Then verify valid requests still work
       const validResponse = await testAdapter.request({
-        base: 'ETH',
+        base: 'RSETH',
         quote: 'USD',
       })
       expect(validResponse.statusCode).toBe(200)
