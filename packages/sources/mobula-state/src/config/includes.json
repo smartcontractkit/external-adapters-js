@@ -2135,17 +2135,6 @@
   },
   {
     "from": "WBTC",
-    "to": "BTC",
-    "includes": [
-      {
-        "from": "9993",
-        "to": "100001656",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "WBTC",
     "to": "ETH",
     "includes": [
       {
