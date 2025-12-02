@@ -9040,6 +9040,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@solana/web3.js", "npm:1.95.8"],\
+          ["@stellar/stellar-sdk", "npm:14.3.3"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
@@ -11484,6 +11485,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@noble/curves", "npm:1.6.0"],\
           ["@noble/hashes", "npm:1.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.9.7", {\
+        "packageLocation": "./.yarn/cache/@noble-curves-npm-1.9.7-2b9efc8ab4-3cfe2735ea.zip/node_modules/@noble/curves/",\
+        "packageDependencies": [\
+          ["@noble/curves", "npm:1.9.7"],\
+          ["@noble/hashes", "npm:1.8.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14914,6 +14923,47 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@stellar/js-xdr", [\
+      ["npm:3.1.2", {\
+        "packageLocation": "./.yarn/cache/@stellar-js-xdr-npm-3.1.2-acc3d57a3b-96b5c52088.zip/node_modules/@stellar/js-xdr/",\
+        "packageDependencies": [\
+          ["@stellar/js-xdr", "npm:3.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@stellar/stellar-base", [\
+      ["npm:14.0.2", {\
+        "packageLocation": "./.yarn/cache/@stellar-stellar-base-npm-14.0.2-cae2b70a75-7446ffdbe5.zip/node_modules/@stellar/stellar-base/",\
+        "packageDependencies": [\
+          ["@stellar/stellar-base", "npm:14.0.2"],\
+          ["@noble/curves", "npm:1.9.7"],\
+          ["@stellar/js-xdr", "npm:3.1.2"],\
+          ["base32.js", "npm:0.1.0"],\
+          ["bignumber.js", "npm:9.3.1"],\
+          ["buffer", "npm:6.0.3"],\
+          ["sha.js", "npm:2.4.12"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@stellar/stellar-sdk", [\
+      ["npm:14.3.3", {\
+        "packageLocation": "./.yarn/unplugged/@stellar-stellar-sdk-npm-14.3.3-47d8432056/node_modules/@stellar/stellar-sdk/",\
+        "packageDependencies": [\
+          ["@stellar/stellar-sdk", "npm:14.3.3"],\
+          ["@stellar/stellar-base", "npm:14.0.2"],\
+          ["axios", "npm:1.13.2"],\
+          ["bignumber.js", "npm:9.3.1"],\
+          ["eventsource", "npm:2.0.2"],\
+          ["feaxios", "npm:0.0.23"],\
+          ["randombytes", "npm:2.1.0"],\
+          ["toml", "npm:3.0.0"],\
+          ["urijs", "npm:1.19.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@substrate/connect", [\
       ["npm:0.7.19", {\
         "packageLocation": "./.yarn/cache/@substrate-connect-npm-0.7.19-79ff52238c-956558d263.zip/node_modules/@substrate/connect/",\
@@ -17299,6 +17349,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["base32.js", [\
+      ["npm:0.1.0", {\
+        "packageLocation": "./.yarn/cache/base32.js-npm-0.1.0-d54b1afc81-7d7401a8f5.zip/node_modules/base32.js/",\
+        "packageDependencies": [\
+          ["base32.js", "npm:0.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["base64-js", [\
       ["npm:1.5.1", {\
         "packageLocation": "./.yarn/cache/base64-js-npm-1.5.1-b2f7275641-669632eb37.zip/node_modules/base64-js/",\
@@ -17360,6 +17419,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/bignumber.js-npm-9.1.2-c2228c6a4a-d89b8800a9.zip/node_modules/bignumber.js/",\
         "packageDependencies": [\
           ["bignumber.js", "npm:9.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:9.3.1", {\
+        "packageLocation": "./.yarn/cache/bignumber.js-npm-9.3.1-d784181dd0-1be0372bf0.zip/node_modules/bignumber.js/",\
+        "packageDependencies": [\
+          ["bignumber.js", "npm:9.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20646,6 +20712,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["eventsource", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "./.yarn/cache/eventsource-npm-2.0.2-e94c48aca3-e1c4c3664c.zip/node_modules/eventsource/",\
+        "packageDependencies": [\
+          ["eventsource", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:4.0.0", {\
         "packageLocation": "./.yarn/cache/eventsource-npm-4.0.0-b5fd928b64-8717a1f87c.zip/node_modules/eventsource/",\
         "packageDependencies": [\
@@ -21144,6 +21217,16 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/picomatch",\
           "picomatch"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["feaxios", [\
+      ["npm:0.0.23", {\
+        "packageLocation": "./.yarn/cache/feaxios-npm-0.0.23-dc97507207-e71ed43310.zip/node_modules/feaxios/",\
+        "packageDependencies": [\
+          ["feaxios", "npm:0.0.23"],\
+          ["is-retry-allowed", "npm:3.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23409,6 +23492,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/is-retry-allowed-npm-1.2.0-730be11f6c-50d700a89a.zip/node_modules/is-retry-allowed/",\
         "packageDependencies": [\
           ["is-retry-allowed", "npm:1.2.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:3.0.0", {\
+        "packageLocation": "./.yarn/cache/is-retry-allowed-npm-3.0.0-9033c10448-12d17b4441.zip/node_modules/is-retry-allowed/",\
+        "packageDependencies": [\
+          ["is-retry-allowed", "npm:3.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -31725,6 +31815,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["uri-js", "npm:4.4.1"],\
           ["punycode", "npm:2.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["urijs", [\
+      ["npm:1.19.11", {\
+        "packageLocation": "./.yarn/cache/urijs-npm-1.19.11-e9c694fd1d-2aa5547b53.zip/node_modules/urijs/",\
+        "packageDependencies": [\
+          ["urijs", "npm:1.19.11"]\
         ],\
         "linkType": "HARD"\
       }]\
