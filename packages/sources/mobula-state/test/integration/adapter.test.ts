@@ -101,7 +101,13 @@ describe('websocket', () => {
       endpoint: 'price',
       transport: 'ws',
     })
-    await testAdapter.waitForCache(7) // Wait for all primed pairs to be cached (7 new + 1 initial = 8 total)
+    await testAdapter.request({
+      base: 'RSETH', // For graceful error handling continuation test
+      quote: 'USD',
+      endpoint: 'price',
+      transport: 'ws',
+    })
+    await testAdapter.waitForCache(8) // Wait for all primed pairs to be cached (7 new + 1 initial = 8 total, gho/usd doesn't create a new entry since it uppercases to GHO/USD)
   }, 30000)
 
   afterAll(async () => {
