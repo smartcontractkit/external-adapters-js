@@ -407,6 +407,17 @@
     ]
   },
   {
+    "from": "DJT",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102498893",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "EBTC",
     "to": "BTC",
     "includes": [
@@ -1281,6 +1292,17 @@
     "includes": [
       {
         "from": "60895",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "PYUSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102502671",
         "to": "USD",
         "inverse": false
       }
