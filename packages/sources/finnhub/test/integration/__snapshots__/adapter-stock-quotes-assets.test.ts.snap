@@ -89,7 +89,7 @@ exports[`rest stock quote endpoint - success should return success for full symb
     "ask_volume": 220,
     "bid_price": 275.23,
     "bid_volume": 110,
-    "mid_price": 275.51666666666665,
+    "mid_price": 275.445,
   },
   "result": null,
   "statusCode": 200,
