@@ -10,8 +10,8 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 15158,
-    "providerDataStreamEstablishedUnixMs": 15150,
+    "providerDataReceivedUnixMs": 16168,
+    "providerDataStreamEstablishedUnixMs": 16160,
   },
 }
 `;
@@ -26,13 +26,54 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 16168,
-    "providerDataStreamEstablishedUnixMs": 15150,
+    "providerDataReceivedUnixMs": 17178,
+    "providerDataStreamEstablishedUnixMs": 16160,
   },
 }
 `;
 
 exports[`websocket funding rate endpoint no data should return failure 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket graceful error handling and case-insensitive requests should continue working after receiving invalid symbol requests 1`] = `
+{
+  "data": {
+    "result": 2950.12,
+  },
+  "result": 2950.12,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 8088,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket graceful error handling and case-insensitive requests should handle lowercase symbols (case-insensitive) 1`] = `
+{
+  "data": {
+    "result": 1.0012,
+  },
+  "result": 1.0012,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 7078,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket graceful error handling and case-insensitive requests should return 504 for unresolvable symbols without crashing 1`] = `
 {
   "error": {
     "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
@@ -51,7 +92,7 @@ exports[`websocket price endpoint CBETH/ETH should return success - tests includ
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 8088,
+    "providerDataReceivedUnixMs": 10108,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -66,7 +107,7 @@ exports[`websocket price endpoint EZETH/ETH should return success - tests hardco
   "result": 1.0612,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 7078,
+    "providerDataReceivedUnixMs": 9098,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -96,7 +137,7 @@ exports[`websocket price endpoint GHO/USD should return success - tests includes
   "result": 1.0012,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 10108,
+    "providerDataReceivedUnixMs": 7078,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -111,7 +152,7 @@ exports[`websocket price endpoint LBTC/BTC should return success - tests include
   "result": 0.9985,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 9098,
+    "providerDataReceivedUnixMs": 11118,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -171,7 +212,7 @@ exports[`websocket price endpoint direct asset IDs with crypto quote should retu
   "result": 1.0456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 8088,
+    "providerDataReceivedUnixMs": 10108,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -186,7 +227,7 @@ exports[`websocket price endpoint direct asset IDs with hardcoded SOL quote shou
   "result": 3.456,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 9098,
+    "providerDataReceivedUnixMs": 11118,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -201,7 +242,7 @@ exports[`websocket price endpoint direct base and quote asset IDs should return 
   "result": 0.0000102,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 10108,
+    "providerDataReceivedUnixMs": 7078,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -216,7 +257,7 @@ exports[`websocket price endpoint direct base asset ID should return success 1`]
   "result": 4233.15,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 7078,
+    "providerDataReceivedUnixMs": 9098,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },
@@ -231,7 +272,7 @@ exports[`websocket price endpoint quote override with asset ID should return suc
   "result": 1.0612,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 7078,
+    "providerDataReceivedUnixMs": 9098,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1514764861500,
   },

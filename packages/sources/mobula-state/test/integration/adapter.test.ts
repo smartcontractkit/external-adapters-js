@@ -94,8 +94,21 @@ describe('websocket', () => {
       endpoint: 'price',
       transport: 'ws',
     })
-    await testAdapter.waitForCache(6) // Wait for all primed pairs to be cached
-  })
+    // Prime cache for graceful error handling tests
+    await testAdapter.request({
+      base: 'gho', // Lowercase test - should get uppercased to GHO
+      quote: 'usd',
+      endpoint: 'price',
+      transport: 'ws',
+    })
+    await testAdapter.request({
+      base: 'RSETH', // For graceful error handling continuation test
+      quote: 'USD',
+      endpoint: 'price',
+      transport: 'ws',
+    })
+    await testAdapter.waitForCache(8) // Wait for all primed pairs to be cached (7 new + 1 initial = 8 total, gho/usd doesn't create a new entry since it uppercases to GHO/USD)
+  }, 30000)
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
@@ -285,6 +298,43 @@ describe('websocket', () => {
         endpoint: 'funding-rate',
       })
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('graceful error handling and case-insensitive requests', () => {
+    it('should handle lowercase symbols (case-insensitive)', async () => {
+      const response = await testAdapter.request({
+        base: 'gho',
+        quote: 'usd',
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return 504 for unresolvable symbols without crashing', async () => {
+      const response = await testAdapter.request({
+        base: 'FAKESYMBOL',
+        quote: 'USD',
+      })
+      expect(response.statusCode).toBe(504)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should continue working after receiving invalid symbol requests', async () => {
+      // First, make an invalid request
+      const invalidResponse = await testAdapter.request({
+        base: 'INVALIDSYMBOL',
+        quote: 'USD',
+      })
+      expect(invalidResponse.statusCode).toBe(504)
+
+      // Then verify valid requests still work
+      const validResponse = await testAdapter.request({
+        base: 'RSETH',
+        quote: 'USD',
+      })
+      expect(validResponse.statusCode).toBe(200)
+      expect(validResponse.json()).toMatchSnapshot()
     })
   })
 })
