@@ -127,7 +127,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         } else if (askPrice == 0) {
           lwMidPrice = bidPrice
         } else {
-          lwMidPrice = (bidPrice * bidVolume + askPrice * askVolume) / (bidVolume + askVolume)
+          lwMidPrice = mid
         }
 
         return [
