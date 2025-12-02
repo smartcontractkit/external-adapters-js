@@ -1,6 +1,8 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
+
+const logger = makeLogger('MobulaStateTransportPrice')
 
 export interface WSResponse {
   timestamp: number
@@ -115,7 +117,7 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         // Check if we successfully resolved both IDs
         if (assetId === undefined || quoteId === undefined) {
           // Log warning but don't crash - this allows other subscriptions to continue
-          context.logger.warn(
+          logger.warn(
             `Skipping subscription for ${params.base}/${params.quote}: ` +
               `Unable to resolve ${assetId === undefined ? 'base asset ID' : 'quote ID'}. ` +
               `Ensure this pair is in includes.json or use direct asset IDs.`,

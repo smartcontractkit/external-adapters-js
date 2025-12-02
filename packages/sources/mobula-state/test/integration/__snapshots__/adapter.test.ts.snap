@@ -43,6 +43,17 @@ exports[`websocket funding rate endpoint no data should return failure 1`] = `
 }
 `;
 
+exports[`websocket graceful error handling and case-insensitive requests should return 504 for unresolvable symbols without crashing 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
 exports[`websocket price endpoint CBETH/ETH should return success - tests includes.json + hardcoded ETH quote 1`] = `
 {
   "data": {

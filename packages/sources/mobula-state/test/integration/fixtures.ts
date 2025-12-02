@@ -41,6 +41,34 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
         quoteID: '100004304',
       },
     ],
+    // BTC responses
+    '100001656': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 96234.56,
+        marketDepthUSDUp: 5000000000,
+        marketDepthUSDDown: 4800000000,
+        volume24h: 50000000000,
+        baseSymbol: 'BTC',
+        quoteSymbol: 'USD',
+        baseID: '100001656',
+        quoteID: 'USD',
+      },
+    ],
+    // ETH responses
+    '100004304': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 3456.78,
+        marketDepthUSDUp: 2000000000,
+        marketDepthUSDDown: 1900000000,
+        volume24h: 20000000000,
+        baseSymbol: 'ETH',
+        quoteSymbol: 'USD',
+        baseID: '100004304',
+        quoteID: 'USD',
+      },
+    ],
     // CBETH responses
     '100029813': [
       {
