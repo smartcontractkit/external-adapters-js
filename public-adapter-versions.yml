@@ -30,7 +30,7 @@ adapters:
   - name: backed-fi
     version: 1.0.3
   - name: bank-frick
-    version: 1.1.52
+    version: 1.1.53
   - name: bea
     version: 1.3.47
   - name: binance
@@ -344,7 +344,7 @@ adapters:
   - name: streamex
     version: 1.0.0
   - name: superstate
-    version: 1.5.0
+    version: 1.5.1
   - name: swell-address-list
     version: 1.0.30
   - name: synthetix-debt-pool
