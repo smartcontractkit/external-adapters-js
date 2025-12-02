@@ -41,6 +41,48 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
         quoteID: '100004304',
       },
     ],
+    // BTC responses
+    '100001656': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 96234.56,
+        marketDepthUSDUp: 5000000000,
+        marketDepthUSDDown: 4800000000,
+        volume24h: 50000000000,
+        baseSymbol: 'BTC',
+        quoteSymbol: 'USD',
+        baseID: '100001656',
+        quoteID: 'USD',
+      },
+    ],
+    // ETH responses
+    '100004304': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 3456.78,
+        marketDepthUSDUp: 2000000000,
+        marketDepthUSDDown: 1900000000,
+        volume24h: 20000000000,
+        baseSymbol: 'ETH',
+        quoteSymbol: 'USD',
+        baseID: '100004304',
+        quoteID: 'USD',
+      },
+    ],
+    // RSETH responses
+    '102479784': [
+      {
+        timestamp: 1514764861000 + 500,
+        price: 2950.12,
+        marketDepthUSDUp: 1500000000,
+        marketDepthUSDDown: 1400000000,
+        volume24h: 15000000000,
+        baseSymbol: 'RSETH',
+        quoteSymbol: 'USD',
+        baseID: '102479784',
+        quoteID: 'USD',
+      },
+    ],
     // CBETH responses
     '100029813': [
       {
@@ -149,6 +191,10 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
 
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (message) => {
+      // Skip if message is undefined (happens when subscribeMessage returns undefined)
+      if (!message || message === 'undefined') {
+        return
+      }
       const parsed = JSON.parse(message as string)
 
       // Handle Mobula v2 price subscriptions (asset_ids based)

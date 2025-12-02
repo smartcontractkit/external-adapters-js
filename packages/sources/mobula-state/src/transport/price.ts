@@ -1,6 +1,8 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
+
+const logger = makeLogger('MobulaStateTransportPrice')
 
 export interface WSResponse {
   timestamp: number
@@ -41,21 +43,21 @@ const QUOTE_ASSET_IDS: Record<string, number> = {
 }
 
 // Get asset ID from the resolved symbol (after framework includes are applied)
-const getAssetId = (symbol: string): number => {
+// Returns undefined if the symbol cannot be resolved
+const getAssetId = (symbol: string): number | undefined => {
   const parsed = Number.parseInt(symbol, 10)
 
   if (!Number.isNaN(parsed)) {
     return parsed
   }
 
-  throw new Error(
-    `Unable to resolve asset ID for symbol: ${symbol}. Please ensure includes.json is configured for this symbol.`,
-  )
+  // Return undefined instead of throwing - allows graceful handling
+  return undefined
 }
 
 // Map quote symbols to IDs
-// Returns: number for crypto quotes, 'USD' string for USD, or throws for unmapped symbols
-const getQuoteId = (quote: string): number | 'USD' => {
+// Returns: number for crypto quotes, 'USD' string for USD, or undefined for unmapped symbols
+const getQuoteId = (quote: string): number | 'USD' | undefined => {
   const upperQuote = quote.toUpperCase()
 
   // USD doesn't need a numeric quote_id in the API, return string for composite key
@@ -75,10 +77,8 @@ const getQuoteId = (quote: string): number | 'USD' => {
     return parsed
   }
 
-  // Quote not found - must be in includes.json or use hardcoded quote
-  throw new Error(
-    `Unable to resolve quote ID for symbol: ${quote}. Please add a base/quote pair to includes.json or use a supported quote currency (BTC, ETH, SOL, HYPE, S, BBSOL, USD).`,
-  )
+  // Quote not found - return undefined to allow graceful handling
+  return undefined
 }
 
 export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
@@ -113,6 +113,17 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       subscribeMessage: (params, context) => {
         const assetId = getAssetId(params.base)
         const quoteId = getQuoteId(params.quote)
+
+        // Check if we successfully resolved both IDs
+        if (assetId === undefined || quoteId === undefined) {
+          // Log warning but don't crash - this allows other subscriptions to continue
+          logger.warn(
+            `Skipping subscription for ${params.base}/${params.quote}: ` +
+              `Unable to resolve ${assetId === undefined ? 'base asset ID' : 'quote ID'}. ` +
+              `Ensure this pair is in includes.json or use direct asset IDs.`,
+          )
+          return undefined
+        }
 
         // Store mapping using composite key: baseID-quoteID -> original user params
         const compositeKey = `${assetId}-${quoteId}`
