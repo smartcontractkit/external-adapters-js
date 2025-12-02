@@ -11,6 +11,17 @@
     ]
   },
   {
+    "from": "AI16Z",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102499018",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "ALETH",
     "to": "ETH",
     "includes": [
@@ -137,6 +148,17 @@
     "includes": [
       {
         "from": "102482904",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BOTANIXPBTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "61216",
         "to": "USD",
         "inverse": false
       }
@@ -1793,6 +1815,17 @@
     ]
   },
   {
+    "from": "THBILL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "63417",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "TKX",
     "to": "USD",
     "includes": [
@@ -1875,6 +1908,17 @@
     "includes": [
       {
         "from": "102483997",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USD1",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504327",
         "to": "USD",
         "inverse": false
       }
@@ -2250,6 +2294,17 @@
       {
         "from": "102503958",
         "to": "102498883",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "WSTHYPE",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102503958",
+        "to": "USD",
         "inverse": false
       }
     ]
