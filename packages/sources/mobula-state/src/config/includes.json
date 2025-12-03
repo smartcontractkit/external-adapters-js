@@ -22,6 +22,17 @@
     ]
   },
   {
+    "from": "AGEUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "ALETH",
     "to": "ETH",
     "includes": [
