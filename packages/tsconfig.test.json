@@ -27,13 +27,7 @@
       "path": "./composites/curve-3pool/tsconfig.test.json"
     },
     {
-      "path": "./composites/defi-dozen/tsconfig.test.json"
-    },
-    {
       "path": "./composites/defi-pulse/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/dxdao/tsconfig.test.json"
     },
     {
       "path": "./composites/glv-token/tsconfig.test.json"
@@ -201,9 +195,6 @@
       "path": "./sources/blocksize-capital-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/blockstream/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bob/tsconfig.test.json"
     },
     {
@@ -280,9 +271,6 @@
     },
     {
       "path": "./sources/cryptoid/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cryptomkt/tsconfig.test.json"
     },
     {
       "path": "./sources/currencylayer/tsconfig.test.json"
