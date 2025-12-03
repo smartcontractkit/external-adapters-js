@@ -201,9 +201,6 @@
       "path": "./sources/blocksize-capital-state"
     },
     {
-      "path": "./sources/blockstream"
-    },
-    {
       "path": "./sources/bob"
     },
     {
