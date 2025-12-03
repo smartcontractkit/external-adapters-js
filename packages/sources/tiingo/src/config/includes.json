@@ -33,6 +33,28 @@
     ]
   },
   {
+    "from": "TRY",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "TRY",
+        "inverse": true
+      }
+    ]
+  },
+  {
+    "from": "HKD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "HKD",
+        "inverse": true
+      }
+    ]
+  },
+  {
     "from": "ZAR",
     "to": "USD",
     "includes": [
