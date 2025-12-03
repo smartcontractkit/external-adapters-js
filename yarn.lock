@@ -3570,21 +3570,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dxdao-adapter@workspace:packages/composites/dxdao":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed":
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
