@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/mobula-state-adapter",
-  "version": "2.0.2",
-  "description": "Chainlink mobula-state adapter.",
+  "name": "@chainlink/r25-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink r25 adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "mobula-state"
+    "r25"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,16 +27,16 @@
     "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
-  "devDependencies": {
-    "@sinonjs/fake-timers": "9.1.2",
-    "@types/jest": "^29.5.14",
-    "@types/node": "22.14.1",
-    "@types/sinonjs__fake-timers": "8.1.5",
-    "nock": "13.5.6",
-    "typescript": "5.8.3"
-  },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.11.1",
+    "crypto-js": "4.2.0",
     "tslib": "2.4.1"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "4.2.2",
+    "@types/jest": "^29.5.14",
+    "@types/node": "22.14.1",
+    "nock": "13.5.6",
+    "typescript": "5.8.3"
   }
 }

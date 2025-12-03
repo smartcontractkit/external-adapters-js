@@ -1,5 +1,11 @@
 # @chainlink/mobula-state-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- [#4359](https://github.com/smartcontractkit/external-adapters-js/pull/4359) [`10e82ee`](https://github.com/smartcontractkit/external-adapters-js/commit/10e82ee5d20d01eeded02c507c994e33a943d115) Thanks [@FionnL](https://github.com/FionnL)! - Fix WBTC asset ID consistency in includes.json - WBTC/USD now uses the correct asset ID (100001656) matching WBTC/ETH.
+
 ## 2.0.1
 
 ### Patch Changes

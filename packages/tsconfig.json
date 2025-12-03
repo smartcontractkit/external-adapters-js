@@ -27,13 +27,7 @@
       "path": "./composites/curve-3pool"
     },
     {
-      "path": "./composites/defi-dozen"
-    },
-    {
       "path": "./composites/defi-pulse"
-    },
-    {
-      "path": "./composites/dxdao"
     },
     {
       "path": "./composites/glv-token"
@@ -201,9 +195,6 @@
       "path": "./sources/blocksize-capital-state"
     },
     {
-      "path": "./sources/blockstream"
-    },
-    {
       "path": "./sources/bob"
     },
     {
@@ -277,12 +268,6 @@
     },
     {
       "path": "./sources/cryptocompare"
-    },
-    {
-      "path": "./sources/cryptoid"
-    },
-    {
-      "path": "./sources/cryptomkt"
     },
     {
       "path": "./sources/currencylayer"
