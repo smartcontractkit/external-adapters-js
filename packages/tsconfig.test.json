@@ -30,9 +30,6 @@
       "path": "./composites/defi-pulse/tsconfig.test.json"
     },
     {
-      "path": "./composites/dxdao/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
