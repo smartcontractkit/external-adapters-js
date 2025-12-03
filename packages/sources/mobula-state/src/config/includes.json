@@ -2138,7 +2138,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102483988",
+        "from": "102483737",
         "to": "USD",
         "inverse": false
       }
@@ -2469,6 +2469,17 @@
     "includes": [
       {
         "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100001656",
         "to": "USD",
         "inverse": false
       }
