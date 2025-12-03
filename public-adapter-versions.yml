@@ -59,8 +59,6 @@ adapters:
     version: 2.5.2
   - name: blocksize-capital-state
     version: 1.0.0
-  - name: blockstream
-    version: 1.4.47
   - name: bob
     version: 2.0.29
   - name: bravenewcoin
