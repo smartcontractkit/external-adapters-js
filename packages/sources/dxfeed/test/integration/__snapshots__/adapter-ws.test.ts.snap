@@ -56,7 +56,7 @@ exports[`websocket quote endpoint should return success 1`] = `
     "ask_volume": 100,
     "bid_price": 170,
     "bid_volume": 148,
-    "mid_price": 170.80645161290323,
+    "mid_price": 171,
   },
   "result": null,
   "statusCode": 200,

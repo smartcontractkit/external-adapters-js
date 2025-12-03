@@ -1,5 +1,21 @@
 # @chainlink/mobula-state-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- [#4359](https://github.com/smartcontractkit/external-adapters-js/pull/4359) [`10e82ee`](https://github.com/smartcontractkit/external-adapters-js/commit/10e82ee5d20d01eeded02c507c994e33a943d115) Thanks [@FionnL](https://github.com/FionnL)! - Fix WBTC asset ID consistency in includes.json - WBTC/USD now uses the correct asset ID (100001656) matching WBTC/ETH.
+
+## 2.0.1
+
+### Patch Changes
+
+- [#4345](https://github.com/smartcontractkit/external-adapters-js/pull/4345) [`7bbaacf`](https://github.com/smartcontractkit/external-adapters-js/commit/7bbaacf568527e0fe19e354b8e1c46214c511999) Thanks [@FionnL](https://github.com/FionnL)! - Fix: Gracefully handle unresolvable symbols and add case-insensitive request handling.
+
+  1. **Graceful Error Handling**: The adapter now returns `undefined` instead of throwing errors when symbols cannot be resolved to asset IDs in `getAssetId()` and `getQuoteId()`. The subscription message builder skips subscriptions for unresolvable symbols with a warning, preventing the EA from failing to establish WebSocket connections due to background processing errors.
+
+  2. **Case-Insensitive Requests**: Added `requestTransforms` to uppercase `base` and `quote` parameters and resolve them via `includes.json` before processing. This allows lowercase requests (e.g., `btc/usd`) to work seamlessly.
+
 ## 2.0.0
 
 ### Major Changes

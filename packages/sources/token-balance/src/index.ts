@@ -8,6 +8,7 @@ import {
   solanaBalance,
   solanaMulti,
   solvJlp,
+  stellar,
   tbill,
   xrp,
   xrpl,
@@ -17,7 +18,7 @@ export const adapter = new Adapter({
   defaultEndpoint: evm.name,
   name: 'TOKEN_BALANCE',
   config,
-  endpoints: [evm, solvJlp, etherFi, tbill, xrp, xrpl, solana, solanaMulti, solanaBalance],
+  endpoints: [evm, solvJlp, etherFi, tbill, xrp, xrpl, solana, solanaMulti, solanaBalance, stellar],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
