@@ -22,6 +22,17 @@
     ]
   },
   {
+    "from": "AGEUR",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100000512",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "ALETH",
     "to": "ETH",
     "includes": [
@@ -576,7 +587,18 @@
     "to": "USD",
     "includes": [
       {
-        "from": "100004858",
+        "from": "100004855",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FRAX.OLD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100004855",
         "to": "USD",
         "inverse": false
       }
@@ -1683,6 +1705,28 @@
     ]
   },
   {
+    "from": "SUPEROETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102502963",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SUPEROETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102502963",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "SUPEROETHB",
     "to": "ETH",
     "includes": [
@@ -1951,7 +1995,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102484651",
+        "from": "137",
         "to": "USD",
         "inverse": false
       }
@@ -2094,7 +2138,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102483988",
+        "from": "102483737",
         "to": "USD",
         "inverse": false
       }
@@ -2270,7 +2314,7 @@
     "to": "ETH",
     "includes": [
       {
-        "from": "102501417",
+        "from": "9483",
         "to": "100004304",
         "inverse": false
       }
@@ -2281,7 +2325,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102501417",
+        "from": "9483",
         "to": "USD",
         "inverse": false
       }
@@ -2425,6 +2469,17 @@
     "includes": [
       {
         "from": "102484775",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100001656",
         "to": "USD",
         "inverse": false
       }
