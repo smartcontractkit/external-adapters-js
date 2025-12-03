@@ -2880,22 +2880,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockstream-adapter@workspace:packages/sources/blockstream":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/blockstream-adapter@workspace:packages/sources/blockstream"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/bob-adapter@workspace:packages/sources/bob":
   version: 0.0.0-use.local
   resolution: "@chainlink/bob-adapter@workspace:packages/sources/bob"
@@ -3355,38 +3339,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cryptoid-adapter@workspace:packages/sources/cryptoid"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cryptomkt-adapter@workspace:packages/sources/cryptomkt"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer":
   version: 0.0.0-use.local
   resolution: "@chainlink/currencylayer-adapter@workspace:packages/sources/currencylayer"
@@ -3481,23 +3433,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/defi-dozen-adapter@workspace:packages/composites/defi-dozen"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse":
   version: 0.0.0-use.local
   resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
@@ -3581,21 +3516,6 @@ __metadata:
     ethers: "npm:^5.5.4"
     nock: "npm:^13.2.4"
     supertest: "npm:^6.2.2"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/dxdao-adapter@workspace:packages/composites/dxdao":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dxdao-adapter@workspace:packages/composites/dxdao"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
