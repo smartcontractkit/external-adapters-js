@@ -270,9 +270,6 @@
       "path": "./sources/cryptocompare"
     },
     {
-      "path": "./sources/cryptoid"
-    },
-    {
       "path": "./sources/currencylayer"
     },
     {

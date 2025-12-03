@@ -383,10 +383,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
     {\
-      "name": "@chainlink/cryptoid-adapter",\
-      "reference": "workspace:packages/sources/cryptoid"\
-    },\
-    {\
       "name": "@chainlink/currencylayer-adapter",\
       "reference": "workspace:packages/sources/currencylayer"\
     },\
@@ -731,6 +727,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/por-indexer"\
     },\
     {\
+      "name": "@chainlink/r25-adapter",\
+      "reference": "workspace:packages/sources/r25"\
+    },\
+    {\
       "name": "@chainlink/renvm-address-set-adapter",\
       "reference": "workspace:packages/sources/renvm-address-set"\
     },\
@@ -988,7 +988,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-    ["@chainlink/cryptoid-adapter", ["workspace:packages/sources/cryptoid"]],\
     ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
@@ -1101,6 +1100,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
+    ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
     ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
@@ -6108,24 +6108,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/cryptoid-adapter", [\
-      ["workspace:packages/sources/cryptoid", {\
-        "packageLocation": "./packages/sources/cryptoid/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptoid-adapter", "workspace:packages/sources/cryptoid"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/currencylayer-adapter", [\
       ["workspace:packages/sources/currencylayer", {\
         "packageLocation": "./packages/sources/currencylayer/",\
@@ -6188,7 +6170,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
           ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7111,7 +7093,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
@@ -8282,6 +8264,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/r25-adapter", [\
+      ["workspace:packages/sources/r25", {\
+        "packageLocation": "./packages/sources/r25/",\
+        "packageDependencies": [\
+          ["@chainlink/r25-adapter", "workspace:packages/sources/r25"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

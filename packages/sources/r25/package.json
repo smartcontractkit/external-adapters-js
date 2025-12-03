@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/cryptoid-adapter",
-  "version": "1.3.47",
-  "description": "Chainlink cryptoid adapter.",
+  "name": "@chainlink/r25-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink r25 adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "cryptoid"
+    "r25"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,16 +28,15 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/ea-bootstrap": "workspace:*",
-    "@chainlink/ea-test-helpers": "workspace:*",
-    "tslib": "^2.3.1"
+    "@chainlink/external-adapter-framework": "2.11.1",
+    "crypto-js": "4.2.0",
+    "tslib": "2.4.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "4.2.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/supertest": "2.0.16",
     "nock": "13.5.6",
-    "supertest": "6.2.4",
     "typescript": "5.8.3"
   }
 }
