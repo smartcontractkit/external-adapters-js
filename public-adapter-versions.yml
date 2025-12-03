@@ -143,8 +143,6 @@ adapters:
     version: 4.4.4
   - name: dns-query
     version: 1.6.40
-  - name: dxdao
-    version: 2.0.117
   - name: dxfeed
     version: 2.2.1
   - name: dydx-stark
