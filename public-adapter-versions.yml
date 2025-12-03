@@ -131,8 +131,6 @@ adapters:
     version: 1.1.0
   - name: deep-blue
     version: 1.0.20
-  - name: defi-dozen
-    version: 1.2.136
   - name: defi-pulse
     version: 1.2.137
   - name: deribit
