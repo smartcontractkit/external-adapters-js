@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 3.3.1
+
+### Patch Changes
+
+- [#4356](https://github.com/smartcontractkit/external-adapters-js/pull/4356) [`5b7c6fb`](https://github.com/smartcontractkit/external-adapters-js/commit/5b7c6fbe0cb34fd212f724f8540731f9bf0dab69) Thanks [@dskloetc](https://github.com/dskloetc)! - Add stellar endpoint
+
 ## 3.3.0
 
 ### Minor Changes
