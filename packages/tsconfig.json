@@ -282,9 +282,6 @@
       "path": "./sources/cryptoid"
     },
     {
-      "path": "./sources/cryptomkt"
-    },
-    {
       "path": "./sources/currencylayer"
     },
     {

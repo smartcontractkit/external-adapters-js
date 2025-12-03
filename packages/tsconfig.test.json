@@ -282,9 +282,6 @@
       "path": "./sources/cryptoid/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptomkt/tsconfig.test.json"
-    },
-    {
       "path": "./sources/currencylayer/tsconfig.test.json"
     },
     {
