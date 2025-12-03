@@ -1995,7 +1995,7 @@
     "to": "USD",
     "includes": [
       {
-        "from": "102484651",
+        "from": "137",
         "to": "USD",
         "inverse": false
       }
