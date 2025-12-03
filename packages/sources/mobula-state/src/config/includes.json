@@ -576,7 +576,18 @@
     "to": "USD",
     "includes": [
       {
-        "from": "100004858",
+        "from": "100004855",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FRAX.OLD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100004855",
         "to": "USD",
         "inverse": false
       }
@@ -1677,6 +1688,28 @@
     "includes": [
       {
         "from": "102500875",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SUPEROETH",
+    "to": "ETH",
+    "includes": [
+      {
+        "from": "102502963",
+        "to": "100004304",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "SUPEROETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102502963",
         "to": "USD",
         "inverse": false
       }
