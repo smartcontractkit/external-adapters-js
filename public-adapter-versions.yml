@@ -59,8 +59,6 @@ adapters:
     version: 2.5.2
   - name: blocksize-capital-state
     version: 1.0.0
-  - name: blockstream
-    version: 1.4.47
   - name: bob
     version: 2.0.29
   - name: bravenewcoin
@@ -129,8 +127,6 @@ adapters:
     version: 1.1.0
   - name: deep-blue
     version: 1.0.20
-  - name: defi-dozen
-    version: 1.2.136
   - name: defi-pulse
     version: 1.2.137
   - name: deribit
@@ -141,8 +137,6 @@ adapters:
     version: 4.4.4
   - name: dns-query
     version: 1.6.40
-  - name: dxdao
-    version: 2.0.117
   - name: dxfeed
     version: 2.2.1
   - name: dydx-stark
