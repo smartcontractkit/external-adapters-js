@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket lwba endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1000,
+  },
+  "result": 1000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": "1999999",
+  },
+}
+`;
+
+exports[`websocket nav endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1000,
+  },
+  "result": 1000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3038,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": "1999999",
+  },
+}
+`;
+
+exports[`websocket price endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1000,
+  },
+  "result": 1000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": "1999999",
+  },
+}
+`;
+
+exports[`websocket reserve endpoint should return success 1`] = `
+{
+  "data": {
+    "result": 1000,
+  },
+  "result": 1000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": "1999999",
+  },
+}
+`;
