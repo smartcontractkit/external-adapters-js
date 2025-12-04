@@ -19,19 +19,6 @@ CRITICAL: FOLLOWING REQUIREMENTS ARE REQUIRED AND MUST FOLLOW
 - [] Setup Config
 - [] Additional Necessary Items ...
 
-## 2. Quick Links
-
-- **What is External Adapter(EA)** @ea-framework-js/docs/basics.md
-- **EA packages repo:** @external-adapters-js
-- **EA framework repo:** @ea-framework-js
-- **EA Folder Structure Template:** @external-adapters-js/packages/sources/ea-template
-- **Transports Guide:** @ea-framework-js/docs/components/transports.md
-- **Adapter Guide:** @ea-framework-js/docs/components/adapter.md
-- **Endpoints Guide:** @ea-framework-js/docs/components/endpoints.md
-- **Example EA:** @external-adapters-js/packages/sources/tiingo
-
----
-
 ## 3. Example EA Request and Response format
 
 Follow the requested schemas and format of EA request and response provided in the yaml requirements.
@@ -76,10 +63,10 @@ Follow the requested schemas and format of EA request and response provided in t
 
 ### Step 1: Copy the EA Folder Structure from the EA Folder Structure Template
 
-CRITICAL:MUST USE FOLLOWING REQUIRED COMMAND to copy the EA folder structure from the @external-adapters-js/packages/sources/ea-template
+CRITICAL:MUST USE FOLLOWING REQUIRED COMMAND to copy the EA folder structure from the packages/sources/ea-template
 
 ```
- cp -r external-adapters-js/packages/sources/ea-template/ external-adapters-js/packages/sources/[adapter name]
+ cp -r packages/sources/ea-template/ packages/sources/[adapter name]
 ```
 
 for later modification based on the requirements at each steps
@@ -113,16 +100,14 @@ adapter/                      # Named after the adapter
 
 ### Step 2: Create Transports
 
-- **Reference:** @ea-framework-js/docs/components/transports.md
-
 Once the folder structure has been set up, define a transport in the `transport/` folder. The v3 framework provides different transport types for various protocols:
 
-- **HttpTransport** is used to fetch data from a Provider using HTTP requests @ea-framework-js/docs/components/transport-types/http-transport.md
-- **WebSocketTransport** is used to fetch data from a Provider using Websocket protocol @ea-framework-js/docs/components/transport-types/websocket-transport.md
-- **Subscription** is an abstract transport (class) that serves as the foundation for implementing subscription-based transports. This class is intended to be extended by specific transport implementations. @ea-framework-js/docs/components/transport-types/subscription-transport.md
-- **StreamingTransport** is an abstract transport (class) that extends the **SubscriptionTransport** and provides a foundation for implementing streaming-based transports. @ea-framework-js/docs/components/transport-types/streaming-transport.md
-- **SseTransport** is used to fetch data from a Provider using the SSE (Server-Sent Events) protocol @ea-framework-js/docs/components/transport-types/sse-transport.md
-- **Custom** is when you need custom functionality that is not provided by the built-in transports above, you may need to define custom transport @ea-framework-js/docs/components/transport-types/custom-transport.md
+- **HttpTransport** is used to fetch data from a Provider using HTTP requests 
+- **WebSocketTransport** is used to fetch data from a Provider using Websocket protocol 
+- **Subscription** is an abstract transport (class) that serves as the foundation for implementing subscription-based transports. This class is intended to be extended by specific transport implementations. 
+- **StreamingTransport** is an abstract transport (class) that extends the **SubscriptionTransport** and provides a foundation for implementing streaming-based transports. 
+- **SseTransport** is used to fetch data from a Provider using the SSE (Server-Sent Events) protocol 
+- **Custom** is when you need custom functionality that is not provided by the built-in transports above, you may need to define custom transport
 
   **Example 1: Generic HTTP Transport**
 
@@ -185,11 +170,7 @@ export const httpTransport = new HttpTransport({
 });
 ```
 
----
-
 ### Step 3: Create Endpoints
-
-**Reference:** @ea-framework-js/docs/components/endpoints.md, @ea-framework-js/src/adapter/
 
 Define the endpoint by referencing the transport created in the previous step.
 Following are common enpoints:
@@ -239,8 +220,6 @@ export const endpoint = new AdapterEndpoint({
 ---
 
 ### Step 4: Create Adapters
-
-**Reference:** @ea-framework-js/docs/components/adapter.md
 
 Create the adapter in the `src/index.ts` file, referencing the endpoint(s) created in the previous step.
 
