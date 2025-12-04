@@ -36,13 +36,13 @@ export const config = new AdapterConfig(
       default: '0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d',
     },
     READER_CONTRACT_ADDRESS: {
-      description: 'Address of Reader contract',
+      description: 'Address of Reader contract on Arbitrum',
       type: 'string',
       required: true,
       default: '0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789',
     },
     BOTANIX_READER_CONTRACT_ADDRESS: {
-      description: 'Address of Reader contract',
+      description: 'Address of Reader contract on Botanix',
       type: 'string',
       required: true,
       default: '0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E',
