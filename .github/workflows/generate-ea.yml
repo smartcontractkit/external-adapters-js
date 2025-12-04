@@ -158,8 +158,9 @@ jobs:
           cat "${{ steps.yaml.outputs.file }}"
 
       - name: Install dependencies
+        working-directory: ea-agent
         run: |
-          uv sync
+          uv sync --frozen
 
       - name: Install Node.js
         uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4.0.3
@@ -174,7 +175,7 @@ jobs:
         id: ea
         run: |
           echo "🚀 Starting EA generation..."
-          uv run python ea_agent.py "${{ steps.yaml.outputs.file }}"
+          uv run --project ea-agent python ea-agent/src/agent.py "${{ steps.yaml.outputs.file }}"
 
       - name: Check for changes
         id: changes
