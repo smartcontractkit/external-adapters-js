@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stellar endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 7,
+    "result": [
+      {
+        "address": "GBZYS4XMGENS4IQCS2J2R7XUAY2VJST3VM62ZDSC24JONYASS5MAVROB",
+        "balance": "64063362344231",
+      },
+      {
+        "address": "GB4SJVA7KAFDZJFVTSEV2YWZZA3VEANHHK3WSJRHO2XS2GDYJCGWKDB5",
+        "balance": "399999900",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

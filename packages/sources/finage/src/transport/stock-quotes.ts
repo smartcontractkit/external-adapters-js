@@ -59,7 +59,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       } else if (askPrice == 0) {
         midPrice = bidPrice
       } else {
-        midPrice = (bidPrice * bidVolume + askPrice * askVolume) / (bidVolume + askVolume)
+        midPrice = (askPrice + bidPrice) / 2
       }
 
       return [

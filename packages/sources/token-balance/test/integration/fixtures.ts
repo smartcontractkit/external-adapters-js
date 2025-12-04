@@ -371,3 +371,68 @@ export const mockXrpResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+export const mockStellarResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-stellar:8080', { encodedQueryParams: true })
+    .persist()
+    .post('/', {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'getLedgerEntries',
+      params: {
+        keys: [
+          'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCg==',
+          'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQ==',
+        ],
+      },
+    })
+    .reply(
+      200,
+      {
+        result: {
+          entries: [
+            {
+              key: 'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCg==',
+              xdr: 'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCgAAOkPp9KUnA2IfqAAAAAsAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAOVF1kAAAAAaS2dTA==',
+              lastModifiedLedgerSeq: 60102494,
+              extXdr: 'AAAAAA==',
+            },
+            {
+              key: 'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQ==',
+              xdr: 'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQAAAAAX14OcAgdV6gAACjgAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAOVRdcAAAAAaS6kuw==',
+              lastModifiedLedgerSeq: 60114391,
+              extXdr: 'AAAAAA==',
+            },
+          ],
+        },
+      },
+      [
+        'Date',
+        'Wed, 14 May 2025 13:00:06 GMT',
+        'Content-Type',
+        'application/json; charset=UTF-8',
+        'Content-Length',
+        '444',
+        'Connection',
+        'keep-alive',
+        'nel',
+        '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}',
+        'x-kong-upstream-latency',
+        '3',
+        'x-kong-proxy-latency',
+        '1',
+        'via',
+        'kong/3.4.0',
+        'cf-cache-status',
+        'DYNAMIC',
+        'report-to',
+        '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=W2C1dDN5VsyGgu6eSLNm74YaGLBWjASjNyCy3BQVTxAgPjWM9LBCaxZtWqLWP7XitG%2B0rUqCxqWliq3G%2FkEL6u8JW6dnWy6nhLU3P8a9NNs0%2FF1PrYlnsyEsDqWa35qHikiBJsoIU1ZrZ3izVA%2FPLPMCdw%3D%3D"}]}',
+        'cf-ray',
+        '93fa939bcbb0fef1-PDX',
+        'alt-svc',
+        'h3=":443"; ma=86400',
+        'x-rpc-provider',
+        'simplyvc1',
+      ],
+    )
+    .persist()

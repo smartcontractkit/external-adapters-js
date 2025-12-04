@@ -1,5 +1,11 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.32.0
+
+### Minor Changes
+
+- [#4357](https://github.com/smartcontractkit/external-adapters-js/pull/4357) [`f39da2d`](https://github.com/smartcontractkit/external-adapters-js/commit/f39da2d57a8009913b53134790c3a1b9b5445c05) Thanks [@dskloetc](https://github.com/dskloetc)! - Support stellar endpoint of token-balance
+
 ## 1.31.3
 
 ### Patch Changes

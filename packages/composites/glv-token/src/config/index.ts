@@ -23,7 +23,7 @@ export const config = new AdapterConfig(
       description: 'Address of Glv Reader Contract',
       type: 'string',
       required: true,
-      default: '0x6a9505D0B44cFA863d9281EA5B0b34cB36243b45',
+      default: '0x2C670A23f1E798184647288072e84054938B5497',
     },
     DATA_ENGINE_ADAPTER_URL: {
       description: 'URL of Data Engine EA',

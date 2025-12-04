@@ -2,7 +2,7 @@ import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { PriceAdapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
 import includes from './config/includes.json'
-import { buildQuoteEndpoint, marketStatus, quote } from './endpoint'
+import { buildQuoteEndpoint, marketStatus, quote, stockQuote } from './endpoint'
 
 const rateLimiting = {
   tiers: {
@@ -20,7 +20,7 @@ const adapter = new PriceAdapter({
   defaultEndpoint: quote.name,
   name: 'FINNHUB',
   config,
-  endpoints: [quote, marketStatus],
+  endpoints: [quote, stockQuote, marketStatus],
   rateLimiting,
   includes,
 })

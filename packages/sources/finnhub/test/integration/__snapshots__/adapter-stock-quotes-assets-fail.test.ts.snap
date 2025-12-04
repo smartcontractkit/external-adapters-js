@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rest stock quote endpoint - failure should return error for no data returned 1`] = `
+{
+  "errorMessage": "No data for MISSING_DATA",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;

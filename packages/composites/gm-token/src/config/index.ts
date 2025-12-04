@@ -36,16 +36,16 @@ export const config = new AdapterConfig(
       default: '0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d',
     },
     READER_CONTRACT_ADDRESS: {
-      description: 'Address of Reader contract',
+      description: 'Address of Reader contract on Arbitrum',
       type: 'string',
       required: true,
-      default: '0xf60becbba223EEA9495Da3f606753867eC10d139',
+      default: '0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789',
     },
     BOTANIX_READER_CONTRACT_ADDRESS: {
-      description: 'Address of Reader contract',
+      description: 'Address of Reader contract on Botanix',
       type: 'string',
       required: true,
-      default: '0xa254B60cbB85a92F6151B10E1233639F601f2F0F',
+      default: '0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E',
     },
     ARBITRUM_TOKENS_INFO_URL: {
       description: 'URL to token meta data supported by GMX on Arbitrum',

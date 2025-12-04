@@ -10,8 +10,8 @@ exports[`websocket funding rate endpoint have data should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerDataReceivedUnixMs": 16168,
+    "providerDataStreamEstablishedUnixMs": 16160,
   },
 }
 `;
@@ -26,8 +26,8 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerDataReceivedUnixMs": 17178,
+    "providerDataStreamEstablishedUnixMs": 16160,
   },
 }
 `;
@@ -43,22 +43,254 @@ exports[`websocket funding rate endpoint no data should return failure 1`] = `
 }
 `;
 
-exports[`websocket price endpoint have data should return success 1`] = `
+exports[`websocket graceful error handling and case-insensitive requests should continue working after receiving invalid symbol requests 1`] = `
 {
   "data": {
-    "result": 2325.847186068699,
+    "result": 2950.12,
   },
-  "result": 2325.847186068699,
+  "result": 2950.12,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
+    "providerDataReceivedUnixMs": 8088,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": 1726648165000,
+    "providerIndicatedTimeUnixMs": 1514764861500,
   },
 }
 `;
 
-exports[`websocket price endpoint no data should return failure 1`] = `
+exports[`websocket graceful error handling and case-insensitive requests should handle lowercase symbols (case-insensitive) 1`] = `
+{
+  "data": {
+    "result": 1.0012,
+  },
+  "result": 1.0012,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 7078,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket graceful error handling and case-insensitive requests should return 504 for unresolvable symbols without crashing 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint CBETH/ETH should return success - tests includes.json + hardcoded ETH quote 1`] = `
+{
+  "data": {
+    "result": 1.0456,
+  },
+  "result": 1.0456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 10108,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint EZETH/ETH should return success - tests hardcoded ETH quote 1`] = `
+{
+  "data": {
+    "result": 1.0612,
+  },
+  "result": 1.0612,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 9098,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint EZETH/USD should return success - tests includes.json mapping 1`] = `
+{
+  "data": {
+    "result": 4233.15,
+  },
+  "result": 4233.15,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint GHO/USD should return success - tests includes.json mapping 1`] = `
+{
+  "data": {
+    "result": 1.0012,
+  },
+  "result": 1.0012,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 7078,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint LBTC/BTC should return success - tests includes.json + hardcoded BTC quote 1`] = `
+{
+  "data": {
+    "result": 0.9985,
+  },
+  "result": 0.9985,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 11118,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint base override with BTC quote should return success 1`] = `
+{
+  "data": {
+    "result": 0.00123456,
+  },
+  "result": 0.00123456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3038,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint base override with ETH quote should return success 1`] = `
+{
+  "data": {
+    "result": 0.0456789,
+  },
+  "result": 0.0456789,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint base override with asset ID should return success 1`] = `
+{
+  "data": {
+    "result": 125.67,
+  },
+  "result": 125.67,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint direct asset IDs with crypto quote should return success 1`] = `
+{
+  "data": {
+    "result": 1.0456,
+  },
+  "result": 1.0456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 10108,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint direct asset IDs with hardcoded SOL quote should return success 1`] = `
+{
+  "data": {
+    "result": 3.456,
+  },
+  "result": 3.456,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 11118,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint direct base and quote asset IDs should return success 1`] = `
+{
+  "data": {
+    "result": 0.0000102,
+  },
+  "result": 0.0000102,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 7078,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint direct base asset ID should return success 1`] = `
+{
+  "data": {
+    "result": 4233.15,
+  },
+  "result": 4233.15,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 9098,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint quote override with asset ID should return success 1`] = `
+{
+  "data": {
+    "result": 1.0612,
+  },
+  "result": 1.0612,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 9098,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1514764861500,
+  },
+}
+`;
+
+exports[`websocket price endpoint unmapped symbol should return failure 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`websocket price endpoint unsupported quote currency should return failure 1`] = `
 {
   "error": {
     "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",

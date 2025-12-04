@@ -1,5 +1,11 @@
 # @chainlink/observation
 
+## 2.0.9
+
+### Patch Changes
+
+- [#4276](https://github.com/smartcontractkit/external-adapters-js/pull/4276) [`19a08b9`](https://github.com/smartcontractkit/external-adapters-js/commit/19a08b9155812aac383508cb29b0c5a54820170b) Thanks [@dskloetc](https://github.com/dskloetc)! - Add missing dependency
+
 ## 2.0.8
 
 ### Patch Changes

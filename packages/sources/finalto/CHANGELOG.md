@@ -1,5 +1,11 @@
 # @chainlink/finalto-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#4351](https://github.com/smartcontractkit/external-adapters-js/pull/4351) [`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Adjust mid logic
+
 ## 1.2.0
 
 ### Minor Changes

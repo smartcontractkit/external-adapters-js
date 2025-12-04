@@ -37,9 +37,7 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
     } else if (askPrice == 0) {
       midPrice = bidPrice
     } else {
-      midPrice =
-        (bidPrice * Number(data[bidSizeIndex]) + askPrice * Number(data[askSizeIndex])) /
-        (Number(data[bidSizeIndex]) + Number(data[askSizeIndex]))
+      midPrice = (askPrice + bidPrice) / 2
     }
 
     return [
