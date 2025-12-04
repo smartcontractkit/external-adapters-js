@@ -1,13 +1,13 @@
 /**
  * General Utility Functions Unit Tests for EA Template
- * 
+ *
  * This file is a placeholder for general utility function tests.
  * The EA Template uses built-in framework utilities for most operations.
- * 
+ *
  * If you need to implement custom utility functions (e.g., data transformations,
  * custom validations, symbol mappings, rate limiting helpers), add them to a
  * utils file in the src directory and create corresponding tests here.
- * 
+ *
  * Example use cases:
  * - Symbol format conversions (e.g., ETH/USD to ETHUSD)
  * - Price precision handling and rounding
@@ -16,7 +16,7 @@
  * - Retry logic with exponential backoff
  * - Custom caching key generation
  * - Response data transformation helpers
- * 
+ *
  * For real-world examples of utility testing, see:
  * - packages/sources/superstate/test/unit/utils.test.ts
  * - packages/sources/token-balance/test/unit/utils.test.ts
@@ -93,4 +93,3 @@ describe('Utility functions', () => {
   //   })
   // })
 })
-

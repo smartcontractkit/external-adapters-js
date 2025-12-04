@@ -1,9 +1,7 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterResponse, sleep, makeLogger
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, sleep, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
@@ -34,14 +32,22 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
 
   // REQUIRED. Transport will be automatically initialized by the framework using this method. It will be called with transport
   // dependencies, adapter settings, endpoint name, and transport name as arguments. Use this method to initialize transport state
-  async initialize(dependencies: TransportDependencies<CustomTransportTypes>, adapterSettings: CustomTransportTypes['Settings'], endpointName: string, transportName: string): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<CustomTransportTypes>,
+    adapterSettings: CustomTransportTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
   }
   // 'backgroundHandler' is called on each background execution iteration. It receives endpoint context as first argument
   // and an array of all the entries in the subscription set as second argument. Use this method to handle the incoming
   // request, process it and save it in the cache.
-  async backgroundHandler(context: EndpointContext<CustomTransportTypes>, entries: RequestParams[]) {
+  async backgroundHandler(
+    context: EndpointContext<CustomTransportTypes>,
+    entries: RequestParams[],
+  ) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
@@ -69,10 +75,9 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   async _handleRequest(
     _: RequestParams,
   ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
 
-     const providerDataRequestedUnixMs = Date.now()
-
-     // custom transport logic
+    // custom transport logic
 
     return {
       data: {

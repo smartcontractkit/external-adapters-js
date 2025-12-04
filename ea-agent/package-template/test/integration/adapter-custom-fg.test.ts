@@ -13,7 +13,7 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
-    
+
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -32,14 +32,13 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  
   describe('price endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'price',
-        transport: 'customfg'
+        transport: 'customfg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -47,14 +46,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'reserve',
-        transport: 'customfg'
+        transport: 'customfg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -62,14 +61,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('nav endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'nav',
-        transport: 'customfg'
+        transport: 'customfg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -77,14 +76,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('lwba endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'lwba',
-        transport: 'customfg'
+        transport: 'customfg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -92,5 +91,4 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
 })

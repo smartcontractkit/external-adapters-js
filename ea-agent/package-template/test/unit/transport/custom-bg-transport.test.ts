@@ -62,4 +62,3 @@ describe.skip('Custom background transport template', () => {
     )
   })
 })
-

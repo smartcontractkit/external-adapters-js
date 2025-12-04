@@ -1,10 +1,7 @@
 import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterRequest,
-  AdapterResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterRequest, AdapterResponse } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
 
 // CustomTransport extends base types from endpoint and adds additional, Provider-specific types (if needed).
@@ -28,7 +25,12 @@ export class CustomTransport implements Transport<CustomTransportTypes> {
 
   // REQUIRED. Transport will be automatically initialized by the framework using this method. It will be called with transport
   // dependencies, adapter settings, endpoint name, and transport name as arguments. Use this method to initialize transport state
-  async initialize(dependencies: TransportDependencies<CustomTransportTypes>, _adapterSettings: CustomTransportTypes['Settings'], _endpointName: string, transportName: string): Promise<void> {
+  async initialize(
+    dependencies: TransportDependencies<CustomTransportTypes>,
+    _adapterSettings: CustomTransportTypes['Settings'],
+    _endpointName: string,
+    transportName: string,
+  ): Promise<void> {
     this.responseCache = dependencies.responseCache
     this.requester = dependencies.requester
     this.name = transportName
@@ -37,9 +39,8 @@ export class CustomTransport implements Transport<CustomTransportTypes> {
   // request object (adapter request, which is wrapper around fastify request) and adapter settings. Use this method to handle the incoming
   // request, process it,save it in the cache and return to user.
   async foregroundExecute(
-    _: AdapterRequest<typeof inputParameters.validated>
+    _: AdapterRequest<typeof inputParameters.validated>,
   ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
-
     // Custom transport logic
 
     const response = {

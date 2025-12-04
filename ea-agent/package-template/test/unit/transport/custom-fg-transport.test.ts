@@ -31,4 +31,3 @@ describe.skip('Custom foreground transport template', () => {
     expect(response.timestamps?.providerDataRequestedUnixMs).toBeDefined()
   })
 })
-

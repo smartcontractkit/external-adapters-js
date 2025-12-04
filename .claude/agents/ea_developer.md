@@ -102,11 +102,11 @@ adapter/                      # Named after the adapter
 
 Once the folder structure has been set up, define a transport in the `transport/` folder. The v3 framework provides different transport types for various protocols:
 
-- **HttpTransport** is used to fetch data from a Provider using HTTP requests 
-- **WebSocketTransport** is used to fetch data from a Provider using Websocket protocol 
-- **Subscription** is an abstract transport (class) that serves as the foundation for implementing subscription-based transports. This class is intended to be extended by specific transport implementations. 
-- **StreamingTransport** is an abstract transport (class) that extends the **SubscriptionTransport** and provides a foundation for implementing streaming-based transports. 
-- **SseTransport** is used to fetch data from a Provider using the SSE (Server-Sent Events) protocol 
+- **HttpTransport** is used to fetch data from a Provider using HTTP requests
+- **WebSocketTransport** is used to fetch data from a Provider using Websocket protocol
+- **Subscription** is an abstract transport (class) that serves as the foundation for implementing subscription-based transports. This class is intended to be extended by specific transport implementations.
+- **StreamingTransport** is an abstract transport (class) that extends the **SubscriptionTransport** and provides a foundation for implementing streaming-based transports.
+- **SseTransport** is used to fetch data from a Provider using the SSE (Server-Sent Events) protocol
 - **Custom** is when you need custom functionality that is not provided by the built-in transports above, you may need to define custom transport
 
   **Example 1: Generic HTTP Transport**
@@ -116,8 +116,8 @@ const transport = new HttpTransport<HttpTransportTypes>({
   // Return list of ProviderRequestConfigs
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const symbol = param.symbol.toLowerCase();
-      const url = `/price/${symbol}`;
+      const symbol = param.symbol.toLowerCase()
+      const url = `/price/${symbol}`
 
       return {
         params: param,
@@ -125,8 +125,8 @@ const transport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           url,
         },
-      };
-    });
+      }
+    })
   },
 
   // Parse response into individual ProviderResults for each set of params
@@ -140,10 +140,10 @@ const transport = new HttpTransport<HttpTransportTypes>({
           },
           result: result.price,
         },
-      };
-    });
+      }
+    })
   },
-});
+})
 ```
 
 **Example 2: WisdomTree HTTP Transport**
@@ -155,8 +155,8 @@ export const httpTransport = new HttpTransport({
       params: [p],
       request: {
         baseURL: config.API_ENDPOINT,
-        url: "/funddetails/nav/",
-        headers: { "x-api-key": config.API_KEY },
+        url: '/funddetails/nav/',
+        headers: { 'x-api-key': config.API_KEY },
       },
     })),
 
@@ -167,7 +167,7 @@ export const httpTransport = new HttpTransport({
         data: { result: r.nav },
       },
     })),
-});
+})
 ```
 
 ### Step 3: Create Endpoints
@@ -183,38 +183,35 @@ Following are common enpoints:
 **Example 1: Generic Endpoint**
 
 ```ts
-import { AdapterEndpoint } from "@chainlink/external-adapter-framework/adapter";
-import { transport } from "../transport/endpoint";
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { transport } from '../transport/endpoint'
 
 export const endpoint = new AdapterEndpoint({
-  name: "endpoint", // The name of this endpoint
+  name: 'endpoint', // The name of this endpoint
   transport: transport, // The transport this endpoint retrieves data through
   inputParameters, // Input parameters sent in requests to this endpoint
-});
+})
 ```
 
 **Example 2: WisdomTree NAV Endpoint**
 
 ```ts
-import {
-  InputParameters,
-  AdapterEndpoint,
-} from "@chainlink/external-adapter-framework/adapter";
-import { httpTransport } from "../transport/nav";
+import { InputParameters, AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { httpTransport } from '../transport/nav'
 
 export const inputParameters = new InputParameters({
   ticker: {
-    aliases: ["symbol", "fundId"],
+    aliases: ['symbol', 'fundId'],
     required: true,
-    type: "string",
+    type: 'string',
   },
-});
+})
 
 export const endpoint = new AdapterEndpoint({
-  name: "nav",
+  name: 'nav',
   transport: httpTransport,
   inputParameters,
-});
+})
 ```
 
 ---
@@ -224,16 +221,16 @@ export const endpoint = new AdapterEndpoint({
 Create the adapter in the `src/index.ts` file, referencing the endpoint(s) created in the previous step.
 
 ```ts
-import { Adapter, expose } from "@chainlink/external-adapter-framework";
-import { endpoint } from "./endpoint";
+import { Adapter, expose } from '@chainlink/external-adapter-framework'
+import { endpoint } from './endpoint'
 
 export const adapter = new Adapter({
-  name: "ADAPTER_NAME", // The EA name, in uppercase without spaces
+  name: 'ADAPTER_NAME', // The EA name, in uppercase without spaces
   endpoints: [endpoint], // Array of all endpoints (from endpoints folder)
-});
+})
 
 // Expose the server to start the EA
-export const server = () => expose(adapter);
+export const server = () => expose(adapter)
 ```
 
 ---
@@ -247,21 +244,21 @@ The v3 framework allows developers to define env vars that are specific to their
 :
 
 ```ts
-import { AdapterConfig } from "@chainlink/external-adapter-framework/config";
+import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
   API_ENDPOINT: {
-    description: "Base URL for the API",
-    type: "string",
-    default: "https://dataspanapi.wisdomtree.com",
+    description: 'Base URL for the API',
+    type: 'string',
+    default: 'https://dataspanapi.wisdomtree.com',
   },
   API_KEY: {
-    description: "API key for authentication",
-    type: "string",
+    description: 'API key for authentication',
+    type: 'string',
     required: true,
     sensitive: true,
   },
-});
+})
 ```
 
 ---

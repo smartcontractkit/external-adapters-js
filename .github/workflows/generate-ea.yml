@@ -4,14 +4,14 @@
 #   2. Manual PR creation by developer - This workflow
 #   3. Comment "/generate-ea" on a PR - This workflow
 
-name: "Generate EA from YAML"
+name: 'Generate EA from YAML'
 
 on:
   pull_request:
     types: [opened]
     paths:
-      - "ea-agent/requests/**/*.yaml"
-      - "ea-agent/requests/**/*.yml"
+      - 'ea-agent/requests/**/*.yaml'
+      - 'ea-agent/requests/**/*.yml'
   issue_comment:
     types: [created]
 
@@ -74,7 +74,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5.2.0
         with:
-          python-version: "3.11"
+          python-version: '3.11'
 
       - name: Authenticate to Google Cloud
         id: auth

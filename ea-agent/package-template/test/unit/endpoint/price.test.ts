@@ -40,4 +40,3 @@ describe('Price endpoint', () => {
     )
   })
 })
-

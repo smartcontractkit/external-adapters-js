@@ -1,21 +1,21 @@
 /**
  * Timestamp Utility Functions Unit Tests for EA Template
- * 
+ *
  * This file is a placeholder for timestamp-related utility function tests.
  * The EA Template receives timestamps from the data provider via WebSocket messages
  * and includes them in the response via the `providerIndicatedTimeUnixMs` field.
- * 
+ *
  * If you need to implement custom timestamp utilities (e.g., timezone conversions,
  * date range calculations, business day handling), add them to a utils file and
  * create corresponding tests here.
- * 
+ *
  * Example use cases:
  * - Converting timestamps between timezones
  * - Calculating date ranges for historical data queries
  * - Handling business days vs. calendar days
  * - Parsing different timestamp formats from providers
  * - Validating timestamp freshness
- * 
+ *
  * For a real-world example of timestamp testing, see:
  * - packages/sources/superstate/test/unit/utils.test.ts
  */
@@ -65,4 +65,3 @@ describe('Timestamp utilities', () => {
   //   })
   // })
 })
-

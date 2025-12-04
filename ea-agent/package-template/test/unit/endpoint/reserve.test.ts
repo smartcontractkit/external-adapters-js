@@ -23,4 +23,3 @@ describe('Reserve endpoint', () => {
     expect(inputParameters.definition.quote.type).toBe('string')
   })
 })
-

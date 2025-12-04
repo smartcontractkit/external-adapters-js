@@ -32,14 +32,13 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  
   describe('price endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'price',
-        transport: 'custombg'
+        transport: 'custombg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -47,14 +46,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('reserve endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'reserve',
-        transport: 'custombg'
+        transport: 'custombg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -62,14 +61,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('nav endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'nav',
-        transport: 'custombg'
+        transport: 'custombg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -77,14 +76,14 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
+
   describe('lwba endpoint', () => {
     it('should return success', async () => {
       const data = {
         base: 'ETH',
         quote: 'USD',
         endpoint: 'lwba',
-        transport: 'custombg'
+        transport: 'custombg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -92,5 +91,4 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-      
 })

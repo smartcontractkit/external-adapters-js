@@ -33,7 +33,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.API_ENDPOINT,
           url: '/cryptocurrency/price',
           headers: {
-            'X_API_KEY': config.API_KEY,
+            X_API_KEY: config.API_KEY,
           },
           params: {
             symbol: param.base.toUpperCase(),
@@ -71,8 +71,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         response: {
           result,
           data: {
-            result
-          }
+            result,
+          },
         },
       }
     })

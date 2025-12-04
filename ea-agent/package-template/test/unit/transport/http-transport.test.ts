@@ -51,4 +51,3 @@ describe.skip('HTTP transport template', () => {
     expect(parsed[0].response?.statusCode).toBe(502)
   })
 })
-

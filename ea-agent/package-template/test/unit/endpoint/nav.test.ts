@@ -23,4 +23,3 @@ describe('NAV endpoint', () => {
     expect(inputParameters.definition.quote.type).toBe('string')
   })
 })
-

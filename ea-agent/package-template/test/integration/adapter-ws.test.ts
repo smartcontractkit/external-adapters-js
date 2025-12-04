@@ -8,7 +8,6 @@ import {
 import FakeTimers from '@sinonjs/fake-timers'
 import { mockWebsocketServer } from './fixtures'
 
-
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
@@ -19,28 +18,28 @@ describe('websocket', () => {
     base: 'ETH',
     quote: 'USD',
     endpoint: 'price',
-    transport: 'ws'
+    transport: 'ws',
   }
 
   const dataReserve = {
     base: 'ETH',
     quote: 'USD',
     endpoint: 'reserve',
-    transport: 'ws'
+    transport: 'ws',
   }
 
   const dataNav = {
     base: 'ETH',
     quote: 'USD',
     endpoint: 'nav',
-    transport: 'ws'
+    transport: 'ws',
   }
 
   const dataLwba = {
     base: 'ETH',
     quote: 'USD',
     endpoint: 'lwba',
-    transport: 'ws'
+    transport: 'ws',
   }
 
   beforeAll(async () => {
@@ -58,10 +57,10 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
 
-    await testAdapter.request(dataPrice) 
-    await testAdapter.request(dataReserve) 
-    await testAdapter.request(dataNav) 
-    await testAdapter.request(dataLwba) 
+    await testAdapter.request(dataPrice)
+    await testAdapter.request(dataReserve)
+    await testAdapter.request(dataNav)
+    await testAdapter.request(dataLwba)
     await testAdapter.waitForCache(4)
   })
 
@@ -99,5 +98,4 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
   })
-
 })

@@ -59,4 +59,3 @@ describe.skip('WebSocket transport template', () => {
     expect(responses).toBeUndefined()
   })
 })
-

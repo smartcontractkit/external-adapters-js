@@ -1,4 +1,7 @@
-import { WebSocketTransport, WebSocketTransportConfig } from '@chainlink/external-adapter-framework/transports'
+import {
+  WebSocketTransport,
+  WebSocketTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/lwba'
 
 export interface WSResponse {
@@ -33,16 +36,16 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
         return
       }
 
-    // Response objects, whether successful or errors (if not skipped), contain two properties, 'params' and 'response'. 'response' is what
-    // will be stored in the cache and returned as adapter response and 'params' determines the identifier so that the next request with
-    // same 'params' will immediately return the response from the cache
+      // Response objects, whether successful or errors (if not skipped), contain two properties, 'params' and 'response'. 'response' is what
+      // will be stored in the cache and returned as adapter response and 'params' determines the identifier so that the next request with
+      // same 'params' will immediately return the response from the cache
       return [
         {
           params: { base: message.base, quote: message.quote },
           response: {
             result: message.price,
             data: {
-             result: message.price
+              result: message.price,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: message.time,
@@ -59,7 +62,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
     subscribeMessage: (params) => {
       return {
         type: 'subscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase()
+        symbols: `${params.base}/${params.quote}`.toUpperCase(),
       }
     },
     // `unsubscribeMessage` accepts request parameters and should construct and return a payload that will be sent to Data Provider
@@ -67,7 +70,7 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
     unsubscribeMessage: (params) => {
       return {
         type: 'unsubscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase()
+        symbols: `${params.base}/${params.quote}`.toUpperCase(),
       }
     },
   },

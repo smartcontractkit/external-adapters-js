@@ -23,4 +23,3 @@ describe('LWBA endpoint', () => {
     expect(inputParameters.definition.quote.type).toBe('string')
   })
 })
-

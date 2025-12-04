@@ -20,94 +20,94 @@ Use this as the template for each `*.test.ts`:
 import {
   TestAdapter,
   setEnvVariables,
-} from "@chainlink/external-adapter-framework/util/testing-utils";
-import * as nock from "nock";
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
 // import FakeTimers from '@sinonjs/fake-timers'         // for WS / time-based tests
 // import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 // import { mockWebSocketProvider, MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { mockUpstreamSuccess, mockUpstreamFailure } from "./fixtures"; // your fixtures
+import { mockUpstreamSuccess, mockUpstreamFailure } from './fixtures' // your fixtures
 
-describe("execute", () => {
-  let testAdapter: TestAdapter;
-  let oldEnv: NodeJS.ProcessEnv;
-  let spy: jest.SpyInstance; // Date.now, or remove if not needed
+describe('execute', () => {
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
+  let spy: jest.SpyInstance // Date.now, or remove if not needed
 
   beforeAll(async () => {
     // snapshot env
-    oldEnv = JSON.parse(JSON.stringify(process.env));
+    oldEnv = JSON.parse(JSON.stringify(process.env))
 
     // set only what's needed
-    process.env.API_KEY = process.env.API_KEY ?? "test-api-key";
-    process.env.RPC_URL = process.env.RPC_URL ?? "http://localhost:8545";
-    process.env.BACKGROUND_EXECUTE_MS = "10000"; // Use default 10s to match production behavior
+    process.env.API_KEY = process.env.API_KEY ?? 'test-api-key'
+    process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
+    process.env.BACKGROUND_EXECUTE_MS = '10000' // Use default 10s to match production behavior
     // Note: Using 10s prevents flooding upstream services and matches production defaults
     // other adapter-specific envs...
 
     // freeze time for deterministic cache/snapshots
-    const mockDate = new Date("2001-01-01T11:11:11.111Z");
-    spy = jest.spyOn(Date, "now").mockReturnValue(mockDate.getTime());
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     // import adapter and disable rate limiting when it interferes with tests
-    const adapter = (await import("../../src")).adapter;
-    adapter.rateLimiting = undefined;
+    const adapter = (await import('../../src')).adapter
+    adapter.rateLimiting = undefined
 
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
       // clock: FakeTimers.install(),                     // for WS/time-based tests
-    });
-  });
+    })
+  })
 
   afterAll(async () => {
-    setEnvVariables(oldEnv);
-    await testAdapter.api.close();
-    nock.restore();
-    nock.cleanAll();
-    spy.mockRestore();
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
     // testAdapter.clock?.uninstall()                    // if using FakeTimers
-  });
+  })
 
-  describe("happy path", () => {
-    it("returns success", async () => {
-      const data = { endpoint: "price", base: "ETH", quote: "USD" };
-      mockUpstreamSuccess();
+  describe('happy path', () => {
+    it('returns success', async () => {
+      const data = { endpoint: 'price', base: 'ETH', quote: 'USD' }
+      mockUpstreamSuccess()
 
-      const response = await testAdapter.request(data);
+      const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(200);
-      expect(response.json()).toMatchSnapshot();
-    });
-  });
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 
-  describe("validation errors", () => {
-    it("fails on missing base", async () => {
+  describe('validation errors', () => {
+    it('fails on missing base', async () => {
       const response = await testAdapter.request({
-        endpoint: "price",
-        quote: "USD",
-      });
-      expect(response.statusCode).toBe(400);
-      expect(response.json()).toMatchSnapshot();
-    });
+        endpoint: 'price',
+        quote: 'USD',
+      })
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
 
-    it("fails on empty request", async () => {
-      const response = await testAdapter.request({});
-      expect(response.statusCode).toBe(400);
-      expect(response.json()).toMatchSnapshot();
-    });
-  });
+    it('fails on empty request', async () => {
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
 
-  describe("upstream failures", () => {
-    it("maps upstream 5xx to adapter error", async () => {
-      mockUpstreamFailure();
+  describe('upstream failures', () => {
+    it('maps upstream 5xx to adapter error', async () => {
+      mockUpstreamFailure()
       const response = await testAdapter.request({
-        endpoint: "price",
-        base: "ETH",
-        quote: "USD",
-      });
-      expect(response.statusCode).toBe(502);
-      expect(response.json()).toMatchSnapshot();
-    });
-  });
-});
+        endpoint: 'price',
+        base: 'ETH',
+        quote: 'USD',
+      })
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+})
 ```
 
 #### Setup Breakdown
@@ -115,14 +115,14 @@ describe("execute", () => {
 1. **Environment Variable Snapshot**: Always snapshot before modifying
 
    ```ts
-   oldEnv = JSON.parse(JSON.stringify(process.env));
+   oldEnv = JSON.parse(JSON.stringify(process.env))
    ```
 
 2. **Required Environment Variables**: Use fallback values (`??`) for optional env vars
 
    ```ts
-   process.env.API_KEY = process.env.API_KEY ?? "fake-api-key";
-   process.env.BACKGROUND_EXECUTE_MS = "10000"; // Use default 10s to match production behavior
+   process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
+   process.env.BACKGROUND_EXECUTE_MS = '10000' // Use default 10s to match production behavior
    // ⚠️ IMPORTANT: Always use default (10000ms = 10s) or a reasonable value
    // Setting this too low can flood upstream services and get your requests blocked
    ```
@@ -130,25 +130,25 @@ describe("execute", () => {
 3. **Time Mocking**: Essential for deterministic snapshots
 
    ```ts
-   const mockDate = new Date("2001-01-01T11:11:11.111Z");
-   spy = jest.spyOn(Date, "now").mockReturnValue(mockDate.getTime());
+   const mockDate = new Date('2001-01-01T11:11:11.111Z')
+   spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
    ```
 
 4. **Adapter Initialization**: Always disable rate limiting
 
    ```ts
-   const adapter = (await import("./../../src")).adapter;
-   adapter.rateLimiting = undefined;
+   const adapter = (await import('./../../src')).adapter
+   adapter.rateLimiting = undefined
    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
      testAdapter: {} as TestAdapter<never>,
-   });
+   })
    ```
 
 5. **Request Pattern**: Use `testAdapter.request()`, validate status code, use snapshots
    ```ts
-   const response = await testAdapter.request({ base: "ETH", quote: "USD" });
-   expect(response.statusCode).toBe(200);
-   expect(response.json()).toMatchSnapshot();
+   const response = await testAdapter.request({ base: 'ETH', quote: 'USD' })
+   expect(response.statusCode).toBe(200)
+   expect(response.json()).toMatchSnapshot()
    ```
 
 #### Cache Management (Advanced)
@@ -157,14 +157,14 @@ For tests that need cache clearing between test cases:
 
 ```ts
 afterEach(() => {
-  nock.cleanAll();
-  const keys = testAdapter.mockCache?.cache.keys();
+  nock.cleanAll()
+  const keys = testAdapter.mockCache?.cache.keys()
   if (keys) {
     for (const key of keys) {
-      testAdapter.mockCache?.delete(key);
+      testAdapter.mockCache?.delete(key)
     }
   }
-});
+})
 ```
 
 ---
@@ -180,57 +180,57 @@ Subscription transports work differently from simple `HttpTransport`. They use b
 **Best for HTTP REST adapters with SubscriptionTransport** (like `the-network-firm`, adapters with OAuth/auth state):
 
 ```ts
-describe("execute", () => {
-  let testAdapter: TestAdapter;
-  let oldEnv: NodeJS.ProcessEnv;
+describe('execute', () => {
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env));
+    oldEnv = JSON.parse(JSON.stringify(process.env))
     // ... set env vars ...
 
-    const adapter = (await import("./../../src")).adapter;
-    adapter.rateLimiting = undefined;
+    const adapter = (await import('./../../src')).adapter
+    adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
-    });
-  });
+    })
+  })
 
   afterEach(() => {
     // Clear nock mocks
-    nock.cleanAll();
+    nock.cleanAll()
 
     // Clear the EA cache between tests
-    const keys = testAdapter.mockCache?.cache.keys();
+    const keys = testAdapter.mockCache?.cache.keys()
     if (keys) {
       for (const key of keys) {
-        testAdapter.mockCache?.delete(key);
+        testAdapter.mockCache?.delete(key)
       }
     }
-  });
+  })
 
   afterAll(async () => {
-    setEnvVariables(oldEnv);
-    await testAdapter.api.close();
-    nock.restore();
-    nock.cleanAll();
-    spy.mockRestore();
-  });
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
 
-  describe("endpoint tests", () => {
-    it("should return success", async () => {
-      const data = { endpoint: "price", fundId: 8 };
-      mockApiResponse();
+  describe('endpoint tests', () => {
+    it('should return success', async () => {
+      const data = { endpoint: 'price', fundId: 8 }
+      mockApiResponse()
 
       // First call triggers background execution
-      await testAdapter.request(data);
+      await testAdapter.request(data)
       // Second call retrieves cached result
-      const response = await testAdapter.request(data);
+      const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(200);
-      expect(response.json()).toMatchSnapshot();
-    });
-  });
-});
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+})
 ```
 
 **Why this works:**
@@ -251,45 +251,45 @@ describe("execute", () => {
 **Best for WebSocket adapters** (like `tp`, `data-engine`, `finalto`, `twosigma`):
 
 ```ts
-describe("websocket", () => {
-  let mockWsServer: MockWebsocketServer | undefined;
-  let testAdapter: TestAdapter;
+describe('websocket', () => {
+  let mockWsServer: MockWebsocketServer | undefined
+  let testAdapter: TestAdapter
 
   beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env));
-    process.env.WS_API_ENDPOINT = wsEndpoint;
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.WS_API_ENDPOINT = wsEndpoint
 
-    mockWebSocketProvider(WebSocketClassProvider);
-    mockWsServer = mockWebSocketServer(wsEndpoint);
+    mockWebSocketProvider(WebSocketClassProvider)
+    mockWsServer = mockWebSocketServer(wsEndpoint)
 
-    const adapter = (await import("./../../src")).adapter;
+    const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
       testAdapter: {} as TestAdapter<never>,
-    });
+    })
 
     // Warm the cache: send initial requests and wait for cache to fill
-    await testAdapter.request(data1);
-    await testAdapter.request(data2);
-    await testAdapter.waitForCache(2); // Wait for N subscriptions
-  });
+    await testAdapter.request(data1)
+    await testAdapter.request(data2)
+    await testAdapter.waitForCache(2) // Wait for N subscriptions
+  })
 
   afterAll(async () => {
-    setEnvVariables(oldEnv);
-    mockWsServer?.close();
-    testAdapter.clock?.uninstall();
-    await testAdapter.api.close();
-  });
+    setEnvVariables(oldEnv)
+    mockWsServer?.close()
+    testAdapter.clock?.uninstall()
+    await testAdapter.api.close()
+  })
 
-  describe("tests", () => {
-    it("should return success", async () => {
+  describe('tests', () => {
+    it('should return success', async () => {
       // Single call works - cache was warmed in beforeAll
-      const response = await testAdapter.request(data1);
-      expect(response.statusCode).toBe(200);
-      expect(response.json()).toMatchSnapshot();
-    });
-  });
-});
+      const response = await testAdapter.request(data1)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+})
 ```
 
 **Why this works:**
@@ -304,19 +304,19 @@ describe("websocket", () => {
 **This pattern is older and less recommended** but may still be seen in some adapters:
 
 ```ts
-it("should return success", async () => {
-  const data = { endpoint: "price", fundId: 8 };
-  mockApiResponse();
+it('should return success', async () => {
+  const data = { endpoint: 'price', fundId: 8 }
+  mockApiResponse()
 
   // First call: triggers background executor
-  await testAdapter.request(data);
+  await testAdapter.request(data)
 
   // Second call: retrieves cached result
-  const response = await testAdapter.request(data);
+  const response = await testAdapter.request(data)
 
-  expect(response.statusCode).toBe(200);
-  expect(response.json()).toMatchSnapshot();
-});
+  expect(response.statusCode).toBe(200)
+  expect(response.json()).toMatchSnapshot()
+})
 ```
 
 **Why it's less preferred:**
@@ -349,13 +349,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
   parseResponse: (params, response) => {
     /* ... */
   },
-});
+})
 
 // SubscriptionTransport - Has background execution
 class MyTransport extends SubscriptionTransport<HttpTransportTypes> {
   async backgroundHandler(context, entries) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)));
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS);
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 }
 ```
@@ -372,43 +372,43 @@ For WS endpoints (like `coinmetrics-lwba`, `dxfeed`, `tp`, `finalto`, etc.):
 - **Additional setup in `beforeAll`**:
 
 ```ts
-const wsEndpoint = "ws://localhost:9090/your-path";
+const wsEndpoint = 'ws://localhost:9090/your-path'
 
-let mockWsServer: MockWebsocketServer | undefined;
+let mockWsServer: MockWebsocketServer | undefined
 
 beforeAll(async () => {
-  oldEnv = JSON.parse(JSON.stringify(process.env));
-  process.env.WS_API_ENDPOINT = wsEndpoint;
-  process.env.WS_SUBSCRIPTION_TTL = "5000";
-  process.env.CACHE_MAX_AGE = "5000";
-  process.env.CACHE_POLLING_MAX_RETRIES = "0";
-  process.env.WS_SUBSCRIPTION_UNRESPONSIVE_TTL = "180000";
-  process.env.API_KEY = "fake-api-key";
+  oldEnv = JSON.parse(JSON.stringify(process.env))
+  process.env.WS_API_ENDPOINT = wsEndpoint
+  process.env.WS_SUBSCRIPTION_TTL = '5000'
+  process.env.CACHE_MAX_AGE = '5000'
+  process.env.CACHE_POLLING_MAX_RETRIES = '0'
+  process.env.WS_SUBSCRIPTION_UNRESPONSIVE_TTL = '180000'
+  process.env.API_KEY = 'fake-api-key'
 
-  mockWebSocketProvider(WebSocketClassProvider);
-  mockWsServer = mockYourWebSocketServer(wsEndpoint); // from fixtures
+  mockWebSocketProvider(WebSocketClassProvider)
+  mockWsServer = mockYourWebSocketServer(wsEndpoint) // from fixtures
 
-  const adapter = (await import("../../src")).adapter;
-  adapter.rateLimiting = undefined;
+  const adapter = (await import('../../src')).adapter
+  adapter.rateLimiting = undefined
 
   testAdapter = await TestAdapter.startWithMockedCache(adapter, {
     clock: FakeTimers.install(),
     testAdapter: {} as TestAdapter<never>,
-  });
+  })
 
   // warm the cache so background execute starts
   await testAdapter.request({
-    endpoint: "your-ws-endpoint" /* other params */,
-  });
-  await testAdapter.waitForCache(); // or waitForCache(n) for multiple subscriptions
-});
+    endpoint: 'your-ws-endpoint' /* other params */,
+  })
+  await testAdapter.waitForCache() // or waitForCache(n) for multiple subscriptions
+})
 
 afterAll(async () => {
-  setEnvVariables(oldEnv);
-  mockWsServer?.close();
-  testAdapter.clock?.uninstall();
-  await testAdapter.api.close();
-});
+  setEnvVariables(oldEnv)
+  mockWsServer?.close()
+  testAdapter.clock?.uninstall()
+  await testAdapter.api.close()
+})
 ```
 
 - **Tests**:
@@ -424,26 +424,26 @@ afterAll(async () => {
 For adapters using `socket.io-client`:
 
 ```ts
-import { SocketServerMock } from "socket.io-mock-ts";
+import { SocketServerMock } from 'socket.io-mock-ts'
 
 beforeAll(async () => {
-  const socket = new SocketServerMock();
-  jest.doMock("socket.io-client", () => ({
+  const socket = new SocketServerMock()
+  jest.doMock('socket.io-client', () => ({
     io: () => socket,
-  }));
+  }))
 
   // Emit mock events
-  socket.clientMock.emit("initial_token_states", [
+  socket.clientMock.emit('initial_token_states', [
     {
-      id: "FRAX/USD",
-      baseSymbol: "FRAX",
-      quoteSymbol: "USD",
+      id: 'FRAX/USD',
+      baseSymbol: 'FRAX',
+      quoteSymbol: 'USD',
       price: 0.9950774676498447,
     },
-  ]);
+  ])
 
   // Continue with adapter setup...
-});
+})
 ```
 
 #### Multiple WebSocket Servers
@@ -451,20 +451,20 @@ beforeAll(async () => {
 For adapters with multiple WebSocket endpoints:
 
 ```ts
-let mockWsServerCrypto: MockWebsocketServer | undefined;
-let mockWsServerForex: MockWebsocketServer | undefined;
+let mockWsServerCrypto: MockWebsocketServer | undefined
+let mockWsServerForex: MockWebsocketServer | undefined
 
 beforeAll(async () => {
-  mockWsServerCrypto = mockCryptoWebSocketServer(wsEndpoint + "/crypto");
-  mockWsServerForex = mockForexWebSocketServer(wsEndpoint + "/forex");
+  mockWsServerCrypto = mockCryptoWebSocketServer(wsEndpoint + '/crypto')
+  mockWsServerForex = mockForexWebSocketServer(wsEndpoint + '/forex')
   // ...
-});
+})
 
 afterAll(async () => {
-  mockWsServerCrypto?.close();
-  mockWsServerForex?.close();
+  mockWsServerCrypto?.close()
+  mockWsServerForex?.close()
   // ...
-});
+})
 ```
 
 ---
@@ -476,8 +476,8 @@ For adapters heavily using `ethers`, `@solana/web3.js`, or custom classes (like 
 - **Mock external libraries** at top of test:
 
 ```ts
-jest.mock("ethers", () => {
-  const actual = jest.requireActual("ethers");
+jest.mock('ethers', () => {
+  const actual = jest.requireActual('ethers')
   return {
     ...actual,
     ethers: {
@@ -492,19 +492,19 @@ jest.mock("ethers", () => {
         latestAnswer: jest.fn().mockResolvedValue(5000000000n),
       })),
     },
-  };
-});
+  }
+})
 ```
 
 or, for Solana:
 
 ```ts
-jest.mock("@solana/web3.js", () => ({
+jest.mock('@solana/web3.js', () => ({
   PublicKey: jest.fn().mockImplementation(() => ({})),
   Connection: jest.fn().mockImplementation(() => ({
     getAccountInfo: jest.fn().mockResolvedValue({ lamports: 123_000_000_000 }),
   })),
-}));
+}))
 ```
 
 - **Class-level behavior** (e.g. account readers) is controlled via `jest.spyOn` and custom implementations per test case.
@@ -528,108 +528,105 @@ jest.mock("@solana/web3.js", () => ({
 
 ```ts
 export const mockResponseSuccess = (): nock.Scope =>
-  nock("https://api.example.com", { encodedQueryParams: true })
-    .get("/api/price")
-    .query({ symbol: "ETH", convert: "USD" })
+  nock('https://api.example.com', { encodedQueryParams: true })
+    .get('/api/price')
+    .query({ symbol: 'ETH', convert: 'USD' })
     .reply(200, () => ({ ETH: { price: 10000 } }), [
-      "Content-Type",
-      "application/json",
-      "Connection",
-      "close",
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
     ])
-    .persist();
+    .persist()
 
 export const mockResponseFailure = (): nock.Scope =>
-  nock("https://api.example.com", { encodedQueryParams: true })
-    .get("/api/price")
-    .query({ symbol: "ETH", convert: "USD" })
-    .reply(500, { error: "Internal Server Error" })
-    .persist();
+  nock('https://api.example.com', { encodedQueryParams: true })
+    .get('/api/price')
+    .query({ symbol: 'ETH', convert: 'USD' })
+    .reply(500, { error: 'Internal Server Error' })
+    .persist()
 
 export const mockResponseWithHeaders = (): nock.Scope =>
-  nock("https://api.example.com", {
+  nock('https://api.example.com', {
     encodedQueryParams: true,
     reqheaders: {
-      "x-api-key": "fake-api-key",
-      Authorization: "Bearer fake-token",
+      'x-api-key': 'fake-api-key',
+      Authorization: 'Bearer fake-token',
     },
   })
-    .get("/api/data")
-    .reply(200, { data: "success" })
-    .persist();
+    .get('/api/data')
+    .reply(200, { data: 'success' })
+    .persist()
 ```
 
 #### Example RPC/Blockchain fixture:
 
 ```ts
-import { AdapterRequest } from "@chainlink/ea-bootstrap";
+import { AdapterRequest } from '@chainlink/ea-bootstrap'
 
 export const mockRPCResponse = (): nock.Scope =>
-  nock("https://test-rpc-url:443", { encodedQueryParams: true })
+  nock('https://test-rpc-url:443', { encodedQueryParams: true })
     .persist()
-    .post("/", {
-      method: "eth_chainId",
+    .post('/', {
+      method: 'eth_chainId',
       params: [],
       id: /^\d+$/,
-      jsonrpc: "2.0",
+      jsonrpc: '2.0',
     })
     .reply(200, (_, request: AdapterRequest) => ({
-      jsonrpc: "2.0",
+      jsonrpc: '2.0',
       id: request.id,
-      result: "0x89", // Polygon chain ID
+      result: '0x89', // Polygon chain ID
     }))
-    .post("/", {
-      method: "eth_call",
-      params: [{ to: "0x...", data: "0x..." }, "latest"],
+    .post('/', {
+      method: 'eth_call',
+      params: [{ to: '0x...', data: '0x...' }, 'latest'],
       id: /^\d+$/,
-      jsonrpc: "2.0",
+      jsonrpc: '2.0',
     })
     .reply(200, (_, request: AdapterRequest) => ({
-      jsonrpc: "2.0",
+      jsonrpc: '2.0',
       id: request.id,
-      result:
-        "0x0000000000000000000000000000000000000000000000000e1b77935f500bea",
-    }));
+      result: '0x0000000000000000000000000000000000000000000000000e1b77935f500bea',
+    }))
 ```
 
 #### Example WebSocket fixture:
 
 ```ts
-import { MockWebsocketServer } from "@chainlink/external-adapter-framework/util/testing-utils";
+import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
-  const mockWsServer = new MockWebsocketServer(URL, { mock: false });
-  mockWsServer.on("connection", (socket) => {
-    socket.on("message", (message) => {
-      const parsed = JSON.parse(message as string);
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (message) => {
+      const parsed = JSON.parse(message as string)
 
       // Handle subscription messages
-      if (parsed.type === "subscribe") {
-        const { base, quote } = parsed;
+      if (parsed.type === 'subscribe') {
+        const { base, quote } = parsed
         socket.send(
           JSON.stringify({
-            type: "price_update",
+            type: 'price_update',
             base,
             quote,
             price: 1.0539,
-            timestamp: "2023-03-08T02:31:00.000Z",
-          })
-        );
+            timestamp: '2023-03-08T02:31:00.000Z',
+          }),
+        )
       }
 
       // Handle heartbeat
-      if (parsed.type === "heartbeat") {
+      if (parsed.type === 'heartbeat') {
         setTimeout(() => {
-          socket.send(
-            JSON.stringify({ type: "heartbeat", timestamp: Date.now() })
-          );
-        }, 10000);
+          socket.send(JSON.stringify({ type: 'heartbeat', timestamp: Date.now() }))
+        }, 10000)
       }
-    });
-  });
+    })
+  })
 
-  return mockWsServer;
-};
+  return mockWsServer
+}
 ```
 
 #### Fixtures Best Practices
@@ -683,110 +680,110 @@ For each EAF endpoint you expose:
 #### Example Test Structure
 
 ```ts
-describe("execute", () => {
+describe('execute', () => {
   // ... setup ...
 
-  describe("price endpoint", () => {
-    describe("happy path", () => {
-      it("should return success for valid pair", async () => {
-        mockResponseSuccess();
+  describe('price endpoint', () => {
+    describe('happy path', () => {
+      it('should return success for valid pair', async () => {
+        mockResponseSuccess()
         const response = await testAdapter.request({
-          base: "ETH",
-          quote: "USD",
-        });
-        expect(response.statusCode).toBe(200);
-        expect(response.json()).toMatchSnapshot();
-      });
+          base: 'ETH',
+          quote: 'USD',
+        })
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toMatchSnapshot()
+      })
 
-      it("should handle symbol overrides", async () => {
-        mockResponseSuccess();
+      it('should handle symbol overrides', async () => {
+        mockResponseSuccess()
         const response = await testAdapter.request({
-          base: "ZZZ",
-          quote: "USD",
-          overrides: { adapterName: { ZZZ: "ETH" } },
-        });
-        expect(response.statusCode).toBe(200);
-        expect(response.json()).toMatchSnapshot();
-      });
-    });
+          base: 'ZZZ',
+          quote: 'USD',
+          overrides: { adapterName: { ZZZ: 'ETH' } },
+        })
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toMatchSnapshot()
+      })
+    })
 
-    describe("validation errors", () => {
-      it("should fail on empty request", async () => {
-        const response = await testAdapter.request({});
-        expect(response.statusCode).toBe(400);
-        expect(response.json()).toMatchSnapshot();
-      });
+    describe('validation errors', () => {
+      it('should fail on empty request', async () => {
+        const response = await testAdapter.request({})
+        expect(response.statusCode).toBe(400)
+        expect(response.json()).toMatchSnapshot()
+      })
 
-      it("should fail on missing base", async () => {
-        const response = await testAdapter.request({ quote: "USD" });
-        expect(response.statusCode).toBe(400);
-        expect(response.json()).toMatchSnapshot();
-      });
-    });
+      it('should fail on missing base', async () => {
+        const response = await testAdapter.request({ quote: 'USD' })
+        expect(response.statusCode).toBe(400)
+        expect(response.json()).toMatchSnapshot()
+      })
+    })
 
-    describe("upstream failures", () => {
-      it("should handle 5xx errors", async () => {
-        mockResponseFailure();
+    describe('upstream failures', () => {
+      it('should handle 5xx errors', async () => {
+        mockResponseFailure()
         const response = await testAdapter.request({
-          base: "ETH",
-          quote: "USD",
-        });
-        expect(response.statusCode).toBe(502);
-        expect(response.json()).toMatchSnapshot();
-      });
+          base: 'ETH',
+          quote: 'USD',
+        })
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
+      })
 
-      it("should handle invalid response format", async () => {
-        mockInvalidResponse();
+      it('should handle invalid response format', async () => {
+        mockInvalidResponse()
         const response = await testAdapter.request({
-          base: "ETH",
-          quote: "USD",
-        });
-        expect(response.statusCode).toBe(502);
-        expect(response.json()).toMatchSnapshot();
-      });
-    });
+          base: 'ETH',
+          quote: 'USD',
+        })
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
+      })
+    })
 
-    describe("edge cases", () => {
-      it("should handle inverse pairs", async () => {
-        mockResponseSuccess();
+    describe('edge cases', () => {
+      it('should handle inverse pairs', async () => {
+        mockResponseSuccess()
         const response = await testAdapter.request({
-          base: "IDR",
-          quote: "USD",
-        });
-        expect(response.statusCode).toBe(200);
-        expect(response.json()).toMatchSnapshot();
-      });
+          base: 'IDR',
+          quote: 'USD',
+        })
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toMatchSnapshot()
+      })
 
-      it("should handle stale prices", async () => {
-        mockStalePriceResponse();
+      it('should handle stale prices', async () => {
+        mockStalePriceResponse()
         const response = await testAdapter.request({
-          base: "JPY",
-          quote: "USD",
-        });
-        expect(response.statusCode).toBe(502);
-        expect(response.json()).toMatchSnapshot();
-      });
-    });
-  });
-});
+          base: 'JPY',
+          quote: 'USD',
+        })
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toMatchSnapshot()
+      })
+    })
+  })
+})
 ```
 
 #### Testing Subscription Deduplication (WebSocket)
 
 ```ts
-it("should only subscribe once for same pair", async () => {
-  const dataLowercase = { base: "eth", quote: "usd" };
-  const dataUppercase = { base: "ETH", quote: "USD" };
+it('should only subscribe once for same pair', async () => {
+  const dataLowercase = { base: 'eth', quote: 'usd' }
+  const dataUppercase = { base: 'ETH', quote: 'USD' }
 
-  const response1 = await testAdapter.request(dataLowercase);
-  const response2 = await testAdapter.request(dataUppercase);
+  const response1 = await testAdapter.request(dataLowercase)
+  const response2 = await testAdapter.request(dataUppercase)
 
-  expect(response1.json()).toMatchSnapshot();
-  expect(response2.json()).toMatchSnapshot();
+  expect(response1.json()).toMatchSnapshot()
+  expect(response2.json()).toMatchSnapshot()
 
   // Verify subscription set only has one entry
-  expect(transport.subscriptionSet.getAll()).toHaveLength(1);
-});
+  expect(transport.subscriptionSet.getAll()).toHaveLength(1)
+})
 ```
 
 ---
@@ -813,11 +810,11 @@ Examples:
 
 ```ts
 // ❌ BAD - This will flood services and get blocked
-process.env.BACKGROUND_EXECUTE_MS = "10"; // Every 10ms!
-process.env.BACKGROUND_EXECUTE_MS = "0"; // Disabled - not realistic for production
+process.env.BACKGROUND_EXECUTE_MS = '10' // Every 10ms!
+process.env.BACKGROUND_EXECUTE_MS = '0' // Disabled - not realistic for production
 
 // ✅ GOOD - Use default value (matches production behavior)
-process.env.BACKGROUND_EXECUTE_MS = "10000"; // Every 10 seconds (default)
+process.env.BACKGROUND_EXECUTE_MS = '10000' // Every 10 seconds (default)
 // Or don't set it at all - framework will use default
 ```
 
@@ -854,21 +851,21 @@ For adapters with complex test scenarios, create utility files:
 
 ```ts
 // utils/utilFunctions.ts
-import { TestAdapter } from "@chainlink/external-adapter-framework/util/testing-utils";
+import { TestAdapter } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 export const clearTestCache = (testAdapter: TestAdapter) => {
-  const keys = testAdapter.mockCache?.cache.keys();
+  const keys = testAdapter.mockCache?.cache.keys()
   if (keys) {
     for (const key of keys) {
-      testAdapter.mockCache?.delete(key);
+      testAdapter.mockCache?.delete(key)
     }
   }
-};
+}
 
 // utils/testConfig.ts
-export const TEST_SUCCESS_ASSET_ID = "KUSPUM";
-export const TEST_FAILURE_ASSET_ID = "INVALID";
-export const TEST_URL = "https://test-api.example.com";
+export const TEST_SUCCESS_ASSET_ID = 'KUSPUM'
+export const TEST_FAILURE_ASSET_ID = 'INVALID'
+export const TEST_URL = 'https://test-api.example.com'
 ```
 
 ---

@@ -64,6 +64,7 @@ uv run ea-agent/src/agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
 ```
 
 The YAML file should contain the EA specification including:
+
 - Adapter name and endpoints
 - Request/response schemas
 - API details (endpoint URLs, authentication)
@@ -71,17 +72,18 @@ The YAML file should contain the EA specification including:
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ANTHROPIC_API_KEY` | (required) | API key for Claude |
-| `WORKFLOW_MODEL` | `claude-opus-4-5@20251101` | Model to use |
-| `VERBOSE_LOGGING` | `true` | Log all agent messages |
-| `JSON_LOG_PATH` | — | Path for streaming JSON logs |
-| `SUMMARY_LOG_PATH` | — | Path for final summary JSON |
+| Variable            | Default                    | Description                  |
+| ------------------- | -------------------------- | ---------------------------- |
+| `ANTHROPIC_API_KEY` | (required)                 | API key for Claude           |
+| `WORKFLOW_MODEL`    | `claude-opus-4-5@20251101` | Model to use                 |
+| `VERBOSE_LOGGING`   | `true`                     | Log all agent messages       |
+| `JSON_LOG_PATH`     | —                          | Path for streaming JSON logs |
+| `SUMMARY_LOG_PATH`  | —                          | Path for final summary JSON  |
 
 ### Output
 
 The agent creates a new adapter package at:
+
 ```
 packages/sources/<adapter-name>/
 ```
@@ -92,13 +94,13 @@ With complete source code, tests, and configuration ready for build and deployme
 
 Reference the agent prompts in `.claude/agents/` directly in Cursor chat using `@` mentions:
 
-| Agent | File | Use Case |
-|-------|------|----------|
-| EA Developer | `@ea_developer.md` | Scaffold a new adapter from requirements |
-| Integration Test Writer | `@ea_integration_test_writer.md` | Write integration tests for an adapter |
-| Integration Test Validator | `@ea_integration_test_validator.md` | Review and validate integration tests |
-| Unit Test Writer | `@ea_unit_test_writer.md` | Write unit tests for business logic |
-| Unit Test Validator | `@ea_unit_test_validator.md` | Review and validate unit tests |
+| Agent                      | File                                | Use Case                                 |
+| -------------------------- | ----------------------------------- | ---------------------------------------- |
+| EA Developer               | `@ea_developer.md`                  | Scaffold a new adapter from requirements |
+| Integration Test Writer    | `@ea_integration_test_writer.md`    | Write integration tests for an adapter   |
+| Integration Test Validator | `@ea_integration_test_validator.md` | Review and validate integration tests    |
+| Unit Test Writer           | `@ea_unit_test_writer.md`           | Write unit tests for business logic      |
+| Unit Test Validator        | `@ea_unit_test_validator.md`        | Review and validate unit tests           |
 
 ### Example
 
@@ -136,6 +138,7 @@ git push origin feat/OPDATA-123-my-adapter
 ```
 
 Or trigger manually on an existing PR:
+
 ```
 /generate-ea
 ```
