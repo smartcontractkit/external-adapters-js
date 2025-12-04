@@ -12,6 +12,19 @@ This agent automates the creation of External Adapters (EAs) by orchestrating mu
 
 Each testing phase uses a writer agent followed by a validator agent, iterating until tests pass validation (up to 3 approvals required).
 
+```mermaid
+flowchart TD
+    A[YAML Spec] --> B[EA Developer]
+    B --> C[packages/sources/adapter]
+    C --> D[Integration Test Writer]
+    D --> E{Integration Test Validator}
+    E -->|rejected| D
+    E -->|3 approvals| F[Unit Test Writer]
+    F --> G{Unit Test Validator}
+    G -->|rejected| F
+    G -->|3 approvals| H[Done]
+```
+
 ## Components
 
 ```
@@ -91,4 +104,38 @@ Reference the agent prompts in `.claude/agents/` directly in Cursor chat using `
 
 ```
 @ea_developer.md Initialize the EA project for packages/sources/my-adapter
+```
+
+## GitHub Actions Workflow
+
+The agent can be triggered automatically via GitHub Actions (`.github/workflows/generate-ea.yml`).
+
+### Triggers
+
+1. **PR with YAML file** — Open a PR that adds a YAML file to `ea-agent/requests/`
+2. **Comment command** — Comment `/generate-ea` on any PR with a YAML file
+
+### What It Does
+
+1. Detects the YAML file in `ea-agent/requests/`
+2. Runs the EA scaffolding agent
+3. Commits generated code back to the PR
+4. Updates PR description with status and review checklist
+
+### Example
+
+```bash
+# Create a branch with your YAML spec
+git checkout -b feat/OPDATA-123-my-adapter
+cp my-spec.yaml ea-agent/requests/OPDATA-123-my-adapter.yaml
+git add ea-agent/requests/OPDATA-123-my-adapter.yaml
+git commit -m "feat: Add EA request for my-adapter"
+git push origin feat/OPDATA-123-my-adapter
+
+# Open a PR — the workflow runs automatically
+```
+
+Or trigger manually on an existing PR:
+```
+/generate-ea
 ```
