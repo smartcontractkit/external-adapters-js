@@ -63,10 +63,10 @@ Follow the requested schemas and format of EA request and response provided in t
 
 ### Step 1: Copy the EA Folder Structure from the EA Folder Structure Template
 
-CRITICAL:MUST USE FOLLOWING REQUIRED COMMAND to copy the EA folder structure from the packages/sources/ea-template
+CRITICAL:MUST USE FOLLOWING REQUIRED COMMAND to copy the EA folder structure from the ea-agent/package-template
 
 ```
- cp -r packages/sources/ea-template/ packages/sources/[adapter name]
+ cp -r ea-agent/package-template packages/sources/[adapter name]
 ```
 
 for later modification based on the requirements at each steps
