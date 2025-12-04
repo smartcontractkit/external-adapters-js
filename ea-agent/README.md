@@ -75,3 +75,20 @@ packages/sources/<adapter-name>/
 
 With complete source code, tests, and configuration ready for build and deployment.
 
+## Interactive Use in Cursor
+
+Reference the agent prompts in `.claude/agents/` directly in Cursor chat using `@` mentions:
+
+| Agent | File | Use Case |
+|-------|------|----------|
+| EA Developer | `@ea_developer.md` | Scaffold a new adapter from requirements |
+| Integration Test Writer | `@ea_integration_test_writer.md` | Write integration tests for an adapter |
+| Integration Test Validator | `@ea_integration_test_validator.md` | Review and validate integration tests |
+| Unit Test Writer | `@ea_unit_test_writer.md` | Write unit tests for business logic |
+| Unit Test Validator | `@ea_unit_test_validator.md` | Review and validate unit tests |
+
+### Example
+
+```
+@ea_developer.md Initialize the EA project for packages/sources/my-adapter
+```
