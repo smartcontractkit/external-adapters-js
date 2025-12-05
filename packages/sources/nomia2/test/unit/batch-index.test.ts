@@ -119,6 +119,8 @@ describe('IndexTransport', () => {
       response: {
         data: {
           cost: {},
+          status: 'success',
+          message: ['test'],
           Results: {
             series: [
               {
