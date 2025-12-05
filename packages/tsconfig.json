@@ -90,9 +90,6 @@
       "path": "./composites/the-graph"
     },
     {
-      "path": "./composites/vesper"
-    },
-    {
       "path": "./composites/xsushi-price"
     },
     {
@@ -589,9 +586,6 @@
     },
     {
       "path": "./sources/synthetix-feeds"
-    },
-    {
-      "path": "./sources/taapi"
     },
     {
       "path": "./sources/terra-view-function"

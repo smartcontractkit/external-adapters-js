@@ -371,8 +371,6 @@ adapters:
     version: 4.1.21
   - name: synthetix-feeds
     version: 1.1.21
-  - name: taapi
-    version: 1.2.47
   - name: terra-view-function
     version: 1.3.47
   - name: the-graph
@@ -409,8 +407,6 @@ adapters:
     version: 1.3.47
   - name: uscpi-one
     version: 1.3.47
-  - name: vesper
-    version: 2.0.117
   - name: view-function
     version: 3.1.18
   - name: view-function-multi-chain
