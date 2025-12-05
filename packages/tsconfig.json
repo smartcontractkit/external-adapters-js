@@ -480,6 +480,9 @@
       "path": "./sources/nomia"
     },
     {
+      "path": "./sources/nomia2"
+    },
+    {
       "path": "./sources/nyfed"
     },
     {
