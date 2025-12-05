@@ -4,6 +4,8 @@ import { buildWsTransport } from './ws'
 
 const logger = makeLogger('StockQuotesTransport')
 
+// ["eventSymbol","eventTime","sequence","timeNanoPart","bidTime","bidExchangeCode",
+//  "bidPrice","bidSize","askTime","askExchangeCode","askPrice","askSize"]
 const eventSymbolIndex = 0
 const bidTimeIndex = 4
 const bidPriceIndex = 6
@@ -19,7 +21,6 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
     if (message[0].data[0] != 'Quote' && message[0].data[0][0] != 'Quote') {
       return []
     }
-
     const data = message[0].data[1]
 
     if (data.length % dataLength != 0) {
