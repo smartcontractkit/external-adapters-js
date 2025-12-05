@@ -588,9 +588,6 @@
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
     },
     {
-      "path": "./sources/taapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/terra-view-function/tsconfig.test.json"
     },
     {
