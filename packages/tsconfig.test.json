@@ -90,9 +90,6 @@
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
-      "path": "./composites/vesper/tsconfig.test.json"
-    },
-    {
       "path": "./composites/xsushi-price/tsconfig.test.json"
     },
     {
