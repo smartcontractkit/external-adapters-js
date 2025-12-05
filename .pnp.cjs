@@ -5254,7 +5254,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5322,7 +5322,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5353,7 +5353,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["fastify", "npm:5.3.3"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -5759,7 +5759,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6356,7 +6356,7 @@ const RAW_RUNTIME_STATE =
           ["@types/uuid", "npm:8.3.4"],\
           ["@types/ws", "npm:8.5.14"],\
           ["ajv", "npm:8.17.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["fast-redact", "npm:3.5.0"],\
           ["fastify", "npm:5.3.3"],\
@@ -6433,7 +6433,7 @@ const RAW_RUNTIME_STATE =
           ["@types/swagger-jsdoc", "npm:6.0.4"],\
           ["@types/yaml", "npm:1.9.7"],\
           ["airtable", "npm:0.11.6"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
           ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
           ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],\
@@ -6485,7 +6485,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7009,7 +7009,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7145,7 +7145,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["crypto", "npm:1.0.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7199,7 +7199,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7318,7 +7318,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -7369,7 +7369,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7974,7 +7974,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7988,7 +7988,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/observation", "workspace:packages/observation"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8152,7 +8152,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8558,7 +8558,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["bignumber.js", "npm:9.1.2"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
@@ -8855,7 +8855,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
@@ -16787,6 +16787,16 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:1.12.0", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.12.0-58e24ac59e-6c45e294b6.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.12.0"],\
+          ["follow-redirects", "virtual:a265dd84e89783ba9b2fcab36543b3cb88316a635296ac360d00152cffbb1248d407877ac324c3ae17b2165989603961d91a6245863f6eacced09cb6a2064c91#npm:1.15.9"],\
+          ["form-data", "npm:4.0.4"],\
+          ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:1.12.2", {\
         "packageLocation": "./.yarn/cache/axios-npm-1.12.2-cdb8ea6c90-886a797705.zip/node_modules/axios/",\
         "packageDependencies": [\
@@ -16816,16 +16826,6 @@ const RAW_RUNTIME_STATE =
           ["proxy-from-env", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:1.9.0", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.9.0-007b36cf56-a2f90bba56.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.9.0"],\
-          ["follow-redirects", "virtual:a265dd84e89783ba9b2fcab36543b3cb88316a635296ac360d00152cffbb1248d407877ac324c3ae17b2165989603961d91a6245863f6eacced09cb6a2064c91#npm:1.15.9"],\
-          ["form-data", "npm:4.0.4"],\
-          ["proxy-from-env", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["axios-mock-adapter", [\
@@ -16841,7 +16841,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["axios-mock-adapter", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.20.0"],\
           ["@types/axios", null],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["is-blob", "npm:2.1.0"],\
           ["is-buffer", "npm:2.0.5"]\
@@ -16867,7 +16867,7 @@ const RAW_RUNTIME_STATE =
           ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:1.3.0"],\
           ["@types/axios", null],\
           ["@types/rxjs", null],\
-          ["axios", "npm:1.9.0"],\
+          ["axios", "npm:1.12.0"],\
           ["rxjs", "npm:7.4.0"]\
         ],\
         "packagePeers": [\
