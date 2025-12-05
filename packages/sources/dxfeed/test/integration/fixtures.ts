@@ -62,7 +62,6 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
-
   const multiQuoteReponse = [
     {
       data: [
@@ -75,7 +74,6 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
-
   const noBidQuoteReponse = [
     {
       data: [
@@ -103,6 +101,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+
   const tradeResponse = [
     {
       data: [
@@ -127,6 +126,80 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+  const tradeResponseIgnored = [
+    {
+      data: [
+        'Trade',
+        [
+          'TSLA:USLF24',
+          0,
+          1762376399007,
+          0,
+          12840,
+          'V',
+          500, // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const tradeResponseOvernight = [
+    {
+      data: [
+        'TradeETH',
+        [
+          'AAPL:USLF24',
+          0,
+          762376399006,
+          0,
+          12840,
+          'V',
+          400, // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+
+  const tradeResponseOvernightIgnored = [
+    {
+      data: [
+        'TradeETH',
+        [
+          'AAPL:USLF24',
+          0,
+          762376399005,
+          0,
+          12840,
+          'V',
+          500, // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.send(
@@ -143,6 +216,9 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(noAskQuoteReponse))
       socket.send(JSON.stringify(invalidQuoteReponse))
       socket.send(JSON.stringify(tradeResponse))
+      socket.send(JSON.stringify(tradeResponseIgnored))
+      socket.send(JSON.stringify(tradeResponseOvernight))
+      socket.send(JSON.stringify(tradeResponseOvernightIgnored))
     })
   })
 
