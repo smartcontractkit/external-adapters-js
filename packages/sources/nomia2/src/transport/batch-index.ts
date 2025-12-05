@@ -84,11 +84,11 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       const seriesId = series.seriesID
       const seriesData = series.data[0]
 
-      // catch null and undefined but allow 0
+      // error on missing data
       if (
-        seriesData.value == null ||
-        seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] == null ||
-        seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] == null
+        seriesData.value === undefined ||
+        seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] === undefined ||
+        seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] === undefined
       ) {
         return params.map((param) => {
           return {
