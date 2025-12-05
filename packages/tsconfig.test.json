@@ -69,9 +69,6 @@
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
-      "path": "./composites/outlier-detection/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -436,9 +433,6 @@
     },
     {
       "path": "./sources/linkpool/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/lition/tsconfig.test.json"
     },
     {
       "path": "./sources/liveart/tsconfig.test.json"

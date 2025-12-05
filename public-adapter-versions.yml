@@ -249,8 +249,6 @@ adapters:
     version: 2.3.125
   - name: linkpool
     version: 1.2.47
-  - name: lition
-    version: 1.2.47
   - name: liveart
     version: 1.0.1
   - name: llama-guard
@@ -309,8 +307,6 @@ adapters:
     version: 1.1.3
   - name: openexchangerates
     version: 3.0.0
-  - name: outlier-detection
-    version: 1.3.17
   - name: paxos
     version: 1.4.39
   - name: paypal

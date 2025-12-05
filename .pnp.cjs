@@ -103,10 +103,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/nftx"\
     },\
     {\
-      "name": "@chainlink/outlier-detection-adapter",\
-      "reference": "workspace:packages/composites/outlier-detection"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
@@ -607,10 +603,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/linkpool"\
     },\
     {\
-      "name": "@chainlink/lition-adapter",\
-      "reference": "workspace:packages/sources/lition"\
-    },\
-    {\
       "name": "@chainlink/liveart-adapter",\
       "reference": "workspace:packages/sources/liveart"\
     },\
@@ -1053,7 +1045,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
-    ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
@@ -1085,7 +1076,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
     ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
@@ -7566,21 +7556,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/lition-adapter", [\
-      ["workspace:packages/sources/lition", {\
-        "packageLocation": "./packages/sources/lition/",\
-        "packageDependencies": [\
-          ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/liveart-adapter", [\
       ["workspace:packages/sources/liveart", {\
         "packageLocation": "./packages/sources/liveart/",\
@@ -8095,25 +8070,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/outlier-detection-adapter", [\
-      ["workspace:packages/composites/outlier-detection", {\
-        "packageLocation": "./packages/composites/outlier-detection/",\
-        "packageDependencies": [\
-          ["@chainlink/outlier-detection-adapter", "workspace:packages/composites/outlier-detection"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinon", "npm:10.0.20"],\
-          ["axios", "npm:1.9.0"],\
-          ["sinon", "npm:12.0.1"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

@@ -69,9 +69,6 @@
       "path": "./composites/nftx"
     },
     {
-      "path": "./composites/outlier-detection"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -436,9 +433,6 @@
     },
     {
       "path": "./sources/linkpool"
-    },
-    {
-      "path": "./sources/lition"
     },
     {
       "path": "./sources/liveart"
