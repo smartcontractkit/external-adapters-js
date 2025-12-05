@@ -7,6 +7,9 @@ import { BaseEndpointTypes, IndexValues } from '../endpoint/batch-index'
 
 const logger = makeLogger('BatchIndexTransport')
 
+const PCT_CHANGE_1_MONTH = '1'
+const PCT_CHANGE_12_MONTH = '12'
+
 export interface RequestSchema {
   seriesid: string[]
   latest: boolean
@@ -24,8 +27,8 @@ export interface ResponseSchema {
         value: string
         calculations: {
           pct_changes: {
-            '1': string
-            '12': string
+            [PCT_CHANGE_1_MONTH]: string
+            [PCT_CHANGE_12_MONTH]: string
           }
         }
       }[]
@@ -84,8 +87,8 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       // catch null and undefined but allow 0
       if (
         seriesData.value == null ||
-        seriesData.calculations.pct_changes['1'] == null ||
-        seriesData.calculations.pct_changes['12'] == null
+        seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] == null ||
+        seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] == null
       ) {
         return params.map((param) => {
           return {
@@ -100,8 +103,8 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
 
       seriesIdDataMap.set(seriesId, {
         level: parseFloat(seriesData.value),
-        pct1mo: parseFloat(seriesData.calculations.pct_changes['1']),
-        pct12mo: parseFloat(seriesData.calculations.pct_changes['12']),
+        pct1mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH]),
+        pct12mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH]),
       })
     }
 
