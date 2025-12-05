@@ -20,7 +20,6 @@
     "ajv": "^8.6.2",
     "axios": "1.9.0",
     "decimal.js": "^10.3.1",
-    "fast-redact": "^3.0.1",
     "fastify": "^5.0.0",
     "lodash": "^4.17.21",
     "lru-cache": "^6.0.0",
@@ -32,7 +31,6 @@
     "promise-timeout": "^1.3.0",
     "redis": "^4.0.0",
     "redux": "^4.1.1",
-    "redux-logger": "^3.0.6",
     "redux-observable": "^1.2.0",
     "remote-redux-devtools": "^0.5.16",
     "rxjs": "^6.6.3",
@@ -41,7 +39,6 @@
     "ws": "^8.0.0"
   },
   "devDependencies": {
-    "@types/fast-redact": "3.0.4",
     "@types/jest": "^29.5.14",
     "@types/lodash": "4.17.17",
     "@types/lru-cache": "5.1.1",
@@ -51,7 +48,6 @@
     "@types/pino": "6.3.12",
     "@types/pino-pretty": "4.7.5",
     "@types/promise-timeout": "1.3.3",
-    "@types/redux-logger": "3.0.13",
     "@types/remote-redux-devtools": "0.5.8",
     "@types/sinon": "10.0.20",
     "@types/uuid": "8.3.4",
