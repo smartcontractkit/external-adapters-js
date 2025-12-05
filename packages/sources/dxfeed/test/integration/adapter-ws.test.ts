@@ -19,9 +19,16 @@ describe('websocket', () => {
     base: 'TSLA',
     transport: 'ws',
   }
-
   const quoteData = {
     base: 'TSLA',
+    endpoint: 'stock_quotes',
+  }
+  const quoteMulti1Data = {
+    base: 'MULTI_1',
+    endpoint: 'stock_quotes',
+  }
+  const quoteMulti2Data = {
+    base: 'MULTI_2',
     endpoint: 'stock_quotes',
   }
 
@@ -44,8 +51,10 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with result
     await testAdapter.request(quoteData)
+    await testAdapter.request(quoteMulti1Data)
+    await testAdapter.request(quoteMulti2Data)
     await testAdapter.request(stockData)
-    await testAdapter.waitForCache(4)
+    await testAdapter.waitForCache(6)
   })
 
   afterAll(async () => {
@@ -65,6 +74,16 @@ describe('websocket', () => {
   describe('quote endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(quoteData)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for 1st item in multi message', async () => {
+      const response = await testAdapter.request(quoteMulti1Data)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for 2nd item in multi message', async () => {
+      const response = await testAdapter.request(quoteMulti2Data)
       expect(response.json()).toMatchSnapshot()
     })
 

@@ -10,23 +10,7 @@ type DXFeedMessage = {
   channel: string
   clientId?: string
   id: string
-  data: [
-    string,
-    [
-      string,
-      number,
-      number,
-      number,
-      number,
-      string,
-      number,
-      string,
-      number,
-      number,
-      number,
-      number,
-    ],
-  ]
+  data: [string, (string | number)[]]
   successful?: boolean
   advice?: {
     interval: number
@@ -111,7 +95,7 @@ class DxFeedWebsocketTransport<T extends BaseTransportTypes> extends WebSocketTr
 export function buildWsTransport<T extends BaseTransportTypes>(
   formatTicker: (
     base: TypeFromDefinition<(T & ProviderTypes)['Parameters']>,
-  ) => Record<string, string[]>,
+  ) => Record<string, string[]>[],
   processMessage: (message: DXFeedMessage) => ProviderResult<T & ProviderTypes>[],
 ): WebSocketTransport<T & ProviderTypes> {
   const wsTransport: DxFeedWebsocketTransport<T> = new DxFeedWebsocketTransport({
@@ -153,22 +137,18 @@ export function buildWsTransport<T extends BaseTransportTypes>(
 
     builders: {
       subscribeMessage: (params) => {
-        return [
-          {
-            channel: SERVICE_SUB,
-            data: { add: formatTicker(params) },
-            clientId: wsTransport.connectionClientId,
-          },
-        ]
+        return formatTicker(params).map((ticker) => ({
+          channel: SERVICE_SUB,
+          data: { add: ticker },
+          clientId: wsTransport.connectionClientId,
+        }))
       },
       unsubscribeMessage: (params) => {
-        return [
-          {
-            channel: SERVICE_SUB,
-            data: { remove: formatTicker(params) },
-            clientId: wsTransport.connectionClientId,
-          },
-        ]
+        return formatTicker(params).map((ticker) => ({
+          channel: SERVICE_SUB,
+          data: { remove: ticker },
+          clientId: wsTransport.connectionClientId,
+        }))
       },
     },
   })
