@@ -603,10 +603,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/linkpool"\
     },\
     {\
-      "name": "@chainlink/lition-adapter",\
-      "reference": "workspace:packages/sources/lition"\
-    },\
-    {\
       "name": "@chainlink/liveart-adapter",\
       "reference": "workspace:packages/sources/liveart"\
     },\
@@ -1045,7 +1041,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
-    ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
@@ -7546,21 +7541,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/linkpool/",\
         "packageDependencies": [\
           ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/lition-adapter", [\
-      ["workspace:packages/sources/lition", {\
-        "packageLocation": "./packages/sources/lition/",\
-        "packageDependencies": [\
-          ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
