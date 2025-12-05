@@ -489,6 +489,9 @@
       "path": "./sources/nomia/tsconfig.test.json"
     },
     {
+      "path": "./sources/nomia2/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nyfed/tsconfig.test.json"
     },
     {
@@ -526,6 +529,9 @@
     },
     {
       "path": "./sources/por-indexer/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/r25/tsconfig.test.json"
     },
     {
       "path": "./sources/renvm-address-set/tsconfig.test.json"

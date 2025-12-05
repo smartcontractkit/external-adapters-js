@@ -675,6 +675,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nomia"\
     },\
     {\
+      "name": "@chainlink/nomia2-adapter",\
+      "reference": "workspace:packages/sources/nomia2"\
+    },\
+    {\
       "name": "@chainlink/nyfed-adapter",\
       "reference": "workspace:packages/sources/nyfed"\
     },\
@@ -1084,6 +1088,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
+    ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
@@ -7962,6 +7967,21 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nomia/",\
         "packageDependencies": [\
           ["@chainlink/nomia-adapter", "workspace:packages/sources/nomia"],\
+          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nomia2-adapter", [\
+      ["workspace:packages/sources/nomia2", {\
+        "packageLocation": "./packages/sources/nomia2/",\
+        "packageDependencies": [\
+          ["@chainlink/nomia2-adapter", "workspace:packages/sources/nomia2"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

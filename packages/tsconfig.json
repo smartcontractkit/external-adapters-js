@@ -489,6 +489,9 @@
       "path": "./sources/nomia"
     },
     {
+      "path": "./sources/nomia2"
+    },
+    {
       "path": "./sources/nyfed"
     },
     {
@@ -526,6 +529,9 @@
     },
     {
       "path": "./sources/por-indexer"
+    },
+    {
+      "path": "./sources/r25"
     },
     {
       "path": "./sources/renvm-address-set"
