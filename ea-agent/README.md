@@ -6,7 +6,7 @@ AI-powered tool that scaffolds Chainlink External Adapters from YAML specificati
 
 This agent automates the creation of External Adapters (EAs) by orchestrating multiple AI agents through a three-phase workflow:
 
-1. **Initialization** — Copies the package template and generates adapter code (transports, endpoints, config)
+1. **Setup & Develop** — Setups the EA folder with`yarn new` non-interactive mode and modifies & generates adapter code (transports, endpoints, config)
 2. **Integration Testing** — Writes and validates integration tests with a write-validate loop
 3. **Unit Testing** — Writes and validates unit tests with a write-validate loop
 
@@ -31,18 +31,10 @@ flowchart TD
 ea-agent/
 ├── src/
 │   └── agent.py           # Main orchestrator (runs the 3-phase workflow)
-├── package-template/      # EA scaffold template (copied for each new adapter)
-│   ├── src/
-│   │   ├── endpoint/      # Endpoint definitions (price, nav, lwba, reserve)
-│   │   ├── transport/     # Transport implementations (http, ws, custom)
-│   │   └── config/        # Adapter configuration
-│   └── test/
-│       ├── integration/   # Integration test templates
-│       └── unit/          # Unit test templates
 └── requests/              # YAML requirement files (input specs)
 
 .claude/agents/
-├── ea_developer.md              # System prompt: scaffolds the EA
+├── ea_developer.md              # System prompt: setup and develop the EA
 ├── ea_integration_test_writer.md    # System prompt: writes integration tests
 ├── ea_integration_test_validator.md # System prompt: validates integration tests
 ├── ea_unit_test_writer.md           # System prompt: writes unit tests
