@@ -739,10 +739,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/s3-csv-reader"\
     },\
     {\
-      "name": "@chainlink/satoshitango-adapter",\
-      "reference": "workspace:packages/sources/satoshitango"\
-    },\
-    {\
       "name": "@chainlink/securitize-adapter",\
       "reference": "workspace:packages/sources/securitize"\
     },\
@@ -1106,7 +1102,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
     ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
-    ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
@@ -8378,24 +8373,6 @@ const RAW_RUNTIME_STATE =
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.6.3"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/satoshitango-adapter", [\
-      ["workspace:packages/sources/satoshitango", {\
-        "packageLocation": "./packages/sources/satoshitango/",\
-        "packageDependencies": [\
-          ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
