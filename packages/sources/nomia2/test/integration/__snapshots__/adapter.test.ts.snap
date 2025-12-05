@@ -13,7 +13,7 @@ exports[`execute indices endpoint should fail if missing pct data 1`] = `
 
 exports[`execute indices endpoint should fail with missing key 1`] = `
 {
-  "errorMessage": "Missing values for invalid_id",
+  "errorMessage": "Missing series data for invalid_id",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

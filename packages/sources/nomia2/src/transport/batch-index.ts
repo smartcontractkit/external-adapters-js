@@ -78,51 +78,75 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
 
     // map results data to response values
     const allSeries = response.data.Results.series
-    const seriesIdDataMap: Map<string, IndexValues> = new Map()
+    // const seriesIdDataMap: Map<string, IndexValues> = new Map()
 
-    for (const series of allSeries) {
-      const seriesId = series.seriesID
-      const seriesData = series.data[0]
+    // for (const series of allSeries) {
+    //   const seriesId = series.seriesID
+    //   const seriesData = series.data[0]
 
-      // error on missing data
-      if (
-        seriesData.value === undefined ||
-        seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] === undefined ||
-        seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] === undefined
-      ) {
-        return params.map((param) => {
-          return {
-            params: param,
-            response: {
-              errorMessage: `Incomplete data for ${seriesId}`,
-              statusCode: 502,
-            },
-          }
-        })
-      }
+    //   // error on missing data
+    //   if (
+    //     seriesData.value === undefined ||
+    //     seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] === undefined ||
+    //     seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] === undefined
+    //   ) {
+    //     return params.map((param) => {
+    //       return {
+    //         params: param,
+    //         response: {
+    //           errorMessage: `Incomplete data for ${seriesId}`,
+    //           statusCode: 502,
+    //         },
+    //       }
+    //     })
+    //   }
 
-      seriesIdDataMap.set(seriesId, {
-        level: parseFloat(seriesData.value),
-        pct1mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH]),
-        pct12mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH]),
-      })
-    }
+    //   seriesIdDataMap.set(seriesId, {
+    //     level: parseFloat(seriesData.value),
+    //     pct1mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH]),
+    //     pct12mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH]),
+    //   })
+    // }
 
     return params.map((param) => {
       // ensure all ids are present
       const data: Record<string, IndexValues> = {}
       for (const id of param.indices) {
-        const indexValues = seriesIdDataMap.get(id)
-        if (!indexValues) {
+        const series = allSeries.find((series) => series.seriesID === id)
+
+        // check for missing series
+        if (!series?.data) {
           return {
             params: param,
             response: {
-              errorMessage: `Missing values for ${id}`,
+              errorMessage: `Missing series data for ${id}`,
               statusCode: 502,
             },
           }
         }
-        data[id] = indexValues
+
+        const seriesData = series.data[0]
+
+        // check for missing data fields in series data
+        if (
+          seriesData?.value === undefined ||
+          seriesData?.calculations?.pct_changes?.[PCT_CHANGE_1_MONTH] === undefined ||
+          seriesData?.calculations?.pct_changes?.[PCT_CHANGE_12_MONTH] === undefined
+        ) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Incomplete data for ${id}`,
+              statusCode: 502,
+            },
+          }
+        }
+
+        data[id] = {
+          level: parseFloat(seriesData.value),
+          pct1mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH]),
+          pct12mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH]),
+        }
       }
 
       return {
