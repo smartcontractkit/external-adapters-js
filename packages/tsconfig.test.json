@@ -528,6 +528,9 @@
       "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {
+      "path": "./sources/r25/tsconfig.test.json"
+    },
+    {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
