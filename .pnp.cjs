@@ -131,10 +131,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/the-graph"\
     },\
     {\
-      "name": "@chainlink/vesper-adapter",\
-      "reference": "workspace:packages/composites/vesper"\
-    },\
-    {\
       "name": "@chainlink/xsushi-price-adapter",\
       "reference": "workspace:packages/composites/xsushi-price"\
     },\
@@ -1148,7 +1144,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
-    ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -9151,22 +9146,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/vesper-adapter", [\
-      ["workspace:packages/composites/vesper", {\
-        "packageLocation": "./packages/composites/vesper/",\
-        "packageDependencies": [\
-          ["@chainlink/vesper-adapter", "workspace:packages/composites/vesper"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
