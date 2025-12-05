@@ -540,9 +540,6 @@
       "path": "./sources/s3-csv-reader"
     },
     {
-      "path": "./sources/satoshitango"
-    },
-    {
       "path": "./sources/securitize"
     },
     {
