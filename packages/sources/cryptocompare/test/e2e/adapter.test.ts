@@ -77,7 +77,7 @@ describe('execute', () => {
       throw new Error('Could not start server when running CryptoCompare e2e tests')
     }
 
-    // Send inital requests to warm the cache
+    // Send initial requests to warm the cache
     const pendingRequests: Test[] = []
     for (const reqData of Object.values(successfulRequests)) {
       pendingRequests.push(req.post('/').send(reqData))

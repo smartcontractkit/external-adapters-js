@@ -151,6 +151,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     }
   }
 
-  // Every method succeded. Network is healthy
+  // Every method succeeded. Network is healthy
   return _respond(true)
 }
