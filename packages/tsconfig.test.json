@@ -114,6 +114,9 @@
       "path": "./sources/1forge/tsconfig.test.json"
     },
     {
+      "path": "./sources/accountable/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
