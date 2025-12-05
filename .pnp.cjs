@@ -5579,7 +5579,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital-state/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

@@ -1,5 +1,11 @@
 # @chainlink/gm-token-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- [#4380](https://github.com/smartcontractkit/external-adapters-js/pull/4380) [`1ab5e75`](https://github.com/smartcontractkit/external-adapters-js/commit/1ab5e75ce59287bbeb51e9abd4242d7eed5b699b) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Updates Reader contract addresses for Arbitrum and Botanix
+
 ## 1.3.0
 
 ### Minor Changes
