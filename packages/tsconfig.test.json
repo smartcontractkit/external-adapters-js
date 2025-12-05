@@ -534,9 +534,6 @@
       "path": "./sources/s3-csv-reader/tsconfig.test.json"
     },
     {
-      "path": "./sources/satoshitango/tsconfig.test.json"
-    },
-    {
       "path": "./sources/securitize/tsconfig.test.json"
     },
     {
