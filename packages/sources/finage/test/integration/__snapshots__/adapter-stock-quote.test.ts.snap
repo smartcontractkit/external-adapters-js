@@ -75,3 +75,22 @@ exports[`stock quotes websocket stock quotes endpoint should return success 1`] 
   },
 }
 `;
+
+exports[`stock quotes websocket stock quotes endpoint should return success for number messages 1`] = `
+{
+  "data": {
+    "ask_price": 5,
+    "ask_volume": 6,
+    "bid_price": 7,
+    "bid_volume": 8,
+    "mid_price": 6,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 9,
+  },
+}
+`;
