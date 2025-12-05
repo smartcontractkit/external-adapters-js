@@ -69,9 +69,6 @@
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
-      "path": "./composites/outlier-detection/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -88,9 +85,6 @@
     },
     {
       "path": "./composites/the-graph/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/vesper/tsconfig.test.json"
     },
     {
       "path": "./composites/xsushi-price/tsconfig.test.json"
@@ -441,9 +435,6 @@
       "path": "./sources/linkpool/tsconfig.test.json"
     },
     {
-      "path": "./sources/lition/tsconfig.test.json"
-    },
-    {
       "path": "./sources/liveart/tsconfig.test.json"
     },
     {
@@ -528,13 +519,13 @@
       "path": "./sources/por-indexer/tsconfig.test.json"
     },
     {
+      "path": "./sources/r25/tsconfig.test.json"
+    },
+    {
       "path": "./sources/renvm-address-set/tsconfig.test.json"
     },
     {
       "path": "./sources/s3-csv-reader/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/satoshitango/tsconfig.test.json"
     },
     {
       "path": "./sources/securitize/tsconfig.test.json"
@@ -586,9 +577,6 @@
     },
     {
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/taapi/tsconfig.test.json"
     },
     {
       "path": "./sources/terra-view-function/tsconfig.test.json"

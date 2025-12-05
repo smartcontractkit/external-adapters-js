@@ -69,9 +69,6 @@
       "path": "./composites/nftx"
     },
     {
-      "path": "./composites/outlier-detection"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -88,9 +85,6 @@
     },
     {
       "path": "./composites/the-graph"
-    },
-    {
-      "path": "./composites/vesper"
     },
     {
       "path": "./composites/xsushi-price"
@@ -441,9 +435,6 @@
       "path": "./sources/linkpool"
     },
     {
-      "path": "./sources/lition"
-    },
-    {
       "path": "./sources/liveart"
     },
     {
@@ -528,13 +519,13 @@
       "path": "./sources/por-indexer"
     },
     {
+      "path": "./sources/r25"
+    },
+    {
       "path": "./sources/renvm-address-set"
     },
     {
       "path": "./sources/s3-csv-reader"
-    },
-    {
-      "path": "./sources/satoshitango"
     },
     {
       "path": "./sources/securitize"
@@ -586,9 +577,6 @@
     },
     {
       "path": "./sources/synthetix-feeds"
-    },
-    {
-      "path": "./sources/taapi"
     },
     {
       "path": "./sources/terra-view-function"
