@@ -87,9 +87,6 @@
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
-      "path": "./composites/vesper/tsconfig.test.json"
-    },
-    {
       "path": "./composites/xsushi-price/tsconfig.test.json"
     },
     {
@@ -583,9 +580,6 @@
     },
     {
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/taapi/tsconfig.test.json"
     },
     {
       "path": "./sources/terra-view-function/tsconfig.test.json"
