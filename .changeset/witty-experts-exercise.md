@@ -2,4 +2,4 @@
 '@chainlink/dxfeed-adapter': patch
 ---
 
-Handle mutiple ticker in one message
+Handle multiple tickers in one message
