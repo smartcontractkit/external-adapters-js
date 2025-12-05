@@ -480,6 +480,9 @@
       "path": "./sources/nomia/tsconfig.test.json"
     },
     {
+      "path": "./sources/nomia2/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nyfed/tsconfig.test.json"
     },
     {
