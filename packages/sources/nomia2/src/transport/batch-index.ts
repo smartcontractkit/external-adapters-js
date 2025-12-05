@@ -76,38 +76,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       })
     }
 
-    // map results data to response values
     const allSeries = response.data.Results.series
-    // const seriesIdDataMap: Map<string, IndexValues> = new Map()
-
-    // for (const series of allSeries) {
-    //   const seriesId = series.seriesID
-    //   const seriesData = series.data[0]
-
-    //   // error on missing data
-    //   if (
-    //     seriesData.value === undefined ||
-    //     seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH] === undefined ||
-    //     seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH] === undefined
-    //   ) {
-    //     return params.map((param) => {
-    //       return {
-    //         params: param,
-    //         response: {
-    //           errorMessage: `Incomplete data for ${seriesId}`,
-    //           statusCode: 502,
-    //         },
-    //       }
-    //     })
-    //   }
-
-    //   seriesIdDataMap.set(seriesId, {
-    //     level: parseFloat(seriesData.value),
-    //     pct1mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_1_MONTH]),
-    //     pct12mo: parseFloat(seriesData.calculations.pct_changes[PCT_CHANGE_12_MONTH]),
-    //   })
-    // }
-
     return params.map((param) => {
       // ensure all ids are present
       const data: Record<string, IndexValues> = {}
