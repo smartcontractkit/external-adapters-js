@@ -19,6 +19,14 @@ describe('websocket', () => {
     base: 'TSLA',
     transport: 'ws',
   }
+  const stockOvernightData = {
+    base: 'AAPL:USLF24',
+    transport: 'ws',
+  }
+  const stockFreshData = {
+    base: 'AMZN:USLF24',
+    transport: 'ws',
+  }
   const quoteData = {
     base: 'TSLA',
     endpoint: 'stock_quotes',
@@ -54,7 +62,9 @@ describe('websocket', () => {
     await testAdapter.request(quoteMulti1Data)
     await testAdapter.request(quoteMulti2Data)
     await testAdapter.request(stockData)
-    await testAdapter.waitForCache(6)
+    await testAdapter.request(stockOvernightData)
+    await testAdapter.request(stockFreshData)
+    await testAdapter.waitForCache(9)
   })
 
   afterAll(async () => {
@@ -67,6 +77,14 @@ describe('websocket', () => {
   describe('stock endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(stockData)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should return success - overnight', async () => {
+      const response = await testAdapter.request(stockOvernightData)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should return success - latest data', async () => {
+      const response = await testAdapter.request(stockFreshData)
       expect(response.json()).toMatchSnapshot()
     })
   })
