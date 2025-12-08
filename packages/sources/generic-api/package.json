@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/generic-api-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink generic-api adapter.",
   "keywords": [
     "Chainlink",

@@ -1,5 +1,15 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.6
+
+### Patch Changes
+
+- [#4285](https://github.com/smartcontractkit/external-adapters-js/pull/4285) [`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e) Thanks [@weifangc](https://github.com/weifangc)! - chore: fix some minor issues in comments
+
+- Updated dependencies [[`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e), [`581dacf`](https://github.com/smartcontractkit/external-adapters-js/commit/581dacfa444fed50d4f1f76e52c03f55fe40aef7)]:
+  - @chainlink/cryptocompare-adapter@3.4.3
+  - @chainlink/finage-adapter@2.4.0
+
 ## 1.14.5
 
 ### Patch Changes
