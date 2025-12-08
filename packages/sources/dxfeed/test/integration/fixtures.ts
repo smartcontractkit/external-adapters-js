@@ -63,6 +63,19 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     },
   ]
 
+  const multiQuoteReponse = [
+    {
+      data: [
+        'Quote',
+        [
+          ...['MULTI_1', 1, 2, 3, 4, 'V', 5, 6, 7, 'V', 8, 9],
+          ...['MULTI_2', 10, 11, 12, 13, 'V', 14, 15, 16, 'V', 17, 18],
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+
   const noBidQuoteReponse = [
     {
       data: [
@@ -125,6 +138,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     )
     socket.on('message', () => {
       socket.send(JSON.stringify(quoteReponse))
+      socket.send(JSON.stringify(multiQuoteReponse))
       socket.send(JSON.stringify(noBidQuoteReponse))
       socket.send(JSON.stringify(noAskQuoteReponse))
       socket.send(JSON.stringify(invalidQuoteReponse))
