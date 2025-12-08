@@ -1,5 +1,15 @@
 # @chainlink/dxfeed-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- [#4401](https://github.com/smartcontractkit/external-adapters-js/pull/4401) [`1138715`](https://github.com/smartcontractkit/external-adapters-js/commit/1138715a680baa214221132cb2f5e5d21125b257) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support after hours in price endpoint
+
+### Patch Changes
+
+- [#4398](https://github.com/smartcontractkit/external-adapters-js/pull/4398) [`80d1371`](https://github.com/smartcontractkit/external-adapters-js/commit/80d137112ec159c0af8c37ea5b8b84c40aac53fb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Handle multiple tickers in one message
+
 ## 2.2.1
 
 ### Patch Changes
