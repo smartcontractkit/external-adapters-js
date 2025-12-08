@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.7
+
+### Patch Changes
+
+- Updated dependencies [[`61646b0`](https://github.com/smartcontractkit/external-adapters-js/commit/61646b0ba7d111607a7c84e7d9f85de41b0ee947)]:
+  - @chainlink/finage-adapter@2.4.1
+
 ## 1.14.6
 
 ### Patch Changes
