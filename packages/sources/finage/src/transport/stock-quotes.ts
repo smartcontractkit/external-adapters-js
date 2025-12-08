@@ -27,7 +27,8 @@ const isValidNumber = (field: string | number) => field != null && !isNaN(Number
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
-    return `${context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
+    const url = context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT
+    return url.includes('/?token=') ? url : `${url}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
   },
   handlers: {
     message(message) {
