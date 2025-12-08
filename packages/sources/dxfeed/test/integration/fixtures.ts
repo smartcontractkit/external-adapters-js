@@ -174,7 +174,6 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
-
   const tradeResponseOvernightIgnored = [
     {
       data: [
@@ -187,6 +186,54 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
           12840,
           'V',
           500, // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const tradeETH_AMZN = [
+    {
+      data: [
+        'TradeETH',
+        [
+          'AMZN:USLF24',
+          0,
+          200,
+          0,
+          12840,
+          'V',
+          300, // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const tradeAMZNOldResponse = [
+    {
+      data: [
+        'Trade',
+        [
+          'AMZN:USLF24',
+          0,
+          100,
+          0,
+          12840,
+          'V',
+          200, // price
           0,
           105,
           20398,
@@ -219,6 +266,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(tradeResponseIgnored))
       socket.send(JSON.stringify(tradeResponseOvernight))
       socket.send(JSON.stringify(tradeResponseOvernightIgnored))
+      socket.send(JSON.stringify(tradeAMZNOldResponse))
+      socket.send(JSON.stringify(tradeETH_AMZN))
     })
   })
 

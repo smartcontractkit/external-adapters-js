@@ -106,6 +106,21 @@ exports[`websocket quote endpoint should return success for 2nd item in multi me
 }
 `;
 
+exports[`websocket stock endpoint should return success - latest data 1`] = `
+{
+  "data": {
+    "result": 300,
+  },
+  "result": 300,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 200,
+  },
+}
+`;
+
 exports[`websocket stock endpoint should return success - overnight 1`] = `
 {
   "data": {
