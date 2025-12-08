@@ -551,10 +551,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ice"\
     },\
     {\
-      "name": "@chainlink/iex-cloud-adapter",\
-      "reference": "workspace:packages/sources/iex-cloud"\
-    },\
-    {\
       "name": "@chainlink/ignition-address-list-adapter",\
       "reference": "workspace:packages/sources/ignition-address-list"\
     },\
@@ -1029,7 +1025,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
-    ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
@@ -7274,21 +7269,6 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["xmlhttprequest", "npm:1.8.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/iex-cloud-adapter", [\
-      ["workspace:packages/sources/iex-cloud", {\
-        "packageLocation": "./packages/sources/iex-cloud/",\
-        "packageDependencies": [\
-          ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
