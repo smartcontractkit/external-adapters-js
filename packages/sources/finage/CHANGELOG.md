@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.4.0
+
+### Minor Changes
+
+- [#4396](https://github.com/smartcontractkit/external-adapters-js/pull/4396) [`581dacf`](https://github.com/smartcontractkit/external-adapters-js/commit/581dacfa444fed50d4f1f76e52c03f55fe40aef7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix a message format bug
+
 ## 2.3.2
 
 ### Patch Changes
