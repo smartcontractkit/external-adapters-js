@@ -1,10 +1,12 @@
-# EA Scaffolding Agent
+# Source EA Agent
 
-AI-powered tool that scaffolds Chainlink External Adapters from YAML specifications.
+AI-powered tool that scaffolds Chainlink Source External Adapters from YAML specifications.
+
+**This agent is dedicated to developing Source EAs**
 
 ## What is This?
 
-This agent automates the creation of External Adapters (EAs) by orchestrating multiple AI agents through a three-phase workflow:
+This agent automates the creation of Source External Adapters by orchestrating multiple AI agents through a three-phase workflow:
 
 1. **Setup & Develop** — Setups the EA folder with`yarn new` non-interactive mode and modifies & generates adapter code (transports, endpoints, config)
 2. **Integration Testing** — Writes and validates integration tests with a write-validate loop
@@ -30,7 +32,7 @@ flowchart TD
 ```
 ea-agent/
 ├── src/
-│   └── agent.py           # Main orchestrator (runs the 3-phase workflow)
+│   └── source_ea_agent.py # Main orchestrator for Source EAs (runs the 3-phase workflow)
 └── requests/              # YAML requirement files (input specs)
 
 .claude/agents/
@@ -52,7 +54,7 @@ ea-agent/
 ### Run the Agent
 
 ```bash
-uv run ea-agent/src/agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
+uv run ea-agent/src/source_ea_agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
 ```
 
 The YAML file should contain the EA specification including:

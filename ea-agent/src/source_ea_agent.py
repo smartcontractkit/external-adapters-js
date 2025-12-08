@@ -1,5 +1,5 @@
 """
-EA Scaffolding Agent - Orchestrates AI agents to build External Adapters.
+Source EA Agent - Orchestrates AI agents to build Source External Adapters.
 
 Environment Variables:
     WORKFLOW_MODEL: Model to use (default: claude-opus-4-5@20251101)

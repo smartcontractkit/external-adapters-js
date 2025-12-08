@@ -175,7 +175,7 @@ jobs:
         id: ea
         run: |
           echo "🚀 Starting EA generation..."
-          uv run --project ea-agent python ea-agent/src/agent.py "${{ steps.yaml.outputs.file }}"
+          uv run --project ea-agent python ea-agent/src/source_ea_agent.py "${{ steps.yaml.outputs.file }}"
 
       - name: Check for changes
         id: changes
