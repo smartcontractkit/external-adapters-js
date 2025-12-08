@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.4.1
+
+### Patch Changes
+
+- [#4408](https://github.com/smartcontractkit/external-adapters-js/pull/4408) [`61646b0`](https://github.com/smartcontractkit/external-adapters-js/commit/61646b0ba7d111607a7c84e7d9f85de41b0ee947) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow STOCK_QUOTES_WS_API_ENDPOINT to contain token
+
 ## 2.4.0
 
 ### Minor Changes
