@@ -18,12 +18,8 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
       : [{ Trade: [ticker] }]
   },
   (message) => {
-    if (
-      message[0].data[0] != 'Trade' &&
-      message[0].data[0][0] != 'Trade' &&
-      message[0].data[0] != 'TradeETH' &&
-      message[0].data[0][0] != 'TradeETH'
-    ) {
+    const protocol = Array.isArray(message[0].data[0]) ? message[0].data[0][0] : message[0].data[0]
+    if (!['Trade', 'TradeETH'].includes(protocol)) {
       return []
     }
 
