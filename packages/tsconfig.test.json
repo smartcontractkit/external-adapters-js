@@ -396,9 +396,6 @@
       "path": "./sources/ice/tsconfig.test.json"
     },
     {
-      "path": "./sources/iex-cloud/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ignition-address-list/tsconfig.test.json"
     },
     {
