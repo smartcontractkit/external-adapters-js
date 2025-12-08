@@ -522,9 +522,6 @@
       "path": "./sources/por-indexer"
     },
     {
-      "path": "./sources/r25"
-    },
-    {
       "path": "./sources/renvm-address-set"
     },
     {

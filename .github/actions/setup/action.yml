@@ -138,6 +138,8 @@ runs:
             ]' packages/tsconfig.json \
           > packages/tsconfig.tmp.json
         fi
+        echo "Contents of changed adapters tsconfig:"
+        cat packages/tsconfig.tmp.json
 
         echo "CHANGED_ADAPTERS=$(jq -c '.references' packages/tsconfig.tmp.json)" >> $GITHUB_ENV
     - name: Build files
