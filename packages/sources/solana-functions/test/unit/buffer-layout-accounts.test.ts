@@ -114,7 +114,7 @@ describe('buffer-layout-accounts', () => {
           rpc,
         }),
       ).rejects.toThrow(
-        'Unsupported Token Program account size: 4 bytes. Expected 82 (Mint) or 165 (Token Account)',
+        `No layout with matching data length (4) for program address 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'. Available layouts have lengths: [165, 82]`,
       )
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })

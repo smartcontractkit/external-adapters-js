@@ -37,13 +37,30 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
 const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
-// https://github.com/solana-labs/solana-program-library/blob/token-v4.0.0/token/program/src/state.rs#L37
-const MINT_SIZE = 82
-// https://github.com/solana-labs/solana-program-library/blob/token-v4.0.0/token/program/src/state.rs#L129
-const TOKEN_ACCOUNT_SIZE = 165
+const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> = {
+  [solanaTokenProgramAddress]: [AccountLayout, MintLayout],
+  [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
+}
 
-const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>> = {
-  [sanctumControllerProgramAddress]: SanctumPoolStateLayout,
+const getLayout = (programAddress: string, dataLength: number): BufferLayout.Layout<unknown> => {
+  const layoutCandidates = programToBufferLayoutMap[programAddress]
+  if (!layoutCandidates) {
+    throw new AdapterInputError({
+      message: `No layout known for program address '${programAddress}'`,
+      statusCode: 500,
+    })
+  }
+  for (const layout of layoutCandidates) {
+    if (layout.span === dataLength) {
+      return layout
+    }
+  }
+  throw new AdapterInputError({
+    message: `No layout with matching data length (${dataLength}) for program address '${programAddress}'. Available layouts have lengths: [${layoutCandidates
+      .map((l) => l.span)
+      .join(', ')}]`,
+    statusCode: 500,
+  })
 }
 
 export const fetchFieldFromBufferLayoutStateAccount = async ({
@@ -66,31 +83,7 @@ export const fetchFieldFromBufferLayoutStateAccount = async ({
   }
 
   const data = Buffer.from(resp.value.data[0] as string, encoding)
-
-  // Dynamically select layout for Token Program accounts based on size
-  let layout: BufferLayout.Layout<unknown>
-
-  if (programAddress.toString() === solanaTokenProgramAddress) {
-    if (data.length === MINT_SIZE) {
-      layout = MintLayout
-    } else if (data.length === TOKEN_ACCOUNT_SIZE) {
-      layout = AccountLayout
-    } else {
-      throw new AdapterInputError({
-        message: `Unsupported Token Program account size: ${data.length} bytes. Expected ${MINT_SIZE} (Mint) or ${TOKEN_ACCOUNT_SIZE} (Token Account)`,
-        statusCode: 500,
-      })
-    }
-  } else {
-    layout = programToBufferLayoutMap[programAddress.toString()]
-
-    if (!layout) {
-      throw new AdapterInputError({
-        message: `No layout known for program address '${programAddress}'`,
-        statusCode: 500,
-      })
-    }
-  }
+  const layout = getLayout(programAddress.toString(), data.length)
   const dataDecoded = layout.decode(data) as Record<string, unknown>
   const resultValue = dataDecoded[field]
 
