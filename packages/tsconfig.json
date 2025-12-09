@@ -6,9 +6,6 @@
       "path": "./composites/anchor"
     },
     {
-      "path": "./composites/apy-finance"
-    },
-    {
       "path": "./composites/augur"
     },
     {

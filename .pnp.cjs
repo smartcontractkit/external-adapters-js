@@ -19,10 +19,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/anchor"\
     },\
     {\
-      "name": "@chainlink/apy-finance-adapter",\
-      "reference": "workspace:packages/composites/apy-finance"\
-    },\
-    {\
       "name": "@chainlink/augur-adapter",\
       "reference": "workspace:packages/composites/augur"\
     },\
@@ -917,7 +913,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
-    ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
@@ -5232,24 +5227,6 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.9.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/apy-finance-adapter", [\
-      ["workspace:packages/composites/apy-finance", {\
-        "packageLocation": "./packages/composites/apy-finance/",\
-        "packageDependencies": [\
-          ["@chainlink/apy-finance-adapter", "workspace:packages/composites/apy-finance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

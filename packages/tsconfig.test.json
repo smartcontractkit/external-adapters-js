@@ -6,9 +6,6 @@
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
