@@ -243,9 +243,6 @@
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {
-      "path": "./sources/currencylayer/tsconfig.test.json"
-    },
-    {
       "path": "./sources/curve/tsconfig.test.json"
     },
     {
