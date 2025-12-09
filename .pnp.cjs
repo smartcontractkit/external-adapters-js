@@ -239,10 +239,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/binance"\
     },\
     {\
-      "name": "@chainlink/bitex-adapter",\
-      "reference": "workspace:packages/sources/bitex"\
-    },\
-    {\
       "name": "@chainlink/bitgo-adapter",\
       "reference": "workspace:packages/sources/bitgo"\
     },\
@@ -931,7 +927,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
-    ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
     ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
@@ -5402,24 +5397,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bitex-adapter", [\
-      ["workspace:packages/sources/bitex", {\
-        "packageLocation": "./packages/sources/bitex/",\
-        "packageDependencies": [\
-          ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
