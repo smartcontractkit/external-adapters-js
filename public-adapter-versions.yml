@@ -357,8 +357,6 @@ adapters:
     version: 3.0.25
   - name: starknet-gas-price
     version: 1.0.25
-  - name: stasis
-    version: 1.2.47
   - name: streamex
     version: 1.0.0
   - name: superstate
