@@ -391,8 +391,6 @@ adapters:
     version: 0.4.1
   - name: trueusd
     version: 3.0.34
-  - name: trumatic-matic-exchange-rate
-    version: 1.0.32
   - name: twelvedata
     version: 1.4.16
   - name: twosigma
