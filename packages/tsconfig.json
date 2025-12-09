@@ -606,9 +606,6 @@
       "path": "./sources/twosigma"
     },
     {
-      "path": "./sources/unibit"
-    },
-    {
       "path": "./sources/uniswap-v2"
     },
     {

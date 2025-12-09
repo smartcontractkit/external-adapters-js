@@ -831,10 +831,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/twosigma"\
     },\
     {\
-      "name": "@chainlink/unibit-adapter",\
-      "reference": "workspace:packages/sources/unibit"\
-    },\
-    {\
       "name": "@chainlink/uniswap-v2-adapter",\
       "reference": "workspace:packages/sources/uniswap-v2"\
     },\
@@ -1100,7 +1096,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
-    ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
@@ -8892,24 +8887,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/unibit-adapter", [\
-      ["workspace:packages/sources/unibit", {\
-        "packageLocation": "./packages/sources/unibit/",\
-        "packageDependencies": [\
-          ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
