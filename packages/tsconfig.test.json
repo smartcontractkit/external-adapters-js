@@ -6,9 +6,6 @@
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -121,9 +118,6 @@
     },
     {
       "path": "./sources/allium-state/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/alphachain/tsconfig.test.json"
     },
     {
       "path": "./sources/alpine/tsconfig.test.json"

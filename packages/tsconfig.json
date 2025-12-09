@@ -6,9 +6,6 @@
       "path": "./composites/anchor"
     },
     {
-      "path": "./composites/apy-finance"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -121,9 +118,6 @@
     },
     {
       "path": "./sources/allium-state"
-    },
-    {
-      "path": "./sources/alphachain"
     },
     {
       "path": "./sources/alpine"
