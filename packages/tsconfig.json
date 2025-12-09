@@ -246,9 +246,6 @@
       "path": "./sources/cryptocompare"
     },
     {
-      "path": "./sources/currencylayer"
-    },
-    {
       "path": "./sources/curve"
     },
     {
