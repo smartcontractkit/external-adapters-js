@@ -835,10 +835,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/trueusd"\
     },\
     {\
-      "name": "@chainlink/trumatic-matic-exchange-rate-adapter",\
-      "reference": "workspace:packages/sources/trumatic-matic-exchange-rate"\
-    },\
-    {\
       "name": "@chainlink/twelvedata-adapter",\
       "reference": "workspace:packages/sources/twelvedata"\
     },\
@@ -1117,7 +1113,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
@@ -8929,22 +8924,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", [\
-      ["workspace:packages/sources/trumatic-matic-exchange-rate", {\
-        "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
-        "packageDependencies": [\
-          ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
