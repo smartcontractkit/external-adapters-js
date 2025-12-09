@@ -6,9 +6,6 @@
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -120,9 +117,6 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphachain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -159,9 +153,6 @@
       "path": "./sources/binance/tsconfig.test.json"
     },
     {
-      "path": "./sources/bitex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
@@ -169,9 +160,6 @@
     },
     {
       "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/bitso/tsconfig.test.json"
     },
     {
       "path": "./sources/blockchain.com/tsconfig.test.json"
@@ -498,9 +486,6 @@
       "path": "./sources/openexchangerates/tsconfig.test.json"
     },
     {
-      "path": "./sources/paxos/tsconfig.test.json"
-    },
-    {
       "path": "./sources/paypal/tsconfig.test.json"
     },
     {
@@ -558,9 +543,6 @@
       "path": "./sources/starknet-gas-price/tsconfig.test.json"
     },
     {
-      "path": "./sources/stasis/tsconfig.test.json"
-    },
-    {
       "path": "./sources/streamex/tsconfig.test.json"
     },
     {
@@ -606,16 +588,10 @@
       "path": "./sources/trueusd/tsconfig.test.json"
     },
     {
-      "path": "./sources/trumatic-matic-exchange-rate/tsconfig.test.json"
-    },
-    {
       "path": "./sources/twelvedata/tsconfig.test.json"
     },
     {
       "path": "./sources/twosigma/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/unibit/tsconfig.test.json"
     },
     {
       "path": "./sources/uniswap-v2/tsconfig.test.json"
