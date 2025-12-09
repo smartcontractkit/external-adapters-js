@@ -1,11 +1,9 @@
 {
   "blacklist": [
     "ada-balance",
-    "alphachain",
     "alpine",
     "anchor",
     "anyblock",
-    "apy-finance",
     "augur",
     "anchorage",
     "bitcoin-json-rpc",
