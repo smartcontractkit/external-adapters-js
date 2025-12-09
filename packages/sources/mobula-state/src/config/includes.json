@@ -132,6 +132,17 @@
     ]
   },
   {
+    "from": "BETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "100019748",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "BOME",
     "to": "SOL",
     "includes": [
@@ -165,11 +176,33 @@
     ]
   },
   {
+    "from": "BNSOL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102484810",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "BOTANIXPBTC",
     "to": "USD",
     "includes": [
       {
         "from": "61216",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "BOTANIXPUSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "60895",
         "to": "USD",
         "inverse": false
       }
@@ -418,6 +451,17 @@
     ]
   },
   {
+    "from": "DRV",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102501273",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "DEUSD",
     "to": "USD",
     "includes": [
@@ -577,6 +621,17 @@
     "includes": [
       {
         "from": "102484001",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "FEUSD",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504433",
         "to": "USD",
         "inverse": false
       }
@@ -874,6 +929,17 @@
     "includes": [
       {
         "from": "102483173",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "KBTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102498910",
         "to": "USD",
         "inverse": false
       }
@@ -1287,6 +1353,17 @@
     ]
   },
   {
+    "from": "PICOSOL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102483319",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "PUFETH",
     "to": "ETH",
     "includes": [
@@ -1380,6 +1457,17 @@
     "includes": [
       {
         "from": "100009986",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "RLB",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "5700",
         "to": "USD",
         "inverse": false
       }
@@ -1870,6 +1958,17 @@
     ]
   },
   {
+    "from": "TITCOIN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504089",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "TKX",
     "to": "USD",
     "includes": [
@@ -1919,6 +2018,28 @@
     "includes": [
       {
         "from": "102484359",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "UBTC",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504436",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "UETH",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "102504435",
         "to": "USD",
         "inverse": false
       }
@@ -2057,6 +2178,17 @@
     ]
   },
   {
+    "from": "USDU",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "61466",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
     "from": "USDO",
     "to": "USD",
     "includes": [
@@ -2150,6 +2282,17 @@
     "includes": [
       {
         "from": "102484696",
+        "to": "USD",
+        "inverse": false
+      }
+    ]
+  },
+  {
+    "from": "USOL",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "60842",
         "to": "USD",
         "inverse": false
       }

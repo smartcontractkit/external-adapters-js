@@ -165,9 +165,6 @@
       "path": "./sources/bitgo-reserves-test"
     },
     {
-      "path": "./sources/bitso"
-    },
-    {
       "path": "./sources/blockchain.com"
     },
     {
