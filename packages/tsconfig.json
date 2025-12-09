@@ -501,9 +501,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/paxos"
-    },
-    {
       "path": "./sources/paypal"
     },
     {
