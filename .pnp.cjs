@@ -243,10 +243,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves-test"\
     },\
     {\
-      "name": "@chainlink/bitso-adapter",\
-      "reference": "workspace:packages/sources/bitso"\
-    },\
-    {\
       "name": "@chainlink/blockchain.com-adapter",\
       "reference": "workspace:packages/sources/blockchain.com"\
     },\
@@ -920,7 +916,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
     ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
-    ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
@@ -5405,25 +5400,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bitso-adapter", [\
-      ["workspace:packages/sources/bitso", {\
-        "packageLocation": "./packages/sources/bitso/",\
-        "packageDependencies": [\
-          ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/express", "npm:4.17.23"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -14942,17 +14918,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/body-parser", [\
-      ["npm:1.19.5", {\
-        "packageLocation": "./.yarn/cache/@types-body-parser-npm-1.19.5-97fb106976-1e251118c4.zip/node_modules/@types/body-parser/",\
-        "packageDependencies": [\
-          ["@types/body-parser", "npm:1.19.5"],\
-          ["@types/connect", "npm:3.4.38"],\
-          ["@types/node", "npm:22.9.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/cacheable-request", [\
       ["npm:6.0.3", {\
         "packageLocation": "./.yarn/cache/@types-cacheable-request-npm-6.0.3-770619032a-159f9fdb2a.zip/node_modules/@types/cacheable-request/",\
@@ -15069,32 +15034,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/express", [\
-      ["npm:4.17.23", {\
-        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.23-63c8c95a13-cf4d540bbd.zip/node_modules/@types/express/",\
-        "packageDependencies": [\
-          ["@types/express", "npm:4.17.23"],\
-          ["@types/body-parser", "npm:1.19.5"],\
-          ["@types/express-serve-static-core", "npm:4.19.6"],\
-          ["@types/qs", "npm:6.9.17"],\
-          ["@types/serve-static", "npm:1.15.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/express-serve-static-core", [\
-      ["npm:4.19.6", {\
-        "packageLocation": "./.yarn/cache/@types-express-serve-static-core-npm-4.19.6-cc0017aaf4-a2e00b6c59.zip/node_modules/@types/express-serve-static-core/",\
-        "packageDependencies": [\
-          ["@types/express-serve-static-core", "npm:4.19.6"],\
-          ["@types/node", "npm:22.9.1"],\
-          ["@types/qs", "npm:6.9.17"],\
-          ["@types/range-parser", "npm:1.2.7"],\
-          ["@types/send", "npm:0.17.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/fast-redact", [\
       ["npm:3.0.4", {\
         "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
@@ -15130,15 +15069,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-http-cache-semantics-npm-4.0.4-6d4f413ddd-a59566cff6.zip/node_modules/@types/http-cache-semantics/",\
         "packageDependencies": [\
           ["@types/http-cache-semantics", "npm:4.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/http-errors", [\
-      ["npm:2.0.4", {\
-        "packageLocation": "./.yarn/cache/@types-http-errors-npm-2.0.4-8b39ca5d7c-1f3d7c3b32.zip/node_modules/@types/http-errors/",\
-        "packageDependencies": [\
-          ["@types/http-errors", "npm:2.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15279,15 +15209,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-methods-npm-1.1.4-8565dc8af4-ad2a717848.zip/node_modules/@types/methods/",\
         "packageDependencies": [\
           ["@types/methods", "npm:1.1.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/mime", [\
-      ["npm:1.3.5", {\
-        "packageLocation": "./.yarn/cache/@types-mime-npm-1.3.5-48d28990db-e29a5f9c47.zip/node_modules/@types/mime/",\
-        "packageDependencies": [\
-          ["@types/mime", "npm:1.3.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15489,24 +15410,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/qs", [\
-      ["npm:6.9.17", {\
-        "packageLocation": "./.yarn/cache/@types-qs-npm-6.9.17-f0eceee63c-fc3beda0be.zip/node_modules/@types/qs/",\
-        "packageDependencies": [\
-          ["@types/qs", "npm:6.9.17"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/range-parser", [\
-      ["npm:1.2.7", {\
-        "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.7-a83c0b6429-95640233b6.zip/node_modules/@types/range-parser/",\
-        "packageDependencies": [\
-          ["@types/range-parser", "npm:1.2.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/redux-logger", [\
       ["npm:3.0.13", {\
         "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.13-2c5fb9a707-fb8386c6a0.zip/node_modules/@types/redux-logger/",\
@@ -15552,29 +15455,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-semver-npm-7.5.8-26073743d7-3496808818.zip/node_modules/@types/semver/",\
         "packageDependencies": [\
           ["@types/semver", "npm:7.5.8"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/send", [\
-      ["npm:0.17.4", {\
-        "packageLocation": "./.yarn/cache/@types-send-npm-0.17.4-9d7c55577f-28320a2aa1.zip/node_modules/@types/send/",\
-        "packageDependencies": [\
-          ["@types/send", "npm:0.17.4"],\
-          ["@types/mime", "npm:1.3.5"],\
-          ["@types/node", "npm:22.9.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/serve-static", [\
-      ["npm:1.15.7", {\
-        "packageLocation": "./.yarn/cache/@types-serve-static-npm-1.15.7-d4eef0bd1a-c5a7171d56.zip/node_modules/@types/serve-static/",\
-        "packageDependencies": [\
-          ["@types/serve-static", "npm:1.15.7"],\
-          ["@types/http-errors", "npm:2.0.4"],\
-          ["@types/node", "npm:22.9.1"],\
-          ["@types/send", "npm:0.17.4"]\
         ],\
         "linkType": "HARD"\
       }]\
