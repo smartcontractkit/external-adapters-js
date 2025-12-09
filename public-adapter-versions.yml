@@ -7,8 +7,6 @@ adapters:
     version: 2.1.8
   - name: allium-state
     version: 1.0.3
-  - name: alphachain
-    version: 1.3.47
   - name: alpine
     version: 2.0.7
   - name: amberdata
@@ -23,8 +21,6 @@ adapters:
     version: 1.3.47
   - name: apex
     version: 1.0.11
-  - name: apy-finance
-    version: 2.0.120
   - name: asseto-finance
     version: 1.0.2
   - name: augur
@@ -41,16 +37,12 @@ adapters:
     version: 1.4.47
   - name: bitcoin-json-rpc
     version: 1.3.47
-  - name: bitex
-    version: 1.5.47
   - name: bitgo
     version: 1.0.22
   - name: bitgo-reserves
     version: 2.2.3
   - name: bitgo-reserves-test
     version: 1.1.3
-  - name: bitso
-    version: 1.4.49
   - name: blockchain.com
     version: 1.3.47
   - name: blockchair
@@ -355,8 +347,6 @@ adapters:
     version: 3.0.25
   - name: starknet-gas-price
     version: 1.0.25
-  - name: stasis
-    version: 1.2.47
   - name: streamex
     version: 1.0.0
   - name: superstate
@@ -389,14 +379,10 @@ adapters:
     version: 0.4.1
   - name: trueusd
     version: 3.0.34
-  - name: trumatic-matic-exchange-rate
-    version: 1.0.32
   - name: twelvedata
     version: 1.4.16
   - name: twosigma
     version: 1.2.41
-  - name: unibit
-    version: 1.4.47
   - name: uniswap-v2
     version: 2.0.31
   - name: upvest
