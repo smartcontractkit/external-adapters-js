@@ -6,9 +6,6 @@
       "path": "./composites/anchor"
     },
     {
-      "path": "./composites/apy-finance"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -123,9 +120,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/alphachain"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
@@ -162,9 +156,6 @@
       "path": "./sources/binance"
     },
     {
-      "path": "./sources/bitex"
-    },
-    {
       "path": "./sources/bitgo"
     },
     {
@@ -172,9 +163,6 @@
     },
     {
       "path": "./sources/bitgo-reserves-test"
-    },
-    {
-      "path": "./sources/bitso"
     },
     {
       "path": "./sources/blockchain.com"
@@ -613,9 +601,6 @@
     },
     {
       "path": "./sources/twosigma"
-    },
-    {
-      "path": "./sources/unibit"
     },
     {
       "path": "./sources/uniswap-v2"
