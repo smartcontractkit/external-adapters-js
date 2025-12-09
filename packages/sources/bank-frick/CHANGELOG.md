@@ -1,5 +1,11 @@
 # @chainlink/bank-frick-adapter
 
+## 1.1.54
+
+### Patch Changes
+
+- [#4430](https://github.com/smartcontractkit/external-adapters-js/pull/4430) [`75c2a8a`](https://github.com/smartcontractkit/external-adapters-js/commit/75c2a8ab3ec37d06788f954f141c60f7ae628873) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Bumped framework version
+
 ## 1.1.53
 
 ### Patch Changes
