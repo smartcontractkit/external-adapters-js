@@ -180,9 +180,6 @@
       "path": "./sources/bob/tsconfig.test.json"
     },
     {
-      "path": "./sources/bravenewcoin/tsconfig.test.json"
-    },
-    {
       "path": "./sources/btc.com/tsconfig.test.json"
     },
     {
