@@ -489,9 +489,6 @@
       "path": "./sources/openexchangerates/tsconfig.test.json"
     },
     {
-      "path": "./sources/paxos/tsconfig.test.json"
-    },
-    {
       "path": "./sources/paypal/tsconfig.test.json"
     },
     {
