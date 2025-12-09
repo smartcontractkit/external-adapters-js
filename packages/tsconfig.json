@@ -45,9 +45,6 @@
       "path": "./composites/implied-price-test"
     },
     {
-      "path": "./composites/linear-finance"
-    },
-    {
       "path": "./composites/llama-guard"
     },
     {

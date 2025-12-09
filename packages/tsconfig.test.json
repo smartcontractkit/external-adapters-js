@@ -45,9 +45,6 @@
       "path": "./composites/implied-price-test/tsconfig.test.json"
     },
     {
-      "path": "./composites/linear-finance/tsconfig.test.json"
-    },
-    {
       "path": "./composites/llama-guard/tsconfig.test.json"
     },
     {
