@@ -6,9 +6,6 @@
       "path": "./composites/anchor/tsconfig.test.json"
     },
     {
-      "path": "./composites/apy-finance/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
@@ -123,9 +120,6 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/alphachain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/alpine/tsconfig.test.json"
     },
     {
@@ -162,9 +156,6 @@
       "path": "./sources/binance/tsconfig.test.json"
     },
     {
-      "path": "./sources/bitex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
@@ -172,9 +163,6 @@
     },
     {
       "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/bitso/tsconfig.test.json"
     },
     {
       "path": "./sources/blockchain.com/tsconfig.test.json"
