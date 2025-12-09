@@ -549,9 +549,6 @@
       "path": "./sources/starknet-gas-price"
     },
     {
-      "path": "./sources/stasis"
-    },
-    {
       "path": "./sources/streamex"
     },
     {

@@ -755,10 +755,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/starknet-gas-price"\
     },\
     {\
-      "name": "@chainlink/stasis-adapter",\
-      "reference": "workspace:packages/sources/stasis"\
-    },\
-    {\
       "name": "@chainlink/streamex-adapter",\
       "reference": "workspace:packages/sources/streamex"\
     },\
@@ -1070,7 +1066,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
-    ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
     ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -8478,24 +8473,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:14.0.6"],\
           ["starknet", "npm:6.9.0"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/stasis-adapter", [\
-      ["workspace:packages/sources/stasis", {\
-        "packageLocation": "./packages/sources/stasis/",\
-        "packageDependencies": [\
-          ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
