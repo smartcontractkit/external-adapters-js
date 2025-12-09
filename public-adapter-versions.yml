@@ -297,8 +297,6 @@ adapters:
     version: 1.1.3
   - name: openexchangerates
     version: 3.0.0
-  - name: paxos
-    version: 1.4.39
   - name: paypal
     version: 1.2.47
   - name: polkadot-balance
@@ -347,8 +345,6 @@ adapters:
     version: 3.0.25
   - name: starknet-gas-price
     version: 1.0.25
-  - name: stasis
-    version: 1.2.47
   - name: streamex
     version: 1.0.0
   - name: superstate
@@ -381,14 +377,10 @@ adapters:
     version: 0.4.1
   - name: trueusd
     version: 3.0.34
-  - name: trumatic-matic-exchange-rate
-    version: 1.0.32
   - name: twelvedata
     version: 1.4.16
   - name: twosigma
     version: 1.2.41
-  - name: unibit
-    version: 1.4.47
   - name: uniswap-v2
     version: 2.0.31
   - name: upvest

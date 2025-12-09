@@ -486,9 +486,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/paxos"
-    },
-    {
       "path": "./sources/paypal"
     },
     {
@@ -546,9 +543,6 @@
       "path": "./sources/starknet-gas-price"
     },
     {
-      "path": "./sources/stasis"
-    },
-    {
       "path": "./sources/streamex"
     },
     {
@@ -594,16 +588,10 @@
       "path": "./sources/trueusd"
     },
     {
-      "path": "./sources/trumatic-matic-exchange-rate"
-    },
-    {
       "path": "./sources/twelvedata"
     },
     {
       "path": "./sources/twosigma"
-    },
-    {
-      "path": "./sources/unibit"
     },
     {
       "path": "./sources/uniswap-v2"

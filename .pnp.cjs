@@ -671,10 +671,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/openexchangerates"\
     },\
     {\
-      "name": "@chainlink/paxos-adapter",\
-      "reference": "workspace:packages/sources/paxos"\
-    },\
-    {\
       "name": "@chainlink/paypal-adapter",\
       "reference": "workspace:packages/sources/paypal"\
     },\
@@ -751,10 +747,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/starknet-gas-price"\
     },\
     {\
-      "name": "@chainlink/stasis-adapter",\
-      "reference": "workspace:packages/sources/stasis"\
-    },\
-    {\
       "name": "@chainlink/streamex-adapter",\
       "reference": "workspace:packages/sources/streamex"\
     },\
@@ -815,20 +807,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/trueusd"\
     },\
     {\
-      "name": "@chainlink/trumatic-matic-exchange-rate-adapter",\
-      "reference": "workspace:packages/sources/trumatic-matic-exchange-rate"\
-    },\
-    {\
       "name": "@chainlink/twelvedata-adapter",\
       "reference": "workspace:packages/sources/twelvedata"\
     },\
     {\
       "name": "@chainlink/twosigma-adapter",\
       "reference": "workspace:packages/sources/twosigma"\
-    },\
-    {\
-      "name": "@chainlink/unibit-adapter",\
-      "reference": "workspace:packages/sources/unibit"\
     },\
     {\
       "name": "@chainlink/uniswap-v2-adapter",\
@@ -1046,7 +1030,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
@@ -1073,7 +1056,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
-    ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
     ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -1092,10 +1074,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
-    ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
@@ -7943,24 +7923,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/paxos-adapter", [\
-      ["workspace:packages/sources/paxos", {\
-        "packageLocation": "./packages/sources/paxos/",\
-        "packageDependencies": [\
-          ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/paypal-adapter", [\
       ["workspace:packages/sources/paypal", {\
         "packageLocation": "./packages/sources/paypal/",\
@@ -8470,24 +8432,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/stasis-adapter", [\
-      ["workspace:packages/sources/stasis", {\
-        "packageLocation": "./packages/sources/stasis/",\
-        "packageDependencies": [\
-          ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/streamex-adapter", [\
       ["workspace:packages/sources/streamex", {\
         "packageLocation": "./packages/sources/streamex/",\
@@ -8823,22 +8767,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", [\
-      ["workspace:packages/sources/trumatic-matic-exchange-rate", {\
-        "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
-        "packageDependencies": [\
-          ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/twelvedata-adapter", [\
       ["workspace:packages/sources/twelvedata", {\
         "packageLocation": "./packages/sources/twelvedata/",\
@@ -8869,24 +8797,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/unibit-adapter", [\
-      ["workspace:packages/sources/unibit", {\
-        "packageLocation": "./packages/sources/unibit/",\
-        "packageDependencies": [\
-          ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
