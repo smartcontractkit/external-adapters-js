@@ -156,9 +156,6 @@
       "path": "./sources/binance"
     },
     {
-      "path": "./sources/bitex"
-    },
-    {
       "path": "./sources/bitgo"
     },
     {

@@ -156,9 +156,6 @@
       "path": "./sources/binance/tsconfig.test.json"
     },
     {
-      "path": "./sources/bitex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
