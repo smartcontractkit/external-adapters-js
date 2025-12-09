@@ -309,9 +309,6 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/etherchain"
-    },
-    {
       "path": "./sources/etherscan"
     },
     {
