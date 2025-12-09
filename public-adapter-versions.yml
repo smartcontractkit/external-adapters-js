@@ -69,8 +69,6 @@ adapters:
     version: 3.0.31
   - name: circuit-breaker
     version: 1.3.12
-  - name: clear-bank
-    version: 1.0.30
   - name: cmeth
     version: 2.0.3
   - name: coinapi

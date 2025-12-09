@@ -195,9 +195,6 @@
       "path": "./sources/chain-reserve-wallet"
     },
     {
-      "path": "./sources/clear-bank"
-    },
-    {
       "path": "./sources/cmeth"
     },
     {
