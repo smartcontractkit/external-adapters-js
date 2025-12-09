@@ -397,8 +397,6 @@ adapters:
     version: 1.4.16
   - name: twosigma
     version: 1.2.41
-  - name: unibit
-    version: 1.4.47
   - name: uniswap-v2
     version: 2.0.31
   - name: upvest

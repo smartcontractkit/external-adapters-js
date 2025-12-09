@@ -618,9 +618,6 @@
       "path": "./sources/twosigma/tsconfig.test.json"
     },
     {
-      "path": "./sources/unibit/tsconfig.test.json"
-    },
-    {
       "path": "./sources/uniswap-v2/tsconfig.test.json"
     },
     {
