@@ -307,10 +307,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/chain-reserve-wallet"\
     },\
     {\
-      "name": "@chainlink/clear-bank-adapter",\
-      "reference": "workspace:packages/sources/clear-bank"\
-    },\
-    {\
       "name": "@chainlink/cmeth-adapter",\
       "reference": "workspace:packages/sources/cmeth"\
     },\
@@ -950,7 +946,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
     ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
-    ["@chainlink/clear-bank-adapter", ["workspace:packages/sources/clear-bank"]],\
     ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
@@ -5741,22 +5736,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/clear-bank-adapter", [\
-      ["workspace:packages/sources/clear-bank", {\
-        "packageLocation": "./packages/sources/clear-bank/",\
-        "packageDependencies": [\
-          ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
