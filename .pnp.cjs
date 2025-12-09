@@ -279,10 +279,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bob"\
     },\
     {\
-      "name": "@chainlink/bravenewcoin-adapter",\
-      "reference": "workspace:packages/sources/bravenewcoin"\
-    },\
-    {\
       "name": "@chainlink/btc.com-adapter",\
       "reference": "workspace:packages/sources/btc.com"\
     },\
@@ -941,7 +937,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
-    ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
@@ -5572,24 +5567,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bravenewcoin-adapter", [\
-      ["workspace:packages/sources/bravenewcoin", {\
-        "packageLocation": "./packages/sources/bravenewcoin/",\
-        "packageDependencies": [\
-          ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
