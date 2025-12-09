@@ -9,7 +9,10 @@ PACKAGE_LIST=$(yarn workspaces list -R --json)
 if [[ -z "$UPSTREAM_BRANCH" ]]; then
   PACKAGE_LIST=$(yarn workspaces list -R --json)
 else
-  changed_packages="$(yarn workspaces list --json --since=$UPSTREAM_BRANCH | jq -r 'select(.location | startswith("packages")) | .name')"
+  workspaces_since_upstream="$(yarn workspaces list --json --since=$UPSTREAM_BRANCH)"
+  echo "Workspaces changed since $UPSTREAM_BRANCH:" >&2
+  echo "$workspaces_since_upstream" >&2
+  changed_packages="$(echo "$workspaces_since_upstream" | jq -r 'select(.location | startswith("packages")) | .name')"
   packages_to_include="$($SOURCE_DIR/get-reverse-dependencies.sh "$changed_packages")"
   # Keep only the packages changed since UPSTREAM_BRANCH
   PACKAGE_LIST=$(
