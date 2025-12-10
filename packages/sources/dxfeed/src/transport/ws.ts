@@ -133,6 +133,9 @@ export function buildWsTransport<T extends BaseTransportTypes>(
 
         return processMessage(message)
       },
+      heartbeat(connection) {
+        connection.send(JSON.stringify(wsTransport.heartbeatMsg))
+      },
     },
 
     builders: {
