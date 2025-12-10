@@ -1,12 +1,12 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 
 export type TotalBalanceTransportTypes = BaseEndpointTypes
 
@@ -63,8 +63,11 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     // Mapping from PoR ID to list of addresses
     for (const { network, chainId, address } of addresses) {
       const id = `${network}_${chainId}`.toUpperCase()
-      const existingAddresses = porServiceRequests.get(id) || []
-      porServiceRequests.set(id, [...existingAddresses, address])
+      if (!porServiceRequests.has(id)) {
+        porServiceRequests.set(id, [])
+      }
+      const existingAddresses = porServiceRequests.get(id)!
+      existingAddresses.push(address)
     }
 
     // Fire off requests to each PoR indexer

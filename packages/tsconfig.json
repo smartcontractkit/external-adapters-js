@@ -42,9 +42,6 @@
       "path": "./composites/implied-price-test"
     },
     {
-      "path": "./composites/linear-finance"
-    },
-    {
       "path": "./composites/llama-guard"
     },
     {
@@ -321,9 +318,6 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fluent-finance"
-    },
-    {
       "path": "./sources/fmpcloud"
     },
     {
@@ -376,9 +370,6 @@
     },
     {
       "path": "./sources/instruxi-sxt"
-    },
-    {
-      "path": "./sources/intrinio"
     },
     {
       "path": "./sources/ion.au"

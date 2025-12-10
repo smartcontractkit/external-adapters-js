@@ -67,10 +67,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/implied-price-test"\
     },\
     {\
-      "name": "@chainlink/linear-finance-adapter",\
-      "reference": "workspace:packages/composites/linear-finance"\
-    },\
-    {\
       "name": "@chainlink/llama-guard-adapter",\
       "reference": "workspace:packages/composites/llama-guard"\
     },\
@@ -451,10 +447,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/fireblocks"\
     },\
     {\
-      "name": "@chainlink/fluent-finance-adapter",\
-      "reference": "workspace:packages/sources/fluent-finance"\
-    },\
-    {\
       "name": "@chainlink/fmpcloud-adapter",\
       "reference": "workspace:packages/sources/fmpcloud"\
     },\
@@ -525,10 +517,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/instruxi-sxt-adapter",\
       "reference": "workspace:packages/sources/instruxi-sxt"\
-    },\
-    {\
-      "name": "@chainlink/intrinio-adapter",\
-      "reference": "workspace:packages/sources/intrinio"\
     },\
     {\
       "name": "@chainlink/ion.au-adapter",\
@@ -948,7 +936,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
     ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
-    ["@chainlink/fluent-finance-adapter", ["workspace:packages/sources/fluent-finance"]],\
     ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
     ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
@@ -973,7 +960,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
-    ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
@@ -982,7 +968,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
-    ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
@@ -6117,7 +6102,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.2"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6717,24 +6702,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/fluent-finance-adapter", [\
-      ["workspace:packages/sources/fluent-finance", {\
-        "packageLocation": "./packages/sources/fluent-finance/",\
-        "packageDependencies": [\
-          ["@chainlink/fluent-finance-adapter", "workspace:packages/sources/fluent-finance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/fmpcloud-adapter", [\
       ["workspace:packages/sources/fmpcloud", {\
         "packageLocation": "./packages/sources/fmpcloud/",\
@@ -7158,24 +7125,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/intrinio-adapter", [\
-      ["workspace:packages/sources/intrinio", {\
-        "packageLocation": "./packages/sources/intrinio/",\
-        "packageDependencies": [\
-          ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/ion.au-adapter", [\
       ["workspace:packages/sources/ion.au", {\
         "packageLocation": "./packages/sources/ion.au/",\
@@ -7312,29 +7261,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/linear-finance-adapter", [\
-      ["workspace:packages/composites/linear-finance", {\
-        "packageLocation": "./packages/composites/linear-finance/",\
-        "packageDependencies": [\
-          ["@chainlink/linear-finance-adapter", "workspace:packages/composites/linear-finance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["csv-parse", "npm:4.16.3"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["moment", "npm:2.30.1"],\
-          ["moment-timezone", "npm:0.5.48"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -18719,13 +18645,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["csv-parse", [\
-      ["npm:4.16.3", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-4.16.3-792211a891-b873dd2d31.zip/node_modules/csv-parse/",\
-        "packageDependencies": [\
-          ["csv-parse", "npm:4.16.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.5.6", {\
         "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.6-ffa5dc42a0-8682bd3846.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
@@ -25644,16 +25563,6 @@ const RAW_RUNTIME_STATE =
       ["npm:2.30.1", {\
         "packageLocation": "./.yarn/cache/moment-npm-2.30.1-1c51a5c631-ae42d876d4.zip/node_modules/moment/",\
         "packageDependencies": [\
-          ["moment", "npm:2.30.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["moment-timezone", [\
-      ["npm:0.5.48", {\
-        "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.48-3b583954df-8e0b7a0557.zip/node_modules/moment-timezone/",\
-        "packageDependencies": [\
-          ["moment-timezone", "npm:0.5.48"],\
           ["moment", "npm:2.30.1"]\
         ],\
         "linkType": "HARD"\
