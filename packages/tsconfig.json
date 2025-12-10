@@ -621,6 +621,9 @@
       "path": "./sources/xbto"
     },
     {
+      "path": "./sources/xusd-usd-exchange-rate"
+    },
+    {
       "path": "./targets/dydx-stark"
     },
     {
