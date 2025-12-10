@@ -23,10 +23,7 @@ describe('DxFeed WebSocket Transport', () => {
       ;(transport as any).connectionClientId = 'test-client-id'
       ;(transport as any).config.handlers.heartbeat(mockConnection)
 
-      expect(mockConnection.send).toHaveBeenCalledTimes(1)
-
-      const sentMessage = mockConnection.send.mock.calls[0][0]
-      expect(sentMessage).toEqual(
+      expect(mockConnection.send).toHaveBeenCalledWith(
         '[{"id":1,"clientId":"test-client-id","channel":"/meta/connect","connectionType":"websocket"}]',
       )
     })
