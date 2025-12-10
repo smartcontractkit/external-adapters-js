@@ -33,3 +33,4 @@ packages/k6/src/config/http.json
 # Secrets
 .envrc
 .env
+.devcontainer/
