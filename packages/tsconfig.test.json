@@ -372,9 +372,6 @@
       "path": "./sources/instruxi-sxt/tsconfig.test.json"
     },
     {
-      "path": "./sources/intrinio/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {

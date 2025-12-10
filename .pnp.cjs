@@ -519,10 +519,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/instruxi-sxt"\
     },\
     {\
-      "name": "@chainlink/intrinio-adapter",\
-      "reference": "workspace:packages/sources/intrinio"\
-    },\
-    {\
       "name": "@chainlink/ion.au-adapter",\
       "reference": "workspace:packages/sources/ion.au"\
     },\
@@ -964,7 +960,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
-    ["@chainlink/intrinio-adapter", ["workspace:packages/sources/intrinio"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
@@ -7123,24 +7118,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/intrinio-adapter", [\
-      ["workspace:packages/sources/intrinio", {\
-        "packageLocation": "./packages/sources/intrinio/",\
-        "packageDependencies": [\
-          ["@chainlink/intrinio-adapter", "workspace:packages/sources/intrinio"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

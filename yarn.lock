@@ -4356,22 +4356,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.9.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au":
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
