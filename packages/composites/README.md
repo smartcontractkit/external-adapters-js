@@ -55,7 +55,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 ## List
 
 - [anchor](./anchor/README.md)
-- [apy-finance](./apy-finance/README.md)
 - [augur](./augur/README.md)
 - [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [bsol-price](./bsol-price/README.md)
