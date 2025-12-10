@@ -1,6 +1,7 @@
 {
- "requests": [{
-  "from": "BTC",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "endpoint": "round"
+    }
+  ]
 }

@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute round endpoint happy path should return success 1`] = `
+{
+  "data": {
+    "result": 289,
+  },
+  "meta": {
+    "adapterName": "XUSD_USD_EXCHANGE_RATE",
+    "metrics": {
+      "feedId": "N/A",
+    },
+  },
+  "result": 289,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint happy path should return success with empty request body (default endpoint) 1`] = `
+{
+  "data": {
+    "result": 289,
+  },
+  "meta": {
+    "adapterName": "XUSD_USD_EXCHANGE_RATE",
+    "metrics": {
+      "feedId": "N/A",
+    },
+  },
+  "result": 289,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint upstream failures should handle RPC error response 1`] = `
+{
+  "errorMessage": "RPC error: execution reverted",
+  "meta": {
+    "adapterName": "XUSD_USD_EXCHANGE_RATE",
+    "metrics": {
+      "feedId": "N/A",
+    },
+  },
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint upstream failures should handle response with no result 1`] = `
+{
+  "errorMessage": "No result returned from eth_call",
+  "meta": {
+    "adapterName": "XUSD_USD_EXCHANGE_RATE",
+    "metrics": {
+      "feedId": "N/A",
+    },
+  },
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint upstream failures should handle server error (5xx) 1`] = `
+{
+  "errorMessage": "Provider request failed with status 500: "Internal Server Error"",
+  "meta": {
+    "adapterName": "XUSD_USD_EXCHANGE_RATE",
+    "metrics": {
+      "feedId": "N/A",
+    },
+  },
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint validation errors should return error for invalid endpoint 1`] = `
+{
+  "error": {
+    "message": "Adapter does not have a "invalid-endpoint" endpoint.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 404,
+}
+`;
