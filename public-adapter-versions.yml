@@ -50,7 +50,7 @@ adapters:
   - name: blocksize-capital
     version: 2.5.2
   - name: blocksize-capital-state
-    version: 1.0.0
+    version: 1.0.1
   - name: bob
     version: 2.0.29
   - name: bsol-price
