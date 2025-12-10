@@ -39,8 +39,7 @@ describe('execute', () => {
     // set only what's needed
     process.env.API_KEY = process.env.API_KEY ?? 'test-api-key'
     process.env.RPC_URL = process.env.RPC_URL ?? 'http://localhost:8545'
-    process.env.BACKGROUND_EXECUTE_MS = '10000' // Use default 10s to match production behavior
-    // Note: Using 10s prevents flooding upstream services and matches production defaults
+    process.env.BACKGROUND_EXECUTE_MS = '0' // OK for mocked tests (common pattern)
     // other adapter-specific envs...
 
     // freeze time for deterministic cache/snapshots
@@ -122,9 +121,7 @@ describe('execute', () => {
 
    ```ts
    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
-   process.env.BACKGROUND_EXECUTE_MS = '10000' // Use default 10s to match production behavior
-   // ⚠️ IMPORTANT: Always use default (10000ms = 10s) or a reasonable value
-   // Setting this too low can flood upstream services and get your requests blocked
+   process.env.BACKGROUND_EXECUTE_MS = '0' // OK for mocked tests
    ```
 
 3. **Time Mocking**: Essential for deterministic snapshots
@@ -524,11 +521,66 @@ jest.mock('@solana/web3.js', () => ({
   - **Small enough** for readable snapshots; if payloads are large, normalize or pick key fields before snapshotting.
   - **Reusable**: Create parameterized functions when possible (e.g., `mockResponseSuccess(assetId: string)`).
 
-#### Example HTTP fixture:
+#### ⚠️ CRITICAL: POST Request Fixture Common Pitfalls
+
+When mocking POST requests with JSON bodies, avoid these common issues:
+
+1. **Exact body matching fails due to key order differences** - JSON key ordering is not guaranteed in JavaScript
+2. **Mocks consumed after one use** - Without `.persist()`, nock removes the mock after first match
+3. **Dynamic fields in requests** - Request IDs, timestamps, or nonces change each request
+
+**These issues apply to ALL POST fixtures**
+
+```ts
+// ❌ BAD - Exact body matching can fail due to key order differences
+export const mockPostBad = (): nock.Scope =>
+  nock('https://api.example.com')
+    .post('/data', {
+      type: 'query',
+      asset: 'ETH',
+      timestamp: 1234567890,
+    })
+    .reply(200, { result: 'success' })
+// ❌ No .persist() - mock consumed after one use!
+
+// ✅ GOOD - Use .persist() and function-based body matcher if needed
+export const mockPostGood = (): nock.Scope =>
+  nock('https://api.example.com')
+    .persist()
+    .post('/data', (body) => body.type === 'query' && body.asset === 'ETH')
+    .reply(200, { result: 'success' })
+
+// ✅ GOOD - For dynamic fields, use regex or function matchers
+export const mockPostWithDynamicFields = (): nock.Scope =>
+  nock('https://api.example.com')
+    .persist()
+    .post('/data', {
+      type: 'query',
+      asset: 'ETH',
+      requestId: /^[a-f0-9-]+$/, // Regex for dynamic UUID
+    })
+    .reply(200, (_, requestBody: any) => ({
+      requestId: requestBody.requestId, // Echo back dynamic field
+      result: 'success',
+    }))
+```
+
+**Key Fixture Best Practices:**
+
+| Practice                                   | Why                                                             |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| Always use `.persist()`                    | Mocks survive multiple requests (background execution, retries) |
+| Use function body matchers `(body) => ...` | Avoids JSON key order issues                                    |
+| Use regex for dynamic fields `/^\d+$/`     | Matches varying IDs, timestamps, nonces                         |
+| Use function replies `(_, req) => ({...})` | Allows echoing back dynamic request fields                      |
+| Log unmatched requests                     | Helps debug missing mock cases                                  |
+
+#### Example HTTP GET fixture:
 
 ```ts
 export const mockResponseSuccess = (): nock.Scope =>
   nock('https://api.example.com', { encodedQueryParams: true })
+    .persist()
     .get('/api/price')
     .query({ symbol: 'ETH', convert: 'USD' })
     .reply(200, () => ({ ETH: { price: 10000 } }), [
@@ -537,14 +589,13 @@ export const mockResponseSuccess = (): nock.Scope =>
       'Connection',
       'close',
     ])
-    .persist()
 
 export const mockResponseFailure = (): nock.Scope =>
   nock('https://api.example.com', { encodedQueryParams: true })
+    .persist()
     .get('/api/price')
     .query({ symbol: 'ETH', convert: 'USD' })
     .reply(500, { error: 'Internal Server Error' })
-    .persist()
 
 export const mockResponseWithHeaders = (): nock.Scope =>
   nock('https://api.example.com', {
@@ -554,12 +605,20 @@ export const mockResponseWithHeaders = (): nock.Scope =>
       Authorization: 'Bearer fake-token',
     },
   })
+    .persist()
     .get('/api/data')
     .reply(200, { data: 'success' })
-    .persist()
 ```
 
 #### Example RPC/Blockchain fixture:
+
+RPC calls are POST requests and follow the same patterns above. Additionally, RPC has specific considerations:
+
+- **Dynamic `id` field** - JSON-RPC requests have `id` that changes each call
+- **Batch requests** - Some providers batch multiple RPC calls into a single request
+- **Function signature routing** - Contract calls need routing based on `data` field selector
+
+**Basic RPC Mock (Single Calls):**
 
 ```ts
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
@@ -570,13 +629,13 @@ export const mockRPCResponse = (): nock.Scope =>
     .post('/', {
       method: 'eth_chainId',
       params: [],
-      id: /^\d+$/,
+      id: /^\d+$/, // Use regex for dynamic IDs
       jsonrpc: '2.0',
     })
     .reply(200, (_, request: AdapterRequest) => ({
       jsonrpc: '2.0',
-      id: request.id,
-      result: '0x89', // Polygon chain ID
+      id: request.id, // Echo back the request ID
+      result: '0x1',
     }))
     .post('/', {
       method: 'eth_call',
@@ -590,6 +649,61 @@ export const mockRPCResponse = (): nock.Scope =>
       result: '0x0000000000000000000000000000000000000000000000000e1b77935f500bea',
     }))
 ```
+
+**Advanced Pattern: Dynamic Response Handler for Batch RPC**
+
+For adapters that make batch RPC calls or need dynamic responses based on method/params:
+
+```ts
+type JsonRpcPayload = {
+  id: number
+  method: string
+  params: Array<{ to: string; data: string }>
+  jsonrpc: '2.0'
+}
+
+const BALANCE_OF_SIG_HASH = '0x70a08231'
+const TOTAL_SUPPLY_SIG_HASH = '0x18160ddd'
+
+export const mockEthereumRpc = (): nock.Scope =>
+  nock('http://localhost:8545', {})
+    // Match batch requests (array of RPC calls)
+    .post('/', (body: any) => Array.isArray(body))
+    .reply(
+      200,
+      (_uri, requestBody: JsonRpcPayload[]) => {
+        return requestBody.map((request: JsonRpcPayload) => {
+          if (request.method === 'eth_chainId') {
+            return { jsonrpc: '2.0', id: request.id, result: '0x1' }
+          } else if (request.method === 'eth_blockNumber') {
+            return { jsonrpc: '2.0', id: request.id, result: '0x15f5e10' }
+          } else if (request.method === 'eth_call') {
+            const [{ to, data }] = request.params
+            // Route based on function signature
+            if (data.startsWith(BALANCE_OF_SIG_HASH)) {
+              return { jsonrpc: '2.0', id: request.id, result: '0x...' }
+            } else if (data.startsWith(TOTAL_SUPPLY_SIG_HASH)) {
+              return { jsonrpc: '2.0', id: request.id, result: '0x...' }
+            }
+          }
+          // Log unmatched requests for debugging
+          console.log('Unmocked RPC request:', JSON.stringify(request, null, 2))
+          return { jsonrpc: '2.0', id: request.id, result: '' }
+        })
+      },
+      ['Content-Type', 'application/json', 'Connection', 'close'],
+    )
+    .persist()
+```
+
+**RPC-Specific Best Practices:**
+
+| Practice                            | Why                                              |
+| ----------------------------------- | ------------------------------------------------ |
+| Use `id: /^\d+$/` regex             | JSON-RPC request IDs are dynamic                 |
+| Echo back `request.id` in response  | Maintains request-response correlation           |
+| Use `(body) => Array.isArray(body)` | Catches batch RPC calls                          |
+| Use signature hashes for routing    | Match contract calls by 4-byte function selector |
 
 #### Example WebSocket fixture:
 
@@ -797,25 +911,41 @@ it('should only subscribe once for same pair', async () => {
 - **Use snapshots**: `expect(response.json()).toMatchSnapshot()`
 - **Environment fallbacks**: `process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'`
 
-#### ⚠️ CRITICAL: Background Execution Configuration
+#### ⚠️ Background Execution Configuration
 
-**NEVER set `BACKGROUND_EXECUTE_MS` to 0, minimum 10000!**
+**Understanding `BACKGROUND_EXECUTE_MS` in tests:**
 
-- **Tests & Production**: Always use the default value of `10000ms` (10 seconds) or a reasonable value
-- **Why**: Setting this too low (e.g., every few milliseconds) will flood upstream services with requests
-- **Consequence**: Upstream services will block your requests, potentially affecting feeds
-- **Default**: Framework default is 10 seconds (`10000ms`), which is safe for both tests and production
+In the codebase, you'll see two patterns:
 
-Examples:
+**Pattern A: `BACKGROUND_EXECUTE_MS = '0'` (Common in tests)**
+
+- Used in many existing tests for simplicity
+- Disables the delay between background execution cycles
+- Safe for **mocked tests** where you control all upstream responses
+- Faster test execution
+
+**Pattern B: `BACKGROUND_EXECUTE_MS = '10000'` (Production default)**
+
+- Matches production behavior
+- Safer if tests ever run against real endpoints
+- Prevents flooding upstream services
+
+**Recommendation:**
+
+- For **new tests with mocked fixtures**: Either pattern works, `'0'` is fine
+- For **tests that might hit real endpoints** (integration/E2E): Use `'10000'`
+- For **production**: Never change from default (10 seconds)
 
 ```ts
-// ❌ BAD - This will flood services and get blocked
-process.env.BACKGROUND_EXECUTE_MS = '10' // Every 10ms!
-process.env.BACKGROUND_EXECUTE_MS = '0' // Disabled - not realistic for production
+// OK for mocked tests - Many existing tests use this
+process.env.BACKGROUND_EXECUTE_MS = '0'
 
-// ✅ GOOD - Use default value (matches production behavior)
-process.env.BACKGROUND_EXECUTE_MS = '10000' // Every 10 seconds (default)
-// Or don't set it at all - framework will use default
+// OK - Matches production behavior
+process.env.BACKGROUND_EXECUTE_MS = '10000'
+
+// ❌ BAD for production - Will flood upstream services
+// Only use non-zero low values if you know what you're doing
+process.env.BACKGROUND_EXECUTE_MS = '10'
 ```
 
 #### Transport-Specific Patterns
@@ -845,7 +975,135 @@ process.env.BACKGROUND_EXECUTE_MS = '10000' // Every 10 seconds (default)
 
 ---
 
-### 8. Complex Test Utilities
+### 8. Advanced Testing Patterns
+
+#### Testing Async/Batched Operations with Deferred Promises
+
+For adapters that make multiple async calls that need to be controlled step-by-step (like `stader-balance`):
+
+```ts
+import { deferredPromise, sleep } from '@chainlink/external-adapter-framework/util'
+
+type DeferredCall = {
+  resolve: () => void
+  promise: Promise<BigNumber>
+}
+
+const pendingCalls: Record<string, DeferredCall> = {}
+
+// In your mock
+jest.mock('ethers', () => ({
+  Contract: function () {
+    return {
+      someAsyncMethod: jest.fn().mockImplementation((address) => {
+        if (!(address in pendingCalls)) {
+          const [promise, resolve] = deferredPromise<BigNumber>()
+          pendingCalls[address] = { resolve: () => resolve(mockData[address]), promise }
+        }
+        return pendingCalls[address].promise
+      }),
+    }
+  },
+}))
+
+// In your test - control async flow step by step
+it('should handle batched async operations', async () => {
+  const responsePromise = testAdapter.request(data)
+
+  // Wait for first batch of calls
+  await sleep(50)
+  expect(Object.keys(pendingCalls)).toHaveLength(2)
+  Object.values(pendingCalls).forEach((call) => call.resolve())
+
+  // Wait for next batch
+  await sleep(50)
+  expect(Object.keys(pendingCalls)).toHaveLength(4)
+  Object.values(pendingCalls).forEach((call) => call.resolve())
+
+  const response = await responsePromise
+  expect(response.statusCode).toBe(200)
+})
+```
+
+#### Mocking Class Methods with jest.spyOn per Test
+
+For adapters that need different mock behaviors per test (like `solana-functions`):
+
+```ts
+describe('endpoint', () => {
+  afterEach(() => {
+    spy.mockRestore() // Restore spy after each test
+  })
+
+  it('should error on failure', async () => {
+    const mockDate = new Date('2005-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    jest.spyOn(MyClass.prototype, 'fetchData').mockImplementation(async () => {
+      throw new Error('Simulated failure')
+    })
+
+    const response = await testAdapter.request({ address: '...' })
+    expect(response.statusCode).toBe(502)
+  })
+
+  it('should succeed with valid data', async () => {
+    const mockDate = new Date('2006-01-01T11:11:11.111Z') // Different date to avoid cache
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    jest.spyOn(MyClass.prototype, 'fetchData').mockImplementation(async () => fakeData)
+
+    const response = await testAdapter.request({ address: '...' })
+    expect(response.statusCode).toBe(200)
+  })
+})
+```
+
+**Note**: When using different mock behaviors per test, use a different mock date for each test to avoid cache hits.
+
+#### Testing Multiple Error Codes
+
+For adapters that return different error codes based on upstream response (like `r25`):
+
+```ts
+describe('error codes', () => {
+  afterEach(() => {
+    nock.cleanAll()
+  })
+
+  it('should handle params missing error - causes 504', async () => {
+    mockNavResponseParamsMissing()
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(504)
+    expect(response.json().error).toBeDefined()
+  })
+
+  it('should handle internal server error - causes 502', async () => {
+    mockNavResponseInternalServerError()
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(502)
+    expect(response.json().errorMessage).toBe('System busy, please try again later.')
+  })
+})
+```
+
+#### Testing with Real Async Delays
+
+Sometimes you need actual async delays rather than just multiple calls:
+
+```ts
+it('should handle delayed response', async () => {
+  mockNavResponse()
+  await new Promise((resolve) => setTimeout(resolve, 300)) // Wait for background execution
+
+  const response = await testAdapter.request(data)
+  expect(response.statusCode).toBe(200)
+})
+```
+
+---
+
+### 10. Complex Test Utilities
 
 For adapters with complex test scenarios, create utility files:
 
@@ -870,7 +1128,7 @@ export const TEST_URL = 'https://test-api.example.com'
 
 ---
 
-### 9. Checklist for New Integration Tests
+### 11. Checklist for New Integration Tests
 
 - [ ] Created `test/integration/` directory
 - [ ] Created `adapter.test.ts` with proper structure
@@ -878,7 +1136,7 @@ export const TEST_URL = 'https://test-api.example.com'
 - [ ] Set up `beforeAll` with environment variables
 - [ ] Mocked time for deterministic snapshots
 - [ ] Disabled rate limiting
-- [ ] Set `BACKGROUND_EXECUTE_MS = '10000'` (use default 10s)
+- [ ] Set `BACKGROUND_EXECUTE_MS = '0'` (or `'10000'` if testing against real endpoints)
 - [ ] Chose correct test pattern based on transport type:
   - [ ] HttpTransport: Single-call pattern
   - [ ] SubscriptionTransport (HTTP): afterEach cache clearing
@@ -895,19 +1153,47 @@ export const TEST_URL = 'https://test-api.example.com'
 
 ---
 
-### 10. Examples Reference
+### 12. Examples Reference
 
-#### Recent Framework-Style Examples:
+#### By Test Pattern:
 
+**WebSocket Adapters:**
+
+- `packages/sources/tiingo/test/integration/adapter-ws.test.ts` - Multiple WS servers, FakeTimers, heartbeat testing
 - `packages/sources/tp/test/integration/adapter.test.ts` - WebSocket price adapter
 - `packages/sources/finalto/test/integration/adapter.test.ts` - WebSocket multi-endpoint
-- `packages/sources/the-network-firm/test/integration/adapter.test.ts` - REST multi-endpoint
-- `packages/sources/liveart/test/integration/adapter.test.ts` - REST with utilities
-- `packages/sources/streamex/test/integration/adapter.test.ts` - REST simple
 - `packages/sources/data-engine/test/integration/adapter.test.ts` - WebSocket
-- `packages/sources/aleno/test/integration/adapter-socket.test.ts` - Socket.IO
+- `packages/sources/dxfeed/test/integration/adapter-ws.test.ts` - WS with message routing
+
+**Socket.IO Adapters:**
+
+- `packages/sources/aleno/test/integration/adapter-socket.test.ts` - Socket.IO mocking pattern
+
+**REST with afterEach Cache Clearing:**
+
+- `packages/sources/the-network-firm/test/integration/adapter.test.ts` - Multi-endpoint, afterEach pattern
+- `packages/sources/clear-bank/test/integration/adapter-batch.test.ts` - Batch requests
+
+**On-chain / RPC Mocking:**
+
+- `packages/sources/token-balance/test/integration/adapter.test.ts` - Multi-chain RPC mocking
+- `packages/sources/stader-balance/test/integration/adapter.test.ts` - Complex ethers mock with deferred promises
+- `packages/sources/cmeth/test/integration/fixtures.ts` - Batch RPC with dynamic routing
+- `packages/sources/curve/test/integration/fixtures.ts` - RPC fixtures with function replies
+- `packages/sources/enzyme/test/integration/fixtures.ts` - RPC fixtures
+
+**Solana / Non-EVM:**
+
+- `packages/sources/solana-functions/test/integration/adapter.test.ts` - Solana with class mocking per test
+
+**Error Code Testing:**
+
+- `packages/sources/r25/test/integration/error-codes.test.ts` - Testing multiple upstream error codes
+
+**Simple REST:**
+
+- `packages/sources/streamex/test/integration/adapter.test.ts` - Simple REST pattern
 - `packages/sources/finage/test/integration/adapter.test.ts` - REST multi-endpoint
-- `packages/sources/tiingo/test/integration/adapter-ws.test.ts` - WebSocket complex
 
 ---
 
