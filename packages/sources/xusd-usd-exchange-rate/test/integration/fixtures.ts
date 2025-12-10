@@ -27,7 +27,6 @@ export const mockResponseSuccess = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
-    .persist()
 
 export const mockResponseRpcError = (): nock.Scope =>
   nock(mockRpcUrl)
@@ -44,7 +43,6 @@ export const mockResponseRpcError = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
-    .persist()
 
 export const mockResponseNoResult = (): nock.Scope =>
   nock(mockRpcUrl)
@@ -57,10 +55,8 @@ export const mockResponseNoResult = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
-    .persist()
 
 export const mockResponseServerError = (): nock.Scope =>
   nock(mockRpcUrl)
     .post('/', (body) => isRoundRequest(body))
     .reply(500, 'Internal Server Error')
-    .persist()
