@@ -375,6 +375,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dlc-btc-por"\
     },\
     {\
+      "name": "@chainlink/dlc-cbtc-btc-por-adapter",\
+      "reference": "workspace:packages/sources/dlc-cbtc-btc-por"\
+    },\
+    {\
       "name": "@chainlink/dns-query-adapter",\
       "reference": "workspace:packages/sources/dns-query"\
     },\
@@ -926,6 +930,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
+    ["@chainlink/dlc-cbtc-btc-por-adapter", ["workspace:packages/sources/dlc-cbtc-btc-por"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
@@ -4861,8 +4866,8 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@bitcoinerlab-secp256k1-npm-1.1.1-eaf2ba4c7c-708fad4b2b.zip/node_modules/@bitcoinerlab/secp256k1/",\
         "packageDependencies": [\
           ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
-          ["@noble/hashes", "npm:1.5.0"],\
-          ["@noble/secp256k1", "npm:1.7.1"]\
+          ["@noble/hashes", "npm:1.8.0"],\
+          ["@noble/secp256k1", "npm:1.7.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6093,6 +6098,21 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/dlc-cbtc-btc-por-adapter", [\
+      ["workspace:packages/sources/dlc-cbtc-btc-por", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-btc-por/",\
+        "packageDependencies": [\
+          ["@chainlink/dlc-cbtc-btc-por-adapter", "workspace:packages/sources/dlc-cbtc-btc-por"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -11118,6 +11138,13 @@ const RAW_RUNTIME_STATE =
           ["@noble/secp256k1", "npm:1.7.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.7.2", {\
+        "packageLocation": "./.yarn/cache/@noble-secp256k1-npm-1.7.2-4189340c3d-ce1651f63e.zip/node_modules/@noble/secp256k1/",\
+        "packageDependencies": [\
+          ["@noble/secp256k1", "npm:1.7.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@nodelib/fs.scandir", [\
@@ -12574,6 +12601,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@scure-base-npm-1.1.9-75a8521e88-f0ab7f687b.zip/node_modules/@scure/base/",\
         "packageDependencies": [\
           ["@scure/base", "npm:1.1.9"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.2.6", {\
+        "packageLocation": "./.yarn/cache/@scure-base-npm-1.2.6-f26c4d7404-c1a7bd5e0b.zip/node_modules/@scure/base/",\
+        "packageDependencies": [\
+          ["@scure/base", "npm:1.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16787,10 +16821,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/base-x-npm-4.0.0-64a1f6fa5e-b25db9e07e.zip/node_modules/base-x/",\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/base-x-npm-4.0.1-50d20f9e5b-c9061e576f.zip/node_modules/base-x/",\
         "packageDependencies": [\
-          ["base-x", "npm:4.0.0"]\
+          ["base-x", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -16994,7 +17028,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["bip32", "npm:4.0.0"],\
           ["@noble/hashes", "npm:1.5.0"],\
-          ["@scure/base", "npm:1.1.9"],\
+          ["@scure/base", "npm:1.2.6"],\
           ["typeforce", "npm:1.18.0"],\
           ["wif", "npm:2.0.6"]\
         ],\
@@ -17321,7 +17355,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/bs58-npm-5.0.0-da02537b92-2475cb0684.zip/node_modules/bs58/",\
         "packageDependencies": [\
           ["bs58", "npm:5.0.0"],\
-          ["base-x", "npm:4.0.0"]\
+          ["base-x", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\

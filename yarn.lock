@@ -3396,6 +3396,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-btc-por":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-btc-por"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:^2.3.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
   version: 0.0.0-use.local
   resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
@@ -7890,14 +7903,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.5.0, @noble/hashes@npm:^1.1.5, @noble/hashes@npm:^1.2.0, @noble/hashes@npm:^1.4.0":
+"@noble/hashes@npm:1.5.0, @noble/hashes@npm:^1.2.0, @noble/hashes@npm:^1.4.0":
   version: 1.5.0
   resolution: "@noble/hashes@npm:1.5.0"
   checksum: 10/da7fc7af52af7afcf59810a7eea6155075464ff462ffda2572dc6d57d53e2669b1ea2ec774e814f6273f1697e567f28d36823776c9bf7068cba2a2855140f26e
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:1.8.0, @noble/hashes@npm:^1.3.1":
+"@noble/hashes@npm:1.8.0, @noble/hashes@npm:^1.1.5, @noble/hashes@npm:^1.3.1":
   version: 1.8.0
   resolution: "@noble/hashes@npm:1.8.0"
   checksum: 10/474b7f56bc6fb2d5b3a42132561e221b0ea4f91e590f4655312ca13667840896b34195e2b53b7f097ec080a1fdd3b58d902c2a8d0fbdf51d2e238b53808a177e
@@ -7918,10 +7931,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/secp256k1@npm:1.7.1, @noble/secp256k1@npm:^1.7.1":
+"@noble/secp256k1@npm:1.7.1":
   version: 1.7.1
   resolution: "@noble/secp256k1@npm:1.7.1"
   checksum: 10/214d4756c20ed20809d948d0cc161e95664198cb127266faf747fd7deffe5444901f05fe9f833787738f2c6e60b09e544c2f737f42f73b3699e3999ba15b1b63
+  languageName: node
+  linkType: hard
+
+"@noble/secp256k1@npm:^1.7.1":
+  version: 1.7.2
+  resolution: "@noble/secp256k1@npm:1.7.2"
+  checksum: 10/ce1651f63ebf9269990dbc1002410d63e2f4379fcbf2bb7a567740997852a1fbdb353929e497cd9d09549c28e3edb036ac3905ff20ac5249ad32e64a852af955
   languageName: node
   linkType: hard
 
@@ -9067,10 +9087,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/base@npm:1.1.9, @scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0, @scure/base@npm:~1.1.3, @scure/base@npm:~1.1.5, @scure/base@npm:~1.1.6":
+"@scure/base@npm:1.1.9, @scure/base@npm:~1.1.0, @scure/base@npm:~1.1.3, @scure/base@npm:~1.1.5, @scure/base@npm:~1.1.6":
   version: 1.1.9
   resolution: "@scure/base@npm:1.1.9"
   checksum: 10/f0ab7f687bbcdee2a01377fe3cd808bf63977999672751295b6a92625d5322f4754a96d40f6bd579bc367aad48ecf8a4e6d0390e70296e6ded1076f52adb16bb
+  languageName: node
+  linkType: hard
+
+"@scure/base@npm:^1.1.1":
+  version: 1.2.6
+  resolution: "@scure/base@npm:1.2.6"
+  checksum: 10/c1a7bd5e0b0c8f94c36fbc220f4a67cc832b00e2d2065c7d8a404ed81ab1c94c5443def6d361a70fc382db3496e9487fb9941728f0584782b274c18a4bed4187
   languageName: node
   linkType: hard
 
@@ -12358,9 +12385,9 @@ __metadata:
   linkType: hard
 
 "base-x@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "base-x@npm:4.0.0"
-  checksum: 10/b25db9e07eb1998472a20557c7f00c797dc0595f79df95155ab74274e7fa98b9f2659b3ee547ac8773666b7f69540656793aeb97ad2b1ceccdb6fa5faaf69ac0
+  version: 4.0.1
+  resolution: "base-x@npm:4.0.1"
+  checksum: 10/c9061e576f7376b2bc6b69eca131254bb16ebe1445b535a3f0d68f27524e724965b6c191dffd255bf80f9bdf5eb9d1c8d0320903e83116f2c3e09f81b5ecb6a2
   languageName: node
   linkType: hard
 
