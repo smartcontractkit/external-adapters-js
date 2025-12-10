@@ -1,12 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/etherFi'
 import { ethers } from 'ethers'
+import EigenPodManager from '../config/EigenPodManager.json'
 import SplitMain from '../config/SplitMain.json'
 import StrategyBaseTVLLimits from '../config/StrategyBaseTVLLimits.json'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/etherFi'
 
 const logger = makeLogger('Token Balances - EtherFi')
 
@@ -36,14 +37,14 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest(context, param)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -61,6 +62,7 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
   }
 
   async _handleRequest(
+    context: EndpointContext<BaseEndpointTypes>,
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
@@ -74,7 +76,31 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
       this.provider,
     )
     const shares = await eigenContract.shares(param.eigenStrategyUser)
-    const eigenBalance = await eigenContract.sharesToUnderlyingView(shares)
+
+    const eigenPodManagerContract = new ethers.Contract(
+      context.adapterSettings.EIGENPOD_MANAGER_ADDRESS,
+      EigenPodManager,
+      this.provider,
+    )
+    const { shares: queuedWithdrawalShares } = await eigenPodManagerContract.getQueuedWithdrawals(
+      param.eigenStrategyUser,
+    )
+
+    const queuedSharesTotal = queuedWithdrawalShares?.reduce(
+      (acc: bigint, sharesForWithdrawal: bigint[]) => {
+        if (!sharesForWithdrawal || sharesForWithdrawal.length === 0) {
+          return acc
+        }
+
+        return (
+          acc + sharesForWithdrawal.reduce((innerAcc: bigint, val: bigint) => innerAcc + val, 0n)
+        )
+      },
+      0n,
+    )
+
+    const totalShares = shares + (queuedSharesTotal ?? 0n)
+    const eigenBalance = await eigenContract.sharesToUnderlyingView(totalShares)
 
     return {
       data: {
