@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/mobula-state-adapter",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Chainlink mobula-state adapter.",
   "keywords": [
     "Chainlink",
