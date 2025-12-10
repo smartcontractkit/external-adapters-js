@@ -207,8 +207,6 @@ adapters:
     version: 1.0.0
   - name: instruxi-sxt
     version: 2.0.8
-  - name: intrinio
-    version: 2.0.39
   - name: ion.au
     version: 1.0.32
   - name: json-rpc
