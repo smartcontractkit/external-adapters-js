@@ -4481,27 +4481,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    csv-parse: "npm:^4.16.0"
-    decimal.js: "npm:^10.3.1"
-    moment: "npm:^2.29.4"
-    moment-timezone: "npm:^0.5.34"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
   version: 0.0.0-use.local
   resolution: "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool"
@@ -14125,13 +14104,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-parse@npm:^4.16.0":
-  version: 4.16.3
-  resolution: "csv-parse@npm:4.16.3"
-  checksum: 10/b873dd2d312ac0329200f13788176bae3073862241483b0339a4777c9eddcebd9f2f48f13d02dc0baf4bc02e957f886ea03a9cb22160d70836b0017432f8fa41
-  languageName: node
-  linkType: hard
-
 "currently-unhandled@npm:^0.4.1":
   version: 0.4.1
   resolution: "currently-unhandled@npm:0.4.1"
@@ -20274,15 +20246,6 @@ __metadata:
     q: "npm:~2.0"
     websocket: "npm:^1.0.30"
   checksum: 10/465056f88db600fda8386ee1e69800efb17a02d2fee2de6ea77e744036aba08dc3063c41d4b69055d9ca55ea3e5973fae3084832ee439cdc1258404336f930cf
-  languageName: node
-  linkType: hard
-
-"moment-timezone@npm:^0.5.34":
-  version: 0.5.48
-  resolution: "moment-timezone@npm:0.5.48"
-  dependencies:
-    moment: "npm:^2.29.4"
-  checksum: 10/8e0b7a05577623552293b28eeee4e60634b8be87fdb74084fa6d5ccc516771eb42d88f29c5a5e50a94c494048d14cdef94f94526a9dfd5e1b0050ff29d0a6c0a
   languageName: node
   linkType: hard
 

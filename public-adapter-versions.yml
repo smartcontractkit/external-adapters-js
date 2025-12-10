@@ -223,8 +223,6 @@ adapters:
     version: 2.0.31
   - name: lido-por
     version: 1.1.16
-  - name: linear-finance
-    version: 2.3.128
   - name: linkpool
     version: 1.2.47
   - name: liveart

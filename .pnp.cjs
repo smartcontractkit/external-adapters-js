@@ -67,10 +67,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/implied-price-test"\
     },\
     {\
-      "name": "@chainlink/linear-finance-adapter",\
-      "reference": "workspace:packages/composites/linear-finance"\
-    },\
-    {\
       "name": "@chainlink/llama-guard-adapter",\
       "reference": "workspace:packages/composites/llama-guard"\
     },\
@@ -972,7 +968,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
-    ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
@@ -7266,29 +7261,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/linear-finance-adapter", [\
-      ["workspace:packages/composites/linear-finance", {\
-        "packageLocation": "./packages/composites/linear-finance/",\
-        "packageDependencies": [\
-          ["@chainlink/linear-finance-adapter", "workspace:packages/composites/linear-finance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["csv-parse", "npm:4.16.3"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["moment", "npm:2.30.1"],\
-          ["moment-timezone", "npm:0.5.48"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -18673,13 +18645,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["csv-parse", [\
-      ["npm:4.16.3", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-4.16.3-792211a891-b873dd2d31.zip/node_modules/csv-parse/",\
-        "packageDependencies": [\
-          ["csv-parse", "npm:4.16.3"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.5.6", {\
         "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.6-ffa5dc42a0-8682bd3846.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
@@ -25598,16 +25563,6 @@ const RAW_RUNTIME_STATE =
       ["npm:2.30.1", {\
         "packageLocation": "./.yarn/cache/moment-npm-2.30.1-1c51a5c631-ae42d876d4.zip/node_modules/moment/",\
         "packageDependencies": [\
-          ["moment", "npm:2.30.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["moment-timezone", [\
-      ["npm:0.5.48", {\
-        "packageLocation": "./.yarn/cache/moment-timezone-npm-0.5.48-3b583954df-8e0b7a0557.zip/node_modules/moment-timezone/",\
-        "packageDependencies": [\
-          ["moment-timezone", "npm:0.5.48"],\
           ["moment", "npm:2.30.1"]\
         ],\
         "linkType": "HARD"\
