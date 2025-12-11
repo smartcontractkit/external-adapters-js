@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.3.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -131,12 +131,13 @@ Request:
 
 ### Input Params
 
-| Required? |       Name        | Aliases |            Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------------: | :-----: | :-------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     splitMain     |         |   Address of splitMain contract   | string |         |         |            |                |
-|    ✅     | splitMainAccount  |         |    Input to splitMain contract    | string |         |         |            |                |
-|    ✅     |   eigenStrategy   |         | Address of eigenStrategy contract | string |         |         |            |                |
-|    ✅     | eigenStrategyUser |         |  Input to eigenStrategy contract  | string |         |         |            |                |
+| Required? |       Name        | Aliases |                            Description                            |  Type  | Options |                   Default                    | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :---------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: | :--------: | :------------: |
+|    ✅     |     splitMain     |         |                   Address of splitMain contract                   | string |         |                                              |            |                |
+|    ✅     | splitMainAccount  |         |                    Input to splitMain contract                    | string |         |                                              |            |                |
+|    ✅     |   eigenStrategy   |         |                 Address of eigenStrategy contract                 | string |         |                                              |            |                |
+|    ✅     | eigenStrategyUser |         |                  Input to eigenStrategy contract                  | string |         |                                              |            |                |
+|           |  eigenPodManager  |         | EigenPodManager contract address used to query queued withdrawals | string |         | `0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A` |            |                |
 
 ### Example
 
@@ -149,7 +150,8 @@ Request:
     "splitMain": "0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE",
     "splitMainAccount": "",
     "eigenStrategy": "0x93c4b944D05dfe6df7645A86cd2206016c51564D",
-    "eigenStrategyUser": ""
+    "eigenStrategyUser": "",
+    "eigenPodManager": "0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A"
   }
 }
 ```

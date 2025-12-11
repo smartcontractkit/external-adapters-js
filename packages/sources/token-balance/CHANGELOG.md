@@ -1,5 +1,11 @@
 # @chainlink/token-balance-adapter
 
+## 3.4.0
+
+### Minor Changes
+
+- [#4445](https://github.com/smartcontractkit/external-adapters-js/pull/4445) [`1478f47`](https://github.com/smartcontractkit/external-adapters-js/commit/1478f473df722ab911b6bb1cdedd0643945c7e64) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Updates etherFi logic to include queued to withdrawal shares
+
 ## 3.3.1
 
 ### Patch Changes
