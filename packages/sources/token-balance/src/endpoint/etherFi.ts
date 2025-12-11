@@ -28,7 +28,7 @@ export const inputParameters = new InputParameters(
     eigenPodManager: {
       type: 'string',
       description: 'EigenPodManager contract address used to query queued withdrawals',
-      default: '0x39052978723eB8d29c7aE967d0a95aebF71737A7',
+      default: '0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A',
     },
   },
   [
@@ -37,7 +37,7 @@ export const inputParameters = new InputParameters(
       splitMainAccount: '',
       eigenStrategy: '0x93c4b944D05dfe6df7645A86cd2206016c51564D',
       eigenStrategyUser: '',
-      eigenPodManager: '0x39052978723eB8d29c7aE967d0a95aebF71737A7',
+      eigenPodManager: '0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A',
     },
   ],
 )
