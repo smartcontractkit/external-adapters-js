@@ -107,7 +107,6 @@ describe('execute', () => {
       }
 
       const response = await testAdapter.request(data)
-      console.log('DEBUG response:', response.json()) // helpful if it fails
 
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
