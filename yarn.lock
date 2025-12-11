@@ -3988,6 +3988,9 @@ __metadata:
     ts-node: "npm:10.9.2"
     typescript: "npm:5.8.3"
     yo: "npm:4.3.1"
+  dependenciesMeta:
+    "@chainlink/external-adapter-framework@2.9.0":
+      unplugged: true
   languageName: unknown
   linkType: soft
 

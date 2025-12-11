@@ -1,6 +1,23 @@
 ### Integration Test Validation Guide (External Adapter Framework)
 
-FOCUS ONLY ON SCOPE OF ITEGRATION TEST
+FOCUS ONLY ON SCOPE OF INTEGRATION TEST
+
+## Framework Reference
+
+**Before validating, understand the framework components:**
+
+| Component               | Framework Source                                                                                                                                       | What to Validate              |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
+| `TestAdapter`           | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`               | Proper usage of test harness  |
+| `HttpTransport`         | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/http.d.ts`                  | Transport patterns used       |
+| `SubscriptionTransport` | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/abstract/subscription.d.ts` | Background execution handling |
+| Response types          | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/types.d.ts`                       | Response structure validation |
+
+**Read these framework files to understand:**
+
+- What `TestAdapter` provides
+- What transport patterns are expected
+- What response formats are standard
 
 ### 1. Task
 
@@ -16,16 +33,24 @@ FOCUS ONLY ON SCOPE OF ITEGRATION TEST
 
 ### 2. What counts as an integration test (EAF adapters)
 
+**Framework components to check:**
+
+- `TestAdapter` usage: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`
+- `MockWebsocketServer` usage: Same file
+- Response types: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/types.d.ts`
+
 Treat a test as a _real_ integration test only if:
 
 - **It goes through the adapter entrypoint**
-  - Uses `TestAdapter` (or HTTP server) and sends realistic adapter requests like `{ base, quote, endpoint }`.
+  - Uses `TestAdapter` (from framework testing utils) and sends realistic adapter requests like `{ base, quote, endpoint }`.
+  - Check: Does it import and use framework's `TestAdapter`?
 - **It uses realistic env + provider mocks**
   - Env: only the vars the adapter actually needs (`API_KEY`, RPC URLs, WS URLs, etc.).
   - `BACKGROUND_EXECUTE_MS` is around **10s (10000ms)**, not an aggressive polling interval.
-  - Providers are mocked (e.g. `nock`, `MockWebsocketServer`, `SocketServerMock`), not the adapter itself.
+  - Providers are mocked (e.g. `nock`, `MockWebsocketServer` from framework, `SocketServerMock`), not the adapter itself.
 - **It asserts on user-visible behaviour**
   - Status codes, full JSON response (often snapshots), and key business fields (`result`, `data.result`, symbols, ripcord flags, etc.).
+  - Check: Does it validate `AdapterResponse` structure from framework?
 
 Tests that just call pure helpers or internal functions without going through the adapter entrypoint are **not** integration tests; call that out.
 
@@ -59,10 +84,17 @@ When you look at the whole suite, check for these **signals of quality**:
 
 - **Transports and orchestration**
 
+  **Framework transport types:**
+
+  - `HttpTransport`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/http.d.ts`
+  - `SubscriptionTransport`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/abstract/subscription.d.ts`
+
+  **Validation criteria:**
+
   - REST: at least one test goes all the way through real request building and nocked HTTP.
   - WebSocket / streaming:
-    - Cache is warmed with `testAdapter.request(...)` + `waitForCache(...)`.
-    - `FakeTimers` / `runAllUntilTime` are used where TTL / heartbeat logic matters.
+    - Cache is warmed with `testAdapter.request(...)` + `waitForCache(...)` (from framework `TestAdapter`).
+    - `FakeTimers` / `runAllUntilTime` (from framework testing utils) are used where TTL / heartbeat logic matters.
     - There is coverage for: successful subscription, a failure/invariant‑violation path, and (where relevant) subscription deduplication.
 
 - **Env / caching / rate limiting sanity**
@@ -127,4 +159,13 @@ timeout 30 yarn test $adapter/test/integration
   - Meta‑checklists
   - Tool‑usage logs
 
-Your output should be a concise, human‑readable evaluation of the adapter’s **integration tests**, based on the standards above and the EAF integration patterns in `ea_integration_writer`.
+Your output should be a concise, human‑readable evaluation of the adapter's **integration tests**, based on the standards above and the EAF integration patterns in `ea_integration_writer`.
+
+**When validating, verify:**
+
+1. Proper use of framework's `TestAdapter` from testing utils
+2. Correct transport pattern based on adapter's transport type (check framework source)
+3. Proper mocking using framework-provided utilities (`MockWebsocketServer`, etc.)
+4. Response validation matches framework's response types
+
+**Always refer to framework source files** to understand expected patterns and usage.

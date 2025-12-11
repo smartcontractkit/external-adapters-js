@@ -1,5 +1,40 @@
 ### External Adapter Framework–only runbook for integration tests
 
+## Framework Reference
+
+### Testing Utilities Location
+
+```
+.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts
+```
+
+**Key exports to use:**
+
+- `TestAdapter` - Main test harness for adapter testing
+- `MockWebsocketServer` - WebSocket server mocking
+- `setEnvVariables` - Environment variable management
+- `runAllUntilTime` - FakeTimers advancement utilities
+- `MockCache` - Cache implementation for tests
+
+**Read the framework source** for complete type definitions and usage patterns.
+
+### Transport Types Reference
+
+| Component               | Framework Source                                                                                                                                       | Use in Tests                        |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| `HttpTransport`         | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/http.d.ts`                  | Understanding request/response flow |
+| `WebSocketTransport`    | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/websocket.d.ts`             | WebSocket test patterns             |
+| `SubscriptionTransport` | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/abstract/subscription.d.ts` | Background execution patterns       |
+| `StreamingTransport`    | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/abstract/streaming.d.ts`    | Streaming data patterns             |
+
+### Response Types Reference
+
+| Type                         | Framework Source                                                                                                                 | Use in Tests                    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `AdapterResponse`            | `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/types.d.ts` | Response assertions             |
+| `SingleNumberResultResponse` | Same file                                                                                                                        | Price/numeric result assertions |
+| `ProviderResult`             | Same file                                                                                                                        | Provider data validation        |
+
 ### 1. Test file layout (EAF)
 
 - **Directory**: `packages/sources/<adapter>/test/integration/`
@@ -13,6 +48,11 @@
 ---
 
 ### 2. Standard EAF integration test skeleton
+
+**Reference the framework testing utilities:**
+
+- Location: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`
+- Read the `.d.ts` file for complete API and type definitions
 
 Use this as the template for each `*.test.ts`:
 
@@ -335,27 +375,29 @@ it('should return success', async () => {
 
 #### Determining Which Transport Your Adapter Uses
 
+**Read the framework transport definitions:**
+
+- `HttpTransport`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/http.d.ts`
+- `SubscriptionTransport`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/abstract/subscription.d.ts`
+
 Check your adapter's transport file:
 
 ```ts
 // HttpTransport - No background execution
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
-    /* ... */
-  },
-  parseResponse: (params, response) => {
-    /* ... */
-  },
-})
+// Implements prepareRequests() and parseResponse()
+export const httpTransport = new HttpTransport<HttpTransportTypes>({...})
 
 // SubscriptionTransport - Has background execution
+// Implements backgroundHandler() method
 class MyTransport extends SubscriptionTransport<HttpTransportTypes> {
-  async backgroundHandler(context, entries) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
-  }
+  async backgroundHandler(context, entries) {...}
 }
 ```
+
+**Key identifiers:**
+
+- `HttpTransport` → No `backgroundHandler` → Use single-call pattern
+- `SubscriptionTransport` → Has `backgroundHandler` → Use Pattern 1 (HTTP) or Pattern 2 (WebSocket)
 
 **If you see `SubscriptionTransport` and `backgroundHandler`**, use Pattern 1 (afterEach) or Pattern 2 (beforeAll warm-up).  
 **If you see `HttpTransport`**, single-call pattern with no special setup is fine.
@@ -707,6 +749,11 @@ export const mockEthereumRpc = (): nock.Scope =>
 
 #### Example WebSocket fixture:
 
+**Reference MockWebsocketServer:**
+
+- Location: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`
+- Export: `MockWebsocketServer` from `'mock-socket'` package
+
 ```ts
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
@@ -977,6 +1024,12 @@ process.env.BACKGROUND_EXECUTE_MS = '10'
 
 ### 8. Advanced Testing Patterns
 
+**Framework Testing Utilities Reference:**
+
+- `deferredPromise`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/index.d.ts`
+- `sleep`: Same file
+- Read the framework source for complete utility functions
+
 #### Testing Async/Batched Operations with Deferred Promises
 
 For adapters that make multiple async calls that need to be controlled step-by-step (like `stader-balance`):
@@ -1105,6 +1158,11 @@ it('should handle delayed response', async () => {
 
 ### 10. Complex Test Utilities
 
+**Framework utilities reference:**
+
+- `TestAdapter`: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`
+- Read the framework source for `MockCache` and other test helpers
+
 For adapters with complex test scenarios, create utility files:
 
 ```ts
@@ -1201,6 +1259,12 @@ export const TEST_URL = 'https://test-api.example.com'
 
 If you follow this EAF-only template (file layout, `TestAdapter` bootstrap, env/time mocking, fixtures, and the test matrix), you'll be aligned with how the most recent `@sources` EAF adapters are tested and will be able to generate robust integration suites consistently.
 
+**Framework Reference:**
+
+- Testing utilities: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/testing-utils.d.ts`
+- Transport types: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/transports/`
+- Response types: `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/util/types.d.ts`
+
 **Key principles:**
 
 1. **Use `TestAdapter`** from `@chainlink/external-adapter-framework/util/testing-utils`
@@ -1211,3 +1275,5 @@ If you follow this EAF-only template (file layout, `TestAdapter` bootstrap, env/
 6. **Snapshot testing** for response validation
 7. **Fake timers** for WebSocket/time-based tests
 8. **Do NOT** test unit tests scenarios, language/framework basics, mocks themselves, or trivial/non-business behaviors.
+
+**Always read the framework `.d.ts` files** for up-to-date type definitions and API details.

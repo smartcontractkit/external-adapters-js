@@ -171,6 +171,10 @@ jobs:
         run: |
           npm install -g @anthropic-ai/claude-code
 
+      - name: Setup EA environment
+        run: |
+          ./ea-agent/scripts/setup-ea-env.sh
+
       - name: Run EA workflow
         id: ea
         run: |
