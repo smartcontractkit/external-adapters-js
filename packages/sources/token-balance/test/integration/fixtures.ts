@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import nock from 'nock'
+import EigenPodManager from '../../src/config/EigenPodManager.json'
 
 export type JsonRpcPayload = {
   id: number
@@ -27,9 +28,8 @@ const eigenStrategyInterface = new ethers.Interface([
   'function shares(address user) view returns (uint256)',
   'function sharesToUnderlyingView(uint256 amountShares) view returns (uint256)',
 ])
-const eigenPodManagerInterface = new ethers.Interface(
-  require('../../src/config/EigenPodManager.json'),
-)
+
+const eigenPodManagerInterface = new ethers.Interface(EigenPodManager as ethers.InterfaceAbi)
 
 export const ETHERFI_TEST_PARAMS = {
   splitMain: '0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee',

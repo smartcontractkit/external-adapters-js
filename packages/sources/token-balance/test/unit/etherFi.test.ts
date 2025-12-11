@@ -68,7 +68,7 @@ describe('EtherFiBalanceTransport', () => {
     contractMap = {}
     transport = new EtherFiBalanceTransport()
     jest.clearAllMocks()
-    transport.provider = mockProvider as ethers.JsonRpcProvider
+    transport.provider = mockProvider as unknown as ethers.JsonRpcProvider
   })
 
   it('returns only active strategy shares when there are no queued withdrawals', async () => {
