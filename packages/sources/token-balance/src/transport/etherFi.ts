@@ -81,24 +81,16 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
       EigenPodManager,
       this.provider,
     )
-    const { shares: queuedWithdrawalShares } = await eigenPodManagerContract.getQueuedWithdrawals(
+    const { shares: queuedWithdrawalShares } = (await eigenPodManagerContract.getQueuedWithdrawals(
       param.eigenStrategyUser,
-    )
+    )) as { shares?: ethers.BigNumberish[][] }
 
-    const queuedSharesTotal = queuedWithdrawalShares?.reduce(
-      (acc: bigint, sharesForWithdrawal: bigint[]) => {
-        if (!sharesForWithdrawal || sharesForWithdrawal.length === 0) {
-          return acc
-        }
-
-        return (
-          acc + sharesForWithdrawal.reduce((innerAcc: bigint, val: bigint) => innerAcc + val, 0n)
-        )
-      },
+    const queuedSharesTotal = (queuedWithdrawalShares?.flat() ?? []).reduce(
+      (acc: bigint, val: ethers.BigNumberish) => acc + BigInt(val),
       0n,
     )
 
-    const totalShares = shares + (queuedSharesTotal ?? 0n)
+    const totalShares = shares + queuedSharesTotal
     const eigenBalance = await eigenContract.sharesToUnderlyingView(totalShares)
 
     return {
