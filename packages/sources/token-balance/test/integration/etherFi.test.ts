@@ -25,6 +25,7 @@ describe('execute', () => {
     splitMainAccount: ETHERFI_TEST_PARAMS.splitMainAccount,
     eigenStrategy: ETHERFI_TEST_PARAMS.eigenStrategy,
     eigenStrategyUser: ETHERFI_TEST_PARAMS.eigenStrategyUser,
+    eigenPodManager: ETHERFI_TEST_PARAMS.eigenPodManager,
   }
 
   beforeAll(async () => {
@@ -34,8 +35,6 @@ describe('execute', () => {
       process.env.ETHEREUM_RPC_URL ?? 'http://localhost-eth-mainnet:8080'
     process.env.ETHEREUM_RPC_CHAIN_ID = process.env.ETHEREUM_RPC_CHAIN_ID ?? '1'
     process.env.BACKGROUND_EXECUTE_MS = '0'
-    process.env.EIGENPOD_MANAGER_ADDRESS =
-      process.env.EIGENPOD_MANAGER_ADDRESS ?? ETHERFI_TEST_PARAMS.eigenPodManager
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

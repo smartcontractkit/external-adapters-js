@@ -37,14 +37,14 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(context: EndpointContext<BaseEndpointTypes>, param: RequestParams) {
+  async handleRequest(param: RequestParams) {
     let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
-      response = await this._handleRequest(context, param)
+      response = await this._handleRequest(param)
     } catch (e: unknown) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
@@ -62,7 +62,6 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
   }
 
   async _handleRequest(
-    context: EndpointContext<BaseEndpointTypes>,
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
@@ -78,7 +77,7 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
     const shares = await eigenContract.shares(param.eigenStrategyUser)
 
     const eigenPodManagerContract = new ethers.Contract(
-      context.adapterSettings.EIGENPOD_MANAGER_ADDRESS,
+      param.eigenPodManager,
       EigenPodManager,
       this.provider,
     )

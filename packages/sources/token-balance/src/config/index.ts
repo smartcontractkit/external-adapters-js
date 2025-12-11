@@ -53,9 +53,4 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 25,
   },
-  EIGENPOD_MANAGER_ADDRESS: {
-    description: 'EigenPodManager contract address for queued withdrawal queries',
-    type: 'string',
-    default: '0x39052978723eB8d29c7aE967d0a95aebF71737A7',
-  },
 })

@@ -1,13 +1,20 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+jest.mock('@chainlink/external-adapter-framework/transports/abstract/subscription', () => {
+  return {
+    SubscriptionTransport: class {},
+  }
+})
+
+import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { ethers } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/etherFi'
+import { inputParameters } from '../../src/endpoint/etherFi'
 import { EtherFiBalanceTransport } from '../../src/transport/etherFi'
 
 const SPLIT_MAIN_ADDRESS = '0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE'
 const SPLIT_MAIN_ACCOUNT = '0xF00baa0000000000000000000000000000000001'
 const EIGEN_STRATEGY_ADDRESS = '0x93c4b944D05dfe6df7645A86cd2206016c51564D'
 const EIGEN_STRATEGY_USER = '0x1FfAB368Bb0a2b55c643fBeF847c881C6f7f5F01'
-const EIGENPOD_MANAGER_ADDRESS = '0x39052978723eB8d29c7aE967d0a95aebF71737A7'
+const DEFAULT_EIGENPOD_MANAGER = '0x39052978723eB8d29c7aE967d0a95aebF71737A7'
+const CUSTOM_EIGENPOD_MANAGER = '0x0000000000000000000000000000000000000002'
 
 let contractMap: Record<string, unknown> = {}
 
@@ -15,15 +22,29 @@ const registerContract = (address: string, implementation: unknown) => {
   contractMap[address.toLowerCase()] = implementation
 }
 
+const getRegisteredContract = (address: string) => {
+  const contract = contractMap[address.toLowerCase()]
+  if (!contract) {
+    throw new Error(`Contract not found: ${address}`)
+  }
+  return contract
+}
+
+const createProvider = () =>
+  makeStub('provider', {
+    getBalance: jest.fn(),
+  })
+let mockProvider = createProvider()
+
 const makeEthers = () => ({
-  JsonRpcProvider: jest.fn(),
+  JsonRpcProvider: jest.fn().mockImplementation(() => {
+    mockProvider = createProvider()
+    return mockProvider
+  }),
   Contract: function (address: string) {
-    const contract = contractMap[address.toLowerCase()]
-    if (!contract) {
-      throw new Error(`Contract not found: ${address}`)
-    }
-    return contract
+    return getRegisteredContract(address)
   },
+  toBigInt: (value: ethers.BigNumberish) => BigInt(value as bigint | number | string),
 })
 
 jest.mock('ethers', () => ({
@@ -31,38 +52,23 @@ jest.mock('ethers', () => ({
 }))
 
 describe('EtherFiBalanceTransport', () => {
-  const buildContext = (): EndpointContext<BaseEndpointTypes> =>
-    ({
-      adapterSettings: {
-        ETHEREUM_RPC_URL: 'https://example-rpc.chain',
-        ETHEREUM_RPC_CHAIN_ID: 1,
-        ARBITRUM_RPC_URL: 'https://arbitrum-rpc.chain',
-        ARBITRUM_RPC_CHAIN_ID: 42161,
-        SOLANA_RPC_URL: 'https://solana-rpc.chain',
-        SOLANA_COMMITMENT: 'finalized',
-        XRPL_RPC_URL: 'https://xrpl-rpc.chain',
-        STELLAR_RPC_URL: 'https://stellar-rpc.chain',
-        BACKGROUND_EXECUTE_MS: 1_000,
-        GROUP_SIZE: 1,
-        WARMUP_SUBSCRIPTION_TTL: 1_000,
-        EIGENPOD_MANAGER_ADDRESS,
-      },
-    } as EndpointContext<BaseEndpointTypes>)
-
-  const buildParams = (): typeof inputParameters.validated => ({
-    splitMain: SPLIT_MAIN_ADDRESS,
-    splitMainAccount: SPLIT_MAIN_ACCOUNT,
-    eigenStrategy: EIGEN_STRATEGY_ADDRESS,
-    eigenStrategyUser: EIGEN_STRATEGY_USER,
-  })
+  const buildParams = (overrides: Partial<typeof inputParameters.validated> = {}) =>
+    makeStub('params', {
+      splitMain: SPLIT_MAIN_ADDRESS,
+      splitMainAccount: SPLIT_MAIN_ACCOUNT,
+      eigenStrategy: EIGEN_STRATEGY_ADDRESS,
+      eigenStrategyUser: EIGEN_STRATEGY_USER,
+      eigenPodManager: DEFAULT_EIGENPOD_MANAGER,
+      ...overrides,
+    })
 
   let transport: EtherFiBalanceTransport
 
   beforeEach(() => {
     contractMap = {}
     transport = new EtherFiBalanceTransport()
-    transport.provider = {} as ethers.JsonRpcProvider
     jest.clearAllMocks()
+    transport.provider = mockProvider as ethers.JsonRpcProvider
   })
 
   it('returns only active strategy shares when there are no queued withdrawals', async () => {
@@ -83,9 +89,9 @@ describe('EtherFiBalanceTransport', () => {
 
     registerContract(SPLIT_MAIN_ADDRESS, splitMainContract)
     registerContract(EIGEN_STRATEGY_ADDRESS, eigenStrategyContract)
-    registerContract(EIGENPOD_MANAGER_ADDRESS, eigenPodManagerContract)
+    registerContract(DEFAULT_EIGENPOD_MANAGER, eigenPodManagerContract)
 
-    const response = await transport._handleRequest(buildContext(), buildParams())
+    const response = await transport._handleRequest(buildParams())
 
     expect(splitMainContract.getETHBalance).toHaveBeenCalledWith(SPLIT_MAIN_ACCOUNT)
     expect(eigenStrategyContract.shares).toHaveBeenCalledWith(EIGEN_STRATEGY_USER)
@@ -120,9 +126,11 @@ describe('EtherFiBalanceTransport', () => {
 
     registerContract(SPLIT_MAIN_ADDRESS, splitMainContract)
     registerContract(EIGEN_STRATEGY_ADDRESS, eigenStrategyContract)
-    registerContract(EIGENPOD_MANAGER_ADDRESS, eigenPodManagerContract)
+    registerContract(CUSTOM_EIGENPOD_MANAGER, eigenPodManagerContract)
 
-    const response = await transport._handleRequest(buildContext(), buildParams())
+    const response = await transport._handleRequest(
+      buildParams({ eigenPodManager: CUSTOM_EIGENPOD_MANAGER }),
+    )
 
     expect(eigenPodManagerContract.getQueuedWithdrawals).toHaveBeenCalledWith(EIGEN_STRATEGY_USER)
     expect(eigenStrategyContract.sharesToUnderlyingView).toHaveBeenCalledWith(
