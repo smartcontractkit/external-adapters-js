@@ -26,6 +26,11 @@ export const configDefinition = {
     type: 'string',
     default: 'https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves',
   },
+  BATCH_SIZE: {
+    description: 'Maximum number of addresses to send in a single request to the balance indexer',
+    type: 'number',
+    default: 5000,
+  },
 } as const
 
 export const config = new AdapterConfig(
