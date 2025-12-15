@@ -35,11 +35,26 @@ flowchart TD
 
 The agent generates EAs using **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)**.
 
-### Why Unplugged?
+### Scaffolding with `yarn new`
+
+The EA Developer agent runs `yarn new source` to scaffold a new adapter package. This command:
+
+1. Generates the package structure at `packages/sources/example-adapter/`
+2. Creates boilerplate files (tsconfig, package.json, src/index.ts)
+3. Agent then renames the folder to the requested adapter name
+4. Runs `yarn new tsconfig` to register the package
+
+### Unplugging the Framework
 
 This repo uses [Yarn PnP](https://yarnpkg.com/features/pnp) where packages are stored in compressed `.zip` files inside `.yarn/cache/`. AI agents cannot read zip contents directly.
 
-The framework package is configured as "unplugged" in `.yarnrc.yml`, which extracts it to disk:
+In GitHub Actions, the setup script (`ea-agent/scripts/setup-ea-env.sh`) runs:
+
+```bash
+yarn unplug @chainlink/external-adapter-framework
+```
+
+This extracts the framework to disk:
 
 ```
 .yarn/unplugged/@chainlink-external-adapter-framework-npm-*/
@@ -50,7 +65,7 @@ The framework package is configured as "unplugged" in `.yarnrc.yml`, which extra
     └── ...
 ```
 
-This allows the EA Developer agent to read the framework's `.d.ts` files directly, understand available components, and implement the adapter correctly.
+The EA Developer agent can then read the `.d.ts` files to understand available components and implement the adapter correctly.
 
 ### Generated Structure
 
