@@ -30,55 +30,93 @@ flowchart TD
     H -->|3 approvals| I[Done]
 ```
 
-## Framework Utilization
+## Chainlink External Adapter Framework
 
-The agent leverages the **Claude Agent SDK** (`claude_agent_sdk`) to orchestrate AI agents:
+The agent generates EAs using the **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)** — a TypeScript framework that provides standardized components for building production-ready adapters.
 
-### Core SDK Features Used
-
-| Feature | Usage |
-|---------|-------|
-| `query()` | Async generator for streaming agent responses |
-| `ClaudeAgentOptions` | Configures model, system prompt, tools, and output format |
-| `AssistantMessage` / `TextBlock` | Process agent responses |
-| Structured Output | JSON schema-based output via Pydantic models |
-| Permission Mode | `acceptEdits` for file modifications, read-only for validators |
-
-### Agent Tool Access
-
-| Agent Role | Tools |
-|------------|-------|
-| Writers/Developer | `Read`, `Write`, `Bash`, `List`, `GlobFileSearch` |
-| Validators | `Read`, `Bash`, `List`, `GlobFileSearch` (read-only) |
-| Code Reviewer | `Read`, `List`, `GlobFileSearch` (read-only) |
-
-### Execute-Validate Loop Pattern
-
-The `run_execute_validate_loop()` function implements an iterative refinement pattern:
-
-1. **Executor** runs (writer or developer agent)
-2. **Validator** reviews and returns structured `ValidationResult`
-3. If rejected, feedback is passed back to executor for fixes
-4. Loop continues until required approvals are met or max iterations reached
-
-```python
-class ValidationResult(BaseModel):
-    approved: bool
-    rationale: str  # Feedback if not approved
+The framework source is available at:
+```
+.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/
 ```
 
-### Structured Output
+### How the Agent Uses the Framework
 
-Agents return typed results via Pydantic models and JSON schema:
+The EA Developer agent reads the framework's `.d.ts` type definitions to understand available components and their interfaces. It then selects the most appropriate components based on the YAML requirements:
 
-```python
-class InitializationResult(BaseModel):
-    ea_package_path: str  # Path to generated EA package
+### Transports
 
-result, _ = await run_agent(
-    ...,
-    output_schema=InitializationResult.model_json_schema(),
-)
+Transports handle data fetching from external APIs:
+
+| Transport | Use Case | Key Methods |
+|-----------|----------|-------------|
+| `HttpTransport` | REST API requests | `prepareRequests()`, `parseResponse()` |
+| `WebSocketTransport` | Real-time streaming data | `url`, `handlers.message`, `builders` |
+| `SseTransport` | Server-Sent Events | Similar to WebSocket |
+
+### Endpoints
+
+Endpoints define the adapter's API surface:
+
+| Endpoint Type | Use Case |
+|---------------|----------|
+| `AdapterEndpoint` | Generic endpoints |
+| `PriceEndpoint` / `CryptoPriceEndpoint` / `ForexPriceEndpoint` | Price feeds with base/quote params |
+| `LwbaEndpoint` | Lightweight bid/ask (bid, mid, ask) |
+| `StockEndpoint` | Stock data feeds |
+| `MarketStatusEndpoint` | Market open/closed status |
+| PoR endpoints | Proof of Reserves |
+
+### Adapters
+
+The main adapter class that ties everything together:
+
+| Adapter Type | Use Case |
+|--------------|----------|
+| `Adapter` | Generic adapter |
+| `PriceAdapter` | Price feeds with includes support |
+| `PoRAdapter` | Proof of Reserves |
+
+### Input Parameters & Config
+
+| Component | Purpose |
+|-----------|---------|
+| `InputParameters` | Define typed input params with validation |
+| `EmptyInputParameters` | When no input params needed |
+| `AdapterConfig` | Environment-based configuration |
+
+### Response Types
+
+| Type | Purpose |
+|------|---------|
+| `SingleNumberResultResponse` | Standard numeric response |
+| `AdapterResponse` | Full response structure |
+| `ProviderResult` | Provider data with timestamps |
+
+### Error Handling
+
+| Error Type | Use Case |
+|------------|----------|
+| `AdapterError` | Base error class |
+| `AdapterInputError` | Input validation failures |
+| `AdapterRateLimitError` | Rate limit exceeded |
+| `AdapterDataProviderError` | Provider failures |
+
+### Example: Generated EA Structure
+
+```
+packages/sources/<adapter-name>/
+├── src/
+│   ├── index.ts           # Adapter definition with expose()
+│   ├── config/
+│   │   └── index.ts       # AdapterConfig with env settings
+│   ├── endpoint/
+│   │   └── price.ts       # PriceEndpoint with InputParameters
+│   └── transport/
+│       └── price.ts       # HttpTransport with prepareRequests/parseResponse
+├── test/
+│   ├── integration/       # Integration tests
+│   └── unit/              # Unit tests
+└── test-payload.json      # Soak test payload
 ```
 
 ## Components
@@ -204,10 +242,15 @@ Or trigger manually on an existing PR:
 ### Phase 1: Initialization
 
 The EA Developer agent:
-- Runs `yarn new source` to scaffold the package
+- Runs `yarn new source` to scaffold the package structure
 - Renames from `example-adapter` to the requested name
-- Implements transports, endpoints, and config based on YAML spec
-- Uses the EA framework at `.yarn/unplugged/@chainlink-external-adapter-framework-npm-*`
+- Reads the framework `.d.ts` files to understand component interfaces
+- Selects appropriate framework components based on YAML requirements:
+  - **Transport**: `HttpTransport` for REST, `WebSocketTransport` for streaming
+  - **Endpoint**: `PriceEndpoint` for price feeds, `AdapterEndpoint` for generic
+  - **Adapter**: `PriceAdapter` or `Adapter` based on endpoint types
+- Implements `prepareRequests()` and `parseResponse()` for data fetching
+- Configures `AdapterConfig` with required environment variables
 
 ### Phase 2: Code Review
 
