@@ -101,9 +101,12 @@ uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `ANTHROPIC_API_KEY` | required | Claude API key |
+| `ANTHROPIC_API_KEY` | required | Claude API key (for local dev) |
 | `WORKFLOW_MODEL` | `claude-opus-4-5@20251101` | Model to use |
-| `VERBOSE_LOGGING` | `true` | Log all messages |
+| `ENVIRONMENT` | `development` | Environment name for logging |
+| `VERBOSE_LOGGING` | `true` | Log all agent messages |
+| `JSON_LOG_PATH` | — | Path for streaming JSON logs |
+| `SUMMARY_LOG_PATH` | — | Path for final summary JSON |
 
 ## GitHub Actions
 
@@ -116,13 +119,6 @@ The agent runs automatically via `.github/workflows/generate-ea.yml`.
 | `CC_GHA_GCP_SERVICE_ACCOUNT_KEY` | GCP service account credentials JSON for Vertex AI |
 | `CC_GHA_GCP_PROJECT_ID` | GCP project ID for Vertex AI |
 
-### Environment Variables (set by workflow)
-
-| Variable | Value | Description |
-|----------|-------|-------------|
-| `CLAUDE_CODE_USE_VERTEX` | `1` | Use Vertex AI instead of Anthropic API |
-| `CLOUD_ML_REGION` | `us-east5` | GCP region for Vertex AI |
-| `ANTHROPIC_VERTEX_PROJECT_ID` | from secret | GCP project for Claude |
 
 ### Trigger Options
 
