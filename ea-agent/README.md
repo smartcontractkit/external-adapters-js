@@ -24,25 +24,31 @@ flowchart TD
     G -->|3 approvals| H[Done]
 ```
 
-| Phase | What Happens |
-|-------|--------------|
-| **1. Development** | Scaffolds EA with `yarn new`, implements transports/endpoints using framework components |
-| **2. Code Review** | Validates code quality; loops back to developer if rejected |
-| **3. Integration Tests** | Writes tests, validates with 3 approval rounds |
-| **4. Unit Tests** | Writes tests, validates with 3 approval rounds |
+| Phase                    | What Happens                                                                             |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| **1. Development**       | Scaffolds EA with `yarn new`, implements transports/endpoints using framework components |
+| **2. Code Review**       | Validates code quality; loops back to developer if rejected                              |
+| **3. Integration Tests** | Writes tests, validates with 3 approval rounds                                           |
+| **4. Unit Tests**        | Writes tests, validates with 3 approval rounds                                           |
 
-## Using the Framework
+## Project Structure
+
+```
+ea-agent/
+├── src/source_ea_agent.py    # Main orchestrator
+├── scripts/setup-ea-env.sh   # CI environment setup
+└── requests/                 # YAML requirement files
+
+.claude/agents/
+├── ea_developer.md           # Development agent prompt
+├── ea_code_reviewer.md       # Code review agent prompt
+├── ea_integration_test_*.md  # Integration test agents
+└── ea_unit_test_*.md         # Unit test agents
+```
+
+## How it uses the EA Framework
 
 The agent generates EAs using **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)**.
-
-### Scaffolding with `yarn new`
-
-The EA Developer agent runs `yarn new source` to scaffold a new adapter package. This command:
-
-1. Generates the package structure at `packages/sources/example-adapter/`
-2. Creates boilerplate files (tsconfig, package.json, src/index.ts)
-3. Agent then renames the folder to the requested adapter name
-4. Runs `yarn new tsconfig` to register the package
 
 ### Unplugging the Framework
 
@@ -67,6 +73,15 @@ This extracts the framework to disk:
 
 The EA Developer agent can then read the `.d.ts` files to understand available components and implement the adapter correctly.
 
+### Scaffolding with `yarn new`
+
+The EA Developer agent runs `yarn new source` to scaffold a new adapter package. This command:
+
+1. Generates the package structure at `packages/sources/example-adapter/`
+2. Creates boilerplate files (tsconfig, package.json, src/index.ts)
+3. Agent then renames the folder to the requested adapter name
+4. Runs `yarn new tsconfig` to register the package
+
 ### Generated Structure
 
 ```
@@ -90,23 +105,24 @@ packages/sources/<adapter-name>/
 - Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
 - `ANTHROPIC_API_KEY` environment variable
 
-### Run
+### Local Run
 
 ```bash
+ea-agent/scripts/setup-ea-env.sh
 cd ea-agent && uv sync
 uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
 ```
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `ANTHROPIC_API_KEY` | required | Claude API key (for local dev) |
-| `WORKFLOW_MODEL` | `claude-opus-4-5@20251101` | Model to use |
-| `ENVIRONMENT` | `development` | Environment name for logging |
-| `VERBOSE_LOGGING` | `true` | Log all agent messages |
-| `JSON_LOG_PATH` | — | Path for streaming JSON logs |
-| `SUMMARY_LOG_PATH` | — | Path for final summary JSON |
+| Variable            | Default                    | Description                    |
+| ------------------- | -------------------------- | ------------------------------ |
+| `ANTHROPIC_API_KEY` | required                   | Claude API key (for local dev) |
+| `WORKFLOW_MODEL`    | `claude-opus-4-5@20251101` | Model to use                   |
+| `ENVIRONMENT`       | `development`              | Environment name for logging   |
+| `VERBOSE_LOGGING`   | `true`                     | Log all agent messages         |
+| `JSON_LOG_PATH`     | —                          | Path for streaming JSON logs   |
+| `SUMMARY_LOG_PATH`  | —                          | Path for final summary JSON    |
 
 ## GitHub Actions
 
@@ -114,11 +130,10 @@ The agent runs automatically via `.github/workflows/generate-ea.yml`.
 
 ### Required Secrets
 
-| Secret | Description |
-|--------|-------------|
+| Secret                           | Description                                        |
+| -------------------------------- | -------------------------------------------------- |
 | `CC_GHA_GCP_SERVICE_ACCOUNT_KEY` | GCP service account credentials JSON for Vertex AI |
-| `CC_GHA_GCP_PROJECT_ID` | GCP project ID for Vertex AI |
-
+| `CC_GHA_GCP_PROJECT_ID`          | GCP project ID for Vertex AI                       |
 
 ### Trigger Options
 
@@ -132,21 +147,6 @@ The agent runs automatically via `.github/workflows/generate-ea.yml`.
 3. Runs all 4 phases
 4. Commits generated code to PR
 
-## Project Structure
-
-```
-ea-agent/
-├── src/source_ea_agent.py    # Main orchestrator
-├── scripts/setup-ea-env.sh   # CI environment setup
-└── requests/                 # YAML requirement files
-
-.claude/agents/
-├── ea_developer.md           # Development agent prompt
-├── ea_code_reviewer.md       # Code review agent prompt
-├── ea_integration_test_*.md  # Integration test agents
-└── ea_unit_test_*.md         # Unit test agents
-```
-
 ## Interactive Use
 
 Reference agent prompts directly in Cursor with `@` mentions:
@@ -155,9 +155,9 @@ Reference agent prompts directly in Cursor with `@` mentions:
 @ea_developer.md Scaffold an EA for packages/sources/my-adapter
 ```
 
-| Agent | File | Purpose |
-|-------|------|---------|
-| Developer | `@ea_developer.md` | Scaffold new adapter |
-| Reviewer | `@ea_code_reviewer.md` | Review code quality |
-| Test Writers | `@ea_*_test_writer.md` | Write tests |
-| Test Validators | `@ea_*_test_validator.md` | Validate tests |
+| Agent           | File                      | Purpose              |
+| --------------- | ------------------------- | -------------------- |
+| Developer       | `@ea_developer.md`        | Scaffold new adapter |
+| Reviewer        | `@ea_code_reviewer.md`    | Review code quality  |
+| Test Writers    | `@ea_*_test_writer.md`    | Write tests          |
+| Test Validators | `@ea_*_test_validator.md` | Validate tests       |
