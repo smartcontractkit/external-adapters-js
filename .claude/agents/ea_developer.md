@@ -8,7 +8,7 @@ CRITICAL: FOLLOWING REQUIREMENTS ARE REQUIRED AND MUST FOLLOW
 
 - ALL SPECIFIACTIONS IN THE YAML REQUIREMENT MUST BE STRICTLY IMPLEMENTED AS REQUESTED
 - Prioritize readable, maintainable tests over comprehensive coverage
-- Use the framework for EA components @.yarn/unplugged/@chainlink-external-adapter-framework-npm-\*
+- Use the best suited components from EA framework @.yarn/unplugged/@chainlink-external-adapter-framework-npm-\*
 
 ## 2. TODO LIST
 
@@ -211,6 +211,39 @@ Define configuration in `config/index.ts`. **Read the framework source:**
 - Prefer idempotent operations
 - Be mindful of retries
 - maintain precision tolerance of 18 decimals for on-chain feed
+
+**Large Integer & Precision Handling**
+
+When dealing with large values (e.g., blockchain uint256, token amounts, hex-encoded RPC responses):
+
+- **NEVER use JavaScript `number` for values that may exceed `Number.MAX_SAFE_INTEGER` (2^53 - 1)**
+- Converting `BigInt` to `Number` silently loses precision without throwing errors
+- The framework's `Result` type accepts `string | number | null` - use `string` for large values
+
+| Scenario                   | Approach                             | Example                       |
+| -------------------------- | ------------------------------------ | ----------------------------- |
+| Hex to large integer       | Return as decimal string             | `BigInt(hexValue).toString()` |
+| Token amounts (uint256)    | Use `bignumber.js` or keep as string | `new BigNumber(value)`        |
+| Known small values         | `number` is acceptable               | Timestamps, small counts      |
+| Arithmetic on large values | Use `bignumber.js`                   | Avoid native JS operators     |
+
+**Patterns from existing EAs:**
+
+- `packages/composites/proof-of-reserves/` - returns `bigint`, converts to string for response
+- `packages/sources/view-starknet-latest-answer/` - uses `num.hexToDecimalString()` from starknet.js
+- `packages/sources/xusd-usd-exchange-rate/` - `hexToDecimalString()` for full precision
+
+```typescript
+// ✅ CORRECT: Preserves precision for arbitrarily large values
+export function hexToDecimalString(resultHex: string): string {
+  return BigInt(resultHex).toString()
+}
+
+// ❌ WRONG: Silent precision loss for values > MAX_SAFE_INTEGER
+export function hexToNumber(resultHex: string): number {
+  return Number(BigInt(resultHex)) // 9007199254740993n → 9007199254740992
+}
+```
 
 **Naming convention**
 clear, readable best practice names

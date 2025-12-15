@@ -54,7 +54,8 @@ ea-agent/
 ### Run the Agent
 
 ```bash
-uv run ea-agent/src/source_ea_agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
+cd ea-agent && uv sync
+uv run --project ea-agent python ea-agent/src/source_ea_agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
 ```
 
 The YAML file should contain the EA specification including:

@@ -95,8 +95,8 @@ class InitializationResult(BaseModel):
 
 
 class ValidationResult(BaseModel):
-    approved: bool = Field(description="Whether the tests are approved.")
-    rationale: str = Field(default="", description="Rationale if rejected.")
+    approved: bool = Field(description="Whether validation passed.")
+    rationale: str = Field(default="", description="Feedback if not approved.")
 
 
 # =============================================================================
@@ -250,54 +250,71 @@ async def run_agent(
 
 
 # =============================================================================
-# Validation Loop
+# Execute-Validate Loop
 # =============================================================================
 
-async def run_validation_loop(
-    writer_name: str,
-    writer_prompt_path: str,
+async def run_execute_validate_loop(
+    executor_name: str,
+    executor_prompt_path: str,
+    executor_prompt: str,
     validator_name: str,
     validator_prompt_path: str,
-    ea_path: str,
+    validator_prompt: str,
     phase: str,
     trace_id: str,
     model: str,
-    edit_opts: dict,
+    executor_opts: dict,
     validator_opts: dict,
     agent_runs: list,
-    required_approvals: int = 3,
     max_iterations: int = 3,
+    required_approvals: int = 1,
+    feedback_to_prompt: callable = None,
 ) -> tuple[int, int]:
-    """Run write-validate loop. Returns (iterations, approvals)."""
+    """
+    Generic execute-validate loop.
+    
+    Returns (iterations, approvals).
+    
+    Args:
+        executor_*: Agent that executes/fixes (writer, developer)
+        validator_*: Agent that validates/reviews
+        feedback_to_prompt: Function(feedback, original_prompt) -> new_prompt for retry
+    """
     
     approvals = 0
     feedback = ""
     iteration = 1
     
+    # Default feedback handler: append to original prompt
+    if feedback_to_prompt is None:
+        feedback_to_prompt = lambda fb, orig: f"{orig}\n\nPrevious validation feedback:\n{fb}"
+    
     while approvals < required_approvals and iteration <= max_iterations:
-        # Write tests
-        instruction = f"Generate tests for: {ea_path}."
-        if feedback:
-            instruction += f"\n\nPrevious validation failed:\n{feedback}"
+        # Execute
+        current_prompt = executor_prompt if not feedback else feedback_to_prompt(feedback, executor_prompt)
         
         _, run_log = await run_agent(
-            name=writer_name,
-            system_prompt_path=writer_prompt_path,
-            prompt=instruction,
+            name=executor_name,
+            system_prompt_path=executor_prompt_path,
+            prompt=current_prompt,
             trace_id=trace_id,
             phase=phase,
             iteration=iteration,
             model=model,
-            options=edit_opts,
+            options=executor_opts,
         )
         agent_runs.append(run_log)
         
-        # Validate (need all rounds to pass)
+        # Validate (run required_approvals rounds, all must pass)
         for round_num in range(1, required_approvals + 1):
+            round_prompt = validator_prompt
+            if required_approvals > 1:
+                round_prompt = f"{validator_prompt} (Round {round_num}/{required_approvals})"
+            
             result, run_log = await run_agent(
                 name=validator_name,
                 system_prompt_path=validator_prompt_path,
-                prompt=f"Validate tests for: {ea_path}. Run if possible. (Round {round_num}/{required_approvals})",
+                prompt=round_prompt,
                 trace_id=trace_id,
                 phase=phase,
                 iteration=iteration,
@@ -392,30 +409,64 @@ async def main():
         ea_path = InitializationResult.model_validate(result).ea_package_path
         log.info("phase_complete", trace_id=trace_id, phase="initialization", ea_path=ea_path)
         
-        # Phase 2: Integration Tests
+        read_only_opts = {"permission_mode": "acceptEdits",
+                          "allowed_tools": ["Read", "List", "GlobFileSearch"]}
+        
+        # Phase 2: Code Review
+        log.info("phase_start", trace_id=trace_id, phase="code_review")
+        iters, approvals = await run_execute_validate_loop(
+            executor_name="EA Developer",
+            executor_prompt_path=".claude/agents/ea_developer.md",
+            executor_prompt=f"Review and fix any code quality issues in {ea_path}.",
+            validator_name="Code Reviewer",
+            validator_prompt_path=".claude/agents/ea_code_reviewer.md",
+            validator_prompt=f"Review the EA code at: {ea_path}\n\nOriginal Requirements:\n{requirements}",
+            phase="code_review",
+            trace_id=trace_id,
+            model=model,
+            executor_opts=edit_opts,
+            validator_opts=read_only_opts,
+            agent_runs=agent_runs,
+        )
+        log.info("phase_complete", trace_id=trace_id, phase="code_review",
+                 iterations=iters, approvals=approvals)
+        
+        # Phase 3: Integration Tests
         log.info("phase_start", trace_id=trace_id, phase="integration_testing")
-        iters, approvals = await run_validation_loop(
-            writer_name="Integration Test Writer",
-            writer_prompt_path=".claude/agents/ea_integration_test_writer.md",
+        iters, approvals = await run_execute_validate_loop(
+            executor_name="Integration Test Writer",
+            executor_prompt_path=".claude/agents/ea_integration_test_writer.md",
+            executor_prompt=f"Generate integration tests for: {ea_path}.",
             validator_name="Integration Test Validator",
             validator_prompt_path=".claude/agents/ea_integration_test_validator.md",
-            ea_path=ea_path, phase="integration_testing", trace_id=trace_id,
-            model=model, edit_opts=edit_opts, validator_opts=validator_opts,
+            validator_prompt=f"Validate integration tests for: {ea_path}. Run if possible.",
+            phase="integration_testing",
+            trace_id=trace_id,
+            model=model,
+            executor_opts=edit_opts,
+            validator_opts=validator_opts,
             agent_runs=agent_runs,
+            required_approvals=3,
         )
         log.info("phase_complete", trace_id=trace_id, phase="integration_testing",
                  iterations=iters, approvals=approvals)
         
-        # Phase 3: Unit Tests
+        # Phase 4: Unit Tests
         log.info("phase_start", trace_id=trace_id, phase="unit_testing")
-        iters, approvals = await run_validation_loop(
-            writer_name="Unit Test Writer",
-            writer_prompt_path=".claude/agents/ea_unit_test_writer.md",
+        iters, approvals = await run_execute_validate_loop(
+            executor_name="Unit Test Writer",
+            executor_prompt_path=".claude/agents/ea_unit_test_writer.md",
+            executor_prompt=f"Generate unit tests for: {ea_path}.",
             validator_name="Unit Test Validator",
             validator_prompt_path=".claude/agents/ea_unit_test_validator.md",
-            ea_path=ea_path, phase="unit_testing", trace_id=trace_id,
-            model=model, edit_opts=edit_opts, validator_opts=validator_opts,
+            validator_prompt=f"Validate unit tests for: {ea_path}. Run if possible.",
+            phase="unit_testing",
+            trace_id=trace_id,
+            model=model,
+            executor_opts=edit_opts,
+            validator_opts=validator_opts,
             agent_runs=agent_runs,
+            required_approvals=3,
         )
         log.info("phase_complete", trace_id=trace_id, phase="unit_testing",
                  iterations=iters, approvals=approvals)
