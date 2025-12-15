@@ -2,286 +2,137 @@
 
 AI-powered tool that scaffolds Chainlink Source External Adapters from YAML specifications.
 
-**This agent is dedicated to developing Source EAs**
+## How It Works
 
-## What is This?
+The agent uses the [Claude Agent SDK](https://docs.anthropic.com/en/docs/claude-code/sdk) to orchestrate a 4-phase workflow:
 
-This agent automates the creation of Source External Adapters by orchestrating multiple AI agents through a four-phase workflow using the [Claude Agent SDK](https://docs.anthropic.com/en/docs/claude-code/sdk):
-
-1. **Initialization** — Sets up the EA folder with `yarn new` non-interactive mode and generates adapter code (transports, endpoints, config)
-2. **Code Review** — Validates code quality, framework usage, and production-readiness with an execute-validate loop
-3. **Integration Testing** — Writes and validates integration tests with a write-validate loop (3 approvals required)
-4. **Unit Testing** — Writes and validates unit tests with a write-validate loop (3 approvals required)
-
-Each phase uses specialized agents with targeted system prompts. The testing phases use a writer agent followed by a validator agent, iterating until tests pass validation.
+```
+YAML Spec → Developer → Code Review → Integration Tests → Unit Tests → Done
+```
 
 ```mermaid
 flowchart TD
     A[YAML Spec] --> B[EA Developer]
-    B --> C[packages/sources/adapter]
-    C --> D{Code Reviewer}
-    D -->|rejected| B
-    D -->|approved| E[Integration Test Writer]
-    E --> F{Integration Test Validator}
-    F -->|rejected| E
-    F -->|3 approvals| G[Unit Test Writer]
-    G --> H{Unit Test Validator}
-    H -->|rejected| G
-    H -->|3 approvals| I[Done]
+    B --> C[Code Reviewer]
+    C -->|rejected| B
+    C -->|approved| D[Integration Test Writer]
+    D --> E{Validator}
+    E -->|rejected| D
+    E -->|3 approvals| F[Unit Test Writer]
+    F --> G{Validator}
+    G -->|rejected| F
+    G -->|3 approvals| H[Done]
 ```
 
-## Chainlink External Adapter Framework
+| Phase | What Happens |
+|-------|--------------|
+| **1. Development** | Scaffolds EA with `yarn new`, implements transports/endpoints using framework components |
+| **2. Code Review** | Validates code quality; loops back to developer if rejected |
+| **3. Integration Tests** | Writes tests, validates with 3 approval rounds |
+| **4. Unit Tests** | Writes tests, validates with 3 approval rounds |
 
-The agent generates EAs using the **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)** — a TypeScript framework that provides standardized components for building production-ready adapters.
+## Using the Framework
 
-The framework source is available at:
+The agent generates EAs using **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)**.
+
+The developer agent reads the framework's `.d.ts` type definitions to understand available components:
+
 ```
-.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/node_modules/@chainlink/external-adapter-framework/
+.yarn/unplugged/@chainlink-external-adapter-framework-npm-*/
+  node_modules/@chainlink/external-adapter-framework/
+    ├── transports/     # HttpTransport, WebSocketTransport, SseTransport
+    ├── adapter/        # Adapter, PriceAdapter, endpoints
+    ├── config/         # AdapterConfig
+    └── validation/     # InputParameters, errors
 ```
 
-### How the Agent Uses the Framework
+Based on the YAML requirements, the agent selects appropriate components:
 
-The EA Developer agent reads the framework's `.d.ts` type definitions to understand available components and their interfaces. It then selects the most appropriate components based on the YAML requirements:
+| Component | Options | Selected When |
+|-----------|---------|---------------|
+| Transport | `HttpTransport`, `WebSocketTransport`, `SseTransport` | REST API, streaming, SSE |
+| Endpoint | `PriceEndpoint`, `LwbaEndpoint`, `AdapterEndpoint` | Price feeds, bid/ask, generic |
+| Adapter | `PriceAdapter`, `Adapter` | Price feeds, other |
 
-### Transports
-
-Transports handle data fetching from external APIs:
-
-| Transport | Use Case | Key Methods |
-|-----------|----------|-------------|
-| `HttpTransport` | REST API requests | `prepareRequests()`, `parseResponse()` |
-| `WebSocketTransport` | Real-time streaming data | `url`, `handlers.message`, `builders` |
-| `SseTransport` | Server-Sent Events | Similar to WebSocket |
-
-### Endpoints
-
-Endpoints define the adapter's API surface:
-
-| Endpoint Type | Use Case |
-|---------------|----------|
-| `AdapterEndpoint` | Generic endpoints |
-| `PriceEndpoint` / `CryptoPriceEndpoint` / `ForexPriceEndpoint` | Price feeds with base/quote params |
-| `LwbaEndpoint` | Lightweight bid/ask (bid, mid, ask) |
-| `StockEndpoint` | Stock data feeds |
-| `MarketStatusEndpoint` | Market open/closed status |
-| PoR endpoints | Proof of Reserves |
-
-### Adapters
-
-The main adapter class that ties everything together:
-
-| Adapter Type | Use Case |
-|--------------|----------|
-| `Adapter` | Generic adapter |
-| `PriceAdapter` | Price feeds with includes support |
-| `PoRAdapter` | Proof of Reserves |
-
-### Input Parameters & Config
-
-| Component | Purpose |
-|-----------|---------|
-| `InputParameters` | Define typed input params with validation |
-| `EmptyInputParameters` | When no input params needed |
-| `AdapterConfig` | Environment-based configuration |
-
-### Response Types
-
-| Type | Purpose |
-|------|---------|
-| `SingleNumberResultResponse` | Standard numeric response |
-| `AdapterResponse` | Full response structure |
-| `ProviderResult` | Provider data with timestamps |
-
-### Error Handling
-
-| Error Type | Use Case |
-|------------|----------|
-| `AdapterError` | Base error class |
-| `AdapterInputError` | Input validation failures |
-| `AdapterRateLimitError` | Rate limit exceeded |
-| `AdapterDataProviderError` | Provider failures |
-
-### Example: Generated EA Structure
+### Generated Structure
 
 ```
 packages/sources/<adapter-name>/
 ├── src/
-│   ├── index.ts           # Adapter definition with expose()
-│   ├── config/
-│   │   └── index.ts       # AdapterConfig with env settings
-│   ├── endpoint/
-│   │   └── price.ts       # PriceEndpoint with InputParameters
-│   └── transport/
-│       └── price.ts       # HttpTransport with prepareRequests/parseResponse
+│   ├── index.ts           # Adapter with expose()
+│   ├── config/index.ts    # AdapterConfig
+│   ├── endpoint/*.ts      # Endpoints
+│   └── transport/*.ts     # Transports
 ├── test/
-│   ├── integration/       # Integration tests
-│   └── unit/              # Unit tests
-└── test-payload.json      # Soak test payload
+│   ├── integration/
+│   └── unit/
+└── test-payload.json
 ```
 
-## Components
-
-```
-ea-agent/
-├── src/
-│   └── source_ea_agent.py     # Main orchestrator (4-phase workflow)
-├── scripts/
-│   └── setup-ea-env.sh        # Environment setup for CI
-└── requests/                  # YAML requirement files (input specs)
-
-.claude/agents/
-├── ea_developer.md                 # System prompt: scaffold and develop the EA
-├── ea_code_reviewer.md             # System prompt: review code quality
-├── ea_integration_test_writer.md   # System prompt: write integration tests
-├── ea_integration_test_validator.md # System prompt: validate integration tests
-├── ea_unit_test_writer.md          # System prompt: write unit tests
-└── ea_unit_test_validator.md       # System prompt: validate unit tests
-```
-
-## Usage
+## Quick Start
 
 ### Prerequisites
 
-- Python 3.11+
-- [uv](https://github.com/astral-sh/uv) package manager
-- Claude Code CLI (`npm install -g @anthropic-ai/claude-code`)
-- `ANTHROPIC_API_KEY` environment variable (or Vertex AI credentials)
+- Python 3.11+ with [uv](https://github.com/astral-sh/uv)
+- Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
+- `ANTHROPIC_API_KEY` environment variable
 
-### Run the Agent
+### Run
 
 ```bash
 cd ea-agent && uv sync
-uv run --project ea-agent python ea-agent/src/source_ea_agent.py ea-agent/requests/OPDATA-999999-ea-name.yaml
+uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
 ```
-
-The YAML file should contain the EA specification including:
-
-- Adapter name and endpoints
-- Request/response schemas
-- API details (endpoint URLs, authentication)
-- Transport type (HTTP, WebSocket, custom)
 
 ### Environment Variables
 
-| Variable            | Default                    | Description                  |
-| ------------------- | -------------------------- | ---------------------------- |
-| `ANTHROPIC_API_KEY` | (required)                 | API key for Claude           |
-| `WORKFLOW_MODEL`    | `claude-opus-4-5@20251101` | Model to use                 |
-| `ENVIRONMENT`       | `development`              | Environment name             |
-| `VERBOSE_LOGGING`   | `true`                     | Log all agent messages       |
-| `JSON_LOG_PATH`     | —                          | Path for streaming JSON logs |
-| `SUMMARY_LOG_PATH`  | —                          | Path for final summary JSON  |
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `ANTHROPIC_API_KEY` | required | Claude API key |
+| `WORKFLOW_MODEL` | `claude-opus-4-5@20251101` | Model to use |
+| `VERBOSE_LOGGING` | `true` | Log all messages |
 
-### Output
+## GitHub Actions
 
-The agent creates a new adapter package at:
+The agent runs automatically via `.github/workflows/generate-ea.yml`.
 
-```
-packages/sources/<adapter-name>/
-```
+### Trigger Options
 
-With complete source code, tests, and configuration ready for build and deployment.
+1. **Add YAML to PR** — Push a YAML file to `ea-agent/requests/`
+2. **Comment** — Type `/generate-ea` on any PR with a YAML file
 
-## Interactive Use in Cursor
+### What Happens
 
-Reference the agent prompts in `.claude/agents/` directly in Cursor chat using `@` mentions:
+1. Detects YAML in `ea-agent/requests/`
+2. Runs all 4 phases
+3. Commits generated code to PR
 
-| Agent                      | File                                | Use Case                                 |
-| -------------------------- | ----------------------------------- | ---------------------------------------- |
-| EA Developer               | `@ea_developer.md`                  | Scaffold a new adapter from requirements |
-| Code Reviewer              | `@ea_code_reviewer.md`              | Review EA code quality                   |
-| Integration Test Writer    | `@ea_integration_test_writer.md`    | Write integration tests for an adapter   |
-| Integration Test Validator | `@ea_integration_test_validator.md` | Review and validate integration tests    |
-| Unit Test Writer           | `@ea_unit_test_writer.md`           | Write unit tests for business logic      |
-| Unit Test Validator        | `@ea_unit_test_validator.md`        | Review and validate unit tests           |
-
-### Example
+## Project Structure
 
 ```
-@ea_developer.md Initialize the EA project for packages/sources/my-adapter
+ea-agent/
+├── src/source_ea_agent.py    # Main orchestrator
+├── scripts/setup-ea-env.sh   # CI environment setup
+└── requests/                 # YAML requirement files
+
+.claude/agents/
+├── ea_developer.md           # Development agent prompt
+├── ea_code_reviewer.md       # Code review agent prompt
+├── ea_integration_test_*.md  # Integration test agents
+└── ea_unit_test_*.md         # Unit test agents
 ```
 
-## GitHub Actions Workflow
+## Interactive Use
 
-The agent can be triggered automatically via GitHub Actions (`.github/workflows/generate-ea.yml`).
-
-### Triggers
-
-1. **PR with YAML file** — Open a PR that adds a YAML file to `ea-agent/requests/`
-2. **Comment command** — Comment `/generate-ea` on any PR with a YAML file
-
-### What It Does
-
-1. Detects the YAML file in `ea-agent/requests/`
-2. Sets up environment (Python, Node.js, Claude Code CLI)
-3. Runs the EA scaffolding agent through all 4 phases
-4. Commits generated code back to the PR
-5. Updates PR description with status and review checklist
-
-### Example
-
-```bash
-# Create a branch with your YAML spec
-git checkout -b feat/OPDATA-123-my-adapter
-cp my-spec.yaml ea-agent/requests/OPDATA-123-my-adapter.yaml
-git add ea-agent/requests/OPDATA-123-my-adapter.yaml
-git commit -m "feat: Add EA request for my-adapter"
-git push origin feat/OPDATA-123-my-adapter
-
-# Open a PR — the workflow runs automatically
-```
-
-Or trigger manually on an existing PR:
+Reference agent prompts directly in Cursor with `@` mentions:
 
 ```
-/generate-ea
+@ea_developer.md Scaffold an EA for packages/sources/my-adapter
 ```
 
-## Workflow Phases Detail
-
-### Phase 1: Initialization
-
-The EA Developer agent:
-- Runs `yarn new source` to scaffold the package structure
-- Renames from `example-adapter` to the requested name
-- Reads the framework `.d.ts` files to understand component interfaces
-- Selects appropriate framework components based on YAML requirements:
-  - **Transport**: `HttpTransport` for REST, `WebSocketTransport` for streaming
-  - **Endpoint**: `PriceEndpoint` for price feeds, `AdapterEndpoint` for generic
-  - **Adapter**: `PriceAdapter` or `Adapter` based on endpoint types
-- Implements `prepareRequests()` and `parseResponse()` for data fetching
-- Configures `AdapterConfig` with required environment variables
-
-### Phase 2: Code Review
-
-The Code Reviewer agent validates:
-- Correct framework component selection (transport, endpoint, adapter types)
-- Code quality (DRY, KISS, single responsibility)
-- Type safety and precision handling
-- Configuration and error handling
-
-If rejected, the EA Developer fixes issues and re-submits.
-
-### Phase 3: Integration Testing
-
-The Integration Test Writer:
-- Generates integration tests using framework testing utilities
-- Mocks external API responses
-- Tests endpoint behavior and error handling
-
-The Integration Test Validator:
-- Reviews test quality and coverage
-- Runs tests to verify they pass
-- Requires 3 consecutive approvals
-
-### Phase 4: Unit Testing
-
-The Unit Test Writer:
-- Generates unit tests for business logic
-- Tests transport parsing, data transformations
-- Focuses on isolated function testing
-
-The Unit Test Validator:
-- Reviews test quality
-- Runs tests to verify they pass
-- Requires 3 consecutive approvals
+| Agent | File | Purpose |
+|-------|------|---------|
+| Developer | `@ea_developer.md` | Scaffold new adapter |
+| Reviewer | `@ea_code_reviewer.md` | Review code quality |
+| Test Writers | `@ea_*_test_writer.md` | Write tests |
+| Test Validators | `@ea_*_test_validator.md` | Validate tests |
