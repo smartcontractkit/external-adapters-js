@@ -1,5 +1,27 @@
 # @chainlink/dxfeed-adapter
 
+## 2.3.2
+
+### Patch Changes
+
+- [#4449](https://github.com/smartcontractkit/external-adapters-js/pull/4449) [`187c776`](https://github.com/smartcontractkit/external-adapters-js/commit/187c7762f4411d92fb2ba294a947cec23616cdd2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Improve how `ws_subscription_active` `ws_subscription_total` `ws_message_total` are recorded
+
+## 2.3.1
+
+### Patch Changes
+
+- [#4428](https://github.com/smartcontractkit/external-adapters-js/pull/4428) [`3825ea5`](https://github.com/smartcontractkit/external-adapters-js/commit/3825ea5000b62bc464e58cfd0200f711abdd7be4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Keep ws connection open via heartbeat
+
+## 2.3.0
+
+### Minor Changes
+
+- [#4401](https://github.com/smartcontractkit/external-adapters-js/pull/4401) [`1138715`](https://github.com/smartcontractkit/external-adapters-js/commit/1138715a680baa214221132cb2f5e5d21125b257) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support after hours in price endpoint
+
+### Patch Changes
+
+- [#4398](https://github.com/smartcontractkit/external-adapters-js/pull/4398) [`80d1371`](https://github.com/smartcontractkit/external-adapters-js/commit/80d137112ec159c0af8c37ea5b8b84c40aac53fb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Handle multiple tickers in one message
+
 ## 2.2.1
 
 ### Patch Changes

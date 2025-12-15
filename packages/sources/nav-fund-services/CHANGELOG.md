@@ -1,5 +1,11 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#4429](https://github.com/smartcontractkit/external-adapters-js/pull/4429) [`660f198`](https://github.com/smartcontractkit/external-adapters-js/commit/660f1989e792c393e27336c784d3f43c98bb0691) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update readme
+
 ## 1.0.1
 
 ### Patch Changes

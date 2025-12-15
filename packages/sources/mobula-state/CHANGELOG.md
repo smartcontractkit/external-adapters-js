@@ -1,5 +1,17 @@
 # @chainlink/mobula-state-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- [#4425](https://github.com/smartcontractkit/external-adapters-js/pull/4425) [`09f0390`](https://github.com/smartcontractkit/external-adapters-js/commit/09f03902cd8d7e8c7b7acb350420bb03e7cda372) Thanks [@FionnL](https://github.com/FionnL)! - Add missing symbol mappings to includes.json: FEUSD, BNSOL, BETH, BOTANIXPUSD, DRV, KBTC, PICOSOL, RLB, TITCOIN, UBTC, UETH, USDU, USOL.
+
+## 2.0.3
+
+### Patch Changes
+
+- [#4378](https://github.com/smartcontractkit/external-adapters-js/pull/4378) [`47cc1ba`](https://github.com/smartcontractkit/external-adapters-js/commit/47cc1ba75111ea5509fb31de0fa816525eadcd50) Thanks [@FionnL](https://github.com/FionnL)! - Add SUPEROETH/ETH and SUPEROETH/USD to includes.json (using same asset ID as SUPEROETHB: 102502963).
+
 ## 2.0.2
 
 ### Patch Changes

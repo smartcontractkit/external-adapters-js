@@ -6,9 +6,6 @@
       "path": "./composites/anchor"
     },
     {
-      "path": "./composites/apy-finance"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -45,9 +42,6 @@
       "path": "./composites/implied-price-test"
     },
     {
-      "path": "./composites/linear-finance"
-    },
-    {
       "path": "./composites/llama-guard"
     },
     {
@@ -69,9 +63,6 @@
       "path": "./composites/nftx"
     },
     {
-      "path": "./composites/outlier-detection"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
@@ -88,9 +79,6 @@
     },
     {
       "path": "./composites/the-graph"
-    },
-    {
-      "path": "./composites/vesper"
     },
     {
       "path": "./composites/xsushi-price"
@@ -129,9 +117,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/alphachain"
-    },
-    {
       "path": "./sources/alpine"
     },
     {
@@ -168,9 +153,6 @@
       "path": "./sources/binance"
     },
     {
-      "path": "./sources/bitex"
-    },
-    {
       "path": "./sources/bitgo"
     },
     {
@@ -178,9 +160,6 @@
     },
     {
       "path": "./sources/bitgo-reserves-test"
-    },
-    {
-      "path": "./sources/bitso"
     },
     {
       "path": "./sources/blockchain.com"
@@ -196,9 +175,6 @@
     },
     {
       "path": "./sources/bob"
-    },
-    {
-      "path": "./sources/bravenewcoin"
     },
     {
       "path": "./sources/btc.com"
@@ -217,9 +193,6 @@
     },
     {
       "path": "./sources/chain-reserve-wallet"
-    },
-    {
-      "path": "./sources/clear-bank"
     },
     {
       "path": "./sources/cmeth"
@@ -270,9 +243,6 @@
       "path": "./sources/cryptocompare"
     },
     {
-      "path": "./sources/currencylayer"
-    },
-    {
       "path": "./sources/curve"
     },
     {
@@ -315,9 +285,6 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/etherchain"
-    },
-    {
       "path": "./sources/etherscan"
     },
     {
@@ -349,9 +316,6 @@
     },
     {
       "path": "./sources/fireblocks"
-    },
-    {
-      "path": "./sources/fluent-finance"
     },
     {
       "path": "./sources/fmpcloud"
@@ -402,16 +366,10 @@
       "path": "./sources/ice"
     },
     {
-      "path": "./sources/iex-cloud"
-    },
-    {
       "path": "./sources/ignition-address-list"
     },
     {
       "path": "./sources/instruxi-sxt"
-    },
-    {
-      "path": "./sources/intrinio"
     },
     {
       "path": "./sources/ion.au"
@@ -439,9 +397,6 @@
     },
     {
       "path": "./sources/linkpool"
-    },
-    {
-      "path": "./sources/lition"
     },
     {
       "path": "./sources/liveart"
@@ -489,6 +444,9 @@
       "path": "./sources/nomia"
     },
     {
+      "path": "./sources/nomia2"
+    },
+    {
       "path": "./sources/nyfed"
     },
     {
@@ -510,9 +468,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/paxos"
-    },
-    {
       "path": "./sources/paypal"
     },
     {
@@ -528,13 +483,13 @@
       "path": "./sources/por-indexer"
     },
     {
+      "path": "./sources/r25"
+    },
+    {
       "path": "./sources/renvm-address-set"
     },
     {
       "path": "./sources/s3-csv-reader"
-    },
-    {
-      "path": "./sources/satoshitango"
     },
     {
       "path": "./sources/securitize"
@@ -570,9 +525,6 @@
       "path": "./sources/starknet-gas-price"
     },
     {
-      "path": "./sources/stasis"
-    },
-    {
       "path": "./sources/streamex"
     },
     {
@@ -586,9 +538,6 @@
     },
     {
       "path": "./sources/synthetix-feeds"
-    },
-    {
-      "path": "./sources/taapi"
     },
     {
       "path": "./sources/terra-view-function"
@@ -621,16 +570,10 @@
       "path": "./sources/trueusd"
     },
     {
-      "path": "./sources/trumatic-matic-exchange-rate"
-    },
-    {
       "path": "./sources/twelvedata"
     },
     {
       "path": "./sources/twosigma"
-    },
-    {
-      "path": "./sources/unibit"
     },
     {
       "path": "./sources/uniswap-v2"

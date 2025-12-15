@@ -68,6 +68,74 @@ exports[`websocket quote endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket quote endpoint should return success for 1st item in multi message 1`] = `
+{
+  "data": {
+    "ask_price": 8,
+    "ask_volume": 9,
+    "bid_price": 5,
+    "bid_volume": 6,
+    "mid_price": 6.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 7,
+  },
+}
+`;
+
+exports[`websocket quote endpoint should return success for 2nd item in multi message 1`] = `
+{
+  "data": {
+    "ask_price": 17,
+    "ask_volume": 18,
+    "bid_price": 14,
+    "bid_volume": 15,
+    "mid_price": 15.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 16,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success - latest data 1`] = `
+{
+  "data": {
+    "result": 300,
+  },
+  "result": 300,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 200,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should return success - overnight 1`] = `
+{
+  "data": {
+    "result": 400,
+  },
+  "result": 400,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 762376399006,
+  },
+}
+`;
+
 exports[`websocket stock endpoint should return success 1`] = `
 {
   "data": {
@@ -78,6 +146,7 @@ exports[`websocket stock endpoint should return success 1`] = `
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1762376399006,
   },
 }
 `;

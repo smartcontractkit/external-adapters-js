@@ -4,6 +4,8 @@ import { buildWsTransport } from './ws'
 
 const logger = makeLogger('StockQuotesTransport')
 
+// ["eventSymbol","eventTime","sequence","timeNanoPart","bidTime","bidExchangeCode",
+//  "bidPrice","bidSize","askTime","askExchangeCode","askPrice","askSize"]
 const eventSymbolIndex = 0
 const bidTimeIndex = 4
 const bidPriceIndex = 6
@@ -14,52 +16,53 @@ const askSizeIndex = 11
 const dataLength = 12
 
 export const transport = buildWsTransport<BaseEndpointTypes>(
-  (params) => ({ Quote: [params.base.toUpperCase()] }),
+  (params) => [{ Quote: [params.base.toUpperCase()] }],
   (message) => {
     if (message[0].data[0] != 'Quote' && message[0].data[0][0] != 'Quote') {
       return []
     }
-
     const data = message[0].data[1]
 
-    if (data.length != dataLength) {
-      logger.warn(`${JSON.stringify(data)} is invalid since it doesn't have ${dataLength} fields.`)
+    if (data.length % dataLength != 0) {
+      logger.warn(
+        `${JSON.stringify(data)} is invalid since length is not multiple of ${dataLength}.`,
+      )
       return []
     }
 
-    const bidPrice = Number(data[bidPriceIndex])
-    const askPrice = Number(data[askPriceIndex])
+    return Array.from({ length: data.length / dataLength }, (_, i) => i * dataLength).map((i) => {
+      const bidPrice = Number(data[i + bidPriceIndex])
+      const askPrice = Number(data[i + askPriceIndex])
 
-    let midPrice: number
+      let midPrice: number
 
-    if (bidPrice == 0) {
-      midPrice = askPrice
-    } else if (askPrice == 0) {
-      midPrice = bidPrice
-    } else {
-      midPrice = (askPrice + bidPrice) / 2
-    }
+      if (bidPrice == 0) {
+        midPrice = askPrice
+      } else if (askPrice == 0) {
+        midPrice = bidPrice
+      } else {
+        midPrice = (askPrice + bidPrice) / 2
+      }
 
-    return [
-      {
-        params: { base: data[eventSymbolIndex] },
+      return {
+        params: { base: data[i + eventSymbolIndex].toString() },
         response: {
           result: null,
           data: {
             mid_price: midPrice,
             bid_price: bidPrice,
-            bid_volume: Number(data[bidSizeIndex]),
+            bid_volume: Number(data[i + bidSizeIndex]),
             ask_price: askPrice,
-            ask_volume: Number(data[askSizeIndex]),
+            ask_volume: Number(data[i + askSizeIndex]),
           },
           timestamps: {
             providerIndicatedTimeUnixMs: Math.max(
-              Number(data[bidTimeIndex]),
-              Number(data[askTimeIndex]),
+              Number(data[i + bidTimeIndex]),
+              Number(data[i + askTimeIndex]),
             ),
           },
         },
-      },
-    ]
+      }
+    })
   },
 )

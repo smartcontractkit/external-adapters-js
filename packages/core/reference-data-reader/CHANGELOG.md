@@ -1,5 +1,11 @@
 # @chainlink/ea-reference-data-reader
 
+## 1.3.47
+
+### Patch Changes
+
+- [#4285](https://github.com/smartcontractkit/external-adapters-js/pull/4285) [`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e) Thanks [@weifangc](https://github.com/weifangc)! - chore: fix some minor issues in comments
+
 ## 1.3.46
 
 ### Patch Changes

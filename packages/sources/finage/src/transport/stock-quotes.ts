@@ -6,12 +6,12 @@ const logger = makeLogger('StockQuotes')
 
 export interface StockQuoteMessage {
   s: string // Symbol
-  a: string // ask_price
-  ap: string // ask_price fallback
-  as: string // ask_volume
-  b: string // bid_price
-  bp: string // bid_price fallback
-  bs: string // bid_volume
+  a: string | number // ask_price
+  ap: string | number // ask_price fallback
+  as: string | number // ask_volume
+  b: string | number // bid_price
+  bp: string | number // bid_price fallback
+  bs: string | number // bid_volume
   t: number // providerIndicatedTime
   status_code: number
   message: string
@@ -23,11 +23,12 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const isValidNumber = (field: string) => field && field.length > 0 && !isNaN(Number(field))
+const isValidNumber = (field: string | number) => field != null && !isNaN(Number(field))
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
-    return `${context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
+    const url = context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT
+    return url.includes('/?token=') ? url : `${url}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
   },
   handlers: {
     message(message) {

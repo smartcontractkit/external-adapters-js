@@ -14,7 +14,7 @@ To support a specific value for input parameter `apiName`, the environment varia
 | :-------: | :---------------------------: | :---------------------------------------------------: | :----: |
 |    ✅     |      {API_NAME}\_API_URL      |       The API URL to use for a given `apiUrl`.        | string |
 |           |    {API_NAME}\_AUTH_HEADER    | The header to pass the authentication credentials on. | string |
-|           | {API_NAME}\_AUTH_HEADER_VALUE | The credentials to pass on the authentcation header.  | string |
+|           | {API_NAME}\_AUTH_HEADER_VALUE | The credentials to pass on the authentication header. | string |
 
 ---
 
