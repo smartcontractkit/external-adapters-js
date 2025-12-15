@@ -19,10 +19,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/anchor"\
     },\
     {\
-      "name": "@chainlink/apy-finance-adapter",\
-      "reference": "workspace:packages/composites/apy-finance"\
-    },\
-    {\
       "name": "@chainlink/augur-adapter",\
       "reference": "workspace:packages/composites/augur"\
     },\
@@ -103,10 +99,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/nftx"\
     },\
     {\
-      "name": "@chainlink/outlier-detection-adapter",\
-      "reference": "workspace:packages/composites/outlier-detection"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
@@ -129,10 +121,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/the-graph-adapter",\
       "reference": "workspace:packages/composites/the-graph"\
-    },\
-    {\
-      "name": "@chainlink/vesper-adapter",\
-      "reference": "workspace:packages/composites/vesper"\
     },\
     {\
       "name": "@chainlink/xsushi-price-adapter",\
@@ -195,10 +183,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/allium-state"\
     },\
     {\
-      "name": "@chainlink/alphachain-adapter",\
-      "reference": "workspace:packages/sources/alphachain"\
-    },\
-    {\
       "name": "@chainlink/alpine-adapter",\
       "reference": "workspace:packages/sources/alpine"\
     },\
@@ -247,10 +231,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/binance"\
     },\
     {\
-      "name": "@chainlink/bitex-adapter",\
-      "reference": "workspace:packages/sources/bitex"\
-    },\
-    {\
       "name": "@chainlink/bitgo-adapter",\
       "reference": "workspace:packages/sources/bitgo"\
     },\
@@ -261,10 +241,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/bitgo-reserves-test-adapter",\
       "reference": "workspace:packages/sources/bitgo-reserves-test"\
-    },\
-    {\
-      "name": "@chainlink/bitso-adapter",\
-      "reference": "workspace:packages/sources/bitso"\
     },\
     {\
       "name": "@chainlink/blockchain.com-adapter",\
@@ -285,10 +261,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/bob-adapter",\
       "reference": "workspace:packages/sources/bob"\
-    },\
-    {\
-      "name": "@chainlink/bravenewcoin-adapter",\
-      "reference": "workspace:packages/sources/bravenewcoin"\
     },\
     {\
       "name": "@chainlink/btc.com-adapter",\
@@ -313,10 +285,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/chain-reserve-wallet-adapter",\
       "reference": "workspace:packages/sources/chain-reserve-wallet"\
-    },\
-    {\
-      "name": "@chainlink/clear-bank-adapter",\
-      "reference": "workspace:packages/sources/clear-bank"\
     },\
     {\
       "name": "@chainlink/cmeth-adapter",\
@@ -383,10 +351,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
     {\
-      "name": "@chainlink/currencylayer-adapter",\
-      "reference": "workspace:packages/sources/currencylayer"\
-    },\
-    {\
       "name": "@chainlink/curve-adapter",\
       "reference": "workspace:packages/sources/curve"\
     },\
@@ -441,10 +405,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/eth-beacon-adapter",\
       "reference": "workspace:packages/sources/eth-beacon"\
-    },\
-    {\
-      "name": "@chainlink/etherchain-adapter",\
-      "reference": "workspace:packages/sources/etherchain"\
     },\
     {\
       "name": "@chainlink/etherscan-adapter",\
@@ -559,10 +519,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ice"\
     },\
     {\
-      "name": "@chainlink/iex-cloud-adapter",\
-      "reference": "workspace:packages/sources/iex-cloud"\
-    },\
-    {\
       "name": "@chainlink/ignition-address-list-adapter",\
       "reference": "workspace:packages/sources/ignition-address-list"\
     },\
@@ -609,10 +565,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/linkpool-adapter",\
       "reference": "workspace:packages/sources/linkpool"\
-    },\
-    {\
-      "name": "@chainlink/lition-adapter",\
-      "reference": "workspace:packages/sources/lition"\
     },\
     {\
       "name": "@chainlink/liveart-adapter",\
@@ -675,6 +627,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nomia"\
     },\
     {\
+      "name": "@chainlink/nomia2-adapter",\
+      "reference": "workspace:packages/sources/nomia2"\
+    },\
+    {\
       "name": "@chainlink/nyfed-adapter",\
       "reference": "workspace:packages/sources/nyfed"\
     },\
@@ -701,10 +657,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/openexchangerates-adapter",\
       "reference": "workspace:packages/sources/openexchangerates"\
-    },\
-    {\
-      "name": "@chainlink/paxos-adapter",\
-      "reference": "workspace:packages/sources/paxos"\
     },\
     {\
       "name": "@chainlink/paypal-adapter",\
@@ -737,10 +689,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/s3-csv-reader-adapter",\
       "reference": "workspace:packages/sources/s3-csv-reader"\
-    },\
-    {\
-      "name": "@chainlink/satoshitango-adapter",\
-      "reference": "workspace:packages/sources/satoshitango"\
     },\
     {\
       "name": "@chainlink/securitize-adapter",\
@@ -787,10 +735,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/starknet-gas-price"\
     },\
     {\
-      "name": "@chainlink/stasis-adapter",\
-      "reference": "workspace:packages/sources/stasis"\
-    },\
-    {\
       "name": "@chainlink/streamex-adapter",\
       "reference": "workspace:packages/sources/streamex"\
     },\
@@ -809,10 +753,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/synthetix-feeds-adapter",\
       "reference": "workspace:packages/sources/synthetix-feeds"\
-    },\
-    {\
-      "name": "@chainlink/taapi-adapter",\
-      "reference": "workspace:packages/sources/taapi"\
     },\
     {\
       "name": "@chainlink/terra-view-function-adapter",\
@@ -855,20 +795,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/trueusd"\
     },\
     {\
-      "name": "@chainlink/trumatic-matic-exchange-rate-adapter",\
-      "reference": "workspace:packages/sources/trumatic-matic-exchange-rate"\
-    },\
-    {\
       "name": "@chainlink/twelvedata-adapter",\
       "reference": "workspace:packages/sources/twelvedata"\
     },\
     {\
       "name": "@chainlink/twosigma-adapter",\
       "reference": "workspace:packages/sources/twosigma"\
-    },\
-    {\
-      "name": "@chainlink/unibit-adapter",\
-      "reference": "workspace:packages/sources/unibit"\
     },\
     {\
       "name": "@chainlink/uniswap-v2-adapter",\
@@ -934,7 +866,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
-    ["@chainlink/alphachain-adapter", ["workspace:packages/sources/alphachain"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
@@ -942,7 +873,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
-    ["@chainlink/apy-finance-adapter", ["workspace:packages/composites/apy-finance"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
@@ -951,17 +881,14 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
-    ["@chainlink/bitex-adapter", ["workspace:packages/sources/bitex"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
     ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
-    ["@chainlink/bitso-adapter", ["workspace:packages/sources/bitso"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
-    ["@chainlink/bravenewcoin-adapter", ["workspace:packages/sources/bravenewcoin"]],\
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
@@ -970,7 +897,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
     ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
-    ["@chainlink/clear-bank-adapter", ["workspace:packages/sources/clear-bank"]],\
     ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
@@ -988,7 +914,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-    ["@chainlink/currencylayer-adapter", ["workspace:packages/sources/currencylayer"]],\
     ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
@@ -1011,7 +936,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
-    ["@chainlink/etherchain-adapter", ["workspace:packages/sources/etherchain"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
     ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
@@ -1045,7 +969,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
-    ["@chainlink/iex-cloud-adapter", ["workspace:packages/sources/iex-cloud"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
@@ -1061,7 +984,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/linear-finance-adapter", ["workspace:packages/composites/linear-finance"]],\
     ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
-    ["@chainlink/lition-adapter", ["workspace:packages/sources/lition"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
@@ -1084,6 +1006,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
+    ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
@@ -1092,8 +1015,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/outlier-detection-adapter", ["workspace:packages/composites/outlier-detection"]],\
-    ["@chainlink/paxos-adapter", ["workspace:packages/sources/paxos"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
@@ -1106,7 +1027,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
     ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
-    ["@chainlink/satoshitango-adapter", ["workspace:packages/sources/satoshitango"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
@@ -1121,13 +1041,11 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
-    ["@chainlink/stasis-adapter", ["workspace:packages/sources/stasis"]],\
     ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
-    ["@chainlink/taapi-adapter", ["workspace:packages/sources/taapi"]],\
     ["@chainlink/terra-view-function-adapter", ["workspace:packages/sources/terra-view-function"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
@@ -1141,14 +1059,11 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", ["workspace:packages/sources/trumatic-matic-exchange-rate"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
-    ["@chainlink/unibit-adapter", ["workspace:packages/sources/unibit"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
-    ["@chainlink/vesper-adapter", ["workspace:packages/composites/vesper"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -5143,21 +5058,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/alphachain-adapter", [\
-      ["workspace:packages/sources/alphachain", {\
-        "packageLocation": "./packages/sources/alphachain/",\
-        "packageDependencies": [\
-          ["@chainlink/alphachain-adapter", "workspace:packages/sources/alphachain"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/alpine-adapter", [\
       ["workspace:packages/sources/alpine", {\
         "packageLocation": "./packages/sources/alpine/",\
@@ -5282,24 +5182,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/apy-finance-adapter", [\
-      ["workspace:packages/composites/apy-finance", {\
-        "packageLocation": "./packages/composites/apy-finance/",\
-        "packageDependencies": [\
-          ["@chainlink/apy-finance-adapter", "workspace:packages/composites/apy-finance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/asseto-finance-adapter", [\
       ["workspace:packages/sources/asseto-finance", {\
         "packageLocation": "./packages/sources/asseto-finance/",\
@@ -5370,7 +5252,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bank-frick/",\
         "packageDependencies": [\
           ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.9.0"],\
@@ -5438,24 +5320,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/bitex-adapter", [\
-      ["workspace:packages/sources/bitex", {\
-        "packageLocation": "./packages/sources/bitex/",\
-        "packageDependencies": [\
-          ["@chainlink/bitex-adapter", "workspace:packages/sources/bitex"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/bitgo-adapter", [\
       ["workspace:packages/sources/bitgo", {\
         "packageLocation": "./packages/sources/bitgo/",\
@@ -5496,25 +5360,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bitso-adapter", [\
-      ["workspace:packages/sources/bitso", {\
-        "packageLocation": "./packages/sources/bitso/",\
-        "packageDependencies": [\
-          ["@chainlink/bitso-adapter", "workspace:packages/sources/bitso"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/express", "npm:4.17.23"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -5574,7 +5419,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital-state/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5597,24 +5442,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bravenewcoin-adapter", [\
-      ["workspace:packages/sources/bravenewcoin", {\
-        "packageLocation": "./packages/sources/bravenewcoin/",\
-        "packageDependencies": [\
-          ["@chainlink/bravenewcoin-adapter", "workspace:packages/sources/bravenewcoin"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -5766,22 +5593,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/clear-bank-adapter", [\
-      ["workspace:packages/sources/clear-bank", {\
-        "packageLocation": "./packages/sources/clear-bank/",\
-        "packageDependencies": [\
-          ["@chainlink/clear-bank-adapter", "workspace:packages/sources/clear-bank"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -6099,24 +5910,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/currencylayer-adapter", [\
-      ["workspace:packages/sources/currencylayer", {\
-        "packageLocation": "./packages/sources/currencylayer/",\
-        "packageDependencies": [\
-          ["@chainlink/currencylayer-adapter", "workspace:packages/sources/currencylayer"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6606,24 +6399,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/etherchain-adapter", [\
-      ["workspace:packages/sources/etherchain", {\
-        "packageLocation": "./packages/sources/etherchain/",\
-        "packageDependencies": [\
-          ["@chainlink/etherchain-adapter", "workspace:packages/sources/etherchain"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/etherscan-adapter", [\
       ["workspace:packages/sources/etherscan", {\
         "packageLocation": "./packages/sources/etherscan/",\
@@ -6748,6 +6523,25 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:2.11.2", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.2-78f2d2e9fa-cb3c9832ee.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.11.2"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.13.2"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.6.2"],\
+          ["ioredis", "npm:5.8.2"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.1.0"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -6767,7 +6561,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
@@ -7298,21 +7092,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/iex-cloud-adapter", [\
-      ["workspace:packages/sources/iex-cloud", {\
-        "packageLocation": "./packages/sources/iex-cloud/",\
-        "packageDependencies": [\
-          ["@chainlink/iex-cloud-adapter", "workspace:packages/sources/iex-cloud"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/ignition-address-list-adapter", [\
       ["workspace:packages/sources/ignition-address-list", {\
         "packageLocation": "./packages/sources/ignition-address-list/",\
@@ -7566,21 +7345,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/linkpool/",\
         "packageDependencies": [\
           ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/lition-adapter", [\
-      ["workspace:packages/sources/lition", {\
-        "packageLocation": "./packages/sources/lition/",\
-        "packageDependencies": [\
-          ["@chainlink/lition-adapter", "workspace:packages/sources/lition"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7972,6 +7736,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/nomia2-adapter", [\
+      ["workspace:packages/sources/nomia2", {\
+        "packageLocation": "./packages/sources/nomia2/",\
+        "packageDependencies": [\
+          ["@chainlink/nomia2-adapter", "workspace:packages/sources/nomia2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/nyfed-adapter", [\
       ["workspace:packages/sources/nyfed", {\
         "packageLocation": "./packages/sources/nyfed/",\
@@ -8090,43 +7869,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/outlier-detection-adapter", [\
-      ["workspace:packages/composites/outlier-detection", {\
-        "packageLocation": "./packages/composites/outlier-detection/",\
-        "packageDependencies": [\
-          ["@chainlink/outlier-detection-adapter", "workspace:packages/composites/outlier-detection"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinon", "npm:10.0.20"],\
-          ["axios", "npm:1.9.0"],\
-          ["sinon", "npm:12.0.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/paxos-adapter", [\
-      ["workspace:packages/sources/paxos", {\
-        "packageLocation": "./packages/sources/paxos/",\
-        "packageDependencies": [\
-          ["@chainlink/paxos-adapter", "workspace:packages/sources/paxos"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8378,24 +8120,6 @@ const RAW_RUNTIME_STATE =
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.6.3"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/satoshitango-adapter", [\
-      ["workspace:packages/sources/satoshitango", {\
-        "packageLocation": "./packages/sources/satoshitango/",\
-        "packageDependencies": [\
-          ["@chainlink/satoshitango-adapter", "workspace:packages/sources/satoshitango"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -8660,24 +8384,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/stasis-adapter", [\
-      ["workspace:packages/sources/stasis", {\
-        "packageLocation": "./packages/sources/stasis/",\
-        "packageDependencies": [\
-          ["@chainlink/stasis-adapter", "workspace:packages/sources/stasis"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/streamex-adapter", [\
       ["workspace:packages/sources/streamex", {\
         "packageLocation": "./packages/sources/streamex/",\
@@ -8763,24 +8469,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/taapi-adapter", [\
-      ["workspace:packages/sources/taapi", {\
-        "packageLocation": "./packages/sources/taapi/",\
-        "packageDependencies": [\
-          ["@chainlink/taapi-adapter", "workspace:packages/sources/taapi"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -9031,22 +8719,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/trumatic-matic-exchange-rate-adapter", [\
-      ["workspace:packages/sources/trumatic-matic-exchange-rate", {\
-        "packageLocation": "./packages/sources/trumatic-matic-exchange-rate/",\
-        "packageDependencies": [\
-          ["@chainlink/trumatic-matic-exchange-rate-adapter", "workspace:packages/sources/trumatic-matic-exchange-rate"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/twelvedata-adapter", [\
       ["workspace:packages/sources/twelvedata", {\
         "packageLocation": "./packages/sources/twelvedata/",\
@@ -9077,24 +8749,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/unibit-adapter", [\
-      ["workspace:packages/sources/unibit", {\
-        "packageLocation": "./packages/sources/unibit/",\
-        "packageDependencies": [\
-          ["@chainlink/unibit-adapter", "workspace:packages/sources/unibit"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -9151,22 +8805,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/vesper-adapter", [\
-      ["workspace:packages/composites/vesper", {\
-        "packageLocation": "./packages/composites/vesper/",\
-        "packageDependencies": [\
-          ["@chainlink/vesper-adapter", "workspace:packages/composites/vesper"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -15119,17 +14757,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/body-parser", [\
-      ["npm:1.19.5", {\
-        "packageLocation": "./.yarn/cache/@types-body-parser-npm-1.19.5-97fb106976-1e251118c4.zip/node_modules/@types/body-parser/",\
-        "packageDependencies": [\
-          ["@types/body-parser", "npm:1.19.5"],\
-          ["@types/connect", "npm:3.4.38"],\
-          ["@types/node", "npm:22.9.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/cacheable-request", [\
       ["npm:6.0.3", {\
         "packageLocation": "./.yarn/cache/@types-cacheable-request-npm-6.0.3-770619032a-159f9fdb2a.zip/node_modules/@types/cacheable-request/",\
@@ -15246,32 +14873,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/express", [\
-      ["npm:4.17.23", {\
-        "packageLocation": "./.yarn/cache/@types-express-npm-4.17.23-63c8c95a13-cf4d540bbd.zip/node_modules/@types/express/",\
-        "packageDependencies": [\
-          ["@types/express", "npm:4.17.23"],\
-          ["@types/body-parser", "npm:1.19.5"],\
-          ["@types/express-serve-static-core", "npm:4.19.6"],\
-          ["@types/qs", "npm:6.9.17"],\
-          ["@types/serve-static", "npm:1.15.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/express-serve-static-core", [\
-      ["npm:4.19.6", {\
-        "packageLocation": "./.yarn/cache/@types-express-serve-static-core-npm-4.19.6-cc0017aaf4-a2e00b6c59.zip/node_modules/@types/express-serve-static-core/",\
-        "packageDependencies": [\
-          ["@types/express-serve-static-core", "npm:4.19.6"],\
-          ["@types/node", "npm:22.9.1"],\
-          ["@types/qs", "npm:6.9.17"],\
-          ["@types/range-parser", "npm:1.2.7"],\
-          ["@types/send", "npm:0.17.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/fast-redact", [\
       ["npm:3.0.4", {\
         "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
@@ -15307,15 +14908,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-http-cache-semantics-npm-4.0.4-6d4f413ddd-a59566cff6.zip/node_modules/@types/http-cache-semantics/",\
         "packageDependencies": [\
           ["@types/http-cache-semantics", "npm:4.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/http-errors", [\
-      ["npm:2.0.4", {\
-        "packageLocation": "./.yarn/cache/@types-http-errors-npm-2.0.4-8b39ca5d7c-1f3d7c3b32.zip/node_modules/@types/http-errors/",\
-        "packageDependencies": [\
-          ["@types/http-errors", "npm:2.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15456,15 +15048,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-methods-npm-1.1.4-8565dc8af4-ad2a717848.zip/node_modules/@types/methods/",\
         "packageDependencies": [\
           ["@types/methods", "npm:1.1.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/mime", [\
-      ["npm:1.3.5", {\
-        "packageLocation": "./.yarn/cache/@types-mime-npm-1.3.5-48d28990db-e29a5f9c47.zip/node_modules/@types/mime/",\
-        "packageDependencies": [\
-          ["@types/mime", "npm:1.3.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15666,24 +15249,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/qs", [\
-      ["npm:6.9.17", {\
-        "packageLocation": "./.yarn/cache/@types-qs-npm-6.9.17-f0eceee63c-fc3beda0be.zip/node_modules/@types/qs/",\
-        "packageDependencies": [\
-          ["@types/qs", "npm:6.9.17"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/range-parser", [\
-      ["npm:1.2.7", {\
-        "packageLocation": "./.yarn/cache/@types-range-parser-npm-1.2.7-a83c0b6429-95640233b6.zip/node_modules/@types/range-parser/",\
-        "packageDependencies": [\
-          ["@types/range-parser", "npm:1.2.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/redux-logger", [\
       ["npm:3.0.13", {\
         "packageLocation": "./.yarn/cache/@types-redux-logger-npm-3.0.13-2c5fb9a707-fb8386c6a0.zip/node_modules/@types/redux-logger/",\
@@ -15729,29 +15294,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-semver-npm-7.5.8-26073743d7-3496808818.zip/node_modules/@types/semver/",\
         "packageDependencies": [\
           ["@types/semver", "npm:7.5.8"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/send", [\
-      ["npm:0.17.4", {\
-        "packageLocation": "./.yarn/cache/@types-send-npm-0.17.4-9d7c55577f-28320a2aa1.zip/node_modules/@types/send/",\
-        "packageDependencies": [\
-          ["@types/send", "npm:0.17.4"],\
-          ["@types/mime", "npm:1.3.5"],\
-          ["@types/node", "npm:22.9.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/serve-static", [\
-      ["npm:1.15.7", {\
-        "packageLocation": "./.yarn/cache/@types-serve-static-npm-1.15.7-d4eef0bd1a-c5a7171d56.zip/node_modules/@types/serve-static/",\
-        "packageDependencies": [\
-          ["@types/serve-static", "npm:1.15.7"],\
-          ["@types/http-errors", "npm:2.0.4"],\
-          ["@types/node", "npm:22.9.1"],\
-          ["@types/send", "npm:0.17.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20870,6 +20412,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fast-copy-npm-3.0.2-d747bd131f-97e1022e2a.zip/node_modules/fast-copy/",\
         "packageDependencies": [\
           ["fast-copy", "npm:3.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:4.0.1", {\
+        "packageLocation": "./.yarn/cache/fast-copy-npm-4.0.1-8e25e520de-849f6208fe.zip/node_modules/fast-copy/",\
+        "packageDependencies": [\
+          ["fast-copy", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -27590,6 +27139,14 @@ const RAW_RUNTIME_STATE =
           ["split2", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:3.0.0", {\
+        "packageLocation": "./.yarn/cache/pino-abstract-transport-npm-3.0.0-52788012f1-f42b85b266.zip/node_modules/pino-abstract-transport/",\
+        "packageDependencies": [\
+          ["pino-abstract-transport", "npm:3.0.0"],\
+          ["split2", "npm:4.2.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["pino-pretty", [\
@@ -27606,6 +27163,26 @@ const RAW_RUNTIME_STATE =
           ["minimist", "npm:1.2.8"],\
           ["on-exit-leak-free", "npm:2.1.2"],\
           ["pino-abstract-transport", "npm:2.0.0"],\
+          ["pump", "npm:3.0.2"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["strip-json-comments", "npm:5.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:13.1.3", {\
+        "packageLocation": "./.yarn/cache/pino-pretty-npm-13.1.3-6c968eae63-4bb721e1ec.zip/node_modules/pino-pretty/",\
+        "packageDependencies": [\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["colorette", "npm:2.0.20"],\
+          ["dateformat", "npm:4.6.3"],\
+          ["fast-copy", "npm:4.0.1"],\
+          ["fast-safe-stringify", "npm:2.1.1"],\
+          ["help-me", "npm:5.0.0"],\
+          ["joycon", "npm:3.1.1"],\
+          ["minimist", "npm:1.2.8"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:3.0.0"],\
           ["pump", "npm:3.0.2"],\
           ["secure-json-parse", "npm:4.0.0"],\
           ["sonic-boom", "npm:4.2.0"],\
