@@ -161,3 +161,23 @@ Reference agent prompts directly in Cursor with `@` mentions:
 | Reviewer        | `@ea_code_reviewer.md`    | Review code quality  |
 | Test Writers    | `@ea_*_test_writer.md`    | Write tests          |
 | Test Validators | `@ea_*_test_validator.md` | Validate tests       |
+
+## How to Update Agent Behaviors
+
+Agent behaviors are defined by system prompts in `.claude/agents/`. Edit these files to change how agents work:
+
+| File                               | Controls                                                               |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| `ea_developer.md`                  | How EAs are scaffolded, framework component selection, coding patterns |
+| `ea_code_reviewer.md`              | Code review criteria, what passes/fails review                         |
+| `ea_integration_test_writer.md`    | Integration test patterns and structure                                |
+| `ea_integration_test_validator.md` | Integration test validation criteria                                   |
+| `ea_unit_test_writer.md`           | Unit test patterns and structure                                       |
+| `ea_unit_test_validator.md`        | Unit test validation criteria                                          |
+
+### Tips
+
+- Keep prompts focused and specific
+- Add examples of good/bad patterns
+- Reference existing EAs in `packages/sources/` as examples
+- Test changes locally before pushing to CI
