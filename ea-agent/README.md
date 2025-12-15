@@ -1,6 +1,6 @@
 # Source EA Agent
 
-AI-powered tool that scaffolds Chainlink Source External Adapters from YAML specifications.
+The AI Agent to create Source External Adapters from YAML specifications.
 
 ## How It Works
 
@@ -35,24 +35,22 @@ flowchart TD
 
 The agent generates EAs using **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)**.
 
-The developer agent reads the framework's `.d.ts` type definitions to understand available components:
+### Why Unplugged?
+
+This repo uses [Yarn PnP](https://yarnpkg.com/features/pnp) where packages are stored in compressed `.zip` files inside `.yarn/cache/`. AI agents cannot read zip contents directly.
+
+The framework package is configured as "unplugged" in `.yarnrc.yml`, which extracts it to disk:
 
 ```
 .yarn/unplugged/@chainlink-external-adapter-framework-npm-*/
   node_modules/@chainlink/external-adapter-framework/
-    ├── transports/     # HttpTransport, WebSocketTransport, SseTransport
-    ├── adapter/        # Adapter, PriceAdapter, endpoints
-    ├── config/         # AdapterConfig
-    └── validation/     # InputParameters, errors
+    ├── *.d.ts          # Type definitions the agent reads
+    ├── transports/
+    ├── adapter/
+    └── ...
 ```
 
-Based on the YAML requirements, the agent selects appropriate components:
-
-| Component | Options | Selected When |
-|-----------|---------|---------------|
-| Transport | `HttpTransport`, `WebSocketTransport`, `SseTransport` | REST API, streaming, SSE |
-| Endpoint | `PriceEndpoint`, `LwbaEndpoint`, `AdapterEndpoint` | Price feeds, bid/ask, generic |
-| Adapter | `PriceAdapter`, `Adapter` | Price feeds, other |
+This allows the EA Developer agent to read the framework's `.d.ts` files directly, understand available components, and implement the adapter correctly.
 
 ### Generated Structure
 
