@@ -109,6 +109,21 @@ uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
 
 The agent runs automatically via `.github/workflows/generate-ea.yml`.
 
+### Required Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `CC_GHA_GCP_SERVICE_ACCOUNT_KEY` | GCP service account credentials JSON for Vertex AI |
+| `CC_GHA_GCP_PROJECT_ID` | GCP project ID for Vertex AI |
+
+### Environment Variables (set by workflow)
+
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `CLAUDE_CODE_USE_VERTEX` | `1` | Use Vertex AI instead of Anthropic API |
+| `CLOUD_ML_REGION` | `us-east5` | GCP region for Vertex AI |
+| `ANTHROPIC_VERTEX_PROJECT_ID` | from secret | GCP project for Claude |
+
 ### Trigger Options
 
 1. **Add YAML to PR** — Push a YAML file to `ea-agent/requests/`
@@ -117,8 +132,9 @@ The agent runs automatically via `.github/workflows/generate-ea.yml`.
 ### What Happens
 
 1. Detects YAML in `ea-agent/requests/`
-2. Runs all 4 phases
-3. Commits generated code to PR
+2. Runs `ea-agent/scripts/setup-ea-env.sh` to install deps and unplug framework
+3. Runs all 4 phases
+4. Commits generated code to PR
 
 ## Project Structure
 
