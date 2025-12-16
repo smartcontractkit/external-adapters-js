@@ -57,8 +57,8 @@ describe('execute', () => {
         registry: '0x0',
         asset: '0x0',
         regularStreamId: '0x000b5',
-        extendedStreamId: '0x000b5',
-        overnightStreamId: '0x000b5',
+        extendedStreamId: '0x000b6',
+        overnightStreamId: '0x000b7',
         decimals: 8,
       }
       mockResponseSuccess()

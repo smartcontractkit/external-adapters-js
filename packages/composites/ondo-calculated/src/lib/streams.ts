@@ -14,18 +14,17 @@ export const getPrice = async (
   url: string,
   requester: Requester,
 ) => {
-  const [regular, extended, overnight] = await Promise.all([
-    getDeutscheBoersePrice(regularStreamId, url, requester),
-    getDeutscheBoersePrice(extendedStreamId, url, requester),
-    getDeutscheBoersePrice(overnightStreamId, url, requester),
-  ])
+  const [regular, extended, overnight] = await Promise.all(
+    [regularStreamId, extendedStreamId, overnightStreamId].map((streamId) =>
+      getDeutscheBoersePrice(streamId, url, requester),
+    ),
+  )
 
   const stream = getStream(regular, extended, overnight)
 
   return {
     price: stream.mid,
     decimals: stream.decimals,
-    marketStatus: stream.marketStatus,
     data: {
       regular,
       extended,

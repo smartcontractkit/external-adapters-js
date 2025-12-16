@@ -48,7 +48,6 @@ describe('calculatePrice', () => {
       mockGetPrice.mockResolvedValue({
         price: '1',
         decimals: 6,
-        marketStatus: 'REGULAR' as any,
         data: {
           regular: {} as any,
           extended: {} as any,
@@ -63,17 +62,10 @@ describe('calculatePrice', () => {
 
       mockProcessUpdate.mockReturnValue(1n)
 
-      const result = await calculatePrice(
-        defaultParams.asset,
-        defaultParams.registry,
-        defaultParams.provider,
-        defaultParams.regularStreamId,
-        defaultParams.extendedStreamId,
-        defaultParams.overnightStreamId,
-        defaultParams.url,
-        defaultParams.requester,
-        6,
-      )
+      const result = await calculatePrice({
+        ...defaultParams,
+        decimals: 6,
+      })
 
       expect(result.result).toEqual('5')
     })
@@ -82,7 +74,6 @@ describe('calculatePrice', () => {
       mockGetPrice.mockResolvedValue({
         price: '10',
         decimals: 7,
-        marketStatus: 'REGULAR' as any,
         data: {
           regular: {} as any,
           extended: {} as any,
@@ -97,17 +88,10 @@ describe('calculatePrice', () => {
 
       mockProcessUpdate.mockReturnValue(10n)
 
-      const result = await calculatePrice(
-        defaultParams.asset,
-        defaultParams.registry,
-        defaultParams.provider,
-        defaultParams.regularStreamId,
-        defaultParams.extendedStreamId,
-        defaultParams.overnightStreamId,
-        defaultParams.url,
-        defaultParams.requester,
-        6,
-      )
+      const result = await calculatePrice({
+        ...defaultParams,
+        decimals: 6,
+      })
 
       expect(result.result).toEqual('5')
       expect(result.decimals).toEqual(6)
@@ -117,7 +101,6 @@ describe('calculatePrice', () => {
       mockGetPrice.mockResolvedValue({
         price: '1',
         decimals: 6,
-        marketStatus: 'REGULAR' as any,
         data: {
           regular: {} as any,
           extended: {} as any,
@@ -132,17 +115,10 @@ describe('calculatePrice', () => {
 
       mockProcessUpdate.mockReturnValue(1n)
 
-      const result = await calculatePrice(
-        defaultParams.asset,
-        defaultParams.registry,
-        defaultParams.provider,
-        defaultParams.regularStreamId,
-        defaultParams.extendedStreamId,
-        defaultParams.overnightStreamId,
-        defaultParams.url,
-        defaultParams.requester,
-        7,
-      )
+      const result = await calculatePrice({
+        ...defaultParams,
+        decimals: 7,
+      })
 
       expect(result.result).toEqual('50')
       expect(result.decimals).toEqual(7)

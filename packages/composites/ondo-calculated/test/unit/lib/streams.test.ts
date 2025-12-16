@@ -64,7 +64,6 @@ describe('getPrice', () => {
     expect(result).toEqual({
       price: regularData.mid,
       decimals: regularData.decimals,
-      marketStatus: TwentyfourFiveMarketStatus.REGULAR,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -91,7 +90,6 @@ describe('getPrice', () => {
     expect(result).toEqual({
       price: extendedData.mid,
       decimals: extendedData.decimals,
-      marketStatus: TwentyfourFiveMarketStatus.PRE_MARKET,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -118,7 +116,6 @@ describe('getPrice', () => {
     expect(result).toEqual({
       price: extendedData.mid,
       decimals: extendedData.decimals,
-      marketStatus: TwentyfourFiveMarketStatus.POST_MARKET,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -145,7 +142,6 @@ describe('getPrice', () => {
     expect(result).toEqual({
       price: overnightData.mid,
       decimals: overnightData.decimals,
-      marketStatus: TwentyfourFiveMarketStatus.OVERNIGHT,
       data: {
         regular: regularData,
         extended: extendedData,

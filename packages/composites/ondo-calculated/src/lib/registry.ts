@@ -1,5 +1,5 @@
 import { Contract, JsonRpcProvider } from 'ethers'
-import ABI from '../config/ABI.json'
+import ABI from '../config/SyntheticSharesOracleABI.json'
 
 export const getRegistryData = async (
   asset: string,

@@ -61,17 +61,12 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const result = await calculatePrice(
-      param.asset,
-      param.registry,
-      this.provider,
-      param.regularStreamId,
-      param.extendedStreamId,
-      param.overnightStreamId,
-      this.dataEngineUrl,
-      this.requester,
-      param.decimals,
-    )
+    const result = await calculatePrice({
+      ...param,
+      provider: this.provider,
+      url: this.dataEngineUrl,
+      requester: this.requester,
+    })
 
     return {
       data: result,
