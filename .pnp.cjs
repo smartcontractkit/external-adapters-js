@@ -95,6 +95,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/nftx"\
     },\
     {\
+      "name": "@chainlink/ondo-calculated-adapter",\
+      "reference": "workspace:packages/composites/ondo-calculated"\
+    },\
+    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
@@ -998,6 +1002,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
+    ["@chainlink/ondo-calculated-adapter", ["workspace:packages/composites/ondo-calculated"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
@@ -7783,6 +7788,24 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/ondo-calculated-adapter", [\
+      ["workspace:packages/composites/ondo-calculated", {\
+        "packageLocation": "./packages/composites/ondo-calculated/",\
+        "packageDependencies": [\
+          ["@chainlink/ondo-calculated-adapter", "workspace:packages/composites/ondo-calculated"],\
+          ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
