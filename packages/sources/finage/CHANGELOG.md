@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.5.0
+
+### Minor Changes
+
+- [#4456](https://github.com/smartcontractkit/external-adapters-js/pull/4456) [`2ba50dd`](https://github.com/smartcontractkit/external-adapters-js/commit/2ba50dded5f2b348ce982c81d129146ec369853b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Do not fallback on (bid+ask)/2 when last trade price is missing
+
 ## 2.4.1
 
 ### Patch Changes
