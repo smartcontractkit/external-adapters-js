@@ -33,6 +33,23 @@ flowchart TD
 | **3. Integration Tests** | Writes tests, validates with 3 approval rounds                                           |
 | **4. Unit Tests**        | Writes tests, validates with 3 approval rounds                                           |
 
+## Quick Start
+
+1. Get the YAML spec from JIRA (see [JIRA → YAML Spec](#jira--yaml-spec-ea-spec-validator) below)
+2. Create a new branch and add the YAML file:
+
+```bash
+git checkout -b feat/OPDATA-123-my-adapter
+cp my-spec.yaml ea-agent/requests/OPDATA-123-my-adapter.yaml
+git add ea-agent/requests/OPDATA-123-my-adapter.yaml
+git commit -m "feat: Add EA request for my-adapter"
+git push origin feat/OPDATA-123-my-adapter
+```
+
+3. Open a PR — the GitHub Actions workflow runs automatically
+4. Wait for the agent to generate the EA code and commit it to the PR
+5. Review and merge
+
 ## JIRA → YAML Spec (EA Spec Validator)
 
 Before the EA Agent runs, requirements must be validated and converted to YAML using the [EA Spec Validator](https://smartcontract-it.atlassian.net/wiki/x/M4Bhew) Rovo Agent.
@@ -64,22 +81,30 @@ Once generated, click the edit icon on the comment to refine the YAML, then copy
 
 See [examples/yaml-spec-template.yaml.template](examples/yaml-spec-template.yaml.template) for the template and [examples/example-yaml-spec-OPDATA-4790.yaml](examples/example-yaml-spec-OPDATA-4790.yaml) for a complete example.
 
-## Project Structure
+## GitHub Actions
 
-```
-ea-agent/
-├── src/source_ea_agent.py    # Main orchestrator
-├── scripts/setup-ea-env.sh   # CI environment setup
-└── requests/                 # YAML requirement files
+The agent runs automatically via `.github/workflows/generate-ea.yml`.
 
-.claude/agents/
-├── ea_developer.md           # Development agent prompt
-├── ea_code_reviewer.md       # Code review agent prompt
-├── ea_integration_test_*.md  # Integration test agents
-└── ea_unit_test_*.md         # Unit test agents
-```
+### Required Secrets
 
-## How it uses the EA Framework
+| Secret                           | Description                                        |
+| -------------------------------- | -------------------------------------------------- |
+| `CC_GHA_GCP_SERVICE_ACCOUNT_KEY` | GCP service account credentials JSON for Vertex AI |
+| `CC_GHA_GCP_PROJECT_ID`          | GCP project ID for Vertex AI                       |
+
+### Trigger Options
+
+1. **Add YAML to PR** — Push a YAML file to `ea-agent/requests/`
+2. **Comment** — Type `/generate-ea` on any PR with a YAML file
+
+### What Happens
+
+1. Detects YAML in `ea-agent/requests/`
+2. Runs `ea-agent/scripts/setup-ea-env.sh` to install deps and unplug framework
+3. Runs all 4 phases
+4. Commits generated code to PR
+
+## How It Uses the EA Framework
 
 The agent generates EAs using **[@chainlink/external-adapter-framework](https://www.npmjs.com/package/@chainlink/external-adapter-framework)**.
 
@@ -130,56 +155,6 @@ packages/sources/<adapter-name>/
 └── test-payload.json
 ```
 
-## Quick Start
-
-### Prerequisites
-
-- Python 3.11+ with [uv](https://github.com/astral-sh/uv)
-- Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
-- `ANTHROPIC_API_KEY` environment variable
-
-### Local Run
-
-```bash
-ea-agent/scripts/setup-ea-env.sh
-cd ea-agent && uv sync
-uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
-```
-
-### Environment Variables
-
-| Variable            | Default                    | Description                    |
-| ------------------- | -------------------------- | ------------------------------ |
-| `ANTHROPIC_API_KEY` | required                   | Claude API key (for local dev) |
-| `WORKFLOW_MODEL`    | `claude-opus-4-5@20251101` | Model to use                   |
-| `ENVIRONMENT`       | `development`              | Environment name for logging   |
-| `VERBOSE_LOGGING`   | `true`                     | Log all agent messages         |
-| `JSON_LOG_PATH`     | —                          | Path for streaming JSON logs   |
-| `SUMMARY_LOG_PATH`  | —                          | Path for final summary JSON    |
-
-## GitHub Actions
-
-The agent runs automatically via `.github/workflows/generate-ea.yml`.
-
-### Required Secrets
-
-| Secret                           | Description                                        |
-| -------------------------------- | -------------------------------------------------- |
-| `CC_GHA_GCP_SERVICE_ACCOUNT_KEY` | GCP service account credentials JSON for Vertex AI |
-| `CC_GHA_GCP_PROJECT_ID`          | GCP project ID for Vertex AI                       |
-
-### Trigger Options
-
-1. **Add YAML to PR** — Push a YAML file to `ea-agent/requests/`
-2. **Comment** — Type `/generate-ea` on any PR with a YAML file
-
-### What Happens
-
-1. Detects YAML in `ea-agent/requests/`
-2. Runs `ea-agent/scripts/setup-ea-env.sh` to install deps and unplug framework
-3. Runs all 4 phases
-4. Commits generated code to PR
-
 ## Interactive Use
 
 Reference agent prompts directly in Cursor with `@` mentions:
@@ -208,9 +183,51 @@ Agent behaviors are defined by system prompts in `.claude/agents/`. Edit these f
 | `ea_unit_test_writer.md`           | Unit test patterns and structure                                       |
 | `ea_unit_test_validator.md`        | Unit test validation criteria                                          |
 
+### Local Development
+
+To test prompt changes locally before pushing:
+
+**Prerequisites:**
+
+1. Set up Claude Code in dev container — follow the [Claude Code Local Setup Guide](https://github.com/smartcontractkit/claude-code-local-artifacts)
+2. Python 3.11+ with [uv](https://github.com/astral-sh/uv)
+
+**Run locally (inside dev container):**
+
+```bash
+ea-agent/scripts/setup-ea-env.sh
+cd ea-agent && uv sync
+uv run python src/source_ea_agent.py requests/OPDATA-123-my-adapter.yaml
+```
+
+**Environment Variables:**
+
+| Variable           | Default                    | Description                  |
+| ------------------ | -------------------------- | ---------------------------- |
+| `WORKFLOW_MODEL`   | `claude-opus-4-5@20251101` | Model to use                 |
+| `VERBOSE_LOGGING`  | `true`                     | Log all agent messages       |
+| `JSON_LOG_PATH`    | —                          | Path for streaming JSON logs |
+| `SUMMARY_LOG_PATH` | —                          | Path for final summary JSON  |
+
 ### Tips
 
 - Keep prompts focused and specific
 - Add examples of good/bad patterns
 - Reference existing EAs in `packages/sources/` as examples
-- Test changes locally before pushing to CI
+- Test prompt changes locally before pushing to CI
+
+## Project Structure
+
+```
+ea-agent/
+├── src/source_ea_agent.py    # Main orchestrator
+├── scripts/setup-ea-env.sh   # CI environment setup
+├── examples/                 # YAML templates and examples
+└── requests/                 # YAML requirement files (input)
+
+.claude/agents/
+├── ea_developer.md           # Development agent prompt
+├── ea_code_reviewer.md       # Code review agent prompt
+├── ea_integration_test_*.md  # Integration test agents
+└── ea_unit_test_*.md         # Unit test agents
+```
