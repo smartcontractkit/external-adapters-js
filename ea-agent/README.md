@@ -4,15 +4,17 @@ The AI Agent to create Source External Adapters from YAML specifications.
 
 ## How It Works
 
-The agent uses the [Claude Agent SDK](https://docs.anthropic.com/en/docs/claude-code/sdk) to orchestrate a 4-phase workflow:
+The agent uses the [Claude Agent SDK](https://docs.anthropic.com/en/docs/claude-code/sdk) to orchestrate the following workflow:
 
 ```
-YAML Spec → Developer → Code Review → Integration Tests → Unit Tests → Done
+JIRA Request → JIRA Rovo Agent Spec Validator → YAML Spec → Developer → Code Review → Integration Tests → Unit Tests → Done
 ```
 
 ```mermaid
 flowchart TD
-    A[YAML Spec] --> B[EA Developer]
+    J[JIRA Request] --> R[Rovo Agent Spec Validator]
+    R --> A[YAML Spec]
+    A --> B[EA Developer]
     B --> C[Code Reviewer]
     C -->|rejected| B
     C -->|approved| D[Integration Test Writer]
@@ -30,6 +32,37 @@ flowchart TD
 | **2. Code Review**       | Validates code quality; loops back to developer if rejected                              |
 | **3. Integration Tests** | Writes tests, validates with 3 approval rounds                                           |
 | **4. Unit Tests**        | Writes tests, validates with 3 approval rounds                                           |
+
+## JIRA → YAML Spec (EA Spec Validator)
+
+Before the EA Agent runs, requirements must be validated and converted to YAML using the [EA Spec Validator](https://smartcontract-it.atlassian.net/wiki/x/M4Bhew) Rovo Agent.
+
+### Setup the JIRA Ticket
+
+1. Set ticket type = **Feed Deployment**
+2. Set OP Product Type = **External Adapter**
+3. Provide EA requirements in the **Description** section
+
+### Trigger the Spec Validator
+
+**Option 1: Label trigger (recommended)**
+
+- Add `ai-spec-review` to the ticket's label field
+- JIRA automation triggers the Rovo Agent
+- YAML specs appear as a comment in 1-3 minutes
+
+**Option 2: Rovo Chat**
+
+- Navigate to the ticket (ensure URL ends with clean ticket ID, e.g., `/browse/OPDATA-3669`)
+- Click "Ask Rovo" in the upper right
+- Search for "EA Spec Validator"
+- Click "Generate the YAML specs"
+
+### Edit and Use the YAML
+
+Once generated, click the edit icon on the comment to refine the YAML, then copy it to `ea-agent/requests/` in a new PR to trigger the EA Agent.
+
+See [examples/yaml-spec-template.yaml.template](examples/yaml-spec-template.yaml.template) for the template and [examples/example-yaml-spec-OPDATA-4790.yaml](examples/example-yaml-spec-OPDATA-4790.yaml) for a complete example.
 
 ## Project Structure
 
