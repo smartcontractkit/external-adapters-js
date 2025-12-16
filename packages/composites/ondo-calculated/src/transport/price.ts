@@ -3,7 +3,6 @@ import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getRegistryData } from '../lib/registry'
-import { calculateSecondsFromTransition } from '../lib/session'
 import { SessionAwareSmoother } from '../lib/smoother'
 import { getPrice } from '../lib/streams'
 
@@ -18,8 +17,6 @@ export const calculatePrice = async (
   overnightStreamId: string,
   url: string,
   requester: Requester,
-  sessionBoundaries: string[],
-  sessionBoundariesTimeZone: string,
   decimals: number,
 ) => {
   const [price, { multiplier, paused }] = await Promise.all([
@@ -34,10 +31,7 @@ export const calculatePrice = async (
     })
   }
 
-  const smoothedPrice = smoother.processUpdate(
-    BigInt(price.price),
-    calculateSecondsFromTransition(sessionBoundaries, sessionBoundariesTimeZone),
-  )
+  const smoothedPrice = smoother.processUpdate(BigInt(price.price), 0)
 
   //  multiplier is in 18 decimals
   const result = (smoothedPrice * multiplier) / 10n ** 18n

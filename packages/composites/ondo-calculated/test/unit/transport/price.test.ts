@@ -1,7 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { getRegistryData } from '../../../src/lib/registry'
-import { calculateSecondsFromTransition } from '../../../src/lib/session'
 import { getPrice } from '../../../src/lib/streams'
 import { calculatePrice } from '../../../src/transport/price'
 
@@ -27,11 +26,6 @@ const mockSmootherModule = jest.requireMock('../../../src/lib/smoother') as {
 }
 const mockProcessUpdate = mockSmootherModule.__mockProcessUpdate
 
-jest.mock('../../../src/lib/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
-const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
-  typeof calculateSecondsFromTransition
->
-
 describe('calculatePrice', () => {
   const defaultParams = {
     asset: 'USDC',
@@ -42,8 +36,6 @@ describe('calculatePrice', () => {
     overnightStreamId: 'overnight-stream-id',
     url: 'https://api.example.com',
     requester: {} as Requester,
-    sessionBoundaries: ['09:00', '17:00'],
-    sessionBoundariesTimeZone: 'America/New_York',
     decimals: 8,
   }
 
@@ -69,7 +61,6 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
       mockProcessUpdate.mockReturnValue(1n)
 
       const result = await calculatePrice(
@@ -81,8 +72,6 @@ describe('calculatePrice', () => {
         defaultParams.overnightStreamId,
         defaultParams.url,
         defaultParams.requester,
-        defaultParams.sessionBoundaries,
-        defaultParams.sessionBoundariesTimeZone,
         6,
       )
 
@@ -106,7 +95,6 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
       mockProcessUpdate.mockReturnValue(10n)
 
       const result = await calculatePrice(
@@ -118,8 +106,6 @@ describe('calculatePrice', () => {
         defaultParams.overnightStreamId,
         defaultParams.url,
         defaultParams.requester,
-        defaultParams.sessionBoundaries,
-        defaultParams.sessionBoundariesTimeZone,
         6,
       )
 
@@ -144,7 +130,6 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
       mockProcessUpdate.mockReturnValue(1n)
 
       const result = await calculatePrice(
@@ -156,8 +141,6 @@ describe('calculatePrice', () => {
         defaultParams.overnightStreamId,
         defaultParams.url,
         defaultParams.requester,
-        defaultParams.sessionBoundaries,
-        defaultParams.sessionBoundariesTimeZone,
         7,
       )
 

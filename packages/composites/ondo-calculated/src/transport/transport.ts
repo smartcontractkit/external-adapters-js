@@ -70,8 +70,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       param.overnightStreamId,
       this.dataEngineUrl,
       this.requester,
-      param.sessionBoundaries,
-      param.sessionBoundariesTimeZone,
       param.decimals,
     )
 
