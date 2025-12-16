@@ -1,5 +1,12 @@
 # @chainlink/defi-pulse-adapter
 
+## 1.2.141
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.8
+
 ## 1.2.140
 
 ### Patch Changes
