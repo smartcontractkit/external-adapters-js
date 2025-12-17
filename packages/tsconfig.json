@@ -291,9 +291,6 @@
       "path": "./sources/etherscan"
     },
     {
-      "path": "./sources/ethgasstation"
-    },
-    {
       "path": "./sources/ethgaswatch"
     },
     {

@@ -411,10 +411,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/etherscan"\
     },\
     {\
-      "name": "@chainlink/ethgasstation-adapter",\
-      "reference": "workspace:packages/sources/ethgasstation"\
-    },\
-    {\
       "name": "@chainlink/ethgaswatch-adapter",\
       "reference": "workspace:packages/sources/ethgaswatch"\
     },\
@@ -925,7 +921,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
-    ["@chainlink/ethgasstation-adapter", ["workspace:packages/sources/ethgasstation"]],\
     ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
     ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
@@ -6389,24 +6384,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/etherscan/",\
         "packageDependencies": [\
           ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ethgasstation-adapter", [\
-      ["workspace:packages/sources/ethgasstation", {\
-        "packageLocation": "./packages/sources/ethgasstation/",\
-        "packageDependencies": [\
-          ["@chainlink/ethgasstation-adapter", "workspace:packages/sources/ethgasstation"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
