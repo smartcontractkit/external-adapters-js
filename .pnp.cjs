@@ -579,6 +579,22 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/moore-hk"\
     },\
     {\
+      "name": "@chainlink/my-test-adapter-with-http-and-comments-adapter",\
+      "reference": "workspace:packages/sources/my-test-adapter-with-http-and-comments"\
+    },\
+    {\
+      "name": "@chainlink/my-test-adapter-with-http-without-comments-adapter",\
+      "reference": "workspace:packages/sources/my-test-adapter-with-http-without-comments"\
+    },\
+    {\
+      "name": "@chainlink/my-test-adapter-with-multiple-transports-adapter",\
+      "reference": "workspace:packages/sources/my-test-adapter-with-multiple-transports"\
+    },\
+    {\
+      "name": "@chainlink/my-test-adapter-without-http-transport-adapter",\
+      "reference": "workspace:packages/sources/my-test-adapter-without-http-transport"\
+    },\
+    {\
       "name": "@chainlink/mycryptoapi-adapter",\
       "reference": "workspace:packages/sources/mycryptoapi"\
     },\
@@ -967,6 +983,10 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
+    ["@chainlink/my-test-adapter-with-http-and-comments-adapter", ["workspace:packages/sources/my-test-adapter-with-http-and-comments"]],\
+    ["@chainlink/my-test-adapter-with-http-without-comments-adapter", ["workspace:packages/sources/my-test-adapter-with-http-without-comments"]],\
+    ["@chainlink/my-test-adapter-with-multiple-transports-adapter", ["workspace:packages/sources/my-test-adapter-with-multiple-transports"]],\
+    ["@chainlink/my-test-adapter-without-http-transport-adapter", ["workspace:packages/sources/my-test-adapter-without-http-transport"]],\
     ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
     ["@chainlink/nav-fund-services-adapter", ["workspace:packages/sources/nav-fund-services"]],\
@@ -7446,6 +7466,66 @@ const RAW_RUNTIME_STATE =
           ["@types/node-schedule", "npm:2.1.7"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/my-test-adapter-with-http-and-comments-adapter", [\
+      ["workspace:packages/sources/my-test-adapter-with-http-and-comments", {\
+        "packageLocation": "./packages/sources/my-test-adapter-with-http-and-comments/",\
+        "packageDependencies": [\
+          ["@chainlink/my-test-adapter-with-http-and-comments-adapter", "workspace:packages/sources/my-test-adapter-with-http-and-comments"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.3"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/my-test-adapter-with-http-without-comments-adapter", [\
+      ["workspace:packages/sources/my-test-adapter-with-http-without-comments", {\
+        "packageLocation": "./packages/sources/my-test-adapter-with-http-without-comments/",\
+        "packageDependencies": [\
+          ["@chainlink/my-test-adapter-with-http-without-comments-adapter", "workspace:packages/sources/my-test-adapter-with-http-without-comments"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.3"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/my-test-adapter-with-multiple-transports-adapter", [\
+      ["workspace:packages/sources/my-test-adapter-with-multiple-transports", {\
+        "packageLocation": "./packages/sources/my-test-adapter-with-multiple-transports/",\
+        "packageDependencies": [\
+          ["@chainlink/my-test-adapter-with-multiple-transports-adapter", "workspace:packages/sources/my-test-adapter-with-multiple-transports"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.3"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/my-test-adapter-without-http-transport-adapter", [\
+      ["workspace:packages/sources/my-test-adapter-without-http-transport", {\
+        "packageLocation": "./packages/sources/my-test-adapter-without-http-transport/",\
+        "packageDependencies": [\
+          ["@chainlink/my-test-adapter-without-http-transport-adapter", "workspace:packages/sources/my-test-adapter-without-http-transport"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.3"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

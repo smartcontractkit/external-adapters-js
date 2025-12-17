@@ -417,6 +417,18 @@
       "path": "./sources/moore-hk/tsconfig.test.json"
     },
     {
+      "path": "./sources/my-test-adapter-with-http-and-comments/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/my-test-adapter-with-http-without-comments/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/my-test-adapter-with-multiple-transports/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/my-test-adapter-without-http-transport/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mycryptoapi/tsconfig.test.json"
     },
     {

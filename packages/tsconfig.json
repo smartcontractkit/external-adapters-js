@@ -417,6 +417,18 @@
       "path": "./sources/moore-hk"
     },
     {
+      "path": "./sources/my-test-adapter-with-http-and-comments"
+    },
+    {
+      "path": "./sources/my-test-adapter-with-http-without-comments"
+    },
+    {
+      "path": "./sources/my-test-adapter-with-multiple-transports"
+    },
+    {
+      "path": "./sources/my-test-adapter-without-http-transport"
+    },
+    {
       "path": "./sources/mycryptoapi"
     },
     {
