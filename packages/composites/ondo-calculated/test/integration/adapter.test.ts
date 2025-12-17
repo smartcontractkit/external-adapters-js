@@ -59,6 +59,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionBoundaries: [],
+        sessionBoundariesTimeZone: 'UTC',
         decimals: 8,
       }
       mockResponseSuccess()
@@ -66,6 +68,42 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
 
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bad sessionBoundariesTimeZone', async () => {
+      const data = {
+        registry: '0x0',
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b5',
+        overnightStreamId: '0x000b5',
+        sessionBoundaries: ['00:00'],
+        sessionBoundariesTimeZone: 'random',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bad sessionBoundaries', async () => {
+      const data = {
+        registry: '0x0',
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b5',
+        overnightStreamId: '0x000b5',
+        sessionBoundaries: ['99:88'],
+        sessionBoundariesTimeZone: 'UTC',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
