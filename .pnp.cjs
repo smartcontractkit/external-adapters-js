@@ -15,10 +15,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
-      "name": "@chainlink/anchor-adapter",\
-      "reference": "workspace:packages/composites/anchor"\
-    },\
-    {\
       "name": "@chainlink/augur-adapter",\
       "reference": "workspace:packages/composites/augur"\
     },\
@@ -852,7 +848,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
     ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
-    ["@chainlink/anchor-adapter", ["workspace:packages/composites/anchor"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
@@ -5065,26 +5060,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/anchor-adapter", [\
-      ["workspace:packages/composites/anchor", {\
-        "packageLocation": "./packages/composites/anchor/",\
-        "packageDependencies": [\
-          ["@chainlink/anchor-adapter", "workspace:packages/composites/anchor"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
