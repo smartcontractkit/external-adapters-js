@@ -534,9 +534,6 @@
       "path": "./sources/synthetix-feeds"
     },
     {
-      "path": "./sources/terra-view-function"
-    },
-    {
       "path": "./sources/the-network-firm"
     },
     {
