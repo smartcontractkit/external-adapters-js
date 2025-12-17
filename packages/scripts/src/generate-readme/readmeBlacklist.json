@@ -2,7 +2,6 @@
   "blacklist": [
     "ada-balance",
     "alpine",
-    "anchor",
     "anyblock",
     "augur",
     "anchorage",
@@ -25,7 +24,6 @@
     "implied-price-test",
     "json-rpc",
     "layer2-sequencer-health",
-    "linear-finance",
     "linkpool",
     "market-closure",
     "medianizer",

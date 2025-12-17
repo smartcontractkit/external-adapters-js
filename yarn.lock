@@ -2520,24 +2520,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/anchor-adapter@workspace:packages/composites/anchor":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/anchor-adapter@workspace:packages/composites/anchor"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/terra-view-function-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.5.1"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/anchorage-adapter@workspace:*, @chainlink/anchorage-adapter@workspace:packages/sources/anchorage":
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
@@ -3281,7 +3263,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
+"@chainlink/data-engine-adapter@workspace:*, @chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
@@ -3417,7 +3399,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dxfeed-adapter@workspace:packages/sources/dxfeed"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@chainlink/external-adapter-framework": "npm:2.11.3"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3690,22 +3672,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
   version: 0.0.0-use.local
   resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
@@ -3812,6 +3778,28 @@ __metadata:
   bin:
     create-external-adapter: adapter-generator.js
   checksum: 10/cb3c9832ee4aa0cce193c708f48ee39f2b8c5b8d1b44af01c3e4c0e92bc182a7777818950701b118de5fd47af5b0f34339b9f14e4ff7968e14fa20c0e4daed8c
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:2.11.3":
+  version: 2.11.3
+  resolution: "@chainlink/external-adapter-framework@npm:2.11.3"
+  dependencies:
+    "@date-fns/tz": "npm:1.4.1"
+    ajv: "npm:8.17.1"
+    axios: "npm:1.13.2"
+    eventsource: "npm:4.1.0"
+    fastify: "npm:5.6.2"
+    ioredis: "npm:5.8.2"
+    mock-socket: "npm:9.3.1"
+    pino: "npm:10.1.0"
+    pino-pretty: "npm:13.1.3"
+    prom-client: "npm:15.1.3"
+    redlock: "npm:5.0.0-beta.2"
+    ws: "npm:8.18.3"
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 10/6981a4384a0afbd29ae87c440b5e81029bf3957523287a8af22ed0d4157a922b481a1a64945a6d984fd70e2a77012f7b3064279eecfa3016b6b1301b59ae8670
   languageName: node
   linkType: hard
 
@@ -3981,22 +3969,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/fluent-finance-adapter@workspace:packages/sources/fluent-finance"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud":
   version: 0.0.0-use.local
   resolution: "@chainlink/fmpcloud-adapter@workspace:packages/sources/fmpcloud"
@@ -4062,22 +4034,6 @@ __metadata:
     moment: "npm:^2.29.4"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.9.0"
-    nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4372,22 +4328,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/intrinio-adapter@workspace:packages/sources/intrinio":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/intrinio-adapter@workspace:packages/sources/intrinio"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.9.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au":
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
@@ -4509,27 +4449,6 @@ __metadata:
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/linear-finance-adapter@workspace:packages/composites/linear-finance"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    csv-parse: "npm:^4.16.0"
-    decimal.js: "npm:^10.3.1"
-    moment: "npm:^2.29.4"
-    moment-timezone: "npm:^0.5.34"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4973,6 +4892,22 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ondo-calculated-adapter@workspace:packages/composites/ondo-calculated":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ondo-calculated-adapter@workspace:packages/composites/ondo-calculated"
+  dependencies:
+    "@chainlink/data-engine-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@date-fns/tz": "npm:1.4.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -5538,23 +5473,6 @@ __metadata:
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/terra-view-function-adapter@workspace:*, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@terra-money/terra.js": "npm:^2.0.15"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -10610,38 +10528,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@terra-money/terra.js@npm:^2.0.15":
-  version: 2.1.23
-  resolution: "@terra-money/terra.js@npm:2.1.23"
-  dependencies:
-    "@terra-money/terra.proto": "npm:^0.1.7"
-    axios: "npm:^0.21.1"
-    bech32: "npm:^2.0.0"
-    bip32: "npm:^2.0.6"
-    bip39: "npm:^3.0.3"
-    bufferutil: "npm:^4.0.3"
-    decimal.js: "npm:^10.2.1"
-    jscrypto: "npm:^1.0.1"
-    readable-stream: "npm:^3.6.0"
-    secp256k1: "npm:^4.0.2"
-    tmp: "npm:^0.2.1"
-    utf-8-validate: "npm:^5.0.5"
-    ws: "npm:^7.4.2"
-  checksum: 10/14ede5450f1c92ba49de1ffb7479ca9db8d1926031095b34b384f438c02a398766fb07df27cd9e6acea83b4f6cba4d1ec0aa1eaeffbd2c0ca8c47efb557ab725
-  languageName: node
-  linkType: hard
-
-"@terra-money/terra.proto@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "@terra-money/terra.proto@npm:0.1.7"
-  dependencies:
-    google-protobuf: "npm:^3.17.3"
-    long: "npm:^4.0.0"
-    protobufjs: "npm:~6.11.2"
-  checksum: 10/9a7732a22e80dee3e8bc3cfd504981b28412a1c25a223e7d1850668183f639ba69f0ba5aeec5a96a79fd77835db8bd2fbe789784f6efade0ae1f8b708e62c31b
-  languageName: node
-  linkType: hard
-
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -10968,13 +10854,6 @@ __metadata:
   version: 4.17.17
   resolution: "@types/lodash@npm:4.17.17"
   checksum: 10/496459a3cb1a0733bb60532de3899ad6297717af0b9b26ad6821154b2005fec86f29ccd47a2e6f4da4a8c7c818bb8ae73901144e8057ea86b7b02a3d7bb9d13f
-  languageName: node
-  linkType: hard
-
-"@types/long@npm:^4.0.1":
-  version: 4.0.2
-  resolution: "@types/long@npm:4.0.2"
-  checksum: 10/68afa05fb20949d88345876148a76f6ccff5433310e720db51ac5ca21cb8cc6714286dbe04713840ddbd25a8b56b7a23aa87d08472fabf06463a6f2ed4967707
   languageName: node
   linkType: hard
 
@@ -12553,7 +12432,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip32@npm:^2.0.4, bip32@npm:^2.0.6":
+"bip32@npm:^2.0.4":
   version: 2.0.6
   resolution: "bip32@npm:2.0.6"
   dependencies:
@@ -12581,7 +12460,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip39@npm:^3.0.2, bip39@npm:^3.0.3":
+"bip39@npm:^3.0.2":
   version: 3.1.0
   resolution: "bip39@npm:3.1.0"
   dependencies:
@@ -12960,7 +12839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bufferutil@npm:^4.0.1, bufferutil@npm:^4.0.3":
+"bufferutil@npm:^4.0.1":
   version: 4.0.8
   resolution: "bufferutil@npm:4.0.8"
   dependencies:
@@ -14157,13 +14036,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-parse@npm:^4.16.0":
-  version: 4.16.3
-  resolution: "csv-parse@npm:4.16.3"
-  checksum: 10/b873dd2d312ac0329200f13788176bae3073862241483b0339a4777c9eddcebd9f2f48f13d02dc0baf4bc02e957f886ea03a9cb22160d70836b0017432f8fa41
-  languageName: node
-  linkType: hard
-
 "currently-unhandled@npm:^0.4.1":
   version: 0.4.1
   resolution: "currently-unhandled@npm:0.4.1"
@@ -14295,7 +14167,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:10.4.3, decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1":
+"decimal.js@npm:10.4.3, decimal.js@npm:^10.3.1":
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
   checksum: 10/de663a7bc4d368e3877db95fcd5c87b965569b58d16cdc4258c063d231ca7118748738df17cd638f7e9dd0be8e34cec08d7234b20f1f2a756a52fc5a38b188d0
@@ -16704,7 +16576,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-protobuf@npm:*, google-protobuf@npm:^3.17.3":
+"google-protobuf@npm:*":
   version: 3.21.4
   resolution: "google-protobuf@npm:3.21.4"
   checksum: 10/0d87fe8ef221d105cbaa808f4024bd577638524d8e461469e3733f2e4933391ad4da86b7fcbd11e8781bee04eacf2e8ba19aaacd5f9deb336a220485841d980f
@@ -18810,15 +18682,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jscrypto@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "jscrypto@npm:1.0.3"
-  bin:
-    jscrypto: bin/cli.js
-  checksum: 10/d442ef169b6d2e4e1298eff19fba1ec0829feecdb4443f169a9f20b75ef2eaaa8d4437f27cf094e76c76a570403d3169593e3767a8f94b907d4e5693a5d6de19
-  languageName: node
-  linkType: hard
-
 "jsesc@npm:^3.0.2, jsesc@npm:~3.0.2":
   version: 3.0.2
   resolution: "jsesc@npm:3.0.2"
@@ -19495,17 +19358,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"long@npm:*, long@npm:^5.0.0":
+"long@npm:^5.0.0":
   version: 5.2.3
   resolution: "long@npm:5.2.3"
   checksum: 10/9167ec6947a825b827c30da169a7384eec6c0c9ec2f0b9c74da2e93d81159bbe39fb09c3f13dae9721d4b807ccfa09797a7dd1012f5d478e3e33ca3c78b608e6
-  languageName: node
-  linkType: hard
-
-"long@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "long@npm:4.0.0"
-  checksum: 10/8296e2ba7bab30f9cfabb81ebccff89c819af6a7a78b4bb5a70ea411aa764ee0532f7441381549dfa6a1a98d72abe9138bfcf99f4fa41238629849bc035b845b
   languageName: node
   linkType: hard
 
@@ -20306,15 +20162,6 @@ __metadata:
     q: "npm:~2.0"
     websocket: "npm:^1.0.30"
   checksum: 10/465056f88db600fda8386ee1e69800efb17a02d2fee2de6ea77e744036aba08dc3063c41d4b69055d9ca55ea3e5973fae3084832ee439cdc1258404336f930cf
-  languageName: node
-  linkType: hard
-
-"moment-timezone@npm:^0.5.34":
-  version: 0.5.48
-  resolution: "moment-timezone@npm:0.5.48"
-  dependencies:
-    moment: "npm:^2.29.4"
-  checksum: 10/8e0b7a05577623552293b28eeee4e60634b8be87fdb74084fa6d5ccc516771eb42d88f29c5a5e50a94c494048d14cdef94f94526a9dfd5e1b0050ff29d0a6c0a
   languageName: node
   linkType: hard
 
@@ -22048,30 +21895,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:~6.11.2":
-  version: 6.11.4
-  resolution: "protobufjs@npm:6.11.4"
-  dependencies:
-    "@protobufjs/aspromise": "npm:^1.1.2"
-    "@protobufjs/base64": "npm:^1.1.2"
-    "@protobufjs/codegen": "npm:^2.0.4"
-    "@protobufjs/eventemitter": "npm:^1.1.0"
-    "@protobufjs/fetch": "npm:^1.1.0"
-    "@protobufjs/float": "npm:^1.0.2"
-    "@protobufjs/inquire": "npm:^1.1.0"
-    "@protobufjs/path": "npm:^1.1.2"
-    "@protobufjs/pool": "npm:^1.1.0"
-    "@protobufjs/utf8": "npm:^1.1.0"
-    "@types/long": "npm:^4.0.1"
-    "@types/node": "npm:>=13.7.0"
-    long: "npm:^4.0.0"
-  bin:
-    pbjs: bin/pbjs
-    pbts: bin/pbts
-  checksum: 10/6b7fd7540d74350d65c38f69f398c9995ae019da070e79d9cd464a458c6d19b40b07c9a026be4e10704c824a344b603307745863310c50026ebd661ce4da0663
-  languageName: node
-  linkType: hard
-
 "proxy-from-env@npm:^1.1.0":
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
@@ -23279,7 +23102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^4.0.1, secp256k1@npm:^4.0.2":
+"secp256k1@npm:^4.0.1":
   version: 4.0.4
   resolution: "secp256k1@npm:4.0.4"
   dependencies:
@@ -24644,13 +24467,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tmp@npm:^0.2.1":
-  version: 0.2.3
-  resolution: "tmp@npm:0.2.3"
-  checksum: 10/7b13696787f159c9754793a83aa79a24f1522d47b87462ddb57c18ee93ff26c74cbb2b8d9138f571d2e0e765c728fb2739863a672b280528512c6d83d511c6fa
-  languageName: node
-  linkType: hard
-
 "tmpl@npm:1.0.5":
   version: 1.0.5
   resolution: "tmpl@npm:1.0.5"
@@ -25493,7 +25309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utf-8-validate@npm:^5.0.2, utf-8-validate@npm:^5.0.5":
+"utf-8-validate@npm:^5.0.2":
   version: 5.0.10
   resolution: "utf-8-validate@npm:5.0.10"
   dependencies:
@@ -26060,7 +25876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.4.2, ws@npm:^7.4.6, ws@npm:^7.5.0, ws@npm:^7.5.10":
+"ws@npm:^7.4.6, ws@npm:^7.5.0, ws@npm:^7.5.10":
   version: 7.5.10
   resolution: "ws@npm:7.5.10"
   peerDependencies:

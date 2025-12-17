@@ -1,5 +1,17 @@
 # @chainlink/dxfeed-adapter
 
+## 2.3.2
+
+### Patch Changes
+
+- [#4449](https://github.com/smartcontractkit/external-adapters-js/pull/4449) [`187c776`](https://github.com/smartcontractkit/external-adapters-js/commit/187c7762f4411d92fb2ba294a947cec23616cdd2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Improve how `ws_subscription_active` `ws_subscription_total` `ws_message_total` are recorded
+
+## 2.3.1
+
+### Patch Changes
+
+- [#4428](https://github.com/smartcontractkit/external-adapters-js/pull/4428) [`3825ea5`](https://github.com/smartcontractkit/external-adapters-js/commit/3825ea5000b62bc464e58cfd0200f711abdd7be4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Keep ws connection open via heartbeat
+
 ## 2.3.0
 
 ### Minor Changes

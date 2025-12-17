@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -42,9 +39,6 @@
       "path": "./composites/implied-price-test"
     },
     {
-      "path": "./composites/linear-finance"
-    },
-    {
       "path": "./composites/llama-guard"
     },
     {
@@ -64,6 +58,9 @@
     },
     {
       "path": "./composites/nftx"
+    },
+    {
+      "path": "./composites/ondo-calculated"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -291,9 +288,6 @@
       "path": "./sources/etherscan"
     },
     {
-      "path": "./sources/ethgasstation"
-    },
-    {
       "path": "./sources/ethgaswatch"
     },
     {
@@ -321,9 +315,6 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fluent-finance"
-    },
-    {
       "path": "./sources/fmpcloud"
     },
     {
@@ -334,9 +325,6 @@
     },
     {
       "path": "./sources/galaxis"
-    },
-    {
-      "path": "./sources/galaxy"
     },
     {
       "path": "./sources/gemini"
@@ -376,9 +364,6 @@
     },
     {
       "path": "./sources/instruxi-sxt"
-    },
-    {
-      "path": "./sources/intrinio"
     },
     {
       "path": "./sources/ion.au"
@@ -547,9 +532,6 @@
     },
     {
       "path": "./sources/synthetix-feeds"
-    },
-    {
-      "path": "./sources/terra-view-function"
     },
     {
       "path": "./sources/the-network-firm"
