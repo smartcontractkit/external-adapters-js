@@ -467,10 +467,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/galaxis"\
     },\
     {\
-      "name": "@chainlink/galaxy-adapter",\
-      "reference": "workspace:packages/sources/galaxy"\
-    },\
-    {\
       "name": "@chainlink/gemini-adapter",\
       "reference": "workspace:packages/sources/gemini"\
     },\
@@ -944,7 +940,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
     ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
     ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
-    ["@chainlink/galaxy-adapter", ["workspace:packages/sources/galaxy"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/generic-api-adapter", ["workspace:packages/sources/generic-api"]],\
     ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
@@ -6798,24 +6793,6 @@ const RAW_RUNTIME_STATE =
           ["moment", "npm:2.30.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/galaxy-adapter", [\
-      ["workspace:packages/sources/galaxy", {\
-        "packageLocation": "./packages/sources/galaxy/",\
-        "packageDependencies": [\
-          ["@chainlink/galaxy-adapter", "workspace:packages/sources/galaxy"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["axios", "npm:1.9.0"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

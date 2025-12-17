@@ -4073,22 +4073,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.9.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/gemini-adapter@workspace:*, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
