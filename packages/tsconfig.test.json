@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor/tsconfig.test.json"
-    },
-    {
       "path": "./composites/augur/tsconfig.test.json"
     },
     {
