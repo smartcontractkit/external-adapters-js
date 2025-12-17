@@ -167,8 +167,6 @@ adapters:
     version: 1.0.2
   - name: galaxis
     version: 4.0.24
-  - name: galaxy
-    version: 2.1.52
   - name: gemini
     version: 3.0.33
   - name: generic-api
