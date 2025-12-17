@@ -534,9 +534,6 @@
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
     },
     {
-      "path": "./sources/terra-view-function/tsconfig.test.json"
-    },
-    {
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {

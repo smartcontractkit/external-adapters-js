@@ -735,10 +735,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-feeds"\
     },\
     {\
-      "name": "@chainlink/terra-view-function-adapter",\
-      "reference": "workspace:packages/sources/terra-view-function"\
-    },\
-    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -1021,7 +1017,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
-    ["@chainlink/terra-view-function-adapter", ["workspace:packages/sources/terra-view-function"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
@@ -8371,25 +8366,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/terra-view-function-adapter", [\
-      ["workspace:packages/sources/terra-view-function", {\
-        "packageLocation": "./packages/sources/terra-view-function/",\
-        "packageDependencies": [\
-          ["@chainlink/terra-view-function-adapter", "workspace:packages/sources/terra-view-function"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@terra-money/terra.js", "npm:2.1.23"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/the-graph-adapter", [\
       ["workspace:packages/composites/the-graph", {\
         "packageLocation": "./packages/composites/the-graph/",\
@@ -14487,41 +14463,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@terra-money/terra.js", [\
-      ["npm:2.1.23", {\
-        "packageLocation": "./.yarn/cache/@terra-money-terra.js-npm-2.1.23-601dcefbf0-14ede5450f.zip/node_modules/@terra-money/terra.js/",\
-        "packageDependencies": [\
-          ["@terra-money/terra.js", "npm:2.1.23"],\
-          ["@terra-money/terra.proto", "npm:0.1.7"],\
-          ["axios", "npm:0.21.4"],\
-          ["bech32", "npm:2.0.0"],\
-          ["bip32", "npm:2.0.6"],\
-          ["bip39", "npm:3.1.0"],\
-          ["bufferutil", "npm:4.0.8"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["jscrypto", "npm:1.0.3"],\
-          ["long", "npm:5.2.3"],\
-          ["readable-stream", "npm:3.6.2"],\
-          ["secp256k1", "npm:4.0.4"],\
-          ["tmp", "npm:0.2.3"],\
-          ["utf-8-validate", "npm:5.0.10"],\
-          ["ws", "virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.10"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@terra-money/terra.proto", [\
-      ["npm:0.1.7", {\
-        "packageLocation": "./.yarn/cache/@terra-money-terra.proto-npm-0.1.7-77d92ea197-9a7732a22e.zip/node_modules/@terra-money/terra.proto/",\
-        "packageDependencies": [\
-          ["@terra-money/terra.proto", "npm:0.1.7"],\
-          ["google-protobuf", "npm:3.21.4"],\
-          ["long", "npm:4.0.0"],\
-          ["protobufjs", "npm:6.11.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@tootallnate/once", [\
       ["npm:1.1.2", {\
         "packageLocation": "./.yarn/cache/@tootallnate-once-npm-1.1.2-0517220057-e1fb1bbbc1.zip/node_modules/@tootallnate/once/",\
@@ -14902,15 +14843,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.17-f9393376c2-496459a3cb.zip/node_modules/@types/lodash/",\
         "packageDependencies": [\
           ["@types/lodash", "npm:4.17.17"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/long", [\
-      ["npm:4.0.2", {\
-        "packageLocation": "./.yarn/cache/@types-long-npm-4.0.2-e7bdc00dd4-68afa05fb2.zip/node_modules/@types/long/",\
-        "packageDependencies": [\
-          ["@types/long", "npm:4.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23847,15 +23779,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["jscrypto", [\
-      ["npm:1.0.3", {\
-        "packageLocation": "./.yarn/cache/jscrypto-npm-1.0.3-ff26ea2886-d442ef169b.zip/node_modules/jscrypto/",\
-        "packageDependencies": [\
-          ["jscrypto", "npm:1.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["jsesc", [\
       ["npm:3.0.2", {\
         "packageLocation": "./.yarn/cache/jsesc-npm-3.0.2-3b3b74ec0d-8e5a7de6b7.zip/node_modules/jsesc/",\
@@ -24622,13 +24545,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["long", [\
-      ["npm:4.0.0", {\
-        "packageLocation": "./.yarn/cache/long-npm-4.0.0-ecd96a31ed-8296e2ba7b.zip/node_modules/long/",\
-        "packageDependencies": [\
-          ["long", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.2.3", {\
         "packageLocation": "./.yarn/cache/long-npm-5.2.3-61dddb7586-9167ec6947.zip/node_modules/long/",\
         "packageDependencies": [\
@@ -27426,26 +27342,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["protobufjs", [\
-      ["npm:6.11.4", {\
-        "packageLocation": "./.yarn/unplugged/protobufjs-npm-6.11.4-af11968b80/node_modules/protobufjs/",\
-        "packageDependencies": [\
-          ["protobufjs", "npm:6.11.4"],\
-          ["@protobufjs/aspromise", "npm:1.1.2"],\
-          ["@protobufjs/base64", "npm:1.1.2"],\
-          ["@protobufjs/codegen", "npm:2.0.4"],\
-          ["@protobufjs/eventemitter", "npm:1.1.0"],\
-          ["@protobufjs/fetch", "npm:1.1.0"],\
-          ["@protobufjs/float", "npm:1.0.2"],\
-          ["@protobufjs/inquire", "npm:1.1.0"],\
-          ["@protobufjs/path", "npm:1.1.2"],\
-          ["@protobufjs/pool", "npm:1.1.0"],\
-          ["@protobufjs/utf8", "npm:1.1.0"],\
-          ["@types/long", "npm:4.0.2"],\
-          ["@types/node", "npm:22.9.1"],\
-          ["long", "npm:4.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:7.4.0", {\
         "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.4.0-12c56a3adc/node_modules/protobufjs/",\
         "packageDependencies": [\
@@ -30254,13 +30150,6 @@ const RAW_RUNTIME_STATE =
           ["os-tmpdir", "npm:1.0.2"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:0.2.3", {\
-        "packageLocation": "./.yarn/cache/tmp-npm-0.2.3-ac2a701365-7b13696787.zip/node_modules/tmp/",\
-        "packageDependencies": [\
-          ["tmp", "npm:0.2.3"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["tmpl", [\
@@ -31856,23 +31745,6 @@ const RAW_RUNTIME_STATE =
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
           ["utf-8-validate", null]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.10", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-f93c411b77/0/cache/ws-npm-7.5.10-878ccb886b-9c796b84ba.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "virtual:601dcefbf008c83e4ef2d3d3e5c3d564f2a3542eb846d9f60e76832d715922d3df9db801b1d6461f9264895de36a557d0d8a0aed8be4461c23cb2b34ad6dd282#npm:7.5.10"],\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", "npm:4.0.8"],\
-          ["utf-8-validate", "npm:5.0.10"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
