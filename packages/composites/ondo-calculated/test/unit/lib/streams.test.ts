@@ -22,9 +22,9 @@ describe('getPrice', () => {
     decimals,
     marketStatus,
     lastSeenTimestampNs: '123456789',
-    bid: '100.0',
+    bid: '100',
     bidVolume: 1000,
-    ask: '101.0',
+    ask: '101',
     askVolume: 2000,
     lastTradedPrice: '102.0',
   })
@@ -63,6 +63,7 @@ describe('getPrice', () => {
 
     expect(result).toEqual({
       price: regularData.mid,
+      spread: 1n,
       decimals: regularData.decimals,
       data: {
         regular: regularData,
@@ -89,6 +90,7 @@ describe('getPrice', () => {
 
     expect(result).toEqual({
       price: extendedData.mid,
+      spread: 1n,
       decimals: extendedData.decimals,
       data: {
         regular: regularData,
@@ -115,6 +117,7 @@ describe('getPrice', () => {
 
     expect(result).toEqual({
       price: extendedData.mid,
+      spread: 1n,
       decimals: extendedData.decimals,
       data: {
         regular: regularData,
@@ -141,6 +144,7 @@ describe('getPrice', () => {
 
     expect(result).toEqual({
       price: overnightData.mid,
+      spread: 1n,
       decimals: overnightData.decimals,
       data: {
         regular: regularData,
