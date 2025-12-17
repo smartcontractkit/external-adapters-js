@@ -291,9 +291,6 @@
       "path": "./sources/etherscan/tsconfig.test.json"
     },
     {
-      "path": "./sources/ethgasstation/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
