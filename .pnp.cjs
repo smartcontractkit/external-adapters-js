@@ -6188,7 +6188,7 @@ const RAW_RUNTIME_STATE =
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6478,6 +6478,25 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.3-829a97fd77-6981a4384a.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.11.3"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.13.2"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.6.2"],\
+          ["ioredis", "npm:5.8.2"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.1.0"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.11.4", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.4-95143b6203-395c4b04e0.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["ajv", "npm:8.17.1"],\
           ["axios", "npm:1.13.2"],\
