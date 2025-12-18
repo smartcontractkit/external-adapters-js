@@ -33,6 +33,9 @@
       "path": "./composites/gm-token/tsconfig.test.json"
     },
     {
+      "path": "./composites/gmx-tokens/tsconfig.test.json"
+    },
+    {
       "path": "./composites/historical-average/tsconfig.test.json"
     },
     {

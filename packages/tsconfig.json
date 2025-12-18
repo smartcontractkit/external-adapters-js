@@ -33,6 +33,9 @@
       "path": "./composites/gm-token"
     },
     {
+      "path": "./composites/gmx-tokens"
+    },
+    {
       "path": "./composites/historical-average"
     },
     {
