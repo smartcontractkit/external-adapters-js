@@ -1,3 +1,4 @@
+import console from 'console'
 import { SessionAwareSmoother } from '../../../src/lib/smoother'
 
 describe('SessionAwareSmoother', () => {
@@ -38,5 +39,34 @@ describe('SessionAwareSmoother', () => {
     // Should be smoothed at t=-5 (weight=0.5, half smoothed)
     const resultNegative = smoother.processUpdate(200n, -5)
     expect(resultNegative).toBe(126n)
+  })
+
+  it('constant input should give constant output', () => {
+    console.log('===')
+    const totalTime = 80
+    const leadTime = 30
+    const raw = Array.from({ length: totalTime }, () => 100n)
+
+    const smoother = new SessionAwareSmoother()
+    raw.forEach((price, index) => {
+      const t = index - leadTime
+      const smoothed = smoother.processUpdate(price, t)
+      console.log(`t=${t}, raw=${price}, smoothed=${smoothed}`)
+    })
+  })
+
+  it('one time bump should not oscillate', () => {
+    console.log('===')
+    const totalTime = 80
+    const leadTime = 30
+    const raw = [...Array.from({ length: leadTime }, () => 100n), 200n, 300n, 200n]
+    raw.push(...Array.from({ length: totalTime - raw.length }, () => 100n))
+
+    const smoother = new SessionAwareSmoother()
+    raw.forEach((price, index) => {
+      const t = index - leadTime
+      const smoothed = smoother.processUpdate(price, t)
+      console.log(`t=${t}, raw=${price}, smoothed=${smoothed}`)
+    })
   })
 })
