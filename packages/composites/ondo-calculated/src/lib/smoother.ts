@@ -21,12 +21,14 @@ const CONFIG = {
  */
 class SavitzkyGolayFilter {
   private coefficients: number[]
+  private windowSize: number
 
   constructor(windowSize: number, polyOrder: number) {
     if (windowSize % 2 === 0) throw new Error('Window size must be odd')
     if (polyOrder !== 2)
       throw new Error('Closed-form implementation currently supports quadratic (p=2) only')
 
+    this.windowSize = windowSize
     this.coefficients = this.computeQuadraticCoefficients(windowSize)
   }
 
@@ -52,12 +54,12 @@ class SavitzkyGolayFilter {
   }
 
   public smooth(window: bigint[]): bigint {
-    if (window.length !== CONFIG.SAVGOL.WINDOW_SIZE) {
-      throw new Error(`Buffer must be size ${CONFIG.SAVGOL.WINDOW_SIZE}`)
+    if (window.length !== this.windowSize) {
+      throw new Error(`Buffer must be size ${this.windowSize}`)
     }
     // Convolution: sum(w_i * x_i)
     const sum = window.reduce((sum, price, i) => {
-      return sum + (price * toScaledBigInt(this.coefficients[i])) / 10n ** BigInt(CONFIG.PRECISION)
+      return sum + numberTimesBigInt(price, this.coefficients[i])
     }, 0n)
     return sum
   }
@@ -107,11 +109,8 @@ export class SessionAwareSmoother {
     // Calculate smoothed price
     const smoothedPrice = this.sgFilter.smooth(this.priceBuffer)
 
-    // Apply blending: price_output = w * smoothed + (1 - w) * raw
-    return (
-      (toScaledBigInt(w) * smoothedPrice + toScaledBigInt(1 - w) * rawPrice) /
-      10n ** BigInt(CONFIG.PRECISION)
-    )
+    // Apply blending: price_output = smoothed * w  + raw * (1 - w)
+    return numberTimesBigInt(smoothedPrice, w) + numberTimesBigInt(rawPrice, 1 - w)
   }
 
   /**
@@ -131,9 +130,11 @@ export class SessionAwareSmoother {
     // Raised cosine function: 0.5 * (1 + cos(pi * t / window))
     // At t=0, cos(0)=1 -> w=1.0 (Fully smoothed)
     // At t=window, cos(pi)=-1 -> w=0.0 (Fully raw)
+    // At t=-window, cos(-pi)=-1 -> w=0.0
     return 0.5 * (1 + Math.cos((Math.PI * t) / window))
   }
 }
 
-const toScaledBigInt = (value: number) =>
-  parseUnits(value.toFixed(CONFIG.PRECISION), CONFIG.PRECISION)
+const numberTimesBigInt = (bigint: bigint, number: number) =>
+  (bigint * parseUnits(number.toFixed(CONFIG.PRECISION), CONFIG.PRECISION)) /
+  10n ** BigInt(CONFIG.PRECISION)
