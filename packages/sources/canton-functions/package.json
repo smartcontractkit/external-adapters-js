@@ -36,7 +36,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.7.1",
+    "@chainlink/external-adapter-framework": "2.11.4",
     "tslib": "2.4.1"
   }
 }
