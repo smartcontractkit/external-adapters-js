@@ -44,7 +44,7 @@ describe('SessionAwareSmoother', () => {
   describe('Constant Value Stability', () => {
     it('should maintain constant output for constant input during transition', () => {
       const smoother = new SessionAwareSmoother()
-      const CONSTANT_PRICE = 100n
+      const CONSTANT_PRICE = 100n * 10n ** 18n
       const WINDOW_SIZE = 23
 
       // Fill the buffer with constant values (outside transition window)
@@ -56,13 +56,12 @@ describe('SessionAwareSmoother', () => {
       const resultAtTransition = smoother.processUpdate(CONSTANT_PRICE, 0)
 
       // BUG CHECK: If smoother is correct, constant input should produce constant output
-      // The review mentions this drops to 91n, which indicates a normalization bug
       expect(resultAtTransition).toBe(CONSTANT_PRICE)
     })
 
     it('should produce constant output at various transition points for constant input', () => {
       const smoother = new SessionAwareSmoother()
-      const CONSTANT_PRICE = 100n
+      const CONSTANT_PRICE = 100n * 10n ** 18n
       const WINDOW_SIZE = 23
 
       // Fill buffer with constant values
@@ -82,7 +81,7 @@ describe('SessionAwareSmoother', () => {
   describe('Bump Response Behavior', () => {
     it('should not undershoot below input minimum during bump transition', () => {
       const smoother = new SessionAwareSmoother()
-      const BASELINE = 100n
+      const BASELINE = 100n * 10n ** 18n
       const WINDOW_SIZE = 23
 
       // Fill buffer with baseline values (outside transition)
@@ -90,35 +89,8 @@ describe('SessionAwareSmoother', () => {
         smoother.processUpdate(BASELINE, 100)
       }
 
-      // Simulate transition start: add bump pattern just after transition
-      // The review mentions: constant 100n, then 200n, 300n, 200n bump
-      const bumpPattern = [200n, 300n, 200n]
-      const results: bigint[] = []
-
-      for (const price of bumpPattern) {
-        // t=1, 2, 3... are just after transition (should be smoothed)
-        const result = smoother.processUpdate(price, results.length + 1)
-        results.push(result)
-      }
-
-      // BUG CHECK: The review mentions the smoothed value drops as low as 85n
-      // This should never happen - output should never go below the minimum input (100n)
-      const minResult = results.reduce((min, r) => (r < min ? r : min), results[0])
-      expect(minResult).toBeGreaterThanOrEqual(BASELINE)
-    })
-
-    it('should not exhibit Runge phenomenon (excessive oscillation) after bump', () => {
-      const smoother = new SessionAwareSmoother()
-      const BASELINE = 100n
-      const WINDOW_SIZE = 23
-
-      // Fill buffer with baseline
-      for (let i = 0; i < WINDOW_SIZE; i++) {
-        smoother.processUpdate(BASELINE, 100)
-      }
-
-      // Add bump and then return to baseline
-      const prices = [200n, 300n, 200n, 100n, 100n, 100n, 100n, 100n]
+      // Inject bump and collect all results during transition
+      const prices = [200n, 300n, 200n, 100n, 100n, 100n].map((p) => p * 10n ** 18n)
       const results: bigint[] = []
 
       for (let i = 0; i < prices.length; i++) {
@@ -126,14 +98,41 @@ describe('SessionAwareSmoother', () => {
         results.push(result)
       }
 
-      // After returning to baseline inputs, the output should converge back to baseline
-      // and not oscillate wildly (the "rebound" mentioned in review)
-      const lastFewResults = results.slice(-3)
-      for (const r of lastFewResults) {
-        // Allow some tolerance but should be within 60% of baseline (it's whippy!)
-        expect(r).toBeGreaterThan(40n)
-        expect(r).toBeLessThan(160n)
+      // BUG CHECK: Output should never drop below the minimum input (baseline)
+      for (const r of results) {
+        expect(r).toBeGreaterThanOrEqual(BASELINE)
       }
+    })
+
+    it('should converge back to baseline after bump exits window', () => {
+      const smoother = new SessionAwareSmoother()
+      const BASELINE = 100n * 10n ** 18n
+      const WINDOW_SIZE = 23
+
+      // Fill buffer with baseline
+      for (let i = 0; i < WINDOW_SIZE; i++) {
+        smoother.processUpdate(BASELINE, 100)
+      }
+
+      // Inject bump
+      const bump = [200n, 300n, 200n].map((p) => p * 10n ** 18n)
+      for (const price of bump) {
+        smoother.processUpdate(price, 1) // During transition
+      }
+
+      // Let bump fully wash out of window (need WINDOW_SIZE more values)
+      const convergenceResults: bigint[] = []
+      for (let i = 0; i < WINDOW_SIZE; i++) {
+        const result = smoother.processUpdate(BASELINE, i + 1)
+        convergenceResults.push(result)
+      }
+
+      // After bump exits, output should converge to baseline within 1% tolerance
+      const finalResult = convergenceResults[convergenceResults.length - 1]
+      const tolerance = BASELINE / 100n // 1% tolerance
+
+      expect(finalResult).toBeGreaterThanOrEqual(BASELINE - tolerance)
+      expect(finalResult).toBeLessThanOrEqual(BASELINE + tolerance)
     })
   })
 

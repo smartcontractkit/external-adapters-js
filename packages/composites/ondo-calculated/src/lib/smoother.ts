@@ -149,7 +149,3 @@ export class SessionAwareSmoother {
     return 0.5 * (1 + Math.cos((Math.PI * t) / window))
   }
 }
-
-const numberTimesBigInt = (bigint: bigint, number: number) =>
-  (bigint * parseUnits(number.toFixed(CONFIG.PRECISION), CONFIG.PRECISION)) /
-  10n ** BigInt(CONFIG.PRECISION)
