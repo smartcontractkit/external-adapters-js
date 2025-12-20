@@ -20,7 +20,8 @@ const CONFIG = {
  * avoiding the need for matrix inversion libraries.
  */
 class SavitzkyGolayFilter {
-  private coefficients: number[]
+  private numerators: bigint[]
+  private denominator: bigint
   private windowSize: number
 
   constructor(windowSize: number, polyOrder: number) {
@@ -29,7 +30,9 @@ class SavitzkyGolayFilter {
       throw new Error('Closed-form implementation currently supports quadratic (p=2) only')
 
     this.windowSize = windowSize
-    this.coefficients = this.computeQuadraticCoefficients(windowSize)
+    const { numerators, denominator } = this.computeCausalQuadraticCoefficients(windowSize)
+    this.numerators = numerators
+    this.denominator = denominator
   }
 
   /**
@@ -37,31 +40,37 @@ class SavitzkyGolayFilter {
    * quadratic polynomial fitting.
    * Formula: w_j = [3*(3k^2 + 3k - 1 - 5j^2)] / [(2k-1)(2k+1)(2k+3)]
    */
-  private computeQuadraticCoefficients(m: number): number[] {
+  private computeCausalQuadraticCoefficients(m: number): {
+    numerators: bigint[]
+    denominator: bigint
+  } {
     const k = Math.floor(m / 2)
-    const coeffs: number[] = []
+    const n = m
+    const s2 = (k * (k + 1) * (2 * k + 1)) / 3
+    const s4 = (k * (k + 1) * (2 * k + 1) * (3 * k * k + 3 * k - 1)) / 15
 
-    // Denominator term
-    const norm = (2 * k - 1) * (2 * k + 1) * (2 * k + 3)
+    const commonDenom = BigInt(s2) * BigInt(n * s4 - s2 * s2)
+    const numerators: bigint[] = []
 
     for (let j = -k; j <= k; j++) {
-      // Numerator term
-      const term = 3 * (3 * k * k + 3 * k - 1 - 5 * j * j)
-      coeffs.push(term / norm)
+      const term1 = BigInt(s2) * BigInt(s4 - s2 * k * k + (n * k * k - s2) * j * j)
+      const term2 = BigInt(k * j) * BigInt(n * s4 - s2 * s2)
+      numerators.push(term1 + term2)
     }
 
-    return coeffs
+    return { numerators, denominator: commonDenom }
   }
 
   public smooth(window: bigint[]): bigint {
     if (window.length !== this.windowSize) {
       throw new Error(`Buffer must be size ${this.windowSize}`)
     }
-    // Convolution: sum(w_i * x_i)
-    const sum = window.reduce((sum, price, i) => {
-      return sum + numberTimesBigInt(price, this.coefficients[i])
+    // Convolution: sum(w_i * x_i) using integer math for perfect precision
+    const sum = window.reduce((acc, price, i) => {
+      return acc + price * this.numerators[i]
     }, 0n)
-    return sum
+
+    return sum / this.denominator
   }
 }
 
@@ -110,7 +119,13 @@ export class SessionAwareSmoother {
     const smoothedPrice = this.sgFilter.smooth(this.priceBuffer)
 
     // Apply blending: price_output = smoothed * w  + raw * (1 - w)
-    return numberTimesBigInt(smoothedPrice, w) + numberTimesBigInt(rawPrice, 1 - w)
+    // Use integer math for blending to avoid precision loss
+    const precision = BigInt(CONFIG.PRECISION)
+    const multiplier = 10n ** precision
+    const wBI = parseUnits(w.toFixed(CONFIG.PRECISION), CONFIG.PRECISION)
+    const oneMinusWBI = parseUnits((1 - w).toFixed(CONFIG.PRECISION), CONFIG.PRECISION)
+
+    return (smoothedPrice * wBI + rawPrice * oneMinusWBI) / multiplier
   }
 
   /**
