@@ -1,14 +1,15 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import schedule from 'node-schedule'
-import { AddressListTransportTypes, BaseAddressListTransport, RequestParams } from './common'
+import { AddressListTransportTypes, getAggregatedAddressList, RequestParams } from './common'
 
 const logger = makeLogger('AddressListTransport')
 
-export class AddressListTransport extends BaseAddressListTransport {
+export class AddressListTransport extends SubscriptionTransport<AddressListTransportTypes> {
   name!: string
   responseCache!: ResponseCache<AddressListTransportTypes>
   requester!: Requester
@@ -61,7 +62,7 @@ export class AddressListTransport extends BaseAddressListTransport {
     }
 
     try {
-      const response = await this.getAggregatedAddressList(params)
+      const response = await getAggregatedAddressList(params, this.requester, this.settings)
       await this.responseCache.write(this.name, [
         {
           params,
@@ -73,6 +74,10 @@ export class AddressListTransport extends BaseAddressListTransport {
       retryCount = retryCount + 1
       setTimeout(() => this.execute(params, retryCount), this.settings.RETRY_INTERVAL_MS)
     }
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: AddressListTransportTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 

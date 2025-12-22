@@ -1,5 +1,4 @@
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterSettings } from '@chainlink/external-adapter-framework/config'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
@@ -25,66 +24,63 @@ interface PoRAdapterResponse {
   }
 }
 
-export abstract class BaseAddressListTransport extends SubscriptionTransport<AddressListTransportTypes> {
-  name!: string
-  responseCache!: ResponseCache<AddressListTransportTypes>
-  requester!: Requester
-  settings!: AddressListTransportTypes['Settings']
-  activeParams: RequestParams[] = []
+export async function getAggregatedAddressList(
+  params: RequestParams,
+  requester: Requester,
+  settings: AdapterSettings,
+) {
+  const providerDataRequestedUnixMs = Date.now()
 
-  async getAggregatedAddressList(params: RequestParams) {
-    const providerDataRequestedUnixMs = Date.now()
+  const addresses = await fetchSourceAddresses(params, requester, settings)
+  logger.info(`Fetched ${addresses.length} addresses`)
 
-    const addresses = await this.fetchSourceAddresses(params)
-    logger.info(`Fetched ${addresses.length} addresses`)
-
-    const response = {
-      data: {
-        result: addresses,
-      },
-      statusCode: 200,
-      result: null,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
-    return response
+  const response = {
+    data: {
+      result: addresses,
+    },
+    statusCode: 200,
+    result: null,
+    timestamps: {
+      providerDataRequestedUnixMs,
+      providerDataReceivedUnixMs: Date.now(),
+      providerIndicatedTimeUnixMs: undefined,
+    },
   }
+  return response
+}
 
-  async fetchSourceAddresses(params: RequestParams) {
-    const { chainId, network, ...sources } = params
+async function fetchSourceAddresses(
+  params: RequestParams,
+  requester: Requester,
+  settings: AdapterSettings,
+) {
+  const { chainId, network, ...sources } = params
 
-    const promises = Object.entries(sources)
-      .filter(([_, sourceParams]) => sourceParams)
-      .map(async ([sourceName, sourceParams]) => {
-        // customInputValidation ensures that if the source EA is present in the input params, the corresponding env variable is also present
-        const adapterUrl = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof this.settings
-        const requestConfig = {
-          url: this.settings[adapterUrl] as string,
-          method: 'POST',
+  const promises = Object.entries(sources)
+    .filter(([_, sourceParams]) => sourceParams)
+    .map(async ([sourceName, sourceParams]) => {
+      // customInputValidation ensures that if the source EA is present in the input params, the corresponding env variable is also present
+      const adapterUrl = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof settings
+      const requestConfig = {
+        url: settings[adapterUrl] as string,
+        // url: process.env(adapterUrl)
+        method: 'POST',
+        data: {
           data: {
-            data: {
-              ...sourceParams,
-              chainId,
-              network,
-            },
+            ...sourceParams,
+            chainId,
+            network,
           },
-        }
+        },
+      }
 
-        const sourceResponse = await this.requester.request<PoRAdapterResponse>(
-          JSON.stringify(requestConfig),
-          requestConfig,
-        )
-        return sourceResponse.response.data.data.result
-      })
+      const sourceResponse = await requester.request<PoRAdapterResponse>(
+        JSON.stringify(requestConfig),
+        requestConfig,
+      )
+      return sourceResponse.response.data.data.result
+    })
 
-    const addresses = await Promise.all(promises)
-    return addresses.flat()
-  }
-
-  getSubscriptionTtlFromConfig(adapterSettings: AddressListTransportTypes['Settings']): number {
-    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
-  }
+  const addresses = await Promise.all(promises)
+  return addresses.flat()
 }

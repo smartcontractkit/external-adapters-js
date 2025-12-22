@@ -1,14 +1,17 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
+import { Transport, TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import {
+  AdapterRequest,
+  AdapterResponse,
+  makeLogger,
+} from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { BaseEndpointTypes } from '../endpoint/address'
-import { AddressListTransportTypes, BaseAddressListTransport, RequestParams } from './common'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
+import { AddressListTransportTypes, getAggregatedAddressList, RequestParams } from './common'
 
 const logger = makeLogger('BaseAddressListTransport')
 
-export class AddressDebugTransport extends BaseAddressListTransport {
+export class AddressDebugTransport implements Transport<AddressListTransportTypes> {
   name!: string
   responseCache!: ResponseCache<AddressListTransportTypes>
   requester!: Requester
@@ -18,20 +21,20 @@ export class AddressDebugTransport extends BaseAddressListTransport {
   async initialize(
     dependencies: TransportDependencies<AddressListTransportTypes>,
     adapterSettings: AddressListTransportTypes['Settings'],
-    endpointName: string,
+    _endpointName: string,
     transportName: string,
   ): Promise<void> {
-    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
+    this.responseCache = dependencies.responseCache
     this.settings = adapterSettings
+    this.name = transportName
   }
 
-  async backgroundHandler(
-    context: EndpointContext<AddressListTransportTypes>,
-    entries: RequestParams[],
-  ) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  async foregroundExecute(
+    req: AdapterRequest<typeof inputParameters.validated>,
+  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+    const entries = req.requestContext.data
+    return await this.handleRequest(entries)
   }
 
   async handleRequest(param: RequestParams) {
@@ -51,13 +54,13 @@ export class AddressDebugTransport extends BaseAddressListTransport {
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
+    return response
   }
 
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    return this.getAggregatedAddressList(param)
+    return getAggregatedAddressList(param, this.requester, this.settings)
   }
 }
 
