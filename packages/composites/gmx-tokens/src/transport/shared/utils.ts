@@ -44,10 +44,6 @@ export interface Market {
   isListed: boolean
 }
 
-export function mapSymbol(address: string, symbolMap: Record<string, any>) {
-  return symbolMap[address]
-}
-
 export const unwrapAsset = (asset: string): string => {
   if (asset === 'WBTC.b' || asset === 'stBTC') {
     return 'BTC'
@@ -59,4 +55,14 @@ export const unwrapAsset = (asset: string): string => {
     return 'USDC'
   }
   return asset
+}
+
+export const dedupeAssets = <T extends { symbol: string }>(tokens: T[]): T[] => {
+  const unique = new Map<string, T>()
+  tokens.forEach((token) => {
+    if (!unique.has(token.symbol)) {
+      unique.set(token.symbol, token)
+    }
+  })
+  return Array.from(unique.values())
 }

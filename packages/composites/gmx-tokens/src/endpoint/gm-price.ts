@@ -4,6 +4,7 @@ import { config } from '../config'
 import { gmTokenTransport } from '../transport/gm-price'
 
 export const CHAIN_OPTIONS = ['arbitrum', 'botanix', 'avalanche'] as const
+export const DEFAULT_CHAIN = 'arbitrum' as const satisfies (typeof CHAIN_OPTIONS)[number]
 
 export const gmPriceInputParameters = new InputParameters(
   {

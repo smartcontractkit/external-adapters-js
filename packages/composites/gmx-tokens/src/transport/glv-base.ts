@@ -1,4 +1,3 @@
-import { getCryptoPrice } from '@chainlink/data-engine-adapter'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -11,29 +10,16 @@ import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
 import { GlvLwbaEndpointTypes } from '../endpoint/glv-lwba'
 import { GlvPriceEndpointTypes } from '../endpoint/glv-price'
-import { dataStreamIdKey } from './gmx-keys'
-import {
-  mapSymbol,
-  Market,
-  median,
-  PriceData,
-  SIGNED_PRICE_DECIMALS,
-  toFixed,
-  Token,
-  toNumFromDS,
-} from './utils'
+import { ChainKey } from '../endpoint/gm-price'
+import { ChainContextFactory } from './shared/chain'
+import { GmxClient, resolveFeedId } from './shared/gmx-client'
+import { fetchTokenPrices } from './shared/token-prices'
+import { dedupeAssets, median, PriceData, SIGNED_PRICE_DECIMALS, toFixed } from './shared/utils'
 
 const logger = makeLogger('GmxTokensGlvBase')
 
-interface GlvInformation {
-  glvToken: string
-  longToken: Token
-  shortToken: Token
-  markets: Record<string, Market>
-}
-
 export type GlvTransportParams<T extends GlvPriceEndpointTypes | GlvLwbaEndpointTypes> =
-  TypeFromDefinition<T['Parameters']> & { glv: string }
+  TypeFromDefinition<T['Parameters']> & { glv: string; chain?: ChainKey }
 
 export abstract class BaseGlvTransport<
   T extends GlvPriceEndpointTypes | GlvLwbaEndpointTypes,
@@ -60,15 +46,9 @@ export abstract class BaseGlvTransport<
   name!: string
   responseCache!: ResponseCache<T>
   requester!: Requester
-  provider!: ethers.JsonRpcProvider
-  glvReaderContract!: ethers.Contract
-  dataStoreContract!: ethers.Contract
   settings!: T['Settings']
-
-  tokensMap: Record<string, Token> = {}
-  marketsMap: Record<string, Market> = {}
-  decimals: Record<string, number> = {}
-  symbolToAddressMap: Record<string, string> = {}
+  metadataClient!: GmxClient
+  private chainContext!: ChainContextFactory
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -78,122 +58,61 @@ export abstract class BaseGlvTransport<
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.settings = adapterSettings
-    this.provider = new ethers.JsonRpcProvider(
-      adapterSettings.ARBITRUM_RPC_URL,
-      adapterSettings.ARBITRUM_CHAIN_ID,
-    )
+    this.chainContext = new ChainContextFactory(adapterSettings)
     this.requester = dependencies.requester
-
-    this.glvReaderContract = new ethers.Contract(
-      adapterSettings.GLV_READER_CONTRACT_ADDRESS,
-      glvAbi,
-      this.provider,
-    )
-    this.dataStoreContract = new ethers.Contract(
-      adapterSettings.DATASTORE_CONTRACT_ADDRESS,
-      ['function getBytes32(bytes32 key) view returns (bytes32)'],
-      this.provider,
-    )
-    await this.tokenInfo()
-    await this.marketInfo()
-
-    if (this.settings.METADATA_REFRESH_INTERVAL_MS > 0) {
-      setInterval(() => {
-        this.tokenInfo()
-        this.marketInfo()
-      }, this.settings.METADATA_REFRESH_INTERVAL_MS)
-    }
-  }
-
-  async tokenInfo() {
-    const requestConfig = {
-      url: this.settings.TOKEN_INFO_API,
-      method: 'GET',
-      timeout: this.settings.GLV_INFO_API_TIMEOUT_MS,
-    }
-
-    logger.info('Fetching token info')
-    const response = await this.requester.request<{ tokens: Token[] }>(
-      JSON.stringify(requestConfig),
-      requestConfig,
-    )
-
-    const data: Token[] = response.response.data.tokens
-    data.map((token) => {
-      this.tokensMap[token.address] = token
-      this.decimals[token.symbol] = token.decimals
-      this.symbolToAddressMap[token.symbol] = token.address
-    })
-  }
-
-  async marketInfo() {
-    const requestConfig = {
-      url: this.settings.MARKET_INFO_API,
-      method: 'GET',
-      timeout: this.settings.GLV_INFO_API_TIMEOUT_MS,
-    }
-
-    logger.info('Fetching market info')
-    const response = await this.requester.request<{ markets: Market[] }>(
-      JSON.stringify(requestConfig),
-      requestConfig,
-    )
-
-    const data: Market[] = response.response.data.markets
-    data.map((market) => {
-      this.marketsMap[market.marketToken] = market
-    })
+    this.metadataClient = new GmxClient(this.requester, adapterSettings)
   }
 
   async _handleRequest(param: GlvTransportParams<T>): Promise<AdapterResponse<T['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const glv_address = param.glv
+    const chain = param.chain as ChainKey
+    const glv_address = param.glv.toLowerCase()
 
-    const glvInfo = await this.glvReaderContract.getGlvInfo(
-      this.settings.DATASTORE_CONTRACT_ADDRESS,
-      glv_address,
+    const dataStoreAddress = this.chainContext.getDataStoreAddress(chain)
+    const glvReaderContract = this.chainContext.getGlvReaderContract(chain, glvAbi)
+    const glvInfo = await glvReaderContract.getGlvInfo(dataStoreAddress, glv_address)
+
+    const [longToken, shortToken] = await Promise.all([
+      this.metadataClient.getTokenByAddress(glvInfo.glv.longToken, chain),
+      this.metadataClient.getTokenByAddress(glvInfo.glv.shortToken, chain),
+    ])
+    const glvMarkets = await Promise.all(
+      glvInfo.markets.map((marketToken: string) =>
+        this.metadataClient.getMarketByToken(marketToken, chain),
+      ),
     )
+    const indexTokens = await Promise.all(
+      glvMarkets.map((market) => this.metadataClient.getTokenByAddress(market.indexToken, chain)),
+    )
+    const assets = dedupeAssets([
+      { symbol: longToken.symbol, decimals: longToken.decimals, address: longToken.address },
+      { symbol: shortToken.symbol, decimals: shortToken.decimals, address: shortToken.address },
+      ...indexTokens.map((token) => ({
+        symbol: token.symbol,
+        decimals: token.decimals,
+        address: token.address,
+      })),
+    ])
 
-    const glv: GlvInformation = {
-      glvToken: glvInfo.glv.glvToken,
-      longToken: mapSymbol(glvInfo.glv.longToken, this.tokensMap),
-      shortToken: mapSymbol(glvInfo.glv.shortToken, this.tokensMap),
-      markets: {},
-    }
+    const priceResult = await this.fetchPrices(assets, providerDataRequestedUnixMs, chain)
 
-    for (let i = 0; i < glvInfo.markets.length; i++) {
-      glv.markets[glvInfo.markets[i]] = mapSymbol(glvInfo.markets[i], this.marketsMap)
-    }
-
-    const assets: Array<string> = [glv.longToken.symbol, glv.shortToken.symbol]
-    Object.keys(glv.markets).forEach((m) => {
-      assets.push(mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol)
-    })
-
-    assets.sort()
-    const priceResult = await this.fetchPrices([...new Set(assets)], providerDataRequestedUnixMs)
-
-    const indexTokensPrices: Array<string | number>[] = []
-    Object.keys(glv.markets).forEach((m) => {
-      const symbol = mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol
-      indexTokensPrices.push([priceResult.prices[symbol].bid, priceResult.prices[symbol].ask])
+    const indexTokensPrices: Array<string | number>[] = indexTokens.map((token) => {
+      const prices = priceResult.prices[token.symbol]
+      return [prices.bid, prices.ask]
     })
 
     const glvTokenPriceContractParams = [
-      this.settings.DATASTORE_CONTRACT_ADDRESS,
-      Array.from(glvInfo.markets),
+      dataStoreAddress,
+      glvMarkets.map((market) => market.marketToken),
       indexTokensPrices.map(([a, b]) => [a, b]),
-      [priceResult.prices[glv.longToken.symbol].bid, priceResult.prices[glv.longToken.symbol].ask],
-      [
-        priceResult.prices[glv.shortToken.symbol].bid,
-        priceResult.prices[glv.shortToken.symbol].ask,
-      ],
+      [priceResult.prices[longToken.symbol].bid, priceResult.prices[longToken.symbol].ask],
+      [priceResult.prices[shortToken.symbol].bid, priceResult.prices[shortToken.symbol].ask],
       glv_address,
     ]
 
     const [[maximizedPriceRaw], [minimizedPriceRaw]] = await Promise.all([
-      this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, true),
-      this.glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
+      glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, true),
+      glvReaderContract.getGlvTokenPrice(...glvTokenPriceContractParams, false),
     ])
 
     const maximizedPrice = Number(ethers.formatUnits(maximizedPriceRaw, SIGNED_PRICE_DECIMALS))
@@ -215,85 +134,66 @@ export abstract class BaseGlvTransport<
     )
   }
 
-  private async getFeedId(token: string, dataRequestedTimestamp: number): Promise<string> {
-    const tokenAddress = this.symbolToAddressMap[token]
-    if (!tokenAddress) {
-      throw new AdapterDataProviderError(
-        { statusCode: 400, message: `Unknown token symbol '${token}'` },
-        {
-          providerDataRequestedUnixMs: dataRequestedTimestamp,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      )
-    }
-    const key = dataStreamIdKey(tokenAddress)
-    const feedId = await this.dataStoreContract.getBytes32(key)
-    if (feedId === ethers.ZeroHash) {
-      throw new AdapterDataProviderError(
-        {
-          statusCode: 502,
-          message: `Feed ID not set in datastore for token '${token}'`,
-        },
-        {
-          providerDataRequestedUnixMs: dataRequestedTimestamp,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      )
-    }
-    return feedId
+  private async resolveFeedIds(
+    assets: Array<{ symbol: string; address: string }>,
+    chain: ChainKey,
+    dataRequestedTimestamp: number,
+  ) {
+    const dataStoreContract = this.chainContext.getDataStore(chain)
+    const entries = await Promise.all(
+      assets.map(
+        async (token) =>
+          [
+            token.symbol,
+            await resolveFeedId({
+              dataStoreContract,
+              tokenAddress: token.address,
+              tokenSymbol: token.symbol,
+              dataRequestedTimestamp,
+            }),
+          ] as const,
+      ),
+    )
+    return Object.fromEntries(entries)
   }
 
-  private async fetchPrices(assets: string[], dataRequestedTimestamp: number) {
-    const priceData = {} as PriceData
-
-    const source = { url: this.settings.DATA_ENGINE_ADAPTER_URL, name: 'data-engine' }
-
-    if (!source.url) {
-      throw new Error('DATA_ENGINE_ADAPTER_URL must be set')
-    }
-
-    const priceProviders: Record<string, string[]> = {}
-    await Promise.all(
-      assets.map(async (asset) => {
-        const feedId = await this.getFeedId(asset, dataRequestedTimestamp)
-
-        try {
-          const { bid, ask, decimals } = await getCryptoPrice(feedId, source.url!, this.requester)
-
-          const bidNum = toNumFromDS(bid, decimals)
-          const askNum = toNumFromDS(ask, decimals)
-          priceData[asset] = priceData[asset] || { bids: [], asks: [] }
-          priceData[asset].bids.push(bidNum)
-          priceData[asset].asks.push(askNum)
-
-          priceProviders[asset] = priceProviders[asset]
-            ? [...new Set([...priceProviders[asset], source.name])]
-            : [source.name]
-        } catch (error) {
-          const e = error as Error
-          logger.error(
-            `Error fetching data for ${asset} from ${source.name}, url - ${source.url}: ${e.message}`,
-          )
-        }
-      }),
-    )
+  private async fetchPrices(
+    assets: Array<{ symbol: string; decimals: number; address: string }>,
+    dataRequestedTimestamp: number,
+    chain: ChainKey,
+  ) {
+    const feedIds = await this.resolveFeedIds(assets, chain, dataRequestedTimestamp)
+    const dataEngineUrl = this.settings.DATA_ENGINE_ADAPTER_URL
+    const { priceData, priceProviders } = await fetchTokenPrices({
+      assets: assets.map((token) => ({
+        key: token.symbol,
+        feedId: feedIds[token.symbol],
+      })),
+      requester: this.requester,
+      dataEngineUrl,
+      onError: (asset, error) =>
+        logger.error(
+          `Error fetching data for ${asset} from data-engine, url - ${dataEngineUrl}: ${error.message}`,
+        ),
+    })
 
     this.validateRequiredResponses(priceProviders, dataRequestedTimestamp)
 
-    const medianValues = this.calculateMedian(assets, priceData)
+    const medianValues = this.calculateMedian(
+      assets.map((token) => token.symbol),
+      priceData,
+    )
 
     const prices: Record<string, Record<string, string | number>> = {}
-
     medianValues.forEach((v) => {
-      if (this.decimals[v.asset as keyof typeof this.decimals] == null) {
-        logger.error(`No decimals found for asset ${v.asset}`)
+      const token = assets.find((asset) => asset.symbol === v.asset)
+      if (!token) {
+        throw new Error(`Missing metadata for asset '${v.asset}'`)
       }
       prices[v.asset] = {
         ...v,
-        ask: toFixed(v.ask, this.decimals[v.asset as keyof typeof this.decimals]),
-        bid: toFixed(v.bid, this.decimals[v.asset as keyof typeof this.decimals]),
+        ask: toFixed(v.ask, token.decimals),
+        bid: toFixed(v.bid, token.decimals),
       }
     })
 

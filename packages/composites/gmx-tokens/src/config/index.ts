@@ -45,13 +45,12 @@ export const config = new AdapterConfig(
     BOTANIX_DATASTORE_CONTRACT_ADDRESS: {
       description: 'Address of Data Store contract on Botanix',
       type: 'string',
-      required: true,
       default: '0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d',
     },
     AVALANCHE_DATASTORE_CONTRACT_ADDRESS: {
       description: 'Address of Data Store contract on Avalanche',
       type: 'string',
-      default: '',
+      default: '0x2F0b22339414ADeD7D5F06f9D604c7fF5b2fe3f6',
     },
     READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Arbitrum',
@@ -62,19 +61,28 @@ export const config = new AdapterConfig(
     BOTANIX_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Botanix',
       type: 'string',
-      required: true,
       default: '0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E',
     },
     AVALANCHE_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Avalanche',
       type: 'string',
-      default: '',
+      default: '0x62Cb8740E6986B29dC671B2EB596676f60590A5B',
     },
     GLV_READER_CONTRACT_ADDRESS: {
-      description: 'Address of Glv Reader Contract',
+      description: 'Address of GLV Reader contract on Arbitrum',
       type: 'string',
       required: true,
       default: '0x2C670A23f1E798184647288072e84054938B5497',
+    },
+    BOTANIX_GLV_READER_CONTRACT_ADDRESS: {
+      description: 'Address of GLV Reader contract on Botanix',
+      type: 'string',
+      default: '0x955Aa50d2ecCeffa59084BE5e875eb676FfAFa98',
+    },
+    AVALANCHE_GLV_READER_CONTRACT_ADDRESS: {
+      description: 'Address of GLV Reader contract on Avalanche',
+      type: 'string',
+      default: '0x5C6905A3002f989E1625910ba1793d40a031f947',
     },
     ARBITRUM_TOKENS_INFO_URL: {
       description: 'URL to token metadata supported by GMX on Arbitrum',
@@ -85,7 +93,6 @@ export const config = new AdapterConfig(
     BOTANIX_TOKENS_INFO_URL: {
       description: 'URL to token metadata supported by GMX on Botanix',
       type: 'string',
-      required: true,
       default: 'https://botanix-api.gmxinfra.io/tokens',
     },
     AVALANCHE_TOKENS_INFO_URL: {
@@ -107,18 +114,6 @@ export const config = new AdapterConfig(
       description: 'URL to market metadata supported by GMX on Avalanche',
       type: 'string',
       default: 'https://avalanche-api.gmxinfra.io/markets',
-    },
-    TOKEN_INFO_API: {
-      description: 'URL to token meta data supported by Glv',
-      type: 'string',
-      required: true,
-      default: 'https://arbitrum-api.gmxinfra.io/tokens',
-    },
-    MARKET_INFO_API: {
-      description: 'URL market meta data supported by Glv',
-      type: 'string',
-      required: true,
-      default: 'https://arbitrum-api.gmxinfra.io/markets',
     },
     GLV_INFO_API_TIMEOUT_MS: {
       description:
