@@ -63,7 +63,6 @@ async function fetchSourceAddresses(
       const adapterUrl = `${sourceName.toUpperCase()}_ADAPTER_URL` as keyof typeof settings
       const requestConfig = {
         url: settings[adapterUrl] as string,
-        // url: process.env(adapterUrl)
         method: 'POST',
         data: {
           data: {
