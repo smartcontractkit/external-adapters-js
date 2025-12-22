@@ -12,6 +12,11 @@ export const config = new AdapterConfig({
     type: 'string',
     sensitive: true,
   },
+  COLLATERAL_API_ENDPOINT: {
+    description: 'An API endpoint for Anchorage collateral_management endpoints',
+    type: 'string',
+    default: 'https://api.anchorage.com',
+  },
   API_LIMIT: {
     description: 'The maximum number of results to request from the API',
     type: 'number',

@@ -114,20 +114,39 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           ]
         }
 
-        const bid = Number(bidInfo.Px)
-        const ask = Number(askInfo.Px)
-        const result = (bid + ask) / 2
+        const bidPrice = Number(bidInfo.Px)
+        const askPrice = Number(askInfo.Px)
+        const bidVolume = Number(bidInfo.Vol)
+        const askVolume = Number(askInfo.Vol)
+
+        const mid = (bidPrice + askPrice) / 2
+
+        let lwMidPrice: number
+        if (bidPrice == 0) {
+          lwMidPrice = askPrice
+        } else if (askPrice == 0) {
+          lwMidPrice = bidPrice
+        } else {
+          lwMidPrice = mid
+        }
 
         return [
           {
             params: { base: pair.base, quote: pair.quote },
             response: {
-              result,
+              result: mid,
               data: {
-                result,
-                bid,
-                mid: result,
-                ask,
+                // Simple average
+                result: mid,
+                bid: bidPrice,
+                mid,
+                ask: askPrice,
+                // Liquidity weighted
+                mid_price: lwMidPrice,
+                bid_price: bidPrice,
+                bid_volume: bidVolume,
+                ask_price: askPrice,
+                ask_volume: askVolume,
               },
               timestamps: {
                 providerIndicatedTimeUnixMs: parseDate(message.SendTime),

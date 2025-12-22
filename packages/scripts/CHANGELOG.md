@@ -1,5 +1,39 @@
 # @chainlink/ea-scripts
 
+## 2.9.1
+
+### Patch Changes
+
+- [#4373](https://github.com/smartcontractkit/external-adapters-js/pull/4373) [`deb06e8`](https://github.com/smartcontractkit/external-adapters-js/commit/deb06e8d440b818b74c9874639c6956017948a7f) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete defi-dozen EA
+
+- [#4392](https://github.com/smartcontractkit/external-adapters-js/pull/4392) [`69b7716`](https://github.com/smartcontractkit/external-adapters-js/commit/69b7716bfe0d08866f1bed52cfa7b60a3e533cdc) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete outlier-detection EA
+
+- [#4374](https://github.com/smartcontractkit/external-adapters-js/pull/4374) [`515bc3a`](https://github.com/smartcontractkit/external-adapters-js/commit/515bc3adbff56b02af07fc0e1a5486496642a5e5) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete dxdao EA
+
+- [#4420](https://github.com/smartcontractkit/external-adapters-js/pull/4420) [`8c6c5a3`](https://github.com/smartcontractkit/external-adapters-js/commit/8c6c5a3e702a77208d89b87d6f22bb39439b3e3f) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete linear-finance EA
+
+- [#4391](https://github.com/smartcontractkit/external-adapters-js/pull/4391) [`8ff178e`](https://github.com/smartcontractkit/external-adapters-js/commit/8ff178e986df91b3b67581cc536a862434456440) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete lition EA
+
+- [#4410](https://github.com/smartcontractkit/external-adapters-js/pull/4410) [`41f24be`](https://github.com/smartcontractkit/external-adapters-js/commit/41f24be798bab1508f30170266e569fb3ec4c2ae) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete alphachain EA
+
+- [#4429](https://github.com/smartcontractkit/external-adapters-js/pull/4429) [`660f198`](https://github.com/smartcontractkit/external-adapters-js/commit/660f1989e792c393e27336c784d3f43c98bb0691) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Update readme
+
+- [#4395](https://github.com/smartcontractkit/external-adapters-js/pull/4395) [`671dd24`](https://github.com/smartcontractkit/external-adapters-js/commit/671dd244eaed39b85276b4865bf983cfbe65df0f) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete vesper EA
+
+- [#4411](https://github.com/smartcontractkit/external-adapters-js/pull/4411) [`4fd5454`](https://github.com/smartcontractkit/external-adapters-js/commit/4fd545449003328c59ef707f3e24481b3d13b665) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete apy-finance EA
+
+## 2.9.0
+
+### Minor Changes
+
+- [#4278](https://github.com/smartcontractkit/external-adapters-js/pull/4278) [`393e7b4`](https://github.com/smartcontractkit/external-adapters-js/commit/393e7b4377c12264b8e4a0a79c4fedd72b8d8cd9) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete Soak test and related code
+
+### Patch Changes
+
+- [#4245](https://github.com/smartcontractkit/external-adapters-js/pull/4245) [`f775358`](https://github.com/smartcontractkit/external-adapters-js/commit/f775358468649d81bd0b270a974b4e3116f08572) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused jpegd EA
+
+- [#4275](https://github.com/smartcontractkit/external-adapters-js/pull/4275) [`76b4953`](https://github.com/smartcontractkit/external-adapters-js/commit/76b49533c0d5222454c8802d6dbb9e0db63e26d4) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete cryptoapis-v2 EA
+
 ## 2.8.11
 
 ### Patch Changes

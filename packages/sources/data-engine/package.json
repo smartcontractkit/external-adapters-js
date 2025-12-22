@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/data-engine-adapter",
-  "version": "1.0.4",
+  "version": "1.1.1",
   "description": "Chainlink data-engine adapter.",
   "keywords": [
     "Chainlink",
@@ -36,8 +36,8 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/data-streams-sdk": "^1.0.4",
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/data-streams-sdk": "1.2.0",
+    "@chainlink/external-adapter-framework": "2.11.1",
     "tslib": "2.4.1"
   }
 }

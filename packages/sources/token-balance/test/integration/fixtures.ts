@@ -1,11 +1,197 @@
+import { ethers } from 'ethers'
 import nock from 'nock'
+import EigenPodManager from '../../src/config/EigenPodManager.json'
 
-type JsonRpcPayload = {
+export type JsonRpcPayload = {
   id: number
   method: string
   params: Array<{ to: string; data: string }>
   jsonrpc: '2.0'
 }
+
+export type EtherFiRpcResponseConfig = {
+  splitMainBalance: bigint
+  strategyShares: bigint
+  convertedBalance: bigint
+  queuedShares?: bigint[][]
+}
+
+export type EtherFiRpcMockOptions = {
+  onRequest?: (requests: JsonRpcPayload[]) => void
+  onSharesToUnderlyingCall?: (data: string) => void
+}
+
+const splitMainInterface = new ethers.Interface([
+  'function getETHBalance(address account) view returns (uint256)',
+])
+const eigenStrategyInterface = new ethers.Interface([
+  'function shares(address user) view returns (uint256)',
+  'function sharesToUnderlyingView(uint256 amountShares) view returns (uint256)',
+])
+
+const eigenPodManagerInterface = new ethers.Interface(EigenPodManager as ethers.InterfaceAbi)
+
+export const ETHERFI_TEST_PARAMS = {
+  splitMain: '0x2ed6c4b5da6378c7897ac67ba9e43102feb694ee',
+  splitMainAccount: '0xf00baa0000000000000000000000000000000001',
+  eigenStrategy: '0x93c4b944d05dfe6df7645a86cd2206016c51564d',
+  eigenStrategyUser: '0x1ffab368bb0a2b55c643fbef847c881c6f7f5f01',
+  eigenPodManager: '0x39052978723eb8d29c7ae967d0a95aebf71737a7',
+} as const
+
+const formatUint256 = (value: bigint) => ethers.toBeHex(value, 32)
+const encodeQueuedWithdrawals = (shares: bigint[][]) =>
+  eigenPodManagerInterface.encodeFunctionResult('getQueuedWithdrawals', [
+    [
+      {
+        staker: '0x0000000000000000000000000000000000000000',
+        delegatedTo: '0x0000000000000000000000000000000000000000',
+        withdrawer: '0x0000000000000000000000000000000000000000',
+        nonce: 0n,
+        startBlock: 0,
+        strategies: [],
+        scaledShares: [],
+      },
+    ],
+    shares,
+  ])
+
+const sumQueuedShares = (shares: bigint[][]) =>
+  shares.reduce((outerAcc, subset) => {
+    const subsetTotal = subset.reduce((innerAcc, current) => innerAcc + current, 0n)
+    return outerAcc + subsetTotal
+  }, 0n)
+
+const createEtherFiRpcMock = (
+  {
+    splitMainBalance,
+    strategyShares,
+    convertedBalance,
+    queuedShares = [],
+  }: EtherFiRpcResponseConfig,
+  { onRequest, onSharesToUnderlyingCall }: EtherFiRpcMockOptions = {},
+): nock.Scope => {
+  const splitMainCallData = splitMainInterface.encodeFunctionData('getETHBalance', [
+    ETHERFI_TEST_PARAMS.splitMainAccount,
+  ])
+  const sharesCallData = eigenStrategyInterface.encodeFunctionData('shares', [
+    ETHERFI_TEST_PARAMS.eigenStrategyUser,
+  ])
+  const totalShares = strategyShares + sumQueuedShares(queuedShares)
+  const sharesToUnderlyingCallData = eigenStrategyInterface.encodeFunctionData(
+    'sharesToUnderlyingView',
+    [totalShares],
+  )
+  const queuedWithdrawalResult = encodeQueuedWithdrawals(queuedShares)
+
+  const buildResponse = (request: JsonRpcPayload) => {
+    const method = request.method
+    if (method === 'eth_chainId') {
+      return {
+        jsonrpc: '2.0',
+        id: request.id,
+        result: '0x1',
+      }
+    }
+
+    if (method === 'eth_call') {
+      const target = request.params[0].to.toLowerCase()
+      const data = request.params[0].data
+
+      if (target === ETHERFI_TEST_PARAMS.splitMain.toLowerCase() && data === splitMainCallData) {
+        return {
+          jsonrpc: '2.0',
+          id: request.id,
+          result: formatUint256(splitMainBalance),
+        }
+      }
+
+      if (target === ETHERFI_TEST_PARAMS.eigenStrategy.toLowerCase() && data === sharesCallData) {
+        return {
+          jsonrpc: '2.0',
+          id: request.id,
+          result: formatUint256(strategyShares),
+        }
+      }
+
+      if (
+        target === ETHERFI_TEST_PARAMS.eigenStrategy.toLowerCase() &&
+        data === sharesToUnderlyingCallData
+      ) {
+        onSharesToUnderlyingCall?.(data)
+        return {
+          jsonrpc: '2.0',
+          id: request.id,
+          result: formatUint256(convertedBalance),
+        }
+      }
+
+      const eigenPodManagerCallData = eigenPodManagerInterface.encodeFunctionData(
+        'getQueuedWithdrawals',
+        [ETHERFI_TEST_PARAMS.eigenStrategyUser],
+      )
+      if (
+        target === ETHERFI_TEST_PARAMS.eigenPodManager.toLowerCase() &&
+        data === eigenPodManagerCallData
+      ) {
+        return {
+          jsonrpc: '2.0',
+          id: request.id,
+          result: queuedWithdrawalResult,
+        }
+      }
+    }
+
+    return {
+      jsonrpc: '2.0',
+      id: request.id,
+      error: { code: -32601, message: 'Method not found' },
+    }
+  }
+
+  return nock('http://localhost-eth-mainnet:8080', {})
+    .post('/', () => true)
+    .reply(
+      200,
+      (_uri, requestBody: any) => {
+        const requests = Array.isArray(requestBody) ? requestBody : [requestBody]
+        const responses = requests.map((request: JsonRpcPayload) => buildResponse(request))
+        onRequest?.(requests)
+        return Array.isArray(requestBody) ? responses : responses[0]
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()
+}
+
+export const ETHERFI_SUCCESS_NO_QUEUED_CONFIG: EtherFiRpcResponseConfig = {
+  splitMainBalance: 1_000_000_000_000_000_000n,
+  strategyShares: 250_000_000_000_000_000n,
+  convertedBalance: 3_500_000_000_000_000_000n,
+  queuedShares: [],
+}
+
+export const ETHERFI_SUCCESS_WITH_QUEUED_CONFIG: EtherFiRpcResponseConfig = {
+  splitMainBalance: 0n,
+  strategyShares: 50n,
+  convertedBalance: 12_345n,
+  queuedShares: [[5n, 10n], [2n]],
+}
+
+export const mockEtherFiSuccessNoQueued = (options?: EtherFiRpcMockOptions): nock.Scope =>
+  createEtherFiRpcMock(ETHERFI_SUCCESS_NO_QUEUED_CONFIG, options)
+
+export const mockEtherFiSuccessWithQueued = (options?: EtherFiRpcMockOptions): nock.Scope =>
+  createEtherFiRpcMock(ETHERFI_SUCCESS_WITH_QUEUED_CONFIG, options)
 
 export const mockETHMainnetContractCallResponseSuccess = (): nock.Scope =>
   nock('http://localhost-eth-mainnet:8080', {})
@@ -339,6 +525,71 @@ export const mockXrpResponseSuccess = (): nock.Scope =>
             allowTrustLineClawback: false,
           },
           status: 'success',
+        },
+      },
+      [
+        'Date',
+        'Wed, 14 May 2025 13:00:06 GMT',
+        'Content-Type',
+        'application/json; charset=UTF-8',
+        'Content-Length',
+        '444',
+        'Connection',
+        'keep-alive',
+        'nel',
+        '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}',
+        'x-kong-upstream-latency',
+        '3',
+        'x-kong-proxy-latency',
+        '1',
+        'via',
+        'kong/3.4.0',
+        'cf-cache-status',
+        'DYNAMIC',
+        'report-to',
+        '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=W2C1dDN5VsyGgu6eSLNm74YaGLBWjASjNyCy3BQVTxAgPjWM9LBCaxZtWqLWP7XitG%2B0rUqCxqWliq3G%2FkEL6u8JW6dnWy6nhLU3P8a9NNs0%2FF1PrYlnsyEsDqWa35qHikiBJsoIU1ZrZ3izVA%2FPLPMCdw%3D%3D"}]}',
+        'cf-ray',
+        '93fa939bcbb0fef1-PDX',
+        'alt-svc',
+        'h3=":443"; ma=86400',
+        'x-rpc-provider',
+        'simplyvc1',
+      ],
+    )
+    .persist()
+
+export const mockStellarResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-stellar:8080', { encodedQueryParams: true })
+    .persist()
+    .post('/', {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'getLedgerEntries',
+      params: {
+        keys: [
+          'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCg==',
+          'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQ==',
+        ],
+      },
+    })
+    .reply(
+      200,
+      {
+        result: {
+          entries: [
+            {
+              key: 'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCg==',
+              xdr: 'AAAAAAAAAABziXLsMRsuIgKWk6j+9AY1VMp7qz2sjkLXEubgEpdYCgAAOkPp9KUnA2IfqAAAAAsAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAOVF1kAAAAAaS2dTA==',
+              lastModifiedLedgerSeq: 60102494,
+              extXdr: 'AAAAAA==',
+            },
+            {
+              key: 'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQ==',
+              xdr: 'AAAAAAAAAAB5JNQfUAo8pLWciV1i2cg3UgGnOrdpJid2ry0YeEiNZQAAAAAX14OcAgdV6gAACjgAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAADAAAAAAOVRdcAAAAAaS6kuw==',
+              lastModifiedLedgerSeq: 60114391,
+              extXdr: 'AAAAAA==',
+            },
+          ],
         },
       },
       [

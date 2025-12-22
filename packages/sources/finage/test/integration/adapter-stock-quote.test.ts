@@ -17,6 +17,10 @@ describe('stock quotes websocket', () => {
     endpoint: 'stock_quotes',
     base: 'AAPL',
   }
+  const dataNumber = {
+    endpoint: 'stock_quotes',
+    base: 'AAPL_NUMBER',
+  }
   const fallBackData = {
     endpoint: 'stock_quotes',
     base: 'FALLBACK',
@@ -40,8 +44,9 @@ describe('stock quotes websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(data)
+    await testAdapter.request(dataNumber)
     await testAdapter.request(fallBackData)
-    await testAdapter.waitForCache(2)
+    await testAdapter.waitForCache(5)
   })
 
   afterAll(async () => {
@@ -57,8 +62,29 @@ describe('stock quotes websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return success for number messages', async () => {
+      const response = await testAdapter.request(dataNumber)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('missing a and b fields should fallback', async () => {
       const response = await testAdapter.request(fallBackData)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return bid when ask is 0', async () => {
+      const response = await testAdapter.request({
+        base: 'NO_ASK',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return ask when bid is 0', async () => {
+      const response = await testAdapter.request({
+        base: 'NO_BID',
+        endpoint: 'stock_quotes',
+      })
       expect(response.json()).toMatchSnapshot()
     })
   })

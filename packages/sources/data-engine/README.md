@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -23,9 +23,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                           Options                            |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [rwa-v8](#rwa-v8-endpoint) | `crypto-v3` |
+| Required? |   Name   |     Description     |  Type  |                                                     Options                                                      |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [rwa-v8](#rwa-v8-endpoint) | `crypto-v3` |
 
 ## Crypto-v3 Endpoint
 
@@ -70,6 +70,31 @@ Request:
 {
   "data": {
     "endpoint": "rwa-v8",
+    "feedId": "0x0008707410e2c111fb0e80cab2fa004b215eea2d95b106e700243f9ebcc8fbd9"
+  }
+}
+```
+
+---
+
+## Deutscheboerse-v11 Endpoint
+
+`deutscheboerse-v11` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |  Name  | Aliases |                     Description                     |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----: | :-----: | :-------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | feedId |         | The feedId for Deutsche Boerse feed with v11 schema | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "deutscheboerse-v11",
     "feedId": "0x0008707410e2c111fb0e80cab2fa004b215eea2d95b106e700243f9ebcc8fbd9"
   }
 }

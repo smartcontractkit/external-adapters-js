@@ -126,6 +126,15 @@ export const mockStockWebSocketServer = (URL: string): MockWebsocketServer => {
       dp: false,
       t: 1646154954689,
     },
+    {
+      s: 'MISSING_PRICE',
+      a: 163.58,
+      b: 163.2,
+      c: [37],
+      v: 50,
+      dp: false,
+      t: 1646154954689,
+    },
   ]
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -249,12 +258,36 @@ export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer
       t: 9,
     },
     {
+      s: 'AAPL_NUMBER',
+      a: 5,
+      as: 6,
+      b: 7,
+      bs: 8,
+      t: 9,
+    },
+    {
       s: 'FALLBACK',
       ap: '10',
       as: '11',
       bp: '12',
       bs: '13',
       t: 14,
+    },
+    {
+      s: 'NO_BID',
+      a: '5',
+      as: '6',
+      b: '0',
+      bs: '8',
+      t: 7,
+    },
+    {
+      s: 'NO_ASK',
+      a: '0',
+      as: '6',
+      b: '7',
+      bs: '8',
+      t: 5,
     },
   ]
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })

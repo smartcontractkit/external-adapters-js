@@ -1,11 +1,8 @@
 {
   "blacklist": [
     "ada-balance",
-    "alphachain",
     "alpine",
-    "anchor",
     "anyblock",
-    "apy-finance",
     "augur",
     "anchorage",
     "bitcoin-json-rpc",
@@ -16,10 +13,8 @@
     "coingecko",
     "crypto-volatility-index",
     "curve-3pool",
-    "defi-dozen",
     "defi-pulse",
     "dlc-btc-por",
-    "dxdao",
     "dydx-stark",
     "generic-api",
     "graphql",
@@ -29,9 +24,7 @@
     "implied-price-test",
     "json-rpc",
     "layer2-sequencer-health",
-    "linear-finance",
     "linkpool",
-    "lition",
     "market-closure",
     "medianizer",
     "messari",
@@ -39,7 +32,6 @@
     "nav-generic",
     "onchain",
     "onchain-gas",
-    "outlier-detection",
     "paypal",
     "proof-of-reserves",
     "reduce",
@@ -49,11 +41,11 @@
     "synthetix-debt-pool",
     "the-graph",
     "token-allocation",
-    "vesper",
     "view-function-multi-chain",
     "xsushi-price",
     "coinbase-prime",
     "harris-and-trotter",
-    "nav-consulting"
+    "nav-consulting",
+    "nav-fund-services"
   ]
 }

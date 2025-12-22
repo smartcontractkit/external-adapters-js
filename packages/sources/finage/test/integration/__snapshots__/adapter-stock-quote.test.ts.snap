@@ -7,6 +7,7 @@ exports[`stock quotes websocket stock quotes endpoint missing a and b fields sho
     "ask_volume": 11,
     "bid_price": 12,
     "bid_volume": 13,
+    "mid_price": 11,
   },
   "result": null,
   "statusCode": 200,
@@ -18,6 +19,44 @@ exports[`stock quotes websocket stock quotes endpoint missing a and b fields sho
 }
 `;
 
+exports[`stock quotes websocket stock quotes endpoint should return ask when bid is 0 1`] = `
+{
+  "data": {
+    "ask_price": 5,
+    "ask_volume": 6,
+    "bid_price": 0,
+    "bid_volume": 8,
+    "mid_price": 5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 7,
+  },
+}
+`;
+
+exports[`stock quotes websocket stock quotes endpoint should return bid when ask is 0 1`] = `
+{
+  "data": {
+    "ask_price": 0,
+    "ask_volume": 6,
+    "bid_price": 7,
+    "bid_volume": 8,
+    "mid_price": 7,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 5,
+  },
+}
+`;
+
 exports[`stock quotes websocket stock quotes endpoint should return success 1`] = `
 {
   "data": {
@@ -25,6 +64,26 @@ exports[`stock quotes websocket stock quotes endpoint should return success 1`] 
     "ask_volume": 6,
     "bid_price": 7,
     "bid_volume": 8,
+    "mid_price": 6,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 9,
+  },
+}
+`;
+
+exports[`stock quotes websocket stock quotes endpoint should return success for number messages 1`] = `
+{
+  "data": {
+    "ask_price": 5,
+    "ask_volume": 6,
+    "bid_price": 7,
+    "bid_volume": 8,
+    "mid_price": 6,
   },
   "result": null,
   "statusCode": 200,

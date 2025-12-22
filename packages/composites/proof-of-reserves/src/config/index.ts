@@ -1,13 +1,13 @@
 import { DefaultConfig, Requester, util } from '@chainlink/ea-bootstrap'
 import {
-  adaptersV2 as BalanceAdaptersV2,
-  adaptersV3 as BalanceAdaptersV3,
+  adapterNamesV2 as BalanceAdaptersV2,
+  adapterNamesV3 as BalanceAdaptersV3,
   ETHEREUM_CL_INDEXER,
 } from '../utils/balance'
 import {
   LIST_ADAPTER,
-  adaptersV2 as ProtocolAdaptersV2,
-  adaptersV3 as ProtocolAdaptersV3,
+  adapterNamesV2 as ProtocolAdaptersV2,
+  adapterNamesV3 as ProtocolAdaptersV3,
 } from '../utils/protocol'
 
 export interface Config extends DefaultConfig {
@@ -33,32 +33,32 @@ export const makeOptions = (): Options => {
     protocol: [],
     indexer: [],
   }
-  for (const a of ProtocolAdaptersV2) {
-    const url = util.getURL(a.NAME)
+  for (const a of Object.values(ProtocolAdaptersV2)) {
+    const url = util.getURL(a)
     if (url) {
-      options.protocol.push(a.NAME)
-      options.protocol.push(a.NAME.toLowerCase())
+      options.protocol.push(a)
+      options.protocol.push(a.toLowerCase())
     }
   }
-  for (const a of ProtocolAdaptersV3) {
-    const url = util.getURL(a.name)
+  for (const a of Object.values(ProtocolAdaptersV3)) {
+    const url = util.getURL(a)
     if (url) {
-      options.protocol.push(a.name)
-      options.protocol.push(a.name.toLowerCase())
+      options.protocol.push(a)
+      options.protocol.push(a.toLowerCase())
     }
   }
-  for (const a of BalanceAdaptersV2) {
-    const url = util.getURL(a.NAME)
+  for (const a of Object.values(BalanceAdaptersV2)) {
+    const url = util.getURL(a)
     if (url) {
-      options.indexer.push(a.NAME)
-      options.indexer.push(a.NAME.toLowerCase())
+      options.indexer.push(a)
+      options.indexer.push(a.toLowerCase())
     }
   }
-  for (const a of BalanceAdaptersV3) {
-    const url = util.getURL(a.name)
+  for (const a of Object.values(BalanceAdaptersV3)) {
+    const url = util.getURL(a)
     if (url) {
-      options.indexer.push(a.name)
-      options.indexer.push(a.name.toLowerCase())
+      options.indexer.push(a)
+      options.indexer.push(a.toLowerCase())
     }
   }
   options.protocol.push(LIST_ADAPTER)

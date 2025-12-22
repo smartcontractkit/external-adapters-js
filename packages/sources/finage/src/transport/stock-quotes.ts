@@ -6,12 +6,12 @@ const logger = makeLogger('StockQuotes')
 
 export interface StockQuoteMessage {
   s: string // Symbol
-  a: string // ask_price
-  ap: string // ask_price fallback
-  as: string // ask_volume
-  b: string // bid_price
-  bp: string // bid_price fallback
-  bs: string // bid_volume
+  a: string | number // ask_price
+  ap: string | number // ask_price fallback
+  as: string | number // ask_volume
+  b: string | number // bid_price
+  bp: string | number // bid_price fallback
+  bs: string | number // bid_volume
   t: number // providerIndicatedTime
   status_code: number
   message: string
@@ -23,11 +23,12 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const isValidNumber = (field: string) => field && field.length > 0 && !isNaN(Number(field))
+const isValidNumber = (field: string | number) => field != null && !isNaN(Number(field))
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
-    return `${context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
+    const url = context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT
+    return url.includes('/?token=') ? url : `${url}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
   },
   handlers: {
     message(message) {
@@ -48,16 +49,31 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         return []
       }
 
+      const bidPrice = isValidNumber(message.b) ? Number(message.b) : Number(message.bp)
+      const bidVolume = Number(message.bs)
+      const askPrice = isValidNumber(message.a) ? Number(message.a) : Number(message.ap)
+      const askVolume = Number(message.as)
+
+      let midPrice: number
+      if (bidPrice == 0) {
+        midPrice = askPrice
+      } else if (askPrice == 0) {
+        midPrice = bidPrice
+      } else {
+        midPrice = (askPrice + bidPrice) / 2
+      }
+
       return [
         {
           params: { base: message.s },
           response: {
             result: null,
             data: {
-              bid_price: isValidNumber(message.b) ? Number(message.b) : Number(message.bp),
-              bid_volume: Number(message.bs),
-              ask_price: isValidNumber(message.a) ? Number(message.a) : Number(message.ap),
-              ask_volume: Number(message.as),
+              mid_price: midPrice,
+              bid_price: bidPrice,
+              bid_volume: bidVolume,
+              ask_price: askPrice,
+              ask_volume: askVolume,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: message.t,

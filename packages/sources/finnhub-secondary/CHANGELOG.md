@@ -1,5 +1,35 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 0.5.6
+
+### Patch Changes
+
+- Updated dependencies [[`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e)]:
+  - @chainlink/finnhub-adapter@3.3.2
+
+## 0.5.5
+
+### Patch Changes
+
+- Updated dependencies [[`41f2fa5`](https://github.com/smartcontractkit/external-adapters-js/commit/41f2fa5c81aec7416436c9f9e31ced15e307af7f)]:
+  - @chainlink/finnhub-adapter@3.3.1
+
+## 0.5.4
+
+### Patch Changes
+
+- Updated dependencies [[`7b916bf`](https://github.com/smartcontractkit/external-adapters-js/commit/7b916bf6ab3b69daa0dbb5e043265cc0fd1a262b)]:
+  - @chainlink/finnhub-adapter@3.3.0
+
+## 0.5.3
+
+### Patch Changes
+
+- [#4323](https://github.com/smartcontractkit/external-adapters-js/pull/4323) [`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
+- Updated dependencies [[`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021)]:
+  - @chainlink/finnhub-adapter@3.2.1
+
 ## 0.5.2
 
 ### Patch Changes

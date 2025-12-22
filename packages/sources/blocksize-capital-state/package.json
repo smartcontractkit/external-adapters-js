@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/blocksize-capital-state-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink blocksize-capital-state adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.1",
     "tslib": "2.4.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/anchorage-adapter",
-  "version": "2.0.0",
+  "version": "2.2.0",
   "description": "Chainlink anchorage adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.1",
     "tslib": "2.4.1"
   }
 }

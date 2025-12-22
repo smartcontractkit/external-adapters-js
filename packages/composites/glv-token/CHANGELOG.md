@@ -1,5 +1,20 @@
 # @chainlink/glv-token-adapter
 
+## 2.0.2
+
+### Patch Changes
+
+- [#4379](https://github.com/smartcontractkit/external-adapters-js/pull/4379) [`06afaab`](https://github.com/smartcontractkit/external-adapters-js/commit/06afaab4529058375b99f5db953b05336f182b5a) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework
+
+- Updated dependencies [[`06afaab`](https://github.com/smartcontractkit/external-adapters-js/commit/06afaab4529058375b99f5db953b05336f182b5a), [`611a336`](https://github.com/smartcontractkit/external-adapters-js/commit/611a33634f9e8126de3de0b8fccf8e35966e8794)]:
+  - @chainlink/data-engine-adapter@1.1.1
+
+## 2.0.1
+
+### Patch Changes
+
+- [#4312](https://github.com/smartcontractkit/external-adapters-js/pull/4312) [`7d8e67b`](https://github.com/smartcontractkit/external-adapters-js/commit/7d8e67b958c7bcc998023ed841295ea4c2d81da7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump dependency
+
 ## 2.0.0
 
 ### Major Changes

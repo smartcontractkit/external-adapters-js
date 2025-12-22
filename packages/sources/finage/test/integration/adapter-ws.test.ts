@@ -1,8 +1,9 @@
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import {
@@ -11,7 +12,6 @@ import {
   mockForexWebSocketServer,
   mockStockWebSocketServer,
 } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 describe('websocket', () => {
   let mockWsServerStock: MockWebsocketServer | undefined
   let mockWsServerForex: MockWebsocketServer | undefined
@@ -95,6 +95,14 @@ describe('websocket', () => {
   describe('stock endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(stockData)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('missing price - should return error', async () => {
+      const response = await testAdapter.request({
+        base: 'MISSING_PRICE',
+        transport: 'ws',
+      })
       expect(response.json()).toMatchSnapshot()
     })
   })

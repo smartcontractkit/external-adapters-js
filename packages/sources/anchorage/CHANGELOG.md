@@ -1,5 +1,19 @@
 # @chainlink/anchorage-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#4340](https://github.com/smartcontractkit/external-adapters-js/pull/4340) [`d61b0e6`](https://github.com/smartcontractkit/external-adapters-js/commit/d61b0e699224ea2b393d717f2cfb4376f921444c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Return number instead of string
+
+- [#4348](https://github.com/smartcontractkit/external-adapters-js/pull/4348) [`8720c2a`](https://github.com/smartcontractkit/external-adapters-js/commit/8720c2a6f5c759e9503223c7f39e11a228761f18) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Update EA Framework Version and Integration test Snapshot
+
+## 2.1.0
+
+### Minor Changes
+
+- [#4286](https://github.com/smartcontractkit/external-adapters-js/pull/4286) [`09e5852`](https://github.com/smartcontractkit/external-adapters-js/commit/09e5852033b2eeda6bdb690bede1c974c5576a30) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use different endpoint for COLLATERAL_API
+
 ## 2.0.0
 
 ### Major Changes

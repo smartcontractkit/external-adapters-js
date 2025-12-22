@@ -4,13 +4,13 @@ import { Config } from '../config'
 import { getValidAddresses } from '../utils/addressValidator'
 import {
   ETHEREUM_CL_INDEXER,
-  adaptersV2 as indexerAdaptersV2,
-  adaptersV3 as indexerAdaptersV3,
+  adapterNamesV2 as indexerAdaptersV2,
+  adapterNamesV3 as indexerAdaptersV3,
   runBalanceAdapter,
 } from '../utils/balance'
 import {
-  adaptersV2 as protocolAdaptersV2,
-  adaptersV3 as protocolAdaptersV3,
+  adapterNamesV2 as protocolAdaptersV2,
+  adapterNamesV3 as protocolAdaptersV3,
   runProtocolAdapter,
 } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
@@ -40,10 +40,10 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'The protocol external adapter to use',
     options: [
-      ...protocolAdaptersV2.map(({ NAME }) => NAME.toLowerCase()),
-      ...protocolAdaptersV2.map(({ NAME }) => NAME.toUpperCase()),
-      ...protocolAdaptersV3.map(({ name }) => name.toLowerCase()),
-      ...protocolAdaptersV3.map(({ name }) => name.toUpperCase()),
+      ...Object.values(protocolAdaptersV2).map((name) => name.toLowerCase()),
+      ...Object.values(protocolAdaptersV2).map((name) => name.toUpperCase()),
+      ...Object.values(protocolAdaptersV3).map((name) => name.toLowerCase()),
+      ...Object.values(protocolAdaptersV3).map((name) => name.toUpperCase()),
       'coinbase_prime_eth',
       'COINBASE_PRIME_ETH',
       'list',
@@ -59,10 +59,10 @@ const inputParameters: InputParameters<TInputParameters> = {
     type: 'string',
     description: 'The indexer external adapter to use',
     options: [
-      ...indexerAdaptersV2.map(({ NAME }) => NAME.toLowerCase()),
-      ...indexerAdaptersV2.map(({ NAME }) => NAME.toUpperCase()),
-      ...indexerAdaptersV3.map(({ name }) => name.toLowerCase()),
-      ...indexerAdaptersV3.map(({ name }) => name.toUpperCase()),
+      ...Object.values(indexerAdaptersV2).map((name) => name.toLowerCase()),
+      ...Object.values(indexerAdaptersV2).map((name) => name.toUpperCase()),
+      ...Object.values(indexerAdaptersV3).map((name) => name.toLowerCase()),
+      ...Object.values(indexerAdaptersV3).map((name) => name.toUpperCase()),
       ETHEREUM_CL_INDEXER,
     ],
   },
