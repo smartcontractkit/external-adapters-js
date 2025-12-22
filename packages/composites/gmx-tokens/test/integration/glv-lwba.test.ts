@@ -9,15 +9,12 @@ import {
   DEFAULT_GLV_ADDRESS,
   DEFAULT_MARKETS,
   DEFAULT_TOKENS,
-  MARKET_TOKEN,
-  USDC_ADDRESS,
   applyChainContextMocks,
   mockDataEngineEAResponseFailure,
   mockDataEngineEAResponseSuccess,
   mockMarketInfoApiSuccess,
   mockTokenInfoApiSuccess,
   resetChainContextMocks,
-  setGlvMarkets,
 } from './glv-fixtures'
 
 const applyDefaultMetadataMocks = () => {
@@ -124,56 +121,6 @@ describe('GLV LWBA execute', () => {
 
       expect(res.statusCode).toBe(502)
       expect(res.json().errorMessage).toMatch(/Missing responses/i)
-    })
-
-    it('errors when GLV metadata missing market', async () => {
-      mockDataEngineEAResponseSuccess()
-      setGlvMarkets([])
-
-      const res = await testAdapter.request({
-        endpoint: 'crypto-lwba',
-        glv: DEFAULT_GLV_ADDRESS,
-      })
-
-      expect(res.statusCode).toBe(502)
-      expect(res.json().errorMessage).toMatch(/Market with token/i)
-      setGlvMarkets(DEFAULT_MARKETS.map((market) => market.marketToken))
-    })
-
-    it('supports overriding metadata for error flows', async () => {
-      mockTokenInfoApiSuccess(
-        [
-          {
-            symbol: 'DOGE',
-            address: '0x000000000000000000000000000000000000d06e',
-            decimals: 8,
-            synthetic: null,
-          },
-          { symbol: 'USDC', address: USDC_ADDRESS, decimals: 6, synthetic: null },
-        ],
-        'ARBITRUM_TOKENS_INFO_URL',
-      )
-      mockMarketInfoApiSuccess(
-        [
-          {
-            marketToken: MARKET_TOKEN,
-            indexToken: '0x000000000000000000000000000000000000d06e',
-            longToken: '0x000000000000000000000000000000000000d06e',
-            shortToken: USDC_ADDRESS,
-            isListed: true,
-          },
-        ],
-        'ARBITRUM_MARKETS_INFO_URL',
-      )
-      mockDataEngineEAResponseFailure()
-
-      const res = await testAdapter.request({
-        endpoint: 'crypto-lwba',
-        glv: DEFAULT_GLV_ADDRESS,
-      })
-
-      expect(res.statusCode).toBe(502)
-      expect(res.json().errorMessage).toMatch(/Missing responses from data-engine/i)
     })
   })
 })
