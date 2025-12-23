@@ -24,15 +24,21 @@ export class GlvPriceTransport extends BaseGlvTransport<GlvPriceEndpointTypes> {
 
   protected formatResponse(
     result: number,
-    _minimizedValue: number,
-    _maximizedValue: number,
+    minimizedValue: number,
+    maximizedValue: number,
     sources: Record<string, string[]>,
     timestamps: any,
   ): AdapterResponse<GlvPriceEndpointTypes['Response']> {
     return {
-      data: { result, sources },
+      data: {
+        result: result,
+        mid: result,
+        bid: minimizedValue,
+        ask: maximizedValue,
+        sources,
+      },
       statusCode: 200,
-      result,
+      result: result,
       timestamps,
     }
   }

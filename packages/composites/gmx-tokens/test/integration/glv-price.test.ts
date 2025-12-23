@@ -22,7 +22,7 @@ const applyDefaultMetadataMocks = () => {
   mockMarketInfoApiSuccess(DEFAULT_MARKETS, 'ARBITRUM_MARKETS_INFO_URL')
 }
 
-describe('GLV LWBA execute', () => {
+describe('GLV price execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter<SettingsDefinitionFromConfig<typeof config>>
   let oldEnv: NodeJS.ProcessEnv
@@ -96,8 +96,31 @@ describe('GLV LWBA execute', () => {
     applyDefaultMetadataMocks()
   })
 
-  describe('crypto-lwba endpoint', () => {
-    it('returns success when data engine succeeds', async () => {
+  describe('glv-price endpoint', () => {
+    it('returns success with combined price and LWBA data', async () => {
+      mockDataEngineEAResponseSuccess()
+
+      const res = await testAdapter.request({
+        endpoint: 'glv-price',
+        glv: DEFAULT_GLV_ADDRESS,
+      })
+
+      expect(res.statusCode).toBe(200)
+      const payload = res.json()
+      expect(payload.data).toBeDefined()
+      expect(typeof payload.data.result).toBe('number')
+      expect(typeof payload.data.mid).toBe('number')
+      expect(typeof payload.data.bid).toBe('number')
+      expect(typeof payload.data.ask).toBe('number')
+      expect(Number.isFinite(payload.data.result)).toBe(true)
+      expect(payload.data.result).toBe(payload.data.mid)
+      expect(payload.data.bid).toBeLessThanOrEqual(payload.data.mid)
+      expect(payload.data.ask).toBeGreaterThanOrEqual(payload.data.mid)
+      expect(payload.result).toBe(payload.data.result)
+      expect(res.json()).toMatchSnapshot()
+    })
+
+    it('supports crypto-lwba alias', async () => {
       mockDataEngineEAResponseSuccess()
 
       const res = await testAdapter.request({
@@ -106,16 +129,18 @@ describe('GLV LWBA execute', () => {
       })
 
       expect(res.statusCode).toBe(200)
-      const payload = res.json().data
-      expect(payload.sources).toBeDefined()
-      expect(res.json()).toMatchSnapshot()
+      const payload = res.json()
+      expect(payload.data.result).toBeDefined()
+      expect(payload.data.mid).toBeDefined()
+      expect(payload.data.bid).toBeDefined()
+      expect(payload.data.ask).toBeDefined()
     })
 
     it('bubbles up data-engine failures', async () => {
       mockDataEngineEAResponseFailure()
 
       const res = await testAdapter.request({
-        endpoint: 'crypto-lwba',
+        endpoint: 'glv-price',
         glv: DEFAULT_GLV_ADDRESS,
       })
 

@@ -31,6 +31,10 @@ export type GlvPriceEndpointTypes = {
   Parameters: typeof glvPriceInputParameters.definition
   Response: SingleNumberResultResponse & {
     Data: {
+      result: number
+      mid: number
+      bid: number
+      ask: number
       sources: Record<string, string[]>
     }
   }
@@ -39,7 +43,7 @@ export type GlvPriceEndpointTypes = {
 
 export const glvPriceEndpoint = new AdapterEndpoint({
   name: 'glv-price',
-  aliases: [],
+  aliases: ['crypto-lwba', 'glv-crypto-lwba'],
   transport: glvPriceTransport,
   inputParameters: glvPriceInputParameters,
 })
