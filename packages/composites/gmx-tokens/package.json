@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@chainlink/data-engine-adapter": "workspace:^",
-    "@chainlink/external-adapter-framework": "2.11.4",
+    "@chainlink/external-adapter-framework": "2.11.1",
     "decimal.js": "^10.3.1",
     "ethers": "^6.15.0",
     "tslib": "2.4.1"

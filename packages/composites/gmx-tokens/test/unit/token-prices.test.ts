@@ -6,7 +6,7 @@ import {
   dataStreamIdKey,
   fetchMedianPricesForAssets,
 } from '../../src/transport/shared/token-prices'
-import { calculateMedianPrices } from '../../src/transport/shared/utils'
+import { calculateMedianLwbaPrices } from '../../src/transport/shared/utils'
 
 jest.mock('@chainlink/data-engine-adapter', () => ({
   getCryptoPrice: jest.fn(),
@@ -70,7 +70,7 @@ describe('fetchMedianPricesForAssets', () => {
 
     expect(mockGetCryptoPrice).toHaveBeenCalledTimes(2)
     expect(result.medianValues).toEqual(
-      calculateMedianPrices(['LINK', 'USDC'], {
+      calculateMedianLwbaPrices(['LINK', 'USDC'], {
         LINK: { bids: [2], asks: [3] },
         USDC: { bids: [4], asks: [5] },
       }),

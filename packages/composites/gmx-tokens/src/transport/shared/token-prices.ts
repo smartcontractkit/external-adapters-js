@@ -2,7 +2,7 @@ import { getCryptoPrice } from '@chainlink/data-engine-adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AbiCoder, Contract, ethers, getAddress, keccak256 } from 'ethers'
-import { PriceData, calculateMedianPrices, toNumFromDS } from './utils'
+import { PriceData, calculateMedianLwbaPrices, toNumFromDS } from './utils'
 
 export type FeedAssetConfig = {
   symbol: string
@@ -95,33 +95,6 @@ const resolveFeedId = async ({
   }
 }
 
-export const fetchMedianPricesForAssets = async ({
-  assets,
-  dataStoreContract,
-  dataRequestedTimestamp,
-  requester,
-  dataEngineUrl,
-  sourceName,
-  onError,
-  onSuccess,
-}: FetchMedianPricesParams) => {
-  const feedAssets = await resolveFeeds(assets, dataStoreContract, dataRequestedTimestamp)
-  const { priceData, priceProviders } = await fetchPriceData(feedAssets, {
-    requester,
-    dataEngineUrl,
-    sourceName,
-    onError,
-    onSuccess,
-  })
-
-  const medianValues = calculateMedianPrices(
-    assets.map((asset) => asset.symbol),
-    priceData,
-  )
-
-  return { medianValues, priceProviders }
-}
-
 const resolveFeeds = async (
   assets: FeedAssetConfig[],
   dataStoreContract: Contract,
@@ -139,6 +112,37 @@ const resolveFeeds = async (
       }),
     })),
   )
+}
+
+export const fetchMedianPricesForAssets = async (
+  fetchMedianPricesParams: FetchMedianPricesParams,
+) => {
+  const {
+    assets,
+    dataStoreContract,
+    dataRequestedTimestamp,
+    requester,
+    dataEngineUrl,
+    sourceName,
+    onError,
+    onSuccess,
+  } = fetchMedianPricesParams
+
+  const feedAssets = await resolveFeeds(assets, dataStoreContract, dataRequestedTimestamp)
+  const { priceData, priceProviders } = await fetchPriceData(feedAssets, {
+    requester,
+    dataEngineUrl,
+    sourceName,
+    onError,
+    onSuccess,
+  })
+
+  const medianValues = calculateMedianLwbaPrices(
+    assets.map((asset) => asset.symbol),
+    priceData,
+  )
+
+  return { medianValues, priceProviders }
 }
 
 const fetchPriceData = async (

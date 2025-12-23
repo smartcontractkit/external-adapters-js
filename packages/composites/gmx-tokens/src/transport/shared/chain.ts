@@ -10,7 +10,7 @@ export type ChainResolvedSettings = {
   rpcUrl?: string
   chainId: number
   dataStoreAddress: string
-  readerAddress: string
+  gmReaderAddress: string
   glvReaderAddress: string
   tokenMetadataUrl?: string
   marketMetadataUrl?: string
@@ -26,7 +26,7 @@ export const getResolvedChainSettings = (
         rpcUrl: settings.BOTANIX_RPC_URL,
         chainId: settings.BOTANIX_CHAIN_ID,
         dataStoreAddress: settings.BOTANIX_DATASTORE_CONTRACT_ADDRESS,
-        readerAddress: settings.BOTANIX_GM_READER_CONTRACT_ADDRESS,
+        gmReaderAddress: settings.BOTANIX_GM_READER_CONTRACT_ADDRESS,
         glvReaderAddress: settings.BOTANIX_GLV_READER_CONTRACT_ADDRESS,
         tokenMetadataUrl: settings.BOTANIX_TOKENS_INFO_URL,
         marketMetadataUrl: settings.BOTANIX_MARKETS_INFO_URL,
@@ -36,7 +36,7 @@ export const getResolvedChainSettings = (
         rpcUrl: settings.AVALANCHE_RPC_URL,
         chainId: settings.AVALANCHE_CHAIN_ID,
         dataStoreAddress: settings.AVALANCHE_DATASTORE_CONTRACT_ADDRESS,
-        readerAddress: settings.AVALANCHE_GM_READER_CONTRACT_ADDRESS,
+        gmReaderAddress: settings.AVALANCHE_GM_READER_CONTRACT_ADDRESS,
         glvReaderAddress: settings.AVALANCHE_GLV_READER_CONTRACT_ADDRESS,
         tokenMetadataUrl: settings.AVALANCHE_TOKENS_INFO_URL,
         marketMetadataUrl: settings.AVALANCHE_MARKETS_INFO_URL,
@@ -46,7 +46,7 @@ export const getResolvedChainSettings = (
         rpcUrl: settings.ARBITRUM_RPC_URL,
         chainId: settings.ARBITRUM_CHAIN_ID,
         dataStoreAddress: settings.ARBITRUM_DATASTORE_CONTRACT_ADDRESS,
-        readerAddress: settings.ARBITRUM_GM_READER_CONTRACT_ADDRESS,
+        gmReaderAddress: settings.ARBITRUM_GM_READER_CONTRACT_ADDRESS,
         glvReaderAddress: settings.ARBITRUM_GLV_READER_CONTRACT_ADDRESS,
         tokenMetadataUrl: settings.ARBITRUM_TOKENS_INFO_URL,
         marketMetadataUrl: settings.ARBITRUM_MARKETS_INFO_URL,
@@ -59,7 +59,7 @@ export const getResolvedChainSettings = (
 export class ChainContextFactory {
   private readonly providers = new Map<ChainKey, ethers.JsonRpcProvider>()
   private readonly dataStores = new Map<ChainKey, ethers.Contract>()
-  private readonly readers = new Map<ChainKey, ethers.Contract>()
+  private readonly gmReaders = new Map<ChainKey, ethers.Contract>()
   private readonly glvReaders = new Map<ChainKey, ethers.Contract>()
 
   constructor(private readonly settings: AdapterSettings) {}
@@ -94,11 +94,11 @@ export class ChainContextFactory {
   }
 
   getReaderContract(chain: ChainKey, abi: ethers.InterfaceAbi): ethers.Contract {
-    if (!this.readers.has(chain)) {
-      const { readerAddress } = this.getChainSettings(chain)
-      this.readers.set(chain, new ethers.Contract(readerAddress, abi, this.getProvider(chain)))
+    if (!this.gmReaders.has(chain)) {
+      const { gmReaderAddress } = this.getChainSettings(chain)
+      this.gmReaders.set(chain, new ethers.Contract(gmReaderAddress, abi, this.getProvider(chain)))
     }
-    return this.readers.get(chain)!
+    return this.gmReaders.get(chain)!
   }
 
   getGlvReaderContract(chain: ChainKey, abi: ethers.InterfaceAbi): ethers.Contract {
