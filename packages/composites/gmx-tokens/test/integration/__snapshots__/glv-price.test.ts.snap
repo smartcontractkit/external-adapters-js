@@ -16,12 +16,6 @@ exports[`GLV price execute glv-price endpoint returns success with combined pric
       ],
     },
   },
-  "meta": {
-    "adapterName": "GMX_TOKENS",
-    "metrics": {
-      "feedId": "{"glv":"0x528a5bac7e746c9a509a1f4f6df58a03d44279f9","chain":"arbitrum"}",
-    },
-  },
   "result": 1.5,
   "statusCode": 200,
   "timestamps": {
