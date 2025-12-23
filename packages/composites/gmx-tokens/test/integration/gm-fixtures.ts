@@ -1,7 +1,7 @@
 import nock from 'nock'
 import { ChainKey } from '../../src/endpoint/gm-price'
 import { ChainContextFactory } from '../../src/transport/shared/chain'
-import { dataStreamIdKey } from '../../src/transport/shared/gmx-client'
+import { dataStreamIdKey } from '../../src/transport/shared/token-prices'
 import { SIGNED_PRICE_DECIMALS } from '../../src/transport/shared/utils'
 
 export type TokenMetadata = {

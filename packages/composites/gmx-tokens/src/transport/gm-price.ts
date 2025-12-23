@@ -4,15 +4,14 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
 import abi from '../config/readerAbi.json'
-import { ChainKey, GmPriceEndpointTypes, gmPriceInputParameters } from '../endpoint/gm-price'
+import { GmPriceEndpointTypes, gmPriceInputParameters } from '../endpoint/gm-price'
 import { ChainContextFactory } from './shared/chain'
-import { GmxClient, resolveFeedId } from './shared/gmx-client'
-import { fetchTokenPrices } from './shared/token-prices'
-import { median, PriceData, SIGNED_PRICE_DECIMALS, toFixed, unwrapAsset } from './shared/utils'
+import { GmxClient } from './shared/gmx-client'
+import { fetchMedianPricesForAssets } from './shared/token-prices'
+import { median, SIGNED_PRICE_DECIMALS, toFixed, unwrapAsset } from './shared/utils'
 
 const logger = makeLogger('GmxTokensGmTransport')
 
@@ -73,7 +72,6 @@ export class GmTokenTransport extends SubscriptionTransport<GmTransportTypes> {
     param: RequestParams,
   ): Promise<AdapterResponse<GmTransportTypes['Response']>> {
     const { index, long, short, market, chain } = param
-    const assets = [index, long, short]
     const providerDataRequestedUnixMs = Date.now()
     const marketNormal = market.toLowerCase()
 
@@ -86,17 +84,67 @@ export class GmTokenTransport extends SubscriptionTransport<GmTransportTypes> {
       [indexToken, longToken, shortToken].map((t) => [t.symbol, t.decimals]),
     )
 
-    const {
-      prices: [indexPrices, longPrices, shortPrices],
-      sources,
-    } = await this.fetchPrices(assets, providerDataRequestedUnixMs, decimalsMap, chain)
+    const priceRequestAssets = [
+      {
+        symbol: indexToken.symbol,
+        decimals: indexToken.decimals,
+        address: indexToken.address,
+        providerKey: unwrapAsset(indexToken.symbol),
+      },
+      {
+        symbol: longToken.symbol,
+        decimals: longToken.decimals,
+        address: longToken.address,
+        providerKey: unwrapAsset(longToken.symbol),
+      },
+      {
+        symbol: shortToken.symbol,
+        decimals: shortToken.decimals,
+        address: shortToken.address,
+        providerKey: unwrapAsset(shortToken.symbol),
+      },
+    ]
+
+    const { medianValues, priceProviders: sources } = await fetchMedianPricesForAssets({
+      assets: priceRequestAssets,
+      requester: this.requester,
+      dataEngineUrl: this.settings.DATA_ENGINE_ADAPTER_URL,
+      dataStoreContract: this.chainContext.getDataStore(chain),
+      dataRequestedTimestamp: providerDataRequestedUnixMs,
+      onError: (asset, error) =>
+        logger.error(
+          `Error fetching data for ${asset} from data-engine, url - ${this.settings.DATA_ENGINE_ADAPTER_URL}: ${error.message}`,
+        ),
+    })
+
+    const pricesMap = new Map(medianValues.map((value) => [value.asset, value] as const))
+    const indexPrices = pricesMap.get(indexToken.symbol)
+    const longPrices = pricesMap.get(longToken.symbol)
+    const shortPrices = pricesMap.get(shortToken.symbol)
+
+    if (!indexPrices || !longPrices || !shortPrices) {
+      throw new Error('Missing price data for one or more GM assets')
+    }
+
+    const prices = [indexPrices, longPrices, shortPrices].map((price) => {
+      const decimal = decimalsMap.get(price.asset)
+      if (!decimal) {
+        throw new Error(`Missing token decimals for '${price.asset}'`)
+      }
+      return {
+        ...price,
+        ask: toFixed(price.ask, decimal),
+        bid: toFixed(price.bid, decimal),
+      }
+    })
+    const [indexPriceFormatted, longPriceFormatted, shortPriceFormatted] = prices
 
     const tokenPriceContractParams = [
       this.chainContext.getDataStoreAddress(chain),
       [ethers.getAddress(marketNormal), indexToken.address, longToken.address, shortToken.address],
-      [indexPrices.ask, indexPrices.bid],
-      [longPrices.ask, longPrices.bid],
-      [shortPrices.ask, shortPrices.bid],
+      [indexPriceFormatted.ask, indexPriceFormatted.bid],
+      [longPriceFormatted.ask, longPriceFormatted.bid],
+      [shortPriceFormatted.ask, shortPriceFormatted.bid],
       ethers.keccak256(
         ethers.AbiCoder.defaultAbiCoder().encode(['string'], [this.settings.PNL_FACTOR_TYPE]),
       ),
@@ -123,87 +171,6 @@ export class GmTokenTransport extends SubscriptionTransport<GmTransportTypes> {
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
-    }
-  }
-
-  private async fetchPrices(
-    assets: string[],
-    dataRequestedTimestamp: number,
-    decimals: Map<string, number>,
-    chain: ChainKey,
-  ) {
-    const dataStoreContract = this.chainContext.getDataStore(chain)
-
-    const assetRequests = await Promise.all(
-      assets.map(async (asset) => ({
-        key: asset,
-        feedId: await resolveFeedId({
-          dataStoreContract,
-          tokenAddress: (await this.metadataClient.getTokenBySymbol(asset, chain)).address,
-          tokenSymbol: asset,
-          dataRequestedTimestamp,
-        }),
-        providerKey: unwrapAsset(asset),
-      })),
-    )
-
-    const dataEngineUrl = this.settings.DATA_ENGINE_ADAPTER_URL
-    const { priceData, priceProviders } = await fetchTokenPrices({
-      assets: assetRequests,
-      requester: this.requester,
-      dataEngineUrl,
-      onError: (asset, error) =>
-        logger.error(
-          `Error fetching data for ${asset} from data-engine, url - ${dataEngineUrl}: ${error.message}`,
-        ),
-    })
-
-    this.validateRequiredResponses(priceProviders, dataRequestedTimestamp)
-
-    const medianValues = this.calculateMedian(assets, priceData)
-
-    const prices = medianValues.map((v) => {
-      const decimal = decimals.get(v.asset)
-      if (!decimal) {
-        throw new Error(`Missing token decimals for '${v.asset}'`)
-      }
-      return {
-        ...v,
-        ask: toFixed(v.ask, decimal),
-        bid: toFixed(v.bid, decimal),
-      }
-    })
-
-    return {
-      prices,
-      sources: priceProviders,
-    }
-  }
-
-  private calculateMedian(assets: string[], priceData: PriceData) {
-    return assets.map((asset) => {
-      const medianBid = median([...new Set(priceData[asset].bids)])
-      const medianAsk = median([...new Set(priceData[asset].asks)])
-      return { asset, bid: medianBid, ask: medianAsk }
-    })
-  }
-
-  private validateRequiredResponses(
-    priceProviders: Record<string, string[]> = {},
-    dataRequestedTimestamp: number,
-  ) {
-    if (!Object.entries(priceProviders)?.length) {
-      throw new AdapterDataProviderError(
-        {
-          statusCode: 502,
-          message: `Missing responses from data-engine for all assets.`,
-        },
-        {
-          providerDataRequestedUnixMs: dataRequestedTimestamp,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      )
     }
   }
 

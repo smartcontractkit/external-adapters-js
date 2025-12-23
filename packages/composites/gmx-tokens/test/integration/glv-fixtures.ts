@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import nock from 'nock'
 import { ChainContextFactory } from '../../src/transport/shared/chain'
-import { dataStreamIdKey } from '../../src/transport/shared/gmx-client'
+import { dataStreamIdKey } from '../../src/transport/shared/token-prices'
 import { SIGNED_PRICE_DECIMALS } from '../../src/transport/shared/utils'
 
 export const WETH_ADDRESS = '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1'

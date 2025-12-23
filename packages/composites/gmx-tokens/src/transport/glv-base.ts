@@ -4,7 +4,6 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
@@ -12,9 +11,9 @@ import { GlvLwbaEndpointTypes } from '../endpoint/glv-lwba'
 import { GlvPriceEndpointTypes } from '../endpoint/glv-price'
 import { ChainKey } from '../endpoint/gm-price'
 import { ChainContextFactory } from './shared/chain'
-import { GmxClient, resolveFeedId } from './shared/gmx-client'
-import { fetchTokenPrices } from './shared/token-prices'
-import { dedupeAssets, median, PriceData, SIGNED_PRICE_DECIMALS, toFixed } from './shared/utils'
+import { GmxClient } from './shared/gmx-client'
+import { fetchMedianPricesForAssets } from './shared/token-prices'
+import { dedupeAssets, median, SIGNED_PRICE_DECIMALS, toFixed } from './shared/utils'
 
 const logger = makeLogger('GmxTokensGlvBase')
 
@@ -134,55 +133,26 @@ export abstract class BaseGlvTransport<
     )
   }
 
-  private async resolveFeedIds(
-    assets: Array<{ symbol: string; address: string }>,
-    chain: ChainKey,
-    dataRequestedTimestamp: number,
-  ) {
-    const dataStoreContract = this.chainContext.getDataStore(chain)
-    const entries = await Promise.all(
-      assets.map(
-        async (token) =>
-          [
-            token.symbol,
-            await resolveFeedId({
-              dataStoreContract,
-              tokenAddress: token.address,
-              tokenSymbol: token.symbol,
-              dataRequestedTimestamp,
-            }),
-          ] as const,
-      ),
-    )
-    return Object.fromEntries(entries)
-  }
-
   private async fetchPrices(
     assets: Array<{ symbol: string; decimals: number; address: string }>,
     dataRequestedTimestamp: number,
     chain: ChainKey,
   ) {
-    const feedIds = await this.resolveFeedIds(assets, chain, dataRequestedTimestamp)
-    const dataEngineUrl = this.settings.DATA_ENGINE_ADAPTER_URL
-    const { priceData, priceProviders } = await fetchTokenPrices({
+    const { medianValues, priceProviders } = await fetchMedianPricesForAssets({
       assets: assets.map((token) => ({
-        key: token.symbol,
-        feedId: feedIds[token.symbol],
+        symbol: token.symbol,
+        decimals: token.decimals,
+        address: token.address,
       })),
       requester: this.requester,
-      dataEngineUrl,
+      dataEngineUrl: this.settings.DATA_ENGINE_ADAPTER_URL,
+      dataStoreContract: this.chainContext.getDataStore(chain),
+      dataRequestedTimestamp,
       onError: (asset, error) =>
         logger.error(
-          `Error fetching data for ${asset} from data-engine, url - ${dataEngineUrl}: ${error.message}`,
+          `Error fetching data for ${asset} from data-engine, url - ${this.settings.DATA_ENGINE_ADAPTER_URL}: ${error.message}`,
         ),
     })
-
-    this.validateRequiredResponses(priceProviders, dataRequestedTimestamp)
-
-    const medianValues = this.calculateMedian(
-      assets.map((token) => token.symbol),
-      priceData,
-    )
 
     const prices: Record<string, Record<string, string | number>> = {}
     medianValues.forEach((v) => {
@@ -200,33 +170,6 @@ export abstract class BaseGlvTransport<
     return {
       prices,
       sources: priceProviders,
-    }
-  }
-
-  private calculateMedian(assets: string[], priceData: PriceData) {
-    return assets.map((asset) => {
-      const medianBid = median([...new Set(priceData[asset].bids)])
-      const medianAsk = median([...new Set(priceData[asset].asks)])
-      return { asset, bid: medianBid, ask: medianAsk }
-    })
-  }
-
-  private validateRequiredResponses(
-    priceProviders: Record<string, string[]> = {},
-    dataRequestedTimestamp: number,
-  ) {
-    if (!Object.entries(priceProviders)?.length) {
-      throw new AdapterDataProviderError(
-        {
-          statusCode: 502,
-          message: `Missing responses from data-engine for all assets.`,
-        },
-        {
-          providerDataRequestedUnixMs: dataRequestedTimestamp,
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      )
     }
   }
 
