@@ -36,9 +36,6 @@ export class GmxClient {
 
     const { tokenMetadataUrl, marketMetadataUrl } = getResolvedChainSettings(this.settings, chain)
     const url = type === 'token' ? tokenMetadataUrl : marketMetadataUrl
-    if (!url) {
-      throw new Error(`Metadata URL not configured for ${type} on chain ${chain}`)
-    }
 
     const req = { url, method: 'GET', timeout: this.settings.GLV_INFO_API_TIMEOUT_MS }
     const { response } = await this.requester.request<T>(JSON.stringify(req), req)
