@@ -1,4 +1,4 @@
-import nock from 'nock'
+import nock, { Body, ReplyBody, ReplyFnContext, RequestBodyMatcher } from 'nock'
 import { ChainKey } from '../../src/endpoint/gm-price'
 import { ChainContextFactory } from '../../src/transport/shared/chain'
 import { dataStreamIdKey } from '../../src/transport/shared/token-prices'
@@ -116,10 +116,33 @@ const defaultFeedIds: Record<ChainKeyName, Record<string, string>> = {
   },
 }
 
-const matchCryptoV3Request = (body: unknown) =>
-  typeof body === 'object' &&
-  body !== null &&
-  (body as any)?.data?.endpoint?.toLowerCase?.() === CRYPTO_V3
+type CryptoV3RequestBody = {
+  data?: {
+    endpoint?: string
+    feedId?: string
+  }
+}
+
+const parseCryptoV3Body = (body: Body | undefined): CryptoV3RequestBody | undefined => {
+  if (typeof body === 'string') {
+    try {
+      return JSON.parse(body) as CryptoV3RequestBody
+    } catch {
+      return undefined
+    }
+  }
+
+  if (typeof body === 'object' && body !== null) {
+    return body as CryptoV3RequestBody
+  }
+
+  return undefined
+}
+
+const matchCryptoV3Request: RequestBodyMatcher = (body) => {
+  const parsedBody = parseCryptoV3Body(body as Body)
+  return parsedBody?.data?.endpoint?.toLowerCase?.() === CRYPTO_V3
+}
 
 export const metadataUrls = [
   'ARBITRUM_TOKENS_INFO_URL',
@@ -312,23 +335,23 @@ export type DataEnginePriceConfig = {
 export const mockDataEnginePriceSuccess = (
   priceMap: Record<string, DataEnginePriceConfig>,
 ): nock.Scope =>
-  nock(process.env.DATA_ENGINE_ADAPTER_URL!)
-    .persist()
-    .post('/', matchCryptoV3Request)
-    .reply((uri, body, cb) => {
-      const feedId = (body as any)?.data?.feedId?.toLowerCase?.()
-      const payload = feedId ? priceMap[feedId] : undefined
-      if (!payload) {
-        return cb(null, [500, { statusCode: 500 }])
-      }
-      return cb(null, [200, { data: payload, statusCode: 200 }])
-    })
+  (
+    nock(process.env.DATA_ENGINE_ADAPTER_URL!).persist().post('/', matchCryptoV3Request) as any
+  ).reply(function (this: ReplyFnContext, _uri: string, body: Body): [number, ReplyBody] {
+    const parsedBody = parseCryptoV3Body(body)
+    const feedId = parsedBody?.data?.feedId?.toLowerCase?.()
+    const payload = feedId ? priceMap[feedId] : undefined
+    if (!payload) {
+      return [500, { statusCode: 500 }]
+    }
+    return [200, { data: payload, statusCode: 200 }]
+  })
 
-export const mockDataEnginePriceFailure = (): nock.Scope =>
-  nock(process.env.DATA_ENGINE_ADAPTER_URL!)
-    .persist()
-    .post('/', matchCryptoV3Request)
-    .reply((uri, body, cb) => cb(null, [500, { statusCode: 500 }]))
+export const mockDataEnginePriceFailure = (): nock.Scope => {
+  const base = nock(process.env.DATA_ENGINE_ADAPTER_URL!).persist()
+  const interceptor = base.post('/', matchCryptoV3Request) as any
+  return interceptor.reply(500, { statusCode: 500 })
+}
 
 export type ChainMetadata = {
   tokens: TokenMetadata[]
@@ -337,7 +360,7 @@ export type ChainMetadata = {
 
 const mockPersistedJson = (url: string, payload: unknown): nock.Scope => {
   const targetUrl = new URL(url)
-  return nock(targetUrl.origin).get(targetUrl.pathname).reply(200, payload).persist()
+  return (nock(targetUrl.origin).get(targetUrl.pathname) as any).reply(200, payload).persist()
 }
 
 export const mockTokensInfo = (url: string, tokens: TokenMetadata[]): nock.Scope =>
