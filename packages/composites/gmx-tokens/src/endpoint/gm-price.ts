@@ -1,10 +1,11 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { gmTokenTransport } from '../transport/gm-price'
+import { CHAIN_OPTIONS, ChainKey } from '../transport/shared/chain'
 
-export const CHAIN_OPTIONS = ['arbitrum', 'botanix', 'avalanche'] as const
-export const DEFAULT_CHAIN = 'arbitrum' as const satisfies (typeof CHAIN_OPTIONS)[number]
+export type { ChainKey }
 
 export const gmPriceInputParameters = new InputParameters(
   {
@@ -47,12 +48,9 @@ export const gmPriceInputParameters = new InputParameters(
   ],
 )
 
-export type ChainKey = (typeof gmPriceInputParameters.validated)['chain']
-
 export type GmPriceEndpointTypes = {
   Parameters: typeof gmPriceInputParameters.definition
-  Response: {
-    Result: number
+  Response: SingleNumberResultResponse & {
     Data: {
       result: number
       sources: Record<string, string[]>
@@ -63,7 +61,6 @@ export type GmPriceEndpointTypes = {
 
 export const gmPriceEndpoint = new AdapterEndpoint({
   name: 'gm-price',
-  aliases: [],
   transport: gmTokenTransport,
   inputParameters: gmPriceInputParameters,
 })

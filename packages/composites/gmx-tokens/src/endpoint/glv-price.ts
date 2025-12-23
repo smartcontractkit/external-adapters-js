@@ -3,7 +3,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { glvPriceTransport } from '../transport/glv-price'
-import { CHAIN_OPTIONS } from './gm-price'
+import { CHAIN_OPTIONS } from '../transport/shared/chain'
 
 export const glvPriceInputParameters = new InputParameters(
   {
@@ -43,7 +43,7 @@ export type GlvPriceEndpointTypes = {
 
 export const glvPriceEndpoint = new AdapterEndpoint({
   name: 'glv-price',
-  aliases: ['crypto-lwba', 'glv-crypto-lwba'],
+  aliases: ['glv-crypto-lwba'],
   transport: glvPriceTransport,
   inputParameters: glvPriceInputParameters,
 })

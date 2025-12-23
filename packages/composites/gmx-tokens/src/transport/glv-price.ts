@@ -3,16 +3,16 @@ import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/ut
 import { GlvPriceEndpointTypes } from '../endpoint/glv-price'
 import { BaseGlvTransport, GlvTransportParams } from './glv-base'
 
-export class GlvPriceTransport extends BaseGlvTransport<GlvPriceEndpointTypes> {
+export class GlvPriceTransport extends BaseGlvTransport {
   async backgroundHandler(
     context: EndpointContext<GlvPriceEndpointTypes>,
-    entries: GlvTransportParams<GlvPriceEndpointTypes>[],
+    entries: GlvTransportParams[],
   ): Promise<void> {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: GlvTransportParams<GlvPriceEndpointTypes>): Promise<void> {
+  async handleRequest(param: GlvTransportParams): Promise<void> {
     let response: AdapterResponse<GlvPriceEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)

@@ -124,11 +124,11 @@ describe('GLV price execute', () => {
       expect(res.json()).toMatchSnapshot()
     })
 
-    it('supports crypto-lwba alias', async () => {
+    it('supports glv-crypto-lwba alias', async () => {
       mockDataEngineEAResponseSuccess()
 
       const res = await testAdapter.request({
-        endpoint: 'crypto-lwba',
+        endpoint: 'glv-crypto-lwba',
         glv: DEFAULT_GLV_ADDRESS,
       })
 

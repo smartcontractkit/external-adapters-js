@@ -16,19 +16,18 @@ import { dedupeAssets, median, SIGNED_PRICE_DECIMALS, toFixed } from './shared/u
 
 const logger = makeLogger('GmxTokensGlvBase')
 
-export type GlvTransportParams<T extends GlvPriceEndpointTypes> = TypeFromDefinition<
-  T['Parameters']
-> & { glv: string; chain?: ChainKey }
+export type GlvTransportParams = TypeFromDefinition<GlvPriceEndpointTypes['Parameters']> & {
+  glv: string
+  chain?: ChainKey
+}
 
-export abstract class BaseGlvTransport<
-  T extends GlvPriceEndpointTypes,
-> extends SubscriptionTransport<T> {
+export abstract class BaseGlvTransport extends SubscriptionTransport<GlvPriceEndpointTypes> {
   abstract backgroundHandler(
-    context: EndpointContext<T>,
-    entries: GlvTransportParams<T>[],
+    context: EndpointContext<GlvPriceEndpointTypes>,
+    entries: GlvTransportParams[],
   ): Promise<void>
 
-  abstract handleRequest(param: GlvTransportParams<T>): Promise<void>
+  abstract handleRequest(param: GlvTransportParams): Promise<void>
 
   protected abstract formatResponse(
     result: number,
@@ -40,18 +39,18 @@ export abstract class BaseGlvTransport<
       providerDataReceivedUnixMs: number
       providerIndicatedTimeUnixMs: undefined
     },
-  ): AdapterResponse<T['Response']>
+  ): AdapterResponse<GlvPriceEndpointTypes['Response']>
 
   name!: string
-  responseCache!: ResponseCache<T>
+  responseCache!: ResponseCache<GlvPriceEndpointTypes>
   requester!: Requester
-  settings!: T['Settings']
+  settings!: GlvPriceEndpointTypes['Settings']
   metadataClient!: GmxClient
   private chainContext!: ChainContextFactory
 
   async initialize(
-    dependencies: TransportDependencies<T>,
-    adapterSettings: T['Settings'],
+    dependencies: TransportDependencies<GlvPriceEndpointTypes>,
+    adapterSettings: GlvPriceEndpointTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -62,7 +61,9 @@ export abstract class BaseGlvTransport<
     this.metadataClient = new GmxClient(this.requester, adapterSettings)
   }
 
-  async _handleRequest(param: GlvTransportParams<T>): Promise<AdapterResponse<T['Response']>> {
+  async _handleRequest(
+    param: GlvTransportParams,
+  ): Promise<AdapterResponse<GlvPriceEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     const chain = param.chain as ChainKey
     const glv_address = param.glv.toLowerCase()
@@ -173,7 +174,7 @@ export abstract class BaseGlvTransport<
     }
   }
 
-  protected handleError(e: unknown): AdapterResponse<T['Response']> {
+  protected handleError(e: unknown): AdapterResponse<GlvPriceEndpointTypes['Response']> {
     const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
     logger.error(e, errorMessage)
     return {
@@ -184,10 +185,10 @@ export abstract class BaseGlvTransport<
         providerDataReceivedUnixMs: 0,
         providerIndicatedTimeUnixMs: undefined,
       },
-    } as AdapterResponse<T['Response']>
+    } as AdapterResponse<GlvPriceEndpointTypes['Response']>
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: T['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: GlvPriceEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }

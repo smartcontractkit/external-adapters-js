@@ -1,6 +1,8 @@
 import { ethers } from 'ethers'
 import { config } from '../../config'
-import { ChainKey } from '../../endpoint/gm-price'
+
+export const CHAIN_OPTIONS = ['arbitrum', 'botanix', 'avalanche'] as const
+export type ChainKey = (typeof CHAIN_OPTIONS)[number]
 
 export type AdapterSettings = typeof config.settings
 
