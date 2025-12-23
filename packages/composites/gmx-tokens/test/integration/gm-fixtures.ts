@@ -161,7 +161,8 @@ export const applyChainContextMocks = (): void => {
 
   jest
     .spyOn(ChainContextFactory.prototype as any, 'getDataStore')
-    .mockImplementation(function (this: ChainContextFactory, chain: ChainKey) {
+    .mockImplementation(function (this: ChainContextFactory, ...args: unknown[]) {
+      const chain = args[0] as ChainKey
       return {
         getBytes32: async (key: string) => {
           const state = ensureChainMock(chain)
@@ -172,7 +173,8 @@ export const applyChainContextMocks = (): void => {
 
   jest
     .spyOn(ChainContextFactory.prototype as any, 'getReaderContract')
-    .mockImplementation(function (this: ChainContextFactory, chain: ChainKey) {
+    .mockImplementation(function (this: ChainContextFactory, ...args: unknown[]) {
+      const chain = args[0] as ChainKey
       return {
         getMarketTokenPrice: async (
           _dataStoreAddress: string,
@@ -194,7 +196,8 @@ export const applyChainContextMocks = (): void => {
 
   jest
     .spyOn(ChainContextFactory.prototype as any, 'getGlvReaderContract')
-    .mockImplementation(function (this: ChainContextFactory, chain: ChainKey) {
+    .mockImplementation(function (this: ChainContextFactory, ...args: unknown[]) {
+      const chain = args[0] as ChainKey
       return {
         getGlvInfo: async (_dataStoreAddress: string, glv: string) => {
           const state = ensureGlvMock(chain)
@@ -316,7 +319,7 @@ export const mockDataEnginePriceSuccess = (
       const feedId = body?.data?.feedId?.toLowerCase?.()
       const payload = feedId ? priceMap[feedId] : undefined
       if (!payload) {
-        return [500, { statusCode: 500 }]
+        return { statusCode: 500 }
       }
       return {
         data: payload,
