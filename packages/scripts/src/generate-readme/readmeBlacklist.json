@@ -2,7 +2,6 @@
   "blacklist": [
     "ada-balance",
     "alpine",
-    "anchor",
     "anyblock",
     "augur",
     "anchorage",

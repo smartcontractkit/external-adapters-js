@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "registry": {
+      "paused": false,
+      "sValue": "2000000000000000000",
+    },
+    "result": "20000000",
+    "stream": {
+      "extended": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "overnight": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "regular": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+    },
+  },
+  "result": "20000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
