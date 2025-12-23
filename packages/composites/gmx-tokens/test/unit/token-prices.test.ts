@@ -52,7 +52,7 @@ describe('fetchMedianPricesForAssets', () => {
         '0xfeedlink': { bid: '2000', ask: '3000', price: '2500', decimals: 3 },
         '0xfeedusdc': { bid: '4000', ask: '5000', price: '4500', decimals: 3 },
       }
-    mockGetCryptoPrice.mockImplementation(async (feedId, url, req) => responses[feedId])
+    mockGetCryptoPrice.mockImplementation(async (feedId) => responses[feedId])
 
     const onSuccess = jest.fn()
 
@@ -86,7 +86,7 @@ describe('fetchMedianPricesForAssets', () => {
 
   it('throws with aggregated failures while still resolving successful assets', async () => {
     const rejection = new Error('boom')
-    mockGetCryptoPrice.mockImplementation(async (feedId, url, req) => {
+    mockGetCryptoPrice.mockImplementation(async (feedId) => {
       if (feedId === '0xdead') {
         throw rejection
       }

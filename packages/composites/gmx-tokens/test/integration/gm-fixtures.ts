@@ -315,23 +315,20 @@ export const mockDataEnginePriceSuccess = (
   nock(process.env.DATA_ENGINE_ADAPTER_URL!)
     .persist()
     .post('/', matchCryptoV3Request)
-    .reply(200, (_, body: any) => {
-      const feedId = body?.data?.feedId?.toLowerCase?.()
+    .reply((uri, body, cb) => {
+      const feedId = (body as any)?.data?.feedId?.toLowerCase?.()
       const payload = feedId ? priceMap[feedId] : undefined
       if (!payload) {
-        return { statusCode: 500 }
+        return cb(null, [500, { statusCode: 500 }])
       }
-      return {
-        data: payload,
-        statusCode: 200,
-      }
+      return cb(null, [200, { data: payload, statusCode: 200 }])
     })
 
 export const mockDataEnginePriceFailure = (): nock.Scope =>
   nock(process.env.DATA_ENGINE_ADAPTER_URL!)
     .persist()
     .post('/', matchCryptoV3Request)
-    .reply(500, { statusCode: 500 })
+    .reply((uri, body, cb) => cb(null, [500, { statusCode: 500 }]))
 
 export type ChainMetadata = {
   tokens: TokenMetadata[]
