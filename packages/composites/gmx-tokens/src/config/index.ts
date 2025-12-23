@@ -10,12 +10,10 @@ export const config = new AdapterConfig(
     ARBITRUM_RPC_URL: {
       description: 'RPC url of Arbitrum node',
       type: 'string',
-      required: true,
     },
     ARBITRUM_CHAIN_ID: {
       description: 'The chain id to connect to for Arbitrum',
       type: 'number',
-      required: true,
       default: 42161,
     },
     BOTANIX_RPC_URL: {
@@ -36,10 +34,9 @@ export const config = new AdapterConfig(
       type: 'number',
       default: 43114,
     },
-    DATASTORE_CONTRACT_ADDRESS: {
+    ARBITRUM_DATASTORE_CONTRACT_ADDRESS: {
       description: 'Address of Data Store contract on Arbitrum',
       type: 'string',
-      required: true,
       default: '0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8',
     },
     BOTANIX_DATASTORE_CONTRACT_ADDRESS: {
@@ -52,26 +49,24 @@ export const config = new AdapterConfig(
       type: 'string',
       default: '0x2F0b22339414ADeD7D5F06f9D604c7fF5b2fe3f6',
     },
-    READER_CONTRACT_ADDRESS: {
+    ARBITRUM_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Arbitrum',
       type: 'string',
-      required: true,
       default: '0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789',
     },
-    BOTANIX_READER_CONTRACT_ADDRESS: {
+    BOTANIX_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Botanix',
       type: 'string',
       default: '0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E',
     },
-    AVALANCHE_READER_CONTRACT_ADDRESS: {
+    AVALANCHE_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Avalanche',
       type: 'string',
       default: '0x62Cb8740E6986B29dC671B2EB596676f60590A5B',
     },
-    GLV_READER_CONTRACT_ADDRESS: {
+    ARBITRUM_GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of GLV Reader contract on Arbitrum',
       type: 'string',
-      required: true,
       default: '0x2C670A23f1E798184647288072e84054938B5497',
     },
     BOTANIX_GLV_READER_CONTRACT_ADDRESS: {

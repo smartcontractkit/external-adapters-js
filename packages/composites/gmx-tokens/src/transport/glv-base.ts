@@ -7,7 +7,6 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
 import glvAbi from '../config/glvReaderAbi.json'
-import { GlvLwbaEndpointTypes } from '../endpoint/glv-lwba'
 import { GlvPriceEndpointTypes } from '../endpoint/glv-price'
 import { ChainKey } from '../endpoint/gm-price'
 import { ChainContextFactory } from './shared/chain'
@@ -17,11 +16,12 @@ import { dedupeAssets, median, SIGNED_PRICE_DECIMALS, toFixed } from './shared/u
 
 const logger = makeLogger('GmxTokensGlvBase')
 
-export type GlvTransportParams<T extends GlvPriceEndpointTypes | GlvLwbaEndpointTypes> =
-  TypeFromDefinition<T['Parameters']> & { glv: string; chain?: ChainKey }
+export type GlvTransportParams<T extends GlvPriceEndpointTypes> = TypeFromDefinition<
+  T['Parameters']
+> & { glv: string; chain?: ChainKey }
 
 export abstract class BaseGlvTransport<
-  T extends GlvPriceEndpointTypes | GlvLwbaEndpointTypes,
+  T extends GlvPriceEndpointTypes,
 > extends SubscriptionTransport<T> {
   abstract backgroundHandler(
     context: EndpointContext<T>,

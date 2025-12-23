@@ -6,7 +6,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { ethers } from 'ethers'
-import abi from '../config/readerAbi.json'
+import gmReaderAbi from '../config/gmReaderAbi.json'
 import { GmPriceEndpointTypes, gmPriceInputParameters } from '../endpoint/gm-price'
 import { ChainContextFactory } from './shared/chain'
 import { GmxClient } from './shared/gmx-client'
@@ -149,7 +149,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTransportTypes> {
         ethers.AbiCoder.defaultAbiCoder().encode(['string'], [this.settings.PNL_FACTOR_TYPE]),
       ),
     ]
-    const readerContract = this.chainContext.getReaderContract(chain, abi)
+    const readerContract = this.chainContext.getReaderContract(chain, gmReaderAbi)
     const [[maximizedValue], [minimizedValue]] = await Promise.all([
       readerContract.getMarketTokenPrice(...tokenPriceContractParams, true),
       readerContract.getMarketTokenPrice(...tokenPriceContractParams, false),
