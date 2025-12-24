@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/gmx-tokens-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink GM + GLV tokens composite adapter.",
   "keywords": [
     "Chainlink",

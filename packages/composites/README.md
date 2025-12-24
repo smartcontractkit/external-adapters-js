@@ -54,7 +54,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 
 ## List
 
-- [anchor](./anchor/README.md)
 - [augur](./augur/README.md)
 - [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [bsol-price](./bsol-price/README.md)
@@ -64,6 +63,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [defi-pulse](./defi-pulse/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
+- [gmx-tokens](./gmx-tokens/README.md)
 - [historical-average](./historical-average/README.md)
 - [implied-price](./implied-price/README.md)
 - [implied-price-test](./implied-price-test/README.md)
@@ -74,6 +74,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [multi-address-list](./multi-address-list/README.md)
 - [nexus-kiln](./nexus-kiln/README.md)
 - [nftx](./nftx/README.md)
+- [ondo-calculated](./ondo-calculated/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [rocket-pool](./rocket-pool/README.md)
 - [savax-price](./savax-price/README.md)
