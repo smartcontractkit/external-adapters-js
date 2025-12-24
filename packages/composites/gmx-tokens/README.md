@@ -1,6 +1,6 @@
 # GMX_TOKENS
 
-![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gmx-tokens/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gmx-tokens/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -45,9 +45,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                   Options                                                                    |  Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------: | :--------: |
-|           | endpoint | The endpoint to use | string | [crypto-lwba](#glv-price-endpoint), [glv-crypto-lwba](#glv-price-endpoint), [glv-price](#glv-price-endpoint), [gm-price](#gm-price-endpoint) | `gm-price` |
+| Required? |   Name   |     Description     |  Type  |                                                 Options                                                  |  Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------: | :--------: |
+|           | endpoint | The endpoint to use | string | [glv-crypto-lwba](#glv-price-endpoint), [glv-price](#glv-price-endpoint), [gm-price](#gm-price-endpoint) | `gm-price` |
 
 ## Gm-price Endpoint
 
@@ -84,7 +84,7 @@ Request:
 
 ## Glv-price Endpoint
 
-Supported names for this endpoint are: `crypto-lwba`, `glv-crypto-lwba`, `glv-price`.
+Supported names for this endpoint are: `glv-crypto-lwba`, `glv-price`.
 
 ### Input Params
 
