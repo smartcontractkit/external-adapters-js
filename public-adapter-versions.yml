@@ -175,6 +175,8 @@ adapters:
     version: 1.3.1
   - name: gmci
     version: 1.0.3
+  - name: gmx-tokens
+    version: 1.0.0
   - name: graphql
     version: 1.2.47
   - name: gsr
@@ -275,6 +277,8 @@ adapters:
     version: 1.3.47
   - name: ondo
     version: 1.0.3
+  - name: ondo-calculated
+    version: 1.0.0
   - name: onre
     version: 1.1.4
   - name: openexchangerates
