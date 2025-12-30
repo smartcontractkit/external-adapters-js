@@ -24,6 +24,7 @@ export const getPrice = async (
 
   return {
     price: stream.mid,
+    spread: BigInt(stream.ask) - BigInt(stream.bid),
     decimals: stream.decimals,
     data: {
       regular,
