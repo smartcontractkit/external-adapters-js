@@ -1,5 +1,11 @@
 # @chainlink/ondo-calculated-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4465](https://github.com/smartcontractkit/external-adapters-js/pull/4465) [`6fa0579`](https://github.com/smartcontractkit/external-adapters-js/commit/6fa0579d08fbe4a4106e7001b40f844f87d16176) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Price smoothing
+
 ## 1.0.0
 
 ### Major Changes

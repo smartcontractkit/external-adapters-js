@@ -1,6 +1,6 @@
 # ONDO_CALCULATED
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/ondo-calculated/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/ondo-calculated/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -33,14 +33,16 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |       Name        | Aliases |                         Description                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------------: | :-----: | :----------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     registry      |         |                Ondo on-chain registry address                | string |         |         |            |                |
-|    ✅     |       asset       |         |        Maps to the asset in ondo’s on-chain registry         | string |         |         |            |                |
-|    ✅     |  regularStreamId  |         |  Data Streams regular hour feed ID for the underlying asset  | string |         |         |            |                |
-|    ✅     | extendedStreamId  |         | Data Streams extended hour feed ID for the underlying asset  | string |         |         |            |                |
-|    ✅     | overnightStreamId |         | Data Streams overnight hour feed ID for the underlying asset | string |         |         |            |                |
-|           |     decimals      |         |                  Decimals of output result                   | number |         |   `8`   |            |                |
+| Required? |           Name            | Aliases |                                       Description                                       |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------------: | :-----: | :-------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |         registry          |         |                             Ondo on-chain registry address                              |  string  |         |         |            |                |
+|    ✅     |           asset           |         |                      Maps to the asset in ondo’s on-chain registry                      |  string  |         |         |            |                |
+|    ✅     |      regularStreamId      |         |               Data Streams regular hour feed ID for the underlying asset                |  string  |         |         |            |                |
+|    ✅     |     extendedStreamId      |         |               Data Streams extended hour feed ID for the underlying asset               |  string  |         |         |            |                |
+|    ✅     |     overnightStreamId     |         |              Data Streams overnight hour feed ID for the underlying asset               |  string  |         |         |            |                |
+|    ✅     |     sessionBoundaries     |         | A list of time where market trasition from 1 session to the next in the format of HH:MM | string[] |         |         |            |                |
+|    ✅     | sessionBoundariesTimeZone |         |                              ANA Time Zone Database format                              |  string  |         |         |            |                |
+|           |         decimals          |         |                                Decimals of output result                                |  number  |         |   `8`   |            |                |
 
 ### Example
 
@@ -55,6 +57,8 @@ Request:
     "regularStreamId": "0x0",
     "extendedStreamId": "0x0",
     "overnightStreamId": "0x0",
+    "sessionBoundaries": ["04:00", "16:00", "20:00"],
+    "sessionBoundariesTimeZone": "America/New_York",
     "decimals": 8
   }
 }
