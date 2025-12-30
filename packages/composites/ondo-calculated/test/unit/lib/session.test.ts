@@ -44,6 +44,22 @@ describe('calculateSecondsFromTransition', () => {
     expect(result).toBe(0)
   })
 
+  it('mid night - before', () => {
+    jest.setSystemTime(new Date('2024-01-15T23:58:00Z').getTime())
+
+    const result = calculateSecondsFromTransition(['00:02'], 'UTC')
+
+    expect(result).toBe(-240)
+  })
+
+  it('mid night - after', () => {
+    jest.setSystemTime(new Date('2024-01-15T00:02:00Z').getTime())
+
+    const result = calculateSecondsFromTransition(['23:58'], 'UTC')
+
+    expect(result).toBe(240)
+  })
+
   it('timezone conversions', () => {
     jest.setSystemTime(new Date('2024-01-15T09:30:00Z').getTime())
 
