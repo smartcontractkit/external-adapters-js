@@ -255,7 +255,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		defer errorResponsePool.Put(errorResp)
 
 		errorResp.Error.Name = "AdapterError"
-		errorResp.Error.Message = "Unable to subsribe to an asset pair with the the requested data"
+		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -267,63 +267,59 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Check if cached response exists
 	cachedResponse := s.cache.Get(canonicalParams)
 
-	// Check if observation exists in cache
-	if cachedResponse == nil {
-		subscriptionKey, err := helpers.CalculateCacheKey(canonicalParams)
-		if err != nil {
-			s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", canonicalParams)
-			// If we cannot calculate a subscription key, do not attempt to subscribe
-			// and return a 500 to the caller.
-			errorResp := errorResponsePool.Get().(*ErrorResponseData)
-			defer errorResponsePool.Put(errorResp)
-
-			errorResp.Error.Name = "AdapterError"
-			errorResp.Error.Message = "Unable to subsribe to an asset pair with the the requested data"
-
-			c.JSON(http.StatusInternalServerError, errorResp)
-			return
-		}
-
-		// Only subscribe if we're not already subscribing to this request
-		// This prevents thundering herd of duplicate subscription requests
-		if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(subscriptionKey, true); !alreadySubscribing {
-			s.logger.Debug("Initiating new subscription", "requestParams", canonicalParams, "subscriptionKey", subscriptionKey)
-			go func(key string, params types.RequestParams) {
-				s.subscribeToAsset(params)
-				// Remove from tracker after subscription attempt completes
-				// Allow retries after 10 seconds if data still not available
-				time.Sleep(10 * time.Second)
-				s.subscriptionTracker.Delete(key)
-			}(subscriptionKey, canonicalParams)
-		} else if s.config.LogLevel == "debug" {
-			s.logger.Debug("Subscription already in progress, skipping", "key", subscriptionKey)
-		}
-
-		// Get error response from pool
+	if cachedResponse != nil {
+		// Return the observation as JSON
+		c.JSON(http.StatusOK, cachedResponse)
+		return
+	}
+	// If no cached response, calculate the subscription key and subscribe
+	// Subscription happens async, we send a request to the JS adapter and do not expect any valid response.
+	// Once the JS adapter has subscribed, it will communicate with the Redcon server to store the observation in the cache.
+	subscriptionKey, err := helpers.CalculateCacheKey(canonicalParams)
+	if err != nil {
+		s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", canonicalParams)
+		// If we cannot calculate a subscription key, do not attempt to subscribe
+		// and return a 500 to the caller.
 		errorResp := errorResponsePool.Get().(*ErrorResponseData)
 		defer errorResponsePool.Put(errorResp)
 
 		errorResp.Error.Name = "AdapterError"
-		errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
+		errorResp.Error.Message = "Unable to subsribe to an asset pair with the the requested data"
 
-		c.JSON(http.StatusGatewayTimeout, errorResp)
+		c.JSON(http.StatusInternalServerError, errorResp)
 		return
 	}
 
-	// Return the observation as JSON
-	c.JSON(http.StatusOK, cachedResponse)
+	// Only subscribe if we're not already subscribing to this request
+	// This prevents thundering herd of duplicate subscription requests
+	if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(subscriptionKey, true); !alreadySubscribing {
+		s.logger.Debug("Initiating new subscription", "requestParams", canonicalParams, "subscriptionKey", subscriptionKey)
+		go func(key string, params types.RequestParams) {
+			s.subscribeToAsset(params)
+			// Remove from tracker after subscription attempt completes
+			// Allow retries after 10 seconds if data still not available
+			time.Sleep(10 * time.Second)
+			s.subscriptionTracker.Delete(key)
+		}(subscriptionKey, canonicalParams)
+	} else if s.config.LogLevel == "debug" {
+		s.logger.Debug("Subscription already in progress, skipping", "key", subscriptionKey)
+	}
+
+	// Get error response from pool
+	errorResp := errorResponsePool.Get().(*ErrorResponseData)
+	defer errorResponsePool.Put(errorResp)
+
+	errorResp.Error.Name = "AdapterError"
+	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
+
+	c.JSON(http.StatusGatewayTimeout, errorResp)
 }
 
 // subscribeToAsset sends a subscription request for the given request parameters
 func (s *Server) subscribeToAsset(params types.RequestParams) {
-	// Convert RequestParams back to the format expected by the EA
-	dataMap := make(map[string]string)
-	for key, value := range params {
-		dataMap[key] = value
-	}
 
 	subscribeBody := map[string]interface{}{
-		"data": dataMap,
+		"data": params,
 	}
 
 	jsonBody, err := json.Marshal(subscribeBody)

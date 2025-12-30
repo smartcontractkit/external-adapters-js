@@ -8,11 +8,11 @@ import (
 	"os"
 	"time"
 
-	cache "streams-adapter/cache"
-	config "streams-adapter/config"
-	helpers "streams-adapter/helpers"
-	redcon "streams-adapter/redcon"
-	server "streams-adapter/server"
+	"streams-adapter/cache"
+	"streams-adapter/config"
+	"streams-adapter/helpers"
+	"streams-adapter/redcon"
+	"streams-adapter/server"
 )
 
 // waitForEAServer waits for the EA server to be ready before proceeding
@@ -28,26 +28,26 @@ func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
 		Timeout: 2 * time.Second,
 	}
 
+	timer := time.After(maxWaitTime)
+	ticker := time.NewTicker(checkInterval)
+	defer ticker.Stop()
+
 	for {
-		// Check if we've exceeded the maximum wait time
-		if time.Since(startTime) > maxWaitTime {
-			logger.Error("EA server did not become ready within timeout", "timeout", maxWaitTime)
-			log.Fatal("EA server startup timeout")
+		select {
+		case <-timer:
+			log.Fatal("EA server did not become ready within timeout", "timeout", maxWaitTime)
+		case <-ticker.C:
+			// Try to connect to the EA server health endpoint
+			resp, err := client.Get(eaURL)
+			if err == nil && resp.StatusCode == http.StatusOK {
+				resp.Body.Close()
+				logger.Info("EA server is ready", "elapsed", time.Since(startTime))
+				return
+			}
+			if resp != nil {
+				resp.Body.Close()
+			}
 		}
-
-		// Try to connect to the EA server health endpoint
-		resp, err := client.Get(eaURL)
-		if err == nil && resp.StatusCode == http.StatusOK {
-			resp.Body.Close()
-			logger.Info("EA server is ready", "elapsed", time.Since(startTime))
-			return
-		}
-		if resp != nil {
-			resp.Body.Close()
-		}
-
-		// Wait before the next check
-		time.Sleep(checkInterval)
 	}
 }
 
@@ -57,27 +57,27 @@ func main() {
 
 	// Initialize endpoint/parameter alias indices from generated JSON configuration.
 	if err := helpers.InitAliasIndex(cfg.AdapterName, "endpoint_aliases.json"); err != nil {
-		logger.Error("Failed to initialize alias index", "error", err)
+		log.Fatal("Failed to initialize alias index", "error", err)
 	}
 
-	cache := cache.New(cache.Config{
+	appCache := cache.New(cache.Config{
 		MaxSize:         cfg.CacheMaxSize,
 		TTL:             time.Duration(cfg.CacheTTLMinutes) * time.Minute,
 		CleanupInterval: time.Duration(cfg.CacheCleanupInterval) * time.Minute,
 	})
-	defer cache.Stop()
+	defer appCache.Stop()
 
 	// Wait for EA server to be ready before starting
 	waitForEAServer(cfg, logger)
 
 	// Initialize HTTP server
-	httpServer := server.New(cfg, cache, logger)
+	httpServer := server.New(cfg, appCache, logger)
 	defer httpServer.Stop()
 
 	// Initialize Redcon server
 	redconServer := redcon.New(redcon.Config{
 		Addr:   ":" + cfg.RedconPort,
-		Cache:  cache,
+		Cache:  appCache,
 		Logger: logger,
 	})
 
@@ -92,8 +92,15 @@ func main() {
 		}
 	}()
 
-	// Start Redis server (blocking)
-	if err := redconServer.Start(); err != nil {
+	// Start Redcon server in a goroutine
+	go func() {
+		if err := redconServer.Start(); err != nil {
+			logger.Error("Redcon server failed", "error", err)
+			errChan <- err
+		}
+	}()
+
+	if err := <-errChan; err != nil {
 		log.Fatal(err)
 	}
 }
