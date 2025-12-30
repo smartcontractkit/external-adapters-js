@@ -33,7 +33,7 @@ exports[`execute price endpoint should return success 1`] = `
     },
     "result": "20000000",
     "smoother": {
-      "p": "1000000000000000000",
+      "p": "1500000000000000000",
       "price": "1",
       "secondsFromTransition": 9007199254740991,
       "x": "-1",

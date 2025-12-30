@@ -5,10 +5,10 @@ const PRECISION = 18 // Keep 18 decimals when converting number to bigint
 
 const CONFIG = {
   KALMAN: {
-    Q: parseUnits('0.001', PRECISION), // Process noise
-    ALPHA: parseUnits('1.5', PRECISION), // Spread-to-noise multiplier
-    INITIAL_P: parseUnits('1.0', PRECISION), // initial covariance
-    MIN_R: parseUnits('0.01', PRECISION), // Measurement noise floor
+    Q: parseUnits('0.000075107026567861', PRECISION), // Process noise
+    ALPHA: parseUnits('0.9996386263245117', PRECISION), // Spread-to-noise multiplier
+    INITIAL_P: parseUnits('1.5', PRECISION), // initial covariance
+    MIN_R: parseUnits('0.002545840040746239', PRECISION), // Measurement noise floor
     DECAY_FACTOR: parseUnits('0.99', PRECISION), //Covariance decay
   },
   TRANSITION: {
@@ -42,6 +42,7 @@ class KalmanFilter {
     const k = (p_pred * scale(1)) / (p_pred + r)
     this.x = x_pred + deScale(k * (price - x_pred))
     this.p = deScale((scale(1) - k) * p_pred)
+
     return { price: this.x, x: prevX, p: prevP }
   }
 }
