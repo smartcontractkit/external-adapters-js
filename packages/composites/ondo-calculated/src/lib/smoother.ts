@@ -1,4 +1,4 @@
-// Algorithm by @kalanyuz and Enea Shaqiri
+// Algorithm by @kalanyuz and @eshaqiri
 import { parseUnits } from 'ethers'
 
 const PRECISION = 18 // Keep 18 decimals when converting number to bigint

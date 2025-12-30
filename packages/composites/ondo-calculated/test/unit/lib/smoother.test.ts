@@ -1,4 +1,9 @@
+import { parseUnits } from 'ethers'
+import * as fs from 'fs'
+import * as path from 'path'
 import { SessionAwareSmoother } from '../../../src/lib/smoother'
+
+const scale = (price: number) => parseUnits(price.toFixed(18), 18)
 
 describe('SessionAwareSmoother', () => {
   it('processUpdate', () => {
@@ -41,8 +46,6 @@ describe('SessionAwareSmoother', () => {
     expect(resultAtMinus5.price).toBeLessThan(200n) // But not reach raw price
     expect(resultAtMinus5.p).toBeLessThan(resultAt30.p) // Covariance should decrease over time
   })
-
-  const scale = (price: number) => BigInt(price) * 10n ** 18n
 
   it('should use MIN_R for small spread values', () => {
     const MIN_R = 2545840040746239n // 0.002545840040746239 scaled to 18 decimals (from CONFIG)
@@ -279,5 +282,51 @@ describe('SessionAwareSmoother', () => {
     const tolerance = basePrice / 50n // 2% tolerance
     expect(lastResult.price).toBeGreaterThan(basePrice - tolerance)
     expect(lastResult.price).toBeLessThan(basePrice + tolerance)
+  })
+})
+
+describe('SessionAwareSmoother', () => {
+  it('Handle real world data', () => {
+    const data = fs
+      .readFileSync(path.join(__dirname, 'smoother_sample_input.csv'), 'utf8')
+      .split('\n')
+      .map((line) => line.split(','))
+
+    const smoother = new SessionAwareSmoother()
+
+    const boundary = 1766437200
+    const results: bigint[] = []
+    for (const [price, spread, timestamp] of data) {
+      results.push(
+        smoother.processUpdate(
+          parseUnits(price, 18),
+          parseUnits(spread, 18),
+          Number(timestamp) - boundary,
+        ).price,
+      )
+    }
+
+    const expectedResults = fs
+      .readFileSync(path.join(__dirname, 'smoother_sample_output.csv'), 'utf8')
+      .split('\n')
+      .map((line) => line.split(',')[0])
+
+    expect(results.length).toBe(expectedResults.length)
+
+    for (let i = 0; i < results.length; i++) {
+      const actual = results[i].toString()
+      const expected = expectedResults[i]
+
+      if (actual !== expected) {
+        const [price, spread, timestamp] = data[i]
+        throw new Error(
+          `Mismatch at row ${i + 1}:\n` +
+            `  Input: price=${price}, spread=${spread}, timestamp=${timestamp}\n` +
+            `  Expected: ${expected} \n` +
+            `  Actual:   ${actual} \n` +
+            `  Difference: ${BigInt(actual) - BigInt(expected)}`,
+        )
+      }
+    }
   })
 })
