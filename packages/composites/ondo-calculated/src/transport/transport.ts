@@ -29,7 +29,15 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       adapterSettings.ETHEREUM_RPC_URL,
       adapterSettings.ETHEREUM_RPC_CHAIN_ID,
     )
-    this.dataEngineUrl = adapterSettings.DATA_ENGINE_EA_URL
+
+    this.dataEngineUrl =
+      adapterSettings.DATA_ENGINE_ADAPTER_URL || adapterSettings.DATA_ENGINE_EA_URL || ''
+    if (!this.dataEngineUrl) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: 'Missing DATA_ENGINE_ADAPTER_URL',
+      })
+    }
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
