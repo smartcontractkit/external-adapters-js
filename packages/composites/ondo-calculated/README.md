@@ -1,17 +1,18 @@
 # ONDO_CALCULATED
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/ondo-calculated/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/ondo-calculated/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |  DATA_ENGINE_EA_URL   |                                   URL of data engine ea                                   | string |         |         |
-|    ✅     |   ETHEREUM_RPC_URL    |                               RPC URL of a Mainnet ETH node                               | string |         |         |
-|           | ETHEREUM_RPC_CHAIN_ID |                                The chain id to connect to                                 | number |         |   `1`   |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |          Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    ETHEREUM_RPC_URL     |                               RPC URL of a Mainnet ETH node                               | string |         |         |
+|           | DATA_ENGINE_ADAPTER_URL |                                   URL of data engine ea                                   | string |         |   ``    |
+|           |   DATA_ENGINE_EA_URL    |                      Deprecated: use DATA_ENGINE_ADAPTER_URL instead                      | string |         |   ``    |
+|           |  ETHEREUM_RPC_CHAIN_ID  |                                The chain id to connect to                                 | number |         |   `1`   |
+|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 
