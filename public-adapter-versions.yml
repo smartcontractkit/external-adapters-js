@@ -278,7 +278,7 @@ adapters:
   - name: ondo
     version: 1.0.3
   - name: ondo-calculated
-    version: 1.1.0
+    version: 1.2.0
   - name: onre
     version: 1.1.4
   - name: openexchangerates
