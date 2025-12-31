@@ -30,7 +30,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.DATA_ENGINE_EA_URL = 'http://data-engine'
+    process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.ETHEREUM_RPC_URL = 'fake-url'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
