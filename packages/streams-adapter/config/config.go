@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"strconv"
+	"strings"
 )
 
 // Config holds all configuration for the adapter
@@ -25,8 +26,10 @@ type Config struct {
 
 // Load reads configuration from environment variables
 func Load() *Config {
-	cfg := &Config{
+	packageName := os.Getenv("PACKAGE_NAME")
+	adapterName := extractAdapterName(packageName)
 
+	cfg := &Config{
 		HTTPPort:      getEnv("HTTP_PORT", "8080"),
 		EAPort:        getEnv("EA_PORT", "8070"),
 		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
@@ -40,10 +43,19 @@ func Load() *Config {
 
 		// Other
 		LogLevel:    getEnv("LOG_LEVEL", "info"),
-		AdapterName: getEnv("ADAPTER_NAME", ""),
+		AdapterName: adapterName,
 	}
 
 	return cfg
+}
+
+// extractAdapterName derives the adapter name from package name
+// e.g., "@chainlink/tiingo-adapter" -> "tiingo"
+func extractAdapterName(packageName string) string {
+	name := packageName
+	name = strings.TrimPrefix(name, "@chainlink/")
+	name = strings.TrimSuffix(name, "-adapter")
+	return name
 }
 
 // getEnv gets an environment variable with a default value
