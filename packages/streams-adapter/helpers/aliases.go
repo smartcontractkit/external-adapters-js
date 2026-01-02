@@ -253,7 +253,7 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 					adapterOverrides = make(map[string]string, len(perAdapterMap))
 					for symbol, overrideVal := range perAdapterMap {
 						if o, ok := overrideVal.(string); ok && o != "" {
-							adapterOverrides[strings.ToLower(symbol)] = o
+							adapterOverrides[strings.ToUpper(symbol)] = o
 						}
 					}
 				}
@@ -291,12 +291,12 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 		// If there are per-adapter overrides, and the current value has an
 		// override defined for the active adapter, use the override instead.
 		if adapterOverrides != nil {
-			if ov, ok := adapterOverrides[strings.ToLower(rawValue)]; ok && ov != "" {
+			if ov, ok := adapterOverrides[strings.ToUpper(rawValue)]; ok && ov != "" {
 				value = ov
 			}
 		}
 
-		valueLower := strings.ToLower(value)
+		valueUpper := strings.ToUpper(value)
 
 		canonicalKey := keyLower
 		if pm, ok := activeAliasIndex.paramAlias[canonicalEndpoint]; ok {
@@ -307,13 +307,13 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 
 		// If we don't have requirement metadata for this endpoint, keep all params.
 		if !haveReq {
-			out[canonicalKey] = valueLower
+			out[canonicalKey] = valueUpper
 			continue
 		}
 
 		// Otherwise, only keep parameters that are marked as required.
 		if required, ok := requiredForEndpoint[canonicalKey]; ok && required {
-			out[canonicalKey] = valueLower
+			out[canonicalKey] = valueUpper
 		}
 	}
 
