@@ -292,7 +292,7 @@ adapters:
   - name: por-address-list
     version: 5.14.3
   - name: por-indexer
-    version: 2.2.4
+    version: 2.3.0
   - name: proof-of-reserves
     version: 1.32.0
   - name: r25
