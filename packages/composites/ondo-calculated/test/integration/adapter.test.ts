@@ -30,9 +30,9 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.DATA_ENGINE_EA_URL = 'http://data-engine'
+    process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.ETHEREUM_RPC_URL = 'fake-url'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -59,6 +59,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionBoundaries: [],
+        sessionBoundariesTimeZone: 'UTC',
         decimals: 8,
       }
       mockResponseSuccess()
@@ -66,6 +68,42 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
 
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bad sessionBoundariesTimeZone', async () => {
+      const data = {
+        registry: '0x0',
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b5',
+        overnightStreamId: '0x000b5',
+        sessionBoundaries: ['00:00'],
+        sessionBoundariesTimeZone: 'random',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('bad sessionBoundaries', async () => {
+      const data = {
+        registry: '0x0',
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b5',
+        overnightStreamId: '0x000b5',
+        sessionBoundaries: ['99:88'],
+        sessionBoundariesTimeZone: 'UTC',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
   })
