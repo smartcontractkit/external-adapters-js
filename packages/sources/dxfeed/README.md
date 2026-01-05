@@ -1,6 +1,6 @@
 # DXFEED
 
-![2.3.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -60,22 +60,14 @@ Request:
 
 ### Input Params
 
-| Required? | Name |                        Aliases                        |                                          Description                                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string |         |         |            |                |
+| Required? |     Name      |                        Aliases                        |                                          Description                                          |  Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     base      | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string  |         |         |            |                |
+|           | requireVolume |                                                       |                       If true, throw error if bid/ask volume is invalid                       | boolean |         |         |            |                |
 
 ### Example
 
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "stock_quotes",
-    "base": "TSLA"
-  }
-}
-```
+There are no examples for this endpoint.
 
 ---
 

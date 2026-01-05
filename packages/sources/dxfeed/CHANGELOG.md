@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.4.0
+
+### Minor Changes
+
+- [#4483](https://github.com/smartcontractkit/external-adapters-js/pull/4483) [`9243587`](https://github.com/smartcontractkit/external-adapters-js/commit/92435879a3e2cf69bf047af9b60983028a014c35) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Throw error when bid/ask volume is invalid
+
 ## 2.3.2
 
 ### Patch Changes
