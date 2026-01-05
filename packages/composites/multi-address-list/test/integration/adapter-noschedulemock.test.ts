@@ -3,28 +3,31 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { RecurrenceRule } from 'node-schedule'
-import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPSuccess } from './fixtures'
-
-jest.mock('node-schedule', () => {
-  const actualNodeSchedule = jest.requireActual('node-schedule')
-  return {
-    ...actualNodeSchedule,
-    RecurrenceRule: function () {
-      return
-    },
-    scheduleJob: function (_: RecurrenceRule, callback: () => void) {
-      setTimeout(() => {
-        callback()
-      }, 200)
-    },
-  }
-})
+import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPFailure, mockCBPSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+
+  const data = {
+    endpoint: 'address-debug',
+    network: 'bitcoin',
+    chainId: 'mainnet',
+    anchorage: {
+      vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
+      coin: 'BTC',
+    },
+    bitgo: {
+      coin: 'tbtc',
+      enterpriseId: '1234',
+    },
+    coinbase_prime: {
+      batchSize: 100,
+      portfolio: '12345622',
+      symbols: ['BTC'],
+    },
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -36,11 +39,16 @@ describe('execute', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
+  })
+
+  afterEach(async () => {
+    nock.cleanAll()
+    testAdapter.mockCache?.cache.clear()
   })
 
   afterAll(async () => {
@@ -51,30 +59,21 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('address endpoint', () => {
+  describe('address-debug endpoint', () => {
     it('should return success', async () => {
-      const data = {
-        network: 'bitcoin',
-        chainId: 'mainnet',
-        anchorage: {
-          vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
-          coin: 'BTC',
-        },
-        bitgo: {
-          coin: 'tbtc',
-          enterpriseId: '1234',
-        },
-        coinbase_prime: {
-          batchSize: 100,
-          portfolio: '12345622',
-          symbols: ['BTC'],
-        },
-      }
       mockAnchorageSuccess()
       mockBitgoSuccess()
       mockCBPSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should fail when missing underlying data source does not respond', async () => {
+      mockAnchorageSuccess()
+      mockBitgoSuccess()
+      mockCBPFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })
