@@ -375,8 +375,16 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dlc-btc-por"\
     },\
     {\
-      "name": "@chainlink/dlc-cbtc-btc-por-adapter",\
-      "reference": "workspace:packages/sources/dlc-cbtc-btc-por"\
+      "name": "@chainlink/dlc-cbtc-btc-attester-por-adapter",\
+      "reference": "workspace:packages/sources/dlc-cbtc-por/btc-attester-por"\
+    },\
+    {\
+      "name": "cbtc-address-calculation",\
+      "reference": "workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools"\
+    },\
+    {\
+      "name": "@chainlink/dlc-cbtc-canton-digital-assets-por-adapter",\
+      "reference": "workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por"\
     },\
     {\
       "name": "@chainlink/dns-query-adapter",\
@@ -930,7 +938,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
-    ["@chainlink/dlc-cbtc-btc-por-adapter", ["workspace:packages/sources/dlc-cbtc-btc-por"]],\
+    ["@chainlink/dlc-cbtc-btc-attester-por-adapter", ["workspace:packages/sources/dlc-cbtc-por/btc-attester-por"]],\
+    ["@chainlink/dlc-cbtc-canton-digital-assets-por-adapter", ["workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
@@ -1083,7 +1092,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
     ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
-    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
+    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],\
+    ["cbtc-address-calculation", ["workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools"]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -6103,11 +6113,26 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dlc-cbtc-btc-por-adapter", [\
-      ["workspace:packages/sources/dlc-cbtc-btc-por", {\
-        "packageLocation": "./packages/sources/dlc-cbtc-btc-por/",\
+    ["@chainlink/dlc-cbtc-btc-attester-por-adapter", [\
+      ["workspace:packages/sources/dlc-cbtc-por/btc-attester-por", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-por/btc-attester-por/",\
         "packageDependencies": [\
-          ["@chainlink/dlc-cbtc-btc-por-adapter", "workspace:packages/sources/dlc-cbtc-btc-por"],\
+          ["@chainlink/dlc-cbtc-btc-attester-por-adapter", "workspace:packages/sources/dlc-cbtc-por/btc-attester-por"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/dlc-cbtc-canton-digital-assets-por-adapter", [\
+      ["workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-por/canton-digital-assets-por/",\
+        "packageDependencies": [\
+          ["@chainlink/dlc-cbtc-canton-digital-assets-por-adapter", "workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -15143,6 +15168,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:20.19.27", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.19.27-70f4cc2483-a36bdbbf3c.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:20.19.27"],\
+          ["undici-types", "npm:6.21.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:22.14.1", {\
         "packageLocation": "./.yarn/cache/@types-node-npm-22.14.1-ff7e0a29d7-561b1ad98e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
@@ -17785,6 +17818,21 @@ const RAW_RUNTIME_STATE =
           ["redeyed", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["cbtc-address-calculation", [\
+      ["workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools/",\
+        "packageDependencies": [\
+          ["cbtc-address-calculation", "workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools"],\
+          ["@types/node", "npm:20.19.27"],\
+          ["bip32", "npm:4.0.0"],\
+          ["bitcoinjs-lib", "npm:6.1.7"],\
+          ["tiny-secp256k1", "npm:2.2.4"],\
+          ["ts-node", "virtual:8c843930c7b667f7c83e6dc307423e1a3bcb98664327da09929dc090b5e3235a1fd7e32dcbadc07a79a0a7cb928b0145f3784417706c8f0e20b286329b445433#npm:10.9.2"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["chai", [\
@@ -30339,6 +30387,14 @@ const RAW_RUNTIME_STATE =
           ["node-gyp", "npm:10.2.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.2.4", {\
+        "packageLocation": "./.yarn/cache/tiny-secp256k1-npm-2.2.4-888e0d46db-3f29104fcd.zip/node_modules/tiny-secp256k1/",\
+        "packageDependencies": [\
+          ["tiny-secp256k1", "npm:2.2.4"],\
+          ["uint8array-tools", "npm:0.0.7"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["tinyglobby", [\
@@ -30689,6 +30745,42 @@ const RAW_RUNTIME_STATE =
           "typescript"\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["virtual:8c843930c7b667f7c83e6dc307423e1a3bcb98664327da09929dc090b5e3235a1fd7e32dcbadc07a79a0a7cb928b0145f3784417706c8f0e20b286329b445433#npm:10.9.2", {\
+        "packageLocation": "./.yarn/__virtual__/ts-node-virtual-02110bb5f4/0/cache/ts-node-npm-10.9.2-3f3890b9ac-a91a15b3c9.zip/node_modules/ts-node/",\
+        "packageDependencies": [\
+          ["ts-node", "virtual:8c843930c7b667f7c83e6dc307423e1a3bcb98664327da09929dc090b5e3235a1fd7e32dcbadc07a79a0a7cb928b0145f3784417706c8f0e20b286329b445433#npm:10.9.2"],\
+          ["@cspotcode/source-map-support", "npm:0.8.1"],\
+          ["@swc/core", null],\
+          ["@swc/wasm", null],\
+          ["@tsconfig/node10", "npm:1.0.11"],\
+          ["@tsconfig/node12", "npm:1.0.11"],\
+          ["@tsconfig/node14", "npm:1.0.3"],\
+          ["@tsconfig/node16", "npm:1.0.4"],\
+          ["@types/node", "npm:20.19.27"],\
+          ["@types/swc__core", null],\
+          ["@types/swc__wasm", null],\
+          ["@types/typescript", null],\
+          ["acorn", "npm:8.14.0"],\
+          ["acorn-walk", "npm:8.3.4"],\
+          ["arg", "npm:4.1.3"],\
+          ["create-require", "npm:1.1.1"],\
+          ["diff", "npm:4.0.2"],\
+          ["make-error", "npm:1.3.6"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
+          ["v8-compile-cache-lib", "npm:3.0.1"],\
+          ["yn", "npm:3.1.1"]\
+        ],\
+        "packagePeers": [\
+          "@swc/core",\
+          "@swc/wasm",\
+          "@types/node",\
+          "@types/swc__core",\
+          "@types/swc__wasm",\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["tslib", [\
@@ -30975,6 +31067,13 @@ const RAW_RUNTIME_STATE =
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5", {\
+        "packageLocation": "./.yarn/cache/typescript-patch-6fda4d02cf-696e1b017b.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["typical", [\
@@ -30998,6 +31097,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/uglify-js-npm-3.19.3-d73835bac2-6b9639c198.zip/node_modules/uglify-js/",\
         "packageDependencies": [\
           ["uglify-js", "npm:3.19.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["uint8array-tools", [\
+      ["npm:0.0.7", {\
+        "packageLocation": "./.yarn/cache/uint8array-tools-npm-0.0.7-96ca58a124-6ffc45c7d2.zip/node_modules/uint8array-tools/",\
+        "packageDependencies": [\
+          ["uint8array-tools", "npm:0.0.7"]\
         ],\
         "linkType": "HARD"\
       }]\
