@@ -3396,9 +3396,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-por":
+"@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por-btc":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-por"
+  resolution: "@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por-btc"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
@@ -3412,9 +3412,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-por":
+"@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por-canton":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-por"
+  resolution: "@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por-canton"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
@@ -11140,15 +11140,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.19.27":
-  version: 20.19.27
-  resolution: "@types/node@npm:20.19.27"
-  dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/a36bdbbf3c3e25bd75454f295b01c72729128a7ab38e99b75dba5fad2ff44fb96179462197345381a086c85de462c10d994fe32868c9a07d42b852566a2e63a7
-  languageName: node
-  linkType: hard
-
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.4
   resolution: "@types/normalize-package-data@npm:2.4.4"
@@ -13315,19 +13306,6 @@ __metadata:
   checksum: 10/caf0d34739ef7b1d80e1753311f889997b62c4490906819eb5da5bd46e7f5e5caba7a8a96ca401190c7d9c18443a7749e5338630f7f9a1ae98d60cac49b9008e
   languageName: node
   linkType: hard
-
-"cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools":
-  version: 0.0.0-use.local
-  resolution: "cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools"
-  dependencies:
-    "@types/node": "npm:^20.19.27"
-    bip32: "npm:^4.0.0"
-    bitcoinjs-lib: "npm:^6.1.7"
-    tiny-secp256k1: "npm:^2.2.4"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
 
 "chai@npm:^4.3.4":
   version: 4.5.0
@@ -24886,7 +24864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:10.9.2, ts-node@npm:^10.9.2":
+"ts-node@npm:10.9.2":
   version: 10.9.2
   resolution: "ts-node@npm:10.9.2"
   dependencies:
@@ -25163,16 +25141,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.9.3":
-  version: 5.9.3
-  resolution: "typescript@npm:5.9.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/c089d9d3da2729fd4ac517f9b0e0485914c4b3c26f80dc0cffcb5de1719a17951e92425d55db59515c1a7ddab65808466debb864d0d56dcf43f27007d0709594
-  languageName: node
-  linkType: hard
-
 "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>":
   version: 5.8.3
   resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
@@ -25180,16 +25148,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/b9b1e73dabac5dc730c041325dbd9c99467c1b0d239f1b74ec3b90d831384af3e2ba973946232df670519147eb51a2c20f6f96163cea2b359f03de1e2091cc4f
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A^5.9.3#optional!builtin<compat/typescript>":
-  version: 5.9.3
-  resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10/696e1b017bc2635f4e0c94eb4435357701008e2f272f553d06e35b494b8ddc60aa221145e286c28ace0c89ee32827a28c2040e3a69bdc108b1a5dc8fb40b72e3
   languageName: node
   linkType: hard
 

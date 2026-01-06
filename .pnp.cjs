@@ -376,15 +376,11 @@ const RAW_RUNTIME_STATE =
     },\
     {\
       "name": "@chainlink/dlc-cbtc-btc-por-adapter",\
-      "reference": "workspace:packages/sources/dlc-cbtc-por/btc-por"\
-    },\
-    {\
-      "name": "cbtc-address-calculation",\
-      "reference": "workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools"\
+      "reference": "workspace:packages/sources/dlc-cbtc-por-btc"\
     },\
     {\
       "name": "@chainlink/dlc-cbtc-canton-por-adapter",\
-      "reference": "workspace:packages/sources/dlc-cbtc-por/canton-por"\
+      "reference": "workspace:packages/sources/dlc-cbtc-por-canton"\
     },\
     {\
       "name": "@chainlink/dns-query-adapter",\
@@ -938,8 +934,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
-    ["@chainlink/dlc-cbtc-btc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por/btc-por"]],\
-    ["@chainlink/dlc-cbtc-canton-por-adapter", ["workspace:packages/sources/dlc-cbtc-por/canton-por"]],\
+    ["@chainlink/dlc-cbtc-btc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por-btc"]],\
+    ["@chainlink/dlc-cbtc-canton-por-adapter", ["workspace:packages/sources/dlc-cbtc-por-canton"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
@@ -1092,8 +1088,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
     ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
-    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],\
-    ["cbtc-address-calculation", ["workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools"]]\
+    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -6114,10 +6109,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/dlc-cbtc-btc-por-adapter", [\
-      ["workspace:packages/sources/dlc-cbtc-por/btc-por", {\
-        "packageLocation": "./packages/sources/dlc-cbtc-por/btc-por/",\
+      ["workspace:packages/sources/dlc-cbtc-por-btc", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-por-btc/",\
         "packageDependencies": [\
-          ["@chainlink/dlc-cbtc-btc-por-adapter", "workspace:packages/sources/dlc-cbtc-por/btc-por"],\
+          ["@chainlink/dlc-cbtc-btc-por-adapter", "workspace:packages/sources/dlc-cbtc-por-btc"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6132,10 +6127,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/dlc-cbtc-canton-por-adapter", [\
-      ["workspace:packages/sources/dlc-cbtc-por/canton-por", {\
-        "packageLocation": "./packages/sources/dlc-cbtc-por/canton-por/",\
+      ["workspace:packages/sources/dlc-cbtc-por-canton", {\
+        "packageLocation": "./packages/sources/dlc-cbtc-por-canton/",\
         "packageDependencies": [\
-          ["@chainlink/dlc-cbtc-canton-por-adapter", "workspace:packages/sources/dlc-cbtc-por/canton-por"],\
+          ["@chainlink/dlc-cbtc-canton-por-adapter", "workspace:packages/sources/dlc-cbtc-por-canton"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -15171,14 +15166,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:20.19.27", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.19.27-70f4cc2483-a36bdbbf3c.zip/node_modules/@types/node/",\
-        "packageDependencies": [\
-          ["@types/node", "npm:20.19.27"],\
-          ["undici-types", "npm:6.21.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:22.14.1", {\
         "packageLocation": "./.yarn/cache/@types-node-npm-22.14.1-ff7e0a29d7-561b1ad98e.zip/node_modules/@types/node/",\
         "packageDependencies": [\
@@ -17821,21 +17808,6 @@ const RAW_RUNTIME_STATE =
           ["redeyed", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
-      }]\
-    ]],\
-    ["cbtc-address-calculation", [\
-      ["workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools", {\
-        "packageLocation": "./packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools/",\
-        "packageDependencies": [\
-          ["cbtc-address-calculation", "workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools"],\
-          ["@types/node", "npm:20.19.27"],\
-          ["bip32", "npm:4.0.0"],\
-          ["bitcoinjs-lib", "npm:6.1.7"],\
-          ["tiny-secp256k1", "npm:2.2.4"],\
-          ["ts-node", "virtual:26dc43971a7d43276e822eef777b5761add2ea41644ee1e9dcd2785f7e21cc035fb2c2e967eb8d6e5d3c4d5043511199987b9994ed1af09104e36f03df655749#npm:10.9.2"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
       }]\
     ]],\
     ["chai", [\
@@ -30713,42 +30685,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:26dc43971a7d43276e822eef777b5761add2ea41644ee1e9dcd2785f7e21cc035fb2c2e967eb8d6e5d3c4d5043511199987b9994ed1af09104e36f03df655749#npm:10.9.2", {\
-        "packageLocation": "./.yarn/__virtual__/ts-node-virtual-350fcfabd7/0/cache/ts-node-npm-10.9.2-3f3890b9ac-a91a15b3c9.zip/node_modules/ts-node/",\
-        "packageDependencies": [\
-          ["ts-node", "virtual:26dc43971a7d43276e822eef777b5761add2ea41644ee1e9dcd2785f7e21cc035fb2c2e967eb8d6e5d3c4d5043511199987b9994ed1af09104e36f03df655749#npm:10.9.2"],\
-          ["@cspotcode/source-map-support", "npm:0.8.1"],\
-          ["@swc/core", null],\
-          ["@swc/wasm", null],\
-          ["@tsconfig/node10", "npm:1.0.11"],\
-          ["@tsconfig/node12", "npm:1.0.11"],\
-          ["@tsconfig/node14", "npm:1.0.3"],\
-          ["@tsconfig/node16", "npm:1.0.4"],\
-          ["@types/node", "npm:20.19.27"],\
-          ["@types/swc__core", null],\
-          ["@types/swc__wasm", null],\
-          ["@types/typescript", null],\
-          ["acorn", "npm:8.14.0"],\
-          ["acorn-walk", "npm:8.3.4"],\
-          ["arg", "npm:4.1.3"],\
-          ["create-require", "npm:1.1.1"],\
-          ["diff", "npm:4.0.2"],\
-          ["make-error", "npm:1.3.6"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
-          ["v8-compile-cache-lib", "npm:3.0.1"],\
-          ["yn", "npm:3.1.1"]\
-        ],\
-        "packagePeers": [\
-          "@swc/core",\
-          "@swc/wasm",\
-          "@types/node",\
-          "@types/swc__core",\
-          "@types/swc__wasm",\
-          "@types/typescript",\
-          "typescript"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.9.2", {\
         "packageLocation": "./.yarn/__virtual__/ts-node-virtual-596e6d96e9/0/cache/ts-node-npm-10.9.2-3f3890b9ac-a91a15b3c9.zip/node_modules/ts-node/",\
         "packageDependencies": [\
@@ -31068,13 +31004,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/typescript-patch-f64146f279-b9b1e73dab.zip/node_modules/typescript/",\
         "packageDependencies": [\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5", {\
-        "packageLocation": "./.yarn/cache/typescript-patch-6fda4d02cf-696e1b017b.zip/node_modules/typescript/",\
-        "packageDependencies": [\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
         "linkType": "HARD"\
       }]\
