@@ -42,6 +42,7 @@ export const ENV_UNICHAIN_RPC_ENDPOINT = 'UNICHAIN_RPC_ENDPOINT'
 export const ENV_SONEIUM_RPC_ENDPOINT = 'SONEIUM_RPC_ENDPOINT'
 export const ENV_CELO_RPC_ENDPOINT = 'CELO_RPC_ENDPOINT'
 export const ENV_XLAYER_RPC_ENDPOINT = 'XLAYER_RPC_ENDPOINT'
+export const ENV_MEGAETH_RPC_ENDPOINT = 'MEGAETH_RPC_ENDPOINT'
 
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
@@ -56,6 +57,7 @@ export const ENV_UNICHAIN_CHAIN_ID = 'UNICHAIN_CHAIN_ID'
 export const ENV_SONEIUM_CHAIN_ID = 'SONEIUM_CHAIN_ID'
 export const ENV_CELO_CHAIN_ID = 'CELO_CHAIN_ID'
 export const ENV_XLAYER_CHAIN_ID = 'XLAYER_CHAIN_ID'
+export const ENV_MEGAETH_CHAIN_ID = 'MEGAETH_CHAIN_ID'
 
 export const DEFAULT_ARBITRUM_CHAIN_ID = '42161'
 export const DEFAULT_OPTIMISM_CHAIN_ID = '10'
@@ -70,6 +72,7 @@ export const DEFAULT_UNICHAIN_CHAIN_ID = '130'
 export const DEFAULT_SONEIUM_CHAIN_ID = '1868'
 export const DEFAULT_CELO_CHAIN_ID = '42220'
 export const DEFAULT_XLAYER_CHAIN_ID = '196'
+export const DEFAULT_MEGAETH_CHAIN_ID = '4326'
 
 export enum Networks {
   Arbitrum = 'arbitrum',
@@ -86,6 +89,7 @@ export enum Networks {
   Soneium = 'soneium',
   Celo = 'celo',
   Xlayer = 'xlayer',
+  Megaeth = 'megaeth',
 }
 
 export type EVMNetworks = Exclude<Networks, Networks.Starkware>
@@ -103,6 +107,7 @@ const DEFAULT_UNICHAIN_RPC_ENDPOINT = 'https://mainnet.unichain.org'
 const DEFAULT_SONEIUM_RPC_ENDPOINT = 'https://rpc.soneium.org'
 const DEFAULT_CELO_RPC_ENDPOINT = 'https://forno.celo.org'
 const DEFAULT_XLAYER_RPC_ENDPOINT = 'https://xlayerrpc.okx.com'
+const DEFAULT_MEGAETH_RPC_ENDPOINT = 'https://mainnet.megaeth.com/rpc'
 
 export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Arbitrum]: util.getEnv(ENV_ARBITRUM_RPC_ENDPOINT) || DEFAULT_ARBITRUM_RPC_ENDPOINT,
@@ -118,6 +123,7 @@ export const RPC_ENDPOINTS: Record<EVMNetworks, string | undefined> = {
   [Networks.Soneium]: util.getEnv(ENV_SONEIUM_RPC_ENDPOINT) || DEFAULT_SONEIUM_RPC_ENDPOINT,
   [Networks.Celo]: util.getEnv(ENV_CELO_RPC_ENDPOINT) || DEFAULT_CELO_RPC_ENDPOINT,
   [Networks.Xlayer]: util.getEnv(ENV_XLAYER_RPC_ENDPOINT) || DEFAULT_XLAYER_RPC_ENDPOINT,
+  [Networks.Megaeth]: util.getEnv(ENV_MEGAETH_RPC_ENDPOINT) || DEFAULT_MEGAETH_RPC_ENDPOINT,
 }
 
 export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
@@ -160,6 +166,9 @@ export const CHAIN_IDS: Record<EVMNetworks, number | undefined | string> = {
   [Networks.Xlayer]:
     parseInt(util.getEnv(ENV_XLAYER_CHAIN_ID) || DEFAULT_XLAYER_CHAIN_ID) ||
     util.getEnv(ENV_XLAYER_CHAIN_ID),
+  [Networks.Megaeth]:
+    parseInt(util.getEnv(ENV_MEGAETH_CHAIN_ID) || DEFAULT_MEGAETH_CHAIN_ID) ||
+    util.getEnv(ENV_MEGAETH_CHAIN_ID),
 }
 
 export const CHAIN_DELTA: Record<Networks, number> = {
@@ -177,6 +186,7 @@ export const CHAIN_DELTA: Record<Networks, number> = {
   [Networks.Soneium]: Number(util.getEnv('SONEIUM_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Celo]: Number(util.getEnv('CELO_DELTA')) || DEFAULT_DELTA_TIME,
   [Networks.Xlayer]: Number(util.getEnv('XLAYER_DELTA')) || DEFAULT_DELTA_TIME,
+  [Networks.Megaeth]: Number(util.getEnv('MEGAETH_DELTA')) || DEFAULT_DELTA_TIME,
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
@@ -259,6 +269,11 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
   },
   [Networks.Xlayer]: {
     endpoint: util.getEnv('XLAYER_HEALTH_ENDPOINT'),
+    responsePath: [],
+    processResponse: () => undefined,
+  },
+  [Networks.Megaeth]: {
+    endpoint: util.getEnv('MEGAETH_HEALTH_ENDPOINT'),
     responsePath: [],
     processResponse: () => undefined,
   },

@@ -202,6 +202,24 @@ export const mockResponseSuccessBlock = (): void => {
       'Vary',
       'Origin',
     ])
+
+  nock('https://mainnet.megaeth.com')
+    .post('/rpc', {
+      jsonrpc: '2.0',
+      method: 'eth_blockNumber',
+      params: [],
+      id: /^\d+$/,
+    })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x42d293' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
 }
 
 export const mockResponseSuccessRollup = (): void => {
@@ -401,6 +419,19 @@ export const mockResponseFailureBlock = (): void => {
 
   nock('https://xlayerrpc.okx.com')
     .post('/', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
+    .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+
+  nock('https://mainnet.megaeth.com')
+    .post('/rpc', { jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: /^\d+$/ })
     .reply(200, () => ({ jsonrpc: '2.0', id: 1, result: '0x00' }), [
       'Content-Type',
       'application/json',
