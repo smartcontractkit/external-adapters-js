@@ -827,10 +827,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wrapped"\
     },\
     {\
-      "name": "@chainlink/xbto-adapter",\
-      "reference": "workspace:packages/sources/xbto"\
-    },\
-    {\
       "name": "@chainlink/dydx-stark-adapter",\
       "reference": "workspace:packages/targets/dydx-stark"\
     },\
@@ -1047,7 +1043,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
     ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
-    ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
     ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
   ],\
   "fallbackPool": [\
@@ -8846,24 +8841,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/wrapped/",\
         "packageDependencies": [\
           ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/xbto-adapter", [\
-      ["workspace:packages/sources/xbto", {\
-        "packageLocation": "./packages/sources/xbto/",\
-        "packageDependencies": [\
-          ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
