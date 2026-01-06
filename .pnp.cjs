@@ -819,10 +819,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wisdomtree"\
     },\
     {\
-      "name": "@chainlink/wootrade-adapter",\
-      "reference": "workspace:packages/sources/wootrade"\
-    },\
-    {\
       "name": "@chainlink/wrapped-adapter",\
       "reference": "workspace:packages/sources/wrapped"\
     },\
@@ -1045,7 +1041,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
     ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
-    ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
     ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
     ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
@@ -8818,24 +8813,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/wootrade-adapter", [\
-      ["workspace:packages/sources/wootrade", {\
-        "packageLocation": "./packages/sources/wootrade/",\
-        "packageDependencies": [\
-          ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
