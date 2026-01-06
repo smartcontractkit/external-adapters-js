@@ -600,9 +600,6 @@
       "path": "./sources/wrapped"
     },
     {
-      "path": "./sources/xbto"
-    },
-    {
       "path": "./targets/dydx-stark"
     },
     {
