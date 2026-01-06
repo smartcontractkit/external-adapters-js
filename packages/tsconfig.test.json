@@ -450,9 +450,6 @@
       "path": "./sources/oanda/tsconfig.test.json"
     },
     {
-      "path": "./sources/oilpriceapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/onchain-gas/tsconfig.test.json"
     },
     {
@@ -598,9 +595,6 @@
     },
     {
       "path": "./sources/wrapped/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/xbto/tsconfig.test.json"
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"

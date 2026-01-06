@@ -450,9 +450,6 @@
       "path": "./sources/oanda"
     },
     {
-      "path": "./sources/oilpriceapi"
-    },
-    {
       "path": "./sources/onchain-gas"
     },
     {
@@ -598,9 +595,6 @@
     },
     {
       "path": "./sources/wrapped"
-    },
-    {
-      "path": "./sources/xbto"
     },
     {
       "path": "./targets/dydx-stark"
