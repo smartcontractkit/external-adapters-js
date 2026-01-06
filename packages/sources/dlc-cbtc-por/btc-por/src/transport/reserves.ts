@@ -2,7 +2,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/reserves'
-import { calculateReserves } from '../lib'
+import { calculateReserves, fetchAndCalculateVaultAddresses } from '../lib'
 
 const logger = makeLogger('CbtcPorTransport')
 
@@ -13,16 +13,17 @@ class CbtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<void> {
     if (entries.length === 0) return
 
-    const { BITCOIN_RPC_ENDPOINT, VAULT_ADDRESSES, MIN_CONFIRMATIONS } = context.adapterSettings
+    const { ATTESTER_API_URL, CHAIN_NAME, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
+      context.adapterSettings
     const providerDataRequestedUnixMs = Date.now()
 
     try {
-      const addresses = VAULT_ADDRESSES.split(',')
-        .map((a) => a.trim())
-        .filter(Boolean)
+      // Step 1: Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
+      logger.debug(`Fetching vault addresses from Attester API for chain: ${CHAIN_NAME}`)
+      const { addresses } = await fetchAndCalculateVaultAddresses(ATTESTER_API_URL, CHAIN_NAME)
 
       if (addresses.length === 0) {
-        throw new Error('No vault addresses configured')
+        throw new Error(`No vault addresses found for chain: ${CHAIN_NAME}`)
       }
 
       logger.debug(

@@ -1,32 +1,7 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { MempoolTransaction, UTXO } from './types'
 
 const logger = makeLogger('CbtcPor')
-
-export interface UTXO {
-  txid: string
-  vout: number
-  value: number
-  status: {
-    confirmed: boolean
-    block_height?: number
-  }
-}
-
-export interface MempoolTransaction {
-  txid: string
-  vin: Array<{
-    txid: string
-    vout: number
-    prevout: {
-      scriptpubkey_address: string
-      value: number
-    }
-  }>
-  vout: Array<{
-    scriptpubkey_address: string
-    value: number
-  }>
-}
 
 /** Fetches current Bitcoin block height from Electrs API */
 export async function fetchBlockHeight(endpoint: string): Promise<number> {
@@ -67,17 +42,55 @@ export async function fetchMempoolTransactions(
   return response.json() as Promise<MempoolTransaction[]>
 }
 
+/**
+ * Calculates the number of confirmations for a UTXO
+ * Returns 0 for unconfirmed UTXOs
+ */
+export function getConfirmations(utxo: UTXO, currentBlockHeight: number): number {
+  if (!utxo.status.confirmed || !utxo.status.block_height) {
+    return 0
+  }
+  return currentBlockHeight - utxo.status.block_height + 1
+}
+
 /** Checks if a UTXO has enough confirmations */
-function hasMinConfirmations(
+export function hasMinConfirmations(
   utxo: UTXO,
   currentBlockHeight: number,
   minConfirmations: number,
 ): boolean {
-  if (!utxo.status.confirmed || !utxo.status.block_height) {
-    return false
+  return getConfirmations(utxo, currentBlockHeight) >= minConfirmations
+}
+
+/**
+ * Sums confirmed UTXOs that meet the minimum confirmation requirement
+ * Pure function for testing
+ */
+export function sumConfirmedUtxos(
+  utxos: UTXO[],
+  currentBlockHeight: number,
+  minConfirmations: number,
+): number {
+  return utxos
+    .filter((utxo) => hasMinConfirmations(utxo, currentBlockHeight, minConfirmations))
+    .reduce((sum, utxo) => sum + utxo.value, 0)
+}
+
+/**
+ * Sums pending spend input values from mempool transactions
+ * When a UTXO is spent but unconfirmed, we add back its value to prevent balance dips
+ * Pure function for testing
+ */
+export function sumPendingSpendInputs(mempoolTxs: MempoolTransaction[], address: string): number {
+  let total = 0
+  for (const tx of mempoolTxs) {
+    for (const input of tx.vin) {
+      if (input.prevout.scriptpubkey_address === address) {
+        total += input.prevout.value
+      }
+    }
   }
-  const confirmations = currentBlockHeight - utxo.status.block_height + 1
-  return confirmations >= minConfirmations
+  return total
 }
 
 /**
@@ -95,24 +108,16 @@ export async function calculateAddressReserves(
   const utxos = await fetchAddressUtxos(endpoint, address)
 
   // Sum confirmed UTXOs with sufficient confirmations
-  const confirmedBalance = utxos
-    .filter((utxo) => hasMinConfirmations(utxo, currentBlockHeight, minConfirmations))
-    .reduce((sum, utxo) => sum + utxo.value, 0)
+  const confirmedBalance = sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)
 
   // Get pending (mempool) transactions for this address
   const mempoolTxs = await fetchMempoolTransactions(endpoint, address)
 
   // Find pending transactions that spend from this address and add the input value to the reserves until it is confirmed
-  let pendingSpendValue = 0
-  for (const tx of mempoolTxs) {
-    for (const input of tx.vin) {
-      if (input.prevout.scriptpubkey_address === address) {
-        pendingSpendValue += input.prevout.value
-        logger.debug(
-          `Address ${address}: pending spend of ${input.prevout.value} sats (txid: ${tx.txid})`,
-        )
-      }
-    }
+  const pendingSpendValue = sumPendingSpendInputs(mempoolTxs, address)
+
+  if (pendingSpendValue > 0) {
+    logger.debug(`Address ${address}: pending spend of ${pendingSpendValue} sats`)
   }
 
   // The total reserve balance is the sum of all confirmed and unconfirmed UTXOs. A balance is only reduced when a UTXO is spent and confirmed

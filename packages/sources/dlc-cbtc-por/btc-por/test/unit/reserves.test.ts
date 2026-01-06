@@ -1,140 +1,173 @@
+/**
+ * Unit tests for the reserves calculation logic.
+ *
+ * Tests pure functions for UTXO processing, confirmation counting,
+ * and pending spend handling. No mocking required.
+ */
+
 import {
-  TestAdapter,
-  setEnvVariables,
-} from '@chainlink/external-adapter-framework/util/testing-utils'
-import nock from 'nock'
+  getConfirmations,
+  hasMinConfirmations,
+  sumConfirmedUtxos,
+  sumPendingSpendInputs,
+} from '../../src/lib/por'
+import { MempoolTransaction, UTXO } from '../../src/lib/types'
 
-const MOCK_ADDRESS = 'bc1ptest1234567890'
-const MOCK_BLOCK_HEIGHT = 1000
+describe('Reserves Calculation Logic', () => {
+  describe('getConfirmations', () => {
+    it('should return correct confirmation count for confirmed UTXO', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true, block_height: 995 },
+      }
+      // 1000 - 995 + 1 = 6 confirmations
+      expect(getConfirmations(utxo, 1000)).toBe(6)
+    })
 
-describe('reserves confirmation logic', () => {
-  let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
-  let oldEnv: NodeJS.ProcessEnv
+    it('should return 0 for unconfirmed UTXO', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: false },
+      }
+      expect(getConfirmations(utxo, 1000)).toBe(0)
+    })
 
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['BITCOIN_RPC_ENDPOINT'] = 'https://test.electrs.api'
-    process.env['VAULT_ADDRESSES'] = MOCK_ADDRESS
-    process.env['MIN_CONFIRMATIONS'] = '6'
+    it('should return 0 for UTXO with missing block_height', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true },
+      }
+      expect(getConfirmations(utxo, 1000)).toBe(0)
+    })
 
-    const mockDate = new Date('2024-01-01T12:00:00.000Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
-    const adapter = (await import('../../src')).adapter
-    adapter.rateLimiting = undefined
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<never>,
+    it('should return 1 for UTXO at current block height', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true, block_height: 1000 },
+      }
+      expect(getConfirmations(utxo, 1000)).toBe(1)
     })
   })
 
-  afterAll(async () => {
-    setEnvVariables(oldEnv)
-    await testAdapter.api.close()
-    nock.restore()
-    nock.cleanAll()
-    spy.mockRestore()
+  describe('hasMinConfirmations', () => {
+    it('should return true when confirmations meet minimum', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true, block_height: 995 },
+      }
+      // 6 confirmations, min 6 = true
+      expect(hasMinConfirmations(utxo, 1000, 6)).toBe(true)
+    })
+
+    it('should return true when confirmations exceed minimum', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true, block_height: 990 },
+      }
+      // 11 confirmations, min 6 = true
+      expect(hasMinConfirmations(utxo, 1000, 6)).toBe(true)
+    })
+
+    it('should return false when confirmations below minimum', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: true, block_height: 996 },
+      }
+      // 5 confirmations, min 6 = false
+      expect(hasMinConfirmations(utxo, 1000, 6)).toBe(false)
+    })
+
+    it('should return false for unconfirmed UTXO', () => {
+      const utxo: UTXO = {
+        txid: 'abc123',
+        vout: 0,
+        value: 1000000,
+        status: { confirmed: false },
+      }
+      expect(hasMinConfirmations(utxo, 1000, 6)).toBe(false)
+    })
   })
 
-  afterEach(() => {
-    nock.cleanAll()
-  })
+  describe('sumConfirmedUtxos', () => {
+    const currentBlockHeight = 1000
+    const minConfirmations = 6
 
-  const mockBlockHeight = (height: number) => {
-    nock('https://test.electrs.api').get('/blocks/tip/height').reply(200, String(height)).persist()
-  }
-
-  const mockUtxos = (utxos: unknown[]) => {
-    nock('https://test.electrs.api')
-      .get(`/address/${MOCK_ADDRESS}/utxo`)
-      .reply(200, utxos)
-      .persist()
-  }
-
-  const mockMempool = (txs: unknown[] = []) => {
-    nock('https://test.electrs.api')
-      .get(`/address/${MOCK_ADDRESS}/txs/mempool`)
-      .reply(200, txs)
-      .persist()
-  }
-
-  describe('confirmation counting', () => {
-    it('should only count UTXOs with 6+ confirmations', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        // Block 995: 1000 - 995 + 1 = 6 confirmations ✓
+    it('should sum only UTXOs with sufficient confirmations', () => {
+      const utxos: UTXO[] = [
+        // 6 confirmations ✓
         { txid: 'tx1', vout: 0, value: 1000000, status: { confirmed: true, block_height: 995 } },
-        // Block 996: 1000 - 996 + 1 = 5 confirmations ✗
+        // 5 confirmations ✗
         { txid: 'tx2', vout: 0, value: 2000000, status: { confirmed: true, block_height: 996 } },
-        // Block 994: 1000 - 994 + 1 = 7 confirmations ✓
+        // 7 confirmations ✓
         { txid: 'tx3', vout: 0, value: 3000000, status: { confirmed: true, block_height: 994 } },
-        // Block 999: 1000 - 999 + 1 = 2 confirmations ✗
+        // 2 confirmations ✗
         { txid: 'tx4', vout: 0, value: 4000000, status: { confirmed: true, block_height: 999 } },
-      ])
-      mockMempool()
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-
-      // Should only count tx1 (1M) + tx3 (3M) = 4M sats
-      const json = response.json()
-      expect(json.result).toBe(4000000)
+      // tx1 (1M) + tx3 (3M) = 4M
+      expect(sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)).toBe(4000000)
     })
 
-    it('should exclude unconfirmed UTXOs', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        // Confirmed with 10 confirmations
-        { txid: 'tx1', vout: 0, value: 5000000, status: { confirmed: true, block_height: 991 } },
-        // Unconfirmed (still in mempool)
+    it('should exclude unconfirmed UTXOs', () => {
+      const utxos: UTXO[] = [
+        { txid: 'tx1', vout: 0, value: 5000000, status: { confirmed: true, block_height: 990 } },
         { txid: 'tx2', vout: 0, value: 3000000, status: { confirmed: false } },
-        // Confirmed with 6 confirmations
         { txid: 'tx3', vout: 0, value: 2000000, status: { confirmed: true, block_height: 995 } },
-      ])
-      mockMempool()
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-
-      // Should only count tx1 (5M) + tx3 (2M) = 7M sats
-      const json = response.json()
-      expect(json.result).toBe(7000000)
+      // tx1 (5M) + tx3 (2M) = 7M
+      expect(sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)).toBe(7000000)
     })
 
-    it('should handle edge case of exactly 6 confirmations', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        // Exactly 6 confirmations: 1000 - 995 + 1 = 6 ✓
+    it('should return 0 for empty UTXO list', () => {
+      expect(sumConfirmedUtxos([], currentBlockHeight, minConfirmations)).toBe(0)
+    })
+
+    it('should return 0 when no UTXOs meet confirmation requirement', () => {
+      const utxos: UTXO[] = [
+        { txid: 'tx1', vout: 0, value: 1000000, status: { confirmed: true, block_height: 998 } },
+        { txid: 'tx2', vout: 0, value: 2000000, status: { confirmed: false } },
+      ]
+
+      expect(sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)).toBe(0)
+    })
+
+    it('should handle exactly 6 confirmations (edge case)', () => {
+      const utxos: UTXO[] = [
         { txid: 'tx1', vout: 0, value: 1000000, status: { confirmed: true, block_height: 995 } },
-      ])
-      mockMempool()
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toBe(1000000)
+      expect(sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)).toBe(1000000)
     })
 
-    it('should handle edge case of 5 confirmations (just below threshold)', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        // 5 confirmations: 1000 - 996 + 1 = 5 ✗
+    it('should handle 5 confirmations (just below threshold)', () => {
+      const utxos: UTXO[] = [
         { txid: 'tx1', vout: 0, value: 1000000, status: { confirmed: true, block_height: 996 } },
-      ])
-      mockMempool()
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toBe(0)
+      expect(sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)).toBe(0)
     })
   })
 
-  describe('pending spend handling', () => {
-    it('should add pending spend input values', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      // Original UTXO was spent
-      mockUtxos([])
-      // But there's a pending tx spending from this address
-      mockMempool([
+  describe('sumPendingSpendInputs', () => {
+    const targetAddress = 'bc1ptest1234567890'
+
+    it('should sum pending spend inputs from the target address', () => {
+      const mempoolTxs: MempoolTransaction[] = [
         {
           txid: 'pending_tx',
           vin: [
@@ -142,68 +175,20 @@ describe('reserves confirmation logic', () => {
               txid: 'original_tx',
               vout: 0,
               prevout: {
-                scriptpubkey_address: MOCK_ADDRESS,
+                scriptpubkey_address: targetAddress,
                 value: 5000000,
               },
             },
           ],
-          vout: [
-            { scriptpubkey_address: 'bc1qrecipient', value: 3000000 },
-            { scriptpubkey_address: MOCK_ADDRESS, value: 2000000 },
-          ],
+          vout: [{ scriptpubkey_address: 'bc1qrecipient', value: 4500000 }],
         },
-      ])
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-
-      // Should count the 5M from the pending spend input
-      expect(response.json().result).toBe(5000000)
+      expect(sumPendingSpendInputs(mempoolTxs, targetAddress)).toBe(5000000)
     })
 
-    it('should combine confirmed UTXOs and pending spend inputs', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      // One confirmed UTXO
-      mockUtxos([
-        {
-          txid: 'confirmed_tx',
-          vout: 0,
-          value: 10000000,
-          status: { confirmed: true, block_height: 990 },
-        },
-      ])
-      // Plus a pending tx spending from another UTXO
-      mockMempool([
-        {
-          txid: 'pending_tx',
-          vin: [
-            {
-              txid: 'another_tx',
-              vout: 0,
-              prevout: {
-                scriptpubkey_address: MOCK_ADDRESS,
-                value: 3000000,
-              },
-            },
-          ],
-          vout: [],
-        },
-      ])
-
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-
-      // Should count 10M confirmed + 3M pending = 13M
-      expect(response.json().result).toBe(13000000)
-    })
-
-    it('should ignore pending tx inputs from other addresses', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        { txid: 'tx1', vout: 0, value: 5000000, status: { confirmed: true, block_height: 990 } },
-      ])
-      // Pending tx with input from a DIFFERENT address
-      mockMempool([
+    it('should ignore inputs from other addresses', () => {
+      const mempoolTxs: MempoolTransaction[] = [
         {
           txid: 'pending_tx',
           vin: [
@@ -218,39 +203,89 @@ describe('reserves confirmation logic', () => {
           ],
           vout: [],
         },
-      ])
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-
-      // Should only count the 5M confirmed, not the 10M from other address
-      expect(response.json().result).toBe(5000000)
-    })
-  })
-
-  describe('empty states', () => {
-    it('should return 0 for address with no UTXOs', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([])
-      mockMempool([])
-
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toBe(0)
+      expect(sumPendingSpendInputs(mempoolTxs, targetAddress)).toBe(0)
     })
 
-    it('should return 0 when all UTXOs have insufficient confirmations', async () => {
-      mockBlockHeight(MOCK_BLOCK_HEIGHT)
-      mockUtxos([
-        { txid: 'tx1', vout: 0, value: 1000000, status: { confirmed: true, block_height: 998 } },
-        { txid: 'tx2', vout: 0, value: 2000000, status: { confirmed: true, block_height: 999 } },
-        { txid: 'tx3', vout: 0, value: 3000000, status: { confirmed: false } },
-      ])
-      mockMempool([])
+    it('should sum multiple inputs from target address', () => {
+      const mempoolTxs: MempoolTransaction[] = [
+        {
+          txid: 'pending_tx',
+          vin: [
+            {
+              txid: 'tx1',
+              vout: 0,
+              prevout: { scriptpubkey_address: targetAddress, value: 3000000 },
+            },
+            {
+              txid: 'tx2',
+              vout: 0,
+              prevout: { scriptpubkey_address: targetAddress, value: 2000000 },
+            },
+          ],
+          vout: [],
+        },
+      ]
 
-      const response = await testAdapter.request({ endpoint: 'reserves' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toBe(0)
+      expect(sumPendingSpendInputs(mempoolTxs, targetAddress)).toBe(5000000)
+    })
+
+    it('should sum across multiple transactions', () => {
+      const mempoolTxs: MempoolTransaction[] = [
+        {
+          txid: 'pending_tx1',
+          vin: [
+            {
+              txid: 'tx1',
+              vout: 0,
+              prevout: { scriptpubkey_address: targetAddress, value: 3000000 },
+            },
+          ],
+          vout: [],
+        },
+        {
+          txid: 'pending_tx2',
+          vin: [
+            {
+              txid: 'tx2',
+              vout: 0,
+              prevout: { scriptpubkey_address: targetAddress, value: 2000000 },
+            },
+          ],
+          vout: [],
+        },
+      ]
+
+      expect(sumPendingSpendInputs(mempoolTxs, targetAddress)).toBe(5000000)
+    })
+
+    it('should return 0 for empty mempool', () => {
+      expect(sumPendingSpendInputs([], targetAddress)).toBe(0)
+    })
+
+    it('should handle mixed inputs (some from target, some from others)', () => {
+      const mempoolTxs: MempoolTransaction[] = [
+        {
+          txid: 'pending_tx',
+          vin: [
+            {
+              txid: 'tx1',
+              vout: 0,
+              prevout: { scriptpubkey_address: targetAddress, value: 5000000 },
+            },
+            {
+              txid: 'tx2',
+              vout: 0,
+              prevout: { scriptpubkey_address: 'bc1pother', value: 3000000 },
+            },
+          ],
+          vout: [],
+        },
+      ]
+
+      // Only count the input from target address
+      expect(sumPendingSpendInputs(mempoolTxs, targetAddress)).toBe(5000000)
     })
   })
 })

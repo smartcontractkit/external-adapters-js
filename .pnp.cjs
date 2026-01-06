@@ -6121,7 +6121,10 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["bip32", "npm:4.0.0"],\
+          ["bitcoinjs-lib", "npm:6.1.7"],\
           ["nock", "npm:13.5.6"],\
+          ["tiny-secp256k1", "npm:2.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
