@@ -1,5 +1,11 @@
 # @chainlink/multi-address-list-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4284](https://github.com/smartcontractkit/external-adapters-js/pull/4284) [`62072e5`](https://github.com/smartcontractkit/external-adapters-js/commit/62072e55ac4d89c8915403777d94792a26f63091) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - added address-debug endpoint
+
 ## 1.1.0
 
 ### Minor Changes
