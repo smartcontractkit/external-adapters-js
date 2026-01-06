@@ -53,7 +53,7 @@ class KalmanFilter {
  * Manages the transition state and applies the weighted blending
  * between raw and smoothed prices.
  */
-export class SessionAwareSmoother {
+export class KalmanSmoother {
   private filter: KalmanFilter = new KalmanFilter()
 
   /**
