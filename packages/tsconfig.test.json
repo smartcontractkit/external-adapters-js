@@ -594,9 +594,6 @@
       "path": "./sources/wisdomtree/tsconfig.test.json"
     },
     {
-      "path": "./sources/wootrade/tsconfig.test.json"
-    },
-    {
       "path": "./sources/wrapped/tsconfig.test.json"
     },
     {
