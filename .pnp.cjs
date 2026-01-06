@@ -623,10 +623,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/oanda"\
     },\
     {\
-      "name": "@chainlink/oilpriceapi-adapter",\
-      "reference": "workspace:packages/sources/oilpriceapi"\
-    },\
-    {\
       "name": "@chainlink/onchain-gas-adapter",\
       "reference": "workspace:packages/sources/onchain-gas"\
     },\
@@ -819,16 +815,8 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wisdomtree"\
     },\
     {\
-      "name": "@chainlink/wootrade-adapter",\
-      "reference": "workspace:packages/sources/wootrade"\
-    },\
-    {\
       "name": "@chainlink/wrapped-adapter",\
       "reference": "workspace:packages/sources/wrapped"\
-    },\
-    {\
-      "name": "@chainlink/xbto-adapter",\
-      "reference": "workspace:packages/sources/xbto"\
     },\
     {\
       "name": "@chainlink/dydx-stark-adapter",\
@@ -985,7 +973,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
-    ["@chainlink/oilpriceapi-adapter", ["workspace:packages/sources/oilpriceapi"]],\
     ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/ondo-calculated-adapter", ["workspace:packages/composites/ondo-calculated"]],\
@@ -1045,9 +1032,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
     ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
-    ["@chainlink/wootrade-adapter", ["workspace:packages/sources/wootrade"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
-    ["@chainlink/xbto-adapter", ["workspace:packages/sources/xbto"]],\
     ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
   ],\
   "fallbackPool": [\
@@ -7712,24 +7697,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/oilpriceapi-adapter", [\
-      ["workspace:packages/sources/oilpriceapi", {\
-        "packageLocation": "./packages/sources/oilpriceapi/",\
-        "packageDependencies": [\
-          ["@chainlink/oilpriceapi-adapter", "workspace:packages/sources/oilpriceapi"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/onchain-gas-adapter", [\
       ["workspace:packages/sources/onchain-gas", {\
         "packageLocation": "./packages/sources/onchain-gas/",\
@@ -8823,47 +8790,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/wootrade-adapter", [\
-      ["workspace:packages/sources/wootrade", {\
-        "packageLocation": "./packages/sources/wootrade/",\
-        "packageDependencies": [\
-          ["@chainlink/wootrade-adapter", "workspace:packages/sources/wootrade"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/wrapped-adapter", [\
       ["workspace:packages/sources/wrapped", {\
         "packageLocation": "./packages/sources/wrapped/",\
         "packageDependencies": [\
           ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/xbto-adapter", [\
-      ["workspace:packages/sources/xbto", {\
-        "packageLocation": "./packages/sources/xbto/",\
-        "packageDependencies": [\
-          ["@chainlink/xbto-adapter", "workspace:packages/sources/xbto"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
