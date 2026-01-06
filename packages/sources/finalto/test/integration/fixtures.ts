@@ -75,6 +75,27 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
           Symbol: 'MSFT.xnas',
         }),
       )
+      socket.send(
+        JSON.stringify({
+          MsgSeqNum: '12',
+          MsgType: 'SymbolPrices',
+          Prices: [
+            {
+              Px: '461.92',
+              Type: 'B',
+              Vol: 'lol',
+            },
+            {
+              Px: '461.96',
+              Type: 'O',
+              Vol: '1000000',
+            },
+          ],
+          SendTime: '20240111-05:32:40.198',
+          SubID: parsed.SubID,
+          Symbol: 'INVALID.xnas',
+        }),
+      )
     })
   })
 
