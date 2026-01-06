@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { transport } from '../transport/supply'
+import { transport } from '../transport/da-supply'
 
 /**
  * String response type to handle values beyond Number.MAX_SAFE_INTEGER.
@@ -18,8 +18,8 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-export const supply = new AdapterEndpoint({
-  name: 'supply',
-  aliases: ['totalSupply', 'reserves'],
+export const daSupply = new AdapterEndpoint({
+  name: 'daSupply',
+  aliases: ['daTotalSupply'],
   transport,
 })

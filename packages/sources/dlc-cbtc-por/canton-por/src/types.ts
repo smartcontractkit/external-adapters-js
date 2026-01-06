@@ -1,5 +1,5 @@
 /**
- * Type definitions for the Canton Digital Assets API
+ * Type definitions for the Canton PoR APIs
  */
 
 /** Instrument data from the Digital Asset API */
@@ -13,8 +13,15 @@ export interface Instrument {
   supportedApis: Record<string, number>
 }
 
-/** API response structure */
-export interface ApiResponse {
+/** Digital Asset API response structure */
+export interface DaResponse {
   instruments: Instrument[]
   nextPageToken: string | null
+}
+
+/** Attester API response structure */
+export interface AttesterResponse {
+  status: string
+  total_supply_cbtc: string
+  last_updated: string
 }

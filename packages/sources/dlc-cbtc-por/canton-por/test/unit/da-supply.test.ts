@@ -1,5 +1,6 @@
-import { calculateTotalSupply, parseDecimalString } from '../../src/transport/supply'
+import { calculateDaSupply } from '../../src/lib'
 import { Instrument } from '../../src/types'
+import { parseDecimalString } from '../../src/utils'
 
 const createInstrument = (overrides: Partial<Instrument> = {}): Instrument => ({
   id: 'CBTC',
@@ -43,8 +44,6 @@ describe('Canton Digital Assets Supply', () => {
     })
 
     it('should truncate not round - value ending in 9s', () => {
-      // If rounding: 1.9999999999 + 0.0000000009 = 2.0000000000 = 20000000000n
-      // Truncating: 1.9999999999 stays as 19999999999n
       expect(parseDecimalString('1.99999999999', 10)).toBe(19999999999n)
     })
 
@@ -69,46 +68,45 @@ describe('Canton Digital Assets Supply', () => {
     })
   })
 
-  describe('calculateTotalSupply', () => {
+  describe('calculateDaSupply', () => {
     it('should calculate supply from API response', () => {
       const instruments = [createInstrument({ totalSupply: '11.7127388' })]
-      expect(calculateTotalSupply(instruments)).toBe('117127388000')
+      expect(calculateDaSupply(instruments)).toBe('117127388000')
     })
 
     it('should handle different decimal configurations', () => {
       const instruments = [createInstrument({ totalSupply: '5.5', decimals: 8 })]
-      expect(calculateTotalSupply(instruments)).toBe('550000000')
+      expect(calculateDaSupply(instruments)).toBe('550000000')
     })
 
     it('should handle whole number supply', () => {
       const instruments = [createInstrument({ totalSupply: '100', decimals: 8 })]
-      expect(calculateTotalSupply(instruments)).toBe('10000000000')
+      expect(calculateDaSupply(instruments)).toBe('10000000000')
     })
 
     it('should handle zero supply', () => {
       const instruments = [createInstrument({ totalSupply: '0' })]
-      expect(calculateTotalSupply(instruments)).toBe('0')
+      expect(calculateDaSupply(instruments)).toBe('0')
     })
 
-    it('should throw when no instruments found', () => {
-      expect(() => calculateTotalSupply([])).toThrow('No instruments found')
+    it('should handle very small supply values', () => {
+      const instruments = [createInstrument({ totalSupply: '0.0000001' })]
+      expect(calculateDaSupply(instruments)).toBe('1000')
     })
 
-    it('should throw when instruments is undefined', () => {
-      expect(() => calculateTotalSupply(undefined as unknown as Instrument[])).toThrow(
-        'No instruments found',
-      )
+    it('should handle large supply without precision loss', () => {
+      const instruments = [createInstrument({ totalSupply: '21000000' })]
+      expect(calculateDaSupply(instruments)).toBe('210000000000000000')
     })
 
-    it('should throw when instruments is null', () => {
-      expect(() => calculateTotalSupply(null as unknown as Instrument[])).toThrow(
-        'No instruments found',
-      )
+    it('should handle max supply with full decimal precision', () => {
+      const instruments = [createInstrument({ totalSupply: '21000000.9999999999' })]
+      expect(calculateDaSupply(instruments)).toBe('210000009999999999')
     })
 
-    it('should throw when CBTC not found', () => {
-      const instruments = [createInstrument({ symbol: 'OTHER', id: 'OTHER', name: 'Other' })]
-      expect(() => calculateTotalSupply(instruments)).toThrow('CBTC instrument not found')
+    it('should truncate excess decimal places', () => {
+      const instruments = [createInstrument({ totalSupply: '1.123456789012345' })]
+      expect(calculateDaSupply(instruments)).toBe('11234567890')
     })
 
     it('should find CBTC among multiple instruments', () => {
@@ -116,65 +114,65 @@ describe('Canton Digital Assets Supply', () => {
         createInstrument({ symbol: 'OTHER', id: 'OTHER', totalSupply: '999' }),
         createInstrument({ totalSupply: '25.5' }),
       ]
-      expect(calculateTotalSupply(instruments)).toBe('255000000000')
+      expect(calculateDaSupply(instruments)).toBe('255000000000')
     })
 
-    it('should handle very small supply values', () => {
-      const instruments = [createInstrument({ totalSupply: '0.0000001' })]
-      expect(calculateTotalSupply(instruments)).toBe('1000')
+    it('should throw when no instruments found', () => {
+      expect(() => calculateDaSupply([])).toThrow('No instruments found')
     })
 
-    it('should handle large supply without precision loss', () => {
-      const instruments = [createInstrument({ totalSupply: '21000000' })]
-      expect(calculateTotalSupply(instruments)).toBe('210000000000000000')
+    it('should throw when instruments is undefined', () => {
+      expect(() => calculateDaSupply(undefined as unknown as Instrument[])).toThrow(
+        'No instruments found',
+      )
     })
 
-    it('should handle max supply with full decimal precision', () => {
-      const instruments = [createInstrument({ totalSupply: '21000000.9999999999' })]
-      expect(calculateTotalSupply(instruments)).toBe('210000009999999999')
+    it('should throw when instruments is null', () => {
+      expect(() => calculateDaSupply(null as unknown as Instrument[])).toThrow(
+        'No instruments found',
+      )
     })
 
-    it('should truncate excess decimal places', () => {
-      const instruments = [createInstrument({ totalSupply: '1.123456789012345' })]
-      expect(calculateTotalSupply(instruments)).toBe('11234567890')
+    it('should throw when CBTC not found', () => {
+      const instruments = [createInstrument({ symbol: 'OTHER', id: 'OTHER', name: 'Other' })]
+      expect(() => calculateDaSupply(instruments)).toThrow('CBTC instrument not found')
     })
 
-    // Error cases for malformed CBTC data - should throw, never default to 0
     it('should throw when CBTC totalSupply is empty string', () => {
       const instruments = [createInstrument({ totalSupply: '' })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC totalSupply is whitespace only', () => {
       const instruments = [createInstrument({ totalSupply: '   ' })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC totalSupply is invalid', () => {
       const instruments = [createInstrument({ totalSupply: 'invalid' })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC totalSupply is null', () => {
       const instruments = [createInstrument({ totalSupply: null as unknown as string })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC totalSupply is undefined', () => {
       const instruments = [createInstrument({ totalSupply: undefined as unknown as string })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC decimals is undefined', () => {
       const instruments = [
         createInstrument({ totalSupply: '100', decimals: undefined as unknown as number }),
       ]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
 
     it('should throw when CBTC decimals is negative', () => {
       const instruments = [createInstrument({ totalSupply: '100', decimals: -1 })]
-      expect(() => calculateTotalSupply(instruments)).toThrow()
+      expect(() => calculateDaSupply(instruments)).toThrow()
     })
   })
 })

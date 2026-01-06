@@ -1,15 +1,15 @@
 {
-  "name": "@chainlink/dlc-cbtc-btc-attester-por-adapter",
+  "name": "@chainlink/dlc-cbtc-canton-por-adapter",
   "version": "1.0.0",
-  "description": "Chainlink CBTC BTC Attester Proof of Reserves adapter. Queries Bitcoin blockchain UTXOs to verify BTC reserves across vault addresses.",
+  "description": "Chainlink CBTC Canton Proof of Reserves adapter. Queries Digital Asset API and Attester API for CBTC total supply.",
   "keywords": [
     "Chainlink",
     "LINK",
-    "BTC",
-    "Bitcoin",
+    "CBTC",
+    "Canton",
+    "Digital Assets",
     "blockchain",
     "oracle",
-    "CBTC",
     "Proof of Reserves"
   ],
   "main": "dist/index.js",

@@ -1,1 +1,0 @@
-export { supply } from './supply'

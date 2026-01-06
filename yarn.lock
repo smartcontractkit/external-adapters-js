@@ -3396,9 +3396,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-btc-attester-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-attester-por":
+"@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-por":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-btc-attester-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-attester-por"
+  resolution: "@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por/btc-por"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
@@ -3409,9 +3409,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-canton-digital-assets-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por":
+"@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-por":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-canton-digital-assets-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-digital-assets-por"
+  resolution: "@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por/canton-por"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
@@ -13313,9 +13313,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools":
+"cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools":
   version: 0.0.0-use.local
-  resolution: "cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-attester-por/vendor/cbtc-por-tools"
+  resolution: "cbtc-address-calculation@workspace:packages/sources/dlc-cbtc-por/btc-por/vendor/cbtc-por-tools"
   dependencies:
     "@types/node": "npm:^20.19.27"
     bip32: "npm:^4.0.0"
