@@ -5,12 +5,10 @@ export const config = new AdapterConfig(
     CANTON_API_URL: {
       description: 'Digital Asset API endpoint URL for CBTC token metadata',
       type: 'string',
-      required: false,
     },
     ATTESTER_API_URL: {
-      description: 'Attester API base URL (e.g., https://mainnet.dlc.link/attestor-1)',
+      description: 'Attester API base URL for CBTC supply',
       type: 'string',
-      required: false,
     },
   },
   {

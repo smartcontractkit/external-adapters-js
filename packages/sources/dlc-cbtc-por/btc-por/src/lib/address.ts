@@ -13,9 +13,10 @@ import BIP32Factory from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
 import * as ecc from 'tiny-secp256k1'
+import { buildUrl } from './por'
 import { AttesterAddressResponse, ChainAddressGroup } from './types'
 
-const logger = makeLogger('CbtcAddress')
+const logger = makeLogger('BtcAddress')
 
 // Initialize ECC library for bitcoinjs-lib (required for Taproot operations)
 bitcoin.initEccLib(ecc)
@@ -24,12 +25,21 @@ bitcoin.initEccLib(ecc)
 const bip32 = BIP32Factory(ecc)
 
 /**
- * Constants from the Rust implementation
- * These must match exactly to generate the correct addresses
+ * Unspendable Public Key for DLC (Discreet Log Contract) Taproot Addresses
+ *
+ * This is the "Nothing Up My Sleeve" (NUMS) point used in BIP-341 Taproot.
+ * It's derived by hashing "UNSPENDABLE" and using the result as a seed for
+ * a provably unspendable public key.
+ *
+ * For DLC.Link's CBTC bridge, this key serves as the Taproot internal key:
+ * - The internal key must be unspendable to ensure funds can only be spent
+ *   via the script path (which requires the threshold signature)
+ * - Using a fixed, verifiable NUMS point ensures no party has the private key
+ * - This matches the Rust implementation in dlc-btc-lib reference implementation
+ *
+ * The key is 33 bytes in compressed format (02 prefix + 32-byte x-coordinate).
+ * Reference: https://github.com/DLC-link/dlc-btc-lib
  */
-
-// Fixed unspendable public key used as the base for internal key derivation
-// This key is intentionally chosen to be unspendable to enhance security
 const UNSPENDABLE_PUBLIC_KEY = '0250929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0'
 
 /**
@@ -120,27 +130,34 @@ export function calculateTaprootAddress(
 export async function fetchAddressCalculationData(
   attestorUrl: string,
 ): Promise<AttesterAddressResponse> {
-  const url = `${attestorUrl}/app/get-address-calculation-data`
-  logger.debug(`Fetching address calculation data from: ${url}`)
+  const url = buildUrl(attestorUrl, '/app/get-address-calculation-data')
+  logger.debug(`Fetching address data from Attester API`)
 
   const response = await fetch(url)
-
   if (!response.ok) {
-    throw new Error(`Failed to fetch address data from Attester API: ${response.status}`)
+    throw new Error(`Attester API request failed: HTTP ${response.status}`)
   }
 
-  return (await response.json()) as AttesterAddressResponse
+  const data = await response.json()
+
+  // Basic validation of response structure
+  if (!data || !Array.isArray(data.chains) || typeof data.bitcoin_network !== 'string') {
+    throw new Error('Invalid Attester API response: missing required fields')
+  }
+
+  return data as AttesterAddressResponse
 }
 
 /**
- * Calculate and verify all vault addresses for a specific chain
- *
- * Returns an array of verified Bitcoin addresses that can be queried for UTXOs
+ * Calculate and verify all vault addresses for a specific chain.
+ * Returns an array of verified Bitcoin addresses that can be queried for UTXOs.
  */
 export function calculateAndVerifyAddresses(
   chainGroup: ChainAddressGroup,
   network: bitcoin.Network,
 ): string[] {
+  logger.debug(`Verifying ${chainGroup.addresses.length} addresses for chain ${chainGroup.chain}`)
+
   // Parse the xpub to get the threshold group's x-only public key
   const xpubDecoded = bip32.fromBase58(chainGroup.xpub, network)
 
@@ -150,54 +167,59 @@ export function calculateAndVerifyAddresses(
   const verifiedAddresses: string[] = []
 
   for (const addressInfo of chainGroup.addresses) {
-    // Calculate the address independently
+    // Calculate the address independently from deposit ID and threshold pubkey
     const calculatedAddress = calculateTaprootAddress(addressInfo.id, xOnlyPubkey, network)
 
     // Verify our calculated address matches what the attestor reported
     if (calculatedAddress !== addressInfo.address_for_verification) {
-      throw new Error(
-        `Address verification failed for deposit ${addressInfo.id.substring(0, 16)}...: ` +
+      // Log full deposit ID for debugging
+      logger.error(
+        `Address mismatch for depositId=${addressInfo.id}: ` +
           `calculated=${calculatedAddress}, attestor=${addressInfo.address_for_verification}`,
+      )
+      throw new Error(
+        `Address verification failed: depositId=${addressInfo.id}, ` +
+          `calculated=${calculatedAddress}, expected=${addressInfo.address_for_verification}`,
       )
     }
 
     verifiedAddresses.push(calculatedAddress)
   }
 
-  logger.debug(`Verified ${verifiedAddresses.length} addresses for chain ${chainGroup.chain}`)
+  logger.info(`Verified ${verifiedAddresses.length} addresses for chain ${chainGroup.chain}`)
   return verifiedAddresses
 }
 
 /**
- * Fetch and calculate all vault addresses from the Attester API
- *
- * Queries the Attester API, filters by chain name, calculates addresses,
+ * Fetch and calculate all vault addresses from the Attester API.
+ * Queries the API, filters by chain name, calculates addresses trustlessly,
  * and verifies they match the attestor-provided addresses.
  */
 export async function fetchAndCalculateVaultAddresses(
   attestorUrl: string,
   chainName: string,
 ): Promise<{ addresses: string[]; bitcoinNetwork: bitcoin.Network }> {
-  // Fetch all deposit account data from the attestor
-  const data = await fetchAddressCalculationData(attestorUrl)
+  logger.info(`Fetching vault addresses for chain=${chainName}`)
 
-  // Get the Bitcoin network configuration
+  // Fetch deposit account data from the attestor
+  const data = await fetchAddressCalculationData(attestorUrl)
   const bitcoinNetwork = getBitcoinNetwork(data.bitcoin_network)
+
+  logger.debug(`Attester response: network=${data.bitcoin_network}, chains=${data.chains.length}`)
 
   // Find the chain matching our configured chain name
   const chainGroup = data.chains.find((c) => c.chain.toLowerCase() === chainName.toLowerCase())
 
   if (!chainGroup) {
     const availableChains = data.chains.map((c) => c.chain).join(', ')
-    throw new Error(
-      `Chain "${chainName}" not found in Attester response. Available chains: ${availableChains}`,
-    )
+    throw new Error(`Chain "${chainName}" not found. Available: [${availableChains}]`)
   }
 
+  // Calculate and verify all addresses
   const addresses = calculateAndVerifyAddresses(chainGroup, bitcoinNetwork)
 
   logger.info(
-    `Calculated ${addresses.length} vault addresses for chain ${chainName} on ${data.bitcoin_network}`,
+    `Fetched ${addresses.length} verified addresses for ${chainName} (${data.bitcoin_network})`,
   )
 
   return { addresses, bitcoinNetwork }

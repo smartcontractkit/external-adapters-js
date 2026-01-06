@@ -4,9 +4,9 @@ import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import { calculateReserves, fetchAndCalculateVaultAddresses } from '../lib'
 
-const logger = makeLogger('CbtcPorTransport')
+const logger = makeLogger('BtcPorTransport')
 
-class CbtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
+class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async backgroundHandler(
     context: { adapterSettings: typeof config.settings },
     entries: { id: string }[],
@@ -18,25 +18,31 @@ class CbtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     try {
-      // Step 1: Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
-      logger.debug(`Fetching vault addresses from Attester API for chain: ${CHAIN_NAME}`)
+      logger.info(`Starting PoR calculation for chain: ${CHAIN_NAME}`)
+
+      // Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
       const { addresses } = await fetchAndCalculateVaultAddresses(ATTESTER_API_URL, CHAIN_NAME)
 
       if (addresses.length === 0) {
         throw new Error(`No vault addresses found for chain: ${CHAIN_NAME}`)
       }
 
-      logger.debug(
-        `Querying ${addresses.length} vault addresses (min confirmations: ${MIN_CONFIRMATIONS})`,
+      logger.info(
+        `Found ${addresses.length} vault addresses, minConfirmations=${MIN_CONFIRMATIONS}`,
       )
 
-      const totalReserves = await calculateReserves(
+      // Calculate reserves (returns BigInt for precision)
+      const totalReservesBigInt = await calculateReserves(
         BITCOIN_RPC_ENDPOINT,
         addresses,
         MIN_CONFIRMATIONS,
       )
 
-      logger.info(`Total reserves: ${totalReserves} sats across ${addresses.length} addresses`)
+      // Convert BigInt to Number for JSON response
+      // Note: This is safe for Bitcoin (max 21M BTC = 2.1e15 sats < Number.MAX_SAFE_INTEGER)
+      const totalReserves = Number(totalReservesBigInt)
+
+      logger.info(`PoR complete: ${totalReserves} sats (${addresses.length} addresses)`)
 
       await this.responseCache.write(this.name, [
         {
@@ -78,4 +84,4 @@ class CbtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const transport = new CbtcPorTransport()
+export const transport = new BtcPorTransport()
