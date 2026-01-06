@@ -450,9 +450,6 @@
       "path": "./sources/oanda/tsconfig.test.json"
     },
     {
-      "path": "./sources/oilpriceapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/onchain-gas/tsconfig.test.json"
     },
     {
