@@ -7,9 +7,11 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
   },
-  CHAIN_NAME: {
-    description: 'Canton chain name to filter addresses (e.g., "mainnet", "devnet")',
-    type: 'string',
+  BITCOIN_NETWORK: {
+    description: 'Canton chain name to filter addresses',
+    type: 'enum',
+    default: 'mainnet',
+    options: ['mainnet', 'testnet', 'regtest'],
     required: true,
   },
   BITCOIN_RPC_ENDPOINT: {

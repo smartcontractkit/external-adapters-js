@@ -13,7 +13,6 @@ export type BaseEndpointTypes = {
 
 export const daSupply = new AdapterEndpoint({
   name: 'daSupply',
-  aliases: ['daTotalSupply'],
   transport,
   customInputValidation: (_req, settings): AdapterInputError | undefined => {
     if (!settings.CANTON_API_URL) {

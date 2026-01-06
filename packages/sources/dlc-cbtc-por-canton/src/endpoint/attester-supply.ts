@@ -13,7 +13,6 @@ export type BaseEndpointTypes = {
 
 export const attesterSupply = new AdapterEndpoint({
   name: 'attesterSupply',
-  aliases: ['attesterTotalSupply'],
   transport,
   customInputValidation: (_req, settings): AdapterInputError | undefined => {
     if (!settings.ATTESTER_API_URL) {

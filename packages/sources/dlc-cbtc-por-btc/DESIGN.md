@@ -11,13 +11,13 @@ This trustless design ensures the adapter independently verifies all vault addre
 
 ## Configuration
 
-| Variable                | Required | Default | Description                                                                  |
-| ----------------------- | -------- | ------- | ---------------------------------------------------------------------------- |
-| `ATTESTER_API_URL`      | Yes      | -       | DLC.Link Attester API URL (e.g., `https://mainnet.dlc.link/attestor-1`)      |
-| `CHAIN_NAME`            | Yes      | -       | Canton chain name to filter addresses (e.g., `"mainnet"`, `"devnet"`)        |
-| `BITCOIN_RPC_ENDPOINT`  | Yes      | -       | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries          |
-| `MIN_CONFIRMATIONS`     | No       | `6`     | Minimum confirmations required for a UTXO to be counted                      |
-| `BACKGROUND_EXECUTE_MS` | No       | `10000` | Interval in milliseconds between background executions (default: 10 seconds) |
+| Variable                | Required | Default   | Description                                                                  |
+| ----------------------- | -------- | --------- | ---------------------------------------------------------------------------- |
+| `ATTESTER_API_URL`      | Yes      | -         | DLC.Link Attester API URL (e.g., `https://mainnet.dlc.link/attestor-1`)      |
+| `BITCOIN_NETWORK`       | Yes      | `mainnet` | Bitcoin network (`mainnet`, `testnet`, `regtest`)                            |
+| `BITCOIN_RPC_ENDPOINT`  | Yes      | -         | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries          |
+| `MIN_CONFIRMATIONS`     | No       | `6`       | Minimum confirmations required for a UTXO to be counted                      |
+| `BACKGROUND_EXECUTE_MS` | No       | `10000`   | Interval in milliseconds between background executions (default: 10 seconds) |
 
 ## Endpoints
 
@@ -113,7 +113,7 @@ yarn build
 
 # Set environment variables
 export ATTESTER_API_URL="https://mainnet.dlc.link/attestor-1"
-export CHAIN_NAME="mainnet"
+export BITCOIN_NETWORK="mainnet"
 export BITCOIN_RPC_ENDPOINT="https://blockstream.info/api"
 
 # Start

@@ -13,18 +13,18 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<void> {
     if (entries.length === 0) return
 
-    const { ATTESTER_API_URL, CHAIN_NAME, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
+    const { ATTESTER_API_URL, BITCOIN_NETWORK, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
       context.adapterSettings
     const providerDataRequestedUnixMs = Date.now()
 
     try {
-      logger.info(`Starting PoR calculation for chain: ${CHAIN_NAME}`)
+      logger.info(`Starting PoR calculation for network: ${BITCOIN_NETWORK}`)
 
       // Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
-      const { addresses } = await fetchAndCalculateVaultAddresses(ATTESTER_API_URL, CHAIN_NAME)
+      const { addresses } = await fetchAndCalculateVaultAddresses(ATTESTER_API_URL, BITCOIN_NETWORK)
 
       if (addresses.length === 0) {
-        throw new Error(`No vault addresses found for chain: ${CHAIN_NAME}`)
+        throw new Error(`No vault addresses found for network: ${BITCOIN_NETWORK}`)
       }
 
       logger.info(

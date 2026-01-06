@@ -42,12 +42,6 @@ describe('Canton PoR Adapter Integration Tests', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should work with daTotalSupply alias', async () => {
-      const response = await testAdapter.request({ endpoint: 'daTotalSupply' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
     it('should use daSupply as default endpoint', async () => {
       const response = await testAdapter.request({})
       expect(response.statusCode).toBe(200)
@@ -58,12 +52,6 @@ describe('Canton PoR Adapter Integration Tests', () => {
   describe('attesterSupply endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request({ endpoint: 'attesterSupply' })
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should work with attesterTotalSupply alias', async () => {
-      const response = await testAdapter.request({ endpoint: 'attesterTotalSupply' })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

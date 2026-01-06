@@ -12,6 +12,6 @@ export type BaseEndpointTypes = {
 
 export const reserves = new AdapterEndpoint({
   name: 'reserves',
-  aliases: ['por', 'proof-of-reserves'],
+  aliases: ['por'],
   transport,
 })

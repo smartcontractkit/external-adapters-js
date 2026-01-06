@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dlc-cbtc-canton-por-adapter",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Chainlink CBTC Canton Proof of Reserves adapter. Queries Digital Asset API and Attester API for CBTC total supply.",
   "keywords": [
     "Chainlink",
