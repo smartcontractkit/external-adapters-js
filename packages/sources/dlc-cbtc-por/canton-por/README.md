@@ -22,7 +22,7 @@ The adapter uses `CACHE_MAX_AGE: 10000` (10 seconds) to ensure data is refreshed
 
 Returns the total CBTC supply from the Digital Asset API as an integer string (scaled by 10^decimals).
 
-_No aliases_
+**Aliases:** `daTotalSupply`
 
 #### Example Request
 
@@ -50,7 +50,7 @@ _No aliases_
 
 Returns the total CBTC supply from the DLC.Link Attester API as an integer string (scaled by 10^10).
 
-_No aliases_
+**Aliases:** `attesterTotalSupply`
 
 #### Example Request
 
@@ -124,6 +124,12 @@ curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"dat
 ## Running Tests
 
 ```bash
-# From repo root
+# From repo root - run all tests
+yarn jest packages/sources/dlc-cbtc-por/canton-por/test/ --no-coverage
+
+# Run unit tests only
 yarn jest packages/sources/dlc-cbtc-por/canton-por/test/unit/ --no-coverage
+
+# Run integration tests only
+yarn jest packages/sources/dlc-cbtc-por/canton-por/test/integration/ --no-coverage
 ```

@@ -1,8 +1,10 @@
 {
   "requests": [
     {
-      "endpoint": "supply"
+      "endpoint": "daSupply"
+    },
+    {
+      "endpoint": "attesterSupply"
     }
   ]
 }
-
