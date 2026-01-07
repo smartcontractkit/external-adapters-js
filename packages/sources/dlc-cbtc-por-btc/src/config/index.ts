@@ -7,12 +7,11 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
   },
-  BITCOIN_NETWORK: {
-    description: 'Bitcoin network name to filter addresses',
+  CHAIN_NAME: {
+    description: 'Chain name to filter addresses from Attester API',
     type: 'enum',
-    default: 'mainnet',
-    options: ['mainnet', 'testnet', 'regtest'],
-    required: true,
+    options: ['canton-mainnet', 'canton-testnet', 'canton-devnet'],
+    default: 'canton-mainnet',
   },
   BITCOIN_RPC_ENDPOINT: {
     description: 'Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries',

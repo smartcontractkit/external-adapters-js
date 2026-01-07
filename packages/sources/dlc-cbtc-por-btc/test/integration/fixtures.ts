@@ -10,7 +10,7 @@ import nock from 'nock'
 
 export const MOCK_ATTESTER_API_URL = 'https://test.attester.api'
 export const MOCK_BITCOIN_RPC_URL = 'https://test.electrs.api'
-export const MOCK_BITCOIN_NETWORK = 'testnet'
+export const MOCK_CHAIN_NAME = 'canton-testnet'
 
 // Mock vault address (must match what calculateTaprootAddress produces for the mock xpub + deposit ID)
 export const MOCK_VAULT_ADDRESS = 'tb1pmockaddress1234567890abcdef'
@@ -33,7 +33,7 @@ export const mockAttesterApi = (): nock.Scope =>
       {
         chains: [
           {
-            chain: MOCK_BITCOIN_NETWORK,
+            chain: MOCK_CHAIN_NAME,
             xpub: MOCK_XPUB,
             addresses: [
               {

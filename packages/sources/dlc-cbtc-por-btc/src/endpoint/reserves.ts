@@ -1,12 +1,19 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { transport } from '../transport/reserves'
 
+/**
+ * String response type for Bitcoin reserves
+ */
+export type StringResultResponse = {
+  Data: { result: string }
+  Result: string
+}
+
 export type BaseEndpointTypes = {
   Parameters: EmptyInputParameters
-  Response: SingleNumberResultResponse
+  Response: StringResultResponse
   Settings: typeof config.settings
 }
 

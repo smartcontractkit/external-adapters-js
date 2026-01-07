@@ -3,7 +3,7 @@
 exports[`BTC PoR Adapter Integration Tests reserves endpoint should return total reserves in satoshis 1`] = `
 {
   "data": {
-    "result": 500000000,
+    "result": "500000000",
   },
   "meta": {
     "adapterName": "DLC_CBTC_BTC_POR",
@@ -11,7 +11,7 @@ exports[`BTC PoR Adapter Integration Tests reserves endpoint should return total
       "feedId": "N/A",
     },
   },
-  "result": 500000000,
+  "result": "500000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704110400000,
@@ -23,7 +23,7 @@ exports[`BTC PoR Adapter Integration Tests reserves endpoint should return total
 exports[`BTC PoR Adapter Integration Tests reserves endpoint should work with por alias 1`] = `
 {
   "data": {
-    "result": 500000000,
+    "result": "500000000",
   },
   "meta": {
     "adapterName": "DLC_CBTC_BTC_POR",
@@ -31,7 +31,7 @@ exports[`BTC PoR Adapter Integration Tests reserves endpoint should work with po
       "feedId": "N/A",
     },
   },
-  "result": 500000000,
+  "result": "500000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704110400000,
@@ -43,7 +43,7 @@ exports[`BTC PoR Adapter Integration Tests reserves endpoint should work with po
 exports[`BTC PoR Adapter Integration Tests reserves endpoint should use reserves as default endpoint 1`] = `
 {
   "data": {
-    "result": 500000000,
+    "result": "500000000",
   },
   "meta": {
     "adapterName": "DLC_CBTC_BTC_POR",
@@ -51,7 +51,7 @@ exports[`BTC PoR Adapter Integration Tests reserves endpoint should use reserves
       "feedId": "N/A",
     },
   },
-  "result": 500000000,
+  "result": "500000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704110400000,

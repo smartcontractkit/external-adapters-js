@@ -14,9 +14,9 @@ import {
 import nock from 'nock'
 import {
   MOCK_ATTESTER_API_URL,
-  MOCK_BITCOIN_NETWORK,
   MOCK_BITCOIN_RPC_URL,
   MOCK_BLOCK_HEIGHT,
+  MOCK_CHAIN_NAME,
   MOCK_VAULT_ADDRESS,
 } from './fixtures'
 
@@ -38,7 +38,7 @@ describe('BTC PoR Adapter Integration Tests', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['ATTESTER_API_URL'] = MOCK_ATTESTER_API_URL
-    process.env['BITCOIN_NETWORK'] = MOCK_BITCOIN_NETWORK
+    process.env['CHAIN_NAME'] = MOCK_CHAIN_NAME
     process.env['BITCOIN_RPC_ENDPOINT'] = MOCK_BITCOIN_RPC_URL
     process.env['MIN_CONFIRMATIONS'] = '6'
     process.env['BACKGROUND_EXECUTE_MS'] = '10000'
