@@ -21,9 +21,6 @@
       "path": "./composites/curve-3pool/tsconfig.test.json"
     },
     {
-      "path": "./composites/defi-pulse/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
@@ -106,9 +103,6 @@
     },
     {
       "path": "./scripts/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/1forge/tsconfig.test.json"
     },
     {
       "path": "./sources/ada-balance/tsconfig.test.json"
@@ -430,9 +424,6 @@
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
       "path": "./sources/nomia/tsconfig.test.json"
