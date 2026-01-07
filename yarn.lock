@@ -3307,21 +3307,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/deribit-adapter@workspace:packages/sources/deribit":
   version: 0.0.0-use.local
   resolution: "@chainlink/deribit-adapter@workspace:packages/sources/deribit"
