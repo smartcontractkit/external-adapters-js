@@ -5,9 +5,9 @@ import { attesterSupply, daSupply } from './endpoint'
 
 export const adapter = new Adapter({
   name: 'DLC_CBTC_CANTON_POR',
-  defaultEndpoint: daSupply.name,
+  defaultEndpoint: attesterSupply.name,
   config,
-  endpoints: [daSupply, attesterSupply],
+  endpoints: [attesterSupply, daSupply],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

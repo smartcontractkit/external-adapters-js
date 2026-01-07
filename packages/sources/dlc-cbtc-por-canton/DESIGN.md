@@ -18,7 +18,35 @@ The adapter uses `CACHE_MAX_AGE: 10000` (10 seconds) to ensure data is refreshed
 
 ## Endpoints
 
-### `daSupply` (default)
+### `attesterSupply` (default)
+
+Returns the total CBTC supply from the DLC.Link Attester API as an integer string (scaled by 10^10).
+
+Requires `ATTESTER_API_URL` to be set.
+
+#### Example Request
+
+```json
+{
+  "data": {}
+}
+```
+
+#### Example Response
+
+```json
+{
+  "result": "143127387999",
+  "data": {
+    "result": "143127387999"
+  },
+  "statusCode": 200
+}
+```
+
+The Attester API returns values like `"14.3127387999"` which are converted to base units with 10 decimal precision.
+
+### `daSupply`
 
 Returns the total CBTC supply from the Digital Asset API as an integer string (scaled by 10^decimals).
 
@@ -38,43 +66,13 @@ Requires `CANTON_API_URL` to be set.
 
 ```json
 {
-  "result": "117127388000",
+  "result": "143127388000",
   "data": {
-    "result": "117127388000"
+    "result": "143127388000"
   },
   "statusCode": 200
 }
 ```
-
-### `attesterSupply`
-
-Returns the total CBTC supply from the DLC.Link Attester API as an integer string (scaled by 10^10).
-
-Requires `ATTESTER_API_URL` to be set.
-
-#### Example Request
-
-```json
-{
-  "data": {
-    "endpoint": "attesterSupply"
-  }
-}
-```
-
-#### Example Response
-
-```json
-{
-  "result": "78998232600",
-  "data": {
-    "result": "78998232600"
-  },
-  "statusCode": 200
-}
-```
-
-The Attester API returns values like `"7.899823260000001"` which are converted to base units with 10 decimal precision.
 
 ## Precision Handling
 
@@ -114,11 +112,11 @@ export ATTESTER_API_URL="https://mainnet.dlc.link/attestor-1"
 # Start
 yarn start
 
-# Query daSupply (default, in another terminal)
+# Query attesterSupply (default, in another terminal)
 curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"data": {}}'
 
-# Query attesterSupply
-curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"data": {"endpoint": "attesterSupply"}}'
+# Query daSupply
+curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"data": {"endpoint": "daSupply"}}'
 ```
 
 ## Running Tests
