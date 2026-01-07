@@ -336,9 +336,6 @@
       "path": "./sources/generic-api"
     },
     {
-      "path": "./sources/genesis-volatility"
-    },
-    {
       "path": "./sources/gmci"
     },
     {
