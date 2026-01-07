@@ -35,23 +35,23 @@ describe('Canton PoR Adapter Integration Tests', () => {
     spy.mockRestore()
   })
 
-  describe('daSupply endpoint', () => {
+  describe('attesterSupply endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request({ endpoint: 'daSupply' })
+      const response = await testAdapter.request({ endpoint: 'attesterSupply' })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should use daSupply as default endpoint', async () => {
+    it('should use attesterSupply as default endpoint', async () => {
       const response = await testAdapter.request({})
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
 
-  describe('attesterSupply endpoint', () => {
+  describe('daSupply endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request({ endpoint: 'attesterSupply' })
+      const response = await testAdapter.request({ endpoint: 'daSupply' })
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

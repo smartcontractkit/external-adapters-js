@@ -20,10 +20,10 @@ exports[`Canton PoR Adapter Integration Tests attesterSupply endpoint should ret
 }
 `;
 
-exports[`Canton PoR Adapter Integration Tests daSupply endpoint should return success 1`] = `
+exports[`Canton PoR Adapter Integration Tests attesterSupply endpoint should use attesterSupply as default endpoint 1`] = `
 {
   "data": {
-    "result": "210000001234567890",
+    "result": "78998232600",
   },
   "meta": {
     "adapterName": "DLC_CBTC_CANTON_POR",
@@ -31,7 +31,7 @@ exports[`Canton PoR Adapter Integration Tests daSupply endpoint should return su
       "feedId": "N/A",
     },
   },
-  "result": "210000001234567890",
+  "result": "78998232600",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704110400000,
@@ -40,7 +40,7 @@ exports[`Canton PoR Adapter Integration Tests daSupply endpoint should return su
 }
 `;
 
-exports[`Canton PoR Adapter Integration Tests daSupply endpoint should use daSupply as default endpoint 1`] = `
+exports[`Canton PoR Adapter Integration Tests daSupply endpoint should return success 1`] = `
 {
   "data": {
     "result": "210000001234567890",

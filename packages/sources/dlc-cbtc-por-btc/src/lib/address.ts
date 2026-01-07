@@ -3,7 +3,7 @@
  *
  * This module independently calculates Bitcoin deposit addresses for the CBTC bridge.
  * The key principle is TRUSTLESSNESS - we calculate every address from the threshold
- * public key and deposit account IDs, then verify they match what the attestor reports.
+ * public key and deposit account IDs, then verify they match what the attester reports.
  *
  * Based on: https://github.com/DLC-link/cbtc-por-tools
  */
@@ -130,9 +130,9 @@ export function calculateTaprootAddress(
  */
 export async function fetchAddressCalculationData(
   requester: Requester,
-  attestorUrl: string,
+  attesterUrl: string,
 ): Promise<AttesterAddressResponse> {
-  const url = buildUrl(attestorUrl, '/app/get-address-calculation-data')
+  const url = buildUrl(attesterUrl, '/app/get-address-calculation-data')
   logger.debug(`Fetching address data from Attester API`)
 
   const response = await requester.request<AttesterAddressResponse>(url, { url })
@@ -173,12 +173,12 @@ export function calculateAndVerifyAddresses(
     // Calculate the address independently from deposit ID and threshold pubkey
     const calculatedAddress = calculateTaprootAddress(addressInfo.id, xOnlyPubkey, network)
 
-    // Verify our calculated address matches what the attestor reported
+    // Verify our calculated address matches what the attester reported
     if (calculatedAddress !== addressInfo.address_for_verification) {
       // Log full deposit ID for debugging
       logger.error(
         `Address mismatch for depositId=${addressInfo.id}: ` +
-          `calculated=${calculatedAddress}, attestor=${addressInfo.address_for_verification}`,
+          `calculated=${calculatedAddress}, attester=${addressInfo.address_for_verification}`,
       )
       throw new Error(
         `Address verification failed: depositId=${addressInfo.id}, ` +
@@ -196,17 +196,17 @@ export function calculateAndVerifyAddresses(
 /**
  * Fetch and calculate all vault addresses from the Attester API.
  * Queries the API, filters by chain name, calculates addresses trustlessly,
- * and verifies they match the attestor-provided addresses.
+ * and verifies they match the attester-provided addresses.
  */
 export async function fetchAndCalculateVaultAddresses(
   requester: Requester,
-  attestorUrl: string,
+  attesterUrl: string,
   chainName: string,
 ): Promise<{ addresses: string[]; bitcoinNetwork: bitcoin.Network }> {
   logger.info(`Fetching vault addresses for chain=${chainName}`)
 
-  // Fetch deposit account data from the attestor
-  const data = await fetchAddressCalculationData(requester, attestorUrl)
+  // Fetch deposit account data from the attester
+  const data = await fetchAddressCalculationData(requester, attesterUrl)
   const bitcoinNetwork = getBitcoinNetwork(data.bitcoin_network)
 
   logger.debug(`Attester response: network=${data.bitcoin_network}, chains=${data.chains.length}`)
