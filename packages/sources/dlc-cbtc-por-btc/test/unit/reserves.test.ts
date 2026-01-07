@@ -6,13 +6,13 @@
  */
 
 import {
-  buildUrl,
   getConfirmations,
   hasMinConfirmations,
   sumConfirmedUtxos,
   sumPendingSpendInputs,
 } from '../../src/lib/por'
 import { MempoolTransaction, UTXO } from '../../src/lib/types'
+import { buildUrl } from '../../src/utils'
 
 describe('Reserves Calculation Logic', () => {
   describe('buildUrl', () => {

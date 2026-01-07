@@ -12,7 +12,7 @@ export interface AddressInfo {
 
 /** Group of addresses sharing the same xpub (one per Canton chain) */
 export interface ChainAddressGroup {
-  /** Canton network name (e.g., "devnet", "mainnet") */
+  /** Canton network name (e.g., "canton-mainnet", "canton-testnet") */
   chain: string
   /** BIP32 extended public key (already derived to m/0/0) */
   xpub: string

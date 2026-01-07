@@ -14,7 +14,7 @@ import BIP32Factory from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
 import * as ecc from 'tiny-secp256k1'
-import { buildUrl } from './por'
+import { buildUrl } from '../utils'
 import { AttesterAddressResponse, ChainAddressGroup } from './types'
 
 const logger = makeLogger('BtcAddress')

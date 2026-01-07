@@ -1,32 +1,12 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { buildUrl } from '../utils'
 import { MempoolTransaction, UTXO } from './types'
 
 const logger = makeLogger('BtcPor')
 
-/**
- * Builds a URL by appending a path to a base endpoint.
- * Properly handles base URLs that already contain query parameters.
- *
- * API keys are typically specified as query parameters in the base URL:
- *   - Path-based auth: "https://api.example.com/SECRET_KEY"
- *   - Query param auth: "https://api.example.com?auth=TOKEN"
- *
- * Both formats are preserved when paths are appended.
- *
- * Examples:
- *   buildUrl("https://api.example.com", "/blocks/tip/height")
- *     => "https://api.example.com/blocks/tip/height"
- *
- *   buildUrl("https://api.example.com/electrs?auth=TOKEN", "/blocks/tip/height")
- *     => "https://api.example.com/electrs/blocks/tip/height?auth=TOKEN"
- */
-export function buildUrl(baseEndpoint: string, path: string): string {
-  const url = new URL(baseEndpoint)
-  // Append path to existing pathname (ensuring no double slashes)
-  url.pathname = url.pathname.replace(/\/$/, '') + path
-  return url.toString()
-}
+/** Batch size for parallel address processing to avoid overwhelming the API */
+const ADDRESS_BATCH_SIZE = 10
 
 /**
  * Validates that a value is a number
@@ -161,7 +141,6 @@ export function hasMinConfirmations(
 /**
  * Sums confirmed UTXOs that meet the minimum confirmation requirement.
  * Uses BigInt to prevent overflow when summing large amounts across many addresses.
- * Pure function for testing.
  */
 export function sumConfirmedUtxos(
   utxos: UTXO[],
@@ -176,7 +155,7 @@ export function sumConfirmedUtxos(
 /**
  * Sums pending spend input values from mempool transactions.
  * When a UTXO is spent but unconfirmed, we add back its value to prevent balance dips.
- * Uses BigInt to prevent overflow. Pure function for testing.
+ * Uses BigInt to prevent overflow
  */
 export function sumPendingSpendInputs(mempoolTxs: MempoolTransaction[], address: string): bigint {
   let total = 0n
@@ -218,9 +197,6 @@ export async function calculateAddressReserves(
 
   return total
 }
-
-/** Batch size for parallel address processing to avoid overwhelming the API */
-const ADDRESS_BATCH_SIZE = 10
 
 /**
  * Calculates total reserves across all vault addresses.

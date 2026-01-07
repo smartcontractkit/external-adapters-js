@@ -11,13 +11,13 @@ This trustless design ensures the adapter independently verifies all vault addre
 
 ## Configuration
 
-| Variable                | Required | Default          | Description                                                                  |
-| ----------------------- | -------- | ---------------- | ---------------------------------------------------------------------------- |
-| `ATTESTER_API_URL`      | Yes      | -                | DLC.Link Attester API URL (e.g., `https://mainnet.dlc.link/attestor-1`)      |
-| `CHAIN_NAME`            | No       | `canton-mainnet` | Chain name (`canton-mainnet`, `canton-testnet`)                              |
-| `BITCOIN_RPC_ENDPOINT`  | Yes      | -                | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries          |
-| `MIN_CONFIRMATIONS`     | No       | `6`              | Minimum confirmations required for a UTXO to be counted                      |
-| `BACKGROUND_EXECUTE_MS` | No       | `10000`          | Interval in milliseconds between background executions (default: 10 seconds) |
+| Variable                | Required | Default          | Description                                                             |
+| ----------------------- | -------- | ---------------- | ----------------------------------------------------------------------- |
+| `ATTESTER_API_URL`      | Yes      | -                | DLC.Link Attester API URL (e.g., `https://mainnet.dlc.link/attestor-1`) |
+| `CHAIN_NAME`            | No       | `canton-mainnet` | Chain name filter (`canton-mainnet`, `canton-testnet`, `canton-devnet`) |
+| `BITCOIN_RPC_ENDPOINT`  | Yes      | -                | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries     |
+| `MIN_CONFIRMATIONS`     | No       | `6`              | Minimum confirmations required for a UTXO to be counted                 |
+| `BACKGROUND_EXECUTE_MS` | No       | `10000`          | Interval in milliseconds between background executions                  |
 
 ## Endpoints
 
@@ -25,7 +25,7 @@ This trustless design ensures the adapter independently verifies all vault addre
 
 Returns the total Bitcoin reserves across all vault addresses in **satoshis**.
 
-**Aliases:** `por`, `proof-of-reserves`
+**Aliases:** `por`
 
 #### Example Request
 
@@ -127,7 +127,7 @@ curl -X POST http://localhost:8080 -H "Content-Type: application/json" -d '{"dat
 
 ```bash
 # From repo root
-yarn jest packages/sources/dlc-cbtc-por/btc-por/test/ --no-coverage
+yarn jest packages/sources/dlc-cbtc-por-btc/test/ --no-coverage
 ```
 
 ## Reference
