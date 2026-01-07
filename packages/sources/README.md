@@ -4,7 +4,6 @@ This document was generated automatically. Please see [Master List Generator](..
 
 ## List
 
-- [1forge](./1forge/README.md)
 - [ada-balance](./ada-balance/README.md)
 - [aleno](./aleno/README.md)
 - [allium-state](./allium-state/README.md)
@@ -80,7 +79,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [galaxis](./galaxis/README.md)
 - [gemini](./gemini/README.md)
 - [generic-api](./generic-api/README.md)
-- [genesis-volatility](./genesis-volatility/README.md)
 - [gmci](./gmci/README.md)
 - [graphql](./graphql/README.md)
 - [gsr](./gsr/README.md)
@@ -99,7 +97,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [lcx](./lcx/README.md)
 - [lido](./lido/README.md)
 - [lido-por](./lido-por/README.md)
-- [linkpool](./linkpool/README.md)
 - [liveart](./liveart/README.md)
 - [lotus](./lotus/README.md)
 - [m0](./m0/README.md)
@@ -113,12 +110,10 @@ This document was generated automatically. Please see [Master List Generator](..
 - [nav-fund-services](./nav-fund-services/README.md)
 - [nav-generic](./nav-generic/README.md)
 - [ncfx](./ncfx/README.md)
-- [nikkei](./nikkei/README.md)
 - [nomia](./nomia/README.md)
 - [nomia2](./nomia2/README.md)
 - [nyfed](./nyfed/README.md)
 - [oanda](./oanda/README.md)
-- [oilpriceapi](./oilpriceapi/README.md)
 - [onchain-gas](./onchain-gas/README.md)
 - [ondo](./ondo/README.md)
 - [onre](./onre/README.md)
@@ -167,6 +162,4 @@ This document was generated automatically. Please see [Master List Generator](..
 - [wbtc-address-set](./wbtc-address-set/README.md)
 - [wintermute](./wintermute/README.md)
 - [wisdomtree](./wisdomtree/README.md)
-- [wootrade](./wootrade/README.md)
 - [wrapped](./wrapped/README.md)
-- [xbto](./xbto/README.md)
