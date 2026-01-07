@@ -39,10 +39,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/curve-3pool"\
     },\
     {\
-      "name": "@chainlink/defi-pulse-adapter",\
-      "reference": "workspace:packages/composites/defi-pulse"\
-    },\
-    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -165,10 +161,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/readme-test-adapter",\
       "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"\
-    },\
-    {\
-      "name": "@chainlink/1forge-adapter",\
-      "reference": "workspace:packages/sources/1forge"\
     },\
     {\
       "name": "@chainlink/ada-balance-adapter",\
@@ -475,10 +467,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/generic-api"\
     },\
     {\
-      "name": "@chainlink/genesis-volatility-adapter",\
-      "reference": "workspace:packages/sources/genesis-volatility"\
-    },\
-    {\
       "name": "@chainlink/gmci-adapter",\
       "reference": "workspace:packages/sources/gmci"\
     },\
@@ -551,10 +539,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lido-por"\
     },\
     {\
-      "name": "@chainlink/linkpool-adapter",\
-      "reference": "workspace:packages/sources/linkpool"\
-    },\
-    {\
       "name": "@chainlink/liveart-adapter",\
       "reference": "workspace:packages/sources/liveart"\
     },\
@@ -605,10 +589,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/ncfx-adapter",\
       "reference": "workspace:packages/sources/ncfx"\
-    },\
-    {\
-      "name": "@chainlink/nikkei-adapter",\
-      "reference": "workspace:packages/sources/nikkei"\
     },\
     {\
       "name": "@chainlink/nomia-adapter",\
@@ -834,7 +814,6 @@ const RAW_RUNTIME_STATE =
   "enableTopLevelFallback": true,\
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
-    ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
@@ -890,7 +869,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
-    ["@chainlink/defi-pulse-adapter", ["workspace:packages/composites/defi-pulse"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
@@ -925,7 +903,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/generic-api-adapter", ["workspace:packages/sources/generic-api"]],\
-    ["@chainlink/genesis-volatility-adapter", ["workspace:packages/sources/genesis-volatility"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
@@ -951,7 +928,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
-    ["@chainlink/linkpool-adapter", ["workspace:packages/sources/linkpool"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
@@ -972,7 +948,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
-    ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
@@ -5138,24 +5113,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@chainlink/1forge-adapter", [\
-      ["workspace:packages/sources/1forge", {\
-        "packageLocation": "./packages/sources/1forge/",\
-        "packageDependencies": [\
-          ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/ada-balance-adapter", [\
       ["workspace:packages/sources/ada-balance", {\
         "packageLocation": "./packages/sources/ada-balance/",\
@@ -6162,23 +6119,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/defi-pulse-adapter", [\
-      ["workspace:packages/composites/defi-pulse", {\
-        "packageLocation": "./packages/composites/defi-pulse/",\
-        "packageDependencies": [\
-          ["@chainlink/defi-pulse-adapter", "workspace:packages/composites/defi-pulse"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/deribit-adapter", [\
       ["workspace:packages/sources/deribit", {\
         "packageLocation": "./packages/sources/deribit/",\
@@ -6995,24 +6935,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/genesis-volatility-adapter", [\
-      ["workspace:packages/sources/genesis-volatility", {\
-        "packageLocation": "./packages/sources/genesis-volatility/",\
-        "packageDependencies": [\
-          ["@chainlink/genesis-volatility-adapter", "workspace:packages/sources/genesis-volatility"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/glv-token-adapter", [\
       ["workspace:packages/composites/glv-token", {\
         "packageLocation": "./packages/composites/glv-token/",\
@@ -7451,21 +7373,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/linkpool-adapter", [\
-      ["workspace:packages/sources/linkpool", {\
-        "packageLocation": "./packages/sources/linkpool/",\
-        "packageDependencies": [\
-          ["@chainlink/linkpool-adapter", "workspace:packages/sources/linkpool"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/liveart-adapter", [\
       ["workspace:packages/sources/liveart", {\
         "packageLocation": "./packages/sources/liveart/",\
@@ -7806,24 +7713,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.6.0"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nikkei-adapter", [\
-      ["workspace:packages/sources/nikkei", {\
-        "packageLocation": "./packages/sources/nikkei/",\
-        "packageDependencies": [\
-          ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
