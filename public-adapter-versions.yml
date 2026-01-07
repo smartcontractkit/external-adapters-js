@@ -261,8 +261,6 @@ adapters:
     version: 1.0.18
   - name: nftx
     version: 3.0.31
-  - name: nikkei
-    version: 1.2.47
   - name: nomia
     version: 2.0.3
   - name: nomia2
