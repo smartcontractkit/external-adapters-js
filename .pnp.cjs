@@ -599,10 +599,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ncfx"\
     },\
     {\
-      "name": "@chainlink/nikkei-adapter",\
-      "reference": "workspace:packages/sources/nikkei"\
-    },\
-    {\
       "name": "@chainlink/nomia-adapter",\
       "reference": "workspace:packages/sources/nomia"\
     },\
@@ -962,7 +958,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
-    ["@chainlink/nikkei-adapter", ["workspace:packages/sources/nikkei"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
@@ -7575,24 +7570,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nikkei-adapter", [\
-      ["workspace:packages/sources/nikkei", {\
-        "packageLocation": "./packages/sources/nikkei/",\
-        "packageDependencies": [\
-          ["@chainlink/nikkei-adapter", "workspace:packages/sources/nikkei"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
