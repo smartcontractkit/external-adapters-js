@@ -105,9 +105,6 @@
       "path": "./scripts/tsconfig.test.json"
     },
     {
-      "path": "./sources/1forge/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
@@ -430,9 +427,6 @@
     },
     {
       "path": "./sources/ncfx/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/nikkei/tsconfig.test.json"
     },
     {
       "path": "./sources/nomia/tsconfig.test.json"

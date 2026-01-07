@@ -105,9 +105,6 @@
       "path": "./scripts"
     },
     {
-      "path": "./sources/1forge"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
@@ -430,9 +427,6 @@
     },
     {
       "path": "./sources/ncfx"
-    },
-    {
-      "path": "./sources/nikkei"
     },
     {
       "path": "./sources/nomia"

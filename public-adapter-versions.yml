@@ -1,6 +1,4 @@
 adapters:
-  - name: 1forge
-    version: 1.6.48
   - name: ada-balance
     version: 2.5.47
   - name: aleno
@@ -259,8 +257,6 @@ adapters:
     version: 1.0.18
   - name: nftx
     version: 3.0.31
-  - name: nikkei
-    version: 1.2.47
   - name: nomia
     version: 2.0.3
   - name: nomia2
