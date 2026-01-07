@@ -15,11 +15,11 @@ export const attesterSupply = new AdapterEndpoint({
   name: 'attesterSupply',
   transport,
   customInputValidation: (_req, settings): AdapterInputError | undefined => {
-    if (!settings.ATTESTER_API_URL) {
+    if (!settings.ATTESTER_API_URLS) {
       throw new AdapterInputError({
         statusCode: 400,
         message:
-          'ATTESTER_API_URL environment variable is required for the attesterSupply endpoint',
+          'ATTESTER_API_URLS environment variable is required for the attesterSupply endpoint',
       })
     }
     return

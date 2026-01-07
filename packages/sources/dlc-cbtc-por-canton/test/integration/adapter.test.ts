@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { MOCK_ATTESTER_API_URL, MOCK_DA_API_URL, mockAllApis } from './fixtures'
+import { MOCK_ATTESTER_API_URLS, MOCK_DA_API_URL, mockAllApis } from './fixtures'
 
 describe('Canton PoR Adapter Integration Tests', () => {
   let spy: jest.SpyInstance
@@ -13,7 +13,8 @@ describe('Canton PoR Adapter Integration Tests', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['CANTON_API_URL'] = `${MOCK_DA_API_URL}/instruments`
-    process.env['ATTESTER_API_URL'] = MOCK_ATTESTER_API_URL
+    process.env['ATTESTER_API_URLS'] = MOCK_ATTESTER_API_URLS
+    process.env['BACKGROUND_EXECUTE_MS'] = '10000'
 
     const mockDate = new Date('2024-01-01T12:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

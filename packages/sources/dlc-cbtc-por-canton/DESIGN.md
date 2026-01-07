@@ -7,22 +7,23 @@ This adapter queries multiple APIs to retrieve the CBTC supply for the Canton ne
 
 ## Configuration
 
-| Variable           | Required | Description                                                       |
-| ------------------ | -------- | ----------------------------------------------------------------- |
-| `CANTON_API_URL`   | No       | Digital Asset API endpoint URL for token metadata                 |
-| `ATTESTER_API_URL` | No       | Attester API base URL (e.g., https://mainnet.dlc.link/attestor-1) |
+| Variable                | Required | Default | Description                                            |
+| ----------------------- | -------- | ------- | ------------------------------------------------------ |
+| `CANTON_API_URL`        | No       | -       | Digital Asset API endpoint URL for token metadata      |
+| `ATTESTER_API_URLS`     | No       | -       | Comma-separated list of Attester API base URLs         |
+| `BACKGROUND_EXECUTE_MS` | No       | 10000   | Interval in milliseconds between background executions |
 
 At least one URL should be configured to use the corresponding endpoint.
-
-The adapter uses `CACHE_MAX_AGE: 10000` (10 seconds) to ensure data is refreshed frequently for PoR use cases.
 
 ## Endpoints
 
 ### `attesterSupply` (default)
 
-Returns the total CBTC supply from the DLC.Link Attester API as an integer string (scaled by 10^10).
+Returns the total CBTC supply from DLC.Link Attester APIs as an integer string (scaled by 10^10).
 
-Requires `ATTESTER_API_URL` to be set.
+Queries multiple attesters in parallel and returns the **median** of successful responses. Requires at least 1 successful response.
+
+Requires `ATTESTER_API_URLS` to be set.
 
 #### Example Request
 
@@ -93,6 +94,7 @@ The adapter returns a 502 error when:
 
 **attesterSupply:**
 
+- No successful attester responses
 - Attester status is not `"ready"`
 - `total_supply_cbtc` is missing, empty, or whitespace-only
 - Invalid numeric format
@@ -107,7 +109,7 @@ yarn build
 
 # Set environment variables
 export CANTON_API_URL="https://api.utilities.digitalasset.com/api/token-standard/v0/registrars/cbtc-network::12205af3b949a04776fc48cdcc05a060f6bda2e470632935f375d1049a8546a3b262/registry/metadata/v1/instruments"
-export ATTESTER_API_URL="https://mainnet.dlc.link/attestor-1"
+export ATTESTER_API_URLS="https://mainnet.dlc.link/attestor-1,https://mainnet.dlc.link/attestor-2"
 
 # Start
 yarn start
