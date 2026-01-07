@@ -68,3 +68,14 @@ exports[`websocket stock endpoint should return success with base override 1`] =
   },
 }
 `;
+
+exports[`websocket stock endpoint should throw error when invalid volume is received 1`] = `
+{
+  "errorMessage": "Invalid bid vol NaN or ask vol 1000000 for 'INVALID.xnas:USD'",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4052,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;

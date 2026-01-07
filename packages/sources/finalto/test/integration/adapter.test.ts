@@ -97,5 +97,14 @@ describe('websocket', () => {
       const response = await testAdapter.request(dataStockWithOverride)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should throw error when invalid volume is received', async () => {
+      const response = await testAdapter.request({
+        base: 'INVALID.xnas',
+        quote: 'USD',
+        endpoint: 'stock',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

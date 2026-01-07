@@ -21,9 +21,6 @@
       "path": "./composites/curve-3pool"
     },
     {
-      "path": "./composites/defi-pulse"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
@@ -106,9 +103,6 @@
     },
     {
       "path": "./scripts"
-    },
-    {
-      "path": "./sources/1forge"
     },
     {
       "path": "./sources/ada-balance"
@@ -336,9 +330,6 @@
       "path": "./sources/generic-api"
     },
     {
-      "path": "./sources/genesis-volatility"
-    },
-    {
       "path": "./sources/gmci"
     },
     {
@@ -393,9 +384,6 @@
       "path": "./sources/lido-por"
     },
     {
-      "path": "./sources/linkpool"
-    },
-    {
       "path": "./sources/liveart"
     },
     {
@@ -435,9 +423,6 @@
       "path": "./sources/ncfx"
     },
     {
-      "path": "./sources/nikkei"
-    },
-    {
       "path": "./sources/nomia"
     },
     {
@@ -448,9 +433,6 @@
     },
     {
       "path": "./sources/oanda"
-    },
-    {
-      "path": "./sources/oilpriceapi"
     },
     {
       "path": "./sources/onchain-gas"
@@ -597,13 +579,7 @@
       "path": "./sources/wisdomtree"
     },
     {
-      "path": "./sources/wootrade"
-    },
-    {
       "path": "./sources/wrapped"
-    },
-    {
-      "path": "./sources/xbto"
     },
     {
       "path": "./targets/dydx-stark"
