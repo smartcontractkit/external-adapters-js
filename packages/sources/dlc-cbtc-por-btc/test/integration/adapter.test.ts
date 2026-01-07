@@ -4,7 +4,7 @@
  * These tests verify the full adapter flow with mocked external APIs.
  * Uses snapshot testing to detect unexpected response changes.
  *
- * Note: Uses global fetch mocking since nock doesn't intercept Node.js native fetch.
+ * Note: nock intercepts axios requests used by the framework's Requester.
  */
 
 import {
@@ -20,25 +20,8 @@ import {
   MOCK_VAULT_ADDRESS,
 } from './fixtures'
 
-// Store the original fetch
-const originalFetch = global.fetch
-
-// Mock fetch responses
-const mockFetchResponses: Record<string, { status: number; body: unknown }> = {}
-
-const mockFetch = jest.fn((url: string) => {
-  const response = mockFetchResponses[url]
-  if (response) {
-    return Promise.resolve({
-      ok: response.status >= 200 && response.status < 300,
-      status: response.status,
-      json: () => Promise.resolve(response.body),
-    })
-  }
-  return Promise.reject(new Error(`No mock for ${url}`))
-})
-
 // Mock the address calculation module to bypass cryptographic verification
+// Note: The requester parameter is ignored in the mock
 jest.mock('../../src/lib/address', () => ({
   ...jest.requireActual('../../src/lib/address'),
   fetchAndCalculateVaultAddresses: jest.fn().mockResolvedValue({
@@ -63,31 +46,25 @@ describe('BTC PoR Adapter Integration Tests', () => {
     const mockDate = new Date('2024-01-01T12:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    // Set up mock fetch responses for Bitcoin RPC
-    mockFetchResponses[`${MOCK_BITCOIN_RPC_URL}/blocks/tip/height`] = {
-      status: 200,
-      body: MOCK_BLOCK_HEIGHT,
-    }
+    // Mock Bitcoin RPC endpoints using nock (works with axios used by Requester)
+    nock(MOCK_BITCOIN_RPC_URL).persist().get('/blocks/tip/height').reply(200, MOCK_BLOCK_HEIGHT)
 
-    mockFetchResponses[`${MOCK_BITCOIN_RPC_URL}/address/${MOCK_VAULT_ADDRESS}/utxo`] = {
-      status: 200,
-      body: [
+    nock(MOCK_BITCOIN_RPC_URL)
+      .persist()
+      .get(`/address/${MOCK_VAULT_ADDRESS}/utxo`)
+      .reply(200, [
         {
           txid: 'abc123def456',
           vout: 0,
           value: 500000000, // 5 BTC
           status: { confirmed: true, block_height: MOCK_BLOCK_HEIGHT - 10 },
         },
-      ],
-    }
+      ])
 
-    mockFetchResponses[`${MOCK_BITCOIN_RPC_URL}/address/${MOCK_VAULT_ADDRESS}/txs/mempool`] = {
-      status: 200,
-      body: [],
-    }
-
-    // Replace global fetch with our mock
-    global.fetch = mockFetch as unknown as typeof fetch
+    nock(MOCK_BITCOIN_RPC_URL)
+      .persist()
+      .get(`/address/${MOCK_VAULT_ADDRESS}/txs/mempool`)
+      .reply(200, [])
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -97,8 +74,6 @@ describe('BTC PoR Adapter Integration Tests', () => {
   })
 
   afterAll(async () => {
-    // Restore original fetch
-    global.fetch = originalFetch
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
     nock.restore()

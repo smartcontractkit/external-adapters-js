@@ -8,7 +8,7 @@ export const config = new AdapterConfig({
     required: true,
   },
   BITCOIN_NETWORK: {
-    description: 'Canton chain name to filter addresses',
+    description: 'Bitcoin network name to filter addresses',
     type: 'enum',
     default: 'mainnet',
     options: ['mainnet', 'testnet', 'regtest'],
@@ -27,6 +27,6 @@ export const config = new AdapterConfig({
   BACKGROUND_EXECUTE_MS: {
     description: 'Interval in milliseconds between background executions',
     type: 'number',
-    default: 30_000,
+    default: 10_000,
   },
 })

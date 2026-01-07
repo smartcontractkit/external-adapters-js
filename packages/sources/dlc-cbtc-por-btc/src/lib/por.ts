@@ -1,4 +1,5 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { MempoolTransaction, UTXO } from './types'
 
 const logger = makeLogger('BtcPor')
@@ -96,48 +97,45 @@ function validateMempoolResponse(data: unknown, address: string): MempoolTransac
 }
 
 /** Fetches current Bitcoin block height from Electrs API */
-export async function fetchBlockHeight(endpoint: string): Promise<number> {
+export async function fetchBlockHeight(requester: Requester, endpoint: string): Promise<number> {
   const url = buildUrl(endpoint, '/blocks/tip/height')
-  logger.debug(`Fetching block height from ${url}`)
+  logger.debug(`Fetching block height`)
 
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch block height: HTTP ${response.status}`)
+  const response = await requester.request<number>(url, { url })
+
+  if (!response.response.data && response.response.data !== 0) {
+    throw new Error(`Failed to fetch block height: no data returned`)
   }
 
-  const data = await response.json()
-  return validateNumber(data, 'Block height response')
+  return validateNumber(response.response.data, 'Block height response')
 }
 
 /** Fetches confirmed & unconfirmed UTXOs for a Bitcoin address via Electrs API */
-export async function fetchAddressUtxos(endpoint: string, address: string): Promise<UTXO[]> {
+export async function fetchAddressUtxos(
+  requester: Requester,
+  endpoint: string,
+  address: string,
+): Promise<UTXO[]> {
   const url = buildUrl(endpoint, `/address/${address}/utxo`)
   logger.debug(`Fetching UTXOs for ${address}`)
 
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch UTXOs for ${address}: HTTP ${response.status}`)
-  }
+  const response = await requester.request<unknown>(url, { url })
 
-  const data = await response.json()
-  return validateUtxoResponse(data, address)
+  return validateUtxoResponse(response.response.data, address)
 }
 
 /** Fetches unconfirmed (mempool) transactions for an address */
 export async function fetchMempoolTransactions(
+  requester: Requester,
   endpoint: string,
   address: string,
 ): Promise<MempoolTransaction[]> {
   const url = buildUrl(endpoint, `/address/${address}/txs/mempool`)
   logger.debug(`Fetching mempool transactions for ${address}`)
 
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch mempool txs for ${address}: HTTP ${response.status}`)
-  }
+  const response = await requester.request<unknown>(url, { url })
 
-  const data = await response.json()
-  return validateMempoolResponse(data, address)
+  return validateMempoolResponse(response.response.data, address)
 }
 
 /**
@@ -198,17 +196,18 @@ export function sumPendingSpendInputs(mempoolTxs: MempoolTransaction[], address:
  * 2. Add pending spend inputs to prevent balance dips during unconfirmed spends
  */
 export async function calculateAddressReserves(
+  requester: Requester,
   endpoint: string,
   address: string,
   currentBlockHeight: number,
   minConfirmations: number,
 ): Promise<bigint> {
   // Fetch all UTXOs for the address
-  const utxos = await fetchAddressUtxos(endpoint, address)
+  const utxos = await fetchAddressUtxos(requester, endpoint, address)
   const confirmedBalance = sumConfirmedUtxos(utxos, currentBlockHeight, minConfirmations)
 
   // Fetch pending (mempool) transactions
-  const mempoolTxs = await fetchMempoolTransactions(endpoint, address)
+  const mempoolTxs = await fetchMempoolTransactions(requester, endpoint, address)
   const pendingSpendValue = sumPendingSpendInputs(mempoolTxs, address)
 
   const total = confirmedBalance + pendingSpendValue
@@ -229,11 +228,12 @@ const ADDRESS_BATCH_SIZE = 10
  * Returns BigInt to handle large totals without overflow.
  */
 export async function calculateReserves(
+  requester: Requester,
   endpoint: string,
   addresses: string[],
   minConfirmations: number,
 ): Promise<bigint> {
-  const currentBlockHeight = await fetchBlockHeight(endpoint)
+  const currentBlockHeight = await fetchBlockHeight(requester, endpoint)
   logger.info(
     `Calculating reserves: ${addresses.length} addresses, block height ${currentBlockHeight}`,
   )
@@ -245,7 +245,13 @@ export async function calculateReserves(
     const batch = addresses.slice(i, i + ADDRESS_BATCH_SIZE)
     const results = await Promise.all(
       batch.map((address) =>
-        calculateAddressReserves(endpoint, address, currentBlockHeight, minConfirmations),
+        calculateAddressReserves(
+          requester,
+          endpoint,
+          address,
+          currentBlockHeight,
+          minConfirmations,
+        ),
       ),
     )
 

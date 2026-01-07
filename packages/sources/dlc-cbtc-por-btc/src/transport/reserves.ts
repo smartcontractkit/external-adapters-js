@@ -1,5 +1,7 @@
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import { calculateReserves, fetchAndCalculateVaultAddresses } from '../lib'
@@ -7,6 +9,18 @@ import { calculateReserves, fetchAndCalculateVaultAddresses } from '../lib'
 const logger = makeLogger('BtcPorTransport')
 
 class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  requester!: Requester
+
+  async initialize(
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.requester = dependencies.requester
+  }
+
   async backgroundHandler(
     context: { adapterSettings: typeof config.settings },
     entries: { id: string }[],
@@ -21,7 +35,11 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
       logger.info(`Starting PoR calculation for network: ${BITCOIN_NETWORK}`)
 
       // Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
-      const { addresses } = await fetchAndCalculateVaultAddresses(ATTESTER_API_URL, BITCOIN_NETWORK)
+      const { addresses } = await fetchAndCalculateVaultAddresses(
+        this.requester,
+        ATTESTER_API_URL,
+        BITCOIN_NETWORK,
+      )
 
       if (addresses.length === 0) {
         throw new Error(`No vault addresses found for network: ${BITCOIN_NETWORK}`)
@@ -33,6 +51,7 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
       // Calculate reserves (returns BigInt for precision)
       const totalReservesBigInt = await calculateReserves(
+        this.requester,
         BITCOIN_RPC_ENDPOINT,
         addresses,
         MIN_CONFIRMATIONS,

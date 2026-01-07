@@ -9,6 +9,7 @@
  */
 
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import BIP32Factory from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
@@ -128,24 +129,26 @@ export function calculateTaprootAddress(
  * Fetch address calculation data from the Attester API
  */
 export async function fetchAddressCalculationData(
+  requester: Requester,
   attestorUrl: string,
 ): Promise<AttesterAddressResponse> {
   const url = buildUrl(attestorUrl, '/app/get-address-calculation-data')
   logger.debug(`Fetching address data from Attester API`)
 
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Attester API request failed: HTTP ${response.status}`)
+  const response = await requester.request<AttesterAddressResponse>(url, { url })
+
+  if (!response.response.data) {
+    throw new Error(`Attester API request failed: no data returned`)
   }
 
-  const data = await response.json()
+  const data = response.response.data
 
   // Basic validation of response structure
   if (!data || !Array.isArray(data.chains) || typeof data.bitcoin_network !== 'string') {
     throw new Error('Invalid Attester API response: missing required fields')
   }
 
-  return data as AttesterAddressResponse
+  return data
 }
 
 /**
@@ -196,13 +199,14 @@ export function calculateAndVerifyAddresses(
  * and verifies they match the attestor-provided addresses.
  */
 export async function fetchAndCalculateVaultAddresses(
+  requester: Requester,
   attestorUrl: string,
   chainName: string,
 ): Promise<{ addresses: string[]; bitcoinNetwork: bitcoin.Network }> {
   logger.info(`Fetching vault addresses for chain=${chainName}`)
 
   // Fetch deposit account data from the attestor
-  const data = await fetchAddressCalculationData(attestorUrl)
+  const data = await fetchAddressCalculationData(requester, attestorUrl)
   const bitcoinNetwork = getBitcoinNetwork(data.bitcoin_network)
 
   logger.debug(`Attester response: network=${data.bitcoin_network}, chains=${data.chains.length}`)
