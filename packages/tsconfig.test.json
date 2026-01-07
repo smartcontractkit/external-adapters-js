@@ -330,9 +330,6 @@
       "path": "./sources/generic-api/tsconfig.test.json"
     },
     {
-      "path": "./sources/genesis-volatility/tsconfig.test.json"
-    },
-    {
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
