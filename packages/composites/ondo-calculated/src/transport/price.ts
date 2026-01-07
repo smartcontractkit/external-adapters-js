@@ -21,6 +21,7 @@ export const calculatePrice = async (param: {
   requester: Requester
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
+  smoother: string
   decimals: number
 }) => {
   const [price, { multiplier, paused }] = await Promise.all([
@@ -46,7 +47,12 @@ export const calculatePrice = async (param: {
     param.sessionBoundariesTimeZone,
   )
 
-  const smoothed = smoother.processUpdate(BigInt(price.price), price.spread, secondsFromTransition)
+  const smoothed = smoother.processUpdate(
+    param.smoother,
+    BigInt(price.price),
+    price.spread,
+    secondsFromTransition,
+  )
 
   const result =
     (smoothed.price * multiplier * 10n ** BigInt(param.decimals)) /

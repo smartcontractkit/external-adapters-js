@@ -11,37 +11,37 @@ describe('KalmanSmoother', () => {
     const spread = 1n * 10n ** 18n // Use a small spread value for testing
 
     // Should return raw price when outside transition window (t=100)
-    expect(smoother.processUpdate(10n, spread, 100).price).toBe(10n)
+    expect(smoother.processUpdate('kalman', 10n, spread, 100).price).toBe(10n)
 
     // Should return raw price when before transition window (t=-20)
-    expect(smoother.processUpdate(20n, spread, -20).price).toBe(20n)
+    expect(smoother.processUpdate('kalman', 20n, spread, -20).price).toBe(20n)
 
     // Should return raw price at transition boundary after (t=60)
-    expect(smoother.processUpdate(30n, spread, 60).price).toBe(30n)
+    expect(smoother.processUpdate('kalman', 30n, spread, 60).price).toBe(30n)
 
     // Should return raw price at transition boundary before (t=-10)
-    expect(smoother.processUpdate(40n, spread, -10).price).toBe(40n)
+    expect(smoother.processUpdate('kalman', 40n, spread, -10).price).toBe(40n)
 
     // Initialize filter with some updates outside window to build Kalman filter state
-    smoother.processUpdate(100n, spread, 100)
-    smoother.processUpdate(100n, spread, 100)
+    smoother.processUpdate('kalman', 100n, spread, 100)
+    smoother.processUpdate('kalman', 100n, spread, 100)
 
     // Should be smoothed at t=0 (weight=1.0, fully smoothed)
     // Filter initialized with small values, so Kalman state is low - just verify smoothing happens
-    const resultAt0 = smoother.processUpdate(100n, spread, 0)
+    const resultAt0 = smoother.processUpdate('kalman', 100n, spread, 0)
     expect(resultAt0.price).toBeGreaterThan(0n)
     expect(resultAt0.x).toBeGreaterThan(0n) // Previous state exists
 
     // Should be smoothed at t=30 (weight=0.5, half smoothed)
     // Result should blend between Kalman estimate and raw price
-    const resultAt30 = smoother.processUpdate(150n, spread, 30)
+    const resultAt30 = smoother.processUpdate('kalman', 150n, spread, 30)
     expect(resultAt30.price).toBeGreaterThan(resultAt0.price) // Should increase toward 150
     expect(resultAt30.price).toBeLessThan(150n) // But not reach raw price yet
     expect(resultAt30.x).toBe(resultAt0.price) // Previous state should be last output's Kalman estimate
     expect(resultAt30.p).toBeGreaterThan(0n) // Covariance should be positive
 
     // Should be smoothed at t=-5 (weight=0.5, half smoothed)
-    const resultAtMinus5 = smoother.processUpdate(200n, spread, -5)
+    const resultAtMinus5 = smoother.processUpdate('kalman', 200n, spread, -5)
     expect(resultAtMinus5.price).toBeGreaterThan(resultAt30.price) // Should increase toward 200
     expect(resultAtMinus5.price).toBeLessThan(200n) // But not reach raw price
     expect(resultAtMinus5.p).toBeLessThan(resultAt30.p) // Covariance should decrease over time
@@ -53,17 +53,17 @@ describe('KalmanSmoother', () => {
 
     // Run with small spread
     const smoother1 = new SessionAwareSmoother()
-    smoother1.processUpdate(scale(100), smallSpread, 100)
-    smoother1.processUpdate(scale(100), smallSpread, 100)
-    smoother1.processUpdate(scale(100), smallSpread, 100)
-    const resultSmallSpread = smoother1.processUpdate(scale(150), smallSpread, 0)
+    smoother1.processUpdate('kalman', scale(100), smallSpread, 100)
+    smoother1.processUpdate('kalman', scale(100), smallSpread, 100)
+    smoother1.processUpdate('kalman', scale(100), smallSpread, 100)
+    const resultSmallSpread = smoother1.processUpdate('kalman', scale(150), smallSpread, 0)
 
     // Run with MIN_R directly
     const smoother2 = new SessionAwareSmoother()
-    smoother2.processUpdate(scale(100), MIN_R, 100)
-    smoother2.processUpdate(scale(100), MIN_R, 100)
-    smoother2.processUpdate(scale(100), MIN_R, 100)
-    const resultMinR = smoother2.processUpdate(scale(150), MIN_R, 0)
+    smoother2.processUpdate('kalman', scale(100), MIN_R, 100)
+    smoother2.processUpdate('kalman', scale(100), MIN_R, 100)
+    smoother2.processUpdate('kalman', scale(100), MIN_R, 100)
+    const resultMinR = smoother2.processUpdate('kalman', scale(150), MIN_R, 0)
 
     // Both should produce identical results since small spread should be clamped to MIN_R
     expect(resultSmallSpread.price).toBe(resultMinR.price)
@@ -74,14 +74,13 @@ describe('KalmanSmoother', () => {
     const largeSpread = scale(100) // 100 scaled to 18 decimals (very large spread)
 
     const smoother = new SessionAwareSmoother()
-    smoother.processUpdate(scale(10), scale(1), 100)
-    smoother.processUpdate(scale(20), scale(1), -20)
-    smoother.processUpdate(scale(30), scale(1), 60)
-    smoother.processUpdate(scale(40), scale(1), -10)
-    smoother.processUpdate(scale(100), scale(1), 100)
-    smoother.processUpdate(scale(100), scale(1), 100)
-
-    const result = smoother.processUpdate(scale(150), largeSpread, 30)
+    smoother.processUpdate('kalman', scale(10), scale(1), 100)
+    smoother.processUpdate('kalman', scale(20), scale(1), -20)
+    smoother.processUpdate('kalman', scale(30), scale(1), 60)
+    smoother.processUpdate('kalman', scale(40), scale(1), -10)
+    smoother.processUpdate('kalman', scale(100), scale(1), 100)
+    smoother.processUpdate('kalman', scale(100), scale(1), 100)
+    const result = smoother.processUpdate('kalman', scale(150), largeSpread, 30)
     // Large spread = high uncertainty = filter trusts prior more = output closer to 100 than 150
     const midpoint = scale(125) // Midpoint between 100 and 150
     expect(result.price).toBeGreaterThan(scale(100)) // Above prior
@@ -95,13 +94,13 @@ describe('KalmanSmoother', () => {
 
     // Initialize filter before transition window (time progressing toward transition)
     for (let t = -20; t < -10; t += 1) {
-      smoother.processUpdate(constantPrice, spread, t)
+      smoother.processUpdate('kalman', constantPrice, spread, t)
     }
 
     // Track minimum price during transition window (-10 to +60)
     let minPrice = constantPrice
     for (let t = -10; t <= 60; t += 1) {
-      const result = smoother.processUpdate(constantPrice, spread, t)
+      const result = smoother.processUpdate('kalman', constantPrice, spread, t)
       if (result.price < minPrice) {
         minPrice = result.price
       }
@@ -119,7 +118,7 @@ describe('KalmanSmoother', () => {
 
     // Initialize filter before transition window (time progressing toward transition)
     for (let t = -20; t < -10; t += 1) {
-      smoother.processUpdate(basePrice, spread, t)
+      smoother.processUpdate('kalman', basePrice, spread, t)
     }
 
     // Simulate transition with a bump pattern: 100 -> 200 -> 300 -> 200 -> 100
@@ -140,7 +139,7 @@ describe('KalmanSmoother', () => {
 
     let minPrice = basePrice
     for (const { t, price } of priceSequence) {
-      const result = smoother.processUpdate(price, spread, t)
+      const result = smoother.processUpdate('kalman', price, spread, t)
       if (result.price < minPrice) {
         minPrice = result.price
       }
@@ -155,16 +154,16 @@ describe('KalmanSmoother', () => {
     const smoother = new SessionAwareSmoother()
 
     // Zero spread
-    smoother.processUpdate(scale(100), 0n, 100)
-    smoother.processUpdate(scale(100), 0n, 100)
-    const zeroResult = smoother.processUpdate(scale(150), 0n, 0)
+    smoother.processUpdate('kalman', scale(100), 0n, 100)
+    smoother.processUpdate('kalman', scale(100), 0n, 100)
+    const zeroResult = smoother.processUpdate('kalman', scale(150), 0n, 0)
     expect(zeroResult.price).toBeGreaterThan(0n)
 
     // Negative spread
     const smoother2 = new SessionAwareSmoother()
-    smoother2.processUpdate(scale(100), -1n, 100)
-    smoother2.processUpdate(scale(100), -1n, 100)
-    const negResult = smoother2.processUpdate(scale(150), -1n, 0)
+    smoother2.processUpdate('kalman', scale(100), -1n, 100)
+    smoother2.processUpdate('kalman', scale(100), -1n, 100)
+    const negResult = smoother2.processUpdate('kalman', scale(150), -1n, 0)
     expect(negResult.price).toBeGreaterThan(0n)
   })
 
@@ -174,15 +173,15 @@ describe('KalmanSmoother', () => {
     const spread = scale(1)
 
     // Initialize filter at a DIFFERENT price (200) before transition window
-    smoother.processUpdate(scale(200), spread, -20)
-    smoother.processUpdate(scale(200), spread, -15)
+    smoother.processUpdate('kalman', scale(200), spread, -20)
+    smoother.processUpdate('kalman', scale(200), spread, -15)
 
     // Feed target price as time progresses through transition (-10 to +60)
     let firstSmoothedPrice = 0n
     let mostSmoothedPrice = 0n // Price at t=0 where weight=1.0
 
     for (let t = -10; t <= 60; t += 1) {
-      const result = smoother.processUpdate(targetPrice, spread, t)
+      const result = smoother.processUpdate('kalman', targetPrice, spread, t)
       if (t === -10) firstSmoothedPrice = result.price
       if (t === 0) mostSmoothedPrice = result.price
     }
@@ -204,7 +203,7 @@ describe('KalmanSmoother', () => {
 
     // Initialize at stable $500 before transition
     for (let t = -20; t < -10; t += 1) {
-      smoother.processUpdate(basePrice, spread, t)
+      smoother.processUpdate('kalman', basePrice, spread, t)
     }
 
     // Brief spike pattern: $500 -> $510 (spike) -> $500 (return)
@@ -230,7 +229,7 @@ describe('KalmanSmoother', () => {
     const results: { t: number; input: bigint; output: bigint }[] = []
 
     for (const { t, price } of spikeSequence) {
-      const result = smoother.processUpdate(price, spread, t)
+      const result = smoother.processUpdate('kalman', price, spread, t)
       results.push({ t, input: price, output: result.price })
       if (result.price > maxSmoothedPrice) {
         maxSmoothedPrice = result.price
@@ -250,20 +249,20 @@ describe('KalmanSmoother', () => {
 
     // Initialize at stable $500 before transition
     for (let t = -20; t < -10; t += 1) {
-      smoother.processUpdate(basePrice, spread, t)
+      smoother.processUpdate('kalman', basePrice, spread, t)
     }
 
     // Spike and return
-    smoother.processUpdate(basePrice, spread, -10)
-    smoother.processUpdate(basePrice, spread, 0)
-    smoother.processUpdate(spikePrice, spread, 1) // Spike
-    smoother.processUpdate(basePrice, spread, 2) // Immediate return
+    smoother.processUpdate('kalman', basePrice, spread, -10)
+    smoother.processUpdate('kalman', basePrice, spread, 0)
+    smoother.processUpdate('kalman', spikePrice, spread, 1) // Spike
+    smoother.processUpdate('kalman', basePrice, spread, 2) // Immediate return
 
     // Track smoothed prices after spike has ended
     // Bad behavior: at t=4, smoothed > spike; at t=7, overshoot is 29% of original increase
     const afterSpikeResults: { t: number; price: bigint }[] = []
     for (let t = 3; t <= 15; t += 1) {
-      const result = smoother.processUpdate(basePrice, spread, t)
+      const result = smoother.processUpdate('kalman', basePrice, spread, t)
       afterSpikeResults.push({ t, price: result.price })
     }
 
@@ -299,6 +298,7 @@ describe('KalmanSmoother', () => {
     for (const [price, spread, timestamp] of data) {
       results.push(
         smoother.processUpdate(
+          'kalman',
           parseUnits(price, 18),
           parseUnits(spread, 18),
           Number(timestamp) - boundary,

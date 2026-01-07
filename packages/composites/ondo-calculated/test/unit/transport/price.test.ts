@@ -52,6 +52,7 @@ describe('calculatePrice', () => {
     requester: {} as Requester,
     sessionBoundaries: ['09:00', '17:00'],
     sessionBoundariesTimeZone: 'America/New_York',
+    smoother: 'kalman',
     decimals: 8,
   }
 
