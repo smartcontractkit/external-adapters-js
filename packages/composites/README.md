@@ -60,7 +60,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [circuit-breaker](./circuit-breaker/README.md)
 - [crypto-volatility-index](./crypto-volatility-index/README.md)
 - [curve-3pool](./curve-3pool/README.md)
-- [defi-pulse](./defi-pulse/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
 - [gmx-tokens](./gmx-tokens/README.md)
