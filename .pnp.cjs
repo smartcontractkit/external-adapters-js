@@ -167,10 +167,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"\
     },\
     {\
-      "name": "@chainlink/1forge-adapter",\
-      "reference": "workspace:packages/sources/1forge"\
-    },\
-    {\
       "name": "@chainlink/ada-balance-adapter",\
       "reference": "workspace:packages/sources/ada-balance"\
     },\
@@ -826,7 +822,6 @@ const RAW_RUNTIME_STATE =
   "enableTopLevelFallback": true,\
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
-    ["@chainlink/1forge-adapter", ["workspace:packages/sources/1forge"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
@@ -4940,24 +4935,6 @@ const RAW_RUNTIME_STATE =
           ["bignumber.js", "npm:9.1.2"]\
         ],\
         "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@chainlink/1forge-adapter", [\
-      ["workspace:packages/sources/1forge", {\
-        "packageLocation": "./packages/sources/1forge/",\
-        "packageDependencies": [\
-          ["@chainlink/1forge-adapter", "workspace:packages/sources/1forge"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/ada-balance-adapter", [\

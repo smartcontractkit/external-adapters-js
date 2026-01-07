@@ -1,6 +1,4 @@
 adapters:
-  - name: 1forge
-    version: 1.6.48
   - name: ada-balance
     version: 2.5.47
   - name: aleno
