@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://onre-api-prod.ew.r.appspot.com/data/nav', {
+  nock('https://dataproviderapi.com', {
     encodedQueryParams: true,
   })
-    .get('')
+    .get('/')
     .reply(200, () => ({
       data: [
         {

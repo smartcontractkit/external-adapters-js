@@ -13,6 +13,11 @@ on:
 # - Readme generation was optimized a bit
 # - We only installed the changeset package
 
+# Prevent race condition in writing to the changeset branch.
+concurrency:
+  group: deploy-and-release
+  cancel-in-progress: false
+
 jobs:
   consume-changesets:
     name: Upsert Release PR
@@ -27,6 +32,13 @@ jobs:
       UPSTREAM_BRANCH: 'HEAD~1'
       SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
     steps:
+      - name: Check if changeset release branch already exists
+        shell: bash
+        run: |
+          if git ls-remote --exit-code "https://github.com/${GITHUB_REPOSITORY}.git" changeset-release/main; then
+            echo "Branch already exists: changeset-release/main"
+            exit 1
+          fi
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:

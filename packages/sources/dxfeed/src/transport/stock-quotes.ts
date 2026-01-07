@@ -30,39 +30,57 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
       return []
     }
 
-    return Array.from({ length: data.length / dataLength }, (_, i) => i * dataLength).map((i) => {
-      const bidPrice = Number(data[i + bidPriceIndex])
-      const askPrice = Number(data[i + askPriceIndex])
-
-      let midPrice: number
-
-      if (bidPrice == 0) {
-        midPrice = askPrice
-      } else if (askPrice == 0) {
-        midPrice = bidPrice
-      } else {
-        midPrice = (askPrice + bidPrice) / 2
-      }
-
-      return {
-        params: { base: data[i + eventSymbolIndex].toString() },
-        response: {
-          result: null,
-          data: {
-            mid_price: midPrice,
-            bid_price: bidPrice,
-            bid_volume: Number(data[i + bidSizeIndex]),
-            ask_price: askPrice,
-            ask_volume: Number(data[i + askSizeIndex]),
-          },
-          timestamps: {
-            providerIndicatedTimeUnixMs: Math.max(
-              Number(data[i + bidTimeIndex]),
-              Number(data[i + askTimeIndex]),
-            ),
-          },
-        },
-      }
-    })
+    return Array.from({ length: data.length / dataLength }, (_, i) => i * dataLength)
+      .map((i) => generateResponse(data, i))
+      .flat()
   },
 )
+
+const generateResponse = (data: (string | number)[], i: number) => {
+  const bidVolume = Number(data[i + bidSizeIndex])
+  const askVolume = Number(data[i + askSizeIndex])
+  const invalidVolume = Number.isNaN(Number(bidVolume)) || Number.isNaN(Number(askVolume))
+  const bidPrice = Number(data[i + bidPriceIndex])
+  const askPrice = Number(data[i + askPriceIndex])
+
+  let midPrice: number
+
+  if (bidPrice == 0) {
+    midPrice = askPrice
+  } else if (askPrice == 0) {
+    midPrice = bidPrice
+  } else {
+    midPrice = (askPrice + bidPrice) / 2
+  }
+
+  const params = { base: data[i + eventSymbolIndex].toString() }
+  const response = {
+    result: null,
+    data: {
+      mid_price: midPrice,
+      bid_price: bidPrice,
+      bid_volume: bidVolume,
+      ask_price: askPrice,
+      ask_volume: askVolume,
+    },
+    timestamps: {
+      providerIndicatedTimeUnixMs: Math.max(
+        Number(data[i + bidTimeIndex]),
+        Number(data[i + askTimeIndex]),
+      ),
+    },
+  }
+
+  return [
+    { params: { ...params, requireVolume: false }, response },
+    {
+      params: { ...params, requireVolume: true },
+      response: invalidVolume
+        ? {
+            statusCode: 502,
+            errorMessage: `Bid volume: ${bidVolume} or Ask volume: ${askVolume} for ${params.base} is invalid.`,
+          }
+        : response,
+    },
+  ]
+}

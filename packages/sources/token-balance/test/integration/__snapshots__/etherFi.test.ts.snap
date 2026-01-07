@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute etherFi endpoint happy path returns success including queued withdrawal shares 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "12345",
+  },
+  "result": "12345",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute etherFi endpoint happy path returns success without queued withdrawals 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4500000000000000000",
+  },
+  "result": "4500000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute etherFi endpoint validation errors fails when required fields are missing 1`] = `
+{
+  "error": {
+    "message": "[Param: splitMain] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;

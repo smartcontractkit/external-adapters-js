@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor"
-    },
-    {
       "path": "./composites/augur"
     },
     {
@@ -24,13 +21,13 @@
       "path": "./composites/curve-3pool"
     },
     {
-      "path": "./composites/defi-pulse"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
       "path": "./composites/gm-token"
+    },
+    {
+      "path": "./composites/gmx-tokens"
     },
     {
       "path": "./composites/historical-average"
@@ -40,9 +37,6 @@
     },
     {
       "path": "./composites/implied-price-test"
-    },
-    {
-      "path": "./composites/linear-finance"
     },
     {
       "path": "./composites/llama-guard"
@@ -64,6 +58,9 @@
     },
     {
       "path": "./composites/nftx"
+    },
+    {
+      "path": "./composites/ondo-calculated"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -106,9 +103,6 @@
     },
     {
       "path": "./scripts"
-    },
-    {
-      "path": "./sources/1forge"
     },
     {
       "path": "./sources/ada-balance"
@@ -288,13 +282,7 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/etherchain"
-    },
-    {
       "path": "./sources/etherscan"
-    },
-    {
-      "path": "./sources/ethgasstation"
     },
     {
       "path": "./sources/ethgaswatch"
@@ -324,9 +312,6 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fluent-finance"
-    },
-    {
       "path": "./sources/fmpcloud"
     },
     {
@@ -339,16 +324,10 @@
       "path": "./sources/galaxis"
     },
     {
-      "path": "./sources/galaxy"
-    },
-    {
       "path": "./sources/gemini"
     },
     {
       "path": "./sources/generic-api"
-    },
-    {
-      "path": "./sources/genesis-volatility"
     },
     {
       "path": "./sources/gmci"
@@ -381,9 +360,6 @@
       "path": "./sources/instruxi-sxt"
     },
     {
-      "path": "./sources/intrinio"
-    },
-    {
       "path": "./sources/ion.au"
     },
     {
@@ -406,9 +382,6 @@
     },
     {
       "path": "./sources/lido-por"
-    },
-    {
-      "path": "./sources/linkpool"
     },
     {
       "path": "./sources/liveart"
@@ -450,9 +423,6 @@
       "path": "./sources/ncfx"
     },
     {
-      "path": "./sources/nikkei"
-    },
-    {
       "path": "./sources/nomia"
     },
     {
@@ -463,9 +433,6 @@
     },
     {
       "path": "./sources/oanda"
-    },
-    {
-      "path": "./sources/oilpriceapi"
     },
     {
       "path": "./sources/onchain-gas"
@@ -552,9 +519,6 @@
       "path": "./sources/synthetix-feeds"
     },
     {
-      "path": "./sources/terra-view-function"
-    },
-    {
       "path": "./sources/the-network-firm"
     },
     {
@@ -615,13 +579,7 @@
       "path": "./sources/wisdomtree"
     },
     {
-      "path": "./sources/wootrade"
-    },
-    {
       "path": "./sources/wrapped"
-    },
-    {
-      "path": "./sources/xbto"
     },
     {
       "path": "./targets/dydx-stark"
