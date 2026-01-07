@@ -375,11 +375,11 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/dlc-btc-por"\
     },\
     {\
-      "name": "@chainlink/dlc-cbtc-btc-por-adapter",\
+      "name": "@chainlink/dlc-cbtc-por-btc-adapter",\
       "reference": "workspace:packages/sources/dlc-cbtc-por-btc"\
     },\
     {\
-      "name": "@chainlink/dlc-cbtc-canton-por-adapter",\
+      "name": "@chainlink/dlc-cbtc-por-canton-adapter",\
       "reference": "workspace:packages/sources/dlc-cbtc-por-canton"\
     },\
     {\
@@ -934,8 +934,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
-    ["@chainlink/dlc-cbtc-btc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por-btc"]],\
-    ["@chainlink/dlc-cbtc-canton-por-adapter", ["workspace:packages/sources/dlc-cbtc-por-canton"]],\
+    ["@chainlink/dlc-cbtc-por-btc-adapter", ["workspace:packages/sources/dlc-cbtc-por-btc"]],\
+    ["@chainlink/dlc-cbtc-por-canton-adapter", ["workspace:packages/sources/dlc-cbtc-por-canton"]],\
     ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
@@ -6108,11 +6108,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dlc-cbtc-btc-por-adapter", [\
+    ["@chainlink/dlc-cbtc-por-btc-adapter", [\
       ["workspace:packages/sources/dlc-cbtc-por-btc", {\
         "packageLocation": "./packages/sources/dlc-cbtc-por-btc/",\
         "packageDependencies": [\
-          ["@chainlink/dlc-cbtc-btc-por-adapter", "workspace:packages/sources/dlc-cbtc-por-btc"],\
+          ["@chainlink/dlc-cbtc-por-btc-adapter", "workspace:packages/sources/dlc-cbtc-por-btc"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6126,11 +6126,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dlc-cbtc-canton-por-adapter", [\
+    ["@chainlink/dlc-cbtc-por-canton-adapter", [\
       ["workspace:packages/sources/dlc-cbtc-por-canton", {\
         "packageLocation": "./packages/sources/dlc-cbtc-por-canton/",\
         "packageDependencies": [\
-          ["@chainlink/dlc-cbtc-canton-por-adapter", "workspace:packages/sources/dlc-cbtc-por-canton"],\
+          ["@chainlink/dlc-cbtc-por-canton-adapter", "workspace:packages/sources/dlc-cbtc-por-canton"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

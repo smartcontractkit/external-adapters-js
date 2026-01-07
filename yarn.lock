@@ -3396,9 +3396,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por-btc":
+"@chainlink/dlc-cbtc-por-btc-adapter@workspace:packages/sources/dlc-cbtc-por-btc":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-btc-por-adapter@workspace:packages/sources/dlc-cbtc-por-btc"
+  resolution: "@chainlink/dlc-cbtc-por-btc-adapter@workspace:packages/sources/dlc-cbtc-por-btc"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
@@ -3412,9 +3412,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por-canton":
+"@chainlink/dlc-cbtc-por-canton-adapter@workspace:packages/sources/dlc-cbtc-por-canton":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dlc-cbtc-canton-por-adapter@workspace:packages/sources/dlc-cbtc-por-canton"
+  resolution: "@chainlink/dlc-cbtc-por-canton-adapter@workspace:packages/sources/dlc-cbtc-por-canton"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
     "@types/jest": "npm:^29.5.14"
