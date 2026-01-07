@@ -1,6 +1,4 @@
 adapters:
-  - name: 1forge
-    version: 1.6.48
   - name: ada-balance
     version: 2.5.47
   - name: aleno
@@ -109,8 +107,6 @@ adapters:
     version: 1.1.1
   - name: deep-blue
     version: 1.0.20
-  - name: defi-pulse
-    version: 1.2.141
   - name: deribit
     version: 1.2.47
   - name: deutsche-boerse
@@ -120,7 +116,7 @@ adapters:
   - name: dns-query
     version: 1.6.40
   - name: dxfeed
-    version: 2.3.2
+    version: 2.4.0
   - name: dydx-stark
     version: 2.0.31
   - name: elwood
@@ -167,8 +163,6 @@ adapters:
     version: 3.0.33
   - name: generic-api
     version: 1.0.1
-  - name: genesis-volatility
-    version: 1.3.47
   - name: glv-token
     version: 2.0.2
   - name: gm-token
@@ -219,8 +213,6 @@ adapters:
     version: 2.0.31
   - name: lido-por
     version: 1.1.16
-  - name: linkpool
-    version: 1.2.47
   - name: liveart
     version: 1.0.1
   - name: llama-guard
@@ -261,8 +253,6 @@ adapters:
     version: 1.0.18
   - name: nftx
     version: 3.0.31
-  - name: nikkei
-    version: 1.2.47
   - name: nomia
     version: 2.0.3
   - name: nomia2
