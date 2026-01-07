@@ -1,8 +1,9 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  ATTESTER_API_URL: {
-    description: 'DLC.Link Attester API URL for fetching xpub and deposit account data',
+  ATTESTER_API_URLS: {
+    description:
+      'Comma-separated list of DLC.Link Attester API URLs for fetching xpub and deposit account data',
     type: 'string',
     required: true,
   },

@@ -6,6 +6,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/reserves'
 import { calculateReserves, fetchAndCalculateVaultAddresses } from '../lib'
+import { medianBigInt, parseUrls } from '../utils'
 
 const logger = makeLogger('BtcPorTransport')
 
@@ -35,41 +36,58 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async handleRequest(context: EndpointContext<BaseEndpointTypes>): Promise<void> {
-    const { ATTESTER_API_URL, CHAIN_NAME, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
+    const { ATTESTER_API_URLS, CHAIN_NAME, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
       context.adapterSettings
 
     const providerDataRequestedUnixMs = Date.now()
+    const attesterUrls = parseUrls(ATTESTER_API_URLS)
 
     try {
-      logger.info(`Starting PoR calculation for chain: ${CHAIN_NAME}`)
-
-      // Fetch xpub and deposit IDs from Attester API, calculate and verify addresses
-      const { addresses } = await fetchAndCalculateVaultAddresses(
-        this.requester,
-        ATTESTER_API_URL,
-        CHAIN_NAME,
+      logger.info(
+        `Starting PoR calculation for chain: ${CHAIN_NAME} with ${attesterUrls.length} attesters`,
       )
 
-      if (addresses.length === 0) {
-        throw new Error(`No vault addresses found for chain: ${CHAIN_NAME}`)
+      // Query each attester and calculate reserves independently
+      const results = await Promise.allSettled(
+        attesterUrls.map(async (attesterUrl) => {
+          const { addresses } = await fetchAndCalculateVaultAddresses(
+            this.requester,
+            attesterUrl,
+            CHAIN_NAME,
+          )
+          if (addresses.length === 0) {
+            throw new Error(`No vault addresses found for chain: ${CHAIN_NAME}`)
+          }
+          return calculateReserves(
+            this.requester,
+            BITCOIN_RPC_ENDPOINT,
+            addresses,
+            MIN_CONFIRMATIONS,
+          )
+        }),
+      )
+
+      // Collect successful reserves calculations
+      const reserves: bigint[] = []
+      results.forEach((result, i) => {
+        if (result.status === 'fulfilled') {
+          reserves.push(result.value)
+          logger.debug(`Attester ${i + 1}: ${result.value} sats`)
+        } else {
+          logger.warn(`Attester ${i + 1} failed: ${result.reason}`)
+        }
+      })
+
+      if (reserves.length < 1) {
+        throw new Error('No successful attester responses')
       }
 
+      const medianReserves = medianBigInt(reserves)
+      const totalReserves = medianReserves.toString()
+
       logger.info(
-        `Found ${addresses.length} vault addresses, minConfirmations=${MIN_CONFIRMATIONS}`,
+        `PoR complete: median=${totalReserves} sats (${reserves.length}/${attesterUrls.length} attesters)`,
       )
-
-      // Calculate reserves (returns BigInt for precision)
-      const totalReservesBigInt = await calculateReserves(
-        this.requester,
-        BITCOIN_RPC_ENDPOINT,
-        addresses,
-        MIN_CONFIRMATIONS,
-      )
-
-      // Convert BigInt to String for JSON response (consistent with canton-por)
-      const totalReserves = totalReservesBigInt.toString()
-
-      logger.info(`PoR complete: ${totalReserves} sats (${addresses.length} addresses)`)
 
       await this.responseCache.write(this.name, [
         {

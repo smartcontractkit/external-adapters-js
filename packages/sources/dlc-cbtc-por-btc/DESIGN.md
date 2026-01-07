@@ -13,7 +13,7 @@ This trustless design ensures the adapter independently verifies all vault addre
 
 | Variable                | Required | Default          | Description                                                             |
 | ----------------------- | -------- | ---------------- | ----------------------------------------------------------------------- |
-| `ATTESTER_API_URL`      | Yes      | -                | DLC.Link Attester API URL (e.g., `https://mainnet.dlc.link/attestor-1`) |
+| `ATTESTER_API_URLS`     | Yes      | -                | Comma-separated list of DLC.Link Attester API URLs                      |
 | `CHAIN_NAME`            | No       | `canton-mainnet` | Chain name filter (`canton-mainnet`, `canton-testnet`, `canton-devnet`) |
 | `BITCOIN_RPC_ENDPOINT`  | Yes      | -                | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries     |
 | `MIN_CONFIRMATIONS`     | No       | `6`              | Minimum confirmations required for a UTXO to be counted                 |
@@ -112,7 +112,7 @@ The adapter detects pending spends by checking mempool transactions:
 yarn build
 
 # Set environment variables
-export ATTESTER_API_URL="https://mainnet.dlc.link/attestor-1"
+export ATTESTER_API_URLS="https://mainnet.dlc.link/attestor-1,https://mainnet.dlc.link/attestor-2"
 export CHAIN_NAME="canton-mainnet"
 export BITCOIN_RPC_ENDPOINT="https://blockstream.info/api"
 

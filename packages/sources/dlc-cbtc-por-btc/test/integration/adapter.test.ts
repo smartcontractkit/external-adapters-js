@@ -13,7 +13,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 import {
-  MOCK_ATTESTER_API_URL,
+  MOCK_ATTESTER_API_URLS,
   MOCK_BITCOIN_RPC_URL,
   MOCK_BLOCK_HEIGHT,
   MOCK_CHAIN_NAME,
@@ -37,7 +37,7 @@ describe('BTC PoR Adapter Integration Tests', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['ATTESTER_API_URL'] = MOCK_ATTESTER_API_URL
+    process.env['ATTESTER_API_URLS'] = MOCK_ATTESTER_API_URLS
     process.env['CHAIN_NAME'] = MOCK_CHAIN_NAME
     process.env['BITCOIN_RPC_ENDPOINT'] = MOCK_BITCOIN_RPC_URL
     process.env['MIN_CONFIRMATIONS'] = '6'
@@ -47,7 +47,10 @@ describe('BTC PoR Adapter Integration Tests', () => {
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     // Mock Bitcoin RPC endpoints using nock (works with axios used by Requester)
-    nock(MOCK_BITCOIN_RPC_URL).persist().get('/blocks/tip/height').reply(200, MOCK_BLOCK_HEIGHT)
+    nock(MOCK_BITCOIN_RPC_URL)
+      .persist()
+      .get('/blocks/tip/height')
+      .reply(200, String(MOCK_BLOCK_HEIGHT))
 
     nock(MOCK_BITCOIN_RPC_URL)
       .persist()

@@ -12,7 +12,7 @@ import {
   sumPendingSpendInputs,
 } from '../../src/lib/por'
 import { MempoolTransaction, UTXO } from '../../src/lib/types'
-import { buildUrl } from '../../src/utils'
+import { buildUrl, medianBigInt, parseUrls } from '../../src/utils'
 
 describe('Reserves Calculation Logic', () => {
   describe('buildUrl', () => {
@@ -66,6 +66,75 @@ describe('Reserves Calculation Logic', () => {
       expect(buildUrl(base, '/blocks/tip/height')).toBe(
         'https://mainnet.hemi.eu.endpoints.matrixed.link/electrs/blocks/tip/height?auth=CL-AGspET6yfg2X',
       )
+    })
+  })
+
+  describe('parseUrls', () => {
+    it('should parse single URL', () => {
+      expect(parseUrls('https://attester1.api')).toEqual(['https://attester1.api'])
+    })
+
+    it('should parse multiple comma-separated URLs', () => {
+      expect(
+        parseUrls('https://attester1.api,https://attester2.api,https://attester3.api'),
+      ).toEqual(['https://attester1.api', 'https://attester2.api', 'https://attester3.api'])
+    })
+
+    it('should trim whitespace around URLs', () => {
+      expect(parseUrls('  https://a.api  ,  https://b.api  ')).toEqual([
+        'https://a.api',
+        'https://b.api',
+      ])
+    })
+
+    it('should filter out empty strings', () => {
+      expect(parseUrls('https://a.api,,https://b.api,')).toEqual(['https://a.api', 'https://b.api'])
+    })
+
+    it('should return empty array for empty string', () => {
+      expect(parseUrls('')).toEqual([])
+    })
+
+    it('should handle 5 URLs', () => {
+      const urls = 'https://a1.api,https://a2.api,https://a3.api,https://a4.api,https://a5.api'
+      expect(parseUrls(urls)).toHaveLength(5)
+    })
+  })
+
+  describe('medianBigInt', () => {
+    it('should return single value for array of length 1', () => {
+      expect(medianBigInt([100n])).toBe(100n)
+    })
+
+    it('should return lower middle for array of length 2', () => {
+      expect(medianBigInt([100n, 200n])).toBe(100n)
+    })
+
+    it('should return middle value for odd-length array', () => {
+      expect(medianBigInt([100n, 200n, 300n])).toBe(200n)
+    })
+
+    it('should return lower middle for even-length array of 4', () => {
+      expect(medianBigInt([100n, 200n, 300n, 400n])).toBe(200n)
+    })
+
+    it('should correctly calculate median for 5 values', () => {
+      expect(medianBigInt([500n, 100n, 300n, 200n, 400n])).toBe(300n)
+    })
+
+    it('should sort values before calculating median', () => {
+      expect(medianBigInt([300n, 100n, 200n])).toBe(200n)
+    })
+
+    it('should throw for empty array', () => {
+      expect(() => medianBigInt([])).toThrow('Cannot calculate median of empty array')
+    })
+
+    it('should handle large BigInt values', () => {
+      const large1 = 50000000000000n
+      const large2 = 60000000000000n
+      const large3 = 70000000000000n
+      expect(medianBigInt([large3, large1, large2])).toBe(large2)
     })
   })
 

@@ -8,7 +8,9 @@
 
 import nock from 'nock'
 
-export const MOCK_ATTESTER_API_URL = 'https://test.attester.api'
+export const MOCK_ATTESTER_API_URL_1 = 'https://test.attester1.api'
+export const MOCK_ATTESTER_API_URL_2 = 'https://test.attester2.api'
+export const MOCK_ATTESTER_API_URLS = `${MOCK_ATTESTER_API_URL_1},${MOCK_ATTESTER_API_URL_2}`
 export const MOCK_BITCOIN_RPC_URL = 'https://test.electrs.api'
 export const MOCK_CHAIN_NAME = 'canton-testnet'
 
@@ -23,33 +25,37 @@ export const MOCK_DEPOSIT_ID = 'test-deposit-001'
 export const MOCK_BLOCK_HEIGHT = 800000
 
 /**
- * Mock the Attester API response for address calculation data
+ * Mock the Attester API response for address calculation data (both attesters)
  */
-export const mockAttesterApi = (): nock.Scope =>
-  nock(MOCK_ATTESTER_API_URL)
-    .get('/app/get-address-calculation-data')
-    .reply(
-      200,
+export const mockAttesterApi = (): void => {
+  const attesterResponse = {
+    chains: [
       {
-        chains: [
+        chain: MOCK_CHAIN_NAME,
+        xpub: MOCK_XPUB,
+        addresses: [
           {
-            chain: MOCK_CHAIN_NAME,
-            xpub: MOCK_XPUB,
-            addresses: [
-              {
-                id: MOCK_DEPOSIT_ID,
-                // In a real test, this would be verified against the calculated address
-                // For integration tests, we mock the verification to pass
-                address_for_verification: MOCK_VAULT_ADDRESS,
-              },
-            ],
+            id: MOCK_DEPOSIT_ID,
+            // In a real test, this would be verified against the calculated address
+            // For integration tests, we mock the verification to pass
+            address_for_verification: MOCK_VAULT_ADDRESS,
           },
         ],
-        bitcoin_network: 'testnet',
       },
-      ['Content-Type', 'application/json'],
-    )
+    ],
+    bitcoin_network: 'testnet',
+  }
+
+  nock(MOCK_ATTESTER_API_URL_1)
     .persist()
+    .get('/app/get-address-calculation-data')
+    .reply(200, attesterResponse, ['Content-Type', 'application/json'])
+
+  nock(MOCK_ATTESTER_API_URL_2)
+    .persist()
+    .get('/app/get-address-calculation-data')
+    .reply(200, attesterResponse, ['Content-Type', 'application/json'])
+}
 
 /**
  * Mock Bitcoin RPC block height endpoint
