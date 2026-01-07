@@ -384,9 +384,6 @@
       "path": "./sources/lido-por/tsconfig.test.json"
     },
     {
-      "path": "./sources/linkpool/tsconfig.test.json"
-    },
-    {
       "path": "./sources/liveart/tsconfig.test.json"
     },
     {
