@@ -4,9 +4,10 @@ import { JsonRpcProvider } from 'ethers'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getRegistryData } from '../lib/registry'
 import { calculateSecondsFromTransition } from '../lib/session'
-import { processUpdate } from '../lib/smoother/smoother'
+import { SessionAwareSmoother } from '../lib/smoother/smoother'
 import { getPrice } from '../lib/streams'
 
+const smoother = new SessionAwareSmoother()
 const MULTIPLIER_DECIMALS = 18n
 
 export const calculatePrice = async (param: {
@@ -45,7 +46,7 @@ export const calculatePrice = async (param: {
     param.sessionBoundariesTimeZone,
   )
 
-  const smoothed = processUpdate(BigInt(price.price), price.spread, secondsFromTransition)
+  const smoothed = smoother.processUpdate(BigInt(price.price), price.spread, secondsFromTransition)
 
   const result =
     (smoothed.price * multiplier * 10n ** BigInt(param.decimals)) /

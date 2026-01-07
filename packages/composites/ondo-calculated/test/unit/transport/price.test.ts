@@ -2,7 +2,6 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { getRegistryData } from '../../../src/lib/registry'
 import { calculateSecondsFromTransition } from '../../../src/lib/session'
-import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
 import { calculatePrice } from '../../../src/transport/price'
 
@@ -12,8 +11,29 @@ const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>
 jest.mock('../../../src/lib/registry', () => ({ getRegistryData: jest.fn() }))
 const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getRegistryData>
 
-jest.mock('../../../src/lib/smoother/smoother', () => ({ processUpdate: jest.fn() }))
-const mockProcessUpdate = processUpdate as jest.MockedFunction<typeof processUpdate>
+jest.mock('../../../src/lib/smoother/smoother', () => {
+  const mockProcessUpdate = jest.fn()
+  return {
+    SessionAwareSmoother: jest.fn().mockImplementation(() => ({
+      processUpdate: mockProcessUpdate,
+    })),
+    __mockProcessUpdate: mockProcessUpdate,
+  }
+})
+const mockSmootherModule = jest.requireMock('../../../src/lib/smoother/smoother') as {
+  __mockProcessUpdate: jest.MockedFunction<
+    (
+      rawPrice: bigint,
+      spread: bigint,
+      secondsFromTransition: number,
+    ) => {
+      price: bigint
+      x: bigint
+      p: bigint
+    }
+  >
+}
+const mockProcessUpdate = mockSmootherModule.__mockProcessUpdate
 
 jest.mock('../../../src/lib/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
 const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<

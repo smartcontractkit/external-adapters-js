@@ -1,13 +1,13 @@
 import { parseUnits } from 'ethers'
 import * as fs from 'fs'
 import * as path from 'path'
-import { KalmanSmoother } from '../../../src/lib/smoother/kalmanSmoother'
+import { SessionAwareSmoother } from '../../../../src/lib/smoother/smoother'
 
 const scale = (price: number) => parseUnits(price.toFixed(18), 18)
 
 describe('KalmanSmoother', () => {
   it('processUpdate', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const spread = 1n * 10n ** 18n // Use a small spread value for testing
 
     // Should return raw price when outside transition window (t=100)
@@ -52,14 +52,14 @@ describe('KalmanSmoother', () => {
     const smallSpread = 1000000000000000n // 0.001 scaled (less than MIN_R)
 
     // Run with small spread
-    const smoother1 = new KalmanSmoother()
+    const smoother1 = new SessionAwareSmoother()
     smoother1.processUpdate(scale(100), smallSpread, 100)
     smoother1.processUpdate(scale(100), smallSpread, 100)
     smoother1.processUpdate(scale(100), smallSpread, 100)
     const resultSmallSpread = smoother1.processUpdate(scale(150), smallSpread, 0)
 
     // Run with MIN_R directly
-    const smoother2 = new KalmanSmoother()
+    const smoother2 = new SessionAwareSmoother()
     smoother2.processUpdate(scale(100), MIN_R, 100)
     smoother2.processUpdate(scale(100), MIN_R, 100)
     smoother2.processUpdate(scale(100), MIN_R, 100)
@@ -73,7 +73,7 @@ describe('KalmanSmoother', () => {
   it('should use large spread values', () => {
     const largeSpread = scale(100) // 100 scaled to 18 decimals (very large spread)
 
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     smoother.processUpdate(scale(10), scale(1), 100)
     smoother.processUpdate(scale(20), scale(1), -20)
     smoother.processUpdate(scale(30), scale(1), 60)
@@ -89,7 +89,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should not undershoot with constant price during transition', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const constantPrice = scale(100)
     const spread = scale(1)
 
@@ -113,7 +113,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should handle price bump after transition without excessive undershoot', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const basePrice = scale(100)
     const spread = scale(1)
 
@@ -152,7 +152,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should handle zero and negative spread without errors', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
 
     // Zero spread
     smoother.processUpdate(scale(100), 0n, 100)
@@ -161,7 +161,7 @@ describe('KalmanSmoother', () => {
     expect(zeroResult.price).toBeGreaterThan(0n)
 
     // Negative spread
-    const smoother2 = new KalmanSmoother()
+    const smoother2 = new SessionAwareSmoother()
     smoother2.processUpdate(scale(100), -1n, 100)
     smoother2.processUpdate(scale(100), -1n, 100)
     const negResult = smoother2.processUpdate(scale(150), -1n, 0)
@@ -169,7 +169,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should converge to stable price with consistent inputs during transition', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const targetPrice = scale(100)
     const spread = scale(1)
 
@@ -197,7 +197,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should not overshoot beyond brief price spike during transition', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const basePrice = scale(500)
     const spikePrice = scale(510)
     const spread = scale(1)
@@ -243,7 +243,7 @@ describe('KalmanSmoother', () => {
   })
 
   it('should not amplify price deviation after brief spike returns to baseline', () => {
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
     const basePrice = scale(500)
     const spikePrice = scale(510)
     const spread = scale(1)
@@ -288,11 +288,11 @@ describe('KalmanSmoother', () => {
 describe('KalmanSmoother', () => {
   it('Handle real world data', () => {
     const data = fs
-      .readFileSync(path.join(__dirname, 'smoother_sample_input.csv'), 'utf8')
+      .readFileSync(path.join(__dirname, 'kalman_smoother_sample_input.csv'), 'utf8')
       .split('\n')
       .map((line) => line.split(','))
 
-    const smoother = new KalmanSmoother()
+    const smoother = new SessionAwareSmoother()
 
     const boundary = 1766437200
     const results: bigint[] = []
@@ -307,7 +307,7 @@ describe('KalmanSmoother', () => {
     }
 
     const expectedResults = fs
-      .readFileSync(path.join(__dirname, 'smoother_sample_output.csv'), 'utf8')
+      .readFileSync(path.join(__dirname, 'kalman_smoother_sample_output.csv'), 'utf8')
       .split('\n')
       .map((line) => line.split(',')[0])
 
