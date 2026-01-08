@@ -54,20 +54,29 @@ class KalmanFilter {
  * between raw and smoothed prices.
  */
 export class KalmanSmoother {
-  private filter: KalmanFilter = new KalmanFilter()
+  private filters: Record<string, KalmanFilter> = {}
 
   /**
    * Process a new price update
+   * @param asset The asset identifier
    * @param rawPrice The current raw median price
    * @param spread The current spread between ask and bid prices
    * @param secondsFromTransition Seconds relative to session boundary (-ve before, +ve after)
    */
-  public processUpdate(rawPrice: bigint, spread: bigint, secondsFromTransition: number) {
+  public processUpdate(
+    asset: string,
+    rawPrice: bigint,
+    spread: bigint,
+    secondsFromTransition: number,
+  ) {
     // Calculate blending weight
     const w = this.calculateTransitionWeight(secondsFromTransition)
 
     // Calculate smoothed price
-    const smoothedPrice = this.filter.smooth(rawPrice, spread)
+    if (!this.filters[asset]) {
+      this.filters[asset] = new KalmanFilter()
+    }
+    const smoothedPrice = this.filters[asset].smooth(rawPrice, spread)
 
     // Apply blending: price_output = smoothed * w  + raw * (1 - w)
     return {

@@ -88,36 +88,30 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         }
 
         if (!message.Prices.length) {
-          return [
-            {
-              params: { base: pair.base, quote: pair.quote },
-              response: {
-                errorMessage: `Missing price info for '${pair.base}${pair.quote}'`,
-                statusCode: 502,
-              },
-            },
-          ]
+          return getErrorResponse('Missing price info', pair)
         }
 
         const bidInfo = message.Prices.find((p) => p.Type === 'B')
         const askInfo = message.Prices.find((p) => p.Type === 'O')
 
         if (!bidInfo || !askInfo || !bidInfo.Px || !askInfo.Px) {
-          return [
-            {
-              params: { base: pair.base, quote: pair.quote },
-              response: {
-                errorMessage: `Missing bid and/or ask prices for '${pair.base}${pair.quote}'`,
-                statusCode: 502,
-              },
-            },
-          ]
+          return getErrorResponse('Missing bid and/or ask prices', pair)
+        }
+
+        if (!bidInfo.Vol || !askInfo.Vol) {
+          return getErrorResponse('Missing bid and/or ask volumes', pair)
         }
 
         const bidPrice = Number(bidInfo.Px)
         const askPrice = Number(askInfo.Px)
+        if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
+          return getErrorResponse(`Invalid bid price ${bidPrice} or ask price ${askPrice}`, pair)
+        }
         const bidVolume = Number(bidInfo.Vol)
         const askVolume = Number(askInfo.Vol)
+        if (Number.isNaN(bidVolume) || Number.isNaN(askVolume)) {
+          return getErrorResponse(`Invalid bid vol ${bidVolume} or ask vol ${askVolume}`, pair)
+        }
 
         const mid = (bidPrice + askPrice) / 2
 
@@ -136,12 +130,11 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
             response: {
               result: mid,
               data: {
-                // Simple average
                 result: mid,
                 bid: bidPrice,
                 mid,
                 ask: askPrice,
-                // Liquidity weighted
+                // Used by 24/5 feeds
                 mid_price: lwMidPrice,
                 bid_price: bidPrice,
                 bid_volume: bidVolume,
@@ -187,3 +180,13 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       },
     },
   })
+
+const getErrorResponse = (message: string, pair: { base: string; quote: string }) => [
+  {
+    params: { base: pair.base, quote: pair.quote },
+    response: {
+      errorMessage: `${message} for '${pair.base}:${pair.quote}'`,
+      statusCode: 502,
+    },
+  },
+]

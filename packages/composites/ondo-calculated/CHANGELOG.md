@@ -1,5 +1,15 @@
 # @chainlink/ondo-calculated-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4503](https://github.com/smartcontractkit/external-adapters-js/pull/4503) [`7b04864`](https://github.com/smartcontractkit/external-adapters-js/commit/7b048642e84117f23261b5d0d9b1f21cf24e251e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Keep internal state seperate per ticker
+
+### Patch Changes
+
+- [#4492](https://github.com/smartcontractkit/external-adapters-js/pull/4492) [`77b740a`](https://github.com/smartcontractkit/external-adapters-js/commit/77b740a7a2b206aeee57742b24b884c84ff34655) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
 ## 1.2.0
 
 ### Minor Changes

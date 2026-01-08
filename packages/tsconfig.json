@@ -42,9 +42,6 @@
       "path": "./composites/llama-guard"
     },
     {
-      "path": "./composites/market-closure"
-    },
-    {
       "path": "./composites/market-status"
     },
     {
@@ -292,9 +289,6 @@
     },
     {
       "path": "./sources/expand-network"
-    },
-    {
-      "path": "./sources/fcsapi"
     },
     {
       "path": "./sources/finage"
