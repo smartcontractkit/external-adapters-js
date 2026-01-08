@@ -1,5 +1,11 @@
 # @chainlink/dlc-cbtc-por-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4513](https://github.com/smartcontractkit/external-adapters-js/pull/4513) [`a55719a`](https://github.com/smartcontractkit/external-adapters-js/commit/a55719a48b71e825315262da47c91b51081bf29d) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Fixed issue with dependency not including required libraries
+
 ## 1.0.0
 
 ### Major Changes

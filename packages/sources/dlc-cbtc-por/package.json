@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/dlc-cbtc-por-adapter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chainlink DLC CBTC Proof of Reserves adapter. Queries Attester APIs, Digital Asset API, and Bitcoin blockchain for CBTC reserves.",
   "keywords": [
     "Chainlink",
