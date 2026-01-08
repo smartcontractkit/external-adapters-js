@@ -45,8 +45,5 @@ export function medianBigInt(values: bigint[]): bigint {
   }
 
   const sorted = [...values].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
-  const mid = Math.floor(sorted.length / 2)
-
-  // For even length, return lower middle value (no averaging)
-  return sorted.length % 2 === 0 ? sorted[mid - 1] : sorted[mid]
+  return sorted[Math.ceil(sorted.length / 2) - 1]
 }
