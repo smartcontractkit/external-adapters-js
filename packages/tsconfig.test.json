@@ -291,9 +291,6 @@
       "path": "./sources/expand-network/tsconfig.test.json"
     },
     {
-      "path": "./sources/fcsapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/finage/tsconfig.test.json"
     },
     {

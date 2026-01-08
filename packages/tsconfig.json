@@ -291,9 +291,6 @@
       "path": "./sources/expand-network"
     },
     {
-      "path": "./sources/fcsapi"
-    },
-    {
       "path": "./sources/finage"
     },
     {

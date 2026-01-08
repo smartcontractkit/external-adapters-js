@@ -415,10 +415,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/expand-network"\
     },\
     {\
-      "name": "@chainlink/fcsapi-adapter",\
-      "reference": "workspace:packages/sources/fcsapi"\
-    },\
-    {\
       "name": "@chainlink/finage-adapter",\
       "reference": "workspace:packages/sources/finage"\
     },\
@@ -887,7 +883,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
-    ["@chainlink/fcsapi-adapter", ["workspace:packages/sources/fcsapi"]],\
     ["@chainlink/finage-adapter", ["workspace:packages/sources/finage"]],\
     ["@chainlink/finalto-adapter", ["workspace:packages/sources/finalto"]],\
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
@@ -6712,24 +6707,6 @@ const RAW_RUNTIME_STATE =
           ["ts-node", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:10.9.2"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["yo", "npm:4.3.1"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/fcsapi-adapter", [\
-      ["workspace:packages/sources/fcsapi", {\
-        "packageLocation": "./packages/sources/fcsapi/",\
-        "packageDependencies": [\
-          ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
