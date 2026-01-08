@@ -5,12 +5,6 @@ exports[`DLC CBTC PoR Adapter attesterSupply endpoint should return success 1`] 
   "data": {
     "result": "78998232600",
   },
-  "meta": {
-    "adapterName": "DLC_CBTC_POR",
-    "metrics": {
-      "feedId": "N/A",
-    },
-  },
   "result": "78998232600",
   "statusCode": 200,
   "timestamps": {
@@ -24,12 +18,6 @@ exports[`DLC CBTC PoR Adapter attesterSupply endpoint should use attesterSupply 
 {
   "data": {
     "result": "78998232600",
-  },
-  "meta": {
-    "adapterName": "DLC_CBTC_POR",
-    "metrics": {
-      "feedId": "N/A",
-    },
   },
   "result": "78998232600",
   "statusCode": 200,
@@ -45,12 +33,6 @@ exports[`DLC CBTC PoR Adapter daSupply endpoint should return success 1`] = `
   "data": {
     "result": "210000001234567890",
   },
-  "meta": {
-    "adapterName": "DLC_CBTC_POR",
-    "metrics": {
-      "feedId": "N/A",
-    },
-  },
   "result": "210000001234567890",
   "statusCode": 200,
   "timestamps": {
@@ -64,12 +46,6 @@ exports[`DLC CBTC PoR Adapter reserves endpoint should return success 1`] = `
 {
   "data": {
     "result": "100000000",
-  },
-  "meta": {
-    "adapterName": "DLC_CBTC_POR",
-    "metrics": {
-      "feedId": "N/A",
-    },
   },
   "result": "100000000",
   "statusCode": 200,
