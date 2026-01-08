@@ -1,5 +1,11 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.6.1
+
+### Patch Changes
+
+- [#4469](https://github.com/smartcontractkit/external-adapters-js/pull/4469) [`3ff13d2`](https://github.com/smartcontractkit/external-adapters-js/commit/3ff13d24b4aeed69b0023986c64ccaf4dc7903e9) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Remove view-function-multi-chain from readme generator blacklist
+
 ## 1.6.0
 
 ### Minor Changes
