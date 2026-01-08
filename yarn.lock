@@ -3868,7 +3868,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/fcsapi-adapter@workspace:*, @chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi":
+"@chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi"
   dependencies:
@@ -4496,23 +4496,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/market-closure-adapter@workspace:packages/composites/market-closure":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/fcsapi-adapter": "workspace:*"
-    "@chainlink/finnhub-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    market-closure: "npm:^0.1.2"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -19376,7 +19359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.23.0, luxon@npm:^1.28.1":
+"luxon@npm:^1.28.1":
   version: 1.28.1
   resolution: "luxon@npm:1.28.1"
   checksum: 10/dfba84bb3cd72f359c77115d374937c31eccdfa6b383284b6848c075f85e02269d4d9a717608944f2c11c4ca5d3df0fc18197ce4ca21313ddd72619b39ee034c
@@ -19528,15 +19511,6 @@ __metadata:
   dependencies:
     object-visit: "npm:^1.0.0"
   checksum: 10/c27045a5021c344fc19b9132eb30313e441863b2951029f8f8b66f79d3d8c1e7e5091578075a996f74e417479506fe9ede28c44ca7bc351a61c9d8073daec36a
-  languageName: node
-  linkType: hard
-
-"market-closure@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "market-closure@npm:0.1.2"
-  dependencies:
-    luxon: "npm:^1.23.0"
-  checksum: 10/994ab745300574cc266c5cfce1dc7e2e8be0670d83f7cfbdec637650406a295b892ecf1c5e28a981020680b17ecb729cdd57ca219eb9cc0b8bb23807dcddf8b0
   languageName: node
   linkType: hard
 
