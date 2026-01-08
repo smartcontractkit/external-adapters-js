@@ -12,7 +12,8 @@ import {
 
 describe('DLC CBTC PoR Adapter', () => {
   let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let testAdapter: TestAdapter<any>
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
