@@ -1,5 +1,23 @@
 # @chainlink/ea-scripts
 
+## 2.10.0
+
+### Minor Changes
+
+- [#4467](https://github.com/smartcontractkit/external-adapters-js/pull/4467) [`9819cd0`](https://github.com/smartcontractkit/external-adapters-js/commit/9819cd0e29e2d15186f20df2dc30c5257210974a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Updating known-issues to custom in readme generator
+
+### Patch Changes
+
+- [#4469](https://github.com/smartcontractkit/external-adapters-js/pull/4469) [`3ff13d2`](https://github.com/smartcontractkit/external-adapters-js/commit/3ff13d24b4aeed69b0023986c64ccaf4dc7903e9) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Remove view-function-multi-chain from readme generator blacklist
+
+- [#4497](https://github.com/smartcontractkit/external-adapters-js/pull/4497) [`c6267da`](https://github.com/smartcontractkit/external-adapters-js/commit/c6267daf3571b24c1a4e609f2768db24bb259580) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete defi-pulse EA
+
+- [#4507](https://github.com/smartcontractkit/external-adapters-js/pull/4507) [`61fade8`](https://github.com/smartcontractkit/external-adapters-js/commit/61fade839bae7c3f750752d28fd6b8ca7fc8cc85) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete market-closure EA
+
+- [#4495](https://github.com/smartcontractkit/external-adapters-js/pull/4495) [`4f11f09`](https://github.com/smartcontractkit/external-adapters-js/commit/4f11f09a419359aba4864ca4764f30f0e42256a8) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete linkpool EA
+
+- [#4462](https://github.com/smartcontractkit/external-adapters-js/pull/4462) [`f4d9ee1`](https://github.com/smartcontractkit/external-adapters-js/commit/f4d9ee17f48a373c5d4daacee870e4d276e68e17) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete anchor EA
+
 ## 2.9.1
 
 ### Patch Changes
