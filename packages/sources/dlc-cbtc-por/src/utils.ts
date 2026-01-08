@@ -38,6 +38,9 @@ export function parseUrls(urlsString: string): string[] {
 /**
  * Calculate median of BigInt values.
  * Returns the middle value for odd-length arrays, or the lower of two middle values for even-length.
+ *
+ * Note: For Proof of Reserves, the lower middle is more conservative - under-reporting
+ * reserves is safer than over-reporting collateral.
  */
 export function medianBigInt(values: bigint[]): bigint {
   if (values.length === 0) {
