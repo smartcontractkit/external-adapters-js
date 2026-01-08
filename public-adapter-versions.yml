@@ -139,8 +139,6 @@ adapters:
     version: 1.0.0
   - name: expand-network
     version: 0.1.17
-  - name: fcsapi
-    version: 1.2.48
   - name: finage
     version: 2.5.0
   - name: finalto
