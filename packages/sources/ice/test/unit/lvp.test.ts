@@ -18,6 +18,9 @@ const loggerFactory: LoggerFactory = {
 
 LoggerFactoryProvider.set(loggerFactory)
 
+// Store listeners registered with the mock connection
+const mockListeners: Record<string, ((...args: unknown[]) => void)[]> = {}
+
 // Mock the JsApi before importing StreamingClient
 jest.mock('../../src/transport/netdania/jsApi/jsapi-nodejs', () => ({
   window: {
@@ -31,7 +34,12 @@ jest.mock('../../src/transport/netdania/jsApi/jsapi-nodejs', () => ({
           QUOTE_TIME_ZONE: 3015,
         },
         JSONConnection: jest.fn().mockImplementation(() => ({
-          addListener: jest.fn(),
+          addListener: jest.fn((event: string, callback: (...args: unknown[]) => void) => {
+            if (!mockListeners[event]) {
+              mockListeners[event] = []
+            }
+            mockListeners[event].push(callback)
+          }),
           Flush: jest.fn(),
           GetRequestList: jest.fn().mockReturnValue([]),
           addRequests: jest.fn(),
@@ -67,55 +75,38 @@ describe('LVP (Last Value Persistence)', () => {
     USER_GROUP: 'test.group',
     POLLING_INTERVAL: 2000,
     CONNECTING_TIMEOUT_MS: 4000,
-    LVP_HEARTBEAT_INTERVAL: 100, // Short interval for testing
     CACHE_MAX_AGE: 90000,
   } as BaseEndpointTypes['Settings']
 
   beforeEach(() => {
-    jest.useFakeTimers()
     jest.clearAllMocks()
-  })
-
-  afterEach(() => {
-    jest.useRealTimers()
+    // Clear mock listeners
+    Object.keys(mockListeners).forEach((key) => delete mockListeners[key])
   })
 
   describe('StreamingClient heartbeat', () => {
-    it('should emit heartbeat events at configured interval', () => {
+    it('should emit heartbeat event when NetDania ONHEARTBEAT fires', () => {
       const client = new StreamingClient(mockSettings)
       const heartbeatHandler = jest.fn()
       client.on('heartbeat', heartbeatHandler)
-      ;(client as any).startHeartbeat()
 
-      // No heartbeat yet
-      expect(heartbeatHandler).not.toHaveBeenCalled()
+      // Simulate NetDania's internal heartbeat event
+      const onHeartbeatCallbacks = mockListeners['OnHeartbeat'] || []
+      expect(onHeartbeatCallbacks.length).toBeGreaterThan(0)
 
-      // First heartbeat after interval
-      jest.advanceTimersByTime(100)
+      // Fire the heartbeat event
+      onHeartbeatCallbacks.forEach((cb) => cb(Date.now()))
+
+      // Verify our heartbeat was emitted
       expect(heartbeatHandler).toHaveBeenCalledTimes(1)
-
-      // Second heartbeat
-      jest.advanceTimersByTime(100)
-      expect(heartbeatHandler).toHaveBeenCalledTimes(2)
-      ;(client as any).stopHeartbeat()
     })
 
-    it('should stop heartbeat on disconnect', () => {
-      const client = new StreamingClient(mockSettings)
-      const heartbeatHandler = jest.fn()
-      client.on('heartbeat', heartbeatHandler)
-      ;(client as any).startHeartbeat()
+    it('should register listener for NetDania ONHEARTBEAT event', () => {
+      new StreamingClient(mockSettings)
 
-      // First heartbeat
-      jest.advanceTimersByTime(100)
-      expect(heartbeatHandler).toHaveBeenCalledTimes(1)
-
-      // Disconnect stops heartbeat
-      client.disconnect()
-
-      // No more heartbeats after disconnect
-      jest.advanceTimersByTime(200)
-      expect(heartbeatHandler).toHaveBeenCalledTimes(1)
+      // Verify the listener was registered
+      expect(mockListeners['OnHeartbeat']).toBeDefined()
+      expect(mockListeners['OnHeartbeat'].length).toBe(1)
     })
   })
 })

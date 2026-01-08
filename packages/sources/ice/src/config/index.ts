@@ -45,10 +45,6 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 4000,
   },
-  LVP_HEARTBEAT_INTERVAL: {
-    description:
-      'Interval in milliseconds for Last Value Persistence heartbeat to extend cache TTLs during off-market hours',
-    type: 'number',
-    default: 30000,
-  },
+  // LVP heartbeat is now driven by NetDania's internal heartbeat (~180 seconds)
+  // No configuration needed - events are fired when the DP connection heartbeat succeeds
 })

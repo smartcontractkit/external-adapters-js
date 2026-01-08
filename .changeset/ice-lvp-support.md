@@ -2,4 +2,4 @@
 '@chainlink/ice-adapter': minor
 ---
 
-Add Last Value Persistence (LVP) support for off-market hours. The adapter now emits heartbeat events at configurable intervals (LVP_HEARTBEAT_INTERVAL, default 30s) to extend cache TTLs for active subscriptions, ensuring cached prices remain available when no price updates are received from the data provider.
+Add Last Value Persistence (LVP) support for off-market hours. The adapter now listens for NetDania's internal heartbeat events (fired every ~180 seconds when the connection to the data provider is confirmed alive) and uses these to extend cache TTLs for active subscriptions. This ensures cached prices remain available during off-market hours while also confirming the data provider connection is healthy. The heartbeat events stop automatically if the connection is lost, allowing stale prices to expire naturally.
