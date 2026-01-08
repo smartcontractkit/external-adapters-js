@@ -7,8 +7,7 @@ export const MOCK_ATTESTER_API_URL_2 = 'https://test.attester2.api'
 export const MOCK_ATTESTER_API_URLS = `${MOCK_ATTESTER_API_URL_1},${MOCK_ATTESTER_API_URL_2}`
 export const MOCK_BITCOIN_RPC_URL = 'https://test.bitcoin.rpc'
 
-// Real data from mainnet attester API (https://mainnet.dlc.link/attestor-1/app/get-address-calculation-data)
-// This ensures address verification passes in integration tests
+// Real data from attester API to ensure address verification passes in integration tests
 export const MOCK_XPUB =
   'xpub6GRcASRzGcNLhsaTsX28aV1JmNZSdUFKHsXgSjwX4ykk8X3j58gznGf73mBe1k35A69K7JNZfwZhmQHjZGd8f5ine2ztkbW3yiayRHFRFKL'
 export const MOCK_DEPOSIT_ID =

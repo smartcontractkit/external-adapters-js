@@ -1,9 +1,8 @@
 /**
  * Bitcoin Address Calculation for CBTC Bridge
  *
- * This module independently calculates Bitcoin deposit addresses for the CBTC bridge.
- * The key principle is TRUSTLESSNESS - we calculate every address from the threshold
- * public key and deposit account IDs, then verify they match what the attester reports.
+ * Calculates vault addresses from the threshold public key and deposit IDs,
+ * then verifies they match what the attester reports.
  *
  * Based on: https://github.com/DLC-link/cbtc-por-tools
  */

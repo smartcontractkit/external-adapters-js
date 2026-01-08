@@ -3,7 +3,6 @@ import { parseDecimalString } from '../utils'
 
 /**
  * Extracts and calculates the CBTC total supply from the Digital Asset API response.
- * Uses BigInt arithmetic to avoid precision loss with large values.
  */
 export function calculateDaSupply(instruments: Instrument[]): string {
   if (!instruments || instruments.length === 0) {

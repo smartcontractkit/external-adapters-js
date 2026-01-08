@@ -10,8 +10,6 @@ import { medianBigInt, parseUrls } from '../utils'
 
 const logger = makeLogger('BtcPorTransport')
 
-type RequestParams = Record<string, never>
-
 class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
 
@@ -27,10 +25,8 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async backgroundHandler(
     context: EndpointContext<BaseEndpointTypes>,
-    _entries: RequestParams[],
+    _entries: BaseEndpointTypes['Parameters'][],
   ): Promise<void> {
-    // For PoR adapter, we execute the calculation regardless of entries
-    // since all requests share the same response (no input params)
     await this.handleRequest(context)
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }

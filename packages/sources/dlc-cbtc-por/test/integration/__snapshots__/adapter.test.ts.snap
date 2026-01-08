@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DLC CBTC PoR Adapter attesterSupply endpoint should return success 1`] = `
+exports[`execute attesterSupply endpoint should return success 1`] = `
 {
   "data": {
     "result": "78998232600",
@@ -14,7 +14,7 @@ exports[`DLC CBTC PoR Adapter attesterSupply endpoint should return success 1`] 
 }
 `;
 
-exports[`DLC CBTC PoR Adapter attesterSupply endpoint should use attesterSupply as default endpoint 1`] = `
+exports[`execute attesterSupply endpoint should use attesterSupply as default endpoint 1`] = `
 {
   "data": {
     "result": "78998232600",
@@ -28,7 +28,7 @@ exports[`DLC CBTC PoR Adapter attesterSupply endpoint should use attesterSupply 
 }
 `;
 
-exports[`DLC CBTC PoR Adapter daSupply endpoint should return success 1`] = `
+exports[`execute daSupply endpoint should return success 1`] = `
 {
   "data": {
     "result": "210000001234567890",
@@ -42,7 +42,7 @@ exports[`DLC CBTC PoR Adapter daSupply endpoint should return success 1`] = `
 }
 `;
 
-exports[`DLC CBTC PoR Adapter reserves endpoint should return success 1`] = `
+exports[`execute reserves endpoint should return success 1`] = `
 {
   "data": {
     "result": "100000000",

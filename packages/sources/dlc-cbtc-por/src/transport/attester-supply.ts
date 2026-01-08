@@ -11,8 +11,6 @@ import { buildUrl, medianBigInt, parseUrls } from '../utils'
 
 const logger = makeLogger('AttesterSupplyTransport')
 
-type RequestParams = Record<string, never>
-
 class AttesterSupplyTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
 
@@ -28,7 +26,7 @@ class AttesterSupplyTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   async backgroundHandler(
     context: EndpointContext<BaseEndpointTypes>,
-    _entries: RequestParams[],
+    _entries: BaseEndpointTypes['Parameters'][],
   ): Promise<void> {
     await this.handleRequest(context)
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)

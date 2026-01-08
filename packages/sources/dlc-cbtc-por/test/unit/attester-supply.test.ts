@@ -10,7 +10,6 @@ const createResponse = (overrides: Partial<AttesterResponse> = {}): AttesterResp
 
 describe('Attester Supply', () => {
   describe('calculateAttesterSupply', () => {
-    // Valid responses
     it('should calculate supply from API response', () => {
       const response = createResponse()
       expect(calculateAttesterSupply(response)).toBe('78998232600')
@@ -51,7 +50,6 @@ describe('Attester Supply', () => {
       expect(calculateAttesterSupply(response)).toBe('19999999999')
     })
 
-    // Status validation
     it('should throw when status is not ready', () => {
       const response = createResponse({ status: 'pending' })
       expect(() => calculateAttesterSupply(response)).toThrow('Attester not ready: status=pending')
@@ -62,7 +60,6 @@ describe('Attester Supply', () => {
       expect(() => calculateAttesterSupply(response)).toThrow('Attester not ready')
     })
 
-    // Missing/invalid total_supply_cbtc
     it('should throw when total_supply_cbtc is empty string', () => {
       const response = createResponse({ total_supply_cbtc: '' })
       expect(() => calculateAttesterSupply(response)).toThrow(

@@ -5,7 +5,6 @@ const CBTC_DECIMALS = 10
 
 /**
  * Calculates the total supply from the Attester API response.
- * Uses BigInt arithmetic to avoid precision loss with large values.
  */
 export function calculateAttesterSupply(response: AttesterResponse): string {
   if (response.status !== 'ready') {

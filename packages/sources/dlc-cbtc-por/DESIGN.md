@@ -144,9 +144,9 @@ The adapter **never** returns a default value like `0` on error - it either succ
 yarn build
 
 # Set environment variables
-export ATTESTER_API_URLS="https://mainnet.dlc.link/attestor-1,https://mainnet.dlc.link/attestor-2"
+export ATTESTER_API_URLS="https://attester1.example.com,https://attester2.example.com"
 export BITCOIN_RPC_ENDPOINT="https://your-electrs-endpoint.com"
-export CANTON_API_URL="https://api.utilities.digitalasset.com/api/token-standard/v0/registrars/cbtc-network::12205af3b949a04776fc48cdcc05a060f6bda2e470632935f375d1049a8546a3b262/registry/metadata/v1/instruments"
+export CANTON_API_URL="https://your-canton-api-endpoint.com/instruments"
 
 # Start
 yarn start

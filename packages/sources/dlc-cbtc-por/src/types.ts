@@ -4,7 +4,6 @@
 
 /**
  * String response type to handle values beyond Number.MAX_SAFE_INTEGER.
- * CBTC uses 10 decimals, so 21M supply = 2.1×10^17 base units (exceeds 9×10^15 limit).
  */
 export type StringResultResponse = {
   Data: { result: string }

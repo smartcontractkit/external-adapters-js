@@ -11,16 +11,8 @@ import { ChainAddressGroup } from '../../src/lib/btc/types'
 
 const bip32 = BIP32Factory(ecc)
 
-// Mock logger for tests that use functions with logging
-const mockLogger = {
-  trace: jest.fn(),
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-  fatal: jest.fn(),
-}
-beforeAll(() => LoggerFactoryProvider.set({ child: () => mockLogger as never }))
+// Initialize logger for functions that use makeLogger
+LoggerFactoryProvider.set()
 
 describe('BTC Address Calculation', () => {
   describe('getBitcoinNetwork', () => {

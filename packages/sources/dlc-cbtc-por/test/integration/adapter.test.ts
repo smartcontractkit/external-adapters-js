@@ -2,7 +2,7 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import nock from 'nock'
+import * as nock from 'nock'
 import {
   MOCK_ATTESTER_API_URLS,
   MOCK_BITCOIN_RPC_URL,
@@ -18,18 +18,18 @@ describe('DLC CBTC PoR Adapter', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['CANTON_API_URL'] = `${MOCK_DA_API_URL}/instruments`
-    process.env['ATTESTER_API_URLS'] = MOCK_ATTESTER_API_URLS
-    process.env['BITCOIN_RPC_ENDPOINT'] = MOCK_BITCOIN_RPC_URL
-    process.env['CHAIN_NAME'] = 'canton-mainnet'
-    process.env['BACKGROUND_EXECUTE_MS'] = '10000'
+    process.env.CANTON_API_URL = `${MOCK_DA_API_URL}/instruments`
+    process.env.ATTESTER_API_URLS = MOCK_ATTESTER_API_URLS
+    process.env.BITCOIN_RPC_ENDPOINT = MOCK_BITCOIN_RPC_URL
+    process.env.CHAIN_NAME = 'canton-mainnet'
+    process.env.BACKGROUND_EXECUTE_MS = '10000'
 
     const mockDate = new Date('2024-01-01T12:00:00.000Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockAllApis()
 
-    const adapter = (await import('../../src')).adapter
+    const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
