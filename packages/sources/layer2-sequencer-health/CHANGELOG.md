@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.10.0
+
+### Minor Changes
+
+- [#4499](https://github.com/smartcontractkit/external-adapters-js/pull/4499) [`f0a5124`](https://github.com/smartcontractkit/external-adapters-js/commit/f0a512444caeb2ca63ff183e6806bef8ca9c5aac) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Supports MegaETH for L2EP
+
 ## 4.9.0
 
 ### Minor Changes
