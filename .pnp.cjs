@@ -67,10 +67,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/llama-guard"\
     },\
     {\
-      "name": "@chainlink/market-closure-adapter",\
-      "reference": "workspace:packages/composites/market-closure"\
-    },\
-    {\
       "name": "@chainlink/market-status-adapter",\
       "reference": "workspace:packages/composites/market-status"\
     },\
@@ -932,7 +928,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
-    ["@chainlink/market-closure-adapter", ["workspace:packages/composites/market-closure"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
@@ -7430,25 +7425,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/market-closure-adapter", [\
-      ["workspace:packages/composites/market-closure", {\
-        "packageLocation": "./packages/composites/market-closure/",\
-        "packageDependencies": [\
-          ["@chainlink/market-closure-adapter", "workspace:packages/composites/market-closure"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/fcsapi-adapter", "workspace:packages/sources/fcsapi"],\
-          ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["market-closure", "npm:0.1.2"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -25064,16 +25040,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["map-visit", "npm:1.0.0"],\
           ["object-visit", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["market-closure", [\
-      ["npm:0.1.2", {\
-        "packageLocation": "./.yarn/cache/market-closure-npm-0.1.2-20fa204acb-994ab74530.zip/node_modules/market-closure/",\
-        "packageDependencies": [\
-          ["market-closure", "npm:0.1.2"],\
-          ["luxon", "npm:1.28.1"]\
         ],\
         "linkType": "HARD"\
       }]\

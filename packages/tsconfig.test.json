@@ -42,9 +42,6 @@
       "path": "./composites/llama-guard/tsconfig.test.json"
     },
     {
-      "path": "./composites/market-closure/tsconfig.test.json"
-    },
-    {
       "path": "./composites/market-status/tsconfig.test.json"
     },
     {
