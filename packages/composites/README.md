@@ -67,7 +67,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [implied-price](./implied-price/README.md)
 - [implied-price-test](./implied-price-test/README.md)
 - [llama-guard](./llama-guard/README.md)
-- [market-closure](./market-closure/README.md)
 - [market-status](./market-status/README.md)
 - [medianizer](./medianizer/README.md)
 - [multi-address-list](./multi-address-list/README.md)
