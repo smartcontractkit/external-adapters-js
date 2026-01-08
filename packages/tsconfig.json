@@ -255,6 +255,9 @@
       "path": "./sources/dlc-btc-por"
     },
     {
+      "path": "./sources/dlc-cbtc-por"
+    },
+    {
       "path": "./sources/dns-query"
     },
     {
