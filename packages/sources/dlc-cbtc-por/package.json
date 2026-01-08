@@ -33,10 +33,10 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
+    "@bitcoinerlab/secp256k1": "1.1.1",
     "@chainlink/external-adapter-framework": "2.11.4",
     "bip32": "^4.0.0",
     "bitcoinjs-lib": "^6.1.7",
-    "tiny-secp256k1": "^2.2.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
