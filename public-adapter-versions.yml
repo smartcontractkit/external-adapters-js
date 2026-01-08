@@ -113,6 +113,8 @@ adapters:
     version: 1.4.1
   - name: dlc-btc-por
     version: 4.4.4
+  - name: dlc-cbtc-por
+    version: 1.0.0
   - name: dns-query
     version: 1.6.40
   - name: dxfeed
