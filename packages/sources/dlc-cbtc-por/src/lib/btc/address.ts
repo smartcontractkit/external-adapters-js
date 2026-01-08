@@ -7,12 +7,12 @@
  * Based on: https://github.com/DLC-link/cbtc-por-tools
  */
 
+import * as ecc from '@bitcoinerlab/secp256k1'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import BIP32Factory from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
-import * as ecc from 'tiny-secp256k1'
 import { buildUrl } from '../../utils'
 import { AttesterAddressResponse, ChainAddressGroup } from './types'
 
