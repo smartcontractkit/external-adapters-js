@@ -45,7 +45,12 @@ export const calculatePrice = async (param: {
     param.sessionBoundariesTimeZone,
   )
 
-  const smoothed = processUpdate(BigInt(price.price), price.spread, secondsFromTransition)
+  const smoothed = processUpdate(
+    param.asset,
+    BigInt(price.price),
+    price.spread,
+    secondsFromTransition,
+  )
 
   const result =
     (smoothed.price * multiplier * 10n ** BigInt(param.decimals)) /

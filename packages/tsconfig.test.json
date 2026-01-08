@@ -42,9 +42,6 @@
       "path": "./composites/llama-guard/tsconfig.test.json"
     },
     {
-      "path": "./composites/market-closure/tsconfig.test.json"
-    },
-    {
       "path": "./composites/market-status/tsconfig.test.json"
     },
     {
@@ -295,9 +292,6 @@
     },
     {
       "path": "./sources/expand-network/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/fcsapi/tsconfig.test.json"
     },
     {
       "path": "./sources/finage/tsconfig.test.json"

@@ -3,6 +3,7 @@ import { KalmanSmoother } from './kalmanSmoother'
 const kalmanSmoother = new KalmanSmoother()
 
 export const processUpdate = (
+  asset: string,
   rawPrice: bigint,
   spread: bigint,
   secondsFromTransition: number,
@@ -11,5 +12,5 @@ export const processUpdate = (
   x: bigint
   p: bigint
 } => {
-  return kalmanSmoother.processUpdate(rawPrice, spread, secondsFromTransition)
+  return kalmanSmoother.processUpdate(asset, rawPrice, spread, secondsFromTransition)
 }
