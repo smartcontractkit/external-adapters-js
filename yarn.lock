@@ -2578,23 +2578,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/augur-adapter@workspace:packages/composites/augur":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/sportsdataio-adapter": "workspace:*"
-    "@chainlink/therundown-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/luxon": "npm:1.27.1"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    luxon: "npm:^1.28.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/avalanche-platform-adapter@workspace:*, @chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
   version: 0.0.0-use.local
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
@@ -5248,7 +5231,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+"@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
   dependencies:
@@ -5436,7 +5419,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
@@ -10760,13 +10743,6 @@ __metadata:
   version: 5.1.1
   resolution: "@types/lru-cache@npm:5.1.1"
   checksum: 10/0afadefc983306684a8ef95b6337a0d9e3f687e7e89e1f1f3f2e1ce3fbab5b018bb84cf277d781f871175a2c8f0176762b69e58b6f4296ee1b816cea94d5ef06
-  languageName: node
-  linkType: hard
-
-"@types/luxon@npm:1.27.1":
-  version: 1.27.1
-  resolution: "@types/luxon@npm:1.27.1"
-  checksum: 10/52875e43c6680f31238acb46b64bc64af9f063cba36c9450ff089d7be458b9abc299ff34ae6823644c26f4c8882a587f1574fc47ff6fc24f28c91bc8a9ea10ec
   languageName: node
   linkType: hard
 
