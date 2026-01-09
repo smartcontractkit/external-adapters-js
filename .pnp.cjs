@@ -15,10 +15,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
-      "name": "@chainlink/augur-adapter",\
-      "reference": "workspace:packages/composites/augur"\
-    },\
-    {\
       "name": "@chainlink/bitcoin-json-rpc-adapter",\
       "reference": "workspace:packages/composites/bitcoin-json-rpc"\
     },\
@@ -803,7 +799,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
-    ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
@@ -5053,25 +5048,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/augur-adapter", [\
-      ["workspace:packages/composites/augur", {\
-        "packageLocation": "./packages/composites/augur/",\
-        "packageDependencies": [\
-          ["@chainlink/augur-adapter", "workspace:packages/composites/augur"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-          ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/luxon", "npm:1.27.1"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["luxon", "npm:1.28.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -14631,13 +14607,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/luxon", [\
-      ["npm:1.27.1", {\
-        "packageLocation": "./.yarn/cache/@types-luxon-npm-1.27.1-ffe8f597c2-52875e43c6.zip/node_modules/@types/luxon/",\
-        "packageDependencies": [\
-          ["@types/luxon", "npm:1.27.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.4.0", {\
         "packageLocation": "./.yarn/cache/@types-luxon-npm-2.4.0-081c630c88-f5e5a9b10d.zip/node_modules/@types/luxon/",\
         "packageDependencies": [\

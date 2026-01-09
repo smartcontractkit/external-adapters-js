@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/augur"
-    },
-    {
       "path": "./composites/bitcoin-json-rpc"
     },
     {

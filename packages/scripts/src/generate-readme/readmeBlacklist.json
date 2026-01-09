@@ -2,7 +2,6 @@
   "blacklist": [
     "ada-balance",
     "anyblock",
-    "augur",
     "anchorage",
     "bitcoin-json-rpc",
     "blockchain.com",

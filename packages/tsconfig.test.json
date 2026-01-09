@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/augur/tsconfig.test.json"
-    },
-    {
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
