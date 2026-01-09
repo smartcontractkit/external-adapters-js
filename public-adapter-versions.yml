@@ -19,8 +19,6 @@ adapters:
     version: 1.0.11
   - name: asseto-finance
     version: 1.0.2
-  - name: augur
-    version: 2.0.31
   - name: avalanche-platform
     version: 2.1.2
   - name: backed-fi
