@@ -108,9 +108,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/alpine"
-    },
-    {
       "path": "./sources/amberdata"
     },
     {
@@ -253,9 +250,6 @@
     },
     {
       "path": "./sources/dlc-cbtc-por"
-    },
-    {
-      "path": "./sources/dns-query"
     },
     {
       "path": "./sources/dxfeed"
