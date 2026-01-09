@@ -258,9 +258,6 @@
       "path": "./sources/dlc-cbtc-por/tsconfig.test.json"
     },
     {
-      "path": "./sources/dns-query/tsconfig.test.json"
-    },
-    {
       "path": "./sources/dxfeed/tsconfig.test.json"
     },
     {

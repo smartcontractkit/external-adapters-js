@@ -258,9 +258,6 @@
       "path": "./sources/dlc-cbtc-por"
     },
     {
-      "path": "./sources/dns-query"
-    },
-    {
       "path": "./sources/dxfeed"
     },
     {
