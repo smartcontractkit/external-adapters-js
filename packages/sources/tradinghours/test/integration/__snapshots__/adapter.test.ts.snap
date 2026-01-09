@@ -15,6 +15,21 @@ exports[`Market status endpoint should return success with closed 1`] = `
 }
 `;
 
+exports[`Market status endpoint should return success with nyse 24/5 1`] = `
+{
+  "data": {
+    "result": 5,
+    "statusString": "WEEKEND",
+  },
+  "result": 5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
+
 exports[`Market status endpoint should return success with open 1`] = `
 {
   "data": {
