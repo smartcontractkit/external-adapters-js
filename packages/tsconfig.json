@@ -12,9 +12,6 @@
       "path": "./composites/bsol-price"
     },
     {
-      "path": "./composites/circuit-breaker"
-    },
-    {
       "path": "./composites/crypto-volatility-index"
     },
     {
