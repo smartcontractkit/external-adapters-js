@@ -116,15 +116,7 @@ describe('parseMarketStatus', () => {
       })
     })
 
-    it('return OVERNIGHT - contains day', () => {
-      ;(isWeekendNow as jest.Mock).mockReturnValue(false)
-      expect(parseMarketStatus(baseParam, 'Closed', 'Veterans Day')).toStrictEqual({
-        status: TwentyfourFiveMarketStatus.OVERNIGHT,
-        string: 'OVERNIGHT',
-      })
-    })
-
-    it('return OVERNIGHT - null', () => {
+    it('return OVERNIGHT - reason is empty', () => {
       ;(isWeekendNow as jest.Mock).mockReturnValue(false)
       expect(parseMarketStatus(baseParam, 'Closed', '')).toStrictEqual({
         status: TwentyfourFiveMarketStatus.OVERNIGHT,
@@ -132,11 +124,11 @@ describe('parseMarketStatus', () => {
       })
     })
 
-    it('return OVERNIGHT - random value', () => {
+    it('return WEEKEND - reason does not match existing patterns', () => {
       ;(isWeekendNow as jest.Mock).mockReturnValue(false)
-      expect(parseMarketStatus(baseParam, 'Closed', 'random')).toStrictEqual({
-        status: TwentyfourFiveMarketStatus.OVERNIGHT,
-        string: 'OVERNIGHT',
+      expect(parseMarketStatus(baseParam, 'Closed', 'Veterans Day')).toStrictEqual({
+        status: TwentyfourFiveMarketStatus.WEEKEND,
+        string: 'WEEKEND',
       })
     })
   })
