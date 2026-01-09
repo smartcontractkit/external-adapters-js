@@ -171,10 +171,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/allium-state"\
     },\
     {\
-      "name": "@chainlink/alpine-adapter",\
-      "reference": "workspace:packages/sources/alpine"\
-    },\
-    {\
       "name": "@chainlink/amberdata-adapter",\
       "reference": "workspace:packages/sources/amberdata"\
     },\
@@ -805,7 +801,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
-    ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
@@ -4960,22 +4955,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/alpine-adapter", [\
-      ["workspace:packages/sources/alpine", {\
-        "packageLocation": "./packages/sources/alpine/",\
-        "packageDependencies": [\
-          ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
