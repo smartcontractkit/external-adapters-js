@@ -12,9 +12,6 @@
       "path": "./composites/bsol-price/tsconfig.test.json"
     },
     {
-      "path": "./composites/circuit-breaker/tsconfig.test.json"
-    },
-    {
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {

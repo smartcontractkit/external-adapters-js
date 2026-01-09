@@ -27,10 +27,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/bsol-price"\
     },\
     {\
-      "name": "@chainlink/circuit-breaker-adapter",\
-      "reference": "workspace:packages/composites/circuit-breaker"\
-    },\
-    {\
       "name": "@chainlink/crypto-volatility-index-adapter",\
       "reference": "workspace:packages/composites/crypto-volatility-index"\
     },\
@@ -829,7 +825,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
-    ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
     ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
@@ -5442,22 +5437,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/circuit-breaker-adapter", [\
-      ["workspace:packages/composites/circuit-breaker", {\
-        "packageLocation": "./packages/composites/circuit-breaker/",\
-        "packageDependencies": [\
-          ["@chainlink/circuit-breaker-adapter", "workspace:packages/composites/circuit-breaker"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
