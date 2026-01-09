@@ -9,9 +9,6 @@
       "path": "./composites/bsol-price"
     },
     {
-      "path": "./composites/circuit-breaker"
-    },
-    {
       "path": "./composites/crypto-volatility-index"
     },
     {
@@ -106,9 +103,6 @@
     },
     {
       "path": "./sources/allium-state"
-    },
-    {
-      "path": "./sources/alpine"
     },
     {
       "path": "./sources/amberdata"
@@ -253,9 +247,6 @@
     },
     {
       "path": "./sources/dlc-cbtc-por"
-    },
-    {
-      "path": "./sources/dns-query"
     },
     {
       "path": "./sources/dxfeed"
