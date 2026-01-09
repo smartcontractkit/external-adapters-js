@@ -111,9 +111,6 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/alpine/tsconfig.test.json"
-    },
-    {
       "path": "./sources/amberdata/tsconfig.test.json"
     },
     {
