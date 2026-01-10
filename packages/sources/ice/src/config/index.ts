@@ -45,4 +45,6 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 4000,
   },
+  // LVP heartbeat is now driven by NetDania's internal heartbeat (~180 seconds)
+  // No configuration needed - events are fired when the DP connection heartbeat succeeds
 })
