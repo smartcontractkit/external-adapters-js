@@ -1,5 +1,11 @@
 # @chainlink/tradinghours-adapter
 
+## 0.4.2
+
+### Patch Changes
+
+- [#4526](https://github.com/smartcontractkit/external-adapters-js/pull/4526) [`08e608a`](https://github.com/smartcontractkit/external-adapters-js/commit/08e608a594a6a06690e9c169f5e21c3be0a6fc28) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Support Tradegate market hours
+
 ## 0.4.1
 
 ### Patch Changes
