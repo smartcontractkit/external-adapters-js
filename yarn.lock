@@ -2473,20 +2473,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
-  dependencies:
-    "@chainlink/ea-bootstrap": "npm:*"
-    "@chainlink/ea-test-helpers": "npm:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.5.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/amberdata-adapter@workspace:*, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
   version: 0.0.0-use.local
   resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
@@ -2574,23 +2560,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/augur-adapter@workspace:packages/composites/augur":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/sportsdataio-adapter": "workspace:*"
-    "@chainlink/therundown-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/luxon": "npm:1.27.1"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    luxon: "npm:^1.28.1"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2914,20 +2883,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3351,30 +3306,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/dlc-cbtc-por-adapter@workspace:packages/sources/dlc-cbtc-por"
   dependencies:
+    "@bitcoinerlab/secp256k1": "npm:1.1.1"
     "@chainlink/external-adapter-framework": "npm:2.11.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     bip32: "npm:^4.0.0"
     bitcoinjs-lib: "npm:^6.1.7"
     nock: "npm:13.5.6"
-    tiny-secp256k1: "npm:^2.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.5.4"
-    nock: "npm:^13.2.4"
-    supertest: "npm:^6.2.2"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3411,7 +3349,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@npm:*, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -3525,7 +3463,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-test-helpers@npm:*, @chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
+"@chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
@@ -4505,6 +4443,7 @@ __metadata:
   resolution: "@chainlink/market-status-adapter@workspace:packages/composites/market-status"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@date-fns/tz": "npm:1.4.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5248,7 +5187,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+"@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
   dependencies:
@@ -5436,7 +5375,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
@@ -10760,13 +10699,6 @@ __metadata:
   version: 5.1.1
   resolution: "@types/lru-cache@npm:5.1.1"
   checksum: 10/0afadefc983306684a8ef95b6337a0d9e3f687e7e89e1f1f3f2e1ce3fbab5b018bb84cf277d781f871175a2c8f0176762b69e58b6f4296ee1b816cea94d5ef06
-  languageName: node
-  linkType: hard
-
-"@types/luxon@npm:1.27.1":
-  version: 1.27.1
-  resolution: "@types/luxon@npm:1.27.1"
-  checksum: 10/52875e43c6680f31238acb46b64bc64af9f063cba36c9450ff089d7be458b9abc299ff34ae6823644c26f4c8882a587f1574fc47ff6fc24f28c91bc8a9ea10ec
   languageName: node
   linkType: hard
 
@@ -20244,7 +20176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nock@npm:13.5.6, nock@npm:^13.2.4, nock@npm:^13.3.0":
+"nock@npm:13.5.6, nock@npm:^13.3.0":
   version: 13.5.6
   resolution: "nock@npm:13.5.6"
   dependencies:
@@ -24322,15 +24254,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-secp256k1@npm:^2.2.4":
-  version: 2.2.4
-  resolution: "tiny-secp256k1@npm:2.2.4"
-  dependencies:
-    uint8array-tools: "npm:0.0.7"
-  checksum: 10/3f29104fcd6b17aefe8f3ce2fd3aa69cd2fb4b1c96e2e2f51d709dbea518705a9a706433c98d6f413f2d46555f4be0e1fd02b1727492a20d98d23ab848ff187d
-  languageName: node
-  linkType: hard
-
 "tinyglobby@npm:^0.2.6":
   version: 0.2.12
   resolution: "tinyglobby@npm:0.2.12"
@@ -24879,13 +24802,6 @@ __metadata:
   bin:
     uglifyjs: bin/uglifyjs
   checksum: 10/6b9639c1985d24580b01bb0ab68e78de310d38eeba7db45bec7850ab4093d8ee464d80ccfaceda9c68d1c366efbee28573b52f95e69ac792354c145acd380b11
-  languageName: node
-  linkType: hard
-
-"uint8array-tools@npm:0.0.7":
-  version: 0.0.7
-  resolution: "uint8array-tools@npm:0.0.7"
-  checksum: 10/6ffc45c7d2136757d63c6e556eb8345f908948618a9de37c805fec1249d989c265187b3fbef6cffc4ce5129083204829025b3c58800a0f24c8548e243d42ba13
   languageName: node
   linkType: hard
 

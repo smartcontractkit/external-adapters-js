@@ -5,8 +5,6 @@ adapters:
     version: 2.1.8
   - name: allium-state
     version: 1.0.3
-  - name: alpine
-    version: 2.0.7
   - name: amberdata
     version: 1.8.40
   - name: anchorage
@@ -19,8 +17,6 @@ adapters:
     version: 1.0.11
   - name: asseto-finance
     version: 1.0.2
-  - name: augur
-    version: 2.0.31
   - name: avalanche-platform
     version: 2.1.2
   - name: backed-fi
@@ -63,8 +59,6 @@ adapters:
     version: 2.6.2
   - name: chain-reserve-wallet
     version: 3.0.31
-  - name: circuit-breaker
-    version: 1.3.12
   - name: cmeth
     version: 2.0.3
   - name: coinapi
@@ -113,8 +107,8 @@ adapters:
     version: 1.4.1
   - name: dlc-btc-por
     version: 4.4.4
-  - name: dns-query
-    version: 1.6.40
+  - name: dlc-cbtc-por
+    version: 1.0.1
   - name: dxfeed
     version: 2.4.0
   - name: dydx-stark
@@ -144,9 +138,9 @@ adapters:
   - name: finalto
     version: 1.3.0
   - name: finnhub
-    version: 3.3.2
+    version: 3.3.3
   - name: finnhub-secondary
-    version: 0.5.6
+    version: 0.5.7
   - name: fireblocks
     version: 1.0.18
   - name: fmpcloud
@@ -204,7 +198,7 @@ adapters:
   - name: kaiko-state
     version: 1.1.3
   - name: layer2-sequencer-health
-    version: 4.9.0
+    version: 4.10.0
   - name: lcx
     version: 1.3.48
   - name: lido
@@ -342,7 +336,7 @@ adapters:
   - name: tradermade
     version: 2.1.29
   - name: tradinghours
-    version: 0.4.1
+    version: 0.4.2
   - name: trueusd
     version: 3.0.34
   - name: twelvedata

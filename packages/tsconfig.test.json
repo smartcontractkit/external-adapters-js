@@ -3,16 +3,10 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/augur/tsconfig.test.json"
-    },
-    {
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
       "path": "./composites/bsol-price/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/circuit-breaker/tsconfig.test.json"
     },
     {
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
@@ -109,9 +103,6 @@
     },
     {
       "path": "./sources/allium-state/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/alpine/tsconfig.test.json"
     },
     {
       "path": "./sources/amberdata/tsconfig.test.json"
@@ -256,9 +247,6 @@
     },
     {
       "path": "./sources/dlc-cbtc-por/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/dns-query/tsconfig.test.json"
     },
     {
       "path": "./sources/dxfeed/tsconfig.test.json"

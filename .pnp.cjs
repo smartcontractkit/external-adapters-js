@@ -15,20 +15,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:."\
     },\
     {\
-      "name": "@chainlink/augur-adapter",\
-      "reference": "workspace:packages/composites/augur"\
-    },\
-    {\
       "name": "@chainlink/bitcoin-json-rpc-adapter",\
       "reference": "workspace:packages/composites/bitcoin-json-rpc"\
     },\
     {\
       "name": "@chainlink/bsol-price-adapter",\
       "reference": "workspace:packages/composites/bsol-price"\
-    },\
-    {\
-      "name": "@chainlink/circuit-breaker-adapter",\
-      "reference": "workspace:packages/composites/circuit-breaker"\
     },\
     {\
       "name": "@chainlink/crypto-volatility-index-adapter",\
@@ -169,10 +161,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/allium-state-adapter",\
       "reference": "workspace:packages/sources/allium-state"\
-    },\
-    {\
-      "name": "@chainlink/alpine-adapter",\
-      "reference": "workspace:packages/sources/alpine"\
     },\
     {\
       "name": "@chainlink/amberdata-adapter",\
@@ -365,10 +353,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/dlc-cbtc-por-adapter",\
       "reference": "workspace:packages/sources/dlc-cbtc-por"\
-    },\
-    {\
-      "name": "@chainlink/dns-query-adapter",\
-      "reference": "workspace:packages/sources/dns-query"\
     },\
     {\
       "name": "@chainlink/dxfeed-adapter",\
@@ -809,14 +793,12 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
-    ["@chainlink/alpine-adapter", ["workspace:packages/sources/alpine"]],\
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
-    ["@chainlink/augur-adapter", ["workspace:packages/composites/augur"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
@@ -838,7 +820,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
-    ["@chainlink/circuit-breaker-adapter", ["workspace:packages/composites/circuit-breaker"]],\
     ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
@@ -864,7 +845,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dlc-cbtc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por"]],\
-    ["@chainlink/dns-query-adapter", ["workspace:packages/sources/dns-query"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
     ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
     ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
@@ -4970,22 +4950,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/alpine-adapter", [\
-      ["workspace:packages/sources/alpine", {\
-        "packageLocation": "./packages/sources/alpine/",\
-        "packageDependencies": [\
-          ["@chainlink/alpine-adapter", "workspace:packages/sources/alpine"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/amberdata-adapter", [\
       ["workspace:packages/sources/amberdata", {\
         "packageLocation": "./packages/sources/amberdata/",\
@@ -5084,25 +5048,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/augur-adapter", [\
-      ["workspace:packages/composites/augur", {\
-        "packageLocation": "./packages/composites/augur/",\
-        "packageDependencies": [\
-          ["@chainlink/augur-adapter", "workspace:packages/composites/augur"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-          ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/luxon", "npm:1.27.1"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["luxon", "npm:1.28.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -5468,22 +5413,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.8.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/circuit-breaker-adapter", [\
-      ["workspace:packages/composites/circuit-breaker", {\
-        "packageLocation": "./packages/composites/circuit-breaker/",\
-        "packageDependencies": [\
-          ["@chainlink/circuit-breaker-adapter", "workspace:packages/composites/circuit-breaker"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -5973,32 +5902,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dlc-cbtc-por/",\
         "packageDependencies": [\
           ["@chainlink/dlc-cbtc-por-adapter", "workspace:packages/sources/dlc-cbtc-por"],\
+          ["@bitcoinerlab/secp256k1", "npm:1.1.1"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["bip32", "npm:4.0.0"],\
           ["bitcoinjs-lib", "npm:6.1.7"],\
           ["nock", "npm:13.5.6"],\
-          ["tiny-secp256k1", "npm:2.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/dns-query-adapter", [\
-      ["workspace:packages/sources/dns-query", {\
-        "packageLocation": "./packages/sources/dns-query/",\
-        "packageDependencies": [\
-          ["@chainlink/dns-query-adapter", "workspace:packages/sources/dns-query"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.3.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7228,6 +7138,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -14697,13 +14608,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/luxon", [\
-      ["npm:1.27.1", {\
-        "packageLocation": "./.yarn/cache/@types-luxon-npm-1.27.1-ffe8f597c2-52875e43c6.zip/node_modules/@types/luxon/",\
-        "packageDependencies": [\
-          ["@types/luxon", "npm:1.27.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.4.0", {\
         "packageLocation": "./.yarn/cache/@types-luxon-npm-2.4.0-081c630c88-f5e5a9b10d.zip/node_modules/@types/luxon/",\
         "packageDependencies": [\
@@ -29942,14 +29846,6 @@ const RAW_RUNTIME_STATE =
           ["node-gyp", "npm:10.2.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:2.2.4", {\
-        "packageLocation": "./.yarn/cache/tiny-secp256k1-npm-2.2.4-888e0d46db-3f29104fcd.zip/node_modules/tiny-secp256k1/",\
-        "packageDependencies": [\
-          ["tiny-secp256k1", "npm:2.2.4"],\
-          ["uint8array-tools", "npm:0.0.7"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["tinyglobby", [\
@@ -30602,15 +30498,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/uglify-js-npm-3.19.3-d73835bac2-6b9639c198.zip/node_modules/uglify-js/",\
         "packageDependencies": [\
           ["uglify-js", "npm:3.19.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["uint8array-tools", [\
-      ["npm:0.0.7", {\
-        "packageLocation": "./.yarn/cache/uint8array-tools-npm-0.0.7-96ca58a124-6ffc45c7d2.zip/node_modules/uint8array-tools/",\
-        "packageDependencies": [\
-          ["uint8array-tools", "npm:0.0.7"]\
         ],\
         "linkType": "HARD"\
       }]\
