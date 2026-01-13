@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#4524](https://github.com/smartcontractkit/external-adapters-js/pull/4524) [`2d5f0e9`](https://github.com/smartcontractkit/external-adapters-js/commit/2d5f0e96a34aa511513b98012fdd437e8e4233a5) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Swap finnhub with hard-coded for 24/5 markets
+
 ## 1.6.1
 
 ### Patch Changes
