@@ -11,6 +11,7 @@ import type { BaseEndpointTypes } from '../endpoint/market-status'
 export const marketAliases = [
   'NYSE',
   'LSE',
+  'TGAT',
   'XETRA',
   'SIX',
   'EURONEXT_MILAN',
@@ -22,6 +23,7 @@ export type Market = (typeof marketAliases)[number]
 const marketToExchange: Record<Market, string> = {
   NYSE: 'US',
   LSE: 'L',
+  TGAT: 'TG',
   XETRA: 'DE',
   SIX: 'SW',
   EURONEXT_MILAN: 'MI',
