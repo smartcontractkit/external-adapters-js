@@ -138,9 +138,9 @@ adapters:
   - name: finalto
     version: 1.3.0
   - name: finnhub
-    version: 3.3.3
+    version: 4.0.0
   - name: finnhub-secondary
-    version: 0.5.7
+    version: 1.0.0
   - name: fireblocks
     version: 1.0.18
   - name: fmpcloud
@@ -214,7 +214,7 @@ adapters:
   - name: m0
     version: 0.0.17
   - name: market-status
-    version: 1.6.1
+    version: 1.7.0
   - name: medianizer
     version: 1.2.44
   - name: messari
@@ -336,7 +336,7 @@ adapters:
   - name: tradermade
     version: 2.1.29
   - name: tradinghours
-    version: 0.4.2
+    version: 0.5.0
   - name: trueusd
     version: 3.0.34
   - name: twelvedata
