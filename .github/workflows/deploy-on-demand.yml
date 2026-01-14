@@ -9,6 +9,12 @@ on:
       selected-adapters:
         description: comma (and/or space) separated list of adapter names to deploy (e.g. "onre, coingecko")
         required: true
+  # TEMP: Remove after testing - allows triggering on push to this branch
+  push:
+    branches:
+      - DS-1422-onre-adapter-release-test
+    paths:
+      - '.github/workflows/deploy-on-demand.yml'
 
 concurrency:
   group: deploy-and-release
@@ -26,7 +32,8 @@ jobs:
         id: parse
         run: |
           # Convert comma/space separated input to array
-          ADAPTERS="${{ inputs.selected-adapters }}"
+          # TEMP: Default to "onre" for push trigger testing
+          ADAPTERS="${{ inputs.selected-adapters || 'onre' }}"
           ADAPTERS=$(echo "$ADAPTERS" | tr ',' ' ' | tr -s ' ')
 
           # Build adapter list JSON
