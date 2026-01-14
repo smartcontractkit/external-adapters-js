@@ -33,6 +33,7 @@ const defaultRequireTxFailure = {
   [Networks.Celo]: false,
   [Networks.Xlayer]: false,
   [Networks.Megaeth]: false,
+  [Networks.Katana]: false,
 }
 
 export type TInputParameters = {
@@ -58,6 +59,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Celo,
       Networks.Xlayer,
       Networks.Megaeth,
+      Networks.Katana,
     ],
   },
   requireTxFailure: {

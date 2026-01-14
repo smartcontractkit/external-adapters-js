@@ -35,6 +35,7 @@ const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Celo]: ['intrinsic gas too low'],
   [Networks.Xlayer]: ['intrinsic gas too low'],
   [Networks.Megaeth]: ['intrinsic gas too low'],
+  [Networks.Katana]: ['intrinsic gas too low'],
 }
 
 export interface NetworkHealthCheck {
@@ -108,6 +109,7 @@ const isExpectedErrorMessage = (network: Networks, error: Error) => {
       [Networks.Celo]: ['error', 'message'],
       [Networks.Xlayer]: ['error', 'message'],
       [Networks.Megaeth]: ['error', 'message'],
+      [Networks.Katana]: ['error', 'message'],
     }
     return (Requester.getResult(error, paths[network]) as string) || ''
   }

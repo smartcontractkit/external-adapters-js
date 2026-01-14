@@ -742,4 +742,49 @@ describe('execute', () => {
       await sendRequestAndExpectStatus(data, 1)
     })
   })
+
+  describe('katana network', () => {
+    it('should return success when all methods succeed', async () => {
+      mockResponseSuccessHealth()
+      mockResponseSuccessBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'katana',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return transaction submission is successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'katana',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required even if it would be successful', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'katana',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
 })
