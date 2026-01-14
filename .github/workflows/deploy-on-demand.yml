@@ -4,46 +4,61 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - main
-    # The only commits that will contain changes to the masterlist will be releases
-    paths:
-      - 'MASTERLIST.md'
+  workflow_dispatch:
+    inputs:
+      selected-adapters:
+        description: comma (and/or space) separated list of adapter names to deploy (e.g. "onre, coingecko")
+        required: true
 
 concurrency:
   group: deploy-and-release
   cancel-in-progress: false
 
 jobs:
-  calculate-changes:
-    name: Compute changed adapters
-    runs-on: [ubuntu-latest]
+  parse-adapters:
+    name: Parse selected adapters
+    runs-on: ubuntu-latest
     outputs:
-      adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
+      adapter-list: ${{ steps.parse.outputs.ADAPTER_LIST }}
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 2
-      - name: Build list of changed packages and changed adapters
-        id: changed-adapters
-        env:
-          UPSTREAM_BRANCH: HEAD~1
+      - name: Parse adapter input and build matrix
+        id: parse
         run: |
-          ./.github/scripts/changed-adapters.sh
+          # Convert comma/space separated input to array
+          ADAPTERS="${{ inputs.selected-adapters }}"
+          ADAPTERS=$(echo "$ADAPTERS" | tr ',' ' ' | tr -s ' ')
+
+          # Build adapter list JSON
+          ADAPTER_JSON='[]'
+          for adapter in $ADAPTERS; do
+            # Find adapter location (check sources, composites, targets)
+            for type in sources composites targets; do
+              if [ -d "packages/$type/$adapter" ]; then
+                LOCATION="packages/$type/$adapter"
+                VERSION=$(jq -r '.version' "$LOCATION/package.json")
+                NAME="@chainlink/${adapter}-adapter"
+                ADAPTER_JSON=$(echo "$ADAPTER_JSON" | jq -c ". + [{\"name\": \"$NAME\", \"location\": \"$LOCATION\", \"version\": \"$VERSION\", \"shortName\": \"$adapter\"}]")
+                break
+              fi
+            done
+          done
+
+          # Output in matrix format
+          echo "ADAPTER_LIST={\"adapter\": $ADAPTER_JSON}" >> $GITHUB_OUTPUT
 
   create-ecr:
     name: Create ECR for ${{ matrix.adapter.shortName }}
     runs-on: ubuntu-latest
-    needs: [calculate-changes]
-    if: needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}'
+    needs: [parse-adapters]
+    if: needs.parse-adapters.outputs.adapter-list != '{"adapter":[]}'
     permissions: # These are needed for the configure-aws-credentials action
       id-token: write
       contents: read
     environment: release
     strategy:
       max-parallel: 20
-      matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
+      matrix: ${{ fromJson(needs.parse-adapters.outputs.adapter-list) }}
     env:
       ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
       ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
@@ -67,10 +82,10 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    needs: [calculate-changes, create-ecr]
+    needs: [parse-adapters, create-ecr]
     strategy:
       max-parallel: 20
-      matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}
+      matrix: ${{ fromJson(needs.parse-adapters.outputs.adapter-list) }}
     uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@ce87497eb287565c796a8a781508be949f3ed1e2 # 2025-10-10
     with:
       aws-ecr-name: adapters/${{ matrix.adapter.shortName }}-adapter
@@ -102,13 +117,13 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     needs:
-      - calculate-changes
+      - parse-adapters
       - build-publish
-    if: needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}'
+    if: needs.parse-adapters.outputs.adapter-list != '{"adapter":[]}'
     environment: InfraK8s
     env:
       ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
-      CHANGED_ADAPTERS: ${{ needs.calculate-changes.outputs.adapter-list }}
+      CHANGED_ADAPTERS: ${{ needs.parse-adapters.outputs.adapter-list }}
     steps:
       - name: Setup GitHub Token
         id: setup-github-token
