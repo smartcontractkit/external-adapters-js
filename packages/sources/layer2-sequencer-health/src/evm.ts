@@ -111,6 +111,12 @@ export const sendEVMDummyTransaction = async (
       gasPrice: 0,
       to: wallet.address,
     },
+    [Networks.Katana]: {
+      value: 0,
+      gasLimit: 0,
+      gasPrice: 0,
+      to: wallet.address,
+    },
   }
   await race<ethers.providers.TransactionResponse>({
     timeout,
@@ -173,6 +179,10 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
     timestamp: 0,
   },
   [Networks.Megaeth]: {
+    block: 0,
+    timestamp: 0,
+  },
+  [Networks.Katana]: {
     block: 0,
     timestamp: 0,
   },
