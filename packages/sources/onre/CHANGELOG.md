@@ -1,5 +1,11 @@
 # @chainlink/onre-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [`846ba4a`](https://github.com/smartcontractkit/external-adapters-js/commit/846ba4af073e6da7dd3d276a92f9212fa924faf8) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - streams adapters release test. Uses updated dockerfile and the go facade
+
 ## 1.1.3
 
 ### Patch Changes
