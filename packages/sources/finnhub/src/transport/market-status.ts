@@ -1,16 +1,12 @@
-import {
-  MarketStatus,
-  TwentyfourFiveMarketStatus,
-} from '@chainlink/external-adapter-framework/adapter'
+import { MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { isWeekendNow } from '@chainlink/external-adapter-framework/validation/market-status'
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
 export const marketAliases = [
   'NYSE',
   'LSE',
+  'TGAT',
   'XETRA',
   'SIX',
   'EURONEXT_MILAN',
@@ -22,6 +18,7 @@ export type Market = (typeof marketAliases)[number]
 const marketToExchange: Record<Market, string> = {
   NYSE: 'US',
   LSE: 'L',
+  TGAT: 'TG',
   XETRA: 'DE',
   SIX: 'SW',
   EURONEXT_MILAN: 'MI',
@@ -68,7 +65,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.map((param) => {
-      const marketStatus = parseMarketStatus(param, res?.data)
+      const marketStatus = parseMarketStatus(res?.data)
 
       const response = {
         result: marketStatus.status,
@@ -91,49 +88,19 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
 })
 
-export function parseMarketStatus(
-  param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
-  data?: ResponseBody,
-) {
-  switch (param.type) {
-    case 'regular': {
-      // Check if data exists and if every value in data is null
-      const allNull = !data || Object.values(data).every((value) => value === null || value === '')
-      // Set marketStatus to unknown if allNull is true, otherwise parse normally
-      const status =
-        allNull || data?.session === undefined
-          ? MarketStatus.UNKNOWN
-          : data?.session === 'regular'
-          ? MarketStatus.OPEN
-          : MarketStatus.CLOSED
+export function parseMarketStatus(data?: ResponseBody) {
+  // Check if data exists and if every value in data is null
+  const allNull = !data || Object.values(data).every((value) => value === null || value === '')
+  // Set marketStatus to unknown if allNull is true, otherwise parse normally
+  const status =
+    allNull || data?.session === undefined
+      ? MarketStatus.UNKNOWN
+      : data?.session === 'regular'
+      ? MarketStatus.OPEN
+      : MarketStatus.CLOSED
 
-      return {
-        status,
-        string: MarketStatus[status],
-      }
-    }
-    case '24/5': {
-      const session = data?.session?.toUpperCase().trim()
-      let status = TwentyfourFiveMarketStatus.UNKNOWN
-
-      if (isWeekendNow(param.weekend)) {
-        status = TwentyfourFiveMarketStatus.WEEKEND
-      } else if (!session) {
-        status = TwentyfourFiveMarketStatus.OVERNIGHT
-      } else {
-        status = TwentyfourFiveMapping[session] ?? TwentyfourFiveMarketStatus.UNKNOWN
-      }
-
-      return {
-        status,
-        string: TwentyfourFiveMarketStatus[status],
-      }
-    }
+  return {
+    status,
+    string: MarketStatus[status],
   }
-}
-
-const TwentyfourFiveMapping: Record<string, TwentyfourFiveMarketStatus> = {
-  REGULAR: TwentyfourFiveMarketStatus.REGULAR,
-  'PRE-MARKET': TwentyfourFiveMarketStatus.PRE_MARKET,
-  'POST-MARKET': TwentyfourFiveMarketStatus.POST_MARKET,
 }

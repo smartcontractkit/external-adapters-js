@@ -2426,22 +2426,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/1forge-adapter@workspace:packages/sources/1forge":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/1forge-adapter@workspace:packages/sources/1forge"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ada-balance-adapter@workspace:*, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
@@ -2489,20 +2473,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/alpine-adapter@workspace:packages/sources/alpine":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/alpine-adapter@workspace:packages/sources/alpine"
-  dependencies:
-    "@chainlink/ea-bootstrap": "npm:*"
-    "@chainlink/ea-test-helpers": "npm:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.5.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/amberdata-adapter@workspace:*, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
   version: 0.0.0-use.local
   resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
@@ -2513,24 +2483,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/anchor-adapter@workspace:packages/composites/anchor":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/anchor-adapter@workspace:packages/composites/anchor"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/terra-view-function-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.5.1"
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -2608,23 +2560,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/augur-adapter@workspace:packages/composites/augur":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/augur-adapter@workspace:packages/composites/augur"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/sportsdataio-adapter": "workspace:*"
-    "@chainlink/therundown-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/luxon": "npm:1.27.1"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    luxon: "npm:^1.28.1"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2953,20 +2888,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/circuit-breaker-adapter@workspace:packages/composites/circuit-breaker"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/cmeth-adapter@workspace:packages/sources/cmeth":
   version: 0.0.0-use.local
   resolution: "@chainlink/cmeth-adapter@workspace:packages/sources/cmeth"
@@ -3281,7 +3202,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
+"@chainlink/data-engine-adapter@workspace:*, @chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
@@ -3321,21 +3242,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/defi-pulse-adapter@workspace:packages/composites/defi-pulse"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.4.6"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3396,18 +3302,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/dns-query-adapter@workspace:packages/sources/dns-query":
+"@chainlink/dlc-cbtc-por-adapter@workspace:packages/sources/dlc-cbtc-por":
   version: 0.0.0-use.local
-  resolution: "@chainlink/dns-query-adapter@workspace:packages/sources/dns-query"
+  resolution: "@chainlink/dlc-cbtc-por-adapter@workspace:packages/sources/dlc-cbtc-por"
   dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@bitcoinerlab/secp256k1": "npm:1.1.1"
+    "@chainlink/external-adapter-framework": "npm:2.11.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.5.4"
-    nock: "npm:^13.2.4"
-    supertest: "npm:^6.2.2"
+    bip32: "npm:^4.0.0"
+    bitcoinjs-lib: "npm:^6.1.7"
+    nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3444,7 +3349,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-bootstrap@npm:*, @chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
+"@chainlink/ea-bootstrap@workspace:*, @chainlink/ea-bootstrap@workspace:packages/core/bootstrap":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-bootstrap@workspace:packages/core/bootstrap"
   dependencies:
@@ -3528,7 +3433,7 @@ __metadata:
     "@apidevtools/json-schema-ref-parser": "npm:9.1.2"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@chainlink/external-adapter-framework": "npm:2.11.4"
     "@types/command-line-args": "npm:5.2.3"
     "@types/command-line-usage": "npm:5.0.4"
     "@types/jest": "npm:^29.5.14"
@@ -3558,7 +3463,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-test-helpers@npm:*, @chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
+"@chainlink/ea-test-helpers@workspace:*, @chainlink/ea-test-helpers@workspace:packages/core/test-helpers":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-test-helpers@workspace:packages/core/test-helpers"
   dependencies:
@@ -3686,22 +3591,6 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.1.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ethgasstation-adapter@workspace:packages/sources/ethgasstation"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3837,6 +3726,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chainlink/external-adapter-framework@npm:2.11.4":
+  version: 2.11.4
+  resolution: "@chainlink/external-adapter-framework@npm:2.11.4"
+  dependencies:
+    "@date-fns/tz": "npm:1.4.1"
+    ajv: "npm:8.17.1"
+    axios: "npm:1.13.2"
+    eventsource: "npm:4.1.0"
+    fastify: "npm:5.6.2"
+    ioredis: "npm:5.8.2"
+    mock-socket: "npm:9.3.1"
+    pino: "npm:10.1.0"
+    pino-pretty: "npm:13.1.3"
+    prom-client: "npm:15.1.3"
+    redlock: "npm:5.0.0-beta.2"
+    ws: "npm:8.18.3"
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 10/395c4b04e0a53423e02dadced63195c0bf03ff2eb54cf859da3985c195fa22b3967e893f19780e4a519ef98c9e6aee5e0c07fe2f9745c111ad80108805d9d3f0
+  languageName: node
+  linkType: hard
+
 "@chainlink/external-adapter-framework@npm:2.8.0, @chainlink/external-adapter-framework@npm:^2.8.0":
   version: 2.8.0
   resolution: "@chainlink/external-adapter-framework@npm:2.8.0"
@@ -3908,22 +3819,6 @@ __metadata:
     ts-node: "npm:10.9.2"
     typescript: "npm:5.8.3"
     yo: "npm:4.3.1"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/fcsapi-adapter@workspace:*, @chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/fcsapi-adapter@workspace:packages/sources/fcsapi"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -4073,22 +3968,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/galaxy-adapter@workspace:packages/sources/galaxy":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/galaxy-adapter@workspace:packages/sources/galaxy"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@sinonjs/fake-timers": "npm:9.1.2"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.9.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/gemini-adapter@workspace:*, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
@@ -4113,22 +3992,6 @@ __metadata:
     nock: "npm:13.5.6"
     object-path: "npm:^0.11.5"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/genesis-volatility-adapter@workspace:packages/sources/genesis-volatility"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4173,6 +4036,24 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/gmx-tokens-adapter@workspace:packages/composites/gmx-tokens":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gmx-tokens-adapter@workspace:packages/composites/gmx-tokens"
+  dependencies:
+    "@chainlink/data-engine-adapter": "workspace:^"
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    decimal.js: "npm:^10.3.1"
+    ethers: "npm:^6.15.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4503,19 +4384,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/linkpool-adapter@workspace:packages/sources/linkpool":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/linkpool-adapter@workspace:packages/sources/linkpool"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/liveart-adapter@workspace:packages/sources/liveart":
   version: 0.0.0-use.local
   resolution: "@chainlink/liveart-adapter@workspace:packages/sources/liveart"
@@ -4570,28 +4438,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/market-closure-adapter@workspace:packages/composites/market-closure":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/market-closure-adapter@workspace:packages/composites/market-closure"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/fcsapi-adapter": "workspace:*"
-    "@chainlink/finnhub-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    market-closure: "npm:^0.1.2"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/market-status-adapter@workspace:packages/composites/market-status":
   version: 0.0.0-use.local
   resolution: "@chainlink/market-status-adapter@workspace:packages/composites/market-status"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@date-fns/tz": "npm:1.4.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4824,22 +4676,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/nikkei-adapter@workspace:packages/sources/nikkei":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/nikkei-adapter@workspace:packages/sources/nikkei"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/nomia-adapter@workspace:packages/sources/nomia":
   version: 0.0.0-use.local
   resolution: "@chainlink/nomia-adapter@workspace:packages/sources/nomia"
@@ -4903,22 +4739,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/oilpriceapi-adapter@workspace:packages/sources/oilpriceapi"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas":
   version: 0.0.0-use.local
   resolution: "@chainlink/onchain-gas-adapter@workspace:packages/sources/onchain-gas"
@@ -4942,6 +4762,22 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.8.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/ondo-calculated-adapter@workspace:packages/composites/ondo-calculated":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/ondo-calculated-adapter@workspace:packages/composites/ondo-calculated"
+  dependencies:
+    "@chainlink/data-engine-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@date-fns/tz": "npm:1.4.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    ethers: "npm:^6.13.2"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -5351,7 +5187,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sportsdataio-adapter@workspace:*, @chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
+"@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
   version: 0.0.0-use.local
   resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
   dependencies:
@@ -5511,23 +5347,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/terra-view-function-adapter@workspace:*, @chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/terra-view-function-adapter@workspace:packages/sources/terra-view-function"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@terra-money/terra.js": "npm:^2.0.15"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph":
   version: 0.0.0-use.local
   resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
@@ -5556,7 +5375,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/therundown-adapter@workspace:*, @chainlink/therundown-adapter@workspace:packages/sources/therundown":
+"@chainlink/therundown-adapter@workspace:packages/sources/therundown":
   version: 0.0.0-use.local
   resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
   dependencies:
@@ -5895,41 +5714,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/wootrade-adapter@workspace:packages/sources/wootrade":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/wootrade-adapter@workspace:packages/sources/wootrade"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/wrapped-adapter@workspace:*, @chainlink/wrapped-adapter@workspace:packages/sources/wrapped":
   version: 0.0.0-use.local
   resolution: "@chainlink/wrapped-adapter@workspace:packages/sources/wrapped"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/xbto-adapter@workspace:packages/sources/xbto":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/xbto-adapter@workspace:packages/sources/xbto"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -10579,38 +10366,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@terra-money/terra.js@npm:^2.0.15":
-  version: 2.1.23
-  resolution: "@terra-money/terra.js@npm:2.1.23"
-  dependencies:
-    "@terra-money/terra.proto": "npm:^0.1.7"
-    axios: "npm:^0.21.1"
-    bech32: "npm:^2.0.0"
-    bip32: "npm:^2.0.6"
-    bip39: "npm:^3.0.3"
-    bufferutil: "npm:^4.0.3"
-    decimal.js: "npm:^10.2.1"
-    jscrypto: "npm:^1.0.1"
-    readable-stream: "npm:^3.6.0"
-    secp256k1: "npm:^4.0.2"
-    tmp: "npm:^0.2.1"
-    utf-8-validate: "npm:^5.0.5"
-    ws: "npm:^7.4.2"
-  checksum: 10/14ede5450f1c92ba49de1ffb7479ca9db8d1926031095b34b384f438c02a398766fb07df27cd9e6acea83b4f6cba4d1ec0aa1eaeffbd2c0ca8c47efb557ab725
-  languageName: node
-  linkType: hard
-
-"@terra-money/terra.proto@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "@terra-money/terra.proto@npm:0.1.7"
-  dependencies:
-    google-protobuf: "npm:^3.17.3"
-    long: "npm:^4.0.0"
-    protobufjs: "npm:~6.11.2"
-  checksum: 10/9a7732a22e80dee3e8bc3cfd504981b28412a1c25a223e7d1850668183f639ba69f0ba5aeec5a96a79fd77835db8bd2fbe789784f6efade0ae1f8b708e62c31b
-  languageName: node
-  linkType: hard
-
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -10940,24 +10695,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/long@npm:^4.0.1":
-  version: 4.0.2
-  resolution: "@types/long@npm:4.0.2"
-  checksum: 10/68afa05fb20949d88345876148a76f6ccff5433310e720db51ac5ca21cb8cc6714286dbe04713840ddbd25a8b56b7a23aa87d08472fabf06463a6f2ed4967707
-  languageName: node
-  linkType: hard
-
 "@types/lru-cache@npm:5.1.1, @types/lru-cache@npm:^5.1.0":
   version: 5.1.1
   resolution: "@types/lru-cache@npm:5.1.1"
   checksum: 10/0afadefc983306684a8ef95b6337a0d9e3f687e7e89e1f1f3f2e1ce3fbab5b018bb84cf277d781f871175a2c8f0176762b69e58b6f4296ee1b816cea94d5ef06
-  languageName: node
-  linkType: hard
-
-"@types/luxon@npm:1.27.1":
-  version: 1.27.1
-  resolution: "@types/luxon@npm:1.27.1"
-  checksum: 10/52875e43c6680f31238acb46b64bc64af9f063cba36c9450ff089d7be458b9abc299ff34ae6823644c26f4c8882a587f1574fc47ff6fc24f28c91bc8a9ea10ec
   languageName: node
   linkType: hard
 
@@ -12510,7 +12251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip32@npm:4.0.0":
+"bip32@npm:4.0.0, bip32@npm:^4.0.0":
   version: 4.0.0
   resolution: "bip32@npm:4.0.0"
   dependencies:
@@ -12522,7 +12263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip32@npm:^2.0.4, bip32@npm:^2.0.6":
+"bip32@npm:^2.0.4":
   version: 2.0.6
   resolution: "bip32@npm:2.0.6"
   dependencies:
@@ -12550,7 +12291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bip39@npm:^3.0.2, bip39@npm:^3.0.3":
+"bip39@npm:^3.0.2":
   version: 3.1.0
   resolution: "bip39@npm:3.1.0"
   dependencies:
@@ -12575,7 +12316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bitcoinjs-lib@npm:6.1.7":
+"bitcoinjs-lib@npm:6.1.7, bitcoinjs-lib@npm:^6.1.7":
   version: 6.1.7
   resolution: "bitcoinjs-lib@npm:6.1.7"
   dependencies:
@@ -12929,7 +12670,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bufferutil@npm:^4.0.1, bufferutil@npm:^4.0.3":
+"bufferutil@npm:^4.0.1":
   version: 4.0.8
   resolution: "bufferutil@npm:4.0.8"
   dependencies:
@@ -14257,7 +13998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:10.4.3, decimal.js@npm:^10.2.1, decimal.js@npm:^10.3.1":
+"decimal.js@npm:10.4.3, decimal.js@npm:^10.3.1":
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
   checksum: 10/de663a7bc4d368e3877db95fcd5c87b965569b58d16cdc4258c063d231ca7118748738df17cd638f7e9dd0be8e34cec08d7234b20f1f2a756a52fc5a38b188d0
@@ -16666,7 +16407,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"google-protobuf@npm:*, google-protobuf@npm:^3.17.3":
+"google-protobuf@npm:*":
   version: 3.21.4
   resolution: "google-protobuf@npm:3.21.4"
   checksum: 10/0d87fe8ef221d105cbaa808f4024bd577638524d8e461469e3733f2e4933391ad4da86b7fcbd11e8781bee04eacf2e8ba19aaacd5f9deb336a220485841d980f
@@ -18772,15 +18513,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jscrypto@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "jscrypto@npm:1.0.3"
-  bin:
-    jscrypto: bin/cli.js
-  checksum: 10/d442ef169b6d2e4e1298eff19fba1ec0829feecdb4443f169a9f20b75ef2eaaa8d4437f27cf094e76c76a570403d3169593e3767a8f94b907d4e5693a5d6de19
-  languageName: node
-  linkType: hard
-
 "jsesc@npm:^3.0.2, jsesc@npm:~3.0.2":
   version: 3.0.2
   resolution: "jsesc@npm:3.0.2"
@@ -19457,17 +19189,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"long@npm:*, long@npm:^5.0.0":
+"long@npm:^5.0.0":
   version: 5.2.3
   resolution: "long@npm:5.2.3"
   checksum: 10/9167ec6947a825b827c30da169a7384eec6c0c9ec2f0b9c74da2e93d81159bbe39fb09c3f13dae9721d4b807ccfa09797a7dd1012f5d478e3e33ca3c78b608e6
-  languageName: node
-  linkType: hard
-
-"long@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "long@npm:4.0.0"
-  checksum: 10/8296e2ba7bab30f9cfabb81ebccff89c819af6a7a78b4bb5a70ea411aa764ee0532f7441381549dfa6a1a98d72abe9138bfcf99f4fa41238629849bc035b845b
   languageName: node
   linkType: hard
 
@@ -19566,7 +19291,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.23.0, luxon@npm:^1.28.1":
+"luxon@npm:^1.28.1":
   version: 1.28.1
   resolution: "luxon@npm:1.28.1"
   checksum: 10/dfba84bb3cd72f359c77115d374937c31eccdfa6b383284b6848c075f85e02269d4d9a717608944f2c11c4ca5d3df0fc18197ce4ca21313ddd72619b39ee034c
@@ -19718,15 +19443,6 @@ __metadata:
   dependencies:
     object-visit: "npm:^1.0.0"
   checksum: 10/c27045a5021c344fc19b9132eb30313e441863b2951029f8f8b66f79d3d8c1e7e5091578075a996f74e417479506fe9ede28c44ca7bc351a61c9d8073daec36a
-  languageName: node
-  linkType: hard
-
-"market-closure@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "market-closure@npm:0.1.2"
-  dependencies:
-    luxon: "npm:^1.23.0"
-  checksum: 10/994ab745300574cc266c5cfce1dc7e2e8be0670d83f7cfbdec637650406a295b892ecf1c5e28a981020680b17ecb729cdd57ca219eb9cc0b8bb23807dcddf8b0
   languageName: node
   linkType: hard
 
@@ -20460,7 +20176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nock@npm:13.5.6, nock@npm:^13.2.4, nock@npm:^13.3.0":
+"nock@npm:13.5.6, nock@npm:^13.3.0":
   version: 13.5.6
   resolution: "nock@npm:13.5.6"
   dependencies:
@@ -22001,30 +21717,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"protobufjs@npm:~6.11.2":
-  version: 6.11.4
-  resolution: "protobufjs@npm:6.11.4"
-  dependencies:
-    "@protobufjs/aspromise": "npm:^1.1.2"
-    "@protobufjs/base64": "npm:^1.1.2"
-    "@protobufjs/codegen": "npm:^2.0.4"
-    "@protobufjs/eventemitter": "npm:^1.1.0"
-    "@protobufjs/fetch": "npm:^1.1.0"
-    "@protobufjs/float": "npm:^1.0.2"
-    "@protobufjs/inquire": "npm:^1.1.0"
-    "@protobufjs/path": "npm:^1.1.2"
-    "@protobufjs/pool": "npm:^1.1.0"
-    "@protobufjs/utf8": "npm:^1.1.0"
-    "@types/long": "npm:^4.0.1"
-    "@types/node": "npm:>=13.7.0"
-    long: "npm:^4.0.0"
-  bin:
-    pbjs: bin/pbjs
-    pbts: bin/pbts
-  checksum: 10/6b7fd7540d74350d65c38f69f398c9995ae019da070e79d9cd464a458c6d19b40b07c9a026be4e10704c824a344b603307745863310c50026ebd661ce4da0663
-  languageName: node
-  linkType: hard
-
 "proxy-from-env@npm:^1.1.0":
   version: 1.1.0
   resolution: "proxy-from-env@npm:1.1.0"
@@ -23232,7 +22924,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^4.0.1, secp256k1@npm:^4.0.2":
+"secp256k1@npm:^4.0.1":
   version: 4.0.4
   resolution: "secp256k1@npm:4.0.4"
   dependencies:
@@ -24597,13 +24289,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tmp@npm:^0.2.1":
-  version: 0.2.3
-  resolution: "tmp@npm:0.2.3"
-  checksum: 10/7b13696787f159c9754793a83aa79a24f1522d47b87462ddb57c18ee93ff26c74cbb2b8d9138f571d2e0e765c728fb2739863a672b280528512c6d83d511c6fa
-  languageName: node
-  linkType: hard
-
 "tmpl@npm:1.0.5":
   version: 1.0.5
   resolution: "tmpl@npm:1.0.5"
@@ -25446,7 +25131,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utf-8-validate@npm:^5.0.2, utf-8-validate@npm:^5.0.5":
+"utf-8-validate@npm:^5.0.2":
   version: 5.0.10
   resolution: "utf-8-validate@npm:5.0.10"
   dependencies:
@@ -26013,7 +25698,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.4.2, ws@npm:^7.4.6, ws@npm:^7.5.0, ws@npm:^7.5.10":
+"ws@npm:^7.4.6, ws@npm:^7.5.0, ws@npm:^7.5.10":
   version: 7.5.10
   resolution: "ws@npm:7.5.10"
   peerDependencies:
