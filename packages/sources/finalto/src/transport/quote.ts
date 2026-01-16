@@ -52,6 +52,19 @@ const parseDate = (dateLike: string): number => {
   return new Date(`${year}.${month}.${day}${rest}Z`).getTime()
 }
 
+// Conversion factor from pounds to tonnes (1 tonne = 2204.62 lbs)
+const LBS_PER_TONNE = 2204.62
+
+// Parse result to handle special cases for specific symbols
+const parseResult = (base: string, quote: string, result: number): number => {
+  // Finalto prices XCU/USD in $ per tonne, not $ per lb like other providers
+  // Convert from $ per tonne to $ per lb by dividing by pounds per tonne
+  if (base === 'XCU' && quote === 'USD') {
+    return result / LBS_PER_TONNE
+  }
+  return result
+}
+
 export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
   new WebsocketReverseMappingTransport<WsTransportTypes, string>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT,
@@ -124,21 +137,27 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           lwMidPrice = mid
         }
 
+        // Apply symbol-specific transformations
+        const transformedBid = parseResult(pair.base, pair.quote, bidPrice)
+        const transformedAsk = parseResult(pair.base, pair.quote, askPrice)
+        const transformedMid = parseResult(pair.base, pair.quote, mid)
+        const transformedLwMid = parseResult(pair.base, pair.quote, lwMidPrice)
+
         return [
           {
             params: { base: pair.base, quote: pair.quote },
             response: {
-              result: mid,
+              result: transformedMid,
               data: {
-                result: mid,
-                bid: bidPrice,
-                mid,
-                ask: askPrice,
+                result: transformedMid,
+                bid: transformedBid,
+                mid: transformedMid,
+                ask: transformedAsk,
                 // Used by 24/5 feeds
-                mid_price: lwMidPrice,
-                bid_price: bidPrice,
+                mid_price: transformedLwMid,
+                bid_price: transformedBid,
                 bid_volume: bidVolume,
-                ask_price: askPrice,
+                ask_price: transformedAsk,
                 ask_volume: askVolume,
               },
               timestamps: {
