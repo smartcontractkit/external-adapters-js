@@ -1,5 +1,6 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { Decimal } from 'decimal.js'
 import { v4 as uuidv4 } from 'uuid'
 import { BaseEndpointTypes } from '../endpoint/quote'
 
@@ -57,10 +58,9 @@ const LBS_PER_TONNE = 2204.62
 
 // Parse result to handle special cases for specific symbols
 const parseResult = (base: string, quote: string, result: number): number => {
-  // Finalto prices XCU/USD in $ per tonne, not $ per lb like other providers
-  // Convert from $ per tonne to $ per lb by dividing by pounds per tonne
+  // Finalto prices XCU/USD in $ per tonne, convert to $ per lb
   if (base === 'XCU' && quote === 'USD') {
-    return result / LBS_PER_TONNE
+    result = Decimal.div(result, LBS_PER_TONNE).toNumber()
   }
   return result
 }
