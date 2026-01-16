@@ -1,8 +1,8 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { Decimal } from 'decimal.js'
 import { v4 as uuidv4 } from 'uuid'
 import { BaseEndpointTypes } from '../endpoint/quote'
+import { parseResult } from './utils'
 
 const logger = makeLogger('FinaltoWSTransport')
 
@@ -51,18 +51,6 @@ const parseDate = (dateLike: string): number => {
   const day = dateLike.substring(6, 8)
   const rest = dateLike.slice(8)
   return new Date(`${year}.${month}.${day}${rest}Z`).getTime()
-}
-
-// Conversion factor from pounds to tonnes (1 tonne = 2204.62 lbs)
-const LBS_PER_TONNE = 2204.62
-
-// Parse result to handle special cases for specific symbols
-const parseResult = (base: string, quote: string, result: number): number => {
-  // Finalto prices XCU/USD in $ per tonne, convert to $ per lb
-  if (base === 'XCU' && quote === 'USD') {
-    result = Decimal.div(result, LBS_PER_TONNE).toNumber()
-  }
-  return result
 }
 
 export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
