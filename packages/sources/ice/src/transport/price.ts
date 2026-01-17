@@ -19,6 +19,7 @@ export type FullPriceUpdate = Required<PartialPriceUpdate> & {
 export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointTypes> {
   private client!: StreamingClient
   private localCache: LocalPriceCache = new LocalPriceCache()
+  private currentSubscriptions: { base: string; quote: string }[] = []
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -28,6 +29,8 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
   ) {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.client = new StreamingClient(adapterSettings)
+
+    // Listen for price updates
     this.client.on('price', async (update: InstrumentPartialUpdate) => {
       // get base and quote from the instrument name in the requestIdToInstrument map
       const base = update.instrument.substring(0, 3)
@@ -61,6 +64,29 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
         },
       ])
     })
+
+    // LVP: Listen for heartbeat events to extend cache TTLs during off-market hours
+    this.client.on('heartbeat', async () => {
+      await this.updateTTL(adapterSettings.CACHE_MAX_AGE)
+    })
+  }
+
+  /**
+   * LVP (Last Value Persistence): Extends TTL for all currently subscribed pairs.
+   * This ensures cached prices remain available during off-market hours when
+   * no price updates are being received from the data provider.
+   */
+  private async updateTTL(ttl: number): Promise<void> {
+    if (this.currentSubscriptions.length === 0) {
+      logger.debug('LVP updateTTL: No active subscriptions to refresh')
+      return
+    }
+
+    logger.debug(
+      `LVP updateTTL: Extending TTL for ${this.currentSubscriptions.length} subscriptions by ${ttl}ms`,
+    )
+
+    this.responseCache.writeTTL(this.name, this.currentSubscriptions, ttl)
   }
 
   override getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -77,6 +103,9 @@ export class NetDaniaStreamingTransport extends StreamingTransport<BaseEndpointT
 
     // reconcile: should be redundant
     this.ensureDesired(subscriptions.desired)
+
+    // LVP: Track current subscriptions for TTL refresh during off-market hours
+    this.currentSubscriptions = subscriptions.desired
 
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS_HTTP)
   }

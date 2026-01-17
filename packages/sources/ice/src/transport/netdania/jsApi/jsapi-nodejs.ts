@@ -976,6 +976,8 @@ void 0 === window.location?.host &&
         ONIPLOCATIONRESPONSE: 'OnIPLocationResponse',
         ONWORKSPACEDATA: 'OnWorkspaceData',
         ONHISTORICALCHARTDATA: 'OnHistoricalChartData',
+        // Custom event added for Chainlink EA - fired when internal heartbeat succeeds
+        ONHEARTBEAT: 'OnHeartbeat',
       })
   })(void 0 !== window ? window : global),
   (function (e) {
@@ -1881,6 +1883,8 @@ void 0 === window.location?.host &&
               (e.onprogress = function () {}),
               (e.onload = function () {
                 this.responseText,
+                  // Fire ONHEARTBEAT event to signal successful heartbeat (Chainlink EA extension)
+                  i.fireEvent(NetDania.JsApi.Events.ONHEARTBEAT, [Date.now()]),
                   i.ensureHeartBeatTimerStarted(),
                   (e.onerror = null),
                   (e.ontimeout = null),
