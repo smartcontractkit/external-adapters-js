@@ -44,6 +44,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'ANA Time Zone Database format',
     },
+    smoother: {
+      type: 'string',
+      description: 'Smoothing algorithm to apply to the price',
+      options: ['kalman', 'ema'],
+      default: 'kalman',
+    },
     decimals: {
       type: 'number',
       description: 'Decimals of output result',
@@ -59,6 +65,7 @@ export const inputParameters = new InputParameters(
       overnightStreamId: '0x0',
       sessionBoundaries: ['04:00', '16:00', '20:00'],
       sessionBoundariesTimeZone: 'America/New_York',
+      smoother: 'kalman',
       decimals: 8,
     },
   ],

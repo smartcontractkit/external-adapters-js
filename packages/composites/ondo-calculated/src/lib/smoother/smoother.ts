@@ -1,4 +1,5 @@
 // Algorithm by @kalanyuz and @eshaqiri
+import { EmaFilter } from './ema'
 import { KalmanFilter } from './kalman'
 import { deScale, scale } from './utils'
 
@@ -14,20 +15,30 @@ const CONFIG = {
  * between raw and smoothed prices.
  */
 class SessionAwareSmoother {
-  private filter = new KalmanFilter()
+  private kalmanFilter = new KalmanFilter()
+  private emafilter = new EmaFilter()
 
   /**
    * Process a new price update
+   * @param smoother The smoothing algorithm to use
    * @param rawPrice The current raw median price
    * @param spread The current spread between ask and bid prices
    * @param secondsFromTransition Seconds relative to session boundary (-ve before, +ve after)
    */
-  public processUpdate(rawPrice: bigint, spread: bigint, secondsFromTransition: number) {
+  public processUpdate(
+    smoother: string,
+    rawPrice: bigint,
+    spread: bigint,
+    secondsFromTransition: number,
+  ) {
     // Calculate blending weight
     const w = this.calculateTransitionWeight(secondsFromTransition)
 
     // Calculate smoothed price
-    const smoothedPrice = this.filter.smooth(rawPrice, spread)
+    const smoothedPrice =
+      smoother === 'kalman'
+        ? this.kalmanFilter.smooth(rawPrice, spread)
+        : this.emafilter.smooth(rawPrice)
 
     // Apply blending: price_output = smoothed * w  + raw * (1 - w)
     return {
@@ -60,6 +71,7 @@ class SessionAwareSmoother {
 const smoothers: Record<string, SessionAwareSmoother> = {}
 
 export const processUpdate = (
+  smoother: string,
   asset: string,
   rawPrice: bigint,
   spread: bigint,
@@ -69,5 +81,5 @@ export const processUpdate = (
     smoothers[asset] = new SessionAwareSmoother()
   }
 
-  return smoothers[asset].processUpdate(rawPrice, spread, secondsFromTransition)
+  return smoothers[asset].processUpdate(smoother, rawPrice, spread, secondsFromTransition)
 }

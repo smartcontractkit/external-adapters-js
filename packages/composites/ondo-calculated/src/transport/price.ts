@@ -20,6 +20,7 @@ export const calculatePrice = async (param: {
   requester: Requester
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
+  smoother: string
   decimals: number
 }) => {
   const [price, { multiplier, paused }] = await Promise.all([
@@ -46,6 +47,7 @@ export const calculatePrice = async (param: {
   )
 
   const smoothed = processUpdate(
+    param.smoother,
     param.asset,
     BigInt(price.price),
     price.spread,
