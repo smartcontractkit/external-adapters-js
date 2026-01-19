@@ -210,13 +210,18 @@ jobs:
       - name: Commit generated code
         if: steps.changes.outputs.has_changes == 'true'
         id: commit
+        env:
+          BRANCH_NAME: ${{ github.event_name == 'issue_comment' && steps.pr.outputs.head_ref || github.event.pull_request.head.ref }}
         run: |
           git add -A
 
-          git commit -m "feat(${{ steps.yaml.outputs.jira_key }}): Generated EA code"
-          git push
+          # Skip husky hooks in CI to avoid changeset warnings blocking the commit
+          HUSKY=0 git commit -m "feat(${{ steps.yaml.outputs.jira_key }}): Generated EA code"
+          
+          # Push to the PR branch
+          git push origin HEAD:${BRANCH_NAME}
           echo "has_changes=true" >> $GITHUB_OUTPUT
-          echo "✅ Changes committed and pushed"
+          echo "✅ Changes committed and pushed to ${BRANCH_NAME}"
 
       - name: Update PR description
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
