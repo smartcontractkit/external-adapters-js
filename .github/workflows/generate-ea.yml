@@ -126,21 +126,21 @@ jobs:
 
             console.log(`Found ${files.data.length} files in PR`);
 
-            // Find YAML file in ea-requests/
+            // Find YAML file in ea-agent/requests/
             const yamlFile = files.data.find(f =>
-              f.filename.startsWith('ea-requests/') &&
+              f.filename.startsWith('ea-agent/requests/') &&
               (f.filename.endsWith('.yaml') || f.filename.endsWith('.yml')) &&
               f.status !== 'removed'
             );
 
             if (!yamlFile) {
-              core.setFailed('No YAML file found in ea-requests/');
+              core.setFailed('No YAML file found in ea-agent/requests/');
               return;
             }
 
             console.log(`Found YAML file: ${yamlFile.filename}`);
 
-            // Extract JIRA key from filename (e.g., ea-requests/EA-123.yaml -> EA-123)
+            // Extract JIRA key from filename (e.g., ea-agent/requests/EA-123.yaml -> EA-123)
             const filename = yamlFile.filename.split('/').pop();
             const jiraKey = filename.replace(/\.ya?ml$/, '');
 
