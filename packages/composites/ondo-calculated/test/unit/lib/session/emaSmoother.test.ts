@@ -34,7 +34,6 @@ describe('EmaSmoother', () => {
     const resultAt30 = processUpdate('ema', 'test2', 150n, spread, 30)
     expect(resultAt30.price).toBeGreaterThan(resultAt0.price) // Should increase toward 150
     expect(resultAt30.price).toBeLessThan(150n) // But not reach raw price yet
-    expect(resultAt30.p).toBe(0n) // EMA doesn't track covariance
   })
 
   it('should handle EMA filter initialization correctly', () => {

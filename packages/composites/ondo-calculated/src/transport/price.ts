@@ -2,6 +2,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { Smoother } from '../endpoint/price'
 import { getRegistryData } from '../lib/registry'
 import { calculateSecondsFromTransition } from '../lib/session'
 import { processUpdate } from '../lib/smoother/smoother'
@@ -20,7 +21,7 @@ export const calculatePrice = async (param: {
   requester: Requester
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
-  smoother: string
+  smoother: Smoother
   decimals: number
 }) => {
   const [price, { multiplier, paused }] = await Promise.all([
@@ -71,7 +72,7 @@ export const calculatePrice = async (param: {
     smoother: {
       price: smoothed.price.toString(),
       x: smoothed.x.toString(),
-      p: smoothed.p.toString(),
+      ...('p' in smoothed ? { p: String(smoothed.p) } : {}),
       secondsFromTransition,
     },
   }

@@ -2,6 +2,7 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { priceTransport } from '../transport/transport'
 
@@ -91,13 +92,15 @@ export type BaseEndpointTypes = {
       smoother: {
         price: string
         x: string
-        p: string
+        p?: string
         secondsFromTransition: number
       }
     }
   }
   Settings: typeof config.settings
 }
+
+export type Smoother = TypeFromDefinition<BaseEndpointTypes['Parameters']>['smoother']
 
 export const endpoint = new AdapterEndpoint({
   name: 'price',

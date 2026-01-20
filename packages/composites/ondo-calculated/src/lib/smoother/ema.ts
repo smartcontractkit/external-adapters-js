@@ -19,6 +19,6 @@ export class EmaFilter {
       this.x = deScale(CONFIG.ALPHA * price + (scale(1) - CONFIG.ALPHA) * this.x)
     }
 
-    return { price: this.x, x: prevX, p: 0n }
+    return { price: this.x, x: prevX }
   }
 }

@@ -1,4 +1,5 @@
 // Algorithm by @kalanyuz and @eshaqiri
+import { Smoother } from '../../endpoint/price'
 import { EmaFilter } from './ema'
 import { KalmanFilter } from './kalman'
 import { deScale, scale } from './utils'
@@ -21,12 +22,12 @@ class SessionAwareSmoother {
   /**
    * Process a new price update
    * @param smoother The smoothing algorithm to use
-   * @param rawPrice The current raw median price
-   * @param spread The current spread between ask and bid prices
+   * @param rawPrice The current raw median price, this is in 18 decimals
+   * @param spread The current spread between ask and bid prices, this is in 18 decimals
    * @param secondsFromTransition Seconds relative to session boundary (-ve before, +ve after)
    */
   public processUpdate(
-    smoother: string,
+    smoother: Smoother,
     rawPrice: bigint,
     spread: bigint,
     secondsFromTransition: number,
@@ -44,7 +45,7 @@ class SessionAwareSmoother {
     return {
       price: deScale(smoothedPrice.price * scale(w) + rawPrice * (scale(1) - scale(w))),
       x: smoothedPrice.x,
-      p: smoothedPrice.p,
+      ...('p' in smoothedPrice ? { p: smoothedPrice.p } : {}),
     }
   }
 
@@ -71,7 +72,7 @@ class SessionAwareSmoother {
 const smoothers: Record<string, SessionAwareSmoother> = {}
 
 export const processUpdate = (
-  smoother: string,
+  smoother: Smoother,
   asset: string,
   rawPrice: bigint,
   spread: bigint,

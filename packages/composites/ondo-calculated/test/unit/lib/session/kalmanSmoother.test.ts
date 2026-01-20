@@ -42,7 +42,7 @@ describe('KalmanSmoother', () => {
     const resultAtMinus5 = processUpdate('kalman', 'test1', 200n, spread, -5)
     expect(resultAtMinus5.price).toBeGreaterThan(resultAt30.price) // Should increase toward 200
     expect(resultAtMinus5.price).toBeLessThan(200n) // But not reach raw price
-    expect(resultAtMinus5.p).toBeLessThan(resultAt30.p) // Covariance should decrease over time
+    expect(resultAtMinus5.p).toBeLessThan(Number(resultAt30.p)) // Covariance should decrease over time
   })
 
   it('should use MIN_R for small spread values', () => {
