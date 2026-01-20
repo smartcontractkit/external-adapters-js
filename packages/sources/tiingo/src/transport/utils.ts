@@ -150,19 +150,21 @@ export const wsSelectUrl = (
   urlSuffix: string,
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
 ): string => {
-  // business logic connection attempts (repeats):
-  //   5x try connecting to primary url
-  //   1x try connection to secondary url
+  // business logic connection attempts (repeats in 6-attempt cycles):
+  //   3x try connecting to primary url
+  //   3x try connecting to secondary url
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
 
   const zeroIndexedNumAttemptedConnections =
     urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
   const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
-  const url = cycle !== URL_SELECTION_CYCLE_LENGTH - 1 ? primaryUrl : secondaryUrl
+  const url = cycle < 3 ? primaryUrl : secondaryUrl
 
-  logger.trace(
-    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, url: ${url}`,
+  logger.info(
+    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, using ${
+      url === primaryUrl ? 'primary' : 'secondary'
+    } (cycle position: ${cycle})`,
   )
   return url
 }
