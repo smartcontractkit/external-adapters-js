@@ -9,6 +9,8 @@ import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { calculatePrice } from './price'
 
 const logger = makeLogger('PriceTransport')
+// This is not changable by NOPs because smoother logic requires consistent timing
+const BACKGROUND_EXECUTE_MS = 1000
 
 type RequestParams = typeof inputParameters.validated
 
@@ -39,9 +41,9 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       })
     }
   }
-  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
+  async backgroundHandler(_: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
-    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+    await sleep(BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams) {
