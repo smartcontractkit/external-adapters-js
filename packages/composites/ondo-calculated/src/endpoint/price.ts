@@ -92,7 +92,7 @@ export type BaseEndpointTypes = {
       smoother: {
         price: string
         x: string
-        p?: string
+        p: string
         secondsFromTransition: number
       }
     }

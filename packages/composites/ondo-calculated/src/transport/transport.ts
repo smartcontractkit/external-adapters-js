@@ -9,7 +9,7 @@ import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { calculatePrice } from './price'
 
 const logger = makeLogger('PriceTransport')
-// This is not changable by NOPs because smoother logic requires consistent timing
+// This is not changable by NOPs because we want price frequently
 const BACKGROUND_EXECUTE_MS = 1000
 
 type RequestParams = typeof inputParameters.validated

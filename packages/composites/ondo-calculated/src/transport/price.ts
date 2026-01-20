@@ -72,7 +72,7 @@ export const calculatePrice = async (param: {
     smoother: {
       price: smoothed.price.toString(),
       x: smoothed.x.toString(),
-      ...('p' in smoothed ? { p: String(smoothed.p) } : {}),
+      p: smoothed.p.toString(),
       secondsFromTransition,
     },
   }

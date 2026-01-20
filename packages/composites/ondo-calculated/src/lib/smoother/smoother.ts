@@ -45,7 +45,7 @@ class SessionAwareSmoother {
     return {
       price: deScale(smoothedPrice.price * scale(w) + rawPrice * (scale(1) - scale(w))),
       x: smoothedPrice.x,
-      ...('p' in smoothedPrice ? { p: smoothedPrice.p } : {}),
+      p: smoothedPrice.p,
     }
   }
 
