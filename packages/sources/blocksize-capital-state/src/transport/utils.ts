@@ -79,20 +79,24 @@ function authMessageHandler(
   reject: (error: Error) => void,
   timeoutId: NodeJS.Timeout,
   connection: WebSocket,
+  messageHandler: (event: MessageEvent) => void,
 ) {
   try {
     const parsed = JSON.parse(event.data.toString())
+
+    // Successful authentication
     if (parsed.result?.user_id && !parsed.error) {
       logger.debug('Got logged in response, connection is ready')
       clearTimeout(timeoutId)
-      connection.removeEventListener('message', authMessageHandler)
+      connection.removeEventListener('message', messageHandler)
       resolve()
       return
     }
 
+    // Authentication error
     if (parsed.error) {
       clearTimeout(timeoutId)
-      connection.removeEventListener('message', authMessageHandler)
+      connection.removeEventListener('message', messageHandler)
 
       if (parsed.error.code === 4001) {
         // Invalid API key
@@ -107,14 +111,18 @@ function authMessageHandler(
           2. Contact Blocksize Capital billing support
           3. Verify your payment method is up to date`)
       } else {
-        logger.warn(`Authentication error: ${parsed.error.message}`)
+        logger.warn(`Authentication error: ${parsed.error.message} (code: ${parsed.error.code})`)
       }
 
       reject(new Error(`Failed to make WS connection: ${JSON.stringify(parsed)}`))
+      return
     }
+
+    // If we reach here, the message was not an auth response (could be a different message type)
+    // We continue waiting for the actual auth response
   } catch (error) {
     clearTimeout(timeoutId)
-    connection.removeEventListener('message', authMessageHandler)
+    connection.removeEventListener('message', messageHandler)
     const errorMessage = error instanceof Error ? error.message : String(error)
     reject(new Error(`Failed to parse authentication response: ${errorMessage}`))
   }
@@ -131,7 +139,7 @@ export const blocksizeStateWebsocketOpenHandler = (
     }, 10000)
 
     const messageHandler = (event: MessageEvent) => {
-      authMessageHandler(event, resolve, reject, timeoutId, connection)
+      authMessageHandler(event, resolve, reject, timeoutId, connection, messageHandler)
     }
 
     connection.addEventListener('message', messageHandler)

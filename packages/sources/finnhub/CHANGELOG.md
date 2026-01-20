@@ -1,5 +1,23 @@
 # @chainlink/finnhub-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- [#4525](https://github.com/smartcontractkit/external-adapters-js/pull/4525) [`1db52d3`](https://github.com/smartcontractkit/external-adapters-js/commit/1db52d3155524e9376dca20bc0d407a7210634c2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - If you run [market-status](https://gallery.ecr.aws/chainlink/adapters/market-status-adapter) EA, you must bump market-status to equal or above 1.7.0 before upgrading to this version. There is no other breaking changes.
+
+## 3.3.3
+
+### Patch Changes
+
+- [#4526](https://github.com/smartcontractkit/external-adapters-js/pull/4526) [`08e608a`](https://github.com/smartcontractkit/external-adapters-js/commit/08e608a594a6a06690e9c169f5e21c3be0a6fc28) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Support Tradegate market hours
+
+## 3.3.2
+
+### Patch Changes
+
+- [#4351](https://github.com/smartcontractkit/external-adapters-js/pull/4351) [`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Adjust mid logic
+
 ## 3.3.1
 
 ### Patch Changes

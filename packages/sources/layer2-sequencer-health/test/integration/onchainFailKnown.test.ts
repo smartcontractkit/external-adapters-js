@@ -21,6 +21,8 @@ const mockMessages = {
   'https://rpc.soneium.org': 'intrinsic gas too low: gas 0',
   'https://forno.celo.org': 'intrinsic gas too low: gas 0',
   'https://xlayerrpc.okx.com': 'intrinsic gas too low: gas 0',
+  'https://mainnet.megaeth.com/rpc': 'intrinsic gas too low',
+  'https://rpc.katana.network': 'intrinsic gas too low',
 }
 
 jest.mock('ethers', () => {
@@ -450,6 +452,64 @@ describe('execute', () => {
         id,
         data: {
           network: 'xlayer',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('megaeth network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'megaeth',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'megaeth',
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('katana network', () => {
+    it('should return success when transaction submission is known', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'katana',
+          requireTxFailure: true,
+        },
+      }
+
+      await sendRequestAndExpectStatus(data, 0)
+    })
+
+    it('should return failure if tx not required', async () => {
+      mockResponseFailureBlock()
+
+      const data: AdapterRequest = {
+        id,
+        data: {
+          network: 'katana',
         },
       }
 

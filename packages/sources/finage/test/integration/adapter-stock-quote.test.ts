@@ -17,6 +17,10 @@ describe('stock quotes websocket', () => {
     endpoint: 'stock_quotes',
     base: 'AAPL',
   }
+  const dataNumber = {
+    endpoint: 'stock_quotes',
+    base: 'AAPL_NUMBER',
+  }
   const fallBackData = {
     endpoint: 'stock_quotes',
     base: 'FALLBACK',
@@ -40,8 +44,9 @@ describe('stock quotes websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
     await testAdapter.request(data)
+    await testAdapter.request(dataNumber)
     await testAdapter.request(fallBackData)
-    await testAdapter.waitForCache(4)
+    await testAdapter.waitForCache(5)
   })
 
   afterAll(async () => {
@@ -54,6 +59,11 @@ describe('stock quotes websocket', () => {
   describe('stock quotes endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for number messages', async () => {
+      const response = await testAdapter.request(dataNumber)
       expect(response.json()).toMatchSnapshot()
     })
 

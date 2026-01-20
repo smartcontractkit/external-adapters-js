@@ -72,7 +72,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         } else if (data.a == 0) {
           midPrice = data.b
         } else {
-          midPrice = (data.b * data.bv + data.a * data.av) / (data.bv + data.av)
+          midPrice = (data.b + data.a) / 2
         }
 
         return {

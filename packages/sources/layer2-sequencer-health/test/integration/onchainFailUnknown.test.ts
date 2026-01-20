@@ -233,4 +233,36 @@ describe('execute', () => {
       await sendRequestAndExpectStatus(data, 1)
     })
   })
+
+  describe('megaeth network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'megaeth',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
+
+  describe('katana network', () => {
+    const data: AdapterRequest = {
+      id,
+      data: {
+        network: 'katana',
+      },
+    }
+
+    it('should return failure when transaction submission is unknown', async () => {
+      mockResponseFailureHealth()
+      mockResponseFailureBlock()
+
+      await sendRequestAndExpectStatus(data, 1)
+    })
+  })
 })

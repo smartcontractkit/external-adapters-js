@@ -3,8 +3,8 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPSuccess } from './fixtures'
 import { RecurrenceRule } from 'node-schedule'
+import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPSuccess } from './fixtures'
 
 jest.mock('node-schedule', () => {
   const actualNodeSchedule = jest.requireActual('node-schedule')
@@ -28,12 +28,10 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.ANCHORAGE_ADAPTER_URL =
-      process.env.ANCHORAGE_ADAPTER_URL ?? 'https://localhost:8081'
-    process.env.BITGO_ADAPTER_URL = process.env.BITGO_ADAPTER_URL ?? 'https://localhost:8082'
-    process.env.COINBASE_PRIME_ADAPTER_URL =
-      process.env.COINBASE_PRIME_ADAPTER_URL ?? 'https://localhost:8083'
-    process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
+    process.env.ANCHORAGE_ADAPTER_URL = 'https://localhost:8081'
+    process.env.BITGO_ADAPTER_URL = 'https://localhost:8082'
+    process.env.COINBASE_PRIME_ADAPTER_URL = 'https://localhost:8083'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

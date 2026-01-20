@@ -1,5 +1,33 @@
 # @chainlink/mobula-state-adapter
 
+## 2.0.4
+
+### Patch Changes
+
+- [#4425](https://github.com/smartcontractkit/external-adapters-js/pull/4425) [`09f0390`](https://github.com/smartcontractkit/external-adapters-js/commit/09f03902cd8d7e8c7b7acb350420bb03e7cda372) Thanks [@FionnL](https://github.com/FionnL)! - Add missing symbol mappings to includes.json: FEUSD, BNSOL, BETH, BOTANIXPUSD, DRV, KBTC, PICOSOL, RLB, TITCOIN, UBTC, UETH, USDU, USOL.
+
+## 2.0.3
+
+### Patch Changes
+
+- [#4378](https://github.com/smartcontractkit/external-adapters-js/pull/4378) [`47cc1ba`](https://github.com/smartcontractkit/external-adapters-js/commit/47cc1ba75111ea5509fb31de0fa816525eadcd50) Thanks [@FionnL](https://github.com/FionnL)! - Add SUPEROETH/ETH and SUPEROETH/USD to includes.json (using same asset ID as SUPEROETHB: 102502963).
+
+## 2.0.2
+
+### Patch Changes
+
+- [#4359](https://github.com/smartcontractkit/external-adapters-js/pull/4359) [`10e82ee`](https://github.com/smartcontractkit/external-adapters-js/commit/10e82ee5d20d01eeded02c507c994e33a943d115) Thanks [@FionnL](https://github.com/FionnL)! - Fix WBTC asset ID consistency in includes.json - WBTC/USD now uses the correct asset ID (100001656) matching WBTC/ETH.
+
+## 2.0.1
+
+### Patch Changes
+
+- [#4345](https://github.com/smartcontractkit/external-adapters-js/pull/4345) [`7bbaacf`](https://github.com/smartcontractkit/external-adapters-js/commit/7bbaacf568527e0fe19e354b8e1c46214c511999) Thanks [@FionnL](https://github.com/FionnL)! - Fix: Gracefully handle unresolvable symbols and add case-insensitive request handling.
+
+  1. **Graceful Error Handling**: The adapter now returns `undefined` instead of throwing errors when symbols cannot be resolved to asset IDs in `getAssetId()` and `getQuoteId()`. The subscription message builder skips subscriptions for unresolvable symbols with a warning, preventing the EA from failing to establish WebSocket connections due to background processing errors.
+
+  2. **Case-Insensitive Requests**: Added `requestTransforms` to uppercase `base` and `quote` parameters and resolve them via `includes.json` before processing. This allows lowercase requests (e.g., `btc/usd`) to work seamlessly.
+
 ## 2.0.0
 
 ### Major Changes

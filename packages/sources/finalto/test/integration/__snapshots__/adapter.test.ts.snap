@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket commodities endpoint should return success for XCU/USD with price divided by 2204.62 1`] = `
+{
+  "data": {
+    "ask": 10.000018143716378,
+    "ask_price": 10.000018143716378,
+    "ask_volume": 1000000,
+    "bid": 10,
+    "bid_price": 10,
+    "bid_volume": 1000000,
+    "mid": 10.000009071858189,
+    "mid_price": 10.000009071858189,
+    "result": 10.000009071858189,
+  },
+  "result": 10.000009071858189,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5062,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1704951160198,
+  },
+}
+`;
+
 exports[`websocket forex endpoint should return success 1`] = `
 {
   "data": {
@@ -16,7 +39,7 @@ exports[`websocket forex endpoint should return success 1`] = `
   "result": 6.82485,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3042,
+    "providerDataReceivedUnixMs": 4052,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1704951160198,
   },
@@ -39,7 +62,7 @@ exports[`websocket stock endpoint should return success 1`] = `
   "result": 200.86,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3042,
+    "providerDataReceivedUnixMs": 4052,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1704951160198,
   },
@@ -62,9 +85,20 @@ exports[`websocket stock endpoint should return success with base override 1`] =
   "result": 461.94,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3042,
+    "providerDataReceivedUnixMs": 4052,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1704951160198,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should throw error when invalid volume is received 1`] = `
+{
+  "errorMessage": "Invalid bid vol NaN or ask vol 1000000 for 'INVALID.xnas:USD'",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 5062,
+    "providerDataStreamEstablishedUnixMs": 1010,
   },
 }
 `;

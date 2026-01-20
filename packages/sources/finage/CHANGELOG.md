@@ -1,5 +1,29 @@
 ## v1.1.0
 
+## 2.5.0
+
+### Minor Changes
+
+- [#4456](https://github.com/smartcontractkit/external-adapters-js/pull/4456) [`2ba50dd`](https://github.com/smartcontractkit/external-adapters-js/commit/2ba50dded5f2b348ce982c81d129146ec369853b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Do not fallback on (bid+ask)/2 when last trade price is missing
+
+## 2.4.1
+
+### Patch Changes
+
+- [#4408](https://github.com/smartcontractkit/external-adapters-js/pull/4408) [`61646b0`](https://github.com/smartcontractkit/external-adapters-js/commit/61646b0ba7d111607a7c84e7d9f85de41b0ee947) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow STOCK_QUOTES_WS_API_ENDPOINT to contain token
+
+## 2.4.0
+
+### Minor Changes
+
+- [#4396](https://github.com/smartcontractkit/external-adapters-js/pull/4396) [`581dacf`](https://github.com/smartcontractkit/external-adapters-js/commit/581dacfa444fed50d4f1f76e52c03f55fe40aef7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix a message format bug
+
+## 2.3.2
+
+### Patch Changes
+
+- [#4351](https://github.com/smartcontractkit/external-adapters-js/pull/4351) [`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Adjust mid logic
+
 ## 2.3.1
 
 ### Patch Changes

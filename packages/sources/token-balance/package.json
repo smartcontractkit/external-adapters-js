@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-balance-adapter",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Chainlink token-balance adapter.",
   "keywords": [
     "Chainlink",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
+    "@stellar/stellar-sdk": "^14.3.3",
     "decimal.js": "^10.5.0",
     "ethers": "^6.13.2",
     "tslib": "2.4.1"

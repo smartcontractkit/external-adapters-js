@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/glv-token-adapter",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Chainlink glv-token adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@chainlink/data-engine-adapter": "workspace:^",
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.1",
     "decimal.js": "^10.3.1",
     "ethers": "^6.15.0",
     "tslib": "2.4.1"

@@ -1,4 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import {
   AdapterError,
   AdapterInputError,
@@ -8,8 +9,17 @@ import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
 import { inputParameters } from './utils'
 
+export const stockQuotesInputParameters = new InputParameters({
+  ...inputParameters.definition,
+  requireVolume: {
+    default: false,
+    description: 'If true, throw error if bid/ask volume is invalid',
+    type: 'boolean',
+  },
+})
+
 export type BaseEndpointTypes = {
-  Parameters: typeof inputParameters.definition
+  Parameters: typeof stockQuotesInputParameters.definition
   Settings: typeof config.settings
   Response: {
     Result: null
@@ -27,7 +37,7 @@ export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: [],
   transport,
-  inputParameters,
+  inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
   customInputValidation: (_, settings): AdapterError | undefined => {
     if (!settings.WS_API_ENDPOINT) {

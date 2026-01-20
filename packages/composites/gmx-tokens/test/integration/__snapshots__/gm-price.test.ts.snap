@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GM-token price execute price endpoint should return error when data-engine has no responses 1`] = `
+{
+  "errorMessage": "Token with symbol "DOGE" not found",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`GM-token price execute price endpoint success on Arbitrum (default chain) 1`] = `
+{
+  "data": {
+    "result": 1.95367431640625e-12,
+    "sources": {
+      "LINK": [
+        "data-engine",
+      ],
+      "USDC": [
+        "data-engine",
+      ],
+    },
+  },
+  "result": 1.95367431640625e-12,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`GM-token price execute price endpoint success on Avalanche chain 1`] = `
+{
+  "data": {
+    "result": 2.5564715558664465e-12,
+    "sources": {
+      "BTC.b": [
+        "data-engine",
+      ],
+      "USDC": [
+        "data-engine",
+      ],
+    },
+  },
+  "result": 2.5564715558664465e-12,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`GM-token price execute price endpoint success on Botanix chain 1`] = `
+{
+  "data": {
+    "result": 2.176051636343451e-12,
+    "sources": {
+      "LINK": [
+        "data-engine",
+      ],
+      "USDC": [
+        "data-engine",
+      ],
+    },
+  },
+  "result": 2.176051636343451e-12,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

@@ -1,5 +1,43 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.8
+
+### Patch Changes
+
+- Updated dependencies [[`2ba50dd`](https://github.com/smartcontractkit/external-adapters-js/commit/2ba50dded5f2b348ce982c81d129146ec369853b)]:
+  - @chainlink/finage-adapter@2.5.0
+
+## 1.14.7
+
+### Patch Changes
+
+- Updated dependencies [[`61646b0`](https://github.com/smartcontractkit/external-adapters-js/commit/61646b0ba7d111607a7c84e7d9f85de41b0ee947)]:
+  - @chainlink/finage-adapter@2.4.1
+
+## 1.14.6
+
+### Patch Changes
+
+- [#4285](https://github.com/smartcontractkit/external-adapters-js/pull/4285) [`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e) Thanks [@weifangc](https://github.com/weifangc)! - chore: fix some minor issues in comments
+
+- Updated dependencies [[`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e), [`581dacf`](https://github.com/smartcontractkit/external-adapters-js/commit/581dacfa444fed50d4f1f76e52c03f55fe40aef7)]:
+  - @chainlink/cryptocompare-adapter@3.4.3
+  - @chainlink/finage-adapter@2.4.0
+
+## 1.14.5
+
+### Patch Changes
+
+- Updated dependencies [[`23f06d4`](https://github.com/smartcontractkit/external-adapters-js/commit/23f06d4c9c813abf1d0eb6f05f4f23a6a1acca9d)]:
+  - @chainlink/tiingo-adapter@2.9.3
+
+## 1.14.4
+
+### Patch Changes
+
+- Updated dependencies [[`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e)]:
+  - @chainlink/finage-adapter@2.3.2
+
 ## 1.14.3
 
 ### Patch Changes

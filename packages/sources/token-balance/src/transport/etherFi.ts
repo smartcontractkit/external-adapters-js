@@ -1,12 +1,13 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/etherFi'
 import { ethers } from 'ethers'
+import EigenPodManager from '../config/EigenPodManager.json'
 import SplitMain from '../config/SplitMain.json'
 import StrategyBaseTVLLimits from '../config/StrategyBaseTVLLimits.json'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/etherFi'
 
 const logger = makeLogger('Token Balances - EtherFi')
 
@@ -74,7 +75,23 @@ export class EtherFiBalanceTransport extends SubscriptionTransport<BaseEndpointT
       this.provider,
     )
     const shares = await eigenContract.shares(param.eigenStrategyUser)
-    const eigenBalance = await eigenContract.sharesToUnderlyingView(shares)
+
+    const eigenPodManagerContract = new ethers.Contract(
+      param.eigenPodManager,
+      EigenPodManager,
+      this.provider,
+    )
+    const { shares: queuedWithdrawalShares } = (await eigenPodManagerContract.getQueuedWithdrawals(
+      param.eigenStrategyUser,
+    )) as { shares?: ethers.BigNumberish[][] }
+
+    const queuedSharesTotal = (queuedWithdrawalShares?.flat() ?? []).reduce(
+      (acc: bigint, val: ethers.BigNumberish) => acc + BigInt(val),
+      0n,
+    )
+
+    const totalShares = shares + queuedSharesTotal
+    const eigenBalance = await eigenContract.sharesToUnderlyingView(totalShares)
 
     return {
       data: {
