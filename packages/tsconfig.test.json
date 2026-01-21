@@ -114,9 +114,6 @@
       "path": "./sources/anyblock/tsconfig.test.json"
     },
     {
-      "path": "./sources/ap-election/tsconfig.test.json"
-    },
-    {
       "path": "./sources/apex/tsconfig.test.json"
     },
     {
