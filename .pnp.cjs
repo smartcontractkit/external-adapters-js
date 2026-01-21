@@ -27,10 +27,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/crypto-volatility-index"\
     },\
     {\
-      "name": "@chainlink/curve-3pool-adapter",\
-      "reference": "workspace:packages/composites/curve-3pool"\
-    },\
-    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -173,10 +169,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/anyblock-adapter",\
       "reference": "workspace:packages/sources/anyblock"\
-    },\
-    {\
-      "name": "@chainlink/ap-election-adapter",\
-      "reference": "workspace:packages/sources/ap-election"\
     },\
     {\
       "name": "@chainlink/apex-adapter",\
@@ -359,10 +351,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/elwood"\
     },\
     {\
-      "name": "@chainlink/ens-adapter",\
-      "reference": "workspace:packages/sources/ens"\
-    },\
-    {\
       "name": "@chainlink/enzyme-adapter",\
       "reference": "workspace:packages/sources/enzyme"\
     },\
@@ -381,10 +369,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/etherscan-adapter",\
       "reference": "workspace:packages/sources/etherscan"\
-    },\
-    {\
-      "name": "@chainlink/ethgaswatch-adapter",\
-      "reference": "workspace:packages/sources/ethgaswatch"\
     },\
     {\
       "name": "@chainlink/exchange-copter-adapter",\
@@ -792,7 +776,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
-    ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
@@ -832,7 +815,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-    ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
     ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
@@ -848,13 +830,11 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
     ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
     ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
-    ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
-    ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
     ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
@@ -4998,25 +4978,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ap-election-adapter", [\
-      ["workspace:packages/sources/ap-election", {\
-        "packageLocation": "./packages/sources/ap-election/",\
-        "packageDependencies": [\
-          ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/apex-adapter", [\
       ["workspace:packages/sources/apex", {\
         "packageLocation": "./packages/sources/apex/",\
@@ -5716,24 +5677,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/curve-3pool-adapter", [\
-      ["workspace:packages/composites/curve-3pool", {\
-        "packageLocation": "./packages/composites/curve-3pool/",\
-        "packageDependencies": [\
-          ["@chainlink/curve-3pool-adapter", "workspace:packages/composites/curve-3pool"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/curve-adapter", [\
       ["workspace:packages/sources/curve", {\
         "packageLocation": "./packages/sources/curve/",\
@@ -6085,25 +6028,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ens-adapter", [\
-      ["workspace:packages/sources/ens", {\
-        "packageLocation": "./packages/sources/ens/",\
-        "packageDependencies": [\
-          ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/enzyme-adapter", [\
       ["workspace:packages/sources/enzyme", {\
         "packageLocation": "./packages/sources/enzyme/",\
@@ -6183,24 +6107,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/etherscan/",\
         "packageDependencies": [\
           ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ethgaswatch-adapter", [\
-      ["workspace:packages/sources/ethgaswatch", {\
-        "packageLocation": "./packages/sources/ethgaswatch/",\
-        "packageDependencies": [\
-          ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
