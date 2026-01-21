@@ -12,9 +12,6 @@
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {
-      "path": "./composites/curve-3pool/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
