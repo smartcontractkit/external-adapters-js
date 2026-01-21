@@ -252,9 +252,6 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
-      "path": "./sources/ens/tsconfig.test.json"
-    },
-    {
       "path": "./sources/enzyme/tsconfig.test.json"
     },
     {
