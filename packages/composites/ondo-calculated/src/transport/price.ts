@@ -47,8 +47,35 @@ export const calculatePrice = async (param: {
     param.sessionBoundariesTimeZone,
   )
 
+  const common = {
+    rawPrice: price.price,
+    decimals: param.decimals,
+    registry: {
+      sValue: multiplier.toString(),
+      paused,
+    },
+    stream: price.data,
+  }
+
+  return ['ema', 'kalman'].map((smoother) => {
+    const smoothed = smooth(smoother as Smoother, param, price, secondsFromTransition, multiplier)
+    return {
+      result: smoothed.result,
+      ...common,
+      smoother: smoothed.smoother,
+    }
+  })
+}
+
+const smooth = (
+  smoother: Smoother,
+  param: { asset: string; decimals: number },
+  price: { price: string; spread: bigint; decimals: number },
+  secondsFromTransition: number,
+  multiplier: bigint,
+) => {
   const smoothed = processUpdate(
-    param.smoother,
+    smoother,
     param.asset,
     BigInt(price.price),
     price.spread,
@@ -62,14 +89,8 @@ export const calculatePrice = async (param: {
 
   return {
     result: result.toString(),
-    rawPrice: price.price,
-    decimals: param.decimals,
-    registry: {
-      sValue: multiplier.toString(),
-      paused,
-    },
-    stream: price.data,
     smoother: {
+      smoother,
       price: smoothed.price.toString(),
       x: smoothed.x.toString(),
       p: smoothed.p.toString(),

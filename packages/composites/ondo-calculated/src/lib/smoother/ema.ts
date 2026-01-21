@@ -30,7 +30,7 @@ export class EmaFilter {
       this.p = now
     } else if (interval > 0) {
       // Time-aware effective alpha: a = 1 - exp(-dt_ms/tau_ms)
-      const a = scale(CONFIG.TAU_MS <= 0.0 ? 1.0 : -Math.expm1(-interval / CONFIG.TAU_MS))
+      const a = scale(-Math.expm1(-interval / CONFIG.TAU_MS))
 
       this.x = deScale(a * price + (scale(1) - a) * this.x)
       this.p = now
