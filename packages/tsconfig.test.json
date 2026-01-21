@@ -219,9 +219,6 @@
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {
-      "path": "./sources/curve/tsconfig.test.json"
-    },
-    {
       "path": "./sources/data-engine/tsconfig.test.json"
     },
     {

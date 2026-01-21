@@ -89,8 +89,6 @@ adapters:
     version: 1.2.47
   - name: cryptocompare
     version: 3.4.3
-  - name: curve
-    version: 2.0.31
   - name: data-engine
     version: 1.1.1
   - name: deep-blue

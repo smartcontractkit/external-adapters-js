@@ -315,10 +315,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
     {\
-      "name": "@chainlink/curve-adapter",\
-      "reference": "workspace:packages/sources/curve"\
-    },\
-    {\
       "name": "@chainlink/data-engine-adapter",\
       "reference": "workspace:packages/sources/data-engine"\
     },\
@@ -815,7 +811,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-    ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -5669,26 +5664,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/curve-adapter", [\
-      ["workspace:packages/sources/curve", {\
-        "packageLocation": "./packages/sources/curve/",\
-        "packageDependencies": [\
-          ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\

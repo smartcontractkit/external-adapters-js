@@ -219,9 +219,6 @@
       "path": "./sources/cryptocompare"
     },
     {
-      "path": "./sources/curve"
-    },
-    {
       "path": "./sources/data-engine"
     },
     {
