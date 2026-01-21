@@ -307,10 +307,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/covid-tracker"\
     },\
     {\
-      "name": "@chainlink/cryptex-adapter",\
-      "reference": "workspace:packages/sources/cryptex"\
-    },\
-    {\
       "name": "@chainlink/cryptoapis-adapter",\
       "reference": "workspace:packages/sources/cryptoapis"\
     },\
@@ -816,7 +812,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
-    ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
@@ -5614,25 +5609,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/cryptex-adapter", [\
-      ["workspace:packages/sources/cryptex", {\
-        "packageLocation": "./packages/sources/cryptex/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
