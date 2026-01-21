@@ -85,8 +85,6 @@ adapters:
     version: 2.1.18
   - name: covid-tracker
     version: 1.4.39
-  - name: cryptex
-    version: 2.0.31
   - name: crypto-volatility-index
     version: 1.4.36
   - name: cryptoapis

@@ -219,9 +219,6 @@
       "path": "./sources/covid-tracker/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
