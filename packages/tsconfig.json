@@ -12,9 +12,6 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
-      "path": "./composites/curve-3pool"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
@@ -112,9 +109,6 @@
     },
     {
       "path": "./sources/anyblock"
-    },
-    {
-      "path": "./sources/ap-election"
     },
     {
       "path": "./sources/apex"
@@ -219,9 +213,6 @@
       "path": "./sources/covid-tracker"
     },
     {
-      "path": "./sources/cryptex"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
@@ -255,9 +246,6 @@
       "path": "./sources/elwood"
     },
     {
-      "path": "./sources/ens"
-    },
-    {
       "path": "./sources/enzyme"
     },
     {
@@ -271,9 +259,6 @@
     },
     {
       "path": "./sources/etherscan"
-    },
-    {
-      "path": "./sources/ethgaswatch"
     },
     {
       "path": "./sources/exchange-copter"
