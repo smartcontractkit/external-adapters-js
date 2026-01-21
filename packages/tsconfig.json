@@ -12,9 +12,6 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
-      "path": "./composites/curve-3pool"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
