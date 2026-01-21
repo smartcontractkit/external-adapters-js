@@ -273,9 +273,6 @@
       "path": "./sources/etherscan/tsconfig.test.json"
     },
     {
-      "path": "./sources/ethgaswatch/tsconfig.test.json"
-    },
-    {
       "path": "./sources/exchange-copter/tsconfig.test.json"
     },
     {
