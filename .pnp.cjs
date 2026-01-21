@@ -363,10 +363,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/elwood"\
     },\
     {\
-      "name": "@chainlink/ens-adapter",\
-      "reference": "workspace:packages/sources/ens"\
-    },\
-    {\
       "name": "@chainlink/enzyme-adapter",\
       "reference": "workspace:packages/sources/enzyme"\
     },\
@@ -853,7 +849,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
     ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
     ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
-    ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
@@ -6103,25 +6098,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["axios", "npm:1.9.0"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ens-adapter", [\
-      ["workspace:packages/sources/ens", {\
-        "packageLocation": "./packages/sources/ens/",\
-        "packageDependencies": [\
-          ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
