@@ -111,9 +111,6 @@
       "path": "./sources/anyblock"
     },
     {
-      "path": "./sources/ap-election"
-    },
-    {
       "path": "./sources/apex"
     },
     {
@@ -252,9 +249,6 @@
       "path": "./sources/elwood"
     },
     {
-      "path": "./sources/ens"
-    },
-    {
       "path": "./sources/enzyme"
     },
     {
@@ -268,9 +262,6 @@
     },
     {
       "path": "./sources/etherscan"
-    },
-    {
-      "path": "./sources/ethgaswatch"
     },
     {
       "path": "./sources/exchange-copter"

@@ -111,9 +111,6 @@
       "path": "./sources/anyblock/tsconfig.test.json"
     },
     {
-      "path": "./sources/ap-election/tsconfig.test.json"
-    },
-    {
       "path": "./sources/apex/tsconfig.test.json"
     },
     {
@@ -252,9 +249,6 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
-      "path": "./sources/ens/tsconfig.test.json"
-    },
-    {
       "path": "./sources/enzyme/tsconfig.test.json"
     },
     {
@@ -268,9 +262,6 @@
     },
     {
       "path": "./sources/etherscan/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
       "path": "./sources/exchange-copter/tsconfig.test.json"

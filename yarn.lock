@@ -2520,23 +2520,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/apex-adapter@workspace:packages/sources/apex":
   version: 0.0.0-use.local
   resolution: "@chainlink/apex-adapter@workspace:packages/sources/apex"
@@ -3480,23 +3463,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ens-adapter@workspace:packages/sources/ens":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ens-adapter@workspace:packages/sources/ens"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
   version: 0.0.0-use.local
   resolution: "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme"
@@ -3566,22 +3532,6 @@ __metadata:
 "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.1.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"

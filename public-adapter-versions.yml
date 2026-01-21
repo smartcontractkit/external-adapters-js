@@ -11,8 +11,6 @@ adapters:
     version: 2.2.0
   - name: anyblock
     version: 2.1.13
-  - name: ap-election
-    version: 1.3.47
   - name: apex
     version: 1.0.11
   - name: asseto-finance
@@ -113,8 +111,6 @@ adapters:
     version: 2.0.31
   - name: elwood
     version: 3.1.22
-  - name: ens
-    version: 2.0.31
   - name: enzyme
     version: 2.0.33
   - name: eodhistoricaldata
@@ -124,8 +120,6 @@ adapters:
   - name: eth-beacon
     version: 3.0.23
   - name: etherscan
-    version: 1.3.47
-  - name: ethgaswatch
     version: 1.3.47
   - name: exchange-copter
     version: 1.0.0
