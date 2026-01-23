@@ -12,9 +12,6 @@
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {
-      "path": "./composites/curve-3pool/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
@@ -112,9 +109,6 @@
     },
     {
       "path": "./sources/anyblock/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/ap-election/tsconfig.test.json"
     },
     {
       "path": "./sources/apex/tsconfig.test.json"
@@ -219,16 +213,10 @@
       "path": "./sources/covid-tracker/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptex/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/curve/tsconfig.test.json"
     },
     {
       "path": "./sources/data-engine/tsconfig.test.json"
@@ -255,9 +243,6 @@
       "path": "./sources/elwood/tsconfig.test.json"
     },
     {
-      "path": "./sources/ens/tsconfig.test.json"
-    },
-    {
       "path": "./sources/enzyme/tsconfig.test.json"
     },
     {
@@ -271,9 +256,6 @@
     },
     {
       "path": "./sources/etherscan/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/ethgaswatch/tsconfig.test.json"
     },
     {
       "path": "./sources/exchange-copter/tsconfig.test.json"
