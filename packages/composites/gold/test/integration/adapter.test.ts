@@ -12,7 +12,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
+    process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -35,15 +35,12 @@ describe('execute', () => {
   describe('price endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
         endpoint: 'price',
-        transport: 'custombg',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
   })
 })

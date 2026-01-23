@@ -1,5 +1,5 @@
+import { getRwaPrice } from '@chainlink/data-engine-adapter'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
@@ -7,40 +7,39 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 
-const logger = makeLogger('CustomTransport')
+const logger = makeLogger('PriceTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export type CustomTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: any
-  }
-}
-export class CustomTransport extends SubscriptionTransport<CustomTransportTypes> {
-  name!: string
-  responseCache!: ResponseCache<CustomTransportTypes>
+export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
+  config!: BaseEndpointTypes['Settings']
   requester!: Requester
 
   async initialize(
-    dependencies: TransportDependencies<CustomTransportTypes>,
-    adapterSettings: CustomTransportTypes['Settings'],
+    dependencies: TransportDependencies<BaseEndpointTypes>,
+    adapterSettings: BaseEndpointTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings
     this.requester = dependencies.requester
+
+    if (!adapterSettings.DATA_ENGINE_ADAPTER_URL) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: 'Missing DATA_ENGINE_ADAPTER_URL',
+      })
+    }
   }
-  async backgroundHandler(
-    context: EndpointContext<CustomTransportTypes>,
-    entries: RequestParams[],
-  ) {
+
+  async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(entries.map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<CustomTransportTypes['Response']>
+    let response: AdapterResponse<BaseEndpointTypes['Response']>
     try {
       response = await this._handleRequest(param)
     } catch (e) {
@@ -59,19 +58,24 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     await this.responseCache.write(this.name, [{ params: param, response }])
   }
 
-  async _handleRequest(
-    _: RequestParams,
-  ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
+  async _handleRequest(_: RequestParams): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // custom transport logic
+    const xauResponse = await getRwaPrice(
+      this.config.XAU_FEED_ID,
+      this.config.DATA_ENGINE_ADAPTER_URL,
+      this.requester,
+    )
+
+    const { midPrice: result, decimals } = xauResponse
 
     return {
       data: {
-        result: 2000,
+        result,
+        decimals,
       },
       statusCode: 200,
-      result: 2000,
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -80,9 +84,9 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: CustomTransportTypes['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-export const customSubscriptionTransport = new CustomTransport()
+export const priceTransport = new PriceTransport()

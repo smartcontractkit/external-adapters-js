@@ -6572,7 +6572,8 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gold/",\
         "packageDependencies": [\
           ["@chainlink/gold-adapter", "workspace:packages/composites/gold"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\

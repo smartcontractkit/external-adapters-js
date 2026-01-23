@@ -1,22 +1,16 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
+  nock('http://data-engine', {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
+    .post('/')
+    .reply(200, () => ({
+      data: {
+        midPrice: '4869500000000000000000',
+        marketStatus: 2,
+        decimals: 18,
+      },
+      statusCode: 200,
+    }))
     .persist()
