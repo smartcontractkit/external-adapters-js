@@ -9,7 +9,7 @@ export const config = new AdapterConfig({
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
-    default: '',
+    required: true,
   },
   BACKGROUND_EXECUTE_MS: {
     description:

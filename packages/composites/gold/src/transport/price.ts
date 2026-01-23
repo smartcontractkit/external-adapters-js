@@ -24,13 +24,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.requester = dependencies.requester
-
-    if (!adapterSettings.DATA_ENGINE_ADAPTER_URL) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: 'Missing DATA_ENGINE_ADAPTER_URL',
-      })
-    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
