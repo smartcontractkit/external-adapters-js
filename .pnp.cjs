@@ -39,6 +39,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/gmx-tokens"\
     },\
     {\
+      "name": "@chainlink/gold-adapter",\
+      "reference": "workspace:packages/composites/gold"\
+    },\
+    {\
       "name": "@chainlink/historical-average-adapter",\
       "reference": "workspace:packages/composites/historical-average"\
     },\
@@ -848,6 +852,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/gmx-tokens-adapter", ["workspace:packages/composites/gmx-tokens"]],\
+    ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
@@ -6555,6 +6560,21 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/gold-adapter", [\
+      ["workspace:packages/composites/gold", {\
+        "packageLocation": "./packages/composites/gold/",\
+        "packageDependencies": [\
+          ["@chainlink/gold-adapter", "workspace:packages/composites/gold"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
