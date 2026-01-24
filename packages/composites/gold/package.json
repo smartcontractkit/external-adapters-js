@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/ondo-calculated-adapter",
-  "version": "1.4.0",
-  "description": "Chainlink ondo-calculated adapter.",
+  "name": "@chainlink/gold-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink gold adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "ondo-calculated"
+    "gold"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -36,8 +36,6 @@
   "dependencies": {
     "@chainlink/data-engine-adapter": "workspace:*",
     "@chainlink/external-adapter-framework": "2.11.1",
-    "@date-fns/tz": "1.4.1",
-    "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }
 }

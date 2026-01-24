@@ -21,6 +21,9 @@
       "path": "./composites/gmx-tokens"
     },
     {
+      "path": "./composites/gold"
+    },
+    {
       "path": "./composites/historical-average"
     },
     {
