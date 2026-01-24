@@ -2,6 +2,7 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { priceTransport } from '../transport/transport'
 
@@ -44,6 +45,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'ANA Time Zone Database format',
     },
+    smoother: {
+      type: 'string',
+      description: 'Smoothing algorithm to apply to the price',
+      options: ['kalman', 'ema'],
+      default: 'kalman',
+    },
     decimals: {
       type: 'number',
       description: 'Decimals of output result',
@@ -59,6 +66,7 @@ export const inputParameters = new InputParameters(
       overnightStreamId: '0x0',
       sessionBoundaries: ['04:00', '16:00', '20:00'],
       sessionBoundariesTimeZone: 'America/New_York',
+      smoother: 'kalman',
       decimals: 8,
     },
   ],
@@ -91,6 +99,8 @@ export type BaseEndpointTypes = {
   }
   Settings: typeof config.settings
 }
+
+export type Smoother = TypeFromDefinition<BaseEndpointTypes['Parameters']>['smoother']
 
 export const endpoint = new AdapterEndpoint({
   name: 'price',

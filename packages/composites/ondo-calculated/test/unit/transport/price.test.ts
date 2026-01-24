@@ -97,10 +97,11 @@ describe('calculatePrice', () => {
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 6,
       })
 
-      expect(result).toStrictEqual({
+      const expectedResult = {
         result: '5',
         rawPrice: '1',
         decimals: 6,
@@ -111,6 +112,20 @@ describe('calculatePrice', () => {
           x: '2',
           p: '3',
           secondsFromTransition: 0,
+        },
+      }
+      expect(result[0]).toStrictEqual({
+        ...expectedResult,
+        smoother: {
+          ...expectedResult.smoother,
+          smoother: 'ema',
+        },
+      })
+      expect(result[1]).toStrictEqual({
+        ...expectedResult,
+        smoother: {
+          ...expectedResult.smoother,
+          smoother: 'kalman',
         },
       })
     })
@@ -137,11 +152,12 @@ describe('calculatePrice', () => {
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 6,
       })
 
-      expect(result.result).toEqual('5')
-      expect(result.decimals).toEqual(6)
+      expect(result[0].result).toEqual('5')
+      expect(result[0].decimals).toEqual(6)
     })
 
     it('price.decimals < target decimals', async () => {
@@ -166,11 +182,12 @@ describe('calculatePrice', () => {
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 7,
       })
 
-      expect(result.result).toEqual('50')
-      expect(result.decimals).toEqual(7)
+      expect(result[0].result).toEqual('50')
+      expect(result[0].decimals).toEqual(7)
     })
   })
 })
