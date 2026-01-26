@@ -60,6 +60,7 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
 - [gmx-tokens](./gmx-tokens/README.md)
+- [gold](./gold/README.md)
 - [historical-average](./historical-average/README.md)
 - [implied-price](./implied-price/README.md)
 - [implied-price-test](./implied-price-test/README.md)
