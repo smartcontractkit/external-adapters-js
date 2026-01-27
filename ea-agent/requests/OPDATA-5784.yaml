@@ -1,0 +1,82 @@
+adapter_name: t-rize-proof-of-insurance
+adapter_type: source
+description: External Adapter for querying T-Rize Proof-of-Insurance API and mapping to Data Stream schema for on-chain consumption
+
+data_source_base_url:
+  base_url: https://api.t-rize.com
+
+data_source_authentication:
+  type: bearer_token
+  credentials:
+    token: "{{TRIZE_API_TOKEN}}"
+  token_usage:
+    header_name: Authorization
+    header_format: "Bearer {token}"
+
+data_source_endpoints:
+  - name: insurance_proof
+    method: GET
+    path: / # (Assumed root, as only one minimal payload described)
+    description: Query proof-of-insurance document metadata from T-Rize API
+    parameters:
+      required: []
+      optional: []
+    headers:
+      - key: accept
+        value: application/json
+      - key: Authorization
+        value: Bearer {token}
+    timeout_ms: 10000
+    rate_limit:
+      requests_per_second: 5
+      burst_size: 10
+    endpoint_tested: false
+    sample_response: |
+      {
+        "daysRemaining": 42,
+        "hash": "0xabc123def456"
+      }
+    response_mapping:
+      navDate: daysRemaining
+      aum: hash (via sha256→BigInt→mod 2^191)
+    data_freshness:
+      timestamp_field: ""
+      max_age_seconds: 0
+
+external_adapter_specifications:
+  environment_variables:
+    - TRIZE_API_TOKEN: TRIZE_API_TOKEN
+  endpoints:
+    - name: insurance_proof
+      description: Returns mapped proof-of-insurance data for Data Stream schema
+      input_parameters: []
+  endpoint_request_response_examples:
+    - endpoint: insurance_proof
+      request: |
+        {
+          "data": {
+            "endpoint": "insurance_proof"
+          }
+        }
+      response: |
+        {
+          "statusCode": 200,
+          "result": 0,
+          "data": {
+            "navDate": 42,
+            "aum": "1837649812347123471234"
+          }
+        }
+
+data_source:
+  provider_name: T-Rize
+  api_documentation_url: https://api.t-rize.com
+  api_base_documentation: "Demo API, minimal payload: daysRemaining (int), hash (string)"
+  support_contact: ""
+
+metadata:
+  business_owner: ""
+  technical_owner: "[Nathan Frank](/people/712020:7d9041ac-c3ea-4163-a30f-9cdef998f2bd)"
+  jira_ticket: OPDATA-5784
+  deployment_chains:
+    - canton
