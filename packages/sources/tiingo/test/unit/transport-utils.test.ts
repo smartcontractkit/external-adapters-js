@@ -25,19 +25,37 @@ describe('transport-utils', () => {
   })
 
   describe('wsSelectUrl', () => {
-    it('returns secondary when connectionAttempts is 6th in cycle, primary otherwise', () => {
+    it('alternates between primary and secondary in 3-attempt cycles', () => {
       const primary = 'primary'
       const secondary = 'secondary'
       const urlPath = 'path'
-      const expectPrimary = wsSelectUrl(primary, secondary, urlPath, {
-        streamHandlerInvocationsWithNoConnection: 1,
-      })
-      expect(expectPrimary).toEqual(`${primary}/${urlPath}`)
 
-      const expectSecondary = wsSelectUrl(primary, secondary, urlPath, {
-        streamHandlerInvocationsWithNoConnection: 6,
-      })
-      expect(expectSecondary).toEqual(`${secondary}/${urlPath}`)
+      // First cycle: 3 primary attempts
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 1 }),
+      ).toEqual(`${primary}/${urlPath}`)
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 2 }),
+      ).toEqual(`${primary}/${urlPath}`)
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 3 }),
+      ).toEqual(`${primary}/${urlPath}`)
+
+      // First cycle: 3 secondary attempts
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 4 }),
+      ).toEqual(`${secondary}/${urlPath}`)
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 5 }),
+      ).toEqual(`${secondary}/${urlPath}`)
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 6 }),
+      ).toEqual(`${secondary}/${urlPath}`)
+
+      // Second cycle: back to primary
+      expect(
+        wsSelectUrl(primary, secondary, urlPath, { streamHandlerInvocationsWithNoConnection: 7 }),
+      ).toEqual(`${primary}/${urlPath}`)
     })
   })
 })
