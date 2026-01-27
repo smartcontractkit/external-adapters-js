@@ -3,6 +3,7 @@ import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { fetchFieldFromBufferLayoutStateAccount } from '../../src/shared/buffer-layout-accounts'
 import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
 import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
+import * as tokenAccountData from '../fixtures/token-account-data-2025-12-01.json'
 
 describe('buffer-layout-accounts', () => {
   const sendMock = jest.fn()
@@ -17,7 +18,7 @@ describe('buffer-layout-accounts', () => {
   })
 
   describe('fetchFieldFromBufferLayoutStateAccount', () => {
-    it('should fetch and decode field from token state account', async () => {
+    it('should fetch and decode field from mint account', async () => {
       const response = makeStub('response', sanctumInfinityTokenAccountData.result)
 
       sendMock.mockResolvedValue(response)
@@ -30,6 +31,24 @@ describe('buffer-layout-accounts', () => {
         rpc,
       })
       expect(poolTotalSolValue).toBe('1116792619507830')
+
+      expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
+      expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('should fetch and decode field from token account', async () => {
+      const response = makeStub('response', tokenAccountData.result)
+
+      sendMock.mockResolvedValue(response)
+
+      const stateAccountAddress = 'FvkbfMm98jefJWrqkvXvsSZ9RFaRBae8k6c1jaYA5vY3'
+
+      const amount = await fetchFieldFromBufferLayoutStateAccount({
+        stateAccountAddress,
+        field: 'amount',
+        rpc,
+      })
+      expect(amount).toBe('34228590128')
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
@@ -67,6 +86,35 @@ describe('buffer-layout-accounts', () => {
         }),
       ).rejects.toThrow(
         "No field 'unknown_field' in layout for program with address 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'. Available fields are: mintAuthorityOption, mintAuthority, supply, decimals, isInitialized, freezeAuthorityOption, freezeAuthority",
+      )
+
+      expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
+      expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
+    })
+
+    it('should throw for unsupported Token Program account size', async () => {
+      const response = makeStub('response', {
+        value: {
+          data: [
+            'dGVzdA==', // Just some test data
+            'base64',
+          ],
+          owner: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+        },
+      })
+
+      sendMock.mockResolvedValue(response)
+
+      const stateAccountAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+
+      await expect(() =>
+        fetchFieldFromBufferLayoutStateAccount({
+          stateAccountAddress,
+          field: 'amount',
+          rpc,
+        }),
+      ).rejects.toThrow(
+        `No layout with matching data length (4) for program address 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'. Available layouts have lengths: [165, 82]`,
       )
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })

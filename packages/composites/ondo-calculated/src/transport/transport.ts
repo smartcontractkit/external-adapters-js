@@ -5,7 +5,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { BaseEndpointTypes, inputParameters, Smoother } from '../endpoint/price'
 import { calculatePrice } from './price'
 
 const logger = makeLogger('PriceTransport')
@@ -40,18 +40,19 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
   async handleRequest(param: RequestParams) {
-    let response: AdapterResponse<BaseEndpointTypes['Response']>
+    let responses: Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>
     try {
-      response = await this._handleRequest(param)
+      responses = await this._handleRequest(param)
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
-      response = {
+
+      const errorResponse = {
         statusCode: (e as AdapterError)?.statusCode || 502,
         errorMessage,
         timestamps: {
@@ -60,37 +61,77 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
+      responses = {
+        ema: errorResponse,
+        kalman: errorResponse,
+      }
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
+
+    await this.responseCache.write(
+      this.name,
+      Object.entries(responses).map(([key, value]) => {
+        return {
+          params: {
+            ...param,
+            smoother: key as Smoother,
+          },
+          response: value,
+        }
+      }),
+    )
   }
 
   async _handleRequest(
     param: RequestParams,
-  ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
+  ): Promise<Record<string, AdapterResponse<BaseEndpointTypes['Response']>>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const result = await calculatePrice({
+    const results = await calculatePrice({
       ...param,
       provider: this.provider,
       url: this.dataEngineUrl,
       requester: this.requester,
     })
 
-    return {
-      data: result,
-      statusCode: 200,
-      result: result.result,
-      timestamps: {
-        providerDataRequestedUnixMs,
-        providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
-      },
-    }
+    return Object.fromEntries(
+      results.map((r) => [
+        r.smoother.smoother,
+        {
+          data: r,
+          statusCode: 200,
+          result: r.result,
+          timestamps: {
+            providerDataRequestedUnixMs,
+            providerDataReceivedUnixMs: Date.now(),
+            providerIndicatedTimeUnixMs: undefined,
+          },
+        },
+      ]),
+    )
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
+}
+const dedupeParams = (params: RequestParams[]) => {
+  const seen = new Map<string, RequestParams>()
+  for (const p of params) {
+    const key = [
+      p.registry,
+      p.asset,
+      p.regularStreamId,
+      p.extendedStreamId,
+      p.overnightStreamId,
+      p.sessionBoundaries.join('|'),
+      p.sessionBoundariesTimeZone,
+      p.decimals,
+    ].join('@@')
+    if (!seen.has(key)) {
+      seen.set(key, p)
+    }
+  }
+  return Array.from(seen.values())
 }
 
 export const priceTransport = new PriceTransport()

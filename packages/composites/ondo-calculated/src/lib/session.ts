@@ -35,6 +35,11 @@ const calculateWithDayOffset = (
       sessionBoundariesTimeZone,
     )
 
+    // Skip Sunday 8PM because we don't want to use staled weekend data to smooth
+    if (session.getHours() === 20 && session.getMinutes() === 0 && session.getDay() === 0) {
+      return minDiff
+    }
+
     const diff = (now.getTime() - session.getTime()) / 1000
 
     return Math.abs(diff) < Math.abs(minDiff) ? diff : minDiff

@@ -2520,23 +2520,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ap-election-adapter@workspace:packages/sources/ap-election":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ap-election-adapter@workspace:packages/sources/ap-election"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/apex-adapter@workspace:packages/sources/apex":
   version: 0.0.0-use.local
   resolution: "@chainlink/apex-adapter@workspace:packages/sources/apex"
@@ -3097,23 +3080,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/cryptex-adapter@workspace:packages/sources/cryptex":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cryptex-adapter@workspace:packages/sources/cryptex"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.6.5"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index":
   version: 0.0.0-use.local
   resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
@@ -3164,40 +3130,6 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/curve-3pool-adapter@workspace:packages/composites/curve-3pool":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/curve-3pool-adapter@workspace:packages/composites/curve-3pool"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/curve-adapter@workspace:packages/sources/curve":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/curve-adapter@workspace:packages/sources/curve"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3496,23 +3428,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ens-adapter@workspace:packages/sources/ens":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ens-adapter@workspace:packages/sources/ens"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme":
   version: 0.0.0-use.local
   resolution: "@chainlink/enzyme-adapter@workspace:packages/sources/enzyme"
@@ -3582,22 +3497,6 @@ __metadata:
 "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan":
   version: 0.0.0-use.local
   resolution: "@chainlink/etherscan-adapter@workspace:packages/sources/etherscan"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.1.0"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ethgaswatch-adapter@workspace:packages/sources/ethgaswatch"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
@@ -3745,6 +3644,28 @@ __metadata:
   bin:
     create-external-adapter: adapter-generator.js
   checksum: 10/395c4b04e0a53423e02dadced63195c0bf03ff2eb54cf859da3985c195fa22b3967e893f19780e4a519ef98c9e6aee5e0c07fe2f9745c111ad80108805d9d3f0
+  languageName: node
+  linkType: hard
+
+"@chainlink/external-adapter-framework@npm:2.11.5":
+  version: 2.11.5
+  resolution: "@chainlink/external-adapter-framework@npm:2.11.5"
+  dependencies:
+    "@date-fns/tz": "npm:1.4.1"
+    ajv: "npm:8.17.1"
+    axios: "npm:1.13.2"
+    eventsource: "npm:4.1.0"
+    fastify: "npm:5.6.2"
+    ioredis: "npm:5.9.2"
+    mock-socket: "npm:9.3.1"
+    pino: "npm:10.2.0"
+    pino-pretty: "npm:13.1.3"
+    prom-client: "npm:15.1.3"
+    redlock: "npm:5.0.0-beta.2"
+    ws: "npm:8.19.0"
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 10/330d500f992f96c9867aa59d82e4ca3ce3d55591b76af8e127dc07e6c6535aa52ca6d936ce8f5c5fec159d87edb3a84c6a0f287b36e1aa49d1bb0269ce7f357b
   languageName: node
   linkType: hard
 
@@ -4055,6 +3976,20 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.15.0"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@chainlink/gold-adapter@workspace:packages/composites/gold":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/gold-adapter@workspace:packages/composites/gold"
+  dependencies:
+    "@chainlink/data-engine-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4603,7 +4538,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-fund-services-adapter@workspace:packages/sources/nav-fund-services"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@chainlink/external-adapter-framework": "npm:2.11.5"
     "@types/crypto-js": "npm:^4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -7160,6 +7095,13 @@ __metadata:
   version: 1.4.0
   resolution: "@ioredis/commands@npm:1.4.0"
   checksum: 10/ea299f22057139261ebd7dbc7fc85615e90c254e667620a276d3cf771b9d9190ffbdf25af6586c3f52598a2c830d64bee17f32c3ce734db403e93f73548d54d4
+  languageName: node
+  linkType: hard
+
+"@ioredis/commands@npm:1.5.0":
+  version: 1.5.0
+  resolution: "@ioredis/commands@npm:1.5.0"
+  checksum: 10/b5a842fde4785c20318b4b26c7ae98bb1f9cbdc1ade3e55a2de07d5db8fb4e9281e590fb08559e5a9027909f0f9f1214688af33e6fb469ce4ff3decc7cfde679
   languageName: node
   linkType: hard
 
@@ -17281,6 +17223,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ioredis@npm:5.9.2":
+  version: 5.9.2
+  resolution: "ioredis@npm:5.9.2"
+  dependencies:
+    "@ioredis/commands": "npm:1.5.0"
+    cluster-key-slot: "npm:^1.1.0"
+    debug: "npm:^4.3.4"
+    denque: "npm:^2.1.0"
+    lodash.defaults: "npm:^4.2.0"
+    lodash.isarguments: "npm:^3.1.0"
+    redis-errors: "npm:^1.2.0"
+    redis-parser: "npm:^3.0.0"
+    standard-as-callback: "npm:^2.1.0"
+  checksum: 10/d5d6e596b88d2fc6dfd5abae568ce94a2f1c4375af34b6c327883bcb016399fe1ff6353a3fd81603be49e1cb9b2b76634f60311babc8601e44ffdb7b02ca16f1
+  languageName: node
+  linkType: hard
+
 "ip-address@npm:^9.0.5":
   version: 9.0.5
   resolution: "ip-address@npm:9.0.5"
@@ -21410,6 +21369,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pino@npm:10.2.0":
+  version: 10.2.0
+  resolution: "pino@npm:10.2.0"
+  dependencies:
+    "@pinojs/redact": "npm:^0.4.0"
+    atomic-sleep: "npm:^1.0.0"
+    on-exit-leak-free: "npm:^2.1.0"
+    pino-abstract-transport: "npm:^3.0.0"
+    pino-std-serializers: "npm:^7.0.0"
+    process-warning: "npm:^5.0.0"
+    quick-format-unescaped: "npm:^4.0.3"
+    real-require: "npm:^0.2.0"
+    safe-stable-stringify: "npm:^2.3.1"
+    sonic-boom: "npm:^4.0.1"
+    thread-stream: "npm:^4.0.0"
+  bin:
+    pino: bin.js
+  checksum: 10/7dfc05afdb9cd8c183b496daee591ab0c23d69b5a3188869916249bca5987bf084ef369c2b034be22a36804a31a5075415db256489aae1847b55a3f3361b951f
+  languageName: node
+  linkType: hard
+
 "pino@npm:^6.13.0":
   version: 6.14.0
   resolution: "pino@npm:6.14.0"
@@ -24227,6 +24207,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"thread-stream@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "thread-stream@npm:4.0.0"
+  dependencies:
+    real-require: "npm:^0.2.0"
+  checksum: 10/698ac8bd104c6cf91dda8421c30790979b867d7b6c878f914ddef18f1b1bc846f8776976d9f0113ed0ee90043f2e9e6554b96f4c1154ff84cd199da657f214fa
+  languageName: node
+  linkType: hard
+
 "through@npm:>=2.2.7 <3, through@npm:^2.3.6, through@npm:^2.3.8":
   version: 2.3.8
   resolution: "through@npm:2.3.8"
@@ -25696,6 +25685,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/725964438d752f0ab0de582cd48d6eeada58d1511c3f613485b5598a83680bedac6187c765b0fe082e2d8cc4341fc57707c813ae780feee82d0c5efe6a4c61b6
+  languageName: node
+  linkType: hard
+
+"ws@npm:8.19.0":
+  version: 8.19.0
+  resolution: "ws@npm:8.19.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/26e4901e93abaf73af9f26a93707c95b4845e91a7a347ec8c569e6e9be7f9df066f6c2b817b2d685544e208207898a750b78461e6e8d810c11a370771450c31b
   languageName: node
   linkType: hard
 

@@ -27,10 +27,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/crypto-volatility-index"\
     },\
     {\
-      "name": "@chainlink/curve-3pool-adapter",\
-      "reference": "workspace:packages/composites/curve-3pool"\
-    },\
-    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -41,6 +37,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/gmx-tokens-adapter",\
       "reference": "workspace:packages/composites/gmx-tokens"\
+    },\
+    {\
+      "name": "@chainlink/gold-adapter",\
+      "reference": "workspace:packages/composites/gold"\
     },\
     {\
       "name": "@chainlink/historical-average-adapter",\
@@ -173,10 +173,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/anyblock-adapter",\
       "reference": "workspace:packages/sources/anyblock"\
-    },\
-    {\
-      "name": "@chainlink/ap-election-adapter",\
-      "reference": "workspace:packages/sources/ap-election"\
     },\
     {\
       "name": "@chainlink/apex-adapter",\
@@ -315,20 +311,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/covid-tracker"\
     },\
     {\
-      "name": "@chainlink/cryptex-adapter",\
-      "reference": "workspace:packages/sources/cryptex"\
-    },\
-    {\
       "name": "@chainlink/cryptoapis-adapter",\
       "reference": "workspace:packages/sources/cryptoapis"\
     },\
     {\
       "name": "@chainlink/cryptocompare-adapter",\
       "reference": "workspace:packages/sources/cryptocompare"\
-    },\
-    {\
-      "name": "@chainlink/curve-adapter",\
-      "reference": "workspace:packages/sources/curve"\
     },\
     {\
       "name": "@chainlink/data-engine-adapter",\
@@ -363,10 +351,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/elwood"\
     },\
     {\
-      "name": "@chainlink/ens-adapter",\
-      "reference": "workspace:packages/sources/ens"\
-    },\
-    {\
       "name": "@chainlink/enzyme-adapter",\
       "reference": "workspace:packages/sources/enzyme"\
     },\
@@ -385,10 +369,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/etherscan-adapter",\
       "reference": "workspace:packages/sources/etherscan"\
-    },\
-    {\
-      "name": "@chainlink/ethgaswatch-adapter",\
-      "reference": "workspace:packages/sources/ethgaswatch"\
     },\
     {\
       "name": "@chainlink/exchange-copter-adapter",\
@@ -796,7 +776,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
-    ["@chainlink/ap-election-adapter", ["workspace:packages/sources/ap-election"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
@@ -833,12 +812,9 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
-    ["@chainlink/cryptex-adapter", ["workspace:packages/sources/cryptex"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
-    ["@chainlink/curve-3pool-adapter", ["workspace:packages/composites/curve-3pool"]],\
-    ["@chainlink/curve-adapter", ["workspace:packages/sources/curve"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
@@ -853,13 +829,11 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ea-scripts", ["workspace:packages/scripts"]],\
     ["@chainlink/ea-test-helpers", ["workspace:packages/core/test-helpers"]],\
     ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
-    ["@chainlink/ens-adapter", ["workspace:packages/sources/ens"]],\
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
-    ["@chainlink/ethgaswatch-adapter", ["workspace:packages/sources/ethgaswatch"]],\
     ["@chainlink/exchange-copter-adapter", ["workspace:packages/sources/exchange-copter"]],\
     ["@chainlink/expand-network-adapter", ["workspace:packages/sources/expand-network"]],\
     ["@chainlink/external-adapters-js", ["workspace:."]],\
@@ -878,6 +852,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/gmx-tokens-adapter", ["workspace:packages/composites/gmx-tokens"]],\
+    ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
@@ -5003,25 +4978,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ap-election-adapter", [\
-      ["workspace:packages/sources/ap-election", {\
-        "packageLocation": "./packages/sources/ap-election/",\
-        "packageDependencies": [\
-          ["@chainlink/ap-election-adapter", "workspace:packages/sources/ap-election"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/apex-adapter", [\
       ["workspace:packages/sources/apex", {\
         "packageLocation": "./packages/sources/apex/",\
@@ -5661,25 +5617,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/cryptex-adapter", [\
-      ["workspace:packages/sources/cryptex", {\
-        "packageLocation": "./packages/sources/cryptex/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptex-adapter", "workspace:packages/sources/cryptex"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/crypto-volatility-index-adapter", [\
       ["workspace:packages/composites/crypto-volatility-index", {\
         "packageLocation": "./packages/composites/crypto-volatility-index/",\
@@ -5732,44 +5669,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/curve-3pool-adapter", [\
-      ["workspace:packages/composites/curve-3pool", {\
-        "packageLocation": "./packages/composites/curve-3pool/",\
-        "packageDependencies": [\
-          ["@chainlink/curve-3pool-adapter", "workspace:packages/composites/curve-3pool"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/curve-adapter", [\
-      ["workspace:packages/sources/curve", {\
-        "packageLocation": "./packages/sources/curve/",\
-        "packageDependencies": [\
-          ["@chainlink/curve-adapter", "workspace:packages/sources/curve"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.4.3"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -6109,25 +6008,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/ens-adapter", [\
-      ["workspace:packages/sources/ens", {\
-        "packageLocation": "./packages/sources/ens/",\
-        "packageDependencies": [\
-          ["@chainlink/ens-adapter", "workspace:packages/sources/ens"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/enzyme-adapter", [\
       ["workspace:packages/sources/enzyme", {\
         "packageLocation": "./packages/sources/enzyme/",\
@@ -6207,24 +6087,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/etherscan/",\
         "packageDependencies": [\
           ["@chainlink/etherscan-adapter", "workspace:packages/sources/etherscan"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/ethgaswatch-adapter", [\
-      ["workspace:packages/sources/ethgaswatch", {\
-        "packageLocation": "./packages/sources/ethgaswatch/",\
-        "packageDependencies": [\
-          ["@chainlink/ethgaswatch-adapter", "workspace:packages/sources/ethgaswatch"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6362,6 +6224,25 @@ const RAW_RUNTIME_STATE =
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
           ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.11.5", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.5-30be3b7846-330d500f99.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.11.5"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.13.2"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.6.2"],\
+          ["ioredis", "npm:5.9.2"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.2.0"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:30be3b7846eb067bc275e89de0424cc9074b893541460b25cf1acfbc0ea28eaf81ae3d538195855e052cfe985839b8d6ef82b1adc2b4b7121895e4cdff6a9b0b#npm:8.19.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -6698,6 +6579,22 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/gold-adapter", [\
+      ["workspace:packages/composites/gold", {\
+        "packageLocation": "./packages/composites/gold/",\
+        "packageDependencies": [\
+          ["@chainlink/gold-adapter", "workspace:packages/composites/gold"],\
+          ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -7318,7 +7215,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nav-fund-services/",\
         "packageDependencies": [\
           ["@chainlink/nav-fund-services-adapter", "workspace:packages/sources/nav-fund-services"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.5"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -10148,6 +10045,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.4.0-3a627ac2f0-ea299f2205.zip/node_modules/@ioredis/commands/",\
         "packageDependencies": [\
           ["@ioredis/commands", "npm:1.4.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.5.0", {\
+        "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.5.0-a7f9964632-b5a842fde4.zip/node_modules/@ioredis/commands/",\
+        "packageDependencies": [\
+          ["@ioredis/commands", "npm:1.5.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -22085,6 +21989,22 @@ const RAW_RUNTIME_STATE =
           ["standard-as-callback", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.9.2", {\
+        "packageLocation": "./.yarn/cache/ioredis-npm-5.9.2-96fb65d725-d5d6e596b8.zip/node_modules/ioredis/",\
+        "packageDependencies": [\
+          ["ioredis", "npm:5.9.2"],\
+          ["@ioredis/commands", "npm:1.5.0"],\
+          ["cluster-key-slot", "npm:1.1.2"],\
+          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
+          ["denque", "npm:2.1.0"],\
+          ["lodash.defaults", "npm:4.2.0"],\
+          ["lodash.isarguments", "npm:3.1.0"],\
+          ["redis-errors", "npm:1.2.0"],\
+          ["redis-parser", "npm:3.0.0"],\
+          ["standard-as-callback", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["ip-address", [\
@@ -26629,6 +26549,24 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:10.2.0", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.2.0-0c40ae0d3f-7dfc05afdb.zip/node_modules/pino/",\
+        "packageDependencies": [\
+          ["pino", "npm:10.2.0"],\
+          ["@pinojs/redact", "npm:0.4.0"],\
+          ["atomic-sleep", "npm:1.0.0"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:3.0.0"],\
+          ["pino-std-serializers", "npm:7.0.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["quick-format-unescaped", "npm:4.0.4"],\
+          ["real-require", "npm:0.2.0"],\
+          ["safe-stable-stringify", "npm:2.5.0"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["thread-stream", "npm:4.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:6.14.0", {\
         "packageLocation": "./.yarn/cache/pino-npm-6.14.0-d486952bad-b1cc51743a.zip/node_modules/pino/",\
         "packageDependencies": [\
@@ -29814,6 +29752,14 @@ const RAW_RUNTIME_STATE =
           ["real-require", "npm:0.2.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:4.0.0", {\
+        "packageLocation": "./.yarn/cache/thread-stream-npm-4.0.0-434fd14478-698ac8bd10.zip/node_modules/thread-stream/",\
+        "packageDependencies": [\
+          ["thread-stream", "npm:4.0.0"],\
+          ["real-require", "npm:0.2.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["through", [\
@@ -31472,10 +31418,34 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:8.19.0", {\
+        "packageLocation": "./.yarn/cache/ws-npm-8.19.0-c967c046a5-26e4901e93.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "npm:8.19.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["virtual:1fc28e6a0bc7815dccbbc173bcb3ef80b7886ec6e060ad7ffa801b5e503acf145bc09f828c59d5aaed91f20a8fac2a8a89557b62fd0994ad897388a4c69deac5#npm:8.18.0", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-9e159cd071/0/cache/ws-npm-8.18.0-56f68bc4d6-70dfe53f23.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:1fc28e6a0bc7815dccbbc173bcb3ef80b7886ec6e060ad7ffa801b5e503acf145bc09f828c59d5aaed91f20a8fac2a8a89557b62fd0994ad897388a4c69deac5#npm:8.18.0"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:30be3b7846eb067bc275e89de0424cc9074b893541460b25cf1acfbc0ea28eaf81ae3d538195855e052cfe985839b8d6ef82b1adc2b4b7121895e4cdff6a9b0b#npm:8.19.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-34d1cd9ca8/0/cache/ws-npm-8.19.0-c967c046a5-26e4901e93.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:30be3b7846eb067bc275e89de0424cc9074b893541460b25cf1acfbc0ea28eaf81ae3d538195855e052cfe985839b8d6ef82b1adc2b4b7121895e4cdff6a9b0b#npm:8.19.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
