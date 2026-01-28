@@ -342,6 +342,9 @@
       "path": "./sources/kaiko-state/tsconfig.test.json"
     },
     {
+      "path": "./sources/kalshi-binary/tsconfig.test.json"
+    },
+    {
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {
