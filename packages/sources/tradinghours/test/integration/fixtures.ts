@@ -83,3 +83,63 @@ export const mockResponseSuccess = (): nock.Scope =>
       },
       ['Content-Type', 'application/json'],
     )
+
+export const mockSessionSuccess = (): nock.Scope =>
+  nock('https://api.tradinghours.com', {
+    encodedQueryParams: true,
+    reqheaders: {
+      authorization: 'Bearer fake-api-key',
+    },
+  })
+    .get('/v3/markets/hours-multiday')
+    .query((query) => {
+      return (
+        query.fin_id === 'US.CHNLNK.NYSE' &&
+        query.start === '2021-12-31' &&
+        query.end === '2022-01-02'
+      )
+    })
+    .reply(
+      200,
+      {
+        data: {
+          start: '2021-12-31',
+          end: '2022-01-02',
+          schedule: [
+            {
+              phase_type: 'Other',
+              phase_name: 'Overnight',
+              phase_memo: null,
+              status: 'Closed',
+              start: '2022-12-31T20:00:00-05:00',
+              end: '2022-01-01T04:00:00-05:00',
+            },
+            {
+              phase_type: 'Pre-Trading Session',
+              phase_name: '',
+              phase_memo: null,
+              status: 'Closed',
+              start: '2022-01-01T04:00:00-05:00',
+              end: '2022-01-01T09:30:00-05:00',
+            },
+            {
+              phase_type: 'Primary Trading Session',
+              phase_name: '',
+              phase_memo: null,
+              status: 'Open',
+              start: '2022-01-01T09:30:00-05:00',
+              end: '2022-01-01T16:00:00-05:00',
+            },
+            {
+              phase_type: 'Post-Trading Session',
+              phase_name: '',
+              phase_memo: null,
+              status: 'Closed',
+              start: '2022-01-01T16:00:00-05:00',
+              end: '2022-01-01T20:00:00-05:00',
+            },
+          ],
+        },
+      },
+      ['Content-Type', 'application/json'],
+    )
