@@ -1,5 +1,15 @@
 # @chainlink/ondo-calculated-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4541](https://github.com/smartcontractkit/external-adapters-js/pull/4541) [`9406443`](https://github.com/smartcontractkit/external-adapters-js/commit/940644363ab222ec3e7ea364992e99cf2861e065) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add EMA smoother
+
+### Patch Changes
+
+- [#4518](https://github.com/smartcontractkit/external-adapters-js/pull/4518) [`aceebfd`](https://github.com/smartcontractkit/external-adapters-js/commit/aceebfd801bf7e5677ffba3642bb5cbba03d4318) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactor
+
 ## 1.3.0
 
 ### Minor Changes
