@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Market status endpoint should return failure with invalid market 1`] = `
+{
+  "error": {
+    "message": "[Param: market] input is not one of valid options (forex,metals,wti,nyse,lse,xetra,tradegate,six,euronext_milan,euronext_paris,FOREX,METALS,WTI,NYSE,LSE,XETRA,TRADEGATE,SIX,EURONEXT_MILAN,EURONEXT_PARIS)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Market status endpoint should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "status": 4,
+        "statusString": "OVERNIGHT",
+        "time": "2022-12-31T20:00:00-05:00",
+      },
+      {
+        "status": 1,
+        "statusString": "PRE_MARKET",
+        "time": "2022-01-01T04:00:00-05:00",
+      },
+      {
+        "status": 2,
+        "statusString": "REGULAR",
+        "time": "2022-01-01T09:30:00-05:00",
+      },
+      {
+        "status": 3,
+        "statusString": "POST_MARKET",
+        "time": "2022-01-01T16:00:00-05:00",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1641035471111,
+    "providerDataRequestedUnixMs": 1641035471111,
+  },
+}
+`;
