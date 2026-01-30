@@ -11,13 +11,13 @@ export const config = new AdapterConfig(
       description:
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
-      default: 120_000, // one call per two minute
+      default: 5 * 60 * 1000, // one call per five minute
     },
   },
   {
     envDefaultOverrides: {
-      CACHE_MAX_AGE: 900_000, // 15 minute cache
-      BACKGROUND_EXECUTE_TIMEOUT: 180_000, // 2 minutes wait + 60 seconds for execution
+      CACHE_MAX_AGE: 30 * 60 * 1000, // 30 minute cache
+      BACKGROUND_EXECUTE_TIMEOUT: (5 + 1) * 60 * 1000, // 5 minutes wait + 1 minute for execution
       RETRY: 0, // Disables retry on Framework
     },
   },

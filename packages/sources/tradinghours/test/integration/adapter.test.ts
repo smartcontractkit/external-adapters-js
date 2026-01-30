@@ -65,4 +65,15 @@ describe('Market status endpoint', () => {
     expect(response.json()).toMatchSnapshot()
     expect(response.json().result).toEqual(MarketStatus.OPEN)
   })
+
+  it('should return success with nyse 24/5', async () => {
+    mockResponseSuccess()
+    const response = await testAdapter.request({
+      endpoint: 'market-status',
+      market: 'nyse',
+      type: '24/5',
+      weekend: '520-020:America/New_York',
+    })
+    expect(response.json()).toMatchSnapshot()
+  })
 })

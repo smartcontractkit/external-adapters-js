@@ -68,4 +68,24 @@ describe('calculateSecondsFromTransition', () => {
     // 09:30 UTC -> 10:30 Paris is 30 minutes after 10:00
     expect(result).toBe(1800)
   })
+
+  it('skips Sunday 8PM', () => {
+    // Sunday 8:05 PM UTC
+    jest.setSystemTime(new Date('2024-01-07T20:05:00Z').getTime())
+
+    const result = calculateSecondsFromTransition(['04:00', '16:00', '20:00'], 'UTC')
+
+    // Sunday 8:05 PM is 4 hours and 5 minutes (14700 seconds) after Sunday 4PM
+    expect(result).toBe(14700)
+  })
+
+  it('does not skip non-Sunday 8PM', () => {
+    // Friday 8:05 PM UTC
+    jest.setSystemTime(new Date('2024-01-05T20:05:00Z').getTime())
+
+    const result = calculateSecondsFromTransition(['04:00', '16:00', '20:00'], 'UTC')
+
+    // Unlike Sunday 8PM, Friday 8PM should not be skipped
+    expect(result).toBe(300)
+  })
 })

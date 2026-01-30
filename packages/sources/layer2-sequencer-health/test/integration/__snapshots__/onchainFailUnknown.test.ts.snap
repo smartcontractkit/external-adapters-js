@@ -66,6 +66,17 @@ exports[`execute megaeth network should return failure when transaction submissi
 }
 `;
 
+exports[`execute katana network should return failure when transaction submission is unknown 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
 exports[`execute metis network should return failure when transaction submission is unknown 1`] = `
 {
   "data": {

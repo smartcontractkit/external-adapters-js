@@ -2,6 +2,7 @@ import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-fr
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { v4 as uuidv4 } from 'uuid'
 import { BaseEndpointTypes } from '../endpoint/quote'
+import { parseResult } from './utils'
 
 const logger = makeLogger('FinaltoWSTransport')
 
@@ -124,21 +125,27 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           lwMidPrice = mid
         }
 
+        // Apply symbol-specific transformations
+        const transformedBid = parseResult(pair.base, pair.quote, bidPrice)
+        const transformedAsk = parseResult(pair.base, pair.quote, askPrice)
+        const transformedMid = parseResult(pair.base, pair.quote, mid)
+        const transformedLwMid = parseResult(pair.base, pair.quote, lwMidPrice)
+
         return [
           {
             params: { base: pair.base, quote: pair.quote },
             response: {
-              result: mid,
+              result: transformedMid,
               data: {
-                result: mid,
-                bid: bidPrice,
-                mid,
-                ask: askPrice,
+                result: transformedMid,
+                bid: transformedBid,
+                mid: transformedMid,
+                ask: transformedAsk,
                 // Used by 24/5 feeds
-                mid_price: lwMidPrice,
-                bid_price: bidPrice,
+                mid_price: transformedLwMid,
+                bid_price: transformedBid,
                 bid_volume: bidVolume,
-                ask_price: askPrice,
+                ask_price: transformedAsk,
                 ask_volume: askVolume,
               },
               timestamps: {

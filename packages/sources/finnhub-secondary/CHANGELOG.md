@@ -1,5 +1,23 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 1.0.0
+
+### Major Changes
+
+- [#4525](https://github.com/smartcontractkit/external-adapters-js/pull/4525) [`1db52d3`](https://github.com/smartcontractkit/external-adapters-js/commit/1db52d3155524e9376dca20bc0d407a7210634c2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - If you run [market-status](https://gallery.ecr.aws/chainlink/adapters/market-status-adapter) EA, you must bump market-status to equal or above 1.7.0 before upgrading to this version. There is no other breaking changes.
+
+### Patch Changes
+
+- Updated dependencies [[`1db52d3`](https://github.com/smartcontractkit/external-adapters-js/commit/1db52d3155524e9376dca20bc0d407a7210634c2)]:
+  - @chainlink/finnhub-adapter@4.0.0
+
+## 0.5.7
+
+### Patch Changes
+
+- Updated dependencies [[`08e608a`](https://github.com/smartcontractkit/external-adapters-js/commit/08e608a594a6a06690e9c169f5e21c3be0a6fc28)]:
+  - @chainlink/finnhub-adapter@3.3.3
+
 ## 0.5.6
 
 ### Patch Changes
