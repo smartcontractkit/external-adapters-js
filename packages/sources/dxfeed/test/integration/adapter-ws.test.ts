@@ -95,6 +95,11 @@ describe('websocket', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return success - requireVolume', async () => {
+      const response = await testAdapter.request({ ...quoteData, requireVolume: true })
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should return success for 1st item in multi message', async () => {
       const response = await testAdapter.request(quoteMulti1Data)
       expect(response.json()).toMatchSnapshot()
@@ -117,6 +122,23 @@ describe('websocket', () => {
       const response = await testAdapter.request({
         base: 'NO_BID',
         endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success when missing volume and not requireVolume', async () => {
+      const response = await testAdapter.request({
+        base: 'NO_VOLUME',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should throw error when missing volume and requireVolume', async () => {
+      const response = await testAdapter.request({
+        base: 'NO_VOLUME',
+        endpoint: 'stock_quotes',
+        requireVolume: true,
       })
       expect(response.json()).toMatchSnapshot()
     })

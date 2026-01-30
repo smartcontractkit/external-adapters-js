@@ -2,6 +2,7 @@ import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-fr
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { v4 as uuidv4 } from 'uuid'
 import { BaseEndpointTypes } from '../endpoint/quote'
+import { parseResult } from './utils'
 
 const logger = makeLogger('FinaltoWSTransport')
 
@@ -88,36 +89,30 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
         }
 
         if (!message.Prices.length) {
-          return [
-            {
-              params: { base: pair.base, quote: pair.quote },
-              response: {
-                errorMessage: `Missing price info for '${pair.base}${pair.quote}'`,
-                statusCode: 502,
-              },
-            },
-          ]
+          return getErrorResponse('Missing price info', pair)
         }
 
         const bidInfo = message.Prices.find((p) => p.Type === 'B')
         const askInfo = message.Prices.find((p) => p.Type === 'O')
 
         if (!bidInfo || !askInfo || !bidInfo.Px || !askInfo.Px) {
-          return [
-            {
-              params: { base: pair.base, quote: pair.quote },
-              response: {
-                errorMessage: `Missing bid and/or ask prices for '${pair.base}${pair.quote}'`,
-                statusCode: 502,
-              },
-            },
-          ]
+          return getErrorResponse('Missing bid and/or ask prices', pair)
+        }
+
+        if (!bidInfo.Vol || !askInfo.Vol) {
+          return getErrorResponse('Missing bid and/or ask volumes', pair)
         }
 
         const bidPrice = Number(bidInfo.Px)
         const askPrice = Number(askInfo.Px)
+        if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
+          return getErrorResponse(`Invalid bid price ${bidPrice} or ask price ${askPrice}`, pair)
+        }
         const bidVolume = Number(bidInfo.Vol)
         const askVolume = Number(askInfo.Vol)
+        if (Number.isNaN(bidVolume) || Number.isNaN(askVolume)) {
+          return getErrorResponse(`Invalid bid vol ${bidVolume} or ask vol ${askVolume}`, pair)
+        }
 
         const mid = (bidPrice + askPrice) / 2
 
@@ -130,22 +125,27 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
           lwMidPrice = mid
         }
 
+        // Apply symbol-specific transformations
+        const transformedBid = parseResult(pair.base, pair.quote, bidPrice)
+        const transformedAsk = parseResult(pair.base, pair.quote, askPrice)
+        const transformedMid = parseResult(pair.base, pair.quote, mid)
+        const transformedLwMid = parseResult(pair.base, pair.quote, lwMidPrice)
+
         return [
           {
             params: { base: pair.base, quote: pair.quote },
             response: {
-              result: mid,
+              result: transformedMid,
               data: {
-                // Simple average
-                result: mid,
-                bid: bidPrice,
-                mid,
-                ask: askPrice,
-                // Liquidity weighted
-                mid_price: lwMidPrice,
-                bid_price: bidPrice,
+                result: transformedMid,
+                bid: transformedBid,
+                mid: transformedMid,
+                ask: transformedAsk,
+                // Used by 24/5 feeds
+                mid_price: transformedLwMid,
+                bid_price: transformedBid,
                 bid_volume: bidVolume,
-                ask_price: askPrice,
+                ask_price: transformedAsk,
                 ask_volume: askVolume,
               },
               timestamps: {
@@ -187,3 +187,13 @@ export const wsTransport: WebsocketReverseMappingTransport<WsTransportTypes, str
       },
     },
   })
+
+const getErrorResponse = (message: string, pair: { base: string; quote: string }) => [
+  {
+    params: { base: pair.base, quote: pair.quote },
+    response: {
+      errorMessage: `${message} for '${pair.base}:${pair.quote}'`,
+      statusCode: 502,
+    },
+  },
+]

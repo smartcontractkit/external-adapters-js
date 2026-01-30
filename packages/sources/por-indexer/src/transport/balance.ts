@@ -2,7 +2,11 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterResponse,
+  sleep,
+  splitArrayIntoChunks,
+} from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
@@ -78,9 +82,11 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
       const indexerEndpointEnvName = `${porId}_POR_INDEXER_URL` as keyof typeof this.config
       const indexerUrl = this.config[indexerEndpointEnvName] as string
 
-      const requestResult = await this._makeRequest(indexerUrl, addresses, minConfirmations)
-
-      requestResultPromises.push(requestResult)
+      const addressBatches = splitArrayIntoChunks(addresses, this.config.BATCH_SIZE)
+      for (const addressBatch of addressBatches) {
+        const requestResult = await this._makeRequest(indexerUrl, addressBatch, minConfirmations)
+        requestResultPromises.push(requestResult)
+      }
     }
 
     // Sum up the total reserves from each PoR indexer

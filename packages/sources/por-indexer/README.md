@@ -1,6 +1,6 @@
 # POR_INDEXER
 
-![2.2.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-indexer/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,6 +25,7 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 |           | DOGECOIN_MAINNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin mainnet                              | string |         |                                ``                                 |
 |           | DOGECOIN_TESTNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin testnet                              | string |         |                                ``                                 |
 |           |        ZEUS_ZBTC_API_URL         |                                   API url for zeus zBTC                                   | string |         | `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves` |
+|           |            BATCH_SIZE            |      Maximum number of addresses to send in a single request to the balance indexer       | number |         |                              `5000`                               |
 |           |      BACKGROUND_EXECUTE_MS       | The amount of time the background execute should sleep before performing the next request | number |         |                              `10000`                              |
 
 ---

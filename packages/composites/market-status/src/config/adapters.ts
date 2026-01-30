@@ -1,7 +1,7 @@
 import { marketStatusEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
-const adapterNames = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY'] as const
+const adapterNames = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY', 'HARD_CODE_245'] as const
 
 export type AdapterName = (typeof adapterNames)[number]
 
@@ -48,7 +48,7 @@ const marketAdapters: Record<string, { primary: AdapterName; secondary: AdapterN
 export const getMarketAdapters = (
   type: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>['type'],
   market: string,
-) => {
+): { primary: AdapterName; secondary: AdapterName } => {
   switch (type) {
     case 'regular': {
       return marketAdapters[market] ?? marketAdapters.__default
@@ -56,7 +56,7 @@ export const getMarketAdapters = (
     case '24/5':
       return {
         primary: 'TRADINGHOURS',
-        secondary: 'FINNHUB_SECONDARY',
+        secondary: 'HARD_CODE_245',
       } as const
   }
 }

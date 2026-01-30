@@ -58,6 +58,8 @@ enum Events {
   ONRECONNECTED = 'OnReconnect',
   ONPRICEUPDATE = 'OnPriceUpdate',
   ONERROR = 'OnError',
+  // Custom event added for Chainlink EA - fired when NetDania internal heartbeat succeeds
+  ONHEARTBEAT = 'OnHeartbeat',
 } // and others, from JsApi.Events
 
 export class Utils {
@@ -147,6 +149,10 @@ export type InstrumentPartialUpdate = {
  * It tries to keep the connection alive.
  *
  * Any change to subscriptions will not take effect until refresh().
+ *
+ * LVP (Last Value Persistence): Emits 'heartbeat' events when NetDania's internal heartbeat
+ * succeeds, confirming the connection to the data provider is alive. This allows the transport
+ * to extend cache TTLs during off-market hours when no price updates are received.
  */
 export class StreamingClient extends EventEmitter {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -189,6 +195,12 @@ export class StreamingClient extends EventEmitter {
 
     this.connection.addListener(Events.ONERROR, this.onErrorHandler)
     this.connection.addListener(Events.ONPRICEUPDATE, this.onPriceUpdateHandler)
+
+    // Listen for NetDania's internal heartbeat success - this confirms the DP connection is alive
+    this.connection.addListener(Events.ONHEARTBEAT, (timestamp: number) => {
+      logger.debug(`NetDania heartbeat received at ${timestamp}, emitting heartbeat event for LVP`)
+      this.emit('heartbeat')
+    })
   }
 
   /**

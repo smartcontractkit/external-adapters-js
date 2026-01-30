@@ -3,34 +3,25 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/anchor"
-    },
-    {
-      "path": "./composites/augur"
-    },
-    {
       "path": "./composites/bitcoin-json-rpc"
     },
     {
       "path": "./composites/bsol-price"
     },
     {
-      "path": "./composites/circuit-breaker"
-    },
-    {
       "path": "./composites/crypto-volatility-index"
-    },
-    {
-      "path": "./composites/curve-3pool"
-    },
-    {
-      "path": "./composites/defi-pulse"
     },
     {
       "path": "./composites/glv-token"
     },
     {
       "path": "./composites/gm-token"
+    },
+    {
+      "path": "./composites/gmx-tokens"
+    },
+    {
+      "path": "./composites/gold"
     },
     {
       "path": "./composites/historical-average"
@@ -43,9 +34,6 @@
     },
     {
       "path": "./composites/llama-guard"
-    },
-    {
-      "path": "./composites/market-closure"
     },
     {
       "path": "./composites/market-status"
@@ -61,6 +49,9 @@
     },
     {
       "path": "./composites/nftx"
+    },
+    {
+      "path": "./composites/ondo-calculated"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -105,9 +96,6 @@
       "path": "./scripts"
     },
     {
-      "path": "./sources/1forge"
-    },
-    {
       "path": "./sources/ada-balance"
     },
     {
@@ -117,9 +105,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/alpine"
-    },
-    {
       "path": "./sources/amberdata"
     },
     {
@@ -127,9 +112,6 @@
     },
     {
       "path": "./sources/anyblock"
-    },
-    {
-      "path": "./sources/ap-election"
     },
     {
       "path": "./sources/apex"
@@ -234,16 +216,10 @@
       "path": "./sources/covid-tracker"
     },
     {
-      "path": "./sources/cryptex"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
       "path": "./sources/cryptocompare"
-    },
-    {
-      "path": "./sources/curve"
     },
     {
       "path": "./sources/data-engine"
@@ -261,16 +237,13 @@
       "path": "./sources/dlc-btc-por"
     },
     {
-      "path": "./sources/dns-query"
+      "path": "./sources/dlc-cbtc-por"
     },
     {
       "path": "./sources/dxfeed"
     },
     {
       "path": "./sources/elwood"
-    },
-    {
-      "path": "./sources/ens"
     },
     {
       "path": "./sources/enzyme"
@@ -288,19 +261,10 @@
       "path": "./sources/etherscan"
     },
     {
-      "path": "./sources/ethgasstation"
-    },
-    {
-      "path": "./sources/ethgaswatch"
-    },
-    {
       "path": "./sources/exchange-copter"
     },
     {
       "path": "./sources/expand-network"
-    },
-    {
-      "path": "./sources/fcsapi"
     },
     {
       "path": "./sources/finage"
@@ -330,16 +294,10 @@
       "path": "./sources/galaxis"
     },
     {
-      "path": "./sources/galaxy"
-    },
-    {
       "path": "./sources/gemini"
     },
     {
       "path": "./sources/generic-api"
-    },
-    {
-      "path": "./sources/genesis-volatility"
     },
     {
       "path": "./sources/gmci"
@@ -396,9 +354,6 @@
       "path": "./sources/lido-por"
     },
     {
-      "path": "./sources/linkpool"
-    },
-    {
       "path": "./sources/liveart"
     },
     {
@@ -438,9 +393,6 @@
       "path": "./sources/ncfx"
     },
     {
-      "path": "./sources/nikkei"
-    },
-    {
       "path": "./sources/nomia"
     },
     {
@@ -451,9 +403,6 @@
     },
     {
       "path": "./sources/oanda"
-    },
-    {
-      "path": "./sources/oilpriceapi"
     },
     {
       "path": "./sources/onchain-gas"
@@ -540,9 +489,6 @@
       "path": "./sources/synthetix-feeds"
     },
     {
-      "path": "./sources/terra-view-function"
-    },
-    {
       "path": "./sources/the-network-firm"
     },
     {
@@ -603,13 +549,7 @@
       "path": "./sources/wisdomtree"
     },
     {
-      "path": "./sources/wootrade"
-    },
-    {
       "path": "./sources/wrapped"
-    },
-    {
-      "path": "./sources/xbto"
     },
     {
       "path": "./targets/dydx-stark"

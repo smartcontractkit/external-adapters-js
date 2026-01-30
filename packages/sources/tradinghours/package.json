@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tradinghours-adapter",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Chainlink TradingHours adapter",
   "keywords": [
     "Chainlink",
@@ -32,6 +32,7 @@
     "tslib": "^2.3.1"
   },
   "devDependencies": {
+    "@date-fns/tz": "1.4.1",
     "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",

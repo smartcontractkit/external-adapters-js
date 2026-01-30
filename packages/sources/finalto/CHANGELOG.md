@@ -1,5 +1,17 @@
 # @chainlink/finalto-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- [#4536](https://github.com/smartcontractkit/external-adapters-js/pull/4536) [`bad790c`](https://github.com/smartcontractkit/external-adapters-js/commit/bad790c0bc315a53402e043503b8dce1ad4a1950) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Convert unit used for Finalto XCU/USD
+
+## 1.3.0
+
+### Minor Changes
+
+- [#4493](https://github.com/smartcontractkit/external-adapters-js/pull/4493) [`391f741`](https://github.com/smartcontractkit/external-adapters-js/commit/391f7418b12e0f03c783569a33753c2f9a081fa9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Throw error if DP provided invalid data
+
 ## 1.2.1
 
 ### Patch Changes
