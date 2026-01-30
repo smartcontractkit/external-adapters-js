@@ -14,6 +14,7 @@ dependencies = [
   # Security fixes for transitive dependencies
   "mcp>=1.23.0",  # CVE-2025-66416: DNS rebinding protection
   "starlette>=0.49.1",  # CVE-2025-62727: Range header DoS fix
+  "python-multipart>=0.0.22",  # CVE-2026-24486: Arbitrary file write fix
 ]
 
 [project.optional-dependencies]
