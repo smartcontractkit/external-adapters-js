@@ -1,91 +1,357 @@
-import { calculateSecondsFromTransition } from '../../../src/lib/session'
+import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+
+const mockRequester = {} as Requester
 
 describe('calculateSecondsFromTransition', () => {
   beforeAll(() => {
     jest.useFakeTimers()
+    LoggerFactoryProvider.set()
   })
 
   afterAll(() => {
     jest.useRealTimers()
   })
 
-  it('before session', () => {
-    jest.setSystemTime(new Date('2024-01-15T12:30:00Z').getTime())
+  describe('tradingHoursSession', () => {
+    it('includes PRE_MARKET session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
 
-    const result = calculateSecondsFromTransition(['10:00', '14:00', '16:00'], 'UTC')
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: {
+              data: {
+                result: [
+                  {
+                    status: TwentyfourFiveMarketStatus.PRE_MARKET,
+                    statusString: 'PRE_MARKET',
+                    time: '2024-01-15T10:00:00.000Z',
+                  },
+                ],
+              },
+              statusCode: 200,
+            },
+          },
+        }),
+      } as unknown as Requester
 
-    // 12:30 is 90 minutes (5400 seconds) before 14:00
-    expect(result).toBe(-5400)
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
+
+      // 10:30 is 30 minutes (1800s) after PRE_MARKET at 10:00
+      expect(result).toBe(1800)
+    })
+
+    it('includes POST_MARKET session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T15:30:00Z').getTime())
+
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: {
+              data: {
+                result: [
+                  {
+                    status: TwentyfourFiveMarketStatus.POST_MARKET,
+                    statusString: 'POST_MARKET',
+                    time: '2024-01-15T16:00:00.000Z',
+                  },
+                ],
+              },
+              statusCode: 200,
+            },
+          },
+        }),
+      } as unknown as Requester
+
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
+
+      // 15:30 is 30 minutes (1800s) before POST_MARKET at 16:00
+      expect(result).toBe(-1800)
+    })
+
+    it('includes OVERNIGHT session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T04:30:00Z').getTime())
+
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: {
+              data: {
+                result: [
+                  {
+                    status: TwentyfourFiveMarketStatus.OVERNIGHT,
+                    statusString: 'OVERNIGHT',
+                    time: '2024-01-15T04:00:00.000Z',
+                  },
+                ],
+              },
+              statusCode: 200,
+            },
+          },
+        }),
+      } as unknown as Requester
+
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
+
+      // 04:30 is 30 minutes (1800s) after OVERNIGHT at 04:00
+      expect(result).toBe(1800)
+    })
+
+    it('filters out UNKNOWN status', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
+
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: {
+              data: {
+                result: [
+                  {
+                    status: TwentyfourFiveMarketStatus.UNKNOWN,
+                    statusString: 'UNKNOWN',
+                    time: '2024-01-15T12:00:00.000Z',
+                  },
+                ],
+              },
+              statusCode: 200,
+            },
+          },
+        }),
+      } as unknown as Requester
+
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
+
+      // no sessions from trading hours
+      expect(result).toBe(Number.MAX_SAFE_INTEGER)
+    })
+
+    it('skips Sunday overnight session', async () => {
+      // Sunday 20:30 UTC
+      jest.setSystemTime(new Date('2024-01-07T20:30:00Z').getTime())
+
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: {
+              data: {
+                result: [
+                  {
+                    status: TwentyfourFiveMarketStatus.OVERNIGHT,
+                    statusString: 'OVERNIGHT',
+                    time: '2024-01-07T20:00:00.000Z',
+                  },
+                  {
+                    status: TwentyfourFiveMarketStatus.PRE_MARKET,
+                    statusString: 'PRE_MARKET',
+                    time: '2024-01-08T04:00:00.000Z',
+                  },
+                ],
+              },
+              statusCode: 200,
+            },
+          },
+        }),
+      } as unknown as Requester
+
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        requester,
+        [],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
+
+      // 20:30 Sun → 04:00 Mon = -27000s
+      expect(result).toBe(-27000)
+    })
   })
 
-  it('after session', () => {
-    jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
+  describe('fallback - no market provided', () => {
+    it('before session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T12:30:00Z').getTime())
 
-    const result = calculateSecondsFromTransition(['10:00', '14:00'], 'UTC')
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['10:00', '14:00', '16:00'],
+        'UTC',
+      )
 
-    // 10:30 is 30 minutes (1800 seconds) after 10:00
-    expect(result).toBe(1800)
+      // 12:30 is 90 minutes (5400 seconds) before 14:00
+      expect(result).toBe(-5400)
+    })
+
+    it('after session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['10:00', '14:00'],
+        'UTC',
+      )
+
+      // 10:30 is 30 minutes (1800 seconds) after 10:00
+      expect(result).toBe(1800)
+    })
+
+    it('close to session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:00:05.5Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['10:00', '14:00'],
+        'UTC',
+      )
+
+      // 10:00:05.5 is 5.5 seconds after 10:00
+      expect(result).toBe(5.5)
+    })
+
+    it('at session', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:00:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['10:00', '14:00'],
+        'UTC',
+      )
+
+      expect(result).toBe(0)
+    })
+
+    it('mid night - before', async () => {
+      jest.setSystemTime(new Date('2024-01-15T23:58:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition('', mockRequester, ['00:02'], 'UTC')
+
+      expect(result).toBe(-240)
+    })
+
+    it('mid night - after', async () => {
+      jest.setSystemTime(new Date('2024-01-15T00:02:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition('', mockRequester, ['23:58'], 'UTC')
+
+      expect(result).toBe(240)
+    })
+
+    it('timezone conversions', async () => {
+      jest.setSystemTime(new Date('2024-01-15T09:30:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['10:00'],
+        'Europe/Paris',
+      )
+
+      // 09:30 UTC -> 10:30 Paris is 30 minutes after 10:00
+      expect(result).toBe(1800)
+    })
+
+    it('skips Sunday 8PM', async () => {
+      // Sunday 8:05 PM UTC
+      jest.setSystemTime(new Date('2024-01-07T20:05:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['04:00', '16:00', '20:00'],
+        'UTC',
+      )
+
+      // Sunday 8:05 PM is 4 hours and 5 minutes (14700 seconds) after Sunday 4PM
+      expect(result).toBe(14700)
+    })
+
+    it('does not skip non-Sunday 8PM', async () => {
+      // Friday 8:05 PM UTC
+      jest.setSystemTime(new Date('2024-01-05T20:05:00Z').getTime())
+
+      const result = await calculateSecondsFromTransition(
+        '',
+        mockRequester,
+        ['04:00', '16:00', '20:00'],
+        'UTC',
+      )
+
+      // Unlike Sunday 8PM, Friday 8PM should not be skipped
+      expect(result).toBe(300)
+    })
   })
 
-  it('close to session', () => {
-    jest.setSystemTime(new Date('2024-01-15T10:00:05.5Z').getTime())
+  describe('fallback - tradingHoursSession error', () => {
+    it('EA call fail', async () => {
+      jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
+      const failingRequester = {
+        request: jest.fn().mockRejectedValue(new Error('TradingHours EA unavailable')),
+      } as unknown as Requester
 
-    const result = calculateSecondsFromTransition(['10:00', '14:00'], 'UTC')
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        failingRequester,
+        ['10:00', '14:00'],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
 
-    // 10:00:05.5 is 5.5 seconds after 10:00
-    expect(result).toBe(5.5)
-  })
+      // 10:30 is 30 minutes (1800 seconds) after 10:00
+      expect(result).toBe(1800)
+    })
 
-  it('at session', () => {
-    jest.setSystemTime(new Date('2024-01-15T10:00:00Z').getTime())
+    it('EA call return invalid response', async () => {
+      jest.setSystemTime(new Date('2024-01-15T11:30:00Z').getTime())
+      const badResponseRequester = {
+        request: jest.fn().mockResolvedValue({ response: { data: { data: null } } }),
+      } as unknown as Requester
 
-    const result = calculateSecondsFromTransition(['10:00', '14:00'], 'UTC')
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        badResponseRequester,
+        ['11:00', '14:00'],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
 
-    expect(result).toBe(0)
-  })
-
-  it('mid night - before', () => {
-    jest.setSystemTime(new Date('2024-01-15T23:58:00Z').getTime())
-
-    const result = calculateSecondsFromTransition(['00:02'], 'UTC')
-
-    expect(result).toBe(-240)
-  })
-
-  it('mid night - after', () => {
-    jest.setSystemTime(new Date('2024-01-15T00:02:00Z').getTime())
-
-    const result = calculateSecondsFromTransition(['23:58'], 'UTC')
-
-    expect(result).toBe(240)
-  })
-
-  it('timezone conversions', () => {
-    jest.setSystemTime(new Date('2024-01-15T09:30:00Z').getTime())
-
-    const result = calculateSecondsFromTransition(['10:00'], 'Europe/Paris')
-
-    // 09:30 UTC -> 10:30 Paris is 30 minutes after 10:00
-    expect(result).toBe(1800)
-  })
-
-  it('skips Sunday 8PM', () => {
-    // Sunday 8:05 PM UTC
-    jest.setSystemTime(new Date('2024-01-07T20:05:00Z').getTime())
-
-    const result = calculateSecondsFromTransition(['04:00', '16:00', '20:00'], 'UTC')
-
-    // Sunday 8:05 PM is 4 hours and 5 minutes (14700 seconds) after Sunday 4PM
-    expect(result).toBe(14700)
-  })
-
-  it('does not skip non-Sunday 8PM', () => {
-    // Friday 8:05 PM UTC
-    jest.setSystemTime(new Date('2024-01-05T20:05:00Z').getTime())
-
-    const result = calculateSecondsFromTransition(['04:00', '16:00', '20:00'], 'UTC')
-
-    // Unlike Sunday 8PM, Friday 8PM should not be skipped
-    expect(result).toBe(300)
+      // 11:30 is 30 minutes (1800 seconds) after 11:00
+      expect(result).toBe(1800)
+    })
   })
 })

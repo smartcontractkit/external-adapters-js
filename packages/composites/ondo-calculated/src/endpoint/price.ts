@@ -33,12 +33,20 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Data Streams overnight hour feed ID for the underlying asset',
     },
+    sessionMarket: {
+      type: 'string',
+      description: 'The name of the market for session times, for example nyse',
+    },
+    sessionMarketType: {
+      type: 'string',
+      description: 'The type of the market for session times, for example 24/5',
+    },
     sessionBoundaries: {
       required: true,
       type: 'string',
       array: true,
       description:
-        'A list of time where market trasition from 1 session to the next in the format of HH:MM',
+        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM',
     },
     sessionBoundariesTimeZone: {
       required: true,
@@ -64,6 +72,8 @@ export const inputParameters = new InputParameters(
       regularStreamId: '0x0',
       extendedStreamId: '0x0',
       overnightStreamId: '0x0',
+      sessionMarket: 'nyse',
+      sessionMarketType: '24/5',
       sessionBoundaries: ['04:00', '16:00', '20:00'],
       sessionBoundariesTimeZone: 'America/New_York',
       smoother: 'kalman',

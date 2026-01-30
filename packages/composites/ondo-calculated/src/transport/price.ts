@@ -4,7 +4,7 @@ import { JsonRpcProvider } from 'ethers'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/price'
 import { getRegistryData } from '../lib/registry'
-import { calculateSecondsFromTransition } from '../lib/session'
+import { calculateSecondsFromTransition } from '../lib/session/session'
 import { processUpdate } from '../lib/smoother/smoother'
 import { getPrice } from '../lib/streams'
 
@@ -18,13 +18,16 @@ export const calculatePrice = async (param: {
   extendedStreamId: string
   overnightStreamId: string
   url: string
+  tradingHoursUrl: string
   requester: Requester
+  sessionMarket?: string
+  sessionMarketType?: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
   smoother: Smoother
   decimals: number
 }) => {
-  const [price, { multiplier, paused }] = await Promise.all([
+  const [price, { multiplier, paused }, secondsFromTransition] = await Promise.all([
     getPrice(
       param.regularStreamId,
       param.extendedStreamId,
@@ -33,6 +36,14 @@ export const calculatePrice = async (param: {
       param.requester,
     ),
     getRegistryData(param.asset, param.registry, param.provider),
+    calculateSecondsFromTransition(
+      param.tradingHoursUrl,
+      param.requester,
+      param.sessionBoundaries,
+      param.sessionBoundariesTimeZone,
+      param.sessionMarket,
+      param.sessionMarketType,
+    ),
   ])
 
   if (paused) {
@@ -41,11 +52,6 @@ export const calculatePrice = async (param: {
       message: `asset: ${param.asset} paused on registry ${param.registry}`,
     })
   }
-
-  const secondsFromTransition = calculateSecondsFromTransition(
-    param.sessionBoundaries,
-    param.sessionBoundariesTimeZone,
-  )
 
   const common = {
     rawPrice: price.price,

@@ -11,6 +11,11 @@ export const config = new AdapterConfig({
     type: 'string',
     default: '',
   },
+  TRADING_HOURS_ADAPTER_URL: {
+    description: 'URL of tradinghours ea',
+    type: 'string',
+    default: '',
+  },
   DATA_ENGINE_EA_URL: {
     description: 'Deprecated: use DATA_ENGINE_ADAPTER_URL instead',
     type: 'string',

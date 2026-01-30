@@ -16,6 +16,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
   dataEngineUrl!: string
+  tradingHoursUrl!: string
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -36,6 +37,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       throw new AdapterError({
         statusCode: 500,
         message: 'Missing DATA_ENGINE_ADAPTER_URL',
+      })
+    }
+
+    this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL || ''
+    if (!this.tradingHoursUrl) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: 'Missing TRADING_HOURS_ADAPTER_URL',
       })
     }
   }
@@ -90,6 +99,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       ...param,
       provider: this.provider,
       url: this.dataEngineUrl,
+      tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
     })
 
@@ -123,6 +133,8 @@ const dedupeParams = (params: RequestParams[]) => {
       p.regularStreamId,
       p.extendedStreamId,
       p.overnightStreamId,
+      p.sessionMarket,
+      p.sessionMarketType,
       p.sessionBoundaries.join('|'),
       p.sessionBoundariesTimeZone,
       p.decimals,
