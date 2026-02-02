@@ -13,3 +13,41 @@ exports[`execute http endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute multi-http endpoint should return error when data path is not found 1`] = `
+{
+  "errorMessage": "Data path 'non_existent_field' not found in response for 'MISSING_PATH'",
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute multi-http endpoint should return error when ripcord is activated 1`] = `
+{
+  "errorMessage": "Ripcord activated for 'RIPCORD'",
+  "statusCode": 503,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute multi-http endpoint should return success with multiple values 1`] = `
+{
+  "data": {
+    "aum": 30127047.47,
+    "nav": 1.0043732667449965,
+    "updatedAt": "2026-01-19T06:56:22.194Z",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
