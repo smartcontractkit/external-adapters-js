@@ -109,6 +109,7 @@ export type BaseEndpointTypes = {
         p: string
         secondsFromTransition: number
       }
+      sessionType: string
     }
   }
   Settings: typeof config.settings

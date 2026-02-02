@@ -32,6 +32,7 @@ exports[`execute price endpoint should return success - ema 1`] = `
       "sValue": "2000000000000000000",
     },
     "result": "20000000",
+    "sessionType": "Fallback",
     "smoother": {
       "p": "978347471111",
       "price": "1",
@@ -94,6 +95,7 @@ exports[`execute price endpoint should return success - kalman 1`] = `
       "sValue": "2000000000000000000",
     },
     "result": "20000000",
+    "sessionType": "Fallback",
     "smoother": {
       "p": "1500000000000000000",
       "price": "1",
