@@ -1,7 +1,9 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
+import { getSessions } from '../../../src/lib/session/tradingHoursSession'
 
 describe('calculateSecondsFromTransition', () => {
   beforeAll(() => {
@@ -342,6 +344,61 @@ describe('calculateSecondsFromTransition', () => {
 
       // Unlike Sunday 8PM, Friday 8PM should not be skipped
       expect(result).toBe(300)
+    })
+  })
+
+  describe('tradingHoursSession - EA failure message', () => {
+    it('sets error message when result is empty', async () => {
+      const requester = {
+        request: jest.fn().mockResolvedValue({
+          response: {
+            data: { data: {} },
+            status: 500,
+            statusText: 'Internal Server Error',
+          },
+        }),
+      } as unknown as Requester
+
+      try {
+        await getSessions('https://tradinghours.example.com', requester, 'UTC', 'nyse', '24/5')
+      } catch (e) {
+        expect(e).toBeInstanceOf(AdapterError)
+        expect((e as AdapterError).message).toBe(
+          'TradingHoursEA request failed: TradingHours EA request failed: {"data":{}} 500 Internal Server Error AdapterError',
+        )
+      }
+    })
+
+    it('sets error message when requester throws AdapterError', async () => {
+      const adapterError = new AdapterError({
+        message: 'Upstream error',
+        errorResponse: { code: 503 },
+      })
+      const requester = {
+        request: jest.fn().mockRejectedValue(adapterError),
+      } as unknown as Requester
+
+      try {
+        await getSessions('https://tradinghours.example.com', requester, 'UTC', 'nyse', '24/5')
+      } catch (e) {
+        expect(e).toBeInstanceOf(AdapterError)
+        expect((e as AdapterError).message).toBe(
+          'TradingHoursEA request failed: Upstream error {"code":503}',
+        )
+      }
+    })
+
+    it('preserves error message when requester throws regular Error', async () => {
+      const requester = {
+        request: jest.fn().mockRejectedValue(new Error('Connection refused')),
+      } as unknown as Requester
+
+      try {
+        await getSessions('https://tradinghours.example.com', requester, 'UTC', 'nyse', '24/5')
+      } catch (e) {
+        expect(e).not.toBeInstanceOf(AdapterError)
+        expect((e as Error).message).toBe('Connection refused')
+      }
     })
   })
 })
