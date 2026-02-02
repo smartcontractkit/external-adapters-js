@@ -2,7 +2,7 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
-import * as objectPath from 'object-path'
+import objectPath from 'object-path'
 import { BaseEndpointTypes, RequestParams } from '../endpoint/multi-http'
 import { prepareRequests } from './utils'
 
@@ -15,11 +15,9 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params) => {
-    console.log(params)
     return prepareRequests(params as unknown as RequestParams[])
   },
   parseResponse: (params, response) => {
-    console.log(response.data)
     const typedParams = params as unknown as RequestParams[]
 
     if (!response.data) {
@@ -49,7 +47,9 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }
 
       // Extract all dataPaths
-      const data: { [key: string]: unknown } = {}
+      const data: { [key: string]: number | string } = {}
+      let providerIndicatedTimeUnixMs: number | undefined
+
       for (const { name, path } of param.dataPaths) {
         if (!objectPath.has(response.data, path)) {
           return {
@@ -60,7 +60,15 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
             },
           }
         }
-        data[name] = objectPath.get(response.data, path)
+        const value = objectPath.get(response.data, path)
+
+        // Use updatedAt as providerIndicatedTimeUnixMs
+        if (name == 'updatedAt') {
+          providerIndicatedTimeUnixMs = new Date(value).getTime()
+          continue
+        }
+
+        data[name] = value as number | string
       }
 
       return {
@@ -68,6 +76,9 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         response: {
           result: null,
           data,
+          timestamps: {
+            providerIndicatedTimeUnixMs,
+          },
         },
       }
     })

@@ -41,13 +41,13 @@ exports[`execute multi-http endpoint should return success with multiple values 
   "data": {
     "aum": 30127047.47,
     "nav": 1.0043732667449965,
-    "updatedAt": "2026-01-19T06:56:22.194Z",
   },
   "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1768805782194,
   },
 }
 `;

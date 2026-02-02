@@ -58,7 +58,7 @@ export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Data: {
-      [key: string]: unknown
+      [key: string]: number | string
     }
     Result: null
   }
