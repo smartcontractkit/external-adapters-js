@@ -4,7 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { JsonRpcProvider } from 'ethers'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseSuccess, mockTradingHoursResponseFailure } from './fixtures'
 
 const validContract = '0x12345'
 jest.mock('ethers', () => {
@@ -36,6 +36,7 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
+    process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
     process.env.ETHEREUM_RPC_URL = 'fake-url'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -64,11 +65,14 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: [],
         sessionBoundariesTimeZone: 'UTC',
         decimals: 8,
       }
       mockResponseSuccess()
+      mockTradingHoursResponseFailure()
 
       const response = await testAdapter.request(data)
 
@@ -83,12 +87,15 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: [],
         sessionBoundariesTimeZone: 'UTC',
         smoother: 'ema',
         decimals: 8,
       }
       mockResponseSuccess()
+      mockTradingHoursResponseFailure()
 
       const response = await testAdapter.request(data)
 
@@ -103,6 +110,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
         overnightStreamId: '0x000b5',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: ['00:00'],
         sessionBoundariesTimeZone: 'random',
         decimals: 8,
@@ -121,6 +130,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
         overnightStreamId: '0x000b5',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: ['99:88'],
         sessionBoundariesTimeZone: 'UTC',
         decimals: 8,
@@ -139,6 +150,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: [],
         sessionBoundariesTimeZone: 'UTC',
         decimals: 8,
@@ -155,6 +168,8 @@ describe('execute', () => {
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
+        sessionMarket: 'nyse',
+        sessionMarketType: '24/5',
         sessionBoundaries: [],
         sessionBoundariesTimeZone: 'UTC',
         smoother: 'ema',

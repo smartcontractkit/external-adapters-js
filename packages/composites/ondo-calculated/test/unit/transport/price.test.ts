@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { getRegistryData } from '../../../src/lib/registry'
-import { calculateSecondsFromTransition } from '../../../src/lib/session'
+import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
 import { calculatePrice } from '../../../src/transport/price'
@@ -15,7 +15,7 @@ const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getReg
 jest.mock('../../../src/lib/smoother/smoother', () => ({ processUpdate: jest.fn() }))
 const mockProcessUpdate = processUpdate as jest.MockedFunction<typeof processUpdate>
 
-jest.mock('../../../src/lib/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
+jest.mock('../../../src/lib/session/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
 const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
   typeof calculateSecondsFromTransition
 >
@@ -29,9 +29,12 @@ describe('calculatePrice', () => {
     extendedStreamId: 'extended-stream-id',
     overnightStreamId: 'overnight-stream-id',
     url: 'https://api.example.com',
+    tradingHoursUrl: 'https://trading-hours.example.com',
     requester: {} as Requester,
     sessionBoundaries: ['09:00', '17:00'],
     sessionBoundariesTimeZone: 'America/New_York',
+    sessionMarket: 'nyse',
+    sessionMarketType: '24/5',
     decimals: 8,
   }
 
@@ -92,7 +95,7 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(0))
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await calculatePrice({
@@ -147,7 +150,7 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(0))
       mockProcessUpdate.mockReturnValue({ price: 10n, x: 1n, p: 2n })
 
       const result = await calculatePrice({
@@ -177,7 +180,7 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(0))
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await calculatePrice({
