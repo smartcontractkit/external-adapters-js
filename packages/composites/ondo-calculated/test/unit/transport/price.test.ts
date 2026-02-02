@@ -33,6 +33,8 @@ describe('calculatePrice', () => {
     requester: {} as Requester,
     sessionBoundaries: ['09:00', '17:00'],
     sessionBoundariesTimeZone: 'America/New_York',
+    sessionMarket: 'nyse',
+    sessionMarketType: '24/5',
     decimals: 8,
   }
 

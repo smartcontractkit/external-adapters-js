@@ -34,19 +34,23 @@ export const inputParameters = new InputParameters(
       description: 'Data Streams overnight hour feed ID for the underlying asset',
     },
     sessionMarket: {
+      required: true,
       type: 'string',
-      description: 'The name of the market for session times, for example nyse',
+      description:
+        'The name of the market for session times, for example nyse. This is passed to the tradinghours adapter as the `market` parameter.',
     },
     sessionMarketType: {
+      required: true,
       type: 'string',
-      description: 'The type of the market for session times, for example 24/5',
+      description:
+        'The type of the market for session times, for example 24/5. This is passed to the tradinghours adapter as the `type` parameter.',
     },
     sessionBoundaries: {
       required: true,
       type: 'string',
       array: true,
       description:
-        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM',
+        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
     },
     sessionBoundariesTimeZone: {
       required: true,

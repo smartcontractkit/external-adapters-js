@@ -4,7 +4,7 @@ import { TZDate } from '@date-fns/tz'
  * Generates a list of session timestamps (ms since epoch) for the given boundaries.
  * Uses day offsets -1, 0, 1 to handle midnight crossover. Skips Sunday 8PM sessions.
  */
-export const getSessions = (
+export const getSessionsFallback = (
   now: TZDate,
   sessionBoundaries: string[],
   sessionBoundariesTimeZone: string,

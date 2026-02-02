@@ -1,7 +1,7 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { TZDate } from '@date-fns/tz'
-import { getSessions as fallback } from './fallbackSession'
+import { getSessionsFallback } from './fallbackSession'
 import { getSessions as tradingHours } from './tradingHoursSession'
 
 const logger = makeLogger('Session')
@@ -12,24 +12,23 @@ export const calculateSecondsFromTransition = async (
   requester: Requester,
   sessionBoundaries: string[],
   sessionBoundariesTimeZone: string,
-  sessionMarket?: string,
-  sessionMarketType?: string,
+  sessionMarket: string,
+  sessionMarketType: string,
 ) => {
   const now = new TZDate(new Date().getTime(), sessionBoundariesTimeZone)
 
-  let sessions = fallback(now, sessionBoundaries, sessionBoundariesTimeZone)
+  let sessions: number[]
 
   try {
-    if (sessionMarket && sessionMarketType) {
-      sessions = await tradingHours(
-        tradingHoursUrl,
-        requester,
-        sessionBoundariesTimeZone,
-        sessionMarket,
-        sessionMarketType,
-      )
-    }
+    sessions = await tradingHours(
+      tradingHoursUrl,
+      requester,
+      sessionBoundariesTimeZone,
+      sessionMarket,
+      sessionMarketType,
+    )
   } catch (e) {
+    sessions = getSessionsFallback(now, sessionBoundaries, sessionBoundariesTimeZone)
     logger.error(`TradingHoursEA request failed, falling back to sessionBoundaries: ${e}`)
   }
 

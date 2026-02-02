@@ -9,17 +9,12 @@ export const config = new AdapterConfig({
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
-    default: '',
+    required: true,
   },
   TRADING_HOURS_ADAPTER_URL: {
     description: 'URL of tradinghours ea',
     type: 'string',
-    default: '',
-  },
-  DATA_ENGINE_EA_URL: {
-    description: 'Deprecated: use DATA_ENGINE_ADAPTER_URL instead',
-    type: 'string',
-    default: '',
+    required: true,
   },
   ETHEREUM_RPC_CHAIN_ID: {
     description: 'The chain id to connect to',

@@ -3,8 +3,6 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
 
-const mockRequester = {} as Requester
-
 describe('calculateSecondsFromTransition', () => {
   beforeAll(() => {
     jest.useFakeTimers()
@@ -198,15 +196,21 @@ describe('calculateSecondsFromTransition', () => {
     })
   })
 
-  describe('fallback - no market provided', () => {
+  describe('fallback - tradingHoursSession error', () => {
+    const failingRequester = {
+      request: jest.fn().mockRejectedValue(new Error('TradingHours EA unavailable')),
+    } as unknown as Requester
+
     it('before session', async () => {
       jest.setSystemTime(new Date('2024-01-15T12:30:00Z').getTime())
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['10:00', '14:00', '16:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       // 12:30 is 90 minutes (5400 seconds) before 14:00
@@ -218,9 +222,11 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['10:00', '14:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       // 10:30 is 30 minutes (1800 seconds) after 10:00
@@ -232,9 +238,11 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['10:00', '14:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       // 10:00:05.5 is 5.5 seconds after 10:00
@@ -246,9 +254,11 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['10:00', '14:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       expect(result).toBe(0)
@@ -257,7 +267,14 @@ describe('calculateSecondsFromTransition', () => {
     it('mid night - before', async () => {
       jest.setSystemTime(new Date('2024-01-15T23:58:00Z').getTime())
 
-      const result = await calculateSecondsFromTransition('', mockRequester, ['00:02'], 'UTC')
+      const result = await calculateSecondsFromTransition(
+        '',
+        failingRequester,
+        ['00:02'],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
 
       expect(result).toBe(-240)
     })
@@ -265,7 +282,14 @@ describe('calculateSecondsFromTransition', () => {
     it('mid night - after', async () => {
       jest.setSystemTime(new Date('2024-01-15T00:02:00Z').getTime())
 
-      const result = await calculateSecondsFromTransition('', mockRequester, ['23:58'], 'UTC')
+      const result = await calculateSecondsFromTransition(
+        '',
+        failingRequester,
+        ['23:58'],
+        'UTC',
+        'nyse',
+        '24/5',
+      )
 
       expect(result).toBe(240)
     })
@@ -275,9 +299,11 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['10:00'],
         'Europe/Paris',
+        'nyse',
+        '24/5',
       )
 
       // 09:30 UTC -> 10:30 Paris is 30 minutes after 10:00
@@ -290,9 +316,11 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['04:00', '16:00', '20:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       // Sunday 8:05 PM is 4 hours and 5 minutes (14700 seconds) after Sunday 4PM
@@ -305,53 +333,15 @@ describe('calculateSecondsFromTransition', () => {
 
       const result = await calculateSecondsFromTransition(
         '',
-        mockRequester,
+        failingRequester,
         ['04:00', '16:00', '20:00'],
         'UTC',
+        'nyse',
+        '24/5',
       )
 
       // Unlike Sunday 8PM, Friday 8PM should not be skipped
       expect(result).toBe(300)
-    })
-  })
-
-  describe('fallback - tradingHoursSession error', () => {
-    it('EA call fail', async () => {
-      jest.setSystemTime(new Date('2024-01-15T10:30:00Z').getTime())
-      const failingRequester = {
-        request: jest.fn().mockRejectedValue(new Error('TradingHours EA unavailable')),
-      } as unknown as Requester
-
-      const result = await calculateSecondsFromTransition(
-        'https://tradinghours.example.com',
-        failingRequester,
-        ['10:00', '14:00'],
-        'UTC',
-        'nyse',
-        '24/5',
-      )
-
-      // 10:30 is 30 minutes (1800 seconds) after 10:00
-      expect(result).toBe(1800)
-    })
-
-    it('EA call return invalid response', async () => {
-      jest.setSystemTime(new Date('2024-01-15T11:30:00Z').getTime())
-      const badResponseRequester = {
-        request: jest.fn().mockResolvedValue({ response: { data: { data: null } } }),
-      } as unknown as Requester
-
-      const result = await calculateSecondsFromTransition(
-        'https://tradinghours.example.com',
-        badResponseRequester,
-        ['11:00', '14:00'],
-        'UTC',
-        'nyse',
-        '24/5',
-      )
-
-      // 11:30 is 30 minutes (1800 seconds) after 11:00
-      expect(result).toBe(1800)
     })
   })
 })

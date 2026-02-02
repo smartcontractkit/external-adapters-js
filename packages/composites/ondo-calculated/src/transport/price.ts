@@ -20,8 +20,8 @@ export const calculatePrice = async (param: {
   url: string
   tradingHoursUrl: string
   requester: Requester
-  sessionMarket?: string
-  sessionMarketType?: string
+  sessionMarket: string
+  sessionMarketType: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
   smoother: Smoother

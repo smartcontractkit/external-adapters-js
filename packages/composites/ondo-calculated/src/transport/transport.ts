@@ -31,22 +31,8 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       adapterSettings.ETHEREUM_RPC_CHAIN_ID,
     )
 
-    this.dataEngineUrl =
-      adapterSettings.DATA_ENGINE_ADAPTER_URL || adapterSettings.DATA_ENGINE_EA_URL || ''
-    if (!this.dataEngineUrl) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: 'Missing DATA_ENGINE_ADAPTER_URL',
-      })
-    }
-
-    this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL || ''
-    if (!this.tradingHoursUrl) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: 'Missing TRADING_HOURS_ADAPTER_URL',
-      })
-    }
+    this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
+    this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
   }
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
     await Promise.all(dedupeParams(entries).map(async (param) => this.handleRequest(param)))
