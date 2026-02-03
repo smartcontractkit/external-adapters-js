@@ -18,7 +18,7 @@ export const calculateSecondsFromTransition = async (
   const now = new TZDate(new Date().getTime(), sessionBoundariesTimeZone)
 
   let sessions: number[]
-  let sessionType: string
+  let sessionType: 'TradingHoursEA' | 'Fallback'
 
   try {
     sessions = await tradingHours(
