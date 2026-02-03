@@ -249,8 +249,6 @@ adapters:
     version: 1.1.4
   - name: openexchangerates
     version: 3.0.0
-  - name: paypal
-    version: 1.2.47
   - name: polkadot-balance
     version: 2.0.0
   - name: polygon
