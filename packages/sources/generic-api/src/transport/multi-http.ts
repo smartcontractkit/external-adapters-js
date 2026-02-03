@@ -3,7 +3,7 @@ import {
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
 import objectPath from 'object-path'
-import { BaseEndpointTypes, RequestParams } from '../endpoint/multi-http'
+import { BaseEndpointTypes } from '../endpoint/multi-http'
 import { prepareRequests } from './utils'
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -14,14 +14,10 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
-  prepareRequests: (params) => {
-    return prepareRequests(params as unknown as RequestParams[])
-  },
+  prepareRequests,
   parseResponse: (params, response) => {
-    const typedParams = params as unknown as RequestParams[]
-
     if (!response.data) {
-      return typedParams.map((param) => ({
+      return params.map((param) => ({
         params: param,
         response: {
           errorMessage: `The data provider for ${param.apiName} didn't return any value`,
@@ -30,7 +26,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }))
     }
 
-    return typedParams.map((param) => {
+    return params.map((param) => {
       // Check ripcord
       if (
         param.ripcordPath !== undefined &&
@@ -48,7 +44,6 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
 
       // Extract all dataPaths
       const data: { [key: string]: number | string } = {}
-      let providerIndicatedTimeUnixMs: number | undefined
 
       for (const { name, path } of param.dataPaths) {
         if (!objectPath.has(response.data, path)) {
@@ -61,14 +56,34 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           }
         }
         const value = objectPath.get(response.data, path)
-
-        // Use updatedAt as providerIndicatedTimeUnixMs
-        if (name == 'updatedAt') {
-          providerIndicatedTimeUnixMs = new Date(value).getTime()
-          continue
-        }
-
         data[name] = value as number | string
+      }
+
+      // Extract timestamp if providerIndicatedTimePath is provided
+      let providerIndicatedTimeUnixMs: number | undefined
+      if (param.providerIndicatedTimePath !== undefined) {
+        if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
+        const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
+        providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
+
+        // Validate: must be finite and positive
+        if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
       }
 
       return {

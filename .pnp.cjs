@@ -6344,7 +6344,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/generic-api/",\
         "packageDependencies": [\
           ["@chainlink/generic-api-adapter", "workspace:packages/sources/generic-api"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.5"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\

@@ -30,7 +30,7 @@ export const mockMultiHttpResponseSuccess = (): nock.Scope =>
       200,
       () => ({
         client: 'opendeltanx8',
-        net_asset_value: 1.004373266744996434,
+        net_asset_value: 1.004373266745,
         asset_under_management: 30127047.47,
         outstanding_shares: 29995867.54,
         min_rate: 0.99,

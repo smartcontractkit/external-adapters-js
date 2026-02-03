@@ -69,10 +69,10 @@ describe('execute', () => {
         dataPaths: [
           { name: 'nav', path: 'net_asset_value' },
           { name: 'aum', path: 'asset_under_management' },
-          { name: 'updatedAt', path: 'updatedAt' },
         ],
         ripcordPath: 'ripcord',
         ripcordDisabledValue: 'false',
+        providerIndicatedTimePath: 'updatedAt',
       }
       mockMultiHttpResponseSuccess()
       const response = await testAdapter.request(data)
