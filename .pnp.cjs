@@ -575,10 +575,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/openexchangerates"\
     },\
     {\
-      "name": "@chainlink/paypal-adapter",\
-      "reference": "workspace:packages/sources/paypal"\
-    },\
-    {\
       "name": "@chainlink/polkadot-balance-adapter",\
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
@@ -898,7 +894,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-calculated-adapter", ["workspace:packages/composites/ondo-calculated"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
@@ -7284,23 +7279,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/paypal-adapter", [\
-      ["workspace:packages/sources/paypal", {\
-        "packageLocation": "./packages/sources/paypal/",\
-        "packageDependencies": [\
-          ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@paypal/payouts-sdk", "npm:1.1.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/polkadot-balance-adapter", [\
       ["workspace:packages/sources/polkadot-balance", {\
         "packageLocation": "./packages/sources/polkadot-balance/",\
@@ -10726,25 +10704,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@openzeppelin-contracts-upgradeable-npm-4.7.3-51e6d1a149-7c72ffeca8.zip/node_modules/@openzeppelin/contracts-upgradeable/",\
         "packageDependencies": [\
           ["@openzeppelin/contracts-upgradeable", "npm:4.7.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@paypal/payouts-sdk", [\
-      ["npm:1.1.1", {\
-        "packageLocation": "./.yarn/cache/@paypal-payouts-sdk-npm-1.1.1-9895fef3da-6aa08616b8.zip/node_modules/@paypal/payouts-sdk/",\
-        "packageDependencies": [\
-          ["@paypal/payouts-sdk", "npm:1.1.1"],\
-          ["@paypal/paypalhttp", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@paypal/paypalhttp", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/@paypal-paypalhttp-npm-1.0.1-518d41bf33-89f894c338.zip/node_modules/@paypal/paypalhttp/",\
-        "packageDependencies": [\
-          ["@paypal/paypalhttp", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14179,15 +14138,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.2-f87f65692e-5bf62eec37.zip/node_modules/@types/parse-json/",\
         "packageDependencies": [\
           ["@types/parse-json", "npm:4.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/paypal__payouts-sdk", [\
-      ["npm:1.0.6", {\
-        "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.6-0c48993492-22881e8f6b.zip/node_modules/@types/paypal__payouts-sdk/",\
-        "packageDependencies": [\
-          ["@types/paypal__payouts-sdk", "npm:1.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\

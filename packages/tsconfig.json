@@ -414,9 +414,6 @@
       "path": "./sources/openexchangerates"
     },
     {
-      "path": "./sources/paypal"
-    },
-    {
       "path": "./sources/polkadot-balance"
     },
     {

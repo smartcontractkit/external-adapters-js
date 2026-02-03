@@ -414,9 +414,6 @@
       "path": "./sources/openexchangerates/tsconfig.test.json"
     },
     {
-      "path": "./sources/paypal/tsconfig.test.json"
-    },
-    {
       "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {
