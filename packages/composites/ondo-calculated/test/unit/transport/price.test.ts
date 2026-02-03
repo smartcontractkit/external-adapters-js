@@ -96,7 +96,7 @@ describe('calculatePrice', () => {
       })
 
       mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, type: 'Fallback' }),
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
       )
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
@@ -118,7 +118,7 @@ describe('calculatePrice', () => {
           p: '3',
           secondsFromTransition: 0,
         },
-        sessionType: 'Fallback',
+        sessionSource: 'FALLBACK',
       }
       expect(result[0]).toStrictEqual({
         ...expectedResult,
@@ -154,7 +154,7 @@ describe('calculatePrice', () => {
       })
 
       mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, type: 'Fallback' }),
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
       )
       mockProcessUpdate.mockReturnValue({ price: 10n, x: 1n, p: 2n })
 
@@ -186,7 +186,7 @@ describe('calculatePrice', () => {
       })
 
       mockCalculateSecondsFromTransition.mockReturnValue(
-        Promise.resolve({ value: 0, type: 'Fallback' }),
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
       )
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 

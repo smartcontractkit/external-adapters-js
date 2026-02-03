@@ -75,7 +75,7 @@ export const calculatePrice = async (param: {
       result: smoothed.result,
       ...common,
       smoother: smoothed.smoother,
-      sessionType: secondsFromTransition.type,
+      sessionSource: secondsFromTransition.source,
     }
   })
 }

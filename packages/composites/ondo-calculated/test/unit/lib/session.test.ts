@@ -48,7 +48,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 10:30 is 30 minutes (1800s) after PRE_MARKET at 10:00
-      expect(result).toEqual({ value: 1800, type: 'TradingHoursEA' })
+      expect(result).toEqual({ value: 1800, source: 'TRADINGHOURS' })
     })
 
     it('includes POST_MARKET session', async () => {
@@ -83,7 +83,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 15:30 is 30 minutes (1800s) before POST_MARKET at 16:00
-      expect(result).toEqual({ value: -1800, type: 'TradingHoursEA' })
+      expect(result).toEqual({ value: -1800, source: 'TRADINGHOURS' })
     })
 
     it('includes OVERNIGHT session', async () => {
@@ -118,7 +118,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 04:30 is 30 minutes (1800s) after OVERNIGHT at 04:00
-      expect(result).toEqual({ value: 1800, type: 'TradingHoursEA' })
+      expect(result).toEqual({ value: 1800, source: 'TRADINGHOURS' })
     })
 
     it('filters out UNKNOWN status', async () => {
@@ -153,7 +153,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // no sessions from trading hours
-      expect(result).toEqual({ value: Number.MAX_SAFE_INTEGER, type: 'TradingHoursEA' })
+      expect(result).toEqual({ value: Number.MAX_SAFE_INTEGER, source: 'TRADINGHOURS' })
     })
 
     it('skips Sunday overnight session', async () => {
@@ -194,7 +194,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 20:30 Sun → 04:00 Mon = -27000s
-      expect(result).toEqual({ value: -27000, type: 'TradingHoursEA' })
+      expect(result).toEqual({ value: -27000, source: 'TRADINGHOURS' })
     })
   })
 
@@ -216,7 +216,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 12:30 is 90 minutes (5400 seconds) before 14:00
-      expect(result).toEqual({ value: -5400, type: 'Fallback' })
+      expect(result).toEqual({ value: -5400, source: 'FALLBACK' })
     })
 
     it('after session', async () => {
@@ -232,7 +232,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 10:30 is 30 minutes (1800 seconds) after 10:00
-      expect(result).toEqual({ value: 1800, type: 'Fallback' })
+      expect(result).toEqual({ value: 1800, source: 'FALLBACK' })
     })
 
     it('close to session', async () => {
@@ -248,7 +248,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 10:00:05.5 is 5.5 seconds after 10:00
-      expect(result).toEqual({ value: 5.5, type: 'Fallback' })
+      expect(result).toEqual({ value: 5.5, source: 'FALLBACK' })
     })
 
     it('at session', async () => {
@@ -263,7 +263,7 @@ describe('calculateSecondsFromTransition', () => {
         '24/5',
       )
 
-      expect(result).toEqual({ value: 0, type: 'Fallback' })
+      expect(result).toEqual({ value: 0, source: 'FALLBACK' })
     })
 
     it('mid night - before', async () => {
@@ -278,7 +278,7 @@ describe('calculateSecondsFromTransition', () => {
         '24/5',
       )
 
-      expect(result).toEqual({ value: -240, type: 'Fallback' })
+      expect(result).toEqual({ value: -240, source: 'FALLBACK' })
     })
 
     it('mid night - after', async () => {
@@ -293,7 +293,7 @@ describe('calculateSecondsFromTransition', () => {
         '24/5',
       )
 
-      expect(result).toEqual({ value: 240, type: 'Fallback' })
+      expect(result).toEqual({ value: 240, source: 'FALLBACK' })
     })
 
     it('timezone conversions', async () => {
@@ -309,7 +309,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // 09:30 UTC -> 10:30 Paris is 30 minutes after 10:00
-      expect(result).toEqual({ value: 1800, type: 'Fallback' })
+      expect(result).toEqual({ value: 1800, source: 'FALLBACK' })
     })
 
     it('skips Sunday 8PM', async () => {
@@ -326,7 +326,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // Sunday 8:05 PM is 4 hours and 5 minutes (14700 seconds) after Sunday 4PM
-      expect(result).toEqual({ value: 14700, type: 'Fallback' })
+      expect(result).toEqual({ value: 14700, source: 'FALLBACK' })
     })
 
     it('does not skip non-Sunday 8PM', async () => {
@@ -343,7 +343,7 @@ describe('calculateSecondsFromTransition', () => {
       )
 
       // Unlike Sunday 8PM, Friday 8PM should not be skipped
-      expect(result).toEqual({ value: 300, type: 'Fallback' })
+      expect(result).toEqual({ value: 300, source: 'FALLBACK' })
     })
   })
 
