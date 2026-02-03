@@ -205,8 +205,6 @@ adapters:
     version: 1.7.0
   - name: medianizer
     version: 1.2.44
-  - name: messari
-    version: 1.2.47
   - name: mobula-state
     version: 2.0.4
   - name: mock-ea
@@ -249,8 +247,6 @@ adapters:
     version: 1.1.4
   - name: openexchangerates
     version: 3.0.0
-  - name: paypal
-    version: 1.2.47
   - name: polkadot-balance
     version: 2.0.0
   - name: polygon
