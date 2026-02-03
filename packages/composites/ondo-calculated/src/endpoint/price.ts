@@ -109,6 +109,7 @@ export type BaseEndpointTypes = {
         p: string
         secondsFromTransition: number
       }
+      sessionSource: 'TRADINGHOURS' | 'FALLBACK'
     }
   }
   Settings: typeof config.settings

@@ -18,6 +18,7 @@ export const calculateSecondsFromTransition = async (
   const now = new TZDate(new Date().getTime(), sessionBoundariesTimeZone)
 
   let sessions: number[]
+  let sessionSource: 'TRADINGHOURS' | 'FALLBACK'
 
   try {
     sessions = await tradingHours(
@@ -27,13 +28,18 @@ export const calculateSecondsFromTransition = async (
       sessionMarket,
       sessionMarketType,
     )
+    sessionSource = 'TRADINGHOURS'
   } catch (e) {
     sessions = getSessionsFallback(now, sessionBoundaries, sessionBoundariesTimeZone)
+    sessionSource = 'FALLBACK'
     logger.error(`TradingHoursEA request failed, falling back to sessionBoundaries: ${e}`)
   }
 
-  return sessions.reduce((minDiff, sessionTime) => {
-    const diff = (now.getTime() - sessionTime) / 1000
-    return Math.abs(diff) < Math.abs(minDiff) ? diff : minDiff
-  }, Number.MAX_SAFE_INTEGER)
+  return {
+    value: sessions.reduce((minDiff, sessionTime) => {
+      const diff = (now.getTime() - sessionTime) / 1000
+      return Math.abs(diff) < Math.abs(minDiff) ? diff : minDiff
+    }, Number.MAX_SAFE_INTEGER),
+    source: sessionSource,
+  }
 }
