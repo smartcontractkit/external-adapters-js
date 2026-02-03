@@ -13,6 +13,7 @@ export interface ResponseSchema {
     totalSupply: number
     totalAsset: number
     currentNav: string
+    sevenYield: string
   } | null
 }
 
@@ -80,6 +81,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result,
           data: {
             result,
+            navPerShare: result,
+            aum: apiResponse.data.totalAsset,
+            navDate: apiResponse.data.lastUpdate,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(apiResponse.data.lastUpdate).getTime(),

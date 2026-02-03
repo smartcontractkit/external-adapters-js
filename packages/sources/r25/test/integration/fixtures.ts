@@ -17,6 +17,7 @@ export const mockNavResponseSuccess = (): nock.Scope =>
         totalSupply: 98,
         totalAsset: 100,
         currentNav: '1.020408163265306',
+        sevenYield: '8.3266',
       },
     })
     .persist()

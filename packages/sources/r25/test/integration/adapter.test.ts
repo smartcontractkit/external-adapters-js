@@ -102,6 +102,23 @@ describe('execute', () => {
       expect(json.data.result).toBe(json.result)
     })
 
+    it('should return streams v9 required fields', async () => {
+      const data = {
+        endpoint: 'nav',
+        chainType: 'polygon',
+        tokenName: 'rcusdp',
+      }
+
+      mockNavResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      const json = response.json()
+      expect(json.data.navPerShare).toBe(1.020408163265306)
+      expect(json.data.aum).toBe(100)
+      expect(json.data.navDate).toBe('2025-11-11T16:55:53.448+00:00')
+    })
+
     it('should handle missing required parameters', async () => {
       const data = {
         endpoint: 'nav',
