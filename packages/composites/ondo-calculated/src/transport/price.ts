@@ -64,11 +64,18 @@ export const calculatePrice = async (param: {
   }
 
   return ['ema', 'kalman'].map((smoother) => {
-    const smoothed = smooth(smoother as Smoother, param, price, secondsFromTransition, multiplier)
+    const smoothed = smooth(
+      smoother as Smoother,
+      param,
+      price,
+      secondsFromTransition.value,
+      multiplier,
+    )
     return {
       result: smoothed.result,
       ...common,
       smoother: smoothed.smoother,
+      sessionSource: secondsFromTransition.source,
     }
   })
 }
