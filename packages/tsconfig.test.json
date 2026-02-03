@@ -363,9 +363,6 @@
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
-      "path": "./sources/messari/tsconfig.test.json"
-    },
-    {
       "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {
