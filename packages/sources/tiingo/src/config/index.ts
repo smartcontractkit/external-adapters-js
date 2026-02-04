@@ -23,6 +23,18 @@ export const config = new AdapterConfig(
       default: 'wss://api.redundantstack.com',
       type: 'string',
     },
+    WS_URL_PRIMARY_ATTEMPTS: {
+      description:
+        'Number of consecutive connection attempts to primary WebSocket URL per failover cycle (alternates with secondary)',
+      default: 1,
+      type: 'number',
+    },
+    WS_URL_SECONDARY_ATTEMPTS: {
+      description:
+        'Number of consecutive connection attempts to secondary WebSocket URL per failover cycle (alternates with primary)',
+      default: 1,
+      type: 'number',
+    },
   },
   {
     envDefaultOverrides: {

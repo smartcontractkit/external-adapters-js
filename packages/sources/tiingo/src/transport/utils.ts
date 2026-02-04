@@ -32,7 +32,16 @@ export interface ProviderResponseBody {
 }
 
 const logger = makeLogger('TiingoTransportUtils')
-const URL_SELECTION_CYCLE_LENGTH = 6
+
+export type WsSelectUrlOptions = {
+  primaryAttempts: number
+  secondaryAttempts: number
+}
+
+const DEFAULT_WS_SELECT_URL_OPTIONS: WsSelectUrlOptions = {
+  primaryAttempts: 1,
+  secondaryAttempts: 1,
+}
 
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
@@ -144,27 +153,35 @@ export const wsMessageContent = (
 
 // There exists similar functionality in tiingo-state EA
 // urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection is 1-indexed
+// Reads WS_URL_PRIMARY_ATTEMPTS and WS_URL_SECONDARY_ATTEMPTS from config (env); pass options to override (e.g. in tests).
 export const wsSelectUrl = (
   primaryBaseUrl: string,
   secondaryBaseUrl: string,
   urlSuffix: string,
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
+  options?: WsSelectUrlOptions,
 ): string => {
-  // business logic connection attempts (repeats in 6-attempt cycles):
-  //   3x try connecting to primary url
-  //   3x try connecting to secondary url
+  const primaryAttempts =
+    options?.primaryAttempts ??
+    config.settings?.WS_URL_PRIMARY_ATTEMPTS ??
+    DEFAULT_WS_SELECT_URL_OPTIONS.primaryAttempts
+  const secondaryAttempts =
+    options?.secondaryAttempts ??
+    config.settings?.WS_URL_SECONDARY_ATTEMPTS ??
+    DEFAULT_WS_SELECT_URL_OPTIONS.secondaryAttempts
+  const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
 
   const zeroIndexedNumAttemptedConnections =
     urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
-  const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
-  const url = cycle < 3 ? primaryUrl : secondaryUrl
+  const cycle = zeroIndexedNumAttemptedConnections % cycleLength
+  const url = cycle < primaryAttempts ? primaryUrl : secondaryUrl
 
   logger.info(
     `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, using ${
       url === primaryUrl ? 'primary' : 'secondary'
-    } (cycle position: ${cycle})`,
+    } (cycle position: ${cycle}, cycle length: ${cycleLength})`,
   )
   return url
 }
