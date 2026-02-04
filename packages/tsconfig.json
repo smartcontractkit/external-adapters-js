@@ -366,9 +366,6 @@
       "path": "./sources/m0"
     },
     {
-      "path": "./sources/messari"
-    },
-    {
       "path": "./sources/mobula-state"
     },
     {
@@ -418,9 +415,6 @@
     },
     {
       "path": "./sources/openexchangerates"
-    },
-    {
-      "path": "./sources/paypal"
     },
     {
       "path": "./sources/polkadot-balance"

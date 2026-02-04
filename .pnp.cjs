@@ -511,10 +511,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/m0"\
     },\
     {\
-      "name": "@chainlink/messari-adapter",\
-      "reference": "workspace:packages/sources/messari"\
-    },\
-    {\
       "name": "@chainlink/mobula-state-adapter",\
       "reference": "workspace:packages/sources/mobula-state"\
     },\
@@ -581,10 +577,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/openexchangerates-adapter",\
       "reference": "workspace:packages/sources/openexchangerates"\
-    },\
-    {\
-      "name": "@chainlink/paypal-adapter",\
-      "reference": "workspace:packages/sources/paypal"\
     },\
     {\
       "name": "@chainlink/polkadot-balance-adapter",\
@@ -885,7 +877,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
-    ["@chainlink/messari-adapter", ["workspace:packages/sources/messari"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
@@ -908,7 +899,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ondo-calculated-adapter", ["workspace:packages/composites/ondo-calculated"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
-    ["@chainlink/paypal-adapter", ["workspace:packages/sources/paypal"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
@@ -6376,7 +6366,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/generic-api/",\
         "packageDependencies": [\
           ["@chainlink/generic-api-adapter", "workspace:packages/sources/generic-api"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.5"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\
@@ -6943,21 +6933,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/messari-adapter", [\
-      ["workspace:packages/sources/messari", {\
-        "packageLocation": "./packages/sources/messari/",\
-        "packageDependencies": [\
-          ["@chainlink/messari-adapter", "workspace:packages/sources/messari"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/mobula-state-adapter", [\
       ["workspace:packages/sources/mobula-state", {\
         "packageLocation": "./packages/sources/mobula-state/",\
@@ -7320,23 +7295,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/paypal-adapter", [\
-      ["workspace:packages/sources/paypal", {\
-        "packageLocation": "./packages/sources/paypal/",\
-        "packageDependencies": [\
-          ["@chainlink/paypal-adapter", "workspace:packages/sources/paypal"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@paypal/payouts-sdk", "npm:1.1.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/paypal__payouts-sdk", "npm:1.0.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -10772,25 +10730,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@paypal/payouts-sdk", [\
-      ["npm:1.1.1", {\
-        "packageLocation": "./.yarn/cache/@paypal-payouts-sdk-npm-1.1.1-9895fef3da-6aa08616b8.zip/node_modules/@paypal/payouts-sdk/",\
-        "packageDependencies": [\
-          ["@paypal/payouts-sdk", "npm:1.1.1"],\
-          ["@paypal/paypalhttp", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@paypal/paypalhttp", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/@paypal-paypalhttp-npm-1.0.1-518d41bf33-89f894c338.zip/node_modules/@paypal/paypalhttp/",\
-        "packageDependencies": [\
-          ["@paypal/paypalhttp", "npm:1.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@pinojs/redact", [\
       ["npm:0.4.0", {\
         "packageLocation": "./.yarn/cache/@pinojs-redact-npm-0.4.0-445417bca6-2210ffb6b3.zip/node_modules/@pinojs/redact/",\
@@ -14221,15 +14160,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.2-f87f65692e-5bf62eec37.zip/node_modules/@types/parse-json/",\
         "packageDependencies": [\
           ["@types/parse-json", "npm:4.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/paypal__payouts-sdk", [\
-      ["npm:1.0.6", {\
-        "packageLocation": "./.yarn/cache/@types-paypal__payouts-sdk-npm-1.0.6-0c48993492-22881e8f6b.zip/node_modules/@types/paypal__payouts-sdk/",\
-        "packageDependencies": [\
-          ["@types/paypal__payouts-sdk", "npm:1.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\

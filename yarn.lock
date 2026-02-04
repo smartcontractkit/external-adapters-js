@@ -3758,7 +3758,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/generic-api-adapter@workspace:packages/sources/generic-api"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.8.0"
+    "@chainlink/external-adapter-framework": "npm:2.11.5"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/object-path": "npm:0.11.4"
@@ -4260,19 +4260,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/messari-adapter@workspace:packages/sources/messari":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/messari-adapter@workspace:packages/sources/messari"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/mobula-state-adapter@workspace:packages/sources/mobula-state":
   version: 0.0.0-use.local
   resolution: "@chainlink/mobula-state-adapter@workspace:packages/sources/mobula-state"
@@ -4592,21 +4579,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/paypal-adapter@workspace:packages/sources/paypal":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/paypal-adapter@workspace:packages/sources/paypal"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@paypal/payouts-sdk": "npm:^1.1.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/paypal__payouts-sdk": "npm:1.0.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -7655,22 +7627,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@paypal/payouts-sdk@npm:^1.1.0":
-  version: 1.1.1
-  resolution: "@paypal/payouts-sdk@npm:1.1.1"
-  dependencies:
-    "@paypal/paypalhttp": "npm:^1.0.1"
-  checksum: 10/6aa08616b86e7deb0d47dc1311df8040293f9568b79d88327a9a41e1f6ec5cbcdb543df3852b1e1551c65462ebc2e33cbeaf20f0b73538ef7b02ddd9b7f3a7de
-  languageName: node
-  linkType: hard
-
-"@paypal/paypalhttp@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@paypal/paypalhttp@npm:1.0.1"
-  checksum: 10/89f894c3385a7309b060cfbb84a9439f440378551d2d7a851934504ce18c4132168401b27be60bebc300d764bf7f5876a5a866f68696f0cd8efdb8c59152f199
-  languageName: node
-  linkType: hard
-
 "@pinojs/redact@npm:^0.4.0":
   version: 0.4.0
   resolution: "@pinojs/redact@npm:0.4.0"
@@ -10293,13 +10249,6 @@ __metadata:
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
   checksum: 10/5bf62eec37c332ad10059252fc0dab7e7da730764869c980b0714777ad3d065e490627be9f40fc52f238ffa3ac4199b19de4127196910576c2fe34dd47c7a470
-  languageName: node
-  linkType: hard
-
-"@types/paypal__payouts-sdk@npm:1.0.6":
-  version: 1.0.6
-  resolution: "@types/paypal__payouts-sdk@npm:1.0.6"
-  checksum: 10/22881e8f6b012634d9146ef6b36f0794c3ead74cedabae8e93c205bd8dbf93d8e68a52a7e6d47f02857f02e1173e3b353891d2d26a51535cd7df47a385bc531d
   languageName: node
   linkType: hard
 
