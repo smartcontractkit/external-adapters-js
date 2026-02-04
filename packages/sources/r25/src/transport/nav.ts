@@ -13,7 +13,6 @@ export interface ResponseSchema {
     totalSupply: number
     totalAsset: number
     currentNav: string
-    sevenYield: string
   } | null
 }
 
