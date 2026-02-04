@@ -5166,7 +5166,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/canton-functions/",\
         "packageDependencies": [\
           ["@chainlink/canton-functions-adapter", "workspace:packages/sources/canton-functions"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.5"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
