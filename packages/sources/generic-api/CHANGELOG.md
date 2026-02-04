@@ -1,5 +1,11 @@
 # @chainlink/generic-api-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4568](https://github.com/smartcontractkit/external-adapters-js/pull/4568) [`bdb27c1`](https://github.com/smartcontractkit/external-adapters-js/commit/bdb27c16d9e4583a57d8e411a942570b5a45435a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds multi-http endpoint
+
 ## 1.0.1
 
 ### Patch Changes
