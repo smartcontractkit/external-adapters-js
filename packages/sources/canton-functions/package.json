@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/generic-api-adapter",
-  "version": "1.0.1",
-  "description": "Chainlink generic-api adapter.",
+  "name": "@chainlink/canton-functions-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink canton-functions adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "generic-api"
+    "canton-functions"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,15 +28,15 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/object-path": "0.11.4",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.11.5",
-    "object-path": "^0.11.5",
     "tslib": "2.4.1"
   }
 }

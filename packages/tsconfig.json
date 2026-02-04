@@ -165,6 +165,9 @@
       "path": "./sources/cache.gold"
     },
     {
+      "path": "./sources/canton-functions"
+    },
+    {
       "path": "./sources/ceffu"
     },
     {
