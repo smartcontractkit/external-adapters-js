@@ -258,7 +258,7 @@ adapters:
   - name: proof-of-reserves
     version: 1.32.0
   - name: r25
-    version: 1.0.0
+    version: 1.1.0
   - name: renvm-address-set
     version: 1.5.136
   - name: rocket-pool
