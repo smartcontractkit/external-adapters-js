@@ -1,4 +1,4 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterEndpoint, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { priceTransport } from '../transport/price'
@@ -12,6 +12,7 @@ export type BaseEndpointTypes = {
     Data: {
       result: string
       decimals: number
+      marketStatus: MarketStatus
     }
   }
   Settings: typeof config.settings

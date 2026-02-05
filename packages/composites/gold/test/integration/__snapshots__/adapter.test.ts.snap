@@ -4,6 +4,7 @@ exports[`execute price endpoint should return success 1`] = `
 {
   "data": {
     "decimals": 18,
+    "marketStatus": 2,
     "result": "4869500000000000000000",
   },
   "result": "4869500000000000000000",
