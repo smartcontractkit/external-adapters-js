@@ -20,7 +20,7 @@ type CryptoPriceResponse = {
 
 type RwaPriceResponse = {
   midPrice: string
-  marketStatus: number
+  marketStatus: MarketStatus
   decimals: number
 }
 
@@ -40,7 +40,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.requester = dependencies.requester
-    this.tokenizedPriceStreamsConfig = JSON.parse(this.config.TOKENIZED_GOLD_PRICE_STREAMS)
+    try {
+      this.tokenizedPriceStreamsConfig = JSON.parse(this.config.TOKENIZED_GOLD_PRICE_STREAMS)
+    } catch (e: unknown) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
+      })
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {

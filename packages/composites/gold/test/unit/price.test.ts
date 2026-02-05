@@ -39,7 +39,7 @@ describe('PriceTransport', () => {
   const BACKGROUND_EXECUTE_MS = 1000
   const XAU_FEED_ID = '0x0008991d4caf73e8e05f6671ef43cee5e8c5c3652a35fde0b0942e44a77b0e89'
   const XAUT_FEED_ID = '0x0003b8b3f33c4c06a7947e86c5b4db4ef0991637d9821b9cdf897c0b5d488468'
-  const PAXG_FEED_ID = '0x0003b8b3f33c4c06a7947e86c5b4db4ef0991637d9821b9cdf897c0b5d488468'
+  const PAXG_FEED_ID = '0x0003b4b1d926719d4f67a08c9ffe9baf688620058c9f029923ea504eb71c877f'
   const TOKENIZED_GOLD_PRICE_STREAMS = `{
     "XAUT": "${XAUT_FEED_ID}",
     "PAXG": "${PAXG_FEED_ID}"
@@ -134,6 +134,20 @@ describe('PriceTransport', () => {
 
   afterEach(() => {
     expect(log).not.toBeCalled()
+  })
+
+  describe('initialize', () => {
+    it('should error if TOKENIZED_GOLD_PRICE_STREAMS is not valid JSON', async () => {
+      const invalidJson = '{not: json}'
+      const invalidConfig = { ...adapterSettings, TOKENIZED_GOLD_PRICE_STREAMS: invalidJson }
+
+      const transportInstance = new PriceTransport()
+      await expect(() =>
+        transportInstance.initialize(dependencies, invalidConfig, endpointName, transportName),
+      ).rejects.toThrow(
+        "Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)",
+      )
+    })
   })
 
   describe('backgroundHandler', () => {
