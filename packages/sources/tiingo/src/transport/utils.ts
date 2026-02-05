@@ -150,8 +150,8 @@ export const wsSelectUrl = (
   urlSuffix: string,
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
 ): string => {
-  const primaryAttempts = config.settings?.WS_URL_PRIMARY_ATTEMPTS ?? 1
-  const secondaryAttempts = config.settings?.WS_URL_SECONDARY_ATTEMPTS ?? 1
+  const primaryAttempts = config.settings.WS_URL_PRIMARY_ATTEMPTS
+  const secondaryAttempts = config.settings.WS_URL_SECONDARY_ATTEMPTS
   const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
