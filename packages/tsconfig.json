@@ -345,6 +345,9 @@
       "path": "./sources/kaiko-state"
     },
     {
+      "path": "./sources/kalshi-binary"
+    },
+    {
       "path": "./sources/layer2-sequencer-health"
     },
     {

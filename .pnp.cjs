@@ -483,6 +483,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/kaiko-state"\
     },\
     {\
+      "name": "@chainlink/kalshi-binary-adapter",\
+      "reference": "workspace:packages/sources/kalshi-binary"\
+    },\
+    {\
       "name": "@chainlink/layer2-sequencer-health-adapter",\
       "reference": "workspace:packages/sources/layer2-sequencer-health"\
     },\
@@ -867,6 +871,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
+    ["@chainlink/kalshi-binary-adapter", ["workspace:packages/sources/kalshi-binary"]],\
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
     ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
@@ -6148,7 +6153,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
@@ -6771,6 +6776,23 @@ const RAW_RUNTIME_STATE =
           ["exponential-backoff", "npm:3.1.2"],\
           ["nock", "npm:13.5.6"],\
           ["rxjs", "npm:7.8.2"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/kalshi-binary-adapter", [\
+      ["workspace:packages/sources/kalshi-binary", {\
+        "packageLocation": "./packages/sources/kalshi-binary/",\
+        "packageDependencies": [\
+          ["@chainlink/kalshi-binary-adapter", "workspace:packages/sources/kalshi-binary"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
