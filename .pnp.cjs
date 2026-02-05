@@ -13571,7 +13571,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@stellar/stellar-sdk", "npm:14.3.3"],\
           ["@stellar/stellar-base", "npm:14.0.2"],\
-          ["axios", "npm:1.13.2"],\
+          ["axios", "npm:1.13.4"],\
           ["bignumber.js", "npm:9.3.1"],\
           ["eventsource", "npm:2.0.2"],\
           ["feaxios", "npm:0.0.23"],\
