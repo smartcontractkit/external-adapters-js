@@ -4,8 +4,22 @@ exports[`execute price endpoint should return success 1`] = `
 {
   "data": {
     "decimals": 18,
-    "marketStatus": 2,
     "result": "4869500000000000000000",
+    "state": {
+      "lastXauPrice": "4869500000000000000000",
+      "marketStatus": 2,
+      "nowMs": 978347471111,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5169500000000000000000",
+          "lastPriceChangeTimestampMs": 978347471111,
+        },
+        "XAUT": {
+          "lastPrice": "5169500000000000000000",
+          "lastPriceChangeTimestampMs": 978347471111,
+        },
+      },
+    },
   },
   "result": "4869500000000000000000",
   "statusCode": 200,

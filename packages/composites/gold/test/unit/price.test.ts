@@ -44,11 +44,13 @@ describe('PriceTransport', () => {
     "XAUT": "${XAUT_FEED_ID}",
     "PAXG": "${PAXG_FEED_ID}"
   }`
+  const PRICE_STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
 
   const adapterSettings = makeStub('adapterSettings', {
     DATA_ENGINE_ADAPTER_URL,
     XAU_FEED_ID,
     TOKENIZED_GOLD_PRICE_STREAMS,
+    PRICE_STALE_TIMEOUT_MS,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     MAX_COMMON_KEY_SIZE: 300,
@@ -182,7 +184,21 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.OPEN,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.OPEN,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+              PAXG: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -259,7 +275,21 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.OPEN,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.OPEN,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+              PAXG: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -293,7 +323,21 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.CLOSED,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -327,7 +371,17 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.CLOSED,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -362,7 +416,12 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.CLOSED,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {},
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -374,6 +433,177 @@ describe('PriceTransport', () => {
       expect(log).toBeCalledWith(`Error fetching XAUT price: ${error}`)
       expect(log).toBeCalledWith(`Error fetching PAXG price: ${error}`)
       expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
+    it('should use previous price if stream gives error', async () => {
+      const error = 'Stream error'
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+      const averagePrice = '5200000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, Promise.reject(error))
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      jest.advanceTimersByTime(1000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, Promise.reject(error))
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = averagePrice
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                // Price is from 1 second ago
+                lastPriceChangeTimestampMs: Date.now() - 1000,
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledWith(`Error fetching PAXG price: ${error}`)
+      expect(log).toBeCalledWith(`Error fetching XAUT price: ${error}`)
+      expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
+    it('should not use previous price if stream gives error', async () => {
+      const error = 'Stream error'
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, Promise.reject(error))
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      jest.advanceTimersByTime(PRICE_STALE_TIMEOUT_MS + 1000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, Promise.reject(error))
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = paxgPrice
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now() - PRICE_STALE_TIMEOUT_MS - 1000,
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledWith(`Error fetching PAXG price: ${error}`)
+      expect(log).toBeCalledWith(`Error fetching XAUT price: ${error}`)
+      expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
+    it('should not use stale price even without error', async () => {
+      const goldPrice = '4000000000000000000000'
+      const xautPrice1 = '5100000000000000000000'
+      const xautPrice2 = '5110000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice1)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      jest.advanceTimersByTime(PRICE_STALE_TIMEOUT_MS + 1000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice2)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = xautPrice2
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice2,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now() - PRICE_STALE_TIMEOUT_MS - 1000,
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledTimes(0)
       log.mockClear()
     })
 
@@ -437,7 +667,21 @@ describe('PriceTransport', () => {
         data: {
           result: expectedResult,
           decimals: 18,
-          marketStatus: MarketStatus.OPEN,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.OPEN,
+            nowMs: Date.now(),
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+              PAXG: {
+                lastPrice: tokenizedGoldPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+              },
+            },
+          },
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,
