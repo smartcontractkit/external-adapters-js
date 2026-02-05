@@ -161,10 +161,10 @@ export const wsSelectUrl = (
   options?: WsSelectUrlOptions,
 ): string => {
   const primaryAttempts = toPositiveInteger(
-    options?.primaryAttempts ?? config.settings?.WS_URL_PRIMARY_ATTEMPTS ?? 1,
+    options?.primaryAttempts ?? config.settings?.WS_URL_PRIMARY_ATTEMPTS,
   )
   const secondaryAttempts = toPositiveInteger(
-    options?.secondaryAttempts ?? config.settings?.WS_URL_SECONDARY_ATTEMPTS ?? 1,
+    options?.secondaryAttempts ?? config.settings?.WS_URL_SECONDARY_ATTEMPTS,
   )
   const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
