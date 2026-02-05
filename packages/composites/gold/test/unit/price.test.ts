@@ -102,13 +102,13 @@ describe('PriceTransport', () => {
     )
   }
 
-  const mockCryptoPrice = (feedId: string, price: string, decimals = 18) => {
+  const mockCryptoPrice = (feedId: string, price: string | Promise<string>, decimals = 18) => {
     mockDataEngine(feedId).mockImplementationOnce(async () =>
       makeStub('mockDataEngineResponse', {
         response: {
           data: {
             data: {
-              price,
+              price: await price,
               decimals,
             },
           },
@@ -303,6 +303,77 @@ describe('PriceTransport', () => {
       })
 
       expect(log).toBeCalledTimes(0)
+      log.mockClear()
+    })
+
+    it('should use other tokenized stream if one gives an error', async () => {
+      const error = 'Stream error'
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = Promise.reject(error)
+      const paxgPrice = '5300000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const param = makeStub('param', {})
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = paxgPrice
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          marketStatus: MarketStatus.CLOSED,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledWith(`Error fetching XAUT price: ${error}`)
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should fall back on gold closing price if both streams have errors', async () => {
+      const error = 'Stream error'
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = Promise.reject(error)
+      const paxgPrice = Promise.reject(error)
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const param = makeStub('param', {})
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = goldPrice
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          marketStatus: MarketStatus.CLOSED,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledWith(`Error fetching XAUT price: ${error}`)
+      expect(log).toBeCalledWith(`Error fetching PAXG price: ${error}`)
+      expect(log).toBeCalledTimes(2)
       log.mockClear()
     })
 

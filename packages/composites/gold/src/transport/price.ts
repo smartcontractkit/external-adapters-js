@@ -78,18 +78,15 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(_: RequestParams): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [xauResponse, ...tokenizedPriceResponses]: [
+    const [xauResponse, tokenizedPriceResponses]: [
       RwaPriceResponse,
-      ...{
+      {
         name: string
-        response: CryptoPriceResponse
+        response: PromiseSettledResult<CryptoPriceResponse>
       }[],
     ] = await Promise.all([
       getRwaPrice(this.config.XAU_FEED_ID, this.config.DATA_ENGINE_ADAPTER_URL, this.requester),
-      ...Object.entries(this.tokenizedPriceStreamsConfig).map(async ([name, feedId]) => ({
-        name,
-        response: await getCryptoPrice(feedId, this.config.DATA_ENGINE_ADAPTER_URL, this.requester),
-      })),
+      this.getTokenizedPriceResponses(),
     ])
 
     const { midPrice: xauPrice, decimals } = xauResponse
@@ -101,7 +98,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     if (xauResponse.marketStatus === MarketStatus.OPEN) {
       result = xauPrice
     } else {
-      result = this.calculateCompositePrice(tokenizedPriceResponses).toString()
+      result = this.calculateCompositePrice(BigInt(xauPrice), tokenizedPriceResponses).toString()
     }
 
     return {
@@ -121,20 +118,52 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   calculateCompositePrice(
-    tokenizedPriceResponses: { name: string; response: CryptoPriceResponse }[],
+    xauPrice: bigint,
+    tokenizedPriceResponses: {
+      name: string
+      response: PromiseSettledResult<CryptoPriceResponse>
+    }[],
   ): bigint {
     let sumPrice = 0n
     let count = 0n
 
     for (const { name, response } of tokenizedPriceResponses) {
-      this.verifyDecimals(name, response.decimals)
-      const price = BigInt(response.price)
+      if (response.status !== 'fulfilled') {
+        logger.warn(`Error fetching ${name} price: ${response.reason}`)
+        continue
+      }
+
+      this.verifyDecimals(name, response.value.decimals)
+      const price = BigInt(response.value.price)
 
       sumPrice += price
       count += 1n
     }
 
+    if (count === 0n) {
+      return xauPrice
+    }
+
     return sumPrice / count
+  }
+
+  async getTokenizedPriceResponses(): Promise<
+    {
+      name: string
+      response: PromiseSettledResult<CryptoPriceResponse>
+    }[]
+  > {
+    const configEntries: Array<[string, string]> = Object.entries(this.tokenizedPriceStreamsConfig)
+    const responses: PromiseSettledResult<CryptoPriceResponse>[] = await Promise.allSettled(
+      configEntries.map(async ([_name, feedId]) =>
+        getCryptoPrice(feedId, this.config.DATA_ENGINE_ADAPTER_URL, this.requester),
+      ),
+    )
+    const result: {
+      name: string
+      response: PromiseSettledResult<CryptoPriceResponse>
+    }[] = configEntries.map(([name], index) => ({ name, response: responses[index] }))
+    return result
   }
 
   verifyDecimals(streamName: string, decimals: number): void {
