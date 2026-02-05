@@ -5739,7 +5739,7 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
           ["fastify", "npm:5.6.2"],\
-          ["lodash", "npm:4.17.21"],\
+          ["lodash", "npm:4.17.23"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
           ["object-hash", "npm:2.2.0"],\
@@ -22734,6 +22734,13 @@ const RAW_RUNTIME_STATE =
           ["lodash", "npm:4.17.21"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:4.17.23", {\
+        "packageLocation": "./.yarn/cache/lodash-npm-4.17.23-50bdb1c01a-82504c8825.zip/node_modules/lodash/",\
+        "packageDependencies": [\
+          ["lodash", "npm:4.17.23"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["lodash._reinterpolate", [\
@@ -29298,13 +29305,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["validator", [\
-      ["npm:13.12.0", {\
-        "packageLocation": "./.yarn/cache/validator-npm-13.12.0-6c8a423cbf-db6eb0725e.zip/node_modules/validator/",\
-        "packageDependencies": [\
-          ["validator", "npm:13.12.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:13.15.26", {\
         "packageLocation": "./.yarn/cache/validator-npm-13.15.26-f522f3cb3c-22488ae718.zip/node_modules/validator/",\
         "packageDependencies": [\
@@ -30172,7 +30172,7 @@ const RAW_RUNTIME_STATE =
           ["commander", "npm:2.20.3"],\
           ["lodash.get", "npm:4.4.2"],\
           ["lodash.isequal", "npm:4.5.0"],\
-          ["validator", "npm:13.12.0"]\
+          ["validator", "npm:13.15.26"]\
         ],\
         "linkType": "HARD"\
       }]\
