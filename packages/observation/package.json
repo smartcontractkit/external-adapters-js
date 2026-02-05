@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@chainlink/ea-bootstrap": "workspace:*",
-    "axios": "1.9.0",
+    "axios": "1.13.4",
     "tslib": "^2.3.1"
   },
   "devDependencies": {

@@ -20,3 +20,11 @@ export const mockResponseSuccess = (): nock.Scope =>
       statusCode: 200,
     }))
     .persist()
+
+export const mockTradingHoursResponseFailure = (): nock.Scope =>
+  nock('http://trading-hours', {
+    encodedQueryParams: true,
+  })
+    .post('/')
+    .reply(200, () => ({ statusCode: 500 }))
+    .persist()

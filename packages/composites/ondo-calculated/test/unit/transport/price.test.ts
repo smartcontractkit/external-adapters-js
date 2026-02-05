@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 import { getRegistryData } from '../../../src/lib/registry'
-import { calculateSecondsFromTransition } from '../../../src/lib/session'
+import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
 import { calculatePrice } from '../../../src/transport/price'
@@ -15,7 +15,7 @@ const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getReg
 jest.mock('../../../src/lib/smoother/smoother', () => ({ processUpdate: jest.fn() }))
 const mockProcessUpdate = processUpdate as jest.MockedFunction<typeof processUpdate>
 
-jest.mock('../../../src/lib/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
+jest.mock('../../../src/lib/session/session', () => ({ calculateSecondsFromTransition: jest.fn() }))
 const mockCalculateSecondsFromTransition = calculateSecondsFromTransition as jest.MockedFunction<
   typeof calculateSecondsFromTransition
 >
@@ -29,9 +29,12 @@ describe('calculatePrice', () => {
     extendedStreamId: 'extended-stream-id',
     overnightStreamId: 'overnight-stream-id',
     url: 'https://api.example.com',
+    tradingHoursUrl: 'https://trading-hours.example.com',
     requester: {} as Requester,
     sessionBoundaries: ['09:00', '17:00'],
     sessionBoundariesTimeZone: 'America/New_York',
+    sessionMarket: 'nyse',
+    sessionMarketType: '24/5',
     decimals: 8,
   }
 
@@ -92,15 +95,18 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
+      )
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 6,
       })
 
-      expect(result).toStrictEqual({
+      const expectedResult = {
         result: '5',
         rawPrice: '1',
         decimals: 6,
@@ -111,6 +117,21 @@ describe('calculatePrice', () => {
           x: '2',
           p: '3',
           secondsFromTransition: 0,
+        },
+        sessionSource: 'FALLBACK',
+      }
+      expect(result[0]).toStrictEqual({
+        ...expectedResult,
+        smoother: {
+          ...expectedResult.smoother,
+          smoother: 'ema',
+        },
+      })
+      expect(result[1]).toStrictEqual({
+        ...expectedResult,
+        smoother: {
+          ...expectedResult.smoother,
+          smoother: 'kalman',
         },
       })
     })
@@ -132,16 +153,19 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
+      )
       mockProcessUpdate.mockReturnValue({ price: 10n, x: 1n, p: 2n })
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 6,
       })
 
-      expect(result.result).toEqual('5')
-      expect(result.decimals).toEqual(6)
+      expect(result[0].result).toEqual('5')
+      expect(result[0].decimals).toEqual(6)
     })
 
     it('price.decimals < target decimals', async () => {
@@ -161,16 +185,19 @@ describe('calculatePrice', () => {
         paused: false,
       })
 
-      mockCalculateSecondsFromTransition.mockReturnValue(0)
+      mockCalculateSecondsFromTransition.mockReturnValue(
+        Promise.resolve({ value: 0, source: 'FALLBACK' }),
+      )
       mockProcessUpdate.mockReturnValue({ price: 1n, x: 2n, p: 3n })
 
       const result = await calculatePrice({
         ...defaultParams,
+        smoother: 'kalman',
         decimals: 7,
       })
 
-      expect(result.result).toEqual('50')
-      expect(result.decimals).toEqual(7)
+      expect(result[0].result).toEqual('50')
+      expect(result[0].decimals).toEqual(7)
     })
   })
 })

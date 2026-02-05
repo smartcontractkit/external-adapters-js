@@ -2,8 +2,9 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { Smoother } from '../endpoint/price'
 import { getRegistryData } from '../lib/registry'
-import { calculateSecondsFromTransition } from '../lib/session'
+import { calculateSecondsFromTransition } from '../lib/session/session'
 import { processUpdate } from '../lib/smoother/smoother'
 import { getPrice } from '../lib/streams'
 
@@ -17,12 +18,16 @@ export const calculatePrice = async (param: {
   extendedStreamId: string
   overnightStreamId: string
   url: string
+  tradingHoursUrl: string
   requester: Requester
+  sessionMarket: string
+  sessionMarketType: string
   sessionBoundaries: string[]
   sessionBoundariesTimeZone: string
+  smoother: Smoother
   decimals: number
 }) => {
-  const [price, { multiplier, paused }] = await Promise.all([
+  const [price, { multiplier, paused }, secondsFromTransition] = await Promise.all([
     getPrice(
       param.regularStreamId,
       param.extendedStreamId,
@@ -31,6 +36,14 @@ export const calculatePrice = async (param: {
       param.requester,
     ),
     getRegistryData(param.asset, param.registry, param.provider),
+    calculateSecondsFromTransition(
+      param.tradingHoursUrl,
+      param.requester,
+      param.sessionBoundaries,
+      param.sessionBoundariesTimeZone,
+      param.sessionMarket,
+      param.sessionMarketType,
+    ),
   ])
 
   if (paused) {
@@ -40,12 +53,42 @@ export const calculatePrice = async (param: {
     })
   }
 
-  const secondsFromTransition = calculateSecondsFromTransition(
-    param.sessionBoundaries,
-    param.sessionBoundariesTimeZone,
-  )
+  const common = {
+    rawPrice: price.price,
+    decimals: param.decimals,
+    registry: {
+      sValue: multiplier.toString(),
+      paused,
+    },
+    stream: price.data,
+  }
 
+  return ['ema', 'kalman'].map((smoother) => {
+    const smoothed = smooth(
+      smoother as Smoother,
+      param,
+      price,
+      secondsFromTransition.value,
+      multiplier,
+    )
+    return {
+      result: smoothed.result,
+      ...common,
+      smoother: smoothed.smoother,
+      sessionSource: secondsFromTransition.source,
+    }
+  })
+}
+
+const smooth = (
+  smoother: Smoother,
+  param: { asset: string; decimals: number },
+  price: { price: string; spread: bigint; decimals: number },
+  secondsFromTransition: number,
+  multiplier: bigint,
+) => {
   const smoothed = processUpdate(
+    smoother,
     param.asset,
     BigInt(price.price),
     price.spread,
@@ -59,14 +102,8 @@ export const calculatePrice = async (param: {
 
   return {
     result: result.toString(),
-    rawPrice: price.price,
-    decimals: param.decimals,
-    registry: {
-      sValue: multiplier.toString(),
-      paused,
-    },
-    stream: price.data,
     smoother: {
+      smoother,
       price: smoothed.price.toString(),
       x: smoothed.x.toString(),
       p: smoothed.p.toString(),

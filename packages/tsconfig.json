@@ -12,9 +12,6 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
-      "path": "./composites/curve-3pool"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
@@ -22,6 +19,9 @@
     },
     {
       "path": "./composites/gmx-tokens"
+    },
+    {
+      "path": "./composites/gold"
     },
     {
       "path": "./composites/historical-average"
@@ -114,9 +114,6 @@
       "path": "./sources/anyblock"
     },
     {
-      "path": "./sources/ap-election"
-    },
-    {
       "path": "./sources/apex"
     },
     {
@@ -166,6 +163,9 @@
     },
     {
       "path": "./sources/cache.gold"
+    },
+    {
+      "path": "./sources/canton-functions"
     },
     {
       "path": "./sources/ceffu"
@@ -219,16 +219,10 @@
       "path": "./sources/covid-tracker"
     },
     {
-      "path": "./sources/cryptex"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
       "path": "./sources/cryptocompare"
-    },
-    {
-      "path": "./sources/curve"
     },
     {
       "path": "./sources/data-engine"
@@ -255,9 +249,6 @@
       "path": "./sources/elwood"
     },
     {
-      "path": "./sources/ens"
-    },
-    {
       "path": "./sources/enzyme"
     },
     {
@@ -271,9 +262,6 @@
     },
     {
       "path": "./sources/etherscan"
-    },
-    {
-      "path": "./sources/ethgaswatch"
     },
     {
       "path": "./sources/exchange-copter"
@@ -378,9 +366,6 @@
       "path": "./sources/m0"
     },
     {
-      "path": "./sources/messari"
-    },
-    {
       "path": "./sources/mobula-state"
     },
     {
@@ -430,9 +415,6 @@
     },
     {
       "path": "./sources/openexchangerates"
-    },
-    {
-      "path": "./sources/paypal"
     },
     {
       "path": "./sources/polkadot-balance"

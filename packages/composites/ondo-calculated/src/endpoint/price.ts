@@ -2,6 +2,7 @@ import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { priceTransport } from '../transport/transport'
 
@@ -32,17 +33,35 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Data Streams overnight hour feed ID for the underlying asset',
     },
+    sessionMarket: {
+      required: true,
+      type: 'string',
+      description:
+        'The name of the market for session times, for example nyse. This is passed to the tradinghours adapter as the `market` parameter.',
+    },
+    sessionMarketType: {
+      required: true,
+      type: 'string',
+      description:
+        'The type of the market for session times, for example 24/5. This is passed to the tradinghours adapter as the `type` parameter.',
+    },
     sessionBoundaries: {
       required: true,
       type: 'string',
       array: true,
       description:
-        'A list of time where market trasition from 1 session to the next in the format of HH:MM',
+        '(backup) A list of time where market trasition from 1 session to the next in the format of HH:MM. This is only used when the adapter is unable to fetch session times from the tradinghours EA',
     },
     sessionBoundariesTimeZone: {
       required: true,
       type: 'string',
       description: 'ANA Time Zone Database format',
+    },
+    smoother: {
+      type: 'string',
+      description: 'Smoothing algorithm to apply to the price',
+      options: ['kalman', 'ema'],
+      default: 'kalman',
     },
     decimals: {
       type: 'number',
@@ -57,8 +76,11 @@ export const inputParameters = new InputParameters(
       regularStreamId: '0x0',
       extendedStreamId: '0x0',
       overnightStreamId: '0x0',
+      sessionMarket: 'nyse',
+      sessionMarketType: '24/5',
       sessionBoundaries: ['04:00', '16:00', '20:00'],
       sessionBoundariesTimeZone: 'America/New_York',
+      smoother: 'kalman',
       decimals: 8,
     },
   ],
@@ -87,10 +109,13 @@ export type BaseEndpointTypes = {
         p: string
         secondsFromTransition: number
       }
+      sessionSource: 'TRADINGHOURS' | 'FALLBACK'
     }
   }
   Settings: typeof config.settings
 }
+
+export type Smoother = TypeFromDefinition<BaseEndpointTypes['Parameters']>['smoother']
 
 export const endpoint = new AdapterEndpoint({
   name: 'price',
