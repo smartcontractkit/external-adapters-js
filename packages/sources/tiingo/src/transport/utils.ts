@@ -33,15 +33,6 @@ export interface ProviderResponseBody {
 
 const logger = makeLogger('TiingoTransportUtils')
 
-export type WsSelectUrlOptions = {
-  primaryAttempts: number
-  secondaryAttempts: number
-}
-
-/** Returns n if it is a positive integer, otherwise 1 (guards against 0, negative, NaN, non-number). */
-const toPositiveInteger = (n: unknown): number =>
-  typeof n === 'number' && Number.isInteger(n) && n > 0 ? n : 1
-
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
     RequestBody: never
@@ -152,20 +143,15 @@ export const wsMessageContent = (
 
 // There exists similar functionality in tiingo-state EA
 // urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection is 1-indexed
-// Reads WS_URL_PRIMARY_ATTEMPTS and WS_URL_SECONDARY_ATTEMPTS from config (env); pass options to override (e.g. in tests).
+// Reads WS_URL_PRIMARY_ATTEMPTS and WS_URL_SECONDARY_ATTEMPTS from config (env).
 export const wsSelectUrl = (
   primaryBaseUrl: string,
   secondaryBaseUrl: string,
   urlSuffix: string,
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
-  options?: WsSelectUrlOptions,
 ): string => {
-  const primaryAttempts = toPositiveInteger(
-    options?.primaryAttempts ?? config.settings?.WS_URL_PRIMARY_ATTEMPTS,
-  )
-  const secondaryAttempts = toPositiveInteger(
-    options?.secondaryAttempts ?? config.settings?.WS_URL_SECONDARY_ATTEMPTS,
-  )
+  const primaryAttempts = config.settings?.WS_URL_PRIMARY_ATTEMPTS ?? 1
+  const secondaryAttempts = config.settings?.WS_URL_SECONDARY_ATTEMPTS ?? 1
   const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
