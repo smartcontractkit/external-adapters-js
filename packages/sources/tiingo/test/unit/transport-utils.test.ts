@@ -1,5 +1,14 @@
 import { wsMessageContent, wsSelectUrl } from '../../src/transport/utils'
 
+jest.mock('../../src/config', () => ({
+  config: {
+    settings: {
+      WS_URL_PRIMARY_ATTEMPTS: 1,
+      WS_URL_SECONDARY_ATTEMPTS: 1,
+    },
+  },
+}))
+
 jest.mock('@chainlink/external-adapter-framework/util', () => ({
   ...jest.requireActual('@chainlink/external-adapter-framework/util'),
   makeLogger: jest.fn(() => ({
