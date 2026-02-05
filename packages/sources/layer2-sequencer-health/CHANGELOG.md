@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.11.0
+
+### Minor Changes
+
+- [#4531](https://github.com/smartcontractkit/external-adapters-js/pull/4531) [`d2e8617`](https://github.com/smartcontractkit/external-adapters-js/commit/d2e86172d4461c175b5da3c9a6b7e8b6e839eedc) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Supports Katana for L2EP
+
 ## 4.10.0
 
 ### Minor Changes

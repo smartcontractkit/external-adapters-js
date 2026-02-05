@@ -1,6 +1,6 @@
 # TIINGO
 
-![2.9.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.9.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tiingo/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -16,12 +16,14 @@ If the value of `WS_SUBSCRIPTION_TTL` is less than the value of `CACHE_MAX_AGE`,
 
 ## Environment Variables
 
-| Required? |           Name            |                 Description                 |  Type  | Options |            Default             |
-| :-------: | :-----------------------: | :-----------------------------------------: | :----: | :-----: | :----------------------------: |
-|           |       API_ENDPOINT        |           API endpoint for tiingo           | string |         |   `https://api.tiingo.com/`    |
-|    ✅     |          API_KEY          | API key for tiingo, valid for all endpoints | string |         |                                |
-|           |      WS_API_ENDPOINT      |        Websocket endpoint for tiingo        | string |         |     `wss://api.tiingo.com`     |
-|           | SECONDARY_WS_API_ENDPOINT |   Secondary websocket endpoint for tiingo   | string |         | `wss://api.redundantstack.com` |
+| Required? |           Name            |                                                    Description                                                    |  Type  | Options |            Default             |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|           |       API_ENDPOINT        |                                              API endpoint for tiingo                                              | string |         |   `https://api.tiingo.com/`    |
+|    ✅     |          API_KEY          |                                    API key for tiingo, valid for all endpoints                                    | string |         |                                |
+|           |      WS_API_ENDPOINT      |                                           Websocket endpoint for tiingo                                           | string |         |     `wss://api.tiingo.com`     |
+|           | SECONDARY_WS_API_ENDPOINT |                                      Secondary websocket endpoint for tiingo                                      | string |         | `wss://api.redundantstack.com` |
+|           |  WS_URL_PRIMARY_ATTEMPTS  | Number of consecutive connection attempts to primary WebSocket URL per failover cycle (alternates with secondary) | number |         |              `1`               |
+|           | WS_URL_SECONDARY_ATTEMPTS | Number of consecutive connection attempts to secondary WebSocket URL per failover cycle (alternates with primary) | number |         |              `1`               |
 
 ---
 
