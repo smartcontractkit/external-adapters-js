@@ -495,7 +495,7 @@ describe('PriceTransport', () => {
       log.mockClear()
     })
 
-    it('should not use previous price if stream gives error', async () => {
+    it('should not use previous price if stream gives error for 5 minutes', async () => {
       const error = 'Stream error'
       const goldPrice = '4000000000000000000000'
       const xautPrice = '5100000000000000000000'
