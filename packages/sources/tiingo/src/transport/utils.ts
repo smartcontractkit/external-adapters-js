@@ -43,6 +43,10 @@ const DEFAULT_WS_SELECT_URL_OPTIONS: WsSelectUrlOptions = {
   secondaryAttempts: 1,
 }
 
+/** Returns n if it is a positive integer, otherwise 1 (guards against 0, negative, NaN, non-number). */
+const toPositiveInteger = (n: unknown): number =>
+  typeof n === 'number' && Number.isInteger(n) && n > 0 ? n : 1
+
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
     RequestBody: never
@@ -161,14 +165,16 @@ export const wsSelectUrl = (
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
   options?: WsSelectUrlOptions,
 ): string => {
-  const primaryAttempts =
+  const primaryAttempts = toPositiveInteger(
     options?.primaryAttempts ??
-    config.settings?.WS_URL_PRIMARY_ATTEMPTS ??
-    DEFAULT_WS_SELECT_URL_OPTIONS.primaryAttempts
-  const secondaryAttempts =
+      config.settings?.WS_URL_PRIMARY_ATTEMPTS ??
+      DEFAULT_WS_SELECT_URL_OPTIONS.primaryAttempts,
+  )
+  const secondaryAttempts = toPositiveInteger(
     options?.secondaryAttempts ??
-    config.settings?.WS_URL_SECONDARY_ATTEMPTS ??
-    DEFAULT_WS_SELECT_URL_OPTIONS.secondaryAttempts
+      config.settings?.WS_URL_SECONDARY_ATTEMPTS ??
+      DEFAULT_WS_SELECT_URL_OPTIONS.secondaryAttempts,
+  )
   const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
