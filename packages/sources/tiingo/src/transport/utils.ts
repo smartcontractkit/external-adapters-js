@@ -32,7 +32,6 @@ export interface ProviderResponseBody {
 }
 
 const logger = makeLogger('TiingoTransportUtils')
-const URL_SELECTION_CYCLE_LENGTH = 6
 
 export type CryptoHttpTransportTypes = BaseCryptoEndpointTypes & {
   Provider: {
@@ -144,25 +143,28 @@ export const wsMessageContent = (
 
 // There exists similar functionality in tiingo-state EA
 // urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection is 1-indexed
+// Reads WS_URL_PRIMARY_ATTEMPTS and WS_URL_SECONDARY_ATTEMPTS from config (env).
 export const wsSelectUrl = (
   primaryBaseUrl: string,
   secondaryBaseUrl: string,
   urlSuffix: string,
   urlConfigFunctionParameters: WebSocketUrlConfigFunctionParameters,
 ): string => {
-  // business logic connection attempts (repeats):
-  //   5x try connecting to primary url
-  //   1x try connection to secondary url
+  const primaryAttempts = config.settings.WS_URL_PRIMARY_ATTEMPTS
+  const secondaryAttempts = config.settings.WS_URL_SECONDARY_ATTEMPTS
+  const cycleLength = primaryAttempts + secondaryAttempts
   const primaryUrl = `${primaryBaseUrl}/${urlSuffix}`
   const secondaryUrl = `${secondaryBaseUrl}/${urlSuffix}`
 
   const zeroIndexedNumAttemptedConnections =
     urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection - 1
-  const cycle = zeroIndexedNumAttemptedConnections % URL_SELECTION_CYCLE_LENGTH
-  const url = cycle !== URL_SELECTION_CYCLE_LENGTH - 1 ? primaryUrl : secondaryUrl
+  const cycle = zeroIndexedNumAttemptedConnections % cycleLength
+  const url = cycle < primaryAttempts ? primaryUrl : secondaryUrl
 
-  logger.trace(
-    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, url: ${url}`,
+  logger.info(
+    `wsSelectUrl: connection attempts ${zeroIndexedNumAttemptedConnections}, using ${
+      url === primaryUrl ? 'primary' : 'secondary'
+    } (cycle position: ${cycle}, cycle length: ${cycleLength})`,
   )
   return url
 }

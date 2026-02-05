@@ -1,5 +1,14 @@
 import { wsMessageContent, wsSelectUrl } from '../../src/transport/utils'
 
+jest.mock('../../src/config', () => ({
+  config: {
+    settings: {
+      WS_URL_PRIMARY_ATTEMPTS: 1,
+      WS_URL_SECONDARY_ATTEMPTS: 1,
+    },
+  },
+}))
+
 jest.mock('@chainlink/external-adapter-framework/util', () => ({
   ...jest.requireActual('@chainlink/external-adapter-framework/util'),
   makeLogger: jest.fn(() => ({
@@ -25,19 +34,18 @@ describe('transport-utils', () => {
   })
 
   describe('wsSelectUrl', () => {
-    it('returns secondary when connectionAttempts is 6th in cycle, primary otherwise', () => {
-      const primary = 'primary'
-      const secondary = 'secondary'
-      const urlPath = 'path'
-      const expectPrimary = wsSelectUrl(primary, secondary, urlPath, {
-        streamHandlerInvocationsWithNoConnection: 1,
-      })
-      expect(expectPrimary).toEqual(`${primary}/${urlPath}`)
+    const primary = 'primary'
+    const secondary = 'secondary'
+    const urlPath = 'path'
+    const params = (n: number) => ({ streamHandlerInvocationsWithNoConnection: n })
 
-      const expectSecondary = wsSelectUrl(primary, secondary, urlPath, {
-        streamHandlerInvocationsWithNoConnection: 6,
-      })
-      expect(expectSecondary).toEqual(`${secondary}/${urlPath}`)
+    it('alternates primary and secondary from config (1:1 when both are 1)', () => {
+      expect(wsSelectUrl(primary, secondary, urlPath, params(1))).toEqual(`${primary}/${urlPath}`)
+      expect(wsSelectUrl(primary, secondary, urlPath, params(2))).toEqual(`${secondary}/${urlPath}`)
+      expect(wsSelectUrl(primary, secondary, urlPath, params(3))).toEqual(`${primary}/${urlPath}`)
+      expect(wsSelectUrl(primary, secondary, urlPath, params(4))).toEqual(`${secondary}/${urlPath}`)
+      expect(wsSelectUrl(primary, secondary, urlPath, params(5))).toEqual(`${primary}/${urlPath}`)
+      expect(wsSelectUrl(primary, secondary, urlPath, params(6))).toEqual(`${secondary}/${urlPath}`)
     })
   })
 })

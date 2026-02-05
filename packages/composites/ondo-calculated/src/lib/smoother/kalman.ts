@@ -8,14 +8,22 @@ const CONFIG = {
   INITIAL_P: parseUnits('1.5', PRECISION), // initial covariance
   MIN_R: parseUnits('0.002545840040746239', PRECISION), // Measurement noise floor
   DECAY_FACTOR: parseUnits('0.99', PRECISION), //Covariance decay
+  TIMEOUT: 10 * 60 * 1000, // 10 minutes
 }
 
 // 1D Kalman filter for price with measurement noise based on spread
 export class KalmanFilter {
   private x = -1n
   private p = CONFIG.INITIAL_P
+  private lastUpdateTime = 0
 
   public smooth(price: bigint, spread: bigint) {
+    if (Date.now() - this.lastUpdateTime > CONFIG.TIMEOUT) {
+      this.x = -1n
+      this.p = CONFIG.INITIAL_P
+    }
+    this.lastUpdateTime = Date.now()
+
     const prevX = this.x
     const prevP = this.p
 

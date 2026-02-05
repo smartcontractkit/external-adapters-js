@@ -9,6 +9,7 @@ const CONFIG = {
   // Convert (alpha_base, dt_base_ms) -> tau_ms
   // alpha_base = 1 - exp(-dt_base_ms/tau_ms) => tau_ms = -dt_base_ms / ln(1 - alpha_base)
   TAU_MS: -DT_BASE_MS / Math.log(1.0 - ALPHA_BASE),
+  TIMEOUT: 10 * 60 * 1000, // 10 minutes
 }
 
 // Time-aware Exponential Moving Average for irregularly sampled updates, using millisecond resolution everywhere.
@@ -21,6 +22,12 @@ export class EmaFilter {
   private p = 0 // Previous price update timestamp
 
   public smooth(price: bigint) {
+    // Clear internal state if no updates for a long time
+    if (Date.now() - this.p > CONFIG.TIMEOUT) {
+      this.x = -1n
+      this.p = 0
+    }
+
     const prevX = this.x
     const now = Date.now()
     const interval = now - this.p

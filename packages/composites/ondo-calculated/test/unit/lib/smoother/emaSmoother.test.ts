@@ -110,6 +110,28 @@ describe('EmaSmoother', () => {
     expect(resultVeryLargeInterval.price).toBe(163n)
   })
 
+  it('should reset state when no request for more than 10 minutes', () => {
+    const TIMEOUT_MS = 10 * 60 * 1000 // 10 minutes
+    const assetId = 'ema_timeout_asset'
+    const t0 = 1000000000000
+
+    jest.setSystemTime(t0)
+    processUpdate('ema', assetId, 100n, spread, 0)
+    jest.setSystemTime(t0 + 1000)
+    const afterUpdates = processUpdate('ema', assetId, 150n, spread, 0)
+    expect(afterUpdates.x).toBe(100n)
+    expect(afterUpdates.p).toBe(1000)
+    expect(afterUpdates.price).toBe(104n)
+
+    // Advance time so last update was strictly more than 10 minutes ago
+    jest.setSystemTime(t0 + 1000 + TIMEOUT_MS + 1)
+
+    const afterTimeout = processUpdate('ema', assetId, 200n, spread, 0)
+    expect(afterTimeout.x).toBe(-1n)
+    expect(afterTimeout.p).toBe(t0 + 1000 + TIMEOUT_MS + 1)
+    expect(afterTimeout.price).toBe(200n)
+  })
+
   it('Handle real world data', () => {
     const data = fs
       .readFileSync(path.join(__dirname, 'ema_smoother_sample.csv'), 'utf8')
