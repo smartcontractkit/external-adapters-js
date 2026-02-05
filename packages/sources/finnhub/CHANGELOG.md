@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 4.0.1
+
+### Patch Changes
+
+- [#4579](https://github.com/smartcontractkit/external-adapters-js/pull/4579) [`65397d4`](https://github.com/smartcontractkit/external-adapters-js/commit/65397d444c71757cbc424452ffb3fca6a1534308) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Rename finnhub market alias TGAT to TRADEGATE
+
 ## 4.0.0
 
 ### Major Changes

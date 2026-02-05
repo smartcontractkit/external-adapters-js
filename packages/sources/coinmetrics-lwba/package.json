@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmetrics-lwba-adapter",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Chainlink coinmetrics-lwba adapter.",
   "keywords": [
     "Chainlink",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@chainlink/coinmetrics-adapter": "workspace:^",
-    "@chainlink/external-adapter-framework": "2.11.1",
+    "@chainlink/external-adapter-framework": "2.11.6",
     "tslib": "2.4.1"
   }
 }

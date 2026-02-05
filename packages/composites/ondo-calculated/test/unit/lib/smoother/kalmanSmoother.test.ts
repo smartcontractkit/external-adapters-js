@@ -280,6 +280,38 @@ describe('KalmanSmoother', () => {
     processUpdate('kalman', 'test13', 100n, spread, 100)
     expect(processUpdate('kalman', 'test13', 10n, spread, 100).x).toBe(100n)
   })
+
+  describe('timeout reset', () => {
+    beforeAll(() => {
+      jest.useFakeTimers()
+    })
+
+    afterAll(() => {
+      jest.useRealTimers()
+    })
+
+    it('should reset state when no request for more than 10 minutes', () => {
+      const TIMEOUT_MS = 10 * 60 * 1000 // 10 minutes
+      const t0 = 1000000000000
+      const spread = scale(1)
+      const assetId = 'kalman_timeout_asset'
+
+      jest.setSystemTime(t0)
+      processUpdate('kalman', assetId, scale(100), spread, 100)
+      processUpdate('kalman', assetId, scale(100), spread, 100)
+      const afterUpdates = processUpdate('kalman', assetId, scale(150), spread, 0)
+      expect(afterUpdates.x).toBeGreaterThan(0n)
+      expect(afterUpdates.p).toBe(597468601734897111n)
+      expect(afterUpdates.price).toBe(118588680839058800650n)
+
+      jest.setSystemTime(t0 + TIMEOUT_MS + 1)
+
+      const afterTimeout = processUpdate('kalman', assetId, scale(200), spread, 0)
+      expect(afterTimeout.x).toBe(-1n)
+      expect(afterTimeout.p).toBe(parseUnits('1.5', 18))
+      expect(afterTimeout.price).toBe(scale(200))
+    })
+  })
 })
 
 describe('KalmanSmoother', () => {

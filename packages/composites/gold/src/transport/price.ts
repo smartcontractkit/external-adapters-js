@@ -1,5 +1,5 @@
-import { getRwaPrice } from '@chainlink/data-engine-adapter'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { getCryptoPrice, getRwaPrice } from '@chainlink/data-engine-adapter'
+import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
@@ -11,9 +11,25 @@ const logger = makeLogger('PriceTransport')
 
 type RequestParams = typeof inputParameters.validated
 
+type CryptoPriceResponse = {
+  bid: string
+  ask: string
+  price: string
+  decimals: number
+}
+
+type RwaPriceResponse = {
+  midPrice: string
+  marketStatus: MarketStatus
+  decimals: number
+}
+
+const RESULT_DECIMALS = 18
+
 export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   requester!: Requester
+  tokenizedPriceStreamsConfig!: Record<string, string>
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -24,6 +40,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.requester = dependencies.requester
+    try {
+      this.tokenizedPriceStreamsConfig = JSON.parse(this.config.TOKENIZED_GOLD_PRICE_STREAMS)
+    } catch (e: unknown) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
+      })
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -54,26 +78,71 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   async _handleRequest(_: RequestParams): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const xauResponse = await getRwaPrice(
-      this.config.XAU_FEED_ID,
-      this.config.DATA_ENGINE_ADAPTER_URL,
-      this.requester,
-    )
+    const [xauResponse, ...tokenizedPriceResponses]: [
+      RwaPriceResponse,
+      ...{
+        name: string
+        response: CryptoPriceResponse
+      }[],
+    ] = await Promise.all([
+      getRwaPrice(this.config.XAU_FEED_ID, this.config.DATA_ENGINE_ADAPTER_URL, this.requester),
+      ...Object.entries(this.tokenizedPriceStreamsConfig).map(async ([name, feedId]) => ({
+        name,
+        response: await getCryptoPrice(feedId, this.config.DATA_ENGINE_ADAPTER_URL, this.requester),
+      })),
+    ])
 
-    const { midPrice: result, decimals } = xauResponse
+    const { midPrice: xauPrice, decimals } = xauResponse
+
+    this.verifyDecimals('XAU', decimals)
+
+    let result: string
+
+    if (xauResponse.marketStatus === MarketStatus.OPEN) {
+      result = xauPrice
+    } else {
+      result = this.calculateCompositePrice(tokenizedPriceResponses).toString()
+    }
 
     return {
-      data: {
-        result,
-        decimals,
-      },
       statusCode: 200,
       result,
+      data: {
+        result,
+        decimals: RESULT_DECIMALS,
+        marketStatus: xauResponse.marketStatus,
+      },
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
+    }
+  }
+
+  calculateCompositePrice(
+    tokenizedPriceResponses: { name: string; response: CryptoPriceResponse }[],
+  ): bigint {
+    let sumPrice = 0n
+    let count = 0n
+
+    for (const { name, response } of tokenizedPriceResponses) {
+      this.verifyDecimals(name, response.decimals)
+      const price = BigInt(response.price)
+
+      sumPrice += price
+      count += 1n
+    }
+
+    return sumPrice / count
+  }
+
+  verifyDecimals(streamName: string, decimals: number): void {
+    if (decimals !== RESULT_DECIMALS) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Unexpected ${streamName} price stream decimals: ${decimals}, expected: ${RESULT_DECIMALS}`,
+      })
     }
   }
 

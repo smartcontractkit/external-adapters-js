@@ -1,5 +1,24 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.9
+
+### Patch Changes
+
+- [#4543](https://github.com/smartcontractkit/external-adapters-js/pull/4543) [`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.11.6 + Update Tiingo ws fail-over logic and logging
+
+- Updated dependencies [[`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810)]:
+  - @chainlink/blocksize-capital-adapter@2.5.3
+  - @chainlink/coinmarketcap-adapter@2.1.3
+  - @chainlink/cryptocompare-adapter@3.4.4
+  - @chainlink/cfbenchmarks-adapter@2.6.3
+  - @chainlink/coinmetrics-adapter@3.10.3
+  - @chainlink/coinpaprika-adapter@2.2.3
+  - @chainlink/coingecko-adapter@2.1.3
+  - @chainlink/finage-adapter@2.5.1
+  - @chainlink/tiingo-adapter@2.9.4
+  - @chainlink/kaiko-adapter@2.3.3
+  - @chainlink/ncfx-adapter@4.5.3
+
 ## 1.14.8
 
 ### Patch Changes
