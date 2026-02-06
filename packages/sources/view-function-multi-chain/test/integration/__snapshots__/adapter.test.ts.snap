@@ -30,7 +30,7 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
 
 exports[`execute calculated-multi-function endpoint should fail additional data requests in case of missing signature 1`] = `
 {
-  "errorMessage": "Function call "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
+  "errorMessage": "Function call "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.16.0)",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
