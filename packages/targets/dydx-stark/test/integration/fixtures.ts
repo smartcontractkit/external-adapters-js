@@ -5,13 +5,13 @@ export const mockResponseSuccess = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .post('', {
-      starkKey: '0x1895a6a77ae14e7987b9cb51329a5adfb17bd8e7c638f92d6892d76e51cebcf',
+      starkKey: '0x179d2c412b2e6f792d89855789c5bdebdefda05a728925f038763bab1b15834',
       timestamp: 1577836800,
       price: '11512340000000000000000',
       assetName: 'BTCUSD',
       oracleName: 'Maker',
-      signatureR: '0x6a7a118a6fa508c4f0eb77ea0efbc8d48a64d4a570d93f5c61cd886877cb920',
-      signatureS: '0x6de9006a7bbf610d583d514951c98d15b1a0f6c78846986491d2c8ca049fd55',
+      signatureR: '0x484fdd3bba498ddd9434878400e2c0113ce4ff6f1cd80fb600fab129b259d99',
+      signatureS: '0x27929a4beebc73f52701476332a7e01cc71bdb641dbcc6bb881608273d684a8',
     })
     .reply(200, () => ({ market: 'BTCUSD', price: '27000' }), [
       'Content-Type',
