@@ -36,6 +36,9 @@ exports[`execute nav endpoint should return error for invalid token 1`] = `
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
+    "aum": 100,
+    "navDate": "2025-11-11T16:55:53.448+00:00",
+    "navPerShare": 1.020408163265306,
     "result": 1.020408163265306,
   },
   "result": 1.020408163265306,

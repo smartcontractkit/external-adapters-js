@@ -27,7 +27,13 @@ export const inputParameters = new InputParameters(
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: SingleNumberResultResponse & {
+    Data: {
+      navPerShare: number
+      aum: number
+      navDate: string
+    }
+  }
   Settings: typeof config.settings
 }
 

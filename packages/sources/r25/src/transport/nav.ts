@@ -80,6 +80,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           result,
           data: {
             result,
+            navPerShare: result,
+            aum: apiResponse.data.totalAsset,
+            navDate: apiResponse.data.lastUpdate,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(apiResponse.data.lastUpdate).getTime(),
