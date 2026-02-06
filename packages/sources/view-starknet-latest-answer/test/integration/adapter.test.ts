@@ -1,10 +1,15 @@
-import * as nock from 'nock'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { mockStarknetSepoliaContractCallResponseSuccess } from './fixtures'
+import * as nock from 'nock'
 import * as process from 'process'
+import { mockStarknetSepoliaContractCallResponseSuccess } from './fixtures'
+
+const withoutMeta = <T extends Record<string, unknown>>(payload: T): Omit<T, 'meta'> => {
+  const { meta: _meta, ...rest } = payload
+  return rest as Omit<T, 'meta'>
+}
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -42,7 +47,7 @@ describe('execute', () => {
       mockStarknetSepoliaContractCallResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      expect(withoutMeta(response.json())).toMatchSnapshot()
     })
     it('should return error for invalid input', async () => {
       const data = {
@@ -50,7 +55,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
+      expect(withoutMeta(response.json())).toMatchSnapshot()
     })
     it("should return error for contract which isn't a chainlink feed", async () => {
       const data = {
@@ -58,7 +63,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(502)
-      expect(response.json()).toMatchSnapshot()
+      expect(withoutMeta(response.json())).toMatchSnapshot()
     })
   })
 })

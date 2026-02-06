@@ -15,12 +15,6 @@ exports[`execute EUSXPrice should calculate price based on yield pool and vestin
       "totalAssets": 5000,
     },
   },
-  "meta": {
-    "adapterName": "SOLANA_FUNCTIONS",
-    "metrics": {
-      "feedId": "{"address":"eusxykoz6agejyvbnp3wtwq1e8zuoklajpecpxxtgg3"}",
-    },
-  },
   "result": 4.996003996003996,
   "statusCode": 200,
   "timestamps": {
@@ -33,12 +27,6 @@ exports[`execute EUSXPrice should calculate price based on yield pool and vestin
 exports[`execute EUSXPrice should error if accounts are missing information 1`] = `
 {
   "errorMessage": "Invalid vesting schedule fields",
-  "meta": {
-    "adapterName": "SOLANA_FUNCTIONS",
-    "metrics": {
-      "feedId": "{"address":"eusxykoz6agejyvbnp3wtwq1e8zuoklajpecpxxtgg3"}",
-    },
-  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -50,12 +38,6 @@ exports[`execute EUSXPrice should error if accounts are missing information 1`] 
 exports[`execute EUSXPrice should error if fetchAccountInformation fails 1`] = `
 {
   "errorMessage": "Simulated account fetch failure",
-  "meta": {
-    "adapterName": "SOLANA_FUNCTIONS",
-    "metrics": {
-      "feedId": "{"address":"eusxykoz6agejyvbnp3wtwq1e8zuoklajpecpxxtgg3"}",
-    },
-  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
