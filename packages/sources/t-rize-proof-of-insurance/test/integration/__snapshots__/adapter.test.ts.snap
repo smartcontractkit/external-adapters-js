@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute insurance_proof endpoint should return success 1`] = `
+{
+  "data": {
+    "aum": "394686563145051592141435390537358740558257698705448720389",
+    "navDate": 42,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute insurance_proof endpoint should return success with empty request body (uses default endpoint) 1`] = `
+{
+  "data": {
+    "aum": "394686563145051592141435390537358740558257698705448720389",
+    "navDate": 42,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute upstream failures should return 502 when provider returns no data 1`] = `
+{
+  "errorMessage": "The data provider did not return any value",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute upstream failures should return error on 401 unauthorized 1`] = `
+{
+  "errorMessage": "Provider request failed with status 401",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute upstream failures should return error on 500 server error 1`] = `
+{
+  "errorMessage": "Provider request failed with status 500",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
