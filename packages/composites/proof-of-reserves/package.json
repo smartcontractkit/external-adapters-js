@@ -53,7 +53,7 @@
     "@chainlink/ea-test-helpers": "workspace:*",
     "@chainlink/eth-balance-adapter": "workspace:*",
     "@chainlink/eth-beacon-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.6",
     "@chainlink/gemini-adapter": "workspace:*",
     "@chainlink/ignition-address-list-adapter": "workspace:*",
     "@chainlink/lotus-adapter": "workspace:*",
