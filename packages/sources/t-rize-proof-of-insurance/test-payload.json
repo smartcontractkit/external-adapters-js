@@ -1,0 +1,7 @@
+{
+  "requests": [
+    {
+      "endpoint": "insurance_proof"
+    }
+  ]
+}
