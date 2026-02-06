@@ -77,7 +77,6 @@
 '@chainlink/coinbase-prime-adapter': patch
 '@chainlink/ion.au-adapter': patch
 '@chainlink/starknet-gas-price-adapter': patch
-'@chainlink/deutsche-boerse-adapter': patch
 '@chainlink/generic-api-adapter': patch
 '@chainlink/ignition-address-list-adapter': patch
 '@chainlink/liveart-adapter': patch
