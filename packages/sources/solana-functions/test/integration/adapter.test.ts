@@ -6,11 +6,6 @@ import {
 import { SolanaAccountReader } from '../../src/shared/account-reader'
 import { fakeVestingScheduleAccount, fakeYieldPoolAccount } from './fixtures'
 
-const withoutMeta = <T extends Record<string, unknown>>(payload: T): Omit<T, 'meta'> => {
-  const { meta: _meta, ...rest } = payload
-  return rest as Omit<T, 'meta'>
-}
-
 describe('execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
@@ -62,7 +57,7 @@ describe('execute', () => {
         address: 'eUSXyKoZ6aGejYVbnp3wtWQ1E8zuokLAJPecPxxtgG3',
       })
       expect(response.statusCode).toBe(502)
-      expect(withoutMeta(response.json())).toMatchSnapshot()
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should error if accounts are missing information', async () => {
@@ -88,7 +83,7 @@ describe('execute', () => {
       })
 
       expect(response.statusCode).toBe(502)
-      expect(withoutMeta(response.json())).toMatchSnapshot()
+      expect(response.json()).toMatchSnapshot()
     })
 
     it('should calculate price based on yield pool and vesting schedule', async () => {
@@ -113,7 +108,7 @@ describe('execute', () => {
         address: 'eUSXyKoZ6aGejYVbnp3wtWQ1E8zuokLAJPecPxxtgG3',
       })
       expect(response.statusCode).toBe(200)
-      expect(withoutMeta(response.json())).toMatchSnapshot()
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })
