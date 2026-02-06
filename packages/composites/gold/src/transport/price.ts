@@ -61,6 +61,18 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
       })
     }
+    this.state = {
+      marketStatus: MarketStatus.UNKNOWN,
+      lastXauPrice: '0',
+      nowMs: 0,
+      tokenizedStreams: {},
+    }
+    for (const name of Object.keys(this.tokenizedPriceStreamsConfig)) {
+      this.state.tokenizedStreams[name] = {
+        lastPrice: '0',
+        lastPriceChangeTimestampMs: 0,
+      }
+    }
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -139,15 +151,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       response: PromiseSettledResult<CryptoPriceResponse>
     }[],
   ): void {
-    if (!this.state) {
-      this.state = {
-        marketStatus: MarketStatus.UNKNOWN,
-        lastXauPrice: '0',
-        nowMs: 0,
-        tokenizedStreams: {},
-      }
-    }
-
     this.state.marketStatus = xauResponse.marketStatus
     this.state.lastXauPrice = xauResponse.midPrice
     this.state.nowMs = Date.now()
@@ -159,14 +162,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
 
       this.verifyDecimals(name, response.value.decimals)
-
-      if (!(name in this.state.tokenizedStreams)) {
-        this.state.tokenizedStreams[name] = {
-          lastPrice: '0',
-          lastPriceChangeTimestampMs: 0,
-        }
-      }
-
       this.updateStreamState(this.state.tokenizedStreams[name], response.value)
     }
   }

@@ -376,6 +376,10 @@ describe('PriceTransport', () => {
             marketStatus: MarketStatus.CLOSED,
             nowMs: Date.now(),
             tokenizedStreams: {
+              XAUT: {
+                lastPrice: '0',
+                lastPriceChangeTimestampMs: 0,
+              },
               PAXG: {
                 lastPrice: paxgPrice,
                 lastPriceChangeTimestampMs: Date.now(),
@@ -420,7 +424,16 @@ describe('PriceTransport', () => {
             lastXauPrice: goldPrice,
             marketStatus: MarketStatus.CLOSED,
             nowMs: Date.now(),
-            tokenizedStreams: {},
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: '0',
+                lastPriceChangeTimestampMs: 0,
+              },
+              PAXG: {
+                lastPrice: '0',
+                lastPriceChangeTimestampMs: 0,
+              },
+            },
           },
         },
         timestamps: {
