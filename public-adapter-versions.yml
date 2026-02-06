@@ -126,9 +126,9 @@ adapters:
   - name: finalto
     version: 1.3.1
   - name: finnhub
-    version: 4.0.0
+    version: 4.0.1
   - name: finnhub-secondary
-    version: 1.0.0
+    version: 1.0.1
   - name: fireblocks
     version: 1.0.18
   - name: fmpcloud
