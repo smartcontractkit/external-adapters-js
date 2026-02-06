@@ -24,12 +24,25 @@ type RwaPriceResponse = {
   decimals: number
 }
 
+type TokenizedStreamState = {
+  lastPrice: string
+  lastPriceChangeTimestampMs: number
+}
+
+export type State = {
+  marketStatus: MarketStatus
+  lastXauPrice: string
+  nowMs: number
+  tokenizedStreams: Record<string, TokenizedStreamState>
+}
+
 const RESULT_DECIMALS = 18
 
 export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   requester!: Requester
   tokenizedPriceStreamsConfig!: Record<string, string>
+  state!: State
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -47,6 +60,18 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         statusCode: 500,
         message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
       })
+    }
+    this.state = {
+      marketStatus: MarketStatus.UNKNOWN,
+      lastXauPrice: '0',
+      nowMs: 0,
+      tokenizedStreams: {},
+    }
+    for (const name of Object.keys(this.tokenizedPriceStreamsConfig)) {
+      this.state.tokenizedStreams[name] = {
+        lastPrice: '0',
+        lastPriceChangeTimestampMs: 0,
+      }
     }
   }
 
@@ -93,12 +118,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     this.verifyDecimals('XAU', decimals)
 
+    this.updateState(xauResponse, tokenizedPriceResponses)
+
     let result: string
 
     if (xauResponse.marketStatus === MarketStatus.OPEN) {
       result = xauPrice
     } else {
-      result = this.calculateCompositePrice(BigInt(xauPrice), tokenizedPriceResponses).toString()
+      result = this.calculateCompositePrice().toString()
     }
 
     return {
@@ -107,7 +134,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       data: {
         result,
         decimals: RESULT_DECIMALS,
-        marketStatus: xauResponse.marketStatus,
+        state: this.state,
       },
       timestamps: {
         providerDataRequestedUnixMs,
@@ -117,15 +144,16 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  calculateCompositePrice(
-    xauPrice: bigint,
+  updateState(
+    xauResponse: RwaPriceResponse,
     tokenizedPriceResponses: {
       name: string
       response: PromiseSettledResult<CryptoPriceResponse>
     }[],
-  ): bigint {
-    let sumPrice = 0n
-    let count = 0n
+  ): void {
+    this.state.marketStatus = xauResponse.marketStatus
+    this.state.lastXauPrice = xauResponse.midPrice
+    this.state.nowMs = Date.now()
 
     for (const { name, response } of tokenizedPriceResponses) {
       if (response.status !== 'fulfilled') {
@@ -134,14 +162,34 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       }
 
       this.verifyDecimals(name, response.value.decimals)
-      const price = BigInt(response.value.price)
+      this.updateStreamState(this.state.tokenizedStreams[name], response.value)
+    }
+  }
 
-      sumPrice += price
+  updateStreamState(streamState: TokenizedStreamState, response: CryptoPriceResponse): void {
+    const price = response.price
+    if (price !== streamState.lastPrice) {
+      streamState.lastPrice = price
+      streamState.lastPriceChangeTimestampMs = this.state.nowMs
+    }
+  }
+
+  calculateCompositePrice(): bigint {
+    let sumPrice = 0n
+    let count = 0n
+
+    for (const state of Object.values(this.state.tokenizedStreams)) {
+      const timeSinceLastChangeMs = this.state.nowMs - state.lastPriceChangeTimestampMs
+      if (timeSinceLastChangeMs > this.config.PRICE_STALE_TIMEOUT_MS) {
+        continue
+      }
+
+      sumPrice += BigInt(state.lastPrice)
       count += 1n
     }
 
     if (count === 0n) {
-      return xauPrice
+      return BigInt(this.state.lastXauPrice)
     }
 
     return sumPrice / count
