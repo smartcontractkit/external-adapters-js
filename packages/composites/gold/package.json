@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@chainlink/data-engine-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.11.1",
+    "@chainlink/external-adapter-framework": "2.11.6",
     "tslib": "2.4.1"
   }
 }
