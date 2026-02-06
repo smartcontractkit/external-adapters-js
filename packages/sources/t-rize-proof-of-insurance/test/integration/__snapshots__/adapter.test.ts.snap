@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute insurance_proof endpoint happy path should return success 1`] = `
+{
+  "data": {
+    "aum": "394686563145051592141435390537358740558257698705448720389",
+    "daysRemaining": 42,
+    "result": 42,
+  },
+  "result": 42,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute insurance_proof endpoint happy path should work with default endpoint 1`] = `
+{
+  "data": {
+    "aum": "394686563145051592141435390537358740558257698705448720389",
+    "daysRemaining": 42,
+    "result": 42,
+  },
+  "result": 42,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute insurance_proof endpoint upstream failures should handle upstream 5xx errors 1`] = `
+{
+  "errorMessage": "Provider request failed with status 500: {"error":"Internal Server Error"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute insurance_proof endpoint upstream failures should return 502 when data provider returns empty data 1`] = `
+{
+  "errorMessage": "The data provider did not return any value",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute insurance_proof endpoint validation errors should fail on invalid endpoint 1`] = `
+{
+  "error": {
+    "message": "Adapter does not have a "invalid_endpoint" endpoint.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 404,
+}
+`;

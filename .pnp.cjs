@@ -671,6 +671,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-feeds"\
     },\
     {\
+      "name": "@chainlink/t-rize-proof-of-insurance-adapter",\
+      "reference": "workspace:packages/sources/t-rize-proof-of-insurance"\
+    },\
+    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -929,6 +933,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
@@ -6148,7 +6153,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
@@ -7895,6 +7900,21 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", [\
+      ["workspace:packages/sources/t-rize-proof-of-insurance", {\
+        "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
+        "packageDependencies": [\
+          ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
