@@ -15,6 +15,12 @@ export const config = new AdapterConfig({
       "PAXG": "0x0003b4b1d926719d4f67a08c9ffe9baf688620058c9f029923ea504eb71c877f"
     }`,
   },
+  PRICE_STALE_TIMEOUT_MS: {
+    description:
+      'The amount of time in milliseconds before a price is considered stale if there has been no change',
+    type: 'number',
+    default: 5 * 60 * 1000, // 5 minutes
+  },
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
