@@ -13,11 +13,23 @@ exports[`execute price endpoint should return success 1`] = `
         "PAXG": {
           "lastPrice": "5169500000000000000000",
           "lastPriceChangeTimestampMs": 978347471111,
+          "openMarketEma": {
+            "average": "5169500000000000000000",
+            "timestampMs": 978347471111,
+          },
         },
         "XAUT": {
           "lastPrice": "5169500000000000000000",
           "lastPriceChangeTimestampMs": 978347471111,
+          "openMarketEma": {
+            "average": "5169500000000000000000",
+            "timestampMs": 978347471111,
+          },
         },
+      },
+      "xauOpenMarketEma": {
+        "average": "4869500000000000000000",
+        "timestampMs": 978347471111,
       },
     },
   },

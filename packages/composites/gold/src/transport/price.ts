@@ -6,6 +6,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
+import { updateEma } from './ema'
 
 const logger = makeLogger('PriceTransport')
 
@@ -24,15 +25,26 @@ type RwaPriceResponse = {
   decimals: number
 }
 
+type EmaState = {
+  average: string
+  timestampMs: number
+}
+
 type TokenizedStreamState = {
   lastPrice: string
   lastPriceChangeTimestampMs: number
+  // Average price the last time the market was open.
+  // undefined until the first time the EA sees the market being open.
+  openMarketEma: EmaState | undefined
 }
 
 export type State = {
   marketStatus: MarketStatus
   lastXauPrice: string
   nowMs: number
+  // Average price the last time the market was open.
+  // undefined until the first time the EA sees the market being open.
+  xauOpenMarketEma: EmaState | undefined
   tokenizedStreams: Record<string, TokenizedStreamState>
 }
 
@@ -65,12 +77,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       marketStatus: MarketStatus.UNKNOWN,
       lastXauPrice: '0',
       nowMs: 0,
+      xauOpenMarketEma: undefined,
       tokenizedStreams: {},
     }
     for (const name of Object.keys(this.tokenizedPriceStreamsConfig)) {
       this.state.tokenizedStreams[name] = {
         lastPrice: '0',
         lastPriceChangeTimestampMs: 0,
+        openMarketEma: undefined,
       }
     }
   }
@@ -155,6 +169,19 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.state.lastXauPrice = xauResponse.midPrice
     this.state.nowMs = Date.now()
 
+    if (this.state.marketStatus === MarketStatus.OPEN) {
+      this.state.xauOpenMarketEma ??= {
+        average: this.state.lastXauPrice,
+        timestampMs: this.state.nowMs,
+      }
+      this.state.xauOpenMarketEma = this.updateEma(
+        this.state.xauOpenMarketEma,
+        this.state.lastXauPrice,
+        this.state.nowMs,
+        this.config.PREMIUM_EMA_TAU_MS,
+      )
+    }
+
     for (const { name, response } of tokenizedPriceResponses) {
       if (response.status !== 'fulfilled') {
         logger.warn(`Error fetching ${name} price: ${response.reason}`)
@@ -168,23 +195,53 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   updateStreamState(streamState: TokenizedStreamState, response: CryptoPriceResponse): void {
     const price = response.price
-    if (price !== streamState.lastPrice) {
-      streamState.lastPrice = price
-      streamState.lastPriceChangeTimestampMs = this.state.nowMs
+    if (price === streamState.lastPrice) {
+      return
+    }
+    streamState.lastPrice = response.price
+    streamState.lastPriceChangeTimestampMs = this.state.nowMs
+
+    if (this.state.marketStatus === MarketStatus.OPEN) {
+      streamState.openMarketEma ??= {
+        average: streamState.lastPrice,
+        timestampMs: this.state.nowMs,
+      }
+      streamState.openMarketEma = this.updateEma(
+        streamState.openMarketEma,
+        streamState.lastPrice,
+        this.state.nowMs,
+        this.config.PREMIUM_EMA_TAU_MS,
+      )
     }
   }
 
   calculateCompositePrice(): bigint {
+    if (!this.state.xauOpenMarketEma) {
+      // We can't calculate what premium to invert.
+      return BigInt(this.state.lastXauPrice)
+    }
+
     let sumPrice = 0n
     let count = 0n
 
     for (const state of Object.values(this.state.tokenizedStreams)) {
+      if (!state.openMarketEma) {
+        // We can't calculate what premium to invert.
+        continue
+      }
+
       const timeSinceLastChangeMs = this.state.nowMs - state.lastPriceChangeTimestampMs
       if (timeSinceLastChangeMs > this.config.PRICE_STALE_TIMEOUT_MS) {
         continue
       }
 
-      sumPrice += BigInt(state.lastPrice)
+      const premiumFactor =
+        (10n ** BigInt(RESULT_DECIMALS) * BigInt(state.openMarketEma.average)) /
+        BigInt(this.state.xauOpenMarketEma.average)
+      const derivedSpotPrice =
+        (BigInt(state.lastPrice) * 10n ** BigInt(RESULT_DECIMALS)) / premiumFactor
+
+      sumPrice += derivedSpotPrice
       count += 1n
     }
 
@@ -212,6 +269,24 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       response: PromiseSettledResult<CryptoPriceResponse>
     }[] = configEntries.map(([name], index) => ({ name, response: responses[index] }))
     return result
+  }
+
+  // Converts between string and bigint because our state needs to be
+  // serializable.
+  updateEma(previousState: EmaState, newDataPoint: string, nowMs: number, tauMs: number): EmaState {
+    const newState = updateEma(
+      {
+        average: BigInt(previousState.average),
+        timestampMs: previousState.timestampMs,
+      },
+      BigInt(newDataPoint),
+      nowMs,
+      tauMs,
+    )
+    return {
+      average: newState.average.toString(),
+      timestampMs: newState.timestampMs,
+    }
   }
 
   verifyDecimals(streamName: string, decimals: number): void {

@@ -21,6 +21,12 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 5 * 60 * 1000, // 5 minutes
   },
+  PREMIUM_EMA_TAU_MS: {
+    description:
+      'Time constant (tau) in milliseconds for the EMA filters used to calculate the average premium of tokenized streams over the XAU price',
+    type: 'number',
+    default: 1_000_000,
+  },
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
