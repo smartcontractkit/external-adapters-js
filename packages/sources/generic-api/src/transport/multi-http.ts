@@ -33,7 +33,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         objectPath.has(response.data, param.ripcordPath) &&
         objectPath.get(response.data, param.ripcordPath).toString() !== param.ripcordDisabledValue
       ) {
-        // Look for ripcordDetails as sibling field (e.g., ripcord -> ripcordDetails)
+        // Look for ripcordDetails as sibling field
         const ripcordDetailsPath = `${param.ripcordPath}Details`
         let ripcordDetails: string | undefined
         if (objectPath.has(response.data, ripcordDetailsPath)) {
@@ -51,6 +51,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           response: {
             errorMessage,
             ripcord: true,
+            ripcordAsInt: 1, // 1 = paused state
             ripcordDetails,
             statusCode: 503,
           },
@@ -104,9 +105,9 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       // Extract primary result from data
       const result = (data['result'] as number | string) ?? null
 
-      // Add ripcord status to data if ripcordPath was checked (following the-network-firm pattern)
-      if (param.ripcordPath !== undefined && objectPath.has(response.data, param.ripcordPath)) {
-        data.ripcord = objectPath.get(response.data, param.ripcordPath) as boolean
+      if (param.ripcordPath !== undefined) {
+        data.ripcord = false
+        data.ripcordAsInt = 0 // normal state
       }
 
       return {

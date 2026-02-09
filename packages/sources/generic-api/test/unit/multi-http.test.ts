@@ -149,6 +149,7 @@ describe('MultiHttpTransport', () => {
         nav: 1.0043732667449965,
         aum: 30127047.47,
         ripcord: false,
+        ripcordAsInt: 0,
       },
       result: null,
       timestamps: {
@@ -457,6 +458,7 @@ describe('MultiHttpTransport', () => {
     const expectedResponse = {
       errorMessage: "Ripcord activated for 'TEST'",
       ripcord: true,
+      ripcordAsInt: 1,
       ripcordDetails: undefined,
       statusCode: 503,
       timestamps: {},
@@ -682,6 +684,7 @@ describe('MultiHttpTransport', () => {
             result: 1.004373,
             aum: 30127047.47,
             ripcord: false,
+            ripcordAsInt: 0,
           },
           result: 1.004373,
           timestamps: { providerIndicatedTimeUnixMs: undefined },
@@ -729,6 +732,7 @@ describe('MultiHttpTransport', () => {
           errorMessage:
             "Ripcord activated for 'TEST'. Details: Price deviation too high, Stale data detected",
           ripcord: true,
+          ripcordAsInt: 1,
           ripcordDetails: 'Price deviation too high, Stale data detected',
           statusCode: 503,
           timestamps: {},
@@ -775,6 +779,7 @@ describe('MultiHttpTransport', () => {
         response: {
           errorMessage: "Ripcord activated for 'TEST'",
           ripcord: true,
+          ripcordAsInt: 1,
           ripcordDetails: undefined,
           statusCode: 503,
           timestamps: {},
@@ -821,6 +826,7 @@ describe('MultiHttpTransport', () => {
           data: {
             result: 1.004373,
             ripcord: false,
+            ripcordAsInt: 0,
           },
           result: 1.004373,
           timestamps: { providerIndicatedTimeUnixMs: undefined },
@@ -932,6 +938,7 @@ describe('MultiHttpTransport', () => {
             nav: 1.004373266744996434,
             aum: 30127047.47,
             ripcord: false,
+            ripcordAsInt: 0,
           },
           result: 1.004373266744996434,
           timestamps: {

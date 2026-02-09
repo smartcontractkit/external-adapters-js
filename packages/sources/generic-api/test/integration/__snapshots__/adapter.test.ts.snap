@@ -47,6 +47,7 @@ exports[`execute multi-http endpoint should return error when ripcord is activat
     },
   },
   "ripcord": true,
+  "ripcordAsInt": 1,
   "ripcordDetails": "Error: stale data",
   "statusCode": 503,
   "timestamps": {
@@ -62,6 +63,7 @@ exports[`execute multi-http endpoint should return success with multiple values 
     "aum": 30127047.47,
     "nav": 1.004373266745,
     "ripcord": false,
+    "ripcordAsInt": 0,
   },
   "meta": {
     "adapterName": "GENERIC_API",
