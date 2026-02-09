@@ -51,6 +51,7 @@ export const inputParameters = new InputParameters(
     {
       apiName: 'NX8',
       dataPaths: [
+        { name: 'result', path: 'net_asset_value' },
         { name: 'nav', path: 'net_asset_value' },
         { name: 'aum', path: 'asset_under_management' },
       ],
@@ -65,9 +66,9 @@ export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Data: {
-      [key: string]: number | string
+      [key: string]: number | string | boolean
     }
-    Result: null
+    Result: number | string | null
   }
   Settings: typeof config.settings
 }

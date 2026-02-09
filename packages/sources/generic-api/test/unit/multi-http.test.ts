@@ -148,6 +148,8 @@ describe('MultiHttpTransport', () => {
       data: {
         nav: 1.0043732667449965,
         aum: 30127047.47,
+        ripcord: false,
+        ripcordAsInt: 0,
       },
       result: null,
       timestamps: {
@@ -455,6 +457,9 @@ describe('MultiHttpTransport', () => {
 
     const expectedResponse = {
       errorMessage: "Ripcord activated for 'TEST'",
+      ripcord: true,
+      ripcordAsInt: 1,
+      ripcordDetails: undefined,
       statusCode: 503,
       timestamps: {},
     }
@@ -631,6 +636,314 @@ describe('MultiHttpTransport', () => {
           data: { value: 42 },
           result: null,
           timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
+      },
+    ])
+  })
+
+  it('should extract result field as primary result (view-function-multi-chain pattern)', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPaths: [
+        { name: 'result', path: 'net_asset_value' },
+        { name: 'aum', path: 'asset_under_management' },
+      ],
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+          asset_under_management: 30127047.47,
+          ripcord: false,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            result: 1.004373,
+            aum: 30127047.47,
+            ripcord: false,
+            ripcordAsInt: 0,
+          },
+          result: 1.004373,
+          timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
+      },
+    ])
+  })
+
+  it('should include ripcordDetails in error message when ripcord is activated (the-network-firm pattern)', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPaths: [{ name: 'result', path: 'net_asset_value' }],
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.0,
+          ripcord: true,
+          ripcordDetails: ['Price deviation too high', 'Stale data detected'],
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          errorMessage:
+            "Ripcord activated for 'TEST'. Details: Price deviation too high, Stale data detected",
+          ripcord: true,
+          ripcordAsInt: 1,
+          ripcordDetails: 'Price deviation too high, Stale data detected',
+          statusCode: 503,
+          timestamps: {},
+        },
+      },
+    ])
+  })
+
+  it('should handle empty ripcordDetails array', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPaths: [{ name: 'result', path: 'net_asset_value' }],
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.0,
+          ripcord: true,
+          ripcordDetails: [],
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          errorMessage: "Ripcord activated for 'TEST'",
+          ripcord: true,
+          ripcordAsInt: 1,
+          ripcordDetails: undefined,
+          statusCode: 503,
+          timestamps: {},
+        },
+      },
+    ])
+  })
+
+  it('should include ripcord status in data when ripcord is false', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPaths: [{ name: 'result', path: 'net_asset_value' }],
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+          ripcord: false,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            result: 1.004373,
+            ripcord: false,
+            ripcordAsInt: 0,
+          },
+          result: 1.004373,
+          timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
+      },
+    ])
+  })
+
+  it('should return null result when result field not in dataPaths (backward compatible)', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPaths: [
+        { name: 'nav', path: 'net_asset_value' },
+        { name: 'aum', path: 'asset_under_management' },
+      ],
+      ripcordPath: undefined,
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+          asset_under_management: 30127047.47,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            nav: 1.004373,
+            aum: 30127047.47,
+          },
+          result: null,
+          timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
+      },
+    ])
+  })
+
+  it('should handle full OpenDelta NX8 scenario', async () => {
+    process.env.TEST_API_URL = apiUrl
+    process.env.TEST_AUTH_HEADER = authHeader
+    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+
+    const params = {
+      apiName,
+      dataPaths: [
+        { name: 'result', path: 'net_asset_value' },
+        { name: 'nav', path: 'net_asset_value' },
+        { name: 'aum', path: 'asset_under_management' },
+      ],
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+      providerIndicatedTimePath: 'updatedAt',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          client: 'opendeltanx8',
+          net_asset_value: 1.004373266744996434,
+          asset_under_management: 30127047.47,
+          outstanding_shares: 29995867.54,
+          min_rate: 0.99,
+          max_rate: 1.01,
+          updatedAt: '2026-01-19T06:56:22.194Z',
+          ripcord: false,
+          ripcordDetails: [],
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            result: 1.004373266744996434,
+            nav: 1.004373266744996434,
+            aum: 30127047.47,
+            ripcord: false,
+            ripcordAsInt: 0,
+          },
+          result: 1.004373266744996434,
+          timestamps: {
+            providerIndicatedTimeUnixMs: 1768805782194,
+          },
         },
       },
     ])

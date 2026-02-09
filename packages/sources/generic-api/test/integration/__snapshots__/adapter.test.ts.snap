@@ -27,7 +27,10 @@ exports[`execute multi-http endpoint should return error when data path is not f
 
 exports[`execute multi-http endpoint should return error when ripcord is activated 1`] = `
 {
-  "errorMessage": "Ripcord activated for 'RIPCORD'",
+  "errorMessage": "Ripcord activated for 'RIPCORD'. Details: Error: stale data",
+  "ripcord": true,
+  "ripcordAsInt": 1,
+  "ripcordDetails": "Error: stale data",
   "statusCode": 503,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -41,6 +44,8 @@ exports[`execute multi-http endpoint should return success with multiple values 
   "data": {
     "aum": 30127047.47,
     "nav": 1.004373266745,
+    "ripcord": false,
+    "ripcordAsInt": 0,
   },
   "result": null,
   "statusCode": 200,

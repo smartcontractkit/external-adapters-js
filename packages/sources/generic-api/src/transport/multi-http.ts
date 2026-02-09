@@ -33,17 +33,33 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         objectPath.has(response.data, param.ripcordPath) &&
         objectPath.get(response.data, param.ripcordPath).toString() !== param.ripcordDisabledValue
       ) {
+        // Look for ripcordDetails as sibling field
+        const ripcordDetailsPath = `${param.ripcordPath}Details`
+        let ripcordDetails: string | undefined
+        if (objectPath.has(response.data, ripcordDetailsPath)) {
+          const details = objectPath.get(response.data, ripcordDetailsPath)
+          if (Array.isArray(details) && details.length > 0) {
+            ripcordDetails = details.join(', ')
+          }
+        }
+
+        const errorMessage = ripcordDetails
+          ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
+          : `Ripcord activated for '${param.apiName}'`
         return {
           params: param,
           response: {
-            errorMessage: `Ripcord activated for '${param.apiName}'`,
+            errorMessage,
+            ripcord: true,
+            ripcordAsInt: 1, // 1 = paused state
+            ripcordDetails,
             statusCode: 503,
           },
         }
       }
 
       // Extract all dataPaths
-      const data: { [key: string]: number | string } = {}
+      const data: { [key: string]: number | string | boolean } = {}
 
       for (const { name, path } of param.dataPaths) {
         if (!objectPath.has(response.data, path)) {
@@ -86,10 +102,18 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         }
       }
 
+      // Extract primary result from data
+      const result = (data['result'] as number | string) ?? null
+
+      if (param.ripcordPath !== undefined) {
+        data.ripcord = false
+        data.ripcordAsInt = 0 // normal state
+      }
+
       return {
         params: param,
         response: {
-          result: null,
+          result,
           data,
           timestamps: {
             providerIndicatedTimeUnixMs,
