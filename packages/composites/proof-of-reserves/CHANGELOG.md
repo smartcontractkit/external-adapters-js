@@ -1,5 +1,11 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.33.0
+
+### Minor Changes
+
+- [#4596](https://github.com/smartcontractkit/external-adapters-js/pull/4596) [`65ac6fa`](https://github.com/smartcontractkit/external-adapters-js/commit/65ac6fa208a5e2aea0d3405d6d79d1ab76c14a6c) Thanks [@dskloetc](https://github.com/dskloetc)! - Support decimal number strings returned by view-function-multi-chain
+
 ## 1.32.0
 
 ### Minor Changes
