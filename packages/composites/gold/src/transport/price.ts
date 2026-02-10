@@ -278,7 +278,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   calculateCompositePrice(): bigint {
     const lastXauPrice = BigInt(this.state.lastXauPrice)
     const smoothedDeviation = BigInt(this.state.deviationEma.average)
-
     const compositePrice =
       lastXauPrice + (smoothedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
     return compositePrice
