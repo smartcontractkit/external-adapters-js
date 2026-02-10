@@ -1,11 +1,13 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { createHash } from 'crypto'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
 
 export interface ResponseSchema {
-  [key: string]: {
-    price: number
-    errorMessage?: string
-  }
+  insuredAmount: number
+  currentExposure: number
+  timestamp: string
+  daysRemaining: number
+  signature: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -14,6 +16,16 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
+const TWO_POW_191 = BigInt(2) ** BigInt(191)
+
+export function computeAumFromSignature(signature: string): string {
+  const hash = createHash('sha256').update(signature).digest('hex')
+  const hashBigInt = BigInt('0x' + hash)
+  const aum = hashBigInt % TWO_POW_191
+  return aum.toString()
+}
+
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
@@ -21,13 +33,12 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: '/cryptocurrency/price',
+          url: `/v1/chainlink/${encodeURIComponent(param.deal_name)}/${encodeURIComponent(
+            param.instrument_id,
+          )}`,
           headers: {
-            X_API_KEY: config.API_KEY,
-          },
-          params: {
-            symbol: param.base.toUpperCase(),
-            convert: param.quote.toUpperCase(),
+            Accept: 'application/json',
+            Authorization: `Bearer ${config.TRIZE_API_TOKEN}`,
           },
         },
       }
@@ -39,21 +50,24 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         return {
           params: param,
           response: {
-            errorMessage: `The data provider didn't return any value for ${param.base}/${param.quote}`,
+            errorMessage: `The data provider didn't return any value for deal_name=${param.deal_name}, instrument_id=${param.instrument_id}`,
             statusCode: 502,
           },
         }
       })
     }
 
+    const navDate = response.data.daysRemaining
+    const aum = computeAumFromSignature(response.data.signature)
+
     return params.map((param) => {
-      const result = response.data[param.base.toUpperCase()].price
       return {
         params: param,
         response: {
-          result,
+          result: navDate,
           data: {
-            result,
+            navDate,
+            aum,
           },
         },
       }
