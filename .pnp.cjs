@@ -599,10 +599,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/r25"\
     },\
     {\
-      "name": "@chainlink/renvm-address-set-adapter",\
-      "reference": "workspace:packages/sources/renvm-address-set"\
-    },\
-    {\
       "name": "@chainlink/s3-csv-reader-adapter",\
       "reference": "workspace:packages/sources/s3-csv-reader"\
     },\
@@ -907,7 +903,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
-    ["@chainlink/renvm-address-set-adapter", ["workspace:packages/sources/renvm-address-set"]],\
     ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
@@ -1240,10 +1235,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@aws-sdk/client-s3", [\
-      ["npm:3.985.0", {\
-        "packageLocation": "./.yarn/cache/@aws-sdk-client-s3-npm-3.985.0-9473a54861-b6914d4052.zip/node_modules/@aws-sdk/client-s3/",\
+      ["npm:3.986.0", {\
+        "packageLocation": "./.yarn/cache/@aws-sdk-client-s3-npm-3.986.0-8149faf67d-b24dfba492.zip/node_modules/@aws-sdk/client-s3/",\
         "packageDependencies": [\
-          ["@aws-sdk/client-s3", "npm:3.985.0"],\
+          ["@aws-sdk/client-s3", "npm:3.986.0"],\
           ["@aws-crypto/sha1-browser", "npm:5.2.0"],\
           ["@aws-crypto/sha256-browser", "npm:5.2.0"],\
           ["@aws-crypto/sha256-js", "npm:5.2.0"],\
@@ -1260,11 +1255,11 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/middleware-ssec", "npm:3.972.3"],\
           ["@aws-sdk/middleware-user-agent", "npm:3.972.7"],\
           ["@aws-sdk/region-config-resolver", "npm:3.972.3"],\
-          ["@aws-sdk/signature-v4-multi-region", "npm:3.985.0"],\
+          ["@aws-sdk/signature-v4-multi-region", "npm:3.986.0"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
-          ["@aws-sdk/util-endpoints", "npm:3.985.0"],\
+          ["@aws-sdk/util-endpoints", "npm:3.986.0"],\
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@smithy/config-resolver", "npm:4.4.6"],\
           ["@smithy/core", "npm:3.22.1"],\
           ["@smithy/eventstream-serde-browser", "npm:4.2.8"],\
@@ -1319,7 +1314,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/types", "npm:3.973.1"],\
           ["@aws-sdk/util-endpoints", "npm:3.985.0"],\
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@smithy/config-resolver", "npm:4.4.6"],\
           ["@smithy/core", "npm:3.22.1"],\
           ["@smithy/fetch-http-handler", "npm:5.3.9"],\
@@ -1351,10 +1346,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@aws-sdk/client-sso-oidc", [\
-      ["npm:3.985.0", {\
-        "packageLocation": "./.yarn/cache/@aws-sdk-client-sso-oidc-npm-3.985.0-7347534d46-8112d56478.zip/node_modules/@aws-sdk/client-sso-oidc/",\
+      ["npm:3.986.0", {\
+        "packageLocation": "./.yarn/cache/@aws-sdk-client-sso-oidc-npm-3.986.0-5db8ac81a0-06d9f16e7f.zip/node_modules/@aws-sdk/client-sso-oidc/",\
         "packageDependencies": [\
-          ["@aws-sdk/client-sso-oidc", "npm:3.985.0"],\
+          ["@aws-sdk/client-sso-oidc", "npm:3.986.0"],\
           ["@aws-crypto/sha256-browser", "npm:5.2.0"],\
           ["@aws-crypto/sha256-js", "npm:5.2.0"],\
           ["@aws-sdk/core", "npm:3.973.7"],\
@@ -1365,9 +1360,9 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/middleware-user-agent", "npm:3.972.7"],\
           ["@aws-sdk/region-config-resolver", "npm:3.972.3"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
-          ["@aws-sdk/util-endpoints", "npm:3.985.0"],\
+          ["@aws-sdk/util-endpoints", "npm:3.986.0"],\
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@smithy/config-resolver", "npm:4.4.6"],\
           ["@smithy/core", "npm:3.22.1"],\
           ["@smithy/fetch-http-handler", "npm:5.3.9"],\
@@ -1399,10 +1394,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@aws-sdk/client-sts", [\
-      ["npm:3.985.0", {\
-        "packageLocation": "./.yarn/cache/@aws-sdk-client-sts-npm-3.985.0-1fa1b6c1fc-07d0016bff.zip/node_modules/@aws-sdk/client-sts/",\
+      ["npm:3.986.0", {\
+        "packageLocation": "./.yarn/cache/@aws-sdk-client-sts-npm-3.986.0-26171ec692-e70daa6b05.zip/node_modules/@aws-sdk/client-sts/",\
         "packageDependencies": [\
-          ["@aws-sdk/client-sts", "npm:3.985.0"],\
+          ["@aws-sdk/client-sts", "npm:3.986.0"],\
           ["@aws-crypto/sha256-browser", "npm:5.2.0"],\
           ["@aws-crypto/sha256-js", "npm:5.2.0"],\
           ["@aws-sdk/core", "npm:3.973.7"],\
@@ -1413,9 +1408,9 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/middleware-user-agent", "npm:3.972.7"],\
           ["@aws-sdk/region-config-resolver", "npm:3.972.3"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
-          ["@aws-sdk/util-endpoints", "npm:3.985.0"],\
+          ["@aws-sdk/util-endpoints", "npm:3.986.0"],\
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@smithy/config-resolver", "npm:4.4.6"],\
           ["@smithy/core", "npm:3.22.1"],\
           ["@smithy/fetch-http-handler", "npm:5.3.9"],\
@@ -1517,7 +1512,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@aws-sdk-credential-provider-ini-npm-3.972.5-f935d42e72-d65cf23ed2.zip/node_modules/@aws-sdk/credential-provider-ini/",\
         "packageDependencies": [\
           ["@aws-sdk/credential-provider-ini", "npm:3.972.5"],\
-          ["@aws-sdk/client-sts", "npm:3.985.0"],\
+          ["@aws-sdk/client-sts", "npm:3.986.0"],\
           ["@aws-sdk/core", "npm:3.973.7"],\
           ["@aws-sdk/credential-provider-env", "npm:3.972.5"],\
           ["@aws-sdk/credential-provider-http", "npm:3.972.7"],\
@@ -1611,7 +1606,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@aws-sdk-credential-provider-web-identity-npm-3.972.5-a5e3f25e1c-b6dd435933.zip/node_modules/@aws-sdk/credential-provider-web-identity/",\
         "packageDependencies": [\
           ["@aws-sdk/credential-provider-web-identity", "npm:3.972.5"],\
-          ["@aws-sdk/client-sts", "npm:3.985.0"],\
+          ["@aws-sdk/client-sts", "npm:3.986.0"],\
           ["@aws-sdk/core", "npm:3.973.7"],\
           ["@aws-sdk/nested-clients", "npm:3.985.0"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
@@ -1793,7 +1788,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/types", "npm:3.973.1"],\
           ["@aws-sdk/util-endpoints", "npm:3.985.0"],\
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@smithy/config-resolver", "npm:4.4.6"],\
           ["@smithy/core", "npm:3.22.1"],\
           ["@smithy/fetch-http-handler", "npm:5.3.9"],\
@@ -1839,10 +1834,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@aws-sdk/signature-v4-multi-region", [\
-      ["npm:3.985.0", {\
-        "packageLocation": "./.yarn/cache/@aws-sdk-signature-v4-multi-region-npm-3.985.0-ffbbb4cfe9-b6dcfa28ee.zip/node_modules/@aws-sdk/signature-v4-multi-region/",\
+      ["npm:3.986.0", {\
+        "packageLocation": "./.yarn/cache/@aws-sdk-signature-v4-multi-region-npm-3.986.0-8c5a4f742d-e4757e4577.zip/node_modules/@aws-sdk/signature-v4-multi-region/",\
         "packageDependencies": [\
-          ["@aws-sdk/signature-v4-multi-region", "npm:3.985.0"],\
+          ["@aws-sdk/signature-v4-multi-region", "npm:3.986.0"],\
           ["@aws-sdk/middleware-sdk-s3", "npm:3.972.7"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
           ["@smithy/protocol-http", "npm:5.3.8"],\
@@ -1858,7 +1853,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@aws-sdk-token-providers-npm-3.985.0-67030ac422-1adc739847.zip/node_modules/@aws-sdk/token-providers/",\
         "packageDependencies": [\
           ["@aws-sdk/token-providers", "npm:3.985.0"],\
-          ["@aws-sdk/client-sso-oidc", "npm:3.985.0"],\
+          ["@aws-sdk/client-sso-oidc", "npm:3.986.0"],\
           ["@aws-sdk/core", "npm:3.973.7"],\
           ["@aws-sdk/nested-clients", "npm:3.985.0"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
@@ -1903,6 +1898,18 @@ const RAW_RUNTIME_STATE =
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:3.986.0", {\
+        "packageLocation": "./.yarn/cache/@aws-sdk-util-endpoints-npm-3.986.0-b12079b7d9-5ded37a405.zip/node_modules/@aws-sdk/util-endpoints/",\
+        "packageDependencies": [\
+          ["@aws-sdk/util-endpoints", "npm:3.986.0"],\
+          ["@aws-sdk/types", "npm:3.973.1"],\
+          ["@smithy/types", "npm:4.12.0"],\
+          ["@smithy/url-parser", "npm:4.2.8"],\
+          ["@smithy/util-endpoints", "npm:3.2.8"],\
+          ["tslib", "npm:2.8.1"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@aws-sdk/util-locate-window", [\
@@ -1922,7 +1929,7 @@ const RAW_RUNTIME_STATE =
           ["@aws-sdk/util-user-agent-browser", "npm:3.972.3"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
           ["@smithy/types", "npm:4.12.0"],\
-          ["bowser", "npm:2.13.1"],\
+          ["bowser", "npm:2.14.1"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -1936,10 +1943,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5", {\
-        "packageLocation": "./.yarn/__virtual__/@aws-sdk-util-user-agent-node-virtual-39b309250c/0/cache/@aws-sdk-util-user-agent-node-npm-3.972.5-5d27a88a10-5f292e65da.zip/node_modules/@aws-sdk/util-user-agent-node/",\
+      ["virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5", {\
+        "packageLocation": "./.yarn/__virtual__/@aws-sdk-util-user-agent-node-virtual-363f3cd1d8/0/cache/@aws-sdk-util-user-agent-node-npm-3.972.5-5d27a88a10-5f292e65da.zip/node_modules/@aws-sdk/util-user-agent-node/",\
         "packageDependencies": [\
-          ["@aws-sdk/util-user-agent-node", "virtual:1fa1b6c1fc2c63c77304aa0e70536dae79f25678c191ed2301752da215beef221055a69d16cf091b4fa24ea52d3730c0c8627d3639a7ef824cfb6f646bc34f88#npm:3.972.5"],\
+          ["@aws-sdk/util-user-agent-node", "virtual:26171ec6927fcbe55c0c0c999061a8c86f620de27b3c1986b719319350a0e3bfc7f3d45f415ace6c4d4790d8fdb0426f3788b0af6c01dd27a5c51b1239ba0076#npm:3.972.5"],\
           ["@aws-sdk/middleware-user-agent", "npm:3.972.7"],\
           ["@aws-sdk/types", "npm:3.973.1"],\
           ["@smithy/node-config-provider", "npm:4.3.8"],\
@@ -5095,7 +5102,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5264,7 +5271,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cfbenchmarks/",\
         "packageDependencies": [\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5366,7 +5373,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coingecko/",\
         "packageDependencies": [\
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -5401,7 +5408,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmarketcap/",\
         "packageDependencies": [\
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -5416,7 +5423,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5435,7 +5442,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/coinmetrics-lwba-adapter", "workspace:packages/sources/coinmetrics-lwba"],\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5452,7 +5459,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5580,7 +5587,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cryptocompare/",\
         "packageDependencies": [\
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6069,6 +6076,25 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:2.12.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.12.0-9bf2ba6982-b7d805b8ef.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.17.1"],\
+          ["axios", "npm:1.13.4"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.7.3"],\
+          ["ioredis", "npm:5.9.2"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.0"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:3b1c295ff131ee041b22f024e84e471440592df332fcecbf806de70099313f2680d60f983484a22d8888bdd4773c5e234f45a1696bbca546cb07988d2ac90503#npm:8.19.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -6126,7 +6152,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6517,7 +6543,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -6669,7 +6695,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -7038,7 +7064,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ncfx/",\
         "packageDependencies": [\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7338,7 +7364,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
           ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
-          ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
           ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
           ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
@@ -7412,29 +7437,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/renvm-address-set-adapter", [\
-      ["workspace:packages/sources/renvm-address-set", {\
-        "packageLocation": "./packages/sources/renvm-address-set/",\
-        "packageDependencies": [\
-          ["@chainlink/renvm-address-set-adapter", "workspace:packages/sources/renvm-address-set"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@renproject/ren", "npm:2.6.0"],\
-          ["@renproject/utils", "npm:2.6.0"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["bitcoinjs-lib", "npm:5.2.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/rocket-pool-adapter", [\
       ["workspace:packages/composites/rocket-pool", {\
         "packageLocation": "./packages/composites/rocket-pool/",\
@@ -7461,7 +7463,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/s3-csv-reader/",\
         "packageDependencies": [\
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
-          ["@aws-sdk/client-s3", "npm:3.985.0"],\
+          ["@aws-sdk/client-s3", "npm:3.986.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7878,7 +7880,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7924,7 +7926,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -9649,7 +9651,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@jest/console", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["jest-message-util", "npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"],\
@@ -9675,7 +9677,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/test-result", "npm:29.7.0"],\
           ["@jest/transform", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/node-notifier", null],\
           ["ansi-escapes", "npm:4.3.2"],\
           ["chalk", "npm:4.1.2"],\
@@ -9715,7 +9717,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/environment", "npm:29.7.0"],\
           ["@jest/fake-timers", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["jest-mock", "npm:29.7.0"]\
         ],\
         "linkType": "HARD"\
@@ -9749,7 +9751,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/fake-timers", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
           ["@sinonjs/fake-timers", "npm:10.3.0"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["jest-message-util", "npm:29.7.0"],\
           ["jest-mock", "npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"]\
@@ -9788,7 +9790,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/transform", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
           ["@jridgewell/trace-mapping", "npm:0.3.31"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/node-notifier", null],\
           ["chalk", "npm:4.1.2"],\
           ["collect-v8-coverage", "npm:1.0.3"],\
@@ -9895,7 +9897,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/types", "npm:27.5.1"],\
           ["@types/istanbul-lib-coverage", "npm:2.0.6"],\
           ["@types/istanbul-reports", "npm:3.0.4"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/yargs", "npm:16.0.11"],\
           ["chalk", "npm:4.1.2"]\
         ],\
@@ -9908,7 +9910,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/schemas", "npm:29.6.3"],\
           ["@types/istanbul-lib-coverage", "npm:2.0.6"],\
           ["@types/istanbul-reports", "npm:3.0.4"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/yargs", "npm:17.0.35"],\
           ["chalk", "npm:4.1.2"]\
         ],\
@@ -11321,90 +11323,6 @@ const RAW_RUNTIME_STATE =
           "@types/react",\
           "react-redux",\
           "react"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@renproject/interfaces", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@renproject-interfaces-npm-2.6.0-443bfaccf3-4e525e5ab6.zip/node_modules/@renproject/interfaces/",\
-        "packageDependencies": [\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@types/node", "npm:25.2.1"],\
-          ["bignumber.js", "npm:9.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@renproject/provider", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@renproject-provider-npm-2.6.0-635f5b76f6-7e82b05747.zip/node_modules/@renproject/provider/",\
-        "packageDependencies": [\
-          ["@renproject/provider", "npm:2.6.0"],\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@renproject/utils", "npm:2.6.0"],\
-          ["@types/node", "npm:25.2.1"],\
-          ["axios", "npm:0.21.4"],\
-          ["immutable", "npm:4.3.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@renproject/ren", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@renproject-ren-npm-2.6.0-7aa4b6ee05-562e412867.zip/node_modules/@renproject/ren/",\
-        "packageDependencies": [\
-          ["@renproject/ren", "npm:2.6.0"],\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@renproject/provider", "npm:2.6.0"],\
-          ["@renproject/rpc", "npm:2.6.0"],\
-          ["@renproject/utils", "npm:2.6.0"],\
-          ["@types/bn.js", "npm:5.2.0"],\
-          ["@types/node", "npm:25.2.1"],\
-          ["axios", "npm:0.21.4"],\
-          ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.2"],\
-          ["bs58", "npm:6.0.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["immutable", "npm:4.3.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@renproject/rpc", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@renproject-rpc-npm-2.6.0-7151132974-0a23192222.zip/node_modules/@renproject/rpc/",\
-        "packageDependencies": [\
-          ["@renproject/rpc", "npm:2.6.0"],\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@renproject/provider", "npm:2.6.0"],\
-          ["@renproject/utils", "npm:2.6.0"],\
-          ["@types/node", "npm:25.2.1"],\
-          ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.2"],\
-          ["immutable", "npm:4.3.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@renproject/utils", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/@renproject-utils-npm-2.6.0-c72ee51dc7-f273166f0d.zip/node_modules/@renproject/utils/",\
-        "packageDependencies": [\
-          ["@renproject/utils", "npm:2.6.0"],\
-          ["@renproject/interfaces", "npm:2.6.0"],\
-          ["@types/create-hash", "npm:1.2.2"],\
-          ["@types/events", "npm:3.0.0"],\
-          ["@types/keccak", "npm:3.0.5"],\
-          ["@types/node", "npm:25.2.1"],\
-          ["axios", "npm:0.21.4"],\
-          ["bignumber.js", "npm:9.3.1"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["events", "npm:3.3.0"],\
-          ["immutable", "npm:4.3.7"],\
-          ["keccak", "npm:3.0.4"],\
-          ["web3-utils", "npm:4.3.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13324,7 +13242,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@stellar/stellar-sdk", "npm:14.5.0"],\
           ["@stellar/stellar-base", "npm:14.0.4"],\
-          ["axios", "npm:1.13.4"],\
+          ["axios", "npm:1.13.5"],\
           ["bignumber.js", "npm:9.3.1"],\
           ["commander", "npm:14.0.3"],\
           ["eventsource", "npm:2.0.2"],\
@@ -13503,7 +13421,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-bn.js-npm-4.11.6-85f0d125f5-9ff3e7a153.zip/node_modules/@types/bn.js/",\
         "packageDependencies": [\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -13511,7 +13429,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-bn.js-npm-5.2.0-3df8f9db07-06c93841f7.zip/node_modules/@types/bn.js/",\
         "packageDependencies": [\
           ["@types/bn.js", "npm:5.2.0"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13548,7 +13466,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-connect-npm-3.4.38-a8a4c38337-7eb1bc5342.zip/node_modules/@types/connect/",\
         "packageDependencies": [\
           ["@types/connect", "npm:3.4.38"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13558,16 +13476,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-cookiejar-npm-2.1.5-f36531e52d-04d5990e87.zip/node_modules/@types/cookiejar/",\
         "packageDependencies": [\
           ["@types/cookiejar", "npm:2.1.5"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/create-hash", [\
-      ["npm:1.2.2", {\
-        "packageLocation": "./.yarn/cache/@types-create-hash-npm-1.2.2-7c19a111b9-27ad598139.zip/node_modules/@types/create-hash/",\
-        "packageDependencies": [\
-          ["@types/create-hash", "npm:1.2.2"],\
-          ["@types/node", "npm:25.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13601,15 +13509,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/events", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/@types-events-npm-3.0.0-2eee0ea973-2eeaef9ec6.zip/node_modules/@types/events/",\
-        "packageDependencies": [\
-          ["@types/events", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/fast-redact", [\
       ["npm:3.0.4", {\
         "packageLocation": "./.yarn/cache/@types-fast-redact-npm-3.0.4-b7abf9a463-d130c7c2d3.zip/node_modules/@types/fast-redact/",\
@@ -13625,7 +13524,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/glob", "npm:7.2.0"],\
           ["@types/minimatch", "npm:5.1.2"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13635,7 +13534,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-graceful-fs-npm-4.1.9-ebd697fe83-79d746a8f0.zip/node_modules/@types/graceful-fs/",\
         "packageDependencies": [\
           ["@types/graceful-fs", "npm:4.1.9"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13703,17 +13602,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.9-79c2843a81-4654f8429e.zip/node_modules/@types/jsonwebtoken/",\
         "packageDependencies": [\
           ["@types/jsonwebtoken", "npm:8.5.9"],\
-          ["@types/node", "npm:25.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@types/keccak", [\
-      ["npm:3.0.5", {\
-        "packageLocation": "./.yarn/cache/@types-keccak-npm-3.0.5-fb6e655265-83cf38a5aa.zip/node_modules/@types/keccak/",\
-        "packageDependencies": [\
-          ["@types/keccak", "npm:3.0.5"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13764,13 +13653,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:10.12.18", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-10.12.18-7c6aeb4e07-cfa39e797e.zip/node_modules/@types/node/",\
-        "packageDependencies": [\
-          ["@types/node", "npm:10.12.18"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:12.20.55", {\
         "packageLocation": "./.yarn/cache/@types-node-npm-12.20.55-88487587a4-1f916a06ff.zip/node_modules/@types/node/",\
         "packageDependencies": [\
@@ -13809,10 +13691,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:25.2.1", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-25.2.1-a138d77c79-aab73de56d.zip/node_modules/@types/node/",\
+      ["npm:25.2.2", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-25.2.2-5d63c599e1-a5d689d691.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["undici-types", "npm:7.16.0"]\
         ],\
         "linkType": "HARD"\
@@ -13823,7 +13705,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-fetch-npm-2.6.13-eb2c52495a-944d522147.zip/node_modules/@types/node-fetch/",\
         "packageDependencies": [\
           ["@types/node-fetch", "npm:2.6.13"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["form-data", "npm:4.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -13834,7 +13716,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-node-schedule-npm-2.1.7-4eb8bbbaaf-cbcae09587.zip/node_modules/@types/node-schedule/",\
         "packageDependencies": [\
           ["@types/node-schedule", "npm:2.1.7"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13871,7 +13753,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pbkdf2-npm-3.1.2-56dee8e38c-bebe1e596c.zip/node_modules/@types/pbkdf2/",\
         "packageDependencies": [\
           ["@types/pbkdf2", "npm:3.1.2"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13881,7 +13763,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pino-npm-6.3.12-19c7982858-c7e49c483f.zip/node_modules/@types/pino/",\
         "packageDependencies": [\
           ["@types/pino", "npm:6.3.12"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/pino-pretty", "npm:4.7.5"],\
           ["@types/pino-std-serializers", "npm:2.4.1"],\
           ["sonic-boom", "npm:2.8.0"]\
@@ -13894,7 +13776,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pino-pretty-npm-4.7.5-c9c6c1bddf-80b3e80d1d.zip/node_modules/@types/pino-pretty/",\
         "packageDependencies": [\
           ["@types/pino-pretty", "npm:4.7.5"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/pino", "npm:6.3.12"]\
         ],\
         "linkType": "HARD"\
@@ -13905,7 +13787,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-pino-std-serializers-npm-2.4.1-e7c36178c0-a156e25882.zip/node_modules/@types/pino-std-serializers/",\
         "packageDependencies": [\
           ["@types/pino-std-serializers", "npm:2.4.1"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13944,7 +13826,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-secp256k1-npm-4.0.7-823f47e26f-bcf7adbd95.zip/node_modules/@types/secp256k1/",\
         "packageDependencies": [\
           ["@types/secp256k1", "npm:4.0.7"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13964,7 +13846,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/shelljs", "npm:0.8.16"],\
           ["@types/glob", "npm:7.2.0"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14031,7 +13913,7 @@ const RAW_RUNTIME_STATE =
           ["@types/superagent", "npm:8.1.9"],\
           ["@types/cookiejar", "npm:2.1.5"],\
           ["@types/methods", "npm:1.1.4"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["form-data", "npm:4.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -14079,7 +13961,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-websocket-npm-1.0.10-8e4dea2f57-ceab9632bb.zip/node_modules/@types/websocket/",\
         "packageDependencies": [\
           ["@types/websocket", "npm:1.0.10"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14089,7 +13971,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-7.4.7-d0c95c0958-5236b6c548.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:7.4.7"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -14097,7 +13979,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.18.1-61dc106ff0-1ce05e3174.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.18.1"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -14105,7 +13987,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@types-ws-npm-8.5.14-101cd0e216-956692dd47.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/ws", "npm:8.5.14"],\
-          ["@types/node", "npm:25.2.1"]\
+          ["@types/node", "npm:25.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14830,14 +14712,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["axios", [\
-      ["npm:0.21.4", {\
-        "packageLocation": "./.yarn/cache/axios-npm-0.21.4-e278873748-da644592cb.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:0.21.4"],\
-          ["follow-redirects", "virtual:7c78039beb55b34dec6c4b8bde84cdf70316d264d3e514884cde502e208b9a452689b4cc9b6873aa4975d7479ba0bbd7492bda652ef862b26265d0b40b92c9f7#npm:1.15.11"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.12.2", {\
         "packageLocation": "./.yarn/cache/axios-npm-1.12.2-cdb8ea6c90-886a797705.zip/node_modules/axios/",\
         "packageDependencies": [\
@@ -14852,6 +14726,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/axios-npm-1.13.4-7c78039beb-54b7ef71c6.zip/node_modules/axios/",\
         "packageDependencies": [\
           ["axios", "npm:1.13.4"],\
+          ["follow-redirects", "virtual:7c78039beb55b34dec6c4b8bde84cdf70316d264d3e514884cde502e208b9a452689b4cc9b6873aa4975d7479ba0bbd7492bda652ef862b26265d0b40b92c9f7#npm:1.15.11"],\
+          ["form-data", "npm:4.0.5"],\
+          ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.13.5", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.13.5-ed8865f696-db726d0990.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.13.5"],\
           ["follow-redirects", "virtual:7c78039beb55b34dec6c4b8bde84cdf70316d264d3e514884cde502e208b9a452689b4cc9b6873aa4975d7479ba0bbd7492bda652ef862b26265d0b40b92c9f7#npm:1.15.11"],\
           ["form-data", "npm:4.0.5"],\
           ["proxy-from-env", "npm:1.1.0"]\
@@ -15171,13 +15055,6 @@ const RAW_RUNTIME_STATE =
           ["base-x", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:5.0.1", {\
-        "packageLocation": "./.yarn/cache/base-x-npm-5.0.1-6bc62b5139-6e4f847ef8.zip/node_modules/base-x/",\
-        "packageDependencies": [\
-          ["base-x", "npm:5.0.1"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["base32.js", [\
@@ -15308,20 +15185,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["bip32", [\
-      ["npm:2.0.6", {\
-        "packageLocation": "./.yarn/cache/bip32-npm-2.0.6-e2304169e2-9d71a94672.zip/node_modules/bip32/",\
-        "packageDependencies": [\
-          ["bip32", "npm:2.0.6"],\
-          ["@types/node", "npm:10.12.18"],\
-          ["bs58check", "npm:2.1.2"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["create-hmac", "npm:1.1.7"],\
-          ["tiny-secp256k1", "npm:1.1.7"],\
-          ["typeforce", "npm:1.18.0"],\
-          ["wif", "npm:2.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.0", {\
         "packageLocation": "./.yarn/cache/bip32-npm-4.0.0-88adcd11d0-f2da719618.zip/node_modules/bip32/",\
         "packageDependencies": [\
@@ -15366,38 +15229,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["bitcoin-ops", [\
-      ["npm:1.4.1", {\
-        "packageLocation": "./.yarn/cache/bitcoin-ops-npm-1.4.1-e1e62763b3-3daa3303d6.zip/node_modules/bitcoin-ops/",\
-        "packageDependencies": [\
-          ["bitcoin-ops", "npm:1.4.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["bitcoinjs-lib", [\
-      ["npm:5.2.0", {\
-        "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-5.2.0-f462e8de5e-2a63065734.zip/node_modules/bitcoinjs-lib/",\
-        "packageDependencies": [\
-          ["bitcoinjs-lib", "npm:5.2.0"],\
-          ["bech32", "npm:1.1.4"],\
-          ["bip174", "npm:2.1.1"],\
-          ["bip32", "npm:2.0.6"],\
-          ["bip66", "npm:1.1.5"],\
-          ["bitcoin-ops", "npm:1.4.1"],\
-          ["bs58check", "npm:2.1.2"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["create-hmac", "npm:1.1.7"],\
-          ["merkle-lib", "npm:2.0.10"],\
-          ["pushdata-bitcoin", "npm:1.0.1"],\
-          ["randombytes", "npm:2.1.0"],\
-          ["tiny-secp256k1", "npm:1.1.7"],\
-          ["typeforce", "npm:1.18.0"],\
-          ["varuint-bitcoin", "npm:1.1.2"],\
-          ["wif", "npm:2.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:6.1.7", {\
         "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.7-31b0bb4f5c-d501b1cd83.zip/node_modules/bitcoinjs-lib/",\
         "packageDependencies": [\
@@ -15473,10 +15305,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["bowser", [\
-      ["npm:2.13.1", {\
-        "packageLocation": "./.yarn/cache/bowser-npm-2.13.1-c3ff58e9ad-b93c4f92b0.zip/node_modules/bowser/",\
+      ["npm:2.14.1", {\
+        "packageLocation": "./.yarn/cache/bowser-npm-2.14.1-41eaeb0dd6-a002f0795e.zip/node_modules/bowser/",\
         "packageDependencies": [\
-          ["bowser", "npm:2.13.1"]\
+          ["bowser", "npm:2.14.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15607,14 +15439,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["bs58", "npm:5.0.0"],\
           ["base-x", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.0.0", {\
-        "packageLocation": "./.yarn/cache/bs58-npm-6.0.0-cefe3ba27b-7c9bb2b2d9.zip/node_modules/bs58/",\
-        "packageDependencies": [\
-          ["bs58", "npm:6.0.0"],\
-          ["base-x", "npm:5.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15758,7 +15582,7 @@ const RAW_RUNTIME_STATE =
           ["minipass-flush", "npm:1.0.5"],\
           ["minipass-pipeline", "npm:1.2.4"],\
           ["p-map", "npm:7.0.4"],\
-          ["ssri", "npm:13.0.0"],\
+          ["ssri", "npm:13.0.1"],\
           ["unique-filename", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
@@ -17614,15 +17438,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["events", [\
-      ["npm:3.3.0", {\
-        "packageLocation": "./.yarn/cache/events-npm-3.3.0-c280bc7e48-a3d47e285e.zip/node_modules/events/",\
-        "packageDependencies": [\
-          ["events", "npm:3.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["eventsource", [\
       ["npm:2.0.2", {\
         "packageLocation": "./.yarn/cache/eventsource-npm-2.0.2-e94c48aca3-e1c4c3664c.zip/node_modules/eventsource/",\
@@ -17927,7 +17742,7 @@ const RAW_RUNTIME_STATE =
           ["fast-json-stringify", "npm:6.3.0"],\
           ["find-my-way", "npm:9.4.0"],\
           ["light-my-request", "npm:6.6.0"],\
-          ["pino", "npm:10.3.0"],\
+          ["pino", "npm:10.3.1"],\
           ["process-warning", "npm:5.0.0"],\
           ["rfdc", "npm:1.4.1"],\
           ["secure-json-parse", "npm:4.1.0"],\
@@ -17949,7 +17764,7 @@ const RAW_RUNTIME_STATE =
           ["fast-json-stringify", "npm:6.3.0"],\
           ["find-my-way", "npm:9.4.0"],\
           ["light-my-request", "npm:6.6.0"],\
-          ["pino", "npm:10.3.0"],\
+          ["pino", "npm:10.3.1"],\
           ["process-warning", "npm:5.0.0"],\
           ["rfdc", "npm:1.4.1"],\
           ["secure-json-parse", "npm:4.1.0"],\
@@ -19064,17 +18879,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-arguments", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/is-arguments-npm-1.2.0-ecfcc85b28-471a8ef631.zip/node_modules/is-arguments/",\
-        "packageDependencies": [\
-          ["is-arguments", "npm:1.2.0"],\
-          ["call-bound", "npm:1.0.4"],\
-          ["has-tostringtag", "npm:1.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-arrayish", [\
       ["npm:0.2.1", {\
         "packageLocation": "./.yarn/cache/is-arrayish-npm-0.2.1-23927dfb15-73ced84fa3.zip/node_modules/is-arrayish/",\
@@ -19158,20 +18962,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-generator-function", [\
-      ["npm:1.1.2", {\
-        "packageLocation": "./.yarn/cache/is-generator-function-npm-1.1.2-d0a84b1a72-cc50fa0103.zip/node_modules/is-generator-function/",\
-        "packageDependencies": [\
-          ["is-generator-function", "npm:1.1.2"],\
-          ["call-bound", "npm:1.0.4"],\
-          ["generator-function", "npm:2.0.1"],\
-          ["get-proto", "npm:1.0.1"],\
-          ["has-tostringtag", "npm:1.0.2"],\
-          ["safe-regex-test", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-glob", [\
       ["npm:4.0.3", {\
         "packageLocation": "./.yarn/cache/is-glob-npm-4.0.3-cb87bf1bdb-3ed74f2b0c.zip/node_modules/is-glob/",\
@@ -19232,19 +19022,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/is-plain-obj-npm-2.1.0-8dffd7ae9c-cec9100678.zip/node_modules/is-plain-obj/",\
         "packageDependencies": [\
           ["is-plain-obj", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["is-regex", [\
-      ["npm:1.2.1", {\
-        "packageLocation": "./.yarn/cache/is-regex-npm-1.2.1-70a484f2c8-c42b7efc58.zip/node_modules/is-regex/",\
-        "packageDependencies": [\
-          ["is-regex", "npm:1.2.1"],\
-          ["call-bound", "npm:1.0.4"],\
-          ["gopd", "npm:1.2.0"],\
-          ["has-tostringtag", "npm:1.0.2"],\
-          ["hasown", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19357,10 +19134,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:3.1.2", {\
-        "packageLocation": "./.yarn/cache/isexe-npm-3.1.2-5b601d7277-86c239573f.zip/node_modules/isexe/",\
+      ["npm:3.1.5", {\
+        "packageLocation": "./.yarn/cache/isexe-npm-3.1.5-62aa3db88e-ae479f6b05.zip/node_modules/isexe/",\
         "packageDependencies": [\
-          ["isexe", "npm:3.1.2"]\
+          ["isexe", "npm:3.1.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19549,7 +19326,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/expect", "npm:29.7.0"],\
           ["@jest/test-result", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["co", "npm:4.6.0"],\
           ["dedent", "virtual:f7679858c638e2e5ade31901dd2b1e5007918fdc7d84fefb11f4200f46ba2e43b9d662fb793507b517bb1e725144e51f6d68f60f9f6100fd52144f042f58f0bc#npm:1.7.1"],\
@@ -19654,7 +19431,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/core", "npm:7.29.0"],\
           ["@jest/test-sequencer", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["@types/ts-node", null],\
           ["babel-jest", "virtual:6c88576b06618e9254e900f5c24f756b3b7b9f1c520379db0bde7dccfe7c4aab58a9b12fadc37c0357133c45771ae2018ed0d4f1dba443afb73b05bff3007469#npm:29.7.0"],\
           ["chalk", "npm:4.1.2"],\
@@ -19730,7 +19507,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/environment", "npm:29.7.0"],\
           ["@jest/fake-timers", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["jest-mock", "npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"]\
         ],\
@@ -19753,7 +19530,7 @@ const RAW_RUNTIME_STATE =
           ["jest-haste-map", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
           ["@types/graceful-fs", "npm:4.1.9"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["anymatch", "npm:3.1.3"],\
           ["fb-watchman", "npm:2.0.2"],\
           ["fsevents", "patch:fsevents@npm%3A2.3.3#optional!builtin<compat/fsevents>::version=2.3.3&hash=df0bf1"],\
@@ -19815,7 +19592,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["jest-mock", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["jest-util", "npm:29.7.0"]\
         ],\
         "linkType": "HARD"\
@@ -19891,7 +19668,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/test-result", "npm:29.7.0"],\
           ["@jest/transform", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["emittery", "npm:0.13.1"],\
           ["graceful-fs", "npm:4.2.11"],\
@@ -19923,7 +19700,7 @@ const RAW_RUNTIME_STATE =
           ["@jest/test-result", "npm:29.7.0"],\
           ["@jest/transform", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["cjs-module-lexer", "npm:1.4.3"],\
           ["collect-v8-coverage", "npm:1.0.3"],\
@@ -19977,7 +19754,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["jest-util", "npm:27.5.1"],\
           ["@jest/types", "npm:27.5.1"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["ci-info", "npm:3.9.0"],\
           ["graceful-fs", "npm:4.2.11"],\
@@ -19990,7 +19767,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["jest-util", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["chalk", "npm:4.1.2"],\
           ["ci-info", "npm:3.9.0"],\
           ["graceful-fs", "npm:4.2.11"],\
@@ -20021,7 +19798,7 @@ const RAW_RUNTIME_STATE =
           ["jest-watcher", "npm:29.7.0"],\
           ["@jest/test-result", "npm:29.7.0"],\
           ["@jest/types", "npm:29.6.3"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["ansi-escapes", "npm:4.3.2"],\
           ["chalk", "npm:4.1.2"],\
           ["emittery", "npm:0.13.1"],\
@@ -20036,7 +19813,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/jest-worker-npm-29.7.0-4d3567fed6-364cbaef00.zip/node_modules/jest-worker/",\
         "packageDependencies": [\
           ["jest-worker", "npm:29.7.0"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["jest-util", "npm:29.7.0"],\
           ["merge-stream", "npm:2.0.0"],\
           ["supports-color", "npm:8.1.1"]\
@@ -20814,7 +20591,7 @@ const RAW_RUNTIME_STATE =
           ["negotiator", "npm:1.0.0"],\
           ["proc-log", "npm:6.1.0"],\
           ["promise-retry", "npm:2.0.1"],\
-          ["ssri", "npm:13.0.0"]\
+          ["ssri", "npm:13.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20873,15 +20650,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/merge2-npm-1.4.1-a2507bd06c-7268db63ed.zip/node_modules/merge2/",\
         "packageDependencies": [\
           ["merge2", "npm:1.4.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["merkle-lib", [\
-      ["npm:2.0.10", {\
-        "packageLocation": "./.yarn/cache/merkle-lib-npm-2.0.10-878da678e5-057331fe5e.zip/node_modules/merkle-lib/",\
-        "packageDependencies": [\
-          ["merkle-lib", "npm:2.0.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21887,6 +21655,24 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:10.3.1", {\
+        "packageLocation": "./.yarn/cache/pino-npm-10.3.1-41e9e37ffb-46cad7bf18.zip/node_modules/pino/",\
+        "packageDependencies": [\
+          ["pino", "npm:10.3.1"],\
+          ["@pinojs/redact", "npm:0.4.0"],\
+          ["atomic-sleep", "npm:1.0.0"],\
+          ["on-exit-leak-free", "npm:2.1.2"],\
+          ["pino-abstract-transport", "npm:3.0.0"],\
+          ["pino-std-serializers", "npm:7.1.0"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["quick-format-unescaped", "npm:4.0.4"],\
+          ["real-require", "npm:0.2.0"],\
+          ["safe-stable-stringify", "npm:2.5.0"],\
+          ["sonic-boom", "npm:4.2.0"],\
+          ["thread-stream", "npm:4.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:6.14.0", {\
         "packageLocation": "./.yarn/cache/pino-npm-6.14.0-d486952bad-b1cc51743a.zip/node_modules/pino/",\
         "packageDependencies": [\
@@ -22237,7 +22023,7 @@ const RAW_RUNTIME_STATE =
           ["@protobufjs/path", "npm:1.1.2"],\
           ["@protobufjs/pool", "npm:1.1.0"],\
           ["@protobufjs/utf8", "npm:1.1.0"],\
-          ["@types/node", "npm:25.2.1"],\
+          ["@types/node", "npm:25.2.2"],\
           ["long", "npm:5.3.2"]\
         ],\
         "linkType": "HARD"\
@@ -22277,16 +22063,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/pure-rand-npm-6.1.0-497ea3fc37-256aa4bcaf.zip/node_modules/pure-rand/",\
         "packageDependencies": [\
           ["pure-rand", "npm:6.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["pushdata-bitcoin", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/pushdata-bitcoin-npm-1.0.1-959a90bb14-963fb0b612.zip/node_modules/pushdata-bitcoin/",\
-        "packageDependencies": [\
-          ["pushdata-bitcoin", "npm:1.0.1"],\
-          ["bitcoin-ops", "npm:1.4.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -22979,18 +22755,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["safe-regex-test", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/safe-regex-test-npm-1.1.0-453eb81b83-ebdb61f305.zip/node_modules/safe-regex-test/",\
-        "packageDependencies": [\
-          ["safe-regex-test", "npm:1.1.0"],\
-          ["call-bound", "npm:1.0.4"],\
-          ["es-errors", "npm:1.3.0"],\
-          ["is-regex", "npm:1.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["safe-regex2", [\
       ["npm:5.0.0", {\
         "packageLocation": "./.yarn/cache/safe-regex2-npm-5.0.0-8bf76fb7d3-61c061da33.zip/node_modules/safe-regex2/",\
@@ -23665,10 +23429,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ssri", [\
-      ["npm:13.0.0", {\
-        "packageLocation": "./.yarn/cache/ssri-npm-13.0.0-f5fa93375d-fd59bfedf0.zip/node_modules/ssri/",\
+      ["npm:13.0.1", {\
+        "packageLocation": "./.yarn/cache/ssri-npm-13.0.1-c266f2233c-ae560d0378.zip/node_modules/ssri/",\
         "packageDependencies": [\
-          ["ssri", "npm:13.0.0"],\
+          ["ssri", "npm:13.0.1"],\
           ["minipass", "npm:7.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -24152,21 +23916,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["tiny-secp256k1", [\
-      ["npm:1.1.7", {\
-        "packageLocation": "./.yarn/unplugged/tiny-secp256k1-npm-1.1.7-75074d57f7/node_modules/tiny-secp256k1/",\
-        "packageDependencies": [\
-          ["tiny-secp256k1", "npm:1.1.7"],\
-          ["bindings", "npm:1.5.0"],\
-          ["bn.js", "npm:4.12.2"],\
-          ["create-hmac", "npm:1.1.7"],\
-          ["elliptic", "npm:6.6.1"],\
-          ["nan", "npm:2.25.0"],\
-          ["node-gyp", "npm:12.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["tinyglobby", [\
       ["npm:0.2.15", {\
         "packageLocation": "./.yarn/cache/tinyglobby-npm-0.2.15-0e783aadbd-d72bd826a8.zip/node_modules/tinyglobby/",\
@@ -24179,20 +23928,20 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["tldts", [\
-      ["npm:7.0.22", {\
-        "packageLocation": "./.yarn/cache/tldts-npm-7.0.22-0976c993ea-cda1da9760.zip/node_modules/tldts/",\
+      ["npm:7.0.23", {\
+        "packageLocation": "./.yarn/cache/tldts-npm-7.0.23-d0cca15417-752da855c9.zip/node_modules/tldts/",\
         "packageDependencies": [\
-          ["tldts", "npm:7.0.22"],\
-          ["tldts-core", "npm:7.0.22"]\
+          ["tldts", "npm:7.0.23"],\
+          ["tldts-core", "npm:7.0.23"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["tldts-core", [\
-      ["npm:7.0.22", {\
-        "packageLocation": "./.yarn/cache/tldts-core-npm-7.0.22-9fe42b458a-f034a55072.zip/node_modules/tldts-core/",\
+      ["npm:7.0.23", {\
+        "packageLocation": "./.yarn/cache/tldts-core-npm-7.0.23-c3f0eb5a88-e6e19d6cab.zip/node_modules/tldts-core/",\
         "packageDependencies": [\
-          ["tldts-core", "npm:7.0.22"]\
+          ["tldts-core", "npm:7.0.23"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24270,7 +24019,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/tough-cookie-npm-6.0.0-c7d0e8e15a-1b05922416.zip/node_modules/tough-cookie/",\
         "packageDependencies": [\
           ["tough-cookie", "npm:6.0.0"],\
-          ["tldts", "npm:7.0.22"]\
+          ["tldts", "npm:7.0.23"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24938,20 +24687,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["util", [\
-      ["npm:0.12.5", {\
-        "packageLocation": "./.yarn/cache/util-npm-0.12.5-3668276f26-61a10de775.zip/node_modules/util/",\
-        "packageDependencies": [\
-          ["util", "npm:0.12.5"],\
-          ["inherits", "npm:2.0.4"],\
-          ["is-arguments", "npm:1.2.0"],\
-          ["is-generator-function", "npm:1.1.2"],\
-          ["is-typed-array", "npm:1.1.15"],\
-          ["which-typed-array", "npm:1.1.20"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["util-deprecate", [\
       ["npm:1.0.2", {\
         "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-474acf1146.zip/node_modules/util-deprecate/",\
@@ -25059,25 +24794,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["web3-errors", [\
-      ["npm:1.3.1", {\
-        "packageLocation": "./.yarn/cache/web3-errors-npm-1.3.1-f86ceda408-0d1cb0e027.zip/node_modules/web3-errors/",\
-        "packageDependencies": [\
-          ["web3-errors", "npm:1.3.1"],\
-          ["web3-types", "npm:1.10.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["web3-types", [\
-      ["npm:1.10.0", {\
-        "packageLocation": "./.yarn/cache/web3-types-npm-1.10.0-7e3386e0df-849f05a001.zip/node_modules/web3-types/",\
-        "packageDependencies": [\
-          ["web3-types", "npm:1.10.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["web3-utils", [\
       ["npm:1.10.4", {\
         "packageLocation": "./.yarn/cache/web3-utils-npm-1.10.4-5448d301b5-3e586b638c.zip/node_modules/web3-utils/",\
@@ -25091,32 +24807,6 @@ const RAW_RUNTIME_STATE =
           ["number-to-bn", "npm:1.7.0"],\
           ["randombytes", "npm:2.1.0"],\
           ["utf8", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.3.3", {\
-        "packageLocation": "./.yarn/cache/web3-utils-npm-4.3.3-d266ca398e-c91ebbe67e.zip/node_modules/web3-utils/",\
-        "packageDependencies": [\
-          ["web3-utils", "npm:4.3.3"],\
-          ["ethereum-cryptography", "npm:2.2.1"],\
-          ["eventemitter3", "npm:5.0.4"],\
-          ["web3-errors", "npm:1.3.1"],\
-          ["web3-types", "npm:1.10.0"],\
-          ["web3-validator", "npm:2.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["web3-validator", [\
-      ["npm:2.0.6", {\
-        "packageLocation": "./.yarn/cache/web3-validator-npm-2.0.6-91d02cd1f5-4df08e5317.zip/node_modules/web3-validator/",\
-        "packageDependencies": [\
-          ["web3-validator", "npm:2.0.6"],\
-          ["ethereum-cryptography", "npm:2.2.1"],\
-          ["util", "npm:0.12.5"],\
-          ["web3-errors", "npm:1.3.1"],\
-          ["web3-types", "npm:1.10.0"],\
-          ["zod", "npm:3.25.76"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25178,7 +24868,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/which-npm-6.0.0-48f25f0ec8-df19b2cd8a.zip/node_modules/which/",\
         "packageDependencies": [\
           ["which", "npm:6.0.0"],\
-          ["isexe", "npm:3.1.2"]\
+          ["isexe", "npm:3.1.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25613,15 +25303,6 @@ const RAW_RUNTIME_STATE =
           ["lodash.get", "npm:4.4.2"],\
           ["lodash.isequal", "npm:4.5.0"],\
           ["validator", "npm:13.15.26"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["zod", [\
-      ["npm:3.25.76", {\
-        "packageLocation": "./.yarn/cache/zod-npm-3.25.76-7de26333f8-f0c963ec40.zip/node_modules/zod/",\
-        "packageDependencies": [\
-          ["zod", "npm:3.25.76"]\
         ],\
         "linkType": "HARD"\
       }]\

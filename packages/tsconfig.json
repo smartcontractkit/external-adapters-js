@@ -432,9 +432,6 @@
       "path": "./sources/r25"
     },
     {
-      "path": "./sources/renvm-address-set"
-    },
-    {
       "path": "./sources/s3-csv-reader"
     },
     {
