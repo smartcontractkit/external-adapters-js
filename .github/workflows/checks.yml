@@ -51,6 +51,26 @@ jobs:
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh
 
+  # Check that running yarn install doesn't modify any files (lockfile, cache, etc.)
+  check-yarn-install:
+    name: Verify yarn install is clean
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Check for uncommitted changes after yarn install
+        run: |
+          # Check if any files were modified by yarn install
+          if ! git diff --exit-code; then
+            echo "::error::Running 'yarn install' resulted in file changes. Please run 'yarn install' locally and commit the changes."
+            echo "Changed files:"
+            git diff --name-only
+            exit 1
+          fi
+          echo "✅ No file changes after yarn install"
+
   # ---------- Adapter checks (only for changed EAs) ----------
 
   # Check that there are no compilation errors in test.
