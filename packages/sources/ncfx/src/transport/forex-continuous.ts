@@ -1,5 +1,5 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypesLwba } from '../endpoint/crypto-lwba'
+import { BaseEndpointTypesForexContinuous } from '../endpoint/forex-continuous'
 import {
   WsMessage,
   WsPriceMessage,
@@ -9,17 +9,17 @@ import {
   wsOpenHandler,
 } from './utils'
 
-// Crypto LWBA uses '/' separator (e.g., "ETH/USD") and 'offer' field for ask price
-const PAIR_SEPARATOR = '/'
+// Forex continuous uses '-' separator (e.g., "ARS-USD") and 'ask' field
+const PAIR_SEPARATOR = '-'
 
-type WsTransportTypes = BaseEndpointTypesLwba & {
+type WsTransportTypes = BaseEndpointTypesForexContinuous & {
   Provider: {
     WsMessage: WsMessage
   }
 }
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+  url: (context) => context.adapterSettings.FOREX_CONTINUOUS_WS_API_ENDPOINT,
   handlers: {
     open: wsOpenHandler,
 
@@ -29,12 +29,11 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       }
 
       const priceMessage = message as WsPriceMessage
-      // Crypto feed uses 'offer' field instead of 'ask'
       if (
         !priceMessage.currencyPair ||
         !priceMessage.mid ||
         !priceMessage.bid ||
-        !priceMessage.offer
+        !priceMessage.ask
       ) {
         return
       }
@@ -48,7 +47,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
             data: {
               bid: priceMessage.bid,
               mid: priceMessage.mid,
-              ask: priceMessage.offer, // Map 'offer' to 'ask' in response
+              ask: priceMessage.ask,
             },
             timestamps: {
               providerIndicatedTimeUnixMs: parseProviderTime(priceMessage.timestamp),
