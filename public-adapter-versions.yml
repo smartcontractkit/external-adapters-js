@@ -259,8 +259,6 @@ adapters:
     version: 1.33.0
   - name: r25
     version: 1.0.0
-  - name: renvm-address-set
-    version: 1.5.137
   - name: rocket-pool
     version: 1.1.22
   - name: s3-csv-reader

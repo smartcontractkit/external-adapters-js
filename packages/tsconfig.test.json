@@ -429,9 +429,6 @@
       "path": "./sources/r25/tsconfig.test.json"
     },
     {
-      "path": "./sources/renvm-address-set/tsconfig.test.json"
-    },
-    {
       "path": "./sources/s3-csv-reader/tsconfig.test.json"
     },
     {
