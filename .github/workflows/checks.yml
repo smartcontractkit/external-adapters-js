@@ -47,20 +47,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           base-branch: origin/${{ github.base_ref }}
-      - name: Build list of changed packages and changed adapters
-        id: changed-adapters
-        run: ./.github/scripts/changed-adapters.sh
-
-  # Check that running yarn install doesn't modify any files (lockfile, cache, etc.)
-  check-yarn-install:
-    name: Verify yarn install is clean
-    runs-on: [ubuntu-latest]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Set up and install dependencies
-        uses: ./.github/actions/setup
-      - name: Check for uncommitted changes after yarn install
+      - name: Verify no files were modified by yarn install
         run: |
           # Check if any files were modified by yarn install
           if ! git diff --exit-code; then
@@ -70,6 +57,9 @@ jobs:
             exit 1
           fi
           echo "✅ No file changes after yarn install"
+      - name: Build list of changed packages and changed adapters
+        id: changed-adapters
+        run: ./.github/scripts/changed-adapters.sh
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
