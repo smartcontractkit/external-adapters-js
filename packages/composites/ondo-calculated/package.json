@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ondo-calculated-adapter",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "Chainlink ondo-calculated adapter.",
   "keywords": [
     "Chainlink",
