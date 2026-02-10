@@ -67,6 +67,7 @@ export type BaseEndpointTypes = {
       riskFlag: boolean
       breachDirection: string
       isBounded: boolean
+      staleLowerBound: boolean
       decimals: number
     }
   }
