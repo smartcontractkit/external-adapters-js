@@ -1,5 +1,11 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.33.1
+
+### Patch Changes
+
+- [#4609](https://github.com/smartcontractkit/external-adapters-js/pull/4609) [`cb489cb`](https://github.com/smartcontractkit/external-adapters-js/commit/cb489cb09f4e713524b263ef6014fb7b383d5aa0) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused renvm-address-set EA. Proof-of-reserves depended on it but this is not used by any job.
+
 ## 1.33.0
 
 ### Minor Changes
