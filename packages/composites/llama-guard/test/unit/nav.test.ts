@@ -72,6 +72,7 @@ describe('getNav', () => {
         adjustedNav: scaledNav,
         decimals,
         lowerBound: '',
+        staleLowerBound: false,
         upperBound: '',
         bases: {
           lookback: { nav: '0', ts: 0 },
@@ -122,6 +123,7 @@ describe('getNav', () => {
         adjustedNav: scaledNav,
         decimals,
         lowerBound: '',
+        staleLowerBound: false,
         upperBound: '',
         bases: {
           lookback: { nav: '0', ts: 0 },
@@ -169,6 +171,7 @@ describe('getNav', () => {
         rawNav: '140',
         adjustedNav: '148',
         lowerBound: '148',
+        staleLowerBound: false,
         bases: {
           lookback: { nav: '0', ts: 0 },
           previous: { nav: '150', ts: now / 1000 - 86400 / 2 },
@@ -214,6 +217,7 @@ describe('getNav', () => {
         rawNav: '140',
         adjustedNav: '142',
         lowerBound: '142',
+        staleLowerBound: false,
         bases: {
           lookback: { nav: '0', ts: 0 },
           previous: { nav: '150', ts: now },
@@ -261,6 +265,7 @@ describe('getNav', () => {
         rawNav: '1006',
         adjustedNav: '1005',
         lowerBound: '',
+        staleLowerBound: false,
         upperBound: '1005',
         bases: {
           lookback: { nav: '1000', ts: now / 1000 - 86400 / 2 },
@@ -309,6 +314,7 @@ describe('getNav', () => {
         rawNav: '1001',
         adjustedNav: '1001',
         lowerBound: '993',
+        staleLowerBound: false,
         upperBound: '1005',
         bases: {
           lookback: { nav: '1000', ts: now / 1000 - 86400 / 2 },
@@ -355,12 +361,61 @@ describe('getNav', () => {
         rawNav: '1001000000000000000',
         adjustedNav: '1001000000000000000',
         lowerBound: '993755471683049500',
+        staleLowerBound: false,
         upperBound: '1005003437491631700',
         bases: {
           lookback: { nav: '1000000000000000000', ts: now / 1000 - 86400 / 2 },
           previous: { nav: '1000000000000000000', ts: now / 1000 - 86400 / 2 },
         },
         decimals: 18,
+        riskFlag: false,
+        breachDirection: '',
+        isBounded: true,
+      })
+    })
+
+    it('should return staleLowerBound true when lower bound latestTime is more than 1 day ago', async () => {
+      const twoDaysAgo = now / 1000 - 2 * 86400
+      mockGetRawNav.mockResolvedValue('1.001')
+      mockGetBounds.mockResolvedValue({
+        lower: {
+          isLowerBoundEnabled: true,
+          latestNav: 1000n,
+          latestTime: twoDaysAgo,
+          maxDiscount: 25,
+          lowerBoundTolerance: 50,
+        },
+        upper: {
+          isUpperBoundEnabled: true,
+          lookbackNav: 1000n,
+          lookbackTime: now / 1000 - 86400 / 2,
+          maxExpectedApy: 25,
+          upperBoundTolerance: 50,
+        },
+        decimals: 3,
+      })
+
+      const result = await getNav(
+        defaultParams.source,
+        defaultParams.sourceInput,
+        defaultParams.sourceScaled,
+        defaultParams.requester,
+        defaultParams.asset,
+        defaultParams.registry,
+        defaultParams.provider,
+      )
+
+      expect(result).toEqual({
+        rawNav: '1001',
+        adjustedNav: '1001',
+        lowerBound: '992',
+        staleLowerBound: true,
+        upperBound: '1005',
+        bases: {
+          lookback: { nav: '1000', ts: now / 1000 - 86400 / 2 },
+          previous: { nav: '1000', ts: twoDaysAgo },
+        },
+        decimals: 3,
         riskFlag: false,
         breachDirection: '',
         isBounded: true,
