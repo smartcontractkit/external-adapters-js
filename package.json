@@ -25,6 +25,7 @@
     "test:ci:integration": "EA_PORT=0 METRICS_ENABLED=false jest --coverage integration",
     "generate:master-list": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-readme",
+    "list-ea-endpoints": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/list-ea-endpoints",
     "postinstall": "husky install",
     "cm": "cz",
     "ci-changeset": "git reset --hard $CURRENT_SHA && yarn changeset version",
