@@ -1,5 +1,24 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.10
+
+### Patch Changes
+
+- [#4606](https://github.com/smartcontractkit/external-adapters-js/pull/4606) [`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.12.0
+
+- Updated dependencies [[`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a)]:
+  - @chainlink/blocksize-capital-adapter@2.5.4
+  - @chainlink/coinmarketcap-adapter@2.1.4
+  - @chainlink/cryptocompare-adapter@3.4.5
+  - @chainlink/cfbenchmarks-adapter@2.6.4
+  - @chainlink/coinmetrics-adapter@3.10.4
+  - @chainlink/coinpaprika-adapter@2.2.4
+  - @chainlink/coingecko-adapter@2.1.4
+  - @chainlink/finage-adapter@2.5.2
+  - @chainlink/tiingo-adapter@2.9.5
+  - @chainlink/kaiko-adapter@2.3.4
+  - @chainlink/ncfx-adapter@4.5.4
+
 ## 1.14.9
 
 ### Patch Changes

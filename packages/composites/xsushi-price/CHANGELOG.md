@@ -1,5 +1,12 @@
 # @chainlink/xsushi-price-adapter
 
+## 2.0.124
+
+### Patch Changes
+
+- Updated dependencies [[`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a)]:
+  - @chainlink/token-allocation-adapter@1.14.10
+
 ## 2.0.123
 
 ### Patch Changes
