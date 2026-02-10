@@ -35,7 +35,6 @@ import { adapter as ignitionAddressList } from '@chainlink/ignition-address-list
 import { adapter as moonbeamAddressList } from '@chainlink/moonbeam-address-list-adapter'
 import { adapter as multiAddressList } from '@chainlink/multi-address-list-adapter'
 import { adapter as porAddressList } from '@chainlink/por-address-list-adapter'
-import * as renVM from '@chainlink/renvm-address-set-adapter'
 import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
 import * as swellList from '@chainlink/swell-address-list-adapter'
 import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
@@ -91,7 +90,6 @@ describe('Type safe adapter names', () => {
   describe('Protocol adapters', () => {
     describe('Adapters V2 Names', () => {
       const expectedAdaptersV2: v2AdapterImplementation[] = [
-        renVM as unknown as v2AdapterImplementation,
         celsiusAddressList as unknown as v2AdapterImplementation,
         chainReserveWallets as unknown as v2AdapterImplementation,
         wrapped as unknown as v2AdapterImplementation,

@@ -62,7 +62,6 @@
     "@chainlink/polkadot-balance-adapter": "workspace:*",
     "@chainlink/por-address-list-adapter": "workspace:*",
     "@chainlink/por-indexer-adapter": "workspace:*",
-    "@chainlink/renvm-address-set-adapter": "workspace:*",
     "@chainlink/sochain-adapter": "workspace:*",
     "@chainlink/stader-address-list-adapter": "workspace:*",
     "@chainlink/stader-balance-adapter": "workspace:*",
