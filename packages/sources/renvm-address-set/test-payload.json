@@ -1,6 +1,0 @@
-{
-    "requests": [{
-        "tokenOrContract": "btc",
-        "network": "testnet"
-      }]
-}
