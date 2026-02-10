@@ -165,6 +165,9 @@
       "path": "./sources/cache.gold/tsconfig.test.json"
     },
     {
+      "path": "./sources/canton-functions/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ceffu/tsconfig.test.json"
     },
     {
@@ -481,6 +484,9 @@
     },
     {
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/t-rize-proof-of-insurance/tsconfig.test.json"
     },
     {
       "path": "./sources/the-network-firm/tsconfig.test.json"

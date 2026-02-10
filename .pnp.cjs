@@ -671,6 +671,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-feeds"\
     },\
     {\
+      "name": "@chainlink/t-rize-proof-of-insurance-adapter",\
+      "reference": "workspace:packages/sources/t-rize-proof-of-insurance"\
+    },\
+    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -929,6 +933,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
@@ -5042,7 +5047,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5211,7 +5216,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cfbenchmarks/",\
         "packageDependencies": [\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5313,7 +5318,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coingecko/",\
         "packageDependencies": [\
           ["@chainlink/coingecko-adapter", "workspace:packages/sources/coingecko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -5348,7 +5353,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmarketcap/",\
         "packageDependencies": [\
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -5363,7 +5368,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinmetrics/",\
         "packageDependencies": [\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5382,7 +5387,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/coinmetrics-lwba-adapter", "workspace:packages/sources/coinmetrics-lwba"],\
           ["@chainlink/coinmetrics-adapter", "workspace:packages/sources/coinmetrics"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5399,7 +5404,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-adapter", "workspace:packages/sources/coinpaprika"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5527,7 +5532,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/cryptocompare/",\
         "packageDependencies": [\
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6106,14 +6111,14 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:3b1c295ff131ee041b22f024e84e471440592df332fcecbf806de70099313f2680d60f983484a22d8888bdd4773c5e234f45a1696bbca546cb07988d2ac90503#npm:8.19.0"]\
+          ["ws", "virtual:9bf2ba6982dfafdcda93482d19d78274ebf241ea2bfd16854c104f9b1ff12d872a021dc357d59249ede18016f4981e7b6968a263851d90e8d8cabcfc0cb2ffd8#npm:8.19.0"]\
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.11.6", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.11.6-3b1c295ff1-781e5ef9fa.zip/node_modules/@chainlink/external-adapter-framework/",\
+      ["npm:2.12.0", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.12.0-9bf2ba6982-b7d805b8ef.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["ajv", "npm:8.17.1"],\
           ["axios", "npm:1.13.4"],\
@@ -6125,7 +6130,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:3b1c295ff131ee041b22f024e84e471440592df332fcecbf806de70099313f2680d60f983484a22d8888bdd4773c5e234f45a1696bbca546cb07988d2ac90503#npm:8.19.0"]\
+          ["ws", "virtual:9bf2ba6982dfafdcda93482d19d78274ebf241ea2bfd16854c104f9b1ff12d872a021dc357d59249ede18016f4981e7b6968a263851d90e8d8cabcfc0cb2ffd8#npm:8.19.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -6148,7 +6153,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
@@ -6205,7 +6210,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6596,7 +6601,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -6748,7 +6753,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/kaiko/",\
         "packageDependencies": [\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -7117,7 +7122,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/ncfx/",\
         "packageDependencies": [\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7902,6 +7907,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", [\
+      ["workspace:packages/sources/t-rize-proof-of-insurance", {\
+        "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
+        "packageDependencies": [\
+          ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/the-graph-adapter", [\
       ["workspace:packages/composites/the-graph", {\
         "packageLocation": "./packages/composites/the-graph/",\
@@ -7957,7 +7979,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-adapter", "workspace:packages/sources/tiingo"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -8003,7 +8025,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/cryptocompare-adapter", "workspace:packages/sources/cryptocompare"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@chainlink/kaiko-adapter", "workspace:packages/sources/kaiko"],\
           ["@chainlink/ncfx-adapter", "workspace:packages/sources/ncfx"],\
@@ -29761,10 +29783,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:3b1c295ff131ee041b22f024e84e471440592df332fcecbf806de70099313f2680d60f983484a22d8888bdd4773c5e234f45a1696bbca546cb07988d2ac90503#npm:8.19.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-2275f35d41/0/cache/ws-npm-8.19.0-c967c046a5-26e4901e93.zip/node_modules/ws/",\
+      ["virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-9d210dd481/0/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:3b1c295ff131ee041b22f024e84e471440592df332fcecbf806de70099313f2680d60f983484a22d8888bdd4773c5e234f45a1696bbca546cb07988d2ac90503#npm:8.19.0"],\
+          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
@@ -29778,10 +29800,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-9d210dd481/0/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
+      ["virtual:9bf2ba6982dfafdcda93482d19d78274ebf241ea2bfd16854c104f9b1ff12d872a021dc357d59249ede18016f4981e7b6968a263851d90e8d8cabcfc0cb2ffd8#npm:8.19.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-9c1c1de76d/0/cache/ws-npm-8.19.0-c967c046a5-26e4901e93.zip/node_modules/ws/",\
         "packageDependencies": [\
-          ["ws", "virtual:664e8a533bd640fe25950f78953f988492df49452c3758ee6999f93e099115859a376c456a6fbf9c1131444282215c105622c72636d6d7f644610d55a51628d7#npm:8.18.3"],\
+          ["ws", "virtual:9bf2ba6982dfafdcda93482d19d78274ebf241ea2bfd16854c104f9b1ff12d872a021dc357d59249ede18016f4981e7b6968a263851d90e8d8cabcfc0cb2ffd8#npm:8.19.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
