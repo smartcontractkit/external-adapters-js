@@ -41,9 +41,11 @@ export const getNav = async (
 
   // Check if we breach lower bound
   let lowerBound = -1n
+  let staleLowerBound = false
   if (bounds.lower.isLowerBoundEnabled && bounds.lower.latestNav > 0) {
     const days = (now - bounds.lower.latestTime) / SECONDS_IN_DAY
     const cappedDays = Math.min(1.0, days)
+    staleLowerBound = days > 1.0
     const scaledMaxDiscount = (1 - bounds.lower.maxDiscount / BPS) ** cappedDays
     const finalDiscount = scaledMaxDiscount * (1 - bounds.lower.lowerBoundTolerance / BPS)
     lowerBound = mulBigInt(bounds.lower.latestNav, finalDiscount, bounds.decimals)
@@ -54,6 +56,7 @@ export const getNav = async (
         breachDirection: 'lower',
         isBounded: false,
         lowerBound: lowerBound.toString(),
+        staleLowerBound,
         ...results,
       }
     }
@@ -73,6 +76,7 @@ export const getNav = async (
         breachDirection: 'upper',
         isBounded: false,
         lowerBound: lowerBound > 0 ? lowerBound.toString() : '',
+        staleLowerBound,
         upperBound: upperBound.toString(),
         ...results,
       }
@@ -86,6 +90,7 @@ export const getNav = async (
     breachDirection: '',
     isBounded: true,
     lowerBound: lowerBound > 0 ? lowerBound.toString() : '',
+    staleLowerBound,
     upperBound: upperBound > 0 ? upperBound.toString() : '',
     ...results,
   }

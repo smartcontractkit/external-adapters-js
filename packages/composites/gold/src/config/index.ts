@@ -27,6 +27,18 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 1_000_000,
   },
+  DEVIATION_EMA_TAU_MS: {
+    description:
+      'Time constant (tau) in milliseconds for the EMA filters used to calculate the smoothed deviation from the XAU closing price',
+    type: 'number',
+    default: 1_000_000,
+  },
+  DEVIATION_CAP: {
+    description:
+      'Maximum deviation allowed from the closing price. Used deviation is clamped between this and minus this value.',
+    type: 'number',
+    default: 0.02,
+  },
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
