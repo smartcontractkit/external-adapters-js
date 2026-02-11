@@ -1,13 +1,16 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { createHash } from 'crypto'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
 
 export interface ResponseSchema {
-  insuredAmount: number
   currentExposure: number
   timestamp: string
   daysRemaining: number
   signature: string
+  insuredAllocationLimit: number
+  masterCoverageLimit: number
+  maturityTimestamp: number
+  policyHash: string
+  instrumentSourceParty: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -15,15 +18,6 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     RequestBody: never
     ResponseBody: ResponseSchema
   }
-}
-
-const TWO_POW_191 = BigInt(2) ** BigInt(191)
-
-export function computeAumFromSignature(signature: string): string {
-  const hash = createHash('sha256').update(signature).digest('hex')
-  const hashBigInt = BigInt('0x' + hash)
-  const aum = hashBigInt % TWO_POW_191
-  return aum.toString()
 }
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
@@ -57,8 +51,25 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
+    if (response.data?.error) {
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage: response.data.error,
+            statusCode: 502,
+          },
+        }
+      })
+    }
+
+    // TODO: We may delete navDate and aum
     const navDate = response.data.daysRemaining
     const aum = computeAumFromSignature(response.data.signature)
+    const signature = response.data.signature
+    const timestampMs = new Date(response.data.timestamp).getTime()
+    const maturityTimestamp = response.data.maturityTimestamp
+    const policyHash = response.data.policyHash
 
     return params.map((param) => {
       return {
@@ -66,8 +77,24 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         response: {
           result: navDate,
           data: {
-            navDate,
-            aum,
+            // navDate,
+            // aum,
+            insuredAllocationLimit: response.data.insuredAllocationLimit,
+            masterCoverageLimit: response.data.masterCoverageLimit,
+            dealCurrentExposure: response.data.currentExposure,
+            timestamp: timestampMs,
+            // This cannott be a string
+            // signature,
+            maturityTimestamp,
+
+            // This could be converted to a number or hash?
+            // policyHash,
+
+            // This needs to be a number
+            // instrumentId: param.instrument_id,
+
+            // This needs to be a number
+            // instrumentSourceParty: response.data.instrumentSourceParty,
           },
         },
       }
