@@ -1,10 +1,12 @@
 import { getCryptoPrice, getRwaPrice } from '@chainlink/data-engine-adapter'
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { Cache } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { adapter } from '..'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { updateEma } from './ema'
 
@@ -56,6 +58,8 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   tokenizedPriceStreamsConfig!: Record<string, string>
   state!: State
+  stateCache!: Cache<State>
+  stateCacheKey!: string
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -74,6 +78,30 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
       })
     }
+
+    this.stateCache = dependencies.cache as Cache<State>
+    this.stateCacheKey = `${this.config.CACHE_PREFIX}-${adapter.name}-${endpointName}-state`
+    await this.maybeInitializeStateFromCache()
+  }
+
+  async maybeInitializeStateFromCache() {
+    if (this.state !== undefined) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: 'State is already initialized, cannot initialize from cache.',
+      })
+    }
+
+    const cachedState = await this.stateCache.get(this.stateCacheKey)
+
+    if (cachedState) {
+      this.state = cachedState
+      logger.info(`Loaded state from cache: ${JSON.stringify(cachedState, null, 2)}`)
+      return
+    }
+
+    logger.info('No cached state found, initializing empty state.')
+
     this.state = {
       marketStatus: MarketStatus.UNKNOWN,
       lastXauPrice: '0',
@@ -138,6 +166,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.verifyDecimals('XAU', decimals)
 
     this.updateState(xauResponse, tokenizedPriceResponses)
+    await this.stateCache.set(this.stateCacheKey, this.state, this.config.CACHE_TTL_MS)
 
     let result: string
 
