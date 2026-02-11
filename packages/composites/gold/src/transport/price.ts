@@ -278,9 +278,21 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   calculateCompositePrice(): bigint {
     const lastXauPrice = BigInt(this.state.lastXauPrice)
     const smoothedDeviation = BigInt(this.state.deviationEma.average)
+    const cappedDeviation = this.capDeviation(smoothedDeviation)
+
     const compositePrice =
-      lastXauPrice + (smoothedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
+      lastXauPrice + (cappedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
     return compositePrice
+  }
+
+  capDeviation(deviation: bigint): bigint {
+    const maxDeviation = BigInt(this.config.DEVIATION_CAP * 10 ** RESULT_DECIMALS)
+    if (deviation > maxDeviation) {
+      return maxDeviation
+    } else if (deviation < -maxDeviation) {
+      return -maxDeviation
+    }
+    return deviation
   }
 
   async getTokenizedPriceResponses(): Promise<
