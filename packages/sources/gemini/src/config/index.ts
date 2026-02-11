@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'API endpoint of gemini',
     type: 'string',
     default: 'https://api.gemini.com',
+    sensitive: false,
   },
 })

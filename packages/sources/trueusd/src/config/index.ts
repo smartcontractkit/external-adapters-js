@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'API endpoint of adapter',
     type: 'string',
     default: 'https://api.real-time-reserves.ledgerlens.io/v1/',
+    sensitive: false,
   },
 })
