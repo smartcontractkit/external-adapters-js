@@ -1,10 +1,7 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import {
-  WebSocketTransport,
-  WebSocketTransportConfig,
-} from '@chainlink/external-adapter-framework/transports'
+// import { WebSocketTransportConfig } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BaseEndpointTypes } from '../endpoint/shared'
 import { convertTimetoUnixMs } from './util'
 
 export interface PriceMessage {
@@ -42,14 +39,7 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('GmciTransport')
 
-export const options: WebSocketTransportConfig<WsTransportTypes> = {
-  url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
-  options: async (context: EndpointContext<WsTransportTypes>) => ({
-    headers: {
-      'X-GMCI-API-KEY': context.adapterSettings.API_KEY,
-    },
-  }),
-
+export const baseOptions = {
   handlers: {
     message(message: WsResponse) {
       if (message.success === false) {
@@ -81,14 +71,14 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
   },
 
   builders: {
-    subscribeMessage: (params) => {
+    subscribeMessage: (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) => {
       return {
         op: 'subscribe',
         args: [`price.${params.symbol}`.toLowerCase()],
       }
     },
 
-    unsubscribeMessage: (params) => {
+    unsubscribeMessage: (params: TypeFromDefinition<BaseEndpointTypes['Parameters']>) => {
       return {
         op: 'unsubscribe',
         args: [`price.${params.symbol}`.toLowerCase()],
@@ -96,5 +86,3 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
     },
   },
 }
-
-export const transport = new WebSocketTransport(options)
