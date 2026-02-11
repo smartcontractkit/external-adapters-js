@@ -142,7 +142,7 @@ adapters:
   - name: gemini
     version: 3.0.33
   - name: generic-api
-    version: 1.0.1
+    version: 1.2.0
   - name: glv-token
     version: 2.0.2
   - name: gm-token
