@@ -477,11 +477,11 @@ describe('PriceTransport', () => {
     })
 
     it('should restore cached state', async () => {
-      let cachedState: string
+      const [cachedStatePromise, resolveCachedState] = deferredPromise<string>()
       cache.set.mockImplementationOnce(async (_key, value, _ttl) => {
-        cachedState = JSON.stringify(value, null, 2)
+        resolveCachedState(JSON.stringify(value, null, 2))
       })
-      cache.get.mockImplementationOnce(async () => JSON.parse(cachedState))
+      cache.get.mockResolvedValueOnce(cachedStatePromise.then(JSON.parse))
 
       const goldPrice = '4000000000000000000000'
       const xautPrice = '5100000000000000000000'
@@ -596,7 +596,7 @@ describe('PriceTransport', () => {
       expect(cache.get).toBeCalledWith(STATE_CACHE_KEY)
       expect(cache.get).toBeCalledTimes(1)
 
-      expect(log).toBeCalledWith(`Loaded state from cache: ${cachedState!}`)
+      expect(log).toBeCalledWith(`Loaded state from cache: ${await cachedStatePromise}`)
       expect(log).toBeCalledTimes(1)
       log.mockClear()
     })

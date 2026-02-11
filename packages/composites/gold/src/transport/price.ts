@@ -166,7 +166,9 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     this.verifyDecimals('XAU', decimals)
 
     this.updateState(xauResponse, tokenizedPriceResponses)
-    await this.stateCache.set(this.stateCacheKey, this.state, this.config.CACHE_TTL_MS)
+    // Don't await. Caching the state is best-effort and if it fails, we'll try
+    // again on the next request.
+    this.stateCache.set(this.stateCacheKey, this.state, this.config.CACHE_TTL_MS)
 
     let result: string
 
