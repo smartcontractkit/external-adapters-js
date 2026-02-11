@@ -6,6 +6,10 @@ exports[`execute price endpoint should return success 1`] = `
     "decimals": 18,
     "result": "4869500000000000000000",
     "state": {
+      "deviationEma": {
+        "average": "0",
+        "timestampMs": 978347471111,
+      },
       "lastXauPrice": "4869500000000000000000",
       "marketStatus": 2,
       "nowMs": 978347471111,

@@ -44,7 +44,8 @@ add_changed_reverse_package_deps() {
     # `changeset version`, we don't want to include it. Otherwise almost all
     # packages get included through common dependencies such as
     # @chainlink/ea-test-helpers.
-    intersect "$($SOURCE_DIR/get-reverse-dependencies.sh $packages)" "$CHANGED_PACKAGES_RECURSIVE"
+    packages=$(intersect "$packages" "$CHANGED_PACKAGES_RECURSIVE")
+    $SOURCE_DIR/get-reverse-dependencies.sh "$packages"
   } | sort -u
 }
 

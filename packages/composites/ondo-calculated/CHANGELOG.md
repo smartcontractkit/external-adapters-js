@@ -1,5 +1,23 @@
 # @chainlink/ondo-calculated-adapter
 
+## 2.0.0
+
+### Major Changes
+
+- [#4567](https://github.com/smartcontractkit/external-adapters-js/pull/4567) [`dc405b2`](https://github.com/smartcontractkit/external-adapters-js/commit/dc405b297e07f5ad4f083466d1e9afd8b878c0b7) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Read trading session from trading hours instead of hard-coded values
+
+  When upgrading to this version:
+
+  1.  Point TRADING_HOURS_ADAPTER_URL to a trading hours EA with minimum version of 0.6.0
+  2.  If you have DATA_ENGINE_EA_URL set, rename it to DATA_ENGINE_ADAPTER_URL
+  3.  Wait for CLL's go ahead message
+
+### Minor Changes
+
+- [#4577](https://github.com/smartcontractkit/external-adapters-js/pull/4577) [`42f5434`](https://github.com/smartcontractkit/external-adapters-js/commit/42f5434fab7f710f7b95b450e7242309d49dcec5) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Reset internal state after in-activity
+
+- [#4576](https://github.com/smartcontractkit/external-adapters-js/pull/4576) [`f3a5ca0`](https://github.com/smartcontractkit/external-adapters-js/commit/f3a5ca0826ae56f5b966d144b7f1274ce049b682) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Return source of session data
+
 ## 1.4.0
 
 ### Minor Changes

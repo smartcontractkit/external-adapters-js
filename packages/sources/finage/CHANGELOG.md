@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.5.2
+
+### Patch Changes
+
+- [#4606](https://github.com/smartcontractkit/external-adapters-js/pull/4606) [`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.12.0
+
 ## 2.5.1
 
 ### Patch Changes
