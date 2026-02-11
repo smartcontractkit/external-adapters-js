@@ -47,6 +47,16 @@ jobs:
         uses: ./.github/actions/setup
         with:
           base-branch: origin/${{ github.base_ref }}
+      - name: Verify no files were modified by yarn install
+        run: |
+          # Check if any files were modified by yarn install
+          if ! git diff --exit-code; then
+            echo "::error::Running 'yarn install' resulted in file changes. Please run 'yarn install' locally and commit the changes."
+            echo "Changed files:"
+            git diff --name-only
+            exit 1
+          fi
+          echo "✅ No file changes after yarn install"
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh

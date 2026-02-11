@@ -3,6 +3,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes } from '../../src/endpoint/price'
+import { updateEma } from '../../src/transport/ema'
 import { PriceTransport } from '../../src/transport/price'
 
 const originalEnv = { ...process.env }
@@ -46,6 +47,9 @@ describe('PriceTransport', () => {
   }`
   const PRICE_STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
   const PREMIUM_EMA_TAU_MS = 1_000_000
+  const DEVIATION_EMA_TAU_MS = 1_000_000
+  const DEVIATION_CAP = 0.02
+  const RESULT_DECIMALS = 18
 
   const adapterSettings = makeStub('adapterSettings', {
     DATA_ENGINE_ADAPTER_URL,
@@ -53,6 +57,8 @@ describe('PriceTransport', () => {
     TOKENIZED_GOLD_PRICE_STREAMS,
     PRICE_STALE_TIMEOUT_MS,
     PREMIUM_EMA_TAU_MS,
+    DEVIATION_EMA_TAU_MS,
+    DEVIATION_CAP,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     MAX_COMMON_KEY_SIZE: 300,
@@ -86,24 +92,33 @@ describe('PriceTransport', () => {
     return (priceStreamMocks[feedId] ??= jest.fn())
   }
 
+  let xauClosingPrice: bigint
+  let marketLastOpenTimestamp: number
+
   const mockXauPriceResponse = (
     midPrice: Promise<string> | string,
     marketStatus: MarketStatus,
     decimals = 18,
   ) => {
-    mockDataEngine(XAU_FEED_ID).mockImplementationOnce(async () =>
-      makeStub('mockDataEngineResponse', {
+    mockDataEngine(XAU_FEED_ID).mockImplementationOnce(async () => {
+      const midPriceValue = await midPrice
+      if (marketStatus === MarketStatus.OPEN) {
+        marketLastOpenTimestamp = Date.now()
+      } else {
+        xauClosingPrice = BigInt(midPriceValue)
+      }
+      return makeStub('mockDataEngineResponse', {
         response: {
           data: {
             data: {
               marketStatus,
-              midPrice: await midPrice,
+              midPrice: midPriceValue,
               decimals,
             },
           },
         },
-      }),
-    )
+      })
+    })
   }
 
   const mockCryptoPrice = (feedId: string, price: string | Promise<string>, decimals = 18) => {
@@ -121,10 +136,44 @@ describe('PriceTransport', () => {
     )
   }
 
+  // Having this much logic in tests is not ideal but without it
+  // there would just be magic numbers everywhere.
+  const getExpectedDeviationAndResult = (
+    expectedUnsmoothedCompositePrice: string,
+  ): {
+    expectedDeviation: string
+    expectedResult: string
+  } => {
+    const unsmoothedDeviation =
+      ((BigInt(expectedUnsmoothedCompositePrice) - xauClosingPrice) *
+        10n ** BigInt(RESULT_DECIMALS)) /
+      xauClosingPrice
+    const expectedDeviation = updateEma(
+      {
+        average: 0n,
+        timestampMs: marketLastOpenTimestamp,
+      },
+      unsmoothedDeviation,
+      Date.now(),
+      PREMIUM_EMA_TAU_MS,
+    ).average
+    const expectedResult = (
+      xauClosingPrice +
+      (expectedDeviation * xauClosingPrice) / 10n ** BigInt(RESULT_DECIMALS)
+    ).toString()
+    return {
+      expectedDeviation: expectedDeviation.toString(),
+      expectedResult,
+    }
+  }
+
   beforeEach(async () => {
     restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
+
+    xauClosingPrice = 0n
+    marketLastOpenTimestamp = 0
 
     requester.request.mockImplementation(async (requestJson) => {
       const request = JSON.parse(requestJson)
@@ -192,6 +241,10 @@ describe('PriceTransport', () => {
             nowMs: Date.now(),
             xauOpenMarketEma: {
               average: goldPrice,
+              timestampMs: Date.now(),
+            },
+            deviationEma: {
+              average: '0',
               timestampMs: Date.now(),
             },
             tokenizedStreams: {
@@ -297,6 +350,10 @@ describe('PriceTransport', () => {
               average: goldPrice,
               timestampMs: Date.now(),
             },
+            deviationEma: {
+              average: '0',
+              timestampMs: Date.now(),
+            },
             tokenizedStreams: {
               XAUT: {
                 lastPrice: tokenizedGoldPrice,
@@ -342,13 +399,14 @@ describe('PriceTransport', () => {
       const param = makeStub('param', {})
       await transport._handleRequest(param)
 
+      jest.advanceTimersByTime(1000)
       mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
       mockCryptoPrice(XAUT_FEED_ID, xautPrice)
       mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
 
       const response = await transport._handleRequest(param)
 
-      const expectedResult = averagePrice
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(averagePrice)
 
       expect(response).toEqual({
         statusCode: 200,
@@ -362,6 +420,10 @@ describe('PriceTransport', () => {
             nowMs: Date.now(),
             xauOpenMarketEma: {
               average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
               timestampMs: Date.now(),
             },
             tokenizedStreams: {
@@ -370,7 +432,7 @@ describe('PriceTransport', () => {
                 lastPriceChangeTimestampMs: Date.now(),
                 openMarketEma: {
                   average: goldPrice,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
               PAXG: {
@@ -378,7 +440,7 @@ describe('PriceTransport', () => {
                 lastPriceChangeTimestampMs: Date.now(),
                 openMarketEma: {
                   average: goldPrice,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
             },
@@ -410,17 +472,21 @@ describe('PriceTransport', () => {
       const param = makeStub('param', {})
       await transport._handleRequest(param)
 
+      jest.advanceTimersByTime(1000)
       mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
       mockCryptoPrice(XAUT_FEED_ID, xautPrice2)
       mockCryptoPrice(PAXG_FEED_ID, paxgPrice2)
 
       const response = await transport._handleRequest(param)
 
+      const { expectedDeviation, expectedResult } =
+        getExpectedDeviationAndResult(expectedCompositePrice)
+
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedCompositePrice,
+        result: expectedResult,
         data: {
-          result: expectedCompositePrice,
+          result: expectedResult,
           decimals: 18,
           state: {
             lastXauPrice: goldPrice,
@@ -428,6 +494,10 @@ describe('PriceTransport', () => {
             nowMs: Date.now(),
             xauOpenMarketEma: {
               average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
               timestampMs: Date.now(),
             },
             tokenizedStreams: {
@@ -436,7 +506,7 @@ describe('PriceTransport', () => {
                 lastPriceChangeTimestampMs: Date.now(),
                 openMarketEma: {
                   average: xautPrice1,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
               PAXG: {
@@ -444,7 +514,7 @@ describe('PriceTransport', () => {
                 lastPriceChangeTimestampMs: Date.now(),
                 openMarketEma: {
                   average: paxgPrice1,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
             },
@@ -483,23 +553,28 @@ describe('PriceTransport', () => {
       // compared to the previous test.
       jest.advanceTimersByTime(Math.log(2) * PREMIUM_EMA_TAU_MS)
 
+      const lastPriceChangeTimestampMs = Date.now()
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
       mockCryptoPrice(XAUT_FEED_ID, xautPrice2)
       mockCryptoPrice(PAXG_FEED_ID, paxgPrice2)
 
       await transport._handleRequest(param)
 
+      jest.advanceTimersByTime(1000)
       mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
       mockCryptoPrice(XAUT_FEED_ID, xautPrice2)
       mockCryptoPrice(PAXG_FEED_ID, paxgPrice2)
 
       const response = await transport._handleRequest(param)
 
+      const { expectedDeviation, expectedResult } =
+        getExpectedDeviationAndResult(expectedCompositePrice)
+
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedCompositePrice,
+        result: expectedResult,
         data: {
-          result: expectedCompositePrice,
+          result: expectedResult,
           decimals: 18,
           state: {
             lastXauPrice: goldPrice,
@@ -507,23 +582,181 @@ describe('PriceTransport', () => {
             nowMs: Date.now(),
             xauOpenMarketEma: {
               average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
               timestampMs: Date.now(),
             },
             tokenizedStreams: {
               XAUT: {
                 lastPrice: xautPrice2,
-                lastPriceChangeTimestampMs: Date.now(),
+                lastPriceChangeTimestampMs,
                 openMarketEma: {
                   average: xautExpectedAverage,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
               PAXG: {
                 lastPrice: paxgPrice2,
-                lastPriceChangeTimestampMs: Date.now(),
+                lastPriceChangeTimestampMs,
                 openMarketEma: {
                   average: paxgExpectedAverage,
-                  timestampMs: Date.now(),
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledTimes(0)
+      log.mockClear()
+    })
+
+    it('should cap increase to 2%', async () => {
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+      const averagePrice = '5200000000000000000000'
+      const cappedExpectedResult = '4080000000000000000000' // 2% higher than goldPrice
+
+      // Start out with all prices the same to have a premium factor if 1.
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      // Wait 2 minutes to have the EMA adjust beyond the allowed cap.
+      jest.advanceTimersByTime(120_000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const { expectedDeviation, expectedResult: uncappedExpectedResult } =
+        getExpectedDeviationAndResult(averagePrice)
+
+      expect(BigInt(uncappedExpectedResult)).toBeGreaterThan(BigInt(cappedExpectedResult))
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: cappedExpectedResult,
+        data: {
+          result: cappedExpectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            xauOpenMarketEma: {
+              average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
+              timestampMs: Date.now(),
+            },
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledTimes(0)
+      log.mockClear()
+    })
+
+    it('should cap decrease to 2%', async () => {
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '2900000000000000000000'
+      const paxgPrice = '2700000000000000000000'
+      const averagePrice = '2800000000000000000000'
+      const cappedExpectedResult = '3920000000000000000000' // 2% lower than goldPrice
+
+      // Start out with all prices the same to have a premium factor if 1.
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      // Wait 2 minutes to have the EMA adjust beyond the allowed cap.
+      jest.advanceTimersByTime(120_000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const { expectedDeviation, expectedResult: uncappedExpectedResult } =
+        getExpectedDeviationAndResult(averagePrice)
+
+      expect(BigInt(uncappedExpectedResult)).toBeLessThan(BigInt(cappedExpectedResult))
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: cappedExpectedResult,
+        data: {
+          result: cappedExpectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            xauOpenMarketEma: {
+              average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
+              timestampMs: Date.now(),
+            },
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
                 },
               },
             },
@@ -544,7 +777,7 @@ describe('PriceTransport', () => {
       const error = 'Stream error'
       const goldPrice = '4000000000000000000000'
       const xautPrice = Promise.reject(error)
-      const paxgPrice = '5300000000000000000000'
+      const paxgPrice = '4030000000000000000000'
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
@@ -564,7 +797,7 @@ describe('PriceTransport', () => {
 
       const response = await transport._handleRequest(param)
 
-      const expectedResult = paxgPrice
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(paxgPrice)
 
       expect(response).toEqual({
         statusCode: 200,
@@ -579,6 +812,10 @@ describe('PriceTransport', () => {
             xauOpenMarketEma: {
               average: goldPrice,
               timestampMs: Date.now() - interval,
+            },
+            deviationEma: {
+              average: expectedDeviation,
+              timestampMs: Date.now(),
             },
             tokenizedStreams: {
               XAUT: {
@@ -637,6 +874,10 @@ describe('PriceTransport', () => {
             lastXauPrice: goldPrice,
             marketStatus: MarketStatus.CLOSED,
             nowMs: Date.now(),
+            deviationEma: {
+              average: '0',
+              timestampMs: Date.now(),
+            },
             tokenizedStreams: {
               XAUT: {
                 lastPrice: '0',
@@ -690,7 +931,7 @@ describe('PriceTransport', () => {
 
       const response = await transport._handleRequest(param)
 
-      const expectedResult = averagePrice
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(averagePrice)
 
       expect(response).toEqual({
         statusCode: 200,
@@ -705,6 +946,10 @@ describe('PriceTransport', () => {
             xauOpenMarketEma: {
               average: goldPrice,
               timestampMs: Date.now() - 1000,
+            },
+            deviationEma: {
+              average: expectedDeviation.toString(),
+              timestampMs: Date.now(),
             },
             tokenizedStreams: {
               XAUT: {
@@ -742,9 +987,9 @@ describe('PriceTransport', () => {
 
     it('should not use stale price even without error', async () => {
       const goldPrice = '4000000000000000000000'
-      const xautPrice1 = '5100000000000000000000'
-      const xautPrice2 = '5110000000000000000000'
-      const paxgPrice = '5300000000000000000000'
+      const xautPrice1 = '4010000000000000000000'
+      const xautPrice2 = '4011000000000000000000'
+      const paxgPrice = '4030000000000000000000'
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
@@ -768,7 +1013,7 @@ describe('PriceTransport', () => {
 
       const response = await transport._handleRequest(param)
 
-      const expectedResult = xautPrice2
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(xautPrice2)
 
       expect(response).toEqual({
         statusCode: 200,
@@ -783,6 +1028,10 @@ describe('PriceTransport', () => {
             xauOpenMarketEma: {
               average: goldPrice,
               timestampMs: Date.now() - interval,
+            },
+            deviationEma: {
+              average: expectedDeviation.toString(),
+              timestampMs: Date.now(),
             },
             tokenizedStreams: {
               XAUT: {
@@ -881,6 +1130,10 @@ describe('PriceTransport', () => {
             nowMs: Date.now(),
             xauOpenMarketEma: {
               average: goldPrice,
+              timestampMs: Date.now(),
+            },
+            deviationEma: {
+              average: '0',
               timestampMs: Date.now(),
             },
             tokenizedStreams: {
