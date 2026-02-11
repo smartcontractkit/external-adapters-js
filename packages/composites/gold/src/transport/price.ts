@@ -45,6 +45,7 @@ export type State = {
   // Average price the last time the market was open.
   // undefined until the first time the EA sees the market being open.
   xauOpenMarketEma: EmaState | undefined
+  deviationEma: EmaState
   tokenizedStreams: Record<string, TokenizedStreamState>
 }
 
@@ -78,6 +79,10 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       lastXauPrice: '0',
       nowMs: 0,
       xauOpenMarketEma: undefined,
+      deviationEma: {
+        average: '0',
+        timestampMs: Date.now(),
+      },
       tokenizedStreams: {},
     }
     for (const name of Object.keys(this.tokenizedPriceStreamsConfig)) {
@@ -191,6 +196,8 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       this.verifyDecimals(name, response.value.decimals)
       this.updateStreamState(this.state.tokenizedStreams[name], response.value)
     }
+
+    this.updateDeviation()
   }
 
   updateStreamState(streamState: TokenizedStreamState, response: CryptoPriceResponse): void {
@@ -215,10 +222,18 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  calculateCompositePrice(): bigint {
+  updateDeviation(): void {
+    if (this.state.marketStatus === MarketStatus.OPEN) {
+      this.state.deviationEma = {
+        average: '0',
+        timestampMs: this.state.nowMs,
+      }
+      return
+    }
+
     if (!this.state.xauOpenMarketEma) {
       // We can't calculate what premium to invert.
-      return BigInt(this.state.lastXauPrice)
+      return
     }
 
     let sumPrice = 0n
@@ -245,11 +260,27 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       count += 1n
     }
 
+    const lastXauPrice = BigInt(this.state.lastXauPrice)
     if (count === 0n) {
-      return BigInt(this.state.lastXauPrice)
+      return
     }
 
-    return sumPrice / count
+    const spotPrice = sumPrice / count
+    const deviation = (BigInt(10 ** RESULT_DECIMALS) * (spotPrice - lastXauPrice)) / lastXauPrice
+    this.state.deviationEma = this.updateEma(
+      this.state.deviationEma,
+      deviation,
+      this.state.nowMs,
+      this.config.DEVIATION_EMA_TAU_MS,
+    )
+  }
+
+  calculateCompositePrice(): bigint {
+    const lastXauPrice = BigInt(this.state.lastXauPrice)
+    const smoothedDeviation = BigInt(this.state.deviationEma.average)
+    const compositePrice =
+      lastXauPrice + (smoothedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
+    return compositePrice
   }
 
   async getTokenizedPriceResponses(): Promise<
@@ -273,7 +304,12 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
   // Converts between string and bigint because our state needs to be
   // serializable.
-  updateEma(previousState: EmaState, newDataPoint: string, nowMs: number, tauMs: number): EmaState {
+  updateEma(
+    previousState: EmaState,
+    newDataPoint: bigint | string,
+    nowMs: number,
+    tauMs: number,
+  ): EmaState {
     const newState = updateEma(
       {
         average: BigInt(previousState.average),
