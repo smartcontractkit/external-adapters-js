@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'The API endpoint for Securitize NAV',
     type: 'string',
     default: 'https://partners-api.securitize.io/asset-metrics/api/v1/nav',
+    sensitive: false,
   },
 })

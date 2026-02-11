@@ -6,6 +6,7 @@ export const config = new AdapterConfig(
       description: 'API endpoint for tradermade',
       default: 'https://marketdata.tradermade.com/api/v1/live',
       type: 'string',
+      sensitive: false,
     },
     API_KEY: {
       description:
@@ -24,11 +25,13 @@ export const config = new AdapterConfig(
       type: 'string',
       default: 'wss://marketdata.tradermade.com/feedadv',
       description: 'The Websocket endpoint to connect to for forex data',
+      sensitive: false,
     },
     WS_ENABLED: {
       description: 'Whether data should be returned from websocket or not',
       type: 'boolean',
       default: false,
+      sensitive: false,
     },
   },
   {

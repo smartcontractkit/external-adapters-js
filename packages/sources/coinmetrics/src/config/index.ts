@@ -22,11 +22,13 @@ export const makeConfig = (overrides: Partial<Record<string, unknown>> = {}) =>
       description: 'The websocket url for coinmetrics',
       type: 'string',
       default: 'wss://api.coinmetrics.io/v4',
+      sensitive: false,
     },
     API_ENDPOINT: {
       description: 'The API url for coinmetrics',
       type: 'string',
       default: 'https://api.coinmetrics.io/v4',
+      sensitive: false,
     },
     ...overrides,
   })

@@ -8,6 +8,7 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     required: false,
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key for Coinpaprika',
@@ -19,11 +20,13 @@ export const config = new AdapterConfig({
     description: 'The WS API endpoint for Coinpaprika',
     default: 'wss://streaming.coinpaprika.com/ticks',
     type: 'string',
+    sensitive: false,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
     default: false,
+    sensitive: false,
   },
 })
 

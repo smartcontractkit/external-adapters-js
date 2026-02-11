@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://api.harrisandtrotter.co.uk/api',
+    sensitive: false,
   },
 })
