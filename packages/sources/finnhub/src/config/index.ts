@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://finnhub.io/api/v1',
+    sensitive: false,
   },
   API_KEY: {
     description: 'A Finnhub API key ',
@@ -16,11 +17,13 @@ export const config = new AdapterConfig({
     description: 'The WS URL to retrieve data from',
     type: 'string',
     default: 'wss://ws.finnhub.io',
+    sensitive: false,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
     default: false,
+    sensitive: false,
   },
 })
 

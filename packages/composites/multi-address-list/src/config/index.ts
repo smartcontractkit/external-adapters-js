@@ -7,51 +7,60 @@ export const config = new AdapterConfig(
       description: 'URL of Anchorage EA',
       type: 'string',
       default: '',
+      sensitive: false,
     },
     BITGO_ADAPTER_URL: {
       description: 'URL of Bitgo EA',
       type: 'string',
       default: '',
+      sensitive: false,
     },
     COINBASE_PRIME_ADAPTER_URL: {
       description: 'URL of Coinbase Prime EA',
       type: 'string',
       default: '',
+      sensitive: false,
     },
     SCHEDULER_HOUR: {
       description: 'Hour to run scheduler [0-23]',
       type: 'number',
       default: 17,
       validate: validator.integer({ min: 0, max: 23 }),
+      sensitive: false,
     },
     SCHEDULER_MINUTES: {
       description: 'Minute to run scheduler [0-59]',
       type: 'number',
       default: 1,
       validate: validator.integer({ min: 0, max: 59 }),
+      sensitive: false,
     },
     SCHEDULER_TIMEZONE: {
       description: 'Timezone to run scheduler',
       type: 'string',
       default: 'America/New_York',
+      sensitive: false,
     },
     RETRY_INTERVAL_MS: {
       description:
         'The amount of time (in ms) to wait before re-execution if previous execution fails.',
       type: 'number',
       default: 60000,
+      sensitive: false,
     },
     MAX_RETRIES: {
       description: 'The number of times to retry when execution fails.',
       type: 'number',
       default: 10,
       validate: validator.integer({ min: 1, max: 50 }),
+      sensitive: false,
     },
     BACKGROUND_EXECUTE_MS: {
       description:
         'The amount of time the background execute should sleep before performing the next request.',
       type: 'number',
       default: 10000,
+      sensitive: false,
     },
   },
   {

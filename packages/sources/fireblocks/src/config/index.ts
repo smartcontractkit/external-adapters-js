@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://serenitybank.io/stablecoin/',
+    sensitive: false,
   },
 })

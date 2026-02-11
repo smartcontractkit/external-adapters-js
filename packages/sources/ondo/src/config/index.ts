@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'The API endpoint for Ondo',
     type: 'string',
     default: 'https://api.gm.ondo.finance/',
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key required to access the API_ENDPOINT',

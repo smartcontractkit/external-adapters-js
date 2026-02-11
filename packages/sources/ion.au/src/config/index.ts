@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://ion-digital-proof-of-reserve.instruxi.dev',
+    sensitive: false,
   },
 })

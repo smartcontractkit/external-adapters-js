@@ -12,6 +12,7 @@ export const config = new AdapterConfig(
       description: 'API endpoint for KAIKO',
       type: 'string',
       default: 'https://us.market-api.kaiko.io/v2/data',
+      sensitive: false,
     },
   },
   {

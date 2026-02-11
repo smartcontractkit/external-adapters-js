@@ -6,12 +6,14 @@ export const config = new AdapterConfig(
       description: 'An API endpoint for Data Provider',
       type: 'string',
       default: 'https://api.navfundservices.com',
+      sensitive: false,
     },
     BACKGROUND_EXECUTE_MS: {
       description:
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
       default: 5 * 60 * 1000, // one call per five minute
+      sensitive: false,
     },
   },
   {

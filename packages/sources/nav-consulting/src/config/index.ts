@@ -6,6 +6,7 @@ export const config = new AdapterConfig(
       description: 'An API endpoint for Data Provider',
       type: 'string',
       default: 'https://api.navconsulting.net',
+      sensitive: false,
     },
 
     BACKGROUND_EXECUTE_MS: {
@@ -13,12 +14,14 @@ export const config = new AdapterConfig(
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
       default: 120_000, // one call per two minute
+      sensitive: false,
     },
 
     MAX_RETRIES: {
       description: 'Maximum attempts of sending a request',
       type: 'number',
       default: 3,
+      sensitive: false,
     },
   },
   {

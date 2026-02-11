@@ -6,6 +6,7 @@ export const config = new AdapterConfig(
       description: 'User group for ICE',
       type: 'string',
       default: 'chain.link',
+      sensitive: false,
     },
     NETDANIA_PASSWORD: {
       description: 'Password for ICE',
@@ -17,34 +18,40 @@ export const config = new AdapterConfig(
       description: 'streaming server endpoint for ICE',
       type: 'string',
       required: true,
+      sensitive: false,
     },
     API_ENDPOINT_FAILOVER_1: {
       description: 'failover endpoint for ICE',
       type: 'string',
       default: '',
       required: false,
+      sensitive: false,
     },
     API_ENDPOINT_FAILOVER_2: {
       description: 'failover endpoint for ICE',
       type: 'string',
       default: '',
       required: false,
+      sensitive: false,
     },
     API_ENDPOINT_FAILOVER_3: {
       description: 'failover endpoint for ICE',
       type: 'string',
       default: '',
       required: false,
+      sensitive: false,
     },
     POLLING_INTERVAL: {
       description: 'Polling interval for ICE',
       type: 'number',
       default: 2000,
+      sensitive: false,
     },
     CONNECTING_TIMEOUT_MS: {
       description: 'Connecting timeout in milliseconds for ICE',
       type: 'number',
       default: 4000,
+      sensitive: false,
     },
   },
   {

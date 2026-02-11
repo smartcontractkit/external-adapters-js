@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'WS endpoint for Blocksize-Capital state',
     type: 'string',
     default: 'wss://data.blocksize.capital/marketdata/v1/ws',
+    sensitive: false,
   },
 })

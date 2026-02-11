@@ -17,5 +17,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for R25',
     type: 'string',
     default: 'https://app.r25.xyz',
+    sensitive: false,
   },
 })

@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'Username for the CFBenchmarks API',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   API_PASSWORD: {
     description: 'Password for the CFBenchmarks API',
@@ -17,29 +18,34 @@ export const config = new AdapterConfig({
     type: 'string',
     required: false,
     default: 'https://www.cfbenchmarks.com/api',
+    sensitive: false,
   },
   WS_API_ENDPOINT: {
     description: 'The default WebSocket API base url',
     type: 'string',
     required: false,
     default: 'wss://www.cfbenchmarks.com/ws/v4',
+    sensitive: false,
   },
   API_SECONDARY: {
     description: 'Toggle using the secondary API base URLs',
     type: 'boolean',
     required: false,
     default: false,
+    sensitive: false,
   },
   SECONDARY_API_ENDPOINT: {
     description: 'The secondary REST API base url that is toggled using API_SECONDARY',
     type: 'string',
     required: false,
     default: 'https://unregprod.cfbenchmarks.com/api',
+    sensitive: false,
   },
   SECONDARY_WS_API_ENDPOINT: {
     description: 'The secondary WebSocket API base url that is toggled using API_SECONDARY',
     type: 'string',
     required: false,
     default: 'wss://unregprod.cfbenchmarks.com/ws/v4',
+    sensitive: false,
   },
 })

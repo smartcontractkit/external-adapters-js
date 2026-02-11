@@ -5,11 +5,13 @@ export const config = new AdapterConfig({
     description: 'RPC URL of a Mainnet ETH node',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   ETHEREUM_RPC_CHAIN_ID: {
     description: 'The chain id to connect to',
     type: 'number',
     default: 1,
+    sensitive: false,
   },
   LLAMA_RISK_API_ENDPOINT: {
     description: 'API endpoint for Llama Risk (contains API KEY)',
@@ -23,5 +25,6 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

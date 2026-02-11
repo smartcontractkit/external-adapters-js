@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'The WebSocket endpoint for Allium state prices',
     type: 'string',
     default: 'wss://api.allium.so/api/v1/developer/state-prices/ws',
+    sensitive: false,
   },
   API_KEY: {
     description: 'API key for Allium',

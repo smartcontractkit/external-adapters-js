@@ -14,5 +14,6 @@ export const config = new AdapterConfig({
     type: 'string',
     required: false,
     default: 'wss://data.blocksize.capital/marketdata/v1/ws',
+    sensitive: false,
   },
 })

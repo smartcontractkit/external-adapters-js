@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'WS endpoint for GMCI Data Provider',
     type: 'string',
     required: true,
+    sensitive: false,
   },
 })

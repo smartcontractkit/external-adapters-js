@@ -6,35 +6,41 @@ export const config = new AdapterConfig(
       description: 'RPC URL of an Ethereum consensus client (beacon node)',
       type: 'string',
       required: true,
+      sensitive: false,
     },
     ETH_EXECUTION_RPC_URL: {
       description:
         'RPC URL of an Ethereum execution client (archive node). Required for requests that need a limbo validator search',
       type: 'string',
       default: '',
+      sensitive: false,
     },
     BATCH_SIZE: {
       description:
         'Number of validators to send in each request to the consensus client. Set to 0 if consensus client allows unlimited validators in query. Setting this lower than the default and greater than 0 may result in lower performance from the adapter.',
       type: 'number',
       default: 15,
+      sensitive: false,
     },
     GROUP_SIZE: {
       description:
         'Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. Unused if BATCH_SIZE is set to 0.',
       type: 'number',
       default: 15,
+      sensitive: false,
     },
     CHAIN_ID: {
       description: 'The chain id to connect to',
       type: 'number',
       default: 1,
+      sensitive: false,
     },
     BACKGROUND_EXECUTE_MS: {
       description:
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
       default: 10_000,
+      sensitive: false,
     },
   },
   {
