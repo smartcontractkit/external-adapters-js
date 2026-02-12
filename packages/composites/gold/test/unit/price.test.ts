@@ -601,6 +601,24 @@ describe('PriceTransport', () => {
       log.mockClear()
     })
 
+    it('should not block on writing the state to cache', async () => {
+      cache.set.mockResolvedValue(
+        new Promise(() => {
+          // Intentionally never resolve to test that _handleRequest does not wait
+          // for the cache write to complete.
+        }),
+      )
+
+      const goldPrice = '4000000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+    })
+
     it('should adjust for premium tokenized prices', async () => {
       const goldPrice = '4000000000000000000000'
       const xautPrice1 = '4500000000000000000000'
