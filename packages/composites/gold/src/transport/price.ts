@@ -311,8 +311,11 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const smoothedDeviation = BigInt(this.state.deviationEma.average)
     const cappedDeviation = this.capDeviation(smoothedDeviation)
 
+    const tokenizedPriceWeight = BigInt(this.config.TOKENIZED_PRICE_WEIGHT * 10 ** RESULT_DECIMALS)
     const compositePrice =
-      lastXauPrice + (cappedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
+      lastXauPrice +
+      (cappedDeviation * lastXauPrice * tokenizedPriceWeight) /
+        10n ** BigInt(RESULT_DECIMALS + RESULT_DECIMALS)
     return compositePrice
   }
 

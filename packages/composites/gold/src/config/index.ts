@@ -39,6 +39,12 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 0.02,
   },
+  TOKENIZED_PRICE_WEIGHT: {
+    description:
+      'Weight given to the tokenized stream derived price when calculating the composite price. 1.0 equals 100%',
+    type: 'number',
+    default: 0.7,
+  },
   CACHE_TTL_MS: {
     description: 'How long to keep the state in the cache in milliseconds before reinitializing',
     type: 'number',
