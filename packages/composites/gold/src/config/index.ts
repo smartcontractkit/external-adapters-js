@@ -39,6 +39,11 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 0.02,
   },
+  CACHE_TTL_MS: {
+    description: 'How long to keep the state in the cache in milliseconds before reinitializing',
+    type: 'number',
+    default: 7 * 24 * 60 * 60 * 1000, // 7 days
+  },
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
