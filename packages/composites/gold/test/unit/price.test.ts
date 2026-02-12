@@ -49,6 +49,9 @@ describe('PriceTransport', () => {
   const PREMIUM_EMA_TAU_MS = 1_000_000
   const DEVIATION_EMA_TAU_MS = 1_000_000
   const DEVIATION_CAP = 0.02
+  const CACHE_TTL_MS = 604800000
+  const CACHE_PREFIX = 'cache-prefix'
+  const STATE_CACHE_KEY = `${CACHE_PREFIX}-GOLD-price-state`
   const RESULT_DECIMALS = 18
 
   const adapterSettings = makeStub('adapterSettings', {
@@ -59,6 +62,8 @@ describe('PriceTransport', () => {
     PREMIUM_EMA_TAU_MS,
     DEVIATION_EMA_TAU_MS,
     DEVIATION_CAP,
+    CACHE_TTL_MS,
+    CACHE_PREFIX,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     MAX_COMMON_KEY_SIZE: 300,
@@ -76,9 +81,15 @@ describe('PriceTransport', () => {
     write: jest.fn(),
   }
 
+  const cache = {
+    get: jest.fn(),
+    set: jest.fn(),
+  }
+
   const dependencies = makeStub('dependencies', {
     requester,
     responseCache,
+    cache,
     subscriptionSetFactory: {
       buildSet: jest.fn(),
     },
@@ -183,6 +194,14 @@ describe('PriceTransport', () => {
     transport = new PriceTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+
+    expect(cache.get).toBeCalledWith(STATE_CACHE_KEY)
+    expect(cache.get).toBeCalledTimes(1)
+    cache.get.mockClear()
+
+    expect(log).toBeCalledWith('No cached state found, initializing empty state.')
+    expect(log).toBeCalledTimes(1)
+    log.mockClear()
   })
 
   afterEach(() => {
@@ -455,6 +474,149 @@ describe('PriceTransport', () => {
 
       expect(log).toBeCalledTimes(0)
       log.mockClear()
+    })
+
+    it('should restore cached state', async () => {
+      const [cachedStatePromise, resolveCachedState] = deferredPromise<string>()
+      cache.set.mockImplementationOnce(async (_key, value, _ttl) => {
+        resolveCachedState(JSON.stringify(value, null, 2))
+      })
+      cache.get.mockResolvedValueOnce(cachedStatePromise.then(JSON.parse))
+
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+      const averagePrice = '5200000000000000000000'
+
+      // Start out with all prices the same to have a premium factor if 1.
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      expect(cache.set).toBeCalledWith(
+        STATE_CACHE_KEY,
+        {
+          marketStatus: 2,
+          lastXauPrice: goldPrice,
+          nowMs: Date.now(),
+          xauOpenMarketEma: {
+            average: goldPrice,
+            timestampMs: Date.now(),
+          },
+          deviationEma: {
+            average: '0',
+            timestampMs: Date.now(),
+          },
+          tokenizedStreams: {
+            XAUT: {
+              lastPrice: goldPrice,
+              lastPriceChangeTimestampMs: Date.now(),
+              openMarketEma: {
+                average: goldPrice,
+                timestampMs: Date.now(),
+              },
+            },
+            PAXG: {
+              lastPrice: goldPrice,
+              lastPriceChangeTimestampMs: Date.now(),
+              openMarketEma: {
+                average: goldPrice,
+                timestampMs: Date.now(),
+              },
+            },
+          },
+        },
+        CACHE_TTL_MS,
+      )
+      expect(cache.set).toBeCalledTimes(1)
+      expect(cache.get).toBeCalledTimes(0)
+
+      jest.advanceTimersByTime(1000)
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      // Create a new transport without local state to verify that
+      // state is loaded from the cache.
+      transport = new PriceTransport()
+      await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+
+      const response = await transport._handleRequest(param)
+
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(averagePrice)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            xauOpenMarketEma: {
+              average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
+              timestampMs: Date.now(),
+            },
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(cache.get).toBeCalledWith(STATE_CACHE_KEY)
+      expect(cache.get).toBeCalledTimes(1)
+
+      expect(log).toBeCalledWith(`Loaded state from cache: ${await cachedStatePromise}`)
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should not block on writing the state to cache', async () => {
+      cache.set.mockResolvedValue(
+        new Promise(() => {
+          // Intentionally never resolve to test that _handleRequest does not wait
+          // for the cache write to complete.
+        }),
+      )
+
+      const goldPrice = '4000000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
     })
 
     it('should adjust for premium tokenized prices', async () => {
