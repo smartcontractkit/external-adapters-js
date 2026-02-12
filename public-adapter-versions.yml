@@ -142,7 +142,7 @@ adapters:
   - name: gemini
     version: 3.0.33
   - name: generic-api
-    version: 1.0.1
+    version: 1.2.0
   - name: glv-token
     version: 2.0.2
   - name: gm-token
@@ -242,7 +242,7 @@ adapters:
   - name: ondo
     version: 1.0.3
   - name: ondo-calculated
-    version: 1.3.0
+    version: 2.0.0
   - name: onre
     version: 1.1.4
   - name: openexchangerates
@@ -318,7 +318,7 @@ adapters:
   - name: tradermade
     version: 2.1.29
   - name: tradinghours
-    version: 0.5.0
+    version: 0.6.0
   - name: trueusd
     version: 3.0.34
   - name: twelvedata
