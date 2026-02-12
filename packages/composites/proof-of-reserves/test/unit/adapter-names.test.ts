@@ -18,6 +18,7 @@ import * as sochain from '@chainlink/sochain-adapter'
 import { adapter as staderBalance } from '@chainlink/stader-balance-adapter'
 import { adapter as tokenBalance } from '@chainlink/token-balance-adapter'
 import { adapter as viewFunctionMultiChain } from '@chainlink/view-function-multi-chain-adapter'
+import fs from 'fs'
 import {
   adapterNamesV2 as balanceAdapterNamesV2,
   adapterNamesV3 as balanceAdapterNamesV3,
@@ -39,6 +40,7 @@ import { adapter as staderList } from '@chainlink/stader-address-list-adapter'
 import * as swellList from '@chainlink/swell-address-list-adapter'
 import { adapter as wBTC } from '@chainlink/wbtc-address-set-adapter'
 import * as wrapped from '@chainlink/wrapped-adapter'
+import { inputParameters } from '../../src/endpoint/reserves'
 
 describe('Type safe adapter names', () => {
   describe('Balance adapters', () => {
@@ -124,6 +126,40 @@ describe('Type safe adapter names', () => {
         const actualNames = Object.values(adapterNamesV3)
         expect(actualNames.sort()).toEqual(expectedNames.sort())
       })
+    })
+  })
+
+  describe('README.md', () => {
+    const getAdapterNamesFromReadme = (content: string): string[] => {
+      const regex = /\b([A-Z_]+)_ADAPTER_URL\b/g
+      const adapterNames: string[] = []
+      let match: RegExpExecArray | null
+      while ((match = regex.exec(content)) !== null) {
+        adapterNames.push(match[1])
+      }
+      adapterNames.sort()
+      return adapterNames
+    }
+
+    it('should have the correct adapter names listed', () => {
+      const readmeContent = fs.readFileSync(__dirname + '/../../README.md').toString()
+      const [protocolPart, balancePart] = readmeContent.split('indexer adapter')
+      const typedInputParameters = inputParameters as {
+        protocol: { options: string[] }
+        indexer: { options: string[] }
+      }
+
+      const protocolAdapterNamesInReadme = getAdapterNamesFromReadme(protocolPart)
+      const expectedProtocolAdapterNames = typedInputParameters.protocol.options
+        .filter((option) => option === option.toUpperCase() && option !== 'LIST')
+        .sort()
+      expect(protocolAdapterNamesInReadme).toEqual(expectedProtocolAdapterNames)
+
+      const balanceAdapterNamesInReadme = getAdapterNamesFromReadme(balancePart)
+      const expectedBalanceAdapterNames = typedInputParameters.indexer.options
+        .filter((option) => option === option.toUpperCase())
+        .sort()
+      expect(balanceAdapterNamesInReadme).toEqual(expectedBalanceAdapterNames)
     })
   })
 })
