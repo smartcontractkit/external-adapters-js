@@ -196,7 +196,7 @@ adapters:
   - name: liveart
     version: 1.0.1
   - name: llama-guard
-    version: 1.2.4
+    version: 1.2.5
   - name: lotus
     version: 3.0.34
   - name: m0
