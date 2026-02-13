@@ -49,6 +49,7 @@ describe('PriceTransport', () => {
   const PREMIUM_EMA_TAU_MS = 1_000_000
   const DEVIATION_EMA_TAU_MS = 1_000_000
   const DEVIATION_CAP = 0.02
+  const TOKENIZED_PRICE_WEIGHT = 0.7
   const CACHE_TTL_MS = 604800000
   const CACHE_PREFIX = 'cache-prefix'
   const STATE_CACHE_KEY = `${CACHE_PREFIX}-GOLD-price-state`
@@ -62,6 +63,7 @@ describe('PriceTransport', () => {
     PREMIUM_EMA_TAU_MS,
     DEVIATION_EMA_TAU_MS,
     DEVIATION_CAP,
+    TOKENIZED_PRICE_WEIGHT,
     CACHE_TTL_MS,
     CACHE_PREFIX,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
@@ -168,9 +170,13 @@ describe('PriceTransport', () => {
       Date.now(),
       PREMIUM_EMA_TAU_MS,
     ).average
+    const one = 10n ** BigInt(RESULT_DECIMALS)
+    const expectedUnweightedResult = (xauClosingPrice * (one + expectedDeviation)) / one
+    const tokenizedPriceWeight = BigInt(TOKENIZED_PRICE_WEIGHT * 10 ** RESULT_DECIMALS)
+    const closingPriceWeight = one - tokenizedPriceWeight
     const expectedResult = (
-      xauClosingPrice +
-      (expectedDeviation * xauClosingPrice) / 10n ** BigInt(RESULT_DECIMALS)
+      (xauClosingPrice * closingPriceWeight + expectedUnweightedResult * tokenizedPriceWeight) /
+      one
     ).toString()
     return {
       expectedDeviation: expectedDeviation.toString(),
@@ -781,12 +787,14 @@ describe('PriceTransport', () => {
       log.mockClear()
     })
 
-    it('should cap increase to 2%', async () => {
+    it('should cap increase to 1.4%', async () => {
+      // The deviation is capped to 2% but is only applied with a weight of 70%
+      // so the maximum increase is 70% of 2% which is 1.4%.
       const goldPrice = '4000000000000000000000'
       const xautPrice = '5100000000000000000000'
       const paxgPrice = '5300000000000000000000'
       const averagePrice = '5200000000000000000000'
-      const cappedExpectedResult = '4080000000000000000000' // 2% higher than goldPrice
+      const cappedExpectedResult = '4056000000000000000000' // 1.4% higher than goldPrice
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
@@ -858,12 +866,14 @@ describe('PriceTransport', () => {
       log.mockClear()
     })
 
-    it('should cap decrease to 2%', async () => {
+    it('should cap decrease to 1.4%', async () => {
+      // The deviation is capped to 2% but is only applied with a weight of 70%
+      // so the maximum decrease is 70% of 2% which is 1.4%.
       const goldPrice = '4000000000000000000000'
       const xautPrice = '2900000000000000000000'
       const paxgPrice = '2700000000000000000000'
       const averagePrice = '2800000000000000000000'
-      const cappedExpectedResult = '3920000000000000000000' // 2% lower than goldPrice
+      const cappedExpectedResult = '3944000000000000000000' // 1.4% lower than goldPrice
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)

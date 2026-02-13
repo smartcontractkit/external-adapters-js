@@ -6,6 +6,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
 import { adapter } from '..'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { updateEma } from './ema'
@@ -57,6 +58,8 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   requester!: Requester
   tokenizedPriceStreamsConfig!: Record<string, string>
+  tokenizedPriceWeight!: bigint
+  maxDeviation!: bigint
   state!: State
   stateCache!: Cache<State>
   stateCacheKey!: string
@@ -78,6 +81,14 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         message: `Failed to parse TOKENIZED_GOLD_PRICE_STREAMS from adapter config: ${e}`,
       })
     }
+
+    this.tokenizedPriceWeight = BigInt(
+      new Decimal(this.config.TOKENIZED_PRICE_WEIGHT).mul(10 ** RESULT_DECIMALS).toFixed(),
+    )
+
+    this.maxDeviation = BigInt(
+      new Decimal(this.config.DEVIATION_CAP).mul(10 ** RESULT_DECIMALS).toFixed(),
+    )
 
     this.stateCache = dependencies.cache as Cache<State>
     this.stateCacheKey = `${this.config.CACHE_PREFIX}-${adapter.name}-${endpointName}-state`
@@ -312,16 +323,17 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const cappedDeviation = this.capDeviation(smoothedDeviation)
 
     const compositePrice =
-      lastXauPrice + (cappedDeviation * lastXauPrice) / 10n ** BigInt(RESULT_DECIMALS)
+      lastXauPrice +
+      (cappedDeviation * lastXauPrice * this.tokenizedPriceWeight) /
+        10n ** BigInt(2 * RESULT_DECIMALS)
     return compositePrice
   }
 
   capDeviation(deviation: bigint): bigint {
-    const maxDeviation = BigInt(this.config.DEVIATION_CAP * 10 ** RESULT_DECIMALS)
-    if (deviation > maxDeviation) {
-      return maxDeviation
-    } else if (deviation < -maxDeviation) {
-      return -maxDeviation
+    if (deviation > this.maxDeviation) {
+      return this.maxDeviation
+    } else if (deviation < -this.maxDeviation) {
+      return -this.maxDeviation
     }
     return deviation
   }
