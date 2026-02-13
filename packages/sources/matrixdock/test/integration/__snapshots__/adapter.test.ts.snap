@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint should return error for invalid symbol 1`] = `
+{
+  "errorMessage": "Invalid symbol",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984000000,
+    "providerDataRequestedUnixMs": 1770984000000,
+  },
+}
+`;
+
+exports[`execute nav endpoint should return success with XAUM symbol 1`] = `
+{
+  "data": {
+    "result": 5115.355,
+  },
+  "result": 5115.355,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984000000,
+    "providerDataRequestedUnixMs": 1770984000000,
+    "providerIndicatedTimeUnixMs": 1770185497979,
+  },
+}
+`;
