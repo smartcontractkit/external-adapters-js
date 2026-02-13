@@ -511,6 +511,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/m0"\
     },\
     {\
+      "name": "@chainlink/matrixdock-adapter",\
+      "reference": "workspace:packages/sources/matrixdock"\
+    },\
+    {\
       "name": "@chainlink/mobula-state-adapter",\
       "reference": "workspace:packages/sources/mobula-state"\
     },\
@@ -872,6 +876,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
+    ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
     ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
@@ -6924,6 +6929,23 @@ const RAW_RUNTIME_STATE =
           ["mock-socket", "npm:9.3.1"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/matrixdock-adapter", [\
+      ["workspace:packages/sources/matrixdock", {\
+        "packageLocation": "./packages/sources/matrixdock/",\
+        "packageDependencies": [\
+          ["@chainlink/matrixdock-adapter", "workspace:packages/sources/matrixdock"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["crypto-js", "npm:4.2.0"],\
+          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
