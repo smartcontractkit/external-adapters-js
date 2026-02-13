@@ -34,7 +34,8 @@ export type TInputParameters = {
   viewFunctionIndexerResultDecimals?: number
 }
 
-const inputParameters: InputParameters<TInputParameters> = {
+// Exported for testing
+export const inputParameters: InputParameters<TInputParameters> = {
   protocol: {
     required: true,
     type: 'string',
