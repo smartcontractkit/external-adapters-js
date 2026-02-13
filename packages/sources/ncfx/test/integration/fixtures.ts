@@ -135,6 +135,19 @@ export const mockMarketStatusResponse = {
   timestamp: '2024-06-20T20:44:09.594Z',
 }
 
+export const mockForexContinuousSubscribeResponse = {
+  Type: 'Info',
+  Message: 'Subscribed to currency pair(s) ARS-USD',
+}
+
+export const mockForexContinuousResponse = {
+  timestamp: '2026-01-15 17:09:38.501',
+  currencyPair: 'ARS-USD',
+  mid: 0.000659222,
+  bid: 0.000659191,
+  ask: 0.000659234,
+}
+
 export const mockCryptoWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -165,6 +178,18 @@ export const mockMarketStatusWebSocketServer = (URL: string): MockWebsocketServe
     setTimeout(() => {
       socket.send(JSON.stringify(mockMarketStatusResponse))
     }, 0)
+  })
+  return mockWsServer
+}
+
+export const mockForexContinuousWebSocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.send(JSON.stringify(loginResponse))
+    socket.on('message', () => {
+      socket.send(JSON.stringify(mockForexContinuousSubscribeResponse))
+      socket.send(JSON.stringify(mockForexContinuousResponse))
+    })
   })
   return mockWsServer
 }
