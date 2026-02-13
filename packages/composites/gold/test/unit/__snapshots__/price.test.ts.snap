@@ -1,0 +1,471 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4972000000000000000000",
+    "state": {
+      "deviationEma": {
+        "average": "0",
+        "timestampMs": 1770984000000,
+      },
+      "lastXauPrice": "4972000000000000000000",
+      "marketStatus": 2,
+      "nowMs": 1770984000000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5015000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984000000,
+          "openMarketEma": {
+            "average": "5015000000000000000000",
+            "timestampMs": 1770984000000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4853000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984000000,
+          "openMarketEma": {
+            "average": "4853000000000000000000",
+            "timestampMs": 1770984000000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4972000000000000000000",
+        "timestampMs": 1770984000000,
+      },
+    },
+  },
+  "result": "4972000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984000000,
+    "providerDataRequestedUnixMs": 1770984000000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 2`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4982000000000000000000",
+    "state": {
+      "deviationEma": {
+        "average": "0",
+        "timestampMs": 1770984060000,
+      },
+      "lastXauPrice": "4982000000000000000000",
+      "marketStatus": 2,
+      "nowMs": 1770984060000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5028000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984060000,
+          "openMarketEma": {
+            "average": "5015757061063404766744",
+            "timestampMs": 1770984060000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4865000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984060000,
+          "openMarketEma": {
+            "average": "4853698825596989015456",
+            "timestampMs": 1770984060000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4972582354664157512880",
+        "timestampMs": 1770984060000,
+      },
+    },
+  },
+  "result": "4982000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984060000,
+    "providerDataRequestedUnixMs": 1770984060000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 3`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4987000000000000000000",
+    "state": {
+      "deviationEma": {
+        "average": "0",
+        "timestampMs": 1770984120000,
+      },
+      "lastXauPrice": "4987000000000000000000",
+      "marketStatus": 2,
+      "nowMs": 1770984120000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5038000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984120000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4869000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984120000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4987000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984120000,
+    "providerDataRequestedUnixMs": 1770984120000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 4`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4985490706805642941136",
+    "state": {
+      "deviationEma": {
+        "average": "-145920919820371",
+        "timestampMs": 1770984180000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984180000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5023000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984180000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4849000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984180000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4985490706805642941136",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984180000,
+    "providerDataRequestedUnixMs": 1770984180000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 5`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4985441466507049374713",
+    "state": {
+      "deviationEma": {
+        "average": "-160029079408236",
+        "timestampMs": 1770984240000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984240000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5035000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984240000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4858000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984240000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4985441466507049374713",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984240000,
+    "providerDataRequestedUnixMs": 1770984240000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 6`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4985661817893776509095",
+    "state": {
+      "deviationEma": {
+        "average": "-96894764260928",
+        "timestampMs": 1770984300000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984300000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5042000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984300000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4864000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984300000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4985661817893776509095",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984300000,
+    "providerDataRequestedUnixMs": 1770984300000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 7`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4985808721537323704381",
+    "state": {
+      "deviationEma": {
+        "average": "-54804441773049",
+        "timestampMs": 1770984360000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984360000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5039000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984360000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4864000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984300000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4985808721537323704381",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984360000,
+    "providerDataRequestedUnixMs": 1770984360000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 8`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4987374293010049988653",
+    "state": {
+      "deviationEma": {
+        "average": "393757667196719",
+        "timestampMs": 1770984630000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984630000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5039000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984360000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4864000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984300000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4987374293010049988653",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984630000,
+    "providerDataRequestedUnixMs": 1770984630000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 9`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4987374293010049988653",
+    "state": {
+      "deviationEma": {
+        "average": "393757667196719",
+        "timestampMs": 1770984630000,
+      },
+      "lastXauPrice": "4986000000000000000000",
+      "marketStatus": 1,
+      "nowMs": 1770984690000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5039000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984360000,
+          "openMarketEma": {
+            "average": "5017052388986834465117",
+            "timestampMs": 1770984120000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4864000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984300000,
+          "openMarketEma": {
+            "average": "4854589896625057114910",
+            "timestampMs": 1770984120000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4973421972964907181238",
+        "timestampMs": 1770984120000,
+      },
+    },
+  },
+  "result": "4987374293010049988653",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984690000,
+    "providerDataRequestedUnixMs": 1770984690000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
+
+exports[`PriceTransport _handleRequest should behave correctly over a longer sequence of calls 10`] = `
+{
+  "data": {
+    "decimals": 18,
+    "result": "4996000000000000000000",
+    "state": {
+      "deviationEma": {
+        "average": "0",
+        "timestampMs": 1770984750000,
+      },
+      "lastXauPrice": "4996000000000000000000",
+      "marketStatus": 2,
+      "nowMs": 1770984750000,
+      "tokenizedStreams": {
+        "PAXG": {
+          "lastPrice": "5045000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984750000,
+          "openMarketEma": {
+            "average": "5030115331516657974144",
+            "timestampMs": 1770984750000,
+          },
+        },
+        "XAUT": {
+          "lastPrice": "4867000000000000000000",
+          "lastPriceChangeTimestampMs": 1770984750000,
+          "openMarketEma": {
+            "average": "4860390480692857396188",
+            "timestampMs": 1770984750000,
+          },
+        },
+      },
+      "xauOpenMarketEma": {
+        "average": "4983975127918197501369",
+        "timestampMs": 1770984750000,
+      },
+    },
+  },
+  "result": "4996000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1770984750000,
+    "providerDataRequestedUnixMs": 1770984750000,
+    "providerIndicatedTimeUnixMs": undefined,
+  },
+}
+`;
