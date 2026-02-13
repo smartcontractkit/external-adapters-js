@@ -363,6 +363,9 @@
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
+      "path": "./sources/matrixdock/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {
