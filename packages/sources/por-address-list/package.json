@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.8.0",
-    "axios": "1.13.4",
+    "axios": "1.13.5",
     "ethers": "^5.5.1",
     "tslib": "2.4.1"
   }
