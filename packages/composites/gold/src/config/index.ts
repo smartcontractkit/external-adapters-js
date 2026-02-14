@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'Feed ID for XAU/USD price data stream',
     type: 'string',
     default: '0x0008991d4caf73e8e05f6671ef43cee5e8c5c3652a35fde0b0942e44a77b0e89',
+    sensitive: false,
   },
   TOKENIZED_GOLD_PRICE_STREAMS: {
     description:
@@ -14,51 +15,60 @@ export const config = new AdapterConfig({
       "XAUT": "0x0003b8b3f33c4c06a7947e86c5b4db4ef0991637d9821b9cdf897c0b5d488468",
       "PAXG": "0x0003b4b1d926719d4f67a08c9ffe9baf688620058c9f029923ea504eb71c877f"
     }`,
+    sensitive: false,
   },
   PRICE_STALE_TIMEOUT_MS: {
     description:
       'The amount of time in milliseconds before a price is considered stale if there has been no change',
     type: 'number',
     default: 5 * 60 * 1000, // 5 minutes
+    sensitive: false,
   },
   PREMIUM_EMA_TAU_MS: {
     description:
       'Time constant (tau) in milliseconds for the EMA filters used to calculate the average premium of tokenized streams over the XAU price',
     type: 'number',
     default: 1_000_000,
+    sensitive: false,
   },
   DEVIATION_EMA_TAU_MS: {
     description:
       'Time constant (tau) in milliseconds for the EMA filters used to calculate the smoothed deviation from the XAU closing price',
     type: 'number',
     default: 1_000_000,
+    sensitive: false,
   },
   DEVIATION_CAP: {
     description:
       'Maximum deviation allowed from the closing price. Used deviation is clamped between this and minus this value.',
     type: 'number',
     default: 0.02,
+    sensitive: false,
   },
   TOKENIZED_PRICE_WEIGHT: {
     description:
       'Weight given to the tokenized stream derived price when calculating the composite price. 1.0 equals 100%',
     type: 'number',
     default: 0.7,
+    sensitive: false,
   },
   CACHE_TTL_MS: {
     description: 'How long to keep the state in the cache in milliseconds before reinitializing',
     type: 'number',
     default: 7 * 24 * 60 * 60 * 1000, // 7 days
+    sensitive: false,
   },
   DATA_ENGINE_ADAPTER_URL: {
     description: 'URL of data engine ea',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 1_000,
+    sensitive: false,
   },
 })

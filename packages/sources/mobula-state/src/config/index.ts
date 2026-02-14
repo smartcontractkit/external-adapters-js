@@ -5,11 +5,13 @@ export const config = new AdapterConfig({
     description: 'WS endpoint for Data Provider',
     type: 'string',
     default: 'wss://production-feed.mobula.io',
+    sensitive: false,
   },
   WS_FUNDING_RATE_API_ENDPOINT: {
     description: 'WS endpoint for perpetual funding rates',
     type: 'string',
     default: 'wss://funding-api.mobula.io',
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key for Data Provider',

@@ -12,11 +12,13 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
     default: 'wss://md.deutsche-boerse.com',
+    sensitive: false,
   },
   HEARTBEAT_INTERVAL_MS: {
     description: 'Interval in milliseconds to send WebSocket ping frames to keep connection alive',
     default: 30000,
     required: true,
     type: 'number',
+    sensitive: false,
   },
 })

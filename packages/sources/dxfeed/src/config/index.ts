@@ -7,6 +7,7 @@ export const config = new AdapterConfig({
   API_USERNAME: {
     description: 'username for dxfeed API',
     type: 'string',
+    sensitive: false,
   },
   API_PASSWORD: {
     description: 'password for dxfeed API',
@@ -35,5 +36,6 @@ export const config = new AdapterConfig({
         return ''
       },
     },
+    sensitive: false,
   },
 })
