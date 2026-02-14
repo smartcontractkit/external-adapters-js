@@ -168,7 +168,7 @@ adapters:
   - name: icap
     version: 1.5.0
   - name: ice
-    version: 1.1.0
+    version: 1.2.0
   - name: ignition-address-list
     version: 1.0.16
   - name: implied-price
