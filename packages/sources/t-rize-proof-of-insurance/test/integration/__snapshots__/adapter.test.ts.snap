@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute proof_of_insurance endpoint happy path should handle special characters in deal name and instrument id 1`] = `
+{
+  "data": {
+    "aum": "1585645903006153196049833363283806317156081078738970254024",
+    "navDate": 90,
+  },
+  "meta": {
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
+    "metrics": {
+      "feedId": "{"deal_name":"deal & company","instrument_id":"deal-special/test"}",
+    },
+  },
+  "result": 90,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute proof_of_insurance endpoint happy path should handle zero days remaining 1`] = `
+{
+  "data": {
+    "aum": "1470722653405324650106817111984545301886147690306966240325",
+    "navDate": 0,
+  },
+  "meta": {
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
+    "metrics": {
+      "feedId": "{"deal_name":"expired deal","instrument_id":"deal-expired"}",
+    },
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute proof_of_insurance endpoint happy path should return success 1`] = `
+{
+  "data": {
+    "aum": "394686563145051592141435390537358740558257698705448720389",
+    "navDate": 42,
+  },
+  "meta": {
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
+    "metrics": {
+      "feedId": "{"deal_name":"entity 2 deal","instrument_id":"deal-entity2-example"}",
+    },
+  },
+  "result": 42,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute proof_of_insurance endpoint happy path should return success for another deal 1`] = `
+{
+  "data": {
+    "aum": "2613777770280440317101014524426429261835645894965490760957",
+    "navDate": 180,
+  },
+  "meta": {
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
+    "metrics": {
+      "feedId": "{"deal_name":"another deal","instrument_id":"deal-another-123"}",
+    },
+  },
+  "result": 180,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute proof_of_insurance endpoint validation errors should fail on empty request 1`] = `
+{
+  "error": {
+    "message": "[Param: deal_name] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof_of_insurance endpoint validation errors should fail on invalid deal_name type 1`] = `
+{
+  "error": {
+    "message": "[Param: deal_name] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof_of_insurance endpoint validation errors should fail on invalid instrument_id type 1`] = `
+{
+  "error": {
+    "message": "[Param: instrument_id] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof_of_insurance endpoint validation errors should fail on missing deal_name 1`] = `
+{
+  "error": {
+    "message": "[Param: deal_name] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof_of_insurance endpoint validation errors should fail on missing instrument_id 1`] = `
+{
+  "error": {
+    "message": "[Param: instrument_id] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
