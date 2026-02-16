@@ -38,7 +38,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
         !priceMessage.bid ||
         !priceMessage.ask
       ) {
-        logger.debug('WS message does not contain valid data, skipping')
+        logger.warn('WS message does not contain valid data, skipping')
         return
       }
 

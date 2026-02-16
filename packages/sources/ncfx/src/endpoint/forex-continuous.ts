@@ -25,7 +25,6 @@ export type BaseEndpointTypesForexContinuous = {
 
 export const forexContinuousEndpoint = new AdapterEndpoint({
   name: 'forex-continuous',
-  aliases: ['forex_continuous', 'forexcontinuous'],
   customInputValidation,
   transport,
   inputParameters,
