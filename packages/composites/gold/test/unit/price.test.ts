@@ -1337,5 +1337,103 @@ describe('PriceTransport', () => {
 
       log.mockClear()
     })
+
+    it('should behave correctly over a longer sequence of calls', async () => {
+      jest.useFakeTimers().setSystemTime(new Date('2026-02-13T12:00:00Z').getTime())
+
+      // Start with multiple rounds where the market is open to establish
+      // averages to calculate the premiums.
+      mockXauPriceResponse('4972000000000000000000', MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, '4853000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5015000000000000000000')
+
+      const param = makeStub('param', {})
+      let response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      // Advance 1 minute each time instead of 1 second to give the EMA more
+      // time to adjust, without allowing the prices to become stale.
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4982000000000000000000', MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, '4865000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5028000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4987000000000000000000', MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, '4869000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5038000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      // Followed by multiple rounds where the market is closed to test the
+      // deviation logic.
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, '4849000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5023000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, '4858000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5035000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, '4864000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5042000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      // Followed by both streams going stale one by one. One with an error and
+      // one by not changing.
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, Promise.reject('Stream error'))
+      mockCryptoPrice(PAXG_FEED_ID, '5039000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      // 4.5 minutes later, XAUT is now stale and PAXG is about to go stale.
+      jest.advanceTimersByTime(270_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, Promise.reject('Stream error'))
+      mockCryptoPrice(PAXG_FEED_ID, '5039000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4986000000000000000000', MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, Promise.reject('Stream error'))
+      mockCryptoPrice(PAXG_FEED_ID, '5039000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      // And the market is open again.
+      jest.advanceTimersByTime(60_000)
+      mockXauPriceResponse('4996000000000000000000', MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, '4867000000000000000000')
+      mockCryptoPrice(PAXG_FEED_ID, '5045000000000000000000')
+
+      response = await transport._handleRequest(param)
+      expect(response).toMatchSnapshot()
+
+      expect(log).toBeCalledTimes(3)
+      expect(log).toBeCalledWith(`Error fetching XAUT price: Stream error`)
+      log.mockClear()
+    })
   })
 })
