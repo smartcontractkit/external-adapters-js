@@ -58,10 +58,10 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return error for invalid symbol', async () => {
+    it('should return error when API returns error response', async () => {
       const data = {
         endpoint: 'nav',
-        symbol: 'INVALID',
+        symbol: 'UNKNOWN',
       }
 
       mockNavResponseInvalidSymbol()
@@ -82,9 +82,6 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       const json = response.json()
-      expect(json.timestamps).toBeDefined()
-      expect(json.timestamps.providerIndicatedTimeUnixMs).toBeDefined()
-      expect(typeof json.timestamps.providerIndicatedTimeUnixMs).toBe('number')
       expect(json.timestamps.providerIndicatedTimeUnixMs).toBe(1770185497979)
     })
 

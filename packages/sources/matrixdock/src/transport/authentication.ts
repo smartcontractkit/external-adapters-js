@@ -24,11 +24,14 @@ export interface GetRequestHeadersParams {
  * Example prehash:
  * 1731931956000GET/mapi/v1/wallet/withdrawals&currency=BTC&limit=50
  */
-export const getRequestHeaders = (
-  getRequestHeadersParams: GetRequestHeadersParams,
-): Record<string, string> => {
-  const { method, path, queryString, apiKey, secret, timestamp } = getRequestHeadersParams
-
+export const getRequestHeaders = ({
+  method,
+  path,
+  queryString,
+  apiKey,
+  secret,
+  timestamp,
+}: GetRequestHeadersParams): Record<string, string> => {
   // Construct prehash: timestamp + method + api_path + '&' + query_string
   const prehash = `${timestamp}${method.toUpperCase()}${path}&${queryString}`
 

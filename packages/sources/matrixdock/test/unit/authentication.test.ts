@@ -122,20 +122,32 @@ describe('authentication', () => {
     })
 
     it('should return all required headers', () => {
+      const timestamp = 1234567890123
+      const apiKey = 'my-api-key'
+      const secret = 'my-secret'
+      const path = '/rwa/api/v1/quote/price'
+      const queryString = 'symbol=XAUM'
+
       const headers = getRequestHeaders({
         method: 'GET',
-        path: '/rwa/api/v1/quote/price',
-        queryString: 'symbol=XAUM',
-        apiKey: 'my-api-key',
-        secret: 'my-secret',
-        timestamp: Date.now(),
+        path,
+        queryString,
+        apiKey,
+        secret,
+        timestamp,
       })
 
-      expect(headers).toHaveProperty('X-MatrixPort-Access-Key')
-      expect(headers).toHaveProperty('X-Signature')
-      expect(headers).toHaveProperty('X-Timestamp')
-      expect(headers).toHaveProperty('X-Auth-Version')
-      expect(Object.keys(headers)).toHaveLength(4)
+      const expectedPrehash = `${timestamp}GET${path}&${queryString}`
+      const expectedSignature = CryptoJS.HmacSHA256(expectedPrehash, secret).toString(
+        CryptoJS.enc.Hex,
+      )
+
+      expect(headers).toEqual({
+        'X-MatrixPort-Access-Key': apiKey,
+        'X-Signature': expectedSignature,
+        'X-Timestamp': timestamp.toString(),
+        'X-Auth-Version': 'v2',
+      })
     })
 
     it('should generate different signatures for different secrets', () => {

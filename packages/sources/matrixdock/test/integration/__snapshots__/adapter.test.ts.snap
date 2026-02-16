@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute nav endpoint should return error for invalid symbol 1`] = `
+exports[`execute nav endpoint should return error when API returns error response 1`] = `
 {
   "errorMessage": "Invalid symbol",
   "statusCode": 502,

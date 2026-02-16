@@ -23,7 +23,7 @@ export const mockNavResponseInvalidSymbol = (): nock.Scope =>
     encodedQueryParams: true,
   })
     .get('/rwa/api/v1/quote/price')
-    .query({ symbol: 'INVALID' })
+    .query({ symbol: 'UNKNOWN' })
     .reply(200, {
       code: 1001,
       message: 'Invalid symbol',

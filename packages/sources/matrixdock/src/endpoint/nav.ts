@@ -4,13 +4,20 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { httpTransport } from '../transport/nav'
 
-export const inputParameters = new InputParameters({
-  symbol: {
-    type: 'string',
-    description: 'The symbol to query (e.g., XAUM)',
-    required: true,
+export const inputParameters = new InputParameters(
+  {
+    symbol: {
+      type: 'string',
+      description: 'The symbol to query (e.g., XAUM)',
+      required: true,
+    },
   },
-})
+  [
+    {
+      symbol: 'XAUM',
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
