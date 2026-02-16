@@ -94,6 +94,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [liveart](./liveart/README.md)
 - [lotus](./lotus/README.md)
 - [m0](./m0/README.md)
+- [matrixdock](./matrixdock/README.md)
 - [mobula-state](./mobula-state/README.md)
 - [mock-ea](./mock-ea/README.md)
 - [moonbeam-address-list](./moonbeam-address-list/README.md)
