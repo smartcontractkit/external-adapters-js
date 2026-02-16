@@ -151,6 +151,8 @@ adapters:
     version: 1.0.3
   - name: gmx-tokens
     version: 1.0.0
+  - name: gold
+    version: 1.0.0
   - name: graphql
     version: 1.2.47
   - name: gsr
