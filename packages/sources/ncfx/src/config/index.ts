@@ -43,5 +43,6 @@ export const config = new AdapterConfig({
     type: 'string',
     description: 'The WS API endpoint to use for the forex-continuous (24/7) endpoint',
     default: 'wss://cryptofeed.ws.newchangefx.com/fiat_v1',
+    sensitive: false,
   },
 })

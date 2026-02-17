@@ -33,6 +33,7 @@ export const config = new AdapterConfig(
       default: 1,
       type: 'number',
       validate: validator.integer({ min: 1, max: 5 }),
+      sensitive: false,
     },
     WS_URL_SECONDARY_ATTEMPTS: {
       description:
@@ -40,6 +41,7 @@ export const config = new AdapterConfig(
       default: 1,
       type: 'number',
       validate: validator.integer({ min: 1, max: 5 }),
+      sensitive: false,
     },
   },
   {
