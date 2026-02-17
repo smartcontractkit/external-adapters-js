@@ -1,5 +1,12 @@
 # @chainlink/set-token-index-adapter
 
+## 3.0.52
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.11
+
 ## 3.0.51
 
 ### Patch Changes
