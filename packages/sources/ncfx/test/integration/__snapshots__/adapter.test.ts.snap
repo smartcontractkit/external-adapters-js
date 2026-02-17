@@ -30,6 +30,23 @@ exports[`websocket forex endpoint should return success 1`] = `
 }
 `;
 
+exports[`websocket forex-continuous endpoint should return success 1`] = `
+{
+  "data": {
+    "ask": 0.000659234,
+    "bid": 0.000659191,
+    "mid": 0.000659222,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1768496978501,
+  },
+}
+`;
+
 exports[`websocket lwba endpoint should return error (LWBA invariant violation) 1`] = `
 {
   "error": {
