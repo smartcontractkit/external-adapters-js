@@ -1,5 +1,15 @@
 # @chainlink/ncfx-adapter
 
+## 4.6.0
+
+### Minor Changes
+
+- [#4635](https://github.com/smartcontractkit/external-adapters-js/pull/4635) [`d431d86`](https://github.com/smartcontractkit/external-adapters-js/commit/d431d867d6ee5753cf4d470ef71574ad4d75f060) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add forex-continuous endpoint for 24/7 forex prices
+
+### Patch Changes
+
+- [#4634](https://github.com/smartcontractkit/external-adapters-js/pull/4634) [`f80dea0`](https://github.com/smartcontractkit/external-adapters-js/commit/f80dea060606c6e3b711b205e2cdaab7463dd127) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Refactor shared WebSocket utilities to utils
+
 ## 4.5.4
 
 ### Patch Changes
