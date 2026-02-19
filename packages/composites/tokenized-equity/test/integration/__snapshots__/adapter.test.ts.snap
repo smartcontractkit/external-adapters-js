@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint bad sessionBoundaries 1`] = `
+{
+  "error": {
+    "message": "99:88 in [Param: sessionBoundaries] does not match format HH:MM",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute price endpoint bad sessionBoundariesTimeZone 1`] = `
+{
+  "error": {
+    "message": "[Param: sessionBoundariesTimeZone] is not valid timezone: RangeError: Invalid time zone specified: random",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute price endpoint should return success - ema 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "rawPrice": "1",
+    "registry": {
+      "paused": false,
+      "sValue": "2000000000000000000",
+    },
+    "result": "20000000",
+    "sessionSource": "FALLBACK",
+    "smoother": {
+      "p": "978347471111",
+      "price": "1",
+      "secondsFromTransition": 9007199254740991,
+      "smoother": "ema",
+      "x": "-1",
+    },
+    "stream": {
+      "extended": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "overnight": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "regular": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+    },
+  },
+  "result": "20000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint should return success - kalman 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "rawPrice": "1",
+    "registry": {
+      "paused": false,
+      "sValue": "2000000000000000000",
+    },
+    "result": "20000000",
+    "sessionSource": "FALLBACK",
+    "smoother": {
+      "p": "1500000000000000000",
+      "price": "1",
+      "secondsFromTransition": 9007199254740991,
+      "smoother": "kalman",
+      "x": "-1",
+    },
+    "stream": {
+      "extended": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "overnight": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+      "regular": {
+        "ask": "5",
+        "askVolume": 6,
+        "bid": "3",
+        "bidVolume": 4,
+        "decimals": 1,
+        "lastSeenTimestampNs": "2",
+        "lastTradedPrice": "7",
+        "marketStatus": 1,
+        "mid": "1",
+      },
+    },
+  },
+  "result": "20000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
