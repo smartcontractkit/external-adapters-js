@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for the Data Provider',
     type: 'string',
     default: 'https://api.real-time-reserves.verinumus.io/v1/',
+    sensitive: false,
   },
 })

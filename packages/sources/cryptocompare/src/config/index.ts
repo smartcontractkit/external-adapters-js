@@ -5,11 +5,13 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://min-api.cryptocompare.com',
+    sensitive: false,
   },
   WS_API_ENDPOINT: {
     description: 'The WS URL to retrieve data from',
     type: 'string',
     default: 'wss://client-axfioiyn03.ccdata.io',
+    sensitive: false,
   },
   API_KEY: {
     description: 'The CryptoCompare API key',
@@ -27,5 +29,6 @@ export const config = new AdapterConfig({
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
     default: true,
+    sensitive: false,
   },
 })

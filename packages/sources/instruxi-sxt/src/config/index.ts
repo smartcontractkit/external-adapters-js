@@ -6,6 +6,7 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
     default: 'https://proxy.api.spaceandtime.app',
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key for Data Provider (SxT)',

@@ -5,23 +5,27 @@ export const config = new AdapterConfig({
     description: 'The RPC URL to connect to the EVM chain',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   CHAIN_ID: {
     description: 'The chain id to connect to',
     type: 'number',
     required: true,
     default: 1,
+    sensitive: false,
   },
   FRAX_ETH_PRICE_CONTRACT: {
     description: 'The address of the deployed Frax Dual Oracle Price Logic contract',
     type: 'string',
     required: true,
     default: '0x350a9841956D8B0212EAdF5E14a449CA85FAE1C0',
+    sensitive: false,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The number of milliseconds the background execute should sleep before performing the next request',
     type: 'number',
     default: 1000,
+    sensitive: false,
   },
 })

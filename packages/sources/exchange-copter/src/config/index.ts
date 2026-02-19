@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'API Endpoint to use for Exchange Copter ARSx reserves',
     type: 'string',
     default: 'https://api.exchangecopter.com/arsx/reserve',
+    sensitive: false,
   },
 })

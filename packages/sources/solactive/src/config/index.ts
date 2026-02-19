@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://clients.solactive.com/api/rest/v1/indices',
+    sensitive: false,
   },
 })

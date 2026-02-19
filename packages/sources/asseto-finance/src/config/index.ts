@@ -5,11 +5,13 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://open.syncnav.com/api',
+    sensitive: false,
   },
   CLIENT_ID: {
     description: 'Data Provider client ID',
     type: 'string',
     default: 'chainlink',
+    sensitive: false,
   },
   CLIENT_SECRET: {
     description: 'Data Provider client secret',
@@ -21,11 +23,13 @@ export const config = new AdapterConfig({
     description: 'Grant type for credentials',
     type: 'string',
     default: 'client_credentials',
+    sensitive: false,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

@@ -17,5 +17,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Matrixdock',
     type: 'string',
     default: 'https://mapi.matrixport.com',
+    sensitive: false,
   },
 })

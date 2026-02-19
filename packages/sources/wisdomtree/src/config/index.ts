@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://dataspanapi.wisdomtree.com',
+    sensitive: false,
   },
   API_KEY: {
     description: 'WisdomTree API key value',

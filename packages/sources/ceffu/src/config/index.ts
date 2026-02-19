@@ -23,16 +23,19 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://open-api.ceffu.com',
+    sensitive: false,
   },
   ARBITRUM_RPC_URL: {
     description: 'RPC url of Arbitrum node',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   ARBITRUM_RPC_CHAIN_ID: {
     description: 'Arbitrum chain id',
     type: 'number',
     default: 42161,
+    sensitive: false,
   },
 
   BACKGROUND_EXECUTE_MS: {
@@ -40,5 +43,6 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

@@ -29,6 +29,7 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://api.apexgroup.com/1ASkuiqAPUyZTQqYIK8RlC6G8tWupuC7/v1/reports/NAV',
+    sensitive: false,
   },
   AUTH_API_ENDPOINT: {
     description: 'An auth API endpoint for Data Provider',
@@ -41,5 +42,6 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

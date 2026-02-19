@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://api.polygon.io',
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key that can be obtained from [here](https://polygon.io/dashboard/signup)',

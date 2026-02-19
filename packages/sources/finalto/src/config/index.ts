@@ -17,5 +17,6 @@ export const config = new AdapterConfig({
     description: 'WS endpoint for Data Provider',
     type: 'string',
     required: true,
+    sensitive: false,
   },
 })
