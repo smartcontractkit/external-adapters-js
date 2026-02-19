@@ -5734,7 +5734,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinon", "npm:10.0.20"],\
           ["@types/uuid", "npm:8.3.4"],\
           ["@types/ws", "npm:8.5.14"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
@@ -9306,7 +9306,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@fastify-ajv-compiler-npm-4.0.2-f4bb943a66-adc3f9a994.zip/node_modules/@fastify/ajv-compiler/",\
         "packageDependencies": [\
           ["@fastify/ajv-compiler", "npm:4.0.2"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["ajv-formats", "virtual:f4bb943a662f93558dadb08bd51635947f456dde32e34f8d71db03d1fb0ac429e4bec5e719c8feaee487d3f71788b81aafde7c4c6ffcf9b0e574076d555de83a#npm:3.0.1"],\
           ["fast-uri", "npm:3.0.5"]\
         ],\
@@ -9316,7 +9316,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@fastify-ajv-compiler-npm-4.0.5-42f2ffad24-ee6a338831.zip/node_modules/@fastify/ajv-compiler/",\
         "packageDependencies": [\
           ["@fastify/ajv-compiler", "npm:4.0.5"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["ajv-formats", "virtual:f4bb943a662f93558dadb08bd51635947f456dde32e34f8d71db03d1fb0ac429e4bec5e719c8feaee487d3f71788b81aafde7c4c6ffcf9b0e574076d555de83a#npm:3.0.1"],\
           ["fast-uri", "npm:3.0.5"]\
         ],\
@@ -14797,6 +14797,17 @@ const RAW_RUNTIME_STATE =
           ["require-from-string", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:8.18.0", {\
+        "packageLocation": "./.yarn/cache/ajv-npm-8.18.0-6e5e062765-bfed9de827.zip/node_modules/ajv/",\
+        "packageDependencies": [\
+          ["ajv", "npm:8.18.0"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["fast-uri", "npm:3.0.5"],\
+          ["json-schema-traverse", "npm:1.0.0"],\
+          ["require-from-string", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["ajv-formats", [\
@@ -14812,7 +14823,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ajv-formats", "virtual:f4bb943a662f93558dadb08bd51635947f456dde32e34f8d71db03d1fb0ac429e4bec5e719c8feaee487d3f71788b81aafde7c4c6ffcf9b0e574076d555de83a#npm:3.0.1"],\
           ["@types/ajv", null],\
-          ["ajv", "npm:8.17.1"]\
+          ["ajv", "npm:8.18.0"]\
         ],\
         "packagePeers": [\
           "@types/ajv",\
@@ -18901,7 +18912,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["fast-json-stringify", "npm:6.0.0"],\
           ["@fastify/merge-json-schemas", "npm:0.1.1"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["ajv-formats", "virtual:f4bb943a662f93558dadb08bd51635947f456dde32e34f8d71db03d1fb0ac429e4bec5e719c8feaee487d3f71788b81aafde7c4c6ffcf9b0e574076d555de83a#npm:3.0.1"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["fast-uri", "npm:2.4.0"],\
