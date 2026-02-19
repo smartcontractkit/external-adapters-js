@@ -47,7 +47,7 @@ describe('PriceTransport', () => {
   }`
   const PRICE_STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
   const PREMIUM_EMA_TAU_MS = 1_000_000
-  const DEVIATION_EMA_TAU_MS = 1_000_000
+  const DEVIATION_EMA_TAU_MS = 500_000
   const DEVIATION_CAP = 0.02
   const TOKENIZED_PRICE_WEIGHT = 0.7
   const CACHE_TTL_MS = 604800000
@@ -168,7 +168,7 @@ describe('PriceTransport', () => {
       },
       unsmoothedDeviation,
       Date.now(),
-      PREMIUM_EMA_TAU_MS,
+      DEVIATION_EMA_TAU_MS,
     ).average
     const one = 10n ** BigInt(RESULT_DECIMALS)
     const expectedUnweightedResult = (xauClosingPrice * (one + expectedDeviation)) / one

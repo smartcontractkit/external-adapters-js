@@ -145,10 +145,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985490706805642941136",
+    "result": "4985011072538001630843",
     "state": {
       "deviationEma": {
-        "average": "-145920919820371",
+        "average": "-283344066815188",
         "timestampMs": 1770984180000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -178,7 +178,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985490706805642941136",
+  "result": "4985011072538001630843",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984180000,
@@ -192,10 +192,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985441466507049374713",
+    "result": "4984969696306089910746",
     "state": {
       "deviationEma": {
-        "average": "-160029079408236",
+        "average": "-295199041289923",
         "timestampMs": 1770984240000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -225,7 +225,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985441466507049374713",
+  "result": "4984969696306089910746",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984240000,
@@ -239,10 +239,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985661817893776509095",
+    "result": "4985450914382057121858",
     "state": {
       "deviationEma": {
-        "average": "-96894764260928",
+        "average": "-157322107026210",
         "timestampMs": 1770984300000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -272,7 +272,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985661817893776509095",
+  "result": "4985450914382057121858",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984300000,
@@ -286,10 +286,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985808721537323704381",
+    "result": "4985760015543951415444",
     "state": {
       "deviationEma": {
-        "average": "-54804441773049",
+        "average": "-68759514081882",
         "timestampMs": 1770984360000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -319,7 +319,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985808721537323704381",
+  "result": "4985760015543951415444",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984360000,
@@ -333,10 +333,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4987374293010049988653",
+    "result": "4988541034836730142121",
     "state": {
       "deviationEma": {
-        "average": "393757667196719",
+        "average": "728048489121008",
         "timestampMs": 1770984630000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -366,7 +366,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4987374293010049988653",
+  "result": "4988541034836730142121",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984630000,
@@ -380,10 +380,10 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4987374293010049988653",
+    "result": "4988541034836730142121",
     "state": {
       "deviationEma": {
-        "average": "393757667196719",
+        "average": "728048489121008",
         "timestampMs": 1770984630000,
       },
       "lastXauPrice": "4986000000000000000000",
@@ -413,7 +413,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4987374293010049988653",
+  "result": "4988541034836730142121",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984690000,

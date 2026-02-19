@@ -31,7 +31,7 @@ export const config = new AdapterConfig({
     description:
       'Time constant (tau) in milliseconds for the EMA filters used to calculate the smoothed deviation from the XAU closing price',
     type: 'number',
-    default: 1_000_000,
+    default: 500_000,
   },
   DEVIATION_CAP: {
     description:
