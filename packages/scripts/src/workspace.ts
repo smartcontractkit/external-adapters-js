@@ -34,10 +34,11 @@ const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
 export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
+  const sanitizedBranch = changedFromBranch.replace(/[^a-zA-Z0-9_\-./]/g, '')
   return s
     .exec(
-      changedFromBranch
-        ? `yarn workspaces list -R --json --since=${changedFromBranch}`
+      sanitizedBranch
+        ? `yarn workspaces list -R --json --since=${sanitizedBranch}`
         : 'yarn workspaces list -R --json',
       { silent: true },
     )

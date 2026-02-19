@@ -1,20 +1,21 @@
+import crypto from 'crypto'
+import { Decimal } from 'decimal.js'
+import { FastifyRequest } from 'fastify'
+import { flatMap, List, values } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import type {
   AdapterContext,
   AdapterImplementation,
   BasePairInputParameters,
-  PairOptionsMap,
   EnvDefaults,
   IncludePair,
+  PairOptionsMap,
 } from '../types'
-import type { Validator } from './modules/validator'
-import { FastifyRequest } from 'fastify'
+import { CensorKeyValue, CensorList, configRedactEnvVars } from './config/logging'
 import type { CacheEntry } from './middleware/cache/types'
-import { Decimal } from 'decimal.js'
-import { flatMap, values, List } from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
-import { logger } from './modules/logger'
 import { AdapterConfigError, AdapterError, RequiredEnvError } from './modules/error'
-import { CensorList, CensorKeyValue, configRedactEnvVars } from './config/logging'
+import { logger } from './modules/logger'
+import type { Validator } from './modules/validator'
 
 export const isString = (value: unknown): boolean =>
   typeof value === 'string' || value instanceof String
@@ -93,7 +94,7 @@ export const getRandomEnv = (name: string, delimiter = ',', prefix = ''): string
   const val = getEnv(name, prefix)
   if (!val) return val
   const items = val.split(delimiter)
-  return items[Math.floor(Math.random() * items.length)]
+  return items[crypto.randomInt(items.length)]
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
@@ -104,7 +105,7 @@ export const getRandomRequiredEnv = (
 ): string | undefined => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)
-  return items[Math.floor(Math.random() * items.length)]
+  return items[crypto.randomInt(items.length)]
 }
 
 // We generate an UUID per instance

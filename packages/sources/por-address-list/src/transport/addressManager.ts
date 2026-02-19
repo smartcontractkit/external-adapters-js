@@ -1,7 +1,7 @@
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { ethers } from 'ethers'
 import { PoRAddress } from '@chainlink/external-adapter-framework/adapter/por'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
+import { ethers } from 'ethers'
 
 const logger = makeLogger('por-address-manager')
 
@@ -96,7 +96,7 @@ export class LombardAddressManager extends AddressManager<LombardAddressManagerR
       .flatMap((r) => r[0])
       .filter((address) => address != '')
       .map((address) => ({
-        address: address.replace("'", ''),
+        address: address.replaceAll("'", ''),
         network: network,
         chainId: chainId,
       }))

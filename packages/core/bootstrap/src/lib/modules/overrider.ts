@@ -98,13 +98,16 @@ export class Overrider {
 
   static isOverrideObj = (obj: unknown): obj is OverrideRecord => {
     if (typeof obj !== 'object' || Array.isArray(obj)) return false
+    const keywords = ['__proto__', 'constructor', 'prototype']
     const overrideObj = obj as OverrideRecord
     for (const adapterName of Object.keys(overrideObj)) {
       if (typeof adapterName !== 'string') return false
+      if (keywords.includes(adapterName)) return false
       const adapterOverrides = overrideObj[adapterName]
       if (typeof adapterOverrides !== 'object' || Array.isArray(adapterOverrides)) return false
       for (const symbol of Object.keys(adapterOverrides)) {
         if (typeof symbol !== 'string' || typeof adapterOverrides[symbol] !== 'string') return false
+        if (keywords.includes(symbol)) return false
       }
     }
     return true

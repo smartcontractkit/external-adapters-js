@@ -8,28 +8,31 @@ import {
 } from '@chainlink/ea-bootstrap'
 import { FastifyRequest } from 'fastify'
 import { RequiredEnvError } from '../../src/lib/modules/error'
+import { Validator } from '../../src/lib/modules/validator'
+
+import crypto from 'crypto'
+
 import {
-  getEnv,
-  buildUrlPath,
-  buildUrl,
   baseEnvDefaults,
-  getRandomRequiredEnv,
-  toObjectWithNumbers,
-  getRequiredEnv,
+  buildUrl,
+  buildUrlPath,
+  deepType,
+  envVarValidations,
   formatArray,
+  getBatchedPairOptions,
+  getClientIp,
+  getEnv,
+  getEnvWithFallback,
+  getPairOptions,
+  getRandomRequiredEnv,
+  getRequiredEnv,
+  getRequiredEnvWithFallback,
+  getURL,
   groupBy,
   isDebugLogLevel,
   permutator,
-  deepType,
-  getURL,
-  getRequiredEnvWithFallback,
-  getEnvWithFallback,
-  getClientIp,
-  getPairOptions,
-  getBatchedPairOptions,
-  envVarValidations,
+  toObjectWithNumbers,
 } from '../../src/lib/util'
-import { Validator } from '../../src/lib/modules/validator'
 
 describe('utils', () => {
   let oldEnv: NodeJS.ProcessEnv
@@ -199,17 +202,16 @@ describe('utils', () => {
     it('returns item from list env var at random', () => {
       const varName = 'RANDOM_TEST_ENV_VAR'
       process.env[varName] = 'one,two,three'
+
       jest
-        .spyOn(global.Math, 'random')
-        .mockReturnValueOnce(0.1)
-        .mockReturnValueOnce(0.5)
-        .mockReturnValueOnce(0.7)
+        .spyOn(crypto, 'randomInt')
+        .mockReturnValueOnce(0)
+        .mockReturnValueOnce(1)
+        .mockReturnValueOnce(2)
 
       expect(getRandomRequiredEnv(varName)).toBe('one')
       expect(getRandomRequiredEnv(varName)).toBe('two')
       expect(getRandomRequiredEnv(varName)).toBe('three')
-
-      jest.restoreAllMocks()
     })
   })
 

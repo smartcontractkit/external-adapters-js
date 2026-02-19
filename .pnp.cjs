@@ -7082,7 +7082,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/nav-consulting/",\
         "packageDependencies": [\
           ["@chainlink/nav-consulting-adapter", "workspace:packages/sources/nav-consulting"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@date-fns/utc", "npm:2.1.0"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7376,7 +7376,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/por-address-list/",\
         "packageDependencies": [\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-          ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.13.4"],\
