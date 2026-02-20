@@ -122,7 +122,14 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: ondoTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
+  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
+    if (!adapterSettings.ETHEREUM_RPC_URL) {
+      throw new AdapterInputError({
+        message: 'Missing ETHEREUM_RPC_URL',
+        statusCode: 400,
+      })
+    }
+
     const { sessionBoundaries, sessionBoundariesTimeZone } = req.requestContext.data
 
     sessionBoundaries.forEach((s) => {
