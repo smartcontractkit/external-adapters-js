@@ -4,7 +4,7 @@ import { getRegistryData } from '../../../src/lib/registry'
 import { calculateSecondsFromTransition } from '../../../src/lib/session/session'
 import { processUpdate } from '../../../src/lib/smoother/smoother'
 import { getPrice } from '../../../src/lib/streams'
-import { calculatePrice } from '../../../src/transport/price'
+import { calculatePrice } from '../../../src/transport/ondoPrice'
 
 jest.mock('../../../src/lib/streams', () => ({ getPrice: jest.fn() }))
 const mockGetPrice = getPrice as jest.MockedFunction<typeof getPrice>
