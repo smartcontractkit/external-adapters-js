@@ -5,14 +5,14 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
-import { BaseEndpointTypes, inputParameters, Smoother } from '../endpoint/price'
-import { calculatePrice } from './price'
+import { BaseEndpointTypes, inputParameters, Smoother } from '../endpoint/ondo'
+import { calculatePrice } from './ondoPrice'
 
-const logger = makeLogger('PriceTransport')
+const logger = makeLogger('OndoTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
   dataEngineUrl!: string
@@ -132,4 +132,4 @@ const dedupeParams = (params: RequestParams[]) => {
   return Array.from(seen.values())
 }
 
-export const priceTransport = new PriceTransport()
+export const ondoTransport = new OndoTransport()

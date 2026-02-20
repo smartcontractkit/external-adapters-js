@@ -2,7 +2,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { Smoother } from '../endpoint/price'
+import { Smoother } from '../endpoint/ondo'
 import { getRegistryData } from '../lib/registry'
 import { calculateSecondsFromTransition } from '../lib/session/session'
 import { processUpdate } from '../lib/smoother/smoother'
