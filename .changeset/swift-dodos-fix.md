@@ -11,4 +11,4 @@ fix(security): resolve CodeQL code alerts
 - js/http-to-file-access: validate output filename before file write
 - js/indirect-command-line-injection: sanitize branch name for shell
 - js/incomplete-sanitization: replace all apostrophes, not first only
-- js/prototype-polluting-assignment: skip __proto__/constructor/prototype
+- js/prototype-polluting-assignment: skip `__proto__`/constructor/prototype

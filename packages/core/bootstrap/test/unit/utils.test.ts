@@ -202,9 +202,9 @@ describe('utils', () => {
       process.env[varName] = 'one,two,three'
       jest
         .spyOn(crypto, 'randomInt')
-        .mockReturnValueOnce(0)
-        .mockReturnValueOnce(1)
-        .mockReturnValueOnce(2)
+        .mockImplementationOnce(() => 0)
+        .mockImplementationOnce(() => 1)
+        .mockImplementationOnce(() => 2)
 
       expect(getRandomRequiredEnv(varName)).toBe('one')
       expect(getRandomRequiredEnv(varName)).toBe('two')
