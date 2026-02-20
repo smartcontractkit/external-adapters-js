@@ -5739,7 +5739,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinon", "npm:10.0.20"],\
           ["@types/uuid", "npm:8.3.4"],\
           ["@types/ws", "npm:8.5.14"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
@@ -14814,6 +14814,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ajv-npm-8.17.1-12ade7edc6-ee3c62162c.zip/node_modules/ajv/",\
         "packageDependencies": [\
           ["ajv", "npm:8.17.1"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["fast-uri", "npm:3.0.5"],\
+          ["json-schema-traverse", "npm:1.0.0"],\
+          ["require-from-string", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:8.18.0", {\
+        "packageLocation": "./.yarn/cache/ajv-npm-8.18.0-6e5e062765-bfed9de827.zip/node_modules/ajv/",\
+        "packageDependencies": [\
+          ["ajv", "npm:8.18.0"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["fast-uri", "npm:3.0.5"],\
           ["json-schema-traverse", "npm:1.0.0"],\
