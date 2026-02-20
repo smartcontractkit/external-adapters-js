@@ -72,6 +72,9 @@
       "path": "./composites/the-graph"
     },
     {
+      "path": "./composites/tokenized-equity"
+    },
+    {
       "path": "./composites/xsushi-price"
     },
     {

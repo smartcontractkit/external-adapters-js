@@ -5260,6 +5260,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/tokenized-equity-adapter@workspace:packages/composites/tokenized-equity":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/tokenized-equity-adapter@workspace:packages/composites/tokenized-equity"
+  dependencies:
+    "@chainlink/data-engine-adapter": "workspace:*"
+    "@chainlink/external-adapter-framework": "npm:2.11.1"
+    "@date-fns/tz": "npm:1.4.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    ethers: "npm:^6.13.2"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/tp-adapter@workspace:*, @chainlink/tp-adapter@workspace:packages/sources/tp":
   version: 0.0.0-use.local
   resolution: "@chainlink/tp-adapter@workspace:packages/sources/tp"

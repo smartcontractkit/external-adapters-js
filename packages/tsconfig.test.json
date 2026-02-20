@@ -72,6 +72,9 @@
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
+      "path": "./composites/tokenized-equity/tsconfig.test.json"
+    },
+    {
       "path": "./composites/xsushi-price/tsconfig.test.json"
     },
     {
@@ -163,6 +166,9 @@
     },
     {
       "path": "./sources/cache.gold/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/canton-functions/tsconfig.test.json"
     },
     {
       "path": "./sources/ceffu/tsconfig.test.json"
