@@ -42,9 +42,7 @@ function sanitizeBranchForShell(branch: string): string {
 
 export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
 export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
-  const sinceArg = changedFromBranch
-    ? ` --since=${sanitizeBranchForShell(changedFromBranch)}`
-    : ''
+  const sinceArg = changedFromBranch ? ` --since=${sanitizeBranchForShell(changedFromBranch)}` : ''
   return s
     .exec(`yarn workspaces list -R --json${sinceArg}`.trim(), { silent: true })
     .split('\n')
