@@ -7088,7 +7088,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/nav-consulting-adapter", "workspace:packages/sources/nav-consulting"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
-          ["@date-fns/utc", "npm:2.1.0"],\
+          ["@date-fns/utc", "npm:2.1.1"],\
           ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -8720,10 +8720,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@date-fns/utc", [\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/@date-fns-utc-npm-2.1.0-1775c576ec-924ca45afa.zip/node_modules/@date-fns/utc/",\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/@date-fns-utc-npm-2.1.1-b5f21ce072-80db3b4afb.zip/node_modules/@date-fns/utc/",\
         "packageDependencies": [\
-          ["@date-fns/utc", "npm:2.1.0"]\
+          ["@date-fns/utc", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\

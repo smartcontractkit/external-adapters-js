@@ -4398,7 +4398,7 @@ __metadata:
   resolution: "@chainlink/nav-consulting-adapter@workspace:packages/sources/nav-consulting"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.8.0"
-    "@date-fns/utc": "npm:2.1.0"
+    "@date-fns/utc": "npm:2.1.1"
     "@types/crypto-js": "npm:4.2.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5851,10 +5851,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-fns/utc@npm:2.1.0":
-  version: 2.1.0
-  resolution: "@date-fns/utc@npm:2.1.0"
-  checksum: 10/924ca45afa948a6f618ade184e490deb6d0cfdaab40ac833afd409cf5fc0b09cfab14e37c4503a790711178a5e27e2a68172f15208cd9e0542d635aa24ab4113
+"@date-fns/utc@npm:2.1.1":
+  version: 2.1.1
+  resolution: "@date-fns/utc@npm:2.1.1"
+  checksum: 10/80db3b4afbe261ed441f4c0fe688a5979ab7377fafa8100920b46bfd5f3dcf2f0ded9e63869fdbbedad0f5fc05e411e88bab1e3374e5173a822052666f01550a
   languageName: node
   linkType: hard
 
