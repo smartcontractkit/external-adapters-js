@@ -1,5 +1,5 @@
 // Algorithm by @kalanyuz and @eshaqiri
-import { Smoother } from '../../endpoint/price'
+import { Smoother } from '../../endpoint/ondo'
 import { EmaFilter } from './ema'
 import { KalmanFilter } from './kalman'
 import { deScale, scale } from './utils'

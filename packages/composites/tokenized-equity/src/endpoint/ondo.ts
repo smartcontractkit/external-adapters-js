@@ -4,7 +4,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
-import { priceTransport } from '../transport/transport'
+import { ondoTransport } from '../transport/ondoTransport'
 
 export const inputParameters = new InputParameters(
   {
@@ -118,11 +118,18 @@ export type BaseEndpointTypes = {
 export type Smoother = TypeFromDefinition<BaseEndpointTypes['Parameters']>['smoother']
 
 export const endpoint = new AdapterEndpoint({
-  name: 'price',
+  name: 'ondo',
   aliases: [],
-  transport: priceTransport,
+  transport: ondoTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
+  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
+    if (!adapterSettings.ETHEREUM_RPC_URL) {
+      throw new AdapterInputError({
+        message: 'Missing ETHEREUM_RPC_URL',
+        statusCode: 400,
+      })
+    }
+
     const { sessionBoundaries, sessionBoundariesTimeZone } = req.requestContext.data
 
     sessionBoundaries.forEach((s) => {
