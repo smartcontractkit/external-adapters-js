@@ -107,6 +107,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/the-graph"\
     },\
     {\
+      "name": "@chainlink/tokenized-equity-adapter",\
+      "reference": "workspace:packages/composites/tokenized-equity"\
+    },\
+    {\
       "name": "@chainlink/xsushi-price-adapter",\
       "reference": "workspace:packages/composites/xsushi-price"\
     },\
@@ -937,6 +941,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
     ["@chainlink/token-allocation-test-adapter", ["workspace:packages/non-deployable/token-allocation-test"]],\
     ["@chainlink/token-balance-adapter", ["workspace:packages/sources/token-balance"]],\
+    ["@chainlink/tokenized-equity-adapter", ["workspace:packages/composites/tokenized-equity"]],\
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
@@ -8042,6 +8047,24 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/tokenized-equity-adapter", [\
+      ["workspace:packages/composites/tokenized-equity", {\
+        "packageLocation": "./packages/composites/tokenized-equity/",\
+        "packageDependencies": [\
+          ["@chainlink/tokenized-equity-adapter", "workspace:packages/composites/tokenized-equity"],\
+          ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.1"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
