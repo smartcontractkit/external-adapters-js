@@ -489,6 +489,9 @@
       "path": "./sources/synthetix-feeds"
     },
     {
+      "path": "./sources/t-rize-proof-of-insurance"
+    },
+    {
       "path": "./sources/the-network-firm"
     },
     {
