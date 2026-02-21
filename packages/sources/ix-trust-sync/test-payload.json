@@ -1,0 +1,9 @@
+{
+  "requests": [
+    {
+      "chain_id": 11155111,
+      "auditor_address": "0x92F7d585E8917B7c56Ba07D8DCe05d5FE3899117",
+      "fractional_contract_address": "0x2224E19fEe054E389e7e3dF4b5e83E3E2e4cDB30"
+    }
+  ]
+}

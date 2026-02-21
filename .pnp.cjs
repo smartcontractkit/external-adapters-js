@@ -475,6 +475,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ion.au"\
     },\
     {\
+      "name": "@chainlink/ix-trust-sync-adapter",\
+      "reference": "workspace:packages/sources/ix-trust-sync"\
+    },\
+    {\
       "name": "@chainlink/json-rpc-adapter",\
       "reference": "workspace:packages/sources/json-rpc"\
     },\
@@ -868,6 +872,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
+    ["@chainlink/ix-trust-sync-adapter", ["workspace:packages/sources/ix-trust-sync"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
@@ -6731,6 +6736,25 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/ix-trust-sync-adapter", [\
+      ["workspace:packages/sources/ix-trust-sync", {\
+        "packageLocation": "./packages/sources/ix-trust-sync/",\
+        "packageDependencies": [\
+          ["@chainlink/ix-trust-sync-adapter", "workspace:packages/sources/ix-trust-sync"],\
+          ["@chainlink/external-adapter-framework", "npm:2.12.0"],\
+          ["@libsql/client", "npm:0.14.0"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/supertest", "npm:2.0.16"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["supertest", "npm:6.2.4"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/json-rpc-adapter", [\
       ["workspace:packages/sources/json-rpc", {\
         "packageLocation": "./packages/sources/json-rpc/",\
@@ -10089,6 +10113,126 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@libsql/client", [\
+      ["npm:0.14.0", {\
+        "packageLocation": "./.yarn/cache/@libsql-client-npm-0.14.0-d2d2e0bd8f-1d963eb843.zip/node_modules/@libsql/client/",\
+        "packageDependencies": [\
+          ["@libsql/client", "npm:0.14.0"],\
+          ["@libsql/core", "npm:0.14.0"],\
+          ["@libsql/hrana-client", "npm:0.7.0"],\
+          ["js-base64", "npm:3.7.8"],\
+          ["libsql", "npm:0.4.7"],\
+          ["promise-limit", "npm:2.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/core", [\
+      ["npm:0.14.0", {\
+        "packageLocation": "./.yarn/cache/@libsql-core-npm-0.14.0-7383793b5e-786d617774.zip/node_modules/@libsql/core/",\
+        "packageDependencies": [\
+          ["@libsql/core", "npm:0.14.0"],\
+          ["js-base64", "npm:3.7.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/darwin-arm64", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-darwin-arm64-npm-0.4.7-f808eb720b/node_modules/@libsql/darwin-arm64/",\
+        "packageDependencies": [\
+          ["@libsql/darwin-arm64", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/darwin-x64", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-darwin-x64-npm-0.4.7-732cc3ccd5/node_modules/@libsql/darwin-x64/",\
+        "packageDependencies": [\
+          ["@libsql/darwin-x64", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/hrana-client", [\
+      ["npm:0.7.0", {\
+        "packageLocation": "./.yarn/cache/@libsql-hrana-client-npm-0.7.0-bf060c6e7d-55eb20bf05.zip/node_modules/@libsql/hrana-client/",\
+        "packageDependencies": [\
+          ["@libsql/hrana-client", "npm:0.7.0"],\
+          ["@libsql/isomorphic-fetch", "npm:0.3.1"],\
+          ["@libsql/isomorphic-ws", "npm:0.1.5"],\
+          ["js-base64", "npm:3.7.8"],\
+          ["node-fetch", "npm:3.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/isomorphic-fetch", [\
+      ["npm:0.3.1", {\
+        "packageLocation": "./.yarn/cache/@libsql-isomorphic-fetch-npm-0.3.1-8e2966dd20-29b347ac62.zip/node_modules/@libsql/isomorphic-fetch/",\
+        "packageDependencies": [\
+          ["@libsql/isomorphic-fetch", "npm:0.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/isomorphic-ws", [\
+      ["npm:0.1.5", {\
+        "packageLocation": "./.yarn/cache/@libsql-isomorphic-ws-npm-0.1.5-d46a0b2a12-8255a0f4ca.zip/node_modules/@libsql/isomorphic-ws/",\
+        "packageDependencies": [\
+          ["@libsql/isomorphic-ws", "npm:0.1.5"],\
+          ["@types/ws", "npm:8.18.1"],\
+          ["ws", "virtual:9bf2ba6982dfafdcda93482d19d78274ebf241ea2bfd16854c104f9b1ff12d872a021dc357d59249ede18016f4981e7b6968a263851d90e8d8cabcfc0cb2ffd8#npm:8.19.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/linux-arm64-gnu", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-linux-arm64-gnu-npm-0.4.7-abeb7bcce1/node_modules/@libsql/linux-arm64-gnu/",\
+        "packageDependencies": [\
+          ["@libsql/linux-arm64-gnu", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/linux-arm64-musl", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-linux-arm64-musl-npm-0.4.7-38648440c2/node_modules/@libsql/linux-arm64-musl/",\
+        "packageDependencies": [\
+          ["@libsql/linux-arm64-musl", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/linux-x64-gnu", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-linux-x64-gnu-npm-0.4.7-361aa8f8b1/node_modules/@libsql/linux-x64-gnu/",\
+        "packageDependencies": [\
+          ["@libsql/linux-x64-gnu", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/linux-x64-musl", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-linux-x64-musl-npm-0.4.7-e644e6f027/node_modules/@libsql/linux-x64-musl/",\
+        "packageDependencies": [\
+          ["@libsql/linux-x64-musl", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@libsql/win32-x64-msvc", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/@libsql-win32-x64-msvc-npm-0.4.7-e96258dc45/node_modules/@libsql/win32-x64-msvc/",\
+        "packageDependencies": [\
+          ["@libsql/win32-x64-msvc", "npm:0.4.7"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@manypkg/find-root", [\
       ["npm:1.1.0", {\
         "packageLocation": "./.yarn/cache/@manypkg-find-root-npm-1.1.0-a195882dab-31e7dde826.zip/node_modules/@manypkg/find-root/",\
@@ -10142,6 +10286,15 @@ const RAW_RUNTIME_STATE =
           ["is-node-process", "npm:1.2.0"],\
           ["outvariant", "npm:1.4.3"],\
           ["strict-event-emitter", "npm:0.5.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@neon-rs/load", [\
+      ["npm:0.0.4", {\
+        "packageLocation": "./.yarn/cache/@neon-rs-load-npm-0.0.4-2905c29bd5-ceed42a681.zip/node_modules/@neon-rs/load/",\
+        "packageDependencies": [\
+          ["@neon-rs/load", "npm:0.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17746,6 +17899,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["detect-libc", [\
+      ["npm:2.0.2", {\
+        "packageLocation": "./.yarn/cache/detect-libc-npm-2.0.2-03afa59137-6118f30c0c.zip/node_modules/detect-libc/",\
+        "packageDependencies": [\
+          ["detect-libc", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["detect-newline", [\
       ["npm:3.1.0", {\
         "packageLocation": "./.yarn/cache/detect-newline-npm-3.1.0-6d33fa8d37-ae6cd429c4.zip/node_modules/detect-newline/",\
@@ -21998,6 +22160,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["js-base64", [\
+      ["npm:3.7.8", {\
+        "packageLocation": "./.yarn/cache/js-base64-npm-3.7.8-9f909e04ee-4baa9a222b.zip/node_modules/js-base64/",\
+        "packageDependencies": [\
+          ["js-base64", "npm:3.7.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["js-sdsl", [\
       ["npm:4.4.2", {\
         "packageLocation": "./.yarn/cache/js-sdsl-npm-4.4.2-992f97f34c-806ab7aea3.zip/node_modules/js-sdsl/",\
@@ -22393,6 +22564,24 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/libphonenumber-js-npm-1.12.8-806f5fa775-476e5268f5.zip/node_modules/libphonenumber-js/",\
         "packageDependencies": [\
           ["libphonenumber-js", "npm:1.12.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["libsql", [\
+      ["npm:0.4.7", {\
+        "packageLocation": "./.yarn/unplugged/libsql-npm-0.4.7-444e260fb1/node_modules/libsql/",\
+        "packageDependencies": [\
+          ["libsql", "npm:0.4.7"],\
+          ["@libsql/darwin-arm64", "npm:0.4.7"],\
+          ["@libsql/darwin-x64", "npm:0.4.7"],\
+          ["@libsql/linux-arm64-gnu", "npm:0.4.7"],\
+          ["@libsql/linux-arm64-musl", "npm:0.4.7"],\
+          ["@libsql/linux-x64-gnu", "npm:0.4.7"],\
+          ["@libsql/linux-x64-musl", "npm:0.4.7"],\
+          ["@libsql/win32-x64-msvc", "npm:0.4.7"],\
+          ["@neon-rs/load", "npm:0.0.4"],\
+          ["detect-libc", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25399,6 +25588,15 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/bluebird",\
           "bluebird"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["promise-limit", [\
+      ["npm:2.7.0", {\
+        "packageLocation": "./.yarn/cache/promise-limit-npm-2.7.0-cb930a295a-9756d35a70.zip/node_modules/promise-limit/",\
+        "packageDependencies": [\
+          ["promise-limit", "npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
