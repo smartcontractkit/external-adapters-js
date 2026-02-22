@@ -5110,7 +5110,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["ethers", "npm:5.8.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -7696,7 +7696,7 @@ const RAW_RUNTIME_STATE =
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -15854,6 +15854,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/bn.js-npm-5.2.2-a1a52ffece-51ebb2df83.zip/node_modules/bn.js/",\
         "packageDependencies": [\
           ["bn.js", "npm:5.2.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.2.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.3-b71041c01c-dfb3927e0d.zip/node_modules/bn.js/",\
+        "packageDependencies": [\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
