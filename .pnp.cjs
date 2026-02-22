@@ -1134,7 +1134,7 @@ const RAW_RUNTIME_STATE =
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
           ["@authereum/starkware-types", "npm:1.2.0-beta.1"],\
           ["bip39", "npm:3.1.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["enc-utils", "npm:2.2.3"],\
           ["ethereumjs-wallet", "npm:1.0.2"],\
@@ -5110,7 +5110,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["ethers", "npm:5.8.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -7696,7 +7696,7 @@ const RAW_RUNTIME_STATE =
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8654,7 +8654,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@noble/hashes", "npm:1.8.0"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer-layout", "npm:1.2.2"],\
           ["camelcase", "npm:6.3.0"],\
@@ -8690,7 +8690,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/solana__web3.js", null],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["buffer-layout", "npm:1.2.2"]\
         ],\
         "packagePeers": [\
@@ -8859,7 +8859,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.8.0"],\
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["bitwise", "npm:2.2.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["braces", "npm:3.0.3"],\
           ["diff", "npm:5.2.0"],\
           ["glob-parent", "npm:6.0.2"],\
@@ -8981,7 +8981,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.8.0"],\
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["@ethersproject/logger", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9208,7 +9208,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["@ethersproject/logger", "npm:5.8.0"],\
           ["@ethersproject/properties", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -9531,7 +9531,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -9550,7 +9550,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -9611,7 +9611,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -9621,7 +9621,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -11066,7 +11066,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/x-textdecoder", "npm:10.4.2"],\
           ["@polkadot/x-textencoder", "npm:10.4.2"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13452,7 +13452,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/buffer-layout", "npm:4.0.1"],\
           ["@solana/codecs-numbers", "virtual:85ca6fd385913f84b1e0e12bc512991a8579fde14d2a196dae95552a08812a69188fa14b9bbeb7abae92cda16f2dd4cdc5ebefffe4b5ec415c4923b3d5279c93#npm:2.3.0"],\
           ["agentkeepalive", "npm:4.5.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["borsh", "npm:0.7.0"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer", "npm:6.0.3"],\
@@ -15843,17 +15843,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.12.2", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.2-c97b742b8d-5803983405.zip/node_modules/bn.js/",\
+      ["npm:4.12.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.3-60404d953d-57ed5a055f.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:4.12.2"]\
+          ["bn.js", "npm:4.12.3"]\
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.2.2", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.2-a1a52ffece-51ebb2df83.zip/node_modules/bn.js/",\
+      ["npm:5.2.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.3-b71041c01c-dfb3927e0d.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15872,7 +15872,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/borsh-npm-0.7.0-c3e1c21bb3-e51a9395da.zip/node_modules/borsh/",\
         "packageDependencies": [\
           ["borsh", "npm:0.7.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["bs58", "npm:4.0.1"],\
           ["text-encoding-utf-8", "npm:1.0.2"]\
         ],\
@@ -17954,7 +17954,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/elliptic-npm-6.6.1-87bb857cbc-dc678c9feb.zip/node_modules/elliptic/",\
         "packageDependencies": [\
           ["elliptic", "npm:6.6.1"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["brorand", "npm:1.1.0"],\
           ["hash.js", "npm:1.1.7"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -18488,7 +18488,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethereumjs-abi-npm-0.6.8-c911e0a245-d4633ca300.zip/node_modules/ethereumjs-abi/",\
         "packageDependencies": [\
           ["ethereumjs-abi", "npm:0.6.8"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["ethereumjs-util", "npm:6.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -18500,7 +18500,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:6.2.1"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["elliptic", "npm:6.6.1"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
@@ -18514,7 +18514,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:7.1.5"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
           ["rlp", "npm:2.2.7"]\
@@ -22301,7 +22301,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/keccak256-npm-1.0.6-30a3b4497e-c7370708a3.zip/node_modules/keccak256/",\
         "packageDependencies": [\
           ["keccak256", "npm:1.0.6"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["buffer", "npm:6.0.3"],\
           ["keccak", "npm:3.0.4"]\
         ],\
@@ -26382,7 +26382,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rlp-npm-2.2.7-4cb283b8fe-cf1919a2dc.zip/node_modules/rlp/",\
         "packageDependencies": [\
           ["rlp", "npm:2.2.7"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26445,7 +26445,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rsv-signature-npm-1.1.0-7857bc865f-7dee5101d3.zip/node_modules/rsv-signature/",\
         "packageDependencies": [\
           ["rsv-signature", "npm:1.1.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["enc-utils", "npm:2.2.3"]\
         ],\
         "linkType": "HARD"\
@@ -26652,7 +26652,7 @@ const RAW_RUNTIME_STATE =
           ["secp256k1", "npm:3.8.1"],\
           ["bindings", "npm:1.5.0"],\
           ["bip66", "npm:1.1.5"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["drbg.js", "npm:1.0.1"],\
           ["elliptic", "npm:6.6.1"],\
@@ -29182,7 +29182,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["web3-utils", "npm:1.10.4"],\
           ["@ethereumjs/util", "npm:8.1.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["ethereum-bloom-filters", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:2.2.1"],\
           ["ethjs-unit", "npm:0.1.6"],\
