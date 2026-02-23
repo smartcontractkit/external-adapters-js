@@ -5,7 +5,8 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
-import { BaseEndpointTypes, inputParameters, Smoother } from '../endpoint/ondo'
+import { Smoother } from '../endpoint/common'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/ondo'
 import { calculatePrice } from './ondoPrice'
 
 const logger = makeLogger('OndoTransport')

@@ -1,8 +1,10 @@
 import { BaseEndpointTypes as DataEngineResponse } from '@chainlink/data-engine-adapter/src/endpoint/deutscheBoerseV11'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 export const inputExample = {
+  asset: '0x0',
   regularStreamId: '0x0',
   extendedStreamId: '0x0',
   overnightStreamId: '0x0',
@@ -16,6 +18,12 @@ export const inputExample = {
 
 export const inputDefinition = new InputParameters(
   {
+    asset: {
+      required: true,
+      type: 'string',
+      description:
+        'Unique identifier of the underlying asset. Used to maintain smoother internal state.',
+    },
     regularStreamId: {
       required: true,
       type: 'string',
@@ -69,6 +77,8 @@ export const inputDefinition = new InputParameters(
   },
   [inputExample],
 )
+
+export type Smoother = TypeFromDefinition<typeof inputDefinition.definition>['smoother']
 
 export const validateSession = (sessionBoundaries: string[], sessionBoundariesTimeZone: string) => {
   sessionBoundaries.forEach((s) => {
