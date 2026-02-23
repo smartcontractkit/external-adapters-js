@@ -27,57 +27,54 @@ export function getTransitiveReverseDependencies(packageNames: string[], repo: R
   return [...visited].sort()
 }
 
-function addChangedPackageReverseDeps(
-  packages: string[],
-  changedPackagesRecursive: string[],
-  repo: Repo,
-): string[] {
-  const kept = new Set(packages)
-  const onlyChanged = intersect(packages, changedPackagesRecursive)
-  const reverse = getTransitiveReverseDependencies(onlyChanged, repo)
-  for (const p of reverse) kept.add(p)
-  return [...kept].sort()
-}
-
-function addPackageDeps(packages: string[], repo: Repo): string[] {
-  const result = new Set<string>(packages)
-  for (const pkg of packages) {
-    const deps = repo.getDependencies(pkg)
-    for (const dep of deps) result.add(dep)
-  }
-  return [...result].sort()
-}
-
-function addChangesetDeps(packages: string[], repo: Repo): string[] {
-  const result = new Set<string>(packages)
-  for (const pkg of packages) {
-    const files = repo.getChangesetFilesMentioningPackage(pkg)
-    const fromFiles = repo.getPackagesFromChangesetFiles(files)
-    for (const p of fromFiles) result.add(p)
-  }
-  return [...result].sort()
-}
-
-function addDeps(packages: string[], changedPackagesRecursive: string[], repo: Repo): string[] {
-  let result = addChangesetDeps(packages, repo)
-  result = addPackageDeps(result, repo)
-  result = addChangedPackageReverseDeps(result, changedPackagesRecursive, repo)
-  return result
-}
-
-/** Transitive closure of changeset deps + package deps + changed reverse deps */
+/**
+ * Transitive closure via BFS: for each package in the queue, add
+ * 1. packages sharing the same changeset file
+ * 2. dependencies
+ * 3. reverse dependencies if the package has changes according to a changeset file
+ */
 export function addTransitiveDeps(
   packages: string[],
   changedPackagesRecursive: string[],
   repo: Repo,
 ): string[] {
-  let current = [...packages]
-  let next = addDeps(current, changedPackagesRecursive, repo)
-  while (next.length !== current.length || next.some((p, i) => p !== current[i])) {
-    current = next
-    next = addDeps(current, changedPackagesRecursive, repo)
+  const included = new Set<string>(packages)
+  const queue = [...packages]
+  const changedSet = new Set(changedPackagesRecursive)
+  let i = 0
+  while (i < queue.length) {
+    const pkg = queue[i]
+    i += 1
+
+    // Rule 1: packages in the same changeset file(s) as this package
+    const files = repo.getChangesetFilesMentioningPackage(pkg)
+    const coMembers = repo.getPackagesFromChangesetFiles(files)
+    for (const p of coMembers) {
+      if (!included.has(p)) {
+        included.add(p)
+        queue.push(p)
+      }
+    }
+
+    // Rule 2: forward dependencies of this package
+    for (const p of repo.getDependencies(pkg)) {
+      if (!included.has(p)) {
+        included.add(p)
+        queue.push(p)
+      }
+    }
+
+    // Rule 3: packages that depend on this one (only if this package is in the changed set)
+    if (changedSet.has(pkg)) {
+      for (const p of repo.getPackagesThatDependOn(pkg)) {
+        if (!included.has(p)) {
+          included.add(p)
+          queue.push(p)
+        }
+      }
+    }
   }
-  return current
+  return [...included].sort()
 }
 
 /** Parse CLI-style adapter list (comma and/or space separated) into adapter names */
