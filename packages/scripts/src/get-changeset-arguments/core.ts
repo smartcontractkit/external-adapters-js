@@ -87,16 +87,14 @@ export function parseAdapterNames(args: string[]): string[] {
  * Throws if any name is not an adapter in the repo.
  */
 export function resolveAdapterPackages(adapterNames: string[], repo: Repo): string[] {
-  const result: string[] = []
-  for (const name of adapterNames) {
+  return adapterNames.map((name) => {
     const packageName = `@chainlink/${name}-adapter`
     if (repo.packageExists(packageName)) {
-      result.push(packageName)
+      return packageName
     } else {
       throw new Error(`'${name}' is not an adapter name.`)
     }
-  }
-  return result
+  })
 }
 
 export interface ComputeResult {
