@@ -1,44 +1,40 @@
 import type { Repo } from './repo'
 
-/** Intersection of two lists (order of list1 preserved, then sorted) */
 export function intersect(list1: string[], list2: string[]): string[] {
-  const set2 = new Set(list2)
-  return [...list1.filter((p) => set2.has(p))].sort()
+  return Array.from(new Set(list1).intersection(new Set(list2)))
 }
 
-/** Transitive reverse dependencies using the repo (fixpoint of getPackagesThatDependOn) */
-export function getReverseDependencies(packageNames: string[], repo: Repo): string[] {
+export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
   if (packageNames.length === 0) return []
   for (const pkg of packageNames) {
     if (!repo.packageExists(pkg)) {
       throw new Error(`'${pkg}' is not a package in this repository.`)
     }
   }
-  let packages = [...packageNames]
-  let next = new Set(packages)
-  for (const pkg of packages) {
-    for (const r of repo.getPackagesThatDependOn(pkg)) next.add(r)
-  }
-  let nextArr = [...next].sort()
-  while (nextArr.length !== packages.length || nextArr.some((p, i) => p !== packages[i])) {
-    packages = nextArr
-    next = new Set(packages)
-    for (const pkg of packages) {
-      for (const r of repo.getPackagesThatDependOn(pkg)) next.add(r)
+  const visited = new Set<string>(packageNames)
+  const queue = [...packageNames]
+  let i = 0
+  while (i < queue.length) {
+    const pkg = queue[i]
+    i += 1
+    for (const r of repo.getPackagesThatDependOn(pkg)) {
+      if (!visited.has(r)) {
+        visited.add(r)
+        queue.push(r)
+      }
     }
-    nextArr = [...next].sort()
   }
-  return nextArr
+  return [...visited].sort()
 }
 
-function addChangedReversePackageDeps(
+function addChangedPackageReverseDeps(
   packages: string[],
   changedPackagesRecursive: string[],
   repo: Repo,
 ): string[] {
   const kept = new Set(packages)
   const onlyChanged = intersect(packages, changedPackagesRecursive)
-  const reverse = getReverseDependencies(onlyChanged, repo)
+  const reverse = getTransitiveReverseDependencies(onlyChanged, repo)
   for (const p of reverse) kept.add(p)
   return [...kept].sort()
 }
@@ -65,7 +61,7 @@ function addChangesetDeps(packages: string[], repo: Repo): string[] {
 function addDeps(packages: string[], changedPackagesRecursive: string[], repo: Repo): string[] {
   let result = addChangesetDeps(packages, repo)
   result = addPackageDeps(result, repo)
-  result = addChangedReversePackageDeps(result, changedPackagesRecursive, repo)
+  result = addChangedPackageReverseDeps(result, changedPackagesRecursive, repo)
   return result
 }
 
@@ -117,7 +113,7 @@ export interface ComputeResult {
  * `yarn changeset version`. Uses only the Repo; no real I/O.
  */
 export function computeChangesetIgnoreArgs(adapterPackages: string[], repo: Repo): ComputeResult {
-  const changedPackagesRecursive = getReverseDependencies(
+  const changedPackagesRecursive = getTransitiveReverseDependencies(
     repo.getPackagesFromChangesetFiles(),
     repo,
   )

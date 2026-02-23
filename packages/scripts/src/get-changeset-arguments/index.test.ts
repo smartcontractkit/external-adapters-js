@@ -1,7 +1,7 @@
 import {
   addTransitiveDeps,
   computeChangesetIgnoreArgs,
-  getReverseDependencies,
+  getTransitiveReverseDependencies,
   intersect,
   parseAdapterNames,
   resolveAdapterPackages,
@@ -117,20 +117,20 @@ describe('get-changeset-arguments core', () => {
     })
   })
 
-  describe('getReverseDependencies', () => {
+  describe('getTransitiveReverseDependencies', () => {
     it('returns empty for empty input', () => {
       const repo = createMockRepo({
         dependencies: {},
         changesets: [],
       })
-      expect(getReverseDependencies([], repo)).toEqual([])
+      expect(getTransitiveReverseDependencies([], repo)).toEqual([])
     })
     it('returns input when no reverse deps', () => {
       const repo = createMockRepo({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: [],
       })
-      expect(getReverseDependencies(['@chainlink/gold-adapter'], repo)).toEqual([
+      expect(getTransitiveReverseDependencies(['@chainlink/gold-adapter'], repo)).toEqual([
         '@chainlink/gold-adapter',
       ])
     })
@@ -142,7 +142,7 @@ describe('get-changeset-arguments core', () => {
         },
         changesets: [],
       })
-      expect(getReverseDependencies(['@chainlink/core'], repo)).toEqual([
+      expect(getTransitiveReverseDependencies(['@chainlink/core'], repo)).toEqual([
         '@chainlink/composite',
         '@chainlink/core',
         '@chainlink/leaf',
@@ -153,9 +153,9 @@ describe('get-changeset-arguments core', () => {
         dependencies: { '@chainlink/a-adapter': [] },
         changesets: [],
       })
-      expect(() => getReverseDependencies(['@chainlink/nonexistent-adapter'], repo)).toThrow(
-        "'@chainlink/nonexistent-adapter' is not a package in this repository.",
-      )
+      expect(() =>
+        getTransitiveReverseDependencies(['@chainlink/nonexistent-adapter'], repo),
+      ).toThrow("'@chainlink/nonexistent-adapter' is not a package in this repository.")
     })
   })
 
@@ -194,7 +194,7 @@ describe('get-changeset-arguments core', () => {
         },
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
-      const changed = getReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
+      const changed = getTransitiveReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
       expect(addTransitiveDeps(['@chainlink/gold-adapter'], changed, repo)).toEqual([
         '@chainlink/ea-bootstrap',
         '@chainlink/gold-adapter',
@@ -212,7 +212,7 @@ describe('get-changeset-arguments core', () => {
           },
         ],
       })
-      const changed = getReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
+      const changed = getTransitiveReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
       expect(addTransitiveDeps(['@chainlink/a-adapter'], changed, repo)).toEqual([
         '@chainlink/a-adapter',
         '@chainlink/b-adapter',
