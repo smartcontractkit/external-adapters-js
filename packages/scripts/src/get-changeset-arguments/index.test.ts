@@ -6,6 +6,7 @@ import {
   parseAdapterNames,
   resolveAdapterPackages,
 } from './core'
+import { run } from './index'
 import type { RepoAdapter } from './repoAdapter'
 
 /**
@@ -261,6 +262,76 @@ describe('get-changeset-arguments core', () => {
       const result = computeChangesetIgnoreArgs(['@chainlink/standalone-adapter'], adapter)
       expect(result.packagesToInclude).toEqual(['@chainlink/standalone-adapter'])
       expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
+    })
+  })
+
+  describe('run', () => {
+    const originalArgv = process.argv
+    let exitSpy: jest.SpyInstance
+    let consoleErrorSpy: jest.SpyInstance
+    let consoleLogSpy: jest.SpyInstance
+
+    beforeEach(() => {
+      exitSpy = jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+        throw new Error(`process.exit(${code})`)
+      }) as never)
+      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+      consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      process.argv = originalArgv
+      exitSpy.mockRestore()
+      consoleErrorSpy.mockRestore()
+      consoleLogSpy.mockRestore()
+    })
+
+    it('prints usage to stderr and exits 0 when no args', () => {
+      process.argv = ['node', 'script']
+      const adapter = createMockAdapter({ dependencies: {}, changesets: [] })
+
+      expect(() => run(adapter)).toThrow('process.exit(0)')
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Usage: yarn get-changeset-arguments <possible empty list of adapters to release>',
+      )
+      expect(exitSpy).toHaveBeenCalledWith(0)
+      expect(consoleLogSpy).not.toHaveBeenCalled()
+    })
+
+    it('prints --ignore args to stdout and exits successfully when given valid adapter', () => {
+      process.argv = ['node', 'script', 'gold']
+      const adapter = createMockAdapter({
+        dependencies: {
+          '@chainlink/gold-adapter': [],
+          '@chainlink/other-adapter': [],
+        },
+        changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
+      })
+
+      run(adapter)
+
+      expect(exitSpy).not.toHaveBeenCalled()
+      expect(consoleLogSpy).toHaveBeenCalledTimes(1)
+      expect(consoleLogSpy.mock.calls[0][0]).toBe('--ignore @chainlink/other-adapter')
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Not ignoring the following transitive dependencies:',
+      )
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Expecting the following packages to be released:',
+      )
+    })
+
+    it('prints error to stderr and exits 1 when adapter name is invalid', () => {
+      process.argv = ['node', 'script', 'nonexistent']
+      const adapter = createMockAdapter({
+        dependencies: { '@chainlink/gold-adapter': [] },
+        changesets: [],
+      })
+
+      expect(() => run(adapter)).toThrow('process.exit(1)')
+      expect(consoleErrorSpy).toHaveBeenCalledWith("'nonexistent' is not an adapter name.")
+      expect(exitSpy).toHaveBeenCalledWith(1)
+      expect(consoleLogSpy).not.toHaveBeenCalled()
     })
   })
 })

@@ -12,7 +12,7 @@ import { createDefaultRepoAdapter } from './defaultRepoAdapter'
  * the packages in that changeset. And it is not allowed to ignore a package
  * that is a dependency of a package that is not ignored.
  */
-function run(adapter = createDefaultRepoAdapter()): void {
+export function run(adapter = createDefaultRepoAdapter()): void {
   const args = process.argv.slice(2)
   if (args.length === 0) {
     console.error(
@@ -49,4 +49,6 @@ function run(adapter = createDefaultRepoAdapter()): void {
   }
 }
 
-run()
+if (typeof require !== 'undefined' && require.main === module) {
+  run()
+}
