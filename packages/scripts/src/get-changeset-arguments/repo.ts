@@ -2,7 +2,7 @@
  * Abstraction over repo structure and I/O. Implementations can use real git/fs/yarn
  * or provide mock data for tests so tests are independent of repo layout.
  */
-export interface RepoAdapter {
+export interface Repo {
   /** Whether a package with this name exists in the repo */
   packageExists(packageName: string): boolean
 

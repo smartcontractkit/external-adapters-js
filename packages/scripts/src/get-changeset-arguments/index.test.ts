@@ -7,7 +7,7 @@ import {
   resolveAdapterPackages,
 } from './core'
 import { run } from './index'
-import type { RepoAdapter } from './repoAdapter'
+import type { Repo } from './repo'
 
 /**
  * Single source of truth for a mock repo. All adapter answers are derived from this:
@@ -22,7 +22,7 @@ export interface MockRepoStructure {
   changesets: Array<{ file: string; packages: string[] }>
 }
 
-function createMockAdapter(structure: MockRepoStructure): RepoAdapter {
+function createMockRepo(structure: MockRepoStructure): Repo {
   const { dependencies, changesets } = structure
   const packageSet = new Set<string>()
   for (const pkg of Object.keys(dependencies)) packageSet.add(pkg)
@@ -119,41 +119,41 @@ describe('get-changeset-arguments core', () => {
 
   describe('getReverseDependencies', () => {
     it('returns empty for empty input', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {},
         changesets: [],
       })
-      expect(getReverseDependencies([], adapter)).toEqual([])
+      expect(getReverseDependencies([], repo)).toEqual([])
     })
     it('returns input when no reverse deps', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: [],
       })
-      expect(getReverseDependencies(['@chainlink/gold-adapter'], adapter)).toEqual([
+      expect(getReverseDependencies(['@chainlink/gold-adapter'], repo)).toEqual([
         '@chainlink/gold-adapter',
       ])
     })
     it('includes transitive reverse deps (composite depends on core, leaf depends on composite)', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/composite': ['@chainlink/core'],
           '@chainlink/leaf': ['@chainlink/composite'],
         },
         changesets: [],
       })
-      expect(getReverseDependencies(['@chainlink/core'], adapter)).toEqual([
+      expect(getReverseDependencies(['@chainlink/core'], repo)).toEqual([
         '@chainlink/composite',
         '@chainlink/core',
         '@chainlink/leaf',
       ])
     })
     it('throws when package does not exist', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: { '@chainlink/a-adapter': [] },
         changesets: [],
       })
-      expect(() => getReverseDependencies(['@chainlink/nonexistent-adapter'], adapter)).toThrow(
+      expect(() => getReverseDependencies(['@chainlink/nonexistent-adapter'], repo)).toThrow(
         "'@chainlink/nonexistent-adapter' is not a package in this repository.",
       )
     })
@@ -161,24 +161,24 @@ describe('get-changeset-arguments core', () => {
 
   describe('resolveAdapterPackages', () => {
     it('resolves valid adapter names to package names', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/gold-adapter': [],
           '@chainlink/coingecko-adapter': [],
         },
         changesets: [],
       })
-      expect(resolveAdapterPackages(['gold', 'coingecko'], adapter)).toEqual([
+      expect(resolveAdapterPackages(['gold', 'coingecko'], repo)).toEqual([
         '@chainlink/gold-adapter',
         '@chainlink/coingecko-adapter',
       ])
     })
     it('throws when adapter does not exist', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: [],
       })
-      expect(() => resolveAdapterPackages(['nonexistent'], adapter)).toThrow(
+      expect(() => resolveAdapterPackages(['nonexistent'], repo)).toThrow(
         "'nonexistent' is not an adapter name.",
       )
     })
@@ -186,7 +186,7 @@ describe('get-changeset-arguments core', () => {
 
   describe('addTransitiveDeps', () => {
     it('includes direct dependencies (gold depends on ea-bootstrap; changeset mentions gold)', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/gold-adapter': ['@chainlink/ea-bootstrap'],
           '@chainlink/ea-bootstrap': [],
@@ -194,14 +194,14 @@ describe('get-changeset-arguments core', () => {
         },
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
-      const changed = getReverseDependencies(adapter.getPackagesFromChangesetFiles(), adapter)
-      expect(addTransitiveDeps(['@chainlink/gold-adapter'], changed, adapter)).toEqual([
+      const changed = getReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
+      expect(addTransitiveDeps(['@chainlink/gold-adapter'], changed, repo)).toEqual([
         '@chainlink/ea-bootstrap',
         '@chainlink/gold-adapter',
       ])
     })
     it('includes packages that share a changeset (a and b in same file)', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/c-adapter': [],
         },
@@ -212,8 +212,8 @@ describe('get-changeset-arguments core', () => {
           },
         ],
       })
-      const changed = getReverseDependencies(adapter.getPackagesFromChangesetFiles(), adapter)
-      expect(addTransitiveDeps(['@chainlink/a-adapter'], changed, adapter)).toEqual([
+      const changed = getReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
+      expect(addTransitiveDeps(['@chainlink/a-adapter'], changed, repo)).toEqual([
         '@chainlink/a-adapter',
         '@chainlink/b-adapter',
       ])
@@ -222,21 +222,21 @@ describe('get-changeset-arguments core', () => {
 
   describe('computeChangesetIgnoreArgs', () => {
     it('returns packages to include and ignore from workspace', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/gold-adapter': [],
           '@chainlink/other-adapter': [],
         },
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], adapter)
+      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], repo)
       expect(result.packagesToInclude).toContain('@chainlink/gold-adapter')
       expect(result.packagesToIgnore).toContain('@chainlink/other-adapter')
       expect(result.packagesToIgnore).not.toContain('@chainlink/gold-adapter')
       expect(result.changedPackagesRecursive).toEqual(['@chainlink/gold-adapter'])
     })
     it('includes transitive deps in packagesToInclude', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/gold-adapter': ['@chainlink/ea-bootstrap'],
           '@chainlink/ea-bootstrap': [],
@@ -244,7 +244,7 @@ describe('get-changeset-arguments core', () => {
         },
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], adapter)
+      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], repo)
       expect(result.packagesToInclude).toEqual([
         '@chainlink/ea-bootstrap',
         '@chainlink/gold-adapter',
@@ -252,14 +252,14 @@ describe('get-changeset-arguments core', () => {
       expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
     })
     it('includes only the adapter when it has no deps and no shared changesets', () => {
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/standalone-adapter': [],
           '@chainlink/other': [],
         },
         changesets: [],
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/standalone-adapter'], adapter)
+      const result = computeChangesetIgnoreArgs(['@chainlink/standalone-adapter'], repo)
       expect(result.packagesToInclude).toEqual(['@chainlink/standalone-adapter'])
       expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
     })
@@ -288,9 +288,9 @@ describe('get-changeset-arguments core', () => {
 
     it('prints usage to stderr and exits 0 when no args', () => {
       process.argv = ['node', 'script']
-      const adapter = createMockAdapter({ dependencies: {}, changesets: [] })
+      const repo = createMockRepo({ dependencies: {}, changesets: [] })
 
-      expect(() => run(adapter)).toThrow('process.exit(0)')
+      expect(() => run(repo)).toThrow('process.exit(0)')
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         'Usage: yarn get-changeset-arguments <possible empty list of adapters to release>',
       )
@@ -300,7 +300,7 @@ describe('get-changeset-arguments core', () => {
 
     it('prints --ignore args to stdout and exits successfully when given valid adapter', () => {
       process.argv = ['node', 'script', 'gold']
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: {
           '@chainlink/gold-adapter': [],
           '@chainlink/other-adapter': [],
@@ -308,7 +308,7 @@ describe('get-changeset-arguments core', () => {
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
 
-      run(adapter)
+      run(repo)
 
       expect(exitSpy).not.toHaveBeenCalled()
       expect(consoleLogSpy).toHaveBeenCalledTimes(1)
@@ -323,12 +323,12 @@ describe('get-changeset-arguments core', () => {
 
     it('prints error to stderr and exits 1 when adapter name is invalid', () => {
       process.argv = ['node', 'script', 'nonexistent']
-      const adapter = createMockAdapter({
+      const repo = createMockRepo({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: [],
       })
 
-      expect(() => run(adapter)).toThrow('process.exit(1)')
+      expect(() => run(repo)).toThrow('process.exit(1)')
       expect(consoleErrorSpy).toHaveBeenCalledWith("'nonexistent' is not an adapter name.")
       expect(exitSpy).toHaveBeenCalledWith(1)
       expect(consoleLogSpy).not.toHaveBeenCalled()

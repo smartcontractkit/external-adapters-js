@@ -1,5 +1,5 @@
 import { computeChangesetIgnoreArgs, parseAdapterNames, resolveAdapterPackages } from './core'
-import { createDefaultRepoAdapter } from './defaultRepoAdapter'
+import { createDefaultRepo } from './defaultRepo'
 
 /**
  * This script takes a list of adapter names to release and outputs the
@@ -12,7 +12,7 @@ import { createDefaultRepoAdapter } from './defaultRepoAdapter'
  * the packages in that changeset. And it is not allowed to ignore a package
  * that is a dependency of a package that is not ignored.
  */
-export function run(adapter = createDefaultRepoAdapter()): void {
+export function run(repo = createDefaultRepo()): void {
   const args = process.argv.slice(2)
   if (args.length === 0) {
     console.error(
@@ -23,8 +23,8 @@ export function run(adapter = createDefaultRepoAdapter()): void {
 
   const adapterNames = parseAdapterNames(args)
   try {
-    const adapterPackages = resolveAdapterPackages(adapterNames, adapter)
-    const result = computeChangesetIgnoreArgs(adapterPackages, adapter)
+    const adapterPackages = resolveAdapterPackages(adapterNames, repo)
+    const result = computeChangesetIgnoreArgs(adapterPackages, repo)
     const { packagesToInclude, packagesToIgnore, changedPackagesRecursive } = result
 
     if (packagesToInclude.length === 0) {

@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
-import type { RepoAdapter } from './repoAdapter'
+import type { Repo } from './repo'
 
 const PACKAGES_DIR = 'packages'
 const CHANGESET_DIR = '.changeset'
@@ -42,7 +42,7 @@ function parsePackagesFromChangesetContent(content: string): string[] {
   return [...packages]
 }
 
-export function createDefaultRepoAdapter(): RepoAdapter {
+export function createDefaultRepo(): Repo {
   return {
     packageExists(packageName: string): boolean {
       return getPackageJsonPath(packageName) !== null
