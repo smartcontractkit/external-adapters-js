@@ -28,16 +28,20 @@ export function getTransitiveReverseDependencies(packageNames: string[], repo: R
 }
 
 /**
- * Transitive closure via BFS: for each package in the queue, add
+ * Transitive closure via BFS: for each package in packages, transitively add
  * 1. packages sharing the same changeset file
  * 2. dependencies
  * 3. reverse dependencies if the package has changes according to a changeset file
  */
-export function addTransitiveDeps(
-  packages: string[],
-  changedPackagesRecursive: string[],
-  repo: Repo,
-): string[] {
+export function addTransitiveDeps({
+  packages,
+  changedPackagesRecursive,
+  repo,
+}: {
+  packages: string[]
+  changedPackagesRecursive: string[]
+  repo: Repo
+}): string[] {
   const included = new Set<string>(packages)
   const queue = [...packages]
   const changedSet = new Set(changedPackagesRecursive)
@@ -112,7 +116,11 @@ export function computeChangesetIgnoreArgs(adapterPackages: string[], repo: Repo
     repo.getPackagesFromChangesetFiles(),
     repo,
   )
-  const packagesToInclude = addTransitiveDeps(adapterPackages, changedPackagesRecursive, repo)
+  const packagesToInclude = addTransitiveDeps({
+    packages: adapterPackages,
+    changedPackagesRecursive,
+    repo,
+  })
   const allPackages = repo.getAllWorkspacePackageNames()
   const includeSet = new Set(packagesToInclude)
   const packagesToIgnore = allPackages.filter((p) => !includeSet.has(p))

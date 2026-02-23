@@ -195,10 +195,13 @@ describe('get-changeset-arguments core', () => {
         changesets: [{ file: 'gold.md', packages: ['@chainlink/gold-adapter'] }],
       })
       const changed = getTransitiveReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
-      expect(addTransitiveDeps(['@chainlink/gold-adapter'], changed, repo)).toEqual([
-        '@chainlink/ea-bootstrap',
-        '@chainlink/gold-adapter',
-      ])
+      expect(
+        addTransitiveDeps({
+          packages: ['@chainlink/gold-adapter'],
+          changedPackagesRecursive: changed,
+          repo,
+        }),
+      ).toEqual(['@chainlink/ea-bootstrap', '@chainlink/gold-adapter'])
     })
     it('includes packages that share a changeset (a and b in same file)', () => {
       const repo = createMockRepo({
@@ -213,10 +216,13 @@ describe('get-changeset-arguments core', () => {
         ],
       })
       const changed = getTransitiveReverseDependencies(repo.getPackagesFromChangesetFiles(), repo)
-      expect(addTransitiveDeps(['@chainlink/a-adapter'], changed, repo)).toEqual([
-        '@chainlink/a-adapter',
-        '@chainlink/b-adapter',
-      ])
+      expect(
+        addTransitiveDeps({
+          packages: ['@chainlink/a-adapter'],
+          changedPackagesRecursive: changed,
+          repo,
+        }),
+      ).toEqual(['@chainlink/a-adapter', '@chainlink/b-adapter'])
     })
   })
 
