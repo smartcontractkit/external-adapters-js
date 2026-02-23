@@ -81,15 +81,10 @@ export function addTransitiveDeps({
   return [...included].sort()
 }
 
-/** Parse CLI-style adapter list (comma and/or space separated) into adapter names */
 export function parseAdapterNames(args: string[]): string[] {
   return args.join(' ').replace(/,/g, ' ').split(/\s+/).filter(Boolean)
 }
 
-/**
- * Resolve adapter names to full package names and validate they exist.
- * Throws if any name is not an adapter in the repo.
- */
 export function resolveAdapterPackages(adapterNames: string[], repo: Repo): string[] {
   return adapterNames.map((name) => {
     const packageName = `@chainlink/${name}-adapter`

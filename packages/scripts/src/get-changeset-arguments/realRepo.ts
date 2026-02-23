@@ -42,7 +42,7 @@ function parsePackagesFromChangesetContent(content: string): string[] {
   return [...packages]
 }
 
-export function createDefaultRepo(): Repo {
+export function createRealRepo(): Repo {
   return {
     packageExists(packageName: string): boolean {
       return getPackageJsonPath(packageName) !== null

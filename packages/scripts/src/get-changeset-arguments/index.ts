@@ -4,7 +4,7 @@ import {
   parseAdapterNames,
   resolveAdapterPackages,
 } from './core'
-import { createDefaultRepo } from './defaultRepo'
+import { createRealRepo } from './realRepo'
 
 /**
  * This script takes a list of adapter names to release and outputs the
@@ -17,7 +17,7 @@ import { createDefaultRepo } from './defaultRepo'
  * the packages in that changeset. And it is not allowed to ignore a package
  * that is a dependency of a package that is not ignored.
  */
-export function run(repo = createDefaultRepo()): void {
+export function run(repo = createRealRepo()): void {
   const args = process.argv.slice(2)
   if (args.length === 0) {
     console.error(
