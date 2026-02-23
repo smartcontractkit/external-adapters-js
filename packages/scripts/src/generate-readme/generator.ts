@@ -266,7 +266,10 @@ export class ReadmeGenerator {
       ? buildTable(tableText, paramHeaders)
       : 'There are no environment variables for this adapter.'
 
-    this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n---\n\n`
+    const frameworkSettingsLink =
+      'There are also several [common EA environment variables](https://github.com/smartcontractkit/ea-framework-js/blob/main/docs/reference-tables/ea-settings.md) that apply to all V3 adapters.'
+
+    this.readmeText += `## Environment Variables\n\n${envVarTable}\n\n${frameworkSettingsLink}\n\n---\n\n`
   }
 
   addRateLimitSection(): void {
