@@ -27,6 +27,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/crypto-volatility-index"\
     },\
     {\
+      "name": "@chainlink/dinari-index-nav-adapter",\
+      "reference": "workspace:packages/composites/dinari-index-nav"\
+    },\
+    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -820,6 +824,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
+    ["@chainlink/dinari-index-nav-adapter", ["workspace:packages/composites/dinari-index-nav"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dlc-cbtc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
@@ -5643,6 +5648,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/dinari-index-nav-adapter", [\
+      ["workspace:packages/composites/dinari-index-nav", {\
+        "packageLocation": "./packages/composites/dinari-index-nav/",\
+        "packageDependencies": [\
+          ["@chainlink/dinari-index-nav-adapter", "workspace:packages/composites/dinari-index-nav"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.5.0"],\
+          ["ethers", "npm:5.8.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/dlc-btc-por-adapter", [\
       ["workspace:packages/sources/dlc-btc-por", {\
         "packageLocation": "./packages/sources/dlc-btc-por/",\
@@ -6153,7 +6175,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
