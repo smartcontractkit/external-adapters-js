@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.8.0",
+    "@chainlink/external-adapter-framework": "2.11.6",
     "@polkadot/api": "9.14.2",
     "@polkadot/types": "^9.14.2",
     "@polkadot/types-codec": "^9.14.2",
