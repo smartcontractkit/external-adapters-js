@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute round endpoint happy path should return success for default endpoint (no endpoint specified) 1`] = `
+{
+  "data": {
+    "result": "1000000000000000000",
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint happy path should return success for round endpoint 1`] = `
+{
+  "data": {
+    "result": "1000000000000000000",
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute round endpoint upstream failures should handle RPC endpoint failure with 502 1`] = `
+{
+  "errorMessage": "server response 500  (request={  }, response={  }, error=null, info={ "requestUrl": "[ETHEREUM_RPC_URL REDACTED]", "responseBody": "{\\"error\\":\\"Internal Server Error\\"}", "responseStatus": "500 " }, code=SERVER_ERROR, version=6.15.0)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute round endpoint upstream failures should handle contract execution revert 1`] = `
+{
+  "errorMessage": "missing revert data (action="call", data=null, reason=null, transaction={ "data": "0x146ca531", "to": "0xE2Fc85BfB48C4cF147921fBE110cf92Ef9f26F94" }, invocation=null, revert=null, code=CALL_EXCEPTION, version=6.15.0)",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
