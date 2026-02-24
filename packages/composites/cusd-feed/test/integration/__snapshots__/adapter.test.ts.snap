@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint different AUM scenarios should calculate correct ratio for exactly 1:1 collateralization (ratio = 1.0) 1`] = `
+{
+  "data": {
+    "aum": "10000000000000000000000000",
+    "ratio": "1",
+    "result": "1000000000000000000",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint different AUM scenarios should calculate correct ratio for highly collateralized position (ratio = 1.5) 1`] = `
+{
+  "data": {
+    "aum": "15000000000000000000000000",
+    "ratio": "1.5",
+    "result": "1500000000000000000",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "1500000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint different AUM scenarios should calculate correct ratio for undercollateralized position (ratio < 1) 1`] = `
+{
+  "data": {
+    "aum": "9000000000000000000000000",
+    "ratio": "0.9",
+    "result": "900000000000000000",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "900000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint different AUM scenarios should handle zero AUM (ratio = 0) 1`] = `
+{
+  "data": {
+    "aum": "0",
+    "ratio": "0",
+    "result": "0",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "0",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint happy path should return success for default endpoint 1`] = `
+{
+  "data": {
+    "aum": "10500000000000000000000000",
+    "ratio": "1.05",
+    "result": "1050000000000000000",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "1050000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint happy path should return success with correct ratio (1.05) 1`] = `
+{
+  "data": {
+    "aum": "10500000000000000000000000",
+    "ratio": "1.05",
+    "result": "1050000000000000000",
+    "totalSupply": "10000000000000000000000000",
+  },
+  "result": "1050000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute price endpoint upstream failures should return 502 when proof-of-reserves adapter returns 400 1`] = `
+{
+  "errorMessage": "Failed to fetch AUM from proof-of-reserves EA: Request failed with status code 400",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute price endpoint upstream failures should return 502 when proof-of-reserves adapter returns 500 1`] = `
+{
+  "errorMessage": "Failed to fetch AUM from proof-of-reserves EA: Request failed with status code 500",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute price endpoint upstream failures should return 502 when proof-of-reserves adapter times out 1`] = `
+{
+  "errorMessage": "Failed to fetch AUM from proof-of-reserves EA: Connection timed out",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute price endpoint upstream failures should return 502 when totalSupply is zero (cannot calculate ratio) 1`] = `
+{
+  "errorMessage": "Total supply is zero, cannot calculate ratio",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute price endpoint validation should handle unknown endpoint gracefully 1`] = `
+{
+  "error": {
+    "message": "Adapter does not have a "unknown" endpoint.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 404,
+}
+`;

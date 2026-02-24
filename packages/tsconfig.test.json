@@ -12,6 +12,9 @@
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {
+      "path": "./composites/cusd-feed/tsconfig.test.json"
+    },
+    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
