@@ -1,7 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { ondoTransport } from '../transport/ondoTransport'
 import type { output } from './common'
@@ -14,17 +13,11 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Ondo on-chain registry address',
     },
-    asset: {
-      required: true,
-      type: 'string',
-      description: 'Maps to the asset in ondo’s on-chain registry',
-    },
     ...inputDefinition.definition,
   },
   [
     {
       registry: '0x0',
-      asset: '0x0',
       ...inputExample,
     },
   ],
@@ -43,8 +36,6 @@ export type BaseEndpointTypes = {
   }
   Settings: typeof config.settings
 }
-
-export type Smoother = TypeFromDefinition<BaseEndpointTypes['Parameters']>['smoother']
 
 export const endpoint = new AdapterEndpoint({
   name: 'ondo',
