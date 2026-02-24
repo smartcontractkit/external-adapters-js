@@ -1,0 +1,23 @@
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.server = exports.adapter = void 0
+const external_adapter_framework_1 = require('@chainlink/external-adapter-framework')
+const adapter_1 = require('@chainlink/external-adapter-framework/adapter')
+const config_1 = require('./config')
+const nav_1 = require('./endpoint/nav')
+exports.adapter = new adapter_1.Adapter({
+  defaultEndpoint: nav_1.endpoint.name,
+  name: 'MATRIXDOCK',
+  config: config_1.config,
+  endpoints: [nav_1.endpoint],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 5,
+      },
+    },
+  },
+})
+const server = () => (0, external_adapter_framework_1.expose)(exports.adapter)
+exports.server = server
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSxzRkFBOEU7QUFDOUUsMkVBQXVFO0FBQ3ZFLHFDQUFpQztBQUNqQyx3Q0FBd0Q7QUFFM0MsUUFBQSxPQUFPLEdBQUcsSUFBSSxpQkFBTyxDQUFDO0lBQ2pDLGVBQWUsRUFBRSxjQUFXLENBQUMsSUFBSTtJQUNqQyxJQUFJLEVBQUUsWUFBWTtJQUNsQixNQUFNLEVBQU4sZUFBTTtJQUNOLFNBQVMsRUFBRSxDQUFDLGNBQVcsQ0FBQztJQUN4QixZQUFZLEVBQUU7UUFDWixLQUFLLEVBQUU7WUFDTCxPQUFPLEVBQUU7Z0JBQ1AsV0FBVyxFQUFFLENBQUM7YUFDZjtTQUNGO0tBQ0Y7Q0FDRixDQUFDLENBQUE7QUFFSyxNQUFNLE1BQU0sR0FBRyxHQUF3QyxFQUFFLENBQUMsSUFBQSxtQ0FBTSxFQUFDLGVBQU8sQ0FBQyxDQUFBO0FBQW5FLFFBQUEsTUFBTSxVQUE2RCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGV4cG9zZSwgU2VydmVySW5zdGFuY2UgfSBmcm9tICdAY2hhaW5saW5rL2V4dGVybmFsLWFkYXB0ZXItZnJhbWV3b3JrJ1xuaW1wb3J0IHsgQWRhcHRlciB9IGZyb20gJ0BjaGFpbmxpbmsvZXh0ZXJuYWwtYWRhcHRlci1mcmFtZXdvcmsvYWRhcHRlcidcbmltcG9ydCB7IGNvbmZpZyB9IGZyb20gJy4vY29uZmlnJ1xuaW1wb3J0IHsgZW5kcG9pbnQgYXMgbmF2RW5kcG9pbnQgfSBmcm9tICcuL2VuZHBvaW50L25hdidcblxuZXhwb3J0IGNvbnN0IGFkYXB0ZXIgPSBuZXcgQWRhcHRlcih7XG4gIGRlZmF1bHRFbmRwb2ludDogbmF2RW5kcG9pbnQubmFtZSxcbiAgbmFtZTogJ01BVFJJWERPQ0snLFxuICBjb25maWcsXG4gIGVuZHBvaW50czogW25hdkVuZHBvaW50XSxcbiAgcmF0ZUxpbWl0aW5nOiB7XG4gICAgdGllcnM6IHtcbiAgICAgIGRlZmF1bHQ6IHtcbiAgICAgICAgcmF0ZUxpbWl0MXM6IDUsXG4gICAgICB9LFxuICAgIH0sXG4gIH0sXG59KVxuXG5leHBvcnQgY29uc3Qgc2VydmVyID0gKCk6IFByb21pc2U8U2VydmVySW5zdGFuY2UgfCB1bmRlZmluZWQ+ID0+IGV4cG9zZShhZGFwdGVyKVxuIl19

@@ -1,0 +1,32 @@
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.endpoint = exports.inputParameters = void 0
+const adapter_1 = require('@chainlink/external-adapter-framework/adapter')
+const validation_1 = require('@chainlink/external-adapter-framework/validation')
+const nav_1 = require('../transport/nav')
+exports.inputParameters = new validation_1.InputParameters(
+  {
+    chainType: {
+      type: 'string',
+      description: 'The chain type (e.g., polygon, sui)',
+      required: true,
+    },
+    tokenName: {
+      type: 'string',
+      description: 'The token name (e.g., rcusdp)',
+      required: true,
+    },
+  },
+  [
+    {
+      chainType: 'polygon',
+      tokenName: 'rcusdp',
+    },
+  ],
+)
+exports.endpoint = new adapter_1.AdapterEndpoint({
+  name: 'nav',
+  transport: nav_1.httpTransport,
+  inputParameters: exports.inputParameters,
+})
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibmF2LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsibmF2LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDJFQUErRTtBQUUvRSxpRkFBa0Y7QUFFbEYsMENBQWdEO0FBRW5DLFFBQUEsZUFBZSxHQUFHLElBQUksNEJBQWUsQ0FDaEQ7SUFDRSxTQUFTLEVBQUU7UUFDVCxJQUFJLEVBQUUsUUFBUTtRQUNkLFdBQVcsRUFBRSxxQ0FBcUM7UUFDbEQsUUFBUSxFQUFFLElBQUk7S0FDZjtJQUNELFNBQVMsRUFBRTtRQUNULElBQUksRUFBRSxRQUFRO1FBQ2QsV0FBVyxFQUFFLCtCQUErQjtRQUM1QyxRQUFRLEVBQUUsSUFBSTtLQUNmO0NBQ0YsRUFDRDtJQUNFO1FBQ0UsU0FBUyxFQUFFLFNBQVM7UUFDcEIsU0FBUyxFQUFFLFFBQVE7S0FDcEI7Q0FDRixDQUNGLENBQUE7QUFjWSxRQUFBLFFBQVEsR0FBRyxJQUFJLHlCQUFlLENBQUM7SUFDMUMsSUFBSSxFQUFFLEtBQUs7SUFDWCxTQUFTLEVBQUUsbUJBQWE7SUFDeEIsZUFBZSxFQUFmLHVCQUFlO0NBQ2hCLENBQUMsQ0FBQSIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEFkYXB0ZXJFbmRwb2ludCB9IGZyb20gJ0BjaGFpbmxpbmsvZXh0ZXJuYWwtYWRhcHRlci1mcmFtZXdvcmsvYWRhcHRlcidcbmltcG9ydCB7IFNpbmdsZU51bWJlclJlc3VsdFJlc3BvbnNlIH0gZnJvbSAnQGNoYWlubGluay9leHRlcm5hbC1hZGFwdGVyLWZyYW1ld29yay91dGlsJ1xuaW1wb3J0IHsgSW5wdXRQYXJhbWV0ZXJzIH0gZnJvbSAnQGNoYWlubGluay9leHRlcm5hbC1hZGFwdGVyLWZyYW1ld29yay92YWxpZGF0aW9uJ1xuaW1wb3J0IHsgY29uZmlnIH0gZnJvbSAnLi4vY29uZmlnJ1xuaW1wb3J0IHsgaHR0cFRyYW5zcG9ydCB9IGZyb20gJy4uL3RyYW5zcG9ydC9uYXYnXG5cbmV4cG9ydCBjb25zdCBpbnB1dFBhcmFtZXRlcnMgPSBuZXcgSW5wdXRQYXJhbWV0ZXJzKFxuICB7XG4gICAgY2hhaW5UeXBlOiB7XG4gICAgICB0eXBlOiAnc3RyaW5nJyxcbiAgICAgIGRlc2NyaXB0aW9uOiAnVGhlIGNoYWluIHR5cGUgKGUuZy4sIHBvbHlnb24sIHN1aSknLFxuICAgICAgcmVxdWlyZWQ6IHRydWUsXG4gICAgfSxcbiAgICB0b2tlbk5hbWU6IHtcbiAgICAgIHR5cGU6ICdzdHJpbmcnLFxuICAgICAgZGVzY3JpcHRpb246ICdUaGUgdG9rZW4gbmFtZSAoZS5nLiwgcmN1c2RwKScsXG4gICAgICByZXF1aXJlZDogdHJ1ZSxcbiAgICB9LFxuICB9LFxuICBbXG4gICAge1xuICAgICAgY2hhaW5UeXBlOiAncG9seWdvbicsXG4gICAgICB0b2tlbk5hbWU6ICdyY3VzZHAnLFxuICAgIH0sXG4gIF0sXG4pXG5cbmV4cG9ydCB0eXBlIEJhc2VFbmRwb2ludFR5cGVzID0ge1xuICBQYXJhbWV0ZXJzOiB0eXBlb2YgaW5wdXRQYXJhbWV0ZXJzLmRlZmluaXRpb25cbiAgUmVzcG9uc2U6IFNpbmdsZU51bWJlclJlc3VsdFJlc3BvbnNlICYge1xuICAgIERhdGE6IHtcbiAgICAgIG5hdlBlclNoYXJlOiBudW1iZXJcbiAgICAgIGF1bTogbnVtYmVyXG4gICAgICBuYXZEYXRlOiBzdHJpbmdcbiAgICB9XG4gIH1cbiAgU2V0dGluZ3M6IHR5cGVvZiBjb25maWcuc2V0dGluZ3Ncbn1cblxuZXhwb3J0IGNvbnN0IGVuZHBvaW50ID0gbmV3IEFkYXB0ZXJFbmRwb2ludCh7XG4gIG5hbWU6ICduYXYnLFxuICB0cmFuc3BvcnQ6IGh0dHBUcmFuc3BvcnQsXG4gIGlucHV0UGFyYW1ldGVycyxcbn0pXG4iXX0=

@@ -48,7 +48,7 @@ export const ENV_KATANA_RPC_ENDPOINT = 'KATANA_RPC_ENDPOINT'
 export const ENV_ARBITRUM_CHAIN_ID = 'ARBITRUM_CHAIN_ID'
 export const ENV_OPTIMISM_CHAIN_ID = 'OPTIMISM_CHAIN_ID'
 export const ENV_BASE_CHAIN_ID = 'BASE_CHAIN_ID'
-export const ENV_LINEA_CHAIN_ID = 'BASE_CHAIN_ID'
+export const ENV_LINEA_CHAIN_ID = 'LINEA_CHAIN_ID'
 export const ENV_METIS_CHAIN_ID = 'METIS_CHAIN_ID'
 export const ENV_SCROLL_CHAIN_ID = 'SCROLL_CHAIN_ID'
 export const ENV_ZKSYNC_CHAIN_ID = 'ZKSYNC_CHAIN_ID'
@@ -202,7 +202,7 @@ export const CHAIN_DELTA: Record<Networks, number> = {
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
 const DEFAULT_SCROLL_HEALTH_ENDPOINT = 'https://venus.scroll.io/v1/sequencer/status'
 
-export type HeathEndpoints = Record<
+export type HealthEndpoints = Record<
   Networks,
   {
     endpoint: string | undefined
@@ -211,7 +211,7 @@ export type HeathEndpoints = Record<
   }
 >
 
-export const HEALTH_ENDPOINTS: HeathEndpoints = {
+export const HEALTH_ENDPOINTS: HealthEndpoints = {
   [Networks.Arbitrum]: {
     endpoint: util.getEnv('ARBITRUM_HEALTH_ENDPOINT'),
     responsePath: [],

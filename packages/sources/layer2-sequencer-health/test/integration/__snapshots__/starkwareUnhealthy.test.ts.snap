@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute - starkware network unhealthy starkware network unhealthy should return unhealthy when gateway times out and transaction fails with unknown error 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute - starkware network unhealthy starkware network unhealthy should return unhealthy when requireTxFailure is true and tx fails with unknown error 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "jobRunID": "1",
+  "result": 1,
+  "statusCode": 200,
+}
+`;

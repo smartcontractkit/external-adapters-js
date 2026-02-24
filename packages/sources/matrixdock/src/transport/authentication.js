@@ -1,0 +1,36 @@
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.getRequestHeaders = void 0
+const tslib_1 = require('tslib')
+const crypto_js_1 = tslib_1.__importDefault(require('crypto-js'))
+/**
+ * Generate the HMAC-SHA256 signature for Matrixdock API requests using AuthenticationV2.
+ *
+ * The prehash string is constructed as:
+ * {timestamp}{method}{api_path}&{query_string}
+ *
+ * Where:
+ * - timestamp: Current UTC timestamp in milliseconds
+ * - method: HTTP method in uppercase (e.g., "GET")
+ * - api_path: Request path (e.g., "/rwa/api/v1/quote/price")
+ * - query_string: Query parameters as a string (e.g., "symbol=XAUM")
+ *
+ * Example prehash:
+ * 1731931956000GET/mapi/v1/wallet/withdrawals&currency=BTC&limit=50
+ */
+const getRequestHeaders = ({ method, path, queryString, apiKey, secret, timestamp }) => {
+  // Construct prehash: timestamp + method + api_path + '&' + query_string
+  const prehash = `${timestamp}${method.toUpperCase()}${path}&${queryString}`
+  // signature = hex(hmac_sha256(prehash, secret_key))
+  const signature = crypto_js_1.default
+    .HmacSHA256(prehash, secret)
+    .toString(crypto_js_1.default.enc.Hex)
+  return {
+    'X-MatrixPort-Access-Key': apiKey,
+    'X-Signature': signature,
+    'X-Timestamp': timestamp.toString(),
+    'X-Auth-Version': 'v2',
+  }
+}
+exports.getRequestHeaders = getRequestHeaders
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXV0aGVudGljYXRpb24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJhdXRoZW50aWNhdGlvbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQUEsa0VBQWdDO0FBV2hDOzs7Ozs7Ozs7Ozs7OztHQWNHO0FBQ0ksTUFBTSxpQkFBaUIsR0FBRyxDQUFDLEVBQ2hDLE1BQU0sRUFDTixJQUFJLEVBQ0osV0FBVyxFQUNYLE1BQU0sRUFDTixNQUFNLEVBQ04sU0FBUyxHQUNlLEVBQTBCLEVBQUU7SUFDcEQsd0VBQXdFO0lBQ3hFLE1BQU0sT0FBTyxHQUFHLEdBQUcsU0FBUyxHQUFHLE1BQU0sQ0FBQyxXQUFXLEVBQUUsR0FBRyxJQUFJLElBQUksV0FBVyxFQUFFLENBQUE7SUFFM0Usb0RBQW9EO0lBQ3BELE1BQU0sU0FBUyxHQUFHLG1CQUFRLENBQUMsVUFBVSxDQUFDLE9BQU8sRUFBRSxNQUFNLENBQUMsQ0FBQyxRQUFRLENBQUMsbUJBQVEsQ0FBQyxHQUFHLENBQUMsR0FBRyxDQUFDLENBQUE7SUFFakYsT0FBTztRQUNMLHlCQUF5QixFQUFFLE1BQU07UUFDakMsYUFBYSxFQUFFLFNBQVM7UUFDeEIsYUFBYSxFQUFFLFNBQVMsQ0FBQyxRQUFRLEVBQUU7UUFDbkMsZ0JBQWdCLEVBQUUsSUFBSTtLQUN2QixDQUFBO0FBQ0gsQ0FBQyxDQUFBO0FBcEJZLFFBQUEsaUJBQWlCLHFCQW9CN0IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgQ3J5cHRvSlMgZnJvbSAnY3J5cHRvLWpzJ1xuXG5leHBvcnQgaW50ZXJmYWNlIEdldFJlcXVlc3RIZWFkZXJzUGFyYW1zIHtcbiAgbWV0aG9kOiBzdHJpbmdcbiAgcGF0aDogc3RyaW5nXG4gIHF1ZXJ5U3RyaW5nOiBzdHJpbmdcbiAgYXBpS2V5OiBzdHJpbmdcbiAgc2VjcmV0OiBzdHJpbmdcbiAgdGltZXN0YW1wOiBudW1iZXJcbn1cblxuLyoqXG4gKiBHZW5lcmF0ZSB0aGUgSE1BQy1TSEEyNTYgc2lnbmF0dXJlIGZvciBNYXRyaXhkb2NrIEFQSSByZXF1ZXN0cyB1c2luZyBBdXRoZW50aWNhdGlvblYyLlxuICpcbiAqIFRoZSBwcmVoYXNoIHN0cmluZyBpcyBjb25zdHJ1Y3RlZCBhczpcbiAqIHt0aW1lc3RhbXB9e21ldGhvZH17YXBpX3BhdGh9JntxdWVyeV9zdHJpbmd9XG4gKlxuICogV2hlcmU6XG4gKiAtIHRpbWVzdGFtcDogQ3VycmVudCBVVEMgdGltZXN0YW1wIGluIG1pbGxpc2Vjb25kc1xuICogLSBtZXRob2Q6IEhUVFAgbWV0aG9kIGluIHVwcGVyY2FzZSAoZS5nLiwgXCJHRVRcIilcbiAqIC0gYXBpX3BhdGg6IFJlcXVlc3QgcGF0aCAoZS5nLiwgXCIvcndhL2FwaS92MS9xdW90ZS9wcmljZVwiKVxuICogLSBxdWVyeV9zdHJpbmc6IFF1ZXJ5IHBhcmFtZXRlcnMgYXMgYSBzdHJpbmcgKGUuZy4sIFwic3ltYm9sPVhBVU1cIilcbiAqXG4gKiBFeGFtcGxlIHByZWhhc2g6XG4gKiAxNzMxOTMxOTU2MDAwR0VUL21hcGkvdjEvd2FsbGV0L3dpdGhkcmF3YWxzJmN1cnJlbmN5PUJUQyZsaW1pdD01MFxuICovXG5leHBvcnQgY29uc3QgZ2V0UmVxdWVzdEhlYWRlcnMgPSAoe1xuICBtZXRob2QsXG4gIHBhdGgsXG4gIHF1ZXJ5U3RyaW5nLFxuICBhcGlLZXksXG4gIHNlY3JldCxcbiAgdGltZXN0YW1wLFxufTogR2V0UmVxdWVzdEhlYWRlcnNQYXJhbXMpOiBSZWNvcmQ8c3RyaW5nLCBzdHJpbmc+ID0+IHtcbiAgLy8gQ29uc3RydWN0IHByZWhhc2g6IHRpbWVzdGFtcCArIG1ldGhvZCArIGFwaV9wYXRoICsgJyYnICsgcXVlcnlfc3RyaW5nXG4gIGNvbnN0IHByZWhhc2ggPSBgJHt0aW1lc3RhbXB9JHttZXRob2QudG9VcHBlckNhc2UoKX0ke3BhdGh9JiR7cXVlcnlTdHJpbmd9YFxuXG4gIC8vIHNpZ25hdHVyZSA9IGhleChobWFjX3NoYTI1NihwcmVoYXNoLCBzZWNyZXRfa2V5KSlcbiAgY29uc3Qgc2lnbmF0dXJlID0gQ3J5cHRvSlMuSG1hY1NIQTI1NihwcmVoYXNoLCBzZWNyZXQpLnRvU3RyaW5nKENyeXB0b0pTLmVuYy5IZXgpXG5cbiAgcmV0dXJuIHtcbiAgICAnWC1NYXRyaXhQb3J0LUFjY2Vzcy1LZXknOiBhcGlLZXksXG4gICAgJ1gtU2lnbmF0dXJlJzogc2lnbmF0dXJlLFxuICAgICdYLVRpbWVzdGFtcCc6IHRpbWVzdGFtcC50b1N0cmluZygpLFxuICAgICdYLUF1dGgtVmVyc2lvbic6ICd2MicsXG4gIH1cbn1cbiJdfQ==
