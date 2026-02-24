@@ -12,6 +12,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/cusd-feed"
+    },
+    {
       "path": "./composites/glv-token"
     },
     {
