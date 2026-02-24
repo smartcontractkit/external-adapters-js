@@ -99,6 +99,9 @@
       "path": "./scripts"
     },
     {
+      "path": "./sources/accountable"
+    },
+    {
       "path": "./sources/ada-balance"
     },
     {

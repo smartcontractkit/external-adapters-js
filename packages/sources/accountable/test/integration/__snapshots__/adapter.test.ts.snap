@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserves endpoint happy path should return success for syrupusdc client 1`] = `
+{
+  "data": {
+    "result": 39869034.71,
+  },
+  "result": 39869034.71,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should return success for syrupusdt client 1`] = `
+{
+  "data": {
+    "result": 15000000.5,
+  },
+  "result": 15000000.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should use reserves as default endpoint 1`] = `
+{
+  "data": {
+    "result": 39869034.71,
+  },
+  "result": 39869034.71,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves endpoint upstream failures should handle empty data response from upstream 1`] = `
+{
+  "errorMessage": "The data provider didn't return any value for client: invalidclient",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute reserves endpoint validation errors should fail on empty request body 1`] = `
+{
+  "error": {
+    "message": "[Param: client] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute reserves endpoint validation errors should fail when client parameter is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: client] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
