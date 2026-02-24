@@ -315,6 +315,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinranking"\
     },\
     {\
+      "name": "@chainlink/copper-adapter",\
+      "reference": "workspace:packages/sources/copper"\
+    },\
+    {\
       "name": "@chainlink/covid-tracker-adapter",\
       "reference": "workspace:packages/sources/covid-tracker"\
     },\
@@ -812,6 +816,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
+    ["@chainlink/copper-adapter", ["workspace:packages/sources/copper"]],\
     ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
@@ -5468,6 +5473,26 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@chainlink/copper-adapter", [\
+      ["workspace:packages/sources/copper", {\
+        "packageLocation": "./packages/sources/copper/",\
+        "packageDependencies": [\
+          ["@chainlink/copper-adapter", "workspace:packages/sources/copper"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["axios", "npm:1.13.4"],\
+          ["decimal.js", "npm:10.5.0"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/covid-tracker-adapter", [\
       ["workspace:packages/sources/covid-tracker", {\
         "packageLocation": "./packages/sources/covid-tracker/",\
@@ -6153,7 +6178,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
