@@ -759,6 +759,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wrapped"\
     },\
     {\
+      "name": "@chainlink/xusd-usd-exchange-rate-adapter",\
+      "reference": "workspace:packages/sources/xusd-usd-exchange-rate"\
+    },\
+    {\
       "name": "@chainlink/dydx-stark-adapter",\
       "reference": "workspace:packages/targets/dydx-stark"\
     },\
@@ -958,7 +962,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
     ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
-    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
+    ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]],\
+    ["@chainlink/xusd-usd-exchange-rate-adapter", ["workspace:packages/sources/xusd-usd-exchange-rate"]]\
   ],\
   "fallbackPool": [\
   ],\
@@ -6153,7 +6158,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\
@@ -8366,6 +8371,24 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/xusd-usd-exchange-rate-adapter", [\
+      ["workspace:packages/sources/xusd-usd-exchange-rate", {\
+        "packageLocation": "./packages/sources/xusd-usd-exchange-rate/",\
+        "packageDependencies": [\
+          ["@chainlink/xusd-usd-exchange-rate-adapter", "workspace:packages/sources/xusd-usd-exchange-rate"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["ethers", "npm:6.15.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

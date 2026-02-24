@@ -552,6 +552,9 @@
       "path": "./sources/wrapped"
     },
     {
+      "path": "./sources/xusd-usd-exchange-rate"
+    },
+    {
       "path": "./targets/dydx-stark"
     },
     {
