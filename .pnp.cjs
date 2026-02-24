@@ -367,6 +367,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/eodhistoricaldata"\
     },\
     {\
+      "name": "@chainlink/equitize-adapter",\
+      "reference": "workspace:packages/sources/equitize"\
+    },\
+    {\
       "name": "@chainlink/eth-balance-adapter",\
       "reference": "workspace:packages/sources/eth-balance"\
     },\
@@ -832,6 +836,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/elwood-adapter", ["workspace:packages/sources/elwood"]],\
     ["@chainlink/enzyme-adapter", ["workspace:packages/sources/enzyme"]],\
     ["@chainlink/eodhistoricaldata-adapter", ["workspace:packages/sources/eodhistoricaldata"]],\
+    ["@chainlink/equitize-adapter", ["workspace:packages/sources/equitize"]],\
     ["@chainlink/eth-balance-adapter", ["workspace:packages/sources/eth-balance"]],\
     ["@chainlink/eth-beacon-adapter", ["workspace:packages/sources/eth-beacon"]],\
     ["@chainlink/etherscan-adapter", ["workspace:packages/sources/etherscan"]],\
@@ -5914,6 +5919,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/equitize-adapter", [\
+      ["workspace:packages/sources/equitize", {\
+        "packageLocation": "./packages/sources/equitize/",\
+        "packageDependencies": [\
+          ["@chainlink/equitize-adapter", "workspace:packages/sources/equitize"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.4"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/eth-balance-adapter", [\
       ["workspace:packages/sources/eth-balance", {\
         "packageLocation": "./packages/sources/eth-balance/",\
@@ -6153,7 +6173,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }],\
       ["npm:2.9.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b-36152824af.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.9.0-664e8a533b/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.9.0"],\
           ["ajv", "npm:8.17.1"],\

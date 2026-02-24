@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint happy path should return success 1`] = `
+{
+  "data": {
+    "result": 146.51,
+    "ripcord": false,
+  },
+  "result": 146.51,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1771898690593,
+  },
+}
+`;
+
+exports[`execute nav endpoint happy path should use nav as default endpoint 1`] = `
+{
+  "data": {
+    "result": 146.51,
+    "ripcord": false,
+  },
+  "result": 146.51,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1771898690593,
+  },
+}
+`;
+
+exports[`execute nav endpoint upstream failures should return error when upstream returns 5xx 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`execute nav endpoint validation errors should return error for invalid endpoint 1`] = `
+{
+  "error": {
+    "message": "Adapter does not have a "invalid" endpoint.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 404,
+}
+`;

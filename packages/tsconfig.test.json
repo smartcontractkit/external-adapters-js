@@ -258,6 +258,9 @@
       "path": "./sources/eodhistoricaldata/tsconfig.test.json"
     },
     {
+      "path": "./sources/equitize/tsconfig.test.json"
+    },
+    {
       "path": "./sources/eth-balance/tsconfig.test.json"
     },
     {
