@@ -11,7 +11,7 @@ const NO_ISSUE_MSG =
   'This is an error that the EA uses to determine whether or not the L2 Sequencer is healthy.  It does not mean that there is an issue with the EA.'
 
 // These errors come from the Sequencer when submitting an empty transaction
-const sequencerOnlineErrors: Record<Networks, string[]> = {
+export const sequencerOnlineErrors: Record<Networks, string[]> = {
   [Networks.Arbitrum]: ['gas price too low', 'forbidden sender address', 'intrinsic gas too low'],
   // TODO: Optimism error needs to be confirmed by their team
   [Networks.Optimism]: ['cannot accept 0 gas price transaction'],
@@ -91,41 +91,51 @@ const sendEmptyTransaction = async (network: Networks, config: ExtendedConfig): 
   }
 }
 
-const isExpectedErrorMessage = (network: Networks, error: Error) => {
-  const _getErrorMessage = (error: Error): string => {
-    const paths: Record<Networks, string[]> = {
-      [Networks.Arbitrum]: ['error', 'message'],
-      [Networks.Optimism]: ['error', 'message'],
-      [Networks.Base]: ['error', 'message'],
-      [Networks.Linea]: ['error', 'message'],
-      [Networks.Metis]: ['error', 'message'],
-      [Networks.Scroll]: ['error', 'error', 'message'],
-      [Networks.Starkware]: ['message'],
-      [Networks.zkSync]: ['error', 'message'],
-      [Networks.Ink]: ['error', 'message'],
-      [Networks.Mantle]: ['error', 'message'],
-      [Networks.Unichain]: ['error', 'message'],
-      [Networks.Soneium]: ['error', 'message'],
-      [Networks.Celo]: ['error', 'message'],
-      [Networks.Xlayer]: ['error', 'message'],
-      [Networks.Megaeth]: ['error', 'message'],
-      [Networks.Katana]: ['error', 'message'],
-    }
-    return (Requester.getResult(error, paths[network]) as string) || ''
-  }
-  const actualError = _getErrorMessage(error)
-  for (const expectedError of sequencerOnlineErrors[network]) {
+export const errorMessagePaths: Record<Networks, string[]> = {
+  [Networks.Arbitrum]: ['error', 'message'],
+  [Networks.Optimism]: ['error', 'message'],
+  [Networks.Base]: ['error', 'message'],
+  [Networks.Linea]: ['error', 'message'],
+  [Networks.Metis]: ['error', 'message'],
+  [Networks.Scroll]: ['error', 'error', 'message'],
+  [Networks.Starkware]: ['message'],
+  [Networks.zkSync]: ['error', 'message'],
+  [Networks.Ink]: ['error', 'message'],
+  [Networks.Mantle]: ['error', 'message'],
+  [Networks.Unichain]: ['error', 'message'],
+  [Networks.Soneium]: ['error', 'message'],
+  [Networks.Celo]: ['error', 'message'],
+  [Networks.Xlayer]: ['error', 'message'],
+  [Networks.Megaeth]: ['error', 'message'],
+  [Networks.Katana]: ['error', 'message'],
+}
+
+export const getErrorMessageFromPath = (error: unknown, path: string[]): string => {
+  return (Requester.getResult(error, path) as string) || ''
+}
+
+export const matchesExpectedError = (actualError: string, expectedErrors: string[]): boolean => {
+  for (const expectedError of expectedErrors) {
     if (actualError.includes(expectedError)) {
-      Logger.debug(
-        `[${network}] Transaction submission failed with an expected error ${actualError}.`,
-      )
       return true
     }
   }
-  Logger.error(
-    `[${network}] Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
-  )
   return false
+}
+
+const isExpectedErrorMessage = (network: Networks, error: Error) => {
+  const actualError = getErrorMessageFromPath(error, errorMessagePaths[network])
+  const isExpected = matchesExpectedError(actualError, sequencerOnlineErrors[network])
+  if (isExpected) {
+    Logger.debug(
+      `[${network}] Transaction submission failed with an expected error ${actualError}.`,
+    )
+  } else {
+    Logger.error(
+      `[${network}] Transaction submission failed with an unexpected error. ${NO_ISSUE_MSG} Error Message: ${error.message}`,
+    )
+  }
+  return isExpected
 }
 
 export const checkNetworkProgress: NetworkHealthCheck = (

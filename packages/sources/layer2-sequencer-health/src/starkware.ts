@@ -1,6 +1,6 @@
 import { Logger } from '@chainlink/ea-bootstrap'
+import { Account, BlockWithTxHashes, ec, InvokeFunctionResponse } from 'starknet'
 import { DEFAULT_PRIVATE_KEY, ExtendedConfig, Networks } from './config'
-import { ec, Account, InvokeFunctionResponse, BlockWithTxHashes } from 'starknet'
 import { race, retry } from './network'
 
 interface StarkwareState {
@@ -91,10 +91,11 @@ const getPendingBlockFromGateway = async (
       promise: async () => config.starkwareConfig.provider.getBlockWithTxHashes('pending'),
       retryConfig: config.retryConfig,
     })
-  } catch (e: any) {
-    if (e.providerStatusCode === 504) {
+  } catch (e: unknown) {
+    const error = e as { providerStatusCode?: number }
+    if (error.providerStatusCode === 504) {
       Logger.warn(
-        `[starkware] Request to fetch pending block timed out.  Status Code: ${e.providerStatusCode}.  Sequencer: UNHEALTHY`,
+        `[starkware] Request to fetch pending block timed out.  Status Code: ${error.providerStatusCode}.  Sequencer: UNHEALTHY`,
       )
     } else {
       throw e
@@ -105,7 +106,7 @@ const getPendingBlockFromGateway = async (
   }
 }
 
-const checkBatcherHealthy = (
+export const checkBatcherHealthy = (
   previousBlock: BlockWithTxHashes | null,
   currentBlock: BlockWithTxHashes,
 ): boolean => {
@@ -121,8 +122,7 @@ const checkBatcherHealthy = (
   Logger.info(
     `[starkware] Pending Starkware block still has parent hash of ${currentBlock.parent_hash}.  Checking to see if it is still processing transactions...`,
   )
-  const hasNewTxns =
-    Object.keys(currentBlock.transactions).length > previousBlock.transactions.length
+  const hasNewTxns = currentBlock.transactions.length > previousBlock.transactions.length
   if (hasNewTxns) {
     Logger.info(`[starkware] Found new transactions in pending block.  Sequencer: HEALTHY`)
   } else {

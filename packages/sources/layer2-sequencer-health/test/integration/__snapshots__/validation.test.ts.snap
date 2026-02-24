@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute - validation errors invalid parameter values should return error for empty network value 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"network":"","endpoint":"health"}}",
+    "message": "Required parameter network must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute - validation errors invalid parameter values should return error for invalid network value 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"network":"invalid-network","endpoint":"health"}}",
+    "message": "network parameter 'invalid-network' is not in the set of available options: arbitrum,base,linea,metis,optimism,scroll,starkware,zksync,ink,mantle,unichain,soneium,celo,xlayer,megaeth,katana",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute - validation errors invalid request format should handle request with no id 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "jobRunID": "1",
+  "result": 0,
+  "statusCode": 200,
+}
+`;
+
+exports[`execute - validation errors missing required parameters should return error when data is empty 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"health"}}",
+    "message": "Required parameter network must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute - validation errors missing required parameters should return error when network is missing 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"health"}}",
+    "message": "Required parameter network must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;

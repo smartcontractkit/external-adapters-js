@@ -1,0 +1,43 @@
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.getRequestHeaders = void 0
+const tslib_1 = require('tslib')
+const crypto_js_1 = tslib_1.__importDefault(require('crypto-js'))
+/**
+ * Generate the HMAC-SHA256 signature for R25 API requests.
+ *
+ * The signature string is constructed as:
+ * {method}\n{path}\n{sorted_params}\n{timestamp}\n{api_key}
+ *
+ * Where:
+ * - method: HTTP method in lowercase (e.g., "get")
+ * - path: Request path (e.g., "/api/public/current/nav")
+ * - sorted_params: Query parameters sorted by key, formatted as key=value, joined with &
+ * - timestamp: Current UTC timestamp in milliseconds
+ * - api_key: API key
+ */
+const getRequestHeaders = (getRequestHeadersParams) => {
+  const { method, path, params, apiKey, secret, timestamp } = getRequestHeadersParams
+  // Sort parameters by key in lexicographical order and format as key=value
+  const sortedParams = Object.keys(params)
+    .sort()
+    .map((key) => `${key}=${params[key]}`)
+    .join('&')
+  const stringToSign = [
+    method.toLowerCase(),
+    path,
+    sortedParams,
+    timestamp.toString(),
+    apiKey,
+  ].join('\n')
+  const signature = crypto_js_1.default
+    .HmacSHA256(stringToSign, secret)
+    .toString(crypto_js_1.default.enc.Hex)
+  return {
+    'x-api-key': apiKey,
+    'x-utc-timestamp': timestamp.toString(),
+    'x-signature': signature,
+  }
+}
+exports.getRequestHeaders = getRequestHeaders
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXV0aGVudGljYXRpb24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJhdXRoZW50aWNhdGlvbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O0FBQUEsa0VBQWdDO0FBV2hDOzs7Ozs7Ozs7Ozs7R0FZRztBQUNJLE1BQU0saUJBQWlCLEdBQUcsQ0FDL0IsdUJBQWdELEVBQ3hCLEVBQUU7SUFDMUIsTUFBTSxFQUFFLE1BQU0sRUFBRSxJQUFJLEVBQUUsTUFBTSxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUUsU0FBUyxFQUFFLEdBQUcsdUJBQXVCLENBQUE7SUFFbkYsMEVBQTBFO0lBQzFFLE1BQU0sWUFBWSxHQUFHLE1BQU0sQ0FBQyxJQUFJLENBQUMsTUFBTSxDQUFDO1NBQ3JDLElBQUksRUFBRTtTQUNOLEdBQUcsQ0FBQyxDQUFDLEdBQUcsRUFBRSxFQUFFLENBQUMsR0FBRyxHQUFHLElBQUksTUFBTSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUM7U0FDckMsSUFBSSxDQUFDLEdBQUcsQ0FBQyxDQUFBO0lBRVosTUFBTSxZQUFZLEdBQUc7UUFDbkIsTUFBTSxDQUFDLFdBQVcsRUFBRTtRQUNwQixJQUFJO1FBQ0osWUFBWTtRQUNaLFNBQVMsQ0FBQyxRQUFRLEVBQUU7UUFDcEIsTUFBTTtLQUNQLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFBO0lBRVosTUFBTSxTQUFTLEdBQUcsbUJBQVEsQ0FBQyxVQUFVLENBQUMsWUFBWSxFQUFFLE1BQU0sQ0FBQyxDQUFDLFFBQVEsQ0FBQyxtQkFBUSxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsQ0FBQTtJQUV0RixPQUFPO1FBQ0wsV0FBVyxFQUFFLE1BQU07UUFDbkIsaUJBQWlCLEVBQUUsU0FBUyxDQUFDLFFBQVEsRUFBRTtRQUN2QyxhQUFhLEVBQUUsU0FBUztLQUN6QixDQUFBO0FBQ0gsQ0FBQyxDQUFBO0FBMUJZLFFBQUEsaUJBQWlCLHFCQTBCN0IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgQ3J5cHRvSlMgZnJvbSAnY3J5cHRvLWpzJ1xuXG5leHBvcnQgaW50ZXJmYWNlIEdldFJlcXVlc3RIZWFkZXJzUGFyYW1zIHtcbiAgbWV0aG9kOiBzdHJpbmdcbiAgcGF0aDogc3RyaW5nXG4gIHBhcmFtczogUmVjb3JkPHN0cmluZywgc3RyaW5nPlxuICBhcGlLZXk6IHN0cmluZ1xuICBzZWNyZXQ6IHN0cmluZ1xuICB0aW1lc3RhbXA6IG51bWJlclxufVxuXG4vKipcbiAqIEdlbmVyYXRlIHRoZSBITUFDLVNIQTI1NiBzaWduYXR1cmUgZm9yIFIyNSBBUEkgcmVxdWVzdHMuXG4gKlxuICogVGhlIHNpZ25hdHVyZSBzdHJpbmcgaXMgY29uc3RydWN0ZWQgYXM6XG4gKiB7bWV0aG9kfVxcbntwYXRofVxcbntzb3J0ZWRfcGFyYW1zfVxcbnt0aW1lc3RhbXB9XFxue2FwaV9rZXl9XG4gKlxuICogV2hlcmU6XG4gKiAtIG1ldGhvZDogSFRUUCBtZXRob2QgaW4gbG93ZXJjYXNlIChlLmcuLCBcImdldFwiKVxuICogLSBwYXRoOiBSZXF1ZXN0IHBhdGggKGUuZy4sIFwiL2FwaS9wdWJsaWMvY3VycmVudC9uYXZcIilcbiAqIC0gc29ydGVkX3BhcmFtczogUXVlcnkgcGFyYW1ldGVycyBzb3J0ZWQgYnkga2V5LCBmb3JtYXR0ZWQgYXMga2V5PXZhbHVlLCBqb2luZWQgd2l0aCAmXG4gKiAtIHRpbWVzdGFtcDogQ3VycmVudCBVVEMgdGltZXN0YW1wIGluIG1pbGxpc2Vjb25kc1xuICogLSBhcGlfa2V5OiBBUEkga2V5XG4gKi9cbmV4cG9ydCBjb25zdCBnZXRSZXF1ZXN0SGVhZGVycyA9IChcbiAgZ2V0UmVxdWVzdEhlYWRlcnNQYXJhbXM6IEdldFJlcXVlc3RIZWFkZXJzUGFyYW1zLFxuKTogUmVjb3JkPHN0cmluZywgc3RyaW5nPiA9PiB7XG4gIGNvbnN0IHsgbWV0aG9kLCBwYXRoLCBwYXJhbXMsIGFwaUtleSwgc2VjcmV0LCB0aW1lc3RhbXAgfSA9IGdldFJlcXVlc3RIZWFkZXJzUGFyYW1zXG5cbiAgLy8gU29ydCBwYXJhbWV0ZXJzIGJ5IGtleSBpbiBsZXhpY29ncmFwaGljYWwgb3JkZXIgYW5kIGZvcm1hdCBhcyBrZXk9dmFsdWVcbiAgY29uc3Qgc29ydGVkUGFyYW1zID0gT2JqZWN0LmtleXMocGFyYW1zKVxuICAgIC5zb3J0KClcbiAgICAubWFwKChrZXkpID0+IGAke2tleX09JHtwYXJhbXNba2V5XX1gKVxuICAgIC5qb2luKCcmJylcblxuICBjb25zdCBzdHJpbmdUb1NpZ24gPSBbXG4gICAgbWV0aG9kLnRvTG93ZXJDYXNlKCksXG4gICAgcGF0aCxcbiAgICBzb3J0ZWRQYXJhbXMsXG4gICAgdGltZXN0YW1wLnRvU3RyaW5nKCksXG4gICAgYXBpS2V5LFxuICBdLmpvaW4oJ1xcbicpXG5cbiAgY29uc3Qgc2lnbmF0dXJlID0gQ3J5cHRvSlMuSG1hY1NIQTI1NihzdHJpbmdUb1NpZ24sIHNlY3JldCkudG9TdHJpbmcoQ3J5cHRvSlMuZW5jLkhleClcblxuICByZXR1cm4ge1xuICAgICd4LWFwaS1rZXknOiBhcGlLZXksXG4gICAgJ3gtdXRjLXRpbWVzdGFtcCc6IHRpbWVzdGFtcC50b1N0cmluZygpLFxuICAgICd4LXNpZ25hdHVyZSc6IHNpZ25hdHVyZSxcbiAgfVxufVxuIl19

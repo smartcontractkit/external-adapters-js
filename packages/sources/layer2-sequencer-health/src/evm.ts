@@ -125,6 +125,32 @@ export const sendEVMDummyTransaction = async (
   })
 }
 
+// Pure functions for block validation - exported for unit testing
+export const isPastBlock = (block: number, lastSeenBlockNumber: number): boolean =>
+  block <= lastSeenBlockNumber
+
+export const isStaleBlock = (
+  block: number,
+  lastSeenBlockNumber: number,
+  lastSeenTimestamp: number,
+  delta: number,
+): boolean => {
+  return isPastBlock(block, lastSeenBlockNumber) && Date.now() - lastSeenTimestamp >= delta
+}
+
+export const isValidBlock = (
+  block: number,
+  lastSeenBlockNumber: number,
+  deltaBlocks: number,
+): boolean => lastSeenBlockNumber - block <= deltaBlocks
+
+export const parseHexBlockNumber = (hexBlock: string | number): number => {
+  if (!hexBlock) {
+    throw new Error('Block number is empty or undefined')
+  }
+  return BigNumber.from(hexBlock).toNumber()
+}
+
 const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> = {
   [Networks.Arbitrum]: {
     block: 0,
@@ -191,13 +217,6 @@ const lastSeenBlock: Record<EVMNetworks, { block: number; timestamp: number }> =
 export const checkOptimisticRollupBlockHeight = (
   network: EVMNetworks,
 ): ((config: ExtendedConfig) => Promise<boolean>) => {
-  const _isPastBlock = (block: number) => block <= lastSeenBlock[network].block
-  const _isStaleBlock = (block: number, delta: number): boolean => {
-    return _isPastBlock(block) && Date.now() - lastSeenBlock[network].timestamp >= delta
-  }
-  // If the request hit a replica node that fell behind, the block could be previous to the last seen. Including a deltaBlocks range to consider this case.
-  const _isValidBlock = (block: number, deltaBlocks: number) =>
-    lastSeenBlock[network].block - block <= deltaBlocks
   const _updateLastSeenBlock = (block: number): void => {
     lastSeenBlock[network] = {
       block,
@@ -212,17 +231,19 @@ export const checkOptimisticRollupBlockHeight = (
       promise: async () => await requestBlockHeight(network),
       retryConfig,
     })
-    if (!_isValidBlock(block, deltaBlocks))
+    if (!isValidBlock(block, lastSeenBlock[network].block, deltaBlocks))
       throw new AdapterResponseInvalidError({
         message: `Block found #${block} is previous to last seen #${lastSeenBlock[network].block} with more than ${deltaBlocks} difference`,
       })
-    if (!_isStaleBlock(block, delta)) {
+    if (
+      !isStaleBlock(block, lastSeenBlock[network].block, lastSeenBlock[network].timestamp, delta)
+    ) {
       Logger.info(
         `[${network}] Block #${block} is not considered stale at ${Date.now()}. Last seen block #${
           lastSeenBlock[network].block
         } was at ${lastSeenBlock[network].timestamp}`,
       )
-      if (!_isPastBlock(block)) _updateLastSeenBlock(block)
+      if (!isPastBlock(block, lastSeenBlock[network].block)) _updateLastSeenBlock(block)
       return true
     }
     Logger.warn(

@@ -1,9 +1,9 @@
-import { DEFAULT_DELTA_TIME } from '../../src/config'
-import { useFakeTimers } from 'sinon'
-import * as network from '../../src/network'
-import { makeExecute } from '../../src/adapter'
-import { TInputParameters } from '../../src/endpoint'
 import { AdapterRequest } from '@chainlink/ea-bootstrap'
+import { useFakeTimers } from 'sinon'
+import { makeExecute } from '../../src/adapter'
+import { DEFAULT_DELTA_TIME } from '../../src/config'
+import { TInputParameters } from '../../src/endpoint'
+import * as network from '../../src/network'
 
 describe('adapter', () => {
   describe('Adapter health check', () => {
