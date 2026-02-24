@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute nav endpoint happy path should return 0 for empty allocations 1`] = `
+{
+  "data": {
+    "result": 0,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint happy path should return success with valid allocations 1`] = `
+{
+  "data": {
+    "result": 12345.67,
+  },
+  "result": 12345.67,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute nav endpoint happy path should use default endpoint when not specified 1`] = `
+{
+  "data": {
+    "result": 12345.67,
+  },
+  "result": 12345.67,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+

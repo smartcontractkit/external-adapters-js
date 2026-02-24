@@ -12,6 +12,9 @@
       "path": "./composites/crypto-volatility-index"
     },
     {
+      "path": "./composites/dinari-index-nav"
+    },
+    {
       "path": "./composites/glv-token"
     },
     {
