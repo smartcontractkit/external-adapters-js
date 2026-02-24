@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserves endpoint happy path should return success with USTB wallet using Superstate NAV 1`] = `
+{
+  "data": {
+    "result": 151170,
+    "ripcord": false,
+  },
+  "result": 151170,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should return success with all supported assets 1`] = `
+{
+  "data": {
+    "result": 200353.6,
+    "ripcord": false,
+  },
+  "result": 200353.6,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should return success with basic wallets 1`] = `
+{
+  "data": {
+    "result": 1720000,
+    "ripcord": false,
+  },
+  "result": 1720000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+    "providerIndicatedTimeUnixMs": 1704153600000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should return zero result when all assets are unsupported 1`] = `
+{
+  "data": {
+    "result": 0,
+    "ripcord": false,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should return zero result with empty wallets 1`] = `
+{
+  "data": {
+    "result": 0,
+    "ripcord": false,
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint happy path should work without explicit endpoint parameter (default endpoint) 1`] = `
+{
+  "data": {
+    "result": 1720000,
+    "ripcord": false,
+  },
+  "result": 1720000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+    "providerIndicatedTimeUnixMs": 1704153600000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint upstream failures should handle Copper API error 1`] = `
+{
+  "errorMessage": "Copper API request failed: Request failed with status code 500",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint upstream failures should handle Copper API invalid response 1`] = `
+{
+  "errorMessage": "Copper API returned invalid response: missing wallets data",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint upstream failures should handle Copper API null response 1`] = `
+{
+  "errorMessage": "Copper API returned invalid response: missing wallets data",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+  },
+}
+`;
+
+exports[`execute reserves endpoint upstream failures should handle Superstate NAV empty response for USTB 1`] = `
+{
+  "errorMessage": "No NAV data received from Superstate for fund 1",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704110400000,
+    "providerDataRequestedUnixMs": 1704110400000,
+  },
+}
+`;
