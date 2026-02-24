@@ -3,22 +3,20 @@ ARG location
 ARG package
 WORKDIR /home/node/app
 COPY . .
-RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea-test-helpers @chainlink/ea-reference-data-reader @chainlink/ea-factories
+RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea-test-helpers @chainlink/ea-reference-data-reader @chainlink/ea-factories @chainlink/ea-scripts
 RUN yarn workspace $package build
+RUN METRICS_ENABLED=false yarn generate:endpoint-aliases
 RUN yarn bundle $location -o $location/bundle
 
 # Build Go binary for streams-adapter
 FROM golang:1.24 as go-builder
 WORKDIR /build
 
-COPY . .
-
-# Generate endpoint_aliases.json from adapter READMEs
-WORKDIR /build/packages/streams-adapter
-RUN go mod download
-RUN go run ./cmd/readme-parser
+COPY packages/streams-adapter/ ./packages/streams-adapter/
 
 # Build streams-adapter binary
+WORKDIR /build/packages/streams-adapter
+RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /build/streams-adapter .
 
 FROM node:22-alpine
@@ -38,11 +36,10 @@ COPY --from=builder /home/node/app/$location/package.json /home/node/app/$locati
 
 # Copy Go binary and alias config
 COPY --from=go-builder /build/streams-adapter /usr/local/bin/streams-adapter
-COPY --from=go-builder /build/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
-COPY --from=builder /home/node/app/selector.sh /usr/local/bin/selector.sh
+COPY --from=builder /home/node/app/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
 
-# Make scripts executable
-RUN chmod +x /usr/local/bin/selector.sh /usr/local/bin/streams-adapter
+# Make streams-adapter app executable
+RUN chmod +x /usr/local/bin/streams-adapter
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisord.conf
