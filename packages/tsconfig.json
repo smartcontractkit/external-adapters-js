@@ -258,6 +258,9 @@
       "path": "./sources/eodhistoricaldata"
     },
     {
+      "path": "./sources/equitize"
+    },
+    {
       "path": "./sources/eth-balance"
     },
     {
