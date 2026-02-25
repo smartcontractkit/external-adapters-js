@@ -27,11 +27,7 @@ exports[`execute price endpoint should return success - ema 1`] = `
   "data": {
     "decimals": 8,
     "rawPrice": "1",
-    "registry": {
-      "paused": false,
-      "sValue": "2000000000000000000",
-    },
-    "result": "20000000",
+    "result": "10000000",
     "sessionSource": "FALLBACK",
     "smoother": {
       "p": "978347471111",
@@ -76,7 +72,7 @@ exports[`execute price endpoint should return success - ema 1`] = `
       },
     },
   },
-  "result": "20000000",
+  "result": "10000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -90,11 +86,7 @@ exports[`execute price endpoint should return success - kalman 1`] = `
   "data": {
     "decimals": 8,
     "rawPrice": "1",
-    "registry": {
-      "paused": false,
-      "sValue": "2000000000000000000",
-    },
-    "result": "20000000",
+    "result": "10000000",
     "sessionSource": "FALLBACK",
     "smoother": {
       "p": "1500000000000000000",
@@ -139,7 +131,7 @@ exports[`execute price endpoint should return success - kalman 1`] = `
       },
     },
   },
-  "result": "20000000",
+  "result": "10000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -147,4 +139,3 @@ exports[`execute price endpoint should return success - kalman 1`] = `
   },
 }
 `;
-
