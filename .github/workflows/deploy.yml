@@ -15,6 +15,9 @@ concurrency:
   group: deploy-and-release
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   calculate-changes:
     name: Compute changed adapters
