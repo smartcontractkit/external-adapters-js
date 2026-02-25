@@ -42,7 +42,7 @@ describe('execute', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    const adapter = (await import('./../../src')).adapter
+    const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
@@ -60,6 +60,7 @@ describe('execute', () => {
   describe('price endpoint', () => {
     it('should return success - kalman', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -82,6 +83,7 @@ describe('execute', () => {
 
     it('should return success - ema', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -105,6 +107,7 @@ describe('execute', () => {
 
     it('bad sessionBoundariesTimeZone', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -125,6 +128,7 @@ describe('execute', () => {
 
     it('bad sessionBoundaries', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -145,6 +149,7 @@ describe('execute', () => {
 
     it('should return failure - kalman', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: '0x0',
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -163,6 +168,7 @@ describe('execute', () => {
 
     it('should return failure - ema', async () => {
       const data = {
+        endpoint: 'ondo',
         registry: '0x0',
         asset: '0x0',
         regularStreamId: '0x000b5',
