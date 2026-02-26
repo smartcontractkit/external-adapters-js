@@ -1,7 +1,7 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://api.backed.fi/api/v1/token', {
+  nock('https://api.backed-fi.invalid/api/v1/token', {
     encodedQueryParams: true,
   })
     .get('/METAx/multiplier')
@@ -28,7 +28,7 @@ export const mockResponseSuccess = (): nock.Scope =>
     .persist()
 
 export const mockStagingResponseSuccess = (): nock.Scope =>
-  nock('https://api.stage.backed.fi/api/v1/token', {
+  nock('https://api.stage.backed-fi.invalid/api/v1/token', {
     encodedQueryParams: true,
   })
     .get('/METAx/multiplier')
@@ -55,7 +55,7 @@ export const mockStagingResponseSuccess = (): nock.Scope =>
     .persist()
 
 export const mockResponseFailure = (): nock.Scope =>
-  nock('https://api.backed.fi/api/v1/token', {
+  nock('https://api.backed-fi.invalid/api/v1/token', {
     encodedQueryParams: true,
   })
     .get('/METAx/multiplier')

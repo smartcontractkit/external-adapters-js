@@ -12,6 +12,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['API_ENDPOINT'] = 'https://api.backed-fi.invalid/api/v1/token'
+    process.env['STAGING_API_ENDPOINT'] = 'https://api.stage.backed-fi.invalid/api/v1/token'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -55,45 +57,18 @@ describe('execute', () => {
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
-  })
-})
 
-describe('multiplier endpoint with staging env param', () => {
-  let spy: jest.SpyInstance
-  let testAdapter: TestAdapter
-  let oldEnv: NodeJS.ProcessEnv
-
-  beforeAll(async () => {
-    oldEnv = JSON.parse(JSON.stringify(process.env))
-
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
-    const adapter = (await import('./../../src')).adapter
-    adapter.rateLimiting = undefined
-    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
-      testAdapter: {} as TestAdapter<never>,
+    it('should return success from staging endpoint when env=staging', async () => {
+      const data = {
+        tokenSymbol: 'METAx',
+        network: 'Arbitrum',
+        endpoint: 'multiplier',
+        env: 'staging',
+      }
+      mockStagingResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
     })
-  })
-
-  afterAll(async () => {
-    setEnvVariables(oldEnv)
-    await testAdapter.api.close()
-    nock.restore()
-    nock.cleanAll()
-    spy.mockRestore()
-  })
-
-  it('should return success from staging endpoint when env=staging', async () => {
-    const data = {
-      tokenSymbol: 'METAx',
-      network: 'Arbitrum',
-      endpoint: 'multiplier',
-      env: 'staging',
-    }
-    mockStagingResponseSuccess()
-    const response = await testAdapter.request(data)
-    expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
   })
 })
