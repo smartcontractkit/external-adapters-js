@@ -38,7 +38,7 @@ export function getTransitiveReverseDependencies(packageNames: string[], repo: R
  * 2. dependencies
  * 3. reverse dependencies if the package has changes according to a changeset file
  */
-export function addTransitiveDeps({
+function addTransitiveDeps({
   packages,
   changedPackagesRecursive,
   repo,
@@ -84,13 +84,14 @@ export function resolveAdapterPackages(adapterNames: string[], repo: Repo): stri
 export interface ComputeResult {
   packagesToInclude: string[]
   packagesToIgnore: string[]
-  changedPackagesRecursive: string[]
+  packagesToRelease: string[]
 }
 
-/**
- * Compute which packages to include (transitive) and which to ignore for
- * `yarn changeset version`. Uses only the Repo; no real I/O.
- */
+// Computes which packages `yarn changeset version` requires to be included in
+// order to release at least the given packages.
+// Then determines which packages to ignore based on the included packages.
+// Also returns which packages are expected to be released, which are the
+// included packages that have changes.
 export function computePackagesToIgnore(adapterPackages: string[], repo: Repo): ComputeResult {
   const changedPackagesRecursive = getTransitiveReverseDependencies(
     repo.getPackagesFromChangesetFiles(),

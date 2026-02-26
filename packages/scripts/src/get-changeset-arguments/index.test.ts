@@ -1,5 +1,4 @@
 import {
-  addTransitiveDeps,
   computePackagesToIgnore,
   getTransitiveReverseDependencies,
   intersect,
@@ -163,130 +162,136 @@ describe('get-changeset-arguments core', () => {
     })
   })
 
-  describe('addTransitiveDeps', () => {
-    it('includes direct dependencies', () => {
+  describe('computePackagesToIgnore', () => {
+    const DATA_ENGINE = '@chainlink/data-engine-adapter'
+    const GOLD = '@chainlink/gold-adapter'
+    const ONDO = '@chainlink/ondo-calculated-adapter'
+    const SCRIPTS = '@chainlink/ea-scripts'
+    const XSUSHI = '@chainlink/xsushi-price-adapter'
+    const TOKEN_ALLOCATION = '@chainlink/token-allocation-adapter'
+    const COINGECKO = '@chainlink/coingecko-adapter'
+
+    it('should return packages to include, ignore and release', () => {
       const repo = createMockRepo({
-        dependencies: {
-          '@chainlink/gold-adapter': ['@chainlink/data-engine-adapter'],
-        },
+        dependencies: {},
         changesets: {
-          'gold.md': ['@chainlink/gold-adapter'],
+          'gold.md': [GOLD],
+          'ondo.md': [ONDO],
         },
       })
-      expect(
-        addTransitiveDeps({
-          packages: ['@chainlink/gold-adapter'],
-          changedPackagesRecursive: ['@chainlink/gold-adapter'],
-          repo,
-        }),
-      ).toEqual(['@chainlink/data-engine-adapter', '@chainlink/gold-adapter'])
-    })
-
-    it('includes packages that share a changeset', () => {
-      const changed = ['@chainlink/ea-scripts', '@chainlink/gold-adapter']
-      const repo = createMockRepo({
-        dependencies: {
-          '@chainlink/gold-adapter': [],
-        },
-        changesets: {
-          'gold.md': changed,
-        },
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [ONDO],
+        packagesToInclude: [GOLD],
+        packagesToRelease: [GOLD],
       })
-      expect(
-        addTransitiveDeps({
-          packages: ['@chainlink/gold-adapter'],
-          changedPackagesRecursive: changed,
-          repo,
-        }),
-      ).toEqual(changed)
     })
 
-    it('includes reverse dependencies of a changed package', () => {
-      const GOLD = '@chainlink/gold-adapter'
-      const DATA_ENGINE = '@chainlink/data-engine-adapter'
-      const changed = [DATA_ENGINE]
+    it('should include direct dependencies', () => {
       const repo = createMockRepo({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
         },
         changesets: {
-          'change.md': changed,
+          'gold.md': [GOLD],
         },
       })
-      const result = addTransitiveDeps({
-        packages: [DATA_ENGINE],
-        changedPackagesRecursive: changed,
-        repo,
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [],
+        packagesToInclude: [DATA_ENGINE, GOLD],
+        packagesToRelease: [GOLD],
       })
-      expect(result).toEqual([DATA_ENGINE, GOLD])
     })
 
-    it('does not includes changed reverse dependencies of an unchanged package', () => {
-      const ONDO = '@chainlink/ondo-calculated-adapter'
-      const GOLD = '@chainlink/gold-adapter'
-      const DATA_ENGINE = '@chainlink/data-engine-adapter'
+    it('should include packages that share a changeset', () => {
+      const repo = createMockRepo({
+        dependencies: {},
+        changesets: {
+          'gold.md': [SCRIPTS, GOLD],
+        },
+      })
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [],
+        packagesToInclude: [SCRIPTS, GOLD],
+        packagesToRelease: [SCRIPTS, GOLD],
+      })
+    })
+
+    it('should include reverse dependencies of a changed package', () => {
+      const repo = createMockRepo({
+        dependencies: {
+          [GOLD]: [DATA_ENGINE],
+        },
+        changesets: {
+          'change.md': [DATA_ENGINE],
+        },
+      })
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [],
+        packagesToInclude: [DATA_ENGINE, GOLD],
+        packagesToRelease: [DATA_ENGINE, GOLD],
+      })
+    })
+
+    it('should not include changed reverse dependencies of an unchanged package', () => {
       const repo = createMockRepo({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
           [ONDO]: [DATA_ENGINE],
         },
         changesets: {
-          'ondo.md': ONDO,
-          'gold.md': GOLD,
+          'ondo.md': [ONDO],
+          'gold.md': [GOLD],
         },
       })
-      const result = addTransitiveDeps({
-        packages: [ONDO],
-        changedPackagesRecursive: [ONDO, GOLD],
-        repo,
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [ONDO],
+        packagesToInclude: [DATA_ENGINE, GOLD],
+        packagesToRelease: [GOLD],
       })
-      expect(result).toEqual([DATA_ENGINE, ONDO])
     })
 
     it('should include co-members of changesets transitively', () => {
-      const A = '@chainlink/a-adapter'
-      const B = '@chainlink/b-adapter'
-      const C = '@chainlink/c-adapter'
       const repo = createMockRepo({
         dependencies: {},
         changesets: {
-          'f1.md': [A, B],
-          'f2.md': [B, C],
+          'ondo.md': [ONDO, SCRIPTS],
+          'gold.md': [GOLD, SCRIPTS],
+          'coingecko.md': [COINGECKO],
         },
       })
-      const result = addTransitiveDeps({
-        packages: [A],
-        changedPackagesRecursive: [A, B, C],
-        repo,
+      const result = computePackagesToIgnore([GOLD], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [COINGECKO],
+        packagesToInclude: [SCRIPTS, GOLD, ONDO],
+        packagesToRelease: [SCRIPTS, GOLD, ONDO],
       })
-      expect(result).toEqual([A, B, C])
     })
 
     it('should include dependencies transitively', () => {
-      const XSUSHI = '@chainlink/xsushi-price-adapter'
-      const TOKEN_ALLOCATION = '@chainlink/token-allocation-adapter'
-      const COINGECKO = '@chainlink/coingecko-adapter'
-
       const repo = createMockRepo({
         dependencies: {
           [XSUSHI]: [TOKEN_ALLOCATION],
           [TOKEN_ALLOCATION]: [COINGECKO],
         },
-        changesets: {},
+        changesets: {
+          'xsushi.md': [XSUSHI],
+          'gold.md': [GOLD],
+        },
       })
-      const result = addTransitiveDeps({
-        packages: [XSUSHI],
-        changedPackagesRecursive: [],
-        repo,
+      const result = computePackagesToIgnore([XSUSHI], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [GOLD],
+        packagesToInclude: [COINGECKO, TOKEN_ALLOCATION, XSUSHI],
+        packagesToRelease: [XSUSHI],
       })
-      expect(result).toEqual([COINGECKO, TOKEN_ALLOCATION, XSUSHI])
     })
 
     it('should include reverse dependencies transitively', () => {
-      const XSUSHI = '@chainlink/xsushi-price-adapter'
-      const TOKEN_ALLOCATION = '@chainlink/token-allocation-adapter'
-      const COINGECKO = '@chainlink/coingecko-adapter'
-
       const repo = createMockRepo({
         dependencies: {
           [XSUSHI]: [TOKEN_ALLOCATION],
@@ -295,80 +300,15 @@ describe('get-changeset-arguments core', () => {
         changesets: {
           'token-allocation.md': [TOKEN_ALLOCATION],
           'coingecko.md': [COINGECKO],
+          'gold.md': [GOLD],
         },
       })
-      const result = addTransitiveDeps({
-        packages: [COINGECKO],
-        changedPackagesRecursive: [TOKEN_ALLOCATION, COINGECKO],
-        repo,
+      const result = computePackagesToIgnore([COINGECKO], repo)
+      expect(result).toEqual({
+        packagesToIgnore: [GOLD],
+        packagesToInclude: [COINGECKO, TOKEN_ALLOCATION, XSUSHI],
+        packagesToRelease: [COINGECKO, TOKEN_ALLOCATION, XSUSHI],
       })
-      expect(result).toEqual([COINGECKO, TOKEN_ALLOCATION, XSUSHI])
-    })
-
-    it('should include changeset co-members from multiple changesets', () => {
-      const repo = createMockRepo({
-        dependencies: {},
-        changesets: {
-          'f1.md': ['@chainlink/pkg', '@chainlink/other1'],
-          'f2.md': ['@chainlink/pkg', '@chainlink/other2'],
-        },
-      })
-      const result = addTransitiveDeps({
-        packages: ['@chainlink/pkg'],
-        changedPackagesRecursive: ['@chainlink/pkg', '@chainlink/other1', '@chainlink/other2'],
-        repo,
-      })
-      expect(result).toEqual(['@chainlink/other1', '@chainlink/other2', '@chainlink/pkg'])
-    })
-  })
-
-  describe('computePackagesToIgnore', () => {
-    it('returns packages to include and ignore from workspace', () => {
-      const repo = createMockRepo({
-        dependencies: {
-          '@chainlink/gold-adapter': [],
-          '@chainlink/other-adapter': [],
-        },
-        changesets: {
-          'gold.md': ['@chainlink/gold-adapter'],
-        },
-      })
-      const result = computePackagesToIgnore(['@chainlink/gold-adapter'], repo)
-      expect(result.packagesToInclude).toContain('@chainlink/gold-adapter')
-      expect(result.packagesToIgnore).toContain('@chainlink/other-adapter')
-      expect(result.packagesToIgnore).not.toContain('@chainlink/gold-adapter')
-      expect(result.packagesToRelease).toEqual(['@chainlink/gold-adapter'])
-    })
-
-    it('includes transitive deps in packagesToInclude', () => {
-      const repo = createMockRepo({
-        dependencies: {
-          '@chainlink/gold-adapter': ['@chainlink/ea-bootstrap'],
-          '@chainlink/ea-bootstrap': [],
-          '@chainlink/other': [],
-        },
-        changesets: {
-          'gold.md': ['@chainlink/gold-adapter'],
-        },
-      })
-      const result = computePackagesToIgnore(['@chainlink/gold-adapter'], repo)
-      expect(result.packagesToInclude).toEqual([
-        '@chainlink/ea-bootstrap',
-        '@chainlink/gold-adapter',
-      ])
-      expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
-    })
-    it('includes only the adapter when it has no deps and no shared changesets', () => {
-      const repo = createMockRepo({
-        dependencies: {
-          '@chainlink/standalone-adapter': [],
-          '@chainlink/other': [],
-        },
-        changesets: {},
-      })
-      const result = computePackagesToIgnore(['@chainlink/standalone-adapter'], repo)
-      expect(result.packagesToInclude).toEqual(['@chainlink/standalone-adapter'])
-      expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
     })
   })
 
@@ -377,6 +317,18 @@ describe('get-changeset-arguments core', () => {
     let exitSpy: jest.SpyInstance
     let consoleErrorSpy: jest.SpyInstance
     let consoleLogSpy: jest.SpyInstance
+
+    const expectOutput = ({ stdout, stderr }: { stdout: string[]; stderr: string[] }) => {
+      stdout.forEach((line, index) => {
+        expect(consoleLogSpy).toHaveBeenNthCalledWith(index + 1, line)
+      })
+      expect(consoleLogSpy).toHaveBeenCalledTimes(stdout.length)
+
+      stderr.forEach((line, index) => {
+        expect(consoleErrorSpy).toHaveBeenNthCalledWith(index + 1, line)
+      })
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(stderr.length)
+    }
 
     beforeEach(() => {
       exitSpy = jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
@@ -398,11 +350,14 @@ describe('get-changeset-arguments core', () => {
       const repo = createMockRepo({ dependencies: {}, changesets: {} })
 
       expect(() => run(repo)).toThrow('process.exit(0)')
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Usage: yarn get-changeset-arguments <possible empty list of adapters to release>',
-      )
+
+      expectOutput({
+        stdout: [],
+        stderr: [
+          'Usage: yarn get-changeset-arguments <possible empty list of adapters to release>',
+        ],
+      })
       expect(exitSpy).toHaveBeenCalledWith(0)
-      expect(consoleLogSpy).not.toHaveBeenCalled()
     })
 
     it('prints --ignore args to stdout and exits successfully when given valid adapter', () => {
@@ -419,15 +374,17 @@ describe('get-changeset-arguments core', () => {
 
       run(repo)
 
-      expect(exitSpy).not.toHaveBeenCalled()
-      expect(consoleLogSpy).toHaveBeenCalledTimes(1)
-      expect(consoleLogSpy.mock.calls[0][0]).toBe('--ignore @chainlink/other-adapter')
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Not ignoring the following transitive dependencies:',
-      )
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        'Expecting the following packages to be released:',
-      )
+      expectOutput({
+        stdout: ['--ignore @chainlink/other-adapter'],
+        stderr: [
+          'Not ignoring the following transitive dependencies:',
+          '@chainlink/gold-adapter',
+          '',
+          'Expecting the following packages to be released:',
+          '@chainlink/gold-adapter',
+          '',
+        ],
+      })
     })
 
     it('prints error to stderr and exits 1 when adapter name is invalid', () => {
@@ -438,9 +395,11 @@ describe('get-changeset-arguments core', () => {
       })
 
       expect(() => run(repo)).toThrow('process.exit(1)')
-      expect(consoleErrorSpy).toHaveBeenCalledWith("'nonexistent' is not an adapter name.")
-      expect(exitSpy).toHaveBeenCalledWith(1)
-      expect(consoleLogSpy).not.toHaveBeenCalled()
+
+      expectOutput({
+        stdout: [],
+        stderr: ["'nonexistent' is not an adapter name."],
+      })
     })
   })
 })
