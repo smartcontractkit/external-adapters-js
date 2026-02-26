@@ -1,6 +1,6 @@
 import {
   addTransitiveDeps,
-  computeChangesetIgnoreArgs,
+  computePackagesToIgnore,
   getTransitiveReverseDependencies,
   intersect,
   parseAdapterNames,
@@ -322,7 +322,7 @@ describe('get-changeset-arguments core', () => {
     })
   })
 
-  describe('computeChangesetIgnoreArgs', () => {
+  describe('computePackagesToIgnore', () => {
     it('returns packages to include and ignore from workspace', () => {
       const repo = createMockRepo({
         dependencies: {
@@ -333,11 +333,11 @@ describe('get-changeset-arguments core', () => {
           'gold.md': ['@chainlink/gold-adapter'],
         },
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], repo)
+      const result = computePackagesToIgnore(['@chainlink/gold-adapter'], repo)
       expect(result.packagesToInclude).toContain('@chainlink/gold-adapter')
       expect(result.packagesToIgnore).toContain('@chainlink/other-adapter')
       expect(result.packagesToIgnore).not.toContain('@chainlink/gold-adapter')
-      expect(result.changedPackagesRecursive).toEqual(['@chainlink/gold-adapter'])
+      expect(result.packagesToRelease).toEqual(['@chainlink/gold-adapter'])
     })
 
     it('includes transitive deps in packagesToInclude', () => {
@@ -351,7 +351,7 @@ describe('get-changeset-arguments core', () => {
           'gold.md': ['@chainlink/gold-adapter'],
         },
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/gold-adapter'], repo)
+      const result = computePackagesToIgnore(['@chainlink/gold-adapter'], repo)
       expect(result.packagesToInclude).toEqual([
         '@chainlink/ea-bootstrap',
         '@chainlink/gold-adapter',
@@ -366,7 +366,7 @@ describe('get-changeset-arguments core', () => {
         },
         changesets: {},
       })
-      const result = computeChangesetIgnoreArgs(['@chainlink/standalone-adapter'], repo)
+      const result = computePackagesToIgnore(['@chainlink/standalone-adapter'], repo)
       expect(result.packagesToInclude).toEqual(['@chainlink/standalone-adapter'])
       expect(result.packagesToIgnore).toEqual(['@chainlink/other'])
     })

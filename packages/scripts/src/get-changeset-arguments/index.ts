@@ -1,9 +1,4 @@
-import {
-  computeChangesetIgnoreArgs,
-  intersect,
-  parseAdapterNames,
-  resolveAdapterPackages,
-} from './core'
+import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from './core'
 import { createRealRepo } from './realRepo'
 
 /**
@@ -29,20 +24,21 @@ export function run(repo = createRealRepo()): void {
   try {
     const adapterNames = parseAdapterNames(args)
     const adapterPackages = resolveAdapterPackages(adapterNames, repo)
-    const { packagesToInclude, packagesToIgnore, changedPackagesRecursive } =
-      computeChangesetIgnoreArgs(adapterPackages, repo)
+    const { packagesToInclude, packagesToIgnore, packagesToRelease } = computePackagesToIgnore(
+      adapterPackages,
+      repo,
+    )
 
     if (packagesToInclude.length === 0) {
       console.error(`'${args.join(' ')}' does not result in anything to release.`)
       process.exit(1)
     }
 
-    const expectingReleased = intersect(packagesToInclude, changedPackagesRecursive)
     console.error('Not ignoring the following transitive dependencies:')
     console.error(packagesToInclude.join('\n'))
     console.error('')
     console.error('Expecting the following packages to be released:')
-    console.error(expectingReleased.join('\n'))
+    console.error(packagesToRelease.join('\n'))
     console.error('')
 
     const output = packagesToIgnore.map((p) => `--ignore ${p}`).join(' ')

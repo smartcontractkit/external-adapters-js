@@ -91,7 +91,7 @@ export interface ComputeResult {
  * Compute which packages to include (transitive) and which to ignore for
  * `yarn changeset version`. Uses only the Repo; no real I/O.
  */
-export function computeChangesetIgnoreArgs(adapterPackages: string[], repo: Repo): ComputeResult {
+export function computePackagesToIgnore(adapterPackages: string[], repo: Repo): ComputeResult {
   const changedPackagesRecursive = getTransitiveReverseDependencies(
     repo.getPackagesFromChangesetFiles(),
     repo,
@@ -104,9 +104,10 @@ export function computeChangesetIgnoreArgs(adapterPackages: string[], repo: Repo
   const allPackages = repo.getAllWorkspacePackageNames()
   const includeSet = new Set(packagesToInclude)
   const packagesToIgnore = allPackages.filter((p) => !includeSet.has(p))
+  const packagesToRelease = intersect(packagesToInclude, changedPackagesRecursive)
   return {
     packagesToInclude,
     packagesToIgnore,
-    changedPackagesRecursive,
+    packagesToRelease,
   }
 }
