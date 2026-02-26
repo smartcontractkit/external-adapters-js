@@ -18,7 +18,8 @@ const (
 
 // Metrics holds all Prometheus metrics
 type Metrics struct {
-	HTTPRequestsTotal *prometheus.CounterVec
+	HTTPRequestsTotal          *prometheus.CounterVec
+	HTTPRequestDurationSeconds prometheus.Histogram
 }
 
 // NewMetrics creates and registers all metrics
@@ -38,6 +39,13 @@ func NewMetrics() *Metrics {
 				LabelProviderStatusCode,
 			},
 		),
+		HTTPRequestDurationSeconds: promauto.NewHistogram(
+			prometheus.HistogramOpts{
+				Name:    "http_request_duration_seconds",
+				Help:    "A histogram bucket of the distribution of http request durations",
+				Buckets: []float64{0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1},
+			},
+		),
 	}
 }
 
@@ -51,4 +59,9 @@ func (m *Metrics) RecordHTTPRequest(method, statusCode, retry, requestType, asse
 		assetPair,
 		providerStatusCode,
 	).Inc()
+}
+
+// RecordHTTPRequestDuration records request duration in seconds
+func (m *Metrics) RecordHTTPRequestDuration(durationSeconds float64) {
+	m.HTTPRequestDurationSeconds.Observe(durationSeconds)
 }

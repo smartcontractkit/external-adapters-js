@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -13,6 +14,8 @@ import (
 // MetricsMiddleware creates a middleware that records HTTP request metrics
 func MetricsMiddleware(m *metrics.Metrics) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		start := time.Now()
+
 		// Process the request
 		c.Next()
 
@@ -31,6 +34,7 @@ func MetricsMiddleware(m *metrics.Metrics) gin.HandlerFunc {
 
 		// Record the metric
 		m.RecordHTTPRequest(method, statusCode, retry, requestType, assetPair, providerStatusCode)
+		m.RecordHTTPRequestDuration(time.Since(start).Seconds())
 	}
 }
 
