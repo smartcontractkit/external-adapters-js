@@ -4,25 +4,54 @@ export function intersect(list1: string[], list2: string[]): string[] {
   return Array.from(new Set(list1).intersection(new Set(list2)))
 }
 
-export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
-  if (packageNames.length === 0) return []
-  const missing = packageNames.find((pkg) => !repo.packageExists(pkg))
-  if (missing !== undefined) {
-    throw new Error(`'${missing}' is not a package in this repository.`)
+/**
+ * Generic BFS utility: traverses a graph defined by `getNeighbors`,
+ * starting from `startNodes`. Returns all reachable nodes (sorted).
+ */
+function bfsTransitiveClosure(
+  startNodes: string[],
+  getNeighbors: (node: string) => string[],
+  validateNode?: (node: string) => void,
+): string[] {
+  if (startNodes.length === 0) return []
+  if (validateNode) {
+    const missing = startNodes.find((pkg) => {
+      try {
+        validateNode(pkg)
+        return false
+      } catch {
+        return true
+      }
+    })
+    if (missing !== undefined) {
+      throw new Error(`'${missing}' is not a package in this repository.`)
+    }
   }
-  const visited = new Set<string>(packageNames)
-  const queue = [...packageNames]
+  const visited = new Set<string>(startNodes)
+  const queue = [...startNodes]
   let i = 0
   while (i < queue.length) {
-    const pkg = queue[i]
+    const node = queue[i]
     i += 1
-    const toAdd = repo.getPackagesThatDependOn(pkg).filter((r) => !visited.has(r))
-    toAdd.forEach((r) => {
-      visited.add(r)
-      queue.push(r)
+    const neighbors = getNeighbors(node).filter((n) => !visited.has(n))
+    neighbors.forEach((n) => {
+      visited.add(n)
+      queue.push(n)
     })
   }
   return [...visited].sort()
+}
+
+export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
+  return bfsTransitiveClosure(
+    packageNames,
+    (pkg) => repo.getPackagesThatDependOn(pkg),
+    (pkg) => {
+      if (!repo.packageExists(pkg)) {
+        throw new Error(`'${pkg}' is not a package in this repository.`)
+      }
+    },
+  )
 }
 
 /**
@@ -40,40 +69,23 @@ export function addTransitiveDeps({
   changedPackagesRecursive: string[]
   repo: Repo
 }): string[] {
-  const included = new Set<string>(packages)
-  const queue = [...packages]
   const changedSet = new Set(changedPackagesRecursive)
-  let i = 0
-  while (i < queue.length) {
-    const pkg = queue[i]
-    i += 1
-
+  return bfsTransitiveClosure(packages, (pkg) => {
+    const result = new Set<string>()
     // Rule 1: packages in the same changeset file(s) as this package
     const files = repo.getChangesetFilesMentioningPackage(pkg)
-    const coMembers = repo.getPackagesFromChangesetFiles(files)
-    const fromRule1 = coMembers.filter((p) => !included.has(p))
-    fromRule1.forEach((p) => {
-      included.add(p)
-      queue.push(p)
-    })
+    repo.getPackagesFromChangesetFiles(files).forEach((p) => result.add(p))
 
     // Rule 2: forward dependencies of this package
-    const fromRule2 = repo.getDependencies(pkg).filter((p) => !included.has(p))
-    fromRule2.forEach((p) => {
-      included.add(p)
-      queue.push(p)
-    })
+    repo.getDependencies(pkg).forEach((p) => result.add(p))
 
     // Rule 3: packages that depend on this one (only if this package is in the changed set)
     if (changedSet.has(pkg)) {
-      const fromRule3 = repo.getPackagesThatDependOn(pkg).filter((p) => !included.has(p))
-      fromRule3.forEach((p) => {
-        included.add(p)
-        queue.push(p)
-      })
+      repo.getPackagesThatDependOn(pkg).forEach((p) => result.add(p))
     }
-  }
-  return [...included].sort()
+
+    return Array.from(result)
+  })
 }
 
 export function parseAdapterNames(args: string[]): string[] {
