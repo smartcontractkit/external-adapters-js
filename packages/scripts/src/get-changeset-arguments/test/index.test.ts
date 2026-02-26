@@ -24,8 +24,8 @@ describe('index', () => {
       exitSpy = jest.spyOn(process, 'exit').mockImplementation(((code?: number) => {
         throw new Error(`process.exit(${code})`)
       }) as never)
-      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
-      consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+      consoleErrorSpy = jest.spyOn(console, 'error').mockReturnValue()
+      consoleLogSpy = jest.spyOn(console, 'log').mockReturnValue()
     })
 
     afterEach(() => {

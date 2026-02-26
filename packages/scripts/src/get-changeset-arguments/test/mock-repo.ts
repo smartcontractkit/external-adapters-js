@@ -1,7 +1,9 @@
-export interface MockRepoStructure {
+import { Repo } from '../repo'
+
+interface MockRepoStructure {
   dependencies: Record<string, string[]>
   // Maps from filename to list of packages.
-  changesets?: Record<string, string[]>
+  changesets: Record<string, string[]>
 }
 
 // Maps values to keys, where values are arrays.
@@ -17,7 +19,7 @@ const invertMapping = (map: Record<string, string[]>): Record<string, string[]> 
   return result
 }
 
-export function createMockRepo({ dependencies, changesets }: MockRepoStructure): Repo {
+export const createMockRepo = ({ dependencies, changesets }: MockRepoStructure): Repo => {
   const packages = new Set([
     ...Object.keys(dependencies),
     ...Object.values(dependencies).flat(),

@@ -1,24 +1,19 @@
 import type { Repo } from './repo'
 
 export function intersect(list1: string[], list2: string[]): string[] {
-  return [...new Set(list1).intersection(new Set(list2))].sort()
+  return list1.filter((item) => list2.includes(item))
 }
 
-/**
- * Generic BFS utility: traverses a graph defined by `getNeighbors`,
- * starting from `startNodes`. Returns all reachable nodes (sorted).
- */
-function bfsTransitiveClosure(
+const bfsTransitiveClosure = (
   startNodes: string[],
   getNeighbors: (node: string) => string[],
-): string[] {
+): string[] => {
   if (startNodes.length === 0) return []
   const visited = new Set<string>(startNodes)
   const queue = [...startNodes]
   let i = 0
   while (i < queue.length) {
-    const node = queue[i]
-    i += 1
+    const node = queue[i++]
     const neighbors = getNeighbors(node).filter((n) => !visited.has(n))
     neighbors.forEach((n) => {
       visited.add(n)
@@ -28,17 +23,15 @@ function bfsTransitiveClosure(
   return [...visited].sort()
 }
 
-export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
+const getTransitiveReverseDependencies = (packageNames: string[], repo: Repo): string[] => {
   return bfsTransitiveClosure(packageNames, (pkg) => repo.getPackagesThatDependOn(pkg))
 }
 
-/**
- * Transitive closure via BFS: for each package in packages, transitively add
- * 1. packages sharing the same changeset file
- * 2. dependencies
- * 3. reverse dependencies if the package has changes according to a changeset file
- */
-function addTransitiveDeps({
+// Transitive closure via BFS: for each package in packages, transitively add
+// 1. packages sharing the same changeset file
+// 2. dependencies
+// 3. reverse dependencies if the package has changes according to a changeset file
+const addTransitiveDeps = ({
   packages,
   changedPackagesRecursive,
   repo,
@@ -46,7 +39,7 @@ function addTransitiveDeps({
   packages: string[]
   changedPackagesRecursive: string[]
   repo: Repo
-}): string[] {
+}): string[] => {
   const changedSet = new Set(changedPackagesRecursive)
   return bfsTransitiveClosure(packages, (pkg) => {
     const result = new Set<string>()
@@ -62,15 +55,15 @@ function addTransitiveDeps({
       repo.getPackagesThatDependOn(pkg).forEach((p) => result.add(p))
     }
 
-    return Array.from(result)
+    return [...result]
   })
 }
 
-export function parseAdapterNames(args: string[]): string[] {
+export const parseAdapterNames = (args: string[]): string[] => {
   return args.join(' ').replace(/,/g, ' ').split(/\s+/).filter(Boolean)
 }
 
-export function resolveAdapterPackages(adapterNames: string[], repo: Repo): string[] {
+export const resolveAdapterPackages = (adapterNames: string[], repo: Repo): string[] => {
   return adapterNames.map((name) => {
     const packageName = `@chainlink/${name}-adapter`
     if (repo.packageExists(packageName)) {
