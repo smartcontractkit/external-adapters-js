@@ -1,5 +1,5 @@
 import { run } from '../index'
-import { createMockRepo } from './mock-repo'
+import { createMockRepo } from './mockRepo'
 
 describe('index', () => {
   describe('run', () => {

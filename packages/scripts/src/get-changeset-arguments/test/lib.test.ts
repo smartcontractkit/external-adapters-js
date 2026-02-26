@@ -1,5 +1,5 @@
 import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from '../lib'
-import { createMockRepo } from './mock-repo'
+import { createMockRepo } from './mockRepo'
 
 describe('lib', () => {
   describe('parseAdapterNames', () => {
