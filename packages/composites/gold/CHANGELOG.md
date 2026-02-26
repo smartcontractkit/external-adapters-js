@@ -1,5 +1,11 @@
 # @chainlink/gold-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4675](https://github.com/smartcontractkit/external-adapters-js/pull/4675) [`543bb3b`](https://github.com/smartcontractkit/external-adapters-js/commit/543bb3ba7889e83696a720bdffeb358624063e44) Thanks [@dskloetc](https://github.com/dskloetc)! - Guard against XAU price changing when the market is closed
+
 ## 1.1.0
 
 ### Minor Changes
