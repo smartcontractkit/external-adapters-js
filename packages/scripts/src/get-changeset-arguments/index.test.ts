@@ -135,15 +135,6 @@ describe('get-changeset-arguments core', () => {
         '@chainlink/leaf',
       ])
     })
-    it('throws when package does not exist', () => {
-      const repo = createMockRepo({
-        dependencies: { '@chainlink/a-adapter': [] },
-        changesets: [],
-      })
-      expect(() =>
-        getTransitiveReverseDependencies(['@chainlink/nonexistent-adapter'], repo),
-      ).toThrow("'@chainlink/nonexistent-adapter' is not a package in this repository.")
-    })
   })
 
   describe('resolveAdapterPackages', () => {

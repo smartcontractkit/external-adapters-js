@@ -11,22 +11,8 @@ export function intersect(list1: string[], list2: string[]): string[] {
 function bfsTransitiveClosure(
   startNodes: string[],
   getNeighbors: (node: string) => string[],
-  validateNode?: (node: string) => void,
 ): string[] {
   if (startNodes.length === 0) return []
-  if (validateNode) {
-    const missing = startNodes.find((pkg) => {
-      try {
-        validateNode(pkg)
-        return false
-      } catch {
-        return true
-      }
-    })
-    if (missing !== undefined) {
-      throw new Error(`'${missing}' is not a package in this repository.`)
-    }
-  }
   const visited = new Set<string>(startNodes)
   const queue = [...startNodes]
   let i = 0
@@ -43,15 +29,7 @@ function bfsTransitiveClosure(
 }
 
 export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
-  return bfsTransitiveClosure(
-    packageNames,
-    (pkg) => repo.getPackagesThatDependOn(pkg),
-    (pkg) => {
-      if (!repo.packageExists(pkg)) {
-        throw new Error(`'${pkg}' is not a package in this repository.`)
-      }
-    },
-  )
+  return bfsTransitiveClosure(packageNames, (pkg) => repo.getPackagesThatDependOn(pkg))
 }
 
 /**
