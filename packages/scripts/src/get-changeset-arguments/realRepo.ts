@@ -1,35 +1,24 @@
-import { execSync } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
-import type { Repo } from './repo'
+import { createRepoFromStructure, type Repo, type RepoStructure } from './repo'
 
 const PACKAGES_DIR = 'packages'
 const CHANGESET_DIR = '.changeset'
 const ADAPTER_PACKAGE_RE = /^'(@chainlink\/[^']*-adapter)': (major|minor|patch)$/gm
 
-function getPackageJsonPath(packageName: string): string | null {
-  try {
-    const out = execSync(`git grep -l '"name": "${packageName}"' ${PACKAGES_DIR}`, {
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    })
-    const first = out.trim().split('\n')[0]
-    return first || null
-  } catch {
-    return null
+function findPackageJsonFiles(dir: string): string[] {
+  const results: string[] = []
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      if (entry.name !== 'node_modules') {
+        results.push(...findPackageJsonFiles(full))
+      }
+    } else if (entry.name === 'package.json') {
+      results.push(full)
+    }
   }
-}
-
-function findPackageJsonWithDependency(packageName: string): string[] {
-  try {
-    const out = execSync(
-      `git grep -l '"${packageName}": "' ${PACKAGES_DIR}/*/*/package.json 2>/dev/null || true`,
-      { encoding: 'utf-8', stdio: 'pipe' },
-    )
-    return out.trim().split('\n').filter(Boolean)
-  } catch {
-    return []
-  }
+  return results
 }
 
 function parsePackagesFromChangesetContent(content: string): string[] {
@@ -38,66 +27,49 @@ function parsePackagesFromChangesetContent(content: string): string[] {
   return [...new Set(packages)]
 }
 
-export function createRealRepo(): Repo {
-  return {
-    packageExists(packageName: string): boolean {
-      return getPackageJsonPath(packageName) !== null
-    },
+function discoverRepoStructure(): RepoStructure {
+  const packageJsonPaths = findPackageJsonFiles(PACKAGES_DIR)
+  const allPackageNames = new Set<string>()
+  const dependencies: Record<string, string[]> = {}
 
-    getDependencies(packageName: string): string[] {
-      const packageFile = getPackageJsonPath(packageName)
-      if (!packageFile) return []
-      const pkgJson = JSON.parse(fs.readFileSync(packageFile, 'utf-8'))
-      const deps = (pkgJson.dependencies && Object.keys(pkgJson.dependencies)) || []
-      const chainlinkDeps = deps.filter((d: string) => d.startsWith('@chainlink/'))
-      return chainlinkDeps.filter((d: string) => getPackageJsonPath(d) !== null)
-    },
-
-    getPackagesThatDependOn(packageName: string): string[] {
-      const packageFiles = findPackageJsonWithDependency(packageName)
-      const names = packageFiles.flatMap((f) => {
-        const pkgJson = JSON.parse(fs.readFileSync(f, 'utf-8'))
-        return pkgJson.dependencies?.[packageName] ? [pkgJson.name] : []
-      })
-      return [...new Set(names)].sort()
-    },
-
-    getPackagesFromChangesetFiles(files?: string[]): string[] {
-      const toSearch =
-        files ??
-        fs
-          .readdirSync(CHANGESET_DIR)
-          .filter((f) => f.endsWith('.md') && f !== 'README.md')
-          .map((f) => path.join(CHANGESET_DIR, f))
-      const allPackages = toSearch.flatMap((file) =>
-        parsePackagesFromChangesetContent(fs.readFileSync(file, 'utf-8')),
+  for (const filePath of packageJsonPaths) {
+    const pkg = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+    const name = pkg?.name
+    if (!name || typeof name !== 'string') {
+      throw new Error(`Invalid package.json at ${filePath}: missing or invalid "name" field`)
+    }
+    allPackageNames.add(name)
+    if (!pkg.dependencies || typeof pkg.dependencies !== 'object') {
+      throw new Error(
+        `Invalid package.json at ${filePath}: missing or invalid "dependencies" field`,
       )
-      return [...new Set(allPackages)].sort()
-    },
-
-    getChangesetFilesMentioningPackage(packageName: string): string[] {
-      try {
-        const out = execSync(
-          `git grep -lE "^'${packageName}': (major|minor|patch)" ${CHANGESET_DIR}`,
-          { encoding: 'utf-8', stdio: 'pipe' },
-        )
-        return out.trim().split('\n').filter(Boolean)
-      } catch {
-        return []
-      }
-    },
-
-    getAllWorkspacePackageNames(): string[] {
-      const out = execSync('yarn workspaces list --json', {
-        encoding: 'utf-8',
-        stdio: 'pipe',
-      })
-      return out
-        .trim()
-        .split('\n')
-        .filter(Boolean)
-        .map((line: string) => JSON.parse(line).name)
-        .filter((name: string) => name !== '@chainlink/external-adapters-js')
-    },
+    }
+    dependencies[name] = Object.keys(pkg.dependencies)
   }
+
+  // Restrict dependencies to packages that exist in the repo
+  const dependenciesInRepo: Record<string, string[]> = {}
+  for (const [pkg, deps] of Object.entries(dependencies)) {
+    dependenciesInRepo[pkg] = deps.filter((d) => allPackageNames.has(d))
+  }
+
+  const changesetFiles = fs
+    .readdirSync(CHANGESET_DIR)
+    .filter((f) => f.endsWith('.md') && f !== 'README.md')
+  const changesets: Record<string, string[]> = {}
+  for (const file of changesetFiles) {
+    const content = fs.readFileSync(path.join(CHANGESET_DIR, file), 'utf-8')
+    changesets[file] = parsePackagesFromChangesetContent(content)
+  }
+
+  return {
+    dependencies: dependenciesInRepo,
+    changesets,
+  }
+}
+
+/** Build a Repo by discovering package.json and changeset files on disk (no git/yarn). */
+export function createRealRepo(): Repo {
+  const structure = discoverRepoStructure()
+  return createRepoFromStructure(structure)
 }

@@ -21,3 +21,54 @@ export interface Repo {
   /** All workspace package names, excluding the root monorepo package */
   getAllWorkspacePackageNames(): string[]
 }
+
+/** Input shape for creating a Repo from in-memory data (e.g. mock or discovered from fs). */
+export interface RepoStructure {
+  dependencies: Record<string, string[]>
+  /** Maps changeset filename to list of package names mentioned. */
+  changesets: Record<string, string[]>
+}
+
+// Maps values to keys, where values are arrays.
+// E.g. {a: [1,2], b: [2,3]} -> {1: [a], 2: [a,b], 3: [b]}
+const invertMapping = (map: Record<string, string[]>): Record<string, string[]> =>
+  Object.entries(map).reduce<Record<string, string[]>>((acc, [key, values]) => {
+    for (const value of values) {
+      acc[value] ??= []
+      acc[value].push(key)
+    }
+    return acc
+  }, {})
+
+export const createRepoFromStructure = ({ dependencies, changesets }: RepoStructure): Repo => {
+  const packages = new Set([
+    ...Object.keys(dependencies),
+    ...Object.values(dependencies).flat(),
+    ...Object.values(changesets ?? {}).flat(),
+  ])
+
+  const reverseDeps = invertMapping(dependencies)
+  const changesetsByPackage = invertMapping(changesets ?? {})
+
+  return {
+    packageExists(name: string) {
+      return packages.has(name)
+    },
+    getDependencies(name: string) {
+      return [...(dependencies[name] ?? [])]
+    },
+    getPackagesThatDependOn(name: string) {
+      return [...(reverseDeps[name] ?? [])]
+    },
+    getPackagesFromChangesetFiles(files?: string[]) {
+      const filesToUse = files ?? Object.keys(changesets ?? {})
+      return [...new Set(filesToUse.flatMap((file) => changesets?.[file] ?? []))]
+    },
+    getChangesetFilesMentioningPackage(name: string) {
+      return [...(changesetsByPackage[name] ?? [])]
+    },
+    getAllWorkspacePackageNames() {
+      return [...packages]
+    },
+  }
+}
