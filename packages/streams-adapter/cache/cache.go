@@ -13,7 +13,6 @@ var _ types.Cache = (*Cache)(nil)
 
 // Config holds cache configuration
 type Config struct {
-	MaxSize         uint          // Maximum number of items
 	TTL             time.Duration // Time-to-live for items
 	CleanupInterval time.Duration // How often to run cleanup
 }
@@ -22,7 +21,6 @@ type Config struct {
 type Cache struct {
 	mu              sync.RWMutex
 	items           map[string]*types.CacheItem
-	maxSize         uint
 	ttl             time.Duration
 	cleanupInterval time.Duration
 	ctx             context.Context
@@ -33,12 +31,15 @@ type Cache struct {
 // New creates a new cache instance
 func New(cfg Config) *Cache {
 	ctx, cancel := context.WithCancel(context.Background())
+	cleanupInterval := cfg.CleanupInterval
+	if cleanupInterval <= 0 {
+		cleanupInterval = time.Minute
+	}
 
 	c := &Cache{
 		items:           make(map[string]*types.CacheItem),
-		maxSize:         cfg.MaxSize,
 		ttl:             cfg.TTL,
-		cleanupInterval: cfg.CleanupInterval,
+		cleanupInterval: cleanupInterval,
 		ctx:             ctx,
 		cancel:          cancel,
 	}

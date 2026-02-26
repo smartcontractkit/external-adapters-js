@@ -15,7 +15,6 @@ type Config struct {
 	GoMetricsPort string
 
 	// Cache configuration
-	CacheMaxSize         uint // Maximum number of cache items (0 = default 10000)
 	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
 	CacheCleanupInterval uint // Cache cleanup interval in minutes (0 = default 1 minute)
 
@@ -37,7 +36,6 @@ func Load() *Config {
 		GoMetricsPort: getEnv("GO_METRICS_PORT", "9080"),
 
 		// Cache configuration
-		CacheMaxSize:         getEnvAsInt("CACHE_MAX_SIZE", 10000),
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
 		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
 
@@ -70,6 +68,9 @@ func getEnv(key, defaultValue string) string {
 func getEnvAsInt(key string, defaultValue uint) uint {
 	valueStr := getEnv(key, "")
 	if value, err := strconv.ParseUint(valueStr, 10, 64); err == nil {
+		if value == 0 {
+			return defaultValue
+		}
 		return uint(value)
 	}
 	return defaultValue

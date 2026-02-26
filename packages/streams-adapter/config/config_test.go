@@ -16,7 +16,7 @@ func TestLoad_Defaults(t *testing.T) {
 	// Unset all env vars that Load reads so defaults apply
 	for _, key := range []string{
 		"PACKAGE_NAME", "HTTP_PORT", "EA_PORT", "EA_INTERNAL_HOST",
-		"REDCON_PORT", "GO_METRICS_PORT", "CACHE_MAX_SIZE",
+		"REDCON_PORT", "GO_METRICS_PORT",
 		"CACHE_TTL_MINUTES", "CACHE_CLEANUP_INTERVAL", "LOG_LEVEL",
 	} {
 		t.Setenv(key, "")
@@ -38,9 +38,6 @@ func TestLoad_Defaults(t *testing.T) {
 	}
 	if cfg.GoMetricsPort != "9080" {
 		t.Errorf("GoMetricsPort = %q, want %q", cfg.GoMetricsPort, "9080")
-	}
-	if cfg.CacheMaxSize != 10000 {
-		t.Errorf("CacheMaxSize = %d, want %d", cfg.CacheMaxSize, 10000)
 	}
 	if cfg.CacheTTLMinutes != 5 {
 		t.Errorf("CacheTTLMinutes = %d, want %d", cfg.CacheTTLMinutes, 5)
@@ -64,7 +61,6 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 		"EA_INTERNAL_HOST":       "0.0.0.0",
 		"REDCON_PORT":            "6380",
 		"GO_METRICS_PORT":        "9090",
-		"CACHE_MAX_SIZE":         "50000",
 		"CACHE_TTL_MINUTES":      "10",
 		"CACHE_CLEANUP_INTERVAL": "3",
 		"LOG_LEVEL":              "debug",
@@ -86,9 +82,6 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 	}
 	if cfg.GoMetricsPort != "9090" {
 		t.Errorf("GoMetricsPort = %q, want %q", cfg.GoMetricsPort, "9090")
-	}
-	if cfg.CacheMaxSize != 50000 {
-		t.Errorf("CacheMaxSize = %d, want %d", cfg.CacheMaxSize, 50000)
 	}
 	if cfg.CacheTTLMinutes != 10 {
 		t.Errorf("CacheTTLMinutes = %d, want %d", cfg.CacheTTLMinutes, 10)

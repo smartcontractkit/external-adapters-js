@@ -80,7 +80,6 @@ func (m *mockConn) stringAt(i int) string {
 
 func newTestServer() (*RedconServer, func()) {
 	c := cache.New(cache.Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour, // no cleanup during tests
 	})
@@ -239,6 +238,25 @@ func TestHandleCommand_UnknownCommand(t *testing.T) {
 	errMsg, _ := conn.writes[0].value.(string)
 	if !strings.Contains(errMsg, "unknown command") {
 		t.Errorf("error should mention 'unknown command', got: %s", errMsg)
+	}
+}
+
+func TestHandleCommand_EmptyCommand(t *testing.T) {
+	srv, stop := newTestServer()
+	defer stop()
+	conn := newMockConn()
+
+	srv.handleCommand(conn, redcon.Command{})
+
+	if len(conn.writes) != 1 {
+		t.Fatalf("expected 1 write, got %d", len(conn.writes))
+	}
+	if conn.writes[0].kind != "error" {
+		t.Fatalf("expected error write, got %s", conn.writes[0].kind)
+	}
+	errMsg, _ := conn.writes[0].value.(string)
+	if !strings.Contains(errMsg, "empty command") {
+		t.Errorf("error should mention 'empty command', got: %s", errMsg)
 	}
 }
 
@@ -544,5 +562,24 @@ func TestHandleCommand_EvalSha(t *testing.T) {
 
 	if len(conn.writes) != 1 || conn.writes[0].kind != "int" {
 		t.Errorf("expected int write for EVALSHA, got %+v", conn.writes)
+	}
+}
+
+func TestHandleCommand_EvalTooFewArgs(t *testing.T) {
+	srv, stop := newTestServer()
+	defer stop()
+	conn := newMockConn()
+
+	srv.handleCommand(conn, makeCmd("EVAL", "script", "1", "only-key"))
+
+	if len(conn.writes) != 1 {
+		t.Fatalf("expected 1 write, got %d", len(conn.writes))
+	}
+	if conn.writes[0].kind != "error" {
+		t.Fatalf("expected error write, got %s", conn.writes[0].kind)
+	}
+	errMsg, _ := conn.writes[0].value.(string)
+	if !strings.Contains(errMsg, "wrong number of arguments") {
+		t.Errorf("error should mention wrong number of arguments, got: %s", errMsg)
 	}
 }

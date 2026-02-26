@@ -68,6 +68,11 @@ func (s *RedconServer) Stop() error {
 
 // handleCommand processes incoming Redis commands
 func (s *RedconServer) handleCommand(conn redcon.Conn, cmd redcon.Command) {
+	if len(cmd.Args) == 0 {
+		conn.WriteError("ERR empty command")
+		return
+	}
+
 	cmdName := strings.ToLower(string(cmd.Args[0]))
 
 	switch cmdName {
@@ -172,6 +177,11 @@ func (s *RedconServer) handleGet(conn redcon.Conn) {
 
 // handleEval handles the EVAL and EVALSHA commands
 func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
+	if len(cmd.Args) < 5 {
+		conn.WriteError("ERR wrong number of arguments for '" + strings.ToLower(string(cmd.Args[0])) + "' command")
+		return
+	}
+
 	key := string(cmd.Args[3])
 
 	// Extract request parameters from the key

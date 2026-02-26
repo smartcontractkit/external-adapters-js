@@ -57,7 +57,6 @@ func TestMain(m *testing.M) {
 		EAHost:               "localhost",
 		RedconPort:           "0",
 		GoMetricsPort:        "0",
-		CacheMaxSize:         100,
 		CacheTTLMinutes:      5,
 		CacheCleanupInterval: 60,
 		LogLevel:             "info",
@@ -65,7 +64,6 @@ func TestMain(m *testing.M) {
 	}
 
 	testCache = cache.New(cache.Config{
-		MaxSize:         100,
 		TTL:             5 * time.Minute,
 		CleanupInterval: 10 * time.Minute,
 	})

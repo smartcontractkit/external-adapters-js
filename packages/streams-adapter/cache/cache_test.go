@@ -18,7 +18,6 @@ func TestNew(t *testing.T) {
 		{
 			name: "default config",
 			config: Config{
-				MaxSize:         100,
 				TTL:             time.Minute,
 				CleanupInterval: time.Second * 30,
 			},
@@ -26,7 +25,6 @@ func TestNew(t *testing.T) {
 		{
 			name: "zero config",
 			config: Config{
-				MaxSize:         0,
 				TTL:             0,
 				CleanupInterval: time.Millisecond,
 			},
@@ -43,9 +41,6 @@ func TestNew(t *testing.T) {
 			}
 			if c.items == nil {
 				t.Error("items map is nil")
-			}
-			if c.maxSize != tt.config.MaxSize {
-				t.Errorf("maxSize = %d, want %d", c.maxSize, tt.config.MaxSize)
 			}
 			if c.ttl != tt.config.TTL {
 				t.Errorf("ttl = %v, want %v", c.ttl, tt.config.TTL)
@@ -65,7 +60,6 @@ func TestNew(t *testing.T) {
 
 func TestCache_SetAndGet(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour, // Long interval to avoid interference
 	})
@@ -138,7 +132,6 @@ func TestCache_SetAndGet(t *testing.T) {
 
 func TestCache_Get_NotFound(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -161,7 +154,6 @@ func TestCache_Get_NotFound(t *testing.T) {
 
 func TestCache_Get_EmptyParams(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -177,7 +169,6 @@ func TestCache_Get_EmptyParams(t *testing.T) {
 
 func TestCache_Set_EmptyParams(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -200,7 +191,6 @@ func TestCache_Set_EmptyParams(t *testing.T) {
 
 func TestCache_Set_Overwrite(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -240,7 +230,6 @@ func TestCache_Set_Overwrite(t *testing.T) {
 
 func TestCache_Keys(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -266,7 +255,6 @@ func TestCache_Keys(t *testing.T) {
 
 func TestCache_Size(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -297,7 +285,6 @@ func TestCache_Size(t *testing.T) {
 
 func TestCache_Items(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -337,7 +324,6 @@ func TestCache_Items(t *testing.T) {
 
 func TestCache_Items_ReturnsCopy(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -361,7 +347,6 @@ func TestCache_Items_ReturnsCopy(t *testing.T) {
 func TestCache_CleanupExpired(t *testing.T) {
 	ttl := 50 * time.Millisecond
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             ttl,
 		CleanupInterval: time.Hour, // Manual cleanup
 	})
@@ -405,7 +390,6 @@ func TestCache_CleanupLoop(t *testing.T) {
 	cleanupInterval := 30 * time.Millisecond
 
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             ttl,
 		CleanupInterval: cleanupInterval,
 	})
@@ -431,7 +415,6 @@ func TestCache_CleanupLoop(t *testing.T) {
 
 func TestCache_Stop(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Millisecond,
 	})
@@ -454,7 +437,6 @@ func TestCache_Stop(t *testing.T) {
 
 func TestCache_ConcurrentAccess(t *testing.T) {
 	c := New(Config{
-		MaxSize:         1000,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -519,7 +501,6 @@ func TestCache_ConcurrentAccess(t *testing.T) {
 func TestCache_ConcurrentSetAndCleanup(t *testing.T) {
 	ttl := 10 * time.Millisecond
 	c := New(Config{
-		MaxSize:         1000,
 		TTL:             ttl,
 		CleanupInterval: 5 * time.Millisecond,
 	})
@@ -566,7 +547,6 @@ func TestCache_ConcurrentSetAndCleanup(t *testing.T) {
 
 func TestCache_CaseInsensitiveKeys(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -595,7 +575,6 @@ func TestCache_CaseInsensitiveKeys(t *testing.T) {
 
 func TestCache_DeterministicKeyOrdering(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -632,7 +611,6 @@ func TestCache_DeterministicKeyOrdering(t *testing.T) {
 
 func TestCache_ImplementsInterface(t *testing.T) {
 	c := New(Config{
-		MaxSize:         100,
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
@@ -644,7 +622,6 @@ func TestCache_ImplementsInterface(t *testing.T) {
 
 func BenchmarkCache_Set(b *testing.B) {
 	c := New(Config{
-		MaxSize:         100000,
 		TTL:             time.Hour,
 		CleanupInterval: time.Hour,
 	})
@@ -670,7 +647,6 @@ func BenchmarkCache_Set(b *testing.B) {
 
 func BenchmarkCache_Get(b *testing.B) {
 	c := New(Config{
-		MaxSize:         100000,
 		TTL:             time.Hour,
 		CleanupInterval: time.Hour,
 	})
@@ -706,7 +682,6 @@ func BenchmarkCache_Get(b *testing.B) {
 
 func BenchmarkCache_ConcurrentSetGet(b *testing.B) {
 	c := New(Config{
-		MaxSize:         100000,
 		TTL:             time.Hour,
 		CleanupInterval: time.Hour,
 	})

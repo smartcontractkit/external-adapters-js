@@ -225,6 +225,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Get request object from pool
 	reqData := requestDataPool.Get().(*RequestData)
 	defer requestDataPool.Put(reqData)
+	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
 			Success: false,
