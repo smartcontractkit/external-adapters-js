@@ -27,3 +27,20 @@ exports[`execute multiplier endpoint should return success 1`] = `
   },
 }
 `;
+
+exports[`execute multiplier endpoint should return success from staging endpoint when env=staging 1`] = `
+{
+  "data": {
+    "activationDateTime": 0,
+    "currentMultiplier": 1.5,
+    "newMultiplier": 0,
+    "reason": null,
+  },
+  "result": 1.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
