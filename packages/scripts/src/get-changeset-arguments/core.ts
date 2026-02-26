@@ -1,7 +1,7 @@
 import type { Repo } from './repo'
 
 export function intersect(list1: string[], list2: string[]): string[] {
-  return Array.from(new Set(list1).intersection(new Set(list2)))
+  return [...new Set(list1).intersection(new Set(list2))].sort()
 }
 
 /**
