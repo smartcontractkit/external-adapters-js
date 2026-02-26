@@ -18,11 +18,12 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
+    const baseURL = config.ENV === 'staging' ? config.STAGING_API_ENDPOINT : config.API_ENDPOINT
     return params.map((param) => {
       return {
         params: [param],
         request: {
-          baseURL: config.API_ENDPOINT,
+          baseURL,
           url: `${param.tokenSymbol}/multiplier`,
           params: {
             network: param.network,
