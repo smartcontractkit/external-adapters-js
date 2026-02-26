@@ -1,7 +1,7 @@
-import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from '../core'
+import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from '../lib'
 import { createMockRepo } from './mock-repo'
 
-describe('get-changeset-arguments core', () => {
+describe('lib', () => {
   describe('parseAdapterNames', () => {
     it('splits on spaces', () => {
       expect(parseAdapterNames(['gold', 'coingecko'])).toEqual(['gold', 'coingecko'])

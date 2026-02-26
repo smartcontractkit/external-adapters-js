@@ -1,4 +1,4 @@
-import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from './core'
+import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from './lib'
 import { createRealRepo } from './realRepo'
 
 /**
