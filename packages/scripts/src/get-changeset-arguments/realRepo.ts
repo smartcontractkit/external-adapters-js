@@ -33,13 +33,9 @@ function findPackageJsonWithDependency(packageName: string): string[] {
 }
 
 function parsePackagesFromChangesetContent(content: string): string[] {
-  const packages = new Set<string>()
   const re = new RegExp(ADAPTER_PACKAGE_RE.source, 'gm')
-  let m: RegExpExecArray | null
-  while ((m = re.exec(content)) !== null) {
-    packages.add(m[1])
-  }
-  return [...packages]
+  const packages = [...content.matchAll(re)].map((m) => m[1])
+  return [...new Set(packages)]
 }
 
 export function createRealRepo(): Repo {
@@ -59,13 +55,10 @@ export function createRealRepo(): Repo {
 
     getPackagesThatDependOn(packageName: string): string[] {
       const packageFiles = findPackageJsonWithDependency(packageName)
-      const names: string[] = []
-      for (const f of packageFiles) {
+      const names = packageFiles.flatMap((f) => {
         const pkgJson = JSON.parse(fs.readFileSync(f, 'utf-8'))
-        if (pkgJson.dependencies && pkgJson.dependencies[packageName]) {
-          names.push(pkgJson.name)
-        }
-      }
+        return pkgJson.dependencies?.[packageName] ? [pkgJson.name] : []
+      })
       return [...new Set(names)].sort()
     },
 
@@ -76,14 +69,10 @@ export function createRealRepo(): Repo {
           .readdirSync(CHANGESET_DIR)
           .filter((f) => f.endsWith('.md') && f !== 'README.md')
           .map((f) => path.join(CHANGESET_DIR, f))
-      const packages = new Set<string>()
-      for (const file of toSearch) {
-        const content = fs.readFileSync(file, 'utf-8')
-        for (const p of parsePackagesFromChangesetContent(content)) {
-          packages.add(p)
-        }
-      }
-      return [...packages].sort()
+      const allPackages = toSearch.flatMap((file) =>
+        parsePackagesFromChangesetContent(fs.readFileSync(file, 'utf-8')),
+      )
+      return [...new Set(allPackages)].sort()
     },
 
     getChangesetFilesMentioningPackage(packageName: string): string[] {

@@ -6,10 +6,9 @@ export function intersect(list1: string[], list2: string[]): string[] {
 
 export function getTransitiveReverseDependencies(packageNames: string[], repo: Repo): string[] {
   if (packageNames.length === 0) return []
-  for (const pkg of packageNames) {
-    if (!repo.packageExists(pkg)) {
-      throw new Error(`'${pkg}' is not a package in this repository.`)
-    }
+  const missing = packageNames.find((pkg) => !repo.packageExists(pkg))
+  if (missing !== undefined) {
+    throw new Error(`'${missing}' is not a package in this repository.`)
   }
   const visited = new Set<string>(packageNames)
   const queue = [...packageNames]
@@ -17,12 +16,11 @@ export function getTransitiveReverseDependencies(packageNames: string[], repo: R
   while (i < queue.length) {
     const pkg = queue[i]
     i += 1
-    for (const r of repo.getPackagesThatDependOn(pkg)) {
-      if (!visited.has(r)) {
-        visited.add(r)
-        queue.push(r)
-      }
-    }
+    const toAdd = repo.getPackagesThatDependOn(pkg).filter((r) => !visited.has(r))
+    toAdd.forEach((r) => {
+      visited.add(r)
+      queue.push(r)
+    })
   }
   return [...visited].sort()
 }
@@ -53,29 +51,26 @@ export function addTransitiveDeps({
     // Rule 1: packages in the same changeset file(s) as this package
     const files = repo.getChangesetFilesMentioningPackage(pkg)
     const coMembers = repo.getPackagesFromChangesetFiles(files)
-    for (const p of coMembers) {
-      if (!included.has(p)) {
-        included.add(p)
-        queue.push(p)
-      }
-    }
+    const fromRule1 = coMembers.filter((p) => !included.has(p))
+    fromRule1.forEach((p) => {
+      included.add(p)
+      queue.push(p)
+    })
 
     // Rule 2: forward dependencies of this package
-    for (const p of repo.getDependencies(pkg)) {
-      if (!included.has(p)) {
-        included.add(p)
-        queue.push(p)
-      }
-    }
+    const fromRule2 = repo.getDependencies(pkg).filter((p) => !included.has(p))
+    fromRule2.forEach((p) => {
+      included.add(p)
+      queue.push(p)
+    })
 
     // Rule 3: packages that depend on this one (only if this package is in the changed set)
     if (changedSet.has(pkg)) {
-      for (const p of repo.getPackagesThatDependOn(pkg)) {
-        if (!included.has(p)) {
-          included.add(p)
-          queue.push(p)
-        }
-      }
+      const fromRule3 = repo.getPackagesThatDependOn(pkg).filter((p) => !included.has(p))
+      fromRule3.forEach((p) => {
+        included.add(p)
+        queue.push(p)
+      })
     }
   }
   return [...included].sort()

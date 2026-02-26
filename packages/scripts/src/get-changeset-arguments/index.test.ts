@@ -24,35 +24,31 @@ export interface MockRepoStructure {
 
 function createMockRepo(structure: MockRepoStructure): Repo {
   const { dependencies, changesets } = structure
-  const packageSet = new Set<string>()
-  for (const pkg of Object.keys(dependencies)) packageSet.add(pkg)
-  for (const deps of Object.values(dependencies)) {
-    for (const d of deps) packageSet.add(d)
-  }
-  for (const { packages: pkgs } of changesets) {
-    for (const p of pkgs) packageSet.add(p)
-  }
+  const packageSet = new Set([
+    ...Object.keys(dependencies),
+    ...Object.values(dependencies).flat(),
+    ...changesets.flatMap((c) => c.packages),
+  ])
   const packages = [...packageSet].sort()
 
-  const reverseDeps = new Map<string, string[]>()
-  for (const pkg of packages) {
-    const deps = dependencies[pkg] ?? []
-    for (const dep of deps) {
-      if (!reverseDeps.has(dep)) reverseDeps.set(dep, [])
-      reverseDeps.get(dep)!.push(pkg)
-    }
-  }
-  for (const arr of reverseDeps.values()) arr.sort()
+  const reverseDepsPairs = packages.flatMap((pkg) =>
+    (dependencies[pkg] ?? []).map((dep) => [dep, pkg] as const),
+  )
+  const byDep = reverseDepsPairs.reduce<Record<string, string[]>>(
+    (acc, [dep, pkg]) => ({ ...acc, [dep]: [...(acc[dep] ?? []), pkg] }),
+    {},
+  )
+  const reverseDeps = new Map(Object.entries(byDep).map(([dep, pkgs]) => [dep, [...pkgs].sort()]))
 
-  const packagesByFile = new Map<string, string[]>()
-  const filesByPackage = new Map<string, string[]>()
-  for (const { file, packages: pkgs } of changesets) {
-    packagesByFile.set(file, pkgs)
-    for (const p of pkgs) {
-      if (!filesByPackage.has(p)) filesByPackage.set(p, [])
-      filesByPackage.get(p)!.push(file)
-    }
-  }
+  const packagesByFile = new Map(changesets.map(({ file, packages: pkgs }) => [file, pkgs]))
+  const filesByPackageEntries = changesets.flatMap(({ file, packages: pkgs }) =>
+    pkgs.map((p) => [p, file] as const),
+  )
+  const byPkg = filesByPackageEntries.reduce<Record<string, string[]>>(
+    (acc, [p, file]) => ({ ...acc, [p]: [...(acc[p] ?? []), file] }),
+    {},
+  )
+  const filesByPackage = new Map(Object.entries(byPkg))
 
   return {
     packageExists(name: string) {
@@ -65,18 +61,9 @@ function createMockRepo(structure: MockRepoStructure): Repo {
       return reverseDeps.get(name) ?? []
     },
     getPackagesFromChangesetFiles(files?: string[]) {
-      if (files && files.length > 0) {
-        const out = new Set<string>()
-        for (const file of files) {
-          for (const p of packagesByFile.get(file) ?? []) out.add(p)
-        }
-        return [...out].sort()
-      }
-      const out = new Set<string>()
-      for (const pkgs of packagesByFile.values()) {
-        for (const p of pkgs) out.add(p)
-      }
-      return [...out].sort()
+      const toSearch = files?.length ? files : [...packagesByFile.keys()]
+      const allPackages = toSearch.flatMap((file) => packagesByFile.get(file) ?? [])
+      return [...new Set(allPackages)].sort()
     },
     getChangesetFilesMentioningPackage(name: string) {
       return filesByPackage.get(name) ?? []
