@@ -1,8 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/multiplier'
-
-const logger = makeLogger('BackedFi HTTP')
 
 export interface ResponseSchema {
   activationDateTime: number
