@@ -1,5 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/multiplier'
+
+const logger = makeLogger('BackedFi HTTP')
 
 export interface ResponseSchema {
   activationDateTime: number
@@ -18,8 +21,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
-    const baseURL = config.ENV === 'staging' ? config.STAGING_API_ENDPOINT : config.API_ENDPOINT
     return params.map((param) => {
+      const baseURL = param.env === 'staging' ? config.STAGING_API_ENDPOINT : config.API_ENDPOINT
       return {
         params: [param],
         request: {

@@ -58,14 +58,13 @@ describe('execute', () => {
   })
 })
 
-describe('execute with staging env', () => {
+describe('multiplier endpoint with staging env param', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['ENV'] = 'staging'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -85,17 +84,16 @@ describe('execute with staging env', () => {
     spy.mockRestore()
   })
 
-  describe('multiplier endpoint with staging', () => {
-    it('should return success from staging endpoint', async () => {
-      const data = {
-        tokenSymbol: 'METAx',
-        network: 'Arbitrum',
-        endpoint: 'multiplier',
-      }
-      mockStagingResponseSuccess()
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
+  it('should return success from staging endpoint when env=staging', async () => {
+    const data = {
+      tokenSymbol: 'METAx',
+      network: 'Arbitrum',
+      endpoint: 'multiplier',
+      env: 'staging',
+    }
+    mockStagingResponseSuccess()
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchSnapshot()
   })
 })

@@ -11,10 +11,4 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'https://api.stage.backed.fi/api/v1/token',
   },
-  ENV: {
-    description: 'The environment to use (prod or staging)',
-    type: 'enum',
-    default: 'prod',
-    options: ['prod', 'staging'],
-  },
 })
