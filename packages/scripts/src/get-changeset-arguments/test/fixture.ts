@@ -29,6 +29,9 @@ const GOLD_MD = `---
 ---
 `
 
+// Creates package.json and changeset files in a temporary.
+// We don't just commit these testing files because yarn would pick up the
+// package.json files and treats them as real packages.
 export function createRepoFixture(): { rootDir: string; cleanup: () => void } {
   const rootDir = fs.mkdtempSync(path.join(os.tmpdir(), 'changeset-args-fixture-'))
 
