@@ -25,6 +25,12 @@ exports[`execute packages endpoint should return success 1`] = `
     ],
     "result": 2.3,
   },
+  "meta": {
+    "adapterName": "ANCHORAGE",
+    "metrics": {
+      "feedId": "{"packageId":"pkg-123456","assetType":"btc"}",
+    },
+  },
   "result": 2.3,
   "statusCode": 200,
   "timestamps": {
@@ -49,6 +55,12 @@ exports[`execute wallet endpoint should return success 1`] = `
         "network": "ethereum",
       },
     ],
+  },
+  "meta": {
+    "adapterName": "ANCHORAGE",
+    "metrics": {
+      "feedId": "{"vaultId":"b0bb5449c1e4926542ce693b4db2e883","coin":"ethhol","chainId":"testnet","network":"ethereum"}",
+    },
   },
   "result": null,
   "statusCode": 200,
