@@ -1,5 +1,15 @@
 # @chainlink/anchorage-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#4680](https://github.com/smartcontractkit/external-adapters-js/pull/4680) [`a977625`](https://github.com/smartcontractkit/external-adapters-js/commit/a977625b67b4efa6cebfeae57da6c022915e0a5a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add packageId support to Anchorage packages endpoint
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 2.2.0
 
 ### Minor Changes
