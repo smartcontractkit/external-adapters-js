@@ -6,9 +6,10 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |     Name     |          Description          |  Type  | Options |               Default                |
-| :-------: | :----------: | :---------------------------: | :----: | :-----: | :----------------------------------: |
-|           | API_ENDPOINT | An API endpoint for Backed-Fi | string |         | `https://api.backed.fi/api/v1/token` |
+| Required? |         Name         |             Description              |  Type  | Options |                  Default                   |
+| :-------: | :------------------: | :----------------------------------: | :----: | :-----: | :----------------------------------------: |
+|           |     API_ENDPOINT     |    An API endpoint for Backed-Fi     | string |         |    `https://api.backed.fi/api/v1/token`    |
+|           | STAGING_API_ENDPOINT | A staging API endpoint for Backed-Fi | string |         | `https://api.stage.backed.fi/api/v1/token` |
 
 ---
 
@@ -32,10 +33,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Input Params
 
-| Required? |    Name     | Aliases |            Description             |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------: | :-----: | :--------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | tokenSymbol |         |    The symbol of token to query    | string |         |         |            |                |
-|    ✅     |   network   |         | The symbol of the network to query | string |         |         |            |                |
+| Required? |    Name     | Aliases |               Description                |  Type  |      Options      | Default | Depends On | Not Valid With |
+| :-------: | :---------: | :-----: | :--------------------------------------: | :----: | :---------------: | :-----: | :--------: | :------------: |
+|    ✅     | tokenSymbol |         |       The symbol of token to query       | string |                   |         |            |                |
+|    ✅     |   network   |         |    The symbol of the network to query    | string |                   |         |            |                |
+|           |     env     |         | The environment to use (prod or staging) | string | `prod`, `staging` | `prod`  |            |                |
 
 ### Example
 
@@ -46,7 +48,8 @@ Request:
   "data": {
     "endpoint": "multiplier",
     "tokenSymbol": "AMZNx",
-    "network": "Solana"
+    "network": "Solana",
+    "env": "prod"
   }
 }
 ```
