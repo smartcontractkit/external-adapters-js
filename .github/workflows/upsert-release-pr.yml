@@ -57,7 +57,7 @@ jobs:
       - name: Get changeset arguments
         run: |
           set -e
-          CHANGESET_ARGUMENTS="$(.github/scripts/get-changeset-arguments.sh "$SELECTED_ADAPTERS")"
+          CHANGESET_ARGUMENTS="$(yarn get-changeset-arguments "$SELECTED_ADAPTERS")"
           echo "CHANGESET_ARGUMENTS=$CHANGESET_ARGUMENTS" >> "$GITHUB_ENV"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
