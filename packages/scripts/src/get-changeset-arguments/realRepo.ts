@@ -27,11 +27,11 @@ function parsePackagesFromChangesetContent(content: string): string[] {
   return [...new Set(packages)]
 }
 
-// Discovers packages and changesets from the current working directory.
-export function discoverRepoStructure(): RepoStructure {
+// Discovers dependencies from packages/ under the current directory.
+export function discoverDependencies(): RepoStructure['dependencies'] {
   const packageJsonPaths = findPackageJsonFiles(PACKAGES_DIR)
   const allPackageNames = new Set<string>()
-  const dependencies: Record<string, string[]> = {}
+  const rawDependencies: Record<string, string[]> = {}
 
   for (const filePath of packageJsonPaths) {
     const pkg = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -45,15 +45,18 @@ export function discoverRepoStructure(): RepoStructure {
         `Invalid package.json at ${filePath}: missing or invalid "dependencies" field`,
       )
     }
-    dependencies[name] = Object.keys(pkg.dependencies)
+    rawDependencies[name] = Object.keys(pkg.dependencies)
   }
 
-  // Restrict dependencies to packages that exist in the repo
-  const dependenciesInRepo: Record<string, string[]> = {}
-  for (const [pkg, deps] of Object.entries(dependencies)) {
-    dependenciesInRepo[pkg] = deps.filter((d) => allPackageNames.has(d))
+  const dependencies: Record<string, string[]> = {}
+  for (const [pkg, deps] of Object.entries(rawDependencies)) {
+    dependencies[pkg] = deps.filter((d) => allPackageNames.has(d))
   }
+  return dependencies
+}
 
+// Discovers changesets from .changeset/ under the current directory.
+export function discoverChangesets(): RepoStructure['changesets'] {
   const changesetFiles = fs
     .readdirSync(CHANGESET_DIR)
     .filter((f) => f.endsWith('.md') && f !== 'README.md')
@@ -62,10 +65,14 @@ export function discoverRepoStructure(): RepoStructure {
     const content = fs.readFileSync(path.join(CHANGESET_DIR, file), 'utf-8')
     changesets[file] = parsePackagesFromChangesetContent(content)
   }
+  return changesets
+}
 
+// Discovers packages and changesets from the current working directory.
+export function discoverRepoStructure(): RepoStructure {
   return {
-    dependencies: dependenciesInRepo,
-    changesets,
+    dependencies: discoverDependencies(),
+    changesets: discoverChangesets(),
   }
 }
 

@@ -31,7 +31,7 @@ const getTransitiveReverseDependencies = (packageNames: string[], repo: Repo): s
 // 1. packages sharing the same changeset file
 // 2. dependencies
 // 3. reverse dependencies if the package has changes according to a changeset file
-const addTransitiveDeps = ({
+const addTransitiveRequiredPackages = ({
   packages,
   changedPackagesRecursive,
   repo,
@@ -90,7 +90,7 @@ export function computePackagesToIgnore(adapterPackages: string[], repo: Repo): 
     repo.getPackagesFromChangesetFiles(),
     repo,
   )
-  const packagesToInclude = addTransitiveDeps({
+  const packagesToInclude = addTransitiveRequiredPackages({
     packages: adapterPackages,
     changedPackagesRecursive,
     repo,
