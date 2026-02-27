@@ -5,11 +5,21 @@ import (
 	"sync"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+
 	types "streams-adapter/common"
 	helpers "streams-adapter/helpers"
 )
 
 var _ types.Cache = (*Cache)(nil)
+
+var cacheDataGetCount = promauto.NewCounter(
+	prometheus.CounterOpts{
+		Name: "cache_data_get_count",
+		Help: "The number of cache get operations",
+	},
+)
 
 // Config holds cache configuration
 type Config struct {
@@ -69,6 +79,8 @@ func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestam
 
 // Get retrieves an observation for the given request parameters
 func (c *Cache) Get(params types.RequestParams) *types.Observation {
+	cacheDataGetCount.Inc()
+
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
