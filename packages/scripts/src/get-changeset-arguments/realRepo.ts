@@ -4,7 +4,7 @@ import { createRepoFromStructure, type Repo, type RepoStructure } from './repo'
 
 const PACKAGES_DIR = 'packages'
 const CHANGESET_DIR = '.changeset'
-const ADAPTER_PACKAGE_RE = /^'(@chainlink\/[^']*-adapter)': (major|minor|patch)$/gm
+const ADAPTER_PACKAGE_RE = /^'(@chainlink\/[^']*)': (major|minor|patch)$/gm
 
 function findPackageJsonFiles(dir: string): string[] {
   const results: string[] = []
@@ -27,7 +27,8 @@ function parsePackagesFromChangesetContent(content: string): string[] {
   return [...new Set(packages)]
 }
 
-function discoverRepoStructure(): RepoStructure {
+// Discovers packages and changesets from the current working directory.
+export function discoverRepoStructure(): RepoStructure {
   const packageJsonPaths = findPackageJsonFiles(PACKAGES_DIR)
   const allPackageNames = new Set<string>()
   const dependencies: Record<string, string[]> = {}
