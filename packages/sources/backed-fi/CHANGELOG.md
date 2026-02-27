@@ -1,5 +1,15 @@
 # @chainlink/backed-fi-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4674](https://github.com/smartcontractkit/external-adapters-js/pull/4674) [`4b34566`](https://github.com/smartcontractkit/external-adapters-js/commit/4b34566c67db90025a4704cc6eeafa6815160825) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Added Staging URL fallback
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.0.3
 
 ### Patch Changes
