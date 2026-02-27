@@ -1,5 +1,5 @@
 import { run } from '../index'
-import { createMockRepo } from './mockRepo'
+import { createRepoFromStructure } from '../repo'
 
 describe('index', () => {
   describe('run', () => {
@@ -37,7 +37,7 @@ describe('index', () => {
 
     it('prints usage to stderr and exits 0 when no args', () => {
       process.argv = ['node', 'script']
-      const repo = createMockRepo({ dependencies: {}, changesets: {} })
+      const repo = createRepoFromStructure({ dependencies: {}, changesets: {} })
 
       expect(() => run(repo)).toThrow('process.exit(0)')
 
@@ -52,7 +52,7 @@ describe('index', () => {
 
     it('prints --ignore args to stdout and exits successfully when given valid adapter', () => {
       process.argv = ['node', 'script', 'gold']
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           '@chainlink/gold-adapter': [],
           '@chainlink/other-adapter': [],
@@ -79,7 +79,7 @@ describe('index', () => {
 
     it('prints error to stderr and exits 1 when adapter name is invalid', () => {
       process.argv = ['node', 'script', 'nonexistent']
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: {},
       })

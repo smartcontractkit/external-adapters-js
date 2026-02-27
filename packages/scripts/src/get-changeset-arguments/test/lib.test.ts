@@ -1,5 +1,5 @@
 import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from '../lib'
-import { createMockRepo } from './mockRepo'
+import { createRepoFromStructure } from '../repo'
 
 describe('lib', () => {
   describe('parseAdapterNames', () => {
@@ -24,7 +24,7 @@ describe('lib', () => {
 
   describe('resolveAdapterPackages', () => {
     it('resolves valid adapter names to package names', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           '@chainlink/gold-adapter': [],
           '@chainlink/coingecko-adapter': [],
@@ -39,7 +39,7 @@ describe('lib', () => {
     })
 
     it('throws when adapter does not exist', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: { '@chainlink/gold-adapter': [] },
         changesets: {},
       })
@@ -59,7 +59,7 @@ describe('lib', () => {
     const COINGECKO = '@chainlink/coingecko-adapter'
 
     it('should return packages to include, ignore and release', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {},
         changesets: {
           'gold.md': [GOLD],
@@ -75,7 +75,7 @@ describe('lib', () => {
     })
 
     it('should include direct dependencies', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
         },
@@ -92,7 +92,7 @@ describe('lib', () => {
     })
 
     it('should include packages that share a changeset', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {},
         changesets: {
           'gold.md': [SCRIPTS, GOLD],
@@ -107,7 +107,7 @@ describe('lib', () => {
     })
 
     it('should include reverse dependencies of a changed package', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
         },
@@ -124,7 +124,7 @@ describe('lib', () => {
     })
 
     it('should not include changed reverse dependencies of an unchanged package', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
           [ONDO]: [DATA_ENGINE],
@@ -143,7 +143,7 @@ describe('lib', () => {
     })
 
     it('should include co-members of changesets transitively', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {},
         changesets: {
           'ondo.md': [ONDO, SCRIPTS],
@@ -160,7 +160,7 @@ describe('lib', () => {
     })
 
     it('should include dependencies transitively', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           [XSUSHI]: [TOKEN_ALLOCATION],
           [TOKEN_ALLOCATION]: [COINGECKO],
@@ -179,7 +179,7 @@ describe('lib', () => {
     })
 
     it('should include reverse dependencies transitively', () => {
-      const repo = createMockRepo({
+      const repo = createRepoFromStructure({
         dependencies: {
           [XSUSHI]: [TOKEN_ALLOCATION],
           [TOKEN_ALLOCATION]: [COINGECKO],
