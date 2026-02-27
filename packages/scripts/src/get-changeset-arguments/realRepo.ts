@@ -76,7 +76,7 @@ export function discoverRepoStructure(): RepoStructure {
   }
 }
 
-/** Build a Repo by discovering package.json and changeset files on disk (no git/yarn). */
+// Build a Repo by discovering package.json and changeset files on disk (no git/yarn).
 export function createRealRepo(): Repo {
   const structure = discoverRepoStructure()
   return createRepoFromStructure(structure)

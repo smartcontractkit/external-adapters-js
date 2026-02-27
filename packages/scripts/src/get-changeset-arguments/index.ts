@@ -1,17 +1,14 @@
 import { computePackagesToIgnore, parseAdapterNames, resolveAdapterPackages } from './lib'
 import { createRealRepo } from './realRepo'
 
-/**
- * This script takes a list of adapter names to release and outputs the
- * arguments to pass to `yarn changeset version`.
- *
- * By default `yarn changeset version` will consume all changesets. If we want
- * to release a subset of packages, the only way to tell changeset is to tell
- * it which packages to ignore.
- * It is not allowed to ignore a package in a changeset without ignoring all
- * the packages in that changeset. And it is not allowed to ignore a package
- * that is a dependency of a package that is not ignored.
- */
+// This script takes a list of adapter names to release and outputs the
+// arguments to pass to `yarn changeset version`.
+// By default `yarn changeset version` will consume all changesets. If we want
+// to release a subset of packages, the only way to tell changeset is to tell
+// it which packages to ignore.
+// It is not allowed to ignore a package in a changeset without ignoring all
+// the packages in that changeset. And it is not allowed to ignore a package
+// that is a dependency of a package that is not ignored.
 export function run(repo = createRealRepo()): void {
   const args = process.argv.slice(2)
   if (args.length === 0) {
