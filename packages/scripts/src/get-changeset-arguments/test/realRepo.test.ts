@@ -1,5 +1,5 @@
-import * as path from 'path'
 import { discoverRepoStructure } from '../realRepo'
+import { createRepoFixture } from './fixture'
 
 describe('discoverRepoStructure', () => {
   const originalCwd = process.cwd()
@@ -9,19 +9,23 @@ describe('discoverRepoStructure', () => {
   })
 
   it('discovers packages and changesets from fixture when cwd is fixture dir', () => {
-    const fixtureDir = path.join(__dirname, 'fixture')
-    process.chdir(fixtureDir)
+    const { rootDir, cleanup } = createRepoFixture()
+    try {
+      process.chdir(rootDir)
 
-    const structure = discoverRepoStructure()
-    expect(structure).toEqual({
-      dependencies: {
-        '@chainlink/foo-adapter': [],
-        '@chainlink/bar-adapter': ['@chainlink/foo-adapter'],
-        '@chainlink/scripts': [],
-      },
-      changesets: {
-        'gold.md': ['@chainlink/foo-adapter', '@chainlink/bar-adapter', '@chainlink/ea-scripts'],
-      },
-    })
+      const structure = discoverRepoStructure()
+      expect(structure).toEqual({
+        dependencies: {
+          '@chainlink/foo-adapter': [],
+          '@chainlink/bar-adapter': ['@chainlink/foo-adapter'],
+          '@chainlink/scripts': [],
+        },
+        changesets: {
+          'gold.md': ['@chainlink/foo-adapter', '@chainlink/bar-adapter', '@chainlink/ea-scripts'],
+        },
+      })
+    } finally {
+      cleanup()
+    }
   })
 })
