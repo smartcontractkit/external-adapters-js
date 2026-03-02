@@ -79,7 +79,8 @@ jobs:
       - name: Generate documentation
         run: |
           yarn generate:master-list -v
-          yarn generate:readme -v
+          # Only generate READMEs for adapters being released.
+          yarn generate:readme -v $(.github/scripts/list-packages-adapters.sh HEAD | jq -r '"--adapters " +  .adapters[].shortName' | tr '\n' ' ')
       - name: Undo temporary changesets and commit docs
         run: |
           git stash
