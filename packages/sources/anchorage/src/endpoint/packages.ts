@@ -6,10 +6,10 @@ import { packagesTransport } from '../transport/packages'
 
 export const inputParameters = new InputParameters(
   {
-    clientReferenceId: {
+    packageId: {
       required: true,
       type: 'string',
-      description: 'Id of the vault',
+      description: 'Id of the collateral management package',
     },
     assetType: {
       required: true,
@@ -19,7 +19,7 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      clientReferenceId: '123456',
+      packageId: '1c1dd6b2899660900088',
       assetType: 'BTC',
     },
   ],

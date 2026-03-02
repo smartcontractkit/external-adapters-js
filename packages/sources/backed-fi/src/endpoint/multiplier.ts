@@ -15,11 +15,19 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The symbol of the network to query',
     },
+    env: {
+      required: false,
+      type: 'string',
+      description: 'The environment to use (prod or staging)',
+      default: 'prod',
+      options: ['prod', 'staging'],
+    },
   },
   [
     {
       tokenSymbol: 'AMZNx',
       network: 'Solana',
+      env: 'prod',
     },
   ],
 )
