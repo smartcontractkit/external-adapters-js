@@ -51,9 +51,6 @@
       "path": "./composites/nftx"
     },
     {
-      "path": "./composites/ondo-calculated"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {

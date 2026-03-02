@@ -1,4 +1,4 @@
-// Copied and adjusted from ondo-calculated
+// Copied and adjusted from tokenized-equity
 // EMA algorithm by @kalanyuz and @eshaqiri
 
 export const PRECISION = 18 // Keep 18 decimals when converting number to bigint
