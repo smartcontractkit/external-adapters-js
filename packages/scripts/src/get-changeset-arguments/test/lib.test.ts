@@ -52,7 +52,7 @@ describe('lib', () => {
   describe('computePackagesToIgnore', () => {
     const DATA_ENGINE = '@chainlink/data-engine-adapter'
     const GOLD = '@chainlink/gold-adapter'
-    const ONDO = '@chainlink/ondo-calculated-adapter'
+    const TOKEN = '@chainlink/tokenized-equity-adapter'
     const SCRIPTS = '@chainlink/ea-scripts'
     const XSUSHI = '@chainlink/xsushi-price-adapter'
     const TOKEN_ALLOCATION = '@chainlink/token-allocation-adapter'
@@ -63,12 +63,12 @@ describe('lib', () => {
         dependencies: {},
         changesets: {
           'gold.md': [GOLD],
-          'ondo.md': [ONDO],
+          'token.md': [TOKEN],
         },
       })
       const result = computePackagesToIgnore([GOLD], repo)
       expect(result).toEqual({
-        packagesToIgnore: [ONDO],
+        packagesToIgnore: [TOKEN],
         packagesToInclude: [GOLD],
         packagesToRelease: [GOLD],
       })
@@ -127,16 +127,16 @@ describe('lib', () => {
       const repo = createRepoFromStructure({
         dependencies: {
           [GOLD]: [DATA_ENGINE],
-          [ONDO]: [DATA_ENGINE],
+          [TOKEN]: [DATA_ENGINE],
         },
         changesets: {
-          'ondo.md': [ONDO],
+          'token.md': [TOKEN],
           'gold.md': [GOLD],
         },
       })
       const result = computePackagesToIgnore([GOLD], repo)
       expect(result).toEqual({
-        packagesToIgnore: [ONDO],
+        packagesToIgnore: [TOKEN],
         packagesToInclude: [DATA_ENGINE, GOLD],
         packagesToRelease: [GOLD],
       })
@@ -146,7 +146,7 @@ describe('lib', () => {
       const repo = createRepoFromStructure({
         dependencies: {},
         changesets: {
-          'ondo.md': [ONDO, SCRIPTS],
+          'token.md': [TOKEN, SCRIPTS],
           'gold.md': [GOLD, SCRIPTS],
           'coingecko.md': [COINGECKO],
         },
@@ -154,8 +154,8 @@ describe('lib', () => {
       const result = computePackagesToIgnore([GOLD], repo)
       expect(result).toEqual({
         packagesToIgnore: [COINGECKO],
-        packagesToInclude: [SCRIPTS, GOLD, ONDO],
-        packagesToRelease: [SCRIPTS, GOLD, ONDO],
+        packagesToInclude: [SCRIPTS, GOLD, TOKEN],
+        packagesToRelease: [SCRIPTS, GOLD, TOKEN],
       })
     })
 

@@ -51,9 +51,6 @@
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
-      "path": "./composites/ondo-calculated/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
