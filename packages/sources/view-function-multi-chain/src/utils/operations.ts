@@ -31,6 +31,10 @@ const validateOperation = (
       return validateSubtract(operation, definedNames)
     case 'average':
       return validateAverage(operation, definedNames)
+    case 'equal':
+      return validateEqual(operation, definedNames)
+    case 'assertZero':
+      return validateAssertZero(operation, definedNames)
   }
   // Verify switch is exhaustive
   operationType satisfies never
@@ -55,6 +59,10 @@ export const evaluateOperation = (
       return evaluateSubtract(args, data)
     case 'average':
       return evaluateAverage(args, data)
+    case 'equal':
+      return evaluateEqual(args, data)
+    case 'assertZero':
+      return evaluateAssertZero(args, data)
   }
   // Verify switch is exhaustive
   operationType satisfies never
@@ -228,4 +236,51 @@ const evaluateAverage = (args: string[], data: Record<string, string>): string =
     sum += value
   }
   return (sum / BigInt(args.length)).toString()
+}
+
+const validateEqual = (operation: OperationParam, definedNames: Set<string>): void => {
+  const { name, args } = operation
+  if (args.length < 2) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Equal operation "${name}" must have at least 2 arguments`,
+    })
+  }
+  validateNames({
+    operationName: name,
+    argNames: args,
+    definedNames,
+  })
+}
+
+const evaluateEqual = (args: string[], data: Record<string, string>): string => {
+  return args.every((arg) => BigInt(data[arg]) === BigInt(data[args[0]])) ? '1' : '0'
+}
+
+const validateAssertZero = (operation: OperationParam, definedNames: Set<string>): void => {
+  const { name, args } = operation
+  if (args.length < 1) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `AssertZero operation "${name}" must have at least 1 argument`,
+    })
+  }
+  validateNames({
+    operationName: name,
+    argNames: args,
+    definedNames,
+  })
+}
+
+const evaluateAssertZero = (args: string[], data: Record<string, string>): string => {
+  for (const arg of args) {
+    if (BigInt(data[arg]) !== 0n) {
+      throw new AdapterInputError({
+        statusCode: 500,
+        message: `AssertZero operation failed: "${arg}" is "${data[arg]}" and not zero`,
+        cause: data,
+      })
+    }
+  }
+  return '1'
 }

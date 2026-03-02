@@ -54,3 +54,5 @@ Request:
 ```
 
 ---
+
+MIT License

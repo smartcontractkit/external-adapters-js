@@ -145,13 +145,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985011072538001630843",
+    "result": "4985931916843703641222",
     "state": {
       "deviationEma": {
-        "average": "-283344066815188",
+        "average": "-305962117590409",
         "timestampMs": 1770984180000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984180000,
       "tokenizedStreams": {
@@ -178,7 +178,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985011072538001630843",
+  "result": "4985931916843703641222",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984180000,
@@ -192,13 +192,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4984969696306089910746",
+    "result": "4985820335808836500038",
     "state": {
       "deviationEma": {
-        "average": "-295199041289923",
+        "average": "-337925518108081",
         "timestampMs": 1770984240000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984240000,
       "tokenizedStreams": {
@@ -225,7 +225,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4984969696306089910746",
+  "result": "4985820335808836500038",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984240000,
@@ -239,13 +239,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985450914382057121858",
+    "result": "4986239287810306845813",
     "state": {
       "deviationEma": {
-        "average": "-157322107026210",
+        "average": "-217912913487397",
         "timestampMs": 1770984300000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984300000,
       "tokenizedStreams": {
@@ -272,7 +272,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985450914382057121858",
+  "result": "4986239287810306845813",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984300000,
@@ -286,13 +286,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4985760015543951415444",
+    "result": "4986493163918215717040",
     "state": {
       "deviationEma": {
-        "average": "-68759514081882",
+        "average": "-145187797354345",
         "timestampMs": 1770984360000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984360000,
       "tokenizedStreams": {
@@ -319,7 +319,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4985760015543951415444",
+  "result": "4986493163918215717040",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984360000,
@@ -333,13 +333,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4988541034836730142121",
+    "result": "4989093451294851300386",
     "state": {
       "deviationEma": {
-        "average": "728048489121008",
+        "average": "599688130525452",
         "timestampMs": 1770984630000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984630000,
       "tokenizedStreams": {
@@ -366,7 +366,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4988541034836730142121",
+  "result": "4989093451294851300386",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984630000,
@@ -380,13 +380,13 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
 {
   "data": {
     "decimals": 18,
-    "result": "4988541034836730142121",
+    "result": "4989093451294851300386",
     "state": {
       "deviationEma": {
-        "average": "728048489121008",
+        "average": "599688130525452",
         "timestampMs": 1770984630000,
       },
-      "lastXauPrice": "4986000000000000000000",
+      "lastXauPrice": "4987000000000000000000",
       "marketStatus": 1,
       "nowMs": 1770984690000,
       "tokenizedStreams": {
@@ -413,7 +413,7 @@ exports[`PriceTransport _handleRequest should behave correctly over a longer seq
       },
     },
   },
-  "result": "4988541034836730142121",
+  "result": "4989093451294851300386",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1770984690000,

@@ -167,6 +167,7 @@ export const mockPackagesResponseSuccess = (): nock.Scope =>
       () => ({
         data: [
           {
+            packageId: 'pkg-123456',
             clientReferenceId: '123456',
             collateralAssets: [
               {
@@ -204,6 +205,7 @@ export const mockPackagesResponseSuccess = (): nock.Scope =>
     .reply(200, () => ({
       data: [
         {
+          packageId: 'pkg-123456',
           clientReferenceId: '123456',
           collateralAssets: [
             {
@@ -224,6 +226,7 @@ export const mockPackagesResponseSuccess = (): nock.Scope =>
     .reply(200, () => ({
       data: [
         {
+          packageId: 'pkg-789012',
           clientReferenceId: '789012',
           collateralAssets: [
             {

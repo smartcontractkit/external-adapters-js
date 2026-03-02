@@ -75,7 +75,16 @@ export const inputParameters = new InputParameters(
           required: true,
           type: 'string',
           description: 'The operation or source of the derived result',
-          options: ['select', 'multiply', 'divide', 'add', 'subtract', 'average'],
+          options: [
+            'select',
+            'multiply',
+            'divide',
+            'add',
+            'subtract',
+            'average',
+            'equal',
+            'assertZero',
+          ],
         },
         args: {
           required: true,

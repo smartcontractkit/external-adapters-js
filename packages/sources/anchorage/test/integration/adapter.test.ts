@@ -58,7 +58,7 @@ describe('execute', () => {
 
       const response = await testAdapter.request({
         endpoint: 'packages',
-        clientReferenceId: '123456',
+        packageId: 'pkg-123456',
         assetType: 'BTC',
       })
 
