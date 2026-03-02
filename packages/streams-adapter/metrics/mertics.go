@@ -12,7 +12,8 @@ const (
 	LabelStatusCode         = "status_code"
 	LabelRetry              = "retry"
 	LabelType               = "type"
-	LabelAssetPair          = "asset_pair"
+	LabelIsCacheWarming     = "is_cache_warming"
+	LabelFeedID             = "feed_id"
 	LabelProviderStatusCode = "provider_status_code"
 )
 
@@ -35,7 +36,8 @@ func NewMetrics() *Metrics {
 				LabelStatusCode,
 				LabelRetry,
 				LabelType,
-				LabelAssetPair,
+				LabelIsCacheWarming,
+				LabelFeedID,
 				LabelProviderStatusCode,
 			},
 		),
@@ -50,13 +52,14 @@ func NewMetrics() *Metrics {
 }
 
 // RecordHTTPRequest records an HTTP request with all labels
-func (m *Metrics) RecordHTTPRequest(method, statusCode, retry, requestType, assetPair, providerStatusCode string) {
+func (m *Metrics) RecordHTTPRequest(method, statusCode, retry, requestType, isCacheWarming, feedID, providerStatusCode string) {
 	m.HTTPRequestsTotal.WithLabelValues(
 		method,
 		statusCode,
 		retry,
 		requestType,
-		assetPair,
+		isCacheWarming,
+		feedID,
 		providerStatusCode,
 	).Inc()
 }
