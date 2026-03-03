@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -13,6 +14,8 @@ import (
 // MetricsMiddleware creates a middleware that records HTTP request metrics
 func MetricsMiddleware(m *metrics.Metrics) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		start := time.Now()
+
 		// Process the request
 		c.Next()
 
@@ -20,26 +23,27 @@ func MetricsMiddleware(m *metrics.Metrics) gin.HandlerFunc {
 		method := c.Request.Method
 		statusCode := strconv.Itoa(c.Writer.Status())
 
-		// Extract asset_pair from request body if present
-		assetPair := extractAssetPair(c)
+		// Extract feed_id value from request context if present
+		feedID := extractFeedID(c)
 
 		// For now, set default values for optional labels
 		// These can be enhanced later to extract actual values from context
 		retry := "0"
 		requestType := determineRequestType(c)
+		isCacheWarming := "false"
 		providerStatusCode := ""
 
 		// Record the metric
-		m.RecordHTTPRequest(method, statusCode, retry, requestType, assetPair, providerStatusCode)
+		m.RecordHTTPRequest(method, statusCode, retry, requestType, isCacheWarming, feedID, providerStatusCode)
+		m.RecordHTTPRequestDuration(time.Since(start).Seconds())
 	}
 }
 
-// extractAssetPair extracts the asset pair from the request
-// Asset pair is derived from the base and quote assets
-func extractAssetPair(c *gin.Context) string {
-	// Try to get asset_pair from gin context (set by handler)
-	if assetPair, exists := c.Get("asset_pair"); exists {
-		return assetPair.(string)
+// extractFeedID extracts the feed_id from the request.
+func extractFeedID(c *gin.Context) string {
+	// Try to get feed_id from gin context (set by handler)
+	if feedID, exists := c.Get("feed_id"); exists {
+		return feedID.(string)
 	}
 	return ""
 }
@@ -68,7 +72,7 @@ func SetRequestParams(c *gin.Context, params types.RequestParams) {
 	if len(params) > 0 {
 		// Use the same key generation logic as cache for consistency
 		if requestKey, err := helpers.CalculateCacheKey(params); err == nil {
-			c.Set("asset_pair", requestKey)
+			c.Set("feed_id", requestKey)
 		}
 	}
 }
