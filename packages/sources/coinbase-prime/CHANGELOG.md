@@ -1,5 +1,11 @@
 # @chainlink/coinbase-prime-adapter
 
+## 1.2.24
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.2.23
 
 ### Patch Changes
