@@ -10,6 +10,7 @@ import (
 
 	cache "streams-adapter/cache"
 
+	"github.com/stretchr/testify/require"
 	"github.com/tidwall/redcon"
 )
 
@@ -111,12 +112,9 @@ func TestHandleCommand_Ping(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("PING"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "string" || conn.writes[0].value != "PONG" {
-		t.Errorf("expected PONG, got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "string", conn.writes[0].kind)
+	require.Equal(t, "PONG", conn.writes[0].value)
 }
 
 func TestHandleCommand_Info(t *testing.T) {
@@ -126,12 +124,8 @@ func TestHandleCommand_Info(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("INFO"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "bulk" {
-		t.Errorf("expected bulk write, got %s", conn.writes[0].kind)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "bulk", conn.writes[0].kind)
 	s, ok := conn.writes[0].value.(string)
 	if !ok || !strings.Contains(s, "redis_version") {
 		t.Errorf("INFO response missing redis_version: %v", conn.writes[0].value)
@@ -148,9 +142,7 @@ func TestHandleCommand_Quit(t *testing.T) {
 	if len(conn.writes) == 0 {
 		t.Fatal("expected at least 1 write")
 	}
-	if conn.writes[0].value != "OK" {
-		t.Errorf("expected OK, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "OK", conn.writes[0].value)
 	if !conn.closed {
 		t.Error("expected connection to be closed after QUIT")
 	}
@@ -163,9 +155,8 @@ func TestHandleCommand_Auth(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("AUTH", "password123"))
 
-	if len(conn.writes) != 1 || conn.writes[0].value != "OK" {
-		t.Errorf("expected OK for AUTH, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "OK", conn.writes[0].value)
 }
 
 func TestHandleCommand_Multi(t *testing.T) {
@@ -175,9 +166,8 @@ func TestHandleCommand_Multi(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("MULTI"))
 
-	if len(conn.writes) != 1 || conn.writes[0].value != "OK" {
-		t.Errorf("expected OK for MULTI, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "OK", conn.writes[0].value)
 }
 
 func TestHandleCommand_Exec(t *testing.T) {
@@ -187,12 +177,9 @@ func TestHandleCommand_Exec(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("EXEC"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "array" || conn.writes[0].value != 0 {
-		t.Errorf("expected empty array, got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "array", conn.writes[0].kind)
+	require.Equal(t, 0, conn.writes[0].value)
 }
 
 func TestHandleCommand_Get(t *testing.T) {
@@ -202,9 +189,8 @@ func TestHandleCommand_Get(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("GET"))
 
-	if len(conn.writes) != 1 || conn.writes[0].kind != "null" {
-		t.Errorf("expected null for GET, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "null", conn.writes[0].kind)
 }
 
 func TestHandleCommand_PExpire(t *testing.T) {
@@ -214,12 +200,9 @@ func TestHandleCommand_PExpire(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("PEXPIRE", "key", "1000"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "int" || conn.writes[0].value != 1 {
-		t.Errorf("expected int 1 for PEXPIRE, got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "int", conn.writes[0].kind)
+	require.Equal(t, 1, conn.writes[0].value)
 }
 
 func TestHandleCommand_UnknownCommand(t *testing.T) {
@@ -229,12 +212,8 @@ func TestHandleCommand_UnknownCommand(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("FOOBAR"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "error" {
-		t.Errorf("expected error for unknown command, got %s", conn.writes[0].kind)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "error", conn.writes[0].kind)
 	errMsg, _ := conn.writes[0].value.(string)
 	if !strings.Contains(errMsg, "unknown command") {
 		t.Errorf("error should mention 'unknown command', got: %s", errMsg)
@@ -248,12 +227,8 @@ func TestHandleCommand_EmptyCommand(t *testing.T) {
 
 	srv.handleCommand(conn, redcon.Command{})
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "error" {
-		t.Fatalf("expected error write, got %s", conn.writes[0].kind)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "error", conn.writes[0].kind)
 	errMsg, _ := conn.writes[0].value.(string)
 	if !strings.Contains(errMsg, "empty command") {
 		t.Errorf("error should mention 'empty command', got: %s", errMsg)
@@ -271,9 +246,8 @@ func TestHandleCommand_ClientSetinfo(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("CLIENT", "SETINFO", "lib-name", "go-redis"))
 
-	if len(conn.writes) != 1 || conn.writes[0].value != "OK" {
-		t.Errorf("expected OK for CLIENT SETINFO, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "OK", conn.writes[0].value)
 }
 
 func TestHandleCommand_ClientSetname(t *testing.T) {
@@ -283,9 +257,8 @@ func TestHandleCommand_ClientSetname(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("CLIENT", "SETNAME", "myconn"))
 
-	if len(conn.writes) != 1 || conn.writes[0].value != "OK" {
-		t.Errorf("expected OK for CLIENT SETNAME, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "OK", conn.writes[0].value)
 }
 
 func TestHandleCommand_ClientGetname(t *testing.T) {
@@ -295,9 +268,8 @@ func TestHandleCommand_ClientGetname(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("CLIENT", "GETNAME"))
 
-	if len(conn.writes) != 1 || conn.writes[0].kind != "null" {
-		t.Errorf("expected null for CLIENT GETNAME, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "null", conn.writes[0].kind)
 }
 
 // ---------------------------------------------------------------------------
@@ -311,12 +283,9 @@ func TestHandleCommand_ZAdd(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZADD", "myset", "1.5", "member1"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "int" || conn.writes[0].value != 1 {
-		t.Errorf("expected int 1 (new member), got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "int", conn.writes[0].kind)
+	require.Equal(t, 1, conn.writes[0].value)
 
 	// Verify sorted set state
 	srv.mu.RLock()
@@ -325,9 +294,7 @@ func TestHandleCommand_ZAdd(t *testing.T) {
 	if !exists {
 		t.Fatal("member1 not found in sorted set")
 	}
-	if score != 1.5 {
-		t.Errorf("expected score 1.5, got %f", score)
-	}
+	require.Equal(t, 1.5, score)
 }
 
 func TestHandleCommand_ZAddExistingMember(t *testing.T) {
@@ -342,16 +309,13 @@ func TestHandleCommand_ZAddExistingMember(t *testing.T) {
 	conn2 := newMockConn()
 	srv.handleCommand(conn2, makeCmd("ZADD", "myset", "2.0", "member1"))
 
-	if conn2.writes[0].kind != "int" || conn2.writes[0].value != 0 {
-		t.Errorf("expected int 0 (existing member), got %+v", conn2.writes[0])
-	}
+	require.Equal(t, "int", conn2.writes[0].kind)
+	require.Equal(t, 0, conn2.writes[0].value)
 
 	srv.mu.RLock()
 	score := srv.sortedSets["myset"]["member1"]
 	srv.mu.RUnlock()
-	if score != 2.0 {
-		t.Errorf("expected updated score 2.0, got %f", score)
-	}
+	require.Equal(t, 2.0, score)
 }
 
 func TestHandleCommand_ZAddTooFewArgs(t *testing.T) {
@@ -361,9 +325,8 @@ func TestHandleCommand_ZAddTooFewArgs(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZADD", "myset", "1.0"))
 
-	if len(conn.writes) != 1 || conn.writes[0].kind != "error" {
-		t.Errorf("expected error for ZADD with too few args, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 func TestHandleCommand_ZAddInvalidScore(t *testing.T) {
@@ -373,9 +336,8 @@ func TestHandleCommand_ZAddInvalidScore(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZADD", "myset", "notanumber", "member1"))
 
-	if len(conn.writes) != 1 || conn.writes[0].kind != "error" {
-		t.Errorf("expected error for invalid score, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 // ---------------------------------------------------------------------------
@@ -396,20 +358,15 @@ func TestHandleCommand_ZRemRangeByScore(t *testing.T) {
 	conn := newMockConn()
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "myset", "2", "3"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "int" || conn.writes[0].value != 2 {
-		t.Errorf("expected 2 removed, got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "int", conn.writes[0].kind)
+	require.Equal(t, 2, conn.writes[0].value)
 
 	// Verify remaining members
 	srv.mu.RLock()
 	zset := srv.sortedSets["myset"]
 	srv.mu.RUnlock()
-	if len(zset) != 2 {
-		t.Errorf("expected 2 remaining members, got %d", len(zset))
-	}
+	require.Len(t, zset, 2)
 	if _, ok := zset["a"]; !ok {
 		t.Error("member 'a' should remain")
 	}
@@ -425,9 +382,8 @@ func TestHandleCommand_ZRemRangeByScore_NonExistentKey(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "nokey", "0", "100"))
 
-	if conn.writes[0].kind != "int" || conn.writes[0].value != 0 {
-		t.Errorf("expected 0 removed for non-existent key, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "int", conn.writes[0].kind)
+	require.Equal(t, 0, conn.writes[0].value)
 }
 
 func TestHandleCommand_ZRemRangeByScore_RemovesAll(t *testing.T) {
@@ -440,9 +396,8 @@ func TestHandleCommand_ZRemRangeByScore_RemovesAll(t *testing.T) {
 	conn := newMockConn()
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "myset", "0", "10"))
 
-	if conn.writes[0].kind != "int" || conn.writes[0].value != 2 {
-		t.Errorf("expected 2 removed, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "int", conn.writes[0].kind)
+	require.Equal(t, 2, conn.writes[0].value)
 
 	// Sorted set key should be cleaned up
 	srv.mu.RLock()
@@ -460,9 +415,7 @@ func TestHandleCommand_ZRemRangeByScore_WrongArgCount(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "myset", "0"))
 
-	if conn.writes[0].kind != "error" {
-		t.Errorf("expected error for wrong arg count, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 func TestHandleCommand_ZRemRangeByScore_InvalidMin(t *testing.T) {
@@ -472,9 +425,7 @@ func TestHandleCommand_ZRemRangeByScore_InvalidMin(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "myset", "abc", "10"))
 
-	if conn.writes[0].kind != "error" {
-		t.Errorf("expected error for invalid min, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 func TestHandleCommand_ZRemRangeByScore_InvalidMax(t *testing.T) {
@@ -484,9 +435,7 @@ func TestHandleCommand_ZRemRangeByScore_InvalidMax(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZREMRANGEBYSCORE", "myset", "0", "xyz"))
 
-	if conn.writes[0].kind != "error" {
-		t.Errorf("expected error for invalid max, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 // ---------------------------------------------------------------------------
@@ -506,18 +455,13 @@ func TestHandleCommand_ZRange(t *testing.T) {
 	srv.handleCommand(conn, makeCmd("ZRANGE", "myset", "0", "-1"))
 
 	// Expect: array header + 3 bulk strings sorted by score
-	if len(conn.writes) != 4 {
-		t.Fatalf("expected 4 writes (1 array + 3 members), got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "array" || conn.writes[0].value != 3 {
-		t.Errorf("expected array(3), got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 4)
+	require.Equal(t, "array", conn.writes[0].kind)
+	require.Equal(t, 3, conn.writes[0].value)
 	expected := []string{"a", "b", "c"}
 	for i, exp := range expected {
 		got := conn.stringAt(i + 1)
-		if got != exp {
-			t.Errorf("member[%d] = %q, want %q", i, got, exp)
-		}
+		require.Equal(t, exp, got)
 	}
 }
 
@@ -528,12 +472,9 @@ func TestHandleCommand_ZRange_NonExistentKey(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZRANGE", "nokey", "0", "-1"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "array" || conn.writes[0].value != 0 {
-		t.Errorf("expected empty array, got %+v", conn.writes[0])
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "array", conn.writes[0].kind)
+	require.Equal(t, 0, conn.writes[0].value)
 }
 
 func TestHandleCommand_ZRange_TooFewArgs(t *testing.T) {
@@ -543,9 +484,7 @@ func TestHandleCommand_ZRange_TooFewArgs(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("ZRANGE"))
 
-	if conn.writes[0].kind != "error" {
-		t.Errorf("expected error for ZRANGE with no key, got %+v", conn.writes[0])
-	}
+	require.Equal(t, "error", conn.writes[0].kind)
 }
 
 // ---------------------------------------------------------------------------
@@ -560,9 +499,8 @@ func TestHandleCommand_EvalSha(t *testing.T) {
 	// EVALSHA should be handled the same as EVAL
 	srv.handleCommand(conn, makeCmd("EVALSHA", "sha1hash", "1", "badkey", `{"data":{}}`))
 
-	if len(conn.writes) != 1 || conn.writes[0].kind != "int" {
-		t.Errorf("expected int write for EVALSHA, got %+v", conn.writes)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "int", conn.writes[0].kind)
 }
 
 func TestHandleCommand_EvalTooFewArgs(t *testing.T) {
@@ -572,12 +510,8 @@ func TestHandleCommand_EvalTooFewArgs(t *testing.T) {
 
 	srv.handleCommand(conn, makeCmd("EVAL", "script", "1", "only-key"))
 
-	if len(conn.writes) != 1 {
-		t.Fatalf("expected 1 write, got %d", len(conn.writes))
-	}
-	if conn.writes[0].kind != "error" {
-		t.Fatalf("expected error write, got %s", conn.writes[0].kind)
-	}
+	require.Len(t, conn.writes, 1)
+	require.Equal(t, "error", conn.writes[0].kind)
 	errMsg, _ := conn.writes[0].value.(string)
 	if !strings.Contains(errMsg, "wrong number of arguments") {
 		t.Errorf("error should mention wrong number of arguments, got: %s", errMsg)

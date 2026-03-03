@@ -2,6 +2,8 @@ package config
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 // helper to set env vars and return a cleanup function
@@ -24,33 +26,15 @@ func TestLoad_Defaults(t *testing.T) {
 
 	cfg := Load()
 
-	if cfg.HTTPPort != "8080" {
-		t.Errorf("HTTPPort = %q, want %q", cfg.HTTPPort, "8080")
-	}
-	if cfg.EAPort != "8070" {
-		t.Errorf("EAPort = %q, want %q", cfg.EAPort, "8070")
-	}
-	if cfg.EAHost != "localhost" {
-		t.Errorf("EAHost = %q, want %q", cfg.EAHost, "localhost")
-	}
-	if cfg.RedconPort != "6379" {
-		t.Errorf("RedconPort = %q, want %q", cfg.RedconPort, "6379")
-	}
-	if cfg.GoMetricsPort != "9080" {
-		t.Errorf("GoMetricsPort = %q, want %q", cfg.GoMetricsPort, "9080")
-	}
-	if cfg.CacheTTLMinutes != 5 {
-		t.Errorf("CacheTTLMinutes = %d, want %d", cfg.CacheTTLMinutes, 5)
-	}
-	if cfg.CacheCleanupInterval != 1 {
-		t.Errorf("CacheCleanupInterval = %d, want %d", cfg.CacheCleanupInterval, 1)
-	}
-	if cfg.LogLevel != "info" {
-		t.Errorf("LogLevel = %q, want %q", cfg.LogLevel, "info")
-	}
-	if cfg.AdapterName != "" {
-		t.Errorf("AdapterName = %q, want %q", cfg.AdapterName, "")
-	}
+	require.Equal(t, "8080", cfg.HTTPPort)
+	require.Equal(t, "8070", cfg.EAPort)
+	require.Equal(t, "localhost", cfg.EAHost)
+	require.Equal(t, "6379", cfg.RedconPort)
+	require.Equal(t, "9080", cfg.GoMetricsPort)
+	require.Equal(t, uint(5), cfg.CacheTTLMinutes)
+	require.Equal(t, uint(1), cfg.CacheCleanupInterval)
+	require.Equal(t, "info", cfg.LogLevel)
+	require.Equal(t, "", cfg.AdapterName)
 }
 
 func TestLoad_CustomEnvVars(t *testing.T) {
@@ -68,31 +52,13 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 
 	cfg := Load()
 
-	if cfg.HTTPPort != "9090" {
-		t.Errorf("HTTPPort = %q, want %q", cfg.HTTPPort, "9090")
-	}
-	if cfg.EAPort != "7070" {
-		t.Errorf("EAPort = %q, want %q", cfg.EAPort, "7070")
-	}
-	if cfg.EAHost != "0.0.0.0" {
-		t.Errorf("EAHost = %q, want %q", cfg.EAHost, "0.0.0.0")
-	}
-	if cfg.RedconPort != "6380" {
-		t.Errorf("RedconPort = %q, want %q", cfg.RedconPort, "6380")
-	}
-	if cfg.GoMetricsPort != "9090" {
-		t.Errorf("GoMetricsPort = %q, want %q", cfg.GoMetricsPort, "9090")
-	}
-	if cfg.CacheTTLMinutes != 10 {
-		t.Errorf("CacheTTLMinutes = %d, want %d", cfg.CacheTTLMinutes, 10)
-	}
-	if cfg.CacheCleanupInterval != 3 {
-		t.Errorf("CacheCleanupInterval = %d, want %d", cfg.CacheCleanupInterval, 3)
-	}
-	if cfg.LogLevel != "debug" {
-		t.Errorf("LogLevel = %q, want %q", cfg.LogLevel, "debug")
-	}
-	if cfg.AdapterName != "tiingo" {
-		t.Errorf("AdapterName = %q, want %q", cfg.AdapterName, "tiingo")
-	}
+	require.Equal(t, "9090", cfg.HTTPPort)
+	require.Equal(t, "7070", cfg.EAPort)
+	require.Equal(t, "0.0.0.0", cfg.EAHost)
+	require.Equal(t, "6380", cfg.RedconPort)
+	require.Equal(t, "9090", cfg.GoMetricsPort)
+	require.Equal(t, uint(10), cfg.CacheTTLMinutes)
+	require.Equal(t, uint(3), cfg.CacheCleanupInterval)
+	require.Equal(t, "debug", cfg.LogLevel)
+	require.Equal(t, "tiingo", cfg.AdapterName)
 }

@@ -14,6 +14,8 @@ import (
 	types "streams-adapter/common"
 	config "streams-adapter/config"
 	"streams-adapter/helpers"
+
+	"github.com/stretchr/testify/require"
 )
 
 // Shared test server to avoid duplicate prometheus metric registration.
@@ -78,17 +80,11 @@ func TestHealthHandler(t *testing.T) {
 	w := httptest.NewRecorder()
 	testSrv.router.ServeHTTP(w, req)
 
-	if w.Code != http.StatusOK {
-		t.Fatalf("expected status 200, got %d", w.Code)
-	}
+	require.Equal(t, http.StatusOK, w.Code)
 
 	var body map[string]interface{}
-	if err := json.Unmarshal(w.Body.Bytes(), &body); err != nil {
-		t.Fatalf("failed to parse response body: %v", err)
-	}
-	if body["status"] != "healthy" {
-		t.Errorf("expected status=healthy, got %v", body["status"])
-	}
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
+	require.Equal(t, "healthy", body["status"])
 }
 
 func TestAdapterHandler_BadRequest(t *testing.T) {
@@ -98,9 +94,7 @@ func TestAdapterHandler_BadRequest(t *testing.T) {
 	w := httptest.NewRecorder()
 	testSrv.router.ServeHTTP(w, req)
 
-	if w.Code != http.StatusBadRequest {
-		t.Fatalf("expected status 400, got %d", w.Code)
-	}
+	require.Equal(t, http.StatusBadRequest, w.Code)
 }
 
 func TestAdapterHandler_CacheHit(t *testing.T) {
@@ -118,17 +112,11 @@ func TestAdapterHandler_CacheHit(t *testing.T) {
 	w := httptest.NewRecorder()
 	testSrv.router.ServeHTTP(w, req)
 
-	if w.Code != http.StatusOK {
-		t.Fatalf("expected status 200, got %d; body: %s", w.Code, w.Body.String())
-	}
+	require.Equal(t, http.StatusOK, w.Code, "body: %s", w.Body.String())
 
 	var resp types.Observation
-	if err := json.Unmarshal(w.Body.Bytes(), &resp); err != nil {
-		t.Fatalf("failed to parse response: %v", err)
-	}
-	if !resp.Success {
-		t.Error("expected success=true in cached response")
-	}
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+	require.Equal(t, true, resp.Success)
 }
 
 func TestAdapterHandler_CacheMiss(t *testing.T) {
@@ -155,15 +143,9 @@ func TestAdapterHandler_CacheMiss(t *testing.T) {
 	testSrv.router.ServeHTTP(w, req)
 
 	// First request with empty cache should return 504 with error message
-	if w.Code != http.StatusGatewayTimeout {
-		t.Fatalf("expected status 504, got %d; body: %s", w.Code, w.Body.String())
-	}
+	require.Equal(t, http.StatusGatewayTimeout, w.Code, "body: %s", w.Body.String())
 
 	var errResp ErrorResponseData
-	if err := json.Unmarshal(w.Body.Bytes(), &errResp); err != nil {
-		t.Fatalf("failed to parse error response: %v", err)
-	}
-	if errResp.Error.Name != "AdapterError" {
-		t.Errorf("expected error name AdapterError, got %s", errResp.Error.Name)
-	}
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &errResp))
+	require.Equal(t, "AdapterError", errResp.Error.Name)
 }

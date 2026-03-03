@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 // resetGlobals clears the package-level alias state between tests.
@@ -80,54 +82,38 @@ const sampleConfig = `{
 func TestInitAliasIndex_EmptyAdapterName(t *testing.T) {
 	resetGlobals()
 	err := InitAliasIndex("", "/any/path")
-	if err == nil {
-		t.Fatal("expected error for empty adapter name, got nil")
-	}
-	if got := err.Error(); got != "ADAPTER_NAME must be set to enable alias mapping" {
-		t.Fatalf("unexpected error message: %s", got)
-	}
+	require.Error(t, err)
+	require.Equal(t, "ADAPTER_NAME must be set to enable alias mapping", err.Error())
 }
 
 func TestInitAliasIndex_FileNotFound(t *testing.T) {
 	resetGlobals()
 	err := InitAliasIndex("test-adapter", "/nonexistent/path/endpoint_aliases.json")
-	if err == nil {
-		t.Fatal("expected error for missing file, got nil")
-	}
+	require.Error(t, err)
 }
 
 func TestInitAliasIndex_InvalidJSON(t *testing.T) {
 	resetGlobals()
 	path := writeTempConfig(t, `{invalid json`)
 	err := InitAliasIndex("test-adapter", path)
-	if err == nil {
-		t.Fatal("expected error for invalid JSON, got nil")
-	}
+	require.Error(t, err)
 }
 
 func TestInitAliasIndex_AdapterNotFound(t *testing.T) {
 	resetGlobals()
 	path := writeTempConfig(t, sampleConfig)
 	err := InitAliasIndex("nonexistent-adapter", path)
-	if err == nil {
-		t.Fatal("expected error for unknown adapter, got nil")
-	}
+	require.Error(t, err)
 }
 
 func TestInitAliasIndex_Success(t *testing.T) {
 	resetGlobals()
 	path := writeTempConfig(t, sampleConfig)
 
-	if err := InitAliasIndex("test-adapter", path); err != nil {
-		t.Fatalf("InitAliasIndex returned unexpected error: %v", err)
-	}
+	require.NoError(t, InitAliasIndex("test-adapter", path))
 
-	if activeAdapter != "test-adapter" {
-		t.Errorf("activeAdapter = %q, want %q", activeAdapter, "test-adapter")
-	}
-	if activeAliasIndex == nil {
-		t.Fatal("activeAliasIndex is nil after successful init")
-	}
+	require.Equal(t, "test-adapter", activeAdapter)
+	require.NotNil(t, activeAliasIndex)
 
 	// Verify endpoint aliases.
 	endpointTests := []struct {
@@ -145,19 +131,13 @@ func TestInitAliasIndex_Success(t *testing.T) {
 	}
 	for _, tt := range endpointTests {
 		got, ok := activeAliasIndex.endpointAlias[tt.alias]
-		if ok != tt.wantOK {
-			t.Errorf("endpointAlias[%q] exists=%v, want %v", tt.alias, ok, tt.wantOK)
-		}
-		if got != tt.wantEp {
-			t.Errorf("endpointAlias[%q] = %q, want %q", tt.alias, got, tt.wantEp)
-		}
+		require.Equal(t, tt.wantOK, ok)
+		require.Equal(t, tt.wantEp, got)
 	}
 
 	// Verify param aliases for "price" endpoint.
 	priceParams := activeAliasIndex.paramAlias["price"]
-	if priceParams == nil {
-		t.Fatal("paramAlias[\"price\"] is nil")
-	}
+	require.NotNil(t, priceParams)
 	paramTests := []struct {
 		alias     string
 		wantCanon string
@@ -177,16 +157,12 @@ func TestInitAliasIndex_Success(t *testing.T) {
 			t.Errorf("paramAlias[\"price\"][%q] not found", tt.alias)
 			continue
 		}
-		if pIdx.CanonicalName != tt.wantCanon {
-			t.Errorf("paramAlias[\"price\"][%q].CanonicalName = %q, want %q", tt.alias, pIdx.CanonicalName, tt.wantCanon)
-		}
+		require.Equal(t, tt.wantCanon, pIdx.CanonicalName)
 	}
 
 	// Verify required params for "price" endpoint.
 	requiredPrice := activeAliasIndex.requiredParams["price"]
-	if requiredPrice == nil {
-		t.Fatal("requiredParams[\"price\"] is nil")
-	}
+	require.NotNil(t, requiredPrice)
 	if !requiredPrice["base"] {
 		t.Error("base should be required for price endpoint")
 	}
@@ -214,29 +190,21 @@ func TestInitAliasIndex_Idempotent(t *testing.T) {
 	resetGlobals()
 	path := writeTempConfig(t, sampleConfig)
 
-	if err := InitAliasIndex("test-adapter", path); err != nil {
-		t.Fatalf("first init failed: %v", err)
-	}
+	require.NoError(t, InitAliasIndex("test-adapter", path))
 
 	firstIdx := activeAliasIndex
 
 	// Second call with the same adapter should be a no-op (cached).
-	if err := InitAliasIndex("test-adapter", path); err != nil {
-		t.Fatalf("second init failed: %v", err)
-	}
+	require.NoError(t, InitAliasIndex("test-adapter", path))
 
-	if activeAliasIndex != firstIdx {
-		t.Error("expected second InitAliasIndex to reuse the same index (idempotent)")
-	}
+	require.Equal(t, firstIdx, activeAliasIndex)
 }
 
 func TestInitAliasIndex_NilParams(t *testing.T) {
 	resetGlobals()
 	path := writeTempConfig(t, sampleConfig)
 
-	if err := InitAliasIndex("test-adapter", path); err != nil {
-		t.Fatalf("init failed: %v", err)
-	}
+	require.NoError(t, InitAliasIndex("test-adapter", path))
 
 	// "volume" endpoint has null params — should have no param aliases.
 	if pm, ok := activeAliasIndex.paramAlias["volume"]; ok && len(pm) > 0 {
@@ -253,9 +221,7 @@ func initTestAdapter(t *testing.T) {
 	t.Helper()
 	resetGlobals()
 	path := writeTempConfig(t, sampleConfig)
-	if err := InitAliasIndex("test-adapter", path); err != nil {
-		t.Fatalf("failed to init alias index: %v", err)
-	}
+	require.NoError(t, InitAliasIndex("test-adapter", path))
 }
 
 func TestBuildCacheKeyParams_AliasIndexNotInitialized(t *testing.T) {
@@ -264,9 +230,7 @@ func TestBuildCacheKeyParams_AliasIndexNotInitialized(t *testing.T) {
 		"endpoint": "price",
 		"base":     "ETH",
 	})
-	if err == nil {
-		t.Fatal("expected error when alias index not initialized")
-	}
+	require.Error(t, err)
 }
 
 func TestBuildCacheKeyParams_UnknownEndpoint(t *testing.T) {
@@ -275,9 +239,7 @@ func TestBuildCacheKeyParams_UnknownEndpoint(t *testing.T) {
 		"endpoint": "nonexistent",
 		"base":     "ETH",
 	})
-	if err == nil {
-		t.Fatal("expected error for unknown endpoint")
-	}
+	require.Error(t, err)
 }
 
 func TestBuildCacheKeyParams_MissingEndpoint(t *testing.T) {
@@ -286,9 +248,7 @@ func TestBuildCacheKeyParams_MissingEndpoint(t *testing.T) {
 		"base":  "ETH",
 		"quote": "USD",
 	})
-	if err == nil {
-		t.Fatal("expected error when endpoint is missing")
-	}
+	require.Error(t, err)
 }
 
 func TestBuildCacheKeyParams_BasicCanonical(t *testing.T) {
@@ -298,10 +258,9 @@ func TestBuildCacheKeyParams_BasicCanonical(t *testing.T) {
 		"endpoint": "price",
 		"base":     "eth",
 		"quote":    "usd",
+		"amount":   "100",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	assertParam(t, result, "endpoint", "price")
 	assertParam(t, result, "base", "ETH")
@@ -321,9 +280,7 @@ func TestBuildCacheKeyParams_EndpointAlias(t *testing.T) {
 		"base":     "BTC",
 		"quote":    "USD",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	assertParam(t, result, "endpoint", "price")
 }
@@ -336,9 +293,7 @@ func TestBuildCacheKeyParams_ParamAliases(t *testing.T) {
 		"from":     "eth",
 		"to":       "usd",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	// "from" should map to canonical "base", "to" to "quote".
 	assertParam(t, result, "base", "ETH")
@@ -352,26 +307,6 @@ func TestBuildCacheKeyParams_ParamAliases(t *testing.T) {
 	}
 }
 
-func TestBuildCacheKeyParams_NonRequiredParamOmitted(t *testing.T) {
-	initTestAdapter(t)
-
-	result, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "price",
-		"base":     "ETH",
-		"quote":    "USD",
-		"amount":   "100",
-	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-
-	if _, ok := result["amount"]; ok {
-		t.Error("non-required param 'amount' should be filtered out")
-	}
-	assertParam(t, result, "base", "ETH")
-	assertParam(t, result, "quote", "USD")
-}
-
 func TestBuildCacheKeyParams_ValuesUppercased(t *testing.T) {
 	initTestAdapter(t)
 
@@ -380,9 +315,7 @@ func TestBuildCacheKeyParams_ValuesUppercased(t *testing.T) {
 		"base":     "eth",
 		"quote":    "usd",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	assertParam(t, result, "base", "ETH")
 	assertParam(t, result, "quote", "USD")
@@ -396,9 +329,7 @@ func TestBuildCacheKeyParams_NilValueSkipped(t *testing.T) {
 		"base":     "ETH",
 		"quote":    nil,
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	if _, ok := result["quote"]; ok {
 		t.Error("nil value should be skipped")
@@ -413,9 +344,7 @@ func TestBuildCacheKeyParams_EmptyStringValueSkipped(t *testing.T) {
 		"base":     "ETH",
 		"quote":    "",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	if _, ok := result["quote"]; ok {
 		t.Error("empty string value should be skipped")
@@ -433,14 +362,19 @@ func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {
 			"test-adapter": map[string]interface{}{
 				"WBTC": "BTC",
 			},
+			"other-adapter": map[string]interface{}{
+				"WBTC": "ETH",
+			},
 		},
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	assertParam(t, result, "base", "BTC")
+	require.NotEqual(t, "WBTC", result["base"])
 	assertParam(t, result, "quote", "USD")
+	if _, ok := result["overrides"]; ok {
+		t.Error("'overrides' key should not appear in output params")
+	}
 }
 
 func TestBuildCacheKeyParams_OverridesNotInOutput(t *testing.T) {
@@ -454,9 +388,7 @@ func TestBuildCacheKeyParams_OverridesNotInOutput(t *testing.T) {
 			"test-adapter": map[string]interface{}{},
 		},
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	if _, ok := result["overrides"]; ok {
 		t.Error("'overrides' key should not appear in output params")
@@ -472,9 +404,7 @@ func TestBuildCacheKeyParams_EndpointWithNoRequiredMetadata(t *testing.T) {
 		"foo":      "bar",
 		"baz":      "qux",
 	})
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	require.NoError(t, err)
 
 	assertParam(t, result, "endpoint", "volume")
 	assertParam(t, result, "foo", "BAR")
@@ -489,7 +419,5 @@ func assertParam(t *testing.T, result map[string]string, key, want string) {
 		t.Errorf("expected key %q in result, but not found. Result: %v", key, result)
 		return
 	}
-	if got != want {
-		t.Errorf("result[%q] = %q, want %q", key, got, want)
-	}
+	require.Equal(t, want, got)
 }
