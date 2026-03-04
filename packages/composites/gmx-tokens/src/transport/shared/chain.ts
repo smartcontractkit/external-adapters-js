@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import { config } from '../../config'
 
-export const CHAIN_OPTIONS = ['arbitrum', 'botanix', 'avalanche'] as const
+export const CHAIN_OPTIONS = ['arbitrum', 'botanix', 'avalanche', 'megaeth'] as const
 export type ChainKey = (typeof CHAIN_OPTIONS)[number]
 
 export type AdapterSettings = typeof config.settings
@@ -40,6 +40,16 @@ export const getResolvedChainSettings = (
         glvReaderAddress: settings.AVALANCHE_GLV_READER_CONTRACT_ADDRESS,
         tokenMetadataUrl: settings.AVALANCHE_TOKENS_INFO_URL,
         marketMetadataUrl: settings.AVALANCHE_MARKETS_INFO_URL,
+      }
+    case 'megaeth':
+      return {
+        rpcUrl: settings.MEGAETH_RPC_URL,
+        chainId: settings.MEGAETH_CHAIN_ID,
+        dataStoreAddress: settings.MEGAETH_DATASTORE_CONTRACT_ADDRESS,
+        gmReaderAddress: settings.MEGAETH_GM_READER_CONTRACT_ADDRESS,
+        glvReaderAddress: settings.MEGAETH_GLV_READER_CONTRACT_ADDRESS,
+        tokenMetadataUrl: settings.MEGAETH_TOKENS_INFO_URL,
+        marketMetadataUrl: settings.MEGAETH_MARKETS_INFO_URL,
       }
     case 'arbitrum':
       return {

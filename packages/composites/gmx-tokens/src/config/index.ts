@@ -34,6 +34,15 @@ export const config = new AdapterConfig(
       type: 'number',
       default: 43114,
     },
+    MEGAETH_RPC_URL: {
+      description: 'RPC url of MegaETH node',
+      type: 'string',
+    },
+    MEGAETH_CHAIN_ID: {
+      description: 'The chain id to connect to for MegaETH',
+      type: 'number',
+      default: 4326,
+    },
     ARBITRUM_DATASTORE_CONTRACT_ADDRESS: {
       description: 'Address of Data Store contract on Arbitrum',
       type: 'string',
@@ -48,6 +57,11 @@ export const config = new AdapterConfig(
       description: 'Address of Data Store contract on Avalanche',
       type: 'string',
       default: '0x2F0b22339414ADeD7D5F06f9D604c7fF5b2fe3f6',
+    },
+    MEGAETH_DATASTORE_CONTRACT_ADDRESS: {
+      description: 'Address of Data Store contract on MegaETH',
+      type: 'string',
+      default: '0xE43C7B694f6b652a9F4A0f275C008d18758Dce35',
     },
     ARBITRUM_GM_READER_CONTRACT_ADDRESS: {
       description: 'Address of GM Reader contract on Arbitrum',
@@ -64,6 +78,11 @@ export const config = new AdapterConfig(
       type: 'string',
       default: '0x62Cb8740E6986B29dC671B2EB596676f60590A5B',
     },
+    MEGAETH_GM_READER_CONTRACT_ADDRESS: {
+      description: 'Address of GM Reader contract on MegaETH',
+      type: 'string',
+      default: '0x0f038EB4a38B08cd3c937a3256b51aa01904a684',
+    },
     ARBITRUM_GLV_READER_CONTRACT_ADDRESS: {
       description: 'Address of GLV Reader contract on Arbitrum',
       type: 'string',
@@ -78,6 +97,11 @@ export const config = new AdapterConfig(
       description: 'Address of GLV Reader contract on Avalanche',
       type: 'string',
       default: '0x5C6905A3002f989E1625910ba1793d40a031f947',
+    },
+    MEGAETH_GLV_READER_CONTRACT_ADDRESS: {
+      description: 'Address of GLV Reader contract on MegaETH',
+      type: 'string',
+      default: '0x424527a588D56513cB2F5161958D83883EE8aB0f',
     },
     ARBITRUM_TOKENS_INFO_URL: {
       description: 'URL to token metadata supported by GMX on Arbitrum',
@@ -95,6 +119,11 @@ export const config = new AdapterConfig(
       type: 'string',
       default: 'https://avalanche-api.gmxinfra.io/tokens',
     },
+    MEGAETH_TOKENS_INFO_URL: {
+      description: 'URL to token metadata supported by GMX on MegaETH',
+      type: 'string',
+      default: 'https://megaeth-api.gmxinfra.io/tokens',
+    },
     ARBITRUM_MARKETS_INFO_URL: {
       description: 'URL to market metadata supported by GMX on Arbitrum',
       type: 'string',
@@ -109,6 +138,11 @@ export const config = new AdapterConfig(
       description: 'URL to market metadata supported by GMX on Avalanche',
       type: 'string',
       default: 'https://avalanche-api.gmxinfra.io/markets',
+    },
+    MEGAETH_MARKETS_INFO_URL: {
+      description: 'URL to market metadata supported by GMX on MegaETH',
+      type: 'string',
+      default: 'https://megaeth-api.gmxinfra.io/markets',
     },
     GLV_INFO_API_TIMEOUT_MS: {
       description:
