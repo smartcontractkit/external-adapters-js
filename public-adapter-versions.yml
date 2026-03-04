@@ -150,7 +150,7 @@ adapters:
   - name: gmci
     version: 1.0.3
   - name: gmx-tokens
-    version: 1.0.1
+    version: 1.1.0
   - name: gold
     version: 1.2.0
   - name: graphql
