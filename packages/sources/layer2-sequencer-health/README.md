@@ -63,6 +63,14 @@ Adapter that checks the Layer 2 Sequencer status
 |           |     `XLAYER_HEALTH_ENDPOINT`      |                                  xLayer Health Endpoint                                   |         |                                                                  |
 |           |         `XLAYER_CHAIN_ID`         |                             The chain id to connect to xLayer                             |         |                               196                                |
 |           |          `XLAYER_DELTA`           |   Maximum time in milliseconds from last seen block to consider Celo sequencer healthy    |         |                          120000 (2 min)                          |
+|           |      `MEGAETH_RPC_ENDPOINT`       |                                   MegaETH RPC Endpoint                                    |         |                 https://mainnet.megaeth.com/rpc                  |
+|           |     `MEGAETH_HEALTH_ENDPOINT`     |                                  MegaETH Health Endpoint                                  |         |                                                                  |
+|           |        `MEGAETH_CHAIN_ID`         |                            The chain id to connect to MegaETH                             |         |                               4326                               |
+|           |          `MEGAETH_DELTA`          |  Maximum time in milliseconds from last seen block to consider MegaETH sequencer healthy  |         |                          120000 (2 min)                          |
+|           |       `KATANA_RPC_ENDPOINT`       |                                    Katana RPC Endpoint                                    |         |                    https://rpc.katana.network                    |
+|           |     `KATANA_HEALTH_ENDPOINT`      |                                  Katana Health Endpoint                                   |         |                                                                  |
+|           |         `KATANA_CHAIN_ID`         |                             The chain id to connect to Katana                             |         |                              747474                              |
+|           |          `KATANA_DELTA`           |  Maximum time in milliseconds from last seen block to consider Katana sequencer healthy   |         |                          120000 (2 min)                          |
 
 For the adapter to be useful on the desired network, at least one endpoint (RPC or HEALTH) needs to provided
 
@@ -70,9 +78,9 @@ For the adapter to be useful on the desired network, at least one endpoint (RPC 
 
 ### Input Parameters
 
-| Required? |  Name   |       Description        |                                                                   Options                                                                   | Defaults to |
-| :-------: | :-----: | :----------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync`, `ink`, `mantle`, `unichain`, `soneium`, `celo`, `xlayer` |             |
+| Required? |  Name   |       Description        |                                                                             Options                                                                              | Defaults to |
+| :-------: | :-----: | :----------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|    ✅     | network | Layer 2 Network to check | `arbitrum`, `optimism`, `base`, `linea`, `metis`, `scroll`, `starkware`, `zksync`, `ink`, `mantle`, `unichain`, `soneium`, `celo`, `xlayer`, `megaeth`, `katana` |             |
 
 ---
 

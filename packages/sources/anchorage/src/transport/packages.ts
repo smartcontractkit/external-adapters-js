@@ -13,6 +13,7 @@ const logger = makeLogger('PackageTransport')
 type RequestParams = typeof inputParameters.validated
 
 interface PackageResponse {
+  packageId: string
   clientReferenceId: string
   collateralAssets: [
     {
@@ -80,7 +81,7 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
     )
 
     const assets = response
-      .filter((r) => r.clientReferenceId.toUpperCase() == params.clientReferenceId.toUpperCase())
+      .filter((r) => r.packageId.toLowerCase() == params.packageId.toLowerCase())
       .flatMap((r) => r.collateralAssets)
 
     const result = assets
@@ -91,11 +92,11 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
 
     return {
       data: {
-        result: result.toString(),
+        result: result.toNumber(),
         assets,
       },
       statusCode: 200,
-      result: result.toString(),
+      result: result.toNumber(),
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),

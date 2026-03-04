@@ -12,6 +12,7 @@ import schedule from 'node-schedule'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
 import {
   AssetsUnderManagement,
+  convertToTimestampMs,
   getPreviousNonWeekendDay,
   getStartingAndEndingDates,
   isBeforeTime,
@@ -164,6 +165,10 @@ export class NavTransport implements Transport<BaseEndpointTypes> {
     const response = {
       data: {
         result,
+        nav: Number(data.net_asset_value),
+        aum: Number(data.assets_under_management),
+        navDate: data.net_asset_value_date,
+        navDateTimestampMs: convertToTimestampMs(data.net_asset_value_date),
       },
       result,
       statusCode: 200,

@@ -1,5 +1,47 @@
 # @chainlink/finnhub-adapter
 
+## 4.0.1
+
+### Patch Changes
+
+- [#4579](https://github.com/smartcontractkit/external-adapters-js/pull/4579) [`65397d4`](https://github.com/smartcontractkit/external-adapters-js/commit/65397d444c71757cbc424452ffb3fca6a1534308) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Rename finnhub market alias TGAT to TRADEGATE
+
+## 4.0.0
+
+### Major Changes
+
+- [#4525](https://github.com/smartcontractkit/external-adapters-js/pull/4525) [`1db52d3`](https://github.com/smartcontractkit/external-adapters-js/commit/1db52d3155524e9376dca20bc0d407a7210634c2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - If you run [market-status](https://gallery.ecr.aws/chainlink/adapters/market-status-adapter) EA, you must bump market-status to equal or above 1.7.0 before upgrading to this version. There is no other breaking changes.
+
+## 3.3.3
+
+### Patch Changes
+
+- [#4526](https://github.com/smartcontractkit/external-adapters-js/pull/4526) [`08e608a`](https://github.com/smartcontractkit/external-adapters-js/commit/08e608a594a6a06690e9c169f5e21c3be0a6fc28) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Support Tradegate market hours
+
+## 3.3.2
+
+### Patch Changes
+
+- [#4351](https://github.com/smartcontractkit/external-adapters-js/pull/4351) [`64c3932`](https://github.com/smartcontractkit/external-adapters-js/commit/64c3932316dafdc52686c2cc3f88aa9796191c7e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Adjust mid logic
+
+## 3.3.1
+
+### Patch Changes
+
+- [#4335](https://github.com/smartcontractkit/external-adapters-js/pull/4335) [`41f2fa5`](https://github.com/smartcontractkit/external-adapters-js/commit/41f2fa5c81aec7416436c9f9e31ced15e307af7f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Optimize resources
+
+## 3.3.0
+
+### Minor Changes
+
+- [#4322](https://github.com/smartcontractkit/external-adapters-js/pull/4322) [`7b916bf`](https://github.com/smartcontractkit/external-adapters-js/commit/7b916bf6ab3b69daa0dbb5e043265cc0fd1a262b) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add stock quotes
+
+## 3.2.1
+
+### Patch Changes
+
+- [#4323](https://github.com/smartcontractkit/external-adapters-js/pull/4323) [`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
 ## 3.2.0
 
 ### Minor Changes

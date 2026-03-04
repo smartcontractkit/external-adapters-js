@@ -1,0 +1,80 @@
+import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
+import { mockAnchorageSuccess, mockBitgoSuccess, mockCBPFailure, mockCBPSuccess } from './fixtures'
+
+describe('execute', () => {
+  let spy: jest.SpyInstance
+  let testAdapter: TestAdapter
+  let oldEnv: NodeJS.ProcessEnv
+
+  const data = {
+    endpoint: 'address-debug',
+    network: 'bitcoin',
+    chainId: 'mainnet',
+    anchorage: {
+      vaultId: 'b0bb5449c1e4926542ce693b4db2e883',
+      coin: 'BTC',
+    },
+    bitgo: {
+      coin: 'tbtc',
+      enterpriseId: '1234',
+    },
+    coinbase_prime: {
+      batchSize: 100,
+      portfolio: '12345622',
+      symbols: ['BTC'],
+    },
+  }
+
+  beforeAll(async () => {
+    oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.ANCHORAGE_ADAPTER_URL = 'https://localhost:8081'
+    process.env.BITGO_ADAPTER_URL = 'https://localhost:8082'
+    process.env.COINBASE_PRIME_ADAPTER_URL = 'https://localhost:8083'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
+
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
+    const adapter = (await import('../../src')).adapter
+    adapter.rateLimiting = undefined
+    testAdapter = await TestAdapter.startWithMockedCache(adapter, {
+      testAdapter: {} as TestAdapter<never>,
+    })
+  })
+
+  afterEach(async () => {
+    nock.cleanAll()
+    testAdapter.mockCache?.cache.clear()
+  })
+
+  afterAll(async () => {
+    setEnvVariables(oldEnv)
+    await testAdapter.api.close()
+    nock.restore()
+    nock.cleanAll()
+    spy.mockRestore()
+  })
+
+  describe('address-debug endpoint', () => {
+    it('should return success', async () => {
+      mockAnchorageSuccess()
+      mockBitgoSuccess()
+      mockCBPSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should fail when missing underlying data source does not respond', async () => {
+      mockAnchorageSuccess()
+      mockBitgoSuccess()
+      mockCBPFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+})

@@ -32,6 +32,8 @@ const defaultRequireTxFailure = {
   [Networks.Soneium]: false,
   [Networks.Celo]: false,
   [Networks.Xlayer]: false,
+  [Networks.Megaeth]: false,
+  [Networks.Katana]: false,
 }
 
 export type TInputParameters = {
@@ -56,6 +58,8 @@ export const inputParameters: InputParameters<TInputParameters> = {
       Networks.Soneium,
       Networks.Celo,
       Networks.Xlayer,
+      Networks.Megaeth,
+      Networks.Katana,
     ],
   },
   requireTxFailure: {
@@ -151,6 +155,6 @@ export const execute: ExecuteWithConfig<ExtendedConfig> = async (request, _, con
     }
   }
 
-  // Every method succeded. Network is healthy
+  // Every method succeeded. Network is healthy
   return _respond(true)
 }

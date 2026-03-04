@@ -21,7 +21,6 @@ At least one of each of the following categories must be set as an environment v
    |           | `MOONBEAM_ADDRESS_LIST_ADAPTER_URL` | The location of a Moonbeam Address List external adapter |         |             |
    |           |  `MULTI_ADDRESS_LIST_ADAPTER_URL`   |  The location of a Multi Address List external adapter   |         |             |
    |           |   `POR_ADDRESS_LIST_ADAPTER_URL`    |   The location of a PoR Address List external adapter    |         |             |
-   |           |         `RENVM_ADAPTER_URL`         |         The location of a RenVM external adapter         |         |             |
    |           |  `STADER_ADDRESS_LIST_ADAPTER_URL`  |  The location of a Stader Address List external adapter  |         |             |
    |           |  `SWELL_ADDRESS_LIST_ADAPTER_URL`   |  The location of a Swell Address List external adapter   |         |             |
    |           |         `WBTC_ADAPTER_URL`          |         The location of a WBTC external adapter          |         |             |
@@ -29,26 +28,27 @@ At least one of each of the following categories must be set as an environment v
 
 2. An indexer adapter to retrieve account balances for each custodial address
 
-   | Required? |               Name                |                         Description                          | Options | Defaults to |
-   | :-------: | :-------------------------------: | :----------------------------------------------------------: | :-----: | :---------: |
-   |           |     `ADA_BALANCE_ADAPTER_URL`     |        The location of a Ada balance external adapter        |         |             |
-   |           |      `AMBERDATA_ADAPTER_URL`      |        The location of an Amberdata external adapter         |         |             |
-   |           | `AVALANCHE_PLATFORM_ADAPTER_URL`  |    The location of an Avalance Platform external adapter     |         |             |
-   |           |  `BITCOIN_JSON_RPC_ADAPTER_URL`   |     The location of an Bitcoin JSON RPC external adapter     |         |             |
-   |           |   `BLOCKCHAIN_COM_ADAPTER_URL`    |      The location of a Blockchain.com external adapter       |         |             |
-   |           |     `BLOCKCHAIR_ADAPTER_URL`      |        The location of a Blockchair external adapter         |         |             |
-   |           |       `BTC_COM_ADAPTER_URL`       |          The location of a BTC.com external adapter          |         |             |
-   |           |        `CEFFU_ADAPTER_URL`        |           The location of a Ceffu external adapter           |         |             |
-   |           |     `CRYPTOAPIS_ADAPTER_URL`      |        The location of a Crypto APIs external adapter        |         |             |
-   |           | `ETHEREUM_CL_INDEXER_ADAPTER_URL` |            The location of a Ethereum Cl Indexer             |         |             |
-   |           |     `ETH_BALANCE_ADAPTER_URL`     |       The location of an ETH Balance external adapter        |         |             |
-   |           |     `ETH_BEACON_ADAPTER_URL`      |        The location of an ETH Beacon external adapter        |         |             |
-   |           |        `LOTUS_ADAPTER_URL`        |           The location of a Lotus external adapter           |         |             |
-   |           |  `POLKADOT_BALANCE_ADAPTER_URL`   |     The location of a Polkadot Balance external adapter      |         |             |
-   |           |     `POR_INDEXER_ADAPTER_URL`     | The location of a Proof-of-Reserves Indexer external adapter |         |             |
-   |           |       `SOCHAIN_ADAPTER_URL`       |          The location of a SoChain external adapter          |         |             |
-   |           |   `STADER_BALANCE_ADAPTER_URL`    |      The location of a Stader Balance external adapter       |         |             |
-   |           |    `TOKEN_BALANCE_ADAPTER_URL`    |       The location of a Token Balance external adapter       |         |             |
+   | Required? |                  Name                   |                         Description                          | Options | Defaults to |
+   | :-------: | :-------------------------------------: | :----------------------------------------------------------: | :-----: | :---------: |
+   |           |        `ADA_BALANCE_ADAPTER_URL`        |        The location of a Ada balance external adapter        |         |             |
+   |           |         `AMBERDATA_ADAPTER_URL`         |        The location of an Amberdata external adapter         |         |             |
+   |           |    `AVALANCHE_PLATFORM_ADAPTER_URL`     |    The location of an Avalance Platform external adapter     |         |             |
+   |           |     `BITCOIN_JSON_RPC_ADAPTER_URL`      |     The location of an Bitcoin JSON RPC external adapter     |         |             |
+   |           |      `BLOCKCHAIN_COM_ADAPTER_URL`       |      The location of a Blockchain.com external adapter       |         |             |
+   |           |        `BLOCKCHAIR_ADAPTER_URL`         |        The location of a Blockchair external adapter         |         |             |
+   |           |          `BTC_COM_ADAPTER_URL`          |          The location of a BTC.com external adapter          |         |             |
+   |           |           `CEFFU_ADAPTER_URL`           |           The location of a Ceffu external adapter           |         |             |
+   |           |        `CRYPTOAPIS_ADAPTER_URL`         |        The location of a Crypto APIs external adapter        |         |             |
+   |           |    `ETHEREUM_CL_INDEXER_ADAPTER_URL`    |            The location of a Ethereum Cl Indexer             |         |             |
+   |           |        `ETH_BALANCE_ADAPTER_URL`        |       The location of an ETH Balance external adapter        |         |             |
+   |           |        `ETH_BEACON_ADAPTER_URL`         |        The location of an ETH Beacon external adapter        |         |             |
+   |           |           `LOTUS_ADAPTER_URL`           |           The location of a Lotus external adapter           |         |             |
+   |           |     `POLKADOT_BALANCE_ADAPTER_URL`      |     The location of a Polkadot Balance external adapter      |         |             |
+   |           |        `POR_INDEXER_ADAPTER_URL`        | The location of a Proof-of-Reserves Indexer external adapter |         |             |
+   |           |          `SOCHAIN_ADAPTER_URL`          |          The location of a SoChain external adapter          |         |             |
+   |           |      `STADER_BALANCE_ADAPTER_URL`       |      The location of a Stader Balance external adapter       |         |             |
+   |           |       `TOKEN_BALANCE_ADAPTER_URL`       |       The location of a Token Balance external adapter       |         |             |
+   |           | `VIEW_FUNCTION_MULTI_CHAIN_ADAPTER_URL` | The location of a Vie-function-multi-chain external adapter  |         |             |
 
 ## Running
 

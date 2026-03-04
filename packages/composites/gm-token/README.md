@@ -1,6 +1,6 @@
 # GM_TOKEN
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gm-token/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,8 +14,8 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |          BOTANIX_CHAIN_ID          |                                The chain id to connect to                                 | number |         |                    `3637`                    |
 |    ✅     |     DATASTORE_CONTRACT_ADDRESS     |                              Address of Data Store contract                               | string |         | `0xFD70de6b91282D8017aA4E741e9Ae325CAb992d8` |
 |    ✅     | BOTANIX_DATASTORE_CONTRACT_ADDRESS |                              Address of Data Store contract                               | string |         | `0xA23B81a89Ab9D7D89fF8fc1b5d8508fB75Cc094d` |
-|    ✅     |      READER_CONTRACT_ADDRESS       |                                Address of Reader contract                                 | string |         | `0xf60becbba223EEA9495Da3f606753867eC10d139` |
-|    ✅     |  BOTANIX_READER_CONTRACT_ADDRESS   |                                Address of Reader contract                                 | string |         | `0xa254B60cbB85a92F6151B10E1233639F601f2F0F` |
+|    ✅     |      READER_CONTRACT_ADDRESS       |                          Address of Reader contract on Arbitrum                           | string |         | `0x470fbC46bcC0f16532691Df360A07d8Bf5ee0789` |
+|    ✅     |  BOTANIX_READER_CONTRACT_ADDRESS   |                           Address of Reader contract on Botanix                           | string |         | `0x922766ca6234cD49A483b5ee8D86cA3590D0Fb0E` |
 |    ✅     |      ARBITRUM_TOKENS_INFO_URL      |                    URL to token meta data supported by GMX on Arbitrum                    | string |         |  `https://arbitrum-api.gmxinfra.io/tokens`   |
 |    ✅     |      BOTANIX_TOKENS_INFO_URL       |                    URL to token meta data supported by GMX on Botanix                     | string |         |   `https://botanix-api.gmxinfra.io/tokens`   |
 |    ✅     |          PNL_FACTOR_TYPE           |     PnL factor type. See https://github.com/gmx-io/gmx-synthetics#market-token-price      | string |         |         `MAX_PNL_FACTOR_FOR_TRADERS`         |

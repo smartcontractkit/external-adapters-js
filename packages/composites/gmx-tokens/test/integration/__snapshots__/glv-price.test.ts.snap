@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GLV price execute glv-price endpoint returns success with combined price and LWBA data 1`] = `
+{
+  "data": {
+    "ask": 1.501,
+    "bid": 1.499,
+    "mid": 1.5,
+    "result": 1.5,
+    "sources": {
+      "USDC": [
+        "data-engine",
+      ],
+      "WETH": [
+        "data-engine",
+      ],
+    },
+  },
+  "result": 1.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

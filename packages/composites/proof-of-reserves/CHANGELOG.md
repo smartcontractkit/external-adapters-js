@@ -1,5 +1,29 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.33.1
+
+### Patch Changes
+
+- [#4609](https://github.com/smartcontractkit/external-adapters-js/pull/4609) [`cb489cb`](https://github.com/smartcontractkit/external-adapters-js/commit/cb489cb09f4e713524b263ef6014fb7b383d5aa0) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused renvm-address-set EA. Proof-of-reserves depended on it but this is not used by any job.
+
+## 1.33.0
+
+### Minor Changes
+
+- [#4596](https://github.com/smartcontractkit/external-adapters-js/pull/4596) [`65ac6fa`](https://github.com/smartcontractkit/external-adapters-js/commit/65ac6fa208a5e2aea0d3405d6d79d1ab76c14a6c) Thanks [@dskloetc](https://github.com/dskloetc)! - Support decimal number strings returned by view-function-multi-chain
+
+## 1.32.0
+
+### Minor Changes
+
+- [#4357](https://github.com/smartcontractkit/external-adapters-js/pull/4357) [`f39da2d`](https://github.com/smartcontractkit/external-adapters-js/commit/f39da2d57a8009913b53134790c3a1b9b5445c05) Thanks [@dskloetc](https://github.com/dskloetc)! - Support stellar endpoint of token-balance
+
+## 1.31.3
+
+### Patch Changes
+
+- [#4279](https://github.com/smartcontractkit/external-adapters-js/pull/4279) [`af6a86f`](https://github.com/smartcontractkit/external-adapters-js/commit/af6a86f376b238bcefbfdce7bffc531d5c99d590) Thanks [@dskloetc](https://github.com/dskloetc)! - Decouple from adapter dependencies
+
 ## 1.31.2
 
 ### Patch Changes

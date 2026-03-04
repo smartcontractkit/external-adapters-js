@@ -134,7 +134,7 @@ export const mockCBPSuccess = (): nock.Scope =>
   nock('https://localhost:8083', {
     encodedQueryParams: true,
   })
-    .persist()
+    // .persist()
     .post('/', {
       data: {
         batchSize: 100,
@@ -189,4 +189,33 @@ export const mockCBPSuccess = (): nock.Scope =>
         'Origin',
       ],
     )
+    .persist()
+
+export const mockCBPFailure = (): nock.Scope =>
+  nock('https://localhost:8083', {
+    encodedQueryParams: true,
+  })
+    // .persist()
+    .post('/', {
+      data: {
+        batchSize: 100,
+        chainId: 'mainnet',
+        network: 'bitcoin',
+        portfolio: '12345622',
+        type: 'vault',
+        apiKey: '',
+        symbols: ['BTC'],
+        endpoint: 'wallet',
+      },
+    })
+    .reply(504, () => ({}), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
     .persist()

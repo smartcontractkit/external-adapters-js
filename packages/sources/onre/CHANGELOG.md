@@ -1,5 +1,11 @@
 # @chainlink/onre-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- [#4444](https://github.com/smartcontractkit/external-adapters-js/pull/4444) [`a6701aa`](https://github.com/smartcontractkit/external-adapters-js/commit/a6701aa3896d26863218a1734a1f6cfc3c0a2fdd) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update default API_ENDPOINT
+
 ## 1.1.3
 
 ### Patch Changes

@@ -4,10 +4,18 @@ SOURCE_DIR="$(dirname "$0")"
 
 UPSTREAM_BRANCH="${1:-}"
 
+PACKAGE_LIST=$(yarn workspaces list -R --json)
+
 if [[ -z "$UPSTREAM_BRANCH" ]]; then
   PACKAGE_LIST=$(yarn workspaces list -R --json)
 else
-  PACKAGE_LIST=$(yarn workspaces list -R --json --since=$UPSTREAM_BRANCH)
+  changed_packages="$(yarn workspaces list --json --since=$UPSTREAM_BRANCH | jq -r 'select(.location | startswith("packages")) | .name')"
+  packages_to_include="$($SOURCE_DIR/get-reverse-dependencies.sh "$changed_packages")"
+  # Keep only the packages changed since UPSTREAM_BRANCH
+  PACKAGE_LIST=$(
+    echo $PACKAGE_LIST \
+    | jq -cr --arg packages "$packages_to_include" '($packages | split("\n")) as $packageNames | select(.name as $name | $packageNames | any($name == .))'
+  )
 fi
 
 # The yarn command used above will give us a list of the packages that have changed (including changes by dependencies)

@@ -1,5 +1,13 @@
 # @chainlink/llama-guard-adapter
 
+## 1.2.5
+
+### Patch Changes
+
+- [#4603](https://github.com/smartcontractkit/external-adapters-js/pull/4603) [`2e9478f`](https://github.com/smartcontractkit/external-adapters-js/commit/2e9478f0fb14595216c27bbe01262ac8e234f0f0) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Added some data validation
+
+- [#4614](https://github.com/smartcontractkit/external-adapters-js/pull/4614) [`a0c690f`](https://github.com/smartcontractkit/external-adapters-js/commit/a0c690fa29692ac9eb701c95cdb1c65e1eb6446d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add a new risk flag
+
 ## 1.2.4
 
 ### Patch Changes

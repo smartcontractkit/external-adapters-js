@@ -1,5 +1,33 @@
 # @chainlink/multi-address-list-adapter
 
+## 1.2.1
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- Updated dependencies [[`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc), [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc), [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc), [`a977625`](https://github.com/smartcontractkit/external-adapters-js/commit/a977625b67b4efa6cebfeae57da6c022915e0a5a)]:
+  - @chainlink/bitgo-adapter@1.0.23
+  - @chainlink/coinbase-prime-adapter@1.2.24
+  - @chainlink/anchorage-adapter@3.0.0
+
+## 1.2.0
+
+### Minor Changes
+
+- [#4284](https://github.com/smartcontractkit/external-adapters-js/pull/4284) [`62072e5`](https://github.com/smartcontractkit/external-adapters-js/commit/62072e55ac4d89c8915403777d94792a26f63091) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - added address-debug endpoint
+
+## 1.1.0
+
+### Minor Changes
+
+- [#4348](https://github.com/smartcontractkit/external-adapters-js/pull/4348) [`8720c2a`](https://github.com/smartcontractkit/external-adapters-js/commit/8720c2a6f5c759e9503223c7f39e11a228761f18) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Update EA Framework Version and Integration test Snapshot
+
+### Patch Changes
+
+- Updated dependencies [[`d61b0e6`](https://github.com/smartcontractkit/external-adapters-js/commit/d61b0e699224ea2b393d717f2cfb4376f921444c), [`8720c2a`](https://github.com/smartcontractkit/external-adapters-js/commit/8720c2a6f5c759e9503223c7f39e11a228761f18)]:
+  - @chainlink/anchorage-adapter@2.2.0
+
 ## 1.0.24
 
 ### Patch Changes

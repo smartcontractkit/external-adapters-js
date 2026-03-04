@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockResponseZeusMinerFeeSuccess } from './fixtures'
+import { mockResponseSuccess, mockResponseZeusMinerFeeSuccess, mockSecondBatch } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -16,6 +16,7 @@ describe('execute', () => {
       process.env['BITCOIN_MAINNET_POR_INDEXER_URL'] ?? 'http://localhost:8545'
     process.env['ZEUS_ZBTC_API_URL'] = 'http://localhost:8546'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
+    process.env['BATCH_SIZE'] = '2'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -51,6 +52,33 @@ describe('execute', () => {
         minConfirmations: 6,
       }
       mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should batch addresses', async () => {
+      const data = {
+        addresses: [
+          {
+            network: 'bitcoin',
+            chainId: 'mainnet',
+            address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+          },
+          {
+            network: 'bitcoin',
+            chainId: 'mainnet',
+            address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+          },
+          {
+            network: 'bitcoin',
+            chainId: 'mainnet',
+            address: '3KLdeu9maZAfccm3TeRWEmUMuw2e8SLo4v',
+          },
+        ],
+        minConfirmations: 6,
+      }
+      mockSecondBatch()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

@@ -12,6 +12,7 @@ import { AdapterResponse } from '@chainlink/external-adapter-framework/util/type
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 import { AdapterName } from '../config/adapters'
+import { getStatus as get245Status } from '../config/hardCode245Adapter'
 import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
 import { inputParameters } from '../endpoint/market-status'
 
@@ -92,6 +93,12 @@ export abstract class BaseMarketStatusTransport<
     adapterName: AdapterName,
     param: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>,
   ): Promise<MarketStatusResult> {
+    if (adapterName === 'HARD_CODE_245') {
+      return {
+        ...get245Status(param.weekend),
+        source: adapterName,
+      }
+    }
     const key = `${adapterName}:${JSON.stringify(param)}`
     const config = {
       method: 'POST',

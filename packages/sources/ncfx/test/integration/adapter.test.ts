@@ -1,15 +1,16 @@
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import FakeTimers from '@sinonjs/fake-timers'
 
 import {
   mockCryptoWebSocketServer,
+  mockForexContinuousWebSocketServer,
   mockForexResponse,
   mockForexWebSocketServer,
   mockMarketStatusWebSocketServer,
@@ -18,11 +19,13 @@ import {
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let mockWsServerForex: MockWebsocketServer | undefined
+  let mockWsServerForexContinuous: MockWebsocketServer | undefined
   let mockWsServerMarketStatus: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
   const wsEndpointForex = 'ws://localhost:9091'
   const wsEndpointMarketStatus = 'ws://localhost:9092'
+  const wsEndpointForexContinuous = 'ws://localhost:9093'
   let oldEnv: NodeJS.ProcessEnv
   const cryptoData = {
     base: 'eth',
@@ -43,6 +46,11 @@ describe('websocket', () => {
     quote: 'USD',
     endpoint: 'forex',
   }
+  const forexContinuousData = {
+    base: 'ARS',
+    quote: 'USD',
+    endpoint: 'forex-continuous',
+  }
   const marketStatusOpenData = {
     market: 'forex',
     endpoint: 'market-status',
@@ -61,6 +69,7 @@ describe('websocket', () => {
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['FOREX_WS_API_ENDPOINT'] = wsEndpointForex
     process.env['MARKET_STATUS_WS_API_ENDPOINT'] = wsEndpointMarketStatus
+    process.env['FOREX_CONTINUOUS_WS_API_ENDPOINT'] = wsEndpointForexContinuous
     process.env['API_USERNAME'] = 'test-api-username'
     process.env['API_PASSWORD'] = 'test-api-password'
     process.env['FOREX_WS_API_KEY'] = 'test-api-key'
@@ -70,6 +79,7 @@ describe('websocket', () => {
     mockWsServer = mockCryptoWebSocketServer(wsEndpoint)
     mockWsServerForex = mockForexWebSocketServer(wsEndpointForex)
     mockWsServerMarketStatus = mockMarketStatusWebSocketServer(wsEndpointMarketStatus)
+    mockWsServerForexContinuous = mockForexContinuousWebSocketServer(wsEndpointForexContinuous)
 
     const adapter = (await import('./../../src')).adapter as unknown as Adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -82,15 +92,17 @@ describe('websocket', () => {
     await testAdapter.request(cryptoDataLwba)
     await testAdapter.request(cryptoDataLwbaInvariantViolation)
     await testAdapter.request(forexData)
+    await testAdapter.request(forexContinuousData)
     await testAdapter.request(marketStatusOpenData)
     await testAdapter.request(marketStatusClosedData)
-    await testAdapter.waitForCache(6 + Object.keys(mockForexResponse).length)
+    await testAdapter.waitForCache(7 + Object.keys(mockForexResponse).length)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     mockWsServerForex?.close()
+    mockWsServerForexContinuous?.close()
     mockWsServerMarketStatus?.close()
     testAdapter.clock?.uninstall()
     await testAdapter.api.close()
@@ -148,6 +160,28 @@ describe('websocket', () => {
 
     it('should return error (empty quote)', async () => {
       const response = await testAdapter.request({ base: 'ETH' })
+      expect(response.statusCode).toEqual(400)
+    })
+  })
+
+  describe('forex-continuous endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(forexContinuousData)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return error (empty data)', async () => {
+      const response = await testAdapter.request({ endpoint: 'forex-continuous' })
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error (empty base)', async () => {
+      const response = await testAdapter.request({ endpoint: 'forex-continuous', quote: 'USD' })
+      expect(response.statusCode).toEqual(400)
+    })
+
+    it('should return error (empty quote)', async () => {
+      const response = await testAdapter.request({ endpoint: 'forex-continuous', base: 'ARS' })
       expect(response.statusCode).toEqual(400)
     })
   })

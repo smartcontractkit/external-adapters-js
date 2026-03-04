@@ -22,6 +22,28 @@ export const mockResponseSuccess = (): nock.Scope =>
     ])
     .persist()
 
+export const mockSecondBatch = (): nock.Scope =>
+  nock('http://localhost:8545', {})
+    .persist()
+    .post('/', {
+      id: '1',
+      data: {
+        addresses: ['3KLdeu9maZAfccm3TeRWEmUMuw2e8SLo4v'],
+        minConfirmations: 6,
+      },
+    })
+    .reply(200, () => ({ data: { totalReserves: '12' } }), [
+      'Content-Type',
+      'application/json',
+      'Connection',
+      'close',
+      'Vary',
+      'Accept-Encoding',
+      'Vary',
+      'Origin',
+    ])
+    .persist()
+
 export const mockResponseZeusMinerFeeSuccess = () =>
   nock('http://localhost:8546')
     .persist()

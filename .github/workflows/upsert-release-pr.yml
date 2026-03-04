@@ -18,6 +18,11 @@ on:
 # - Readme generation was optimized a bit
 # - We only installed the changeset package
 
+# Prevent race condition in writing to the changeset branch.
+concurrency:
+  group: deploy-and-release
+  cancel-in-progress: false
+
 jobs:
   consume-changesets:
     name: Upsert Release PR
@@ -33,6 +38,13 @@ jobs:
       SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
       BUILD_STREAMS_ADAPTER_IMAGES: ${{ inputs.build-streams-adapter-images }}
     steps:
+      - name: Check if changeset release branch already exists
+        shell: bash
+        run: |
+          if git ls-remote --exit-code "https://github.com/${GITHUB_REPOSITORY}.git" changeset-release/main; then
+            echo "Branch already exists: changeset-release/main"
+            exit 1
+          fi
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
@@ -51,7 +63,7 @@ jobs:
       - name: Get changeset arguments
         run: |
           set -e
-          CHANGESET_ARGUMENTS="$(.github/scripts/get-changeset-arguments.sh "$SELECTED_ADAPTERS")"
+          CHANGESET_ARGUMENTS="$(yarn get-changeset-arguments "$SELECTED_ADAPTERS")"
           echo "CHANGESET_ARGUMENTS=$CHANGESET_ARGUMENTS" >> "$GITHUB_ENV"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
@@ -73,7 +85,8 @@ jobs:
       - name: Generate documentation
         run: |
           yarn generate:master-list -v
-          yarn generate:readme -v
+          # Only generate READMEs for adapters being released.
+          yarn generate:readme -v $(.github/scripts/list-packages-adapters.sh HEAD | jq -r '"--adapters " +  .adapters[].shortName' | tr '\n' ' ')
       - name: Undo temporary changesets and commit docs
         run: |
           git stash

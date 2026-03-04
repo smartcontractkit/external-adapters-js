@@ -1,5 +1,33 @@
 # @chainlink/ncfx-adapter
 
+## 4.6.0
+
+### Minor Changes
+
+- [#4635](https://github.com/smartcontractkit/external-adapters-js/pull/4635) [`d431d86`](https://github.com/smartcontractkit/external-adapters-js/commit/d431d867d6ee5753cf4d470ef71574ad4d75f060) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add forex-continuous endpoint for 24/7 forex prices
+
+### Patch Changes
+
+- [#4634](https://github.com/smartcontractkit/external-adapters-js/pull/4634) [`f80dea0`](https://github.com/smartcontractkit/external-adapters-js/commit/f80dea060606c6e3b711b205e2cdaab7463dd127) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Refactor shared WebSocket utilities to utils
+
+## 4.5.4
+
+### Patch Changes
+
+- [#4606](https://github.com/smartcontractkit/external-adapters-js/pull/4606) [`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.12.0
+
+## 4.5.3
+
+### Patch Changes
+
+- [#4543](https://github.com/smartcontractkit/external-adapters-js/pull/4543) [`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.11.6 + Update Tiingo ws fail-over logic and logging
+
+## 4.5.2
+
+### Patch Changes
+
+- [#4323](https://github.com/smartcontractkit/external-adapters-js/pull/4323) [`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
 ## 4.5.1
 
 ### Patch Changes

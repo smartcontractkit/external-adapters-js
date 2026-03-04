@@ -1,26 +1,22 @@
-import { sleep } from '@chainlink/external-adapter-framework/util'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 
-let delayResponse = false
-const resolvers: (() => void)[] = []
-
 const getBalance = async (address: string) => {
   const mockPolkdotBalanceResponse1 = {
     toJSON: () => {
       return {
         nonce: 0,
-        consumers: 2,
+        consumers: 1,
         providers: 1,
         sufficients: 0,
         data: {
-          free: '0x0000000000000000002737faef46c49e',
-          reserved: 0,
-          miscFrozen: '0x0000000000000000002737faef46c49e',
-          feeFrozen: '0x0000000000000000002737faef46c49e',
+          free: 10249387394,
+          reserved: 554302492653803,
+          frozen: 0,
+          flags: '0x80000000000000000000000000000000',
         },
       }
     },
@@ -29,15 +25,15 @@ const getBalance = async (address: string) => {
   const mockPolkdotBalanceResponse2 = {
     toJSON: () => {
       return {
-        nonce: 0,
-        consumers: 2,
+        nonce: 1,
+        consumers: 3,
         providers: 1,
         sufficients: 0,
         data: {
-          free: '0x0000000000000000002738e81252d2de',
-          reserved: 0,
-          miscFrozen: '0x0000000000000000002738e81252d2de',
-          feeFrozen: '0x0000000000000000002738e81252d2de',
+          free: 536730221406,
+          reserved: '0x000000000000000000241c10a172ae51',
+          frozen: 0,
+          flags: '0x80000000000000000000000000000000',
         },
       }
     },
@@ -46,15 +42,15 @@ const getBalance = async (address: string) => {
   const mockPolkdotBalanceResponse3 = {
     toJSON: () => {
       return {
-        nonce: 0,
-        consumers: 2,
+        nonce: 1,
+        consumers: 1,
         providers: 1,
         sufficients: 0,
         data: {
-          free: '0x0000000000000000001397870f4b226f',
+          free: '0x000000000000000000259411d5308d02',
           reserved: 0,
-          miscFrozen: '0x000000000000000000135158a141e105',
-          feeFrozen: '0x000000000000000000135158a141e105',
+          frozen: 0,
+          flags: '0x80000000000000000000000000000000',
         },
       }
     },
@@ -66,27 +62,12 @@ const getBalance = async (address: string) => {
     '15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq': mockPolkdotBalanceResponse3,
   }
 
-  const delayedAddressBalanceMap: Record<string, any> = {
-    '100000000000000000000000000000000000000000000001': mockPolkdotBalanceResponse1,
-    '100000000000000000000000000000000000000000000002': mockPolkdotBalanceResponse2,
-    '100000000000000000000000000000000000000000000003': mockPolkdotBalanceResponse3,
-    '100000000000000000000000000000000000000000000004': mockPolkdotBalanceResponse1,
-    '100000000000000000000000000000000000000000000005': mockPolkdotBalanceResponse2,
-  }
-
-  if (address in delayedAddressBalanceMap) {
-    const response = delayedAddressBalanceMap[address]
-    if (delayResponse) {
-      return new Promise((resolve) => {
-        resolvers.push(() => {
-          resolve(response)
-        })
-      })
-    }
-    return response
-  }
-
   return addressBalanceMap[address]
+}
+
+getBalance.multi = async (addresses: string[]) => {
+  const results = await Promise.all(addresses.map((addr) => getBalance(addr)))
+  return results.map((res) => res.toJSON())
 }
 
 jest.mock('@polkadot/api', () => {
@@ -163,63 +144,5 @@ describe('Balance Endpoint', () => {
     const response = await testAdapter.request({ addresses: [] })
     expect(response.statusCode).toEqual(400)
     expect(response.json()).toMatchSnapshot()
-  })
-
-  it('should wait for the first group to finish before sending more requests', async () => {
-    delayResponse = true
-
-    const data = {
-      addresses: [
-        {
-          address: '100000000000000000000000000000000000000000000001',
-        },
-        {
-          address: '100000000000000000000000000000000000000000000002',
-        },
-        {
-          address: '100000000000000000000000000000000000000000000003',
-        },
-        {
-          address: '100000000000000000000000000000000000000000000004',
-        },
-        {
-          address: '100000000000000000000000000000000000000000000005',
-        },
-      ],
-    }
-
-    expect(resolvers.length).toBe(0)
-    const responsePromise = testAdapter.request(data)
-
-    await sleep(50)
-    expect(resolvers.length).toBe(2)
-
-    resolvers[0]()
-    resolvers[1]()
-
-    await sleep(50)
-    expect(resolvers.length).toBe(4)
-
-    resolvers[2]()
-    resolvers[3]()
-
-    await sleep(50)
-    expect(resolvers.length).toBe(5)
-
-    // Because BACKGROUND_EXECUTE_MS is set to 0, the background handler will
-    // immediately try to fetch the balance for addresses 1 and 2 again once
-    // it gets the response for address 5 and if that doesn't get a response,
-    // the test framework won't exit. So we disable delayResponse before
-    // resolving the last request.
-    delayResponse = false
-
-    resolvers[4]()
-
-    const response = await responsePromise
-    expect(response.statusCode).toBe(200)
-    expect(response.json()).toMatchSnapshot()
-
-    delayResponse = false
-    expect(resolvers.length).toBe(5)
   })
 })

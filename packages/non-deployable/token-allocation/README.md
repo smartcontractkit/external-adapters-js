@@ -6,7 +6,7 @@ This adapter accepts a list of currencies and quantities, and returns the total 
 
 The adapter takes the following environment variables:
 
-To be functional at least one of the following underyling adapter locations will need to be provided.
+To be functional at least one of the following underlying adapter locations will need to be provided.
 
 | Required? |              Name               |                     Description                     | Options | Defaults to |
 | :-------: | :-----------------------------: | :-------------------------------------------------: | :-----: | :---------: |

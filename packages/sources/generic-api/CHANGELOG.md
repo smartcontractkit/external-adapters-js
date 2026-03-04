@@ -1,5 +1,23 @@
 # @chainlink/generic-api-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4602](https://github.com/smartcontractkit/external-adapters-js/pull/4602) [`27881ea`](https://github.com/smartcontractkit/external-adapters-js/commit/27881ea068b440ce36d85d35253c84e54caeb79a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds ripcord data and primary result to generic-api multi-http endpoint
+
+## 1.1.0
+
+### Minor Changes
+
+- [#4568](https://github.com/smartcontractkit/external-adapters-js/pull/4568) [`bdb27c1`](https://github.com/smartcontractkit/external-adapters-js/commit/bdb27c16d9e4583a57d8e411a942570b5a45435a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Adds multi-http endpoint
+
+## 1.0.1
+
+### Patch Changes
+
+- [#4285](https://github.com/smartcontractkit/external-adapters-js/pull/4285) [`a24dc19`](https://github.com/smartcontractkit/external-adapters-js/commit/a24dc191f121ae0efb865197af6cbb67a065070e) Thanks [@weifangc](https://github.com/weifangc)! - chore: fix some minor issues in comments
+
 ## 1.0.0
 
 ### Major Changes

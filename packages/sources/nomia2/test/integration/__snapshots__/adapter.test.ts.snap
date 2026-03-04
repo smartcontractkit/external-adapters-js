@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute indices endpoint should fail if missing pct data 1`] = `
+{
+  "errorMessage": "Incomplete data for baddata_id",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute indices endpoint should fail with missing key 1`] = `
+{
+  "errorMessage": "Missing series data for invalid_id",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute indices endpoint should return success 1`] = `
+{
+  "data": {
+    "ABC123": {
+      "level": 123.456,
+      "pct12mo": 0.12,
+      "pct1mo": 0.1,
+    },
+    "DEF456": {
+      "level": 456.123,
+      "pct12mo": 0.5,
+      "pct1mo": 0,
+    },
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

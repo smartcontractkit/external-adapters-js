@@ -1,5 +1,23 @@
 # @chainlink/anchorage-adapter
 
+## 3.0.0
+
+### Major Changes
+
+- [#4680](https://github.com/smartcontractkit/external-adapters-js/pull/4680) [`a977625`](https://github.com/smartcontractkit/external-adapters-js/commit/a977625b67b4efa6cebfeae57da6c022915e0a5a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add packageId support to Anchorage packages endpoint
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+## 2.2.0
+
+### Minor Changes
+
+- [#4340](https://github.com/smartcontractkit/external-adapters-js/pull/4340) [`d61b0e6`](https://github.com/smartcontractkit/external-adapters-js/commit/d61b0e699224ea2b393d717f2cfb4376f921444c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Return number instead of string
+
+- [#4348](https://github.com/smartcontractkit/external-adapters-js/pull/4348) [`8720c2a`](https://github.com/smartcontractkit/external-adapters-js/commit/8720c2a6f5c759e9503223c7f39e11a228761f18) Thanks [@Subarna-Singh](https://github.com/Subarna-Singh)! - Update EA Framework Version and Integration test Snapshot
+
 ## 2.1.0
 
 ### Minor Changes
