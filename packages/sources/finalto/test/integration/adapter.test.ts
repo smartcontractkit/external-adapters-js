@@ -37,6 +37,12 @@ describe('websocket', () => {
     endpoint: 'stock',
   }
 
+  const dataCommodityXCU = {
+    base: 'XCU',
+    quote: 'USD',
+    endpoint: 'commodities',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -55,6 +61,7 @@ describe('websocket', () => {
     await testAdapter.request(dataForex)
     await testAdapter.request(dataStock)
     await testAdapter.request(dataStockWithOverride)
+    await testAdapter.request(dataCommodityXCU)
     await testAdapter.waitForCache(2)
   })
 
@@ -96,6 +103,28 @@ describe('websocket', () => {
     it('should return success with base override', async () => {
       const response = await testAdapter.request(dataStockWithOverride)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should throw error when invalid volume is received', async () => {
+      const response = await testAdapter.request({
+        base: 'INVALID.xnas',
+        quote: 'USD',
+        endpoint: 'stock',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('commodities endpoint', () => {
+    it('should return success for XCU/USD with price divided by 2204.62', async () => {
+      const response = await testAdapter.request(dataCommodityXCU)
+      expect(response.json()).toMatchSnapshot()
+      const jsonResponse = response.json()
+      // Mock prices: bid=22046.20, ask=22046.24, mid=(22046.20+22046.24)/2=22046.22
+      // After division by 2204.62: bid=10.0, ask≈10.000181498, mid≈10.000090719
+      expect(jsonResponse.result).toBeCloseTo(22046.22 / 2204.62, 8)
+      expect(jsonResponse.data.bid).toBeCloseTo(22046.2 / 2204.62, 8)
+      expect(jsonResponse.data.ask).toBeCloseTo(22046.24 / 2204.62, 8)
     })
   })
 })

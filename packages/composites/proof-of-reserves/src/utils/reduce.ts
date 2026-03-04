@@ -4,13 +4,12 @@ import { ethers } from 'ethers'
 import { callAdapter } from '.'
 import { adapterNamesV2, adapterNamesV3, ETHEREUM_CL_INDEXER } from './balance'
 
-export function parseHexToBigInt(value: unknown): bigint {
+export function parseHexOrDecToBigInt(value: unknown): bigint {
   if (typeof value !== 'string') {
-    throw new Error(`Expected a hex string, but received type: ${typeof value}`)
+    throw new Error(`Expected a hex or decimal string, but received type: ${typeof value}`)
   }
-
-  if (!/^0x[0-9a-fA-F]+$/.test(value)) {
-    throw new Error(`Invalid hex string: ${value}`)
+  if (!/^0x[0-9a-fA-F]+$|^[1-9][0-9]*$|^0$/.test(value)) {
+    throw new Error(`Invalid hex or decimal string: ${value}`)
   }
   return BigInt(value)
 }
@@ -51,9 +50,9 @@ export const runReduceAdapter = async (
     case adapterNamesV3.porIndexer:
       return returnParsedUnits(input.jobRunID, input.data.result as string, 8)
     case adapterNamesV3.tokenBalance:
-      // For xrp and solana-balance, we use the default processing below the
-      // switch block.
-      if (!['xrp', 'solana-balance'].includes(indexerEndpoint as string)) {
+      // For xrp, solana-balance and stellar, we use the default processing
+      // below the switch block.
+      if (!['xrp', 'solana-balance', 'stellar'].includes(indexerEndpoint as string)) {
         return returnParsedUnits(input.jobRunID, input.data.result as string, 18, true)
       }
       break
@@ -122,7 +121,7 @@ export const runReduceAdapter = async (
 
       return returnParsedUnits(
         input.jobRunID,
-        parseHexToBigInt(input.data.result).toString(),
+        parseHexOrDecToBigInt(input.data.result).toString(),
         decimalsOffset,
         false,
         18,

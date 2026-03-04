@@ -6,7 +6,8 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 
 import { config } from '../config'
-import { markets, transport } from '../transport/market-status'
+import { transport } from '../transport/market-status'
+import { markets } from '../transport/utils'
 
 const inputParameters = new InputParameters({
   ...marketStatusEndpointInputParametersDefinition,

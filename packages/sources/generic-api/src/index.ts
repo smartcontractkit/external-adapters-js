@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { http } from './endpoint'
+import { http, multiHttp } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: http.name,
   name: 'GENERIC_API',
   config,
-  endpoints: [http],
+  endpoints: [http, multiHttp],
   rateLimiting: {
     tiers: {
       default: {

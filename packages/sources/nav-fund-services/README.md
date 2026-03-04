@@ -6,10 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |              Default              |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------: |
-|           |     API_ENDPOINT      |                             An API endpoint for Data Provider                             | string |         | `https://api.navfundservices.com` |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |             `120000`              |
+| Required? |            Name             |                                        Description                                        |  Type  | Options |              Default              |
+| :-------: | :-------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------: |
+|           |        API_ENDPOINT         |                             An API endpoint for Data Provider                             | string |         | `https://api.navfundservices.com` |
+|    ✅     |  API_KEY\_${globalFundID}   |                         API key for the specified global fund ID                          | string |         |                                   |
+|    ✅     | SECRET_KEY\_${globalFundID} |                        Secret key for the specified global fund ID                        | string |         |                                   |
+|           |    BACKGROUND_EXECUTE_MS    | The amount of time the background execute should sleep before performing the next request | number |         |             `120000`              |
 
 ---
 
@@ -31,9 +33,9 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |     Name     | Aliases |                          Description                           |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :-----: | :------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | globalFundID |         | Used to match API*KEY*${fund} SECRET_KEY_${fund} env variables | number |         |         |            |                |
+| Required? |     Name     | Aliases |                                    Description                                     |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :-----: | :--------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | globalFundID |         | Used to match `API_KEY_${globalFundID}` `SECRET_KEY_${globalFundID}` env variables | number |         |         |            |                |
 
 ### Example
 

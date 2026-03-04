@@ -1,4 +1,5 @@
 export { cryptoEndpoint as crypto } from './crypto'
 export { cryptoLwbaEndpoint as lwba } from './crypto-lwba'
 export { forexEndpoint as forex } from './forex'
+export { forexContinuousEndpoint as forexContinuous } from './forex-continuous'
 export { marketStatusEndpoint as marketStatus } from './market-status'

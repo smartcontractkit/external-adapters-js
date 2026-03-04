@@ -116,27 +116,26 @@ runs:
           cp packages/tsconfig.json packages/tsconfig.tmp.json
           exit 0
         else
-          yarn workspaces list --json -R --since=$UPSTREAM_BRANCH \
-          | jq -csr '.' \
-          | jq '{ 
-                  files: [],
-                  include: [],
-                  references: [
-                    {
-                      path: "core/factories"
-                    },
-                    {
-                      path:  .[]
-                          | .location
-                          | select(
-                                    startswith("packages/sources")
-                                    or startswith("packages/composites")
-                                    or startswith("packages/targets")
-                            )
-                          | match("packages/(.*)").captures[0].string
-                    }
-                  ]
-                }' \
+          jq \
+            --arg changed_workspaces "$(yarn workspaces list --json -R --since=$UPSTREAM_BRANCH)" \
+            '[$changed_workspaces | split("\n")[] | fromjson.location] as $changed_locations |
+            .references = [
+              .references[] |
+                select(
+                  (
+                    .path
+                      | startswith("./sources")
+                        or startswith("./composites")
+                        or startswith("./targets")
+                        or startswith("./non-deployable")
+                      | not
+                  ) or (
+                    (.path | "packages" + .[1:]) as $location
+                      | $changed_locations
+                      | any($location == .) 
+                  ) 
+                )
+            ]' packages/tsconfig.json \
           > packages/tsconfig.tmp.json
         fi
 

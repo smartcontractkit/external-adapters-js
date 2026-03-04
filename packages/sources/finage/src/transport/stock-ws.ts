@@ -21,16 +21,11 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   },
   handlers: {
     message(message) {
-      if (!message.p && !message.a && !message.b) {
+      if (!message.p) {
         return []
       }
 
-      let result
-      if (message.p) {
-        result = Number(message.p)
-      } else {
-        result = (Number(message.a) + Number(message.b)) / 2
-      }
+      const result = Number(message.p)
 
       return [
         {

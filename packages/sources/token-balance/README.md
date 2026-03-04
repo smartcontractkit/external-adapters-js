@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,6 +25,7 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 |           |    SOLANA_RPC_URL     |                                                                                       RPC url of Solana node                                                                                       | string |         |     ``      |
 |           |   SOLANA_COMMITMENT   |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
 |           |     XRPL_RPC_URL      |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
+|           |    STELLAR_RPC_URL    |                                                                                  RPC url of Stellar JSON-RPC node                                                                                  | string |         |     ``      |
 |           | BACKGROUND_EXECUTE_MS |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
 |           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
@@ -38,9 +39,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                            Options                                                                                                                                             | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                           Options                                                                                                                                                            | Default |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [stellar](#stellar-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -130,12 +131,13 @@ Request:
 
 ### Input Params
 
-| Required? |       Name        | Aliases |            Description            |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------------: | :-----: | :-------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     splitMain     |         |   Address of splitMain contract   | string |         |         |            |                |
-|    ✅     | splitMainAccount  |         |    Input to splitMain contract    | string |         |         |            |                |
-|    ✅     |   eigenStrategy   |         | Address of eigenStrategy contract | string |         |         |            |                |
-|    ✅     | eigenStrategyUser |         |  Input to eigenStrategy contract  | string |         |         |            |                |
+| Required? |       Name        | Aliases |                            Description                            |  Type  | Options |                   Default                    | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :---------------------------------------------------------------: | :----: | :-----: | :------------------------------------------: | :--------: | :------------: |
+|    ✅     |     splitMain     |         |                   Address of splitMain contract                   | string |         |                                              |            |                |
+|    ✅     | splitMainAccount  |         |                    Input to splitMain contract                    | string |         |                                              |            |                |
+|    ✅     |   eigenStrategy   |         |                 Address of eigenStrategy contract                 | string |         |                                              |            |                |
+|    ✅     | eigenStrategyUser |         |                  Input to eigenStrategy contract                  | string |         |                                              |            |                |
+|           |  eigenPodManager  |         | EigenPodManager contract address used to query queued withdrawals | string |         | `0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A` |            |                |
 
 ### Example
 
@@ -148,7 +150,8 @@ Request:
     "splitMain": "0x2ed6c4B5dA6378c7897AC67Ba9e43102Feb694EE",
     "splitMainAccount": "",
     "eigenStrategy": "0x93c4b944D05dfe6df7645A86cd2206016c51564D",
-    "eigenStrategyUser": ""
+    "eigenStrategyUser": "",
+    "eigenPodManager": "0x39053D51B77DC0d36036Fc1fCc8Cb819df8Ef37A"
   }
 }
 ```
@@ -370,6 +373,36 @@ Request:
     "addresses": [
       {
         "address": "7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Stellar Endpoint
+
+`stellar` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
+|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stellar",
+    "addresses": [
+      {
+        "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH"
       }
     ]
   }

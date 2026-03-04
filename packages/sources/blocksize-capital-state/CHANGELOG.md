@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-state-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4324](https://github.com/smartcontractkit/external-adapters-js/pull/4324) [`c2eb031`](https://github.com/smartcontractkit/external-adapters-js/commit/c2eb03116fcfb613bb08a42aa2485408cf06553d) Thanks [@guandali](https://github.com/guandali)! - update tbe remove listener logic
+
 ## 1.0.0
 
 ### Major Changes

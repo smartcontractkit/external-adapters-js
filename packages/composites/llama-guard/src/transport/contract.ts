@@ -26,8 +26,14 @@ export const getBounds = async (
 
   const proxyContract = new Contract(proxy, EACAggregatorProxy, provider)
 
+  // RoundId jumps on proxy when we swap aggregator
+  // We require roundId to be continous so we read from aggregator instead
+  const aggregator = await proxyContract.aggregator()
+  const aggregatorContract = new Contract(aggregator, AccessControlledOCR2Aggregator, provider)
+
+  const decimals = await aggregatorContract.decimals()
+
   if (!isUpperBoundEnabled && !isLowerBoundEnabled) {
-    const decimals = await proxyContract.decimals()
     return {
       lower: {
         isLowerBoundEnabled: false,
@@ -47,20 +53,24 @@ export const getBounds = async (
     }
   }
 
-  // RoundId jumps on proxy when we swap aggregator
-  // We require roundId to be continous so we read from aggregator instead
-  const aggregator = await proxyContract.aggregator()
-  const aggregatorContract = new Contract(aggregator, AccessControlledOCR2Aggregator, provider)
-
   const [
-    { answer: lookbackNav, updatedAt: lookbackTime },
-    { answer: latestNav, updatedAt: latestTime },
-    decimals,
+    { roundId: roundId, answer: lookbackNav, updatedAt: lookbackTime },
+    { roundId: latestRoundId, answer: latestNav, updatedAt: latestTime },
   ] = await Promise.all([
     registryContract.getLookbackData(contracts.asset),
     aggregatorContract.latestRoundData(),
-    aggregatorContract.decimals(),
   ])
+
+  if (roundId > 0 && (BigInt(lookbackNav) <= 0n || Number(lookbackTime) <= 0)) {
+    throw new Error(
+      `Invalid lookback data: roundId ${roundId}, answer ${lookbackNav}, updatedAt ${lookbackTime}`,
+    )
+  }
+  if (latestRoundId > 0 && (BigInt(latestNav) <= 0n || Number(latestTime) <= 0)) {
+    throw new Error(
+      `Invalid latest data: roundId ${latestRoundId}, answer ${latestNav}, updatedAt ${latestTime}`,
+    )
+  }
 
   return {
     lower: {

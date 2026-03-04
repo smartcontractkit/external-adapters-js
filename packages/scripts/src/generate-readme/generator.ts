@@ -102,8 +102,8 @@ export class ReadmeGenerator {
   license: string
   frameworkVersion: 'v2' | 'v3'
   frameworkVersionBadgeUrl: string
-  knownIssuesPath: string
-  knownIssuesSection: string | null
+  customPath: string
+  customSection: string | null
 
   constructor(adapter: WorkspaceAdapter, verbose = false) {
     this.verbose = verbose
@@ -133,7 +133,7 @@ export class ReadmeGenerator {
     this.frameworkVersionBadgeUrl = `https://img.shields.io/badge/framework%20version-${this.frameworkVersion}-blueviolet`
     this.license = packageJson.license ?? ''
 
-    this.knownIssuesPath = this.adapterPath + 'docs/known-issues.md'
+    this.customPath = this.adapterPath + 'docs/custom.md'
     this.schemaPath = this.adapterPath + 'schemas/env.json'
     this.rateLimitsPath = this.adapterPath + 'src/config/limits.json'
     this.integrationTestPath = this.adapterPath + 'test/integration/*.test.ts'
@@ -209,8 +209,8 @@ export class ReadmeGenerator {
       this.defaultEndpoint = adapter.defaultEndpoint ?? ''
     }
 
-    if (fs.existsSync(this.knownIssuesPath)) {
-      this.knownIssuesSection = getMdFile(this.knownIssuesPath) || null
+    if (fs.existsSync(this.customPath)) {
+      this.customSection = getMdFile(this.customPath) || null
     }
   }
 
@@ -219,7 +219,7 @@ export class ReadmeGenerator {
 
     try {
       this.addIntroSection()
-      this.addKnownIssuesSection()
+      this.addCustomSection()
       this.addEnvVarSection()
       this.addRateLimitSection()
       this.addInputParamsSection()
@@ -242,9 +242,9 @@ export class ReadmeGenerator {
     this.readmeText += `${genSig}\n\n`
   }
 
-  addKnownIssuesSection(): void {
-    if (this.verbose) console.log(`${this.adapterPath}: Adding known issues`)
-    if (this.knownIssuesSection) this.readmeText += `${this.knownIssuesSection}\n\n`
+  addCustomSection(): void {
+    if (this.verbose) console.log(`${this.adapterPath}: Adding custom section`)
+    if (this.customSection) this.readmeText += `${this.customSection}\n\n`
   }
 
   addEnvVarSection(): void {

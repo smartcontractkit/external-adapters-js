@@ -1,6 +1,6 @@
 # MOBULA_STATE
 
-![1.3.8](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.0.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -32,10 +32,10 @@ Supported names for this endpoint are: `crypto`, `price`, `state`.
 
 ### Input Params
 
-| Required? | Name  |              Aliases               |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :---: | :--------------------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | base  | `coin`, `from`, `market`, `symbol` | The symbol of symbols of the currency to query | string |         |         |            |                |
-|    ✅     | quote |          `convert`, `to`           |    The symbol of the currency to convert to    | string |         |         |            |                |
+| Required? | Name  |         Aliases          |                  Description                   |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---: | :----------------------: | :--------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base  | `coin`, `from`, `symbol` | The symbol of symbols of the currency to query | string |         |         |            |                |
+|    ✅     | quote |      `market`, `to`      |    The symbol of the currency to convert to    | string |         |         |            |                |
 
 ### Example
 
@@ -45,7 +45,7 @@ Request:
 {
   "data": {
     "endpoint": "price",
-    "base": "ETH",
+    "base": "EZETH",
     "quote": "USD"
   }
 }

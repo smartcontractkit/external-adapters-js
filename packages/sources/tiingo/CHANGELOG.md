@@ -1,5 +1,29 @@
 ## v1.1.0
 
+## 2.9.5
+
+### Patch Changes
+
+- [#4606](https://github.com/smartcontractkit/external-adapters-js/pull/4606) [`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.12.0
+
+## 2.9.4
+
+### Patch Changes
+
+- [#4543](https://github.com/smartcontractkit/external-adapters-js/pull/4543) [`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.11.6 + Update Tiingo ws fail-over logic and logging
+
+## 2.9.3
+
+### Patch Changes
+
+- [#4362](https://github.com/smartcontractkit/external-adapters-js/pull/4362) [`23f06d4`](https://github.com/smartcontractkit/external-adapters-js/commit/23f06d4c9c813abf1d0eb6f05f4f23a6a1acca9d) Thanks [@nikhsha](https://github.com/nikhsha)! - Add TRY and HKD includes
+
+## 2.9.2
+
+### Patch Changes
+
+- [#4323](https://github.com/smartcontractkit/external-adapters-js/pull/4323) [`d5bef44`](https://github.com/smartcontractkit/external-adapters-js/commit/d5bef440cf0540ef9199382bc1f7129daedf3021) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Bump framework version
+
 ## 2.9.1
 
 ### Patch Changes

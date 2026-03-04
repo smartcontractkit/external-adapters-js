@@ -1,5 +1,15 @@
 # @chainlink/por-indexer-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- [#4454](https://github.com/smartcontractkit/external-adapters-js/pull/4454) [`2abe81e`](https://github.com/smartcontractkit/external-adapters-js/commit/2abe81e03bf7242c5652899c6bf8f6c41940ae18) Thanks [@dskloetc](https://github.com/dskloetc)! - Batch addresses to bitcoin-por-indexer
+
+### Patch Changes
+
+- [#4426](https://github.com/smartcontractkit/external-adapters-js/pull/4426) [`753e6c9`](https://github.com/smartcontractkit/external-adapters-js/commit/753e6c97d8c69eac04a0c2816277282b2ac12166) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove quadratic loop over addresses
+
 ## 2.2.4
 
 ### Patch Changes

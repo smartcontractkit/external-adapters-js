@@ -3,8 +3,8 @@ import {
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
 import * as objectPath from 'object-path'
-import { getApiConfig } from '../config'
 import { BaseEndpointTypes } from '../endpoint/http'
+import { prepareRequests } from './utils'
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -14,24 +14,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 }
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
-  prepareRequests: (params) => {
-    return params.map((param) => {
-      const apiConfig = getApiConfig(param.apiName)
-      return {
-        params: [param],
-        request: {
-          baseURL: apiConfig.url,
-          ...(apiConfig.authHeader
-            ? {
-                headers: {
-                  [apiConfig.authHeader]: apiConfig.authHeaderValue,
-                },
-              }
-            : {}),
-        },
-      }
-    })
-  },
+  prepareRequests,
   parseResponse: (params, response) => {
     if (!response.data) {
       return params.map((param) => {

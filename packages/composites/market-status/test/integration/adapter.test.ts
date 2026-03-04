@@ -182,7 +182,7 @@ describe('execute', () => {
     it('returns secondary if primary is unknown', async () => {
       const market = '24/5-test-2'
       mockUnknown(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
-      mockOpen(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
+      clock.setSystemTime(new Date('2026-01-15T17:00:00Z')) // 12:00 PM ET = 17:00 UTC
 
       const response = await waitForSuccessfulRequest({
         market,
@@ -194,8 +194,8 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
-          statusString: 'OPEN',
-          source: 'FINNHUB_SECONDARY',
+          statusString: 'REGULAR',
+          source: 'HARD_CODE_245',
         },
         result: 2,
         statusCode: 200,
@@ -205,7 +205,7 @@ describe('execute', () => {
     it('returns secondary if primary is down', async () => {
       const market = '24/5-test-3'
       mockError(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
-      mockOpen(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
+      clock.setSystemTime(new Date('2026-01-15T17:00:00Z')) // 12:00 PM ET = 17:00 UTC
 
       const response = await waitForSuccessfulRequest({
         market,
@@ -217,32 +217,10 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         data: {
           result: 2,
-          statusString: 'OPEN',
-          source: 'FINNHUB_SECONDARY',
+          statusString: 'REGULAR',
+          source: 'HARD_CODE_245',
         },
         result: 2,
-        statusCode: 200,
-        timestamps,
-      })
-    })
-    it('returns unknown if both is down', async () => {
-      const market = '24/5-test-4'
-      mockError(market, process.env.TRADINGHOURS_ADAPTER_URL, '24/5', '220-320:UTC')
-      mockError(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL, '24/5', '220-320:UTC')
-
-      const response = await waitForSuccessfulRequest({
-        market,
-        type: '24/5',
-        weekend: '220-320:UTC',
-      })
-      await testAdapter.waitForCache()
-
-      expect(response.json()).toEqual({
-        data: {
-          result: 0,
-          statusString: 'UNKNOWN',
-        },
-        result: 0,
         statusCode: 200,
         timestamps,
       })

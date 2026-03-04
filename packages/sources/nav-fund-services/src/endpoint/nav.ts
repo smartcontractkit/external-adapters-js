@@ -10,7 +10,7 @@ export const inputParameters = new InputParameters(
     globalFundID: {
       required: true,
       type: 'number',
-      description: 'Used to match API_KEY_${fund} SECRET_KEY_${fund} env variables',
+      description: 'Used to match API_KEY_${globalFundID} SECRET_KEY_${globalFundID} env variables',
     },
   },
   [

@@ -9,35 +9,8 @@ import { isWeekendNow } from '@chainlink/external-adapter-framework/validation/m
 
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
-export const markets = [
-  'forex',
-  'metals',
-  'wti',
-  'nyse',
-  'lse',
-  'xetra',
-  'six',
-  'euronext_milan',
-  'euronext_paris',
-] as const
-
-export type Market = (typeof markets)[number]
-
-const marketToFinId: Record<Market, string> = {
-  forex: 'US.CHNLNK.FX',
-  metals: 'US.CHNLNK.METAL',
-  wti: 'US.CHNLNK.WTI',
-  nyse: 'US.NYSE',
-  lse: 'GB.LSE',
-  xetra: 'DE.XETR',
-  six: 'CH.SIX',
-  euronext_milan: 'IT.EURONEXT',
-  euronext_paris: 'FR.EURONEXT',
-}
-
-function isMarket(v: string): v is Market {
-  return markets.includes(v as Market)
-}
+import type { Market } from './utils'
+import { getFinId, isMarket } from './utils'
 
 // See: https://docs.tradinghours.com/3.x/endpoints/market-status.html
 type ResponseBody = {
@@ -74,7 +47,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
         logger.warn(`Invalid market in params: ${market}`)
         return
       }
-      finIds.push(marketToFinId[market])
+      finIds.push(getFinId(market, param.type))
     })
 
     return [
@@ -95,7 +68,7 @@ export const transport = new HttpTransport<HttpEndpointTypes>({
   },
   parseResponse: (params, res) => {
     return params.flatMap((param) => {
-      const finId = marketToFinId[param.market as Market]
+      const finId = getFinId(param.market as Market, param.type)
       if (!finId || !(finId in res.data.data)) {
         logger.warn(`Market data not found in response: ${param.market} (fin_id=${finId})`)
         return []
@@ -127,6 +100,7 @@ const CLOSE = 'Closed'
 const REGULAR = 'PRIMARYTRADINGSESSION'
 const PRE = 'PRETRADINGSESSION'
 const POST = 'POSTTRADINGSESSION'
+const OVERNIGHT = 'OVERNIGHT'
 
 export function parseMarketStatus(
   param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
@@ -162,8 +136,10 @@ export function parseMarketStatus(
           result = TwentyfourFiveMarketStatus.PRE_MARKET
         } else if (reason?.includes(POST)) {
           result = TwentyfourFiveMarketStatus.POST_MARKET
-        } else {
+        } else if (reason?.includes(OVERNIGHT)) {
           result = TwentyfourFiveMarketStatus.OVERNIGHT
+        } else {
+          result = TwentyfourFiveMarketStatus.WEEKEND
         }
       } else {
         logger.warn(`Unexpected status value: ${status}, reason: ${reason}`)

@@ -20,6 +20,7 @@ exports[`execute nav endpoint should return success 1`] = `
     "lowerBound": "993",
     "rawNav": "1001",
     "riskFlag": false,
+    "staleLowerBound": false,
     "upperBound": "1005",
   },
   "result": "1001",
