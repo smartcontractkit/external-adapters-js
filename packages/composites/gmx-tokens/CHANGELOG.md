@@ -1,5 +1,11 @@
 # @chainlink/gmx-tokens-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4697](https://github.com/smartcontractkit/external-adapters-js/pull/4697) [`7165b6d`](https://github.com/smartcontractkit/external-adapters-js/commit/7165b6d3d5f87f041d2ff0dfa9c50b0ee2d9e743) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add MegaETH chain support to gmx-tokens adapter
+
 ## 1.0.1
 
 ### Patch Changes
