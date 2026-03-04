@@ -61,7 +61,6 @@ func main() {
 	}
 
 	appCache := cache.New(cache.Config{
-		MaxSize:         cfg.CacheMaxSize,
 		TTL:             time.Duration(cfg.CacheTTLMinutes) * time.Minute,
 		CleanupInterval: time.Duration(cfg.CacheCleanupInterval) * time.Minute,
 	})

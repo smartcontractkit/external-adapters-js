@@ -163,6 +163,17 @@ func InitAliasIndex(adapterName, configPath string) error {
 	return nil
 }
 
+// toString converts an interface{} value to its string representation.
+func toString(v interface{}) string {
+	if s, ok := v.(string); ok {
+		return s
+	}
+	if v == nil {
+		return ""
+	}
+	return fmt.Sprintf("%v", v)
+}
+
 // Adds endpoint alias to the alias index.
 func (a *adapterAliasIndex) addEndpointAlias(alias, canonicalEndpoint string) {
 	if alias == "" {
@@ -214,11 +225,7 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 	var ep string
 	for k, v := range data {
 		if strings.EqualFold(k, "endpoint") {
-			if s, ok := v.(string); ok {
-				ep = s
-			} else if v != nil {
-				ep = fmt.Sprintf("%v", v)
-			}
+			ep = toString(v)
 			break
 		}
 	}
@@ -275,13 +282,7 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 		keyLower := strings.ToLower(k)
 
 		// Convert value to string.
-		var rawValue string
-		switch tv := v.(type) {
-		case string:
-			rawValue = tv
-		default:
-			rawValue = fmt.Sprintf("%v", tv)
-		}
+		rawValue := toString(v)
 		if rawValue == "" {
 			continue
 		}

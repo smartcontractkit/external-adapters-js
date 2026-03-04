@@ -8,8 +8,6 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
-	_ "net/http/pprof"
-	"runtime"
 	"sync"
 	"time"
 
@@ -144,15 +142,6 @@ func (s *Server) setupRoutes() {
 
 	// Main adapter endpoint
 	s.router.POST("/", s.adapterHandler)
-
-	// Debug endpoints (for debugging and profiling)
-	s.router.GET("/debug/cache/keys", s.cacheKeysHandler)
-	s.router.GET("/debug/cache/items", s.cacheItemsHandler)
-	s.router.GET("/debug/metrics", s.metricsHandler)
-
-	// pprof endpoints (standard Go profiling)
-	// Access these with: curl http://localhost:8080/debug/pprof/heap > heap.out
-	s.router.GET("/debug/pprof/*any", gin.WrapH(http.DefaultServeMux))
 }
 
 // Start starts the HTTP server
@@ -236,6 +225,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Get request object from pool
 	reqData := requestDataPool.Get().(*RequestData)
 	defer requestDataPool.Put(reqData)
+	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
 			Success: false,
@@ -341,59 +331,6 @@ func (s *Server) subscribeToAsset(params types.RequestParams) {
 	if s.config.LogLevel == "debug" {
 		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode, "url", internalUrl)
 	}
-}
-
-// cacheKeysHandler provides cache keys for debugging
-func (s *Server) cacheKeysHandler(c *gin.Context) {
-	keys := s.cache.Keys()
-
-	stats := gin.H{
-		"size":      s.cache.Size(),
-		"keys":      keys,
-		"timestamp": time.Now().UTC(),
-	}
-
-	c.JSON(http.StatusOK, stats)
-}
-
-// cacheItemsHandler returns all items in the cache for debugging
-func (s *Server) cacheItemsHandler(c *gin.Context) {
-	items := s.cache.Items()
-
-	response := gin.H{
-		"size":      s.cache.Size(),
-		"items":     items,
-		"timestamp": time.Now().UTC(),
-	}
-
-	c.JSON(http.StatusOK, response)
-}
-
-// metricsHandler provides overall system metrics
-func (s *Server) metricsHandler(c *gin.Context) {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
-
-	metrics := gin.H{
-		"timestamp": time.Now().UTC(),
-		"memory": gin.H{
-			"alloc_mb":         float64(m.Alloc) / 1024 / 1024,
-			"total_alloc_mb":   float64(m.TotalAlloc) / 1024 / 1024,
-			"sys_mb":           float64(m.Sys) / 1024 / 1024,
-			"heap_alloc_mb":    float64(m.HeapAlloc) / 1024 / 1024,
-			"heap_sys_mb":      float64(m.HeapSys) / 1024 / 1024,
-			"heap_idle_mb":     float64(m.HeapIdle) / 1024 / 1024,
-			"heap_inuse_mb":    float64(m.HeapInuse) / 1024 / 1024,
-			"heap_released_mb": float64(m.HeapReleased) / 1024 / 1024,
-			"heap_objects":     m.HeapObjects,
-			"num_gc":           m.NumGC,
-			"gc_cpu_fraction":  m.GCCPUFraction,
-		},
-		"goroutines": runtime.NumGoroutine(),
-		"cache_size": s.cache.Size(),
-	}
-
-	c.JSON(http.StatusOK, metrics)
 }
 
 // resubscribe loop periodically resubscribes to all assets in the cache
