@@ -1,6 +1,6 @@
-import { ethers } from 'ethers'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers } from 'ethers'
 
 const logger = makeLogger('utils')
 
@@ -30,20 +30,21 @@ export const addProvider = (
 }
 
 export const getProvider = (
-  networkName: string,
+  network: string,
   providers: Record<string, ethers.providers.JsonRpcProvider>,
   provider?: ethers.providers.JsonRpcProvider,
 ) => {
-  if (!providers[networkName]) {
+  if (!providers[network]) {
     if (provider) {
       return provider
     } else {
+      const networkName = network.toUpperCase()
       throw new AdapterInputError({
         statusCode: 400,
         message: `Missing ${networkName}_RPC_URL or ${networkName}_RPC_CHAIN_ID environment variables`,
       })
     }
   } else {
-    return providers[networkName]
+    return providers[network]
   }
 }
