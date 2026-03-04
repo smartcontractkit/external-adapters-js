@@ -47,6 +47,7 @@ describe('GM-token price execute', () => {
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:3040'
     process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:3050'
     process.env.AVALANCHE_RPC_URL = process.env.AVALANCHE_RPC_URL ?? 'http://localhost:3060'
+    process.env.MEGAETH_RPC_URL = process.env.MEGAETH_RPC_URL ?? 'http://localhost:3070'
 
     process.env.ARBITRUM_DATASTORE_CONTRACT_ADDRESS =
       process.env.ARBITRUM_DATASTORE_CONTRACT_ADDRESS ??
@@ -67,12 +68,19 @@ describe('GM-token price execute', () => {
       process.env.AVALANCHE_GM_READER_CONTRACT_ADDRESS ??
       '0x62Cb8740E6986B29dC671B2EB596676f60590A5B'
 
+    process.env.MEGAETH_DATASTORE_CONTRACT_ADDRESS =
+      process.env.MEGAETH_DATASTORE_CONTRACT_ADDRESS ?? '0xE43C7B694f6b652a9F4A0f275C008d18758Dce35'
+    process.env.MEGAETH_GM_READER_CONTRACT_ADDRESS =
+      process.env.MEGAETH_GM_READER_CONTRACT_ADDRESS ?? '0x0f038EB4a38B08cd3c937a3256b51aa01904a684'
+
     process.env.ARBITRUM_TOKENS_INFO_URL =
       process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:5040/tokens'
     process.env.BOTANIX_TOKENS_INFO_URL =
       process.env.BOTANIX_TOKENS_INFO_URL ?? 'http://localhost:6040/tokens'
     process.env.AVALANCHE_TOKENS_INFO_URL =
       process.env.AVALANCHE_TOKENS_INFO_URL ?? 'http://localhost:7040/tokens'
+    process.env.MEGAETH_TOKENS_INFO_URL =
+      process.env.MEGAETH_TOKENS_INFO_URL ?? 'http://localhost:8040/tokens'
 
     process.env.ARBITRUM_MARKETS_INFO_URL =
       process.env.ARBITRUM_MARKETS_INFO_URL ?? 'http://localhost:5040/markets'
@@ -80,6 +88,8 @@ describe('GM-token price execute', () => {
       process.env.BOTANIX_MARKETS_INFO_URL ?? 'http://localhost:6040/markets'
     process.env.AVALANCHE_MARKETS_INFO_URL =
       process.env.AVALANCHE_MARKETS_INFO_URL ?? 'http://localhost:7040/markets'
+    process.env.MEGAETH_MARKETS_INFO_URL =
+      process.env.MEGAETH_MARKETS_INFO_URL ?? 'http://localhost:8040/markets'
     process.env.RETRY = process.env.RETRY ?? '0'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
