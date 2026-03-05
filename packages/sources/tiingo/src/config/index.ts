@@ -21,7 +21,7 @@ export const config = new AdapterConfig(
     },
     SECONDARY_WS_API_ENDPOINT: {
       description:
-        'Secondary websocket endpoint for tiingo. To disable failover and use only the primary URL, set this to the same value as WS_API_ENDPOINT.',
+        'Secondary websocket endpoint for tiingo. To effectively disable failover and use only the primary URL, set this to the same value as WS_API_ENDPOINT.',
       default: 'wss://api.redundantstack.com',
       type: 'string',
     },
