@@ -17,3 +17,5 @@
 ---
 
 Add WS bad closure failover mechanism and IEX-specific WebSocket endpoints to Tiingo.
+
+Explicitly flag insensitive variables in Tiingo adapter
