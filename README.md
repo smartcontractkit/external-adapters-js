@@ -84,6 +84,20 @@ Clears all build files/directories. Useful in case of issues when installing dep
 
 The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the list of all the external adapters available in this repository, together with their version, type, supported environment variables, endpoints and other helpful information. Check their linked README to learn more about them.
 
+## Streams Adapters
+
+Streams adapters are designed to address performance bottlenecks under high request volumes (above ~3,000 requests per second).
+
+The streams runtime introduces a Go service that exposes the HTTP API and uses an in-memory cache that mimics Redis behavior for storing the observation cache. It runs alongside the existing JavaScript adapter, which continues to handle communication with data providers.
+
+Streams adapters are built and published as separate container images and are currently used by the Data Streams product only.
+
+The following environment variables are specific to streams adapters:
+
+- `HTTP_PORT`: Sets the HTTP API service port (used instead of `EA_PORT`). Default: `8080`.
+- `CACHE_TTL_MINUTES`: Sets the expiration time for cache entries.
+- `CACHE_CLEANUP_INTERVAL`: Sets the cache cleanup interval and the resubscription interval for asset pairs.
+
 ## How to Run
 
 External adapters should be run as long-lived processes, either directly as [HTTP Server](#run-as-http-server), [Docker Container](#run-as-docker-container), or [Single-Command Docker App](#single-command-docker-app). Each adapter may have configuration that is required to be supplied through environment variables.

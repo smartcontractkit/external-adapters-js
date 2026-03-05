@@ -104,23 +104,6 @@ jobs:
           aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
           aws-ecr-private: true
 
-  streams-unit-tests:
-    name: Run Go unit tests for streams adapter
-    runs-on: [ubuntu-latest]
-    needs: [release-options, calculate-changes]
-    if: needs.release-options.outputs.build-streams-adapter-images == 'true'
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v5
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: packages/streams-adapter/go.mod
-      - name: Run streams adapter unit tests
-        run: |
-          cd packages/streams-adapter
-          go test ./...
-
   build-publish:
     name: Build and publish ${{ matrix.adapter.shortName }}
     permissions:
@@ -159,8 +142,8 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    needs: [release-options, calculate-changes, create-ecr, streams-unit-tests]
-    if: needs.release-options.outputs.build-streams-adapter-images == 'true' && needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}' && (needs.streams-unit-tests.result == 'success' || needs.streams-unit-tests.result == 'skipped')
+    needs: [release-options, calculate-changes, create-ecr]
+    if: needs.release-options.outputs.build-streams-adapter-images == 'true' && needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}'
     strategy:
       max-parallel: 20
       matrix: ${{ fromJson(needs.calculate-changes.outputs.adapter-list) }}

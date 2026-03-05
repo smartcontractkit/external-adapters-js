@@ -33,7 +33,7 @@ func Load() *Config {
 		EAPort:        getEnv("EA_PORT", "8070"),
 		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
 		RedconPort:    getEnv("REDCON_PORT", "6379"),
-		GoMetricsPort: getEnv("GO_METRICS_PORT", "9080"),
+		GoMetricsPort: getEnv("METRICS_PORT", "9080"),
 
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),

@@ -18,7 +18,7 @@ func TestLoad_Defaults(t *testing.T) {
 	// Unset all env vars that Load reads so defaults apply
 	for _, key := range []string{
 		"PACKAGE_NAME", "HTTP_PORT", "EA_PORT", "EA_INTERNAL_HOST",
-		"REDCON_PORT", "GO_METRICS_PORT",
+		"REDCON_PORT", "METRICS_PORT",
 		"CACHE_TTL_MINUTES", "CACHE_CLEANUP_INTERVAL", "LOG_LEVEL",
 	} {
 		t.Setenv(key, "")
@@ -44,7 +44,7 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 		"EA_PORT":                "7070",
 		"EA_INTERNAL_HOST":       "0.0.0.0",
 		"REDCON_PORT":            "6380",
-		"GO_METRICS_PORT":        "9090",
+		"METRICS_PORT":           "9090",
 		"CACHE_TTL_MINUTES":      "10",
 		"CACHE_CLEANUP_INTERVAL": "3",
 		"LOG_LEVEL":              "debug",
