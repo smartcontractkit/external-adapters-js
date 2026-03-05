@@ -1,16 +1,16 @@
 adapters:
   - name: ada-balance
-    version: 2.5.47
+    version: 2.5.48
   - name: aleno
     version: 2.1.8
   - name: allium-state
     version: 1.0.3
   - name: amberdata
-    version: 1.8.40
+    version: 1.8.41
   - name: anchorage
     version: 3.0.0
   - name: anyblock
-    version: 2.1.13
+    version: 2.1.14
   - name: apex
     version: 1.0.11
   - name: asseto-finance
@@ -22,11 +22,11 @@ adapters:
   - name: bank-frick
     version: 1.1.54
   - name: bea
-    version: 1.3.47
+    version: 1.3.48
   - name: binance
-    version: 1.4.47
+    version: 1.4.48
   - name: bitcoin-json-rpc
-    version: 1.3.47
+    version: 1.3.48
   - name: bitgo
     version: 1.0.23
   - name: bitgo-reserves
@@ -34,41 +34,53 @@ adapters:
   - name: bitgo-reserves-test
     version: 1.1.3
   - name: blockchain.com
-    version: 1.3.47
+    version: 1.3.48
   - name: blockchair
-    version: 1.3.47
+    version: 1.3.48
   - name: blocksize-capital
+<<<<<<< HEAD
     version: 2.5.6
+=======
+    version: 2.5.5
+>>>>>>> b241c7b18 (Update public adapter versions)
   - name: blocksize-capital-state
     version: 1.0.1
   - name: bob
-    version: 2.0.29
+    version: 2.0.30
   - name: bsol-price
+<<<<<<< HEAD
     version: 2.2.146
+=======
+    version: 2.2.144
+>>>>>>> b241c7b18 (Update public adapter versions)
   - name: btc.com
-    version: 1.3.47
+    version: 1.3.48
   - name: cache.gold
-    version: 1.3.47
+    version: 1.3.48
   - name: ceffu
     version: 1.1.5
   - name: celsius-address-list
-    version: 2.0.31
+    version: 2.0.32
   - name: cfbenchmarks
+<<<<<<< HEAD
     version: 2.6.6
+=======
+    version: 2.6.5
+>>>>>>> b241c7b18 (Update public adapter versions)
   - name: chain-reserve-wallet
-    version: 3.0.31
+    version: 3.0.32
   - name: cmeth
     version: 2.0.3
   - name: coinapi
-    version: 1.3.37
+    version: 1.3.38
   - name: coinbase
-    version: 2.0.31
+    version: 2.0.32
   - name: coinbase-prime
     version: 1.2.24
   - name: coingecko
     version: 2.1.6
   - name: coinlore
-    version: 1.3.47
+    version: 1.3.48
   - name: coinmarketcap
     version: 2.1.6
   - name: coinmetrics
@@ -80,13 +92,13 @@ adapters:
   - name: coinpaprika-state
     version: 1.0.1
   - name: coinranking
-    version: 2.1.18
+    version: 2.1.19
   - name: covid-tracker
-    version: 1.4.39
+    version: 1.4.40
   - name: crypto-volatility-index
     version: 1.4.42
   - name: cryptoapis
-    version: 1.2.47
+    version: 1.2.48
   - name: cryptocompare
     version: 3.4.7
   - name: data-engine
@@ -94,7 +106,7 @@ adapters:
   - name: deep-blue
     version: 1.0.20
   - name: deribit
-    version: 1.2.47
+    version: 1.2.48
   - name: deutsche-boerse
     version: 1.4.1
   - name: dlc-btc-por
@@ -108,15 +120,15 @@ adapters:
   - name: elwood
     version: 3.1.23
   - name: enzyme
-    version: 2.0.33
+    version: 2.0.34
   - name: eodhistoricaldata
-    version: 1.5.16
+    version: 1.5.17
   - name: eth-balance
-    version: 2.1.14
+    version: 2.1.15
   - name: eth-beacon
     version: 3.0.23
   - name: etherscan
-    version: 1.3.47
+    version: 1.3.48
   - name: exchange-copter
     version: 1.0.0
   - name: expand-network
@@ -132,13 +144,13 @@ adapters:
   - name: fireblocks
     version: 1.0.18
   - name: fmpcloud
-    version: 1.3.47
+    version: 1.3.48
   - name: frxeth-exchange-rate
     version: 1.1.29
   - name: ftse-sftp
     version: 1.0.2
   - name: galaxis
-    version: 4.0.24
+    version: 4.0.25
   - name: gemini
     version: 3.0.33
   - name: generic-api
@@ -154,11 +166,11 @@ adapters:
   - name: gold
     version: 1.2.0
   - name: graphql
-    version: 1.2.47
+    version: 1.2.48
   - name: gsr
     version: 2.4.26
   - name: harmony
-    version: 1.1.47
+    version: 1.1.48
   - name: harris-and-trotter
     version: 1.1.21
   - name: hashnote
@@ -174,7 +186,7 @@ adapters:
   - name: ignition-address-list
     version: 1.0.16
   - name: implied-price
-    version: 1.4.0
+    version: 1.4.1
   - name: implied-price-test
     version: 1.0.0
   - name: instruxi-sxt
@@ -182,17 +194,17 @@ adapters:
   - name: ion.au
     version: 1.0.32
   - name: json-rpc
-    version: 1.3.47
+    version: 1.3.48
   - name: kaiko
     version: 2.3.6
   - name: kaiko-state
     version: 1.1.3
   - name: layer2-sequencer-health
-    version: 4.10.0
+    version: 4.11.1
   - name: lcx
-    version: 1.3.48
+    version: 1.3.49
   - name: lido
-    version: 2.0.31
+    version: 2.0.32
   - name: lido-por
     version: 1.1.16
   - name: liveart
@@ -208,11 +220,11 @@ adapters:
   - name: matrixdock
     version: 2.0.0
   - name: medianizer
-    version: 1.2.44
+    version: 1.2.45
   - name: mobula-state
     version: 2.0.4
   - name: mock-ea
-    version: 2.2.0
+    version: 2.2.1
   - name: moonbeam-address-list
     version: 1.1.51
   - name: moore-hk
@@ -220,7 +232,7 @@ adapters:
   - name: multi-address-list
     version: 1.2.1
   - name: mycryptoapi
-    version: 1.3.47
+    version: 1.3.48
   - name: nav-consulting
     version: 1.2.6
   - name: nav-fund-services
@@ -232,7 +244,7 @@ adapters:
   - name: nexus-kiln
     version: 1.0.18
   - name: nftx
-    version: 3.0.31
+    version: 3.0.32
   - name: nomia
     version: 2.0.3
   - name: nomia2
@@ -242,7 +254,7 @@ adapters:
   - name: oanda
     version: 1.1.49
   - name: onchain-gas
-    version: 1.3.47
+    version: 1.3.48
   - name: ondo
     version: 1.0.3
   - name: onre
@@ -258,11 +270,11 @@ adapters:
   - name: por-indexer
     version: 2.3.0
   - name: proof-of-reserves
-    version: 1.33.0
+    version: 1.33.2
   - name: r25
     version: 1.1.0
   - name: rocket-pool
-    version: 1.1.22
+    version: 1.1.23
   - name: s3-csv-reader
     version: 2.2.15
   - name: savax-price
@@ -274,23 +286,23 @@ adapters:
   - name: set-token-index
     version: 3.0.55
   - name: snowflake
-    version: 1.2.47
+    version: 1.2.48
   - name: sochain
-    version: 1.3.47
+    version: 1.3.48
   - name: solactive
     version: 1.0.3
   - name: solana-functions
     version: 1.3.0
   - name: solana-view-function
-    version: 2.2.48
+    version: 2.2.49
   - name: sportsdataio
-    version: 1.3.39
+    version: 1.3.40
   - name: stader-address-list
     version: 2.3.41
   - name: stader-balance
     version: 1.4.40
   - name: stader-labs
-    version: 3.0.25
+    version: 3.0.26
   - name: starknet-gas-price
     version: 1.0.25
   - name: streamex
@@ -298,17 +310,17 @@ adapters:
   - name: superstate
     version: 1.5.1
   - name: swell-address-list
-    version: 1.0.30
+    version: 1.0.31
   - name: synthetix-debt-pool
-    version: 4.1.21
+    version: 4.1.22
   - name: synthetix-feeds
     version: 1.1.21
   - name: the-graph
-    version: 1.2.48
+    version: 1.2.49
   - name: the-network-firm
     version: 1.5.3
   - name: therundown
-    version: 1.3.47
+    version: 1.3.48
   - name: tiingo
     version: 2.9.7
   - name: tiingo-state
@@ -326,15 +338,15 @@ adapters:
   - name: trueusd
     version: 3.0.34
   - name: twelvedata
-    version: 1.4.16
+    version: 1.4.17
   - name: twosigma
     version: 1.2.41
   - name: uniswap-v2
-    version: 2.0.31
+    version: 2.0.32
   - name: upvest
-    version: 1.3.47
+    version: 1.3.48
   - name: uscpi-one
-    version: 1.3.47
+    version: 1.3.48
   - name: view-function
     version: 3.1.18
   - name: view-function-multi-chain
@@ -348,6 +360,6 @@ adapters:
   - name: wisdomtree
     version: 1.0.4
   - name: wrapped
-    version: 2.2.47
+    version: 2.2.48
   - name: xsushi-price
     version: 2.0.128
