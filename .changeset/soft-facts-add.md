@@ -9,7 +9,6 @@
 '@chainlink/coinmetrics-adapter': patch
 '@chainlink/coinpaprika-adapter': patch
 '@chainlink/coingecko-adapter': patch
-'@chainlink/ea-bootstrap': patch
 '@chainlink/finage-adapter': patch
 '@chainlink/tiingo-adapter': patch
 '@chainlink/kaiko-adapter': patch
