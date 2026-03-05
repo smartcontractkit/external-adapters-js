@@ -1,3 +1,5 @@
+import { randomInt } from 'crypto'
+import { Store } from 'redux'
 import type {
   AdapterContext,
   AdapterData,
@@ -6,17 +8,15 @@ import type {
   Execute,
   Middleware,
 } from '../../../types'
-import { logger } from '../../modules/logger'
 import { AdapterError } from '../../modules/error'
-import { Store } from 'redux'
-import { reducer } from '../burst-limit'
-import { withBurstLimit } from '../burst-limit'
-import { exponentialBackOffMs, getEnv, getWithCoalescing, parseBool, uuid, sleep } from '../../util'
-import { getMaxAgeOverride, getTTL } from './utils/ttl'
+import { logger } from '../../modules/logger'
+import { exponentialBackOffMs, getEnv, getWithCoalescing, parseBool, sleep, uuid } from '../../util'
+import { reducer, withBurstLimit } from '../burst-limit'
 import * as local from './local'
-import * as redis from './redis'
 import * as metrics from './metrics'
-import { CacheOptions, CacheImplOptions, CacheEntry, Cache } from './types'
+import * as redis from './redis'
+import { Cache, CacheEntry, CacheImplOptions, CacheOptions } from './types'
+import { getMaxAgeOverride, getTTL } from './utils/ttl'
 
 const UUID = uuid()
 
@@ -124,7 +124,8 @@ export class AdapterCache {
         if (retryCount === 1 && this.options.requestCoalescing.entropyMax) {
           // Add some entropy here because of possible scenario where the key won't be set before multiple
           // other instances in a burst request try to access the coalescing key.
-          const randomMs = Math.random() * this.options.requestCoalescing.entropyMax
+          const entropyMax = this.options.requestCoalescing.entropyMax
+          const randomMs = entropyMax > 0 ? (randomInt(0, 10000) / 10000) * entropyMax : 0
           await sleep(randomMs)
         }
         const inFlight = await this.cache.getFlightMarker(this.getCoalescingKey(key))

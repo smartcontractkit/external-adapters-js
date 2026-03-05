@@ -1,3 +1,4 @@
+import { randomInt } from 'crypto'
 import CryptoJS from 'crypto-js'
 
 export const getValidatorIds = (
@@ -23,11 +24,10 @@ export const getValidatorIds = (
   }
 }
 
-// Copied from Nav Consulting's API guide
+// Copied from Nav Consulting's API guide - uses crypto for secure nonce generation
 const createGuid = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0
-    const v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
+    const r = c === 'x' ? randomInt(0, 16) : randomInt(0, 4) | 0x8
+    return r.toString(16)
   })
 }

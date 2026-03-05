@@ -34,6 +34,9 @@ const scope = '@chainlink/'
 
 export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
 export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
+  if (changedFromBranch && !/^[a-zA-Z0-9_\-./]+$/.test(changedFromBranch)) {
+    throw new Error(`Invalid branch name: ${changedFromBranch}`)
+  }
   return s
     .exec(
       changedFromBranch

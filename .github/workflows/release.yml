@@ -20,6 +20,9 @@ concurrency:
   group: deploy-and-release
   cancel-in-progress: false
 
+permissions:
+  contents: write
+
 jobs:
   gh-release:
     name: GH Release

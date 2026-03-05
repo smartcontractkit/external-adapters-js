@@ -15,6 +15,9 @@ concurrency:
   group: pr-${{ github.event.pull_request.number }}-checks
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   # ---------- Initial steps ----------
 
