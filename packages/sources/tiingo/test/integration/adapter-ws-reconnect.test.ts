@@ -23,91 +23,41 @@ jest.mock('@chainlink/external-adapter-framework/util', () => ({
 }))
 
 /**
- * These tests document and validate the URL cycling behavior that fixes
- * the production issue where the IEX transport gets stuck on a broken
- * secondary URL (api.redundantstack.com) due to repeated 1005 closures.
+ * Tests for the Tiingo-specific wsSelectUrl function, which selects between
+ * primary and secondary WebSocket URLs based on a connection attempt counter.
  *
- * The fix (in the framework): abnormal WS closures (code !== 1000)
- * now increment streamHandlerInvocationsWithNoConnection, which allows
- * wsSelectUrl to cycle back to the primary URL.
- *
- * Without the fix, the counter stays frozen after reaching the secondary,
- * and the transport reconnects to the broken secondary every ~1.5s forever.
+ * The counter (streamHandlerInvocationsWithNoConnection) is incremented by the
+ * framework on unresponsive connection detection and on abnormal WS closures
+ * (code != 1000). wsSelectUrl uses the counter to cycle between URLs according
+ * to the configured WS_URL_PRIMARY_ATTEMPTS / WS_URL_SECONDARY_ATTEMPTS ratio.
  */
-describe('wsSelectUrl failover cycling -- 1:1 ratio', () => {
-  // 1:1 used here to keep counter values small and assertions easy to follow.
-  // Production default is 5:1 (see describe block below).
+describe('wsSelectUrl -- 1:1 ratio', () => {
   const primary = 'wss://api.tiingo.com'
   const secondary = 'wss://api.redundantstack.com'
   const suffix = 'iex'
   const params = (n: number) => ({ streamHandlerInvocationsWithNoConnection: n })
 
-  it('counter=0 and counter=1 both route to primary', () => {
+  it('routes to primary at the start of each cycle', () => {
     expect(wsSelectUrl(primary, secondary, suffix, params(0))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(1))).toBe(`${primary}/${suffix}`)
   })
 
-  it('counter=2 routes to secondary (the problematic URL)', () => {
+  it('routes to secondary on the second position of each cycle', () => {
     expect(wsSelectUrl(primary, secondary, suffix, params(2))).toBe(`${secondary}/${suffix}`)
   })
 
-  it('counter=3 escapes secondary and returns to primary', () => {
-    // This is the key assertion: after the framework increments the counter
-    // on a 1005 abnormal close from the secondary, the counter goes from 2->3,
-    // and wsSelectUrl routes back to primary.
+  it('cycles back to primary after secondary', () => {
     expect(wsSelectUrl(primary, secondary, suffix, params(3))).toBe(`${primary}/${suffix}`)
   })
 
-  it('continues to alternate after escaping', () => {
+  it('continues alternating in a repeating pattern', () => {
     expect(wsSelectUrl(primary, secondary, suffix, params(4))).toBe(`${secondary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(5))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(6))).toBe(`${secondary}/${suffix}`)
   })
-
-  it('simulates the full production failure scenario', () => {
-    // Simulate: primary goes unresponsive, counter increments via unresponsive detection,
-    // then secondary closes with 1005, counter increments via abnormal close handler.
-    const urls: string[] = []
-
-    urls.push(wsSelectUrl(primary, secondary, suffix, params(0)))
-    expect(urls[0]).toBe(`${primary}/${suffix}`)
-
-    // counter=1: first unresponsive detection, still primary
-    urls.push(wsSelectUrl(primary, secondary, suffix, params(1)))
-    expect(urls[1]).toBe(`${primary}/${suffix}`)
-
-    // counter=2: second detection -> switches to secondary
-    urls.push(wsSelectUrl(primary, secondary, suffix, params(2)))
-    expect(urls[2]).toBe(`${secondary}/${suffix}`)
-
-    // counter=3: secondary closed with 1005, framework incremented counter -> back to primary
-    urls.push(wsSelectUrl(primary, secondary, suffix, params(3)))
-    expect(urls[3]).toBe(`${primary}/${suffix}`)
-
-    expect(urls).toEqual([
-      `${primary}/${suffix}`,
-      `${primary}/${suffix}`,
-      `${secondary}/${suffix}`,
-      `${primary}/${suffix}`,
-    ])
-  })
-
-  it('demonstrates the bug when counter is stuck (pre-fix behavior)', () => {
-    // WITHOUT the fix: after reaching secondary (counter=2), abnormal closes
-    // do NOT increment the counter. So wsSelectUrl is called with counter=2
-    // repeatedly, always returning secondary.
-    const stuckCounter = 2
-    for (let i = 0; i < 10; i++) {
-      expect(wsSelectUrl(primary, secondary, suffix, params(stuckCounter))).toBe(
-        `${secondary}/${suffix}`,
-      )
-    }
-    // The transport is stuck on the broken secondary URL forever.
-    // Only the framework fix (incrementing counter on abnormal close) breaks this loop.
-  })
 })
 
-describe('wsSelectUrl failover cycling -- 5:1 ratio (production default)', () => {
+describe('wsSelectUrl -- 5:1 ratio (production default)', () => {
   const primary = 'wss://api.tiingo.com'
   const secondary = 'wss://api.redundantstack.com'
   const suffix = 'iex'
@@ -123,26 +73,24 @@ describe('wsSelectUrl failover cycling -- 5:1 ratio (production default)', () =>
     ;(configModule.config.settings as Record<string, unknown>).WS_URL_SECONDARY_ATTEMPTS = 1
   })
 
-  it('routes to primary for first 5 attempts then secondary on 6th', () => {
+  it('routes to primary for the first 5 positions in each cycle', () => {
     expect(wsSelectUrl(primary, secondary, suffix, params(1))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(2))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(3))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(4))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(5))).toBe(`${primary}/${suffix}`)
-    expect(wsSelectUrl(primary, secondary, suffix, params(6))).toBe(`${secondary}/${suffix}`)
   })
 
-  it('cycles back to primary after secondary and repeats the 5:1 pattern', () => {
+  it('routes to secondary on the 6th position and back to primary on the 7th', () => {
+    expect(wsSelectUrl(primary, secondary, suffix, params(6))).toBe(`${secondary}/${suffix}`)
+    expect(wsSelectUrl(primary, secondary, suffix, params(7))).toBe(`${primary}/${suffix}`)
+  })
+
+  it('repeats the 5:1 pattern across multiple cycles', () => {
+    // Cycle 2: positions 7-12 (5 primary, 1 secondary)
     expect(wsSelectUrl(primary, secondary, suffix, params(7))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(11))).toBe(`${primary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(12))).toBe(`${secondary}/${suffix}`)
     expect(wsSelectUrl(primary, secondary, suffix, params(13))).toBe(`${primary}/${suffix}`)
-  })
-
-  it('escapes a broken secondary after a single 1005 close (counter increments from 6 to 7)', () => {
-    // At counter=6 the transport connects to secondary; it closes with 1005,
-    // framework increments counter to 7, which maps back to primary (cycle pos 0).
-    expect(wsSelectUrl(primary, secondary, suffix, params(6))).toBe(`${secondary}/${suffix}`)
-    expect(wsSelectUrl(primary, secondary, suffix, params(7))).toBe(`${primary}/${suffix}`)
   })
 })

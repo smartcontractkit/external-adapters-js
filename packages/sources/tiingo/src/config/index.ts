@@ -26,8 +26,7 @@ export const config = new AdapterConfig(
       type: 'string',
     },
     IEX_WS_API_ENDPOINT: {
-      description:
-        'Primary websocket endpoint for the IEX endpoint only. Defaults to WS_API_ENDPOINT if not set.',
+      description: 'Primary websocket endpoint for the IEX endpoint only.',
       default: 'wss://api.tiingo.com',
       type: 'string',
     },
