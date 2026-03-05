@@ -1,19 +1,19 @@
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
   runAllUntilTime,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import {
-  mockCryptoWebSocketServer,
-  mockCryptoLwbaWebSocketServer,
-  mockIexWebSocketServer,
-  mockForexWebSocketServer,
-} from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
 import * as lwbaTransport from '../../src/transport/crypto-lwba'
+import {
+  mockCryptoLwbaWebSocketServer,
+  mockCryptoWebSocketServer,
+  mockForexWebSocketServer,
+  mockIexWebSocketServer,
+} from './fixtures'
 
 describe('websocket', () => {
   let mockWsServerCrypto: MockWebsocketServer | undefined
