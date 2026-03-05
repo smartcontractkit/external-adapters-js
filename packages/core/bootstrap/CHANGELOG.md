@@ -1,5 +1,11 @@
 # @chainlink/ea-bootstrap
 
+## 2.29.12
+
+### Patch Changes
+
+- [#4694](https://github.com/smartcontractkit/external-adapters-js/pull/4694) [`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31) Thanks [@dskloetc](https://github.com/dskloetc)! - Include errorMessage from v3 error response in Requester error response
+
 ## 2.29.11
 
 ### Patch Changes
