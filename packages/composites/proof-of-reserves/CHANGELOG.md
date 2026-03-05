@@ -1,5 +1,17 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.33.2
+
+### Patch Changes
+
+- [#4628](https://github.com/smartcontractkit/external-adapters-js/pull/4628) [`309e53c`](https://github.com/smartcontractkit/external-adapters-js/commit/309e53c5dad419142872175b4a6f09bb2ed54e75) Thanks [@dskloetc](https://github.com/dskloetc)! - Update README
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/reduce-adapter@1.4.35
+
 ## 1.33.1
 
 ### Patch Changes
