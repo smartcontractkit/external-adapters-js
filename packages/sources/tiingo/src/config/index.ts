@@ -25,17 +25,6 @@ export const config = new AdapterConfig(
       default: 'wss://api.redundantstack.com',
       type: 'string',
     },
-    IEX_WS_API_ENDPOINT: {
-      description: 'Primary websocket endpoint for the IEX endpoint only.',
-      default: 'wss://api.tiingo.com',
-      type: 'string',
-    },
-    IEX_SECONDARY_WS_API_ENDPOINT: {
-      description:
-        'Secondary websocket endpoint for the IEX endpoint only. Defaults to wss://api.tiingo.com (same as primary), effectively disabling failover for IEX unless explicitly overridden.',
-      default: 'wss://api.tiingo.com',
-      type: 'string',
-    },
     WS_URL_PRIMARY_ATTEMPTS: {
       description:
         'Number of consecutive connection attempts to primary WebSocket URL per failover cycle (alternates with secondary)',
