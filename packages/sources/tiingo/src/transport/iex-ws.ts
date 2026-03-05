@@ -24,10 +24,6 @@ const priceIndex = 2
 Tiingo EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
 we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
 */
-// TiingoWebsocketTransport is used here rather than the base WebSocketTransport because
-// importing directly from the framework's subpath (/transports/websocket) causes module
-// resolution failures in Yarn PnP environments. TiingoWebsocketTransport extends
-// WebSocketTransport and exposes the same interface needed here.
 const updateTTL = async (transport: TiingoWebsocketTransport<WsTransportTypes>, ttl: number) => {
   const params = await transport.subscriptionSet.getAll()
   transport.responseCache.writeTTL(transport.name, params, ttl)
