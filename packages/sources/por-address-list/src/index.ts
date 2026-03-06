@@ -6,6 +6,7 @@ import {
   bedrockBTC,
   coinbaseBTC,
   multichainAddress,
+  okxAssetsAddress,
   openedenAddress,
   solvBTC,
   virtune,
@@ -27,11 +28,13 @@ export const adapter = new PoRAdapter({
     virtune,
     virtuneToken,
     zeusBtcAddress,
+    okxAssetsAddress,
   ],
   rateLimiting: {
     tiers: {
       default: {
         rateLimit1s: 1,
+        note: 'shared across all endpoints',
       },
     },
   },
