@@ -43,7 +43,7 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
         {
           params: params[0],
           response: {
-            errorMessage: `The data provider didn't return any data for bedrockBTC`,
+            errorMessage: `The data provider didn't return any data for OKX ${params[0].coin}`,
             statusCode: 502,
           },
         },
@@ -64,7 +64,7 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
 
     const addresses = getAddresses(params[0].addressField, response.data)
 
-    if (addresses.length == 0) {
+    if (addresses.length === 0) {
       return [
         {
           params: params[0],
@@ -100,9 +100,9 @@ const getAddresses = (
 ) => {
   switch (type) {
     case 'lockAddresses':
-      return data.data.lockAddresses.map((item) => item.address)
+      return (data.data.lockAddresses ?? []).map((item) => item.address)
     case 'stakingBalanceDetails':
-      return data.data.stakingBalanceDetails.map((item) => item.address)
+      return (data.data.stakingBalanceDetails ?? []).map((item) => item.address)
     default:
       return []
   }
