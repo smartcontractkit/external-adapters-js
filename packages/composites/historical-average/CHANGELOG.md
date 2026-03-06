@@ -1,5 +1,17 @@
 # @chainlink/historical-average-adapter
 
+## 1.3.5
+
+### Patch Changes
+
+- [#4701](https://github.com/smartcontractkit/external-adapters-js/pull/4701) [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67) Thanks [@cawthorne](https://github.com/cawthorne)! - Add WS bad closure failover mechanism and IEX-specific WebSocket endpoints to Tiingo.
+
+  Explicitly flag insensitive variables in Tiingo adapter
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31), [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/coinmarketcap-adapter@2.1.5
+
 ## 1.3.4
 
 ### Patch Changes
