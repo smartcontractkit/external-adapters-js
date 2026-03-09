@@ -1,5 +1,17 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.15.0
+
+### Minor Changes
+
+- [#4708](https://github.com/smartcontractkit/external-adapters-js/pull/4708) [`9d2e12f`](https://github.com/smartcontractkit/external-adapters-js/commit/9d2e12f2276cb0510e41006cc2f38699ba60fdf2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add OKX
+
+### Patch Changes
+
+- [#4693](https://github.com/smartcontractkit/external-adapters-js/pull/4693) [`90485d6`](https://github.com/smartcontractkit/external-adapters-js/commit/90485d677f5aab0e5a08e744a0a90ab3e9fba948) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix error message
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 5.14.3
 
 ### Patch Changes
