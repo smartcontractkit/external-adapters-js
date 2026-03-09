@@ -81,4 +81,10 @@ export const config = new AdapterConfig({
     default: '',
     sensitive: true,
   },
+  OKX_X_ASSET_API_URL: {
+    description: 'An API endpoint for OKX X-Asset address list',
+    type: 'string',
+    default: 'https://www.okx.com/v2/asset/audit/minted-coin-balances',
+    sensitive: false,
+  },
 })
