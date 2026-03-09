@@ -31,7 +31,9 @@ abnormal closures via the proxy control API.
    export TIINGO_API_KEY=<your-key>
    ```
 
-3. `python3` must be on your PATH (used for parsing JSON responses in the test script).
+3. `curl`, `python3`, and `npm` must be on your PATH.
+   On first run the script installs the `ws` package into `/tmp/tiingo-proxy-modules`
+   (outside the repo) so the proxy can run without interfering with Yarn PnP.
 
 ## Running
 
