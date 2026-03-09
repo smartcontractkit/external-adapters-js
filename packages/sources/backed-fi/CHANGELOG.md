@@ -1,5 +1,15 @@
 # @chainlink/backed-fi-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4709](https://github.com/smartcontractkit/external-adapters-js/pull/4709) [`6edf443`](https://github.com/smartcontractkit/external-adapters-js/commit/6edf443ae4731ec17a5aae7b829d0981db23a53e) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Increase timeout limit
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.1.0
 
 ### Minor Changes
