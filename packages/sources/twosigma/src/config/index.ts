@@ -7,6 +7,7 @@ export const config = new AdapterConfig({
     type: 'string',
     required: true,
     default: 'wss://chainlinkcloud1.twosigma.com:8765',
+    sensitive: false,
   },
   WS_API_KEY: {
     description: 'The API key used to authenticate requests',

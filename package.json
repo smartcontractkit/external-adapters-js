@@ -47,7 +47,7 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.13.0",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.8",
     "@types/babel__core": "7.20.5",

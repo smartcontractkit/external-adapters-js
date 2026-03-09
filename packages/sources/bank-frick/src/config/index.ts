@@ -16,6 +16,7 @@ export const config = new AdapterConfig({
     type: 'string',
     required: false,
     default: 'https://olbsandbox.bankfrick.li/webapi/v2',
+    sensitive: false,
   },
   API_KEY: {
     description: 'The API key to use for making requests to the Bank Frick API',
@@ -29,6 +30,7 @@ export const config = new AdapterConfig({
     required: false,
     default: MAX_PAGE_SIZE,
     validate: validator.integer({ min: 1, max: 500 }),
+    sensitive: false,
   },
   PRIVATE_KEY: {
     description: '',

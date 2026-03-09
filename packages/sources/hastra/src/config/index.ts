@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'The API endpoint of Hastra',
     type: 'string',
     required: true,
+    sensitive: false,
   },
 })
