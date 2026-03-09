@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Streamex',
     type: 'string',
     default: 'https://data.streamex.com/prod/chainlink',
+    sensitive: false,
   },
 })

@@ -11,5 +11,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for Data Provider',
     type: 'string',
     default: 'https://d0qqxbypoa.execute-api.ap-southeast-2.amazonaws.com',
+    sensitive: false,
   },
 })

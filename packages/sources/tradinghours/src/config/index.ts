@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'Base URL for the TradingHours API',
     type: 'string',
     default: 'https://api.tradinghours.com',
+    sensitive: false,
   },
   API_KEY: {
     description: 'API key for the TradingHours API',

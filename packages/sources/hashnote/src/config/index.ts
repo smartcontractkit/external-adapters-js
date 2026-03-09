@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'URL for the USYC price report API',
     type: 'string',
     default: 'https://usyc.hashnote.com/api/price-reports',
+    sensitive: false,
   },
 })

@@ -17,11 +17,13 @@ export const config = new AdapterConfig({
     description: 'Endpoint for REST prices',
     type: 'string',
     default: 'https://exchange-rates-api.oanda.com/v2',
+    sensitive: false,
   },
   INSTRUMENTS_API_ENDPOINT: {
     description: 'Endpoint for REST instruments list',
     type: 'string',
     default: 'https://api-fxtrade.oanda.com/v3',
+    sensitive: false,
   },
   SSE_API_KEY: {
     description: 'API key for SSE endpoint',
@@ -33,5 +35,6 @@ export const config = new AdapterConfig({
     description: 'Endpoint for SSE streaming prices',
     type: 'string',
     default: 'https://stream-fxtrade.oanda.com/v3',
+    sensitive: false,
   },
 })
