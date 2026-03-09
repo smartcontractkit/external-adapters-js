@@ -12,6 +12,7 @@ export const adapter = new Adapter({
     tiers: {
       default: {
         rateLimit1m: 20,
+        note: 'Rate Limiter is shared across all feeds',
       },
     },
   },

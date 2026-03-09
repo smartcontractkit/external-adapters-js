@@ -51,6 +51,9 @@ const GLV_WETH_MARKET = '0x70d95587d40A2caf56bd97485aB3Eec10Bee6336'
 const GLV_WETH_MARKET_AVAX = '0x62Cb8740E6986B29dC671B2EB596676f60590A5B'
 const GLV_LONG_TOKEN_AVAX = '0x152b9d0fdc40c096757f570a51e494bd4b943e50'
 const GLV_SHORT_TOKEN_AVAX = '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664'
+const USDM_ADDRESS_MEGAETH = '0xFAfDdbb3FC7688494971a79cc65DCa3EF82079E7'
+const ETH_ADDRESS_MEGAETH = '0x4200000000000000000000000000000000000006'
+const GLV_MARKET_MEGAETH = '0x3782d91C5888dE31F627495e6aAAC3f09499fe72'
 
 export const chainEnvMap = {
   arbitrum: {
@@ -64,6 +67,10 @@ export const chainEnvMap = {
   avalanche: {
     tokensEnv: 'AVALANCHE_TOKENS_INFO_URL',
     marketsEnv: 'AVALANCHE_MARKETS_INFO_URL',
+  },
+  megaeth: {
+    tokensEnv: 'MEGAETH_TOKENS_INFO_URL',
+    marketsEnv: 'MEGAETH_MARKETS_INFO_URL',
   },
 } as const
 
@@ -95,6 +102,14 @@ export const DEFAULT_GLV_INFO: Record<ChainKeyName, GlvInfoMock> = {
     },
     markets: [GLV_WETH_MARKET_AVAX],
   },
+  megaeth: {
+    glv: {
+      glvToken: DEFAULT_GLV_ADDRESS,
+      longToken: USDM_ADDRESS_MEGAETH,
+      shortToken: USDM_ADDRESS_MEGAETH,
+    },
+    markets: [GLV_MARKET_MEGAETH],
+  },
 }
 const DEFAULT_GLV_PRICE = {
   maximized: '0x0e7b25fe03f0eda42ead663c4f',
@@ -113,6 +128,10 @@ const defaultFeedIds: Record<ChainKeyName, Record<string, string>> = {
   avalanche: {
     [GLV_LONG_TOKEN_AVAX]: '0xfeedbtcb',
     [GLV_SHORT_TOKEN_AVAX]: '0xfeedusdce',
+  },
+  megaeth: {
+    [USDM_ADDRESS_MEGAETH]: '0xfeedusdm',
+    [ETH_ADDRESS_MEGAETH]: '0xfeedeth',
   },
 }
 
@@ -148,9 +167,11 @@ export const metadataUrls = [
   'ARBITRUM_TOKENS_INFO_URL',
   'BOTANIX_TOKENS_INFO_URL',
   'AVALANCHE_TOKENS_INFO_URL',
+  'MEGAETH_TOKENS_INFO_URL',
   'ARBITRUM_MARKETS_INFO_URL',
   'BOTANIX_MARKETS_INFO_URL',
   'AVALANCHE_MARKETS_INFO_URL',
+  'MEGAETH_MARKETS_INFO_URL',
 ] as const
 
 const decimalToBigInt = (value: string): bigint => {
@@ -428,6 +449,21 @@ const defaultChainMetadata: Record<ChainKeyName, ChainMetadata> = {
         indexToken: GLV_LONG_TOKEN_AVAX,
         longToken: GLV_LONG_TOKEN_AVAX,
         shortToken: GLV_SHORT_TOKEN_AVAX,
+        isListed: true,
+      },
+    ],
+  },
+  megaeth: {
+    tokens: [
+      { symbol: 'ETH', address: ETH_ADDRESS_MEGAETH, decimals: 18 },
+      { symbol: 'USDM', address: USDM_ADDRESS_MEGAETH, decimals: 18 },
+    ],
+    markets: [
+      {
+        marketToken: GLV_MARKET_MEGAETH,
+        indexToken: ETH_ADDRESS_MEGAETH,
+        longToken: USDM_ADDRESS_MEGAETH,
+        shortToken: USDM_ADDRESS_MEGAETH,
         isListed: true,
       },
     ],

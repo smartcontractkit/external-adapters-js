@@ -7,6 +7,7 @@ export const config = new AdapterConfig(
       description: 'API endpoint for tiingo',
       default: 'https://api.tiingo.com/',
       type: 'string',
+      sensitive: false,
     },
     API_KEY: {
       description: 'API key for tiingo, valid for all endpoints',
@@ -18,25 +19,28 @@ export const config = new AdapterConfig(
       description: 'Websocket endpoint for tiingo',
       default: 'wss://api.tiingo.com',
       type: 'string',
+      sensitive: false,
     },
     SECONDARY_WS_API_ENDPOINT: {
-      description: 'Secondary websocket endpoint for tiingo',
+      description:
+        'Secondary websocket endpoint for tiingo. To effectively disable failover and use only the primary URL, set this to the same value as WS_API_ENDPOINT.',
       default: 'wss://api.redundantstack.com',
       type: 'string',
+      sensitive: false,
     },
     WS_URL_PRIMARY_ATTEMPTS: {
       description:
         'Number of consecutive connection attempts to primary WebSocket URL per failover cycle (alternates with secondary)',
-      default: 1,
+      default: 5,
       type: 'number',
-      validate: validator.integer({ min: 1, max: 5 }),
+      validate: validator.integer({ min: 1, max: 10 }),
     },
     WS_URL_SECONDARY_ATTEMPTS: {
       description:
         'Number of consecutive connection attempts to secondary WebSocket URL per failover cycle (alternates with primary)',
       default: 1,
       type: 'number',
-      validate: validator.integer({ min: 1, max: 5 }),
+      validate: validator.integer({ min: 1, max: 10 }),
     },
   },
   {

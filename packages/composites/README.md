@@ -70,7 +70,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [multi-address-list](./multi-address-list/README.md)
 - [nexus-kiln](./nexus-kiln/README.md)
 - [nftx](./nftx/README.md)
-- [ondo-calculated](./ondo-calculated/README.md)
 - [proof-of-reserves](./proof-of-reserves/README.md)
 - [rocket-pool](./rocket-pool/README.md)
 - [savax-price](./savax-price/README.md)

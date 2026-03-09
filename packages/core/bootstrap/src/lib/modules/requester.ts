@@ -2,14 +2,16 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import objectPath from 'object-path'
 import { join } from 'path'
 
+import { getDefaultConfig, logConfig } from '../config'
+import { recordDataProviderRequest } from '../metrics'
 import {
   deepType,
   getEnv,
   getEnvWithFallback,
+  isArraylikeAccessor,
+  isObject,
   parseBool,
   sleep,
-  isObject,
-  isArraylikeAccessor,
 } from '../util'
 import {
   AdapterConnectionError,
@@ -21,17 +23,15 @@ import {
   AdapterTimeoutError,
 } from './error'
 import { logger } from './logger'
-import { getDefaultConfig, logConfig } from '../config'
-import { recordDataProviderRequest } from '../metrics'
 
 import type {
+  AdapterBatchResponse,
   AdapterErrorResponse,
-  BatchedResult,
   AdapterResponse,
   AxiosRequestConfig,
-  AdapterBatchResponse,
-  ResultPath,
   BatchableProperty,
+  BatchedResult,
+  ResultPath,
 } from '../../types'
 
 export type CustomErrorReturnValue = boolean | string
@@ -112,12 +112,13 @@ export class Requester {
           // Exhausted retries, respond with an error
           const providerStatusCode = error?.response?.status ?? 0 // 0 -> connection error
           record(config.method, providerStatusCode)
+          const responseData = error?.response?.data as { error: unknown; errorMessage: string }
           const errorInput = {
             statusCode: 200,
             providerStatusCode,
             message: error?.message,
             cause: error,
-            errorResponse: (error?.response?.data as { error: unknown })?.error,
+            errorResponse: responseData?.error ?? responseData?.errorMessage,
             url,
           }
           if (providerStatusCode === 0) {

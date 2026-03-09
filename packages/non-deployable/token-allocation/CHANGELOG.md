@@ -1,5 +1,31 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.12
+
+### Patch Changes
+
+- [#4701](https://github.com/smartcontractkit/external-adapters-js/pull/4701) [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67) Thanks [@cawthorne](https://github.com/cawthorne)! - Add WS bad closure failover mechanism and IEX-specific WebSocket endpoints to Tiingo.
+
+  Explicitly flag insensitive variables in Tiingo adapter
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31), [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/blocksize-capital-adapter@2.5.5
+  - @chainlink/coinmarketcap-adapter@2.1.5
+  - @chainlink/cryptocompare-adapter@3.4.6
+  - @chainlink/cfbenchmarks-adapter@2.6.5
+  - @chainlink/coinmetrics-adapter@3.10.5
+  - @chainlink/coinpaprika-adapter@2.2.5
+  - @chainlink/coingecko-adapter@2.1.5
+  - @chainlink/finage-adapter@2.5.3
+  - @chainlink/tiingo-adapter@2.9.6
+  - @chainlink/kaiko-adapter@2.3.5
+  - @chainlink/ncfx-adapter@4.6.1
+  - @chainlink/ea-test-helpers@1.4.9
+  - @chainlink/amberdata-adapter@1.8.41
+  - @chainlink/coinapi-adapter@1.3.38
+  - @chainlink/coinranking-adapter@2.1.19
+
 ## 1.14.11
 
 ### Patch Changes
