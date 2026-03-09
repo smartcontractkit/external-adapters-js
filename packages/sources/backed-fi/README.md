@@ -1,6 +1,6 @@
 # BACKED_FI
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/backed-fi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/backed-fi/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,7 +17,7 @@ This document was generated automatically. Please see [README Generator](../../s
 
 |  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |               Note                |
 | :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :-------------------------------: |
-| default |                             |              6              |                           | Setting reasonable default limits |
+| default |                             |             40              |                           | Setting reasonable default limits |
 
 ---
 
