@@ -64,7 +64,7 @@ describe('websocket', () => {
     await testAdapter.request(stockData)
     await testAdapter.request(stockOvernightData)
     await testAdapter.request(stockFreshData)
-    await testAdapter.waitForCache(9)
+    await testAdapter.waitForCache(12)
   })
 
   afterAll(async () => {
@@ -85,6 +85,13 @@ describe('websocket', () => {
     })
     it('should return success - latest data', async () => {
       const response = await testAdapter.request(stockFreshData)
+      expect(response.json()).toMatchSnapshot()
+    })
+    it('should error on invalid data', async () => {
+      const response = await testAdapter.request({
+        base: 'INVALID_TRADE:USLF24',
+        transport: 'ws',
+      })
       expect(response.json()).toMatchSnapshot()
     })
   })
@@ -146,6 +153,22 @@ describe('websocket', () => {
     it('error when data length is not valid', async () => {
       const response = await testAdapter.request({
         base: 'INVALID_DATA',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('error when ask is null', async () => {
+      const response = await testAdapter.request({
+        base: 'NULL_ASK',
+        endpoint: 'stock_quotes',
+      })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('error when bid is null', async () => {
+      const response = await testAdapter.request({
+        base: 'NULL_BID',
         endpoint: 'stock_quotes',
       })
       expect(response.json()).toMatchSnapshot()
