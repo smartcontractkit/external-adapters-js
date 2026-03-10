@@ -51,9 +51,6 @@
       "path": "./composites/nftx/tsconfig.test.json"
     },
     {
-      "path": "./composites/ondo-calculated/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
@@ -70,6 +67,9 @@
     },
     {
       "path": "./composites/the-graph/tsconfig.test.json"
+    },
+    {
+      "path": "./composites/tokenized-equity/tsconfig.test.json"
     },
     {
       "path": "./composites/xsushi-price/tsconfig.test.json"
@@ -163,6 +163,9 @@
     },
     {
       "path": "./sources/cache.gold/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/canton-functions/tsconfig.test.json"
     },
     {
       "path": "./sources/ceffu/tsconfig.test.json"

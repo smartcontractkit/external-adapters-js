@@ -61,6 +61,17 @@ exports[`execute calculated-multi-function endpoint should return error for miss
 }
 `;
 
+exports[`execute calculated-multi-function endpoint should return error with failing assertion 1`] = `
+{
+  "errorMessage": "AssertZero operation failed: "nonZero" is "0x01" and not zero",
+  "statusCode": 500,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute calculated-multi-function endpoint should return success 1`] = `
 {
   "data": {
@@ -155,6 +166,21 @@ exports[`execute calculated-multi-function endpoint should return success with p
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return success with passing assertion 1`] = `
+{
+  "data": {
+    "success": "1",
+    "zero": "0x00",
+  },
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

@@ -1,5 +1,15 @@
 # @chainlink/crypto-volatility-index-adapter
 
+## 1.4.40
+
+### Patch Changes
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31), [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/token-allocation-adapter@1.14.12
+  - @chainlink/ea-reference-data-reader@1.3.48
+  - @chainlink/ea-test-helpers@1.4.9
+
 ## 1.4.39
 
 ### Patch Changes

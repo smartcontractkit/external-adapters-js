@@ -11,16 +11,19 @@ export const config = new AdapterConfig({
     description: 'API endpoint for Bitgo',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   API_LIMIT: {
     description: 'The default maximum number of results to request from the API',
     type: 'number',
     default: 100,
+    sensitive: false,
   },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

@@ -1,5 +1,13 @@
 # @chainlink/cryptocompare-adapter
 
+## 3.4.6
+
+### Patch Changes
+
+- [#4701](https://github.com/smartcontractkit/external-adapters-js/pull/4701) [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67) Thanks [@cawthorne](https://github.com/cawthorne)! - Add WS bad closure failover mechanism and IEX-specific WebSocket endpoints to Tiingo.
+
+  Explicitly flag insensitive variables in Tiingo adapter
+
 ## 3.4.5
 
 ### Patch Changes

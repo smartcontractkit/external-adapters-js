@@ -6,10 +6,12 @@ export const config = new AdapterConfig({
     description:
       'The RPC URL to connect to the Moonbeam chain the address manager contract is deployed to.',
     required: true,
+    sensitive: false,
   },
   CHAIN_ID: {
     type: 'number',
     description: 'The chain id to connect to',
     default: 1284,
+    sensitive: false,
   },
 })

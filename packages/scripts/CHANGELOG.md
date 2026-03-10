@@ -1,5 +1,45 @@
 # @chainlink/ea-scripts
 
+## 2.10.1
+
+### Patch Changes
+
+- [#4691](https://github.com/smartcontractkit/external-adapters-js/pull/4691) [`617474c`](https://github.com/smartcontractkit/external-adapters-js/commit/617474c8a4718a096fd34e7a32ee4465f2fe0c14) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Refactor test case
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/ea-factories@1.2.45
+
+## 2.10.0
+
+### Minor Changes
+
+- [#4467](https://github.com/smartcontractkit/external-adapters-js/pull/4467) [`9819cd0`](https://github.com/smartcontractkit/external-adapters-js/commit/9819cd0e29e2d15186f20df2dc30c5257210974a) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Updating known-issues to custom in readme generator
+
+### Patch Changes
+
+- [#4469](https://github.com/smartcontractkit/external-adapters-js/pull/4469) [`3ff13d2`](https://github.com/smartcontractkit/external-adapters-js/commit/3ff13d24b4aeed69b0023986c64ccaf4dc7903e9) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Remove view-function-multi-chain from readme generator blacklist
+
+- [#4520](https://github.com/smartcontractkit/external-adapters-js/pull/4520) [`5b70036`](https://github.com/smartcontractkit/external-adapters-js/commit/5b700368c4c8fc219387b8baa138f3d6780898ce) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete augur EA
+
+- [#4569](https://github.com/smartcontractkit/external-adapters-js/pull/4569) [`91224aa`](https://github.com/smartcontractkit/external-adapters-js/commit/91224aa2684a7e6935201daba14109742d80b11c) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete messari EA
+
+- [#4547](https://github.com/smartcontractkit/external-adapters-js/pull/4547) [`4cadf68`](https://github.com/smartcontractkit/external-adapters-js/commit/4cadf6893c791512bacba3335f9080bb48a5da65) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete curve-3pool EA
+
+- [#4497](https://github.com/smartcontractkit/external-adapters-js/pull/4497) [`c6267da`](https://github.com/smartcontractkit/external-adapters-js/commit/c6267daf3571b24c1a4e609f2768db24bb259580) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete defi-pulse EA
+
+- [#4575](https://github.com/smartcontractkit/external-adapters-js/pull/4575) [`650b4ca`](https://github.com/smartcontractkit/external-adapters-js/commit/650b4caf9ffdcc4785ab667fbde5a27b080299b3) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete paypal EA
+
+- [#4519](https://github.com/smartcontractkit/external-adapters-js/pull/4519) [`eed61ed`](https://github.com/smartcontractkit/external-adapters-js/commit/eed61ed93f5a31d70361e0f5cf8a04d12b610729) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete alpine EA
+
+- [#4521](https://github.com/smartcontractkit/external-adapters-js/pull/4521) [`15e7813`](https://github.com/smartcontractkit/external-adapters-js/commit/15e7813a66545741d121ab938c3f82f8511a035d) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete circuit-breaker EA
+
+- [#4507](https://github.com/smartcontractkit/external-adapters-js/pull/4507) [`61fade8`](https://github.com/smartcontractkit/external-adapters-js/commit/61fade839bae7c3f750752d28fd6b8ca7fc8cc85) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete market-closure EA
+
+- [#4495](https://github.com/smartcontractkit/external-adapters-js/pull/4495) [`4f11f09`](https://github.com/smartcontractkit/external-adapters-js/commit/4f11f09a419359aba4864ca4764f30f0e42256a8) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete linkpool EA
+
+- [#4462](https://github.com/smartcontractkit/external-adapters-js/pull/4462) [`f4d9ee1`](https://github.com/smartcontractkit/external-adapters-js/commit/f4d9ee17f48a373c5d4daacee870e4d276e68e17) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete anchor EA
+
 ## 2.9.1
 
 ### Patch Changes

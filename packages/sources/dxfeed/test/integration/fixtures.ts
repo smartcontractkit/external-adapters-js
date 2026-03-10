@@ -110,6 +110,24 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+  const nullBidQuoteResponse = [
+    {
+      data: [
+        'Quote',
+        ['NULL_BID', 0, 0, 0, 1670868378000, 'V', 'NaN', 148.0, 1670868370000, 'V', 172.0, 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const nullAskQuoteResponse = [
+    {
+      data: [
+        'Quote',
+        ['NULL_ASK', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 'NaN', 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
 
   const tradeResponse = [
     {
@@ -255,6 +273,30 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       channel: '/service/data',
     },
   ]
+  const invalidTradeResponse = [
+    {
+      data: [
+        'Trade',
+        [
+          'INVALID_TRADE:USLF24',
+          0,
+          1762376399006,
+          0,
+          12840,
+          'V',
+          'NaN', // price
+          0,
+          105,
+          20398,
+          569033,
+          262343820.84,
+          'ZERO_UP',
+          true,
+        ],
+      ],
+      channel: '/service/data',
+    },
+  ]
 
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -272,12 +314,15 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(noAskQuoteReponse))
       socket.send(JSON.stringify(noVolumeReponse))
       socket.send(JSON.stringify(invalidQuoteReponse))
+      socket.send(JSON.stringify(nullBidQuoteResponse))
+      socket.send(JSON.stringify(nullAskQuoteResponse))
       socket.send(JSON.stringify(tradeResponse))
       socket.send(JSON.stringify(tradeResponseIgnored))
       socket.send(JSON.stringify(tradeResponseOvernight))
       socket.send(JSON.stringify(tradeResponseOvernightIgnored))
       socket.send(JSON.stringify(tradeAMZNOldResponse))
       socket.send(JSON.stringify(tradeETH_AMZN))
+      socket.send(JSON.stringify(invalidTradeResponse))
     })
   })
 

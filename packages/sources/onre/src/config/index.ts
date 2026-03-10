@@ -5,5 +5,6 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for OnRe',
     type: 'string',
     default: 'https://core.api.onre.finance/data/nav',
+    sensitive: false,
   },
 })

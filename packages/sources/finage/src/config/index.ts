@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'API endpoint for Finage',
     default: 'https://api.finage.co.uk',
     type: 'string',
+    sensitive: false,
   },
   API_KEY: {
     type: 'string',
@@ -22,31 +23,37 @@ export const config = new AdapterConfig({
     type: 'string',
     default: 'wss://e4s39ar3mr.finage.ws:7002',
     description: 'The Websocket endpoint to connect to for stock trades data',
+    sensitive: false,
   },
   STOCK_QUOTES_WS_API_ENDPOINT: {
     type: 'string',
     default: 'wss://xs68rzvrjn.finage.ws:7003',
     description:
       'The Websocket endpoint to connect to for stock quotes data, uses WS_SOCKET_KEY if /?token= is not in url',
+    sensitive: false,
   },
   FOREX_WS_API_ENDPOINT: {
     type: 'string',
     default: 'wss://w29hxx2ndd.finage.ws:8001',
     description: 'The Websocket endpoint to connect to for forex data',
+    sensitive: false,
   },
   CRYPTO_WS_API_ENDPOINT: {
     type: 'string',
     default: 'wss://72x8wsyx7t.finage.ws:6008',
     description: 'The Websocket endpoint to connect to for crypto data',
+    sensitive: false,
   },
   ETF_WS_API_ENDPOINT: {
     type: 'string',
     default: 'wss://8umh1cipe9.finage.ws:9001',
     description: 'The Websocket endpoint to connect to for etf data',
+    sensitive: false,
   },
   WS_ENABLED: {
     description: 'Whether data should be returned from websocket or not',
     type: 'boolean',
     default: false,
+    sensitive: false,
   },
 })

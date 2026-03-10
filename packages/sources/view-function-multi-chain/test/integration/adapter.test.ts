@@ -330,6 +330,52 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
     })
 
+    it('should return success with passing assertion', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'zero',
+            value: '0x00',
+          },
+        ],
+        operations: [
+          {
+            name: 'success',
+            type: 'assertZero',
+            args: ['zero'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return error with failing assertion', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'nonZero',
+            value: '0x01',
+          },
+        ],
+        operations: [
+          {
+            name: 'success',
+            type: 'assertZero',
+            args: ['nonZero'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(500)
+    })
+
     it('should return error for missing RPC url env var', async () => {
       const data = {
         endpoint: 'calculated-multi-function',

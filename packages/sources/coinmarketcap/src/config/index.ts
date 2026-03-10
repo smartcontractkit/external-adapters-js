@@ -12,5 +12,6 @@ export const config = new AdapterConfig({
     type: 'string',
     description: 'An API endpoint for coinmarketcap',
     default: 'https://pro-api.coinmarketcap.com/v1/',
+    sensitive: false,
   },
 })

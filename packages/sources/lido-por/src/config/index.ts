@@ -5,12 +5,14 @@ export const config = new AdapterConfig({
     description: 'The RPC URL to connect to the EVM chain',
     type: 'string',
     required: true,
+    sensitive: false,
   },
   CHAIN_ID: {
     description: 'The chain id to connect to',
     type: 'number',
     required: true,
     default: 1,
+    sensitive: false,
   },
   ETHEREUM_CL_INDEXER_URL: {
     description: 'Url to ethereum-cl-indexer balance endpoint',
@@ -23,5 +25,6 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

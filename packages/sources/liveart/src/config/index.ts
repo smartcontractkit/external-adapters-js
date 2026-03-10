@@ -6,5 +6,6 @@ export const config: AdapterConfig = new AdapterConfig({
     type: 'string',
     required: true,
     default: 'https://artwork-price-oracle-api-ms.liveart.ai',
+    sensitive: false,
   },
 })
