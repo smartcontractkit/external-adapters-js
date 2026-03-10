@@ -22,6 +22,8 @@ jobs:
   check-changesets:
     name: Adapter changes accompanied by a changeset
     runs-on: ['ubuntu-latest']
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,6 +37,8 @@ jobs:
   install-packages:
     name: Install and verify dependencies
     runs-on: [ubuntu-latest]
+    permissions:
+      contents: read
     outputs:
       changed-packages: ${{ steps.changed-adapters.outputs.CHANGED_PACKAGES }}
       adapter-list: ${{ steps.changed-adapters.outputs.CHANGED_ADAPTERS }}
@@ -100,6 +104,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -118,6 +124,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -158,6 +166,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -176,6 +186,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     env:
       METRICS_ENABLED: false
     steps:
@@ -198,6 +210,8 @@ jobs:
     needs:
       - check-changesets
       - install-packages
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v4
