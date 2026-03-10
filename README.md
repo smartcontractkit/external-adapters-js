@@ -84,6 +84,12 @@ Clears all build files/directories. Useful in case of issues when installing dep
 
 The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the list of all the external adapters available in this repository, together with their version, type, supported environment variables, endpoints and other helpful information. Check their linked README to learn more about them.
 
+## Streams Adapters
+
+Streams adapters are built and published as separate container images and are currently used by the Data Streams product only.
+
+See `packages/streams-adapter/README.md` for architecture, configuration, and runtime details.
+
 ## How to Run
 
 External adapters should be run as long-lived processes as [HTTP Server](#run-as-http-server). Each adapter may have configuration that is required to be supplied through environment variables.
