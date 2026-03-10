@@ -43,6 +43,18 @@ const generateResponse = (data: (string | number)[], i: number) => {
   const bidPrice = Number(data[i + bidPriceIndex])
   const askPrice = Number(data[i + askPriceIndex])
 
+  const params = { base: data[i + eventSymbolIndex].toString() }
+  if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
+    const response = {
+      statusCode: 502,
+      errorMessage: `Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`,
+    }
+    return [
+      { params: { ...params, requireVolume: false }, response },
+      { params: { ...params, requireVolume: true }, response },
+    ]
+  }
+
   let midPrice: number
 
   if (bidPrice == 0) {
@@ -53,7 +65,6 @@ const generateResponse = (data: (string | number)[], i: number) => {
     midPrice = (askPrice + bidPrice) / 2
   }
 
-  const params = { base: data[i + eventSymbolIndex].toString() }
   const response = {
     result: null,
     data: {
