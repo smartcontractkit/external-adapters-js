@@ -7,6 +7,11 @@ on:
         description: comma (and/or space) separated list of adapters to release (if empty, all changed adapters with changesets will be released)
         required: false
         default: ''
+      build-streams-adapter-images:
+        description: build streams adapter images during deploy (adds streams test/build steps)
+        required: false
+        default: false
+        type: boolean
 
 # TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
 # - Readme generation did not require built TS files
@@ -31,6 +36,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
       SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
+      BUILD_STREAMS_ADAPTER_IMAGES: ${{ inputs.build-streams-adapter-images }}
     steps:
       - name: Check if changeset release branch already exists
         shell: bash
@@ -116,6 +122,34 @@ jobs:
           # trigger other workflows. So we use the token created in the
           # previous step.
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+      - name: Annotate release PR with streams build option
+        if: env.BUILD_STREAMS_ADAPTER_IMAGES == 'true'
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+        run: |
+          PR_NUMBER=$(gh pr list \
+            --base main \
+            --state open \
+            --search "Release $BUMPED_VERSION in:title" \
+            --json number,title \
+            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number" | head -n 1)
+
+          if [[ -z "$PR_NUMBER" ]]; then
+            echo "Unable to find release PR for version $BUMPED_VERSION"
+            exit 1
+          fi
+
+          PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
+          MARKER='<!-- build-streams-adapter-images:true -->'
+
+          if [[ "$PR_BODY" == *"$MARKER"* ]]; then
+            echo "Streams marker already present in PR body"
+            exit 0
+          fi
+
+          UPDATED_BODY=$(printf "%s\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$PR_BODY" "$MARKER")
+
+          gh pr edit "$PR_NUMBER" --body "$UPDATED_BODY"
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)
