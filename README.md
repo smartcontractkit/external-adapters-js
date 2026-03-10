@@ -92,7 +92,7 @@ See `packages/streams-adapter/README.md` for architecture, configuration, and ru
 
 ## How to Run
 
-External adapters should be run as long-lived processes, either directly as [HTTP Server](#run-as-http-server), [Docker Container](#run-as-docker-container), or [Single-Command Docker App](#single-command-docker-app). Each adapter may have configuration that is required to be supplied through environment variables.
+External adapters should be run as long-lived processes as [HTTP Server](#run-as-http-server). Each adapter may have configuration that is required to be supplied through environment variables.
 
 ### Configuration
 
@@ -108,100 +108,6 @@ Use the start command while in the directory of the adapter that you would like 
 cd packages/sources/coingecko
 yarn start
 ```
-
-### Run as Docker Container
-
-1. All of the external-adapters have a service that is created when the repo's docker-compose file is generated.
-
-This can be done by running the following command in the root of the repository (after `yarn && yarn setup`):
-
-```sh
-yarn generate:docker-compose
-```
-
-2. Next create a container image. Use the generated `docker-compose.generated.yaml` file along with `docker-compose build`.
-
-```sh
-docker-compose -f docker-compose.generated.yaml build [adapter-name]
-```
-
-Where `[adapter-name]` is replaced with the following:
-
-|   Parameter    |                                        Description                                        |                                       Options                                        |
-| :------------: | :---------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
-| `adapter-name` | name of the external adapter package, usually the folder name with `-adapter` as a suffix | See `docker-compose.generated.yaml` for list of services that can be used as options |
-
-For example the `bravenewcoin` external adapter uses `bravenewcoin-adapter`:
-
-```sh
-docker-compose -f docker-compose.generated.yaml build bravenewcoin-adapter
-```
-
-3. Then run it with:
-
-```sh
-docker-compose -f docker-compose.generated.yaml run -p 8080:8080 -e API_KEY='YOUR_API_KEY' bravenewcoin-adapter
-```
-
-Environment files can also be passed through a file:
-
-```
-docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter:latest
-```
-
-### Single-Command Docker App
-
-This command will start all of your external adapters with performance features enabled and with pre-defined metrics charts for each EA on a single server.
-
-The first step will be to load up all of the environment variables that are needed across all of the External Adapters that will be ran. These can either be already be loaded into the environment or supplied to the startup script as a text file.
-Also, make sure that [Grafana dependencies](./grafana/README.md#deployment) are installed.
-
-Starting from the root of the repository:
-
-1. Ensure that the project is setup and that the docker-compose file has been generated
-
-```sh
-yarn && yarn setup && yarn generate:docker-compose
-```
-
-2. Use the startup script by supplying every External Adapter that you would like to run and monitor.
-
-The adapter will have the format of `[[ADAPTER NAME]]-adapter`.
-
-For example:
-
-```sh
-cd grafana && ./scripts/compose.sh coingecko-adapter coinmarketcap-adapter
-```
-
-3. The running services can be found at the following ports:
-
-- External Adapters - search `docker-compose.generated.yaml` for the name of your EA. The port it is running on will be found as the first number before the colon under `ports`.
-
-```yml
-coincodex-adapter:
-  image: coincodex-adapter:0.0.4
-  ports:
-    - 8112:8080 <----------- The first number before the colon here
-  build:
-    context: ..
-    dockerfile: ./Dockerfile
-    args:
-      location: packages/sources/coincodex
-      package: '@chainlink/coincodex-adapter'
-    labels:
-      com.chainlinklabs.external-adapter-type: sources
-  environment:
-    - EA_PORT=${EA_PORT}
-```
-
-- Prometheus - http://localhost:9090/graph
-- Grafana - http://localhost:3000/
-
-  The default login is:
-
-  - Username: admin
-  - Password: admin
 
 ## Testing
 
