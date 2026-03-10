@@ -54,22 +54,28 @@ const generateResponse = (data: (string | number)[], i: number) => {
   }
 
   const params = { base: data[i + eventSymbolIndex].toString() }
-  const response = {
-    result: null,
-    data: {
-      mid_price: midPrice,
-      bid_price: bidPrice,
-      bid_volume: bidVolume,
-      ask_price: askPrice,
-      ask_volume: askVolume,
-    },
-    timestamps: {
-      providerIndicatedTimeUnixMs: Math.max(
-        Number(data[i + bidTimeIndex]),
-        Number(data[i + askTimeIndex]),
-      ),
-    },
-  }
+  const response =
+    Number.isNaN(bidPrice) || Number.isNaN(askPrice)
+      ? {
+          statusCode: 502,
+          errorMessage: `Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`,
+        }
+      : {
+          result: null,
+          data: {
+            mid_price: midPrice,
+            bid_price: bidPrice,
+            bid_volume: bidVolume,
+            ask_price: askPrice,
+            ask_volume: askVolume,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs: Math.max(
+              Number(data[i + bidTimeIndex]),
+              Number(data[i + askTimeIndex]),
+            ),
+          },
+        }
 
   return [
     { params: { ...params, requireVolume: false }, response },

@@ -36,15 +36,20 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
     return [
       {
         params: { base },
-        response: {
-          result: price,
-          data: {
-            result: price,
-          },
-          timestamps: {
-            providerIndicatedTimeUnixMs: time,
-          },
-        },
+        response: Number.isNaN(price)
+          ? {
+              statusCode: 502,
+              errorMessage: `Price: ${price} for ${base} is invalid.`,
+            }
+          : {
+              result: price,
+              data: {
+                result: price,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: time,
+              },
+            },
       },
     ]
   },
