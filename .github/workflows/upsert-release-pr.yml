@@ -130,9 +130,10 @@ jobs:
           PR_NUMBER=$(gh pr list \
             --base main \
             --state open \
-            --search "Release $BUMPED_VERSION in:title" \
-            --json number,title \
-            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number" | head -n 1)
+            --search "\"Release $BUMPED_VERSION\" in:title" \
+            --limit 1 \
+            --json number \
+            --jq '.[0].number // empty')
 
           if [[ -z "$PR_NUMBER" ]]; then
             echo "Unable to find release PR for version $BUMPED_VERSION"
@@ -149,7 +150,11 @@ jobs:
 
           UPDATED_BODY=$(printf "%s\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$PR_BODY" "$MARKER")
 
-          gh pr edit "$PR_NUMBER" --body "$UPDATED_BODY"
+          gh api \
+            --method PATCH \
+            "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            -f body="$UPDATED_BODY" \
+            --silent
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)
