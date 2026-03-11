@@ -64,7 +64,7 @@ export const doAptosCustomInputValidation = (
   return
 }
 
-export const validateAptosViewResponse = (data: unknown, index: number): void => {
+export const validateAptosViewResponse = (data: string[], index: number): void => {
   if (!Array.isArray(data)) {
     throw new AdapterError({
       statusCode: 502,

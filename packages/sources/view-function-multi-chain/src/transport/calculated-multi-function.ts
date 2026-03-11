@@ -201,7 +201,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
       data: requestConfig.data,
       transportName: this.name,
     })
-    const result = await this.requester.request<unknown[]>(cacheKey, requestConfig)
+    const result = await this.requester.request<string[]>(cacheKey, requestConfig)
     validateAptosViewResponse(result.response.data, call.index)
     return String(result.response.data[call.index])
   }

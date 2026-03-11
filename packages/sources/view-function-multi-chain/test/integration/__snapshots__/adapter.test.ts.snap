@@ -3,9 +3,9 @@
 exports[`execute aptos endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1,
+    "result": "1",
   },
-  "result": 1,
+  "result": "1",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
