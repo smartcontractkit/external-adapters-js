@@ -100,10 +100,18 @@ export class Overrider {
     if (typeof obj !== 'object' || Array.isArray(obj)) return false
     const overrideObj = obj as OverrideRecord
     for (const adapterName of Object.keys(overrideObj)) {
+      if (
+        adapterName === '__proto__' ||
+        adapterName === 'constructor' ||
+        adapterName === 'prototype'
+      )
+        return false
       if (typeof adapterName !== 'string') return false
       const adapterOverrides = overrideObj[adapterName]
       if (typeof adapterOverrides !== 'object' || Array.isArray(adapterOverrides)) return false
       for (const symbol of Object.keys(adapterOverrides)) {
+        if (symbol === '__proto__' || symbol === 'constructor' || symbol === 'prototype')
+          return false
         if (typeof symbol !== 'string' || typeof adapterOverrides[symbol] !== 'string') return false
       }
     }
@@ -114,8 +122,9 @@ export class Overrider {
     internalOverrides: AdapterOverrides,
     inputOverrides: AdapterOverrides,
   ): AdapterOverrides => {
-    const combinedOverrides = internalOverrides || {}
+    const combinedOverrides = { ...(internalOverrides || {}) }
     for (const symbol of Object.keys(inputOverrides)) {
+      if (symbol === '__proto__' || symbol === 'constructor' || symbol === 'prototype') continue
       combinedOverrides[symbol] = inputOverrides[symbol]
     }
     return combinedOverrides
