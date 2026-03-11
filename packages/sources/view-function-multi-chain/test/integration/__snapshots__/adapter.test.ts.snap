@@ -100,6 +100,36 @@ exports[`execute calculated-multi-function endpoint should return success for di
 }
 `;
 
+exports[`execute calculated-multi-function endpoint should return success with aptosCalls and operations 1`] = `
+{
+  "data": {
+    "chainId": "1",
+    "result": "100",
+    "scale": "100",
+  },
+  "result": "100",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return success with aptosCalls only 1`] = `
+{
+  "data": {
+    "result": "1",
+  },
+  "result": "1",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute calculated-multi-function endpoint should return success with constants 1`] = `
 {
   "data": {
@@ -107,6 +137,21 @@ exports[`execute calculated-multi-function endpoint should return success with c
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return success with mixed EVM and aptosCalls 1`] = `
+{
+  "data": {
+    "aptosResult": "1",
+    "evmResult": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  },
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

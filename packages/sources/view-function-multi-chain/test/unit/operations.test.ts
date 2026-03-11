@@ -8,6 +8,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -24,6 +25,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -58,6 +60,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -82,6 +85,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -105,6 +109,7 @@ describe('operations', () => {
             inputParams: [],
           },
         ],
+        aptosCalls: [],
         constants: [],
         operations: [
           {
@@ -120,6 +125,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -144,6 +150,7 @@ describe('operations', () => {
     it('should validate valid multiply operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -176,6 +183,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [
             {
               name: 'scale',
@@ -204,6 +212,7 @@ describe('operations', () => {
             inputParams: [],
           },
         ],
+        aptosCalls: [],
         constants: [
           {
             name: 'scale',
@@ -224,6 +233,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -248,6 +258,7 @@ describe('operations', () => {
     it('should validate valid add operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -272,6 +283,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -296,6 +308,7 @@ describe('operations', () => {
     it('should validate valid subtract operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -320,6 +333,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -344,6 +358,7 @@ describe('operations', () => {
     it('should validate valid average operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -368,6 +383,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -392,6 +408,7 @@ describe('operations', () => {
     it('should validate valid equal operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -416,6 +433,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -440,6 +458,7 @@ describe('operations', () => {
     it('should validate valid assertZero operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -458,6 +477,52 @@ describe('operations', () => {
           },
         ],
       })
+    })
+
+    it('should recognize aptosCalls names in operations', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [
+          {
+            name: 'aptosValue',
+            signature: '0x1::coin::balance',
+            arguments: [],
+            type: [],
+            index: 0,
+            networkType: 'mainnet',
+          },
+        ],
+        constants: [
+          {
+            name: 'scale',
+            value: '1000000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'multiply',
+            args: ['aptosValue', 'scale'],
+          },
+        ],
+      })
+    })
+
+    it('should validate that aptosCalls names must be defined before use in operations', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [],
+          operations: [
+            {
+              name: 'result',
+              type: 'multiply',
+              args: ['aptosValue', 'scale'],
+            },
+          ],
+        })
+      }).toThrowError('"aptosValue" must be defined before "result"')
     })
   })
 
@@ -481,6 +546,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {

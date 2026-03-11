@@ -7,6 +7,7 @@ import {
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { calculatedMultiFunctionTransport } from '../transport/calculated-multi-function'
+import { doAptosCustomInputValidation } from '../utils/aptos-common'
 import { validateOperations } from '../utils/operations'
 
 export const inputParameters = new InputParameters(
@@ -41,6 +42,44 @@ export const inputParameters = new InputParameters(
           required: true,
           description: 'RPC network name',
           type: 'string',
+        },
+      },
+    },
+    aptosCalls: {
+      description: 'Array of Aptos view-function calls to be made',
+      required: false,
+      array: true,
+      type: {
+        name: {
+          type: 'string',
+          required: true,
+          description: 'Name of the function call result',
+        },
+        signature: {
+          type: 'string',
+          required: true,
+          description: 'Function signature. Format: {address}::{module name}::{function name}',
+        },
+        arguments: {
+          array: true,
+          description: 'Arguments of the function',
+          type: 'string',
+        },
+        type: {
+          array: true,
+          description: 'Type arguments of the function',
+          type: 'string',
+        },
+        index: {
+          description: 'Which item in the function output array to return',
+          type: 'number',
+          default: 0,
+        },
+        networkType: {
+          description: 'testnet or mainnet',
+          type: 'string',
+          options: ['testnet', 'mainnet'],
+          default: 'mainnet',
         },
       },
     },
@@ -115,6 +154,7 @@ export const inputParameters = new InputParameters(
           network: 'ethereum',
         },
       ],
+      aptosCalls: [],
       constants: [
         {
           name: 'constant_example',
@@ -139,6 +179,7 @@ export const inputParameters = new InputParameters(
           inputParams: [],
         },
       ],
+      aptosCalls: [],
       constants: [],
       operations: [
         {
@@ -164,6 +205,7 @@ export type BaseEndpointTypes = {
 
 export type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 export type FunctionCall = RequestParams['functionCalls'][number]
+export type AptosCall = RequestParams['aptosCalls'][number]
 export type ConstantParam = RequestParams['constants'][number]
 export type OperationParam = RequestParams['operations'][number]
 export type OperationType = OperationParam['type']
@@ -188,6 +230,9 @@ export const endpoint = new AdapterEndpoint({
           message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
         })
       }
+    }
+    for (const ac of params.aptosCalls) {
+      doAptosCustomInputValidation(ac.networkType)
     }
     validateOperations(params)
     return

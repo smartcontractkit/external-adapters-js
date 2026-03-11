@@ -3,17 +3,20 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { ethers } from 'ethers'
 import {
+  AptosCall,
   BaseEndpointTypes,
   ConstantParam,
   FunctionCall,
   RequestParams,
 } from '../endpoint/calculated-multi-function'
+import { doPrepareRequests } from '../utils/aptos-common'
 import { evaluateOperation } from '../utils/operations'
 
 const logger = makeLogger('CalculatedMultiFunctionTransport')
@@ -27,6 +30,7 @@ export type RawOnchainResponse = {
 export class CalculatedMultiFunctionTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
+  requester!: Requester
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -36,6 +40,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
+    this.requester = dependencies.requester
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -69,7 +74,11 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const nestedResultOutcome = await this._processNestedDataRequest(param.functionCalls)
+    const [evmResults, aptosResults] = await Promise.all([
+      this._processNestedDataRequest(param.functionCalls),
+      this._processAptosCalls(param.aptosCalls),
+    ])
+    const nestedResultOutcome = { ...evmResults, ...aptosResults }
 
     const timestamps = {
       providerDataRequestedUnixMs,
@@ -168,6 +177,61 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     )
 
     const settled: [string, string][] = await Promise.all(functionCalls.map(processNested))
+    return Object.fromEntries(settled)
+  }
+
+  private async _executeAptosCall(call: AptosCall): Promise<string> {
+    const { request: requestConfig } = doPrepareRequests(
+      call.networkType,
+      call.signature,
+      call.type,
+      call.arguments,
+    )
+
+    const cacheKey = `aptos-${call.networkType}-${call.signature}-${JSON.stringify(
+      call.arguments,
+    )}-${JSON.stringify(call.type)}`
+    const result = await this.requester.request<unknown[]>(cacheKey, requestConfig)
+    const data = result.response.data
+
+    if (!Array.isArray(data)) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `Aptos view function returned non-array response: ${JSON.stringify(data)}`,
+      })
+    }
+
+    if (call.index >= data.length) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `index ${call.index} is out of bounds for result array of length ${data.length}`,
+      })
+    }
+
+    return String(data[call.index])
+  }
+
+  private async _processAptosCalls(aptosCalls: AptosCall[]): Promise<Record<string, string>> {
+    if (!Array.isArray(aptosCalls) || aptosCalls.length === 0) {
+      return {}
+    }
+
+    const runner = new GroupRunner(this.config.GROUP_SIZE)
+
+    const processCall = runner.wrapFunction(async (call: AptosCall): Promise<[string, string]> => {
+      try {
+        const result = await this._executeAptosCall(call)
+        return [call.name, result]
+      } catch (err) {
+        const statusCode = err instanceof AdapterError ? err.statusCode : 502
+        throw new AdapterError({
+          statusCode,
+          message: `Aptos call "${call.name}" failed: ${err}`,
+        })
+      }
+    })
+
+    const settled: [string, string][] = await Promise.all(aptosCalls.map(processCall))
     return Object.fromEntries(settled)
   }
 
