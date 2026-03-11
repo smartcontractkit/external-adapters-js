@@ -14,7 +14,6 @@ import {
   AptosCall,
   BaseEndpointTypes,
   ConstantParam,
-  FunctionCall,
   RequestParams,
   inputParameters,
 } from '../endpoint/calculated-multi-function'
@@ -79,8 +78,8 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const providerDataRequestedUnixMs = Date.now()
 
     const [evmResults, aptosResults] = await Promise.all([
-      this._processEvmCalls(param.functionCalls),
-      this._processAptosCalls(param.aptosCalls),
+      this._processCalls(param.functionCalls, this._executeEvmFunction),
+      this._processCalls(param.aptosCalls, this._executeAptosFunction),
     ])
     const nestedResultOutcome = { ...evmResults, ...aptosResults }
 
@@ -137,10 +136,6 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     }
   }
 
-  private async _processEvmCalls(functionCalls: FunctionCall[]): Promise<Record<string, string>> {
-    return this._processCalls(functionCalls, this._executeEvmFunction)
-  }
-
   private async _executeAptosFunction(call: AptosCall): Promise<string> {
     const requestConfig = buildAptosViewRequest(
       call.networkType,
@@ -161,10 +156,6 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const result = await this.requester.request<string[]>(cacheKey, requestConfig)
     validateAptosViewResponse(result.response.data, call.index)
     return String(result.response.data[call.index])
-  }
-
-  private async _processAptosCalls(aptosCalls: AptosCall[]): Promise<Record<string, string>> {
-    return this._processCalls(aptosCalls, this._executeAptosFunction)
   }
 
   private async _processCalls<T extends { name: string }>(
