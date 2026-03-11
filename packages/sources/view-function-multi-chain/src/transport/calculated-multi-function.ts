@@ -18,7 +18,7 @@ import {
   RequestParams,
   inputParameters,
 } from '../endpoint/calculated-multi-function'
-import { doPrepareRequests } from '../utils/aptos-common'
+import { buildAptosViewRequest } from '../utils/aptos-common'
 import { evaluateOperation } from '../utils/operations'
 
 const logger = makeLogger('CalculatedMultiFunctionTransport')
@@ -185,7 +185,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   }
 
   private async _executeAptosCall(call: AptosCall): Promise<string> {
-    const { request: requestConfig } = doPrepareRequests(
+    const { request: requestConfig } = buildAptosViewRequest(
       call.networkType,
       call.signature,
       call.type,

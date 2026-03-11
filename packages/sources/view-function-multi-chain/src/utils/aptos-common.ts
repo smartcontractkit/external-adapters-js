@@ -61,7 +61,7 @@ export const doAptosCustomInputValidation = (
   return
 }
 
-export const doPrepareRequests = (
+export const buildAptosViewRequest = (
   networkType: string,
   signature: string,
   type: string[],
