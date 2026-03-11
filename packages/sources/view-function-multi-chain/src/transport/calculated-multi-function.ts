@@ -185,7 +185,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   }
 
   private async _executeAptosCall(call: AptosCall): Promise<string> {
-    const { request: requestConfig } = buildAptosViewRequest(
+    const requestConfig = buildAptosViewRequest(
       call.networkType,
       call.signature,
       call.type,

@@ -68,18 +68,16 @@ export const buildAptosViewRequest = (
   args: string[],
 ) => {
   return {
-    request: {
-      baseURL: getAptosRpcUrl(networkType),
-      url: '/view',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        function: signature,
-        type_arguments: type ?? [],
-        arguments: args ?? [],
-      },
+    baseURL: getAptosRpcUrl(networkType),
+    url: '/view',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      function: signature,
+      type_arguments: type ?? [],
+      arguments: args ?? [],
     },
   }
 }

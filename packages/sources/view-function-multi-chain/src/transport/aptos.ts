@@ -20,7 +20,7 @@ export const aptosTransport = new HttpTransport<HttpTransportTypes>({
       )
       return {
         params: [param],
-        ...request,
+        request,
       }
     })
   },

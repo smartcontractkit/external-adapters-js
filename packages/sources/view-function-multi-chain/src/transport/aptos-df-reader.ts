@@ -33,7 +33,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       )
       return {
         params: [param],
-        ...request,
+        request,
       }
     })
   },
