@@ -130,10 +130,8 @@ jobs:
           PR_NUMBER=$(gh pr list \
             --base main \
             --state open \
-            --search "\"Release $BUMPED_VERSION\" in:title" \
-            --limit 1 \
-            --json number \
-            --jq '.[0].number // empty')
+            --json number,title \
+            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
 
           if [[ -z "$PR_NUMBER" ]]; then
             echo "Unable to find release PR for version $BUMPED_VERSION"
