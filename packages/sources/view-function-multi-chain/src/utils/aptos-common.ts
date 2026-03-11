@@ -1,4 +1,7 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 export type ErrorObj = {
   message: string
@@ -59,6 +62,21 @@ export const doAptosCustomInputValidation = (
 ): AdapterInputError | undefined => {
   getAptosRpcUrl(networkType)
   return
+}
+
+export const validateAptosViewResponse = (data: unknown, index: number): void => {
+  if (!Array.isArray(data)) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Aptos view function returned non-array response: ${JSON.stringify(data)}`,
+    })
+  }
+  if (index >= data.length) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `index ${index} is out of bounds for result array of length ${data.length}`,
+    })
+  }
 }
 
 export const buildAptosViewRequest = (

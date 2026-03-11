@@ -18,7 +18,7 @@ import {
   RequestParams,
   inputParameters,
 } from '../endpoint/calculated-multi-function'
-import { buildAptosViewRequest } from '../utils/aptos-common'
+import { buildAptosViewRequest, validateAptosViewResponse } from '../utils/aptos-common'
 import { evaluateOperation } from '../utils/operations'
 
 const logger = makeLogger('CalculatedMultiFunctionTransport')
@@ -202,23 +202,8 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
       transportName: this.name,
     })
     const result = await this.requester.request<unknown[]>(cacheKey, requestConfig)
-    const data = result.response.data
-
-    if (!Array.isArray(data)) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Aptos view function returned non-array response: ${JSON.stringify(data)}`,
-      })
-    }
-
-    if (call.index >= data.length) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `index ${call.index} is out of bounds for result array of length ${data.length}`,
-      })
-    }
-
-    return String(data[call.index])
+    validateAptosViewResponse(result.response.data, call.index)
+    return String(result.response.data[call.index])
   }
 
   private async _processAptosCalls(aptosCalls: AptosCall[]): Promise<Record<string, string>> {
