@@ -31,6 +31,35 @@ jobs:
         id: adapter_change_has_changeset
         run: ./.github/scripts/validate-changesets.sh
 
+  validate-changeset-packages:
+    name: Changeset package references exist in repo
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node and Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Enable Yarn from packageManager
+        run: corepack enable
+      - name: Check that changeset package references exist in repo
+        run: |
+          EXISTING=$(./.github/scripts/list-packages-adapters.sh | jq -r '.packages[].name' | sort -u)
+          REFERENCED=$(./.github/scripts/get-unreleased-packages.sh | sed 's/^- //' | sort -u)
+          BAD=$(echo "$REFERENCED" | while read p; do echo "$EXISTING" | grep -qFx "$p" || echo "$p"; done)
+          if [ -n "$BAD" ]; then
+            echo "::error::The following packages are referenced in .changeset but do not exist in the repo:"
+            echo "$BAD" | while read p; do
+              FILES=$(for f in .changeset/*.md; do [ "$(basename "$f")" = "README.md" ] && continue; grep -qF "'$p'" "$f" 2>/dev/null && echo "$f"; done)
+              echo "::error::  - $p"
+              echo "$FILES" | while read f; do [ -n "$f" ] && echo "::error::    mentioned in: $f"; done
+            done
+            exit 1
+          fi
+
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
