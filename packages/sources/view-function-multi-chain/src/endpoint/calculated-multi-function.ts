@@ -7,12 +7,13 @@ import {
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { calculatedMultiFunctionTransport } from '../transport/calculated-multi-function'
+import { aptosBaseInputParameters, doAptosCustomInputValidation } from '../utils/aptos-common'
 import { validateOperations } from '../utils/operations'
 
 export const inputParameters = new InputParameters(
   {
     functionCalls: {
-      description: 'Array view-function calls to be made to the blockchain',
+      description: 'Array of EVM view-function calls to be made',
       required: false,
       array: true,
       type: {
@@ -42,6 +43,19 @@ export const inputParameters = new InputParameters(
           description: 'RPC network name',
           type: 'string',
         },
+      },
+    },
+    aptosCalls: {
+      description: 'Array of Aptos view-function calls to be made',
+      required: false,
+      array: true,
+      type: {
+        name: {
+          type: 'string',
+          required: true,
+          description: 'Name of the function call result',
+        },
+        ...aptosBaseInputParameters,
       },
     },
     constants: {
@@ -115,6 +129,7 @@ export const inputParameters = new InputParameters(
           network: 'ethereum',
         },
       ],
+      aptosCalls: [],
       constants: [
         {
           name: 'constant_example',
@@ -139,6 +154,7 @@ export const inputParameters = new InputParameters(
           inputParams: [],
         },
       ],
+      aptosCalls: [],
       constants: [],
       operations: [
         {
@@ -147,6 +163,22 @@ export const inputParameters = new InputParameters(
           args: ['priceLowHigh', 'low'],
         },
       ],
+    },
+    {
+      functionCalls: [],
+      aptosCalls: [
+        {
+          name: 'result',
+          signature:
+            '0x6f8ca77dd0a4c65362f475adb1c26ae921b1d75aa6b70e53d0e340efd7d8bc80::staker::share_price',
+          arguments: [],
+          type: [],
+          index: 1,
+          networkType: 'mainnet',
+        },
+      ],
+      constants: [],
+      operations: [],
     },
   ],
 )
@@ -164,6 +196,7 @@ export type BaseEndpointTypes = {
 
 export type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 export type FunctionCall = RequestParams['functionCalls'][number]
+export type AptosCall = RequestParams['aptosCalls'][number]
 export type ConstantParam = RequestParams['constants'][number]
 export type OperationParam = RequestParams['operations'][number]
 export type OperationType = OperationParam['type']
@@ -188,6 +221,9 @@ export const endpoint = new AdapterEndpoint({
           message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
         })
       }
+    }
+    for (const ac of params.aptosCalls) {
+      doAptosCustomInputValidation(ac.networkType)
     }
     validateOperations(params)
     return

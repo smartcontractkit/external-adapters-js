@@ -159,7 +159,7 @@ export const mockAptosSuccess = (): nock.Scope =>
   })
     .persist()
     .post('/view')
-    .reply(200, () => [1], [
+    .reply(200, () => ['1'], [
       'Content-Type',
       'application/json',
       'Connection',
