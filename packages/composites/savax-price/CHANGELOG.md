@@ -1,5 +1,12 @@
 # @chainlink/savax-price-adapter
 
+## 3.0.128
+
+### Patch Changes
+
+- Updated dependencies [[`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4)]:
+  - @chainlink/token-allocation-adapter@1.14.13
+
 ## 3.0.127
 
 ### Patch Changes
