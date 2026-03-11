@@ -7,7 +7,7 @@ import {
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { calculatedMultiFunctionTransport } from '../transport/calculated-multi-function'
-import { doAptosCustomInputValidation } from '../utils/aptos-common'
+import { aptosBaseInputParameters, doAptosCustomInputValidation } from '../utils/aptos-common'
 import { validateOperations } from '../utils/operations'
 
 export const inputParameters = new InputParameters(
@@ -55,32 +55,7 @@ export const inputParameters = new InputParameters(
           required: true,
           description: 'Name of the function call result',
         },
-        signature: {
-          type: 'string',
-          required: true,
-          description: 'Function signature. Format: {address}::{module name}::{function name}',
-        },
-        arguments: {
-          array: true,
-          description: 'Arguments of the function',
-          type: 'string',
-        },
-        type: {
-          array: true,
-          description: 'Type arguments of the function',
-          type: 'string',
-        },
-        index: {
-          description: 'Which item in the function output array to return',
-          type: 'number',
-          default: 0,
-        },
-        networkType: {
-          description: 'testnet or mainnet',
-          type: 'string',
-          options: ['testnet', 'mainnet'],
-          default: 'mainnet',
-        },
+        ...aptosBaseInputParameters,
       },
     },
     constants: {
