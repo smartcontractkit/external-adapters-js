@@ -1,4 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
@@ -15,6 +16,7 @@ import {
   ConstantParam,
   FunctionCall,
   RequestParams,
+  inputParameters,
 } from '../endpoint/calculated-multi-function'
 import { doPrepareRequests } from '../utils/aptos-common'
 import { evaluateOperation } from '../utils/operations'
@@ -31,6 +33,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   config!: BaseEndpointTypes['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
   requester!: Requester
+  endpointName!: string
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -41,6 +44,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.config = adapterSettings
     this.requester = dependencies.requester
+    this.endpointName = endpointName
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {
@@ -188,9 +192,15 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
       call.arguments,
     )
 
-    const cacheKey = `aptos-${call.networkType}-${call.signature}-${JSON.stringify(
-      call.arguments,
-    )}-${JSON.stringify(call.type)}`
+    const cacheKey = calculateHttpRequestKey<BaseEndpointTypes>({
+      context: {
+        adapterSettings: this.config,
+        inputParameters,
+        endpointName: this.endpointName,
+      },
+      data: requestConfig.data,
+      transportName: this.name,
+    })
     const result = await this.requester.request<unknown[]>(cacheKey, requestConfig)
     const data = result.response.data
 
