@@ -13,7 +13,7 @@ import { validateOperations } from '../utils/operations'
 export const inputParameters = new InputParameters(
   {
     functionCalls: {
-      description: 'Array view-function calls to be made to the blockchain',
+      description: 'Array of EVM view-function calls to be made',
       required: false,
       array: true,
       type: {
