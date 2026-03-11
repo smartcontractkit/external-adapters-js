@@ -1,6 +1,6 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/aptos-df-reader'
-import { doPrepareRequests, ErrorObj, RequestObj } from '../utils/aptos-common'
+import { buildAptosViewRequest, ErrorObj, RequestObj } from '../utils/aptos-common'
 
 type Feed = {
   benchmark: string
@@ -25,7 +25,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 export const transport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params) => {
     return params.map((param) => {
-      const request = doPrepareRequests(
+      const request = buildAptosViewRequest(
         param.networkType,
         param.signature,
         param.type,
@@ -33,7 +33,7 @@ export const transport = new HttpTransport<HttpTransportTypes>({
       )
       return {
         params: [param],
-        ...request,
+        request,
       }
     })
   },
