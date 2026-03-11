@@ -5,6 +5,7 @@ import { OperationParam, OperationType, RequestParams } from '../endpoint/calcul
 export const validateOperations = (params: RequestParams) => {
   const definedNames = new Set<string>()
   params.functionCalls.forEach((fn) => definedNames.add(fn.name))
+  params.aptosCalls.forEach((ac) => definedNames.add(ac.name))
   params.constants.forEach((constant) => definedNames.add(constant.name))
   params.operations.forEach((operation) => {
     validateOperation(operation, definedNames, params)
