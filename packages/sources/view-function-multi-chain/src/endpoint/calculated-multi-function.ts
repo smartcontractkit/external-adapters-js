@@ -164,6 +164,22 @@ export const inputParameters = new InputParameters(
         },
       ],
     },
+    {
+      functionCalls: [],
+      aptosCalls: [
+        {
+          name: 'result',
+          signature:
+            '0x6f8ca77dd0a4c65362f475adb1c26ae921b1d75aa6b70e53d0e340efd7d8bc80::staker::share_price',
+          arguments: [],
+          type: [],
+          index: 1,
+          networkType: 'mainnet',
+        },
+      ],
+      constants: [],
+      operations: [],
+    },
   ],
 )
 
