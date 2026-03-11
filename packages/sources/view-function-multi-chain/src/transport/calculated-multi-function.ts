@@ -79,7 +79,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const providerDataRequestedUnixMs = Date.now()
 
     const [evmResults, aptosResults] = await Promise.all([
-      this._processNestedDataRequest(param.functionCalls),
+      this._processEvmCalls(param.functionCalls),
       this._processAptosCalls(param.aptosCalls),
     ])
     const nestedResultOutcome = { ...evmResults, ...aptosResults }
@@ -103,7 +103,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     }
   }
 
-  private async _executeFunction(params: {
+  private async _executeEvmFunction(params: {
     address: string
     signature: string
     inputParams?: Array<string>
@@ -127,64 +127,21 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const fnName = iface.getFunctionName(signature)
     const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
-    const providerDataRequestedUnixMs = Date.now()
-
-    let result
     try {
-      result = await this.providers[networkName].call({ to: address, data: encoded })
+      return await this.providers[networkName].call({ to: address, data: encoded })
     } catch (err) {
       throw new AdapterError({
         statusCode: 500,
         message: `RPC call failed for ${fnName} on ${networkName}: ${err}`,
       })
     }
-
-    const timestamps = {
-      providerDataRequestedUnixMs,
-      providerDataReceivedUnixMs: Date.now(),
-      providerIndicatedTimeUnixMs: undefined,
-    }
-
-    return { result, timestamps }
   }
 
-  private async _processNestedDataRequest(
-    functionCalls: FunctionCall[],
-  ): Promise<Record<string, string>> {
-    if (!Array.isArray(functionCalls) || functionCalls.length === 0) {
-      return {}
-    }
-
-    const runner = new GroupRunner(this.config.GROUP_SIZE)
-
-    const processNested = runner.wrapFunction(
-      async (req: FunctionCall): Promise<[string, string]> => {
-        const key = req.name
-        try {
-          const nestedParam = {
-            address: req.address,
-            network: req.network,
-            signature: req.signature,
-            inputParams: req.inputParams,
-          }
-
-          const subRes = await this._executeFunction(nestedParam)
-          return [key, subRes.result]
-        } catch (err) {
-          const statusCode = err instanceof AdapterError ? err.statusCode : 502
-          throw new AdapterError({
-            statusCode,
-            message: `Function call "${key}" failed: ${err}`,
-          })
-        }
-      },
-    )
-
-    const settled: [string, string][] = await Promise.all(functionCalls.map(processNested))
-    return Object.fromEntries(settled)
+  private async _processEvmCalls(functionCalls: FunctionCall[]): Promise<Record<string, string>> {
+    return this._processCalls(functionCalls, this._executeEvmFunction)
   }
 
-  private async _executeAptosCall(call: AptosCall): Promise<string> {
+  private async _executeAptosFunction(call: AptosCall): Promise<string> {
     const requestConfig = buildAptosViewRequest(
       call.networkType,
       call.signature,
@@ -207,26 +164,34 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   }
 
   private async _processAptosCalls(aptosCalls: AptosCall[]): Promise<Record<string, string>> {
-    if (!Array.isArray(aptosCalls) || aptosCalls.length === 0) {
+    return this._processCalls(aptosCalls, this._executeAptosFunction)
+  }
+
+  private async _processCalls<T extends { name: string }>(
+    functionCalls: T[],
+    execute: (call: T) => Promise<string>,
+  ): Promise<Record<string, string>> {
+    if (!Array.isArray(functionCalls) || functionCalls.length === 0) {
       return {}
     }
 
     const runner = new GroupRunner(this.config.GROUP_SIZE)
 
-    const processCall = runner.wrapFunction(async (call: AptosCall): Promise<[string, string]> => {
+    const processNested = runner.wrapFunction(async (req: T): Promise<[string, string]> => {
+      const key = req.name
       try {
-        const result = await this._executeAptosCall(call)
-        return [call.name, result]
+        const result = await execute.bind(this)(req)
+        return [key, result]
       } catch (err) {
         const statusCode = err instanceof AdapterError ? err.statusCode : 502
         throw new AdapterError({
           statusCode,
-          message: `Aptos call "${call.name}" failed: ${err}`,
+          message: `Function call "${key}" failed: ${err}`,
         })
       }
     })
 
-    const settled: [string, string][] = await Promise.all(aptosCalls.map(processCall))
+    const settled: [string, string][] = await Promise.all(functionCalls.map(processNested))
     return Object.fromEntries(settled)
   }
 
