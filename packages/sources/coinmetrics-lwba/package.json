@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/coinmetrics-lwba-adapter",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Chainlink coinmetrics-lwba adapter.",
   "keywords": [
     "Chainlink",
