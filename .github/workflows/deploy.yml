@@ -182,6 +182,9 @@ jobs:
       - calculate-changes
       - build-publish
       - build-publish-streams
+    # By default, jobs with needs dependencies only run if all dependent jobs succeeded.
+    # The always() function overrides this, allowing the deploy job to evaluate its conditions
+    # even when build-publish-streams was skipped (which happens when build-streams-adapter-images != 'true').
     if: >
       always() &&
       needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}' &&
