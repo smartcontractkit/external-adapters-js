@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`marketprice endpoint marketprice endpoint should return success with mark price 1`] = `
+{
+  "data": {
+    "mid": 97500.5,
+  },
+  "result": 97500.5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1114,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
+exports[`marketprice endpoint marketprice endpoint should return success with top of book 1`] = `
+{
+  "data": {
+    "ask": 97520,
+    "bid": 97480,
+    "mid": 97500,
+  },
+  "result": 97500,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1115,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
