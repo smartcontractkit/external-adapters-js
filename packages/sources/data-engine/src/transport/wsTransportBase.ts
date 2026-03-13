@@ -31,17 +31,12 @@ const buildWsUrl = (baseUrl: string, desiredSubs: { feedId?: string }[]) => {
   const url = new URL(`${baseUrl}/api/v1/ws`)
 
   if (desiredSubs) {
-    const uniqueFeedIds: string[] = []
-    for (const s of desiredSubs) {
-      if (s.feedId) {
-        const lower = s.feedId.toLowerCase()
-        if (!uniqueFeedIds.includes(lower)) {
-          uniqueFeedIds.push(lower)
-        }
-      }
-    }
-    uniqueFeedIds.sort()
-    url.searchParams.set('feedIDs', uniqueFeedIds.join(','))
+    // Deduplicate and sort feed IDs for a deterministic URL across background cycles
+    const feedIds = desiredSubs
+      .map((s) => s.feedId?.toLowerCase())
+      .filter((id, i, arr): id is string => !!id && arr.indexOf(id) === i)
+      .sort()
+    url.searchParams.set('feedIDs', feedIds.join(','))
   }
   return url.toString()
 }
