@@ -2,25 +2,11 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { rwaV8Transport } from '../transport/rwaV8'
+import { commonInputParams } from './common'
 
 export const inputParameters = new InputParameters(
   {
-    feedId: {
-      required: true,
-      type: 'string',
-      description: 'The feedId for RWA feed with v8 schema',
-    },
-    resultPath: {
-      required: false,
-      type: 'string',
-      description: 'The data field to populate the top-level result',
-      options: ['midPrice'],
-    },
-    decimals: {
-      required: false,
-      type: 'number',
-      description: 'Number of decimals to scale the result to (from native 18)',
-    },
+    ...commonInputParams,
   },
   [
     {

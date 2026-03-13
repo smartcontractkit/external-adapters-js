@@ -2,25 +2,11 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { cryptoV3Transport } from '../transport/cryptoV3'
+import { commonInputParams } from './common'
 
 export const inputParameters = new InputParameters(
   {
-    feedId: {
-      required: true,
-      type: 'string',
-      description: 'The feedId for crypto feed with v3 schema',
-    },
-    resultPath: {
-      required: false,
-      type: 'string',
-      description: 'The data field to populate the top-level result',
-      options: ['price', 'bid', 'ask'],
-    },
-    decimals: {
-      required: false,
-      type: 'number',
-      description: 'Number of decimals to scale the result to (from native 18)',
-    },
+    ...commonInputParams,
   },
   [
     {

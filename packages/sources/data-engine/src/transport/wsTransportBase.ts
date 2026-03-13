@@ -27,15 +27,18 @@ type BaseTransportTypes = {
   Settings: TransportGenerics['Settings'] & typeof config.settings
 }
 
-const buildWsUrl = (baseUrl: string, desiredSubs: { feedId?: string }[]) => {
+interface DesiredSub {
+  feedId: string
+  resultPath?: string
+  decimals?: number
+}
+
+const buildWsUrl = (baseUrl: string, desiredSubs: Record<string, unknown>[]) => {
   const url = new URL(`${baseUrl}/api/v1/ws`)
 
   if (desiredSubs) {
-    // Deduplicate and sort feed IDs for a deterministic URL across background cycles
-    const feedIds = desiredSubs
-      .map((s) => s.feedId?.toLowerCase())
-      .filter((id, i, arr): id is string => !!id && arr.indexOf(id) === i)
-      .sort()
+    const rawIds = desiredSubs.map((s) => (s.feedId as string | undefined)?.toLowerCase())
+    const feedIds = [...new Set(rawIds.filter((id): id is string => !!id))].sort()
     url.searchParams.set('feedIDs', feedIds.join(','))
   }
   return url.toString()
@@ -54,22 +57,22 @@ export function createDataEngineTransport<
   // Tracks the current set of subscriptions so the message handler can build
   // one cache entry per unique subscription. Updated by the url callback on
   // each background cycle.
-  let currentDesiredSubs: Record<string, unknown>[] = []
-
-  // Caches the latest decoded data per feedId. When a new subscription variant
-  // (e.g. with resultPath/decimals) arrives after the WS message for its
-  // feedId, the next incoming message for ANY feedId will still produce a cache
-  // entry for it by looking up the data here.
-  const latestDataByFeedId: Record<string, BaseEndpointTypes['Response']['Data']> = {}
+  let currentDesiredSubs: DesiredSub[] = []
 
   return new WebSocketTransport<BaseEndpointTypes & ProviderTypes>({
     url: (context, desiredSubs) => {
-      currentDesiredSubs = desiredSubs as Record<string, unknown>[]
-      return buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, desiredSubs)
+      currentDesiredSubs = desiredSubs as unknown as DesiredSub[]
+      return buildWsUrl(
+        context.adapterSettings.WS_API_ENDPOINT,
+        desiredSubs as unknown as Record<string, unknown>[],
+      )
     },
 
     options: (context, desiredSubs) => {
-      const url = buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, desiredSubs)
+      const url = buildWsUrl(
+        context.adapterSettings.WS_API_ENDPOINT,
+        desiredSubs as unknown as Record<string, unknown>[],
+      )
       return {
         headers: generateAuthHeaders(
           context.adapterSettings.API_USERNAME,
@@ -107,33 +110,27 @@ export function createDataEngineTransport<
           ]
         }
 
-        // Cache decoded data so late-arriving subscription variants can be served
-        latestDataByFeedId[msg.report.feedID] = config.extractData(decoded as DecodedReport)
+        const data = config.extractData(decoded as DecodedReport)
 
-        // Build one result per subscription that has cached data
+        // Build one result per subscription that matches this message's feedId
         const results: ProviderResult<BaseEndpointTypes & ProviderTypes>[] = []
         for (const sub of currentDesiredSubs) {
-          const feedId = sub.feedId as string
-          const cachedData = latestDataByFeedId[feedId]
-          if (!cachedData) continue
-
-          const resultPath = sub.resultPath as string | undefined
-          const decimals = sub.decimals as number | undefined
+          if (sub.feedId !== msg.report.feedID) continue
 
           let result: string | null = null
-          if (resultPath) {
-            const raw = (cachedData as Record<string, unknown>)[resultPath]
+          if (sub.resultPath) {
+            const raw = (data as Record<string, unknown>)[sub.resultPath]
             if (raw !== undefined) {
               result = String(raw)
-              if (decimals !== undefined) {
-                result = scaleDecimals(result, DECIMALS, decimals)
+              if (sub.decimals !== undefined) {
+                result = scaleDecimals(result, DECIMALS, sub.decimals)
               }
             }
           }
 
           results.push({
             params: sub as any,
-            response: { result, data: cachedData },
+            response: { result, data },
           })
         }
         return results
