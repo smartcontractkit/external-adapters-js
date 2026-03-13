@@ -10,6 +10,17 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The feedId for crypto feed with v3 schema',
     },
+    resultPath: {
+      required: false,
+      type: 'string',
+      description: 'The data field to populate the top-level result',
+      options: ['price', 'bid', 'ask'],
+    },
+    decimals: {
+      required: false,
+      type: 'number',
+      description: 'Number of decimals to scale the result to (from native 18)',
+    },
   },
   [
     {
@@ -21,7 +32,7 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: null
+    Result: string | null
     Data: {
       bid: string
       ask: string

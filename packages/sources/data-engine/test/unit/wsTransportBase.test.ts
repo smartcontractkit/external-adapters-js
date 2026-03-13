@@ -1,6 +1,6 @@
 import { decodeReport, generateAuthHeaders } from '@chainlink/data-streams-sdk'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { createDataEngineTransport } from '../../src/transport/wsTransportBase'
+import { createDataEngineTransport, scaleDecimals } from '../../src/transport/wsTransportBase'
 
 jest.mock('@chainlink/data-streams-sdk', () => ({
   decodeReport: jest.fn(),
@@ -177,6 +177,204 @@ describe('wsTransportBase', () => {
           },
         ])
       })
+
+      it('should fan out results when desiredSubs are captured via url callback', () => {
+        // extractData mock returns { price, timestamp } from decoded report
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+          timestamp: 1234567890,
+        } as any)
+
+        const extractDataWithBid = jest.fn((decoded: any) => ({
+          price: decoded.price,
+          bid: decoded.bid,
+        }))
+
+        const transport = createDataEngineTransport({
+          ...mockConfig,
+          extractData: extractDataWithBid,
+        })
+        const transportConfig = (transport as any).config
+
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+          bid: '120945968265543240000000',
+        } as any)
+
+        // Simulate url callback to capture desiredSubs
+        transportConfig.url(mockContext, [
+          { feedId: '0x0003', resultPath: 'price' },
+          { feedId: '0x0003', resultPath: 'bid' },
+        ])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(2)
+        expect(result[0]).toEqual({
+          params: { feedId: '0x0003', resultPath: 'price' },
+          response: {
+            result: '120950127609218450000000',
+            data: {
+              price: '120950127609218450000000',
+              bid: '120945968265543240000000',
+            },
+          },
+        })
+        expect(result[1]).toEqual({
+          params: { feedId: '0x0003', resultPath: 'bid' },
+          response: {
+            result: '120945968265543240000000',
+            data: {
+              price: '120950127609218450000000',
+              bid: '120945968265543240000000',
+            },
+          },
+        })
+      })
+
+      it('should apply decimals scaling when resultPath and decimals are provided', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback to capture desiredSubs
+        transportConfig.url(mockContext, [{ feedId: '0x0003', resultPath: 'price', decimals: 8 }])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].response.result).toBe('12095012760921')
+        // data should still contain raw values
+        expect(result[0].response.data.price).toBe('120950127609218450000000')
+      })
+
+      it('should return result null when resultPath is not provided even with desiredSubs', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback with no resultPath
+        transportConfig.url(mockContext, [{ feedId: '0x0003' }])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].response.result).toBeNull()
+      })
+
+      it('should deduplicate identical subscriptions', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '100',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback with duplicate subs
+        transportConfig.url(mockContext, [
+          { feedId: '0x0003', resultPath: 'price' },
+          { feedId: '0x0003', resultPath: 'price' },
+        ])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+      })
+
+      it('should only fan out results for matching feedId', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '100',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback with multiple feedIds
+        transportConfig.url(mockContext, [
+          { feedId: '0x0003', resultPath: 'price' },
+          { feedId: '0xOTHER', resultPath: 'price' },
+        ])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].params.feedId).toBe('0x0003')
+      })
+    })
+  })
+
+  describe('scaleDecimals', () => {
+    it('should scale down from 18 to 8 decimals', () => {
+      // 120950127609218450000000 with 18 decimals = 120950.127609218450000000
+      // Scaled to 8 decimals: 120950.12760921 → 12095012760921 (truncated, not rounded)
+      expect(scaleDecimals('120950127609218450000000', 18, 8)).toBe('12095012760921')
+    })
+
+    it('should return same value when fromDecimals equals toDecimals', () => {
+      expect(scaleDecimals('123456', 18, 18)).toBe('123456')
+    })
+
+    it('should scale up from 8 to 18 decimals', () => {
+      expect(scaleDecimals('12095012760', 8, 18)).toBe('120950127600000000000')
+    })
+
+    it('should truncate (floor toward zero) when scaling down', () => {
+      // 999999999999999999 with 18 decimals = 0.999999999999999999
+      // Scaled to 8 decimals: 0.99999999 → integer representation = 99999999
+      expect(scaleDecimals('999999999999999999', 18, 8)).toBe('99999999')
+    })
+
+    it('should handle zero value', () => {
+      expect(scaleDecimals('0', 18, 8)).toBe('0')
+    })
+
+    it('should handle scale to 0 decimals', () => {
+      // 1500000000000000000000 with 18 decimals = 1500.000000000000000000
+      // Scaled to 0 decimals = 1500
+      expect(scaleDecimals('1500000000000000000000', 18, 0)).toBe('1500')
+    })
+
+    it('should truncate toward zero for positive values', () => {
+      // 1999999999999999999 with 18 decimals = 1.999999999999999999
+      // Scaled to 0 decimals = 1 (truncated, not rounded to 2)
+      expect(scaleDecimals('1999999999999999999', 18, 0)).toBe('1')
     })
   })
 })

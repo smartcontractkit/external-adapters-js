@@ -10,6 +10,17 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'The feedId for Deutsche Boerse feed with v11 schema',
     },
+    resultPath: {
+      required: false,
+      type: 'string',
+      description: 'The data field to populate the top-level result',
+      options: ['mid', 'bid', 'ask', 'lastTradedPrice'],
+    },
+    decimals: {
+      required: false,
+      type: 'number',
+      description: 'Number of decimals to scale the result to (from native 18)',
+    },
   },
   [
     {
@@ -21,7 +32,7 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: null
+    Result: string | null
     Data: {
       mid: string
       lastSeenTimestampNs: string

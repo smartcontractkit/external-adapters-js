@@ -21,7 +21,6 @@ describe('execute', () => {
     endpoint: 'rwa-v8',
     feedId: '0x0008',
   }
-
   const v11Data = {
     endpoint: 'deutscheBoerse-v11',
     feedId: '0x000b5',
