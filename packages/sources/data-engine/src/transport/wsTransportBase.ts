@@ -44,10 +44,17 @@ const buildWsUrl = (baseUrl: string, desiredSubs: { feedId?: string }[]) => {
   const url = new URL(`${baseUrl}/api/v1/ws`)
 
   if (desiredSubs) {
-    const uniqueFeedIds = [
-      ...new Set(desiredSubs.filter((s) => s.feedId).map((s) => s.feedId!.toLowerCase())),
-    ]
-    url.searchParams.set('feedIDs', uniqueFeedIds.sort().join(','))
+    const uniqueFeedIds: string[] = []
+    for (const s of desiredSubs) {
+      if (s.feedId) {
+        const lower = s.feedId.toLowerCase()
+        if (!uniqueFeedIds.includes(lower)) {
+          uniqueFeedIds.push(lower)
+        }
+      }
+    }
+    uniqueFeedIds.sort()
+    url.searchParams.set('feedIDs', uniqueFeedIds.join(','))
   }
   return url.toString()
 }
@@ -132,7 +139,8 @@ export function createDataEngineTransport<
 
         // De-duplicate and fan out one ProviderResult per unique subscription.
         // Build a clean params object so the cache key matches the incoming request exactly.
-        const seen = new Set<string>()
+        // Uses an array (not Set) for deterministic iteration order.
+        const seen: string[] = []
         const results: ProviderResult<BaseEndpointTypes & ProviderTypes>[] = []
 
         for (const sub of matchingSubs) {
@@ -145,8 +153,8 @@ export function createDataEngineTransport<
           if (decimals !== undefined) params.decimals = decimals
 
           const key = JSON.stringify(params)
-          if (seen.has(key)) continue
-          seen.add(key)
+          if (seen.includes(key)) continue
+          seen.push(key)
 
           let result: string | null = null
           if (resultPath) {
