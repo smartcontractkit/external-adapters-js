@@ -2,15 +2,10 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
 
 export interface ResponseSchema {
-  currentExposure: number
-  timestamp: string
-  daysRemaining: number
-  signature: string
-  insuredAllocationLimit: number
-  masterCoverageLimit: number
-  maturityTimestamp: number
-  policyHash: string
-  instrumentSourceParty: string
+  treeId: string
+  root: string
+  contractId: string
+  computedAt: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -63,38 +58,24 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    // TODO: We may delete navDate and aum
-    const navDate = response.data.daysRemaining
-    const aum = computeAumFromSignature(response.data.signature)
-    const signature = response.data.signature
-    const timestampMs = new Date(response.data.timestamp).getTime()
-    const maturityTimestamp = response.data.maturityTimestamp
-    const policyHash = response.data.policyHash
+    const navPerShare = BigInt(
+      '0x' + Buffer.from(response.data.root, 'base64').toString('hex'),
+    ).toString()
+
+    const aum = BigInt('0x' + response.data.contractId).toString()
+
+    const navDate = (BigInt(new Date(response.data.computedAt).getTime()) * 1_000_000n).toString()
 
     return params.map((param) => {
       return {
         params: param,
         response: {
-          result: navDate,
+          result: navPerShare,
           data: {
-            // navDate,
-            // aum,
-            insuredAllocationLimit: response.data.insuredAllocationLimit,
-            masterCoverageLimit: response.data.masterCoverageLimit,
-            dealCurrentExposure: response.data.currentExposure,
-            timestamp: timestampMs,
-            // This cannott be a string
-            // signature,
-            maturityTimestamp,
-
-            // This could be converted to a number or hash?
-            // policyHash,
-
-            // This needs to be a number
-            // instrumentId: param.instrument_id,
-
-            // This needs to be a number
-            // instrumentSourceParty: response.data.instrumentSourceParty,
+            navPerShare,
+            aum,
+            navDate,
+            ripcord: 0,
           },
         },
       }

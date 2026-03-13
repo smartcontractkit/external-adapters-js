@@ -8,11 +8,11 @@ export const mockResponseSuccess = (): nock.Scope =>
     .reply(
       200,
       () => ({
-        insuredAmount: 1000000,
-        currentExposure: 500000,
-        timestamp: '2026-02-09T00:00:00Z',
-        daysRemaining: 42,
-        signature: '0xabc123def456',
+        treeId: 'tree-001',
+        root: 'DiPv1Gh+kZXNRkqT7m+xdfzR3tUzafs5BnBqa2/dI3c=',
+        contractId:
+          '0098c817c75cc13375800e505d4b8e393a3e479ff7c7851e9378c676877ca37876ca1212208efc2905ca21b67b9ce3528a2f7b26394a9fb417eef1938890c2990449f0b698',
+        computedAt: '2026-03-10T13:06:18Z',
       }),
       [
         'Content-Type',
@@ -35,11 +35,10 @@ export const mockResponseSuccessAnotherDeal = (): nock.Scope =>
     .reply(
       200,
       () => ({
-        insuredAmount: 2500000,
-        currentExposure: 1200000,
-        timestamp: '2025-06-15T12:00:00Z',
-        daysRemaining: 180,
-        signature: '0xdef789ghi012',
+        treeId: 'tree-002',
+        root: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
+        contractId: 'ff',
+        computedAt: '2025-06-15T12:00:00Z',
       }),
       [
         'Content-Type',
@@ -62,11 +61,10 @@ export const mockResponseSuccessSpecialChars = (): nock.Scope =>
     .reply(
       200,
       () => ({
-        insuredAmount: 500000,
-        currentExposure: 250000,
-        timestamp: '2025-03-01T00:00:00Z',
-        daysRemaining: 90,
-        signature: '0x123abc456def',
+        treeId: 'tree-003',
+        root: '/////////////////////w==',
+        contractId: '01',
+        computedAt: '2025-03-01T00:00:00Z',
       }),
       [
         'Content-Type',
@@ -81,19 +79,18 @@ export const mockResponseSuccessSpecialChars = (): nock.Scope =>
     )
     .persist()
 
-export const mockResponseSuccessZeroDays = (): nock.Scope =>
+export const mockResponseSuccessMinimalRoot = (): nock.Scope =>
   nock('https://proof.t-rize.io', {
     encodedQueryParams: true,
   })
-    .get('/v1/chainlink/Expired%20Deal/DEAL-EXPIRED')
+    .get('/v1/chainlink/Minimal%20Deal/DEAL-MINIMAL')
     .reply(
       200,
       () => ({
-        insuredAmount: 100000,
-        currentExposure: 0,
-        timestamp: '2024-01-01T00:00:00Z',
-        daysRemaining: 0,
-        signature: '0xexpired000',
+        treeId: 'tree-004',
+        root: 'AQ==',
+        contractId: '00',
+        computedAt: '2024-01-01T00:00:00Z',
       }),
       [
         'Content-Type',

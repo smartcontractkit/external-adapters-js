@@ -24,35 +24,24 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-// insuredAllocationLimit: Decimal  # buyer-level cap
-// masterCoverageLimit: Decimal     # deal-level cap
-// dealCurrentExposure: Decimal     # Deal-level used/consumed insured coverage (USD-equivalent) as-of `timestamp`, across ALL buyers/instruments under the same deal
-// timestamp: Time                  # as-of time
-// signature: String                # oracle signature
-// maturityTimestamp: Time          # policy valid-until
-// policyHash: String               # 192-bit leftmost truncated sha-256
-
-// And the combination of fields required to identify the token on-chain:
-// instrumentId: Text                # binds attestation to "deal-X-for-buyer-Y"
-// instrumentSourceParty: PartyID    # PartyID of the Token Registrar
+// Mapped to Chainlink SmartData v9 report schema:
+// https://docs.chain.link/data-streams/reference/report-schema-v9
+//
+// API field    -> v9 field      | Encoding
+// root         -> navPerShare   | base64 decoded to bytes, interpreted as BigInt string
+// contractId   -> aum           | hex string parsed as BigInt string
+// computedAt   -> navDate       | ISO-8601 parsed to nanosecond uint64
+// (hardcoded)  -> ripcord       | 0 (normal state)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: number
+    Result: string
     Data: {
-      // navDate: number
-      // aum: string
-      insuredAllocationLimit: number // buyer-level cap (Decimal)
-      masterCoverageLimit: number // deal-level cap (Decimal)
-      dealCurrentExposure: number // Deal-level used/consumed insured coverage (USD-equivalent) as-of timestamp
-      timestamp: number // as-of time (Time)
-      signature: string // oracle signature
-      maturityTimestamp: number // policy valid-until (Time)
-      policyHash: string // 192-bit leftmost truncated sha-256
-      // Token identification on-chain
-      instrumentId: string // binds attestation to "deal-X-for-buyer-Y" (Text)
-      instrumentSourceParty: string // PartyID of the Token Registrar
+      navPerShare: string
+      aum: string
+      navDate: string
+      ripcord: number
     }
   }
   Settings: typeof config.settings

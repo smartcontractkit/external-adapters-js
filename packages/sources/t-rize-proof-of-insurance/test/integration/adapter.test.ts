@@ -10,8 +10,8 @@ import {
   mockResponseFailure500,
   mockResponseSuccess,
   mockResponseSuccessAnotherDeal,
+  mockResponseSuccessMinimalRoot,
   mockResponseSuccessSpecialChars,
-  mockResponseSuccessZeroDays,
 } from './fixtures'
 
 describe('execute', () => {
@@ -80,13 +80,13 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should handle zero days remaining', async () => {
+      it('should handle minimal merkle root', async () => {
         const data = {
-          deal_name: 'Expired Deal',
-          instrument_id: 'DEAL-EXPIRED',
+          deal_name: 'Minimal Deal',
+          instrument_id: 'DEAL-MINIMAL',
           endpoint: 'proof_of_insurance',
         }
-        mockResponseSuccessZeroDays()
+        mockResponseSuccessMinimalRoot()
         const response = await testAdapter.request(data)
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
