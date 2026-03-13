@@ -4,24 +4,11 @@ import {
   WebSocketTransport,
 } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import Decimal from 'decimal.js'
 import { config } from '../config'
+import { fanOutResults } from './utils'
 
-export const DECIMALS = 18
-
-/**
- * Scales a raw integer string from `fromDecimals` to `toDecimals`.
- * Uses truncation (floor toward zero) when scaling down.
- */
-export function scaleDecimals(value: string, fromDecimals: number, toDecimals: number): string {
-  if (fromDecimals === toDecimals) {
-    return value
-  }
-  const diff = fromDecimals - toDecimals
-  const raw = new Decimal(value)
-  const scaled = raw.div(new Decimal(10).pow(diff))
-  return scaled.toFixed(0, Decimal.ROUND_DOWN)
-}
+// Re-export for backward compatibility (used by transport files and tests)
+export { DECIMALS, scaleDecimals } from './utils'
 
 type ProviderTypes = {
   Provider: {
@@ -122,58 +109,7 @@ export function createDataEngineTransport<
         }
 
         const data = config.extractData(decoded as DecodedReport)
-        const feedId = msg.report.feedID
-
-        // Find all subscriptions matching this feedID
-        const matchingSubs = currentDesiredSubs.filter((s) => s.feedId === feedId)
-
-        if (matchingSubs.length === 0) {
-          // Fallback: desiredSubs not populated yet (before first url callback)
-          return [
-            {
-              params: { feedId } as any,
-              response: { result: null, data },
-            },
-          ]
-        }
-
-        // De-duplicate and fan out one ProviderResult per unique subscription.
-        // Build a clean params object so the cache key matches the incoming request exactly.
-        // Uses an array (not Set) for deterministic iteration order.
-        const seen: string[] = []
-        const results: ProviderResult<BaseEndpointTypes & ProviderTypes>[] = []
-
-        for (const sub of matchingSubs) {
-          const resultPath = sub.resultPath as string | undefined
-          const decimals = sub.decimals as number | undefined
-
-          // Build params with only defined fields to ensure cache key match
-          const params: Record<string, unknown> = { feedId }
-          if (resultPath !== undefined) params.resultPath = resultPath
-          if (decimals !== undefined) params.decimals = decimals
-
-          const key = JSON.stringify(params)
-          if (seen.includes(key)) continue
-          seen.push(key)
-
-          let result: string | null = null
-          if (resultPath) {
-            const raw = (data as Record<string, unknown>)[resultPath]
-            if (raw !== undefined) {
-              result = String(raw)
-              if (decimals !== undefined) {
-                result = scaleDecimals(result, DECIMALS, decimals)
-              }
-            }
-          }
-
-          results.push({
-            params: params as any,
-            response: { result, data },
-          })
-        }
-
-        return results
+        return fanOutResults(msg.report.feedID, data, currentDesiredSubs)
       },
 
       close: (closeEvent) => {

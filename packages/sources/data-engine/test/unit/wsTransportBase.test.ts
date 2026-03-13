@@ -1,6 +1,7 @@
 import { decodeReport, generateAuthHeaders } from '@chainlink/data-streams-sdk'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { createDataEngineTransport, scaleDecimals } from '../../src/transport/wsTransportBase'
+import { scaleDecimals } from '../../src/transport/utils'
+import { createDataEngineTransport } from '../../src/transport/wsTransportBase'
 
 jest.mock('@chainlink/data-streams-sdk', () => ({
   decodeReport: jest.fn(),
