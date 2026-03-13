@@ -5,7 +5,7 @@ import {
 } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { fanOutResults } from './utils'
+import { DECIMALS, scaleDecimals } from './utils'
 
 // Re-export for backward compatibility (used by transport files and tests)
 export { DECIMALS, scaleDecimals } from './utils'
@@ -56,10 +56,16 @@ export function createDataEngineTransport<
 }) {
   const logger = makeLogger(config.loggerName)
 
-  // Capture desiredSubs from the url callback so the message handler can fan out
-  // results per unique subscription (including resultPath/decimals variants).
-  // The url callback is invoked every BACKGROUND_EXECUTE_MS_WS (~1s by default).
+  // Tracks the current set of subscriptions so the message handler can build
+  // one cache entry per unique subscription. Updated by the url callback on
+  // each background cycle.
   let currentDesiredSubs: Record<string, unknown>[] = []
+
+  // Caches the latest decoded data per feedId. When a new subscription variant
+  // (e.g. with resultPath/decimals) arrives after the WS message for its
+  // feedId, the next incoming message for ANY feedId will still produce a cache
+  // entry for it by looking up the data here.
+  const latestDataByFeedId: Record<string, BaseEndpointTypes['Response']['Data']> = {}
 
   return new WebSocketTransport<BaseEndpointTypes & ProviderTypes>({
     url: (context, desiredSubs) => {
@@ -95,9 +101,7 @@ export function createDataEngineTransport<
         if (decoded?.version.toUpperCase() !== config.schemaVersion.toUpperCase()) {
           return [
             {
-              params: {
-                feedId: msg.report.feedID,
-              } as any,
+              params: { feedId: msg.report.feedID } as any,
               response: {
                 statusCode: 400,
                 errorMessage: `${decoded?.version.toUpperCase()} schema from ${
@@ -108,8 +112,36 @@ export function createDataEngineTransport<
           ]
         }
 
-        const data = config.extractData(decoded as DecodedReport)
-        return fanOutResults(msg.report.feedID, data, currentDesiredSubs)
+        // Cache decoded data so late-arriving subscription variants can be served
+        latestDataByFeedId[msg.report.feedID] = config.extractData(decoded as DecodedReport)
+
+        // Build one result per subscription that has cached data
+        const results: ProviderResult<BaseEndpointTypes & ProviderTypes>[] = []
+        for (const sub of currentDesiredSubs) {
+          const feedId = sub.feedId as string
+          const cachedData = latestDataByFeedId[feedId]
+          if (!cachedData) continue
+
+          const resultPath = sub.resultPath as string | undefined
+          const decimals = sub.decimals as number | undefined
+
+          let result: string | null = null
+          if (resultPath) {
+            const raw = (cachedData as Record<string, unknown>)[resultPath]
+            if (raw !== undefined) {
+              result = String(raw)
+              if (decimals !== undefined) {
+                result = scaleDecimals(result, DECIMALS, decimals)
+              }
+            }
+          }
+
+          results.push({
+            params: sub as any,
+            response: { result, data: cachedData },
+          })
+        }
+        return results
       },
 
       close: (closeEvent) => {

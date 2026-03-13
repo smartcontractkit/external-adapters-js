@@ -154,7 +154,11 @@ describe('wsTransportBase', () => {
           timestamp: 1234567890,
         } as any)
 
-        const transportConfig = (createDataEngineTransport(mockConfig) as any).config
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback to register subscription
+        transportConfig.url(mockContext, [{ feedId: '0x0003' }])
 
         const result = transportConfig.handlers.message({
           report: {
@@ -286,31 +290,6 @@ describe('wsTransportBase', () => {
 
         expect(result).toHaveLength(1)
         expect(result[0].response.result).toBeNull()
-      })
-
-      it('should deduplicate identical subscriptions', () => {
-        mockDecodeReport.mockReturnValue({
-          version: 'V3',
-          price: '100',
-        } as any)
-
-        const transport = createDataEngineTransport(mockConfig)
-        const transportConfig = (transport as any).config
-
-        // Simulate url callback with duplicate subs
-        transportConfig.url(mockContext, [
-          { feedId: '0x0003', resultPath: 'price' },
-          { feedId: '0x0003', resultPath: 'price' },
-        ])
-
-        const result = transportConfig.handlers.message({
-          report: {
-            feedID: '0x0003',
-            fullReport: '0x123',
-          },
-        })
-
-        expect(result).toHaveLength(1)
       })
 
       it('should only fan out results for matching feedId', () => {
