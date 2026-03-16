@@ -1,4 +1,4 @@
-import { scaleDecimals } from '../../src/transport/utils'
+import { resolveResult, scaleDecimals } from '../../src/transport/utils'
 
 describe('scaleDecimals', () => {
   it('should scale down from 18 to 8 decimals', () => {
@@ -35,5 +35,39 @@ describe('scaleDecimals', () => {
     // 1999999999999999999 with 18 decimals = 1.999999999999999999
     // Scaled to 0 decimals = 1 (truncated, not rounded to 2)
     expect(scaleDecimals('1999999999999999999', 18, 0)).toBe('1')
+  })
+})
+
+describe('resolveResult', () => {
+  const data = { price: '120950127609218450000000', bid: '100000000000000000000', ask: '0' }
+
+  it('returns null when resultPath is undefined', () => {
+    expect(resolveResult(data, undefined)).toBeNull()
+  })
+
+  it('returns null when resultPath is empty string', () => {
+    expect(resolveResult(data, '')).toBeNull()
+  })
+
+  it('returns stringified value when decimals is undefined', () => {
+    expect(resolveResult(data, 'price')).toBe('120950127609218450000000')
+  })
+
+  it('applies scaleDecimals when decimals is provided', () => {
+    expect(resolveResult(data, 'price', 8)).toBe('12095012760921')
+  })
+
+  it('scales when decimals is 0', () => {
+    expect(resolveResult(data, 'bid', 0)).toBe('100')
+  })
+
+  it('throws when resultPath key does not exist in data', () => {
+    expect(() => resolveResult(data, 'foo')).toThrow(
+      "resultPath 'foo' not found in data. Available keys: price, bid, ask",
+    )
+  })
+
+  it('handles numeric zero value in data', () => {
+    expect(resolveResult(data, 'ask')).toBe('0')
   })
 })

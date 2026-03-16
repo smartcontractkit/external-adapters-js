@@ -7,7 +7,7 @@ import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framewor
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
 import { commonInputParams } from '../endpoint/common'
-import { DECIMALS, scaleDecimals } from './utils'
+import { resolveResult } from './utils'
 
 // Re-export for backward compatibility (used by transport files and tests)
 export { DECIMALS, scaleDecimals } from './utils'
@@ -110,21 +110,27 @@ export function createDataEngineTransport<
         return currentDesiredSubs
           .filter((sub) => sub.feedId === msg.report!.feedID)
           .map((sub) => {
-            let result: string | null = null
-
-            if (sub.resultPath) {
-              const raw = (data as Record<string, unknown>)[sub.resultPath]
-              if (raw !== undefined) {
-                result =
-                  sub.decimals !== undefined
-                    ? scaleDecimals(String(raw), DECIMALS, sub.decimals)
-                    : String(raw)
+            const params = sub as ProviderResult<BaseEndpointTypes & ProviderTypes>['params']
+            try {
+              return {
+                params,
+                response: {
+                  result: resolveResult(
+                    data as Record<string, unknown>,
+                    sub.resultPath,
+                    sub.decimals,
+                  ),
+                  data,
+                },
               }
-            }
-
-            return {
-              params: sub as ProviderResult<BaseEndpointTypes & ProviderTypes>['params'],
-              response: { result, data },
+            } catch (e) {
+              return {
+                params,
+                response: {
+                  statusCode: 400,
+                  errorMessage: (e as Error).message,
+                },
+              }
             }
           })
       },

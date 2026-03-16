@@ -15,3 +15,28 @@ export function scaleDecimals(value: string, fromDecimals: number, toDecimals: n
   const scaled = raw.div(new Decimal(10).pow(diff))
   return scaled.toFixed(0, Decimal.ROUND_DOWN)
 }
+
+/**
+ * Extracts a value from `data` using `resultPath`, optionally scaling decimals.
+ *
+ * Returns `null` when no `resultPath` is provided (no extraction requested).
+ * Throws if `resultPath` is provided but the key does not exist in `data`.
+ */
+export function resolveResult(
+  data: Record<string, unknown>,
+  resultPath?: string,
+  decimals?: number,
+): string | null {
+  if (!resultPath) return null
+
+  if (!(resultPath in data)) {
+    throw new Error(
+      `resultPath '${resultPath}' not found in data. Available keys: ${Object.keys(data).join(
+        ', ',
+      )}`,
+    )
+  }
+
+  const raw = String(data[resultPath])
+  return decimals !== undefined ? scaleDecimals(raw, DECIMALS, decimals) : raw
+}
