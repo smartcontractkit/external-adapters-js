@@ -4,7 +4,9 @@ import {
   WebSocketTransport,
 } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config } from '../config'
+import { commonInputParams } from '../endpoint/common'
 import { DECIMALS, scaleDecimals } from './utils'
 
 // Re-export for backward compatibility (used by transport files and tests)
@@ -27,18 +29,15 @@ type BaseTransportTypes = {
   Settings: TransportGenerics['Settings'] & typeof config.settings
 }
 
-interface DesiredSub {
-  feedId: string
-  resultPath?: string
-  decimals?: number
-}
+type DesiredSub = TypeFromDefinition<typeof commonInputParams>
 
-const buildWsUrl = (baseUrl: string, desiredSubs: Record<string, unknown>[]) => {
+const buildWsUrl = (baseUrl: string, desiredSubs: DesiredSub[]) => {
   const url = new URL(`${baseUrl}/api/v1/ws`)
 
   if (desiredSubs) {
-    const rawIds = desiredSubs.map((s) => (s.feedId as string | undefined)?.toLowerCase())
-    const feedIds = [...new Set(rawIds.filter((id): id is string => !!id))].sort()
+    const feedIds = [
+      ...new Set(desiredSubs.filter((s) => s.feedId).map((s) => s.feedId.toLowerCase())),
+    ].sort()
     url.searchParams.set('feedIDs', feedIds.join(','))
   }
   return url.toString()
@@ -61,18 +60,13 @@ export function createDataEngineTransport<
 
   return new WebSocketTransport<BaseEndpointTypes & ProviderTypes>({
     url: (context, desiredSubs) => {
-      currentDesiredSubs = desiredSubs as unknown as DesiredSub[]
-      return buildWsUrl(
-        context.adapterSettings.WS_API_ENDPOINT,
-        desiredSubs as unknown as Record<string, unknown>[],
-      )
+      const subs = desiredSubs as DesiredSub[]
+      currentDesiredSubs = subs
+      return buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, subs)
     },
 
     options: (context, desiredSubs) => {
-      const url = buildWsUrl(
-        context.adapterSettings.WS_API_ENDPOINT,
-        desiredSubs as unknown as Record<string, unknown>[],
-      )
+      const url = buildWsUrl(context.adapterSettings.WS_API_ENDPOINT, desiredSubs as DesiredSub[])
       return {
         headers: generateAuthHeaders(
           context.adapterSettings.API_USERNAME,
@@ -99,7 +93,7 @@ export function createDataEngineTransport<
         if (decoded?.version.toUpperCase() !== config.schemaVersion.toUpperCase()) {
           return [
             {
-              params: { feedId: msg.report.feedID } as any,
+              params: { feedId: msg.report.feedID } as DesiredSub,
               response: {
                 statusCode: 400,
                 errorMessage: `${decoded?.version.toUpperCase()} schema from ${
@@ -107,33 +101,32 @@ export function createDataEngineTransport<
                 } is not supported`,
               },
             },
-          ]
+          ] as ProviderResult<BaseEndpointTypes & ProviderTypes>[]
         }
 
         const data = config.extractData(decoded as DecodedReport)
 
         // Build one result per subscription that matches this message's feedId
-        const results: ProviderResult<BaseEndpointTypes & ProviderTypes>[] = []
-        for (const sub of currentDesiredSubs) {
-          if (sub.feedId !== msg.report.feedID) continue
+        return currentDesiredSubs
+          .filter((sub) => sub.feedId === msg.report!.feedID)
+          .map((sub) => {
+            let result: string | null = null
 
-          let result: string | null = null
-          if (sub.resultPath) {
-            const raw = (data as Record<string, unknown>)[sub.resultPath]
-            if (raw !== undefined) {
-              result = String(raw)
-              if (sub.decimals !== undefined) {
-                result = scaleDecimals(result, DECIMALS, sub.decimals)
+            if (sub.resultPath) {
+              const raw = (data as Record<string, unknown>)[sub.resultPath]
+              if (raw !== undefined) {
+                result =
+                  sub.decimals !== undefined
+                    ? scaleDecimals(String(raw), DECIMALS, sub.decimals)
+                    : String(raw)
               }
             }
-          }
 
-          results.push({
-            params: sub as any,
-            response: { result, data },
+            return {
+              params: sub as ProviderResult<BaseEndpointTypes & ProviderTypes>['params'],
+              response: { result, data },
+            }
           })
-        }
-        return results
       },
 
       close: (closeEvent) => {

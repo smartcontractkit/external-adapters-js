@@ -15,6 +15,6 @@ export const commonInputParams = {
   decimals: {
     required: false,
     type: 'number',
-    description: 'Number of decimals to scale the result to (from native 18)',
+    description: 'Number of decimals to scale the resultPath value to (from native 18)',
   },
 } as const
