@@ -3,6 +3,12 @@
 exports[`Decibel Vault Adapter share-price endpoint should return error when vault total shares is zero 1`] = `
 {
   "errorMessage": "INVALID_SHARES: vault total shares is zero",
+  "meta": {
+    "adapterName": "DECIBEL_VAULT",
+    "metrics": {
+      "feedId": "{"vault_object_id":"0x3333333333333333333333333333333333333333333333333333333333333333","output_decimals":18}",
+    },
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -25,12 +31,18 @@ exports[`Decibel Vault Adapter share-price endpoint should return error when vau
 exports[`Decibel Vault Adapter share-price endpoint should return share_price = 0 when vault NAV is zero 1`] = `
 {
   "data": {
-    "result": 0,
+    "result": "0",
     "share_price": "0",
     "vault_nav": "0",
     "vault_total_shares": "1000000",
   },
-  "result": 0,
+  "meta": {
+    "adapterName": "DECIBEL_VAULT",
+    "metrics": {
+      "feedId": "{"vault_object_id":"0x2222222222222222222222222222222222222222222222222222222222222222","output_decimals":18}",
+    },
+  },
+  "result": "0",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704067200000,
@@ -42,12 +54,18 @@ exports[`Decibel Vault Adapter share-price endpoint should return share_price = 
 exports[`Decibel Vault Adapter share-price endpoint should return the correct share price for default decimals (18) 1`] = `
 {
   "data": {
-    "result": 1056761456089666200,
+    "result": "1056761456089666181",
     "share_price": "1056761456089666181",
     "vault_nav": "41230251777103",
     "vault_total_shares": "39015665777277",
   },
-  "result": 1056761456089666200,
+  "meta": {
+    "adapterName": "DECIBEL_VAULT",
+    "metrics": {
+      "feedId": "{"vault_object_id":"0x06ad70a9a4f30349b489791e2f2bcf58363dad30e54a9d2d4095d6213d7a9bf9","output_decimals":18}",
+    },
+  },
+  "result": "1056761456089666181",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704067200000,
@@ -59,12 +77,18 @@ exports[`Decibel Vault Adapter share-price endpoint should return the correct sh
 exports[`Decibel Vault Adapter share-price endpoint should return the correct share price with custom output_decimals 1`] = `
 {
   "data": {
-    "result": 105676145,
+    "result": "105676145",
     "share_price": "105676145",
     "vault_nav": "41230251777103",
     "vault_total_shares": "39015665777277",
   },
-  "result": 105676145,
+  "meta": {
+    "adapterName": "DECIBEL_VAULT",
+    "metrics": {
+      "feedId": "{"vault_object_id":"0x1111111111111111111111111111111111111111111111111111111111111111","output_decimals":8}",
+    },
+  },
+  "result": "105676145",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1704067200000,

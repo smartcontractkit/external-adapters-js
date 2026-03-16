@@ -28,9 +28,9 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: number
+    Result: string | null
     Data: {
-      result: number
+      result: string
       share_price: string
       vault_nav: string
       vault_total_shares: string

@@ -91,21 +91,16 @@ class SharePriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       })
     }
 
-    let sharePrice: string
-    if (nav === 0n) {
-      sharePrice = '0'
-    } else {
-      sharePrice = ((nav * 10n ** BigInt(output_decimals)) / shares).toString()
-    }
+    const sharePrice = ((nav * 10n ** BigInt(output_decimals)) / shares).toString()
 
     return {
       data: {
-        result: Number(sharePrice),
+        result: sharePrice,
         share_price: sharePrice,
         vault_nav: navResult,
         vault_total_shares: sharesResult,
       },
-      result: Number(sharePrice),
+      result: sharePrice,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
