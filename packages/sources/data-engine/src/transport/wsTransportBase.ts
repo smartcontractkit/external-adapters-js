@@ -9,8 +9,8 @@ import { config } from '../config'
 import { commonInputParams } from '../endpoint/common'
 import { resolveResult } from './utils'
 
-// Re-export for backward compatibility (used by transport files and tests)
-export { DECIMALS, scaleDecimals } from './utils'
+// Re-export for transport files that reference DECIMALS in extractData
+export { DECIMALS } from './utils'
 
 type ProviderTypes = {
   Provider: {
