@@ -38,21 +38,13 @@ adapters:
   - name: blockchair
     version: 1.3.48
   - name: blocksize-capital
-<<<<<<< HEAD
     version: 2.5.6
-=======
-    version: 2.5.5
->>>>>>> b241c7b18 (Update public adapter versions)
   - name: blocksize-capital-state
     version: 1.0.1
   - name: bob
     version: 2.0.30
   - name: bsol-price
-<<<<<<< HEAD
     version: 2.2.146
-=======
-    version: 2.2.144
->>>>>>> b241c7b18 (Update public adapter versions)
   - name: btc.com
     version: 1.3.48
   - name: cache.gold
@@ -62,11 +54,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.32
   - name: cfbenchmarks
-<<<<<<< HEAD
     version: 2.6.6
-=======
-    version: 2.6.5
->>>>>>> b241c7b18 (Update public adapter versions)
   - name: chain-reserve-wallet
     version: 3.0.32
   - name: cmeth
