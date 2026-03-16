@@ -7,7 +7,7 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: false,
   },
-  MODULE_ADDRESS: {
+  DECIBEL_VAULT_MODULE_ADDRESS: {
     description: 'The Decibel vault module address on Aptos',
     type: 'string',
     required: true,

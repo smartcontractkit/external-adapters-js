@@ -21,7 +21,7 @@ describe('Decibel Vault Adapter', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.APTOS_RPC_URL = mockRpcUrl
-    process.env.MODULE_ADDRESS =
+    process.env.DECIBEL_VAULT_MODULE_ADDRESS =
       '0x50ead22afd6ffd9769e3b3d6e0e64a2a350d68e8b102c4e72e33d0b8cfdfdb06'
     process.env.BACKGROUND_EXECUTE_MS = '1000'
 

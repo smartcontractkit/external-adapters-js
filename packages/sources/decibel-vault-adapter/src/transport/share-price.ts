@@ -1,5 +1,4 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
@@ -18,7 +17,6 @@ type RequestParams = typeof inputParameters.validated
 class SharePriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   settings!: BaseEndpointTypes['Settings']
-  endpointName!: string
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -29,7 +27,6 @@ class SharePriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.settings = adapterSettings
-    this.endpointName = endpointName
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -66,18 +63,18 @@ class SharePriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     param: RequestParams,
   ): Promise<TimestampedAdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const { APTOS_RPC_URL, MODULE_ADDRESS } = this.settings
+    const { APTOS_RPC_URL, DECIBEL_VAULT_MODULE_ADDRESS } = this.settings
     const { vault_object_id, output_decimals } = param
 
     const navResult = await this.callViewFunction(
       APTOS_RPC_URL,
-      `${MODULE_ADDRESS}::vault::get_vault_net_asset_value`,
+      `${DECIBEL_VAULT_MODULE_ADDRESS}::vault::get_vault_net_asset_value`,
       [vault_object_id],
     )
 
     const sharesResult = await this.callViewFunction(
       APTOS_RPC_URL,
-      `${MODULE_ADDRESS}::vault::get_vault_num_shares`,
+      `${DECIBEL_VAULT_MODULE_ADDRESS}::vault::get_vault_num_shares`,
       [vault_object_id],
     )
 
@@ -126,17 +123,10 @@ class SharePriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       },
     }
 
-    const cacheKey = calculateHttpRequestKey<BaseEndpointTypes>({
-      context: {
-        adapterSettings: this.settings,
-        inputParameters,
-        endpointName: this.endpointName,
-      },
-      data: requestConfig.data,
-      transportName: this.name,
-    })
-
-    const result = await this.requester.request<string[]>(cacheKey, requestConfig)
+    const result = await this.requester.request<string[]>(
+      JSON.stringify(requestConfig),
+      requestConfig,
+    )
 
     if (!Array.isArray(result.response.data) || result.response.data.length === 0) {
       throw new AdapterError({
