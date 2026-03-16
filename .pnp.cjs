@@ -5593,7 +5593,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/decibel-vault/",\
         "packageDependencies": [\
           ["@chainlink/decibel-vault-adapter", "workspace:packages/sources/decibel-vault"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
