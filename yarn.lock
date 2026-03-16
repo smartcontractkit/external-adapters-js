@@ -3017,9 +3017,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/decibel-vault-adapter@workspace:packages/sources/decibel-vault-adapter":
+"@chainlink/decibel-vault-adapter@workspace:packages/sources/decibel-vault":
   version: 0.0.0-use.local
-  resolution: "@chainlink/decibel-vault-adapter@workspace:packages/sources/decibel-vault-adapter"
+  resolution: "@chainlink/decibel-vault-adapter@workspace:packages/sources/decibel-vault"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.11.6"
     "@types/jest": "npm:^29.5.14"

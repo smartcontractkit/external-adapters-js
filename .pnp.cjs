@@ -327,6 +327,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/data-engine"\
     },\
     {\
+      "name": "@chainlink/decibel-vault-adapter",\
+      "reference": "workspace:packages/sources/decibel-vault"\
+    },\
+    {\
       "name": "@chainlink/deep-blue-adapter",\
       "reference": "workspace:packages/sources/deep-blue"\
     },\
@@ -813,6 +817,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
+    ["@chainlink/decibel-vault-adapter", ["workspace:packages/sources/decibel-vault"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
     ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
@@ -5581,6 +5586,21 @@ const RAW_RUNTIME_STATE =
           "dotenv"\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@chainlink/decibel-vault-adapter", [\
+      ["workspace:packages/sources/decibel-vault", {\
+        "packageLocation": "./packages/sources/decibel-vault/",\
+        "packageDependencies": [\
+          ["@chainlink/decibel-vault-adapter", "workspace:packages/sources/decibel-vault"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/deep-blue-adapter", [\
