@@ -1,5 +1,15 @@
 # @chainlink/data-engine-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4736](https://github.com/smartcontractkit/external-adapters-js/pull/4736) [`6849d0b`](https://github.com/smartcontractkit/external-adapters-js/commit/6849d0b0d6f6a1292c60ca0890467dd0c8279a23) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add result selection via resultPath and decimal scaling via decimals params to data-engine WS transports.
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.1.2
 
 ### Patch Changes
