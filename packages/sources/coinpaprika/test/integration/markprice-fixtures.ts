@@ -23,7 +23,7 @@ const TOP_OF_BOOK_MESSAGE = {
   },
 }
 
-export const mockMarketPriceWebSocketServer = (URL: string): MockWebsocketServer => {
+export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     setTimeout(() => socket.send(JSON.stringify(MARK_PRICE_MESSAGE)), 100)

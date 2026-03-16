@@ -8,23 +8,23 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 import process from 'process'
-import { mockMarketPriceWebSocketServer } from './marketprice-fixtures'
+import { mockMarkPriceWebSocketServer } from './markprice-fixtures'
 
-describe('marketprice endpoint', () => {
+describe('markprice endpoint', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9091'
   let oldEnv: NodeJS.ProcessEnv
 
   const marketpriceData = {
-    endpoint: 'marketprice',
+    endpoint: 'markprice',
     exchange: 'binance',
     symbol: 'btcusdt',
     type: 'mark_price',
   }
 
   const topOfBookData = {
-    endpoint: 'marketprice',
+    endpoint: 'markprice',
     exchange: 'binance',
     symbol: 'btcusdt',
     type: 'top_of_book',
@@ -36,9 +36,9 @@ describe('marketprice endpoint', () => {
     process.env['API_KEY'] = 'test-api-key'
 
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockMarketPriceWebSocketServer(wsEndpoint)
+    mockWsServer = mockMarkPriceWebSocketServer(wsEndpoint)
 
-    const adapter = (await import('./../../src')).adapter as unknown as Adapter
+    const adapter = (await import('../../src')).adapter as unknown as Adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       clock: FakeTimers.install(),
@@ -56,8 +56,8 @@ describe('marketprice endpoint', () => {
     await testAdapter.api.close()
   })
 
-  describe('marketprice endpoint', () => {
-    it('should return success with mark price', async () => {
+  describe('markprice endpoint', () => {
+    it('should return success with market price', async () => {
       const response = await testAdapter.request(marketpriceData)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

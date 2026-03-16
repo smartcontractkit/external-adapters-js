@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { BaseEndpointTypes } from '../endpoint/marketprice'
+import { BaseEndpointTypes } from '../endpoint/markprice'
 
 type WsMessage = {
   event: string
@@ -22,7 +22,7 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('marketprice')
+const logger = makeLogger('markprice')
 
 let subscriptions: TypeFromDefinition<BaseEndpointTypes['Parameters']>[] = []
 

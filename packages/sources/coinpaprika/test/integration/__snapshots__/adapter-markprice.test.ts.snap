@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`marketprice endpoint marketprice endpoint should return success with mark price 1`] = `
+exports[`markprice endpoint markprice endpoint should return success with market price 1`] = `
 {
   "data": {
     "mid": 97500.5,
@@ -15,7 +15,7 @@ exports[`marketprice endpoint marketprice endpoint should return success with ma
 }
 `;
 
-exports[`marketprice endpoint marketprice endpoint should return success with top of book 1`] = `
+exports[`markprice endpoint markprice endpoint should return success with top of book 1`] = `
 {
   "data": {
     "ask": 97520,

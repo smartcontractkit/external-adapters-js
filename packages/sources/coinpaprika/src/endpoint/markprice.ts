@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { wsTransport } from '../transport/marketprice'
+import { wsTransport } from '../transport/markprice'
 
 export const inputParameters = new InputParameters(
   {
@@ -46,7 +46,7 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'marketprice',
+  name: 'markprice',
   transport: wsTransport,
   inputParameters,
   requestTransforms: [
