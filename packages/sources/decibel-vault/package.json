@@ -7,7 +7,7 @@
     "LINK",
     "blockchain",
     "oracle",
-    "decibel-vault-adapter"
+    "decibel-vault"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
