@@ -11,7 +11,7 @@ exports[`execute crypto-v3 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1114,
+    "providerDataReceivedUnixMs": 7114,
     "providerDataStreamEstablishedUnixMs": 1010,
   },
 }
@@ -33,7 +33,7 @@ exports[`execute deutscheBoerse-v11 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3134,
+    "providerDataReceivedUnixMs": 7134,
     "providerDataStreamEstablishedUnixMs": 3030,
   },
 }
@@ -49,7 +49,7 @@ exports[`execute rwa-v8 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 2124,
+    "providerDataReceivedUnixMs": 7124,
     "providerDataStreamEstablishedUnixMs": 2020,
   },
 }

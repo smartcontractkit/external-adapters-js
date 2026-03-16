@@ -1,6 +1,7 @@
 import { DecodedV8Report } from '@chainlink/data-streams-sdk'
 import { BaseEndpointTypes } from '../endpoint/rwaV8'
-import { createDataEngineTransport, DECIMALS } from './wsTransportBase'
+import { DECIMALS } from './utils'
+import { createDataEngineTransport } from './wsTransportBase'
 
 export const rwaV8Transport = createDataEngineTransport<BaseEndpointTypes, DecodedV8Report>({
   schemaVersion: 'V8',
