@@ -3,8 +3,7 @@ import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/
 export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL + '/api/v1/ws', { mock: false })
   mockWsServer.on('connection', (socket) => {
-    // Add delay otherwise the message may be sent before connection is established
-    setTimeout(() => {
+    const sendAllReports = () => {
       socket.send(
         JSON.stringify({
           report: {
@@ -32,7 +31,13 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
           },
         }),
       )
-    }, 100)
+    }
+
+    // Send reports on a repeating interval so that subscription variants
+    // registered after the initial connection (e.g. with resultPath/decimals)
+    // receive cache entries.
+    const interval = setInterval(sendAllReports, 100)
+    socket.on('close', () => clearInterval(interval))
   })
 
   return mockWsServer

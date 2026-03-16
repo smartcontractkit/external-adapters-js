@@ -1,17 +1,18 @@
 # COINPAPRIKA
 
-![2.2.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |                      Description                      |  Type   | Options |                 Default                 |
-| :-------: | :-------------: | :---------------------------------------------------: | :-----: | :-----: | :-------------------------------------: |
-|           |  API_ENDPOINT   |          The HTTP URL to retrieve data from           | string  |         |                                         |
-|           |     API_KEY     |              An API key for Coinpaprika               | string  |         |                                         |
-|           | WS_API_ENDPOINT |          The WS API endpoint for Coinpaprika          | string  |         | `wss://streaming.coinpaprika.com/ticks` |
-|           |   WS_ENABLED    | Whether data should be returned from websocket or not | boolean |         |                 `false`                 |
+| Required? |            Name            |                      Description                      |  Type   | Options |                    Default                     |
+| :-------: | :------------------------: | :---------------------------------------------------: | :-----: | :-----: | :--------------------------------------------: |
+|           |        API_ENDPOINT        |          The HTTP URL to retrieve data from           | string  |         |                                                |
+|           |          API_KEY           |              An API key for Coinpaprika               | string  |         |                                                |
+|           |      WS_API_ENDPOINT       |          The WS API endpoint for Coinpaprika          | string  |         |    `wss://streaming.coinpaprika.com/ticks`     |
+|           |         WS_ENABLED         | Whether data should be returned from websocket or not | boolean |         |                    `false`                     |
+|           | WS_MARK_PRICE_API_ENDPOINT |    The WS API endpoint for Coinpaprika mark price     | string  |         | `wss://streaming-markprice.coinpaprika.com/ws` |
 
 ---
 
@@ -28,9 +29,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                          Options                                                                                                                                           | Default  |
-| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
-|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#globalmarketcap-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#marketcap-endpoint), [price](#crypto-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                           Options                                                                                                                                                            | Default  |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: |
+|           | endpoint | The endpoint to use | string | [coins](#coins-endpoint), [crypto-vwap](#vwap-endpoint), [crypto](#crypto-endpoint), [dominance](#globalmarketcap-endpoint), [globalmarketcap](#globalmarketcap-endpoint), [marketcap](#marketcap-endpoint), [markprice](#markprice-endpoint), [price](#crypto-endpoint), [volume](#volume-endpoint), [vwap](#vwap-endpoint) | `crypto` |
 
 ## Crypto Endpoint
 
@@ -253,6 +254,35 @@ Request:
 ```
 
 </details>
+
+---
+
+## Markprice Endpoint
+
+`markprice` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |   Name   | Aliases |                 Description                  |  Type  |           Options           | Default | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :------------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | exchange |         | The exchange to obtain the market price from | string |                             |         |            |                |
+|    ✅     |  symbol  |         |   The symbol of the base quote asset pair    | string |                             |         |            |                |
+|    ✅     |   type   |         |       The type of the price to obtain        | string | `mark_price`, `top_of_book` |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "markprice",
+    "exchange": "binance",
+    "symbol": "BTCUSDT",
+    "type": "mark_price"
+  }
+}
+```
 
 ---
 
