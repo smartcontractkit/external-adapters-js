@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Decibel Vault Adapter share-price endpoint should return error when vault total shares is zero 1`] = `
+{
+  "errorMessage": "INVALID_SHARES: vault total shares is zero",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`Decibel Vault Adapter share-price endpoint should return error when vault_object_id is missing 1`] = `
+{
+  "error": {
+    "message": "[Param: vault_object_id] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`Decibel Vault Adapter share-price endpoint should return share_price = 0 when vault NAV is zero 1`] = `
+{
+  "data": {
+    "result": 0,
+    "share_price": "0",
+    "vault_nav": "0",
+    "vault_total_shares": "1000000",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704067200000,
+    "providerDataRequestedUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`Decibel Vault Adapter share-price endpoint should return the correct share price for default decimals (18) 1`] = `
+{
+  "data": {
+    "result": 1056761456089666200,
+    "share_price": "1056761456089666181",
+    "vault_nav": "41230251777103",
+    "vault_total_shares": "39015665777277",
+  },
+  "result": 1056761456089666200,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704067200000,
+    "providerDataRequestedUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`Decibel Vault Adapter share-price endpoint should return the correct share price with custom output_decimals 1`] = `
+{
+  "data": {
+    "result": 105676145,
+    "share_price": "105676145",
+    "vault_nav": "41230251777103",
+    "vault_total_shares": "39015665777277",
+  },
+  "result": 105676145,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704067200000,
+    "providerDataRequestedUnixMs": 1704067200000,
+  },
+}
+`;
