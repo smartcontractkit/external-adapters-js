@@ -2,14 +2,11 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { cryptoV3Transport } from '../transport/cryptoV3'
+import { commonInputParams } from './common'
 
 export const inputParameters = new InputParameters(
   {
-    feedId: {
-      required: true,
-      type: 'string',
-      description: 'The feedId for crypto feed with v3 schema',
-    },
+    ...commonInputParams,
   },
   [
     {
@@ -21,7 +18,7 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: null
+    Result: string | null
     Data: {
       bid: string
       ask: string
