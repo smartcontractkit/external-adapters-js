@@ -35,12 +35,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
 
     // Send reports on a repeating interval so that subscription variants
     // registered after the initial connection (e.g. with resultPath/decimals)
-    // receive cache entries. Because data-engine has no `builders` (no
-    // subscribe/unsubscribe WS messages), `socket.on('message')` never fires,
-    // so there is no other trigger for the transport's message handler to
-    // re-run with updated `currentDesiredSubs`. The interval is deterministic
-    // under @sinonjs/fake-timers — timers only fire when `clock.nextAsync()`
-    // is called by `waitForCache`.
+    // receive cache entries.
     const interval = setInterval(sendAllReports, 100)
     socket.on('close', () => clearInterval(interval))
   })
