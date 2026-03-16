@@ -1,6 +1,6 @@
 # VIEW_FUNCTION_MULTI_CHAIN
 
-![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function-multi-chain/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function-multi-chain/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -136,21 +136,28 @@ There are no examples for this endpoint.
 
 ### Input Params
 
-| Required? |           Name            | Aliases |                                                                         Description                                                                         |   Type   |                                       Options                                       | Default | Depends On | Not Valid With |
-| :-------: | :-----------------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :---------------------------------------------------------------------------------: | :-----: | :--------: | :------------: |
-|           |       functionCalls       |         |                                                   Array view-function calls to be made to the blockchain                                                    | object[] |                                                                                     |         |            |                |
-|    ✅     |    functionCalls.name     |         |                                                              Name of the function call result                                                               |  string  |                                                                                     |         |            |                |
-|    ✅     |  functionCalls.signature  |         | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |                                                                                     |         |            |                |
-|    ✅     |   functionCalls.address   |         |                                                                   Address of the contract                                                                   |  string  |                                                                                     |         |            |                |
-|           | functionCalls.inputParams |         |                                                            Array of function parameters in order                                                            | string[] |                                                                                     |         |            |                |
-|    ✅     |   functionCalls.network   |         |                                                                      RPC network name                                                                       |  string  |                                                                                     |         |            |                |
-|           |         constants         |         |                                                        Constant value to be included in the response                                                        | object[] |                                                                                     |         |            |                |
-|    ✅     |      constants.name       |         |                                                                 Name of the constant result                                                                 |  string  |                                                                                     |         |            |                |
-|    ✅     |      constants.value      |         |                                                                    Value of the constant                                                                    |  string  |                                                                                     |         |            |                |
-|           |        operations         |         |                                               Results derived from other results by applying basic operations                                               | object[] |                                                                                     |         |            |                |
-|    ✅     |      operations.name      |         |                                                                 Name of the derived result                                                                  |  string  |                                                                                     |         |            |                |
-|    ✅     |      operations.type      |         |                                                        The operation or source of the derived result                                                        |  string  | `add`, `assertZero`, `average`, `divide`, `equal`, `multiply`, `select`, `subtract` |         |            |                |
-|    ✅     |      operations.args      |         |                 Inputs to the expression. Can be names of functionCalls or constants or specific values depending on the type of operation                  | string[] |                                                                                     |         |            |                |
+| Required? |           Name            |  Aliases   |                                                                         Description                                                                         |   Type   |                                       Options                                       |  Default  | Depends On | Not Valid With |
+| :-------: | :-----------------------: | :--------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :---------------------------------------------------------------------------------: | :-------: | :--------: | :------------: |
+|           |       functionCalls       |            |                                                         Array of EVM view-function calls to be made                                                         | object[] |                                                                                     |           |            |                |
+|    ✅     |    functionCalls.name     |            |                                                              Name of the function call result                                                               |  string  |                                                                                     |           |            |                |
+|    ✅     |  functionCalls.signature  |            | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |                                                                                     |           |            |                |
+|    ✅     |   functionCalls.address   |            |                                                                   Address of the contract                                                                   |  string  |                                                                                     |           |            |                |
+|           | functionCalls.inputParams |            |                                                            Array of function parameters in order                                                            | string[] |                                                                                     |           |            |                |
+|    ✅     |   functionCalls.network   |            |                                                                      RPC network name                                                                       |  string  |                                                                                     |           |            |                |
+|           |        aptosCalls         |            |                                                        Array of Aptos view-function calls to be made                                                        | object[] |                                                                                     |           |            |                |
+|    ✅     |      aptosCalls.name      |            |                                                              Name of the function call result                                                               |  string  |                                                                                     |           |            |                |
+|    ✅     |   aptosCalls.signature    | `function` |                                            Function signature. Format: {address}::{module name}::{function name}                                            |  string  |                                                                                     |           |            |                |
+|           |   aptosCalls.arguments    |            |                                                                  Arguments of the function                                                                  | string[] |                                                                                     |           |            |                |
+|           |      aptosCalls.type      |            |                                                               Type arguments of the function                                                                | string[] |                                                                                     |           |            |                |
+|           |     aptosCalls.index      |            |                                                      Which item in the function output array to return                                                      |  number  |                                                                                     |           |            |                |
+|           |  aptosCalls.networkType   |            |                                                                     testnet or mainnet                                                                      |  string  |                                `mainnet`, `testnet`                                 | `mainnet` |            |                |
+|           |         constants         |            |                                                        Constant value to be included in the response                                                        | object[] |                                                                                     |           |            |                |
+|    ✅     |      constants.name       |            |                                                                 Name of the constant result                                                                 |  string  |                                                                                     |           |            |                |
+|    ✅     |      constants.value      |            |                                                                    Value of the constant                                                                    |  string  |                                                                                     |           |            |                |
+|           |        operations         |            |                                               Results derived from other results by applying basic operations                                               | object[] |                                                                                     |           |            |                |
+|    ✅     |      operations.name      |            |                                                                 Name of the derived result                                                                  |  string  |                                                                                     |           |            |                |
+|    ✅     |      operations.type      |            |                                                        The operation or source of the derived result                                                        |  string  | `add`, `assertZero`, `average`, `divide`, `equal`, `multiply`, `select`, `subtract` |           |            |                |
+|    ✅     |      operations.args      |            |                 Inputs to the expression. Can be names of functionCalls or constants or specific values depending on the type of operation                  | string[] |                                                                                     |           |            |                |
 
 ### Example
 
@@ -176,6 +183,7 @@ Request:
         "network": "ethereum"
       }
     ],
+    "aptosCalls": [],
     "constants": [
       {
         "name": "constant_example",
@@ -211,6 +219,7 @@ Request:
         "inputParams": []
       }
     ],
+    "aptosCalls": [],
     "constants": [],
     "operations": [
       {
@@ -219,6 +228,29 @@ Request:
         "args": ["priceLowHigh", "low"]
       }
     ]
+  }
+}
+```
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "calculated-multi-function",
+    "functionCalls": [],
+    "aptosCalls": [
+      {
+        "name": "result",
+        "signature": "0x6f8ca77dd0a4c65362f475adb1c26ae921b1d75aa6b70e53d0e340efd7d8bc80::staker::share_price",
+        "arguments": [],
+        "type": [],
+        "index": 1,
+        "networkType": "mainnet"
+      }
+    ],
+    "constants": [],
+    "operations": []
   }
 }
 ```

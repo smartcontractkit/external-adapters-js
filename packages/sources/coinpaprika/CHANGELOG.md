@@ -1,5 +1,17 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- [#4738](https://github.com/smartcontractkit/external-adapters-js/pull/4738) [`95f6689`](https://github.com/smartcontractkit/external-adapters-js/commit/95f6689928ae86b11a5c0249aaeae65e06a952f9) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new market price endpoint
+
+## 2.2.6
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 2.2.5
 
 ### Patch Changes

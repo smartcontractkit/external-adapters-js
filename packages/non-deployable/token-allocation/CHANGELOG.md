@@ -1,5 +1,31 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.14
+
+### Patch Changes
+
+- Updated dependencies [[`95f6689`](https://github.com/smartcontractkit/external-adapters-js/commit/95f6689928ae86b11a5c0249aaeae65e06a952f9)]:
+  - @chainlink/coinpaprika-adapter@2.3.0
+
+## 1.14.13
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- Updated dependencies [[`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4), [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4)]:
+  - @chainlink/cfbenchmarks-adapter@2.6.6
+  - @chainlink/finage-adapter@2.5.4
+  - @chainlink/cryptocompare-adapter@3.4.7
+  - @chainlink/coinpaprika-adapter@2.2.6
+  - @chainlink/coinmetrics-adapter@3.10.6
+  - @chainlink/kaiko-adapter@2.3.6
+  - @chainlink/coingecko-adapter@2.1.6
+  - @chainlink/tiingo-adapter@2.9.7
+  - @chainlink/coinmarketcap-adapter@2.1.6
+  - @chainlink/ncfx-adapter@4.6.2
+  - @chainlink/blocksize-capital-adapter@2.5.6
+
 ## 1.14.12
 
 ### Patch Changes
