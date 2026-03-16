@@ -1,6 +1,6 @@
 # TOKENIZED_EQUITY
 
-![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -33,9 +33,11 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |  Name  | Aliases |                Description                |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :---------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | feedId |         | The feedId for crypto feed with v3 schema | string |         |         |            |                |
+| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
+|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
+|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
 
 ### Example
 
@@ -58,9 +60,11 @@ Request:
 
 ### Input Params
 
-| Required? |  Name  | Aliases |              Description               |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | feedId |         | The feedId for RWA feed with v8 schema | string |         |         |            |                |
+| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
+|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
+|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
 
 ### Example
 
@@ -83,9 +87,11 @@ Request:
 
 ### Input Params
 
-| Required? |  Name  | Aliases |                     Description                     |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :-----: | :-------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | feedId |         | The feedId for Deutsche Boerse feed with v11 schema | string |         |         |            |                |
+| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
+|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
+|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
 
 ### Example
 
