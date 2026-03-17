@@ -336,6 +336,9 @@
       "path": "./sources/ion.au"
     },
     {
+      "path": "./sources/itick"
+    },
+    {
       "path": "./sources/json-rpc"
     },
     {
