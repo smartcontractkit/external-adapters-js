@@ -23,6 +23,11 @@ export const inputParameters = new InputParameters(
       type: 'string',
       description: 'Which exchange to return the funding rate for',
     },
+    protocol: {
+      required: false,
+      type: 'string',
+      description: 'The protocol to query funding rates for',
+    },
   },
   [
     {
