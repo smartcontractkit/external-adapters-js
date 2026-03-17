@@ -5,21 +5,22 @@ import { httpTransport } from '../transport/proof-of-insurance'
 
 export const inputParameters = new InputParameters(
   {
-    deal_name: {
+    owner_party_id: {
       required: true,
       type: 'string',
-      description: 'Deal name for the insurance product',
+      description: 'Party ID that owns the MerkleTree contract on the ledger',
     },
-    instrument_id: {
+    tree_id: {
       required: true,
       type: 'string',
-      description: 'Instrument ID for the insurance product',
+      description: 'Tree identifier for the merkle tree',
     },
   },
   [
     {
-      deal_name: 'Entity 2 Deal',
-      instrument_id: 'DEAL-ENTITY2-EXAMPLE',
+      owner_party_id:
+        'TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b',
+      tree_id: 'tree-001',
     },
   ],
 )

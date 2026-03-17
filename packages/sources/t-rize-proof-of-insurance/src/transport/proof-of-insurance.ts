@@ -22,12 +22,14 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: `/v1/chainlink/${encodeURIComponent(param.deal_name)}/${encodeURIComponent(
-            param.instrument_id,
-          )}`,
+          url: '/v1/asset-verifier/merkle-tree/current-root',
+          params: {
+            owner_party_id: param.owner_party_id,
+            tree_id: param.tree_id,
+          },
           headers: {
             Accept: 'application/json',
-            Authorization: `Bearer ${config.TRIZE_API_TOKEN}`,
+            'x-api-key': config.TRIZE_API_KEY,
           },
         },
       }
@@ -39,7 +41,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         return {
           params: param,
           response: {
-            errorMessage: `The data provider didn't return any value for deal_name=${param.deal_name}, instrument_id=${param.instrument_id}`,
+            errorMessage: `The data provider didn't return any value for owner_party_id=${param.owner_party_id}, tree_id=${param.tree_id}`,
             statusCode: 502,
           },
         }

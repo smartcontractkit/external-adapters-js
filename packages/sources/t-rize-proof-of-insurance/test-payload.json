@@ -1,8 +1,8 @@
 {
   "requests": [
     {
-      "deal_name": "Entity 2 Deal",
-      "instrument_id": "DEAL-ENTITY2-EXAMPLE"
+      "owner_party_id": "TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b",
+      "tree_id": "tree-001"
     }
   ]
 }

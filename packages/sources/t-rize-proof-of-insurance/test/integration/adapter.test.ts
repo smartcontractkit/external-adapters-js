@@ -9,10 +9,13 @@ import {
   mockResponseFailure404,
   mockResponseFailure500,
   mockResponseSuccess,
-  mockResponseSuccessAnotherDeal,
+  mockResponseSuccessAnotherTree,
   mockResponseSuccessMinimalRoot,
   mockResponseSuccessSpecialChars,
 } from './fixtures'
+
+const OWNER_PARTY_ID =
+  'TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -21,7 +24,7 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.TRIZE_API_TOKEN = process.env.TRIZE_API_TOKEN ?? 'fake-api-token'
+    process.env.TRIZE_API_KEY = process.env.TRIZE_API_KEY ?? 'fake-api-key'
     process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
@@ -46,8 +49,8 @@ describe('execute', () => {
     describe('happy path', () => {
       it('should return success', async () => {
         const data = {
-          deal_name: 'Entity 2 Deal',
-          instrument_id: 'DEAL-ENTITY2-EXAMPLE',
+          owner_party_id: OWNER_PARTY_ID,
+          tree_id: 'tree-001',
           endpoint: 'proof_of_insurance',
         }
         mockResponseSuccess()
@@ -56,22 +59,22 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should return success for another deal', async () => {
+      it('should return success for another tree', async () => {
         const data = {
-          deal_name: 'Another Deal',
-          instrument_id: 'DEAL-ANOTHER-123',
+          owner_party_id: OWNER_PARTY_ID,
+          tree_id: 'tree-002',
           endpoint: 'proof_of_insurance',
         }
-        mockResponseSuccessAnotherDeal()
+        mockResponseSuccessAnotherTree()
         const response = await testAdapter.request(data)
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should handle special characters in deal name and instrument id', async () => {
+      it('should handle special characters in owner_party_id and tree_id', async () => {
         const data = {
-          deal_name: 'Deal & Company',
-          instrument_id: 'DEAL-SPECIAL/TEST',
+          owner_party_id: 'owner::with-special/chars',
+          tree_id: 'tree & test',
           endpoint: 'proof_of_insurance',
         }
         mockResponseSuccessSpecialChars()
@@ -82,8 +85,8 @@ describe('execute', () => {
 
       it('should handle minimal merkle root', async () => {
         const data = {
-          deal_name: 'Minimal Deal',
-          instrument_id: 'DEAL-MINIMAL',
+          owner_party_id: 'minimal-owner',
+          tree_id: 'tree-minimal',
           endpoint: 'proof_of_insurance',
         }
         mockResponseSuccessMinimalRoot()
@@ -100,38 +103,38 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on missing deal_name', async () => {
+      it('should fail on missing owner_party_id', async () => {
         const response = await testAdapter.request({
-          instrument_id: 'DEAL-ENTITY2-EXAMPLE',
+          tree_id: 'tree-001',
           endpoint: 'proof_of_insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on missing instrument_id', async () => {
+      it('should fail on missing tree_id', async () => {
         const response = await testAdapter.request({
-          deal_name: 'Entity 2 Deal',
+          owner_party_id: OWNER_PARTY_ID,
           endpoint: 'proof_of_insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on invalid deal_name type', async () => {
+      it('should fail on invalid owner_party_id type', async () => {
         const response = await testAdapter.request({
-          deal_name: 12345,
-          instrument_id: 'DEAL-ENTITY2-EXAMPLE',
+          owner_party_id: 12345,
+          tree_id: 'tree-001',
           endpoint: 'proof_of_insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on invalid instrument_id type', async () => {
+      it('should fail on invalid tree_id type', async () => {
         const response = await testAdapter.request({
-          deal_name: 'Entity 2 Deal',
-          instrument_id: { invalid: 'object' },
+          owner_party_id: OWNER_PARTY_ID,
+          tree_id: { invalid: 'object' },
           endpoint: 'proof_of_insurance',
         })
         expect(response.statusCode).toBe(400)
@@ -142,49 +145,45 @@ describe('execute', () => {
     describe('upstream failures', () => {
       it('should handle 500 error from upstream', async () => {
         const data = {
-          deal_name: 'Error Deal',
-          instrument_id: 'DEAL-ERROR',
+          owner_party_id: 'error-owner',
+          tree_id: 'tree-error',
           endpoint: 'proof_of_insurance',
         }
         mockResponseFailure500()
         const response = await testAdapter.request(data)
-        // May return 502 if error is cached, or 504 if still processing
         expect([502, 504]).toContain(response.statusCode)
       })
 
       it('should handle 404 error from upstream', async () => {
         const data = {
-          deal_name: 'NotFound Deal',
-          instrument_id: 'DEAL-NOTFOUND',
+          owner_party_id: 'notfound-owner',
+          tree_id: 'tree-notfound',
           endpoint: 'proof_of_insurance',
         }
         mockResponseFailure404()
         const response = await testAdapter.request(data)
-        // May return 502 if error is cached, or 504 if still processing
         expect([502, 504]).toContain(response.statusCode)
       })
 
       it('should handle 401 error from upstream', async () => {
         const data = {
-          deal_name: 'Unauthorized Deal',
-          instrument_id: 'DEAL-UNAUTHORIZED',
+          owner_party_id: 'unauthorized-owner',
+          tree_id: 'tree-unauthorized',
           endpoint: 'proof_of_insurance',
         }
         mockResponseFailure401()
         const response = await testAdapter.request(data)
-        // May return 502 if error is cached, or 504 if still processing
         expect([502, 504]).toContain(response.statusCode)
       })
 
       it('should handle empty response body from upstream', async () => {
         const data = {
-          deal_name: 'Empty Deal',
-          instrument_id: 'DEAL-EMPTY',
+          owner_party_id: 'empty-owner',
+          tree_id: 'tree-empty',
           endpoint: 'proof_of_insurance',
         }
         mockResponseEmptyBody()
         const response = await testAdapter.request(data)
-        // May return 502 if error is cached, or 504 if still processing
         expect([502, 504]).toContain(response.statusCode)
       })
     })
