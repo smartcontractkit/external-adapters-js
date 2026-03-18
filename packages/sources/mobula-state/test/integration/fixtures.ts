@@ -250,6 +250,18 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
               queryDetails: { base: 'AERGO', quote: null },
             }),
           )
+        } else if (symbol === 'SILVER' && parsed.payload.protocol === 'xyz') {
+          socket.send(
+            JSON.stringify({
+              hyperliquidFundingRate: {
+                symbol: 'xyz:SILVER',
+                fundingTime: 1773788400011,
+                fundingRate: 0.00000625,
+                epochDurationMs: 3600000,
+              },
+              queryDetails: { base: 'SILVER', quote: 'USDC' },
+            }),
+          )
         }
       }
     })
