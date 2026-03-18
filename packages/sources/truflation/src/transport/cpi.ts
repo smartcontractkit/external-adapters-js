@@ -42,7 +42,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         return {
           params: param,
           response: {
-            errorMessage: `The data provider didn't return any value`,
+            errorMessage: `Invalid data provider response: index and truflation_us_cpi_frozen_index arrays must contain data and have equal length`,
             statusCode: 502,
           },
         }

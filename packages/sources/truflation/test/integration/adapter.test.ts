@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess } from './fixtures'
+import { mockResponseFailure, mockResponseSuccess } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -33,6 +33,11 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
+  beforeEach(() => {
+    nock.cleanAll()
+    testAdapter.mockCache?.cache.clear()
+  })
+
   describe('cpi endpoint', () => {
     it('should return success', async () => {
       const data = {
@@ -41,6 +46,16 @@ describe('execute', () => {
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return failure', async () => {
+      const data = {
+        endpoint: 'cpi',
+      }
+      mockResponseFailure()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })
