@@ -707,6 +707,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/trueusd"\
     },\
     {\
+      "name": "@chainlink/truflation-adapter",\
+      "reference": "workspace:packages/sources/truflation"\
+    },\
+    {\
       "name": "@chainlink/twelvedata-adapter",\
       "reference": "workspace:packages/sources/twelvedata"\
     },\
@@ -941,6 +945,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
+    ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
@@ -8039,6 +8044,21 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
           ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/truflation-adapter", [\
+      ["workspace:packages/sources/truflation", {\
+        "packageLocation": "./packages/sources/truflation/",\
+        "packageDependencies": [\
+          ["@chainlink/truflation-adapter", "workspace:packages/sources/truflation"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
