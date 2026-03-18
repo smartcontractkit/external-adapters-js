@@ -6,52 +6,26 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/xrp'
-import { getXrplRpcUrl } from './xrpl-utils'
+import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/litecoin'
+import { getLitecoinRpcUrl } from './litecoin-utils'
 
-const logger = makeLogger('Token Balance - XRPL')
+const logger = makeLogger('Token Balance - Litecoin')
 
 type RequestParams = typeof inputParameters.validated
 
-const RESULT_DECIMALS = 6
+const RESULT_DECIMALS = 8
 
-type AccountInfoResponse = {
-  result: {
-    account_data: {
-      Account: string
-      Balance: string
-      Flags: number
-      LedgerEntryType: string
-      OwnerCount: number
-      PreviousTxnID: string
-      PreviousTxnLgrSeq: number
-      Sequence: number
-      index: string
-    }
-    account_flags: {
-      allowTrustLineClawback: boolean
-      defaultRipple: boolean
-      depositAuth: boolean
-      disableMasterKey: boolean
-      disallowIncomingCheck: boolean
-      disallowIncomingNFTokenOffer: boolean
-      disallowIncomingPayChan: boolean
-      disallowIncomingTrustline: boolean
-      disallowIncomingXRP: boolean
-      globalFreeze: boolean
-      noFreeze: boolean
-      passwordSpent: boolean
-      requireAuthorization: boolean
-      requireDestinationTag: boolean
-    }
-    ledger_hash: string
-    ledger_index: number
-    status: string
-    validated: boolean
-  }
+type LitecoinAddressResponse = {
+  address: string
+  balance: string
+  totalReceived: string
+  totalSent: string
+  unconfirmedBalance: string
+  unconfirmedTxs: number
+  txs: number
 }
 
-export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class LitecoinTransport extends SubscriptionTransport<BaseEndpointTypes> {
   config!: BaseEndpointTypes['Settings']
   endpointName!: string
   requester!: Requester
@@ -133,34 +107,30 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async getTokenBalance(address: string): Promise<string> {
+    const url = `/api/v2/address/${encodeURIComponent(address)}`
     const requestConfig = {
-      method: 'POST',
-      baseURL: getXrplRpcUrl(this.config),
-      data: {
-        method: 'account_info',
-        params: [
-          {
-            account: address,
-            ledger_index: 'validated',
-          },
-        ],
+      method: 'GET' as const,
+      baseURL: getLitecoinRpcUrl(this.config),
+      url,
+      params: {
+        details: 'tokenBalances',
       },
     }
 
-    const result = await this.requester.request<AccountInfoResponse>(
+    const result = await this.requester.request<LitecoinAddressResponse>(
       calculateHttpRequestKey<BaseEndpointTypes>({
         context: {
           adapterSettings: this.config,
           inputParameters,
           endpointName: this.endpointName,
         },
-        data: requestConfig.data,
+        data: { url },
         transportName: this.name,
       }),
       requestConfig,
     )
 
-    return result.response.data.result.account_data.Balance
+    return result.response.data.balance
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
@@ -168,4 +138,4 @@ export class XrpTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 }
 
-export const xrpTransport = new XrpTransport()
+export const litecoinTransport = new LitecoinTransport()

@@ -3,8 +3,10 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrp'
-import { XrpTransport } from '../../src/transport/xrp'
+import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/litecoin'
+import { LitecoinTransport } from '../../src/transport/litecoin'
+
+const RESULT_DECIMALS = 8
 
 const originalEnv = { ...process.env }
 
@@ -33,15 +35,15 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('XrpTransport', () => {
+describe('LitecoinTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'xrp'
-  const XRPL_RPC_URL = 'https://xrpl.rpc.url'
+  const endpointName = 'litecoin'
+  const LITECOIN_RPC_URL = 'https://litecoin.indexer.url'
   const BACKGROUND_EXECUTE_MS = 1500
   const GROUP_SIZE = 3
 
   const adapterSettings = makeStub('adapterSettings', {
-    XRPL_RPC_URL,
+    LITECOIN_RPC_URL,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     GROUP_SIZE,
@@ -68,35 +70,28 @@ describe('XrpTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: XrpTransport
+  let transport: LitecoinTransport
 
   type RequestConfig = {
+    method: 'GET'
     baseURL: string
-    method: 'POST'
-    data: {
-      method: 'account_info'
-      params: [
-        {
-          account: string
-          ledger_index: 'validated'
-        },
-      ]
+    url: string
+    params: {
+      details: 'tokenBalances'
     }
   }
 
-  const requestConfigForAddresses = ({ address }: { address: string }): RequestConfig => ({
-    baseURL: adapterSettings.XRPL_RPC_URL,
-    method: 'POST',
-    data: {
-      method: 'account_info',
-      params: [
-        {
-          account: address,
-          ledger_index: 'validated',
-        },
-      ],
-    },
-  })
+  const requestConfigForAddresses = ({ address }: { address: string }): RequestConfig => {
+    const url = `/api/v2/address/${encodeURIComponent(address)}`
+    return {
+      method: 'GET',
+      baseURL: adapterSettings.LITECOIN_RPC_URL,
+      url,
+      params: {
+        details: 'tokenBalances',
+      },
+    }
+  }
 
   const requestKeyForConfig = (requestConfig: RequestConfig) => {
     const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
@@ -105,7 +100,7 @@ describe('XrpTransport', () => {
         inputParameters,
         endpointName,
       },
-      data: requestConfig.data,
+      data: { url: requestConfig.url },
       transportName,
     })
     expect(log).toBeCalledWith(`Generated HTTP request queue key: "${requestKey}"`)
@@ -119,11 +114,7 @@ describe('XrpTransport', () => {
       return {
         response: {
           data: {
-            result: {
-              account_data: {
-                Balance: await balance,
-              },
-            },
+            balance: await balance,
           },
         },
       }
@@ -135,7 +126,7 @@ describe('XrpTransport', () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new XrpTransport()
+    transport = new LitecoinTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -179,7 +170,7 @@ describe('XrpTransport', () => {
         statusCode: 200,
         result: null,
         data: {
-          decimals: 6,
+          decimals: RESULT_DECIMALS,
           result: expectedResult,
         },
         timestamps: {
@@ -232,7 +223,7 @@ describe('XrpTransport', () => {
         statusCode: 200,
         result: null,
         data: {
-          decimals: 6,
+          decimals: RESULT_DECIMALS,
           result: expectedResult,
         },
         timestamps: {
@@ -283,7 +274,7 @@ describe('XrpTransport', () => {
         statusCode: 200,
         result: null,
         data: {
-          decimals: 6,
+          decimals: RESULT_DECIMALS,
           result: expectedResult,
         },
         timestamps: {
@@ -445,20 +436,20 @@ describe('XrpTransport', () => {
       expectRequesterRequest()
     })
 
-    it('should throw if XRPL_RPC_URL is missing', async () => {
-      transport = new XrpTransport()
+    it('should throw if LITECOIN_RPC_URL is missing', async () => {
+      transport = new LitecoinTransport()
       await transport.initialize(
         dependencies,
         {
           ...adapterSettings,
-          XRPL_RPC_URL: '',
+          LITECOIN_RPC_URL: '',
         },
         endpointName,
         transportName,
       )
 
       await expect(() => transport.getTokenBalance(address)).rejects.toThrow(
-        'Environment variable XRPL_RPC_URL is missing',
+        'Environment variable LITECOIN_RPC_URL is missing',
       )
     })
   })

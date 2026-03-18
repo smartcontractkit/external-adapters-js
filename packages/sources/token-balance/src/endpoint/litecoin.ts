@@ -2,8 +2,8 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { xrpTransport } from '../transport/xrp'
-import { getXrplRpcUrl } from '../transport/xrpl-utils'
+import { litecoinTransport } from '../transport/litecoin'
+import { getLitecoinRpcUrl } from '../transport/litecoin-utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -24,7 +24,7 @@ export const inputParameters = new InputParameters(
     {
       addresses: [
         {
-          address: 'rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH',
+          address: 'LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm',
         },
       ],
     },
@@ -49,11 +49,11 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'xrp',
-  transport: xrpTransport,
+  name: 'litecoin',
+  transport: litecoinTransport,
   inputParameters,
   customInputValidation: (_request, settings): AdapterError | undefined => {
-    getXrplRpcUrl(settings)
+    getLitecoinRpcUrl(settings)
     return
   },
 })
