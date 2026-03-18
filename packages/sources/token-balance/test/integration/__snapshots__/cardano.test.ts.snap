@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute xrpl endpoint should return success 1`] = `
+exports[`execute cardano endpoint should return success 1`] = `
 {
   "data": {
     "decimals": 6,

@@ -49,6 +49,12 @@ export const config = new AdapterConfig({
     default: '',
     sensitive: false,
   },
+  CARDANO_RPC_URL: {
+    description: 'RPC url of Cardano Yaci Store Indexer RPC node',
+    type: 'string',
+    default: '',
+    sensitive: false,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

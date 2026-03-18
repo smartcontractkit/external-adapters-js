@@ -558,6 +558,12 @@ export const mockXrpResponseSuccess = (): nock.Scope =>
     )
     .persist()
 
+export const mockCardanoResponseSuccess = (): nock.Scope =>
+  nock('http://localhost-cardano:8080', { encodedQueryParams: true })
+    .persist()
+    .get('/api/v1/addresses/addr1w8z0xlftcx54tn7uxdvhk0qgj9u7hmlaccjthnc9kvu4pmcyemglm/amounts')
+    .reply(200, [{ unit: 'lovelace', quantity: '19999926' }])
+
 export const mockStellarResponseSuccess = (): nock.Scope =>
   nock('http://localhost-stellar:8080', { encodedQueryParams: true })
     .persist()

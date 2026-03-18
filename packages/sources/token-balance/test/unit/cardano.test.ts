@@ -3,8 +3,8 @@ import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/c
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/xrp'
-import { XrpTransport } from '../../src/transport/xrp'
+import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/cardano'
+import { CardanoTransport } from '../../src/transport/cardano'
 
 const originalEnv = { ...process.env }
 
@@ -33,15 +33,15 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('XrpTransport', () => {
+describe('CardanoTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'xrp'
-  const XRPL_RPC_URL = 'https://xrpl.rpc.url'
+  const endpointName = 'cardano'
+  const CARDANO_RPC_URL = 'https://cardano.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
   const GROUP_SIZE = 3
 
   const adapterSettings = makeStub('adapterSettings', {
-    XRPL_RPC_URL,
+    CARDANO_RPC_URL,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     GROUP_SIZE,
@@ -68,34 +68,18 @@ describe('XrpTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: XrpTransport
+  let transport: CardanoTransport
 
   type RequestConfig = {
     baseURL: string
-    method: 'POST'
-    data: {
-      method: 'account_info'
-      params: [
-        {
-          account: string
-          ledger_index: 'validated'
-        },
-      ]
-    }
+    method: 'GET'
+    url: string
   }
 
   const requestConfigForAddresses = ({ address }: { address: string }): RequestConfig => ({
-    baseURL: adapterSettings.XRPL_RPC_URL,
-    method: 'POST',
-    data: {
-      method: 'account_info',
-      params: [
-        {
-          account: address,
-          ledger_index: 'validated',
-        },
-      ],
-    },
+    baseURL: adapterSettings.CARDANO_RPC_URL,
+    method: 'GET',
+    url: `/api/v1/addresses/${encodeURIComponent(address)}/amounts`,
   })
 
   const requestKeyForConfig = (requestConfig: RequestConfig) => {
@@ -105,7 +89,7 @@ describe('XrpTransport', () => {
         inputParameters,
         endpointName,
       },
-      data: requestConfig.data,
+      data: { url: requestConfig.url },
       transportName,
     })
     expect(log).toBeCalledWith(`Generated HTTP request queue key: "${requestKey}"`)
@@ -114,20 +98,28 @@ describe('XrpTransport', () => {
     return requestKey
   }
 
-  const mockAccountInfo = (balance: string | Promise<string>) => {
+  const mockLovelaceBalance = (balance: string | Promise<string>) => {
     requester.request.mockImplementationOnce(async () => {
+      const quantity = await Promise.resolve(balance)
       return {
         response: {
-          data: {
-            result: {
-              account_data: {
-                Balance: await balance,
-              },
-            },
-          },
+          data: [{ unit: 'lovelace', quantity }],
         },
       }
     })
+  }
+
+  const mockMixedAmountsResponse = (
+    rows: {
+      unit: string
+      quantity: string
+    }[],
+  ) => {
+    requester.request.mockImplementationOnce(async () => ({
+      response: {
+        data: rows,
+      },
+    }))
   }
 
   beforeEach(async () => {
@@ -135,7 +127,7 @@ describe('XrpTransport', () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new XrpTransport()
+    transport = new CardanoTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -158,10 +150,10 @@ describe('XrpTransport', () => {
 
   describe('handleRequest', () => {
     it('should cache response', async () => {
-      const address = 'r101'
+      const address = 'addr101'
       const balance = 123
 
-      mockAccountInfo(balance.toString())
+      mockLovelaceBalance(balance.toString())
 
       const param = makeStub('param', {
         addresses: [{ address }],
@@ -205,13 +197,13 @@ describe('XrpTransport', () => {
 
   describe('_handleRequest', () => {
     it('should return balances', async () => {
-      const address1 = 'r101'
-      const address2 = 'r102'
+      const address1 = 'addr101'
+      const address2 = 'addr102'
       const balance1 = 100
       const balance2 = 200
 
-      mockAccountInfo(balance1.toString())
-      mockAccountInfo(balance2.toString())
+      mockLovelaceBalance(balance1.toString())
+      mockLovelaceBalance(balance2.toString())
 
       const param = makeStub('param', {
         addresses: [{ address: address1 }, { address: address2 }],
@@ -255,11 +247,11 @@ describe('XrpTransport', () => {
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const address = 'r101'
+      const address = 'addr101'
       const balance = 100
 
       const [balancePromise, resolveBalance] = deferredPromise<string>()
-      mockAccountInfo(balancePromise)
+      mockLovelaceBalance(balancePromise)
 
       const param = makeStub('param', {
         addresses: [{ address }],
@@ -299,10 +291,10 @@ describe('XrpTransport', () => {
 
   describe('getTotalTokenBalance', () => {
     it('should return the token balance of multiple addresses', async () => {
-      const address1 = 'r101'
-      const address2 = 'r102'
-      mockAccountInfo('100.0')
-      mockAccountInfo('200.0')
+      const address1 = 'addr101'
+      const address2 = 'addr102'
+      mockLovelaceBalance('100')
+      mockLovelaceBalance('200')
 
       const expectedRequestConfig1 = requestConfigForAddresses({
         address: address1,
@@ -320,8 +312,8 @@ describe('XrpTransport', () => {
       ])
 
       expect(balances).toEqual([
-        { address: address1, balance: '100.0' },
-        { address: address2, balance: '200.0' },
+        { address: address1, balance: '100' },
+        { address: address2, balance: '200' },
       ])
 
       expect(requester.request).toHaveBeenNthCalledWith(
@@ -354,14 +346,14 @@ describe('XrpTransport', () => {
       const [balance3, resolveLines3] = deferredPromise<string>()
       const [balance4, resolveLines4] = deferredPromise<string>()
 
-      const address1 = 'r101'
-      const address2 = 'r102'
-      const address3 = 'r103'
-      const address4 = 'r104'
-      mockAccountInfo(balance1)
-      mockAccountInfo(balance2)
-      mockAccountInfo(balance3)
-      mockAccountInfo(balance4)
+      const address1 = 'addr101'
+      const address2 = 'addr102'
+      const address3 = 'addr103'
+      const address4 = 'addr104'
+      mockLovelaceBalance(balance1)
+      mockLovelaceBalance(balance2)
+      mockLovelaceBalance(balance3)
+      mockLovelaceBalance(balance4)
 
       const balancePromise = transport.getTokenBalances([
         { address: address1 },
@@ -375,24 +367,24 @@ describe('XrpTransport', () => {
       // Only 3 of the 4 requests were made because GROUP_SIZE is 3
       expect(requester.request).toBeCalledTimes(3)
 
-      resolveLines1('101.0')
-      resolveLines2('102.0')
+      resolveLines1('101')
+      resolveLines2('102')
 
       await jest.runAllTimersAsync()
       expect(requester.request).toBeCalledTimes(3)
 
-      resolveLines3('103.0')
+      resolveLines3('103')
 
       await jest.runAllTimersAsync()
       expect(requester.request).toBeCalledTimes(4)
 
-      resolveLines4('104.0')
+      resolveLines4('104')
 
       expect(await balancePromise).toEqual([
-        { address: address1, balance: '101.0' },
-        { address: address2, balance: '102.0' },
-        { address: address3, balance: '103.0' },
-        { address: address4, balance: '104.0' },
+        { address: address1, balance: '101' },
+        { address: address2, balance: '102' },
+        { address: address3, balance: '103' },
+        { address: address4, balance: '104' },
       ])
 
       expect(log).toHaveBeenNthCalledWith(
@@ -417,7 +409,7 @@ describe('XrpTransport', () => {
   })
 
   describe('getTokenBalance', () => {
-    const address = 'r123'
+    const address = 'addr123'
 
     const expectedRequestConfig = requestConfigForAddresses({
       address,
@@ -435,9 +427,9 @@ describe('XrpTransport', () => {
     }
 
     it('should return the token balance', async () => {
-      const expectedBalance = '1234.56'
+      const expectedBalance = '123456'
 
-      mockAccountInfo(expectedBalance)
+      mockLovelaceBalance(expectedBalance)
 
       const balance = await transport.getTokenBalance(address)
 
@@ -445,20 +437,54 @@ describe('XrpTransport', () => {
       expectRequesterRequest()
     })
 
-    it('should throw if XRPL_RPC_URL is missing', async () => {
-      transport = new XrpTransport()
+    it('should sum only lovelace when response includes other units', async () => {
+      mockMixedAmountsResponse([
+        { unit: 'asset1deadbeef', quantity: '999999999999' },
+        { unit: 'lovelace', quantity: '50' },
+        { unit: 'lovelace', quantity: '100' },
+        { unit: 'other', quantity: '1' },
+      ])
+
+      const balance = await transport.getTokenBalance(address)
+
+      expect(balance).toEqual('150')
+      expectRequesterRequest()
+    })
+
+    it('should return 0 when amounts array is empty', async () => {
+      requester.request.mockImplementationOnce(async () => ({
+        response: { data: [] },
+      }))
+
+      const balance = await transport.getTokenBalance(address)
+
+      expect(balance).toEqual('0')
+      expectRequesterRequest()
+    })
+
+    it('should return 0 when there is no lovelace row', async () => {
+      mockMixedAmountsResponse([{ unit: 'only-asset', quantity: '1000' }])
+
+      const balance = await transport.getTokenBalance(address)
+
+      expect(balance).toEqual('0')
+      expectRequesterRequest()
+    })
+
+    it('should throw if CARDANO_RPC_URL is missing', async () => {
+      transport = new CardanoTransport()
       await transport.initialize(
         dependencies,
         {
           ...adapterSettings,
-          XRPL_RPC_URL: '',
+          CARDANO_RPC_URL: '',
         },
         endpointName,
         transportName,
       )
 
       await expect(() => transport.getTokenBalance(address)).rejects.toThrow(
-        'Environment variable XRPL_RPC_URL is missing',
+        'Environment variable CARDANO_RPC_URL is missing',
       )
     })
   })
