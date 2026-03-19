@@ -5,6 +5,7 @@ import {
   cardano,
   etherFi,
   evm,
+  litecoin,
   solana,
   solanaBalance,
   solanaMulti,
@@ -31,6 +32,7 @@ export const adapter = new Adapter({
     solanaMulti,
     solanaBalance,
     stellar,
+    litecoin,
   ],
 })
 

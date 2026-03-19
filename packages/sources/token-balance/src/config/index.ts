@@ -49,6 +49,13 @@ export const config = new AdapterConfig({
     default: '',
     sensitive: false,
   },
+  LITECOIN_RPC_URL: {
+    description:
+      'RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md',
+    type: 'string',
+    default: '',
+    sensitive: false,
+  },
   CARDANO_RPC_URL: {
     description: 'RPC url of Cardano Yaci Store Indexer RPC node',
     type: 'string',
