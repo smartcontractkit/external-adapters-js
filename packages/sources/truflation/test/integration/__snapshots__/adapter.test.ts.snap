@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute cpi endpoint should return failure 1`] = `
+{
+  "errorMessage": "Invalid data provider response: index and truflation_us_cpi_frozen_index arrays must contain data and have equal length",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute cpi endpoint should return success 1`] = `
+{
+  "data": {
+    "cpi": 100.6,
+    "date": "2015-06-06",
+  },
+  "result": 100.6,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
