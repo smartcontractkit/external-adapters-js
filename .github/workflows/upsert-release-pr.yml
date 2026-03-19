@@ -128,7 +128,7 @@ jobs:
         # We use gh pr list with exact title match instead of --search to avoid GitHub search index lag
         run: |
           PR_NUMBER=$(gh pr list \
-            --base main \
+            --base "${{ github.ref_name }}" \
             --state open \
             --json number,title \
             --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
