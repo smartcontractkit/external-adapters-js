@@ -49,6 +49,13 @@ export const config = new AdapterConfig({
     default: '',
     sensitive: false,
   },
+  LITECOIN_RPC_URL: {
+    description:
+      'RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md',
+    type: 'string',
+    default: '',
+    sensitive: false,
+  },
   BACKGROUND_EXECUTE_MS: {
     description:
       'The amount of time the background execute should sleep before performing the next request',

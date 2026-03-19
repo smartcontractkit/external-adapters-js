@@ -622,3 +622,21 @@ export const mockStellarResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+
+const litecoinIndexerHost = 'http://localhost-litecoin:8080'
+
+export const mockLitecoinResponseSuccess = (): void => {
+  nock(litecoinIndexerHost, { encodedQueryParams: true })
+    .persist()
+    .get('/api/v2/address/LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm')
+    .query({ details: 'tokenBalances' })
+    .reply(200, {
+      address: 'LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm',
+      balance: '111111111111111',
+      totalReceived: '0',
+      totalSent: '0',
+      unconfirmedBalance: '0',
+      unconfirmedTxs: 0,
+      txs: 1,
+    })
+}

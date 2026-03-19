@@ -1,5 +1,6 @@
 export { endpoint as etherFi } from './etherFi'
 export { endpoint as evm } from './evm'
+export { endpoint as litecoin } from './litecoin'
 export { endpoint as solana } from './solana'
 export { endpoint as solanaBalance } from './solana-balance'
 export { endpoint as solanaMulti } from './solanaMulti'
