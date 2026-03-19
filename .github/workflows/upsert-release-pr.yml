@@ -140,7 +140,7 @@ jobs:
 
           PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
 
-          PR_BODY_PREFIX="$(printf "This release was triggered by @%s.\n\n" "${{ github.actor }}")"
+          printf -v PR_BODY_PREFIX "This release was triggered by @%s.\n\n" "${{ github.actor }}"
           PR_BODY_SUFFIX=""
 
           if [[ "$BUILD_STREAMS_ADAPTER_IMAGES" = "true" ]]; then
@@ -151,10 +151,10 @@ jobs:
               exit 0
             fi
 
-            PR_BODY_SUFFIX=$(printf "\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$MARKER")
+            printf -v PR_BODY_SUFFIX "\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$MARKER"
           fi
 
-          UPDATED_BODY=$(printf "%s%s%s" "$PR_BODY_PREFIX" "$PR_BODY" "$PR_BODY_SUFFIX")
+          printf -v UPDATED_BODY "%s%s%s" "$PR_BODY_PREFIX" "$PR_BODY" "$PR_BODY_SUFFIX"
 
           gh api \
             --method PATCH \
