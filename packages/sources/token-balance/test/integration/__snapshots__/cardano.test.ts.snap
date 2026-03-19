@@ -6,7 +6,7 @@ exports[`execute cardano endpoint should return success 1`] = `
     "decimals": 6,
     "result": [
       {
-        "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH",
+        "address": "addr1w8z0xlftcx54tn7uxdvhk0qgj9u7hmlaccjthnc9kvu4pmcyemglm",
         "balance": "19999926",
       },
     ],
