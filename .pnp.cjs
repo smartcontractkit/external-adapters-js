@@ -5739,7 +5739,7 @@ const RAW_RUNTIME_STATE =
           ["@types/sinon", "npm:10.0.20"],\
           ["@types/uuid", "npm:8.3.4"],\
           ["@types/ws", "npm:8.5.14"],\
-          ["ajv", "npm:8.17.1"],\
+          ["ajv", "npm:8.18.0"],\
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
