@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute litecoin endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "result": [
+      {
+        "address": "LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm",
+        "balance": "111111111111111",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
