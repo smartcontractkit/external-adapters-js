@@ -210,7 +210,7 @@ adapters:
   - name: medianizer
     version: 1.2.44
   - name: mobula-state
-    version: 2.0.4
+    version: 2.1.0
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
