@@ -32,6 +32,38 @@ exports[`websocket funding rate endpoint have partial data return success 1`] = 
 }
 `;
 
+exports[`websocket funding rate endpoint mixed exchanges: symbol with colon should match protocol request 1`] = `
+{
+  "data": {
+    "epochDuration": 3600,
+    "fundingRate": 0.0000056789,
+    "fundingTimestamp": 1773975600,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 20208,
+    "providerDataStreamEstablishedUnixMs": 16160,
+  },
+}
+`;
+
+exports[`websocket funding rate endpoint mixed exchanges: symbol without colon should match non-protocol request 1`] = `
+{
+  "data": {
+    "epochDuration": 28800,
+    "fundingRate": 0.0001234,
+    "fundingTimestamp": 1773975600,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 20208,
+    "providerDataStreamEstablishedUnixMs": 16160,
+  },
+}
+`;
+
 exports[`websocket funding rate endpoint no data should return failure 1`] = `
 {
   "error": {

@@ -57,6 +57,22 @@ describe('websocket', () => {
     endpoint: 'funding-rate',
   }
 
+  // Mixed exchange response: binance symbol has no colon, hyperliquid has colon
+  const dataFundingRateMixedProtocol = {
+    base: 'GOLD',
+    quote: 'USDC',
+    exchange: 'hyperliquid',
+    protocol: 'xyz',
+    endpoint: 'funding-rate',
+  }
+
+  const dataFundingRateMixedNoProtocol = {
+    base: 'GOLD',
+    quote: 'USDC',
+    exchange: 'binance',
+    endpoint: 'funding-rate',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -312,6 +328,18 @@ describe('websocket', () => {
 
     it('without protocol param should return success when response has protocol prefix', async () => {
       const response = await testAdapter.request(dataFundingRateNoProtocol)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('mixed exchanges: symbol with colon should match protocol request', async () => {
+      const response = await testAdapter.request(dataFundingRateMixedProtocol)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('mixed exchanges: symbol without colon should match non-protocol request', async () => {
+      const response = await testAdapter.request(dataFundingRateMixedNoProtocol)
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
 

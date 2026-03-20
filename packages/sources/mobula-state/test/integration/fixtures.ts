@@ -277,6 +277,26 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
               queryDetails: { base: 'XYZ100', quote: 'USDC' },
             }),
           )
+        } else if (symbol === 'GOLD' && parsed.payload.protocol === 'xyz') {
+          // Simulates multiple exchanges where one uses protocol prefix and one does not
+          socket.send(
+            JSON.stringify({
+              binanceFundingRate: {
+                symbol: 'GOLDUSDC',
+                fundingTime: 1773975600000,
+                fundingRate: 0.0001234,
+                marketPrice: '2500.00',
+                epochDurationMs: 28800000,
+              },
+              hyperliquidFundingRate: {
+                symbol: 'xyz:GOLD',
+                fundingTime: 1773975600072,
+                fundingRate: 0.0000056789,
+                epochDurationMs: 3600000,
+              },
+              queryDetails: { base: 'GOLD', quote: 'USDC' },
+            }),
+          )
         }
       }
     })
