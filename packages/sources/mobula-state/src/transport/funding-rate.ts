@@ -1,9 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 import { BaseEndpointTypes } from '../endpoint/funding-rate'
-
-const logger = makeLogger('MobulaFundingRate')
 
 /*
 Example response message:
@@ -71,7 +69,6 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   },
   handlers: {
     message(message) {
-      logger.info({ msg: 'Received WS message', data: JSON.stringify(message) })
       const results: Array<ProviderResult<WsTransportTypes>> = []
       const queryDetails = message.queryDetails
       Object.entries(message).forEach(([key, value]) => {
