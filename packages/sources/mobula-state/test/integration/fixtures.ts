@@ -262,6 +262,21 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
               queryDetails: { base: 'SILVER', quote: 'USDC' },
             }),
           )
+        } else if (symbol === 'XYZ100') {
+          // Simulates a request without protocol param where the response
+          // includes a protocol prefix in the symbol (backwards compat test)
+          socket.send(
+            JSON.stringify({
+              binanceFundingRate: null,
+              hyperliquidFundingRate: {
+                symbol: 'xyz:XYZ100',
+                fundingTime: 1773975600072,
+                fundingRate: 0.0000023431,
+                epochDurationMs: 3600000,
+              },
+              queryDetails: { base: 'XYZ100', quote: 'USDC' },
+            }),
+          )
         }
       }
     })

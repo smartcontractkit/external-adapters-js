@@ -50,6 +50,13 @@ describe('websocket', () => {
     endpoint: 'funding-rate',
   }
 
+  const dataFundingRateNoProtocol = {
+    base: 'XYZ100',
+    quote: 'USDC',
+    exchange: 'hyperliquid',
+    endpoint: 'funding-rate',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -300,6 +307,11 @@ describe('websocket', () => {
 
     it('with protocol param should return success', async () => {
       const response = await testAdapter.request(dataFundingRateProtocol)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('without protocol param should return success when response has protocol prefix', async () => {
+      const response = await testAdapter.request(dataFundingRateNoProtocol)
       expect(response.json()).toMatchSnapshot()
     })
 

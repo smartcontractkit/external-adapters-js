@@ -1,7 +1,9 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 
 import { BaseEndpointTypes } from '../endpoint/funding-rate'
+
+const logger = makeLogger('MobulaFundingRate')
 
 /*
 Example response message:
@@ -69,6 +71,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   },
   handlers: {
     message(message) {
+      logger.info({ msg: 'Received WS message', data: JSON.stringify(message) })
       const results: Array<ProviderResult<WsTransportTypes>> = []
       const queryDetails = message.queryDetails
       Object.entries(message).forEach(([key, value]) => {
@@ -82,35 +85,37 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         }
 
         const exchange = key.slice(0, -'FundingRate'.length).toLowerCase()
-        results.push(getFundingRateResult(exchange, queryDetails, value as FundingRateResponse))
+        results.push(...getFundingRateResults(exchange, queryDetails, value as FundingRateResponse))
       })
       return results
     },
   },
 })
 
-const getFundingRateResult = (
+const getFundingRateResults = (
   exchange: string,
   queryDetails: WSResponse['queryDetails'],
   fundingRate: FundingRateResponse,
-): ProviderResult<WsTransportTypes> => {
+): ProviderResult<WsTransportTypes>[] => {
   // Symbol may contain protocol prefix, e.g. "xyz:SILVER"
   const symbolParts = String(fundingRate.symbol).split(':')
   const protocol = symbolParts.length > 1 ? symbolParts[0] : undefined
-  return {
-    params: {
-      base: queryDetails.base,
-      quote: queryDetails.quote ?? '',
-      exchange,
-      ...(protocol && { protocol }),
-    },
-    response: {
-      result: null,
-      data: {
-        fundingRate: fundingRate.fundingRate,
-        fundingTimestamp: Math.trunc(fundingRate.fundingTime / 1000),
-        epochDuration: Math.trunc(fundingRate.epochDurationMs / 1000),
-      },
+  const response = {
+    result: null,
+    data: {
+      fundingRate: fundingRate.fundingRate,
+      fundingTimestamp: Math.trunc(fundingRate.fundingTime / 1000),
+      epochDuration: Math.trunc(fundingRate.epochDurationMs / 1000),
     },
   }
+  const baseParams = {
+    base: queryDetails.base,
+    quote: queryDetails.quote ?? '',
+    exchange,
+  }
+  const results: ProviderResult<WsTransportTypes>[] = [{ params: baseParams, response }]
+  if (protocol) {
+    results.push({ params: { ...baseParams, protocol }, response })
+  }
+  return results
 }
