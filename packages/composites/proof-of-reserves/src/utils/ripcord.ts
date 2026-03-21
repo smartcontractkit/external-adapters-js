@@ -18,13 +18,11 @@ export type RipcordResponse = {
   statusCode: number
   result: null
   ripcord: true
-  ripcordAsInt: 1
   ripcordDetails: string
   data: {
     result: null
     statusCode: number
     ripcord: true
-    ripcordAsInt: 1
     ripcordDetails: string
   }
 }
@@ -47,13 +45,11 @@ export const makeRipcordResponse = (jobRunID: string, ripcordDetails: string): A
     statusCode: 503,
     result: null,
     ripcord: true,
-    ripcordAsInt: 1,
     ripcordDetails,
     data: {
       result: null,
       statusCode: 503,
       ripcord: true,
-      ripcordAsInt: 1,
       ripcordDetails,
     },
   }

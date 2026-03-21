@@ -288,6 +288,194 @@ describe('execute', () => {
     })
   })
 
+  describe('reserves endpoint - schedule window (ripcord)', () => {
+    // Freeze time to 2022-01-01T11:11:11.111Z (11:11 UTC) for deterministic
+    // snapshots: ripcordDetails embeds ISO timestamps so they must be stable.
+    // Use doNotFake to only replace Date – leaving real setTimeout/setInterval
+    // intact so nock and supertest remain unaffected.
+    const MOCK_TIME = new Date('2022-01-01T11:11:11.111Z')
+
+    beforeEach(() => {
+      jest.useFakeTimers({
+        now: MOCK_TIME.getTime(),
+        doNotFake: [
+          'hrtime',
+          'nextTick',
+          'setImmediate',
+          'clearImmediate',
+          'setInterval',
+          'clearInterval',
+          'setTimeout',
+          'clearTimeout',
+        ],
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should return ripcord response when current time is before schedule window', async () => {
+      // Window 12:00-13:00 UTC; mocked time 11:11 UTC → before start → ripcord.
+      // No downstream mock needed: ripcord fires before any adapter calls.
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          protocol: 'list',
+          indexer: 'por_indexer',
+          addresses: [
+            {
+              address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+              chainId: 'mainnet',
+              network: 'bitcoin',
+            },
+          ],
+          startUTC: '1200',
+          endUTC: '1300',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(503)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should return ripcord response when current time is after schedule window', async () => {
+      // Window 09:00-10:00 UTC; mocked time 11:11 UTC → after end → ripcord.
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          protocol: 'list',
+          indexer: 'por_indexer',
+          addresses: [
+            {
+              address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+              chainId: 'mainnet',
+              network: 'bitcoin',
+            },
+          ],
+          startUTC: '0900',
+          endUTC: '1000',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(503)
+      expect(response.body).toMatchSnapshot()
+    })
+
+    it('should proceed with a normal request when inside the schedule window', async () => {
+      // Window 10:00-12:00 UTC; mocked time 11:11 UTC → inside → no ripcord.
+      mockPoRindexerSuccess()
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          protocol: 'list',
+          indexer: 'por_indexer',
+          addresses: [
+            {
+              address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+              chainId: 'mainnet',
+              network: 'bitcoin',
+            },
+            {
+              address: '35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR',
+              chainId: 'mainnet',
+              network: 'bitcoin',
+            },
+          ],
+          startUTC: '1000',
+          endUTC: '1200',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
+  describe('multiReserves endpoint - schedule window (ripcord)', () => {
+    const MOCK_TIME = new Date('2022-01-01T11:11:11.111Z')
+
+    beforeEach(() => {
+      jest.useFakeTimers({
+        now: MOCK_TIME.getTime(),
+        doNotFake: [
+          'hrtime',
+          'nextTick',
+          'setImmediate',
+          'clearImmediate',
+          'setInterval',
+          'clearInterval',
+          'setTimeout',
+          'clearTimeout',
+        ],
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should propagate ripcord when any sub-request is outside the schedule window', async () => {
+      // Sub-request 1: window 12:00-13:00 UTC; time 11:11 → ripcord (no por_indexer call).
+      // Sub-request 2: no window → runs normally → needs eth_balance mock.
+      mockEthBalanceSuccess()
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'multiReserves',
+          input: [
+            {
+              protocol: 'list',
+              indexer: 'por_indexer',
+              addresses: [
+                {
+                  address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+              ],
+              startUTC: '1200',
+              endUTC: '1300',
+            },
+            {
+              indexer: 'eth_balance',
+              protocol: 'list',
+              addresses: ['0x8288C280F35FB8809305906C79BD075962079DD8'],
+              confirmations: 5,
+            },
+          ],
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(503)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('multiReserves endpoint with scaling', () => {
     it('should return success', async () => {
       const data: AdapterRequest = {

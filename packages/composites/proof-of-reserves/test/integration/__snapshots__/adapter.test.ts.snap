@@ -73,6 +73,28 @@ exports[`execute Filecoin list protocol w/ miner format address should return su
 }
 `;
 
+exports[`execute multiReserves endpoint - schedule window (ripcord) should propagate ripcord when any sub-request is outside the schedule window 1`] = `
+{
+  "data": {
+    "result": null,
+    "ripcord": true,
+    "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+    "statusCode": 503,
+  },
+  "jobRunID": "1",
+  "meta": {
+    "adapterName": "PROOF_OF_RESERVES",
+  },
+  "metricsMeta": {
+    "feedId": "f4865afbff707d27703deca9f1bb32ed",
+  },
+  "result": null,
+  "ripcord": true,
+  "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+  "statusCode": 503,
+}
+`;
+
 exports[`execute multiReserves endpoint should return success 1`] = `
 {
   "data": {
@@ -169,5 +191,68 @@ exports[`execute multiReserves endpoint with scaling should return success 1`] =
   },
   "result": "75122",
   "statusCode": 200,
+}
+`;
+
+exports[`execute reserves endpoint - schedule window (ripcord) should proceed with a normal request when inside the schedule window 1`] = `
+{
+  "data": {
+    "decimals": 8,
+    "result": "75100045155",
+    "statusCode": 200,
+  },
+  "jobRunID": "1",
+  "meta": {
+    "adapterName": "PROOF_OF_RESERVES",
+  },
+  "metricsMeta": {
+    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"},{"address":"35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR","chainId":"mainnet","network":"bitcoin"}],"startUTC":"1000","endUTC":"1200"}}",
+  },
+  "result": "75100045155",
+  "statusCode": 200,
+}
+`;
+
+exports[`execute reserves endpoint - schedule window (ripcord) should return ripcord response when current time is after schedule window 1`] = `
+{
+  "data": {
+    "result": null,
+    "ripcord": true,
+    "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T09:00:00.000Z - 2022-01-01T10:00:00.000Z",
+    "statusCode": 503,
+  },
+  "jobRunID": "1",
+  "meta": {
+    "adapterName": "PROOF_OF_RESERVES",
+  },
+  "metricsMeta": {
+    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"}],"startUTC":"0900","endUTC":"1000"}}",
+  },
+  "result": null,
+  "ripcord": true,
+  "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T09:00:00.000Z - 2022-01-01T10:00:00.000Z",
+  "statusCode": 503,
+}
+`;
+
+exports[`execute reserves endpoint - schedule window (ripcord) should return ripcord response when current time is before schedule window 1`] = `
+{
+  "data": {
+    "result": null,
+    "ripcord": true,
+    "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+    "statusCode": 503,
+  },
+  "jobRunID": "1",
+  "meta": {
+    "adapterName": "PROOF_OF_RESERVES",
+  },
+  "metricsMeta": {
+    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"}],"startUTC":"1200","endUTC":"1300"}}",
+  },
+  "result": null,
+  "ripcord": true,
+  "ripcordDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+  "statusCode": 503,
 }
 `;
