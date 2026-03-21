@@ -1,6 +1,7 @@
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
+import { getRipcordDetails, isRipcordResponse, makeRipcordResponse } from '../utils/ripcord'
 import type { TInputParameters as SingleTInputParameters } from './reserves'
 import { execute as singleExecute } from './reserves'
 
@@ -43,6 +44,16 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       ),
     ),
   )
+
+  // If any sub-request returned a ripcord response (e.g. outside schedule window),
+  // propagate ripcord for the whole multiReserves request so that monitoring can
+  // silence alerts at the aggregate level too.
+  const ripcordResult = results.find(isRipcordResponse)
+  if (ripcordResult) {
+    const details =
+      getRipcordDetails(ripcordResult) ?? 'Ripcord activated for one or more reserves sub-requests'
+    return makeRipcordResponse(jobRunID, details)
+  }
 
   const result = results
     .map((result) => {

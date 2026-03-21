@@ -14,6 +14,7 @@ import {
   runProtocolAdapter,
 } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
+import { makeRipcordResponse } from '../utils/ripcord'
 import { extractDate } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
@@ -140,9 +141,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     const currentUTC = new Date()
 
     if (currentUTC < startUTC || currentUTC > endUTC) {
-      throw new Error(
-        `Skipping request. Current UTC Hour: ${currentUTC} outside schedule window of start: ${startUTC} and end: ${endUTC}`,
-      )
+      const ripcordDetails = `Outside schedule window. Current UTC: ${currentUTC.toISOString()}, window: ${startUTC.toISOString()} - ${endUTC.toISOString()}`
+      return makeRipcordResponse(jobRunID, ripcordDetails)
     }
   }
 
