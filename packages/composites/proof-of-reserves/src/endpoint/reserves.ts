@@ -8,13 +8,13 @@ import {
   adapterNamesV3 as indexerAdaptersV3,
   runBalanceAdapter,
 } from '../utils/balance'
+import { makeOutsideUpdateWindowResponse } from '../utils/outsideUpdateWindow'
 import {
   adapterNamesV2 as protocolAdaptersV2,
   adapterNamesV3 as protocolAdaptersV3,
   runProtocolAdapter,
 } from '../utils/protocol'
 import { runReduceAdapter } from '../utils/reduce'
-import { makeRipcordResponse } from '../utils/ripcord'
 import { extractDate } from '../utils/scheduledTrigger'
 
 export const supportedEndpoints = ['reserves']
@@ -141,8 +141,8 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     const currentUTC = new Date()
 
     if (currentUTC < startUTC || currentUTC > endUTC) {
-      const ripcordDetails = `Outside schedule window. Current UTC: ${currentUTC.toISOString()}, window: ${startUTC.toISOString()} - ${endUTC.toISOString()}`
-      return makeRipcordResponse(jobRunID, ripcordDetails)
+      const outsideUpdateWindowDetails = `Outside schedule window. Current UTC: ${currentUTC.toISOString()}, window: ${startUTC.toISOString()} - ${endUTC.toISOString()}`
+      return makeOutsideUpdateWindowResponse(jobRunID, outsideUpdateWindowDetails)
     }
   }
 
