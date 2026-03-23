@@ -60,3 +60,28 @@ exports[`execute okxAssetsAddress should return success for stakingBalanceDetail
   },
 }
 `;
+
+exports[`execute okxAssetsAddress should return success for stakingWithdrawalCredentials 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0xabcdef0123456789abcdef0123456789abcdef00",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+      {
+        "address": "0x1234567890abcdef1234567890abcdef12345678",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
