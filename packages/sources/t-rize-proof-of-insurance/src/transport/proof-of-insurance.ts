@@ -60,11 +60,16 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
+    const shouldTruncate = process.env.TRUNCATE_VALUES !== 'false'
+
+    const rootBytes = Buffer.from(response.data.root, 'base64')
     const navPerShare = BigInt(
-      '0x' + Buffer.from(response.data.root, 'base64').toString('hex'),
+      '0x' + (shouldTruncate ? rootBytes.subarray(0, 24) : rootBytes).toString('hex'),
     ).toString()
 
-    const aum = BigInt('0x' + response.data.contractId).toString()
+    const contractIdHex = response.data.contractId
+    const aumHex = shouldTruncate ? contractIdHex.slice(0, 48) : contractIdHex
+    const aum = BigInt('0x' + aumHex).toString()
 
     const navDate = (BigInt(new Date(response.data.computedAt).getTime()) * 1_000_000n).toString()
 

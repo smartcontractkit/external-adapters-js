@@ -6,19 +6,20 @@ The API returns a base64-encoded merkle root and a hex-encoded contract identifi
 
 ## Environment Variables
 
-| Required? |      Name       |                              Description                              |             Defaults to             |
-| :-------: | :-------------: | :-------------------------------------------------------------------: | :---------------------------------: |
-|           | `API_ENDPOINT`  |        T-Rize API base URL. Set to production URL for mainnet.        | `https://proof.validator.t-rize.ca` |
-|    ✅     | `TRIZE_API_KEY` | API key for T-Rize asset-verifier API (passed via `x-api-key` header) |                                     |
+| Required? |       Name        |                                                 Description                                                  |             Defaults to             |
+| :-------: | :---------------: | :----------------------------------------------------------------------------------------------------------: | :---------------------------------: |
+|           |  `API_ENDPOINT`   |                           T-Rize API base URL. Set to production URL for mainnet.                            | `https://proof.validator.t-rize.ca` |
+|    ✅     |  `TRIZE_API_KEY`  |                    API key for T-Rize asset-verifier API (passed via `x-api-key` header)                     |                                     |
+|           | `TRUNCATE_VALUES` | Truncate root/contractId to 24 bytes (192 bits) to fit int192. Set to `false` if the provider pre-truncates. |               `true`                |
 
 ### Staging vs. Production
 
-| Environment | URL                                      |
-| ----------- | ---------------------------------------- |
-| Testnet     | `https://proof.validator.t-rize.ca`      |
-| Mainnet     | `https://proof.validator.t-rize.network` |
+| Environment | URL                                 |
+| ----------- | ----------------------------------- |
+| Testnet     | `https://proof.validator.t-rize.ca` |
+| Mainnet     | `https://proof.t-rize.network`      |
 
-The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=https://proof.validator.t-rize.network`.
+The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=https://proof.t-rize.network`.
 
 ## Input Parameters
 
@@ -31,12 +32,14 @@ The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=http
 
 The T-Rize API returns a merkle tree response that is mapped to SmartData v9 fields as follows:
 
-| API Field     | v9 Field      | Type   | Encoding                                                         |
-| ------------- | ------------- | ------ | ---------------------------------------------------------------- |
-| `root`        | `navPerShare` | int192 | Base64 decoded to bytes, interpreted as unsigned BigInt (string) |
-| `contractId`  | `aum`         | int192 | Hex string parsed as unsigned BigInt (string)                    |
-| `computedAt`  | `navDate`     | uint64 | ISO-8601 timestamp converted to nanoseconds since epoch (string) |
-| _(hardcoded)_ | `ripcord`     | uint32 | Always `0` (normal state)                                        |
+| API Field     | v9 Field      | Type   | Encoding                                                                                |
+| ------------- | ------------- | ------ | --------------------------------------------------------------------------------------- |
+| `root`        | `navPerShare` | int192 | Base64 decoded to bytes, truncated to leftmost 24 bytes, interpreted as BigInt (string) |
+| `contractId`  | `aum`         | int192 | Hex string truncated to leftmost 48 hex chars (24 bytes), parsed as BigInt (string)     |
+| `computedAt`  | `navDate`     | uint64 | ISO-8601 timestamp converted to nanoseconds since epoch (string)                        |
+| _(hardcoded)_ | `ripcord`     | uint32 | Always `0` (normal state)                                                               |
+
+When `TRUNCATE_VALUES` is `true` (default), values are truncated to 24 bytes (192 bits) to fit within int192. Set to `false` if the provider pre-truncates values.
 
 `treeId` from the API response is not mapped to a v9 field.
 
