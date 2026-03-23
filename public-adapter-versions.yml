@@ -325,6 +325,8 @@ adapters:
     version: 0.6.0
   - name: trueusd
     version: 3.0.34
+  - name: truflation
+    version: 1.0.0
   - name: twelvedata
     version: 1.4.16
   - name: twosigma
