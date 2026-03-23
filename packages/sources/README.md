@@ -143,6 +143,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [tradermade](./tradermade/README.md)
 - [tradinghours](./tradinghours/README.md)
 - [trueusd](./trueusd/README.md)
+- [truflation](./truflation/README.md)
 - [twelvedata](./twelvedata/README.md)
 - [twosigma](./twosigma/README.md)
 - [uniswap-v2](./uniswap-v2/README.md)
