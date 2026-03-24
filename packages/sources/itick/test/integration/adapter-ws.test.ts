@@ -14,19 +14,82 @@ describe('websocket', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
 
-  const dataPrice = {
-    base: 'ETH',
-    quote: 'USD',
-    endpoint: 'price',
-    transport: 'ws',
-  }
+  const requests = [
+    {
+      symbol: '100',
+      endpoint: 'hk-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'cn-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'indices-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'kr-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'jp-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'tw-depth',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'hk-quote',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'cn-quote',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'indices-quote',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'kr-quote',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'jp-quote',
+      transport: 'ws',
+    },
+    {
+      symbol: '100',
+      endpoint: 'tw-quote',
+      transport: 'ws',
+    },
+  ]
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env['REGIONS'] = 'hk'
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'fake-api-key'
+    process.env['API_KEY_HK'] = 'fake-api-key'
+    process.env['API_KEY_CN'] = 'fake-api-key'
+    process.env['API_KEY_GB'] = 'fake-api-key'
+    process.env['API_KEY_KR'] = 'fake-api-key'
+    process.env['API_KEY_JP'] = 'fake-api-key'
+    process.env['API_KEY_TW'] = 'fake-api-key'
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    mockWsServer = mockWebsocketServer(wsEndpoint + '/stock')
+    mockWsServer = mockWebsocketServer(wsEndpoint + '/indices')
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -36,8 +99,8 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
 
-    await testAdapter.request(dataPrice)
-    await testAdapter.waitForCache(1)
+    await Promise.all(requests.map((req) => testAdapter.request(req)))
+    await testAdapter.waitForCache(requests.length)
   })
 
   afterAll(async () => {
@@ -47,10 +110,13 @@ describe('websocket', () => {
     await testAdapter.api.close()
   })
 
-  describe('price endpoint', () => {
+  describe('depth endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(dataPrice)
-      expect(response.json()).toMatchSnapshot()
+      for (const request of requests) {
+        const response = await testAdapter.request(request)
+        expect(response.json()).toMatchSnapshot()
+        expect(response.statusCode).toEqual(200)
+      }
     })
   })
 })

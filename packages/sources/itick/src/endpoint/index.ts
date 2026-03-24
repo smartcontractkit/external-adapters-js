@@ -1,1 +1,2 @@
-export { endpoint as price } from './price'
+export { endpoints as depthEndpoints } from './depth'
+export { endpoints as quoteEndpoints } from './quote'

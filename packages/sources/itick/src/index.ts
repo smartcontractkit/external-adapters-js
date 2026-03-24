@@ -1,17 +1,16 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { price } from './endpoint'
+import { depthEndpoints, quoteEndpoints } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: price.name,
   name: 'ITICK',
   config,
-  endpoints: [price],
+  endpoints: [...depthEndpoints, ...quoteEndpoints],
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1m: 6,
+        rateLimit1m: 60,
       },
     },
   },

@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket depth endpoint should return success 1`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 2`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 3`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 4`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 5`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 6`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 7`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 8`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 9`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 10`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 11`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket depth endpoint should return success 12`] = `
+{
+  "data": {
+    "lastPrice": 124,
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
