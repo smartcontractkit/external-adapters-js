@@ -469,6 +469,7 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
         dataTime: 1700000000000,
         lockAddresses: [{ address: 'bc1qlock1abc' }, { address: 'bc1qlock2def' }],
         stakingBalanceDetails: [],
+        stakingWithdrawalCredentials: [],
       },
       error_code: '0',
       error_message: '',
@@ -484,6 +485,26 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
         dataTime: 1700000000000,
         lockAddresses: [],
         stakingBalanceDetails: [{ address: 'bc1qstaking1xyz' }, { address: 'bc1qstaking2uvw' }],
+        stakingWithdrawalCredentials: [],
+      },
+      error_code: '0',
+      error_message: '',
+      msg: 'Success',
+      detailMsg: '',
+    }))
+    .persist()
+    .get('/')
+    .query({ mintedCoinName: 'credentials' })
+    .reply(200, () => ({
+      code: 0,
+      data: {
+        dataTime: 1700000000000,
+        lockAddresses: [],
+        stakingBalanceDetails: [],
+        stakingWithdrawalCredentials: [
+          `0x01${'0'.repeat(22)}abcdef0123456789abcdef0123456789abcdef00`,
+          `0x02${'0'.repeat(22)}1234567890abcdef1234567890abcdef12345678`,
+        ],
       },
       error_code: '0',
       error_message: '',
