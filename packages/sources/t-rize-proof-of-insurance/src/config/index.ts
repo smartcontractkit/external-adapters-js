@@ -13,10 +13,4 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  TRUNCATE_VALUES: {
-    description:
-      'Truncate root and contractId to the leftmost 24 bytes (192 bits) to fit int192. Set to false if the provider pre-truncates values.',
-    type: 'boolean',
-    default: true,
-  },
 })

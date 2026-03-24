@@ -29,8 +29,8 @@ export const inputParameters = new InputParameters(
 // https://docs.chain.link/data-streams/reference/report-schema-v9
 //
 // API field    -> v9 field      | Encoding
-// root         -> navPerShare   | base64 decoded to bytes, interpreted as BigInt string
-// contractId   -> aum           | hex string parsed as BigInt string
+// root         -> navPerShare   | base64 decoded to bytes, truncated to 24 bytes, then validated as positive int192 BigInt string
+// contractId   -> aum           | hex string truncated to 48 hex chars, then validated as positive int192 BigInt string
 // computedAt   -> navDate       | ISO-8601 parsed to nanosecond uint64
 // (hardcoded)  -> ripcord       | 0 (normal state)
 

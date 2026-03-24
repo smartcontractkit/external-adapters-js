@@ -1,11 +1,36 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
 
+const POSITIVE_INT192_MAX = (1n << 191n) - 1n
+
+const toPositiveInt192 = (
+  hexValue: string,
+  sourceField: 'root' | 'contractId',
+  targetField: 'navPerShare' | 'aum',
+): string => {
+  const normalizedHex = hexValue.startsWith('0x') ? hexValue.slice(2) : hexValue
+
+  if (!normalizedHex) {
+    throw new Error(`Unable to map ${sourceField} to ${targetField}: decoded value is empty.`)
+  }
+
+  const value = BigInt(`0x${normalizedHex}`)
+
+  if (value > POSITIVE_INT192_MAX) {
+    throw new Error(
+      `Unable to map ${sourceField} to ${targetField}: truncated value does not fit positive int192.`,
+    )
+  }
+
+  return value.toString()
+}
+
 export interface ResponseSchema {
   treeId: string
   root: string
   contractId: string
   computedAt: string
+  error?: string
 }
 
 export type HttpTransportTypes = BaseEndpointTypes & {
@@ -53,23 +78,37 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         return {
           params: param,
           response: {
-            errorMessage: response.data.error,
+            errorMessage: response.data.error ?? 'Unknown provider error',
             statusCode: 502,
           },
         }
       })
     }
 
-    const shouldTruncate = process.env.TRUNCATE_VALUES !== 'false'
+    let navPerShare: string
+    let aum: string
 
-    const rootBytes = Buffer.from(response.data.root, 'base64')
-    const navPerShare = BigInt(
-      '0x' + (shouldTruncate ? rootBytes.subarray(0, 24) : rootBytes).toString('hex'),
-    ).toString()
+    try {
+      const rootBytes = Buffer.from(response.data.root, 'base64')
+      const navPerShareHex = rootBytes.subarray(0, 24).toString('hex')
+      navPerShare = toPositiveInt192(navPerShareHex, 'root', 'navPerShare')
 
-    const contractIdHex = response.data.contractId
-    const aumHex = shouldTruncate ? contractIdHex.slice(0, 48) : contractIdHex
-    const aum = BigInt('0x' + aumHex).toString()
+      const contractIdHex = response.data.contractId
+      const aumHex = contractIdHex.slice(0, 48)
+      aum = toPositiveInt192(aumHex, 'contractId', 'aum')
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            errorMessage,
+            statusCode: 502,
+          },
+        }
+      })
+    }
 
     const navDate = (BigInt(new Date(response.data.computedAt).getTime()) * 1_000_000n).toString()
 

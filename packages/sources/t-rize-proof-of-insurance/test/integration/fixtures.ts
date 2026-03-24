@@ -6,6 +6,14 @@ const BASE_URL = 'https://proof.validator.t-rize.ca'
 const OWNER_PARTY_ID =
   'TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b'
 
+const POSITIVE_INT192_SAFE_HEX = `7f${'00'.repeat(23)}`
+const POSITIVE_INT192_OVERFLOW_HEX = 'ff'.repeat(24)
+const POSITIVE_INT192_SAFE_ROOT = Buffer.from(POSITIVE_INT192_SAFE_HEX, 'hex').toString('base64')
+const POSITIVE_INT192_OVERFLOW_ROOT = Buffer.concat([
+  Buffer.from(POSITIVE_INT192_OVERFLOW_HEX, 'hex'),
+  Buffer.alloc(8),
+]).toString('base64')
+
 const RESPONSE_HEADERS = [
   'Content-Type',
   'application/json',
@@ -88,6 +96,44 @@ export const mockResponseSuccessMinimalRoot = (): nock.Scope =>
         treeId: 'tree-004',
         root: 'AQ==',
         contractId: '00',
+        computedAt: '2024-01-01T00:00:00Z',
+      }),
+      RESPONSE_HEADERS,
+    )
+    .persist()
+
+export const mockResponseOverflowRootAfterTruncation = (): nock.Scope =>
+  nock(BASE_URL, { encodedQueryParams: true })
+    .get(MERKLE_PATH)
+    .query({
+      owner_party_id: 'overflow-root-owner',
+      tree_id: 'tree-overflow-root-truncated',
+    })
+    .reply(
+      200,
+      () => ({
+        treeId: 'tree-overflow-root-truncated',
+        root: POSITIVE_INT192_OVERFLOW_ROOT,
+        contractId: POSITIVE_INT192_SAFE_HEX,
+        computedAt: '2024-01-01T00:00:00Z',
+      }),
+      RESPONSE_HEADERS,
+    )
+    .persist()
+
+export const mockResponseOverflowContractAfterTruncation = (): nock.Scope =>
+  nock(BASE_URL, { encodedQueryParams: true })
+    .get(MERKLE_PATH)
+    .query({
+      owner_party_id: 'overflow-contract-owner',
+      tree_id: 'tree-overflow-contract-truncated',
+    })
+    .reply(
+      200,
+      () => ({
+        treeId: 'tree-overflow-contract-truncated',
+        root: POSITIVE_INT192_SAFE_ROOT,
+        contractId: `${POSITIVE_INT192_OVERFLOW_HEX}${'00'.repeat(8)}`,
         computedAt: '2024-01-01T00:00:00Z',
       }),
       RESPONSE_HEADERS,

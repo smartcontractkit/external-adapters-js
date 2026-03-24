@@ -8,6 +8,8 @@ import {
   mockResponseFailure401,
   mockResponseFailure404,
   mockResponseFailure500,
+  mockResponseOverflowContractAfterTruncation,
+  mockResponseOverflowRootAfterTruncation,
   mockResponseSuccess,
   mockResponseSuccessAnotherTree,
   mockResponseSuccessMinimalRoot,
@@ -185,6 +187,50 @@ describe('execute', () => {
         mockResponseEmptyBody()
         const response = await testAdapter.request(data)
         expect([502, 504]).toContain(response.statusCode)
+      })
+    })
+
+    describe('encoding guardrails', () => {
+      it('should fail fast when truncated root still exceeds positive int192', async () => {
+        const data = {
+          owner_party_id: 'overflow-root-owner',
+          tree_id: 'tree-overflow-root-truncated',
+          endpoint: 'proof_of_insurance',
+        }
+
+        mockResponseOverflowRootAfterTruncation()
+        const response = await testAdapter.request(data)
+
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            statusCode: 502,
+            errorMessage: expect.stringContaining(
+              'Unable to map root to navPerShare: truncated value does not fit positive int192.',
+            ),
+          }),
+        )
+      })
+
+      it('should fail fast when truncated contractId still exceeds positive int192', async () => {
+        const data = {
+          owner_party_id: 'overflow-contract-owner',
+          tree_id: 'tree-overflow-contract-truncated',
+          endpoint: 'proof_of_insurance',
+        }
+
+        mockResponseOverflowContractAfterTruncation()
+        const response = await testAdapter.request(data)
+
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            statusCode: 502,
+            errorMessage: expect.stringContaining(
+              'Unable to map contractId to aum: truncated value does not fit positive int192.',
+            ),
+          }),
+        )
       })
     })
   })
