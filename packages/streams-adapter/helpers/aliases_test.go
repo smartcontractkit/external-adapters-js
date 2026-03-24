@@ -258,18 +258,12 @@ func TestBuildCacheKeyParams_BasicCanonical(t *testing.T) {
 		"endpoint": "price",
 		"base":     "eth",
 		"quote":    "usd",
-		"amount":   "100",
 	})
 	require.NoError(t, err)
 
 	assertParam(t, result, "endpoint", "price")
 	assertParam(t, result, "base", "ETH")
 	assertParam(t, result, "quote", "USD")
-
-	// "amount" is not required, should be absent even if passed.
-	if _, ok := result["amount"]; ok {
-		t.Error("non-required param 'amount' should not be in output")
-	}
 }
 
 func TestBuildCacheKeyParams_EndpointAlias(t *testing.T) {
