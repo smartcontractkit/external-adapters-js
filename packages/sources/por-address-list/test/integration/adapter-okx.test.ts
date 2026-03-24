@@ -65,6 +65,21 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return success for stakingWithdrawalCredentials', async () => {
+      mockOkxResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'okxAssetsAddress',
+        coin: 'credentials',
+        network: 'ethereum',
+        chainId: '1',
+        addressField: 'stakingWithdrawalCredentials',
+      })
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should return error when data source returns error', async () => {
       mockOkxResponseError('ERROR_COIN')
 
