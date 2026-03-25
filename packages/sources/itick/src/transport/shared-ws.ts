@@ -42,7 +42,6 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
       }
     },
     handlers: {
-      // This sends a heartbeat every 10 seconds, unless the interval is
       // changed via WS_HEARTBEAT_INTERVAL_MS.
       heartbeat: (connection, _context) => {
         connection.send(
