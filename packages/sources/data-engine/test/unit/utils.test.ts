@@ -33,8 +33,25 @@ describe('scaleDecimals', () => {
 
   it('should truncate toward zero for positive values', () => {
     // 1999999999999999999 with 18 decimals = 1.999999999999999999
-    // Scaled to 0 decimals = 1 (truncated, not rounded to 2)
+    // Scaled to 0 decimals with truncated: 1 (truncated, not rounded to 2)
     expect(scaleDecimals('1999999999999999999', 18, 0)).toBe('1')
+  })
+
+  it('should return float with decimals when returnAs is "float"', () => {
+    // 120950127609218450000000 / 10^(18-8) = 120950127609218450000000 / 10^10 = 12095012760921.845
+    expect(scaleDecimals('120950127609218450000000', 18, 8, 'float')).toBe('12095012760921.845')
+  })
+
+  it('should return float with exact decimal places for "float" returnAs', () => {
+    // 999999999999999999 with 18 decimals, scaled to 8 decimals
+    // 999999999999999999 / 10^(18-8) = 999999999999999999 / 10^10 = 99999999.9999999999
+    expect(scaleDecimals('999999999999999999', 18, 8, 'float')).toBe('99999999.9999999999')
+  })
+
+  it('should return float with 0 decimals when returnAs is "float" and toDecimals is 0', () => {
+    // 1500000000000000000000 with 18 decimals = 1500.0
+    // Scaled to 0 decimals with float returnAs: "1500"
+    expect(scaleDecimals('1500000000000000000000', 18, 0, 'float')).toBe('1500')
   })
 })
 
@@ -69,5 +86,25 @@ describe('resolveResult', () => {
 
   it('handles numeric zero value in data', () => {
     expect(resolveResult(data, 'ask')).toBe('0')
+  })
+
+  it('returns int-truncated result for decimals > 0', () => {
+    expect(resolveResult(data, 'price', 8)).toBe('12095012760921')
+  })
+
+  it('returns float result with all sig figs when decimals is 0', () => {
+    expect(resolveResult(data, 'bid', 0)).toBe('100')
+  })
+
+  it('returns float result with decimals when returnAs is "float"', () => {
+    expect(resolveResult(data, 'price', 8, 'float')).toBe('12095012760921.845')
+  })
+
+  it('returns float result with specified precision for "float" returnAs', () => {
+    expect(resolveResult(data, 'bid', 2, 'float')).toBe('10000')
+  })
+
+  it('ignores returnAs when decimals is undefined', () => {
+    expect(resolveResult(data, 'price', undefined, 'float')).toBe('120950127609218450000000')
   })
 })

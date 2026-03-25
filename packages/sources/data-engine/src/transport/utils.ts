@@ -4,15 +4,29 @@ export const DECIMALS = 18
 
 /**
  * Scales a raw integer string from `fromDecimals` to `toDecimals`.
- * Uses truncation (floor toward zero) when scaling down.
+ *
+ * returnAs controls output format:
+ * - 'truncated': returns integer representation (default)
+ * - 'float': returns decimal representation
  */
-export function scaleDecimals(value: string, fromDecimals: number, toDecimals: number): string {
+export function scaleDecimals(
+  value: string,
+  fromDecimals: number,
+  toDecimals: number,
+  returnAs: 'truncated' | 'float' = 'truncated',
+): string {
   if (fromDecimals === toDecimals) {
     return value
   }
   const diff = fromDecimals - toDecimals
   const raw = new Decimal(value)
   const scaled = raw.div(new Decimal(10).pow(diff))
+
+  if (returnAs === 'float') {
+    // scaled is the actual value, return as decimal string
+    return scaled.toString()
+  }
+
   return scaled.toFixed(0, Decimal.ROUND_DOWN)
 }
 
@@ -26,6 +40,7 @@ export function resolveResult(
   data: Record<string, unknown>,
   resultPath?: string,
   decimals?: number,
+  returnAs?: 'truncated' | 'float',
 ): string | null {
   if (!resultPath) return null
 
@@ -38,5 +53,5 @@ export function resolveResult(
   }
 
   const raw = String(data[resultPath])
-  return decimals !== undefined ? scaleDecimals(raw, DECIMALS, decimals) : raw
+  return decimals !== undefined ? scaleDecimals(raw, DECIMALS, decimals, returnAs) : raw
 }

@@ -119,6 +119,7 @@ export function createDataEngineTransport<
                     data as Record<string, unknown>,
                     sub.resultPath,
                     sub.decimals,
+                    sub.returnAs,
                   ),
                   data,
                 },
