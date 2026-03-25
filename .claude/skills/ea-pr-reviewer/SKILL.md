@@ -17,9 +17,13 @@ Merged rubric for **code review**, **unit test validation**, and **integration t
 - If the user names **paths**, a **diff**, or an **adapter**, infer `packages/sources/<adapter>/` from paths when possible.
 - Review **only what is in scope** for the **change under review**:
   - If **no files** under `test/integration/**` are in the stated PR/diff scope, or the user explicitly says **integration tests were not modified**, then in **`full` mode** set `integration_tests` to **`approved: true`** and **`rationale: ""`**. Do **not** run the full integration rubric to fail that dimension for pre-existing suite gaps. You may add **one optional sentence** in `## Summary` (not in `rationale`) if you want to note technical debt in unchanged tests.
-  - Same idea for **unit tests** if the user says unit tests were untouched and no `test/unit/**` paths are in scope: `unit_tests`: approved true, empty rationale.
+  - For **unit tests:** if the user says unit tests were **untouched** and no `test/unit/**` paths are in the stated PR/diff scope, set `unit_tests` to **`approved: true`** and **`rationale: ""`**. If **any** `test/unit/**` path **is** in scope, apply the **full** unit rubric for the adapter (including completeness of isolated business logic such as other exports in `src/` modules that lack unit coverage)—do **not** set `approved: true` only because the edited test file itself is reasonable.
   - If the user asks for a **standalone** integration or unit review (single mode), always apply the corresponding reference fully—even if files were unchanged—because the question is about the suite quality, not PR scope.
 - When given a file list or diff, prioritize **those files plus minimal surrounding context**. When asked for a **full** adapter review **with no PR scope stated**, read the whole package areas that matter (`src/`, `config/`, `transport/`, `endpoint/`, tests) and apply all rubrics.
+
+### Code review depth (`full` mode, transport-related PRs)
+
+If the user says **`src/`** changed, **transport** changed, or the diff touches `packages/sources/<adapter>/src/transport/**`, you **must** read **every** `*.ts` file under `packages/sources/<adapter>/src/transport/` (recursively) before returning `code_review.approved: true`. While reading, actively check: optional chaining / guards on nested fields from external messages (WS/JSON), and safe indexing on provider arrays (e.g. `[0]` on possibly empty arrays). If any transport file was not read, set `code_review.approved: false` and say which paths were skipped.
 
 ## Routing
 
