@@ -34,6 +34,9 @@ export const createAdapterResponseFromMessage = (
           symbol,
           lastPrice,
         },
+        timestamps: {
+          providerIndicatedTimeUnixMs: message.data.t,
+        },
       },
     },
   ]
