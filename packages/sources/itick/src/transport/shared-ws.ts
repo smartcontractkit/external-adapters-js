@@ -3,14 +3,20 @@ import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-fr
 import { config } from '../config'
 import { inputParameters } from '../endpoint/shared'
 
-type WsTransportTypes<WsMessage, Response extends ResponseGenerics> = {
+type WsMessageBase = {
+  data: {
+    type: string
+  }
+}
+
+type WsTransportTypes<Message, Response extends ResponseGenerics> = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
   Response: Response
-  Provider: { WsMessage: WsMessage }
+  Provider: { WsMessage: Message & WsMessageBase }
 }
 
-export const createWsTransport = <WsMessage, Response extends ResponseGenerics>({
+export const createWsTransport = <Message, Response extends ResponseGenerics>({
   region,
   apiKey,
   apiPath,
@@ -21,12 +27,12 @@ export const createWsTransport = <WsMessage, Response extends ResponseGenerics>(
   apiKey: string | undefined
   apiPath: string
   type: string
-  messageHandler: (message: WsMessage) => ProviderResult<{
+  messageHandler: (message: Message) => ProviderResult<{
     Parameters: typeof inputParameters.definition
     Response: Response
   }>[]
 }) => {
-  return new WebSocketTransport<WsTransportTypes<WsMessage, Response>>({
+  return new WebSocketTransport<WsTransportTypes<Message, Response>>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/${apiPath}`,
     options: (_context, _desiredSubs) => {
       return {
@@ -45,6 +51,9 @@ export const createWsTransport = <WsMessage, Response extends ResponseGenerics>(
         )
       },
       message(message) {
+        if (message.data.type != type) {
+          return
+        }
         return messageHandler(message)
       },
     },
