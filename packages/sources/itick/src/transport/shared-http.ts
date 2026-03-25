@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { inputParameters } from '../endpoint/shared'
+import { Region, getApiKeyForRegion, inputParameters } from '../endpoint/shared'
 
 type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
   Parameters: typeof inputParameters.definition
@@ -12,13 +12,11 @@ type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
 
 export const createHttpTransport = <ResponseSchema, Response extends ResponseGenerics>({
   region,
-  apiKey,
   apiPath,
   type,
   messageHandler,
 }: {
-  region: string
-  apiKey: string | undefined
+  region: Region
   apiPath: string
   type: string
   messageHandler: (message: ResponseSchema) => ProviderResult<{
@@ -37,7 +35,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
             baseURL: config.API_ENDPOINT,
             url: `/${apiPath}/${type}`,
             headers: {
-              token: apiKey,
+              token: getApiKeyForRegion(region, config),
             },
             params: {
               region,

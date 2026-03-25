@@ -1,11 +1,10 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { createAdapterResponseFromMessage } from '../transport/depth-shared'
 import { createHttpTransport } from '../transport/shared-http'
 import { createWsTransport } from '../transport/shared-ws'
-import { getApiKeyForRegion, inputParameters } from './shared'
+import { Region, getApiKeyForRegion, inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -23,7 +22,7 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-const DEPTH_ENDPOINT_CONFIGS = [
+const DEPTH_ENDPOINT_CONFIGS: { region: Region; apiPath: string; name: string }[] = [
   { region: 'hk', apiPath: 'stock', name: 'hk-depth' },
   { region: 'cn', apiPath: 'stock', name: 'cn-depth' },
   { region: 'gb', apiPath: 'indices', name: 'indices-depth' },
@@ -33,7 +32,6 @@ const DEPTH_ENDPOINT_CONFIGS = [
 ]
 
 export const endpoints = DEPTH_ENDPOINT_CONFIGS.map(({ region, apiPath, name }) => {
-  const apiKey = getApiKeyForRegion(region)
   const type = 'depth'
   const messageHandler = createAdapterResponseFromMessage
 
@@ -42,17 +40,11 @@ export const endpoints = DEPTH_ENDPOINT_CONFIGS.map(({ region, apiPath, name }) 
     aliases: [],
     defaultTransport: 'ws',
     transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-      .register('rest', createHttpTransport({ type, region, apiKey, apiPath, messageHandler }))
-      .register('ws', createWsTransport({ type, region, apiKey, apiPath, messageHandler })),
+      .register('rest', createHttpTransport({ type, region, apiPath, messageHandler }))
+      .register('ws', createWsTransport({ type, region, apiPath, messageHandler })),
     inputParameters,
-    customInputValidation: (_request, _settings): undefined => {
-      const apiKeyName = `API_KEY_${region.toUpperCase()}`
-      if (!process.env[apiKeyName]) {
-        throw new AdapterInputError({
-          statusCode: 500,
-          message: `Missing environment variable ${apiKeyName}`,
-        })
-      }
+    customInputValidation: (_request, settings): undefined => {
+      getApiKeyForRegion(region, settings)
       return
     },
   })

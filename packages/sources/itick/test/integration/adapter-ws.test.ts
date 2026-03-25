@@ -1,3 +1,4 @@
+import { SettingsDefinitionFromConfig } from '@chainlink/external-adapter-framework/config'
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
   mockWebSocketProvider,
@@ -6,11 +7,12 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { config } from '../../src/config'
 import { mockWebsocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
-  let testAdapter: TestAdapter
+  let testAdapter: TestAdapter<SettingsDefinitionFromConfig<typeof config>>
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
 
