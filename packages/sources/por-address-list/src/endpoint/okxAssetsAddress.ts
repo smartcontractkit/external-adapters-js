@@ -15,7 +15,7 @@ export const inputParameters = new InputParameters(
       description: 'The field name in the API response that contains the addresses.',
       type: 'string',
       required: true,
-      options: ['lockAddresses', 'stakingBalanceDetails'],
+      options: ['lockAddresses', 'stakingBalanceDetails', 'stakingWithdrawalCredentials'],
     },
     network: {
       description: 'The network name to associate with the addresses',

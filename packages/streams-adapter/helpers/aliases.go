@@ -268,10 +268,7 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 		}
 	}
 
-	// Normalize all other parameters through the alias index if available.
-	// Also, filter to only those canonical parameters that are required for this endpoint
-	// when we have requirement metadata.
-	requiredForEndpoint, haveReq := activeAliasIndex.requiredParams[canonicalEndpoint]
+	overriddenKeys := make(map[string]bool)
 
 	for k, v := range data {
 		// Ignore the `endpoint` and `overrides` keys.
@@ -287,18 +284,6 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 			continue
 		}
 
-		value := rawValue
-
-		// If there are per-adapter overrides, and the current value has an
-		// override defined for the active adapter, use the override instead.
-		if adapterOverrides != nil {
-			if ov, ok := adapterOverrides[strings.ToUpper(rawValue)]; ok && ov != "" {
-				value = ov
-			}
-		}
-
-		valueUpper := strings.ToUpper(value)
-
 		canonicalKey := keyLower
 		if pm, ok := activeAliasIndex.paramAlias[canonicalEndpoint]; ok {
 			if pIdx, ok := pm[keyLower]; ok {
@@ -306,16 +291,23 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 			}
 		}
 
-		// If we don't have requirement metadata for this endpoint, keep all params.
-		if !haveReq {
-			out[canonicalKey] = valueUpper
-			continue
+		value := rawValue
+
+		// If there are per-adapter overrides, and the current value has an
+		// override defined for the active adapter, use the override instead.
+		if adapterOverrides != nil {
+			if ov, ok := adapterOverrides[strings.ToUpper(rawValue)]; ok && ov != "" {
+				value = ov
+				overriddenKeys[canonicalKey] = true
+			}
 		}
 
-		// Otherwise, only keep parameters that are marked as required.
-		if required, ok := requiredForEndpoint[canonicalKey]; ok && required {
-			out[canonicalKey] = valueUpper
-		}
+		out[canonicalKey] = strings.ToUpper(value)
+	}
+
+	// Apply adapter-specific cache key transform if registered.
+	if transform, ok := adapterTransforms[activeAdapter]; ok {
+		transform(out, overriddenKeys)
 	}
 
 	return out, nil

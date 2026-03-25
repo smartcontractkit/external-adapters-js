@@ -516,6 +516,9 @@
       "path": "./sources/trueusd"
     },
     {
+      "path": "./sources/truflation"
+    },
+    {
       "path": "./sources/twelvedata"
     },
     {
