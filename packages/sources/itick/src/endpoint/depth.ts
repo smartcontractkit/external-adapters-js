@@ -12,6 +12,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: number | null
     Data: {
+      symbol: string
       askPrice: number | null
       bidPrice: number | null
       midPrice: number | null

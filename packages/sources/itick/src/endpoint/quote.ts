@@ -12,6 +12,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: number
     Data: {
+      symbol: string
       lastPrice: number
     }
   }

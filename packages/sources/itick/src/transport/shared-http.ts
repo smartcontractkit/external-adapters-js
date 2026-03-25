@@ -29,7 +29,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
   return new HttpTransport<HttpTransportTypes<ResponseSchema, Response>>({
     prepareRequests: (params, config) => {
       return params.map((param) => {
-        const { symbol: code } = param
+        const { base: symbol } = param
         return {
           method: 'GET',
           params: [param],
@@ -41,7 +41,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
             },
             params: {
               region,
-              code,
+              code: symbol,
             },
           },
         }
@@ -50,11 +50,11 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
     parseResponse: (params, response) => {
       if (!response.data) {
         return params.map((param) => {
-          const { symbol: code } = param
+          const { base: symbol } = param
           return {
             params: param,
             response: {
-              errorMessage: `The data provider didn't return any value for code '${code}' and region '${region}'.`,
+              errorMessage: `The data provider didn't return any value for symbol '${symbol}' and region '${region}'.`,
               statusCode: 502,
             },
           }

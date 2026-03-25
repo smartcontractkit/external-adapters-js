@@ -52,7 +52,7 @@ export const createWsTransport = <WsMessage, Response extends ResponseGenerics>(
       subscribeMessage: (params) => {
         return {
           ac: 'subscribe',
-          params: [params.symbol, region.toLowerCase()].join('$'),
+          params: [params.base, region.toLowerCase()].join('$'),
           types: type,
         }
       },

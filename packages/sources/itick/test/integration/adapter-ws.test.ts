@@ -75,6 +75,16 @@ describe('websocket', () => {
       endpoint: 'tw-quote',
       transport: 'ws',
     },
+    {
+      symbol: 'X700',
+      endpoint: 'hk-depth',
+      transport: 'ws',
+      overrides: {
+        itick: {
+          X700: '700',
+        },
+      },
+    },
   ]
 
   beforeAll(async () => {

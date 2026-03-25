@@ -8,6 +8,7 @@ exports[`execute rest endpoints should return success 1`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -26,6 +27,7 @@ exports[`execute rest endpoints should return success 2`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -44,6 +46,7 @@ exports[`execute rest endpoints should return success 3`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -62,6 +65,7 @@ exports[`execute rest endpoints should return success 4`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -80,6 +84,7 @@ exports[`execute rest endpoints should return success 5`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -98,6 +103,7 @@ exports[`execute rest endpoints should return success 6`] = `
     "bidPrice": 123,
     "bidVolume": 12,
     "midPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -112,6 +118,7 @@ exports[`execute rest endpoints should return success 7`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -126,6 +133,7 @@ exports[`execute rest endpoints should return success 8`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -140,6 +148,7 @@ exports[`execute rest endpoints should return success 9`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -154,6 +163,7 @@ exports[`execute rest endpoints should return success 10`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -168,6 +178,7 @@ exports[`execute rest endpoints should return success 11`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,
@@ -182,6 +193,7 @@ exports[`execute rest endpoints should return success 12`] = `
 {
   "data": {
     "lastPrice": 124,
+    "symbol": "100",
   },
   "result": 124,
   "statusCode": 200,

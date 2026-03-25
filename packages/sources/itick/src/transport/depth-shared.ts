@@ -33,12 +33,14 @@ export const createAdapterResponseFromMessage = (
   const midPrice = askPrice !== null && bidPrice !== null ? (askPrice + bidPrice) / 2 : null
   const askVolume = ask?.v ?? null
   const bidVolume = bid?.v ?? null
+  const symbol = message.data.s
   return [
     {
-      params: { symbol: message.data.s },
+      params: { base: symbol },
       response: {
         result: midPrice,
         data: {
+          symbol,
           askPrice,
           bidPrice,
           midPrice,

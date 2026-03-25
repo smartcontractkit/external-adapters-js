@@ -24,12 +24,14 @@ export const createAdapterResponseFromMessage = (
   message: ResponseSchema,
 ): ProviderResult<BaseEndpointTypes>[] => {
   const lastPrice = message.data.ld
+  const symbol = message.data.s
   return [
     {
-      params: { symbol: message.data.s },
+      params: { base: symbol },
       response: {
         result: lastPrice,
         data: {
+          symbol,
           lastPrice,
         },
       },
