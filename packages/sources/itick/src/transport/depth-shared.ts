@@ -1,4 +1,5 @@
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/depth'
 
 export interface ResponseSchema {
@@ -28,11 +29,17 @@ export const createAdapterResponseFromMessage = (
 ): ProviderResult<BaseEndpointTypes>[] => {
   const ask = message.data.a[0] ?? null
   const bid = message.data.b[0] ?? null
-  const askPrice = ask?.p ?? null
-  const bidPrice = bid?.p ?? null
-  const midPrice = askPrice !== null && bidPrice !== null ? (askPrice + bidPrice) / 2 : null
-  const askVolume = ask?.v ?? null
-  const bidVolume = bid?.v ?? null
+  if (ask === null && bid === null) {
+    throw new AdapterError({
+      statusCode: 500,
+      message: 'Ask or bid data is missing',
+    })
+  }
+  const askPrice = ask.p
+  const bidPrice = bid.p
+  const midPrice = (askPrice + bidPrice) / 2
+  const askVolume = ask.v
+  const bidVolume = bid.v
   const symbol = message.data.s
   return [
     {

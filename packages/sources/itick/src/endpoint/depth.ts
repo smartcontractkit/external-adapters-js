@@ -12,11 +12,11 @@ export type BaseEndpointTypes = {
     Result: number | null
     Data: {
       symbol: string
-      askPrice: number | null
-      bidPrice: number | null
-      midPrice: number | null
-      askVolume: number | null
-      bidVolume: number | null
+      askPrice: number
+      bidPrice: number
+      midPrice: number
+      askVolume: number
+      bidVolume: number
     }
   }
   Settings: typeof config.settings
