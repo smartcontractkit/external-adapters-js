@@ -1,0 +1,11 @@
+{
+  "eval_id": 1,
+  "eval_name": "full-pr-scoped",
+  "prompt": "Review the full EA package at packages/sources/tiingo: code, integration tests, and unit tests. The PR only changed src/ (transport-related) and test/unit/transport-utils.test.ts—integration tests under test/integration were not modified.",
+  "assertions": [
+    "Response includes a full-mode style structure: separate verdicts for code vs integration tests vs unit tests (JSON keys code_review/integration_tests/unit_tests or equivalent sections).",
+    "Integration-test dimension treats unchanged integration files as approved or explicitly 'unchanged' with empty or minimal rationale—not failed solely for not re-reviewing unchanged tests.",
+    "Code review mentions EAF-relevant concerns (transports, types, or adapter patterns) grounded in files under packages/sources/tiingo when read.",
+    "Does not claim to have run yarn test unless output explicitly marks execution as hypothetical or static review."
+  ]
+}

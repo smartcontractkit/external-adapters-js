@@ -1,0 +1,10 @@
+{
+  "eval_id": 3,
+  "eval_name": "unit-tiingo",
+  "prompt": "Are the unit tests in packages/sources/tiingo/test/unit meaningful business-logic tests, or are they testing framework behavior? Follow strict unit-test scope.",
+  "assertions": [
+    "Distinguishes framework orchestration vs isolated business/helper logic appropriate for unit/.",
+    "Output includes approved and rationale; rationale empty if tests are on-target per skill.",
+    "Grounds conclusions in the actual test file(s) under packages/sources/tiingo/test/unit."
+  ]
+}
