@@ -77,16 +77,13 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('ix-trust-sync CumulativeAmount')
 
-const ATTESTATION_QUERY = `WITH latest_attestation AS (
+const ATTESTATION_DATA_COLUMN_NAME = 'attestation_data'
+const SIGNATURE_COLUMN_NAME = 'signature'
+
+const ATTESTATION_QUERY = `
   SELECT
-    ca.contract_deployment_id,
-    ca.attestor_address,
     ca.attestation_data,
-    ca.signature,
-    ca.created_at                      AS attestor_timestamp,
-    json_extract(ca.attestation_data, '$.message.navContractAddress')  AS nav_contract_address,
-    json_extract(ca.attestation_data, '$.message.decimals')            AS attested_decimals,
-    json_extract(ca.attestation_data, '$.message.cumulativeAmount')    AS cumulative_amount_wei
+    ca.signature
   FROM contract_attestations ca
   JOIN contract_deployments cd ON cd.id = ca.contract_deployment_id
   WHERE ca.deleted = 0
@@ -96,25 +93,7 @@ const ATTESTATION_QUERY = `WITH latest_attestation AS (
     AND LOWER(cd.contract_address) = LOWER(:fractional_address)
     AND cd.chain_id = :chain_id
   ORDER BY ca.created_at DESC
-  LIMIT 1
-)
-SELECT
-  frac_cd.chain_id,
-  frac_cd.contract_address                       AS fractional_contract_address,
-  frac_cd.contract_name                          AS fractional_unit,
-  la.nav_contract_address,
-  nav_cd.contract_address                        AS nav_contract_address_verified,
-  la.attested_decimals,
-  la.cumulative_amount_wei,
-  CAST(la.cumulative_amount_wei AS REAL) / POWER(10, la.attested_decimals) AS cumulative_amount_human,
-  la.attestor_address                            AS auditor_account_address,
-  la.signature                                   AS auditor_signature,
-  la.attestation_data,
-  la.attestor_timestamp
-FROM latest_attestation la
-JOIN contract_deployments frac_cd ON frac_cd.id = la.contract_deployment_id
-JOIN contract_deployments nav_cd  ON LOWER(nav_cd.contract_address) = LOWER(la.nav_contract_address);
-`
+  LIMIT 1`
 
 // Validates the shape of the response and returns the query result.
 const getQueryResultFromResponse = (responseData: ResponseSchema): QueryResult => {
@@ -201,11 +180,11 @@ const handleResponse = (
 ): ProviderResult<HttpTransportTypes> => {
   const queryResult = getQueryResultFromResponse(responseData)
 
-  const signature = getRowStringValue(queryResult, 'auditor_signature')
+  const signature = getRowStringValue(queryResult, SIGNATURE_COLUMN_NAME)
 
   console.log('dskloetx signature', signature)
 
-  const eip712AttestationDataJson = getRowStringValue(queryResult, 'attestation_data')
+  const eip712AttestationDataJson = getRowStringValue(queryResult, ATTESTATION_DATA_COLUMN_NAME)
   const eip712AttestationData = JSON.parse(eip712AttestationDataJson)
 
   //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
