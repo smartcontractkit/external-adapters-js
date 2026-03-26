@@ -3,7 +3,7 @@ import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framewor
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { AxiosResponse } from 'axios'
-import { verifyTypedData } from 'ethers'
+import { TypedDataDomain, TypedDataField, verifyTypedData } from 'ethers'
 import { BaseEndpointTypes } from '../endpoint/cumulativeAmount'
 
 type Params = TypeFromDefinition<BaseEndpointTypes['Parameters']>
@@ -73,6 +73,24 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     RequestBody: RequestSchema
     ResponseBody: ResponseSchema
   }
+}
+
+type AttestationMessage = {
+  contractAddress: string
+  navContractAddress: string
+  decimals: number
+  amount: string
+  cumulativeAmount: string
+  validFrom: string
+  validTo: string
+  nonce: string
+}
+
+type Eip712TypedData = {
+  types: Record<string, TypedDataField[]>
+  primaryType: string
+  domain: TypedDataDomain
+  message: AttestationMessage
 }
 
 const logger = makeLogger('ix-trust-sync CumulativeAmount')
@@ -185,7 +203,7 @@ const handleResponse = (
   console.log('dskloetx signature', signature)
 
   const eip712AttestationDataJson = getRowStringValue(queryResult, ATTESTATION_DATA_COLUMN_NAME)
-  const eip712AttestationData = JSON.parse(eip712AttestationDataJson)
+  const eip712AttestationData: Eip712TypedData = JSON.parse(eip712AttestationDataJson)
 
   //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
 
