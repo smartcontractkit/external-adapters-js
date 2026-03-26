@@ -9,7 +9,6 @@ import {
   ATTESTATION_QUERY,
   CumulativeAmountHttpTransport,
   HttpTransportTypes,
-  ResponseSchema,
 } from '../../src/transport/cumulativeAmount'
 
 const originalEnv = { ...process.env }
@@ -104,9 +103,9 @@ describe('CumulativeAmountHttpTransport', () => {
     fractionalContractAddress = defaultFractionalContractAddress,
     chainId = defaultChainId,
   }: {
-    auditorAddress: string
-    fractionalContractAddress: string
-    chainId: number
+    auditorAddress?: string
+    fractionalContractAddress?: string
+    chainId?: number
   }): typeof inputParameters.validated => {
     return makeStub('params', {
       auditorAddress,
@@ -119,9 +118,9 @@ describe('CumulativeAmountHttpTransport', () => {
     cumulativeAmount = defaultCumulativeAmount,
     decimals = defaultDecimals,
   }: {
-    cumulativeAmount: string
-    decimals: number
-  }): ResponseSchema => {
+    cumulativeAmount?: string
+    decimals?: number
+  }) => {
     return makeStub('response', {
       response: {
         data: {
@@ -219,9 +218,9 @@ describe('CumulativeAmountHttpTransport', () => {
     fractionalContractAddress = defaultFractionalContractAddress,
     chainId = defaultChainId,
   }: {
-    auditorAddress: string
-    fractionalContractAddress: string
-    chainId: number
+    auditorAddress?: string
+    fractionalContractAddress?: string
+    chainId?: number
   }) => {
     return makeStub('requestConfig', {
       method: 'POST',
