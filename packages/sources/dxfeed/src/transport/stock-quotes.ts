@@ -8,9 +8,11 @@ const logger = makeLogger('StockQuotesTransport')
 //  "bidPrice","bidSize","askTime","askExchangeCode","askPrice","askSize"]
 const eventSymbolIndex = 0
 const bidTimeIndex = 4
+const bidExchangeCodeIndex = 5
 const bidPriceIndex = 6
 const bidSizeIndex = 7
 const askTimeIndex = 8
+const askExchangeCodeIndex = 9
 const askPriceIndex = 10
 const askSizeIndex = 11
 const dataLength = 12
@@ -45,14 +47,8 @@ const generateResponse = (data: (string | number)[], i: number) => {
 
   const params = { base: data[i + eventSymbolIndex].toString() }
   if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
-    const response = {
-      statusCode: 502,
-      errorMessage: `Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`,
-    }
-    return [
-      { params: { ...params, requireVolume: false }, response },
-      { params: { ...params, requireVolume: true }, response },
-    ]
+    logger.warn(`Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`)
+    return []
   }
 
   let midPrice: number
@@ -82,16 +78,31 @@ const generateResponse = (data: (string | number)[], i: number) => {
     },
   }
 
-  return [
-    { params: { ...params, requireVolume: false }, response },
+  const requireVolumeResponse = invalidVolume
+    ? {
+        statusCode: 502,
+        errorMessage: `Bid volume: ${bidVolume} or Ask volume: ${askVolume} for ${params.base} is invalid.`,
+      }
+    : response
+
+  const responses = [
+    { params: { ...params, requireVolume: false, isOvernight: false }, response },
     {
-      params: { ...params, requireVolume: true },
-      response: invalidVolume
-        ? {
-            statusCode: 502,
-            errorMessage: `Bid volume: ${bidVolume} or Ask volume: ${askVolume} for ${params.base} is invalid.`,
-          }
-        : response,
+      params: { ...params, requireVolume: true, isOvernight: false },
+      response: requireVolumeResponse,
     },
   ]
+
+  if (data[i + bidExchangeCodeIndex] === 'O' && data[i + askExchangeCodeIndex] === 'O') {
+    responses.push({
+      params: { ...params, requireVolume: false, isOvernight: true },
+      response,
+    })
+    responses.push({
+      params: { ...params, requireVolume: true, isOvernight: true },
+      response: requireVolumeResponse,
+    })
+  }
+
+  return responses
 }

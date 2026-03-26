@@ -39,6 +39,10 @@ describe('websocket', () => {
     base: 'MULTI_2',
     endpoint: 'stock_quotes',
   }
+  const quoteOXData = {
+    base: 'OX',
+    endpoint: 'stock_quotes',
+  }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
@@ -171,6 +175,16 @@ describe('websocket', () => {
         base: 'NULL_BID',
         endpoint: 'stock_quotes',
       })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('return O when isOvernight', async () => {
+      const response = await testAdapter.request({ ...quoteOXData, isOvernight: true })
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('return X when not isOvernight', async () => {
+      const response = await testAdapter.request({ ...quoteOXData })
       expect(response.json()).toMatchSnapshot()
     })
   })
