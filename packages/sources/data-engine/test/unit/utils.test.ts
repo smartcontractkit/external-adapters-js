@@ -39,7 +39,9 @@ describe('scaleDecimals', () => {
 
   it('should return float with decimals when returnAs is "float"', () => {
     // 120950127609218450000000 / 10^(18-8) = 120950127609218450000000 / 10^10 = 12095012760921.845
-    expect(scaleDecimals('120950127609218450000000', 18, 8, 'float')).toBe('12095012760921.845')
+    expect(scaleDecimals('120950127609218450000000', 18, 8, 'float')).toBe(
+      '12095012760921.8450000000',
+    )
   })
 
   it('should return float with exact decimal places for "float" returnAs', () => {
@@ -51,7 +53,7 @@ describe('scaleDecimals', () => {
   it('should return float with 0 decimals when returnAs is "float" and toDecimals is 0', () => {
     // 1500000000000000000000 with 18 decimals = 1500.0
     // Scaled to 0 decimals with float returnAs: "1500"
-    expect(scaleDecimals('1500000000000000000000', 18, 0, 'float')).toBe('1500')
+    expect(scaleDecimals('1500000000000000000000', 18, 0, 'float')).toBe('1500.000000000000000000')
   })
 })
 
@@ -97,11 +99,11 @@ describe('resolveResult', () => {
   })
 
   it('returns float result with decimals when returnAs is "float"', () => {
-    expect(resolveResult(data, 'price', 8, 'float')).toBe('12095012760921.845')
+    expect(resolveResult(data, 'price', 8, 'float')).toBe('12095012760921.8450000000')
   })
 
   it('returns float result with specified precision for "float" returnAs', () => {
-    expect(resolveResult(data, 'bid', 2, 'float')).toBe('10000')
+    expect(resolveResult(data, 'bid', 2, 'float')).toBe('10000.0000000000000000')
   })
 
   it('ignores returnAs when decimals is undefined', () => {

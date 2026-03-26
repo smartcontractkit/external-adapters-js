@@ -217,8 +217,8 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       const json = response.json()
       // redemptionRate 1156789000000000000 scaled from 18 to 0 decimals as float
-      // 1156789000000000000 / 10^(18-0) = 1156789000000000000 / 10^18 = 1.156789
-      expect(json.result).toBe('1.156789')
+      // 1156789000000000000 / 10^(18-0) = 1156789000000000000 / 10^18 = 1.156789000000000000
+      expect(json.result).toBe('1.156789000000000000')
       // data should still contain raw unscaled values
       expect(json.data.exchangeRate).toBe('1156789000000000000')
     })

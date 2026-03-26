@@ -23,8 +23,9 @@ export function scaleDecimals(
   const scaled = raw.div(new Decimal(10).pow(diff))
 
   if (returnAs === 'float') {
-    // scaled is the actual value, return as decimal string
-    return scaled.toString()
+    // Return as decimal string, use toFixed to ensure no scientific notation
+    // diff can be -ve if toDecimals > fromDecimals, so max(diff, 0)
+    return scaled.toFixed(Math.max(diff, 0), Decimal.ROUND_DOWN)
   }
 
   return scaled.toFixed(0, Decimal.ROUND_DOWN)
