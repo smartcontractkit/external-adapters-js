@@ -116,34 +116,8 @@ JOIN contract_deployments frac_cd ON frac_cd.id = la.contract_deployment_id
 JOIN contract_deployments nav_cd  ON LOWER(nav_cd.contract_address) = LOWER(la.nav_contract_address);
 `
 
-const getRowValue = (queryResult: QueryResult, columnName: string): SqlValue => {
-  const columnIndex = queryResult.cols.findIndex((col) => col.name === columnName)
-  if (columnIndex === -1) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Column '${columnName}' not found in query result. Columns returned by the data provider: ${queryResult.cols
-        .map((col) => col.name)
-        .join(', ')}`,
-    })
-  }
-  return queryResult.rows[0][columnIndex]
-}
-
-const getRowStringValue = (queryResult: QueryResult, columnName: string): string => {
-  const value = getRowValue(queryResult, columnName)
-  if (value.type !== 'text') {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Unexpected type for column '${columnName}': ${value.type}. Expected 'text'.`,
-    })
-  }
-  return value.value
-}
-
-const handleResponse = (
-  params: Params,
-  responseData: ResponseSchema,
-): ProviderResult<HttpTransportTypes> => {
+// Validates the shape of the response and returns the query result.
+const getQueryResultFromResponse = (responseData: ResponseSchema): QueryResult => {
   if (responseData.results.length !== 2) {
     throw new AdapterError({
       statusCode: 502,
@@ -194,17 +168,45 @@ const handleResponse = (
     })
   }
 
+  return queryResult
+}
+
+const getRowValue = (queryResult: QueryResult, columnName: string): SqlValue => {
+  const columnIndex = queryResult.cols.findIndex((col) => col.name === columnName)
+  if (columnIndex === -1) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Column '${columnName}' not found in query result. Columns returned by the data provider: ${queryResult.cols
+        .map((col) => col.name)
+        .join(', ')}`,
+    })
+  }
+  return queryResult.rows[0][columnIndex]
+}
+
+const getRowStringValue = (queryResult: QueryResult, columnName: string): string => {
+  const value = getRowValue(queryResult, columnName)
+  if (value.type !== 'text') {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Unexpected type for column '${columnName}': ${value.type}. Expected 'text'.`,
+    })
+  }
+  return value.value
+}
+
+const handleResponse = (
+  params: Params,
+  responseData: ResponseSchema,
+): ProviderResult<HttpTransportTypes> => {
+  const queryResult = getQueryResultFromResponse(responseData)
+
   const signature = getRowStringValue(queryResult, 'auditor_signature')
 
   console.log('dskloetx signature', signature)
 
   const eip712AttestationDataJson = getRowStringValue(queryResult, 'attestation_data')
   const eip712AttestationData = JSON.parse(eip712AttestationDataJson)
-
-  eip712AttestationData.message.contractAddress =
-    eip712AttestationData.message.contractAddress.toLowerCase()
-  eip712AttestationData.message.navContractAddress =
-    '0x' + eip712AttestationData.message.navContractAddress.toUpperCase().slice(2)
 
   //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
 
