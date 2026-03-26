@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { cryptoV3Transport } from '../transport/cryptoV3'
-import { commonInputParams } from './common'
+import { commonInputParams, validateReturnAsParam } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -34,4 +34,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: cryptoV3Transport,
   inputParameters,
+  customInputValidation: validateReturnAsParam,
 })

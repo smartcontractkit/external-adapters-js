@@ -224,6 +224,20 @@ describe('execute', () => {
     })
   })
 
+  describe('exchangeRate-v7 with returnAs but no decimals', () => {
+    it('should return 400 error', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'exchangeRate-v7',
+        feedId: '0x0007',
+        resultPath: 'exchangeRate',
+        returnAs: 'float',
+      })
+      expect(response.statusCode).toBe(400)
+      const json = response.json()
+      expect(json.error.message).toBe('returnAs input param must be paired with a decimals value')
+    })
+  })
+
   describe('deutscheBoerse-v11 with resultPath and decimals', () => {
     it('should return scaled mid in result field', async () => {
       const response = await testAdapter.request(v11WithResultPathAndDecimals)

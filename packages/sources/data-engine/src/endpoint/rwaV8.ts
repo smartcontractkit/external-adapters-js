@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { rwaV8Transport } from '../transport/rwaV8'
-import { commonInputParams } from './common'
+import { commonInputParams, validateReturnAsParam } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -33,4 +33,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: rwaV8Transport,
   inputParameters,
+  customInputValidation: validateReturnAsParam,
 })

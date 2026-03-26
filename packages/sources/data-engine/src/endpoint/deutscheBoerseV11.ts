@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { deutscheBoerseV11Transport } from '../transport/deutscheBoerseV11'
-import { commonInputParams } from './common'
+import { commonInputParams, validateReturnAsParam } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -39,4 +39,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: deutscheBoerseV11Transport,
   inputParameters,
+  customInputValidation: validateReturnAsParam,
 })
