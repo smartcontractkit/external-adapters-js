@@ -1,7 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/cumulativeAmount'
 
 export const inputParameters = new InputParameters(
@@ -49,5 +48,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['ix-trust-sync'],
 })
