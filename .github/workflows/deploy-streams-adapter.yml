@@ -6,6 +6,12 @@ on:
       adapter-names:
         description: 'Comma-separated list of adapter short names (e.g. coinbase,tiingo,ncfx)'
         required: true
+  # TEMP: Remove after testing - allows triggering on push to this branch
+  push:
+    branches:
+      - DS-2596/separate-streams-adapter-build-sequence
+    paths:
+      - '.github/workflows/deploy-streams-adapter.yml'
 
 concurrency:
   group: deploy-streams-adapter
@@ -22,7 +28,8 @@ jobs:
       - name: Build adapter list from input
         id: parse
         run: |
-          ADAPTER_LIST=$(./.github/scripts/parse-adapter-names.sh '${{ inputs.adapter-names }}')
+          # TEMP: Default to test adapters for push trigger testing
+          ADAPTER_LIST=$(./.github/scripts/parse-adapter-names.sh '${{ inputs.adapter-names || 'cfbenchmarks,dxfeed' }}')
           echo "ADAPTER_LIST=$ADAPTER_LIST" >> $GITHUB_OUTPUT
 
   create-ecr:
