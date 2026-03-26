@@ -117,9 +117,11 @@ describe('CumulativeAmountHttpTransport', () => {
   const createResponse = ({
     cumulativeAmount = defaultCumulativeAmount,
     decimals = defaultDecimals,
+    contractAddress = defaultFractionalContractAddress,
   }: {
     cumulativeAmount?: string
     decimals?: number
+    contractAddress?: string
   }) => {
     return makeStub('response', {
       response: {
@@ -171,7 +173,7 @@ describe('CumulativeAmountHttpTransport', () => {
                             verifyingContract: '0x0000000000000000000000000000000000000000',
                           },
                           message: {
-                            contractAddress: '0xd051c326C9Aef673428E6F01eb65d2C52De95D30',
+                            contractAddress,
                             navContractAddress: '0x95dc5a797f657391fb5a20bf2846475bb26c8b1a',
                             decimals,
                             amount: '2479938340000',
@@ -390,6 +392,54 @@ describe('CumulativeAmountHttpTransport', () => {
       data: {
         cumulativeAmount: defaultCumulativeAmount,
         decimals,
+      },
+      result: defaultCumulativeAmount,
+      timestamps: {},
+    }
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expectedRequestKey,
+      expectedRequestConfig,
+      undefined,
+    )
+    expect(requester.request).toHaveBeenCalledTimes(1)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: expectedResponse,
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not give an error if contract address does not match checksummed casing', async () => {
+    const contractAddress = defaultFractionalContractAddress.toLowerCase()
+    expect(contractAddress).not.toBe(defaultFractionalContractAddress)
+
+    const params = createParams({})
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = createResponse({
+      contractAddress,
+    })
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    const expectedRequestConfig = createExpectedRequestConfig({})
+    const expectedRequestKey = requestKeyForParams(params)
+
+    const expectedResponse = {
+      data: {
+        cumulativeAmount: defaultCumulativeAmount,
+        decimals: 8,
       },
       result: defaultCumulativeAmount,
       timestamps: {},
