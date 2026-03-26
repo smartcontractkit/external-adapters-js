@@ -1,10 +1,12 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { AxiosResponse } from 'axios'
 import { verifyTypedData } from 'ethers'
 import { BaseEndpointTypes } from '../endpoint/cumulativeAmount'
+
+type Params = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 
 type SqlValue =
   | {
@@ -73,6 +75,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
+const logger = makeLogger('ix-trust-sync CumulativeAmount')
+
 const ATTESTATION_QUERY = `WITH latest_attestation AS (
   SELECT
     ca.contract_deployment_id,
@@ -137,7 +141,7 @@ const getRowStringValue = (queryResult: QueryResult, columnName: string): string
 }
 
 const handleResponse = (
-  params: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
+  params: Params,
   responseData: ResponseSchema,
 ): ProviderResult<HttpTransportTypes> => {
   if (responseData.results.length !== 2) {
@@ -184,19 +188,10 @@ const handleResponse = (
   const queryResult = executeResult.response.result
 
   if (queryResult.rows.length !== 1) {
-    /*
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`
-      })
-      */
-    return {
-      params,
-      response: {
-        statusCode: 502,
-        errorMessage: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`,
-      },
-    }
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`,
+    })
   }
 
   const signature = getRowStringValue(queryResult, 'auditor_signature')
@@ -211,7 +206,7 @@ const handleResponse = (
   eip712AttestationData.message.navContractAddress =
     '0x' + eip712AttestationData.message.navContractAddress.toUpperCase().slice(2)
 
-  console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
+  //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
 
   const {
     types: { EIP712Domain, ...types },
@@ -293,7 +288,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
   parseResponse: (
-    params: TypeFromDefinition<BaseEndpointTypes['Parameters']>[],
+    params: Params[],
     response: AxiosResponse<ResponseSchema>,
   ): ProviderResult<HttpTransportTypes>[] => {
     if (!response.data) {
@@ -308,10 +303,29 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    console.log('dskloetx response', JSON.stringify(response.data, null, 2))
+    //console.log('dskloetx response', JSON.stringify(response.data, null, 2))
 
     return params.map((param) => {
-      return handleResponse(param, response.data)
+      try {
+        return handleResponse(param, response.data)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        const statusCode = error instanceof AdapterError ? error.statusCode : 502
+        logger.error(error, errorMessage)
+
+        return {
+          params: param,
+          response: {
+            statusCode,
+            errorMessage,
+            timestamps: {
+              providerDataRequestedUnixMs: 0,
+              providerDataReceivedUnixMs: 0,
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          },
+        }
+      }
     })
   },
 })
