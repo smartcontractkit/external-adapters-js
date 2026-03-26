@@ -29,7 +29,7 @@ jobs:
         id: parse
         run: |
           # TEMP: Default to test adapters for push trigger testing
-          ADAPTER_LIST=$(./.github/scripts/parse-adapter-names.sh '${{ inputs.adapter-names || 'cfbenchmarks,dxfeed' }}')
+          ADAPTER_LIST=$(./.github/scripts/parse-adapter-names.sh '${{ inputs.adapter-names || 'blocksize-capital, coinmetrics, elwood, finage, finalto, finnhub, gsr, ncfx, tiingo, tiingo-state' }}')
           echo "ADAPTER_LIST=$ADAPTER_LIST" >> $GITHUB_OUTPUT
 
   create-ecr:
