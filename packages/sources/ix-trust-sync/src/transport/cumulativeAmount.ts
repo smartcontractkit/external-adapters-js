@@ -87,7 +87,9 @@ type AttestationMessage = {
 }
 
 type Eip712TypedData = {
-  types: Record<string, TypedDataField[]>
+  types: {
+    EIP712Domain: TypedDataField[]
+  } & Record<string, TypedDataField[]>
   primaryType: string
   domain: TypedDataDomain
   message: AttestationMessage
@@ -192,6 +194,31 @@ const getRowStringValue = (queryResult: QueryResult, columnName: string): string
   return value.value
 }
 
+const removeEip712Domain = (types: Eip712TypedData['types']): Record<string, TypedDataField[]> => {
+  const { EIP712Domain, ...rest } = types
+  return rest
+}
+
+const verifySignature = ({
+  eip712AttestationData,
+  signature,
+  expectedAddress,
+}: {
+  eip712AttestationData: Eip712TypedData
+  signature: string
+  expectedAddress: string
+}): void => {
+  const { domain, message } = eip712AttestationData
+  const types = removeEip712Domain(eip712AttestationData.types)
+  const signerAddress = verifyTypedData(domain, types, message, signature)
+  if (signerAddress.toLowerCase() !== expectedAddress.toLowerCase()) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Signature verification failed. Expected signer address ${expectedAddress}, but got ${signerAddress}`,
+    })
+  }
+}
+
 const handleResponse = (
   params: Params,
   responseData: ResponseSchema,
@@ -207,28 +234,7 @@ const handleResponse = (
 
   //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
 
-  const {
-    types: { EIP712Domain, ...types },
-  } = eip712AttestationData
-  const signerAddress = verifyTypedData(
-    eip712AttestationData.domain,
-    types,
-    eip712AttestationData.message,
-    signature,
-  )
-
-  console.log(
-    'dskloetx signerAddress',
-    signerAddress,
-    'expected auditorAddress',
-    params.auditorAddress,
-  )
-  if (signerAddress.toLowerCase() !== params.auditorAddress.toLowerCase()) {
-    throw new AdapterError({
-      statusCode: 502,
-      message: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`,
-    })
-  }
+  verifySignature({ eip712AttestationData, signature, expectedAddress: params.auditorAddress })
 
   const { cumulativeAmount, decimals } = eip712AttestationData.message
   const result = cumulativeAmount
@@ -295,8 +301,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       })
     }
-
-    //console.log('dskloetx response', JSON.stringify(response.data, null, 2))
 
     return params.map((param) => {
       try {
