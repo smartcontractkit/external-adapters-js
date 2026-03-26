@@ -226,28 +226,19 @@ const handleResponse = (
   params: Params,
   responseData: ResponseSchema,
 ): ProviderResult<HttpTransportTypes> => {
-  console.log('dskloetx responseData', JSON.stringify(responseData, null, 2))
-
   const queryResult = getQueryResultFromResponse(responseData)
-
   const signature = getRowStringValue(queryResult, SIGNATURE_COLUMN_NAME)
-
-  console.log('dskloetx signature', signature)
-
   const eip712AttestationDataJson = getRowStringValue(queryResult, ATTESTATION_DATA_COLUMN_NAME)
   const eip712AttestationData: Eip712TypedData = JSON.parse(eip712AttestationDataJson)
-
-  //console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
 
   verifySignature({ eip712AttestationData, signature, expectedAddress: params.auditorAddress })
 
   const { cumulativeAmount, decimals } = eip712AttestationData.message
-  const result = cumulativeAmount
 
   return {
     params,
     response: {
-      result,
+      result: cumulativeAmount,
       data: {
         cumulativeAmount,
         decimals,
