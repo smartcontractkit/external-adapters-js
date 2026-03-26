@@ -2,21 +2,15 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
   API_KEY: {
-    description: 'An API key for Data Provider',
+    description: 'The API token to access the Turso DB API',
     type: 'string',
     required: true,
     sensitive: true,
   },
   API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
+    description: 'The URL of the Turso DB API endpoint',
     type: 'string',
-    default: 'https://dataproviderapi.com',
-    sensitive: false,
-  },
-  WS_API_ENDPOINT: {
-    description: 'WS endpoint for Data Provider',
-    type: 'string',
-    default: 'ws://localhost:9090',
+    default: 'https://ion-digital-austpryb.aws-us-east-1.turso.io/v2/pipeline',
     sensitive: false,
   },
 })

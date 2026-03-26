@@ -7,23 +7,28 @@ import { httpTransport } from '../transport/cumulativeAmount'
 
 export const inputParameters = new InputParameters(
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+    auditorAddress: {
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
+      description:
+        'The address that should have been used to sign the message reporting the cumulative amount',
     },
-    quote: {
-      aliases: ['to', 'convert'],
+    fractionalContractAddress: {
       required: true,
       type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'Contract address for which to query the cumulative amount',
+    },
+    chainId: {
+      required: true,
+      type: 'number',
+      description: 'The chain ID of the blockchain where the contract is deployed',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      auditorAddress: '0x92F78491093bA0dd88A419b1BF07aeb3BA9fD0dc',
+      fractionalContractAddress: '0xd051c326C9Aef673428E6F01eb65d2C52De95D30',
+      chainId: 1,
     },
   ],
 )
