@@ -84,6 +84,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [ignition-address-list](./ignition-address-list/README.md)
 - [instruxi-sxt](./instruxi-sxt/README.md)
 - [ion.au](./ion.au/README.md)
+- [itick](./itick/README.md)
 - [json-rpc](./json-rpc/README.md)
 - [kaiko](./kaiko/README.md)
 - [kaiko-state](./kaiko-state/README.md)
