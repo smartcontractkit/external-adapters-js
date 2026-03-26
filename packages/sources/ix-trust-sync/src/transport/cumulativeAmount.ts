@@ -1,4 +1,7 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
@@ -100,7 +103,7 @@ const logger = makeLogger('ix-trust-sync CumulativeAmount')
 const ATTESTATION_DATA_COLUMN_NAME = 'attestation_data'
 const SIGNATURE_COLUMN_NAME = 'signature'
 
-const ATTESTATION_QUERY = `
+export const ATTESTATION_QUERY = `
   SELECT
     ca.attestation_data,
     ca.signature
@@ -223,6 +226,8 @@ const handleResponse = (
   params: Params,
   responseData: ResponseSchema,
 ): ProviderResult<HttpTransportTypes> => {
+  console.log('dskloetx responseData', JSON.stringify(responseData, null, 2))
+
   const queryResult = getQueryResultFromResponse(responseData)
 
   const signature = getRowStringValue(queryResult, SIGNATURE_COLUMN_NAME)
@@ -251,7 +256,7 @@ const handleResponse = (
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
+const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const { auditorAddress, fractionalContractAddress, chainId } = param
@@ -325,4 +330,13 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-})
+}
+
+// Exported for testing
+export class CumulativeAmountHttpTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super(transportConfig)
+  }
+}
+
+export const httpTransport = new CumulativeAmountHttpTransport()
