@@ -227,28 +227,22 @@ const handleResponse = (
     params.auditorAddress,
   )
   if (signerAddress.toLowerCase() !== params.auditorAddress.toLowerCase()) {
-    /*
-        throw new AdapterError({
-          statusCode: 502,
-          message: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`
-        })
-        */
-    return {
-      params,
-      response: {
-        statusCode: 502,
-        errorMessage: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`,
-      },
-    }
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`,
+    })
   }
 
-  const { cumulativeAmount: result } = eip712AttestationData.message
+  const { cumulativeAmount, decimals } = eip712AttestationData.message
+  const result = cumulativeAmount
+
   return {
     params,
     response: {
       result,
       data: {
-        result,
+        cumulativeAmount,
+        decimals,
       },
     },
   }

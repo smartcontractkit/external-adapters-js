@@ -1,5 +1,4 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
@@ -35,7 +34,13 @@ export const inputParameters = new InputParameters(
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: string
+    Data: {
+      cumulativeAmount: string
+      decimals: number
+    }
+  }
   Settings: typeof config.settings
 }
 
