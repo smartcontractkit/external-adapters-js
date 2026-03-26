@@ -1,5 +1,8 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { AxiosResponse } from 'axios'
 import { verifyTypedData } from 'ethers'
 import { BaseEndpointTypes } from '../endpoint/cumulativeAmount'
 
@@ -133,6 +136,127 @@ const getRowStringValue = (queryResult: QueryResult, columnName: string): string
   return value.value
 }
 
+const handleResponse = (
+  params: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
+  responseData: ResponseSchema,
+): ProviderResult<HttpTransportTypes> => {
+  if (responseData.results.length !== 2) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Unexpected number of results returned by the data provider: ${responseData.results.length}. Expected 2 results (1 with type execute and 1 with type close).`,
+    })
+  }
+
+  const [executeResult, closeResult] = responseData.results
+
+  if (executeResult.type !== 'ok') {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `The data provider returned an error for the execute request: ${JSON.stringify(
+        executeResult,
+      )}`,
+    })
+  }
+
+  if (executeResult.response.type !== 'execute') {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Unexpected response type for the execute request: ${executeResult.response.type}. Expected 'execute'.`,
+    })
+  }
+
+  if (closeResult.type !== 'ok') {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `The data provider returned an error for the close request: ${JSON.stringify(
+        closeResult,
+      )}`,
+    })
+  }
+
+  if (closeResult.response.type !== 'close') {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Unexpected response type for the close request: ${closeResult.response.type}. Expected 'close'.`,
+    })
+  }
+
+  const queryResult = executeResult.response.result
+
+  if (queryResult.rows.length !== 1) {
+    /*
+      throw new AdapterError({
+        statusCode: 502,
+        message: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`
+      })
+      */
+    return {
+      params,
+      response: {
+        statusCode: 502,
+        errorMessage: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`,
+      },
+    }
+  }
+
+  const signature = getRowStringValue(queryResult, 'auditor_signature')
+
+  console.log('dskloetx signature', signature)
+
+  const eip712AttestationDataJson = getRowStringValue(queryResult, 'attestation_data')
+  const eip712AttestationData = JSON.parse(eip712AttestationDataJson)
+
+  eip712AttestationData.message.contractAddress =
+    eip712AttestationData.message.contractAddress.toLowerCase()
+  eip712AttestationData.message.navContractAddress =
+    '0x' + eip712AttestationData.message.navContractAddress.toUpperCase().slice(2)
+
+  console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
+
+  const {
+    types: { EIP712Domain, ...types },
+  } = eip712AttestationData
+  const signerAddress = verifyTypedData(
+    eip712AttestationData.domain,
+    types,
+    eip712AttestationData.message,
+    signature,
+  )
+
+  console.log(
+    'dskloetx signerAddress',
+    signerAddress,
+    'expected auditorAddress',
+    params.auditorAddress,
+  )
+  if (signerAddress.toLowerCase() !== params.auditorAddress.toLowerCase()) {
+    /*
+        throw new AdapterError({
+          statusCode: 502,
+          message: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`
+        })
+        */
+    return {
+      params,
+      response: {
+        statusCode: 502,
+        errorMessage: `Signature verification failed. Expected signer address ${params.auditorAddress}, but got ${signerAddress}`,
+      },
+    }
+  }
+
+  const { cumulativeAmount: result } = eip712AttestationData.message
+  return {
+    params,
+    response: {
+      result,
+      data: {
+        result,
+      },
+    },
+  }
+}
+
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
@@ -168,7 +292,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
     })
   },
-  parseResponse: (params, response) => {
+  parseResponse: (
+    params: TypeFromDefinition<BaseEndpointTypes['Parameters']>[],
+    response: AxiosResponse<ResponseSchema>,
+  ): ProviderResult<HttpTransportTypes>[] => {
     if (!response.data) {
       return params.map((param) => {
         return {
@@ -183,124 +310,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     console.log('dskloetx response', JSON.stringify(response.data, null, 2))
 
-    if (response.data.results.length !== 2) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unexpected number of results returned by the data provider: ${response.data.results.length}. Expected 2 results (1 with type execute and 1 with type close).`,
-      })
-    }
-
-    const [executeResult, closeResult] = response.data.results
-
-    if (executeResult.type !== 'ok') {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider returned an error for the execute request: ${JSON.stringify(
-          executeResult,
-        )}`,
-      })
-    }
-
-    if (executeResult.response.type !== 'execute') {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unexpected response type for the execute request: ${executeResult.response.type}. Expected 'execute'.`,
-      })
-    }
-
-    if (closeResult.type !== 'ok') {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider returned an error for the close request: ${JSON.stringify(
-          closeResult,
-        )}`,
-      })
-    }
-
-    if (closeResult.response.type !== 'close') {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unexpected response type for the close request: ${closeResult.response.type}. Expected 'close'.`,
-      })
-    }
-
-    const queryResult = executeResult.response.result
-
-    if (queryResult.rows.length !== 1) {
-      /*
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`
-      })
-      */
-      return [
-        {
-          params: params[0],
-          response: {
-            statusCode: 502,
-            errorMessage: `Unexpected number of rows returned by the data provider: ${queryResult.rows.length}. Expected exactly 1 row.`,
-          },
-        },
-      ]
-    }
-
-    const signature = getRowStringValue(queryResult, 'auditor_signature')
-
-    console.log('dskloetx signature', signature)
-
-    const eip712AttestationDataJson = getRowStringValue(queryResult, 'attestation_data')
-    const eip712AttestationData = JSON.parse(eip712AttestationDataJson)
-
-    eip712AttestationData.message.contractAddress =
-      eip712AttestationData.message.contractAddress.toLowerCase()
-    eip712AttestationData.message.navContractAddress =
-      '0x' + eip712AttestationData.message.navContractAddress.toUpperCase().slice(2)
-
-    console.log('dskloetx attestationData', JSON.stringify(eip712AttestationData, null, 2))
-
-    const {
-      types: { EIP712Domain, ...types },
-    } = eip712AttestationData
-    const signerAddress = verifyTypedData(
-      eip712AttestationData.domain,
-      types,
-      eip712AttestationData.message,
-      signature,
-    )
-
     return params.map((param) => {
-      console.log(
-        'dskloetx signerAddress',
-        signerAddress,
-        'expected auditorAddress',
-        param.auditorAddress,
-      )
-      if (signerAddress.toLowerCase() !== param.auditorAddress.toLowerCase()) {
-        /*
-        throw new AdapterError({
-          statusCode: 502,
-          message: `Signature verification failed. Expected signer address ${params[0].auditorAddress}, but got ${signerAddress}`
-        })
-        */
-        return {
-          params: param,
-          response: {
-            statusCode: 502,
-            errorMessage: `Signature verification failed. Expected signer address ${params[0].auditorAddress}, but got ${signerAddress}`,
-          },
-        }
-      }
-
-      const { cumulativeAmount: result } = eip712AttestationData.message
-      return {
-        params: param,
-        response: {
-          result,
-          data: {
-            result,
-          },
-        },
-      }
+      return handleResponse(param, response.data)
     })
   },
 })
