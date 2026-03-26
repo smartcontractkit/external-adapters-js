@@ -1,6 +1,9 @@
 {
- "requests": [{
-  "from": "BTC",
-  "to": "USD"
- }]
+  "requests": [
+    {
+      "auditorAddress": "0x92F78491093bA0dd88A419b1BF07aeb3BA9fD0dc",
+      "fractionalContractAddress": "0xd051c326C9Aef673428E6F01eb65d2C52De95D30",
+      "chainId": 1
+    }
+  ]
 }

@@ -197,11 +197,6 @@ const getRowStringValue = (queryResult: QueryResult, columnName: string): string
   return value.value
 }
 
-const removeEip712Domain = (types: Eip712TypedData['types']): Record<string, TypedDataField[]> => {
-  const { EIP712Domain, ...rest } = types
-  return rest
-}
-
 const verifySignature = ({
   eip712AttestationData,
   signature,
@@ -211,8 +206,11 @@ const verifySignature = ({
   signature: string
   expectedAddress: string
 }): void => {
-  const { domain, message } = eip712AttestationData
-  const types = removeEip712Domain(eip712AttestationData.types)
+  const {
+    domain,
+    message,
+    types: { EIP712Domain: _, ...types },
+  } = eip712AttestationData
   const signerAddress = verifyTypedData(domain, types, message, signature)
   if (signerAddress.toLowerCase() !== expectedAddress.toLowerCase()) {
     throw new AdapterError({
