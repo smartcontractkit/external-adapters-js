@@ -30,5 +30,19 @@ describe('endpoint utils', () => {
       expect(req.requestContext.data).toBe(requestContextData)
       expect(req.requestContext.data).toEqual({ base: 'btc', quote: 'eur' })
     })
+
+    it('lowercases base-only requests without a quote', () => {
+      const requestContextData = { base: 'AaPl' }
+      const req = {
+        requestContext: {
+          data: requestContextData,
+        },
+      } as AdapterRequest<{ base: string; quote?: string }>
+
+      tiingoCommonSubscriptionRequestTransform(req)
+
+      expect(req.requestContext.data).toBe(requestContextData)
+      expect(req.requestContext.data).toEqual({ base: 'aapl' })
+    })
   })
 })
