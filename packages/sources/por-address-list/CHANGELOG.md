@@ -1,5 +1,15 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.16.0
+
+### Minor Changes
+
+- [#4760](https://github.com/smartcontractkit/external-adapters-js/pull/4760) [`0d20656`](https://github.com/smartcontractkit/external-adapters-js/commit/0d2065689873d2d960ee5f69da13c78cd0f15a9f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add staking support to okx addresses
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 5.15.0
 
 ### Minor Changes
