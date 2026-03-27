@@ -6,6 +6,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/price'
+import { blocksizeCommonSubscriptionRequestTransform } from './utils'
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
@@ -25,4 +26,5 @@ export const endpoint = new CryptoPriceEndpoint({
   aliases: ['crypto'],
   transport,
   inputParameters,
+  requestTransforms: [blocksizeCommonSubscriptionRequestTransform],
 })

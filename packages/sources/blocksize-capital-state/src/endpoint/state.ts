@@ -6,6 +6,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { stateTransport } from '../transport/state'
+import { blocksizeStateSubscriptionRequestTransform } from './utils'
 
 export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
@@ -25,4 +26,5 @@ export const endpoint = new PriceEndpoint({
   aliases: ['crypto', 'state'],
   transport: stateTransport,
   inputParameters,
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
 })
