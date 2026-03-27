@@ -32,7 +32,7 @@ describe('endpoint utils', () => {
     })
 
     it('lowercases base-only requests without a quote', () => {
-      const requestContextData = { base: 'AaPl' }
+      const requestContextData = { base: 'USD' }
       const req = {
         requestContext: {
           data: requestContextData,
@@ -42,7 +42,7 @@ describe('endpoint utils', () => {
       tiingoCommonSubscriptionRequestTransform(req)
 
       expect(req.requestContext.data).toBe(requestContextData)
-      expect(req.requestContext.data).toEqual({ base: 'aapl' })
+      expect(req.requestContext.data).toEqual({ base: 'usd' })
     })
   })
 })
