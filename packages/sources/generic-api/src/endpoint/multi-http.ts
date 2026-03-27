@@ -4,14 +4,11 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config, getApiConfig } from '../config'
 import { multiHttpTransport } from '../transport/multi-http'
+import { sharedInputParameterConfig } from './shared'
 
 export const inputParameters = new InputParameters(
   {
-    apiName: {
-      required: true,
-      type: 'string',
-      description: 'Used as prefix for environment variables to find API config',
-    },
+    ...sharedInputParameterConfig,
     dataPaths: {
       description: 'Array of data paths to extract from the API response',
       required: true,
@@ -28,17 +25,6 @@ export const inputParameters = new InputParameters(
           description: 'JSON path to extract from API response',
         },
       },
-    },
-    ripcordPath: {
-      required: false,
-      type: 'string',
-      description: 'The path to the ripcord field if expected',
-    },
-    ripcordDisabledValue: {
-      default: 'false',
-      type: 'string',
-      description:
-        'If the ripcord field has a different value than this, the adapter will return an error.',
     },
     providerIndicatedTimePath: {
       required: false,
