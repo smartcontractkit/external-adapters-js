@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/por-address-list-adapter",
-  "version": "5.16.0",
-  "description": "Chainlink por-address-list adapter.",
+  "name": "@chainlink/ix-trust-sync-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink ix-trust-sync adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "por-address-list"
+    "ix-trust-sync"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,9 +34,9 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
-    "axios": "1.13.4",
-    "ethers": "^5.5.1",
+    "@chainlink/external-adapter-framework": "2.13.1",
+    "axios": "1.13.5",
+    "ethers": "^6.15.0",
     "tslib": "2.4.1"
   }
 }

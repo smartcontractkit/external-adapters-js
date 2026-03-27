@@ -254,7 +254,7 @@ adapters:
   - name: polygon
     version: 2.0.40
   - name: por-address-list
-    version: 5.15.0
+    version: 5.16.0
   - name: por-indexer
     version: 2.3.0
   - name: proof-of-reserves
