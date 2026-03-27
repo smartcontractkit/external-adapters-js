@@ -19,6 +19,26 @@ describe('blocksizeStateSubscriptionRequestTransform', () => {
     })
   })
 
+  it('should not modify unrelated request data', () => {
+    const req = {
+      requestContext: {
+        data: {
+          base: 'CbBtC',
+          quote: 'UsD',
+          endpoint: 'state',
+        },
+      },
+    } as any
+
+    blocksizeStateSubscriptionRequestTransform()(req)
+
+    expect(req.requestContext.data).toEqual({
+      base: 'cbbtc',
+      quote: 'usd',
+      endpoint: 'state',
+    })
+  })
+
   it('should lowercase base when quote is omitted', () => {
     const req = {
       requestContext: {

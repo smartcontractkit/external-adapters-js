@@ -6,7 +6,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/vwap'
-import { blocksizeCommonSubscriptionRequestTransform } from './utils'
+import { blocksizeStateSubscriptionRequestTransform } from './utils'
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
@@ -26,5 +26,5 @@ export const endpoint = new PriceEndpoint({
   aliases: ['crypto-vwap'],
   transport,
   inputParameters,
-  requestTransforms: [blocksizeCommonSubscriptionRequestTransform],
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
 })

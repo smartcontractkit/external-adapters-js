@@ -6,7 +6,7 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { transport } from '../transport/crypto-lwba'
-import { blocksizeCommonSubscriptionRequestTransform } from './utils'
+import { blocksizeStateSubscriptionRequestTransform } from './utils'
 
 const inputParameters = new InputParameters(lwbaEndpointInputParametersDefinition, [
   {
@@ -25,5 +25,5 @@ export const endpoint = new LwbaEndpoint({
   name: 'crypto-lwba',
   transport,
   inputParameters,
-  requestTransforms: [blocksizeCommonSubscriptionRequestTransform],
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
 })

@@ -1,6 +1,6 @@
-import { blocksizeCommonSubscriptionRequestTransform } from '../../src/endpoint/utils'
+import { blocksizeStateSubscriptionRequestTransform } from '../../src/endpoint/utils'
 
-describe('blocksizeCommonSubscriptionRequestTransform', () => {
+describe('blocksizeStateSubscriptionRequestTransform', () => {
   it('should lowercase base and quote', () => {
     const req = {
       requestContext: {
@@ -11,11 +11,31 @@ describe('blocksizeCommonSubscriptionRequestTransform', () => {
       },
     } as any
 
-    blocksizeCommonSubscriptionRequestTransform()(req)
+    blocksizeStateSubscriptionRequestTransform()(req)
 
     expect(req.requestContext.data).toEqual({
       base: 'eth',
       quote: 'usd',
+    })
+  })
+
+  it('should not modify unrelated request data', () => {
+    const req = {
+      requestContext: {
+        data: {
+          base: 'EtH',
+          quote: 'UsD',
+          endpoint: 'price',
+        },
+      },
+    } as any
+
+    blocksizeStateSubscriptionRequestTransform()(req)
+
+    expect(req.requestContext.data).toEqual({
+      base: 'eth',
+      quote: 'usd',
+      endpoint: 'price',
     })
   })
 
@@ -28,7 +48,7 @@ describe('blocksizeCommonSubscriptionRequestTransform', () => {
       },
     } as any
 
-    blocksizeCommonSubscriptionRequestTransform()(req)
+    blocksizeStateSubscriptionRequestTransform()(req)
 
     expect(req.requestContext.data).toEqual({
       base: 'ampl',
