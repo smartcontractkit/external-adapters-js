@@ -26,12 +26,6 @@ export const inputParameters = new InputParameters(
         },
       },
     },
-    providerIndicatedTimePath: {
-      required: false,
-      type: 'string',
-      description:
-        'JSON path to extract the timestamp from the API response. Supports ISO 8601 datetime strings (e.g., "2026-01-19T06:56:22.194Z") or Unix milliseconds (number). The value will be placed in timestamps.providerIndicatedTimeUnixMs.',
-    },
   },
   [
     {
