@@ -52,6 +52,34 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           },
         }
       }
+
+      // Extract timestamp if providerIndicatedTimePath is provided
+      let providerIndicatedTimeUnixMs: number | undefined
+      if (param.providerIndicatedTimePath !== undefined) {
+        if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
+        const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
+        providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
+
+        // Validate: must be finite and positive
+        if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
+      }
+
       const result = objectPath.get(response.data, param.dataPath).toString()
       return {
         params: param,
@@ -59,6 +87,9 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           result,
           data: {
             result,
+          },
+          timestamps: {
+            providerIndicatedTimeUnixMs,
           },
         },
       }
