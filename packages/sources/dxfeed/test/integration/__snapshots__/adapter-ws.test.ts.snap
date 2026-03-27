@@ -2,23 +2,23 @@
 
 exports[`websocket quote endpoint error when ask is null 1`] = `
 {
-  "error": {
-    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
-    "name": "AdapterError",
+  "errorMessage": "Bid price: 170 or Ask price: NaN for NULL_ASK is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
   },
-  "status": "errored",
-  "statusCode": 504,
 }
 `;
 
 exports[`websocket quote endpoint error when bid is null 1`] = `
 {
-  "error": {
-    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
-    "name": "AdapterError",
+  "errorMessage": "Bid price: NaN or Ask price: 172 for NULL_BID is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
   },
-  "status": "errored",
-  "statusCode": 504,
 }
 `;
 

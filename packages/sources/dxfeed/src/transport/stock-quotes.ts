@@ -1,4 +1,4 @@
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock-quotes'
 import { buildWsTransport } from './ws'
 
@@ -32,23 +32,29 @@ export const transport = buildWsTransport<BaseEndpointTypes>(
       return []
     }
 
-    return Array.from({ length: data.length / dataLength }, (_, i) => i * dataLength)
-      .map((i) => generateResponse(data, i))
-      .flat()
+    return splitArrayIntoChunks(data, dataLength).flatMap((chunk) => generateResponse(chunk))
   },
 )
 
-const generateResponse = (data: (string | number)[], i: number) => {
-  const bidVolume = Number(data[i + bidSizeIndex])
-  const askVolume = Number(data[i + askSizeIndex])
+const generateResponse = (data: (string | number)[]) => {
+  const bidVolume = Number(data[bidSizeIndex])
+  const askVolume = Number(data[askSizeIndex])
   const invalidVolume = Number.isNaN(Number(bidVolume)) || Number.isNaN(Number(askVolume))
-  const bidPrice = Number(data[i + bidPriceIndex])
-  const askPrice = Number(data[i + askPriceIndex])
+  const bidPrice = Number(data[bidPriceIndex])
+  const askPrice = Number(data[askPriceIndex])
 
-  const params = { base: data[i + eventSymbolIndex].toString() }
+  const params = { base: data[eventSymbolIndex].toString() }
   if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
-    logger.warn(`Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`)
-    return []
+    const response = {
+      statusCode: 502,
+      errorMessage: `Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`,
+    }
+    return [
+      { params: { ...params, requireVolume: false, isOvernight: true }, response },
+      { params: { ...params, requireVolume: true, isOvernight: true }, response },
+      { params: { ...params, requireVolume: false, isOvernight: false }, response },
+      { params: { ...params, requireVolume: true, isOvernight: false }, response },
+    ]
   }
 
   let midPrice: number
@@ -71,10 +77,7 @@ const generateResponse = (data: (string | number)[], i: number) => {
       ask_volume: askVolume,
     },
     timestamps: {
-      providerIndicatedTimeUnixMs: Math.max(
-        Number(data[i + bidTimeIndex]),
-        Number(data[i + askTimeIndex]),
-      ),
+      providerIndicatedTimeUnixMs: Math.max(Number(data[bidTimeIndex]), Number(data[askTimeIndex])),
     },
   }
 
@@ -93,7 +96,7 @@ const generateResponse = (data: (string | number)[], i: number) => {
     },
   ]
 
-  if (data[i + bidExchangeCodeIndex] === 'O' && data[i + askExchangeCodeIndex] === 'O') {
+  if (data[bidExchangeCodeIndex] === 'O' && data[askExchangeCodeIndex] === 'O') {
     responses.push({
       params: { ...params, requireVolume: false, isOvernight: true },
       response,
