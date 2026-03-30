@@ -7864,11 +7864,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
         "packageDependencies": [\
           ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

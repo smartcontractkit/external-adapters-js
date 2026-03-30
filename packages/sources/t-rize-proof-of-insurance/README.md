@@ -49,7 +49,7 @@ Values are truncated before conversion and validated to fit positive `int192`. I
   "data": {
     "owner_party_id": "TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b",
     "tree_id": "tree-001",
-    "endpoint": "proof_of_insurance"
+    "endpoint": "proof-of-insurance"
   }
 }
 ```

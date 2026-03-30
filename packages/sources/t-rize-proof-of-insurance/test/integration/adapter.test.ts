@@ -47,13 +47,13 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('proof_of_insurance endpoint', () => {
+  describe('proof-of-insurance endpoint', () => {
     describe('happy path', () => {
       it('should return success', async () => {
         const data = {
           owner_party_id: OWNER_PARTY_ID,
           tree_id: 'tree-001',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseSuccess()
         const response = await testAdapter.request(data)
@@ -65,7 +65,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: OWNER_PARTY_ID,
           tree_id: 'tree-002',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessAnotherTree()
         const response = await testAdapter.request(data)
@@ -77,7 +77,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'owner::with-special/chars',
           tree_id: 'tree & test',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessSpecialChars()
         const response = await testAdapter.request(data)
@@ -89,7 +89,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'minimal-owner',
           tree_id: 'tree-minimal',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessMinimalRoot()
         const response = await testAdapter.request(data)
@@ -108,7 +108,7 @@ describe('execute', () => {
       it('should fail on missing owner_party_id', async () => {
         const response = await testAdapter.request({
           tree_id: 'tree-001',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
@@ -117,7 +117,7 @@ describe('execute', () => {
       it('should fail on missing tree_id', async () => {
         const response = await testAdapter.request({
           owner_party_id: OWNER_PARTY_ID,
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
@@ -127,7 +127,7 @@ describe('execute', () => {
         const response = await testAdapter.request({
           owner_party_id: 12345,
           tree_id: 'tree-001',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
@@ -137,7 +137,7 @@ describe('execute', () => {
         const response = await testAdapter.request({
           owner_party_id: OWNER_PARTY_ID,
           tree_id: { invalid: 'object' },
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
@@ -149,7 +149,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'error-owner',
           tree_id: 'tree-error',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseFailure500()
         const response = await testAdapter.request(data)
@@ -160,7 +160,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'notfound-owner',
           tree_id: 'tree-notfound',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseFailure404()
         const response = await testAdapter.request(data)
@@ -171,7 +171,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'unauthorized-owner',
           tree_id: 'tree-unauthorized',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseFailure401()
         const response = await testAdapter.request(data)
@@ -182,7 +182,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'empty-owner',
           tree_id: 'tree-empty',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
         mockResponseEmptyBody()
         const response = await testAdapter.request(data)
@@ -195,7 +195,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'overflow-root-owner',
           tree_id: 'tree-overflow-root-truncated',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
 
         mockResponseOverflowRootAfterTruncation()
@@ -216,7 +216,7 @@ describe('execute', () => {
         const data = {
           owner_party_id: 'overflow-contract-owner',
           tree_id: 'tree-overflow-contract-truncated',
-          endpoint: 'proof_of_insurance',
+          endpoint: 'proof-of-insurance',
         }
 
         mockResponseOverflowContractAfterTruncation()
