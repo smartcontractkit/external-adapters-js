@@ -75,9 +75,9 @@ exports[`execute calculated-multi-function endpoint should return error with fai
 exports[`execute calculated-multi-function endpoint should return success 1`] = `
 {
   "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+    "result": "1524075000",
   },
-  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "result": "1524075000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -89,9 +89,9 @@ exports[`execute calculated-multi-function endpoint should return success 1`] = 
 exports[`execute calculated-multi-function endpoint should return success for different network 1`] = `
 {
   "data": {
-    "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
+    "result": "17198543974123254000",
   },
-  "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
+  "result": "17198543974123254000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -134,9 +134,9 @@ exports[`execute calculated-multi-function endpoint should return success with c
 {
   "data": {
     "decimals": "18",
-    "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+    "result": "1559756603",
   },
-  "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "result": "1559756603",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -149,7 +149,7 @@ exports[`execute calculated-multi-function endpoint should return success with m
 {
   "data": {
     "aptosResult": "1",
-    "evmResult": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+    "evmResult": "1524075000",
   },
   "result": null,
   "statusCode": 200,
@@ -163,10 +163,10 @@ exports[`execute calculated-multi-function endpoint should return success with m
 exports[`execute calculated-multi-function endpoint should return success with multiple data requests  1`] = `
 {
   "data": {
-    "decimals": "0x0000000000000000000000000000000000000000000000000000000000000008",
-    "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+    "decimals": "8",
+    "result": "1524075000",
   },
-  "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
+  "result": "1524075000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -208,9 +208,9 @@ exports[`execute calculated-multi-function endpoint should return success with o
 exports[`execute calculated-multi-function endpoint should return success with parameters 1`] = `
 {
   "data": {
-    "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+    "result": "1559756603",
   },
-  "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
+  "result": "1559756603",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

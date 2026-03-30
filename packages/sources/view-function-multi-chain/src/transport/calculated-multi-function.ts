@@ -108,8 +108,9 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     inputParams?: Array<string>
     network: string
     resultField?: string
+    decimals?: number
   }) {
-    const { address, signature, inputParams, network } = params
+    const { address, signature, inputParams, network, decimals } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -126,14 +127,32 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const fnName = iface.getFunctionName(signature)
     const encoded = iface.encodeFunctionData(fnName, inputParams || [])
 
+    let encodedResult: string
     try {
-      return await this.providers[networkName].call({ to: address, data: encoded })
+      encodedResult = await this.providers[networkName].call({ to: address, data: encoded })
     } catch (err) {
       throw new AdapterError({
         statusCode: 500,
         message: `RPC call failed for ${fnName} on ${networkName}: ${err}`,
       })
     }
+
+    const fragment = iface.getFunction(fnName)
+    const outputCount = fragment?.outputs?.length ?? 0
+
+    if (outputCount > 1) {
+      // Multi-return functions stay as raw hex for the `select` operation to decode
+      return encodedResult
+    }
+
+    const decodedResult = iface.decodeFunctionResult(fnName, encodedResult)
+    const rawValue = decodedResult[0]
+
+    if (decimals != null && decimals > 0) {
+      return ethers.formatUnits(rawValue, decimals)
+    }
+
+    return BigInt(rawValue).toString()
   }
 
   private async _executeAptosFunction(call: AptosCall): Promise<string> {

@@ -43,6 +43,12 @@ export const inputParameters = new InputParameters(
           description: 'RPC network name',
           type: 'string',
         },
+        decimals: {
+          required: false,
+          description:
+            'Number of decimals to scale the decoded result by. E.g. decimals=7 will divide the raw integer by 1e7, turning 12345678 into 1.2345678',
+          type: 'number',
+        },
       },
     },
     aptosCalls: {
