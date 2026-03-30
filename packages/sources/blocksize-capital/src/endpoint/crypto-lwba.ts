@@ -25,5 +25,5 @@ export const endpoint = new LwbaEndpoint({
   name: 'crypto-lwba',
   transport,
   inputParameters,
-  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform()],
 })

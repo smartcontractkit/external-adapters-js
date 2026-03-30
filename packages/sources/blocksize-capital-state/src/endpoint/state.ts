@@ -26,5 +26,5 @@ export const endpoint = new PriceEndpoint({
   aliases: ['crypto', 'state'],
   transport: stateTransport,
   inputParameters,
-  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform()],
 })

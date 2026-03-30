@@ -26,5 +26,5 @@ export const endpoint = new PriceEndpoint({
   aliases: ['crypto-vwap'],
   transport,
   inputParameters,
-  requestTransforms: [blocksizeStateSubscriptionRequestTransform],
+  requestTransforms: [blocksizeStateSubscriptionRequestTransform()],
 })
