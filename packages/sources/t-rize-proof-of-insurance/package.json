@@ -7,8 +7,7 @@
     "LINK",
     "blockchain",
     "oracle",
-    "t-rize",
-    "proof-of-insurance"
+    "t-rize-proof-of-insurance"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
