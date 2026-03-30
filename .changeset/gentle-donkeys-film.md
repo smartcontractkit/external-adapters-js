@@ -1,7 +1,6 @@
 ---
-'@chainlink/por-address-list-adapter': patch
 '@chainlink/tiingo-adapter': patch
-'@chainlink/itick-adapter': patch
+'chainlink/tiingo-state-adapter': patch
 ---
 
 fix tiingo casing issue

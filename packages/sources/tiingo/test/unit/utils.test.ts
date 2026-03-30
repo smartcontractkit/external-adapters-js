@@ -11,7 +11,7 @@ describe('endpoint utils', () => {
         },
       } as AdapterRequest<{ base: string; quote: string }>
 
-      tiingoCommonSubscriptionRequestTransform(req)
+      tiingoCommonSubscriptionRequestTransform()(req)
 
       expect(req.requestContext.data).toBe(requestContextData)
       expect(req.requestContext.data).toEqual({ base: 'eth', quote: 'usd' })
@@ -25,7 +25,7 @@ describe('endpoint utils', () => {
         },
       } as AdapterRequest<{ base: string; quote: string }>
 
-      tiingoCommonSubscriptionRequestTransform(req)
+      tiingoCommonSubscriptionRequestTransform()(req)
 
       expect(req.requestContext.data).toBe(requestContextData)
       expect(req.requestContext.data).toEqual({ base: 'btc', quote: 'eur' })
@@ -39,7 +39,7 @@ describe('endpoint utils', () => {
         },
       } as AdapterRequest<{ base: string; quote?: string }>
 
-      tiingoCommonSubscriptionRequestTransform(req)
+      tiingoCommonSubscriptionRequestTransform()(req)
 
       expect(req.requestContext.data).toBe(requestContextData)
       expect(req.requestContext.data).toEqual({ base: 'usd' })
