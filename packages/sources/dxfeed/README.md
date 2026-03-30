@@ -1,6 +1,6 @@
 # DXFEED
 
-![2.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dxfeed/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -64,6 +64,7 @@ Request:
 | :-------: | :-----------: | :---------------------------------------------------: | :-------------------------------------------------------------------------------------------: | :-----: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     |     base      | `asset`, `coin`, `from`, `market`, `symbol`, `ticker` | The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints | string  |         |         |            |                |
 |           | requireVolume |                                                       |                       If true, throw error if bid/ask volume is invalid                       | boolean |         |         |            |                |
+|           |  isOvernight  |                                                       |                     If true, only accept O exchange codes for bid and ask                     | boolean |         |         |            |                |
 
 ### Example
 
