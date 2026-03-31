@@ -225,6 +225,44 @@ describe('execute', () => {
       expect(response.statusCode).toBe(502)
     })
 
+    it('should return success with decimals scaling', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
+            decimals: 8,
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return unscaled result when decimals is 0', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'result',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
+            decimals: 0,
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
     it('should return success for different network', async () => {
       const data = {
         endpoint: 'calculated-multi-function',

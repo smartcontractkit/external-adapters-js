@@ -86,6 +86,34 @@ exports[`execute calculated-multi-function endpoint should return success 1`] = 
 }
 `;
 
+exports[`execute calculated-multi-function endpoint should return success with decimals scaling 1`] = `
+{
+  "data": {
+    "result": "15.24075",
+  },
+  "result": "15.24075",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute calculated-multi-function endpoint should return unscaled result when decimals is 0 1`] = `
+{
+  "data": {
+    "result": "1524075000",
+  },
+  "result": "1524075000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute calculated-multi-function endpoint should return success for different network 1`] = `
 {
   "data": {
