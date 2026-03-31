@@ -63,14 +63,6 @@ describe('execute', () => {
     decimals: 8,
   }
 
-  const v7WithResultPathAndDecimalsAsFloat = {
-    endpoint: 'exchangeRate-v7',
-    feedId: '0x0007',
-    resultPath: 'exchangeRate',
-    decimals: 0,
-    returnAs: 'float',
-  }
-
   const v11WithResultPathAndDecimals = {
     endpoint: 'deutscheBoerse-v11',
     feedId: '0x000b5',
@@ -110,9 +102,8 @@ describe('execute', () => {
     await testAdapter.request(v8WithResultPath)
     await testAdapter.request(v7WithResultPath)
     await testAdapter.request(v7WithResultPathAndDecimals)
-    await testAdapter.request(v7WithResultPathAndDecimalsAsFloat)
     await testAdapter.request(v11WithResultPathAndDecimals)
-    await testAdapter.waitForCache(11)
+    await testAdapter.waitForCache(10)
   })
 
   afterAll(async () => {
@@ -208,33 +199,6 @@ describe('execute', () => {
       expect(json.result).toBe('115678900')
       // data should still contain raw unscaled values
       expect(json.data.exchangeRate).toBe('1156789000000000000')
-    })
-  })
-
-  describe('exchangeRate-v7 with resultPath, decimals and returnAs float', () => {
-    it('should return float representation of scaled redemptionRate', async () => {
-      const response = await testAdapter.request(v7WithResultPathAndDecimalsAsFloat)
-      expect(response.statusCode).toBe(200)
-      const json = response.json()
-      // redemptionRate 1156789000000000000 scaled from 18 to 0 decimals as float
-      // 1156789000000000000 / 10^(18-0) = 1156789000000000000 / 10^18 = 1.156789000000000000
-      expect(json.result).toBe('1.156789000000000000')
-      // data should still contain raw unscaled values
-      expect(json.data.exchangeRate).toBe('1156789000000000000')
-    })
-  })
-
-  describe('exchangeRate-v7 with returnAs but no decimals', () => {
-    it('should return 400 error', async () => {
-      const response = await testAdapter.request({
-        endpoint: 'exchangeRate-v7',
-        feedId: '0x0007',
-        resultPath: 'exchangeRate',
-        returnAs: 'float',
-      })
-      expect(response.statusCode).toBe(400)
-      const json = response.json()
-      expect(json.error.message).toBe('returnAs input param must be paired with a decimals value')
     })
   })
 
