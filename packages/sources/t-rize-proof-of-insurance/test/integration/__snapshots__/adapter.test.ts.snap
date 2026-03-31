@@ -9,9 +9,9 @@ exports[`execute proof-of-insurance endpoint happy path should handle minimal me
     "ripcord": 0,
   },
   "meta": {
-    "adapterName": "T_RIZE-PROOF-OF-INSURANCE",
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
     "metrics": {
-      "feedId": "{"owner_party_id":"minimal-owner","tree_id":"tree-minimal"}",
+      "feedId": "{"ownerPartyId":"minimal-owner","treeId":"tree-minimal"}",
     },
   },
   "result": "1",
@@ -23,7 +23,7 @@ exports[`execute proof-of-insurance endpoint happy path should handle minimal me
 }
 `;
 
-exports[`execute proof-of-insurance endpoint happy path should handle special characters in owner_party_id and tree_id 1`] = `
+exports[`execute proof-of-insurance endpoint happy path should handle special characters in ownerPartyId and treeId 1`] = `
 {
   "data": {
     "aum": "1",
@@ -32,9 +32,9 @@ exports[`execute proof-of-insurance endpoint happy path should handle special ch
     "ripcord": 0,
   },
   "meta": {
-    "adapterName": "T_RIZE-PROOF-OF-INSURANCE",
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
     "metrics": {
-      "feedId": "{"owner_party_id":"owner::with-special/chars","tree_id":"tree & test"}",
+      "feedId": "{"ownerPartyId":"owner::with-special/chars","treeId":"tree & test"}",
     },
   },
   "result": "340282366920938463463374607431768211455",
@@ -55,9 +55,9 @@ exports[`execute proof-of-insurance endpoint happy path should return success 1`
     "ripcord": 0,
   },
   "meta": {
-    "adapterName": "T_RIZE-PROOF-OF-INSURANCE",
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
     "metrics": {
-      "feedId": "{"owner_party_id":"trizegroup-cantontestnetvalidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b","tree_id":"tree-001"}",
+      "feedId": "{"ownerPartyId":"trizegroup-examplevalidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","treeId":"tree-001"}",
     },
   },
   "result": "346721066100686420582578309663873500522184437856905853753",
@@ -78,9 +78,9 @@ exports[`execute proof-of-insurance endpoint happy path should return success fo
     "ripcord": 0,
   },
   "meta": {
-    "adapterName": "T_RIZE-PROOF-OF-INSURANCE",
+    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
     "metrics": {
-      "feedId": "{"owner_party_id":"trizegroup-cantontestnetvalidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b","tree_id":"tree-002"}",
+      "feedId": "{"ownerPartyId":"trizegroup-examplevalidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","treeId":"tree-002"}",
     },
   },
   "result": "0",
@@ -95,7 +95,7 @@ exports[`execute proof-of-insurance endpoint happy path should return success fo
 exports[`execute proof-of-insurance endpoint validation errors should fail on empty request 1`] = `
 {
   "error": {
-    "message": "[Param: owner_party_id] param is required but no value was provided",
+    "message": "[Param: ownerPartyId] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -103,10 +103,10 @@ exports[`execute proof-of-insurance endpoint validation errors should fail on em
 }
 `;
 
-exports[`execute proof-of-insurance endpoint validation errors should fail on invalid owner_party_id type 1`] = `
+exports[`execute proof-of-insurance endpoint validation errors should fail on invalid ownerPartyId type 1`] = `
 {
   "error": {
-    "message": "[Param: owner_party_id] input type is not the expected one (string)",
+    "message": "[Param: ownerPartyId] input type is not the expected one (string)",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -114,10 +114,10 @@ exports[`execute proof-of-insurance endpoint validation errors should fail on in
 }
 `;
 
-exports[`execute proof-of-insurance endpoint validation errors should fail on invalid tree_id type 1`] = `
+exports[`execute proof-of-insurance endpoint validation errors should fail on invalid treeId type 1`] = `
 {
   "error": {
-    "message": "[Param: tree_id] input type is not the expected one (string)",
+    "message": "[Param: treeId] input type is not the expected one (string)",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -125,10 +125,10 @@ exports[`execute proof-of-insurance endpoint validation errors should fail on in
 }
 `;
 
-exports[`execute proof-of-insurance endpoint validation errors should fail on missing owner_party_id 1`] = `
+exports[`execute proof-of-insurance endpoint validation errors should fail on missing ownerPartyId 1`] = `
 {
   "error": {
-    "message": "[Param: owner_party_id] param is required but no value was provided",
+    "message": "[Param: ownerPartyId] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -136,10 +136,10 @@ exports[`execute proof-of-insurance endpoint validation errors should fail on mi
 }
 `;
 
-exports[`execute proof-of-insurance endpoint validation errors should fail on missing tree_id 1`] = `
+exports[`execute proof-of-insurance endpoint validation errors should fail on missing treeId 1`] = `
 {
   "error": {
-    "message": "[Param: tree_id] param is required but no value was provided",
+    "message": "[Param: treeId] param is required but no value was provided",
     "name": "AdapterError",
   },
   "status": "errored",

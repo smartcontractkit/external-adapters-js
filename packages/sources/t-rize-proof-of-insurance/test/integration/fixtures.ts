@@ -4,7 +4,7 @@ const MERKLE_PATH = '/v1/asset-verifier/merkle-tree/current-root'
 const BASE_URL = 'https://proof.validator.t-rize.ca'
 
 const OWNER_PARTY_ID =
-  'TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b'
+  'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 
 const POSITIVE_INT192_SAFE_HEX = `7f${'00'.repeat(23)}`
 const POSITIVE_INT192_OVERFLOW_HEX = 'ff'.repeat(24)

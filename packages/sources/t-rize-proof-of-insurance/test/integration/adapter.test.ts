@@ -17,7 +17,7 @@ import {
 } from './fixtures'
 
 const OWNER_PARTY_ID =
-  'TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b'
+  'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -27,7 +27,6 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.TRIZE_API_KEY = process.env.TRIZE_API_KEY ?? 'fake-api-key'
-    process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -51,8 +50,8 @@ describe('execute', () => {
     describe('happy path', () => {
       it('should return success', async () => {
         const data = {
-          owner_party_id: OWNER_PARTY_ID,
-          tree_id: 'tree-001',
+          ownerPartyId: OWNER_PARTY_ID,
+          treeId: 'tree-001',
           endpoint: 'proof-of-insurance',
         }
         mockResponseSuccess()
@@ -63,8 +62,8 @@ describe('execute', () => {
 
       it('should return success for another tree', async () => {
         const data = {
-          owner_party_id: OWNER_PARTY_ID,
-          tree_id: 'tree-002',
+          ownerPartyId: OWNER_PARTY_ID,
+          treeId: 'tree-002',
           endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessAnotherTree()
@@ -73,10 +72,10 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should handle special characters in owner_party_id and tree_id', async () => {
+      it('should handle special characters in ownerPartyId and treeId', async () => {
         const data = {
-          owner_party_id: 'owner::with-special/chars',
-          tree_id: 'tree & test',
+          ownerPartyId: 'owner::with-special/chars',
+          treeId: 'tree & test',
           endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessSpecialChars()
@@ -87,8 +86,8 @@ describe('execute', () => {
 
       it('should handle minimal merkle root', async () => {
         const data = {
-          owner_party_id: 'minimal-owner',
-          tree_id: 'tree-minimal',
+          ownerPartyId: 'minimal-owner',
+          treeId: 'tree-minimal',
           endpoint: 'proof-of-insurance',
         }
         mockResponseSuccessMinimalRoot()
@@ -105,38 +104,38 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on missing owner_party_id', async () => {
+      it('should fail on missing ownerPartyId', async () => {
         const response = await testAdapter.request({
-          tree_id: 'tree-001',
+          treeId: 'tree-001',
           endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on missing tree_id', async () => {
+      it('should fail on missing treeId', async () => {
         const response = await testAdapter.request({
-          owner_party_id: OWNER_PARTY_ID,
+          ownerPartyId: OWNER_PARTY_ID,
           endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on invalid owner_party_id type', async () => {
+      it('should fail on invalid ownerPartyId type', async () => {
         const response = await testAdapter.request({
-          owner_party_id: 12345,
-          tree_id: 'tree-001',
+          ownerPartyId: 12345,
+          treeId: 'tree-001',
           endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should fail on invalid tree_id type', async () => {
+      it('should fail on invalid treeId type', async () => {
         const response = await testAdapter.request({
-          owner_party_id: OWNER_PARTY_ID,
-          tree_id: { invalid: 'object' },
+          ownerPartyId: OWNER_PARTY_ID,
+          treeId: { invalid: 'object' },
           endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
@@ -147,8 +146,8 @@ describe('execute', () => {
     describe('upstream failures', () => {
       it('should handle 500 error from upstream', async () => {
         const data = {
-          owner_party_id: 'error-owner',
-          tree_id: 'tree-error',
+          ownerPartyId: 'error-owner',
+          treeId: 'tree-error',
           endpoint: 'proof-of-insurance',
         }
         mockResponseFailure500()
@@ -158,8 +157,8 @@ describe('execute', () => {
 
       it('should handle 404 error from upstream', async () => {
         const data = {
-          owner_party_id: 'notfound-owner',
-          tree_id: 'tree-notfound',
+          ownerPartyId: 'notfound-owner',
+          treeId: 'tree-notfound',
           endpoint: 'proof-of-insurance',
         }
         mockResponseFailure404()
@@ -169,8 +168,8 @@ describe('execute', () => {
 
       it('should handle 401 error from upstream', async () => {
         const data = {
-          owner_party_id: 'unauthorized-owner',
-          tree_id: 'tree-unauthorized',
+          ownerPartyId: 'unauthorized-owner',
+          treeId: 'tree-unauthorized',
           endpoint: 'proof-of-insurance',
         }
         mockResponseFailure401()
@@ -180,8 +179,8 @@ describe('execute', () => {
 
       it('should handle empty response body from upstream', async () => {
         const data = {
-          owner_party_id: 'empty-owner',
-          tree_id: 'tree-empty',
+          ownerPartyId: 'empty-owner',
+          treeId: 'tree-empty',
           endpoint: 'proof-of-insurance',
         }
         mockResponseEmptyBody()
@@ -193,8 +192,8 @@ describe('execute', () => {
     describe('encoding guardrails', () => {
       it('should fail fast when truncated root still exceeds positive int192', async () => {
         const data = {
-          owner_party_id: 'overflow-root-owner',
-          tree_id: 'tree-overflow-root-truncated',
+          ownerPartyId: 'overflow-root-owner',
+          treeId: 'tree-overflow-root-truncated',
           endpoint: 'proof-of-insurance',
         }
 
@@ -206,7 +205,7 @@ describe('execute', () => {
           expect.objectContaining({
             statusCode: 502,
             errorMessage: expect.stringContaining(
-              'Unable to map root to navPerShare: truncated value does not fit positive int192.',
+              'Unable to map root to navPerShare: value does not fit positive int192.',
             ),
           }),
         )
@@ -214,8 +213,8 @@ describe('execute', () => {
 
       it('should fail fast when truncated contractId still exceeds positive int192', async () => {
         const data = {
-          owner_party_id: 'overflow-contract-owner',
-          tree_id: 'tree-overflow-contract-truncated',
+          ownerPartyId: 'overflow-contract-owner',
+          treeId: 'tree-overflow-contract-truncated',
           endpoint: 'proof-of-insurance',
         }
 
@@ -227,7 +226,7 @@ describe('execute', () => {
           expect.objectContaining({
             statusCode: 502,
             errorMessage: expect.stringContaining(
-              'Unable to map contractId to aum: truncated value does not fit positive int192.',
+              'Unable to map contractId to aum: value does not fit positive int192.',
             ),
           }),
         )
