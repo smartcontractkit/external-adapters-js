@@ -5,7 +5,7 @@ import { proofOfInsurance } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: proofOfInsurance.name,
-  name: 'T_RIZE-PROOF-OF-INSURANCE',
+  name: 'T_RIZE_PROOF_OF_INSURANCE',
   config,
   endpoints: [proofOfInsurance],
   rateLimiting: {
