@@ -94,6 +94,21 @@ describe('websocket', () => {
       endpoint: 'price',
       transport: 'ws',
     })
+    // Prime cache for protocol:asset instrument format tests
+    await testAdapter.request({
+      base: 'xyz:EZETH',
+      quote: 'USD',
+      endpoint: 'price',
+      transport: 'ws',
+      overrides: { MOBULA_STATE: { 'XYZ:EZETH': '102478632' } },
+    })
+    await testAdapter.request({
+      base: 'abc:GHO',
+      quote: 'USD',
+      endpoint: 'price',
+      transport: 'ws',
+      overrides: { MOBULA_STATE: { 'ABC:GHO': '2921' } },
+    })
     // Prime cache for graceful error handling tests
     await testAdapter.request({
       base: 'gho', // Lowercase test - should get uppercased to GHO
@@ -107,7 +122,7 @@ describe('websocket', () => {
       endpoint: 'price',
       transport: 'ws',
     })
-    await testAdapter.waitForCache(8) // Wait for all primed pairs to be cached (7 new + 1 initial = 8 total, gho/usd doesn't create a new entry since it uppercases to GHO/USD)
+    await testAdapter.waitForCache(10) // 8 previous + 2 protocol-prefixed pairs
   }, 30000)
 
   afterAll(async () => {
@@ -297,6 +312,32 @@ describe('websocket', () => {
         exchange: 'binance',
         endpoint: 'funding-rate',
       })
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('protocol:asset instrument input format', () => {
+    it('should resolve {protocol}:{asset} via overrides (xyz:EZETH/USD)', async () => {
+      const response = await testAdapter.request({
+        base: 'xyz:EZETH',
+        quote: 'USD',
+        endpoint: 'price',
+        transport: 'ws',
+        overrides: { MOBULA_STATE: { 'XYZ:EZETH': '102478632' } },
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should resolve {protocol}:{asset} with different protocol (abc:GHO/USD)', async () => {
+      const response = await testAdapter.request({
+        base: 'abc:GHO',
+        quote: 'USD',
+        endpoint: 'price',
+        transport: 'ws',
+        overrides: { MOBULA_STATE: { 'ABC:GHO': '2921' } },
+      })
+      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
   })
