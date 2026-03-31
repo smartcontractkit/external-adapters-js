@@ -11,7 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Testnet     | `https://proof.validator.t-rize.ca` |
 | Mainnet     | `https://proof.t-rize.network`      |
 
-The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=https://proof.t-rize.network`.
+The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.validator.t-rize.ca`.
 
 ## SmartData v9 Field Mapping
 
@@ -27,6 +27,8 @@ The T-Rize API returns a merkle tree response that is mapped to SmartData v9 fie
 Values are truncated before conversion and validated to fit positive `int192`. If a truncated value still falls outside that range, the adapter returns a `502` instead of silently coercing it.
 
 `treeId` from the API response is not mapped to a v9 field.
+
+For this integration, `navPerShare` and `aum` are schema-driven carrier fields: `navPerShare` carries the truncated merkle root and `aum` carries the truncated ledger contract ID. They are not scaled 18-decimal monetary values.
 
 ## Sample Output
 
@@ -45,10 +47,10 @@ Values are truncated before conversion and validated to fit positive `int192`. I
 
 ## Environment Variables
 
-| Required? |     Name      |                                                        Description                                                         |  Type  | Options |               Default               |
-| :-------: | :-----------: | :------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------: |
-|           | API_ENDPOINT  | The T-Rize API base URL. Defaults to testnet (proof.validator.t-rize.ca). Set to https://proof.t-rize.network for mainnet. | string |         | `https://proof.validator.t-rize.ca` |
-|    ✅     | TRIZE_API_KEY |                            API key for T-Rize asset-verifier API (passed via x-api-key header)                             | string |         |                                     |
+| Required? |     Name      |                                                          Description                                                          |  Type  | Options |            Default             |
+| :-------: | :-----------: | :---------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|           | API_ENDPOINT  | The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.validator.t-rize.ca for testnet. | string |         | `https://proof.t-rize.network` |
+|    ✅     | TRIZE_API_KEY |                              API key for T-Rize asset-verifier API (passed via x-api-key header)                              | string |         |                                |
 
 ---
 

@@ -1,7 +1,7 @@
 import nock from 'nock'
 
 const MERKLE_PATH = '/v1/asset-verifier/merkle-tree/current-root'
-const BASE_URL = 'https://proof.validator.t-rize.ca'
+const BASE_URL = 'https://proof.t-rize.network'
 
 const OWNER_PARTY_ID =
   'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'

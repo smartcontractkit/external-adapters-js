@@ -3,9 +3,9 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 export const config = new AdapterConfig({
   API_ENDPOINT: {
     description:
-      'The T-Rize API base URL. Defaults to testnet (proof.validator.t-rize.ca). Set to https://proof.t-rize.network for mainnet.',
+      'The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.validator.t-rize.ca for testnet.',
     type: 'string',
-    default: 'https://proof.validator.t-rize.ca',
+    default: 'https://proof.t-rize.network',
   },
   TRIZE_API_KEY: {
     description: 'API key for T-Rize asset-verifier API (passed via x-api-key header)',

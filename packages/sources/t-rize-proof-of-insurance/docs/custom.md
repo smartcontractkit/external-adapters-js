@@ -5,7 +5,7 @@
 | Testnet     | `https://proof.validator.t-rize.ca` |
 | Mainnet     | `https://proof.t-rize.network`      |
 
-The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=https://proof.t-rize.network`.
+The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.validator.t-rize.ca`.
 
 ## SmartData v9 Field Mapping
 
@@ -21,6 +21,8 @@ The T-Rize API returns a merkle tree response that is mapped to SmartData v9 fie
 Values are truncated before conversion and validated to fit positive `int192`. If a truncated value still falls outside that range, the adapter returns a `502` instead of silently coercing it.
 
 `treeId` from the API response is not mapped to a v9 field.
+
+For this integration, `navPerShare` and `aum` are schema-driven carrier fields: `navPerShare` carries the truncated merkle root and `aum` carries the truncated ledger contract ID. They are not scaled 18-decimal monetary values.
 
 ## Sample Output
 
