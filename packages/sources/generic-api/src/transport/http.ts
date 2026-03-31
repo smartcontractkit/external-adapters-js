@@ -34,10 +34,26 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         objectPath.has(response.data, param.ripcordPath) &&
         objectPath.get(response.data, param.ripcordPath).toString() !== param.ripcordDisabledValue
       ) {
+        // Look for ripcordDetails as sibling field
+        const ripcordDetailsPath = `${param.ripcordPath}Details`
+        let ripcordDetails: string | undefined
+        if (objectPath.has(response.data, ripcordDetailsPath)) {
+          const details = objectPath.get(response.data, ripcordDetailsPath)
+          if (Array.isArray(details) && details.length > 0) {
+            ripcordDetails = details.join(', ')
+          }
+        }
+
+        const errorMessage = ripcordDetails
+          ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
+          : `Ripcord activated for '${param.apiName}'`
         return {
           params: param,
           response: {
-            errorMessage: `Ripcord activated for '${param.apiName}'`,
+            errorMessage,
+            ripcord: true,
+            ripcordAsInt: 1, // 1 = paused state
+            ripcordDetails,
             statusCode: 503,
           },
         }
@@ -52,13 +68,50 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           },
         }
       }
+
+      // Extract timestamp if providerIndicatedTimePath is provided
+      let providerIndicatedTimeUnixMs: number | undefined
+      if (param.providerIndicatedTimePath !== undefined) {
+        if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
+        const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
+        providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
+
+        // Validate: must be finite and positive
+        if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
+          return {
+            params: param,
+            response: {
+              errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+              statusCode: 500,
+            },
+          }
+        }
+      }
+
       const result = objectPath.get(response.data, param.dataPath).toString()
+
+      const data: BaseEndpointTypes['Response']['Data'] = { result }
+
+      if (param.ripcordPath !== undefined) {
+        data.ripcord = false
+        data.ripcordAsInt = 0 // normal state
+      }
+
       return {
         params: param,
         response: {
           result,
-          data: {
-            result,
+          data,
+          timestamps: {
+            providerIndicatedTimeUnixMs,
           },
         },
       }
