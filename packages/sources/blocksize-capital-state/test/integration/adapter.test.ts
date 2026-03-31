@@ -97,11 +97,9 @@ describe('websocket', () => {
         quote: 'uSd',
         endpoint: 'state',
       })
-      const body = response.json()
 
       expect(response.statusCode).toBe(200)
-      expect(body.result).toBe(1234.56)
-      expect(body.data.result).toBe(1234.56)
+      expect(response.json()).toMatchSnapshot()
     })
   })
 })
