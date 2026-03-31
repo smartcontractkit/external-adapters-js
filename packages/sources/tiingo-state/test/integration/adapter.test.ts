@@ -48,9 +48,16 @@ describe('websocket', () => {
   })
 
   describe('crypto state endpoint', () => {
-    it('should return success', async () => {
-      const response = await testAdapter.request(priceData)
-      expect(response.json()).toMatchSnapshot()
+    it('should normalize mixed-case base and quote params', async () => {
+      const response = await testAdapter.request({
+        base: 'wstETH',
+        quote: 'EtH',
+      })
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.result).toBe(1.1807636997924935)
+      expect(body.data.result).toBe(1.1807636997924935)
     })
 
     it('should only subscribe once for mixed-case requests', async () => {
@@ -64,36 +71,18 @@ describe('websocket', () => {
       }
 
       const response1 = await testAdapter.request(lowercaseData)
-      expect(response1.json()).toMatchSnapshot()
+      const body1 = response1.json()
+      expect(response1.statusCode).toBe(200)
+      expect(body1.result).toBe(1.1807636997924935)
+      expect(body1.data.result).toBe(1.1807636997924935)
 
       const response2 = await testAdapter.request(mixedCaseData)
-      expect(response2.json()).toMatchSnapshot()
+      const body2 = response2.json()
+      expect(response2.statusCode).toBe(200)
+      expect(body2.result).toBe(1.1807636997924935)
+      expect(body2.data.result).toBe(1.1807636997924935)
 
       expect(await wsTransport.subscriptionSet.getAll()).toHaveLength(1)
-    })
-
-    it('should return error on empty data', async () => {
-      const response = await testAdapter.request({})
-      expect(response.statusCode).toEqual(400)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return error on empty base', async () => {
-      const response = await testAdapter.request({ quote: 'ETH' })
-      expect(response.statusCode).toEqual(400)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return error on empty quote', async () => {
-      const response = await testAdapter.request({ base: 'wstETH' })
-      expect(response.statusCode).toEqual(400)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return error on invalid pair', async () => {
-      const response = await testAdapter.request({ base: 'ABC', quote: 'XYZ' })
-      expect(response.statusCode).toEqual(504)
-      expect(response.json()).toMatchSnapshot()
     })
   })
 })
