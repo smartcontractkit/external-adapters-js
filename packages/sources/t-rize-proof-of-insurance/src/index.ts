@@ -11,8 +11,8 @@ export const adapter = new Adapter({
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1s: 5,
-        note: 'T-Rize API rate limit: 5 requests per second',
+        rateLimit1m: 1,
+        note: 'Configured to poll at most once per minute',
       },
     },
   },
