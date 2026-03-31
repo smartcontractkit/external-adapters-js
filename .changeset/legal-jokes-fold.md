@@ -2,4 +2,4 @@
 '@chainlink/data-engine-adapter': minor
 ---
 
-Add v7 endpoint support and returnAs: float
+Add v7 endpoint support
