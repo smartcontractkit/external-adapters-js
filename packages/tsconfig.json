@@ -336,6 +336,12 @@
       "path": "./sources/ion.au"
     },
     {
+      "path": "./sources/itick"
+    },
+    {
+      "path": "./sources/ix-trust-sync"
+    },
+    {
       "path": "./sources/json-rpc"
     },
     {

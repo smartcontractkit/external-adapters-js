@@ -4,6 +4,8 @@ exports[`execute http endpoint should return success 1`] = `
 {
   "data": {
     "result": "123000",
+    "ripcord": false,
+    "ripcordAsInt": 0,
   },
   "result": "123000",
   "statusCode": 200,
