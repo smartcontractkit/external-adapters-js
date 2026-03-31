@@ -33,6 +33,7 @@ export const inputParameters = new InputParameters(
 // contractId   -> aum           | hex string truncated to 48 hex chars, then validated as positive int192 BigInt string
 // computedAt   -> navDate       | ISO-8601 parsed to nanosecond uint64
 // (hardcoded)  -> ripcord       | 0 (normal state)
+// These are schema-driven carrier mappings for this integration, not 18-decimal monetary values.
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition

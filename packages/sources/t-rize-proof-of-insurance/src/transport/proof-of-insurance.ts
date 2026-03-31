@@ -8,10 +8,6 @@ const toPositiveInt192 = (
   sourceField: 'root' | 'contractId',
   targetField: 'navPerShare' | 'aum',
 ): string => {
-  if (hexValue === '0x') {
-    throw new Error(`Unable to map ${sourceField} to ${targetField}: decoded value is empty.`)
-  }
-
   const value = BigInt(hexValue)
 
   if (value > POSITIVE_INT192_MAX) {
@@ -90,12 +86,14 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     try {
       const rootBytes = Buffer.from(response.data.root, 'base64')
-      // SmartData v9 uses signed int192 fields, so we truncate to the leftmost 24 bytes (192 bits)
-      // and fail fast if the sign bit is still set rather than silently truncating further.
+      // Per the mapping defined for this integration, navPerShare carries the merkle root bytes.
+      // SmartData only gives us int192 carrier fields here, so we keep the leftmost 24 bytes
+      // and fail fast if the signed positive range is still exceeded rather than truncating further.
       const navPerShareHex = `0x${rootBytes.subarray(0, 24).toString('hex')}`
       navPerShare = toPositiveInt192(navPerShareHex, 'root', 'navPerShare')
 
-      // contractId is also mapped into an int192 field, so we apply the same 24-byte truncation rule.
+      // Per the same integration mapping, aum carries the contractId bytes rather than an 18-decimal amount.
+      // We apply the same leftmost-24-byte rule because aum is also an int192 carrier field.
       const aumHex = `0x${response.data.contractId.slice(0, 48)}`
       aum = toPositiveInt192(aumHex, 'contractId', 'aum')
     } catch (error) {
