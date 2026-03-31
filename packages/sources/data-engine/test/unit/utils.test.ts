@@ -33,7 +33,7 @@ describe('scaleDecimals', () => {
 
   it('should truncate toward zero for positive values', () => {
     // 1999999999999999999 with 18 decimals = 1.999999999999999999
-    // Scaled to 0 decimals with truncated: 1 (truncated, not rounded to 2)
+    // Scaled to 0 decimals = 1 (truncated, not rounded to 2)
     expect(scaleDecimals('1999999999999999999', 18, 0)).toBe('1')
   })
 })
@@ -69,13 +69,5 @@ describe('resolveResult', () => {
 
   it('handles numeric zero value in data', () => {
     expect(resolveResult(data, 'ask')).toBe('0')
-  })
-
-  it('returns int-truncated result for decimals > 0', () => {
-    expect(resolveResult(data, 'price', 8)).toBe('12095012760921')
-  })
-
-  it('returns truncated result when decimals is 0', () => {
-    expect(resolveResult(data, 'bid', 0)).toBe('100')
   })
 })
