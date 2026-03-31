@@ -1,17 +1,10 @@
-# Chainlink External Adapter for T-Rize Proof-of-Insurance
+# T_RIZE_PROOF_OF_INSURANCE
 
-Queries the T-Rize asset-verifier API for the current merkle tree root of hashed insurance policies and maps the response to the [Chainlink SmartData v9 report schema](https://docs.chain.link/data-streams/reference/report-schema-v9) for on-chain consumption.
+![0.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/t-rize-proof-of-insurance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-The API returns a base64-encoded merkle root and a hex-encoded contract identifier. Because the v9 schema requires integer types, the adapter decodes these values into their BigInt string representations before returning them.
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-## Environment Variables
-
-| Required? |      Name       |                              Description                              |             Defaults to             |
-| :-------: | :-------------: | :-------------------------------------------------------------------: | :---------------------------------: |
-|           | `API_ENDPOINT`  |        T-Rize API base URL. Set to production URL for mainnet.        | `https://proof.validator.t-rize.ca` |
-|    ✅     | `TRIZE_API_KEY` | API key for T-Rize asset-verifier API (passed via `x-api-key` header) |                                     |
-
-### Staging vs. Production
+## Staging vs. Production
 
 | Environment | URL                                 |
 | ----------- | ----------------------------------- |
@@ -19,13 +12,6 @@ The API returns a base64-encoded merkle root and a hex-encoded contract identifi
 | Mainnet     | `https://proof.t-rize.network`      |
 
 The adapter defaults to the **testnet** URL. For mainnet, set `API_ENDPOINT=https://proof.t-rize.network`.
-
-## Input Parameters
-
-| Required? |       Name       |                       Description                        | Options | Defaults to |
-| :-------: | :--------------: | :------------------------------------------------------: | :-----: | :---------: |
-|    ✅     | `owner_party_id` | Party ID that owns the MerkleTree contract on the ledger |         |             |
-|    ✅     |    `tree_id`     |           Tree identifier for the merkle tree            |         |             |
 
 ## SmartData v9 Field Mapping
 
@@ -42,18 +28,6 @@ Values are truncated before conversion and validated to fit positive `int192`. I
 
 `treeId` from the API response is not mapped to a v9 field.
 
-## Sample Input
-
-```json
-{
-  "data": {
-    "owner_party_id": "TRIZEGroup-cantonTestnetValidator-1::12205de11e389c7da899c66b0fec93ac08b8e9023e8deb30a1316ed9925955fbf06b",
-    "tree_id": "tree-001",
-    "endpoint": "proof-of-insurance"
-  }
-}
-```
-
 ## Sample Output
 
 ```json
@@ -69,16 +43,54 @@ Values are truncated before conversion and validated to fit positive `int192`. I
 }
 ```
 
-## Testing
+## Environment Variables
 
-Run integration tests from the repository root:
+| Required? |     Name      |                                                        Description                                                         |  Type  | Options |               Default               |
+| :-------: | :-----------: | :------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------: |
+|           | API_ENDPOINT  | The T-Rize API base URL. Defaults to testnet (proof.validator.t-rize.ca). Set to https://proof.t-rize.network for mainnet. | string |         | `https://proof.validator.t-rize.ca` |
+|    ✅     | TRIZE_API_KEY |                            API key for T-Rize asset-verifier API (passed via x-api-key header)                             | string |         |                                     |
 
-```bash
-yarn jest --testPathPattern='packages/sources/t-rize-proof-of-insurance'
+---
+
+## Data Provider Rate Limits
+
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour |                    Note                    |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :----------------------------------------: |
+| default |                             |              1              |                           | Configured to poll at most once per minute |
+
+---
+
+## Input Parameters
+
+| Required? |   Name   |     Description     |  Type  |                      Options                       |       Default        |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------: | :------------------: |
+|           | endpoint | The endpoint to use | string | [proof-of-insurance](#proof-of-insurance-endpoint) | `proof-of-insurance` |
+
+## Proof-of-insurance Endpoint
+
+`proof-of-insurance` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |     Name     | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :----------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | ownerPartyId |         | Party ID that owns the MerkleTree contract on the ledger | string |         |         |            |                |
+|    ✅     |    treeId    |         |           Tree identifier for the merkle tree            | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "proof-of-insurance",
+    "ownerPartyId": "TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "treeId": "tree-001"
+  }
+}
 ```
 
-To update snapshots after response schema changes:
+---
 
-```bash
-yarn jest --testPathPattern='packages/sources/t-rize-proof-of-insurance' --updateSnapshot
-```
+MIT License
