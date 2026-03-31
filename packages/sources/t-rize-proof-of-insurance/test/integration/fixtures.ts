@@ -177,5 +177,5 @@ export const mockResponseEmptyBody = (): nock.Scope =>
       owner_party_id: 'empty-owner',
       tree_id: 'tree-empty',
     })
-    .reply(200, null)
+    .reply(200)
     .persist()

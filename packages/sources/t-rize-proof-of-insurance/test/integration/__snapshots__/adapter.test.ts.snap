@@ -8,12 +8,6 @@ exports[`execute proof-of-insurance endpoint happy path should handle minimal me
     "navPerShare": "1",
     "ripcord": 0,
   },
-  "meta": {
-    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
-    "metrics": {
-      "feedId": "{"ownerPartyId":"minimal-owner","treeId":"tree-minimal"}",
-    },
-  },
   "result": "1",
   "statusCode": 200,
   "timestamps": {
@@ -30,12 +24,6 @@ exports[`execute proof-of-insurance endpoint happy path should handle special ch
     "navDate": "1740787200000000000",
     "navPerShare": "340282366920938463463374607431768211455",
     "ripcord": 0,
-  },
-  "meta": {
-    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
-    "metrics": {
-      "feedId": "{"ownerPartyId":"owner::with-special/chars","treeId":"tree & test"}",
-    },
   },
   "result": "340282366920938463463374607431768211455",
   "statusCode": 200,
@@ -54,12 +42,6 @@ exports[`execute proof-of-insurance endpoint happy path should return success 1`
     "navPerShare": "346721066100686420582578309663873500522184437856905853753",
     "ripcord": 0,
   },
-  "meta": {
-    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
-    "metrics": {
-      "feedId": "{"ownerPartyId":"trizegroup-examplevalidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","treeId":"tree-001"}",
-    },
-  },
   "result": "346721066100686420582578309663873500522184437856905853753",
   "statusCode": 200,
   "timestamps": {
@@ -76,12 +58,6 @@ exports[`execute proof-of-insurance endpoint happy path should return success fo
     "navDate": "1749988800000000000",
     "navPerShare": "0",
     "ripcord": 0,
-  },
-  "meta": {
-    "adapterName": "T_RIZE_PROOF_OF_INSURANCE",
-    "metrics": {
-      "feedId": "{"ownerPartyId":"trizegroup-examplevalidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef","treeId":"tree-002"}",
-    },
   },
   "result": "0",
   "statusCode": 200,
