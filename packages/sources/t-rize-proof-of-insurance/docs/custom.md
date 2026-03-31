@@ -1,11 +1,11 @@
 ## Staging vs. Production
 
-| Environment | URL                                 |
-| ----------- | ----------------------------------- |
-| Testnet     | `https://proof.validator.t-rize.ca` |
-| Mainnet     | `https://proof.t-rize.network`      |
+| Environment | URL                            |
+| ----------- | ------------------------------ |
+| Testnet     | `https://proof.t-rize.ca`      |
+| Mainnet     | `https://proof.t-rize.network` |
 
-The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.validator.t-rize.ca`.
+The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca`.
 
 ## SmartData v9 Field Mapping
 

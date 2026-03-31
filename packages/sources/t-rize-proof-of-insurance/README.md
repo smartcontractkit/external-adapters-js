@@ -6,12 +6,12 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Staging vs. Production
 
-| Environment | URL                                 |
-| ----------- | ----------------------------------- |
-| Testnet     | `https://proof.validator.t-rize.ca` |
-| Mainnet     | `https://proof.t-rize.network`      |
+| Environment | URL                            |
+| ----------- | ------------------------------ |
+| Testnet     | `https://proof.t-rize.ca`      |
+| Mainnet     | `https://proof.t-rize.network` |
 
-The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.validator.t-rize.ca`.
+The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca`.
 
 ## SmartData v9 Field Mapping
 
@@ -47,10 +47,10 @@ For this integration, `navPerShare` and `aum` are schema-driven carrier fields: 
 
 ## Environment Variables
 
-| Required? |     Name      |                                                          Description                                                          |  Type  | Options |            Default             |
-| :-------: | :-----------: | :---------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
-|           | API_ENDPOINT  | The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.validator.t-rize.ca for testnet. | string |         | `https://proof.t-rize.network` |
-|    ✅     | TRIZE_API_KEY |                              API key for T-Rize asset-verifier API (passed via x-api-key header)                              | string |         |                                |
+| Required? |     Name      |                                                     Description                                                     |  Type  | Options |            Default             |
+| :-------: | :-----------: | :-----------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :----------------------------: |
+|           | API_ENDPOINT  | The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.t-rize.ca for testnet. | string |         | `https://proof.t-rize.network` |
+|    ✅     | TRIZE_API_KEY |                         API key for T-Rize asset-verifier API (passed via x-api-key header)                         | string |         |                                |
 
 ---
 

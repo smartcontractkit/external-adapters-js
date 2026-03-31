@@ -3,7 +3,7 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 export const config = new AdapterConfig({
   API_ENDPOINT: {
     description:
-      'The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.validator.t-rize.ca for testnet.',
+      'The T-Rize API base URL. Defaults to production (proof.t-rize.network). Set to https://proof.t-rize.ca for testnet.',
     type: 'string',
     default: 'https://proof.t-rize.network',
   },
