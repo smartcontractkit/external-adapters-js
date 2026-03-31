@@ -149,6 +149,8 @@ describe('GenericApiHttpTransport', () => {
     const expectedResponse = {
       data: {
         result: expectedValue,
+        ripcord: false,
+        ripcordAsInt: 0,
       },
       result: expectedValue,
       timestamps: {},
@@ -325,6 +327,8 @@ describe('GenericApiHttpTransport', () => {
     const expectedResponse = {
       data: {
         result: expectedValue,
+        ripcord: false,
+        ripcordAsInt: 0,
       },
       result: expectedValue,
       timestamps: {},
@@ -457,6 +461,9 @@ describe('GenericApiHttpTransport', () => {
 
     const expectedResponse = {
       errorMessage: "Ripcord activated for 'test'",
+      ripcord: true,
+      ripcordAsInt: 1,
+      ripcordDetails: undefined,
       statusCode: 503,
 
       timestamps: {},
@@ -676,6 +683,192 @@ describe('GenericApiHttpTransport', () => {
       {
         params,
         response: expectedResponse,
+      },
+    ])
+  })
+
+  it('should include ripcordDetails in error message when ripcord is activated (the-network-firm pattern)', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          result: 1.0,
+          ripcord: true,
+          ripcordDetails: ['Price deviation too high', 'Stale data detected'],
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          errorMessage:
+            "Ripcord activated for 'test'. Details: Price deviation too high, Stale data detected",
+          ripcord: true,
+          ripcordAsInt: 1,
+          ripcordDetails: 'Price deviation too high, Stale data detected',
+          statusCode: 503,
+          timestamps: {},
+        },
+      },
+    ])
+  })
+
+  it('should handle empty ripcordDetails array', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.0,
+          ripcord: true,
+          ripcordDetails: [],
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          errorMessage: "Ripcord activated for 'test'",
+          ripcord: true,
+          ripcordAsInt: 1,
+          ripcordDetails: undefined,
+          statusCode: 503,
+          timestamps: {},
+        },
+      },
+    ])
+  })
+
+  it('should include ripcord status in data when ripcord is false', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+          ripcord: false,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            result: '1.004373',
+            ripcord: false,
+            ripcordAsInt: 0,
+          },
+          result: '1.004373',
+          timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
+      },
+    ])
+  })
+
+  it('should not include ripcord status when ripcord path is absent', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordDisabledValue: 'false',
+    }
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<HttpTransportTypes>)
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+          ripcord: false,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    requester.request.mockResolvedValue(response)
+
+    await transport.backgroundExecute(context)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          data: {
+            result: '1.004373',
+          },
+          result: '1.004373',
+          timestamps: { providerIndicatedTimeUnixMs: undefined },
+        },
       },
     ])
   })

@@ -34,10 +34,26 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         objectPath.has(response.data, param.ripcordPath) &&
         objectPath.get(response.data, param.ripcordPath).toString() !== param.ripcordDisabledValue
       ) {
+        // Look for ripcordDetails as sibling field
+        const ripcordDetailsPath = `${param.ripcordPath}Details`
+        let ripcordDetails: string | undefined
+        if (objectPath.has(response.data, ripcordDetailsPath)) {
+          const details = objectPath.get(response.data, ripcordDetailsPath)
+          if (Array.isArray(details) && details.length > 0) {
+            ripcordDetails = details.join(', ')
+          }
+        }
+
+        const errorMessage = ripcordDetails
+          ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
+          : `Ripcord activated for '${param.apiName}'`
         return {
           params: param,
           response: {
-            errorMessage: `Ripcord activated for '${param.apiName}'`,
+            errorMessage,
+            ripcord: true,
+            ripcordAsInt: 1, // 1 = paused state
+            ripcordDetails,
             statusCode: 503,
           },
         }
@@ -81,13 +97,19 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }
 
       const result = objectPath.get(response.data, param.dataPath).toString()
+
+      const data: BaseEndpointTypes['Response']['Data'] = { result }
+
+      if (param.ripcordPath !== undefined) {
+        data.ripcord = false
+        data.ripcordAsInt = 0 // normal state
+      }
+
       return {
         params: param,
         response: {
           result,
-          data: {
-            result,
-          },
+          data,
           timestamps: {
             providerIndicatedTimeUnixMs,
           },

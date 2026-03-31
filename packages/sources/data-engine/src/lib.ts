@@ -4,6 +4,7 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 
 import { BaseEndpointTypes as CryptoV3Types } from './endpoint/cryptoV3'
 import { BaseEndpointTypes as DeutscheBoerseV11Types } from './endpoint/deutscheBoerseV11'
+import { BaseEndpointTypes as ExchangeRateV7Types } from './endpoint/exchangeRateV7'
 import { BaseEndpointTypes as RwaV8Types } from './endpoint/rwaV8'
 
 export const getCryptoPrice = async (feedId: string, url: string, requester: Requester) =>
@@ -14,6 +15,9 @@ export const getRwaPrice = async (feedId: string, url: string, requester: Reques
 
 export const getDeutscheBoersePrice = async (feedId: string, url: string, requester: Requester) =>
   callEA<DeutscheBoerseV11Types['Response']['Data']>(feedId, 'deutscheBoerse-v11', url, requester)
+
+export const getExchangeRate = async (feedId: string, url: string, requester: Requester) =>
+  callEA<ExchangeRateV7Types['Response']['Data']>(feedId, 'exchangeRate-v7', url, requester)
 
 const callEA = async <T>(feedId: string, endpoint: string, url: string, requester: Requester) => {
   const requestConfig = {
