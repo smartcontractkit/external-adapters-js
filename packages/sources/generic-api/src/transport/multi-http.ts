@@ -14,12 +14,12 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests,
-  parseResponse: (params, response) => {
+  parseResponse: (params, apiResponse) => {
     return createResponses({
       params,
-      response,
+      apiResponse,
       mapParam: (param) => param,
-      mapResponse: (response) => response,
+      mapResponse: (adapterResponse) => adapterResponse,
     })
   },
 }

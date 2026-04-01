@@ -152,12 +152,12 @@ const createResponse = (
 
 export const createResponses = <EndpointTypes extends TransportGenerics>({
   params,
-  response,
+  apiResponse,
   mapParam,
   mapResponse,
 }: {
   params: Params<EndpointTypes>[]
-  response: { data: object | undefined }
+  apiResponse: { data: object | undefined }
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
 }): ProviderResult<EndpointTypes>[] => {
@@ -165,7 +165,7 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
     try {
       return {
         params: param,
-        response: mapResponse(createResponse(mapParam(param), response)),
+        response: mapResponse(createResponse(mapParam(param), apiResponse)),
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
