@@ -1,4 +1,7 @@
-import { BaseEndpointTypes } from '../../src/endpoint/multi-http'
+import { PartialSuccessfulResponse } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BaseEndpointTypes as SinglePathEndpointTypes } from '../../src/endpoint/http'
+import { BaseEndpointTypes as MultiPathEndpointTypes } from '../../src/endpoint/multi-http'
 import { createResponses } from '../../src/transport/utils'
 
 describe('utils', () => {
@@ -24,7 +27,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -68,7 +71,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -109,7 +112,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -149,7 +152,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -186,7 +189,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -223,7 +226,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -258,7 +261,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -293,7 +296,7 @@ describe('utils', () => {
         data: undefined,
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -331,7 +334,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -371,7 +374,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -413,7 +416,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -452,7 +455,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -489,7 +492,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -531,7 +534,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -581,7 +584,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<MultiPathEndpointTypes>({
         params: [params],
         apiResponse: response,
         mapParam: (param) => param,
@@ -609,96 +612,54 @@ describe('utils', () => {
       ])
     })
 
-    it('should map params', async () => {
-      const params = ['path1', 'path2']
-
-      const mapParam = (path: string) => ({
+    it('should map params and response', async () => {
+      const params = {
         apiName,
-        dataPaths: [{ name: 'result', path }],
+        dataPath: 'net_asset_value',
+        ripcordPath: 'ripcord',
+        ripcordDisabledValue: 'false',
+      }
+
+      const mapParam = (param: TypeFromDefinition<SinglePathEndpointTypes['Parameters']>) => ({
+        apiName,
+        dataPaths: [{ name: 'nav', path: param.dataPath }],
         ripcordPath: 'ripcord',
         ripcordDisabledValue: 'false',
       })
 
       const response = {
         data: {
-          path1: 'one',
-          path2: 'two',
+          net_asset_value: 1.0043732667449965,
           ripcord: false,
         },
       }
 
-      const adapterResponses = createResponses<BaseEndpointTypes>({
-        params,
-        apiResponse: response,
-        mapParam,
-        mapResponse: (multiHttpResponse) => multiHttpResponse,
+      const mapResponse = (
+        multiHttpResponse: PartialSuccessfulResponse<MultiPathEndpointTypes['Response']>,
+      ): PartialSuccessfulResponse<SinglePathEndpointTypes['Response']> => ({
+        ...multiHttpResponse,
+        result: String(multiHttpResponse.data.nav),
+        data: {
+          ...multiHttpResponse.data,
+          result: String(multiHttpResponse.data.nav),
+        },
       })
 
-      expect(adapterResponses).toEqual([
-        {
-          params: 'path1',
-          response: {
-            data: {
-              result: 'one',
-              ripcord: false,
-              ripcordAsInt: 0,
-            },
-            result: 'one',
-            timestamps: {
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
-        },
-        {
-          params: 'path2',
-          response: {
-            data: {
-              result: 'two',
-              ripcord: false,
-              ripcordAsInt: 0,
-            },
-            result: 'two',
-            timestamps: {
-              providerIndicatedTimeUnixMs: undefined,
-            },
-          },
-        },
-      ])
-    })
-
-    it('should map response', async () => {
-      const nav = 1.0043732667449965
-
-      const params = {
-        apiName,
-        dataPaths: [{ name: 'nav', path: 'net_asset_value' }],
-      }
-
-      const response = {
-        data: {
-          net_asset_value: nav,
-        },
-      }
-
-      const adapterResponses = createResponses<BaseEndpointTypes>({
+      const adapterResponses = createResponses<SinglePathEndpointTypes>({
         params: [params],
         apiResponse: response,
-        mapParam: (param) => param,
-        mapResponse: (multiHttpResponse) => ({
-          ...multiHttpResponse,
-          data: {
-            mappedNav: multiHttpResponse.data.nav,
-            ...multiHttpResponse.data,
-          },
-        }),
+        mapParam,
+        mapResponse,
       })
 
       const expectedResponse = {
         data: {
-          nav,
-          mappedNav: nav,
+          nav: 1.0043732667449965,
+          result: '1.0043732667449965',
+          ripcord: false,
+          ripcordAsInt: 0,
         },
-        result: null,
+        result: '1.0043732667449965',
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
