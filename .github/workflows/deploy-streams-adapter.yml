@@ -10,8 +10,6 @@ on:
   push:
     branches:
       - DS/zadd-fix-to-resolve-cache-keys
-    paths:
-      - '.github/workflows/deploy-streams-adapter.yml'
 
 concurrency:
   group: deploy-streams-adapter
