@@ -4,7 +4,6 @@ import { Config } from '../config'
 import {
   getOutsideUpdateWindowDetails,
   isOutsideUpdateWindowResponse,
-  makeOutsideUpdateWindowResponse,
 } from '../utils/outsideUpdateWindow'
 import type { TInputParameters as SingleTInputParameters } from './reserves'
 import { execute as singleExecute } from './reserves'
@@ -49,19 +48,21 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     ),
   )
 
-  const outsideWindowResult = results.find((r) => isOutsideUpdateWindowResponse(r))
-  if (outsideWindowResult) {
-    return makeOutsideUpdateWindowResponse(
-      jobRunID,
-      getOutsideUpdateWindowDetails(outsideWindowResult) ?? 'Outside schedule window',
-    )
-  }
-
   const result = results
     .map((result) => {
       if (result.statusCode != 200 || !result.result) {
+        // Preserve outsideUpdateWindow fields in the error body so monitoring
+        // can detect a planned window pause vs an unplanned failure, while
+        // keeping the existing 200/errored response shape.
+        const outsideWindowDetails = isOutsideUpdateWindowResponse(result)
+          ? {
+              outsideUpdateWindow: true,
+              outsideUpdateWindowDetails: getOutsideUpdateWindowDetails(result),
+            }
+          : {}
         throw new AdapterError({
           ...result,
+          ...outsideWindowDetails,
         })
       } else {
         // Scaling everything up to 18 to preserve precision
