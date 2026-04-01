@@ -50,8 +50,15 @@ export const createResponse = (
     ripcordDisabledValue: string
     providerIndicatedTimePath?: string
   },
-  response: { data: object },
+  response: { data: object | undefined },
 ): ProviderResult<MultiHttpBaseEndpointTypes> => {
+  if (!response.data) {
+    throw new AdapterError({
+      message: `The data provider for ${param.apiName} didn't return any value`,
+      statusCode: 502,
+    })
+  }
+
   // Check ripcord
   if (
     param.ripcordPath !== undefined &&
