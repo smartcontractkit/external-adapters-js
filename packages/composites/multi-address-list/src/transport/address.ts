@@ -46,31 +46,23 @@ export class AddressListTransport extends SubscriptionTransport<AddressListTrans
     rule.tz = this.settings.SCHEDULER_TIMEZONE
 
     schedule.scheduleJob(rule, () => {
-      // Capture the scheduler fire time here — node-schedule fires at exactly
-      // the configured time, so this is the nominal window start.
-      const scheduledFireTimeMs = Date.now()
       logger.info(
-        `Scheduled execution started at ${new Date(
-          scheduledFireTimeMs,
-        ).toISOString()}. Params: ${JSON.stringify(this.activeParams)}`,
+        `Scheduled execution started at ${new Date().toISOString()}. Params: ${JSON.stringify(
+          this.activeParams,
+        )}`,
       )
-      this.activeParams.map(async (param) => this.execute(param, 0, scheduledFireTimeMs))
+      this.activeParams.map(async (param) => this.execute(param))
     })
   }
 
-  async execute(params: RequestParams, retryCount = 0, windowStartMs = Date.now()) {
+  async execute(params: RequestParams, retryCount = 0) {
     if (retryCount >= this.settings.MAX_RETRIES) {
       logger.error(`Max retry count reached for params: ${JSON.stringify(params)}`)
       return
     }
 
     try {
-      const response = await getAggregatedAddressList(
-        params,
-        this.requester,
-        this.settings,
-        windowStartMs,
-      )
+      const response = await getAggregatedAddressList(params, this.requester, this.settings)
       await this.responseCache.write(this.name, [
         {
           params,
@@ -80,12 +72,7 @@ export class AddressListTransport extends SubscriptionTransport<AddressListTrans
     } catch (e) {
       logger.error(e)
       retryCount = retryCount + 1
-      // Preserve the original windowStartMs across retries so the window
-      // reflects when the scheduled job was supposed to run, not the retry time.
-      setTimeout(
-        () => this.execute(params, retryCount, windowStartMs),
-        this.settings.RETRY_INTERVAL_MS,
-      )
+      setTimeout(() => this.execute(params, retryCount), this.settings.RETRY_INTERVAL_MS)
     }
   }
 

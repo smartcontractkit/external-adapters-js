@@ -28,7 +28,6 @@ export async function getAggregatedAddressList(
   params: RequestParams,
   requester: Requester,
   settings: AdapterSettings,
-  windowStartMs: number,
 ) {
   const providerDataRequestedUnixMs = Date.now()
 
@@ -40,10 +39,7 @@ export async function getAggregatedAddressList(
   const response = {
     data: {
       result: addresses,
-      // windowStartMs: the configured scheduler fire time (window opens when the
-      // job was scheduled to run, not when the fetch completed).
-      // windowEndMs: when the fetch completed + CACHE_MAX_AGE (data expires then).
-      windowStartMs,
+      windowStartMs: providerDataRequestedUnixMs,
       windowEndMs: providerDataReceivedUnixMs + settings.CACHE_MAX_AGE,
     },
     statusCode: 200,
