@@ -1,4 +1,7 @@
-import { PartialSuccessfulResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  PartialSuccessfulResponse,
+  ProviderResult,
+} from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import objectPath from 'object-path'
@@ -7,7 +10,7 @@ import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/mul
 
 type ResponseField = string | number | boolean | undefined
 
-export class AdapterErrorWithExtraFields extends AdapterError {
+class AdapterErrorWithExtraFields extends AdapterError {
   readonly extraFields: { [key: string]: ResponseField }
 
   constructor({
@@ -46,7 +49,7 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
 type MultiHttpParams = TypeFromDefinition<MultiHttpBaseEndpointTypes['Parameters']>
 type MultiHttpResponse = PartialSuccessfulResponse<MultiHttpBaseEndpointTypes['Response']>
 
-export const createResponse = (
+const createResponse = (
   param: MultiHttpParams,
   response: { data: object | undefined },
 ): MultiHttpResponse => {
@@ -137,4 +140,34 @@ export const createResponse = (
       providerIndicatedTimeUnixMs,
     },
   }
+}
+
+export const createResponses = ({
+  params,
+  response,
+}: {
+  params: MultiHttpParams[]
+  response: { data: object | undefined }
+}): ProviderResult<MultiHttpBaseEndpointTypes>[] => {
+  return params.map((param) => {
+    try {
+      return {
+        params: param,
+        response: createResponse(param, response),
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+      const statusCode = error instanceof AdapterError ? error.statusCode : 502
+      const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
+
+      return {
+        params: param,
+        response: {
+          statusCode,
+          errorMessage,
+          ...extraFields,
+        },
+      }
+    }
+  })
 }
