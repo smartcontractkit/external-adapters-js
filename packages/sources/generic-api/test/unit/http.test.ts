@@ -361,6 +361,7 @@ describe('GenericApiHttpTransport', () => {
       dataPath,
       ripcordPath,
       ripcordDisabledValue: 'false',
+      providerIndicatedTimePath: undefined,
     })
     subscriptionSet.getAll.mockReturnValue([params])
 
@@ -426,6 +427,7 @@ describe('GenericApiHttpTransport', () => {
       dataPath,
       ripcordPath,
       ripcordDisabledValue: 'false',
+      providerIndicatedTimePath: undefined,
     })
     subscriptionSet.getAll.mockReturnValue([params])
 
