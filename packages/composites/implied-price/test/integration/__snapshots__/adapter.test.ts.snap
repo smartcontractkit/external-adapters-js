@@ -177,6 +177,30 @@ exports[`impliedPrice with endpoint computedPrice successful calls returns succe
 }
 `;
 
+exports[`impliedPrice with endpoint computedPrice successful calls returns success with decimal scaling for divide operation 1`] = `
+{
+  "data": {
+    "result": "38975944001909025829000000",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "38975944001909025829000000",
+  "statusCode": 200,
+}
+`;
+
+exports[`impliedPrice with endpoint computedPrice successful calls returns success with decimal scaling for multiply operation 1`] = `
+{
+  "data": {
+    "result": "0.000754625725",
+  },
+  "jobRunID": "1",
+  "providerStatusCode": 200,
+  "result": "0.000754625725",
+  "statusCode": 200,
+}
+`;
+
 exports[`impliedPrice with endpoint computedPrice validation error returns a validation error if the request contains unsupported sources 1`] = `
 {
   "error": {
@@ -234,6 +258,19 @@ exports[`impliedPrice with endpoint computedPrice validation error returns a val
   "error": {
     "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":["coingecko"],"operand2Sources":["coingecko"],"operand1Input":{"from":"LINK","to":"USD"},"operand2Input":{"from":"ETH","to":"USD"}}}",
     "message": "Required parameter operation must be non-null and non-empty",
+    "name": "AdapterError",
+  },
+  "jobRunID": "1",
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`impliedPrice with endpoint computedPrice validation error returns error if only some decimals are set (operand decimals only) 1`] = `
+{
+  "error": {
+    "feedID": "{"data":{"endpoint":"computedPrice","operand1Sources":["coingecko"],"operand2Sources":["coingecko"],"operand1Input":{"from":"LINK","to":"USD"},"operand2Input":{"from":"ETH","to":"USD"},"operation":"divide","operand1Decimals":8,"operand2Decimals":8}}",
+    "message": "Decimals inputs should be all set or all unset",
     "name": "AdapterError",
   },
   "jobRunID": "1",

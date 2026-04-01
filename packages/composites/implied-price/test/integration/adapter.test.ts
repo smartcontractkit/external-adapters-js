@@ -187,6 +187,74 @@ describe('impliedPrice', () => {
         expect(response.body).toMatchSnapshot()
         expect(response.body.result).not.toContain('e+')
       })
+
+      it('returns success with decimal scaling for divide operation', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko', 'coinpaprika'],
+            operand2Sources: ['coingecko', 'coinpaprika'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
+            operand1Decimals: 8,
+            operand2Decimals: 18,
+            outputDecimals: 18,
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns success with decimal scaling for multiply operation', async () => {
+        mockSuccessfulResponseCoingecko()
+        mockSuccessfulResponseCoinpaprika()
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko', 'coinpaprika'],
+            operand2Sources: ['coingecko', 'coinpaprika'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'multiply',
+            operand1Decimals: 8,
+            operand2Decimals: 8,
+            outputDecimals: 8,
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200)
+        expect(response.body).toMatchSnapshot()
+      })
     })
 
     describe('erroring calls', () => {
@@ -576,6 +644,40 @@ describe('impliedPrice', () => {
           .expect('Content-Type', /json/)
           .expect(500)
         expect(response.body).toMatchSnapshot()
+      })
+
+      it('returns error if only some decimals are set (operand decimals only)', async () => {
+        const data: AdapterRequest = {
+          id: jobID,
+          data: {
+            endpoint,
+            operand1Sources: ['coingecko'],
+            operand2Sources: ['coingecko'],
+            operand1Input: {
+              from: 'LINK',
+              to: 'USD',
+            },
+            operand2Input: {
+              from: 'ETH',
+              to: 'USD',
+            },
+            operation: 'divide',
+            operand1Decimals: 8,
+            operand2Decimals: 8,
+          },
+        }
+
+        const response = await (context.req as SuperTest<Test>)
+          .post('/')
+          .send(data)
+          .set('Accept', '*/*')
+          .set('Content-Type', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(400)
+        expect(response.body).toMatchSnapshot()
+        expect(response.body.error.message).toContain(
+          'Decimals inputs should be all set or all unset',
+        )
       })
     })
   })
