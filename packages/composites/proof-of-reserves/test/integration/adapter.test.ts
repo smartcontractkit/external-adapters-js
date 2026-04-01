@@ -410,6 +410,73 @@ describe('execute', () => {
     })
   })
 
+  describe('multiReserves endpoint - schedule window', () => {
+    const MOCK_TIME = new Date('2022-01-01T11:11:11.111Z')
+
+    beforeEach(() => {
+      jest.useFakeTimers({
+        now: MOCK_TIME.getTime(),
+        doNotFake: [
+          'hrtime',
+          'nextTick',
+          'setImmediate',
+          'clearImmediate',
+          'setInterval',
+          'clearInterval',
+          'setTimeout',
+          'clearTimeout',
+        ],
+      })
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    it('should return outsideUpdateWindow response when any sub-reserve is outside schedule window', async () => {
+      // Window 12:00-13:00 UTC; mocked time 11:11 UTC → before start → outsideUpdateWindow.
+      // No downstream mocks needed: window check fires before any adapter calls.
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'multiReserves',
+          input: [
+            {
+              protocol: 'list',
+              indexer: 'por_indexer',
+              addresses: [
+                {
+                  address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+                  chainId: 'mainnet',
+                  network: 'bitcoin',
+                },
+              ],
+              startUTC: '1200',
+              endUTC: '1300',
+            },
+            {
+              indexer: 'eth_balance',
+              protocol: 'list',
+              addresses: ['0x8288C280F35FB8809305906C79BD075962079DD8'],
+              confirmations: 5,
+              startUTC: '1200',
+              endUTC: '1300',
+            },
+          ],
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(503)
+      expect(response.body).toMatchSnapshot()
+    })
+  })
+
   describe('multiReserves endpoint with scaling', () => {
     it('should return success', async () => {
       const data: AdapterRequest = {

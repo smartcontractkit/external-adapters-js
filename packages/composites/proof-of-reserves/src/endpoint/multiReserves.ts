@@ -1,6 +1,11 @@
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
+import {
+  getOutsideUpdateWindowDetails,
+  isOutsideUpdateWindowResponse,
+  makeOutsideUpdateWindowResponse,
+} from '../utils/outsideUpdateWindow'
 import type { TInputParameters as SingleTInputParameters } from './reserves'
 import { execute as singleExecute } from './reserves'
 
@@ -43,6 +48,14 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       ),
     ),
   )
+
+  const outsideWindowResult = results.find((r) => isOutsideUpdateWindowResponse(r))
+  if (outsideWindowResult) {
+    return makeOutsideUpdateWindowResponse(
+      jobRunID,
+      getOutsideUpdateWindowDetails(outsideWindowResult) ?? 'Outside schedule window',
+    )
+  }
 
   const result = results
     .map((result) => {

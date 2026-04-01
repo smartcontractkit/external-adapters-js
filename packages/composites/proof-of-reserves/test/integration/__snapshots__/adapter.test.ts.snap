@@ -106,6 +106,22 @@ exports[`execute multiReserves endpoint view-function-multi-chain should return 
 }
 `;
 
+exports[`execute multiReserves endpoint - schedule window should return outsideUpdateWindow response when any sub-reserve is outside schedule window 1`] = `
+{
+  "data": {
+    "outsideUpdateWindow": true,
+    "outsideUpdateWindowDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+    "result": null,
+    "statusCode": 503,
+  },
+  "jobRunID": "1",
+  "outsideUpdateWindow": true,
+  "outsideUpdateWindowDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
+  "result": null,
+  "statusCode": 503,
+}
+`;
+
 exports[`execute multiReserves endpoint with scaling should return success 1`] = `
 {
   "data": {

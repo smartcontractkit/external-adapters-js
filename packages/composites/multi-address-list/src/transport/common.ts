@@ -37,6 +37,8 @@ export async function getAggregatedAddressList(
   const response = {
     data: {
       result: addresses,
+      windowStartMs: providerDataRequestedUnixMs,
+      windowEndMs: providerDataRequestedUnixMs + settings.CACHE_MAX_AGE,
     },
     statusCode: 200,
     result: null,
