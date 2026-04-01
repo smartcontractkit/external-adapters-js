@@ -28,23 +28,29 @@ export async function getAggregatedAddressList(
   params: RequestParams,
   requester: Requester,
   settings: AdapterSettings,
+  windowStartMs: number,
 ) {
   const providerDataRequestedUnixMs = Date.now()
 
   const addresses = await fetchSourceAddresses(params, requester, settings)
   logger.info(`Fetched ${addresses.length} addresses`)
 
+  const providerDataReceivedUnixMs = Date.now()
+
   const response = {
     data: {
       result: addresses,
-      windowStartMs: providerDataRequestedUnixMs,
-      windowEndMs: providerDataRequestedUnixMs + settings.CACHE_MAX_AGE,
+      // windowStartMs: the configured scheduler fire time (window opens when the
+      // job was scheduled to run, not when the fetch completed).
+      // windowEndMs: when the fetch completed + CACHE_MAX_AGE (data expires then).
+      windowStartMs,
+      windowEndMs: providerDataReceivedUnixMs + settings.CACHE_MAX_AGE,
     },
     statusCode: 200,
     result: null,
     timestamps: {
       providerDataRequestedUnixMs,
-      providerDataReceivedUnixMs: Date.now(),
+      providerDataReceivedUnixMs,
       providerIndicatedTimeUnixMs: undefined,
     },
   }
