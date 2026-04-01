@@ -2,8 +2,9 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/multi-http'
-import { createResponse, prepareRequests } from './utils'
+import { AdapterErrorWithExtraFields, createResponse, prepareRequests } from './utils'
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -26,7 +27,22 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
     }
 
     return params.map((param) => {
-      return createResponse(param, response)
+      try {
+        return createResponse(param, response)
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        const statusCode = error instanceof AdapterError ? error.statusCode : 502
+        const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
+
+        return {
+          params: param,
+          response: {
+            statusCode,
+            errorMessage,
+            ...extraFields,
+          },
+        }
+      }
     })
   },
 }

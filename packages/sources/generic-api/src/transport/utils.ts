@@ -1,7 +1,27 @@
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import objectPath from 'object-path'
 import { getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
+
+type ResponseField = string | number | boolean | undefined
+
+export class AdapterErrorWithExtraFields extends AdapterError {
+  readonly extraFields: { [key: string]: ResponseField }
+
+  constructor({
+    message,
+    statusCode,
+    extraFields,
+  }: {
+    message: string
+    statusCode: number
+    extraFields: { [key: string]: ResponseField }
+  }) {
+    super({ message, statusCode })
+    this.extraFields = extraFields
+  }
+}
 
 export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
   return params.map((param) => {
@@ -51,20 +71,15 @@ export const createResponse = (
     const errorMessage = ripcordDetails
       ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
       : `Ripcord activated for '${param.apiName}'`
-    // We assign to an intermediate varaible to have slightly looser type
-    // checking, allowing the extra ripcord fields which the return type
-    // doesn't specify.
-    const result = {
-      params: param,
-      response: {
-        errorMessage,
+    throw new AdapterErrorWithExtraFields({
+      message: errorMessage,
+      statusCode: 503,
+      extraFields: {
         ripcord: true,
         ripcordAsInt: 1, // 1 = paused state
         ripcordDetails,
-        statusCode: 503,
       },
-    }
-    return result
+    })
   }
 
   // Extract all dataPaths
@@ -72,13 +87,10 @@ export const createResponse = (
 
   for (const { name, path } of param.dataPaths) {
     if (!objectPath.has(response.data, path)) {
-      return {
-        params: param,
-        response: {
-          errorMessage: `Data path '${path}' not found in response for '${param.apiName}'`,
-          statusCode: 500,
-        },
-      }
+      throw new AdapterError({
+        message: `Data path '${path}' not found in response for '${param.apiName}'`,
+        statusCode: 500,
+      })
     }
     const value = objectPath.get(response.data, path)
     data[name] = value as number | string
@@ -88,26 +100,20 @@ export const createResponse = (
   let providerIndicatedTimeUnixMs: number | undefined
   if (param.providerIndicatedTimePath !== undefined) {
     if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
-      return {
-        params: param,
-        response: {
-          errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
-          statusCode: 500,
-        },
-      }
+      throw new AdapterError({
+        message: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+        statusCode: 500,
+      })
     }
     const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
     providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
 
     // Validate: must be finite and positive
     if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
-      return {
-        params: param,
-        response: {
-          errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
-          statusCode: 500,
-        },
-      }
+      throw new AdapterError({
+        message: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+        statusCode: 500,
+      })
     }
   }
 
