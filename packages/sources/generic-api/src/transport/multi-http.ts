@@ -15,7 +15,19 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests,
   parseResponse: (params, response) => {
-    return createResponse(params, response)
+    if (!response.data) {
+      return params.map((param) => ({
+        params: param,
+        response: {
+          errorMessage: `The data provider for ${param.apiName} didn't return any value`,
+          statusCode: 502,
+        },
+      }))
+    }
+
+    return params.map((param) => {
+      return createResponse(param, response)
+    })
   },
 }
 
