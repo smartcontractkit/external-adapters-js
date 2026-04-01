@@ -10,8 +10,8 @@ import (
 	types "streams-adapter/common"
 )
 
-// NormalizeString removes dashes and underscores for flexible matching.
-func NormalizeString(s string) string {
+// normalizeString removes dashes and underscores for flexible matching.
+func normalizeString(s string) string {
 	s = strings.ReplaceAll(s, "-", "")
 	s = strings.ReplaceAll(s, "_", "")
 	return strings.ToLower(s)
@@ -76,8 +76,8 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 		value := params[key]
 		if value != "" {
 			// Normalize both key and value for case-insensitive matching
-			normalizedKey := NormalizeString(key)
-			normalizedValue := NormalizeString(value)
+			normalizedKey := normalizeString(key)
+			normalizedValue := normalizeString(value)
 			parts = append(parts, normalizedKey+"="+normalizedValue)
 		}
 	}

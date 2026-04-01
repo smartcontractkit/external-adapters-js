@@ -57,14 +57,6 @@ func (m *mockConn) ReadPipeline() []redcon.Command { return nil }
 func (m *mockConn) PeekPipeline() []redcon.Command { return nil }
 func (m *mockConn) NetConn() net.Conn              { return nil }
 
-// Helpers to inspect writes
-func (m *mockConn) lastWrite() writeEntry {
-	if len(m.writes) == 0 {
-		return writeEntry{}
-	}
-	return m.writes[len(m.writes)-1]
-}
-
 func (m *mockConn) stringAt(i int) string {
 	if i >= len(m.writes) {
 		return ""
