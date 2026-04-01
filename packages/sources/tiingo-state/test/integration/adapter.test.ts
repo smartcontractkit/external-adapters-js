@@ -1,12 +1,13 @@
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { wsTransport } from '../../src/transport/price'
 import { mockWebsocketServer } from './fixtures'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -50,6 +51,25 @@ describe('websocket', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(priceData)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should only subscribe once for mixed-case requests', async () => {
+      const lowercaseData = {
+        base: 'wsteth',
+        quote: 'eth',
+      }
+      const mixedCaseData = {
+        base: 'wstETH',
+        quote: 'ETH',
+      }
+
+      const response1 = await testAdapter.request(lowercaseData)
+      expect(response1.json()).toMatchSnapshot()
+
+      const response2 = await testAdapter.request(mixedCaseData)
+      expect(response2.json()).toMatchSnapshot()
+
+      expect(await wsTransport.subscriptionSet.getAll()).toHaveLength(1)
     })
 
     it('should return error on empty data', async () => {
