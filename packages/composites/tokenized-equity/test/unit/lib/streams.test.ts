@@ -1,11 +1,17 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getPrice } from '../../../src/lib/streams'
 
 const mockGetDeutscheBoersePrice = jest.fn()
 
 jest.mock('@chainlink/data-engine-adapter', () => ({
-  getDeutscheBoersePrice: (id: string) => mockGetDeutscheBoersePrice(id),
+  getDeutscheBoersePrice: (
+    feedId: string,
+    url: string,
+    requester: Requester,
+    options?: { maxAgeInSeconds?: number },
+  ) => mockGetDeutscheBoersePrice(feedId, url, requester, options),
 }))
 
 describe('getPrice', () => {
@@ -32,11 +38,17 @@ describe('getPrice', () => {
   const setupMock = (regularData: unknown, extendedData: unknown, overnightData: unknown) => {
     mockGetDeutscheBoersePrice.mockImplementation((streamId: string) => {
       if (streamId === regularStreamId) {
-        return Promise.resolve(regularData)
+        return regularData === null
+          ? Promise.reject(new Error('regular stream error'))
+          : Promise.resolve(regularData)
       } else if (streamId === extendedStreamId) {
-        return Promise.resolve(extendedData)
+        return extendedData === null
+          ? Promise.reject(new Error('extended stream error'))
+          : Promise.resolve(extendedData)
       } else if (streamId === overnightStreamId) {
-        return Promise.resolve(overnightData)
+        return overnightData === null
+          ? Promise.reject(new Error('overnight stream error'))
+          : Promise.resolve(overnightData)
       }
       return Promise.reject(new Error(`Unexpected streamId: ${streamId}`))
     })
@@ -54,11 +66,11 @@ describe('getPrice', () => {
     setupMock(regularData, extendedData, overnightData)
 
     const result = await getPrice(
+      '',
+      {} as any,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
-      '',
-      {} as any,
     )
 
     expect(result).toEqual({
@@ -81,11 +93,11 @@ describe('getPrice', () => {
     setupMock(regularData, extendedData, overnightData)
 
     const result = await getPrice(
+      '',
+      {} as any,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
-      '',
-      {} as any,
     )
 
     expect(result).toEqual({
@@ -108,11 +120,11 @@ describe('getPrice', () => {
     setupMock(regularData, extendedData, overnightData)
 
     const result = await getPrice(
+      '',
+      {} as any,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
-      '',
-      {} as any,
     )
 
     expect(result).toEqual({
@@ -135,11 +147,11 @@ describe('getPrice', () => {
     setupMock(regularData, extendedData, overnightData)
 
     const result = await getPrice(
+      '',
+      {} as any,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
-      '',
-      {} as any,
     )
 
     expect(result).toEqual({
@@ -154,6 +166,97 @@ describe('getPrice', () => {
     })
   })
 
+  it('passes maxAgeInSeconds option to getDeutscheBoersePrice', async () => {
+    const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.REGULAR, 2)
+    const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.UNKNOWN, 3)
+    const overnightData = createStreamData('98.5', TwentyfourFiveMarketStatus.UNKNOWN, 4)
+
+    setupMock(regularData, extendedData, overnightData)
+
+    const maxAge = 300
+    await getPrice(
+      'http://test-url',
+      {} as any,
+      regularStreamId,
+      extendedStreamId,
+      overnightStreamId,
+      maxAge,
+    )
+
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledTimes(3)
+    for (const call of mockGetDeutscheBoersePrice.mock.calls) {
+      expect(call[1]).toBe('http://test-url')
+      if (call[0] === overnightStreamId) {
+        expect(call[3]).toEqual({ maxAgeInSeconds: maxAge })
+      } else {
+        expect(call[3]).toEqual({})
+      }
+    }
+  })
+
+  it('passes undefined maxAgeInSeconds when not provided', async () => {
+    const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.REGULAR, 2)
+    const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.UNKNOWN, 3)
+    const overnightData = createStreamData('98.5', TwentyfourFiveMarketStatus.UNKNOWN, 4)
+
+    setupMock(regularData, extendedData, overnightData)
+
+    await getPrice('', {} as any, regularStreamId, extendedStreamId, overnightStreamId)
+
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledTimes(3)
+    for (const call of mockGetDeutscheBoersePrice.mock.calls) {
+      if (call[0] === overnightStreamId) {
+        expect(call[3]).toEqual({ maxAgeInSeconds: undefined })
+      } else {
+        expect(call[3]).toEqual({})
+      }
+    }
+  })
+
+  it('succeeds in regular hours when overnight stream fails', async () => {
+    const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.REGULAR, 2)
+    const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.REGULAR, 3)
+
+    setupMock(regularData, extendedData, null)
+
+    const result = await getPrice(
+      '',
+      {} as any,
+      regularStreamId,
+      extendedStreamId,
+      overnightStreamId,
+    )
+
+    expect(result).toEqual({
+      price: regularData.mid,
+      spread: 1n,
+      decimals: regularData.decimals,
+      data: {
+        regular: regularData,
+        extended: extendedData,
+        overnight: undefined,
+      },
+    })
+  })
+
+  it('errors in overnight hours when overnight stream fails', async () => {
+    const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.OVERNIGHT, 2)
+    const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.OVERNIGHT, 3)
+
+    setupMock(regularData, extendedData, null)
+
+    const error = await getPrice(
+      '',
+      {} as any,
+      regularStreamId,
+      extendedStreamId,
+      overnightStreamId,
+    ).catch((e) => e)
+
+    expect(error).toBeInstanceOf(AdapterError)
+    expect(error.message).toContain('Market is not open')
+  })
+
   it('error', async () => {
     const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.UNKNOWN, 2)
     const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.WEEKEND, 3)
@@ -162,11 +265,11 @@ describe('getPrice', () => {
     setupMock(regularData, extendedData, overnightData)
 
     const error = await getPrice(
+      '',
+      {} as any,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
-      '',
-      {} as any,
     ).catch((e) => e)
 
     expect(error).toBeInstanceOf(AdapterError)
