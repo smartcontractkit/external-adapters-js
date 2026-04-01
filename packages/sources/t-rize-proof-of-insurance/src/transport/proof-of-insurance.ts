@@ -81,22 +81,22 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    let navPerShare: string
-    let aum: string
-    let navTimestampNanos: string
+    let encodedRootInt192: string
+    let encodedContractIdInt192: string
+    let timestampNanoseconds: string
 
     try {
       const rootBytes = Buffer.from(response.data.root, 'base64')
       // Per the mapping defined for this integration, navPerShare carries the merkle root bytes.
       // SmartData only gives us int192 carrier fields here, so we keep the leftmost 24 bytes
       // and fail fast if the signed positive range is still exceeded rather than truncating further.
-      const navPerShareHex = `0x${rootBytes.subarray(0, 24).toString('hex')}`
-      navPerShare = toPositiveInt192(navPerShareHex, 'root', 'navPerShare')
+      const encodedRootHex = `0x${rootBytes.subarray(0, 24).toString('hex')}`
+      encodedRootInt192 = toPositiveInt192(encodedRootHex, 'root', 'navPerShare')
 
       // Per the same integration mapping, aum carries the contractId bytes rather than an 18-decimal amount.
       // We apply the same leftmost-24-byte rule because aum is also an int192 carrier field.
-      const aumHex = `0x${response.data.contractId.slice(0, 48)}`
-      aum = toPositiveInt192(aumHex, 'contractId', 'aum')
+      const encodedContractIdHex = `0x${response.data.contractId.slice(0, 48)}`
+      encodedContractIdInt192 = toPositiveInt192(encodedContractIdHex, 'contractId', 'aum')
 
       const computedAtMillis = new Date(response.data.computedAt).getTime()
 
@@ -105,7 +105,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
 
       // SmartData v9 navDate expects a unix timestamp in nanoseconds.
-      navTimestampNanos = (BigInt(computedAtMillis) * 1_000_000n).toString()
+      timestampNanoseconds = (BigInt(computedAtMillis) * 1_000_000n).toString()
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
@@ -124,11 +124,11 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: param,
         response: {
-          result: navPerShare,
+          result: encodedRootInt192,
           data: {
-            navPerShare,
-            aum,
-            navDate: navTimestampNanos,
+            navPerShare: encodedRootInt192,
+            aum: encodedContractIdInt192,
+            navDate: timestampNanoseconds,
             ripcord: 0,
           },
         },
