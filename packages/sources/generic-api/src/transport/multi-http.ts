@@ -18,7 +18,10 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
   parseResponse: (params, response) => {
     return params.map((param) => {
       try {
-        return createResponse(param, response)
+        return {
+          params: param,
+          response: createResponse(param, response),
+        }
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
         const statusCode = error instanceof AdapterError ? error.statusCode : 502

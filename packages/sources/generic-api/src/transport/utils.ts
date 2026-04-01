@@ -1,4 +1,4 @@
-import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { PartialSuccessfulResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import objectPath from 'object-path'
 import { getApiConfig } from '../config'
@@ -51,7 +51,7 @@ export const createResponse = (
     providerIndicatedTimePath?: string
   },
   response: { data: object | undefined },
-): ProviderResult<MultiHttpBaseEndpointTypes> => {
+): PartialSuccessfulResponse<MultiHttpBaseEndpointTypes['Response']> => {
   if (!response.data) {
     throw new AdapterError({
       message: `The data provider for ${param.apiName} didn't return any value`,
@@ -133,13 +133,10 @@ export const createResponse = (
   }
 
   return {
-    params: param,
-    response: {
-      result,
-      data,
-      timestamps: {
-        providerIndicatedTimeUnixMs,
-      },
+    result,
+    data,
+    timestamps: {
+      providerIndicatedTimeUnixMs,
     },
   }
 }
