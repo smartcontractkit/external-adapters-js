@@ -1,5 +1,6 @@
 import { PartialSuccessfulResponse } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import objectPath from 'object-path'
 import { getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
@@ -42,16 +43,13 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
   })
 }
 
+type MultiHttpParams = TypeFromDefinition<MultiHttpBaseEndpointTypes['Parameters']>
+type MultiHttpResponse = PartialSuccessfulResponse<MultiHttpBaseEndpointTypes['Response']>
+
 export const createResponse = (
-  param: {
-    apiName: string
-    dataPaths: { name: string; path: string }[]
-    ripcordPath?: string
-    ripcordDisabledValue: string
-    providerIndicatedTimePath?: string
-  },
+  param: MultiHttpParams,
   response: { data: object | undefined },
-): PartialSuccessfulResponse<MultiHttpBaseEndpointTypes['Response']> => {
+): MultiHttpResponse => {
   if (!response.data) {
     throw new AdapterError({
       message: `The data provider for ${param.apiName} didn't return any value`,
