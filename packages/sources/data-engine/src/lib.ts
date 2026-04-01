@@ -7,19 +7,65 @@ import { BaseEndpointTypes as DeutscheBoerseV11Types } from './endpoint/deutsche
 import { BaseEndpointTypes as ExchangeRateV7Types } from './endpoint/exchangeRateV7'
 import { BaseEndpointTypes as RwaV8Types } from './endpoint/rwaV8'
 
-export const getCryptoPrice = async (feedId: string, url: string, requester: Requester) =>
-  callEA<CryptoV3Types['Response']['Data']>(feedId, 'crypto-v3', url, requester)
+export const getCryptoPrice = async (
+  feedId: string,
+  url: string,
+  requester: Requester,
+  options?: {
+    maxAgeInSeconds?: number
+  },
+) => callEA<CryptoV3Types['Response']['Data']>(feedId, 'crypto-v3', url, requester, options)
 
-export const getRwaPrice = async (feedId: string, url: string, requester: Requester) =>
-  callEA<RwaV8Types['Response']['Data']>(feedId, 'rwa-v8', url, requester)
+export const getRwaPrice = async (
+  feedId: string,
+  url: string,
+  requester: Requester,
+  options?: {
+    maxAgeInSeconds?: number
+  },
+) => callEA<RwaV8Types['Response']['Data']>(feedId, 'rwa-v8', url, requester, options)
 
-export const getDeutscheBoersePrice = async (feedId: string, url: string, requester: Requester) =>
-  callEA<DeutscheBoerseV11Types['Response']['Data']>(feedId, 'deutscheBoerse-v11', url, requester)
+export const getDeutscheBoersePrice = async (
+  feedId: string,
+  url: string,
+  requester: Requester,
+  options?: {
+    maxAgeInSeconds?: number
+  },
+) =>
+  callEA<DeutscheBoerseV11Types['Response']['Data']>(
+    feedId,
+    'deutscheBoerse-v11',
+    url,
+    requester,
+    options,
+  )
 
-export const getExchangeRate = async (feedId: string, url: string, requester: Requester) =>
-  callEA<ExchangeRateV7Types['Response']['Data']>(feedId, 'exchangeRate-v7', url, requester)
+export const getExchangeRate = async (
+  feedId: string,
+  url: string,
+  requester: Requester,
+  options?: {
+    maxAgeInSeconds?: number
+  },
+) =>
+  callEA<ExchangeRateV7Types['Response']['Data']>(
+    feedId,
+    'exchangeRate-v7',
+    url,
+    requester,
+    options,
+  )
 
-const callEA = async <T>(feedId: string, endpoint: string, url: string, requester: Requester) => {
+const callEA = async <T>(
+  feedId: string,
+  endpoint: string,
+  url: string,
+  requester: Requester,
+  options?: {
+    maxAgeInSeconds?: number
+  },
+) => {
   const requestConfig = {
     baseURL: url,
     method: 'POST',
@@ -27,6 +73,9 @@ const callEA = async <T>(feedId: string, endpoint: string, url: string, requeste
       data: {
         endpoint,
         feedId,
+        ...(options?.maxAgeInSeconds && {
+          maxAgeInSeconds: options.maxAgeInSeconds,
+        }),
       },
     },
   }
