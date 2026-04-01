@@ -1,8 +1,5 @@
 import { priceEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
-import {
-  AdapterRequest,
-  SingleNumberResultResponse,
-} from '@chainlink/external-adapter-framework/util'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 
@@ -19,9 +16,11 @@ export type BaseCryptoEndpointTypes = {
   Response: SingleNumberResultResponse
 }
 
-export function tiingoCommonSubscriptionRequestTransform() {
-  return (req: AdapterRequest<{ base: string; quote: string }>) => {
-    req.requestContext.data.base = req.requestContext.data.base.toLowerCase()
-    req.requestContext.data.quote = req.requestContext.data.quote.toLowerCase()
-  }
-}
+/**
+ * @deprecated This function was a no-op due to a factory-function bug: it returned a
+ * transform function instead of executing one, so toLowerCase() never ran.
+ * Case normalization is now handled at the framework level via NORMALIZE_CASE_INPUTS.
+ * Kept as a stub for backward compatibility; remove on next major version.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function tiingoCommonSubscriptionRequestTransform() {}
