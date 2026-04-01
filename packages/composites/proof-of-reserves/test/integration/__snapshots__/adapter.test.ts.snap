@@ -8,12 +8,6 @@ exports[`execute Bitcoin list protocol should return success 1`] = `
     "statusCode": 200,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"},{"address":"35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR","chainId":"mainnet","network":"bitcoin"}]}}",
-  },
   "result": "75100045155",
   "statusCode": 200,
 }
@@ -25,12 +19,6 @@ exports[`execute Ethereum list protocol should return success 1`] = `
     "result": "220646158354962165",
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"indexer":"eth_balance","protocol":"list","addresses":["0x8288C280F35FB8809305906C79BD075962079DD8","0x81910675DbaF69deE0fD77570BFD07f8E436386A"],"confirmations":5}}",
-  },
   "providerStatusCode": 200,
   "result": "220646158354962165",
   "statusCode": 200,
@@ -44,12 +32,6 @@ exports[`execute Filecoin Gemini protocol should return success 1`] = `
     "result": "127530375584000000000000",
     "statusCode": 200,
   },
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"indexer":"lotus","protocol":"gemini"}}",
-  },
   "result": "127530375584000000000000",
   "statusCode": 200,
 }
@@ -61,12 +43,6 @@ exports[`execute Filecoin list protocol w/ miner format address should return su
     "decimals": 0,
     "result": "127530375584000000000000",
     "statusCode": 200,
-  },
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"indexer":"lotus","protocol":"list","addresses":["f01850382"],"confirmations":5}}",
   },
   "result": "127530375584000000000000",
   "statusCode": 200,
@@ -86,12 +62,6 @@ exports[`execute multiReserves endpoint should return success 1`] = `
     },
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "4373661546c6c02669a21dbb9ef45f8d",
-  },
   "result": "751221097708354962165",
   "statusCode": 200,
 }
@@ -118,12 +88,6 @@ exports[`execute multiReserves endpoint view-function-multi-chain should return 
     "statusCode": 200,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "8e98c70d6aa1c3d531117aa6248da90c",
-  },
   "result": "184467440737095516150000000000",
   "statusCode": 200,
 }
@@ -137,12 +101,6 @@ exports[`execute multiReserves endpoint view-function-multi-chain should return 
     "statusCode": 200,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "b72450de15014c189039d10128a44bd9",
-  },
   "result": "18446744073709551615000000000000",
   "statusCode": 200,
 }
@@ -161,12 +119,6 @@ exports[`execute multiReserves endpoint with scaling should return success 1`] =
     },
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "162d4acd10c6ee1c11c35c5e2657db66",
-  },
   "result": "75122",
   "statusCode": 200,
 }
@@ -180,12 +132,6 @@ exports[`execute reserves endpoint - schedule window should proceed with a norma
     "statusCode": 200,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"},{"address":"35ULMyVnFoYaPaMxwHTRmaGdABpAThM4QR","chainId":"mainnet","network":"bitcoin"}],"startUTC":"1000","endUTC":"1200"}}",
-  },
   "result": "75100045155",
   "statusCode": 200,
 }
@@ -200,12 +146,6 @@ exports[`execute reserves endpoint - schedule window should return outsideUpdate
     "statusCode": 503,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"}],"startUTC":"0900","endUTC":"1000"}}",
-  },
   "outsideUpdateWindow": true,
   "outsideUpdateWindowDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T09:00:00.000Z - 2022-01-01T10:00:00.000Z",
   "result": null,
@@ -222,12 +162,6 @@ exports[`execute reserves endpoint - schedule window should return outsideUpdate
     "statusCode": 503,
   },
   "jobRunID": "1",
-  "meta": {
-    "adapterName": "PROOF_OF_RESERVES",
-  },
-  "metricsMeta": {
-    "feedId": "{"data":{"protocol":"list","indexer":"por_indexer","addresses":[{"address":"39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE","chainId":"mainnet","network":"bitcoin"}],"startUTC":"1200","endUTC":"1300"}}",
-  },
   "outsideUpdateWindow": true,
   "outsideUpdateWindowDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
   "result": null,
