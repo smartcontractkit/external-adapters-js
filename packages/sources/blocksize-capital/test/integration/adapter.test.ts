@@ -1,12 +1,12 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { mockWebSocketServer } from './fixtures'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -50,6 +50,18 @@ describe('websocket', () => {
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should normalize mixed-case base and quote params', async () => {
+      const response = await testAdapter.request({
+        base: 'eTh',
+        quote: 'eUr',
+      })
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.result).toBe(2400.209999999564)
+      expect(body.data.result).toBe(2400.209999999564)
+    })
   })
   describe('lwba endpoint', () => {
     it('should return success', async () => {
@@ -61,6 +73,21 @@ describe('websocket', () => {
       const response = await testAdapter.request(lwbaData)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should normalize mixed-case base and quote params', async () => {
+      const response = await testAdapter.request({
+        base: 'eTh',
+        quote: 'uSd',
+        endpoint: 'crypto-lwba',
+      })
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.data.bid).toBe(1701.844873967814)
+      expect(body.data.ask).toBe(1702.223427255888)
+      expect(body.data.mid).toBe(1702.034150611851)
+    })
+
     it('should return error (LWBA invariant violation)', async () => {
       const lwbaData = {
         base: 'LINK',
@@ -80,6 +107,19 @@ describe('websocket', () => {
       }
       const response = await testAdapter.request(vwapData)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should normalize mixed-case base and quote params', async () => {
+      const response = await testAdapter.request({
+        base: 'aMpL',
+        quote: 'uSd',
+        endpoint: 'vwap',
+      })
+      const body = response.json()
+
+      expect(response.statusCode).toBe(200)
+      expect(body.result).toBe(1.7748077041598187)
+      expect(body.data.result).toBe(1.7748077041598187)
     })
   })
 })
