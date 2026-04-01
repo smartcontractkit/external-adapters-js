@@ -1,3 +1,4 @@
+import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import {
   PartialSuccessfulResponse,
   ProviderResult,
@@ -46,8 +47,15 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
   })
 }
 
-type MultiHttpParams = TypeFromDefinition<MultiHttpBaseEndpointTypes['Parameters']>
-type MultiHttpResponse = PartialSuccessfulResponse<MultiHttpBaseEndpointTypes['Response']>
+type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
+  EndpointTypes['Parameters']
+>
+type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
+  EndpointTypes['Response']
+>
+
+type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
+type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
 
 const createResponse = (
   param: MultiHttpParams,
@@ -142,18 +150,22 @@ const createResponse = (
   }
 }
 
-export const createResponses = ({
+export const createResponses = <EndpointTypes extends TransportGenerics>({
   params,
   response,
+  mapParam,
+  mapResponse,
 }: {
-  params: MultiHttpParams[]
+  params: Params<EndpointTypes>[]
   response: { data: object | undefined }
-}): ProviderResult<MultiHttpBaseEndpointTypes>[] => {
-  return params.map((param) => {
+  mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
+  mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
+}): ProviderResult<EndpointTypes>[] => {
+  return params.map((param: Params<EndpointTypes>): ProviderResult<EndpointTypes> => {
     try {
       return {
         params: param,
-        response: createResponse(param, response),
+        response: mapResponse(createResponse(mapParam(param), response)),
       }
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
