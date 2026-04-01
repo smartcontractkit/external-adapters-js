@@ -7,7 +7,22 @@ describe('lib.ts', () => {
 
     requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
 
-    await expect(getCryptoPrice('feed-1', 'ea-url', requester)).resolves.toEqual(data)
+    await expect(
+      getCryptoPrice('feed-1', 'ea-url', requester, { maxAgeInSeconds: 60 }),
+    ).resolves.toEqual(data)
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        data: {
+          data: {
+            endpoint: 'crypto-v3',
+            feedId: 'feed-1',
+            maxAgeInSeconds: 60,
+          },
+        },
+      }),
+    )
   })
 
   it('getRwaPrice - should return result', async () => {

@@ -32,6 +32,7 @@ describe('wsTransportBase', () => {
   const mockLogger = {
     error: jest.fn(),
     info: jest.fn(),
+    warn: jest.fn(),
   }
 
   beforeEach(() => {
@@ -289,6 +290,155 @@ describe('wsTransportBase', () => {
 
         expect(result).toHaveLength(1)
         expect(result[0].response.result).toBeNull()
+      })
+
+      describe('maxAgeInSeconds filtering', () => {
+        const nowS = 1700000000
+        const mockConfigWithTimestamp = {
+          schemaVersion: 'V3',
+          loggerName: 'test-logger',
+          extractData: jest.fn((decoded: any) => ({ price: decoded.price })),
+          reportTimestampS: jest.fn((decoded: any) => decoded.observationsTimestamp as number),
+        }
+
+        beforeEach(() => {
+          jest.spyOn(Date, 'now').mockReturnValue(nowS * 1000)
+        })
+
+        afterEach(() => {
+          jest.restoreAllMocks()
+        })
+
+        it('should pass through report when maxAgeInSeconds is not set', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 9999,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [{ feedId: '0x0003', resultPath: 'price' }])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should pass through report when reportTimestampS is not configured', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+          } as any)
+
+          // Use mockConfig which has no reportTimestampS
+          const transport = createDataEngineTransport(mockConfig)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should pass through report when age is within maxAgeInSeconds', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 30,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should filter out stale report when age exceeds maxAgeInSeconds', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 120,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(0)
+        })
+
+        it('should filter stale subs while keeping fresh subs for same feedId', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 90,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 120 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          // First sub (maxAge=60) filtered out, second sub (maxAge=120) kept
+          expect(result).toHaveLength(1)
+          expect(result[0].params.maxAgeInSeconds).toBe(120)
+        })
+
+        it('should report exact age at boundary', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 60,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
       })
 
       it('should only fan out results for matching feedId', () => {
