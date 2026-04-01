@@ -1,6 +1,6 @@
 import {
-  TestAdapter,
   setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
@@ -8,12 +8,15 @@ import {
   mockResponseFailure401,
   mockResponseFailure404,
   mockResponseFailure500,
+  mockResponseInvalidComputedAt,
   mockResponseOverflowContractAfterTruncation,
   mockResponseOverflowRootAfterTruncation,
   mockResponseSuccess,
   mockResponseSuccessAnotherTree,
   mockResponseSuccessMinimalRoot,
+  mockResponseSuccessPositiveInt192Boundary,
   mockResponseSuccessSpecialChars,
+  POSITIVE_INT192_MAX_DECIMAL,
 } from './fixtures'
 
 const OWNER_PARTY_ID =
@@ -94,6 +97,30 @@ describe('execute', () => {
         const response = await testAdapter.request(data)
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
+      })
+
+      it('should accept exact positive int192 boundary values', async () => {
+        const data = {
+          ownerPartyId: 'boundary-owner',
+          treeId: 'tree-boundary',
+          endpoint: 'proof-of-insurance',
+        }
+
+        mockResponseSuccessPositiveInt192Boundary()
+        const response = await testAdapter.request(data)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            result: POSITIVE_INT192_MAX_DECIMAL,
+            data: expect.objectContaining({
+              navPerShare: POSITIVE_INT192_MAX_DECIMAL,
+              aum: POSITIVE_INT192_MAX_DECIMAL,
+              navDate: '1704067200000000000',
+              ripcord: 0,
+            }),
+          }),
+        )
       })
     })
 
@@ -186,6 +213,25 @@ describe('execute', () => {
         mockResponseEmptyBody()
         const response = await testAdapter.request(data)
         expect([502, 504]).toContain(response.statusCode)
+      })
+
+      it('should fail on invalid computedAt from upstream', async () => {
+        const data = {
+          ownerPartyId: 'invalid-time-owner',
+          treeId: 'tree-invalid-time',
+          endpoint: 'proof-of-insurance',
+        }
+
+        mockResponseInvalidComputedAt()
+        const response = await testAdapter.request(data)
+
+        expect(response.statusCode).toBe(502)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            statusCode: 502,
+            errorMessage: 'Unable to map computedAt to navDate: invalid timestamp.',
+          }),
+        )
       })
     })
 

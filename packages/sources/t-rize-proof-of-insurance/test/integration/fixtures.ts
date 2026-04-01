@@ -6,13 +6,17 @@ const BASE_URL = 'https://proof.t-rize.network'
 const OWNER_PARTY_ID =
   'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 
+const POSITIVE_INT192_MAX_HEX = `7f${'ff'.repeat(23)}`
 const POSITIVE_INT192_SAFE_HEX = `7f${'00'.repeat(23)}`
 const POSITIVE_INT192_OVERFLOW_HEX = 'ff'.repeat(24)
+const POSITIVE_INT192_MAX_ROOT = Buffer.from(POSITIVE_INT192_MAX_HEX, 'hex').toString('base64')
 const POSITIVE_INT192_SAFE_ROOT = Buffer.from(POSITIVE_INT192_SAFE_HEX, 'hex').toString('base64')
 const POSITIVE_INT192_OVERFLOW_ROOT = Buffer.concat([
   Buffer.from(POSITIVE_INT192_OVERFLOW_HEX, 'hex'),
   Buffer.alloc(8),
 ]).toString('base64')
+
+export const POSITIVE_INT192_MAX_DECIMAL = BigInt(`0x${POSITIVE_INT192_MAX_HEX}`).toString()
 
 const RESPONSE_HEADERS = [
   'Content-Type',
@@ -97,6 +101,44 @@ export const mockResponseSuccessMinimalRoot = (): nock.Scope =>
         root: 'AQ==',
         contractId: '00',
         computedAt: '2024-01-01T00:00:00Z',
+      }),
+      RESPONSE_HEADERS,
+    )
+    .persist()
+
+export const mockResponseSuccessPositiveInt192Boundary = (): nock.Scope =>
+  nock(BASE_URL, { encodedQueryParams: true })
+    .get(MERKLE_PATH)
+    .query({
+      owner_party_id: 'boundary-owner',
+      tree_id: 'tree-boundary',
+    })
+    .reply(
+      200,
+      () => ({
+        treeId: 'tree-boundary',
+        root: POSITIVE_INT192_MAX_ROOT,
+        contractId: POSITIVE_INT192_MAX_HEX,
+        computedAt: '2024-01-01T00:00:00Z',
+      }),
+      RESPONSE_HEADERS,
+    )
+    .persist()
+
+export const mockResponseInvalidComputedAt = (): nock.Scope =>
+  nock(BASE_URL, { encodedQueryParams: true })
+    .get(MERKLE_PATH)
+    .query({
+      owner_party_id: 'invalid-time-owner',
+      tree_id: 'tree-invalid-time',
+    })
+    .reply(
+      200,
+      () => ({
+        treeId: 'tree-invalid-time',
+        root: POSITIVE_INT192_SAFE_ROOT,
+        contractId: POSITIVE_INT192_SAFE_HEX,
+        computedAt: 'not-a-date',
       }),
       RESPONSE_HEADERS,
     )

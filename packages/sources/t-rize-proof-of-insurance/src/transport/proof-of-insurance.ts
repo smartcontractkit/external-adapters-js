@@ -83,6 +83,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 
     let navPerShare: string
     let aum: string
+    let navTimestampNanos: string
 
     try {
       const rootBytes = Buffer.from(response.data.root, 'base64')
@@ -96,6 +97,15 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       // We apply the same leftmost-24-byte rule because aum is also an int192 carrier field.
       const aumHex = `0x${response.data.contractId.slice(0, 48)}`
       aum = toPositiveInt192(aumHex, 'contractId', 'aum')
+
+      const computedAtMillis = new Date(response.data.computedAt).getTime()
+
+      if (Number.isNaN(computedAtMillis)) {
+        throw new Error('Unable to map computedAt to navDate: invalid timestamp.')
+      }
+
+      // SmartData v9 navDate expects a unix timestamp in nanoseconds.
+      navTimestampNanos = (BigInt(computedAtMillis) * 1_000_000n).toString()
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
@@ -109,11 +119,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       })
     }
-
-    // SmartData v9 navDate expects a unix timestamp in nanoseconds.
-    const navTimestampNanos = (
-      BigInt(new Date(response.data.computedAt).getTime()) * 1_000_000n
-    ).toString()
 
     return params.map((param) => {
       return {
