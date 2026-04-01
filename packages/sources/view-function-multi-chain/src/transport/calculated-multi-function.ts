@@ -33,6 +33,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
   providers: Record<string, ethers.JsonRpcProvider> = {}
   requester!: Requester
   endpointName!: string
+  private readonly defaultMultiplier = BigInt(10) ** BigInt(0)
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -108,9 +109,8 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     inputParams?: Array<string>
     network: string
     resultField?: string
-    decimals?: number
   }) {
-    const { address, signature, inputParams, network, decimals } = params
+    const { address, signature, inputParams, network } = params
 
     const networkName = network.toUpperCase()
     const networkEnvName = `${networkName}_RPC_URL`
@@ -148,11 +148,7 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const decodedResult = iface.decodeFunctionResult(fnName, encodedResult)
     const rawValue = decodedResult[0]
 
-    if (decimals != null && decimals > 0) {
-      return ethers.formatUnits(rawValue, decimals)
-    }
-
-    return BigInt(rawValue).toString()
+    return (BigInt(rawValue) * this.defaultMultiplier).toString()
   }
 
   private async _executeAptosFunction(call: AptosCall): Promise<string> {
