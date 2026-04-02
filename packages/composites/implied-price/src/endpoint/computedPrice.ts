@@ -22,13 +22,10 @@ export type TInputParameters = {
   operand1Sources: string | string[]
   operand1MinAnswers?: number
   operand1Input: AdapterRequest
-  operand1Decimals?: number
   operand2Sources: string | string[]
   operand2MinAnswers?: number
   operand2Input: AdapterRequest
-  operand2Decimals?: number
   operation: string
-  outputDecimals?: number
 }
 
 const inputParameters: InputParameters<TInputParameters> = {
@@ -47,11 +44,6 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     description: 'The payload to send to the operand1 sources',
   },
-  operand1Decimals: {
-    required: false,
-    type: 'number',
-    description: 'The scaling factor (*10^operand1Decimals) of operand1',
-  },
   operand2Sources: {
     required: true,
     description:
@@ -67,21 +59,11 @@ const inputParameters: InputParameters<TInputParameters> = {
     required: true,
     description: 'The payload to send to the operand2 sources',
   },
-  operand2Decimals: {
-    required: false,
-    type: 'number',
-    description: 'The scaling factor (*10^operand2Decimals) of operand2',
-  },
   operation: {
     required: true,
     type: 'string',
     description: 'The operation to perform on the operands',
     options: ['divide', 'multiply'],
-  },
-  outputDecimals: {
-    required: false,
-    type: 'number',
-    description: 'Decimal scaling of the result',
   },
 }
 
@@ -94,11 +76,6 @@ export const execute: ExecuteWithConfig<Config> = (input, _, config) => {
   validator.validated.data.operand2Input = validateInputPayload(
     validator.validated.data.operand2Input,
     'operand2Input',
-  )
-  validateDecimalsParams(
-    validator.validated.data.outputDecimals,
-    validator.validated.data.operand1Decimals,
-    validator.validated.data.operand2Decimals,
   )
   return executeComputedPrice(validator.validated.id, validator.validated.data, config)
 }
@@ -146,12 +123,7 @@ export const executeComputedPrice = async (
   const operand2MinAnswers = validatedData.operand2MinAnswers as number
   const operand1Input = validatedData.operand1Input
   const operand2Input = validatedData.operand2Input
-  const operand1Decimals = validatedData.operand1Decimals
-  const operand2Decimals = validatedData.operand2Decimals
   const operation = validatedData.operation.toLowerCase()
-  const outputDecimals = validatedData.outputDecimals
-  const areDecimalsDefined = outputDecimals !== undefined
-
   // TODO: non-nullable default types
 
   const operand1Urls = getOperandSourceUrls({
@@ -184,28 +156,15 @@ export const executeComputedPrice = async (
     throw new AdapterResponseInvalidError({ message: 'Operand 2 result is zero' })
   }
 
-  let scalingFactor: Decimal | undefined = undefined
   let result: Decimal
   if (operation === 'divide') {
     result = operand1Result.div(operand2Result)
-    if (areDecimalsDefined) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      scalingFactor = new Decimal(10).pow(outputDecimals - (operand1Decimals! - operand2Decimals!))
-    }
   } else if (operation === 'multiply') {
     result = operand1Result.mul(operand2Result)
-    if (areDecimalsDefined) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      scalingFactor = new Decimal(10).pow(outputDecimals - (operand1Decimals! + operand2Decimals!))
-    }
   } else {
     throw new AdapterError({
       message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
     })
-  }
-
-  if (scalingFactor !== undefined) {
-    result = result.mul(scalingFactor)
   }
 
   const data = {
@@ -284,20 +243,4 @@ export const validateInputPayload = (input: string | object, inputName: string) 
     statusCode: 400,
     message: `Invalid input payload type for "${inputName}", expected JSON string or object`,
   })
-}
-
-export const validateDecimalsParams = (
-  outputDecimals: number | undefined,
-  operand1Decimals: number | undefined,
-  operand2Decimals: number | undefined,
-) => {
-  // validate decimals are either all set or none set
-  const decimals = [outputDecimals, operand1Decimals, operand2Decimals]
-  const definedDecimals = new Set(decimals.map((d) => d !== undefined))
-  if (definedDecimals.size !== 1) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: 'Decimals inputs should be all set or all unset',
-    })
-  }
 }
