@@ -205,7 +205,7 @@ describe('execute', () => {
         }
         mockResponseFailure500()
         const response = await testAdapter.request(data)
-        expect([502, 504]).toContain(response.statusCode)
+        expect(response.statusCode).toBe(502)
       })
 
       it('should handle 404 error from upstream', async () => {
@@ -216,7 +216,7 @@ describe('execute', () => {
         }
         mockResponseFailure404()
         const response = await testAdapter.request(data)
-        expect([502, 504]).toContain(response.statusCode)
+        expect(response.statusCode).toBe(504)
       })
 
       it('should handle 401 error from upstream', async () => {
@@ -227,7 +227,7 @@ describe('execute', () => {
         }
         mockResponseFailure401()
         const response = await testAdapter.request(data)
-        expect([502, 504]).toContain(response.statusCode)
+        expect(response.statusCode).toBe(504)
       })
 
       it('should handle empty response body from upstream', async () => {
@@ -238,7 +238,7 @@ describe('execute', () => {
         }
         mockResponseEmptyBody()
         const response = await testAdapter.request(data)
-        expect([502, 504]).toContain(response.statusCode)
+        expect(response.statusCode).toBe(502)
       })
     })
 
@@ -257,7 +257,7 @@ describe('execute', () => {
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: 'Unable to parse computedAt: invalid timestamp.',
+            errorMessage: 'Unable to parse computedAt: invalid timestamp value "not-a-date".',
           }),
         )
       })
@@ -276,7 +276,7 @@ describe('execute', () => {
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: 'Unable to decode root: invalid base64.',
+            errorMessage: 'Unable to decode root: invalid base64 value "!not-base64!".',
           }),
         )
       })
@@ -295,7 +295,7 @@ describe('execute', () => {
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: 'Unable to normalize contractId: invalid hex.',
+            errorMessage: 'Unable to normalize contractId: invalid hex value "xyz123".',
           }),
         )
       })

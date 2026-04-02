@@ -48,7 +48,7 @@ export const mockResponseSuccessAnotherTree = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-002',
-        root: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
+        root: Buffer.from('00'.repeat(32), 'hex').toString('base64'),
         contractId: 'ff',
         computedAt: '2025-06-15T12:00:00Z',
       }),
@@ -67,7 +67,7 @@ export const mockResponseSuccessSpecialChars = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-003',
-        root: '/////////////////////w==',
+        root: Buffer.from('ff'.repeat(16), 'hex').toString('base64'),
         contractId: '01',
         computedAt: '2025-03-01T00:00:00Z',
       }),
@@ -86,7 +86,7 @@ export const mockResponseSuccessMinimalRoot = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-004',
-        root: 'AQ==',
+        root: Buffer.from('01', 'hex').toString('base64'),
         contractId: '00',
         computedAt: '2024-01-01T00:00:00Z',
       }),
@@ -124,7 +124,7 @@ export const mockResponseSuccessSignBitRoot = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-sign-bit',
-        root: '////////////////////////////////AAAAAAAAAAA=',
+        root: Buffer.from(`${'ff'.repeat(24)}${'00'.repeat(8)}`, 'hex').toString('base64'),
         contractId: 'ffffffffffffffffffffffffffffffffffffffffffffffff',
         computedAt: '2024-01-01T00:00:00Z',
       }),
@@ -143,7 +143,7 @@ export const mockResponseInvalidComputedAt = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-invalid-time',
-        root: 'AQ==',
+        root: Buffer.from('01', 'hex').toString('base64'),
         contractId: '00',
         computedAt: 'not-a-date',
       }),
@@ -181,7 +181,7 @@ export const mockResponseInvalidContractId = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-invalid-contract',
-        root: 'AQ==',
+        root: Buffer.from('01', 'hex').toString('base64'),
         contractId: 'xyz123',
         computedAt: '2024-01-01T00:00:00Z',
       }),

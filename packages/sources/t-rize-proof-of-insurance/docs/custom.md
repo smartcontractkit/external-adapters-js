@@ -1,11 +1,11 @@
 ## Staging vs. Production
 
-| Environment | URL                            |
-| ----------- | ------------------------------ |
-| Testnet     | `https://proof.t-rize.ca`      |
-| Mainnet     | `https://proof.t-rize.network` |
+| Environment | URL                                                                       |
+| ----------- | ------------------------------------------------------------------------- |
+| Testnet     | `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`      |
+| Mainnet     | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
 
-The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca`.
+The adapter defaults to the **production** endpoint. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`.
 
 ## Output Shape
 

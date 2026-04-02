@@ -22,17 +22,19 @@ const decodeRootToDecimal = (base64Value: string): string => {
   try {
     decodedBytes = Buffer.from(atob(base64Value), 'binary')
   } catch {
-    throw new Error('Unable to decode root: invalid base64.')
+    throw new Error(`Unable to decode root: invalid base64 value ${JSON.stringify(base64Value)}.`)
   }
 
   return truncateBytesToDecimal(decodedBytes, 'root')
 }
 
 const normalizeContractIdToDecimal = (hexValue: string): string => {
-  const normalizedHex = hexValue.replace(/^0x/i, '').toLowerCase()
+  const normalizedHex = hexValue.replace(/^0x/i, '')
 
-  if (!/^(?:[0-9a-f]{2})+$/.test(normalizedHex)) {
-    throw new Error('Unable to normalize contractId: invalid hex.')
+  if (!/^(?:[0-9a-f]{2})+$/i.test(normalizedHex)) {
+    throw new Error(
+      `Unable to normalize contractId: invalid hex value ${JSON.stringify(hexValue)}.`,
+    )
   }
 
   return truncateBytesToDecimal(Buffer.from(normalizedHex, 'hex'), 'contractId')
@@ -58,8 +60,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: [param],
         request: {
-          baseURL: config.API_ENDPOINT,
-          url: '/v1/asset-verifier/merkle-tree/current-root',
+          url: config.API_ENDPOINT,
           params: {
             owner_party_id: param.ownerPartyId,
             tree_id: param.treeId,
@@ -100,12 +101,22 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     }
 
     try {
+      // Note: Both root and contractId are opaque hashes. We want to make these
+      // hashes available via Streams. Since there is no appropriate schema for this,
+      // we decided to encode these hashes as int192 numbers so they can be made
+      // available in the v9 schema. To fit the hashes into these numbers, we need to
+      // truncate them. This assumes that 23 bytes of each hash is enough to be able
+      // to reliably compare the hash to the original hash.
       const rootDecimal = decodeRootToDecimal(response.data.root)
       const contractIdDecimal = normalizeContractIdToDecimal(response.data.contractId)
       const providerIndicatedTimeUnixMs = Date.parse(response.data.computedAt)
 
       if (Number.isNaN(providerIndicatedTimeUnixMs)) {
-        throw new Error('Unable to parse computedAt: invalid timestamp.')
+        throw new Error(
+          `Unable to parse computedAt: invalid timestamp value ${JSON.stringify(
+            response.data.computedAt,
+          )}.`,
+        )
       }
 
       return params.map((param) => {
