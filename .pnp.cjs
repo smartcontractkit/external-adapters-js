@@ -8833,7 +8833,7 @@ const RAW_RUNTIME_STATE =
           ["glob-parent", "npm:6.0.2"],\
           ["is-svg", "npm:5.1.0"],\
           ["js-yaml", "npm:4.1.0"],\
-          ["lodash.template", "npm:4.5.0"]\
+          ["lodash.template", "npm:4.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20572,10 +20572,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["lodash.template", [\
-      ["npm:4.5.0", {\
-        "packageLocation": "./.yarn/cache/lodash.template-npm-4.5.0-5272df3039-56d18ba410.zip/node_modules/lodash.template/",\
+      ["npm:4.18.1", {\
+        "packageLocation": "./.yarn/cache/lodash.template-npm-4.18.1-b933a13b68-cdab27ff08.zip/node_modules/lodash.template/",\
         "packageDependencies": [\
-          ["lodash.template", "npm:4.5.0"],\
+          ["lodash.template", "npm:4.18.1"],\
           ["lodash._reinterpolate", "npm:3.0.0"],\
           ["lodash.templatesettings", "npm:4.2.0"]\
         ],\
