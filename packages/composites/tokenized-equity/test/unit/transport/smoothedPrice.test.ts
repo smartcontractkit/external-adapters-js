@@ -21,6 +21,7 @@ describe('smoothedStreamPrice', () => {
     regularStreamId: 'regular-stream-id',
     extendedStreamId: 'extended-stream-id',
     overnightStreamId: 'overnight-stream-id',
+    overnightStreamMaxAgeInSeconds: 100,
     url: 'https://api.example.com',
     tradingHoursUrl: 'https://trading-hours.example.com',
     requester: {} as Requester,

@@ -22,5 +22,5 @@ export const endpoint = new LwbaEndpoint({
   transport,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
 })

@@ -30,6 +30,9 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       result: string
+      ripcord?: boolean
+      ripcordAsInt?: number
+      ripcordDetails?: string
     }
   }
   Settings: typeof config.settings
