@@ -1,5 +1,15 @@
 # @chainlink/blocksize-capital-state-adapter
 
+## 1.0.2
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4780](https://github.com/smartcontractkit/external-adapters-js/pull/4780) [`cb30c2c`](https://github.com/smartcontractkit/external-adapters-js/commit/cb30c2c1704d02ffe9080b0055d57178722e1fa0) Thanks [@guandali](https://github.com/guandali)! - add casing normalization for blocksize-capital
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.0.1
 
 ### Patch Changes
