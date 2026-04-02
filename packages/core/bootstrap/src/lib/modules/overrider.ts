@@ -116,6 +116,7 @@ export class Overrider {
   ): AdapterOverrides => {
     const combinedOverrides = internalOverrides || {}
     for (const symbol of Object.keys(inputOverrides)) {
+      if (symbol === '__proto__' || symbol === 'constructor' || symbol === 'prototype') continue
       combinedOverrides[symbol] = inputOverrides[symbol]
     }
     return combinedOverrides
