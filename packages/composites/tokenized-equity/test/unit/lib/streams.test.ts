@@ -54,6 +54,8 @@ describe('getPrice', () => {
     })
   }
 
+  const requester = {} as unknown as Requester
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -67,7 +69,7 @@ describe('getPrice', () => {
 
     const result = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -94,7 +96,7 @@ describe('getPrice', () => {
 
     const result = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -121,7 +123,7 @@ describe('getPrice', () => {
 
     const result = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -148,7 +150,7 @@ describe('getPrice', () => {
 
     const result = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -176,7 +178,7 @@ describe('getPrice', () => {
     const maxAge = 300
     await getPrice(
       'http://test-url',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -187,19 +189,19 @@ describe('getPrice', () => {
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
       regularStreamId,
       'http://test-url',
-      expect.anything(),
+      requester,
       {},
     )
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
       extendedStreamId,
       'http://test-url',
-      expect.anything(),
+      requester,
       {},
     )
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
       overnightStreamId,
       'http://test-url',
-      expect.anything(),
+      requester,
       { maxAgeInSeconds: maxAge },
     )
   })
@@ -211,27 +213,14 @@ describe('getPrice', () => {
 
     setupMock(regularData, extendedData, overnightData)
 
-    await getPrice('', {} as any, regularStreamId, extendedStreamId, overnightStreamId)
+    await getPrice('', requester, regularStreamId, extendedStreamId, overnightStreamId)
 
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledTimes(3)
-    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
-      regularStreamId,
-      '',
-      expect.anything(),
-      {},
-    )
-    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
-      extendedStreamId,
-      '',
-      expect.anything(),
-      {},
-    )
-    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
-      overnightStreamId,
-      '',
-      expect.anything(),
-      { maxAgeInSeconds: undefined },
-    )
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(regularStreamId, '', requester, {})
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(extendedStreamId, '', requester, {})
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(overnightStreamId, '', requester, {
+      maxAgeInSeconds: undefined,
+    })
   })
 
   it('succeeds in regular hours when overnight stream fails', async () => {
@@ -242,7 +231,7 @@ describe('getPrice', () => {
 
     const result = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -268,7 +257,7 @@ describe('getPrice', () => {
 
     const error = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
@@ -287,7 +276,7 @@ describe('getPrice', () => {
 
     const error = await getPrice(
       '',
-      {} as any,
+      requester,
       regularStreamId,
       extendedStreamId,
       overnightStreamId,
