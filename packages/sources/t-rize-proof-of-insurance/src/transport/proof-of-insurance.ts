@@ -1,26 +1,44 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
 
-const POSITIVE_INT192_MAX = (1n << 191n) - 1n
+// 23 bytes keeps the carrier value safely within positive int192 bounds.
+const TRUNCATED_CARRIER_BYTES = 23
 
-const toPositiveInt192 = (
-  hexValue: string,
-  sourceField: 'root' | 'contractId',
-  targetField: 'navPerShare' | 'aum',
-): string => {
-  const value = BigInt(hexValue)
+// Shared carrier rule for both fields: take the leftmost 23 bytes, interpret them
+// as an unsigned big-endian integer, and return its decimal string representation.
+const truncateBytesToDecimal = (byteValue: Buffer, sourceField: 'root' | 'contractId'): string => {
+  const truncatedHex = byteValue.subarray(0, TRUNCATED_CARRIER_BYTES).toString('hex')
 
-  if (value > POSITIVE_INT192_MAX) {
-    throw new Error(
-      `Unable to map ${sourceField} to ${targetField}: value does not fit positive int192.`,
-    )
+  if (!truncatedHex) {
+    throw new Error(`Unable to map ${sourceField}: decoded value is empty.`)
   }
 
-  return value.toString()
+  return BigInt(`0x${truncatedHex}`).toString()
+}
+
+const decodeRootToDecimal = (base64Value: string): string => {
+  let decodedBytes: Buffer
+
+  try {
+    decodedBytes = Buffer.from(atob(base64Value), 'binary')
+  } catch {
+    throw new Error('Unable to decode root: invalid base64.')
+  }
+
+  return truncateBytesToDecimal(decodedBytes, 'root')
+}
+
+const normalizeContractIdToDecimal = (hexValue: string): string => {
+  const normalizedHex = hexValue.replace(/^0x/i, '').toLowerCase()
+
+  if (!/^(?:[0-9a-f]{2})+$/.test(normalizedHex)) {
+    throw new Error('Unable to normalize contractId: invalid hex.')
+  }
+
+  return truncateBytesToDecimal(Buffer.from(normalizedHex, 'hex'), 'contractId')
 }
 
 export interface ResponseSchema {
-  treeId: string
   root: string
   contractId: string
   computedAt: string
@@ -67,7 +85,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    const providerError = response.data?.error
+    const providerError = response.data.error
 
     if (providerError) {
       return params.map((param) => {
@@ -81,31 +99,30 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       })
     }
 
-    let encodedRootInt192: string
-    let encodedContractIdInt192: string
-    let timestampNanoseconds: string
-
     try {
-      const rootBytes = Buffer.from(response.data.root, 'base64')
-      // Per the mapping defined for this integration, navPerShare carries the merkle root bytes.
-      // SmartData only gives us int192 carrier fields here, so we keep the leftmost 24 bytes
-      // and fail fast if the signed positive range is still exceeded rather than truncating further.
-      const encodedRootHex = `0x${rootBytes.subarray(0, 24).toString('hex')}`
-      encodedRootInt192 = toPositiveInt192(encodedRootHex, 'root', 'navPerShare')
+      const rootDecimal = decodeRootToDecimal(response.data.root)
+      const contractIdDecimal = normalizeContractIdToDecimal(response.data.contractId)
+      const providerIndicatedTimeUnixMs = Date.parse(response.data.computedAt)
 
-      // Per the same integration mapping, aum carries the contractId bytes rather than an 18-decimal amount.
-      // We apply the same leftmost-24-byte rule because aum is also an int192 carrier field.
-      const encodedContractIdHex = `0x${response.data.contractId.slice(0, 48)}`
-      encodedContractIdInt192 = toPositiveInt192(encodedContractIdHex, 'contractId', 'aum')
-
-      const computedAtMillis = new Date(response.data.computedAt).getTime()
-
-      if (Number.isNaN(computedAtMillis)) {
-        throw new Error('Unable to map computedAt to navDate: invalid timestamp.')
+      if (Number.isNaN(providerIndicatedTimeUnixMs)) {
+        throw new Error('Unable to parse computedAt: invalid timestamp.')
       }
 
-      // SmartData v9 navDate expects a unix timestamp in nanoseconds.
-      timestampNanoseconds = (BigInt(computedAtMillis) * 1_000_000n).toString()
+      return params.map((param) => {
+        return {
+          params: param,
+          response: {
+            result: rootDecimal,
+            data: {
+              root: rootDecimal,
+              contractId: contractIdDecimal,
+            },
+            timestamps: {
+              providerIndicatedTimeUnixMs,
+            },
+          },
+        }
+      })
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
 
@@ -119,20 +136,5 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         }
       })
     }
-
-    return params.map((param) => {
-      return {
-        params: param,
-        response: {
-          result: encodedRootInt192,
-          data: {
-            navPerShare: encodedRootInt192,
-            aum: encodedContractIdInt192,
-            navDate: timestampNanoseconds,
-            ripcord: 0,
-          },
-        },
-      }
-    })
   },
 })

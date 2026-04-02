@@ -9,14 +9,14 @@ import {
   mockResponseFailure404,
   mockResponseFailure500,
   mockResponseInvalidComputedAt,
-  mockResponseOverflowContractAfterTruncation,
-  mockResponseOverflowRootAfterTruncation,
+  mockResponseInvalidContractId,
+  mockResponseInvalidRoot,
   mockResponseSuccess,
   mockResponseSuccessAnotherTree,
+  mockResponseSuccessFlexibleEncoding,
   mockResponseSuccessMinimalRoot,
-  mockResponseSuccessPositiveInt192Boundary,
+  mockResponseSuccessSignBitRoot,
   mockResponseSuccessSpecialChars,
-  POSITIVE_INT192_MAX_DECIMAL,
 } from './fixtures'
 
 const OWNER_PARTY_ID =
@@ -99,25 +99,51 @@ describe('execute', () => {
         expect(response.json()).toMatchSnapshot()
       })
 
-      it('should accept exact positive int192 boundary values', async () => {
+      it('should normalize flexible upstream encodings', async () => {
         const data = {
-          ownerPartyId: 'boundary-owner',
-          treeId: 'tree-boundary',
+          ownerPartyId: 'normalized-owner',
+          treeId: 'tree-normalized',
           endpoint: 'proof-of-insurance',
         }
 
-        mockResponseSuccessPositiveInt192Boundary()
+        mockResponseSuccessFlexibleEncoding()
         const response = await testAdapter.request(data)
 
         expect(response.statusCode).toBe(200)
         expect(response.json()).toEqual(
           expect.objectContaining({
-            result: POSITIVE_INT192_MAX_DECIMAL,
+            result: '1',
             data: expect.objectContaining({
-              navPerShare: POSITIVE_INT192_MAX_DECIMAL,
-              aum: POSITIVE_INT192_MAX_DECIMAL,
-              navDate: '1704067200000000000',
-              ripcord: 0,
+              root: '1',
+              contractId: '43981',
+            }),
+            timestamps: expect.objectContaining({
+              providerIndicatedTimeUnixMs: 1704067200000,
+            }),
+          }),
+        )
+      })
+
+      it('should handle values with the sign bit set after 24 bytes', async () => {
+        const data = {
+          ownerPartyId: 'sign-bit-owner',
+          treeId: 'tree-sign-bit',
+          endpoint: 'proof-of-insurance',
+        }
+
+        mockResponseSuccessSignBitRoot()
+        const response = await testAdapter.request(data)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            result: '24519928653854221733733552434404946937899825954937634815',
+            data: expect.objectContaining({
+              root: '24519928653854221733733552434404946937899825954937634815',
+              contractId: '24519928653854221733733552434404946937899825954937634815',
+            }),
+            timestamps: expect.objectContaining({
+              providerIndicatedTimeUnixMs: 1704067200000,
             }),
           }),
         )
@@ -214,7 +240,9 @@ describe('execute', () => {
         const response = await testAdapter.request(data)
         expect([502, 504]).toContain(response.statusCode)
       })
+    })
 
+    describe('provider payload validation', () => {
       it('should fail on invalid computedAt from upstream', async () => {
         const data = {
           ownerPartyId: 'invalid-time-owner',
@@ -229,51 +257,45 @@ describe('execute', () => {
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: 'Unable to map computedAt to navDate: invalid timestamp.',
+            errorMessage: 'Unable to parse computedAt: invalid timestamp.',
           }),
         )
       })
-    })
 
-    describe('encoding guardrails', () => {
-      it('should fail fast when truncated root still exceeds positive int192', async () => {
+      it('should fail on invalid root from upstream', async () => {
         const data = {
-          ownerPartyId: 'overflow-root-owner',
-          treeId: 'tree-overflow-root-truncated',
+          ownerPartyId: 'invalid-root-owner',
+          treeId: 'tree-invalid-root',
           endpoint: 'proof-of-insurance',
         }
 
-        mockResponseOverflowRootAfterTruncation()
+        mockResponseInvalidRoot()
         const response = await testAdapter.request(data)
 
         expect(response.statusCode).toBe(502)
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: expect.stringContaining(
-              'Unable to map root to navPerShare: value does not fit positive int192.',
-            ),
+            errorMessage: 'Unable to decode root: invalid base64.',
           }),
         )
       })
 
-      it('should fail fast when truncated contractId still exceeds positive int192', async () => {
+      it('should fail on invalid contractId from upstream', async () => {
         const data = {
-          ownerPartyId: 'overflow-contract-owner',
-          treeId: 'tree-overflow-contract-truncated',
+          ownerPartyId: 'invalid-contract-owner',
+          treeId: 'tree-invalid-contract',
           endpoint: 'proof-of-insurance',
         }
 
-        mockResponseOverflowContractAfterTruncation()
+        mockResponseInvalidContractId()
         const response = await testAdapter.request(data)
 
         expect(response.statusCode).toBe(502)
         expect(response.json()).toEqual(
           expect.objectContaining({
             statusCode: 502,
-            errorMessage: expect.stringContaining(
-              'Unable to map contractId to aum: value does not fit positive int192.',
-            ),
+            errorMessage: 'Unable to normalize contractId: invalid hex.',
           }),
         )
       })

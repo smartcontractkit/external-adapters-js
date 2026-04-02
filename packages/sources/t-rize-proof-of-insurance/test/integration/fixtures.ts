@@ -6,18 +6,6 @@ const BASE_URL = 'https://proof.t-rize.network'
 const OWNER_PARTY_ID =
   'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef'
 
-const POSITIVE_INT192_MAX_HEX = `7f${'ff'.repeat(23)}`
-const POSITIVE_INT192_SAFE_HEX = `7f${'00'.repeat(23)}`
-const POSITIVE_INT192_OVERFLOW_HEX = 'ff'.repeat(24)
-const POSITIVE_INT192_MAX_ROOT = Buffer.from(POSITIVE_INT192_MAX_HEX, 'hex').toString('base64')
-const POSITIVE_INT192_SAFE_ROOT = Buffer.from(POSITIVE_INT192_SAFE_HEX, 'hex').toString('base64')
-const POSITIVE_INT192_OVERFLOW_ROOT = Buffer.concat([
-  Buffer.from(POSITIVE_INT192_OVERFLOW_HEX, 'hex'),
-  Buffer.alloc(8),
-]).toString('base64')
-
-export const POSITIVE_INT192_MAX_DECIMAL = BigInt(`0x${POSITIVE_INT192_MAX_HEX}`).toString()
-
 const RESPONSE_HEADERS = [
   'Content-Type',
   'application/json',
@@ -106,19 +94,38 @@ export const mockResponseSuccessMinimalRoot = (): nock.Scope =>
     )
     .persist()
 
-export const mockResponseSuccessPositiveInt192Boundary = (): nock.Scope =>
+export const mockResponseSuccessFlexibleEncoding = (): nock.Scope =>
   nock(BASE_URL, { encodedQueryParams: true })
     .get(MERKLE_PATH)
     .query({
-      owner_party_id: 'boundary-owner',
-      tree_id: 'tree-boundary',
+      owner_party_id: 'normalized-owner',
+      tree_id: 'tree-normalized',
     })
     .reply(
       200,
       () => ({
-        treeId: 'tree-boundary',
-        root: POSITIVE_INT192_MAX_ROOT,
-        contractId: POSITIVE_INT192_MAX_HEX,
+        treeId: 'tree-normalized',
+        root: 'AQ',
+        contractId: '0XAbCd',
+        computedAt: '2024-01-01T00:00:00Z',
+      }),
+      RESPONSE_HEADERS,
+    )
+    .persist()
+
+export const mockResponseSuccessSignBitRoot = (): nock.Scope =>
+  nock(BASE_URL, { encodedQueryParams: true })
+    .get(MERKLE_PATH)
+    .query({
+      owner_party_id: 'sign-bit-owner',
+      tree_id: 'tree-sign-bit',
+    })
+    .reply(
+      200,
+      () => ({
+        treeId: 'tree-sign-bit',
+        root: '////////////////////////////////AAAAAAAAAAA=',
+        contractId: 'ffffffffffffffffffffffffffffffffffffffffffffffff',
         computedAt: '2024-01-01T00:00:00Z',
       }),
       RESPONSE_HEADERS,
@@ -136,46 +143,46 @@ export const mockResponseInvalidComputedAt = (): nock.Scope =>
       200,
       () => ({
         treeId: 'tree-invalid-time',
-        root: POSITIVE_INT192_SAFE_ROOT,
-        contractId: POSITIVE_INT192_SAFE_HEX,
+        root: 'AQ==',
+        contractId: '00',
         computedAt: 'not-a-date',
       }),
       RESPONSE_HEADERS,
     )
     .persist()
 
-export const mockResponseOverflowRootAfterTruncation = (): nock.Scope =>
+export const mockResponseInvalidRoot = (): nock.Scope =>
   nock(BASE_URL, { encodedQueryParams: true })
     .get(MERKLE_PATH)
     .query({
-      owner_party_id: 'overflow-root-owner',
-      tree_id: 'tree-overflow-root-truncated',
+      owner_party_id: 'invalid-root-owner',
+      tree_id: 'tree-invalid-root',
     })
     .reply(
       200,
       () => ({
-        treeId: 'tree-overflow-root-truncated',
-        root: POSITIVE_INT192_OVERFLOW_ROOT,
-        contractId: POSITIVE_INT192_SAFE_HEX,
+        treeId: 'tree-invalid-root',
+        root: '!not-base64!',
+        contractId: '00',
         computedAt: '2024-01-01T00:00:00Z',
       }),
       RESPONSE_HEADERS,
     )
     .persist()
 
-export const mockResponseOverflowContractAfterTruncation = (): nock.Scope =>
+export const mockResponseInvalidContractId = (): nock.Scope =>
   nock(BASE_URL, { encodedQueryParams: true })
     .get(MERKLE_PATH)
     .query({
-      owner_party_id: 'overflow-contract-owner',
-      tree_id: 'tree-overflow-contract-truncated',
+      owner_party_id: 'invalid-contract-owner',
+      tree_id: 'tree-invalid-contract',
     })
     .reply(
       200,
       () => ({
-        treeId: 'tree-overflow-contract-truncated',
-        root: POSITIVE_INT192_SAFE_ROOT,
-        contractId: `${POSITIVE_INT192_OVERFLOW_HEX}${'00'.repeat(8)}`,
+        treeId: 'tree-invalid-contract',
+        root: 'AQ==',
+        contractId: 'xyz123',
         computedAt: '2024-01-01T00:00:00Z',
       }),
       RESPONSE_HEADERS,

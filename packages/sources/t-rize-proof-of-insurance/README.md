@@ -13,34 +13,31 @@ This document was generated automatically. Please see [README Generator](../../s
 
 The adapter defaults to the **production** URL. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca`.
 
-## SmartData v9 Field Mapping
+## Output Shape
 
-The T-Rize API returns a merkle tree response that is mapped to SmartData v9 fields as follows:
+The adapter returns T-Rize carrier values and leaves any downstream stream-schema mapping or renaming to the jobspec.
 
-| API Field     | v9 Field      | Type   | Encoding                                                                                                                    |
-| ------------- | ------------- | ------ | --------------------------------------------------------------------------------------------------------------------------- |
-| `root`        | `navPerShare` | int192 | Base64 decoded to bytes, truncated to leftmost 24 bytes, validated to fit positive `int192`, interpreted as BigInt (string) |
-| `contractId`  | `aum`         | int192 | Hex string truncated to leftmost 48 hex chars (24 bytes), validated to fit positive `int192`, parsed as BigInt (string)     |
-| `computedAt`  | `navDate`     | uint64 | ISO-8601 timestamp converted to nanoseconds since epoch (string)                                                            |
-| _(hardcoded)_ | `ripcord`     | uint32 | Always `0` (normal state)                                                                                                   |
+Because the downstream stream still targets SmartData v9 carrier fields, the adapter truncates `root` and `contractId` to the leftmost 23 bytes and converts those truncated bytes to decimal strings. These are deterministic derived values for T-Rize to replicate during verification, not the full raw provider values.
 
-Values are truncated before conversion and validated to fit positive `int192`. If a truncated value still falls outside that range, the adapter returns a `502` instead of silently coercing it.
-
-`treeId` from the API response is not mapped to a v9 field.
-
-For this integration, `navPerShare` and `aum` are schema-driven carrier fields: `navPerShare` carries the truncated merkle root and `aum` carries the truncated ledger contract ID. They are not scaled 18-decimal monetary values.
+| Field                                    | Type   | Description                                                      |
+| ---------------------------------------- | ------ | ---------------------------------------------------------------- |
+| `result`                                 | string | Leftmost 23 bytes of `root`, converted to a decimal string       |
+| `data.root`                              | string | Leftmost 23 bytes of `root`, converted to a decimal string       |
+| `data.contractId`                        | string | Leftmost 23 bytes of `contractId`, converted to a decimal string |
+| `timestamps.providerIndicatedTimeUnixMs` | number | Provider timestamp from `computedAt` in Unix milliseconds        |
 
 ## Sample Output
 
 ```json
 {
-  "result": "346721066100686420582578309663873500522184437856905853753",
+  "result": "1354379164455806330400696522124505861414782960378538491",
   "statusCode": 200,
   "data": {
-    "navPerShare": "346721066100686420582578309663873500522184437856905853753",
-    "aum": "14633571274752607128562449278584030529372914390265201950",
-    "navDate": "1773147978000000000",
-    "ripcord": 0
+    "root": "1354379164455806330400696522124505861414782960378538491",
+    "contractId": "57162387792002371595947067494468869255362946836973445"
+  },
+  "timestamps": {
+    "providerIndicatedTimeUnixMs": 1773147978000
   }
 }
 ```

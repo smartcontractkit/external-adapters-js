@@ -1,7 +1,7 @@
 {
   "name": "@chainlink/t-rize-proof-of-insurance-adapter",
   "version": "0.0.0",
-  "description": "External Adapter for querying T-Rize Proof-of-Insurance API and mapping to Data Stream schema for on-chain consumption.",
+  "description": "External Adapter for querying the T-Rize Proof-of-Insurance API.",
   "keywords": [
     "Chainlink",
     "LINK",

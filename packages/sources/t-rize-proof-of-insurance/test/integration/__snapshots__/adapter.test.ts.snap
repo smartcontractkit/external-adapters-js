@@ -3,16 +3,15 @@
 exports[`execute proof-of-insurance endpoint happy path should handle minimal merkle root 1`] = `
 {
   "data": {
-    "aum": "0",
-    "navDate": "1704067200000000000",
-    "navPerShare": "1",
-    "ripcord": 0,
+    "contractId": "0",
+    "root": "1",
   },
   "result": "1",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1704067200000,
   },
 }
 `;
@@ -20,16 +19,15 @@ exports[`execute proof-of-insurance endpoint happy path should handle minimal me
 exports[`execute proof-of-insurance endpoint happy path should handle special characters in ownerPartyId and treeId 1`] = `
 {
   "data": {
-    "aum": "1",
-    "navDate": "1740787200000000000",
-    "navPerShare": "340282366920938463463374607431768211455",
-    "ripcord": 0,
+    "contractId": "1",
+    "root": "340282366920938463463374607431768211455",
   },
   "result": "340282366920938463463374607431768211455",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1740787200000,
   },
 }
 `;
@@ -37,16 +35,15 @@ exports[`execute proof-of-insurance endpoint happy path should handle special ch
 exports[`execute proof-of-insurance endpoint happy path should return success 1`] = `
 {
   "data": {
-    "aum": "14633571274752607128562449278584030529372914390265201950",
-    "navDate": "1773147978000000000",
-    "navPerShare": "346721066100686420582578309663873500522184437856905853753",
-    "ripcord": 0,
+    "contractId": "57162387792002371595947067494468869255362946836973445",
+    "root": "1354379164455806330400696522124505861414782960378538491",
   },
-  "result": "346721066100686420582578309663873500522184437856905853753",
+  "result": "1354379164455806330400696522124505861414782960378538491",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1773147978000,
   },
 }
 `;
@@ -54,16 +51,15 @@ exports[`execute proof-of-insurance endpoint happy path should return success 1`
 exports[`execute proof-of-insurance endpoint happy path should return success for another tree 1`] = `
 {
   "data": {
-    "aum": "255",
-    "navDate": "1749988800000000000",
-    "navPerShare": "0",
-    "ripcord": 0,
+    "contractId": "255",
+    "root": "0",
   },
   "result": "0",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1749988800000,
   },
 }
 `;

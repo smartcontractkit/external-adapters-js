@@ -3,7 +3,7 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { httpTransport } from '../transport/proof-of-insurance'
 
-export const inputParameters = new InputParameters(
+const inputParameters = new InputParameters(
   {
     ownerPartyId: {
       required: true,
@@ -25,25 +25,15 @@ export const inputParameters = new InputParameters(
   ],
 )
 
-// Mapped to Chainlink SmartData v9 report schema:
-// https://docs.chain.link/data-streams/reference/report-schema-v9
-//
-// API field    -> v9 field      | Encoding
-// root         -> navPerShare   | base64 decoded to bytes, truncated to 24 bytes, then validated as positive int192 BigInt string
-// contractId   -> aum           | hex string truncated to 48 hex chars, then validated as positive int192 BigInt string
-// computedAt   -> navDate       | ISO-8601 parsed to nanosecond uint64
-// (hardcoded)  -> ripcord       | 0 (normal state)
-// These are schema-driven carrier mappings for this integration, not 18-decimal monetary values.
+// Returns T-Rize carrier values; any downstream schema renaming happens in the jobspec.
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: string
     Data: {
-      navPerShare: string
-      aum: string
-      navDate: string
-      ripcord: number
+      root: string
+      contractId: string
     }
   }
   Settings: typeof config.settings
