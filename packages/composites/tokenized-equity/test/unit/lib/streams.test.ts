@@ -184,14 +184,24 @@ describe('getPrice', () => {
     )
 
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledTimes(3)
-    for (const call of mockGetDeutscheBoersePrice.mock.calls) {
-      expect(call[1]).toBe('http://test-url')
-      if (call[0] === overnightStreamId) {
-        expect(call[3]).toEqual({ maxAgeInSeconds: maxAge })
-      } else {
-        expect(call[3]).toEqual({})
-      }
-    }
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      regularStreamId,
+      'http://test-url',
+      expect.anything(),
+      {},
+    )
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      extendedStreamId,
+      'http://test-url',
+      expect.anything(),
+      {},
+    )
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      overnightStreamId,
+      'http://test-url',
+      expect.anything(),
+      { maxAgeInSeconds: maxAge },
+    )
   })
 
   it('passes undefined maxAgeInSeconds when not provided', async () => {
@@ -204,13 +214,24 @@ describe('getPrice', () => {
     await getPrice('', {} as any, regularStreamId, extendedStreamId, overnightStreamId)
 
     expect(mockGetDeutscheBoersePrice).toHaveBeenCalledTimes(3)
-    for (const call of mockGetDeutscheBoersePrice.mock.calls) {
-      if (call[0] === overnightStreamId) {
-        expect(call[3]).toEqual({ maxAgeInSeconds: undefined })
-      } else {
-        expect(call[3]).toEqual({})
-      }
-    }
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      regularStreamId,
+      '',
+      expect.anything(),
+      {},
+    )
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      extendedStreamId,
+      '',
+      expect.anything(),
+      {},
+    )
+    expect(mockGetDeutscheBoersePrice).toHaveBeenCalledWith(
+      overnightStreamId,
+      '',
+      expect.anything(),
+      { maxAgeInSeconds: undefined },
+    )
   })
 
   it('succeeds in regular hours when overnight stream fails', async () => {
