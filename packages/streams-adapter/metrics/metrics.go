@@ -6,15 +6,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
 
-// Label names for HTTP requests metric
 const (
-	LabelMethod             = "method"
-	LabelStatusCode         = "status_code"
-	LabelRetry              = "retry"
-	LabelType               = "type"
-	LabelIsCacheWarming     = "is_cache_warming"
-	LabelFeedID             = "feed_id"
-	LabelProviderStatusCode = "provider_status_code"
+	labelMethod             = "method"
+	labelStatusCode         = "status_code"
+	labelRetry              = "retry"
+	labelType               = "type"
+	labelIsCacheWarming     = "is_cache_warming"
+	labelFeedID             = "feed_id"
+	labelProviderStatusCode = "provider_status_code"
 )
 
 // Metrics holds all Prometheus metrics
@@ -32,13 +31,13 @@ func NewMetrics() *Metrics {
 				Help: "The number of http requests this external adapter has serviced for its entire uptime",
 			},
 			[]string{
-				LabelMethod,
-				LabelStatusCode,
-				LabelRetry,
-				LabelType,
-				LabelIsCacheWarming,
-				LabelFeedID,
-				LabelProviderStatusCode,
+				labelMethod,
+				labelStatusCode,
+				labelRetry,
+				labelType,
+				labelIsCacheWarming,
+				labelFeedID,
+				labelProviderStatusCode,
 			},
 		),
 		HTTPRequestDurationSeconds: promauto.NewHistogram(
