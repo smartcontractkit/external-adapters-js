@@ -70,7 +70,8 @@ func TestMain(m *testing.M) {
 		CleanupInterval: 10 * time.Minute,
 	})
 
-	testSrv = New(cfg, testCache, slog.Default())
+	keyMapper := helpers.NewKeyMapper(slog.Default())
+	testSrv = New(cfg, testCache, slog.Default(), keyMapper)
 
 	os.Exit(m.Run())
 }
@@ -98,8 +99,9 @@ func TestAdapterHandler_BadRequest(t *testing.T) {
 }
 
 func TestAdapterHandler_CacheHit(t *testing.T) {
-	// Pre-populate cache with known params
-	params := types.RequestParams{"endpoint": "crypto", "base": "eth", "quote": "usd"}
+	// Pre-populate cache with params that match the handler's raw key.
+	// The test alias config has "crypto" as canonical endpoint name.
+	params := types.RequestParams{"endpoint": "crypto", "base": "ETH", "quote": "USD"}
 	obs := &types.Observation{
 		Data:    json.RawMessage(`{"result":1234}`),
 		Success: true,
