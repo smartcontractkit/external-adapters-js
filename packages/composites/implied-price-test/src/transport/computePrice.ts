@@ -1,11 +1,21 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/computedPrice'
 import { calculateMedian, getOperandSourceUrls } from './utils'
+
+const scaleValue = (value: Decimal, inputDecimals: number, outputDecimals: number): Decimal =>
+  value.div(new Decimal(10).pow(inputDecimals)).mul(new Decimal(10).pow(outputDecimals))
+
+const decimalToString = (value: Decimal): string => {
+  const str = value.toString()
+  return str.includes('e+') ? value.toFixed() : str
+}
 
 const logger = makeLogger('ComputedPriceTransport')
 
@@ -71,7 +81,10 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       operand2MinAnswers,
       operand1Input,
       operand2Input,
+      operand1Decimals,
+      operand2Decimals,
       operation,
+      outputDecimals,
     } = param
 
     logger.debug(
@@ -82,7 +95,10 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
         operand2MinAnswers,
         operand1Input,
         operand2Input,
+        operand1Decimals,
+        operand2Decimals,
         operation,
+        outputDecimals,
       })}`,
     )
     const providerDataRequestedUnixMs = Date.now()
@@ -91,14 +107,14 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     const operand2SourceUrls = getOperandSourceUrls(operand2Sources)
 
     // Fetch data from sources for both operands
-    const [operand1Result, operand2Result] = await Promise.all([
+    const [operand1Results, operand2Results] = await Promise.all([
       this.fetchFromSources(operand1SourceUrls, operand1Input, operand1MinAnswers),
       this.fetchFromSources(operand2SourceUrls, operand2Input, operand2MinAnswers),
     ])
 
     // Get the median
-    const operand1Median = calculateMedian(operand1Result)
-    const operand2Median = calculateMedian(operand2Result)
+    const operand1Median = calculateMedian(operand1Results)
+    const operand2Median = calculateMedian(operand2Results)
 
     if (operand1Median.isZero()) {
       throw new Error('operand1Median result is zero')
@@ -108,17 +124,48 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       throw new Error('operand2Median result is zero')
     }
 
-    const result =
-      operation === 'divide'
-        ? operand1Median.div(operand2Median).toFixed()
-        : operand1Median.mul(operand2Median).toFixed()
+    // *Decimals input param all/none present validation performed at the endpoint level
+    const areDecimalsDefined = outputDecimals !== undefined
+
+    // Scale operands down to 0 decimals if decimals are defined
+    const scaledOperand1 = areDecimalsDefined
+      ? scaleValue(operand1Median, operand1Decimals!, 0)
+      : operand1Median
+    const scaledOperand2 = areDecimalsDefined
+      ? scaleValue(operand2Median, operand2Decimals!, 0)
+      : operand2Median
+
+    let computedResult: Decimal
+    if (operation.toLowerCase() === 'divide') {
+      computedResult = scaledOperand1.div(scaledOperand2)
+    } else if (operation.toLowerCase() === 'multiply') {
+      computedResult = scaledOperand1.mul(scaledOperand2)
+    } else {
+      throw new AdapterError({
+        message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
+      })
+    }
+
+    // Scale result up to output decimals if decimals are defined
+    if (areDecimalsDefined) {
+      computedResult = scaleValue(computedResult, 0, outputDecimals!)
+    }
+
+    const result = computedResult.toFixed()
 
     return {
       data: {
-        result: result,
+        result,
+        operand1Result: decimalToString(operand1Median),
+        operand2Result: decimalToString(operand2Median),
+        ...(areDecimalsDefined && {
+          operand1Decimals: operand1Decimals!,
+          operand2Decimals: operand2Decimals!,
+          resultDecimals: outputDecimals!,
+        }),
       },
       statusCode: 200,
-      result: result,
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -135,7 +182,7 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     sources: string[],
     input: string,
     minAnswers: number,
-  ): Promise<number[]> {
+  ): Promise<Decimal[]> {
     const promises = sources.map(async (url) => {
       try {
         const requestConfig = {
@@ -164,7 +211,7 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       )
     }
 
-    return successfulResults.map((r) => r?.response.data.result as number)
+    return successfulResults.map((r) => new Decimal(r?.response.data.result as number))
   }
 }
 

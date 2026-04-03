@@ -412,5 +412,77 @@ describe('execute', () => {
       expect(response.body).not.toContain('e+')
       nock.cleanAll()
     })
+
+    it('returns success with decimal scaling for divide operation', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD8',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD8',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'divide',
+        operand1Decimals: 4,
+        operand2Decimals: 4,
+        outputDecimals: 18,
+      }
+      mockDPResponseSuccess('tiingo', 10)
+      mockDPResponseSuccess('ncfx', 20)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns success with decimal scaling for multiply operation', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD9',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD9',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+        operand1Decimals: 1,
+        operand2Decimals: 1,
+        outputDecimals: 1,
+      }
+      mockDPResponseSuccess('tiingo', 10)
+      mockDPResponseSuccess('ncfx', 20)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
   })
 })

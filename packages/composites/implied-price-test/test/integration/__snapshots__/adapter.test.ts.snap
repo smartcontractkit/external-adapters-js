@@ -44,6 +44,44 @@ exports[`execute computePrice endpoint returns error if operand2 has zero price 
 }
 `;
 
+exports[`execute computePrice endpoint returns success with decimal scaling for divide operation 1`] = `
+{
+  "data": {
+    "operand1Decimals": 4,
+    "operand1Result": "12.5",
+    "operand2Decimals": 4,
+    "operand2Result": "10",
+    "result": "1250000000000000000",
+    "resultDecimals": 18,
+  },
+  "result": "1250000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint returns success with decimal scaling for multiply operation 1`] = `
+{
+  "data": {
+    "operand1Decimals": 1,
+    "operand1Result": "12.5",
+    "operand2Decimals": 1,
+    "operand2Result": "10",
+    "result": "12.5",
+    "resultDecimals": 1,
+  },
+  "result": "12.5",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute computePrice endpoint should return error for minimum number of operand 1 sources 1`] = `
 {
   "errorMessage": "Insufficient responses: got 1, required 2",
@@ -80,6 +118,8 @@ exports[`execute computePrice endpoint should return error for missing source 1`
 exports[`execute computePrice endpoint should return number > e+21 as fixed point rather than exponential 1`] = `
 {
   "data": {
+    "operand1Result": "17.15",
+    "operand2Result": "1000000000000000000000000",
     "result": "17150000000000000000000000",
   },
   "result": "17150000000000000000000000",
@@ -94,6 +134,8 @@ exports[`execute computePrice endpoint should return number > e+21 as fixed poin
 exports[`execute computePrice endpoint should return success for divide 1`] = `
 {
   "data": {
+    "operand1Result": "12.5",
+    "operand2Result": "10",
     "result": "1.25",
   },
   "result": "1.25",
@@ -108,6 +150,8 @@ exports[`execute computePrice endpoint should return success for divide 1`] = `
 exports[`execute computePrice endpoint should return success for legacy divisions 1`] = `
 {
   "data": {
+    "operand1Result": "20",
+    "operand2Result": "7.5",
     "result": "2.6666666666666666667",
   },
   "result": "2.6666666666666666667",
@@ -122,6 +166,8 @@ exports[`execute computePrice endpoint should return success for legacy division
 exports[`execute computePrice endpoint should return success for multiply 1`] = `
 {
   "data": {
+    "operand1Result": "20",
+    "operand2Result": "10",
     "result": "200",
   },
   "result": "200",
@@ -136,6 +182,8 @@ exports[`execute computePrice endpoint should return success for multiply 1`] = 
 exports[`execute computePrice endpoint should return success for partial source success 1`] = `
 {
   "data": {
+    "operand1Result": "20",
+    "operand2Result": "5",
     "result": "4",
   },
   "result": "4",
