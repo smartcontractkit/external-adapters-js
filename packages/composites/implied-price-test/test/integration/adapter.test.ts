@@ -412,5 +412,113 @@ describe('execute', () => {
       expect(response.body).not.toContain('e+')
       nock.cleanAll()
     })
+
+    it('returns success with decimal scaling for divide operation', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD8',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD8',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'divide',
+        operand1DecimalsField: 'decimals',
+        operand2DecimalsField: 'decimals',
+        outputDecimals: 18,
+      }
+      mockDPResponseSuccess('tiingo', 10, 2)
+      mockDPResponseSuccess('ncfx', 20, 2)
+      mockDPResponseSuccess('elwood', 5, 2)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns success with decimal scaling for multiply operation', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD9',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD9',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+        operand1DecimalsField: 'decimals',
+        operand2DecimalsField: 'decimals',
+        outputDecimals: 8,
+      }
+      mockDPResponseSuccess('tiingo', 10, 1)
+      mockDPResponseSuccess('ncfx', 20, 1)
+      mockDPResponseSuccess('elwood', 5, 1)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('returns failure with mismatched operand1Decimals', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD10',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD10',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+        operand1DecimalsField: 'decimals',
+        operand2DecimalsField: 'decimals',
+        outputDecimals: 8,
+      }
+      mockDPResponseSuccess('tiingo', 10, 1)
+      mockDPResponseSuccess('ncfx', 20, 12)
+      mockDPResponseSuccess('elwood', 5, 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
   })
 })
