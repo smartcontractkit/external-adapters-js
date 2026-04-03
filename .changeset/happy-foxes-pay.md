@@ -1,5 +1,5 @@
 ---
-'@chainlink/implied-price-adapter': minor
+'@chainlink/implied-price-test-adapter': minor
 ---
 
 Add decimals params to computedPrice endpoint
