@@ -7588,7 +7588,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/six/",\
         "packageDependencies": [\
           ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

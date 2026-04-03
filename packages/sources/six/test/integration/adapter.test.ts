@@ -11,7 +11,7 @@ import { mockWebSocketServer } from './fixtures'
 describe('SIX Adapter', () => {
   let oldEnv: NodeJS.ProcessEnv
   let mockWsServer: MockWebsocketServer
-  let testAdapter: TestAdapter<never>
+  let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
 
   beforeAll(async () => {
