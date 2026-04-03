@@ -61,6 +61,8 @@ exports[`execute address-debug endpoint should return success 1`] = `
         "network": "bitcoin",
       },
     ],
+    "windowEndMs": 978348671111,
+    "windowStartMs": 978347471111,
   },
   "result": null,
   "statusCode": 200,
