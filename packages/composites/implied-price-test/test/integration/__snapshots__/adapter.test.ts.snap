@@ -44,12 +44,23 @@ exports[`execute computePrice endpoint returns error if operand2 has zero price 
 }
 `;
 
+exports[`execute computePrice endpoint returns failure with mismatched operand1Decimals 1`] = `
+{
+  "errorMessage": "Failed to extract consistent decimals from field "decimals"",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute computePrice endpoint returns success with decimal scaling for divide operation 1`] = `
 {
   "data": {
-    "operand1Decimals": 4,
+    "operand1Decimals": 2,
     "operand1Result": "12.5",
-    "operand2Decimals": 4,
+    "operand2Decimals": 2,
     "operand2Result": "10",
     "result": "1250000000000000000",
     "resultDecimals": 18,
@@ -70,10 +81,10 @@ exports[`execute computePrice endpoint returns success with decimal scaling for 
     "operand1Result": "12.5",
     "operand2Decimals": 1,
     "operand2Result": "10",
-    "result": "12.5",
-    "resultDecimals": 1,
+    "result": "125000000",
+    "resultDecimals": 8,
   },
-  "result": "12.5",
+  "result": "125000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

@@ -1,6 +1,6 @@
 import nock from 'nock'
 
-export const mockDPResponseSuccess = (dp: string, value: number): nock.Scope =>
+export const mockDPResponseSuccess = (dp: string, value: number, decimals?: number): nock.Scope =>
   nock('http://localhost:8080')
     .post(`/${dp}`, (body) => {
       return body && typeof body.data === 'object' && body.data !== null
@@ -8,7 +8,10 @@ export const mockDPResponseSuccess = (dp: string, value: number): nock.Scope =>
     .reply(200, () => ({
       result: value,
       statusCode: 200,
-      data: { result: value },
+      data: {
+        result: value,
+        ...(decimals !== undefined && { decimals }),
+      },
       timestamps: {
         providerDataReceivedUnixMs: Date.now(),
         providerDataStreamEstablishedUnixMs: Date.now(),

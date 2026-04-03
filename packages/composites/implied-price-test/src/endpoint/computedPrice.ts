@@ -30,10 +30,10 @@ export const inputParameters = new InputParameters(
       description: 'The minimum number of answers needed to return a value for the operand1',
       default: 1,
     },
-    operand1Decimals: {
+    operand1DecimalsField: {
       required: false,
-      type: 'number',
-      description: 'The scaling factor (*10^operand1Decimals) of operand1',
+      type: 'string',
+      description: 'The field path in operand1 response data containing the decimal scaling factor',
     },
     operand2Sources: {
       required: true,
@@ -55,10 +55,10 @@ export const inputParameters = new InputParameters(
       description: 'The minimum number of answers needed to return a value for the operand2',
       default: 1,
     },
-    operand2Decimals: {
+    operand2DecimalsField: {
       required: false,
-      type: 'number',
-      description: 'The scaling factor (*10^operand2Decimals) of operand2',
+      type: 'string',
+      description: 'The field path in operand2 response data containing the decimal scaling factor',
     },
     operation: {
       default: 'divide',
@@ -91,8 +91,8 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       operand1Result: string
-      operand1Decimals?: number
       operand2Result: string
+      operand1Decimals?: number
       operand2Decimals?: number
       resultDecimals?: number
       result: string
@@ -114,15 +114,15 @@ export const endpoint = new AdapterEndpoint({
       operand2MinAnswers,
       operand1Input,
       operand2Input,
-      operand1Decimals,
-      operand2Decimals,
+      operand1DecimalsField,
+      operand2DecimalsField,
       outputDecimals,
     } = req.requestContext.data
     validateSources(operand1Sources, operand1MinAnswers)
     validateSources(operand2Sources, operand2MinAnswers)
     validateInputPayload(operand1Input, 'operand1Input')
     validateInputPayload(operand2Input, 'operand2Input')
-    validateDecimalsParams(outputDecimals, operand1Decimals, operand2Decimals)
+    validateDecimalsFieldParams(outputDecimals, operand1DecimalsField, operand2DecimalsField)
     return
   },
 })
@@ -162,17 +162,17 @@ export const validateInputPayload = (input: string, inputName: string) => {
   }
 }
 
-export const validateDecimalsParams = (
+export const validateDecimalsFieldParams = (
   outputDecimals: number | undefined,
-  operand1Decimals: number | undefined,
-  operand2Decimals: number | undefined,
+  operand1DecimalsField: string | undefined,
+  operand2DecimalsField: string | undefined,
 ) => {
-  const decimals = [outputDecimals, operand1Decimals, operand2Decimals]
-  const definedDecimals = new Set(decimals.map((d) => d !== undefined))
-  if (definedDecimals.size !== 1) {
+  const fields = [outputDecimals, operand1DecimalsField, operand2DecimalsField]
+  const definedFields = new Set(fields.map((f) => f !== undefined))
+  if (definedFields.size !== 1) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: 'Decimals inputs should be all set or all unset',
+      message: 'Decimals fields should be all set or all unset',
     })
   }
 }

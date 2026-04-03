@@ -1,6 +1,6 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
-import { validateDecimalsParams } from '../../src/endpoint/computedPrice'
+import { validateDecimalsFieldParams } from '../../src/endpoint/computedPrice'
 import { calculateMedian } from '../../src/transport/utils'
 
 describe('calculateMedian', () => {
@@ -17,18 +17,23 @@ describe('calculateMedian', () => {
   })
 })
 
-describe('validateDecimalsParams', () => {
-  it('should not throw when all decimals are defined', () => {
-    expect(() => validateDecimalsParams(18, 8, 6)).not.toThrow()
+describe('validateDecimalsFieldParams', () => {
+  it('should not throw when all decimals fields and outputDecimals are defined', () => {
+    expect(() => validateDecimalsFieldParams(18, 'decimals', 'decimals')).not.toThrow()
   })
 
-  it('should not throw when all decimals are undefined', () => {
-    expect(() => validateDecimalsParams(undefined, undefined, undefined)).not.toThrow()
+  it('should not throw when all are undefined', () => {
+    expect(() => validateDecimalsFieldParams(undefined, undefined, undefined)).not.toThrow()
   })
 
-  it('should throw when two decimals are defined and one is undefined', () => {
-    expect(() => validateDecimalsParams(18, 8, undefined)).toThrow(AdapterInputError)
-    expect(() => validateDecimalsParams(18, undefined, undefined)).toThrow(AdapterInputError)
-    expect(() => validateDecimalsParams(undefined, 8, 6)).toThrow(AdapterInputError)
+  it('should throw when outputDecimals is set but decimals fields are not', () => {
+    expect(() => validateDecimalsFieldParams(18, undefined, 'decimals')).toThrow(AdapterInputError)
+    expect(() => validateDecimalsFieldParams(18, 'decimals', undefined)).toThrow(AdapterInputError)
+  })
+
+  it('should throw when decimals fields are set but outputDecimals is not', () => {
+    expect(() => validateDecimalsFieldParams(undefined, 'decimals', 'decimals')).toThrow(
+      AdapterInputError,
+    )
   })
 })
