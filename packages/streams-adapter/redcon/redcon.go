@@ -16,27 +16,27 @@ import (
 	"github.com/tidwall/redcon"
 )
 
-// SortedSetMember represents a member in a sorted set with its score
-type SortedSetMember struct {
+type sortedSetMember struct {
 	member string
 	score  float64
 }
 
-// Server represents a Redis-compatible server
+// RedconServer represents a Redis-compatible server
 type RedconServer struct {
 	addr       string
 	cache      *cache.Cache
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
-	server     *redcon.Server
+	keyMapper  *helpers.KeyMapper
 }
 
 // Config holds the Redis server configuration
 type Config struct {
-	Addr   string
-	Cache  *cache.Cache
-	Logger *slog.Logger
+	Addr      string
+	Cache     *cache.Cache
+	Logger    *slog.Logger
+	KeyMapper *helpers.KeyMapper
 }
 
 // New creates a new Redis server instance
@@ -46,6 +46,7 @@ func New(cfg Config) *RedconServer {
 		cache:      cfg.Cache,
 		logger:     cfg.Logger,
 		sortedSets: make(map[string]map[string]float64),
+		keyMapper:  cfg.KeyMapper,
 	}
 }
 
@@ -56,14 +57,6 @@ func (s *RedconServer) Start() error {
 		s.handleConnect,
 		s.handleDisconnect,
 	)
-}
-
-// Stop stops the Redis server
-func (s *RedconServer) Stop() error {
-	if s.server != nil {
-		return s.server.Close()
-	}
-	return nil
 }
 
 // handleCommand processes incoming Redis commands
@@ -240,7 +233,6 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	s.mu.Lock()
-	defer s.mu.Unlock()
 
 	// Get or create the sorted set
 	zset, exists := s.sortedSets[key]
@@ -249,12 +241,20 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 		s.sortedSets[key] = zset
 	}
 
-	// Check if member is new
 	addedCount := 0
 	if _, exists := zset[member]; !exists {
 		addedCount = 1
 	}
 	zset[member] = score
+
+	s.mu.Unlock()
+
+	// Notify KeyMapper for subscription set writes so it can learn
+	// the raw→transformed cache key mapping.
+	if s.keyMapper != nil && strings.HasSuffix(key, "-subscriptionSet") {
+		s.keyMapper.NotifyZAdd(key, member)
+	}
+
 	conn.WriteInt(addedCount)
 }
 
@@ -326,9 +326,9 @@ func (s *RedconServer) handleZRange(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	// Convert map to slice and sort by score
-	members := make([]SortedSetMember, 0, len(zset))
+	members := make([]sortedSetMember, 0, len(zset))
 	for member, score := range zset {
-		members = append(members, SortedSetMember{member: member, score: score})
+		members = append(members, sortedSetMember{member: member, score: score})
 	}
 	sort.Slice(members, func(i, j int) bool {
 		if members[i].score == members[j].score {

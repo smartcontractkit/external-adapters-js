@@ -10,7 +10,7 @@ import (
 
 // resetGlobals clears the package-level alias state between tests.
 func resetGlobals() {
-	activeAliasIndex = nil
+	activeIndex = nil
 	activeAdapter = ""
 }
 
@@ -25,51 +25,23 @@ func writeTempConfig(t *testing.T, content string) string {
 	return path
 }
 
-// sampleConfig is a minimal but representative alias config used across tests.
+// sampleConfig is a minimal but representative alias config.
 const sampleConfig = `{
   "adapters": {
     "test-adapter": {
       "endpoints": {
         "price": {
-          "aliases": ["crypto", "forex"],
-          "params": {
-            "base": {
-              "aliases": ["from", "coin"],
-              "required": true
-            },
-            "quote": {
-              "aliases": ["to", "market"],
-              "required": true
-            },
-            "amount": {
-              "aliases": ["qty"],
-              "required": false
-            }
-          }
+          "aliases": ["crypto", "forex"]
         },
         "stock": {
-          "aliases": ["iex"],
-          "params": {
-            "ticker": {
-              "aliases": ["symbol"],
-              "required": true
-            }
-          }
+          "aliases": ["iex"]
         },
-        "volume": {
-          "params": null
-        }
+        "volume": {}
       }
     },
     "other-adapter": {
       "endpoints": {
-        "balance": {
-          "params": {
-            "address": {
-              "required": true
-            }
-          }
-        }
+        "balance": {}
       }
     }
   }
@@ -113,7 +85,7 @@ func TestInitAliasIndex_Success(t *testing.T) {
 	require.NoError(t, InitAliasIndex("test-adapter", path))
 
 	require.Equal(t, "test-adapter", activeAdapter)
-	require.NotNil(t, activeAliasIndex)
+	require.NotNil(t, activeIndex)
 
 	// Verify endpoint aliases.
 	endpointTests := []struct {
@@ -130,57 +102,19 @@ func TestInitAliasIndex_Success(t *testing.T) {
 		{"unknown", "", false},
 	}
 	for _, tt := range endpointTests {
-		got, ok := activeAliasIndex.endpointAlias[tt.alias]
+		got, ok := activeIndex.alias[tt.alias]
 		require.Equal(t, tt.wantOK, ok)
 		require.Equal(t, tt.wantEp, got)
 	}
 
-	// Verify param aliases for "price" endpoint.
-	priceParams := activeAliasIndex.paramAlias["price"]
-	require.NotNil(t, priceParams)
-	paramTests := []struct {
-		alias     string
-		wantCanon string
-	}{
-		{"base", "base"},
-		{"from", "base"},
-		{"coin", "base"},
-		{"quote", "quote"},
-		{"to", "quote"},
-		{"market", "quote"},
-		{"amount", "amount"},
-		{"qty", "amount"},
-	}
-	for _, tt := range paramTests {
-		pIdx, ok := priceParams[tt.alias]
-		if !ok {
-			t.Errorf("paramAlias[\"price\"][%q] not found", tt.alias)
-			continue
-		}
-		require.Equal(t, tt.wantCanon, pIdx.CanonicalName)
-	}
-
-	// Verify required params for "price" endpoint.
-	requiredPrice := activeAliasIndex.requiredParams["price"]
-	require.NotNil(t, requiredPrice)
-	if !requiredPrice["base"] {
-		t.Error("base should be required for price endpoint")
-	}
-	if !requiredPrice["quote"] {
-		t.Error("quote should be required for price endpoint")
-	}
-	if requiredPrice["amount"] {
-		t.Error("amount should NOT be required for price endpoint")
-	}
-
-	// Verify orderedEndpointAliases is populated and sorted by descending length.
-	aliases := activeAliasIndex.orderedEndpointAliases
+	// Verify ordered aliases are populated and sorted by descending length.
+	aliases := activeIndex.ordered
 	if len(aliases) == 0 {
-		t.Fatal("orderedEndpointAliases is empty")
+		t.Fatal("ordered aliases is empty")
 	}
 	for i := 1; i < len(aliases); i++ {
 		if len(aliases[i]) > len(aliases[i-1]) {
-			t.Errorf("orderedEndpointAliases not sorted by length desc: %q (len %d) after %q (len %d)",
+			t.Errorf("ordered aliases not sorted by length desc: %q (len %d) after %q (len %d)",
 				aliases[i], len(aliases[i]), aliases[i-1], len(aliases[i-1]))
 		}
 	}
@@ -192,24 +126,12 @@ func TestInitAliasIndex_Idempotent(t *testing.T) {
 
 	require.NoError(t, InitAliasIndex("test-adapter", path))
 
-	firstIdx := activeAliasIndex
+	firstIdx := activeIndex
 
 	// Second call with the same adapter should be a no-op (cached).
 	require.NoError(t, InitAliasIndex("test-adapter", path))
 
-	require.Equal(t, firstIdx, activeAliasIndex)
-}
-
-func TestInitAliasIndex_NilParams(t *testing.T) {
-	resetGlobals()
-	path := writeTempConfig(t, sampleConfig)
-
-	require.NoError(t, InitAliasIndex("test-adapter", path))
-
-	// "volume" endpoint has null params — should have no param aliases.
-	if pm, ok := activeAliasIndex.paramAlias["volume"]; ok && len(pm) > 0 {
-		t.Errorf("expected no paramAlias entries for 'volume', got %d", len(pm))
-	}
+	require.Equal(t, firstIdx, activeIndex)
 }
 
 // ---------------------------------------------------------------------------
@@ -279,42 +201,6 @@ func TestBuildCacheKeyParams_EndpointAlias(t *testing.T) {
 	assertParam(t, result, "endpoint", "price")
 }
 
-func TestBuildCacheKeyParams_ParamAliases(t *testing.T) {
-	initTestAdapter(t)
-
-	result, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "price",
-		"from":     "eth",
-		"to":       "usd",
-	})
-	require.NoError(t, err)
-
-	// "from" should map to canonical "base", "to" to "quote".
-	assertParam(t, result, "base", "ETH")
-	assertParam(t, result, "quote", "USD")
-
-	if _, ok := result["from"]; ok {
-		t.Error("alias 'from' should not appear as key in output")
-	}
-	if _, ok := result["to"]; ok {
-		t.Error("alias 'to' should not appear as key in output")
-	}
-}
-
-func TestBuildCacheKeyParams_ValuesUppercased(t *testing.T) {
-	initTestAdapter(t)
-
-	result, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "price",
-		"base":     "eth",
-		"quote":    "usd",
-	})
-	require.NoError(t, err)
-
-	assertParam(t, result, "base", "ETH")
-	assertParam(t, result, "quote", "USD")
-}
-
 func TestBuildCacheKeyParams_NilValueSkipped(t *testing.T) {
 	initTestAdapter(t)
 
@@ -345,9 +231,10 @@ func TestBuildCacheKeyParams_EmptyStringValueSkipped(t *testing.T) {
 	}
 }
 
-func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {
+func TestBuildCacheKeyParams_OverridesStripped(t *testing.T) {
 	initTestAdapter(t)
 
+	// Overrides are no longer processed, just stripped from output.
 	result, err := BuildCacheKeyParams(map[string]interface{}{
 		"endpoint": "price",
 		"base":     "WBTC",
@@ -356,53 +243,16 @@ func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {
 			"test-adapter": map[string]interface{}{
 				"WBTC": "BTC",
 			},
-			"other-adapter": map[string]interface{}{
-				"WBTC": "ETH",
-			},
 		},
 	})
 	require.NoError(t, err)
 
-	assertParam(t, result, "base", "BTC")
-	require.NotEqual(t, "WBTC", result["base"])
+	// No override applied — value stays as WBTC
+	assertParam(t, result, "base", "WBTC")
 	assertParam(t, result, "quote", "USD")
 	if _, ok := result["overrides"]; ok {
 		t.Error("'overrides' key should not appear in output params")
 	}
-}
-
-func TestBuildCacheKeyParams_OverridesNotInOutput(t *testing.T) {
-	initTestAdapter(t)
-
-	result, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "price",
-		"base":     "ETH",
-		"quote":    "USD",
-		"overrides": map[string]interface{}{
-			"test-adapter": map[string]interface{}{},
-		},
-	})
-	require.NoError(t, err)
-
-	if _, ok := result["overrides"]; ok {
-		t.Error("'overrides' key should not appear in output params")
-	}
-}
-
-func TestBuildCacheKeyParams_EndpointWithNoRequiredMetadata(t *testing.T) {
-	initTestAdapter(t)
-
-	// "volume" endpoint has null params — no required metadata, all params kept.
-	result, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "volume",
-		"foo":      "bar",
-		"baz":      "qux",
-	})
-	require.NoError(t, err)
-
-	assertParam(t, result, "endpoint", "volume")
-	assertParam(t, result, "foo", "BAR")
-	assertParam(t, result, "baz", "QUX")
 }
 
 // assertParam checks that result[key] equals want.
