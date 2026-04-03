@@ -447,6 +447,9 @@
       "path": "./sources/securitize"
     },
     {
+      "path": "./sources/six"
+    },
+    {
       "path": "./sources/snowflake"
     },
     {
