@@ -73,9 +73,13 @@ export const generateTransport = () => {
   const transport = new WebSocketTransport<WsTransportTypes>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
 
-    options: ({ adapterSettings: { CERT_BASE64, KEY_BASE64 } }) => ({
-      cert: decodeCert(CERT_BASE64),
-      key: decodeKey(KEY_BASE64),
+    options: ({ adapterSettings: { TLS_PUBLIC_KEY, TLS_PRIVATE_KEY } }) => ({
+      ...(TLS_PUBLIC_KEY && TLS_PRIVATE_KEY
+        ? {
+            cert: decodeCert(TLS_PUBLIC_KEY),
+            key: decodeKey(TLS_PRIVATE_KEY),
+          }
+        : {}),
     }),
 
     handlers: {

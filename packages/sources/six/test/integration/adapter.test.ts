@@ -18,8 +18,8 @@ describe('SIX Adapter', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
 
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['CERT_BASE64'] = Buffer.from('mock-cert').toString('base64')
-    process.env['KEY_BASE64'] = Buffer.from('mock-key').toString('base64')
+    process.env['TLS_PUBLIC_KEY'] = Buffer.from('mock-cert').toString('base64')
+    process.env['TLS_PRIVATE_KEY'] = Buffer.from('mock-key').toString('base64')
     process.env['WS_SUBSCRIPTION_TTL'] = '5000'
     process.env['CACHE_MAX_AGE'] = '5000'
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
