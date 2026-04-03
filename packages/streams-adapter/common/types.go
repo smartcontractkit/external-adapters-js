@@ -12,9 +12,10 @@ type RequestParams map[string]string
 
 // Observation represents the data returned from an adapter
 type Observation struct {
-	Data    json.RawMessage `json:"data"`
-	Success bool            `json:"success"`
-	Error   string          `json:"error,omitempty"`
+	Data       json.RawMessage `json:"data"`
+	Timestamps json.RawMessage `json:"timestamps"`
+	Success    bool            `json:"success"`
+	Error      string          `json:"error,omitempty"`
 }
 
 // CacheItem represents a cached value with metadata

@@ -111,7 +111,7 @@ func (idx *endpointIndex) addAlias(alias, canonical string) {
 // by scanning the Redis key (OriginalAdapterKey) for any known endpoint aliases.
 func findEndpointInKey(key string) (string, error) {
 	if activeIndex == nil {
-		return "", fmt.Errorf("alias index not initialized")
+		panic("alias index not initialized: InitAliasIndex must be called before processing requests")
 	}
 	lowerKey := strings.ToLower(key)
 
@@ -144,7 +144,7 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 	}
 
 	if activeIndex == nil {
-		return nil, fmt.Errorf("alias index not initialized")
+		panic("alias index not initialized: InitAliasIndex must be called before processing requests")
 	}
 	canonicalEndpoint, ok := activeIndex.alias[strings.ToLower(ep)]
 	if !ok || canonicalEndpoint == "" {
