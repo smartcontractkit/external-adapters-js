@@ -1,5 +1,5 @@
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Validator } from '@chainlink/ea-bootstrap'
+import { Logger, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { getValidAddresses } from '../utils/addressValidator'
 import {
@@ -140,9 +140,21 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     const currentUTC = new Date()
 
     if (currentUTC < startUTC || currentUTC > endUTC) {
-      throw new Error(
-        `Skipping request. Current UTC Hour: ${currentUTC} outside schedule window of start: ${startUTC} and end: ${endUTC}`,
-      )
+      // Calculate next available window
+      const nextWindowStart = new Date(startUTC)
+      if (currentUTC > endUTC) {
+        // If we're past today's window, next window is tomorrow
+        nextWindowStart.setUTCDate(nextWindowStart.getUTCDate() + 1)
+      }
+
+      const message =
+        `Skipping execution - outside schedule window. ` +
+        `JobRunId: ${jobRunID}, ` +
+        `Current: ${currentUTC.toISOString()}, ` +
+        `Window: [${startUTC.toISOString()} - ${endUTC.toISOString()}], ` +
+        `NextWindowStart: ${nextWindowStart.toISOString()}`
+      Logger.info(message)
+      throw new Error(message)
     }
   }
 
