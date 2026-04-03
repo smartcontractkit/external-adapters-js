@@ -231,6 +231,9 @@
       "path": "./sources/deep-blue"
     },
     {
+      "path": "./sources/decibel-vault"
+    },
+    {
       "path": "./sources/deribit"
     },
     {
