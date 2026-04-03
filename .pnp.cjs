@@ -619,6 +619,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/securitize"\
     },\
     {\
+      "name": "@chainlink/six-adapter",\
+      "reference": "workspace:packages/sources/six"\
+    },\
+    {\
       "name": "@chainlink/snowflake-adapter",\
       "reference": "workspace:packages/sources/snowflake"\
     },\
@@ -927,6 +931,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
+    ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
@@ -7574,6 +7579,25 @@ const RAW_RUNTIME_STATE =
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/six-adapter", [\
+      ["workspace:packages/sources/six", {\
+        "packageLocation": "./packages/sources/six/",\
+        "packageDependencies": [\
+          ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["@types/ws", "npm:8.18.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.3"]\
         ],\
         "linkType": "SOFT"\
       }]\
