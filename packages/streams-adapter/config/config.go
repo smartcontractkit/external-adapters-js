@@ -19,7 +19,7 @@ type Config struct {
 	CacheCleanupInterval uint // Cache cleanup interval in minutes (0 = default 1 minute)
 
 	// Subscription configuration
-	SubscriptionRetryCooldownSeconds uint // Cooldown before allowing re-subscription (0 = default 10s)
+	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
 
 	// Other configuration
 	LogLevel    string
@@ -43,7 +43,7 @@ func Load() *Config {
 		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
 
 		// Subscription
-		SubscriptionRetryCooldownSeconds: getEnvAsInt("SUBSCRIPTION_RETRY_COOLDOWN_SECONDS", 10),
+		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
 
 		// Other
 		LogLevel:    getEnv("LOG_LEVEL", "info"),
