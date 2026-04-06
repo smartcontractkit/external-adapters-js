@@ -109,7 +109,7 @@ exports[`execute multiReserves endpoint view-function-multi-chain should return 
 exports[`execute multiReserves endpoint - schedule window should return outsideUpdateWindow response when any sub-reserve is outside schedule window 1`] = `
 {
   "error": {
-    "message": "Unspecified error",
+    "message": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
     "name": "AdapterError",
     "outsideUpdateWindow": true,
     "outsideUpdateWindowDetails": "Outside schedule window. Current UTC: 2022-01-01T11:11:11.111Z, window: 2022-01-01T12:00:00.000Z - 2022-01-01T13:00:00.000Z",
