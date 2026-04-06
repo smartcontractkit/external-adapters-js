@@ -9,10 +9,8 @@ on:
   # TEMP: Remove after testing - allows triggering on push to this branch
   push:
     branches:
-      - DS/zadd-fix-to-resolve-cache-keys
-    paths:
-      - '.github/workflows/deploy-streams-adapter.yml'
-
+      - DS/new-streams-images
+    
 concurrency:
   group: deploy-streams-adapter
   cancel-in-progress: false
