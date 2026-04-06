@@ -8,10 +8,7 @@ import {
   adapterNamesV3 as indexerAdaptersV3,
   runBalanceAdapter,
 } from '../utils/balance'
-import {
-  isOutsideUpdateWindowResponse,
-  makeOutsideUpdateWindowResponse,
-} from '../utils/outsideUpdateWindow'
+import { makeOutsideUpdateWindowResponse } from '../utils/outsideUpdateWindow'
 import {
   adapterNamesV2 as protocolAdaptersV2,
   adapterNamesV3 as protocolAdaptersV3,
@@ -158,26 +155,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
     config,
     validator.validated.data.protocolEndpoint,
   )
-
-  // If the protocol adapter signals its own update window via windowStartMs/windowEndMs
-  // (e.g. multi-address-list bubbles up its scheduler window), honour that here.
-  if (!isOutsideUpdateWindowResponse(protocolOutput)) {
-    const { windowStartMs, windowEndMs } = protocolOutput.data as {
-      windowStartMs?: number
-      windowEndMs?: number
-    }
-    if (windowStartMs != null && windowEndMs != null) {
-      const now = Date.now()
-      if (now < windowStartMs || now > windowEndMs) {
-        const outsideUpdateWindowDetails = `Outside schedule window. Current UTC: ${new Date(
-          now,
-        ).toISOString()}, window: ${new Date(windowStartMs).toISOString()} - ${new Date(
-          windowEndMs,
-        ).toISOString()}`
-        return makeOutsideUpdateWindowResponse(jobRunID, outsideUpdateWindowDetails)
-      }
-    }
-  }
 
   const validatedAddresses = getValidAddresses(protocolOutput, validator)
 
