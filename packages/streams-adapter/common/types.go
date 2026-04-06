@@ -23,21 +23,3 @@ type CacheItem struct {
 	Timestamp          time.Time // Last write time
 	OriginalAdapterKey string
 }
-
-// Cache interface for storing and retrieving observations
-type Cache interface {
-	Set(params RequestParams, observation *Observation, timestamp time.Time, originalAdapterKey string)
-	Get(params RequestParams) *Observation
-}
-
-// Config interface for configuration management
-type Config interface {
-	Set(string, any)
-	Get(string) any
-}
-
-// Server interface
-type Server interface {
-	Start() error
-	Close() error
-}

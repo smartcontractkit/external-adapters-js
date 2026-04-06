@@ -1,4 +1,4 @@
-import { getCryptoPrice, getDeutscheBoersePrice, getRwaPrice } from '../../src/lib'
+import { getCryptoPrice, getDeutscheBoersePrice, getExchangeRate, getRwaPrice } from '../../src/lib'
 
 describe('lib.ts', () => {
   it('getCryptoPrice - should return result', async () => {
@@ -7,7 +7,22 @@ describe('lib.ts', () => {
 
     requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
 
-    await expect(getCryptoPrice('feed-1', 'ea-url', requester)).resolves.toEqual(data)
+    await expect(
+      getCryptoPrice('feed-1', 'ea-url', requester, { maxAgeInSeconds: 60 }),
+    ).resolves.toEqual(data)
+
+    expect(requester.request).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        data: {
+          data: {
+            endpoint: 'crypto-v3',
+            feedId: 'feed-1',
+            maxAgeInSeconds: 60,
+          },
+        },
+      }),
+    )
   })
 
   it('getRwaPrice - should return result', async () => {
@@ -36,6 +51,15 @@ describe('lib.ts', () => {
     requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
 
     await expect(getDeutscheBoersePrice('feed-3', 'ea-url', requester)).resolves.toEqual(data)
+  })
+
+  it('getExchangeRate - should return result', async () => {
+    const requester = { request: jest.fn() } as any
+    const data = { exchangeRate: '1156789000000000000', decimals: 18 }
+
+    requester.request.mockResolvedValueOnce({ response: { data: { result: null, data: data } } })
+
+    await expect(getExchangeRate('feed-4', 'ea-url', requester)).resolves.toEqual(data)
   })
 
   it('should throw if empty', async () => {

@@ -8,6 +8,7 @@ export const inputExample = {
   regularStreamId: '0x0',
   extendedStreamId: '0x0',
   overnightStreamId: '0x0',
+  overnightStreamMaxAgeInSeconds: 100,
   sessionMarket: 'nyse',
   sessionMarketType: '24/5',
   sessionBoundaries: ['04:00', '16:00', '20:00'],
@@ -38,6 +39,12 @@ export const inputDefinition = new InputParameters(
       required: true,
       type: 'string',
       description: 'Data Streams overnight hour feed ID for the underlying asset',
+    },
+    overnightStreamMaxAgeInSeconds: {
+      required: false,
+      type: 'number',
+      description:
+        'Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age.',
     },
     sessionMarket: {
       required: true,
@@ -107,9 +114,9 @@ export type output = {
   decimals: number
   rawPrice: string
   stream: {
-    regular: DataEngineResponse['Response']['Data']
-    extended: DataEngineResponse['Response']['Data']
-    overnight: DataEngineResponse['Response']['Data']
+    regular?: DataEngineResponse['Response']['Data']
+    extended?: DataEngineResponse['Response']['Data']
+    overnight?: DataEngineResponse['Response']['Data']
   }
   smoother: {
     price: string

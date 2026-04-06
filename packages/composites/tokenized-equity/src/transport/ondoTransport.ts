@@ -120,6 +120,7 @@ const dedupeParams = (params: RequestParams[]) => {
       p.regularStreamId,
       p.extendedStreamId,
       p.overnightStreamId,
+      p.overnightStreamMaxAgeInSeconds,
       p.sessionMarket,
       p.sessionMarketType,
       p.sessionBoundaries.join('|'),
