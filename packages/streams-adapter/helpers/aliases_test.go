@@ -135,6 +135,17 @@ func TestInitAliasIndex_Idempotent(t *testing.T) {
 }
 
 // ---------------------------------------------------------------------------
+// findEndpointInKey tests
+// ---------------------------------------------------------------------------
+
+func TestFindEndpointInKey_IndexNotInitialized(t *testing.T) {
+	resetGlobals()
+	require.Panics(t, func() {
+		findEndpointInKey("TEST-ADAPTER-price-ws-subscriptionSet")
+	})
+}
+
+// ---------------------------------------------------------------------------
 // BuildCacheKeyParams tests
 // ---------------------------------------------------------------------------
 
@@ -148,11 +159,12 @@ func initTestAdapter(t *testing.T) {
 
 func TestBuildCacheKeyParams_AliasIndexNotInitialized(t *testing.T) {
 	resetGlobals()
-	_, err := BuildCacheKeyParams(map[string]interface{}{
-		"endpoint": "price",
-		"base":     "ETH",
+	require.Panics(t, func() {
+		BuildCacheKeyParams(map[string]interface{}{
+			"endpoint": "price",
+			"base":     "ETH",
+		})
 	})
-	require.Error(t, err)
 }
 
 func TestBuildCacheKeyParams_UnknownEndpoint(t *testing.T) {
