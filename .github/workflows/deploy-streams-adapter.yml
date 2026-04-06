@@ -10,7 +10,7 @@ on:
   push:
     branches:
       - DS/new-streams-images
-    
+
 concurrency:
   group: deploy-streams-adapter
   cancel-in-progress: false
