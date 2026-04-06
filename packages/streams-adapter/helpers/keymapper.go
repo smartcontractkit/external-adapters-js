@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+const zaddNotificationTimeout = 2 * time.Second
+
 // KeyMapper learns and stores mappings from raw cache keys (derived from client
 // request params with endpoint-only alias resolution) to transformed cache keys
 // (derived from the JS adapter's validated+transformed params seen in ZADD).
@@ -70,11 +72,17 @@ func (km *KeyMapper) SubscribeAndLearn(
 	rawCacheKey string,
 	subscribeFn func(),
 ) {
+	// Fast path: mapping already known, no lock needed.
+	if _, ok := km.Get(rawCacheKey); ok {
+		subscribeFn()
+		return
+	}
+
 	epLock := km.getEndpointLock(endpointTransport)
 	epLock.Lock()
 	defer epLock.Unlock()
 
-	// If we already have the mapping, no need to learn again.
+	// Re-check after acquiring lock — another goroutine may have learned it.
 	if _, ok := km.Get(rawCacheKey); ok {
 		subscribeFn()
 		return
@@ -105,7 +113,7 @@ func (km *KeyMapper) SubscribeAndLearn(
 			km.mu.Unlock()
 			km.logger.Debug("Learned key mapping", "rawKey", rawCacheKey, "transformedKey", transformedKey)
 		}
-	case <-time.After(2 * time.Second):
+	case <-time.After(zaddNotificationTimeout):
 		km.logger.Debug("Timed out waiting for ZADD notification", "endpoint", endpointTransport, "rawKey", rawCacheKey)
 	}
 }

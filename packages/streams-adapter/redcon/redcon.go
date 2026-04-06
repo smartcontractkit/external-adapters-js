@@ -211,6 +211,11 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 		obs.Data = data
 	}
 
+	// Extract timestamps field
+	if timestamps, hasTimestamps := rawJSON["timestamps"]; hasTimestamps {
+		obs.Timestamps = timestamps
+	}
+
 	s.cache.Set(params, obs, time.Now(), key)
 	conn.WriteInt(1)
 }

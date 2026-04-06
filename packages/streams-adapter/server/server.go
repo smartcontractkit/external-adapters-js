@@ -334,8 +334,8 @@ func (s *Server) adapterHandler(c *gin.Context) {
 			})
 
 			// Remove from tracker after subscription attempt completes.
-			// Allow retries after 10 seconds if data still not available.
-			time.Sleep(10 * time.Second)
+			// Allow retries after delay if data still not available.
+			time.Sleep(time.Duration(s.config.SubscriptionRetryDelaySeconds) * time.Second)
 			s.subscriptionTracker.Delete(key)
 		}(rawCacheKey, rawParams, reqData.Data)
 	} else if s.config.LogLevel == "debug" {
