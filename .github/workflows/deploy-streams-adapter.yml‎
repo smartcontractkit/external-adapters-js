@@ -6,7 +6,7 @@ on:
       adapter-names:
         description: 'Comma-separated list of adapter short names (e.g. coinbase,tiingo,ncfx)'
         required: true
-  # TEMP: Remove after testing - allows triggering on push to this branch
+  # TEMP: Remove after testing - allows triggering on push to this branch.
   push:
     branches:
       - DS/new-streams-images
