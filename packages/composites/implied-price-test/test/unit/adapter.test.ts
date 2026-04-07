@@ -36,4 +36,27 @@ describe('validateDecimalsFieldParams', () => {
       AdapterInputError,
     )
   })
+
+  it('should not throw when operand decimals fields are numeric and all are defined', () => {
+    expect(() => validateDecimalsFieldParams(18, 8, 18)).not.toThrow()
+  })
+
+  it('should throw when outputDecimals is set but numeric operand decimals fields are not', () => {
+    expect(() => validateDecimalsFieldParams(18, undefined, 8)).toThrow(AdapterInputError)
+    expect(() => validateDecimalsFieldParams(18, 8, undefined)).toThrow(AdapterInputError)
+  })
+
+  it('should use the custom errorMessage when provided', () => {
+    const customMessage =
+      'Intermediate check failed: response decimals fields should be all set or all unset'
+    expect(() => validateDecimalsFieldParams(18, undefined, undefined, customMessage)).toThrow(
+      expect.objectContaining({ message: customMessage }),
+    )
+  })
+
+  it('should use the default errorMessage when not provided', () => {
+    expect(() => validateDecimalsFieldParams(18, undefined, undefined)).toThrow(
+      expect.objectContaining({ message: 'Decimals fields should be all set or all unset' }),
+    )
+  })
 })

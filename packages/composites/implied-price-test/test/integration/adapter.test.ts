@@ -520,5 +520,42 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
       nock.cleanAll()
     })
+
+    it('returns failure when upstream responses are missing decimals field', async () => {
+      const data = {
+        operand1Sources: ['ncfx', 'elwood'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD11',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD11',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'multiply',
+        operand1DecimalsField: 'decimals',
+        operand2DecimalsField: 'decimals',
+        outputDecimals: 8,
+      }
+      // Respond without the decimals field so the intermediate transport check fires
+      mockDPResponseSuccess('tiingo', 10)
+      mockDPResponseSuccess('ncfx', 20)
+      mockDPResponseSuccess('elwood', 5)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
   })
 })

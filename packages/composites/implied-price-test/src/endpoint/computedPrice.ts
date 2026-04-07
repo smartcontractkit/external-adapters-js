@@ -164,15 +164,16 @@ export const validateInputPayload = (input: string, inputName: string) => {
 
 export const validateDecimalsFieldParams = (
   outputDecimals: number | undefined,
-  operand1DecimalsField: string | undefined,
-  operand2DecimalsField: string | undefined,
+  operand1DecimalsField: string | number | undefined,
+  operand2DecimalsField: string | number | undefined,
+  errorMessage = 'Decimals fields should be all set or all unset',
 ) => {
   const fields = [outputDecimals, operand1DecimalsField, operand2DecimalsField]
   const definedFields = new Set(fields.map((f) => f !== undefined))
   if (definedFields.size !== 1) {
     throw new AdapterInputError({
       statusCode: 400,
-      message: 'Decimals fields should be all set or all unset',
+      message: errorMessage,
     })
   }
 }

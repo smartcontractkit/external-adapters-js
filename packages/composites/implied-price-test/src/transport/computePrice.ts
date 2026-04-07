@@ -6,8 +6,16 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/computedPrice'
+import {
+  BaseEndpointTypes,
+  inputParameters,
+  validateDecimalsFieldParams,
+} from '../endpoint/computedPrice'
 import { calculateMedian, getOperandSourceUrls } from './utils'
+
+Decimal.set({ precision: 50 })
+Decimal.set({ toExpPos: 50 })
+Decimal.set({ toExpNeg: -50 })
 
 const scaleValue = (value: Decimal, inputDecimals: number, outputDecimals: number): Decimal =>
   value.div(new Decimal(10).pow(inputDecimals)).mul(new Decimal(10).pow(outputDecimals))
@@ -137,12 +145,12 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     // *Decimals input param all/none present validation performed at the endpoint level
     const areDecimalsDefined = outputDecimals !== undefined
 
-    if (
-      areDecimalsDefined &&
-      (operand1Results.decimals === undefined || operand2Results.decimals === undefined)
-    ) {
-      throw new Error('missing at least one results decimals')
-    }
+    validateDecimalsFieldParams(
+      outputDecimals,
+      operand1Results.decimals,
+      operand2Results.decimals,
+      'Intermediate check failed: response decimals fields should be all set or all unset',
+    )
 
     // Scale operands down to 0 decimals if decimals are defined
     const scaledOperand1 = areDecimalsDefined

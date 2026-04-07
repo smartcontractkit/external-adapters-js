@@ -44,6 +44,17 @@ exports[`execute computePrice endpoint returns error if operand2 has zero price 
 }
 `;
 
+exports[`execute computePrice endpoint returns failure when upstream responses are missing decimals field 1`] = `
+{
+  "errorMessage": "Failed to extract consistent decimals from field "decimals"",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute computePrice endpoint returns failure with mismatched operand1Decimals 1`] = `
 {
   "errorMessage": "Failed to extract consistent decimals from field "decimals"",
@@ -163,9 +174,9 @@ exports[`execute computePrice endpoint should return success for legacy division
   "data": {
     "operand1Result": "20",
     "operand2Result": "7.5",
-    "result": "2.6666666666666666667",
+    "result": "2.6666666666666666666666666666666666666666666666667",
   },
-  "result": "2.6666666666666666667",
+  "result": "2.6666666666666666666666666666666666666666666666667",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
