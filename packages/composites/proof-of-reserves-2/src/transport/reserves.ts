@@ -5,11 +5,122 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
+import objectPath from 'object-path'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserves'
 
 const logger = makeLogger('CustomTransport')
 
 type RequestParams = typeof inputParameters.validated
+
+type FixedPoint = {
+  amount: bigint
+  decimals: number
+}
+
+type NumberType = FixedPoint | Decimal
+
+const isFixedPoint = (num: NumberType): num is FixedPoint => {
+  return 'amount' in num && 'decimals' in num
+}
+
+const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint => {
+  if (!isFixedPoint(num)) {
+    return {
+      amount: BigInt(new Decimal(num).mul(10n ** BigInt(decimals)).toFixed(0)),
+      decimals,
+    }
+  }
+
+  let amount = num.amount
+  if (decimals !== num.decimals) {
+    amount = (amount * 10n ** BigInt(decimals)) / 10n ** BigInt(num.decimals)
+  }
+  return {
+    amount,
+    decimals,
+  }
+}
+
+const toDecimal = (num: NumberType): Decimal => {
+  if (!isFixedPoint(num)) {
+    return num
+  }
+  return new Decimal(num.amount.toString()).div(new Decimal(10).pow(num.decimals))
+}
+
+const add = (a: NumberType, b: NumberType): NumberType => {
+  if (isFixedPoint(a) && isFixedPoint(b)) {
+    let resultDecimals = Math.max(a.decimals, b.decimals)
+    a = toFixedPointWithDecimals(a, resultDecimals)
+    b = toFixedPointWithDecimals(b, resultDecimals)
+    return {
+      amount: a.amount + b.amount,
+      decimals: resultDecimals,
+    }
+  }
+  return toDecimal(a).add(toDecimal(b))
+}
+
+const multiply = (a: NumberType, b: NumberType): NumberType => {
+  if (isFixedPoint(a) && isFixedPoint(b)) {
+    const decimals = Math.max(a.decimals, b.decimals)
+    const amount = (a.amount * b.amount) / 10n ** BigInt(a.decimals + b.decimals - decimals)
+    return {
+      amount,
+      decimals,
+    }
+  }
+  return toDecimal(a).mul(toDecimal(b))
+}
+
+const divide = (a: NumberType, b: NumberType): NumberType => {
+  if (isFixedPoint(a) && isFixedPoint(b)) {
+    const decimals = Math.max(a.decimals, b.decimals)
+    const amount = (a.amount * 10n ** BigInt(decimals + b.decimals - a.decimals)) / b.amount
+    return {
+      amount,
+      decimals,
+    }
+  }
+  return toDecimal(a).div(toDecimal(b))
+}
+
+const getNumberFromResult = ({
+  result,
+  amountPath,
+  decimalsPath,
+}: {
+  result: object
+  amountPath: string
+  decimalsPath: string | undefined
+}): NumberType => {
+  const amount: number | string = objectPath.get(result, amountPath)
+  if (decimalsPath) {
+    const decimals: number | string = objectPath.get(result, decimalsPath)
+    return {
+      amount: BigInt(amount),
+      decimals: Number(decimals),
+    }
+  }
+  return new Decimal(amount)
+}
+
+type ComponentParam = RequestParams['components'][number]
+type ConversionParam = RequestParams['conversions'][number]
+
+type ProcessedComponent = {
+  name: string
+  currency: string
+  totalBalance: NumberType
+}
+
+type ProcessedConversion = {
+  from: string
+  to: string
+  rate: NumberType
+  operation: 'multiply' | 'divide'
+}
 
 export type CustomTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -60,23 +171,136 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async _handleRequest(
-    _: RequestParams,
+    params: RequestParams,
   ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // custom transport logic
+    console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
+    const [components, conversions] = await Promise.all([
+      Promise.all(params.components.map((component) => this.fetchComponent(component))),
+      Promise.all(params.conversions.map((conversion) => this.fetchConversion(conversion))),
+    ])
+
+    console.log('dskloetx _handleRequest components', components)
+    console.log('dskloetx _handleRequest conversions', conversions)
+
+    for (const conversion of conversions) {
+      for (const component of components) {
+        if (component.currency === conversion.from) {
+          component.currency = conversion.to
+          if (conversion.operation === 'multiply') {
+            component.totalBalance = multiply(component.totalBalance, conversion.rate)
+          } else if (conversion.operation === 'divide') {
+            component.totalBalance = divide(component.totalBalance, conversion.rate)
+          } else {
+            throw new AdapterError({
+              statusCode: 500,
+              message: `Unsupported conversion operation: ${conversion.operation}`,
+            })
+          }
+        }
+      }
+    }
+
+    console.log('dskloetx _handleRequest components after conversion', components)
+
+    let totalReserves = components.reduce((acc, component) => add(acc, component.totalBalance), {
+      amount: 0n,
+      decimals: 0,
+    } as NumberType)
+
+    if (!isFixedPoint(totalReserves)) {
+      totalReserves = toFixedPointWithDecimals(totalReserves, params.resultDecimals)
+    }
+
+    const result = totalReserves.amount.toString()
+    const decimals = totalReserves.decimals
 
     return {
       data: {
-        result: 2000,
+        result,
+        decimals,
       },
       statusCode: 200,
-      result: 2000,
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
+    }
+  }
+
+  async fetchComponent(component: ComponentParam): Promise<ProcessedComponent> {
+    const responseData = await this.fetchData({
+      provider: component.balances.provider,
+      params: JSON.parse(component.balances.params),
+    })
+    console.log('dskloet _fetchComponent 4 responseData', responseData)
+    const array: object[] = objectPath.get(responseData, component.reduce.arrayPath)
+    console.log('dskloet _fetchComponent 5 array', array)
+    const balances: NumberType[] = array.map((item) => {
+      return getNumberFromResult({
+        result: item,
+        amountPath: component.reduce.balancePath,
+        decimalsPath: component.reduce.decimalsPath,
+      })
+    })
+    console.log('dskloet _fetchComponent 6 balances', balances)
+
+    return {
+      name: component.name,
+      currency: component.currency,
+      totalBalance: balances.reduce((acc, balance) => add(acc, balance), {
+        amount: 0n,
+        decimals: 0,
+      }),
+    }
+  }
+
+  async fetchData({ provider, params }: { provider: string; params: object }): Promise<object> {
+    const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
+    const url = process.env[providerUrlEnvVarName]
+    if (!url) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Missing environment variable for provider URL: ${providerUrlEnvVarName}`,
+      })
+    }
+    const requestConfig = {
+      url,
+      method: 'POST',
+      data: { data: params },
+    }
+    try {
+      const result = await this.requester.request(JSON.stringify(requestConfig), requestConfig)
+      return result.response.data as object
+    } catch (error: unknown) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `Error fetching data from provider ${provider} at '${url}': ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      })
+    }
+  }
+
+  async fetchConversion(conversion: ConversionParam): Promise<ProcessedConversion> {
+    const responseData = await this.fetchData({
+      provider: conversion.provider,
+      params: JSON.parse(conversion.params),
+    })
+    const rate = getNumberFromResult({
+      result: responseData,
+      amountPath: conversion.ratePath,
+      decimalsPath: conversion.decimalsPath,
+    })
+
+    return {
+      from: conversion.from,
+      to: conversion.to,
+      rate,
+      operation: conversion.operation,
     }
   }
 
