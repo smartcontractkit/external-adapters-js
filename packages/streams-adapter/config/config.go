@@ -18,6 +18,9 @@ type Config struct {
 	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
 	CacheCleanupInterval uint // Cache cleanup interval in minutes (0 = default 1 minute)
 
+	// Subscription configuration
+	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
+
 	// Other configuration
 	LogLevel    string
 	AdapterName string
@@ -38,6 +41,9 @@ func Load() *Config {
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
 		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
+
+		// Subscription
+		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
 
 		// Other
 		LogLevel:    getEnv("LOG_LEVEL", "info"),

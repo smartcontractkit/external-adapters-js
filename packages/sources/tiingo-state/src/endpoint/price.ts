@@ -28,5 +28,5 @@ export const endpoint = new PriceEndpoint({
   transportRoutes: new TransportRoutes<BaseCryptoEndpointTypes>().register('ws', wsTransport),
   defaultTransport: 'ws',
   inputParameters: inputParameters,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
 })

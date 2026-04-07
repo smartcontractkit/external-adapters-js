@@ -2561,7 +2561,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-state-adapter@workspace:packages/sources/blocksize-capital-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.13.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2985,7 +2985,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-engine-adapter@workspace:*, @chainlink/data-engine-adapter@workspace:^, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
+"@chainlink/data-engine-adapter@workspace:*, @chainlink/data-engine-adapter@workspace:packages/sources/data-engine":
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
@@ -3711,7 +3711,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/glv-token-adapter@workspace:packages/composites/glv-token"
   dependencies:
-    "@chainlink/data-engine-adapter": "workspace:^"
+    "@chainlink/data-engine-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.11.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3757,7 +3757,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gmx-tokens-adapter@workspace:packages/composites/gmx-tokens"
   dependencies:
-    "@chainlink/data-engine-adapter": "workspace:^"
+    "@chainlink/data-engine-adapter": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.11.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -5128,7 +5128,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-state-adapter@workspace:packages/sources/tiingo-state"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.13.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
