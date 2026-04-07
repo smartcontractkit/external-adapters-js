@@ -1,16 +1,26 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { buildCloseStreamQuery, buildSubscriptionQuery, toMilliseconds } from './utils'
+import {
+  buildCloseStreamQuery,
+  buildSubscriptionQuery,
+  mapTradingEventToMarketStatus,
+  MARKET_STATUS_UNKNOWN,
+  toMilliseconds,
+} from './utils'
 
 const logger = makeLogger('SixPriceTransport')
 
-// Max acceptable age for price data before triggering ripcord (in seconds)
-const STALE_DATA_THRESHOLD_S = 300 // 5 minutes
+const STALE_DATA_THRESHOLD_SECONDS = 300
 
 type SixPriceField = {
   value?: number
   size?: number
+  unixTimestamp?: number
+}
+
+type TradingEvent = {
+  category?: string
   unixTimestamp?: number
 }
 
@@ -24,6 +34,7 @@ type SixStreamMessage = {
   bestAsk?: SixPriceField
   mid?: SixPriceField
   volume?: SixPriceField
+  tradingEvent?: TradingEvent
 }
 
 type WsMessage = {
@@ -39,7 +50,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-// Cache decoded cert/key buffers to avoid repeated Base64 decoding on reconnect
+// SIX delivers `tradingEvent` as independent UPDATE frames, not on every tick,
+// so we cache the latest status per stream to attach to subsequent price updates.
+const lastMarketStatusByStreamId = new Map<string, number>()
+
 let cachedCert: Buffer | undefined
 let cachedKey: Buffer | undefined
 
@@ -88,7 +102,6 @@ export const generateTransport = () => {
       },
 
       message: (message): ProviderResult<WsTransportTypes>[] | undefined => {
-        // API-level errors (auth failures, quota exceeded, etc.)
         if (message.errors) {
           logger.error({ errors: message.errors }, 'SIX API returned errors')
           return []
@@ -108,7 +121,6 @@ export const generateTransport = () => {
 
           const [ticker, bc] = parts
 
-          // Ripcord: SIX stream-level error (entitlement issues, invalid listing)
           if (stream.type === 'ERROR') {
             logger.error(
               { streamId: stream.streamId, requestedId: stream.requestedId },
@@ -120,22 +132,29 @@ export const generateTransport = () => {
 
           if (stream.type !== 'START' && stream.type !== 'UPDATE') continue
 
+          if (stream.tradingEvent?.category != null) {
+            const status = mapTradingEventToMarketStatus(stream.tradingEvent.category)
+            lastMarketStatusByStreamId.set(stream.streamId, status)
+            logger.debug(
+              { streamId: stream.streamId, category: stream.tradingEvent.category, status },
+              'Trading event received',
+            )
+          }
+
           const lastPrice = stream.last?.value
 
-          // No price data - skip (not ripcord, just an empty update e.g. volume-only)
           if (lastPrice == null && stream.bestBid?.value == null && stream.bestAsk?.value == null) {
             logger.debug({ streamId: stream.streamId }, 'No price data in message')
             continue
           }
 
-          // Ripcord: stale data - timestamp too old
           const latestTimestamp =
             stream.last?.unixTimestamp ??
             stream.bestBid?.unixTimestamp ??
             stream.bestAsk?.unixTimestamp
           if (latestTimestamp != null) {
             const ageS = Date.now() / 1000 - latestTimestamp
-            if (ageS > STALE_DATA_THRESHOLD_S) {
+            if (ageS > STALE_DATA_THRESHOLD_SECONDS) {
               logger.warn(
                 { streamId: stream.streamId, ageS: Math.round(ageS) },
                 'Stale data detected',
@@ -152,6 +171,8 @@ export const generateTransport = () => {
               : undefined)
 
           const providerIndicatedTimeUnixMs = toMilliseconds(latestTimestamp)
+          const marketStatus =
+            lastMarketStatusByStreamId.get(stream.streamId) ?? MARKET_STATUS_UNKNOWN
 
           results.push({
             params: { ticker, bc },
@@ -165,6 +186,7 @@ export const generateTransport = () => {
                 askSize: stream.bestAsk?.size ?? null,
                 lastTradedPrice: lastPrice ?? null,
                 volume: stream.volume?.value ?? null,
+                marketStatus,
                 ripcord: false,
                 ripcordAsInt: 0,
               } as WsTransportTypes['Response']['Data'],

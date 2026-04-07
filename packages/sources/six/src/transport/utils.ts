@@ -24,8 +24,47 @@ export const buildSubscriptionQuery = (
       bestAsk { value size unixTimestamp }
       mid { value unixTimestamp }
       volume { value unixTimestamp }
+      tradingEvent { category unixTimestamp }
     }
   }`
+}
+
+/**
+ * Map SIX trading event categories to v11 marketStatus uint32 enum.
+ *
+ * v11 marketStatus values:
+ *   0 = unknown
+ *   1 = pre-market
+ *   2 = open
+ *   3 = post-market
+ *   4 = closed
+ *
+ * SIX category strings documented:
+ *   - OPEN_MARKET / CONTINUOUS_TRADING / TRADING -> open
+ *   - PRE_OPEN / OPENING_AUCTION / PRE_TRADING -> pre-market
+ *   - POST_TRADING / CLOSING_AUCTION / POST_CLOSE -> post-market
+ *   - CLOSED_MARKET / CLOSED / NO_TRADING -> closed
+ *   - else -> unknown
+ */
+export const MARKET_STATUS_UNKNOWN = 0
+export const MARKET_STATUS_PRE_MARKET = 1
+export const MARKET_STATUS_OPEN = 2
+export const MARKET_STATUS_POST_MARKET = 3
+export const MARKET_STATUS_CLOSED = 4
+
+const OPEN_CATEGORIES = new Set(['OPEN_MARKET', 'CONTINUOUS_TRADING', 'TRADING'])
+const PRE_MARKET_CATEGORIES = new Set(['PRE_OPEN', 'OPENING_AUCTION', 'PRE_TRADING'])
+const POST_MARKET_CATEGORIES = new Set(['POST_TRADING', 'CLOSING_AUCTION', 'POST_CLOSE'])
+const CLOSED_CATEGORIES = new Set(['CLOSED_MARKET', 'CLOSED', 'NO_TRADING'])
+
+export const mapTradingEventToMarketStatus = (category: string | undefined): number => {
+  if (!category) return MARKET_STATUS_UNKNOWN
+  const c = category.toUpperCase()
+  if (OPEN_CATEGORIES.has(c)) return MARKET_STATUS_OPEN
+  if (PRE_MARKET_CATEGORIES.has(c)) return MARKET_STATUS_PRE_MARKET
+  if (POST_MARKET_CATEGORIES.has(c)) return MARKET_STATUS_POST_MARKET
+  if (CLOSED_CATEGORIES.has(c)) return MARKET_STATUS_CLOSED
+  return MARKET_STATUS_UNKNOWN
 }
 
 /**

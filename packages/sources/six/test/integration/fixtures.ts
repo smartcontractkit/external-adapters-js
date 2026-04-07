@@ -76,13 +76,13 @@ export const mockErrorResponse = {
 // 600s in the past from epoch 0 = negative timestamp, so we use a small positive
 // timestamp that will be >300s old once the fake clock advances past ~302s.
 // Since fake clock starts at 0 and the test runs quickly, a timestamp of 0 minus
-// STALE_DATA_THRESHOLD_S (300) in the transport means any timestamp older than
+// STALE_DATA_THRESHOLD_SECONDS (300) in the transport means any timestamp older than
 // (currentTime - 300s) is stale. At fake time ~1s, anything < -299s is stale.
 // We can't use negative timestamps, so we set timestamp to 0 and rely on the
 // fake clock not advancing much — but the transport compares Date.now()/1000 - timestamp.
 // With fake timers Date.now() returns ~1 (1 second), so age = 1 - 0 = 1s — NOT stale.
 // Solution: use a very old real-world timestamp that will always be stale.
-const VERY_OLD_TIMESTAMP = 1000000 // ~Jan 12, 1970 — always >300s old
+const VERY_OLD_TIMESTAMP = 1000000
 export const mockStaleDataResponse = {
   data: {
     startStream: [
@@ -124,7 +124,7 @@ export const mockApiErrorResponse = {
 
 const makeStaleResponse = () => {
   // Use Date.now() at call time so it captures fake clock value,
-  // then subtract enough to exceed STALE_DATA_THRESHOLD_S (300s)
+  // then subtract enough to exceed STALE_DATA_THRESHOLD_SECONDS (300s)
   const staleTimestamp = Date.now() / 1000 - 600
   return {
     data: {

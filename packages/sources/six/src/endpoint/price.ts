@@ -36,6 +36,7 @@ interface PriceResponse {
     askSize: number | null
     lastTradedPrice: number | null
     volume: number | null
+    marketStatus: number
     ripcord: boolean
     ripcordAsInt: number
     ripcordDetails?: string
