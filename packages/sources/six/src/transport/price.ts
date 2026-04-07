@@ -87,14 +87,15 @@ export const generateTransport = () => {
   const transport = new WebSocketTransport<WsTransportTypes>({
     url: ({ adapterSettings: { WS_API_ENDPOINT } }) => WS_API_ENDPOINT,
 
-    options: ({ adapterSettings: { TLS_PUBLIC_KEY, TLS_PRIVATE_KEY } }) => ({
-      ...(TLS_PUBLIC_KEY && TLS_PRIVATE_KEY
-        ? {
-            cert: decodeCert(TLS_PUBLIC_KEY),
-            key: decodeKey(TLS_PRIVATE_KEY),
-          }
-        : {}),
-    }),
+    options: ({ adapterSettings: { TLS_PUBLIC_KEY, TLS_PRIVATE_KEY } }) => {
+      if (!TLS_PUBLIC_KEY || !TLS_PRIVATE_KEY) {
+        throw new Error('TLS_PUBLIC_KEY and TLS_PRIVATE_KEY must be set (Base64-encoded)')
+      }
+      return {
+        cert: decodeCert(TLS_PUBLIC_KEY),
+        key: decodeKey(TLS_PRIVATE_KEY),
+      }
+    },
 
     handlers: {
       open: async () => {
@@ -179,17 +180,17 @@ export const generateTransport = () => {
             response: {
               result: lastPrice ?? mid ?? null,
               data: {
-                mid: mid ?? null,
-                bid: stream.bestBid?.value ?? null,
-                bidSize: stream.bestBid?.size ?? null,
-                ask: stream.bestAsk?.value ?? null,
-                askSize: stream.bestAsk?.size ?? null,
-                lastTradedPrice: lastPrice ?? null,
-                volume: stream.volume?.value ?? null,
+                mid,
+                bid: stream.bestBid?.value,
+                bidSize: stream.bestBid?.size,
+                ask: stream.bestAsk?.value,
+                askSize: stream.bestAsk?.size,
+                lastTradedPrice: lastPrice,
+                volume: stream.volume?.value,
                 marketStatus,
                 ripcord: false,
                 ripcordAsInt: 0,
-              } as WsTransportTypes['Response']['Data'],
+              },
               timestamps: {
                 providerIndicatedTimeUnixMs,
               },

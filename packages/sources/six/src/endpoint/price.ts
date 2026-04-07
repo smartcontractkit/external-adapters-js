@@ -29,13 +29,13 @@ const inputParameters = new InputParameters(
 interface PriceResponse {
   Result: number | null
   Data: {
-    mid: number | null
-    bid: number | null
-    bidSize: number | null
-    ask: number | null
-    askSize: number | null
-    lastTradedPrice: number | null
-    volume: number | null
+    mid?: number
+    bid?: number
+    bidSize?: number
+    ask?: number
+    askSize?: number
+    lastTradedPrice?: number
+    volume?: number
     marketStatus: number
     ripcord: boolean
     ripcordAsInt: number
