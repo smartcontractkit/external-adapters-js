@@ -1,15 +1,13 @@
 {
-  "name": "@chainlink/gmx-tokens-adapter",
-  "version": "1.1.2",
-  "description": "Chainlink GM + GLV tokens composite adapter.",
+  "name": "@chainlink/t-rize-proof-of-insurance-adapter",
+  "version": "0.0.0",
+  "description": "External Adapter for querying the T-Rize Proof-of-Insurance API.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "gmx",
-    "gm-token",
-    "glv-token"
+    "t-rize-proof-of-insurance"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,18 +28,13 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/data-engine-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.11.6",
-    "decimal.js": "^10.3.1",
-    "ethers": "^6.15.0",
+    "@chainlink/external-adapter-framework": "2.13.1",
     "tslib": "2.4.1"
   }
 }
