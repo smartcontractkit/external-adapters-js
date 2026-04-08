@@ -1,4 +1,5 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
@@ -42,6 +43,10 @@ const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint
   }
 }
 
+const fixedPointToNumber = (num: FixedPoint): number => {
+  return Number(num.amount) / 10 ** num.decimals
+}
+
 const add = (a: FixedPoint, b: FixedPoint): FixedPoint => {
   let resultDecimals = Math.max(a.decimals, b.decimals)
   a = toFixedPointWithDecimals(a, resultDecimals)
@@ -76,17 +81,31 @@ const getFixedPointFromResult = ({
   decimalsPath,
   defaultDecimals,
 }: {
-  result: object
+  result: Record<string, unknown>
   amountPath: string
   decimalsPath: string | undefined
   defaultDecimals: number
 }): FixedPoint => {
   const amount: number | string = objectPath.get(result, amountPath)
+  if (amount === undefined) {
+    throw new AdapterError({
+      statusCode: 500,
+      message: `Amount not found at path '${amountPath}' in result '${JSON.stringify(result)}'.`,
+    })
+  }
   if (decimalsPath) {
-    const decimals: number | string = objectPath.get(result, decimalsPath)
+    const decimals = Number(objectPath.get(result, decimalsPath))
+    if (!Number.isFinite(decimals)) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Decimals not found at path '${decimalsPath}' in result '${JSON.stringify(
+          result,
+        )}'.`,
+      })
+    }
     return {
       amount: BigInt(amount),
-      decimals: Number(decimals),
+      decimals: decimals,
     }
   }
   return toFixedPointWithDecimals(Number(amount), defaultDecimals)
@@ -101,6 +120,7 @@ type ProcessedComponent = {
   totalBalance: FixedPoint
   originalCurrency: string
   totalBalanceInOriginalCurrency: FixedPoint
+  addressCount?: number
 }
 
 type ProcessedConversion = {
@@ -134,15 +154,17 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     context: EndpointContext<CustomTransportTypes>,
     entries: RequestParams[],
   ) {
-    await Promise.all(entries.map(async (param) => this.handleRequest(param)))
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(param: RequestParams) {
+  async handleRequest(context: EndpointContext<CustomTransportTypes>, param: RequestParams) {
     let response: AdapterResponse<CustomTransportTypes['Response']>
     try {
-      response = await this._handleRequest(param)
+      response = await this._handleRequest(context, param)
     } catch (e) {
+      // @ts-ignore
+      console.log('dskloetx handleRequest error fetching data from provider', e.stack)
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
       response = {
@@ -159,23 +181,28 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async _handleRequest(
+    context: EndpointContext<CustomTransportTypes>,
     params: RequestParams,
   ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
+    //console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
     const resultDecimals = params.resultDecimals
     const [components, conversions] = await Promise.all([
       Promise.all(
-        params.components.map((component) => this.fetchComponent(component, resultDecimals)),
+        params.components.map((component) =>
+          this.fetchComponent(context, component, resultDecimals),
+        ),
       ),
       Promise.all(
-        params.conversions.map((conversion) => this.fetchConversion(conversion, resultDecimals)),
+        params.conversions.map((conversion) =>
+          this.fetchConversion(context, conversion, resultDecimals),
+        ),
       ),
     ])
 
-    console.log('dskloetx _handleRequest components', components)
-    console.log('dskloetx _handleRequest conversions', conversions)
+    //console.log('dskloetx _handleRequest components', components)
+    //console.log('dskloetx _handleRequest conversions', conversions)
 
     /*
     const componentsForResponse = components.map((component) => ({
@@ -188,7 +215,20 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }))
     */
 
+    const conversionRates = []
+
     for (const conversion of conversions) {
+      let { from, to } = conversion
+      if (conversion.operation === 'divide') {
+        ;[from, to] = [to, from]
+      }
+      conversionRates.push({
+        from,
+        to,
+        rate: fixedPointToNumber(conversion.rate),
+      })
+      console.log('dskloetx _handleRequest applying conversion', conversion)
+
       for (const component of components) {
         if (component.currency === conversion.from) {
           component.currency = conversion.to
@@ -210,10 +250,8 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       const componentForResponse: BaseEndpointTypes['Response']['Data']['components'][number] = {
         name: component.name,
         currency: component.currency,
-        totalBalance: {
-          amount: component.totalBalance.amount.toString(),
-          decimals: component.totalBalance.decimals,
-        },
+        totalBalance: fixedPointToNumber(component.totalBalance),
+        addressCount: component.addressCount,
       }
       if (component.originalCurrency !== component.currency) {
         componentForResponse.originalCurrency = component.originalCurrency
@@ -225,25 +263,36 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       return componentForResponse
     })
 
-    console.log('dskloetx _handleRequest components after conversion', components)
+    //console.log('dskloetx _handleRequest components after conversion', components)
+
+    const currencies = new Set(components.map((component) => component.currency))
+    if (currencies.size > 1) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Can't add up balances in different currencies: ${Array.from(currencies).join(
+          ', ',
+        )}.`,
+      })
+    }
 
     let totalReserves = components.reduce((acc, component) => add(acc, component.totalBalance), {
       amount: 0n,
       decimals: 0,
     } as FixedPoint)
 
-    if (!isFixedPoint(totalReserves)) {
-      totalReserves = toFixedPointWithDecimals(totalReserves, params.resultDecimals)
-    }
+    totalReserves = toFixedPointWithDecimals(totalReserves, params.resultDecimals)
 
     const result = totalReserves.amount.toString()
+    const resultAsNumber = fixedPointToNumber(totalReserves)
     const decimals = totalReserves.decimals
 
     return {
       data: {
         result,
+        resultAsNumber,
         decimals,
         components: componentsForResponse,
+        conversionRates,
       },
       statusCode: 200,
       result,
@@ -256,89 +305,118 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async fetchComponent(
+    context: EndpointContext<CustomTransportTypes>,
     component: ComponentParam,
     resultDecimals: number,
   ): Promise<ProcessedComponent> {
-    let balanceProviderAddressParams = {}
-    console.log('dskloetx fetchComponent 1 component', component)
-    if (component.addresses !== undefined && component.balances.addressArrayPath !== undefined) {
-      console.log('dskloetx fetchComponent 2 component.address', component.addresses)
-      const addressResponseData = await this.fetchData({
-        provider: component.addresses.provider,
-        params: JSON.parse(component.addresses.params),
+    try {
+      let balanceProviderAddressParams = {}
+      //console.log('dskloetx fetchComponent 1 component', component)
+      if (component.addresses !== undefined && component.balances.addressArrayPath !== undefined) {
+        //console.log('dskloetx fetchComponent 2 component.address', component.addresses)
+        const addressResponseData = await this.fetchData({
+          context,
+          provider: component.addresses.provider,
+          params: JSON.parse(component.addresses.params),
+        })
+        //console.log('dskloetx fetchComponent 3 addressResponseData', addressResponseData)
+        const addressArray = objectPath.get(
+          addressResponseData,
+          component.addresses.addressArrayPath,
+        )
+        if (addressArray === undefined) {
+          throw new AdapterError({
+            statusCode: 500,
+            // TODO: Include short version of response.
+            message: `Address array not found at path ${component.addresses.addressArrayPath} in response from provider ${component.addresses.provider}`,
+          })
+        }
+        if (!Array.isArray(addressArray)) {
+          throw new AdapterError({
+            statusCode: 500,
+            message: `Expected an array of addresses at path ${
+              component.addresses.addressArrayPath
+            } in response from provider ${component.addresses.provider}. Found '${JSON.stringify(
+              addressArray,
+            )}'.`,
+          })
+        }
+        //console.log('dskloetx fetchComponent 4 addressArray', addressArray)
+        objectPath.set(
+          balanceProviderAddressParams,
+          component.balances.addressArrayPath,
+          addressArray,
+        )
+        /*
+        console.log(
+          'dskloetx fetchComponent 5 balanceProviderAddressParams',
+          balanceProviderAddressParams,
+        )
+        */
+      }
+
+      const balanceProviderParams = {
+        ...JSON.parse(component.balances.params),
+        ...balanceProviderAddressParams,
+      }
+      //console.log('dskloetx fetchComponent 6 balanceProviderParams', balanceProviderParams)
+
+      const responseData = await this.fetchData({
+        context,
+        provider: component.balances.provider,
+        params: balanceProviderParams,
       })
-      console.log('dskloetx fetchComponent 3 addressResponseData', addressResponseData)
-      const addressArray = objectPath.get(addressResponseData, component.addresses.addressArrayPath)
-      if (addressArray === undefined) {
+      //console.log('dskloet _fetchComponent 4 responseData', responseData)
+      const array: Record<string, unknown>[] =
+        component.reduce.arrayPath !== undefined
+          ? objectPath.get(responseData, component.reduce.arrayPath)
+          : [responseData]
+      //console.log('dskloet _fetchComponent 5 array', array)
+      const balances: FixedPoint[] = array.map((item) => {
+        return getFixedPointFromResult({
+          result: item,
+          amountPath: component.reduce.balancePath,
+          decimalsPath: component.reduce.decimalsPath,
+          defaultDecimals: resultDecimals,
+        })
+      })
+      //console.log('dskloet _fetchComponent 6 balances', balances)
+
+      const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
+        amount: 0n,
+        decimals: 0,
+      })
+
+      return {
+        name: component.name,
+        currency: component.currency,
+        totalBalance,
+        originalCurrency: component.currency,
+        totalBalanceInOriginalCurrency: totalBalance,
+        addressCount: component.reduce.arrayPath !== undefined ? balances.length : undefined,
+      }
+    } catch (error: unknown) {
+      if (error instanceof AdapterError) {
+        console.log('dskloetx error processing component', component.name, error)
+        const message = `Error processing component '${component.name}': ${error.message}`
         throw new AdapterError({
-          statusCode: 500,
-          // TODO: Include short version of response.
-          message: `Address array not found at path ${component.addresses.addressArrayPath} in response from provider ${component.addresses.provider}`,
+          statusCode: error.statusCode,
+          message,
         })
       }
-      if (!Array.isArray(addressArray)) {
-        throw new AdapterError({
-          statusCode: 500,
-          message: `Expected an array of addresses at path ${
-            component.addresses.addressArrayPath
-          } in response from provider ${component.addresses.provider}. Found '${JSON.stringify(
-            addressArray,
-          )}'.`,
-        })
-      }
-      console.log('dskloetx fetchComponent 4 addressArray', addressArray)
-      objectPath.set(
-        balanceProviderAddressParams,
-        component.balances.addressArrayPath,
-        addressArray,
-      )
-      console.log(
-        'dskloetx fetchComponent 5 balanceProviderAddressParams',
-        balanceProviderAddressParams,
-      )
-    }
-
-    const balanceProviderParams = {
-      ...JSON.parse(component.balances.params),
-      ...balanceProviderAddressParams,
-    }
-    console.log('dskloetx fetchComponent 6 balanceProviderParams', balanceProviderParams)
-
-    const responseData = await this.fetchData({
-      provider: component.balances.provider,
-      params: balanceProviderParams,
-    })
-    console.log('dskloet _fetchComponent 4 responseData', responseData)
-    const array: object[] =
-      component.reduce.arrayPath !== undefined
-        ? objectPath.get(responseData, component.reduce.arrayPath)
-        : [responseData]
-    console.log('dskloet _fetchComponent 5 array', array)
-    const balances: FixedPoint[] = array.map((item) => {
-      return getFixedPointFromResult({
-        result: item,
-        amountPath: component.reduce.balancePath,
-        decimalsPath: component.reduce.decimalsPath,
-        defaultDecimals: resultDecimals,
-      })
-    })
-    console.log('dskloet _fetchComponent 6 balances', balances)
-
-    const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
-      amount: 0n,
-      decimals: 0,
-    })
-
-    return {
-      name: component.name,
-      currency: component.currency,
-      totalBalance,
-      originalCurrency: component.currency,
-      totalBalanceInOriginalCurrency: totalBalance,
+      throw error
     }
   }
 
-  async fetchData({ provider, params }: { provider: string; params: object }): Promise<object> {
+  async fetchData({
+    context,
+    provider,
+    params,
+  }: {
+    context: EndpointContext<CustomTransportTypes>
+    provider: string
+    params: Record<string, unknown>
+  }): Promise<Record<string, unknown>> {
     const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
     const url = process.env[providerUrlEnvVarName]
     if (!url) {
@@ -353,8 +431,14 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       data: { data: params },
     }
     try {
-      const result = await this.requester.request(JSON.stringify(requestConfig), requestConfig)
-      return result.response.data as object
+      const requestKey = calculateHttpRequestKey({
+        context,
+        data: params,
+        transportName: this.name,
+      })
+      //const requestKey = JSON.stringify(requestConfig)
+      const result = await this.requester.request(requestKey, requestConfig)
+      return result.response.data as Record<string, unknown>
     } catch (error: unknown) {
       throw new AdapterError({
         statusCode: 502,
@@ -366,10 +450,12 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async fetchConversion(
+    context: EndpointContext<CustomTransportTypes>,
     conversion: ConversionParam,
     resultDecimals: number,
   ): Promise<ProcessedConversion> {
     const responseData = await this.fetchData({
+      context,
       provider: conversion.provider,
       params: JSON.parse(conversion.params),
     })

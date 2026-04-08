@@ -167,13 +167,20 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       result: string
+      resultAsNumber: number
       decimals: number
       components: {
         name: string
         currency: string
-        totalBalance: Balance
+        totalBalance: number
         originalCurrency?: string
         totalBalanceInOriginalCurrency?: Balance
+        addressCount?: number
+      }[]
+      conversionRates: {
+        from: string
+        to: string
+        rate: number
       }[]
     }
   }
