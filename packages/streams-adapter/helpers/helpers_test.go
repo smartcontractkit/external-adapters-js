@@ -59,22 +59,12 @@ func TestRequestParamsFromKey_CannotDeriveEndpoint(t *testing.T) {
 	require.Error(t, err)
 }
 
-func TestRequestParamsFromKey_ParamAliasesResolved(t *testing.T) {
-	initTestAdapter(t)
-
-	result, err := RequestParamsFromKey(`adapter-price-{"endpoint":"price","from":"eth","to":"usd"}`)
-	require.NoError(t, err)
-
-	// "from" -> "base", "to" -> "quote"
-	assertParam(t, result, "base", "ETH")
-	assertParam(t, result, "quote", "USD")
-}
-
 func TestRequestParamsFromKey_AliasIndexNotInitialized(t *testing.T) {
 	resetGlobals()
 
-	_, err := RequestParamsFromKey(`adapter-price-{"base":"eth"}`)
-	require.Error(t, err)
+	require.Panics(t, func() {
+		RequestParamsFromKey(`adapter-price-{"base":"eth"}`)
+	})
 }
 
 // ---------------------------------------------------------------------------

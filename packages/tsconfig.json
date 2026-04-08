@@ -9,6 +9,9 @@
       "path": "./composites/bsol-price"
     },
     {
+      "path": "./composites/calculated-price"
+    },
+    {
       "path": "./composites/crypto-volatility-index"
     },
     {
@@ -28,9 +31,6 @@
     },
     {
       "path": "./composites/implied-price"
-    },
-    {
-      "path": "./composites/implied-price-test"
     },
     {
       "path": "./composites/llama-guard"
@@ -490,6 +490,9 @@
     },
     {
       "path": "./sources/synthetix-feeds"
+    },
+    {
+      "path": "./sources/t-rize-proof-of-insurance"
     },
     {
       "path": "./sources/the-network-firm"

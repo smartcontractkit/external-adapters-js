@@ -8,15 +8,21 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 type DataEngineResponse = BaseEndpointTypes['Response']['Data']
 
 export const getPrice = async (
+  url: string,
+  requester: Requester,
   regularStreamId: string,
   extendedStreamId: string,
   overnightStreamId: string,
-  url: string,
-  requester: Requester,
+  overnightStreamMaxAgeInSeconds?: number,
 ) => {
-  const [regular, extended, overnight] = await Promise.all(
+  const [regular, extended, overnight] = await Promise.allSettled(
     [regularStreamId, extendedStreamId, overnightStreamId].map((streamId) =>
-      getDeutscheBoersePrice(streamId, url, requester),
+      getDeutscheBoersePrice(
+        streamId,
+        url,
+        requester,
+        streamId === overnightStreamId ? { maxAgeInSeconds: overnightStreamMaxAgeInSeconds } : {},
+      ),
     ),
   )
 
@@ -27,34 +33,49 @@ export const getPrice = async (
     spread: BigInt(stream.ask) - BigInt(stream.bid),
     decimals: stream.decimals,
     data: {
-      regular,
-      extended,
-      overnight,
+      regular: regular.status === 'fulfilled' ? regular.value : undefined,
+      extended: extended.status === 'fulfilled' ? extended.value : undefined,
+      overnight: overnight.status === 'fulfilled' ? overnight.value : undefined,
     },
   }
 }
 
 const getStream = (
-  regular: DataEngineResponse,
-  extended: DataEngineResponse,
-  overnight: DataEngineResponse,
+  regular: PromiseSettledResult<DataEngineResponse>,
+  extended: PromiseSettledResult<DataEngineResponse>,
+  overnight: PromiseSettledResult<DataEngineResponse>,
 ) => {
-  if (regular.marketStatus === TwentyfourFiveMarketStatus.REGULAR) {
-    return regular
-  } else if (
-    extended.marketStatus === TwentyfourFiveMarketStatus.POST_MARKET ||
-    extended.marketStatus === TwentyfourFiveMarketStatus.PRE_MARKET
+  if (
+    regular.status === 'fulfilled' &&
+    regular.value.marketStatus === TwentyfourFiveMarketStatus.REGULAR
   ) {
-    return extended
-  } else if (overnight.marketStatus === TwentyfourFiveMarketStatus.OVERNIGHT) {
-    return overnight
+    return regular.value
+  } else if (
+    extended.status === 'fulfilled' &&
+    (extended.value.marketStatus === TwentyfourFiveMarketStatus.POST_MARKET ||
+      extended.value.marketStatus === TwentyfourFiveMarketStatus.PRE_MARKET)
+  ) {
+    return extended.value
+  } else if (
+    overnight.status === 'fulfilled' &&
+    overnight.value.marketStatus === TwentyfourFiveMarketStatus.OVERNIGHT
+  ) {
+    return overnight.value
   } else {
     throw new AdapterError({
       statusCode: 503,
       message: `Market is not open: regular ${
-        TwentyfourFiveMarketStatus[regular.marketStatus]
-      }, extended ${TwentyfourFiveMarketStatus[extended.marketStatus]}, overnight ${
-        TwentyfourFiveMarketStatus[overnight.marketStatus]
+        regular.status === 'fulfilled'
+          ? ` ${TwentyfourFiveMarketStatus[regular.value.marketStatus]}`
+          : ` ${regular.reason}`
+      }, extended ${
+        extended.status === 'fulfilled'
+          ? ` ${TwentyfourFiveMarketStatus[extended.value.marketStatus]}`
+          : ` ${extended.reason}`
+      }, overnight ${
+        overnight.status === 'fulfilled'
+          ? ` ${TwentyfourFiveMarketStatus[overnight.value.marketStatus]}`
+          : ` ${overnight.reason}`
       }`,
     })
   }

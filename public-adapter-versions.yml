@@ -44,7 +44,7 @@ adapters:
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.147
+    version: 2.2.148
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -76,7 +76,7 @@ adapters:
   - name: coinmetrics-lwba
     version: 2.2.6
   - name: coinpaprika
-    version: 2.3.0
+    version: 2.4.0
   - name: coinpaprika-state
     version: 1.0.1
   - name: coinranking
@@ -84,13 +84,13 @@ adapters:
   - name: covid-tracker
     version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.43
+    version: 1.4.44
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
     version: 3.4.7
   - name: data-engine
-    version: 1.2.0
+    version: 1.3.0
   - name: deep-blue
     version: 1.0.20
   - name: deribit
@@ -144,15 +144,15 @@ adapters:
   - name: generic-api
     version: 1.2.0
   - name: glv-token
-    version: 2.0.4
+    version: 2.0.5
   - name: gm-token
     version: 1.3.1
   - name: gmci
     version: 1.0.3
   - name: gmx-tokens
-    version: 1.1.1
+    version: 1.1.2
   - name: gold
-    version: 1.2.1
+    version: 1.2.2
   - name: graphql
     version: 1.2.47
   - name: gsr
@@ -175,8 +175,6 @@ adapters:
     version: 1.0.16
   - name: implied-price
     version: 1.4.0
-  - name: implied-price-test
-    version: 1.0.0
   - name: instruxi-sxt
     version: 2.0.8
   - name: ion.au
@@ -266,13 +264,13 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.15
   - name: savax-price
-    version: 3.0.130
+    version: 3.0.131
   - name: secure-mint
     version: 1.0.7
   - name: securitize
     version: 1.0.2
   - name: set-token-index
-    version: 3.0.56
+    version: 3.0.57
   - name: snowflake
     version: 1.2.47
   - name: sochain
@@ -316,7 +314,7 @@ adapters:
   - name: token-balance
     version: 3.4.0
   - name: tokenized-equity
-    version: 1.0.1
+    version: 1.1.0
   - name: tp
     version: 1.10.0
   - name: tradermade
@@ -352,4 +350,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.129
+    version: 2.0.130
