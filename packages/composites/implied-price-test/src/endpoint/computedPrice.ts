@@ -30,6 +30,11 @@ export const inputParameters = new InputParameters(
       description: 'The minimum number of answers needed to return a value for the operand1',
       default: 1,
     },
+    operand1DecimalsField: {
+      required: false,
+      type: 'string',
+      description: 'The field path in operand1 response data containing the decimal scaling factor',
+    },
     operand2Sources: {
       required: true,
       type: 'string',
@@ -50,11 +55,21 @@ export const inputParameters = new InputParameters(
       description: 'The minimum number of answers needed to return a value for the operand2',
       default: 1,
     },
+    operand2DecimalsField: {
+      required: false,
+      type: 'string',
+      description: 'The field path in operand2 response data containing the decimal scaling factor',
+    },
     operation: {
       default: 'divide',
       type: 'string',
       description: 'The operation to perform on the operands',
       options: ['divide', 'multiply'],
+    },
+    outputDecimals: {
+      required: false,
+      type: 'number',
+      description: 'Decimal scaling of the result',
     },
   },
   [
@@ -75,6 +90,11 @@ export type BaseEndpointTypes = {
   Response: {
     Result: string
     Data: {
+      operand1Result: string
+      operand2Result: string
+      operand1Decimals?: number
+      operand2Decimals?: number
+      resultDecimals?: number
       result: string
     }
   }
@@ -94,16 +114,20 @@ export const endpoint = new AdapterEndpoint({
       operand2MinAnswers,
       operand1Input,
       operand2Input,
+      operand1DecimalsField,
+      operand2DecimalsField,
+      outputDecimals,
     } = req.requestContext.data
     validateSources(operand1Sources, operand1MinAnswers)
     validateSources(operand2Sources, operand2MinAnswers)
     validateInputPayload(operand1Input, 'operand1Input')
     validateInputPayload(operand2Input, 'operand2Input')
+    validateDecimalsFieldParams(outputDecimals, operand1DecimalsField, operand2DecimalsField)
     return
   },
 })
 
-const validateSources = (sources: string[], minAnswers: number) => {
+export const validateSources = (sources: string[], minAnswers: number) => {
   if (sources.length < minAnswers) {
     throw new AdapterInputError({
       statusCode: 400,
@@ -127,13 +151,29 @@ const validateSources = (sources: string[], minAnswers: number) => {
   return
 }
 
-const validateInputPayload = (input: string, inputName: string) => {
+export const validateInputPayload = (input: string, inputName: string) => {
   try {
     return JSON.parse(input)
   } catch (e) {
     throw new AdapterInputError({
       statusCode: 400,
       message: `Input payload for "${inputName}" is not valid JSON.`,
+    })
+  }
+}
+
+export const validateDecimalsFieldParams = (
+  outputDecimals: number | undefined,
+  operand1DecimalsField: string | number | undefined,
+  operand2DecimalsField: string | number | undefined,
+  errorMessage = 'Decimals fields should be all set or all unset',
+) => {
+  const fields = [outputDecimals, operand1DecimalsField, operand2DecimalsField]
+  const definedFields = new Set(fields.map((f) => f !== undefined))
+  if (definedFields.size !== 1) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: errorMessage,
     })
   }
 }
