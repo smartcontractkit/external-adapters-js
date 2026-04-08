@@ -70,6 +70,7 @@ type Server struct {
 	httpClient          *http.Client
 	subscriptionTracker sync.Map
 	metrics             *appMetrics.Metrics
+	metricsForwarder    *appMetrics.Forwarder
 	keyMapper           *helpers.KeyMapper
 	ctx                 context.Context
 	cancel              context.CancelFunc
@@ -120,16 +121,20 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 		},
 	}
 
+	jsMetricsURL := fmt.Sprintf("http://%s:%s/metrics", cfg.EAHost, cfg.EAMetricsPort)
+	metricsForwarder := appMetrics.NewForwarder(jsMetricsURL)
+
 	server := &Server{
-		config:     cfg,
-		cache:      cache,
-		logger:     logger.With("component", "server"),
-		router:     router,
-		httpClient: httpClient,
-		metrics:    metrics,
-		keyMapper:  keyMapper,
-		ctx:        ctx,
-		cancel:     cancel,
+		config:           cfg,
+		cache:            cache,
+		logger:           logger.With("component", "server"),
+		router:           router,
+		httpClient:       httpClient,
+		metrics:          metrics,
+		metricsForwarder: metricsForwarder,
+		keyMapper:        keyMapper,
+		ctx:              ctx,
+		cancel:           cancel,
 	}
 
 	server.setupRoutes()
@@ -149,9 +154,12 @@ func (s *Server) setupRoutes() {
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
-	// Start a separate HTTP server for Prometheus metrics on port 9080
+	// Start a separate HTTP server for Prometheus metrics on port 9080.
+	// The combined gatherer merges Go-native metrics with forwarded JS
+	// adapter metrics (excluding families already tracked in Go).
+	gatherer := appMetrics.NewCombinedGatherer(s.metricsForwarder, s.logger)
 	metricsMux := http.NewServeMux()
-	metricsMux.Handle("/metrics", promhttp.Handler())
+	metricsMux.Handle("/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 
 	s.metricsServer = &http.Server{
 		Addr:    ":" + s.config.GoMetricsPort,

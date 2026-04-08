@@ -13,6 +13,7 @@ type Config struct {
 	EAHost        string
 	RedconPort    string
 	GoMetricsPort string
+	EAMetricsPort string
 
 	// Cache configuration
 	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
@@ -37,6 +38,7 @@ func Load() *Config {
 		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
 		RedconPort:    getEnv("REDCON_PORT", "6379"),
 		GoMetricsPort: getEnv("METRICS_PORT", "9080"),
+		EAMetricsPort: getEnv("EA_METRICS_PORT", "9081"),
 
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
