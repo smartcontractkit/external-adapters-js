@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -23,9 +23,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                     Options                                                      |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [rwa-v8](#rwa-v8-endpoint) | `crypto-v3` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                    Options                                                                                                     |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint) | `crypto-v3` |
 
 ## Crypto-v3 Endpoint
 
@@ -33,11 +33,12 @@ There are no rate limits for this adapter.
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
-|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
-|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
+| Required? |      Name       | Aliases |                                                                             Description                                                                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     feedId      |         |                                                                     The feed ID to subscribe to                                                                      | string |         |         |            |                |
+|           |   resultPath    |         |                                                           The data field to populate the top-level result                                                            | string |         |         |            |                |
+|           |    decimals     |         |                                                 Number of decimals to scale the resultPath value to (from native 18)                                                 | number |         |         |            |                |
+|           | maxAgeInSeconds |         | Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age. | number |         |         |            |                |
 
 ### Example
 
@@ -60,11 +61,12 @@ Request:
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
-|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
-|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
+| Required? |      Name       | Aliases |                                                                             Description                                                                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     feedId      |         |                                                                     The feed ID to subscribe to                                                                      | string |         |         |            |                |
+|           |   resultPath    |         |                                                           The data field to populate the top-level result                                                            | string |         |         |            |                |
+|           |    decimals     |         |                                                 Number of decimals to scale the resultPath value to (from native 18)                                                 | number |         |         |            |                |
+|           | maxAgeInSeconds |         | Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age. | number |         |         |            |                |
 
 ### Example
 
@@ -87,11 +89,12 @@ Request:
 
 ### Input Params
 
-| Required? |    Name    | Aliases |                             Description                              |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------: | :-----: | :------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |   feedId   |         |                     The feed ID to subscribe to                      | string |         |         |            |                |
-|           | resultPath |         |           The data field to populate the top-level result            | string |         |         |            |                |
-|           |  decimals  |         | Number of decimals to scale the resultPath value to (from native 18) | number |         |         |            |                |
+| Required? |      Name       | Aliases |                                                                             Description                                                                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     feedId      |         |                                                                     The feed ID to subscribe to                                                                      | string |         |         |            |                |
+|           |   resultPath    |         |                                                           The data field to populate the top-level result                                                            | string |         |         |            |                |
+|           |    decimals     |         |                                                 Number of decimals to scale the resultPath value to (from native 18)                                                 | number |         |         |            |                |
+|           | maxAgeInSeconds |         | Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age. | number |         |         |            |                |
 
 ### Example
 
@@ -102,6 +105,35 @@ Request:
   "data": {
     "endpoint": "deutscheboerse-v11",
     "feedId": "0x0008707410e2c111fb0e80cab2fa004b215eea2d95b106e700243f9ebcc8fbd9"
+  }
+}
+```
+
+---
+
+## Exchangerate-v7 Endpoint
+
+Supported names for this endpoint are: `exchangerate-v7`, `redemptionrate-v7`.
+
+### Input Params
+
+| Required? |      Name       | Aliases |                                                                             Description                                                                              |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-------------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     feedId      |         |                                                                     The feed ID to subscribe to                                                                      | string |         |         |            |                |
+|           |   resultPath    |         |                                                           The data field to populate the top-level result                                                            | string |         |         |            |                |
+|           |    decimals     |         |                                                 Number of decimals to scale the resultPath value to (from native 18)                                                 | number |         |         |            |                |
+|           | maxAgeInSeconds |         | Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age. | number |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "exchangerate-v7",
+    "feedId": "0x00070f4b71834a1b005b6c0f0ef3e3a2928aceaa51a1099f834e340e37ab498d",
+    "decimals": 0
   }
 }
 ```

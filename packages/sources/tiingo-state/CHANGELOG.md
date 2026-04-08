@@ -1,5 +1,11 @@
 # @chainlink/tiingo-state-adapter
 
+## 0.2.4
+
+### Patch Changes
+
+- [#4778](https://github.com/smartcontractkit/external-adapters-js/pull/4778) [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439) Thanks [@guandali](https://github.com/guandali)! - fix tiingo casing issue
+
 ## 0.2.3
 
 ### Patch Changes

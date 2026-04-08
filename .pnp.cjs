@@ -679,6 +679,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-feeds"\
     },\
     {\
+      "name": "@chainlink/t-rize-proof-of-insurance-adapter",\
+      "reference": "workspace:packages/sources/t-rize-proof-of-insurance"\
+    },\
+    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -942,6 +946,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
@@ -5073,7 +5078,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital-state/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7854,6 +7859,21 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", [\
+      ["workspace:packages/sources/t-rize-proof-of-insurance", {\
+        "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
+        "packageDependencies": [\
+          ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/the-graph-adapter", [\
       ["workspace:packages/composites/the-graph", {\
         "packageLocation": "./packages/composites/the-graph/",\
@@ -7926,7 +7946,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/tiingo-state/",\
         "packageDependencies": [\
           ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

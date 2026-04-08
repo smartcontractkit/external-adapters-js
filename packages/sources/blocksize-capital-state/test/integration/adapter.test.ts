@@ -90,5 +90,16 @@ describe('websocket', () => {
         expect(response.statusCode).toBe(200)
       }
     })
+
+    it('should normalize mixed-case base and quote params', async () => {
+      const response = await testAdapter.request({
+        base: 'CbBtC',
+        quote: 'uSd',
+        endpoint: 'state',
+      })
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
