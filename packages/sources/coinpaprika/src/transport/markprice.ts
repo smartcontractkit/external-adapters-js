@@ -107,8 +107,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
                 bid: Number(message.data.bid_price),
                 ask: Number(message.data.ask_price),
               },
+              timestamps,
             },
-            timestamps,
           },
         ]
       }
