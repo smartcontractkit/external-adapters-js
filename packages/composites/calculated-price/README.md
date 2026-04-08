@@ -1,117 +1,75 @@
-# Chainlink Calculated-price Composite Adapter
+# CALCULATED_PRICE
 
-An adapter that fetches the median value from any two sets of underlying adapters, and divides or multiplied the results from each set together.
+![1.0.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/calculated-price/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
-## Configuration
+This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-The adapter takes the following environment variables:
+## Generic Environment Variables
+
+The adapter takes the following environment variables to connect to its underlying source adapters:
 
 | Required? |          Name          |                 Description                 | Options | Defaults to |
 | :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
 |           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
 
-## Running
+## Environment Variables
 
-See the [Composite Adapter README](../README.md) for more information on how to get started.
+| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
-### computedPrice endpoint
+---
 
-#### Input Params
+## Data Provider Rate Limits
 
-| Required? |         Name         |                                               Description                                               |         Options          | Defaults to |
-| :-------: | :------------------: | :-----------------------------------------------------------------------------------------------------: | :----------------------: | :---------: |
-|    ✅     |  `operand1Sources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the operand1 value |                          |             |
-|           | `operand1MinAnswers` |                 The minimum number of answers needed to return a value for the operand1                 |                          |     `1`     |
-|    ✅     |   `operand1Input`    |                               The payload to send to the operand1 sources                               |                          |             |
-|    ✅     |  `operand2Sources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the operand2 value |                          |             |
-|           | `operand2MinAnswers` |                 The minimum number of answers needed to return a value for the operand2                 |                          |     `1`     |
-|    ✅     |   `operand2Input`    |                               The payload to send to the operand2 sources                               |                          |             |
-|    ✅     |     `operation`      |                               The payload to send to the operand2 sources                               | `"divide"`, `"multiply"` | `"divide"`  |
+There are no rate limits for this adapter.
 
-Each source in `sources` needs to have a defined `*_ADAPTER_URL` defined as an env var.
+---
 
-_E.g. for a request with `"operand1Sources": ["coingecko", "coinpaprika"]`, you will need to have pre-set the following env vars:_
+## Input Parameters
 
-```
-COINGECKO_ADAPTER_URL=https://coingecko_adapter_url/
-COINPAPRIKA_ADAPTER_URL=https://coinpaprika_adapter_url/
-```
+| Required? |   Name   |     Description     |  Type  |                                      Options                                      |     Default     |
+| :-------: | :------: | :-----------------: | :----: | :-------------------------------------------------------------------------------: | :-------------: |
+|           | endpoint | The endpoint to use | string | [computedprice](#computedprice-endpoint), [impliedprice](#computedprice-endpoint) | `computedprice` |
 
-#### Sample Input
+## Computedprice Endpoint
+
+Supported names for this endpoint are: `computedprice`, `impliedprice`.
+
+### Input Params
+
+| Required? |         Name          |       Aliases        |                                  Description                                   |   Type   |       Options        | Default  | Depends On | Not Valid With |
+| :-------: | :-------------------: | :------------------: | :----------------------------------------------------------------------------: | :------: | :------------------: | :------: | :--------: | :------------: |
+|    ✅     |    operand1Sources    |  `dividendSources`   |          An array of source adapters to query for the operand1 value           | string[] |                      |          |            |                |
+|    ✅     |     operand1Input     |   `dividendInput`    |                The JSON payload to send to the operand1 sources                |  string  |                      |          |            |                |
+|           |  operand1MinAnswers   | `dividendMinAnswers` |    The minimum number of answers needed to return a value for the operand1     |  number  |                      |   `1`    |            |                |
+|           | operand1DecimalsField |                      | The field path in operand1 response data containing the decimal scaling factor |  string  |                      |          |            |                |
+|    ✅     |    operand2Sources    |   `divisorSources`   |          An array of source adapters to query for the operand2 value           | string[] |                      |          |            |                |
+|    ✅     |     operand2Input     |    `divisorInput`    |                The JSON payload to send to the operand2 sources                |  string  |                      |          |            |                |
+|           |  operand2MinAnswers   | `divisorMinAnswers`  |    The minimum number of answers needed to return a value for the operand2     |  number  |                      |   `1`    |            |                |
+|           | operand2DecimalsField |                      | The field path in operand2 response data containing the decimal scaling factor |  string  |                      |          |            |                |
+|           |       operation       |                      |                    The operation to perform on the operands                    |  string  | `divide`, `multiply` | `divide` |            |                |
+|           |    outputDecimals     |                      |                         Decimal scaling of the result                          |  number  |                      |          |            |                |
+
+### Example
+
+Request:
 
 ```json
 {
-  "id": "1",
   "data": {
+    "endpoint": "computedprice",
     "operand1Sources": ["coingecko"],
+    "operand1MinAnswers": 1,
+    "operand1Input": "{\"from\":\"LINK\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"LINK\":\"chainlink\"}}}",
     "operand2Sources": ["coingecko"],
-    "operand1Input": "{\"from\": \"LINK\", \"to\": \"USD\",\"overrides\": {\"coingecko\": { \"LINK\": \"chainlink\"}}}",
-    "operand2Input": "{\"from\": \"ETH\",\"to\": \"USD\",\"overrides\": {\"coingecko\": {\"ETH\": \"ethereum\"}}}",
-    "operation": "divide"
+    "operand2MinAnswers": 1,
+    "operand2Input": "{\"from\":\"ETH\",\"to\":\"USD\",\"overrides\":{\"coingecko\":{\"ETH\":\"ethereum\"}}}",
+    "operation": "multiply"
   }
 }
 ```
 
-#### Sample Output
+---
 
-```json
-{
-  "jobRunID": "1",
-  "result": "0.005204390891874140333",
-  "statusCode": 200,
-  "data": {
-    "result": "0.005204390891874140333"
-  }
-}
-```
-
-### impliedPrice endpoint
-
-`impliedPrice` is just an alias of `computedPrice` endpoint for backwards compatibility.
-
-#### Input Params
-
-| Required? |         Name         |                                               Description                                               | Options | Defaults to |
-| :-------: | :------------------: | :-----------------------------------------------------------------------------------------------------: | :-----: | :---------: |
-|    ✅     |  `dividendSources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the dividend value |         |             |
-|           | `dividendMinAnswers` |                 The minimum number of answers needed to return a value for the dividend                 |         |     `1`     |
-|    ✅     |   `dividendInput`    |                               The payload to send to the dividend sources                               |         |             |
-|    ✅     |   `divisorSources`   | An array (string[]) or comma delimited list (string) of source adapters to query for the divisor value  |         |             |
-|           | `divisorMinAnswers`  |                 The minimum number of answers needed to return a value for the divisor                  |         |     `1`     |
-|    ✅     |    `divisorInput`    |                               The payload to send to the divisor sources                                |         |             |
-
-Each source in `sources` needs to have a defined `*_ADAPTER_URL` defined as an env var.
-
-_E.g. for a request with `"dividendSources": ["coingecko", "coinpaprika"]`, you will need to have pre-set the following env vars:_
-
-```
-COINGECKO_ADAPTER_URL=https://coingecko_adapter_url/
-COINPAPRIKA_ADAPTER_URL=https://coinpaprika_adapter_url/
-```
-
-#### Sample Input
-
-```json
-{
-  "id": "1",
-  "data": {
-    "dividendSources": ["coingecko"],
-    "divisorSources": ["coingecko"],
-    "dividendInput": "{\"from\": \"LINK\", \"to\": \"USD\",\"overrides\": {\"coingecko\": { \"LINK\": \"chainlink\"}}}",,
-    "divisorInput": "{\"from\": \"ETH\",\"to\": \"USD\",\"overrides\": {\"coingecko\": {\"ETH\": \"ethereum\"}}}",
-  }
-}
-```
-
-#### Sample Output
-
-```json
-{
-  "jobRunID": "1",
-  "result": "0.005204390891874140333",
-  "statusCode": 200,
-  "data": {
-    "result": "0.005204390891874140333"
-  }
-}
-```
+MIT License
