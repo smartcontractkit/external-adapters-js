@@ -156,6 +156,11 @@ export const inputParameters = new InputParameters(
   [],
 )
 
+type Balance = {
+  amount: string
+  decimals: number
+}
+
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
@@ -163,6 +168,13 @@ export type BaseEndpointTypes = {
     Data: {
       result: string
       decimals: number
+      components: {
+        name: string
+        currency: string
+        totalBalance: Balance
+        originalCurrency?: string
+        totalBalanceInOriginalCurrency?: Balance
+      }[]
     }
   }
   Settings: typeof config.settings

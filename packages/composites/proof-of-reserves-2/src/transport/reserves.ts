@@ -5,7 +5,7 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import Decimal from 'decimal.js'
+//import Decimal from 'decimal.js'
 import objectPath from 'object-path'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/reserves'
 
@@ -18,16 +18,16 @@ type FixedPoint = {
   decimals: number
 }
 
-type NumberType = FixedPoint | Decimal
+type NumberType = FixedPoint | number
 
 const isFixedPoint = (num: NumberType): num is FixedPoint => {
-  return 'amount' in num && 'decimals' in num
+  return typeof num !== 'number' && 'amount' in num && 'decimals' in num
 }
 
 const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint => {
   if (!isFixedPoint(num)) {
     return {
-      amount: BigInt(new Decimal(num).mul(10n ** BigInt(decimals)).toFixed(0)),
+      amount: BigInt(num * 10 ** decimals),
       decimals,
     }
   }
@@ -42,59 +42,45 @@ const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint
   }
 }
 
-const toDecimal = (num: NumberType): Decimal => {
-  if (!isFixedPoint(num)) {
-    return num
+const add = (a: FixedPoint, b: FixedPoint): FixedPoint => {
+  let resultDecimals = Math.max(a.decimals, b.decimals)
+  a = toFixedPointWithDecimals(a, resultDecimals)
+  b = toFixedPointWithDecimals(b, resultDecimals)
+  return {
+    amount: a.amount + b.amount,
+    decimals: resultDecimals,
   }
-  return new Decimal(num.amount.toString()).div(new Decimal(10).pow(num.decimals))
 }
 
-const add = (a: NumberType, b: NumberType): NumberType => {
-  if (isFixedPoint(a) && isFixedPoint(b)) {
-    let resultDecimals = Math.max(a.decimals, b.decimals)
-    a = toFixedPointWithDecimals(a, resultDecimals)
-    b = toFixedPointWithDecimals(b, resultDecimals)
-    return {
-      amount: a.amount + b.amount,
-      decimals: resultDecimals,
-    }
+const multiply = (a: FixedPoint, b: FixedPoint): FixedPoint => {
+  const decimals = Math.max(a.decimals, b.decimals)
+  const amount = (a.amount * b.amount) / 10n ** BigInt(a.decimals + b.decimals - decimals)
+  return {
+    amount,
+    decimals,
   }
-  return toDecimal(a).add(toDecimal(b))
 }
 
-const multiply = (a: NumberType, b: NumberType): NumberType => {
-  if (isFixedPoint(a) && isFixedPoint(b)) {
-    const decimals = Math.max(a.decimals, b.decimals)
-    const amount = (a.amount * b.amount) / 10n ** BigInt(a.decimals + b.decimals - decimals)
-    return {
-      amount,
-      decimals,
-    }
+const divide = (a: FixedPoint, b: FixedPoint): FixedPoint => {
+  const decimals = Math.max(a.decimals, b.decimals)
+  const amount = (a.amount * 10n ** BigInt(decimals + b.decimals - a.decimals)) / b.amount
+  return {
+    amount,
+    decimals,
   }
-  return toDecimal(a).mul(toDecimal(b))
 }
 
-const divide = (a: NumberType, b: NumberType): NumberType => {
-  if (isFixedPoint(a) && isFixedPoint(b)) {
-    const decimals = Math.max(a.decimals, b.decimals)
-    const amount = (a.amount * 10n ** BigInt(decimals + b.decimals - a.decimals)) / b.amount
-    return {
-      amount,
-      decimals,
-    }
-  }
-  return toDecimal(a).div(toDecimal(b))
-}
-
-const getNumberFromResult = ({
+const getFixedPointFromResult = ({
   result,
   amountPath,
   decimalsPath,
+  defaultDecimals,
 }: {
   result: object
   amountPath: string
   decimalsPath: string | undefined
-}): NumberType => {
+  defaultDecimals: number
+}): FixedPoint => {
   const amount: number | string = objectPath.get(result, amountPath)
   if (decimalsPath) {
     const decimals: number | string = objectPath.get(result, decimalsPath)
@@ -103,7 +89,7 @@ const getNumberFromResult = ({
       decimals: Number(decimals),
     }
   }
-  return new Decimal(amount)
+  return toFixedPointWithDecimals(Number(amount), defaultDecimals)
 }
 
 type ComponentParam = RequestParams['components'][number]
@@ -112,13 +98,15 @@ type ConversionParam = RequestParams['conversions'][number]
 type ProcessedComponent = {
   name: string
   currency: string
-  totalBalance: NumberType
+  totalBalance: FixedPoint
+  originalCurrency: string
+  totalBalanceInOriginalCurrency: FixedPoint
 }
 
 type ProcessedConversion = {
   from: string
   to: string
-  rate: NumberType
+  rate: FixedPoint
   operation: 'multiply' | 'divide'
 }
 
@@ -176,9 +164,14 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     const providerDataRequestedUnixMs = Date.now()
 
     console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
+    const resultDecimals = params.resultDecimals
     const [components, conversions] = await Promise.all([
-      Promise.all(params.components.map((component) => this.fetchComponent(component))),
-      Promise.all(params.conversions.map((conversion) => this.fetchConversion(conversion))),
+      Promise.all(
+        params.components.map((component) => this.fetchComponent(component, resultDecimals)),
+      ),
+      Promise.all(
+        params.conversions.map((conversion) => this.fetchConversion(conversion, resultDecimals)),
+      ),
     ])
 
     console.log('dskloetx _handleRequest components', components)
@@ -189,7 +182,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       name: component.name,
       originalCurrency: component.currency,
       totalBalanceInOriginalCurrency: {
-        amount: component.totalBalance.amount.toString()
+        amount: component.totalBalance.amount.toString(),
         decimals: compnent.totalBalance.decimals,
       },
     }))
@@ -213,12 +206,31 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       }
     }
 
+    const componentsForResponse = components.map((component) => {
+      const componentForResponse: BaseEndpointTypes['Response']['Data']['components'][number] = {
+        name: component.name,
+        currency: component.currency,
+        totalBalance: {
+          amount: component.totalBalance.amount.toString(),
+          decimals: component.totalBalance.decimals,
+        },
+      }
+      if (component.originalCurrency !== component.currency) {
+        componentForResponse.originalCurrency = component.originalCurrency
+        componentForResponse.totalBalanceInOriginalCurrency = {
+          amount: component.totalBalanceInOriginalCurrency.amount.toString(),
+          decimals: component.totalBalanceInOriginalCurrency.decimals,
+        }
+      }
+      return componentForResponse
+    })
+
     console.log('dskloetx _handleRequest components after conversion', components)
 
     let totalReserves = components.reduce((acc, component) => add(acc, component.totalBalance), {
       amount: 0n,
       decimals: 0,
-    } as NumberType)
+    } as FixedPoint)
 
     if (!isFixedPoint(totalReserves)) {
       totalReserves = toFixedPointWithDecimals(totalReserves, params.resultDecimals)
@@ -231,6 +243,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       data: {
         result,
         decimals,
+        components: componentsForResponse,
       },
       statusCode: 200,
       result,
@@ -242,7 +255,10 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }
   }
 
-  async fetchComponent(component: ComponentParam): Promise<ProcessedComponent> {
+  async fetchComponent(
+    component: ComponentParam,
+    resultDecimals: number,
+  ): Promise<ProcessedComponent> {
     let balanceProviderAddressParams = {}
     console.log('dskloetx fetchComponent 1 component', component)
     if (component.addresses !== undefined && component.balances.addressArrayPath !== undefined) {
@@ -298,22 +314,27 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         ? objectPath.get(responseData, component.reduce.arrayPath)
         : [responseData]
     console.log('dskloet _fetchComponent 5 array', array)
-    const balances: NumberType[] = array.map((item) => {
-      return getNumberFromResult({
+    const balances: FixedPoint[] = array.map((item) => {
+      return getFixedPointFromResult({
         result: item,
         amountPath: component.reduce.balancePath,
         decimalsPath: component.reduce.decimalsPath,
+        defaultDecimals: resultDecimals,
       })
     })
     console.log('dskloet _fetchComponent 6 balances', balances)
 
+    const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
+      amount: 0n,
+      decimals: 0,
+    })
+
     return {
       name: component.name,
       currency: component.currency,
-      totalBalance: balances.reduce((acc, balance) => add(acc, balance), {
-        amount: 0n,
-        decimals: 0,
-      }),
+      totalBalance,
+      originalCurrency: component.currency,
+      totalBalanceInOriginalCurrency: totalBalance,
     }
   }
 
@@ -344,15 +365,19 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }
   }
 
-  async fetchConversion(conversion: ConversionParam): Promise<ProcessedConversion> {
+  async fetchConversion(
+    conversion: ConversionParam,
+    resultDecimals: number,
+  ): Promise<ProcessedConversion> {
     const responseData = await this.fetchData({
       provider: conversion.provider,
       params: JSON.parse(conversion.params),
     })
-    const rate = getNumberFromResult({
+    const rate = getFixedPointFromResult({
       result: responseData,
       amountPath: conversion.ratePath,
       decimalsPath: conversion.decimalsPath,
+      defaultDecimals: resultDecimals,
     })
 
     return {
