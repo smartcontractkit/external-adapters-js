@@ -40,6 +40,12 @@ export const inputParameters = new InputParameters(
               type: 'string',
               required: true,
             },
+            addressArrayPath: {
+              description:
+                'The object path to find the array of addresses in the result from the provider.',
+              type: 'string',
+              required: true,
+            },
           },
         },
         balances: {
@@ -58,6 +64,12 @@ export const inputParameters = new InputParameters(
               type: 'string',
               required: true,
             },
+            addressArrayPath: {
+              description:
+                'The object path to place the array of addresses in the request to the balances provider.',
+              type: 'string',
+              required: false,
+            },
           },
         },
         reduce: {
@@ -67,9 +79,9 @@ export const inputParameters = new InputParameters(
           type: {
             arrayPath: {
               description:
-                'The object path to find the array of balances in the result from the balances provider',
+                'The object path to find the array of balances in the result from the balances provider. If absent, it means a single balance is returned and pointed to by the balancePath.',
               type: 'string',
-              required: true,
+              required: false,
             },
             balancePath: {
               description: 'The object path to find the balance in an array item',
@@ -78,9 +90,9 @@ export const inputParameters = new InputParameters(
             },
             decimalsPath: {
               description:
-                'The object path to find the number of decimals to scale the fixed point balance in an array item.',
+                'The object path to find the number of decimals to scale the fixed point balance in an array item. If absent, the balance is considered to be an unscaled floating point number.',
               type: 'string',
-              required: true,
+              required: false,
             },
           },
         },

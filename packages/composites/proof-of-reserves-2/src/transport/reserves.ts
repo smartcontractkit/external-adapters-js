@@ -184,6 +184,17 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     console.log('dskloetx _handleRequest components', components)
     console.log('dskloetx _handleRequest conversions', conversions)
 
+    /*
+    const componentsForResponse = components.map((component) => ({
+      name: component.name,
+      originalCurrency: component.currency,
+      totalBalanceInOriginalCurrency: {
+        amount: component.totalBalance.amount.toString()
+        decimals: compnent.totalBalance.decimals,
+      },
+    }))
+    */
+
     for (const conversion of conversions) {
       for (const component of components) {
         if (component.currency === conversion.from) {
@@ -232,12 +243,60 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async fetchComponent(component: ComponentParam): Promise<ProcessedComponent> {
+    let balanceProviderAddressParams = {}
+    console.log('dskloetx fetchComponent 1 component', component)
+    if (component.addresses !== undefined && component.balances.addressArrayPath !== undefined) {
+      console.log('dskloetx fetchComponent 2 component.address', component.addresses)
+      const addressResponseData = await this.fetchData({
+        provider: component.addresses.provider,
+        params: JSON.parse(component.addresses.params),
+      })
+      console.log('dskloetx fetchComponent 3 addressResponseData', addressResponseData)
+      const addressArray = objectPath.get(addressResponseData, component.addresses.addressArrayPath)
+      if (addressArray === undefined) {
+        throw new AdapterError({
+          statusCode: 500,
+          // TODO: Include short version of response.
+          message: `Address array not found at path ${component.addresses.addressArrayPath} in response from provider ${component.addresses.provider}`,
+        })
+      }
+      if (!Array.isArray(addressArray)) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Expected an array of addresses at path ${
+            component.addresses.addressArrayPath
+          } in response from provider ${component.addresses.provider}. Found '${JSON.stringify(
+            addressArray,
+          )}'.`,
+        })
+      }
+      console.log('dskloetx fetchComponent 4 addressArray', addressArray)
+      objectPath.set(
+        balanceProviderAddressParams,
+        component.balances.addressArrayPath,
+        addressArray,
+      )
+      console.log(
+        'dskloetx fetchComponent 5 balanceProviderAddressParams',
+        balanceProviderAddressParams,
+      )
+    }
+
+    const balanceProviderParams = {
+      ...JSON.parse(component.balances.params),
+      ...balanceProviderAddressParams,
+    }
+    console.log('dskloetx fetchComponent 6 balanceProviderParams', balanceProviderParams)
+
     const responseData = await this.fetchData({
       provider: component.balances.provider,
-      params: JSON.parse(component.balances.params),
+      params: balanceProviderParams,
     })
     console.log('dskloet _fetchComponent 4 responseData', responseData)
-    const array: object[] = objectPath.get(responseData, component.reduce.arrayPath)
+    const array: object[] =
+      component.reduce.arrayPath !== undefined
+        ? objectPath.get(responseData, component.reduce.arrayPath)
+        : [responseData]
     console.log('dskloet _fetchComponent 5 array', array)
     const balances: NumberType[] = array.map((item) => {
       return getNumberFromResult({
