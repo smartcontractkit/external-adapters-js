@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.4.0
+
+### Minor Changes
+
+- [#4808](https://github.com/smartcontractkit/external-adapters-js/pull/4808) [`881c41a`](https://github.com/smartcontractkit/external-adapters-js/commit/881c41afa105c99e59273e727d919941578d81af) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix timestamp missing from response bug
+
 ## 2.3.0
 
 ### Minor Changes

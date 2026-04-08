@@ -44,7 +44,7 @@ adapters:
   - name: bob
     version: 2.0.30
   - name: bsol-price
-    version: 2.2.146
+    version: 2.2.148
   - name: btc.com
     version: 1.3.48
   - name: cache.gold
@@ -76,7 +76,7 @@ adapters:
   - name: coinmetrics-lwba
     version: 2.2.6
   - name: coinpaprika
-    version: 2.3.0
+    version: 2.4.0
   - name: coinpaprika-state
     version: 1.0.1
   - name: coinranking
@@ -84,7 +84,7 @@ adapters:
   - name: covid-tracker
     version: 1.4.40
   - name: crypto-volatility-index
-    version: 1.4.42
+    version: 1.4.44
   - name: cryptoapis
     version: 1.2.48
   - name: cryptocompare
@@ -266,13 +266,13 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.15
   - name: savax-price
-    version: 3.0.129
+    version: 3.0.131
   - name: secure-mint
     version: 1.0.7
   - name: securitize
     version: 1.0.2
   - name: set-token-index
-    version: 3.0.55
+    version: 3.0.57
   - name: snowflake
     version: 1.2.48
   - name: sochain
@@ -352,4 +352,4 @@ adapters:
   - name: wrapped
     version: 2.2.48
   - name: xsushi-price
-    version: 2.0.128
+    version: 2.0.130
