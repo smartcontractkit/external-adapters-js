@@ -174,9 +174,9 @@ exports[`execute computePrice endpoint should return success for legacy division
   "data": {
     "operand1Result": "20",
     "operand2Result": "7.5",
-    "result": "2.6666666666666666666666666666666666666666666666667",
+    "result": "2.6666666666666666667",
   },
-  "result": "2.6666666666666666666666666666666666666666666666667",
+  "result": "2.6666666666666666667",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
