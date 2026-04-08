@@ -136,6 +136,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [swell-address-list](./swell-address-list/README.md)
 - [synthetix-debt-pool](./synthetix-debt-pool/README.md)
 - [synthetix-feeds](./synthetix-feeds/README.md)
+- [t-rize-proof-of-insurance](./t-rize-proof-of-insurance/README.md)
 - [the-network-firm](./the-network-firm/README.md)
 - [therundown](./therundown/README.md)
 - [tiingo](./tiingo/README.md)
