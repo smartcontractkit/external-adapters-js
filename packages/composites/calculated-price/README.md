@@ -1,4 +1,4 @@
-# Chainlink Implied-price-test Composite Adapter
+# Chainlink Calculated-price Composite Adapter
 
 An adapter that fetches the median value from any two sets of underlying adapters, and divides or multiplied the results from each set together.
 

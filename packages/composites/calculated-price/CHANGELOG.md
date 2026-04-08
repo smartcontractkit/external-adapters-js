@@ -1,4 +1,4 @@
-# @chainlink/implied-price-test-adapter
+# @chainlink/calculated-price-adapter
 
 ## 1.0.0
 
