@@ -70,27 +70,21 @@ export const inputParameters = new InputParameters(
               type: 'string',
               required: false,
             },
-          },
-        },
-        reduce: {
-          description:
-            'Describes how to get the total balance of the component from the result of the balances provider.',
-          required: true,
-          type: {
-            arrayPath: {
+            balancesArrayPath: {
               description:
                 'The object path to find the array of balances in the result from the balances provider. If absent, it means a single balance is returned and pointed to by the balancePath.',
               type: 'string',
               required: false,
             },
             balancePath: {
-              description: 'The object path to find the balance in an array item',
+              description:
+                'The object path to find the balance in an array item or directly in the balance provider response',
               type: 'string',
               required: true,
             },
             decimalsPath: {
               description:
-                'The object path to find the number of decimals to scale the fixed point balance in an array item. If absent, the balance is considered to be an unscaled floating point number.',
+                'The object path to find the number of decimals to scale the fixed point balance in an array item (or directly in the balance provider response). If absent, the balance is considered to be an unscaled floating point number.',
               type: 'string',
               required: false,
             },

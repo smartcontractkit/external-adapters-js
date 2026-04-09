@@ -368,15 +368,15 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       })
       //console.log('dskloet _fetchComponent 4 responseData', responseData)
       const array: Record<string, unknown>[] =
-        component.reduce.arrayPath !== undefined
-          ? objectPath.get(responseData, component.reduce.arrayPath)
+        component.balances.balancesArrayPath !== undefined
+          ? objectPath.get(responseData, component.balances.balancesArrayPath)
           : [responseData]
       //console.log('dskloet _fetchComponent 5 array', array)
       const balances: FixedPoint[] = array.map((item) => {
         return getFixedPointFromResult({
           result: item,
-          amountPath: component.reduce.balancePath,
-          decimalsPath: component.reduce.decimalsPath,
+          amountPath: component.balances.balancePath,
+          decimalsPath: component.balances.decimalsPath,
           defaultDecimals: resultDecimals,
         })
       })
@@ -393,7 +393,8 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         totalBalance,
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
-        addressCount: component.reduce.arrayPath !== undefined ? balances.length : undefined,
+        addressCount:
+          component.balances.balancesArrayPath !== undefined ? balances.length : undefined,
       }
     } catch (error: unknown) {
       if (error instanceof AdapterError) {
@@ -440,11 +441,20 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       const result = await this.requester.request(requestKey, requestConfig)
       return result.response.data as Record<string, unknown>
     } catch (error: unknown) {
+      let providerErrorMessage = (error as { errorResponse: { error: { message: string } } })
+        .errorResponse?.error?.message
+      // @ts-ignore
+      console.log('dskloetx error fetching data 2 from provider', providerErrorMessage)
+      if (!providerErrorMessage) {
+        if (error instanceof Error) {
+          providerErrorMessage = error.message
+        } else {
+          providerErrorMessage = String(error)
+        }
+      }
       throw new AdapterError({
         statusCode: 502,
-        message: `Error fetching data from provider ${provider} at '${url}': ${
-          error instanceof Error ? error.message : String(error)
-        }`,
+        message: `Error fetching data from provider ${provider} at '${url}': ${providerErrorMessage}`,
       })
     }
   }
