@@ -7,11 +7,6 @@ on:
         description: comma (and/or space) separated list of adapters to release (if empty, all changed adapters with changesets will be released)
         required: false
         default: ''
-      build-streams-adapter-images:
-        description: build streams adapter images during deploy (adds streams test/build steps)
-        required: false
-        default: false
-        type: boolean
 
 # TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
 # - Readme generation did not require built TS files
@@ -36,7 +31,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
       SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
-      BUILD_STREAMS_ADAPTER_IMAGES: ${{ inputs.build-streams-adapter-images }}
     steps:
       - name: Check if changeset release branch already exists
         shell: bash
@@ -122,45 +116,6 @@ jobs:
           # trigger other workflows. So we use the token created in the
           # previous step.
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
-      - name: Annotate release PR description
-        env:
-          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
-        # We use gh pr list with exact title match instead of --search to avoid GitHub search index lag
-        run: |
-          PR_NUMBER=$(gh pr list \
-            --base "${{ github.ref_name }}" \
-            --state open \
-            --json number,title \
-            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
-
-          if [[ -z "$PR_NUMBER" ]]; then
-            echo "Unable to find release PR for version $BUMPED_VERSION"
-            exit 1
-          fi
-
-          PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
-
-          printf -v PR_BODY_PREFIX "This release was triggered by @%s.\n\n" "${{ github.actor }}"
-          PR_BODY_SUFFIX=""
-
-          if [[ "$BUILD_STREAMS_ADAPTER_IMAGES" = "true" ]]; then
-            MARKER='<!-- build-streams-adapter-images:true -->'
-
-            if [[ "$PR_BODY" == *"$MARKER"* ]]; then
-              echo "Streams marker already present in PR body"
-              exit 0
-            fi
-
-            printf -v PR_BODY_SUFFIX "\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$MARKER"
-          fi
-
-          printf -v UPDATED_BODY "%s%s%s" "$PR_BODY_PREFIX" "$PR_BODY" "$PR_BODY_SUFFIX"
-
-          gh api \
-            --method PATCH \
-            "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
-            -f body="$UPDATED_BODY" \
-            --silent
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)

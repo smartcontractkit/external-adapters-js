@@ -17,7 +17,12 @@ The runtime includes two cooperating processes in the streams image:
 - **Go streams runtime** (`packages/streams-adapter`): HTTP API, in-memory cache, Redis-compatible ingestion server.
 - **JavaScript adapter runtime**: data provider communication and subscription lifecycle.
 
-In the container image, both are started by `supervisord`:
+In the container image, both are managed by `supervisord`. A selector script (`selector.sh`) checks the `STREAMS_ADAPTER` environment variable at startup:
+
+- `STREAMS_ADAPTER=true`: starts the `streams-adapter` supervisor group (Go + JS processes).
+- Otherwise: starts the original JS adapter only.
+
+When running in streams mode:
 
 - JS adapter process (`yarn server`) listens internally on `EA_PORT` (default `8070`).
 - Go process (`streams-adapter`) listens on `HTTP_PORT` (default `8080`) and `REDCON_PORT` (default `6379`).
@@ -47,14 +52,16 @@ The Go runtime waits for the JS adapter `/health` endpoint before starting.
 - `METRICS_PORT` (default: `9080`): Prometheus metrics server port.
 - `CACHE_TTL_MINUTES` (default: `5`): in-memory cache TTL.
 - `CACHE_CLEANUP_INTERVAL` (default: `1`): cache cleanup interval; also used as periodic resubscribe interval.
+- `SUBSCRIPTION_RETRY_DELAY_SECONDS` (default: `10`): delay before allowing re-subscription after a miss.
 - `LOG_LEVEL` (default: `info`): use `debug` to enable Gin request logging and additional debug logs.
 - `PACKAGE_NAME` (required for alias mapping): adapter package name, for example `@chainlink/tiingo-adapter`.
+- `EA_INTERNAL_HOST` (default: `localhost`): hostname of the internal JS adapter process.
 
 Notes:
 
 - `CACHE_TTL_MINUTES=0` and `CACHE_CLEANUP_INTERVAL=0` both fall back to defaults.
 - `PACKAGE_NAME` is used to derive the adapter name for alias index initialization.
-- In containerized runs, `PACKAGE_NAME` is injected during image build via `Dockerfile.streams-adapter` (`ARG package` -> `ENV PACKAGE_NAME=$package`).
+- In containerized runs, `PACKAGE_NAME` is injected during image build via the unified `Dockerfile` (`ARG package` -> `ENV PACKAGE_NAME=$package`).
 
 ### JS adapter environment expectations (container defaults)
 
@@ -68,11 +75,19 @@ The streams container starts JS adapter with:
 
 ## Docker image behavior
 
-The streams image uses `Dockerfile.streams-adapter` and starts both runtimes under `supervisord`:
+The adapter uses a unified `Dockerfile` that builds both the JS adapter bundle and the Go streams-adapter binary into a single image. At runtime, the `STREAMS_ADAPTER` environment variable controls which mode is started:
 
-- builds JS adapter bundle
-- generates endpoint aliases
-- builds static Go binary
-- runs JS + Go processes in a single container
+- `STREAMS_ADAPTER=true`: `selector.sh` starts the `streams-adapter` supervisor group (Go + JS processes running together).
+- Otherwise: `selector.sh` starts the original JS adapter only (`yarn server`).
 
-This is the image variant published with `-streams` tags in release workflows.
+The build process:
+
+1. Builds the JS adapter bundle and generates endpoint aliases.
+2. Builds the static Go binary from `packages/streams-adapter`.
+3. Copies both into a Node.js Alpine image with `supervisord`.
+
+To run in streams mode:
+
+```sh
+docker run -p 8080:8080 -e STREAMS_ADAPTER=true -e API_KEY=... -ti <adapter-image>:<tag>
+```
