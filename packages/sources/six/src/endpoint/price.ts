@@ -39,7 +39,6 @@ interface PriceResponse {
     marketStatus: number
     ripcord: boolean
     ripcordAsInt: number
-    ripcordDetails?: string
   }
 }
 

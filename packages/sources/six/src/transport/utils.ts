@@ -24,47 +24,8 @@ export const buildSubscriptionQuery = (
       bestAsk { value size unixTimestamp }
       mid { value unixTimestamp }
       volume { value unixTimestamp }
-      tradingEvent { category unixTimestamp }
     }
   }`
-}
-
-/**
- * Map SIX trading event categories to v11 marketStatus uint32 enum.
- *
- * v11 marketStatus values:
- *   0 = unknown
- *   1 = pre-market
- *   2 = open
- *   3 = post-market
- *   4 = closed
- *
- * SIX category strings documented:
- *   - OPEN_MARKET / CONTINUOUS_TRADING / TRADING -> open
- *   - PRE_OPEN / OPENING_AUCTION / PRE_TRADING -> pre-market
- *   - POST_TRADING / CLOSING_AUCTION / POST_CLOSE -> post-market
- *   - CLOSED_MARKET / CLOSED / NO_TRADING -> closed
- *   - else -> unknown
- */
-export const MARKET_STATUS_UNKNOWN = 0
-export const MARKET_STATUS_PRE_MARKET = 1
-export const MARKET_STATUS_OPEN = 2
-export const MARKET_STATUS_POST_MARKET = 3
-export const MARKET_STATUS_CLOSED = 4
-
-const OPEN_CATEGORIES = new Set(['OPEN_MARKET', 'CONTINUOUS_TRADING', 'TRADING'])
-const PRE_MARKET_CATEGORIES = new Set(['PRE_OPEN', 'OPENING_AUCTION', 'PRE_TRADING'])
-const POST_MARKET_CATEGORIES = new Set(['POST_TRADING', 'CLOSING_AUCTION', 'POST_CLOSE'])
-const CLOSED_CATEGORIES = new Set(['CLOSED_MARKET', 'CLOSED', 'NO_TRADING'])
-
-export const mapTradingEventToMarketStatus = (category: string | undefined): number => {
-  if (!category) return MARKET_STATUS_UNKNOWN
-  const c = category.toUpperCase()
-  if (OPEN_CATEGORIES.has(c)) return MARKET_STATUS_OPEN
-  if (PRE_MARKET_CATEGORIES.has(c)) return MARKET_STATUS_PRE_MARKET
-  if (POST_MARKET_CATEGORIES.has(c)) return MARKET_STATUS_POST_MARKET
-  if (CLOSED_CATEGORIES.has(c)) return MARKET_STATUS_CLOSED
-  return MARKET_STATUS_UNKNOWN
 }
 
 /**
@@ -76,12 +37,34 @@ export const buildCloseStreamQuery = (ticker: string, bc: string): string => {
 }
 
 /**
- * Convert SIX unix timestamp (seconds with microsecond precision) to nanoseconds.
- * SIX returns e.g. 1683551220.652753 -> needs to become 1683551220652753000n
+ * v11 marketStatus uint32 enum values.
+ *
+ *   0 = unknown
+ *   1 = pre-market
+ *   2 = open
+ *   3 = post-market
+ *   4 = closed
  */
-export const toNanoseconds = (unixTimestamp: number | undefined): number | undefined => {
-  if (unixTimestamp == null) return undefined
-  return Math.round(unixTimestamp * 1e9)
+export const MARKET_STATUS_UNKNOWN = 0
+export const MARKET_STATUS_PRE_MARKET = 1
+export const MARKET_STATUS_OPEN = 2
+export const MARKET_STATUS_POST_MARKET = 3
+export const MARKET_STATUS_CLOSED = 4
+
+/**
+ * Map SIX Market Base `marketStatus` enum (ACTIVE/INACTIVE/REFERENCE_ONLY/OTHER)
+ * to the Chainlink Data Streams v11 RWA Advanced `marketStatus` uint32.
+ */
+const MARKET_BASE_STATUS_MAP: Record<string, number> = {
+  ACTIVE: MARKET_STATUS_OPEN,
+  INACTIVE: MARKET_STATUS_CLOSED,
+  REFERENCE_ONLY: MARKET_STATUS_UNKNOWN,
+  OTHER: MARKET_STATUS_UNKNOWN,
+}
+
+export const mapMarketBaseStatusToV11 = (status: string | undefined): number => {
+  if (!status) return MARKET_STATUS_UNKNOWN
+  return MARKET_BASE_STATUS_MAP[status.toUpperCase()] ?? MARKET_STATUS_UNKNOWN
 }
 
 /**

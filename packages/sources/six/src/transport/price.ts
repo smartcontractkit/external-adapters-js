@@ -1,10 +1,12 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import axios from 'axios'
+import https from 'https'
 import { BaseEndpointTypes } from '../endpoint/price'
 import {
   buildCloseStreamQuery,
   buildSubscriptionQuery,
-  mapTradingEventToMarketStatus,
+  mapMarketBaseStatusToV11,
   MARKET_STATUS_UNKNOWN,
   toMilliseconds,
 } from './utils'
@@ -12,15 +14,11 @@ import {
 const logger = makeLogger('SixPriceTransport')
 
 const STALE_DATA_THRESHOLD_SECONDS = 300
+const MARKET_BASE_REQUEST_TIMEOUT_MS = 10_000
 
 type SixPriceField = {
   value?: number
   size?: number
-  unixTimestamp?: number
-}
-
-type TradingEvent = {
-  category?: string
   unixTimestamp?: number
 }
 
@@ -34,7 +32,6 @@ type SixStreamMessage = {
   bestAsk?: SixPriceField
   mid?: SixPriceField
   volume?: SixPriceField
-  tradingEvent?: TradingEvent
 }
 
 type WsMessage = {
@@ -44,31 +41,89 @@ type WsMessage = {
   errors?: { message: string; category?: string; type?: string; messageCode?: number }[]
 }
 
+type MarketBaseMarket = {
+  lookupStatus?: string
+  referenceData?: {
+    marketBase?: {
+      marketStatus?: string
+    }
+  }
+}
+
+type MarketBaseResponse = {
+  data?: {
+    markets?: MarketBaseMarket[]
+  }
+}
+
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: WsMessage
   }
 }
 
-// SIX delivers `tradingEvent` as independent UPDATE frames, not on every tick,
-// so we cache the latest status per stream to attach to subsequent price updates.
-const lastMarketStatusByStreamId = new Map<string, number>()
+// Market Base `marketStatus` is quasi-static (exchange-level flag, not session
+// state). Cache per BC for the process lifetime; on the first message for a
+// new BC we kick off an async fetch and return MARKET_STATUS_UNKNOWN until the
+// cache is populated.
+const marketStatusByBc = new Map<string, number>()
+const pendingMarketStatusFetches = new Set<string>()
 
-let cachedCert: Buffer | undefined
-let cachedKey: Buffer | undefined
+let cachedCredentials: { cert: Buffer; key: Buffer } | undefined
+let cachedHttpsAgent: https.Agent | undefined
 
-const decodeCert = (base64: string): Buffer => {
-  if (!cachedCert) {
-    cachedCert = Buffer.from(base64, 'base64')
+const getCredentials = (certBase64: string, keyBase64: string) => {
+  if (!cachedCredentials) {
+    cachedCredentials = {
+      cert: Buffer.from(certBase64, 'base64'),
+      key: Buffer.from(keyBase64, 'base64'),
+    }
   }
-  return cachedCert
+  return cachedCredentials
 }
 
-const decodeKey = (base64: string): Buffer => {
-  if (!cachedKey) {
-    cachedKey = Buffer.from(base64, 'base64')
+const getHttpsAgent = (): https.Agent | undefined => {
+  if (!cachedCredentials) return undefined
+  if (!cachedHttpsAgent) {
+    cachedHttpsAgent = new https.Agent({
+      cert: cachedCredentials.cert,
+      key: cachedCredentials.key,
+    })
   }
-  return cachedKey
+  return cachedHttpsAgent
+}
+
+const fetchMarketBaseStatus = async (bc: string, restEndpoint: string): Promise<number> => {
+  const httpsAgent = getHttpsAgent()
+  if (!httpsAgent) throw new Error('mTLS credentials not initialized')
+  const response = await axios.get<MarketBaseResponse>(
+    `${restEndpoint}/web/v2/markets/referenceData/marketBase`,
+    {
+      params: { scheme: 'BC', ids: bc },
+      headers: { accept: 'application/json' },
+      httpsAgent,
+      timeout: MARKET_BASE_REQUEST_TIMEOUT_MS,
+    },
+  )
+  const status = response.data.data?.markets?.[0]?.referenceData?.marketBase?.marketStatus
+  return mapMarketBaseStatusToV11(status)
+}
+
+const ensureMarketStatusFetched = (bc: string, restEndpoint: string): void => {
+  if (marketStatusByBc.has(bc) || pendingMarketStatusFetches.has(bc)) return
+  if (!cachedCredentials) return
+  pendingMarketStatusFetches.add(bc)
+  fetchMarketBaseStatus(bc, restEndpoint)
+    .then((status) => {
+      marketStatusByBc.set(bc, status)
+      logger.info({ bc, status }, 'Market base status fetched')
+    })
+    .catch((error) => {
+      logger.error({ bc, error: String(error) }, 'Failed to fetch market base status')
+    })
+    .finally(() => {
+      pendingMarketStatusFetches.delete(bc)
+    })
 }
 
 const makeRipcordResult = (
@@ -91,10 +146,8 @@ export const generateTransport = () => {
       if (!TLS_PUBLIC_KEY || !TLS_PRIVATE_KEY) {
         throw new Error('TLS_PUBLIC_KEY and TLS_PRIVATE_KEY must be set (Base64-encoded)')
       }
-      return {
-        cert: decodeCert(TLS_PUBLIC_KEY),
-        key: decodeKey(TLS_PRIVATE_KEY),
-      }
+      const { cert, key } = getCredentials(TLS_PUBLIC_KEY, TLS_PRIVATE_KEY)
+      return { cert, key }
     },
 
     handlers: {
@@ -102,7 +155,7 @@ export const generateTransport = () => {
         logger.info('Connected to SIX WebSocket API')
       },
 
-      message: (message): ProviderResult<WsTransportTypes>[] | undefined => {
+      message: (message, context): ProviderResult<WsTransportTypes>[] | undefined => {
         if (message.errors) {
           logger.error({ errors: message.errors }, 'SIX API returned errors')
           return []
@@ -133,15 +186,6 @@ export const generateTransport = () => {
 
           if (stream.type !== 'START' && stream.type !== 'UPDATE') continue
 
-          if (stream.tradingEvent?.category != null) {
-            const status = mapTradingEventToMarketStatus(stream.tradingEvent.category)
-            lastMarketStatusByStreamId.set(stream.streamId, status)
-            logger.debug(
-              { streamId: stream.streamId, category: stream.tradingEvent.category, status },
-              'Trading event received',
-            )
-          }
-
           const lastPrice = stream.last?.value
 
           if (lastPrice == null && stream.bestBid?.value == null && stream.bestAsk?.value == null) {
@@ -165,6 +209,9 @@ export const generateTransport = () => {
             }
           }
 
+          ensureMarketStatusFetched(bc, context.adapterSettings.REST_API_ENDPOINT)
+          const marketStatus = marketStatusByBc.get(bc) ?? MARKET_STATUS_UNKNOWN
+
           const mid =
             stream.mid?.value ??
             (stream.bestBid?.value != null && stream.bestAsk?.value != null
@@ -172,8 +219,6 @@ export const generateTransport = () => {
               : undefined)
 
           const providerIndicatedTimeUnixMs = toMilliseconds(latestTimestamp)
-          const marketStatus =
-            lastMarketStatusByStreamId.get(stream.streamId) ?? MARKET_STATUS_UNKNOWN
 
           results.push({
             params: { ticker, bc },

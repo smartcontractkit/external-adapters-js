@@ -6,18 +6,22 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import nock from 'nock'
 import { mockWebSocketServer } from './fixtures'
 
 describe('SIX Adapter', () => {
   let oldEnv: NodeJS.ProcessEnv
   let mockWsServer: MockWebsocketServer
   let testAdapter: TestAdapter
+  let marketBaseScope: nock.Scope
   const wsEndpoint = 'ws://localhost:9090'
+  const restEndpoint = 'https://api.six-group.test'
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
 
     process.env['WS_API_ENDPOINT'] = wsEndpoint
+    process.env['REST_API_ENDPOINT'] = restEndpoint
     process.env['TLS_PUBLIC_KEY'] = Buffer.from('mock-cert').toString('base64')
     process.env['TLS_PRIVATE_KEY'] = Buffer.from('mock-key').toString('base64')
     process.env['WS_SUBSCRIPTION_TTL'] = '5000'
@@ -25,6 +29,22 @@ describe('SIX Adapter', () => {
     process.env['CACHE_POLLING_MAX_RETRIES'] = '0'
     process.env['METRICS_ENABLED'] = 'false'
     process.env['WS_SUBSCRIPTION_UNRESPONSIVE_TTL'] = '30000'
+
+    // Mock Market Base REST endpoint for any BC - always returns ACTIVE
+    marketBaseScope = nock(restEndpoint)
+      .get('/web/v2/markets/referenceData/marketBase')
+      .query(true)
+      .reply(200, {
+        data: {
+          markets: [
+            {
+              lookupStatus: 'FOUND',
+              referenceData: { marketBase: { marketStatus: 'ACTIVE' } },
+            },
+          ],
+        },
+      })
+      .persist()
 
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(wsEndpoint)
@@ -43,6 +63,9 @@ describe('SIX Adapter', () => {
   })
 
   afterAll(async () => {
+    // Verify the Market Base REST endpoint was actually called during tests
+    expect(marketBaseScope.isDone()).toBe(true)
+    nock.cleanAll()
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     testAdapter.clock?.uninstall()

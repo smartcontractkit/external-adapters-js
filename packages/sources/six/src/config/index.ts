@@ -9,6 +9,13 @@ export const config = new AdapterConfig(
       required: true,
       sensitive: false,
     },
+    REST_API_ENDPOINT: {
+      description: 'SIX REST API base URL (used to fetch Market Base reference data)',
+      type: 'string',
+      default: 'https://api.six-group.com',
+      required: true,
+      sensitive: false,
+    },
     CONFLATION_PERIOD: {
       description: 'Conflation period in ISO 8601 duration format (e.g. PT1S for 1 second)',
       type: 'string',
