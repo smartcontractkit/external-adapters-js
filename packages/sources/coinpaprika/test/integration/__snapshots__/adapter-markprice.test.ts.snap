@@ -27,6 +27,7 @@ exports[`markprice endpoint markprice endpoint should return success with top of
   "timestamps": {
     "providerDataReceivedUnixMs": 1115,
     "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
   },
 }
 `;
