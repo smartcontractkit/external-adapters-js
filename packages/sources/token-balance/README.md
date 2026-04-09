@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -26,6 +26,8 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 |           |   SOLANA_COMMITMENT   |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
 |           |     XRPL_RPC_URL      |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
 |           |    STELLAR_RPC_URL    |                                                                                  RPC url of Stellar JSON-RPC node                                                                                  | string |         |     ``      |
+|           |   LITECOIN_RPC_URL    |                                             RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md                                             | string |         |     ``      |
+|           |    CARDANO_RPC_URL    |                                                                           RPC url of Cardano Yaci Store Indexer RPC node                                                                           | string |         |     ``      |
 |           | BACKGROUND_EXECUTE_MS |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
 |           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
@@ -39,9 +41,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                           Options                                                                                                                                                            | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [stellar](#stellar-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                          Options                                                                                                                                                                                           | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [cardano](#cardano-endpoint), [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [litecoin](#litecoin-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [stellar](#stellar-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -262,6 +264,36 @@ Request:
 
 ---
 
+## Cardano Endpoint
+
+`cardano` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
+|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "cardano",
+    "addresses": [
+      {
+        "address": "addr1w8z0xlftcx54tn7uxdvhk0qgj9u7hmlaccjthnc9kvu4pmcyemglm"
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## Solana Endpoint
 
 `solana` is the only supported name for this endpoint.
@@ -403,6 +435,36 @@ Request:
     "addresses": [
       {
         "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Litecoin Endpoint
+
+`litecoin` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
+|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "litecoin",
+    "addresses": [
+      {
+        "address": "LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm"
       }
     ]
   }
