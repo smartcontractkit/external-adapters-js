@@ -5,7 +5,7 @@ WORKDIR /home/node/app
 COPY . .
 RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea-test-helpers @chainlink/ea-reference-data-reader @chainlink/ea-factories @chainlink/ea-scripts
 RUN yarn workspace $package build
-RUN METRICS_ENABLED=false yarn generate:endpoint-aliases
+RUN yarn generate:endpoint-aliases
 RUN yarn bundle $location -o $location/bundle
 
 # Build Go binary for streams-adapter
@@ -37,10 +37,10 @@ COPY --from=builder /home/node/app/$location/package.json /home/node/app/$locati
 # Copy Go binary and alias config
 COPY --from=go-builder /build/streams-adapter /usr/local/bin/streams-adapter
 COPY --from=builder /home/node/app/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
-COPY --from=builder /home/node/app/selector.sh /usr/local/bin/selector.sh
+COPY --from=builder /home/node/app/start-supervisor.sh /usr/local/bin/start-supervisor.sh
 
 # Make scripts executable
-RUN chmod +x /usr/local/bin/selector.sh /usr/local/bin/streams-adapter
+RUN chmod +x /usr/local/bin/start-supervisor.sh /usr/local/bin/streams-adapter
 
 # Copy supervisord config
 COPY supervisord.conf /etc/supervisord.conf

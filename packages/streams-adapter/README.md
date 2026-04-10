@@ -17,7 +17,7 @@ The runtime includes two cooperating processes in the streams image:
 - **Go streams runtime** (`packages/streams-adapter`): HTTP API, in-memory cache, Redis-compatible ingestion server.
 - **JavaScript adapter runtime**: data provider communication and subscription lifecycle.
 
-In the container image, both are managed by `supervisord`. A selector script (`selector.sh`) checks the `STREAMS_ADAPTER` environment variable at startup:
+In the container image, both are managed by `supervisord`. A start-supervisor script (`start-supervisor.sh`) checks the `STREAMS_ADAPTER` environment variable at startup:
 
 - `STREAMS_ADAPTER=true`: starts the `streams-adapter` supervisor group (Go + JS processes).
 - Otherwise: starts the original JS adapter only.
@@ -77,8 +77,8 @@ The streams container starts JS adapter with:
 
 The adapter uses a unified `Dockerfile` that builds both the JS adapter bundle and the Go streams-adapter binary into a single image. At runtime, the `STREAMS_ADAPTER` environment variable controls which mode is started:
 
-- `STREAMS_ADAPTER=true`: `selector.sh` starts the `streams-adapter` supervisor group (Go + JS processes running together).
-- Otherwise: `selector.sh` starts the original JS adapter only (`yarn server`).
+- `STREAMS_ADAPTER=true`: `start-supervisor.sh` starts the `streams-adapter` supervisor group (Go + JS processes running together).
+- Otherwise: `start-supervisor.sh` starts the original JS adapter only (`yarn server`).
 
 The build process:
 

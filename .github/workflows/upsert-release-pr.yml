@@ -134,3 +134,22 @@ jobs:
           ./.github/scripts/skip-check.sh $COMMIT_SHA "Run integration tests for changed adapters"
           ./.github/scripts/skip-check.sh $COMMIT_SHA "Run linters and formatters"
           ./.github/scripts/skip-check.sh $COMMIT_SHA "Run unit tests for changed adapters"
+
+      - name: Annotate release PR description
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+        run: |
+          PR_NUMBER=$(gh pr list \
+            --base "${{ github.ref_name }}" \
+            --state open \
+            --json number,title \
+            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
+          PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
+          printf -v PR_BODY_PREFIX "This release was triggered by @%s.\n\n" "${{ github.actor }}"
+          printf -v UPDATED_BODY "%s%s" "$PR_BODY_PREFIX" "$PR_BODY"
+
+          gh api \
+            --method PATCH \
+            "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            -f body="$UPDATED_BODY" \
+            --silent
