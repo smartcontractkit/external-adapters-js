@@ -22,6 +22,9 @@ type Config struct {
 	// Subscription configuration
 	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
 
+	// Metrics forwarding
+	MetricsForwardTimeoutSeconds uint // HTTP timeout for scraping JS adapter metrics (0 = default 5s)
+
 	// Other configuration
 	LogLevel    string
 	AdapterName string
@@ -46,6 +49,9 @@ func Load() *Config {
 
 		// Subscription
 		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
+
+		// Metrics forwarding
+		MetricsForwardTimeoutSeconds: getEnvAsInt("METRICS_FORWARD_TIMEOUT_SECONDS", 2),
 
 		// Other
 		LogLevel:    getEnv("LOG_LEVEL", "info"),

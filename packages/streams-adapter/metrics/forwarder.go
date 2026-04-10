@@ -2,13 +2,13 @@ package metrics
 
 import (
 	"fmt"
-	"log/slog"
 	"net/http"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
 	"github.com/prometheus/common/expfmt"
+	"github.com/prometheus/common/model"
 )
 
 // Metric families already implemented in the Go adapter.
@@ -25,10 +25,10 @@ type Forwarder struct {
 }
 
 // NewForwarder creates a Forwarder that fetches metrics from jsMetricsURL.
-func NewForwarder(jsMetricsURL string) *Forwarder {
+func NewForwarder(jsMetricsURL string, timeout time.Duration) *Forwarder {
 	return &Forwarder{
 		url:    jsMetricsURL,
-		client: &http.Client{Timeout: 5 * time.Second},
+		client: &http.Client{Timeout: timeout},
 	}
 }
 
@@ -45,7 +45,7 @@ func (f *Forwarder) FilteredFamilies() ([]*dto.MetricFamily, error) {
 		return nil, fmt.Errorf("JS metrics endpoint returned %d", resp.StatusCode)
 	}
 
-	var parser expfmt.TextParser
+	parser := expfmt.NewTextParser(model.UTF8Validation)
 	families, err := parser.TextToMetricFamilies(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("parsing JS metrics: %w", err)
@@ -60,30 +60,21 @@ func (f *Forwarder) FilteredFamilies() ([]*dto.MetricFamily, error) {
 	return result, nil
 }
 
-// CombinedGatherer implements prometheus.Gatherer by merging Go-native
+// CombinedGatherer returns a prometheus.Gatherer that merges Go-native
 // metrics with forwarded (and filtered) JS adapter metrics.
-type CombinedGatherer struct {
-	forwarder *Forwarder
-	logger    *slog.Logger
-}
+// If the JS adapter is unreachable, Go-only metrics are served silently.
+func CombinedGatherer(forwarder *Forwarder) prometheus.Gatherer {
+	return prometheus.GathererFunc(func() ([]*dto.MetricFamily, error) {
+		goFamilies, err := prometheus.DefaultGatherer.Gather()
+		if err != nil {
+			return nil, err
+		}
 
-// NewCombinedGatherer returns a Gatherer that combines Go and JS metrics.
-func NewCombinedGatherer(forwarder *Forwarder, logger *slog.Logger) prometheus.Gatherer {
-	return &CombinedGatherer{forwarder: forwarder, logger: logger}
-}
+		jsFamilies, err := forwarder.FilteredFamilies()
+		if err != nil {
+			return goFamilies, nil
+		}
 
-// Gather implements prometheus.Gatherer.
-func (g *CombinedGatherer) Gather() ([]*dto.MetricFamily, error) {
-	goFamilies, err := prometheus.DefaultGatherer.Gather()
-	if err != nil {
-		return nil, err
-	}
-
-	jsFamilies, err := g.forwarder.FilteredFamilies()
-	if err != nil {
-		g.logger.Error("Could not fetch JS adapter metrics, serving Go-only", "error", err)
-		return goFamilies, nil
-	}
-
-	return append(goFamilies, jsFamilies...), nil
+		return append(goFamilies, jsFamilies...), nil
+	})
 }
