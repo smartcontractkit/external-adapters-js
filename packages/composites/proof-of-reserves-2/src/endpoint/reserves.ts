@@ -6,6 +6,88 @@ import { customSubscriptionTransport } from '../transport/reserves'
 
 export const inputParameters = new InputParameters(
   {
+    addressLists: {
+      description: 'Address lists available for compoments to reference by name.',
+      array: true,
+      type: {
+        name: {
+          description: 'The name of the address list.',
+          type: 'string',
+          required: true,
+        },
+        provider: {
+          description:
+            'Identifier of the service to query for addresses. This corresponse to the prefix of the environment variable {provider}_URL.',
+          type: 'string',
+          required: false,
+        },
+        params: {
+          description:
+            'JSON string encoding the parameters to be passed to the provider when querying for addresses.',
+          type: 'string',
+          required: false,
+        },
+        addressArrayPath: {
+          description:
+            'The object path to find the array of addresses in the result from the provider.',
+          type: 'string',
+          required: false,
+        },
+        fixed: {
+          description:
+            'A fixed JSON-encoded array of address objects in the format expected by the balance source.',
+          type: 'string',
+          required: false,
+        },
+      },
+    },
+    balanceSources: {
+      description: 'Describe how to fetch balances given an a provided address list.',
+      array: true,
+      type: {
+        name: {
+          description: 'Used by components to reference this balance source.',
+          type: 'string',
+          required: true,
+        },
+        provider: {
+          description:
+            'Identifier of the service to query for balances. This corresponse to the prefix of the environment variable {provider}_URL.',
+          type: 'string',
+          required: true,
+        },
+        params: {
+          description:
+            'JSON string encoding the parameters to be passed to the provider when querying for balances.',
+          type: 'string',
+          required: true,
+        },
+        addressArrayPath: {
+          description:
+            'The object path to place the array of addresses in the request to the balances provider.',
+          type: 'string',
+          required: false,
+        },
+        balancesArrayPath: {
+          description:
+            'The object path to find the array of balances in the result from the balances provider. If absent, it means a single balance is returned and pointed to by the balancePath.',
+          type: 'string',
+          required: false,
+        },
+        balancePath: {
+          description:
+            'The object path to find the balance in an array item or directly in the balance provider response',
+          type: 'string',
+          required: true,
+        },
+        decimalsPath: {
+          description:
+            'The object path to find the number of decimals to scale the fixed point balance in an array item (or directly in the balance provider response). If absent, the balance is considered to be an unscaled floating point number.',
+          type: 'string',
+          required: false,
+        },
+      },
+    },
     components: {
       description:
         'Individual components of the total reserves. To be converted to the same currency and then added together.',
@@ -23,72 +105,15 @@ export const inputParameters = new InputParameters(
           type: 'string',
           required: true,
         },
-        addresses: {
-          description:
-            'Describes how addresses to be queried are determined. Can be absent if the addresses are hard coded in the balance provider params or if the balance provider already knows which addresses to query.',
+        addressList: {
+          description: 'The name of the address list to use for this component.',
           required: false,
-          type: {
-            provider: {
-              description:
-                'Identifier of the service to query for addresses. This corresponse to the prefix of the environment variable {provider}_URL.',
-              type: 'string',
-              required: true,
-            },
-            params: {
-              description:
-                'JSON string encoding the parameters to be passed to the provider when querying for addresses.',
-              type: 'string',
-              required: true,
-            },
-            addressArrayPath: {
-              description:
-                'The object path to find the array of addresses in the result from the provider.',
-              type: 'string',
-              required: true,
-            },
-          },
+          type: 'string',
         },
-        balances: {
-          description: 'Describes how the balances of the addresses are determined.',
+        balanceSource: {
+          description: 'Name of the balance source to use to fetch balances.',
           required: true,
-          type: {
-            provider: {
-              description:
-                'Identifier of the service to query for balances. This corresponse to the prefix of the environment variable {provider}_URL.',
-              type: 'string',
-              required: true,
-            },
-            params: {
-              description:
-                'JSON string encoding the parameters to be passed to the provider when querying for balances.',
-              type: 'string',
-              required: true,
-            },
-            addressArrayPath: {
-              description:
-                'The object path to place the array of addresses in the request to the balances provider.',
-              type: 'string',
-              required: false,
-            },
-            balancesArrayPath: {
-              description:
-                'The object path to find the array of balances in the result from the balances provider. If absent, it means a single balance is returned and pointed to by the balancePath.',
-              type: 'string',
-              required: false,
-            },
-            balancePath: {
-              description:
-                'The object path to find the balance in an array item or directly in the balance provider response',
-              type: 'string',
-              required: true,
-            },
-            decimalsPath: {
-              description:
-                'The object path to find the number of decimals to scale the fixed point balance in an array item (or directly in the balance provider response). If absent, the balance is considered to be an unscaled floating point number.',
-              type: 'string',
-              required: false,
-            },
-          },
+          type: 'string',
         },
       },
     },

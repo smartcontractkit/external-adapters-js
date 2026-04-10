@@ -113,6 +113,7 @@ const getFixedPointFromResult = ({
 
 type ComponentParam = RequestParams['components'][number]
 type ConversionParam = RequestParams['conversions'][number]
+type BalanceSourceParam = RequestParams['balanceSources'][number]
 
 type ProcessedComponent = {
   name: string
@@ -188,10 +189,14 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
 
     //console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
     const resultDecimals = params.resultDecimals
+    const addressListMap = this.fetchAddressLists(context, params.addressLists)
+    const balanceSourceMap = Object.fromEntries(
+      params.balanceSources.map((source) => [source.name, source]),
+    )
     const [components, conversions] = await Promise.all([
       Promise.all(
         params.components.map((component) =>
-          this.fetchComponent(context, component, resultDecimals),
+          this.fetchComponent(context, component, addressListMap, balanceSourceMap, resultDecimals),
         ),
       ),
       Promise.all(
@@ -304,79 +309,131 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }
   }
 
+  fetchAddressLists(
+    context: EndpointContext<CustomTransportTypes>,
+    addressListsParams: RequestParams['addressLists'],
+  ): Record<string, Promise<unknown[]>> {
+    return Object.fromEntries(
+      addressListsParams.map((addressListParams) => {
+        return [addressListParams.name, this.fetchAddressList(context, addressListParams)]
+      }),
+    )
+  }
+
+  async fetchAddressList(
+    context: EndpointContext<CustomTransportTypes>,
+    addressListParams: RequestParams['addressLists'][number],
+  ): Promise<unknown[]> {
+    if (addressListParams.fixed !== undefined) {
+      const addressArray = JSON.parse(addressListParams.fixed)
+      if (!Array.isArray(addressArray)) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Expected an array of addresses in fixed value for address list '${addressListParams.name}'. Found '${addressListParams.fixed}'.`,
+        })
+      }
+      return addressArray
+    }
+    if (
+      addressListParams.provider === undefined ||
+      addressListParams.params === undefined ||
+      addressListParams.addressArrayPath === undefined
+    ) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Missing provider, params, or addressArrayPath for address list '${addressListParams.name}'. These fields are required when 'fixed' value is not provided.`,
+      })
+    }
+
+    const addressResponseData = await this.fetchData({
+      context,
+      provider: addressListParams.provider,
+      params: JSON.parse(addressListParams.params),
+    })
+    //console.log('dskloetx fetchAddressList 3 addressResponseData', addressResponseData)
+    const addressArray = objectPath.get(addressResponseData, addressListParams.addressArrayPath)
+    if (addressArray === undefined) {
+      throw new AdapterError({
+        statusCode: 500,
+        // TODO: Include short version of response.
+        message: `Address array not found at path ${addressListParams.addressArrayPath} in response from provider ${addressListParams.provider}`,
+      })
+    }
+    if (!Array.isArray(addressArray)) {
+      throw new AdapterError({
+        statusCode: 500,
+        message: `Expected an array of addresses at path ${
+          addressListParams.addressArrayPath
+        } in response from provider ${addressListParams.provider}. Found '${JSON.stringify(
+          addressArray,
+        )}'.`,
+      })
+    }
+    return addressArray
+    //console.log('dskloetx fetchAddressList 4 addressArray', addressArray)
+  }
+
   async fetchComponent(
     context: EndpointContext<CustomTransportTypes>,
     component: ComponentParam,
+    addressListMap: Record<string, Promise<unknown[]>>,
+    balanceSourceMap: Record<string, BalanceSourceParam>,
     resultDecimals: number,
   ): Promise<ProcessedComponent> {
     try {
+      const balanceSource = balanceSourceMap[component.balanceSource]
+      if (balanceSource === undefined) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Balance source '${component.balanceSource}' not found for component '${component.name}'.`,
+        })
+      }
       let balanceProviderAddressParams = {}
       //console.log('dskloetx fetchComponent 1 component', component)
-      if (component.addresses !== undefined && component.balances.addressArrayPath !== undefined) {
+      if (component.addressList !== undefined && balanceSource.addressArrayPath !== undefined) {
         //console.log('dskloetx fetchComponent 2 component.address', component.addresses)
-        const addressResponseData = await this.fetchData({
-          context,
-          provider: component.addresses.provider,
-          params: JSON.parse(component.addresses.params),
-        })
-        //console.log('dskloetx fetchComponent 3 addressResponseData', addressResponseData)
-        const addressArray = objectPath.get(
-          addressResponseData,
-          component.addresses.addressArrayPath,
-        )
-        if (addressArray === undefined) {
-          throw new AdapterError({
-            statusCode: 500,
-            // TODO: Include short version of response.
-            message: `Address array not found at path ${component.addresses.addressArrayPath} in response from provider ${component.addresses.provider}`,
-          })
-        }
-        if (!Array.isArray(addressArray)) {
-          throw new AdapterError({
-            statusCode: 500,
-            message: `Expected an array of addresses at path ${
-              component.addresses.addressArrayPath
-            } in response from provider ${component.addresses.provider}. Found '${JSON.stringify(
-              addressArray,
-            )}'.`,
-          })
-        }
+        const addressArray = await addressListMap[component.addressList]
         //console.log('dskloetx fetchComponent 4 addressArray', addressArray)
-        objectPath.set(
-          balanceProviderAddressParams,
-          component.balances.addressArrayPath,
-          addressArray,
-        )
+        objectPath.set(balanceProviderAddressParams, balanceSource.addressArrayPath, addressArray)
         /*
         console.log(
           'dskloetx fetchComponent 5 balanceProviderAddressParams',
           balanceProviderAddressParams,
         )
         */
+      } else if (
+        component.addressList !== undefined ||
+        balanceSource.addressArrayPath !== undefined
+      ) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `If one of addressList or addressArrayPath is specified for component '${component.name}', both must be specified.`,
+        })
       }
 
+      // Don't merge like this:
       const balanceProviderParams = {
-        ...JSON.parse(component.balances.params),
+        ...JSON.parse(balanceSource.params),
         ...balanceProviderAddressParams,
       }
       //console.log('dskloetx fetchComponent 6 balanceProviderParams', balanceProviderParams)
 
       const responseData = await this.fetchData({
         context,
-        provider: component.balances.provider,
+        provider: balanceSource.provider,
         params: balanceProviderParams,
       })
       //console.log('dskloet _fetchComponent 4 responseData', responseData)
       const array: Record<string, unknown>[] =
-        component.balances.balancesArrayPath !== undefined
-          ? objectPath.get(responseData, component.balances.balancesArrayPath)
+        balanceSource.balancesArrayPath !== undefined
+          ? objectPath.get(responseData, balanceSource.balancesArrayPath)
           : [responseData]
       //console.log('dskloet _fetchComponent 5 array', array)
       const balances: FixedPoint[] = array.map((item) => {
         return getFixedPointFromResult({
           result: item,
-          amountPath: component.balances.balancePath,
-          decimalsPath: component.balances.decimalsPath,
+          amountPath: balanceSource.balancePath,
+          decimalsPath: balanceSource.decimalsPath,
           defaultDecimals: resultDecimals,
         })
       })
@@ -393,8 +450,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         totalBalance,
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
-        addressCount:
-          component.balances.balancesArrayPath !== undefined ? balances.length : undefined,
+        addressCount: balanceSource.balancesArrayPath !== undefined ? balances.length : undefined,
       }
     } catch (error: unknown) {
       if (error instanceof AdapterError) {
