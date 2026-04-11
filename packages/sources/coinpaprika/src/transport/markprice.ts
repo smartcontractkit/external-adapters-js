@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { BaseEndpointTypes } from '../endpoint/markprice'
+import { BaseEndpointTypes, topOfBookEvents } from '../endpoint/markprice'
 
 type WsMessage = {
   event: string
@@ -90,7 +90,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
 
       if (
-        message.event === 'top_of_book' &&
+        topOfBookEvents.includes(message.event) &&
         message.data.bid_price &&
         message.data.ask_price &&
         !isNaN(Number(message.data.bid_price)) &&

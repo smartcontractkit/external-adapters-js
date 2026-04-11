@@ -3,6 +3,9 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { wsTransport } from '../transport/markprice'
 
+export const markPriceEvents = ['mark_price']
+export const topOfBookEvents = ['top_of_book', 'top_of_book_perps', 'top_of_book_spot']
+
 export const inputParameters = new InputParameters(
   {
     exchange: {
@@ -20,7 +23,7 @@ export const inputParameters = new InputParameters(
       description: 'The type of the price to obtain',
       required: true,
       type: 'string',
-      options: ['mark_price', 'top_of_book'],
+      options: [...markPriceEvents, ...topOfBookEvents],
     },
   },
   [
@@ -52,6 +55,11 @@ export const endpoint = new AdapterEndpoint({
   requestTransforms: [
     (request) => {
       request.requestContext.data.symbol = request.requestContext.data.symbol.toUpperCase()
+      if (request.requestContext.data.type === 'top_of_book_perps') {
+        // top_of_book type from the firehose API can also be queried
+        // with server-side filtering as top_of_book_perps type
+        request.requestContext.data.type = 'top_of_book'
+      }
     },
   ],
 })
