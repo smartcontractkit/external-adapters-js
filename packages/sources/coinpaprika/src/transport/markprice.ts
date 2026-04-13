@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { BaseEndpointTypes, topOfBookEvents } from '../endpoint/markprice'
+import { BaseEndpointTypes, legacyTopOfBookEvents, topOfBookEvents } from '../endpoint/markprice'
 
 type WsMessage = {
   event: string
@@ -53,8 +53,9 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       // Normalize the event type for subscription matching:
       // The API sends 'top_of_book' for perps, but subscriptions store 'top_of_book_perps'
       // after requestTransforms normalize the legacy alias.
-      const normalizedEventType =
-        message.event === 'top_of_book' ? 'top_of_book_perps' : message.event
+      const normalizedEventType = legacyTopOfBookEvents.includes(message.event)
+        ? 'top_of_book_perps'
+        : message.event
 
       if (
         !subscriptions.some(
