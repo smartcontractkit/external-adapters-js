@@ -119,6 +119,7 @@ jobs:
       - name: Annotate release PR description
         env:
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+        # We use gh pr list with exact title match instead of --search to avoid GitHub search index lag
         run: |
           PR_NUMBER=$(gh pr list \
             --base "${{ github.ref_name }}" \

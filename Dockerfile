@@ -27,7 +27,7 @@ ENV PACKAGE_NAME=$package
 EXPOSE 8080
 WORKDIR /home/node/app
 
-# Install supervisor
+# Install supervisor (--no-cache keeps image small)
 RUN apk add --no-cache supervisor
 
 COPY --from=builder /home/node/app/$location/bundle ./
