@@ -89,7 +89,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
 
       if (
-        markPriceEvents.includes(message.event) &&
+        markPriceEvents.includes(normalizedEventType) &&
         message.data.price &&
         !isNaN(Number(message.data.price))
       ) {
