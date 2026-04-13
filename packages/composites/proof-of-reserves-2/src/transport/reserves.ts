@@ -118,6 +118,7 @@ type BalanceSourceParam = RequestParams['balanceSources'][number]
 type ProcessedComponent = {
   name: string
   currency: string
+  conversions: string[]
   totalBalance: FixedPoint
   originalCurrency: string
   totalBalanceInOriginalCurrency: FixedPoint
@@ -128,7 +129,6 @@ type ProcessedConversion = {
   from: string
   to: string
   rate: FixedPoint
-  operation: 'multiply' | 'divide'
 }
 
 export type CustomTransportTypes = BaseEndpointTypes & {
@@ -224,29 +224,30 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
 
     for (const conversion of conversions) {
       let { from, to } = conversion
-      if (conversion.operation === 'divide') {
-        ;[from, to] = [to, from]
-      }
       conversionRates.push({
         from,
         to,
         rate: fixedPointToNumber(conversion.rate),
       })
-      console.log('dskloetx _handleRequest applying conversion', conversion)
+    }
 
-      for (const component of components) {
-        if (component.currency === conversion.from) {
-          component.currency = conversion.to
-          if (conversion.operation === 'multiply') {
-            component.totalBalance = multiply(component.totalBalance, conversion.rate)
-          } else if (conversion.operation === 'divide') {
-            component.totalBalance = divide(component.totalBalance, conversion.rate)
-          } else {
-            throw new AdapterError({
-              statusCode: 500,
-              message: `Unsupported conversion operation: ${conversion.operation}`,
-            })
-          }
+    for (const component of components) {
+      for (const conversionName of component.conversions) {
+        const [from, to] = conversionName.split('/')
+        const conversion = conversions.find(
+          (c) => (c.from === from && c.to === to) || (c.from === to && c.to === from),
+        )
+        if (conversion === undefined) {
+          throw new AdapterError({
+            statusCode: 500,
+            message: `Conversion rate not found for conversion '${conversionName}' needed for component '${component.name}'.`,
+          })
+        }
+        component.currency = to
+        if (from === conversion.from) {
+          component.totalBalance = multiply(component.totalBalance, conversion.rate)
+        } else {
+          component.totalBalance = divide(component.totalBalance, conversion.rate)
         }
       }
     }
@@ -447,6 +448,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       return {
         name: component.name,
         currency: component.currency,
+        conversions: component.conversions,
         totalBalance,
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
@@ -536,7 +538,6 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       from: conversion.from,
       to: conversion.to,
       rate,
-      operation: conversion.operation,
     }
   }
 

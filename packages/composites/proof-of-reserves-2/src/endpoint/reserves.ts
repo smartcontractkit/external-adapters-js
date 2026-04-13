@@ -115,11 +115,17 @@ export const inputParameters = new InputParameters(
           required: true,
           type: 'string',
         },
+        conversions: {
+          description:
+            'List of conversions to apply. Each conversion is formatted as "A/B" where "A" and "B" refer to the from/to of a conversion defined in the conversions input parameter.',
+          array: true,
+          type: 'string',
+        },
       },
     },
     conversions: {
       description:
-        'Describes how to convert the balances of the components to the same currency if they are not already reported in the same currency. Conversions are applied in order and each conversion is applied to every applicable component.',
+        'Describes how to convert the balances of the components to the same currency if they are not already reported in the same currency. If a component requires an inverse conversion, this is derived automatically.',
       array: true,
       required: false,
       type: {
@@ -156,13 +162,6 @@ export const inputParameters = new InputParameters(
             'The object path to find the number of decimals to scale the fixed point conversion rate in the result from the provider. If absent, the result is considered to be an unscaled floating point number',
           type: 'string',
           required: false,
-        },
-        operation: {
-          type: 'string',
-          required: true,
-          description:
-            'Whether to multiple or divide the result from the provider to perform the conversion.',
-          options: ['multiply', 'divide'],
         },
       },
     },
