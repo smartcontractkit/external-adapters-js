@@ -51,6 +51,13 @@ describe('markprice endpoint', () => {
     type: 'top_of_book',
   }
 
+  const hyperliquidMixedCaseSymbolData = {
+    endpoint: 'markprice',
+    exchange: 'hyperliquid',
+    symbol: 'xyz:SILVER',
+    type: 'top_of_book_perps',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_MARK_PRICE_API_ENDPOINT'] = wsEndpoint
@@ -72,8 +79,9 @@ describe('markprice endpoint', () => {
       testAdapter.request(topOfBookPerpsData),
       testAdapter.request(topOfBookSpotData),
       testAdapter.request(hyperliquidPerpsData),
+      testAdapter.request(hyperliquidMixedCaseSymbolData),
     ])
-    await testAdapter.waitForCache(4)
+    await testAdapter.waitForCache(5)
   })
 
   afterAll(async () => {
@@ -116,6 +124,12 @@ describe('markprice endpoint', () => {
   describe('hyperliquid perps', () => {
     it('should return success with hyperliquid top_of_book_perps', async () => {
       const response = await testAdapter.request(hyperliquidPerpsData)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should handle mixed case symbols and normalize them', async () => {
+      const response = await testAdapter.request(hyperliquidMixedCaseSymbolData)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

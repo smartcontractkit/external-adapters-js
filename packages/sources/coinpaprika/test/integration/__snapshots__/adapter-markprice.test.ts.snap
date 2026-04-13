@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`markprice endpoint hyperliquid perps should handle mixed case symbols and normalize them 1`] = `
+{
+  "data": {
+    "ask": 45.6,
+    "bid": 45.5,
+    "mid": 45.55,
+  },
+  "result": 45.55,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1118,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
 exports[`markprice endpoint hyperliquid perps should return success with hyperliquid top_of_book_perps 1`] = `
 {
   "data": {

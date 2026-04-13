@@ -47,6 +47,18 @@ const HYPERLIQUID_PERPS_MESSAGE = {
   },
 }
 
+const HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE = {
+  event: 'top_of_book',
+  data: {
+    id: 'xyz:silver',
+    exchange: 'hyperliquid',
+    symbol: 'xyz:SILVER',
+    bid_price: '45.50',
+    ask_price: '45.60',
+    timestamp: '2026-03-12T15:24:40Z',
+  },
+}
+
 export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -54,6 +66,7 @@ export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer =
     setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_PERPS_MESSAGE)), 101)
     setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_SPOT_MESSAGE)), 102)
     setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_PERPS_MESSAGE)), 103)
+    setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE)), 104)
   })
   return mockWsServer
 }
