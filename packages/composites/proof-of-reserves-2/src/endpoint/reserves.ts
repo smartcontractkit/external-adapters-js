@@ -1,7 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { customSubscriptionTransport } from '../transport/reserves'
 
 export const inputParameters = new InputParameters(
@@ -210,5 +209,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: customSubscriptionTransport,
   inputParameters,
-  overrides: overrides['proof-of-reserves-2'],
 })
