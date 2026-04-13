@@ -116,7 +116,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       ) {
         const bidDecimal = new Decimal(message.data.bid_price)
         const askDecimal = new Decimal(message.data.ask_price)
-        const mid = Number(bidDecimal.add(askDecimal).div(2))
+        const mid = bidDecimal.add(askDecimal).div(2).toNumber()
         return [
           {
             params: { ...params },
