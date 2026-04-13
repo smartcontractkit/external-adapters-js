@@ -55,10 +55,10 @@ export const endpoint = new AdapterEndpoint({
   requestTransforms: [
     (request) => {
       request.requestContext.data.symbol = request.requestContext.data.symbol.toUpperCase()
-      if (request.requestContext.data.type === 'top_of_book_perps') {
-        // top_of_book type from the firehose API can also be queried
-        // with server-side filtering as top_of_book_perps type
-        request.requestContext.data.type = 'top_of_book'
+      if (request.requestContext.data.type === 'top_of_book') {
+        // top_of_book is a legacy mapping for top_of_book_perps
+        // it is returned by the firehose API as type: top_of_book
+        request.requestContext.data.type = 'top_of_book_perps'
       }
     },
   ],

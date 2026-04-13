@@ -50,12 +50,18 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         return
       }
 
+      // Normalize the event type for subscription matching:
+      // The API sends 'top_of_book' for perps, but subscriptions store 'top_of_book_perps'
+      // after requestTransforms normalize the legacy alias.
+      const normalizedEventType =
+        message.event === 'top_of_book' ? 'top_of_book_perps' : message.event
+
       if (
         !subscriptions.some(
           (s) =>
             s.exchange === message.data.exchange &&
             s.symbol === message.data.symbol &&
-            s.type === message.event,
+            s.type === normalizedEventType,
         )
       ) {
         // Skip unsubscribed messages
@@ -90,7 +96,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
 
       if (
-        topOfBookEvents.includes(message.event) &&
+        topOfBookEvents.includes(normalizedEventType) &&
         message.data.bid_price &&
         message.data.ask_price &&
         !isNaN(Number(message.data.bid_price)) &&
@@ -99,7 +105,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         const mid = (Number(message.data.bid_price) + Number(message.data.ask_price)) / 2
         return [
           {
-            params: { ...params, type: message.event },
+            params: { ...params, type: normalizedEventType },
             response: {
               result: mid,
               data: {
