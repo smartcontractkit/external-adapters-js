@@ -1,6 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`markprice endpoint markprice endpoint should return success with market price 1`] = `
+exports[`markprice endpoint hyperliquid perps should handle mixed case symbols and normalize them 1`] = `
+{
+  "data": {
+    "ask": 45.6,
+    "bid": 45.5,
+    "mid": 45.55,
+  },
+  "result": 45.55,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1118,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
+exports[`markprice endpoint hyperliquid perps should return success with hyperliquid top_of_book_perps 1`] = `
+{
+  "data": {
+    "ask": 97530,
+    "bid": 97470,
+    "mid": 97500,
+  },
+  "result": 97500,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1117,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
+exports[`markprice endpoint mark_price should return success with market price 1`] = `
 {
   "data": {
     "mid": 97500.5,
@@ -15,7 +49,7 @@ exports[`markprice endpoint markprice endpoint should return success with market
 }
 `;
 
-exports[`markprice endpoint markprice endpoint should return success with top of book 1`] = `
+exports[`markprice endpoint top_of_book_perps should return same result when using legacy top_of_book alias 1`] = `
 {
   "data": {
     "ask": 97520,
@@ -26,6 +60,40 @@ exports[`markprice endpoint markprice endpoint should return success with top of
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1115,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
+exports[`markprice endpoint top_of_book_perps should return success with explicit top_of_book_perps 1`] = `
+{
+  "data": {
+    "ask": 97520,
+    "bid": 97480,
+    "mid": 97500,
+  },
+  "result": 97500,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1115,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
+exports[`markprice endpoint top_of_book_spot should return success with top_of_book_spot 1`] = `
+{
+  "data": {
+    "ask": 97510,
+    "bid": 97490,
+    "mid": 97500,
+  },
+  "result": 97500,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1116,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1773329080000,
   },
