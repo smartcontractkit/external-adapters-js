@@ -2,6 +2,13 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { customSubscriptionTransport } from '../transport/reserves'
+import {
+  checkAddressLists,
+  checkBalanceSources,
+  checkComponents,
+  checkConversions,
+  checkProviderUrls,
+} from '../utils/validation'
 
 export const inputParameters = new InputParameters(
   {
@@ -173,10 +180,7 @@ export const inputParameters = new InputParameters(
   [],
 )
 
-type Balance = {
-  amount: string
-  decimals: number
-}
+export type RequestParams = typeof inputParameters.validated
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -191,7 +195,10 @@ export type BaseEndpointTypes = {
         currency: string
         totalBalance: number
         originalCurrency?: string
-        totalBalanceInOriginalCurrency?: Balance
+        totalBalanceInOriginalCurrency?: {
+          amount: string
+          decimals: number
+        }
         addressCount?: number
       }[]
       conversionRates: {
@@ -209,4 +216,13 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: customSubscriptionTransport,
   inputParameters,
+  customInputValidation: (request, _settings): undefined => {
+    const params = request.requestContext.data
+    checkProviderUrls(params)
+    checkAddressLists(params)
+    checkBalanceSources(params)
+    checkConversions(params)
+    checkComponents(params)
+    return
+  },
 })

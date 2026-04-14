@@ -6,110 +6,20 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-//import Decimal from 'decimal.js'
 import objectPath from 'object-path'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/reserves'
+import { BaseEndpointTypes, RequestParams } from '../endpoint/reserves'
+import {
+  FixedPoint,
+  add,
+  divide,
+  fixedPointToNumber,
+  getFixedPointFromResult,
+  multiply,
+  toFixedPointWithDecimals,
+} from '../utils/fixed-point'
+import { getProviderUrl } from '../utils/validation'
 
 const logger = makeLogger('CustomTransport')
-
-type RequestParams = typeof inputParameters.validated
-
-type FixedPoint = {
-  amount: bigint
-  decimals: number
-}
-
-type NumberType = FixedPoint | number
-
-const isFixedPoint = (num: NumberType): num is FixedPoint => {
-  return typeof num !== 'number' && 'amount' in num && 'decimals' in num
-}
-
-const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint => {
-  if (!isFixedPoint(num)) {
-    return {
-      amount: BigInt(num * 10 ** decimals),
-      decimals,
-    }
-  }
-
-  let amount = num.amount
-  if (decimals !== num.decimals) {
-    amount = (amount * 10n ** BigInt(decimals)) / 10n ** BigInt(num.decimals)
-  }
-  return {
-    amount,
-    decimals,
-  }
-}
-
-const fixedPointToNumber = (num: FixedPoint): number => {
-  return Number(num.amount) / 10 ** num.decimals
-}
-
-const add = (a: FixedPoint, b: FixedPoint): FixedPoint => {
-  let resultDecimals = Math.max(a.decimals, b.decimals)
-  a = toFixedPointWithDecimals(a, resultDecimals)
-  b = toFixedPointWithDecimals(b, resultDecimals)
-  return {
-    amount: a.amount + b.amount,
-    decimals: resultDecimals,
-  }
-}
-
-const multiply = (a: FixedPoint, b: FixedPoint): FixedPoint => {
-  const decimals = Math.max(a.decimals, b.decimals)
-  const amount = (a.amount * b.amount) / 10n ** BigInt(a.decimals + b.decimals - decimals)
-  return {
-    amount,
-    decimals,
-  }
-}
-
-const divide = (a: FixedPoint, b: FixedPoint): FixedPoint => {
-  const decimals = Math.max(a.decimals, b.decimals)
-  const amount = (a.amount * 10n ** BigInt(decimals + b.decimals - a.decimals)) / b.amount
-  return {
-    amount,
-    decimals,
-  }
-}
-
-const getFixedPointFromResult = ({
-  result,
-  amountPath,
-  decimalsPath,
-  defaultDecimals,
-}: {
-  result: Record<string, unknown>
-  amountPath: string
-  decimalsPath: string | undefined
-  defaultDecimals: number
-}): FixedPoint => {
-  const amount: number | string = objectPath.get(result, amountPath)
-  if (amount === undefined) {
-    throw new AdapterError({
-      statusCode: 500,
-      message: `Amount not found at path '${amountPath}' in result '${JSON.stringify(result)}'.`,
-    })
-  }
-  if (decimalsPath) {
-    const decimals = Number(objectPath.get(result, decimalsPath))
-    if (!Number.isFinite(decimals)) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: `Decimals not found at path '${decimalsPath}' in result '${JSON.stringify(
-          result,
-        )}'.`,
-      })
-    }
-    return {
-      amount: BigInt(amount),
-      decimals: decimals,
-    }
-  }
-  return toFixedPointWithDecimals(Number(amount), defaultDecimals)
-}
 
 type ComponentParam = RequestParams['components'][number]
 type ConversionParam = RequestParams['conversions'][number]
@@ -164,8 +74,6 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     try {
       response = await this._handleRequest(context, param)
     } catch (e) {
-      // @ts-ignore
-      console.log('dskloetx handleRequest error fetching data from provider', e.stack)
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
       response = {
@@ -223,7 +131,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     const conversionRates = []
 
     for (const conversion of conversions) {
-      let { from, to } = conversion
+      const { from, to } = conversion
       conversionRates.push({
         from,
         to,
@@ -389,7 +297,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
           message: `Balance source '${component.balanceSource}' not found for component '${component.name}'.`,
         })
       }
-      let balanceProviderAddressParams = {}
+      const balanceProviderAddressParams = {}
       //console.log('dskloetx fetchComponent 1 component', component)
       if (component.addressList !== undefined && balanceSource.addressArrayPath !== undefined) {
         //console.log('dskloetx fetchComponent 2 component.address', component.addresses)
@@ -476,14 +384,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     provider: string
     params: Record<string, unknown>
   }): Promise<Record<string, unknown>> {
-    const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
-    const url = process.env[providerUrlEnvVarName]
-    if (!url) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: `Missing environment variable for provider URL: ${providerUrlEnvVarName}`,
-      })
-    }
+    const url = getProviderUrl(provider)
     const requestConfig = {
       url,
       method: 'POST',
@@ -501,8 +402,6 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     } catch (error: unknown) {
       let providerErrorMessage = (error as { errorResponse: { error: { message: string } } })
         .errorResponse?.error?.message
-      // @ts-ignore
-      console.log('dskloetx error fetching data 2 from provider', providerErrorMessage)
       if (!providerErrorMessage) {
         if (error instanceof Error) {
           providerErrorMessage = error.message
