@@ -44,6 +44,12 @@ type ErrorResponseData struct {
 	} `json:"error"`
 }
 
+// ObservationErrorResponse is returned when the cached observation has Success=false
+type ObservationErrorResponse struct {
+	ErrorMessage string          `json:"errorMessage"`
+	Timestamps   json.RawMessage `json:"timestamps"`
+}
+
 // Object pools for reducing memory allocations
 var (
 	requestDataPool = sync.Pool{
@@ -312,7 +318,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Try the mapper: raw key → transformed key → cache lookup by transformed key.
 	if transformedKey, ok := s.keyMapper.Get(rawCacheKey); ok {
 		if item := s.cache.Get(transformedKey); item != nil && item.Observation != nil {
-			c.JSON(http.StatusOK, item.Observation)
+			respondWithObservation(c, item.Observation)
 			return
 		}
 	}
@@ -320,7 +326,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Fallback: try direct lookup by raw key (handles the common case where
 	// raw key == transformed key, i.e. no adapter-level requestTransform).
 	if item := s.cache.Get(rawCacheKey); item != nil && item.Observation != nil {
-		c.JSON(http.StatusOK, item.Observation)
+		respondWithObservation(c, item.Observation)
 		return
 	}
 
@@ -358,6 +364,19 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
+}
+
+// respondWithObservation writes the observation to the response. Returns 200 for
+// successful observations and 502 with an error payload for failed ones.
+func respondWithObservation(c *gin.Context, obs *types.Observation) {
+	if obs.Success {
+		c.JSON(http.StatusOK, obs)
+		return
+	}
+	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
+		ErrorMessage: obs.Error,
+		Timestamps:   obs.Timestamps,
+	})
 }
 
 // subscribeToAsset sends a subscription request to the JS adapter.
