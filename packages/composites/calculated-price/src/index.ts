@@ -5,7 +5,7 @@ import { computedPrice } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: computedPrice.name,
-  name: 'IMPLIED_PRICE_TEST',
+  name: 'CALCULATED_PRICE',
   config,
   endpoints: [computedPrice],
 })
