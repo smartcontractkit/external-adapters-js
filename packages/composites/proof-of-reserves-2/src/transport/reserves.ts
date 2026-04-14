@@ -25,7 +25,7 @@ type ComponentParam = RequestParams['components'][number]
 type ConversionParam = RequestParams['conversions'][number]
 type BalanceSourceParam = RequestParams['balanceSources'][number]
 
-type ProcessedComponent = {
+type FetchedComponent = {
   name: string
   currency: string
   conversions: string[]
@@ -35,7 +35,7 @@ type ProcessedComponent = {
   addressCount?: number
 }
 
-type ProcessedConversion = {
+type FetchedConversion = {
   from: string
   to: string
   rate: FixedPoint
@@ -288,7 +288,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     addressListMap: Record<string, Promise<unknown[]>>,
     balanceSourceMap: Record<string, BalanceSourceParam>,
     resultDecimals: number,
-  ): Promise<ProcessedComponent> {
+  ): Promise<FetchedComponent> {
     try {
       const balanceSource = balanceSourceMap[component.balanceSource]
       if (balanceSource === undefined) {
@@ -420,24 +420,30 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     context: EndpointContext<CustomTransportTypes>,
     conversion: ConversionParam,
     resultDecimals: number,
-  ): Promise<ProcessedConversion> {
+  ): Promise<FetchedConversion> {
+    return {
+      from: conversion.from,
+      to: conversion.to,
+      rate: await this.fetchConversionRate(context, conversion, resultDecimals),
+    }
+  }
+
+  async fetchConversionRate(
+    context: EndpointContext<CustomTransportTypes>,
+    conversion: ConversionParam,
+    resultDecimals: number,
+  ): Promise<FixedPoint> {
     const responseData = await this.fetchData({
       context,
       provider: conversion.provider,
       params: JSON.parse(conversion.params),
     })
-    const rate = getFixedPointFromResult({
+    return getFixedPointFromResult({
       result: responseData,
       amountPath: conversion.ratePath,
       decimalsPath: conversion.decimalsPath,
       defaultDecimals: resultDecimals,
     })
-
-    return {
-      from: conversion.from,
-      to: conversion.to,
-      rate,
-    }
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: CustomTransportTypes['Settings']): number {
