@@ -19,7 +19,7 @@ import {
 } from '../utils/fixed-point'
 import { getProviderUrl } from '../utils/validation'
 
-const logger = makeLogger('CustomTransport')
+const logger = makeLogger('ReservesTransport')
 
 type ComponentParam = RequestParams['components'][number]
 type ConversionParam = RequestParams['conversions'][number]
@@ -38,23 +38,23 @@ type FetchedComponent = {
 type FetchedConversion = {
   from: string
   to: string
-  rate: FixedPoint
+  rate: Promise<FixedPoint>
 }
 
-export type CustomTransportTypes = BaseEndpointTypes & {
+export type ReservesTransportTypes = BaseEndpointTypes & {
   Provider: {
     RequestBody: never
     ResponseBody: any
   }
 }
-export class CustomTransport extends SubscriptionTransport<CustomTransportTypes> {
+export class ReservesTransport extends SubscriptionTransport<ReservesTransportTypes> {
   name!: string
-  responseCache!: ResponseCache<CustomTransportTypes>
+  responseCache!: ResponseCache<ReservesTransportTypes>
   requester!: Requester
 
   async initialize(
-    dependencies: TransportDependencies<CustomTransportTypes>,
-    adapterSettings: CustomTransportTypes['Settings'],
+    dependencies: TransportDependencies<ReservesTransportTypes>,
+    adapterSettings: ReservesTransportTypes['Settings'],
     endpointName: string,
     transportName: string,
   ): Promise<void> {
@@ -62,15 +62,15 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     this.requester = dependencies.requester
   }
   async backgroundHandler(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     entries: RequestParams[],
   ) {
     await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
     await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
   }
 
-  async handleRequest(context: EndpointContext<CustomTransportTypes>, param: RequestParams) {
-    let response: AdapterResponse<CustomTransportTypes['Response']>
+  async handleRequest(context: EndpointContext<ReservesTransportTypes>, param: RequestParams) {
+    let response: AdapterResponse<ReservesTransportTypes['Response']>
     try {
       response = await this._handleRequest(context, param)
     } catch (e) {
@@ -90,43 +90,25 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async _handleRequest(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     params: RequestParams,
-  ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
+  ): Promise<AdapterResponse<ReservesTransportTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    //console.log('dskloetx _handleRequest params', JSON.stringify(params, null, 2))
     const resultDecimals = params.resultDecimals
     const addressListMap = this.fetchAddressLists(context, params.addressLists)
     const balanceSourceMap = Object.fromEntries(
       params.balanceSources.map((source) => [source.name, source]),
     )
-    const [components, conversions] = await Promise.all([
-      Promise.all(
-        params.components.map((component) =>
-          this.fetchComponent(context, component, addressListMap, balanceSourceMap, resultDecimals),
-        ),
-      ),
-      Promise.all(
-        params.conversions.map((conversion) =>
-          this.fetchConversion(context, conversion, resultDecimals),
-        ),
-      ),
-    ])
+    const conversions = params.conversions.map((conversion) =>
+      this.fetchConversion(context, conversion, resultDecimals),
+    )
 
-    //console.log('dskloetx _handleRequest components', components)
-    //console.log('dskloetx _handleRequest conversions', conversions)
-
-    /*
-    const componentsForResponse = components.map((component) => ({
-      name: component.name,
-      originalCurrency: component.currency,
-      totalBalanceInOriginalCurrency: {
-        amount: component.totalBalance.amount.toString(),
-        decimals: compnent.totalBalance.decimals,
-      },
-    }))
-    */
+    const components = await Promise.all(
+      params.components.map((component) =>
+        this.fetchComponent(context, component, addressListMap, balanceSourceMap, resultDecimals),
+      ),
+    )
 
     const conversionRates = []
 
@@ -135,7 +117,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       conversionRates.push({
         from,
         to,
-        rate: fixedPointToNumber(conversion.rate),
+        rate: fixedPointToNumber(await conversion.rate),
       })
     }
 
@@ -153,9 +135,9 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         }
         component.currency = to
         if (from === conversion.from) {
-          component.totalBalance = multiply(component.totalBalance, conversion.rate)
+          component.totalBalance = multiply(component.totalBalance, await conversion.rate)
         } else {
-          component.totalBalance = divide(component.totalBalance, conversion.rate)
+          component.totalBalance = divide(component.totalBalance, await conversion.rate)
         }
       }
     }
@@ -219,7 +201,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   fetchAddressLists(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     addressListsParams: RequestParams['addressLists'],
   ): Record<string, Promise<unknown[]>> {
     return Object.fromEntries(
@@ -230,7 +212,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async fetchAddressList(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     addressListParams: RequestParams['addressLists'][number],
   ): Promise<unknown[]> {
     if (addressListParams.fixed !== undefined) {
@@ -283,7 +265,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
   }
 
   async fetchComponent(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     component: ComponentParam,
     addressListMap: Record<string, Promise<unknown[]>>,
     balanceSourceMap: Record<string, BalanceSourceParam>,
@@ -337,6 +319,22 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         balanceSource.balancesArrayPath !== undefined
           ? objectPath.get(responseData, balanceSource.balancesArrayPath)
           : [responseData]
+      if (array === undefined) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Balances array not found at path '${balanceSource.balancesArrayPath}' in response from provider '${balanceSource.provider}'`,
+        })
+      }
+      if (!Array.isArray(array)) {
+        throw new AdapterError({
+          statusCode: 500,
+          message: `Expected an array of balance items at path '${
+            balanceSource.balancesArrayPath
+          }' in response from provider '${balanceSource.provider}'. Found '${JSON.stringify(
+            array,
+          )}'.`,
+        })
+      }
       //console.log('dskloet _fetchComponent 5 array', array)
       const balances: FixedPoint[] = array.map((item) => {
         return getFixedPointFromResult({
@@ -364,7 +362,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
       }
     } catch (error: unknown) {
       if (error instanceof AdapterError) {
-        console.log('dskloetx error processing component', component.name, error)
+        //console.log('dskloetx error processing component', component.name, error)
         const message = `Error processing component '${component.name}': ${error.message}`
         throw new AdapterError({
           statusCode: error.statusCode,
@@ -380,7 +378,7 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     provider,
     params,
   }: {
-    context: EndpointContext<CustomTransportTypes>
+    context: EndpointContext<ReservesTransportTypes>
     provider: string
     params: Record<string, unknown>
   }): Promise<Record<string, unknown>> {
@@ -396,7 +394,6 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
         data: params,
         transportName: this.name,
       })
-      //const requestKey = JSON.stringify(requestConfig)
       const result = await this.requester.request(requestKey, requestConfig)
       return result.response.data as Record<string, unknown>
     } catch (error: unknown) {
@@ -416,20 +413,20 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     }
   }
 
-  async fetchConversion(
-    context: EndpointContext<CustomTransportTypes>,
+  fetchConversion(
+    context: EndpointContext<ReservesTransportTypes>,
     conversion: ConversionParam,
     resultDecimals: number,
-  ): Promise<FetchedConversion> {
+  ): FetchedConversion {
     return {
       from: conversion.from,
       to: conversion.to,
-      rate: await this.fetchConversionRate(context, conversion, resultDecimals),
+      rate: this.fetchConversionRate(context, conversion, resultDecimals),
     }
   }
 
   async fetchConversionRate(
-    context: EndpointContext<CustomTransportTypes>,
+    context: EndpointContext<ReservesTransportTypes>,
     conversion: ConversionParam,
     resultDecimals: number,
   ): Promise<FixedPoint> {
@@ -446,9 +443,9 @@ export class CustomTransport extends SubscriptionTransport<CustomTransportTypes>
     })
   }
 
-  getSubscriptionTtlFromConfig(adapterSettings: CustomTransportTypes['Settings']): number {
+  getSubscriptionTtlFromConfig(adapterSettings: ReservesTransportTypes['Settings']): number {
     return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
 
-export const customSubscriptionTransport = new CustomTransport()
+export const reservesTransport = new ReservesTransport()

@@ -1,15 +1,15 @@
-import nock from 'nock'
+import nock, { DataMatcher } from 'nock'
 
-export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://dataproviderapi.com', {
+export const mockProviderResponse = (
+  url: string,
+  params: DataMatcher,
+  response: Record<string, unknown>,
+): nock.Scope => {
+  return nock(url, {
     encodedQueryParams: true,
   })
-    .get('/cryptocurrency/price')
-    .query({
-      symbol: 'ETH',
-      convert: 'USD',
-    })
-    .reply(200, () => ({ ETH: { price: 10000 } }), [
+    .post('/', { data: params })
+    .reply(200, () => response, [
       'Content-Type',
       'application/json',
       'Connection',
@@ -20,3 +20,4 @@ export const mockResponseSuccess = (): nock.Scope =>
       'Origin',
     ])
     .persist()
+}

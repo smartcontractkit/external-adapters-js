@@ -1,7 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { customSubscriptionTransport } from '../transport/reserves'
+import { reservesTransport } from '../transport/reserves'
 import {
   checkAddressLists,
   checkBalanceSources,
@@ -214,7 +214,7 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'reserves',
   aliases: [],
-  transport: customSubscriptionTransport,
+  transport: reservesTransport,
   inputParameters,
   customInputValidation: (request, _settings): undefined => {
     const params = request.requestContext.data
