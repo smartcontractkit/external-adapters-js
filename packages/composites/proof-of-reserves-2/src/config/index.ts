@@ -2,7 +2,8 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
   MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE: {
-    description: 'How much of a response may be included in an error message before trunctating it',
+    description:
+      'How many characters of a response may be included in an error message before trunctating it',
     type: 'number',
     default: 200,
     sensitive: false,
