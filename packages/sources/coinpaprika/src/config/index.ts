@@ -28,6 +28,12 @@ export const config = new AdapterConfig({
     default: false,
     sensitive: false,
   },
+  WS_MARK_PRICE_API_ENDPOINT: {
+    description: 'The WS API endpoint for Coinpaprika mark price',
+    default: 'wss://streaming-markprice.coinpaprika.com/ws',
+    type: 'string',
+    sensitive: false,
+  },
 })
 
 export const getApiEndpoint = (settings: typeof config.settings): string =>

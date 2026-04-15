@@ -1,6 +1,9 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/okxAssetsAddress'
+
+const logger = makeLogger('okx-assets-address-http-transport')
 
 interface ResponseSchema {
   code: number
@@ -12,6 +15,7 @@ interface ResponseSchema {
     stakingBalanceDetails: {
       address: string
     }[]
+    stakingWithdrawalCredentials: string[]
   }
   detailMsg: string
   error_code: string
@@ -62,7 +66,7 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
       ]
     }
 
-    const addresses = getAddresses(params[0].addressField, response.data)
+    const addresses = getAddresses(params[0], response.data)
 
     if (addresses.length === 0) {
       return [
@@ -95,14 +99,27 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
 })
 
 const getAddresses = (
-  type: TypeFromDefinition<BaseEndpointTypes['Parameters']>['addressField'],
+  param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
   data: ResponseSchema,
 ) => {
-  switch (type) {
+  switch (param.addressField) {
     case 'lockAddresses':
       return (data.data.lockAddresses ?? []).map((item) => item.address)
     case 'stakingBalanceDetails':
       return (data.data.stakingBalanceDetails ?? []).map((item) => item.address)
+    case 'stakingWithdrawalCredentials':
+      return (data.data.stakingWithdrawalCredentials ?? []).flatMap((item) => {
+        const withdrawalCred = item.trim().toLowerCase()
+        if (
+          // 0x | 2 chars prefix | 22 chars padding | 40 chars address
+          (withdrawalCred.startsWith('0x01') || withdrawalCred.startsWith('0x02')) &&
+          withdrawalCred.length === 66
+        ) {
+          return [`0x${withdrawalCred.slice(26)}`]
+        }
+        logger.warn(`Ignore invalid withdrawal credential: ${withdrawalCred} for ${param.coin}`)
+        return []
+      })
     default:
       return []
   }

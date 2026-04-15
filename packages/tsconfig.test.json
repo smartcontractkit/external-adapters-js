@@ -9,6 +9,9 @@
       "path": "./composites/bsol-price/tsconfig.test.json"
     },
     {
+      "path": "./composites/calculated-price/tsconfig.test.json"
+    },
+    {
       "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {
@@ -28,9 +31,6 @@
     },
     {
       "path": "./composites/implied-price/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/implied-price-test/tsconfig.test.json"
     },
     {
       "path": "./composites/llama-guard/tsconfig.test.json"
@@ -336,6 +336,12 @@
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
+      "path": "./sources/itick/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/ix-trust-sync/tsconfig.test.json"
+    },
+    {
       "path": "./sources/json-rpc/tsconfig.test.json"
     },
     {
@@ -486,6 +492,9 @@
       "path": "./sources/synthetix-feeds/tsconfig.test.json"
     },
     {
+      "path": "./sources/t-rize-proof-of-insurance/tsconfig.test.json"
+    },
+    {
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
@@ -511,6 +520,9 @@
     },
     {
       "path": "./sources/trueusd/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/truflation/tsconfig.test.json"
     },
     {
       "path": "./sources/twelvedata/tsconfig.test.json"

@@ -32,6 +32,7 @@ describe('wsTransportBase', () => {
   const mockLogger = {
     error: jest.fn(),
     info: jest.fn(),
+    warn: jest.fn(),
   }
 
   beforeEach(() => {
@@ -153,7 +154,11 @@ describe('wsTransportBase', () => {
           timestamp: 1234567890,
         } as any)
 
-        const transportConfig = (createDataEngineTransport(mockConfig) as any).config
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback to register subscription
+        transportConfig.url(mockContext, [{ feedId: '0x0003' }])
 
         const result = transportConfig.handlers.message({
           report: {
@@ -176,6 +181,290 @@ describe('wsTransportBase', () => {
             },
           },
         ])
+      })
+
+      it('should fan out results when desiredSubs are captured via url callback', () => {
+        // extractData mock returns { price, timestamp } from decoded report
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+          timestamp: 1234567890,
+        } as any)
+
+        const extractDataWithBid = jest.fn((decoded: any) => ({
+          price: decoded.price,
+          bid: decoded.bid,
+        }))
+
+        const transport = createDataEngineTransport({
+          ...mockConfig,
+          extractData: extractDataWithBid,
+        })
+        const transportConfig = (transport as any).config
+
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+          bid: '120945968265543240000000',
+        } as any)
+
+        // Simulate url callback to capture desiredSubs
+        transportConfig.url(mockContext, [
+          { feedId: '0x0003', resultPath: 'price' },
+          { feedId: '0x0003', resultPath: 'bid' },
+        ])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(2)
+        expect(result[0]).toEqual({
+          params: { feedId: '0x0003', resultPath: 'price' },
+          response: {
+            result: '120950127609218450000000',
+            data: {
+              price: '120950127609218450000000',
+              bid: '120945968265543240000000',
+            },
+          },
+        })
+        expect(result[1]).toEqual({
+          params: { feedId: '0x0003', resultPath: 'bid' },
+          response: {
+            result: '120945968265543240000000',
+            data: {
+              price: '120950127609218450000000',
+              bid: '120945968265543240000000',
+            },
+          },
+        })
+      })
+
+      it('should apply decimals scaling when resultPath and decimals are provided', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback to capture desiredSubs
+        transportConfig.url(mockContext, [{ feedId: '0x0003', resultPath: 'price', decimals: 8 }])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].response.result).toBe('12095012760921')
+        // data should still contain raw values
+        expect(result[0].response.data.price).toBe('120950127609218450000000')
+      })
+
+      it('should return result null when resultPath is not provided even with desiredSubs', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '120950127609218450000000',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback with no resultPath
+        transportConfig.url(mockContext, [{ feedId: '0x0003' }])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].response.result).toBeNull()
+      })
+
+      describe('maxAgeInSeconds filtering', () => {
+        const nowS = 1700000000
+        const mockConfigWithTimestamp = {
+          schemaVersion: 'V3',
+          loggerName: 'test-logger',
+          extractData: jest.fn((decoded: any) => ({ price: decoded.price })),
+          reportTimestampS: jest.fn((decoded: any) => decoded.observationsTimestamp as number),
+        }
+
+        beforeEach(() => {
+          jest.spyOn(Date, 'now').mockReturnValue(nowS * 1000)
+        })
+
+        afterEach(() => {
+          jest.restoreAllMocks()
+        })
+
+        it('should pass through report when maxAgeInSeconds is not set', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 9999,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [{ feedId: '0x0003', resultPath: 'price' }])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should pass through report when reportTimestampS is not configured', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+          } as any)
+
+          // Use mockConfig which has no reportTimestampS
+          const transport = createDataEngineTransport(mockConfig)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should pass through report when age is within maxAgeInSeconds', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 30,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+
+        it('should filter out stale report when age exceeds maxAgeInSeconds', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 120,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(0)
+        })
+
+        it('should filter stale subs while keeping fresh subs for same feedId', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 90,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 120 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          // First sub (maxAge=60) filtered out, second sub (maxAge=120) kept
+          expect(result).toHaveLength(1)
+          expect(result[0].params.maxAgeInSeconds).toBe(120)
+        })
+
+        it('should report exact age at boundary', () => {
+          mockDecodeReport.mockReturnValue({
+            version: 'V3',
+            price: '100',
+            observationsTimestamp: nowS - 60,
+          } as any)
+
+          const transport = createDataEngineTransport(mockConfigWithTimestamp)
+          const transportConfig = (transport as any).config
+
+          transportConfig.url(mockContext, [
+            { feedId: '0x0003', resultPath: 'price', maxAgeInSeconds: 60 },
+          ])
+
+          const result = transportConfig.handlers.message({
+            report: { feedID: '0x0003', fullReport: '0x123' },
+          })
+
+          expect(result).toHaveLength(1)
+          expect(result[0].response.result).toBe('100')
+        })
+      })
+
+      it('should only fan out results for matching feedId', () => {
+        mockDecodeReport.mockReturnValue({
+          version: 'V3',
+          price: '100',
+        } as any)
+
+        const transport = createDataEngineTransport(mockConfig)
+        const transportConfig = (transport as any).config
+
+        // Simulate url callback with multiple feedIds
+        transportConfig.url(mockContext, [
+          { feedId: '0x0003', resultPath: 'price' },
+          { feedId: '0xOTHER', resultPath: 'price' },
+        ])
+
+        const result = transportConfig.handlers.message({
+          report: {
+            feedID: '0x0003',
+            fullReport: '0x123',
+          },
+        })
+
+        expect(result).toHaveLength(1)
+        expect(result[0].params.feedId).toBe('0x0003')
       })
     })
   })

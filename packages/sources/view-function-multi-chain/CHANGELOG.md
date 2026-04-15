@@ -1,5 +1,15 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#4729](https://github.com/smartcontractkit/external-adapters-js/pull/4729) [`2a178ed`](https://github.com/smartcontractkit/external-adapters-js/commit/2a178ed81dc5b791f89f7dc2316d8a339bb23637) Thanks [@dskloetc](https://github.com/dskloetc)! - Support aptos in calculated-multi-function
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.7.0
 
 ### Minor Changes
