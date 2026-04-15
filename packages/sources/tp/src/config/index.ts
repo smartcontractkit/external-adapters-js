@@ -17,5 +17,6 @@ export const config = new AdapterConfig({
     description: 'Endpoint for WS prices',
     type: 'string',
     default: 'ws://json.mktdata.portal.apac.parametasolutions.com:12000',
+    sensitive: false,
   },
 })

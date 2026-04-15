@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'WS endpoint for expand.network price aggregator',
     type: 'string',
     default: 'wss://aggregate.expand.network',
+    sensitive: false,
   },
   API_KEY: {
     description: 'An API key for expand.network price aggregator',

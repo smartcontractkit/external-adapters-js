@@ -1,5 +1,11 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4557](https://github.com/smartcontractkit/external-adapters-js/pull/4557) [`60b5a38`](https://github.com/smartcontractkit/external-adapters-js/commit/60b5a38cb68164a36f48f338817311707b22e99a) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Reduce call frequency
+
 ## 1.0.2
 
 ### Patch Changes

@@ -4,7 +4,6 @@ import { callAdapter, makeRequestFactory } from '.'
 export const LIST_ADAPTER = 'LIST'
 
 export const adapterNamesV2 = {
-  renVM: 'RENVM',
   celsiusAddressList: 'CELSIUS_ADDRESS_LIST',
   chainReserveWallets: 'CHAIN_RESERVE_WALLET',
   wrapped: 'WRAPPED',

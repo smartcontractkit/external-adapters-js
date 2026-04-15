@@ -1,5 +1,39 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.34.0
+
+### Minor Changes
+
+- [#4756](https://github.com/smartcontractkit/external-adapters-js/pull/4756) [`01de736`](https://github.com/smartcontractkit/external-adapters-js/commit/01de7364dfb5570839c8939e930f13d93783b04b) Thanks [@dskloetc](https://github.com/dskloetc)! - Support cardano and litecoin endpoints of token-balance
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+## 1.33.2
+
+### Patch Changes
+
+- [#4628](https://github.com/smartcontractkit/external-adapters-js/pull/4628) [`309e53c`](https://github.com/smartcontractkit/external-adapters-js/commit/309e53c5dad419142872175b4a6f09bb2ed54e75) Thanks [@dskloetc](https://github.com/dskloetc)! - Update README
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/reduce-adapter@1.4.35
+
+## 1.33.1
+
+### Patch Changes
+
+- [#4609](https://github.com/smartcontractkit/external-adapters-js/pull/4609) [`cb489cb`](https://github.com/smartcontractkit/external-adapters-js/commit/cb489cb09f4e713524b263ef6014fb7b383d5aa0) Thanks [@dskloetc](https://github.com/dskloetc)! - Delete unused renvm-address-set EA. Proof-of-reserves depended on it but this is not used by any job.
+
+## 1.33.0
+
+### Minor Changes
+
+- [#4596](https://github.com/smartcontractkit/external-adapters-js/pull/4596) [`65ac6fa`](https://github.com/smartcontractkit/external-adapters-js/commit/65ac6fa208a5e2aea0d3405d6d79d1ab76c14a6c) Thanks [@dskloetc](https://github.com/dskloetc)! - Support decimal number strings returned by view-function-multi-chain
+
 ## 1.32.0
 
 ### Minor Changes

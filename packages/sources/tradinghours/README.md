@@ -1,6 +1,6 @@
 # TRADINGHOURS
 
-![0.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradinghours/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/tradinghours/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -23,9 +23,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                         Options                                                                                                                                                                                                                                                                          |     Default     |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
-|           | endpoint | The endpoint to use | string | [euronext_milan-market-status](#market-status-endpoint), [euronext_paris-market-status](#market-status-endpoint), [forex-market-status](#market-status-endpoint), [lse-market-status](#market-status-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [nyse-market-status](#market-status-endpoint), [six-market-status](#market-status-endpoint), [tradegate-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint), [xetra-market-status](#market-status-endpoint) | `market-status` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                                                                               Options                                                                                                                                                                                                                                                                                                |     Default     |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------: |
+|           | endpoint | The endpoint to use | string | [euronext_milan-market-status](#market-status-endpoint), [euronext_paris-market-status](#market-status-endpoint), [forex-market-status](#market-status-endpoint), [lse-market-status](#market-status-endpoint), [market-session](#market-session-endpoint), [market-status](#market-status-endpoint), [metals-market-status](#market-status-endpoint), [nyse-market-status](#market-status-endpoint), [six-market-status](#market-status-endpoint), [tradegate-market-status](#market-status-endpoint), [wti-market-status](#market-status-endpoint), [xetra-market-status](#market-status-endpoint) | `market-status` |
 
 ## Market-status Endpoint
 
@@ -38,6 +38,24 @@ Supported names for this endpoint are: `euronext_milan-market-status`, `euronext
 |    ✅     | market  |         |                               The name of the market                                | string | `EURONEXT_MILAN`, `EURONEXT_PARIS`, `FOREX`, `LSE`, `METALS`, `NYSE`, `SIX`, `TRADEGATE`, `WTI`, `XETRA`, `euronext_milan`, `euronext_paris`, `forex`, `lse`, `metals`, `nyse`, `six`, `tradegate`, `wti`, `xetra` |           |            |                |
 |           |  type   |         |                              Type of the market status                              | string |                                                                                                 `24/5`, `regular`                                                                                                  | `regular` |            |                |
 |           | weekend |         | DHH-DHH:TZ, 520-020:America/New_York means Fri 20:00 to Sun 20:00 Eastern Time Zone | string |                                                                                                                                                                                                                    |           |            |                |
+
+### Example
+
+There are no examples for this endpoint.
+
+---
+
+## Market-session Endpoint
+
+`market-session` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |   Name   | Aliases |               Description                |  Type  |                                                                                                      Options                                                                                                       |  Default  | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :--------------------------------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: | :--------: | :------------: |
+|    ✅     |  market  |         |          The name of the market          | string | `EURONEXT_MILAN`, `EURONEXT_PARIS`, `FOREX`, `LSE`, `METALS`, `NYSE`, `SIX`, `TRADEGATE`, `WTI`, `XETRA`, `euronext_milan`, `euronext_paris`, `forex`, `lse`, `metals`, `nyse`, `six`, `tradegate`, `wti`, `xetra` |           |            |                |
+|           |   type   |         |        Type of the market status         | string |                                                                                                 `24/5`, `regular`                                                                                                  | `regular` |            |                |
+|    ✅     | timezone |         | America/New_York means Eastern Time Zone | string |                                                                                                                                                                                                                    |           |            |                |
 
 ### Example
 

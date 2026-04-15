@@ -14,6 +14,7 @@ describe('metrics.ts', () => {
         riskFlag: false,
         breachDirection: 'lower',
         isBounded: false,
+        staleLowerBound: false,
         decimals: 3,
         bases: {
           lookback: { nav: '4', ts: 5 },

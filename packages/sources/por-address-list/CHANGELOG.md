@@ -1,5 +1,27 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.16.0
+
+### Minor Changes
+
+- [#4760](https://github.com/smartcontractkit/external-adapters-js/pull/4760) [`0d20656`](https://github.com/smartcontractkit/external-adapters-js/commit/0d2065689873d2d960ee5f69da13c78cd0f15a9f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add staking support to okx addresses
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+## 5.15.0
+
+### Minor Changes
+
+- [#4708](https://github.com/smartcontractkit/external-adapters-js/pull/4708) [`9d2e12f`](https://github.com/smartcontractkit/external-adapters-js/commit/9d2e12f2276cb0510e41006cc2f38699ba60fdf2) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add OKX
+
+### Patch Changes
+
+- [#4693](https://github.com/smartcontractkit/external-adapters-js/pull/4693) [`90485d6`](https://github.com/smartcontractkit/external-adapters-js/commit/90485d677f5aab0e5a08e744a0a90ab3e9fba948) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix error message
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 5.14.3
 
 ### Patch Changes

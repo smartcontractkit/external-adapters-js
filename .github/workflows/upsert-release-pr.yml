@@ -57,7 +57,7 @@ jobs:
       - name: Get changeset arguments
         run: |
           set -e
-          CHANGESET_ARGUMENTS="$(.github/scripts/get-changeset-arguments.sh "$SELECTED_ADAPTERS")"
+          CHANGESET_ARGUMENTS="$(yarn get-changeset-arguments "$SELECTED_ADAPTERS")"
           echo "CHANGESET_ARGUMENTS=$CHANGESET_ARGUMENTS" >> "$GITHUB_ENV"
       - name: Temporarily calculate changesets to generate readmes with proper versions
         run: |
@@ -79,7 +79,8 @@ jobs:
       - name: Generate documentation
         run: |
           yarn generate:master-list -v
-          yarn generate:readme -v
+          # Only generate READMEs for adapters being released.
+          yarn generate:readme -v $(.github/scripts/list-packages-adapters.sh HEAD | jq -r '"--adapters " +  .adapters[].shortName' | tr '\n' ' ')
       - name: Undo temporary changesets and commit docs
         run: |
           git stash
@@ -115,6 +116,25 @@ jobs:
           # trigger other workflows. So we use the token created in the
           # previous step.
           GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+      - name: Annotate release PR description
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-github-token.outputs.access-token }}
+        # We use gh pr list with exact title match instead of --search to avoid GitHub search index lag
+        run: |
+          PR_NUMBER=$(gh pr list \
+            --base "${{ github.ref_name }}" \
+            --state open \
+            --json number,title \
+            --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
+          PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
+          printf -v PR_BODY_PREFIX "This release was triggered by @%s.\n\n" "${{ github.actor }}"
+          printf -v UPDATED_BODY "%s%s" "$PR_BODY_PREFIX" "$PR_BODY"
+
+          gh api \
+            --method PATCH \
+            "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER" \
+            -f body="$UPDATED_BODY" \
+            --silent
       - name: Tag changesets commit
         run: |
           # Delete the tags if they already exist (ignore errors if they don't)

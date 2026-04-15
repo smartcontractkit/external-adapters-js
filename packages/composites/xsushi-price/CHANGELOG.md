@@ -1,5 +1,69 @@
 # @chainlink/xsushi-price-adapter
 
+## 2.0.131
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.17
+
+## 2.0.130
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.16
+
+## 2.0.129
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.15
+
+## 2.0.128
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.14
+
+## 2.0.127
+
+### Patch Changes
+
+- Updated dependencies [[`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4)]:
+  - @chainlink/token-allocation-adapter@1.14.13
+
+## 2.0.126
+
+### Patch Changes
+
+- Updated dependencies [[`1e39b8b`](https://github.com/smartcontractkit/external-adapters-js/commit/1e39b8b98b2d6d2a2ab12097f82f079460128e31), [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67)]:
+  - @chainlink/ea-bootstrap@2.29.12
+  - @chainlink/token-allocation-adapter@1.14.12
+
+## 2.0.125
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.11
+
+## 2.0.124
+
+### Patch Changes
+
+- Updated dependencies [[`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a)]:
+  - @chainlink/token-allocation-adapter@1.14.10
+
+## 2.0.123
+
+### Patch Changes
+
+- Updated dependencies [[`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810)]:
+  - @chainlink/token-allocation-adapter@1.14.9
+
 ## 2.0.122
 
 ### Patch Changes

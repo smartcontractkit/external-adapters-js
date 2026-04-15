@@ -1,5 +1,37 @@
 ## v1.1.0
 
+## 2.9.8
+
+### Patch Changes
+
+- [#4778](https://github.com/smartcontractkit/external-adapters-js/pull/4778) [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439) Thanks [@guandali](https://github.com/guandali)! - fix tiingo casing issue
+
+## 2.9.7
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+## 2.9.6
+
+### Patch Changes
+
+- [#4701](https://github.com/smartcontractkit/external-adapters-js/pull/4701) [`33553d8`](https://github.com/smartcontractkit/external-adapters-js/commit/33553d824be094b5965d4bdf581bcf6a9d0f0b67) Thanks [@cawthorne](https://github.com/cawthorne)! - Add WS bad closure failover mechanism and IEX-specific WebSocket endpoints to Tiingo.
+
+  Explicitly flag insensitive variables in Tiingo adapter
+
+## 2.9.5
+
+### Patch Changes
+
+- [#4606](https://github.com/smartcontractkit/external-adapters-js/pull/4606) [`0a99c0a`](https://github.com/smartcontractkit/external-adapters-js/commit/0a99c0a264c9d91af55cbbeca642c7668174527a) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.12.0
+
+## 2.9.4
+
+### Patch Changes
+
+- [#4543](https://github.com/smartcontractkit/external-adapters-js/pull/4543) [`7e61390`](https://github.com/smartcontractkit/external-adapters-js/commit/7e613904f77cfe90735b73db07f5a22e651e3810) Thanks [@cawthorne](https://github.com/cawthorne)! - Bump EA Framework to 2.11.6 + Update Tiingo ws fail-over logic and logging
+
 ## 2.9.3
 
 ### Patch Changes

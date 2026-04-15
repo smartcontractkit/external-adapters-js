@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute okxAssetsAddress should return error when data source returns error 1`] = `
+{
+  "errorMessage": "Error code 50001: Internal server error",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return success for lockAddresses 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bc1qlock1abc",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1qlock2def",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return success for stakingBalanceDetails 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "bc1qstaking1xyz",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "bc1qstaking2uvw",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return success for stakingWithdrawalCredentials 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0xabcdef0123456789abcdef0123456789abcdef00",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+      {
+        "address": "0x1234567890abcdef1234567890abcdef12345678",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

@@ -104,7 +104,9 @@ jobs:
     needs:
       - calculate-changes
       - build-publish
-    if: needs.calculate-changes.outputs.adapter-list != '{"adapter":[]}'
+    # By default, jobs with needs dependencies only run if all dependent jobs succeeded.
+    # The always() function overrides this, allowing the deploy job to evaluate its conditions
+    # even when build-publish-streams was skipped (which happens when build-streams-adapter-images != 'true').
     environment: InfraK8s
     env:
       ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/r25-adapter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Chainlink r25 adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.1",
+    "@chainlink/external-adapter-framework": "2.11.6",
     "crypto-js": "4.2.0",
     "tslib": "2.4.1"
   },

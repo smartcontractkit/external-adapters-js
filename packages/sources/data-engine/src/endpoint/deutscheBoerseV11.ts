@@ -2,14 +2,11 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { deutscheBoerseV11Transport } from '../transport/deutscheBoerseV11'
+import { commonInputParams } from './common'
 
 export const inputParameters = new InputParameters(
   {
-    feedId: {
-      required: true,
-      type: 'string',
-      description: 'The feedId for Deutsche Boerse feed with v11 schema',
-    },
+    ...commonInputParams,
   },
   [
     {
@@ -21,7 +18,7 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: null
+    Result: string | null
     Data: {
       mid: string
       lastSeenTimestampNs: string

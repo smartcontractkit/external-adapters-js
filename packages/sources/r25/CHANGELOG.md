@@ -1,5 +1,11 @@
 # @chainlink/r25-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4578](https://github.com/smartcontractkit/external-adapters-js/pull/4578) [`7ed569f`](https://github.com/smartcontractkit/external-adapters-js/commit/7ed569f0aadc0a864924c960b086b0fc6620ee41) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Changed to object response
+
 ## 1.0.0
 
 ### Major Changes

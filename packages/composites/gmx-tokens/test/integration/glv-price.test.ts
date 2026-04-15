@@ -35,6 +35,7 @@ describe('GLV price execute', () => {
     process.env.ARBITRUM_RPC_URL = process.env.ARBITRUM_RPC_URL ?? 'http://localhost:9040'
     process.env.BOTANIX_RPC_URL = process.env.BOTANIX_RPC_URL ?? 'http://localhost:9050'
     process.env.AVALANCHE_RPC_URL = process.env.AVALANCHE_RPC_URL ?? 'http://localhost:9060'
+    process.env.MEGAETH_RPC_URL = process.env.MEGAETH_RPC_URL ?? 'http://localhost:9070'
 
     process.env.ARBITRUM_DATASTORE_CONTRACT_ADDRESS =
       process.env.ARBITRUM_DATASTORE_CONTRACT_ADDRESS ??
@@ -55,6 +56,11 @@ describe('GLV price execute', () => {
       process.env.AVALANCHE_GM_READER_CONTRACT_ADDRESS ??
       '0x62Cb8740E6986B29dC671B2EB596676f60590A5B'
 
+    process.env.MEGAETH_DATASTORE_CONTRACT_ADDRESS =
+      process.env.MEGAETH_DATASTORE_CONTRACT_ADDRESS ?? '0xE43C7B694f6b652a9F4A0f275C008d18758Dce35'
+    process.env.MEGAETH_GM_READER_CONTRACT_ADDRESS =
+      process.env.MEGAETH_GM_READER_CONTRACT_ADDRESS ?? '0x0f038EB4a38B08cd3c937a3256b51aa01904a684'
+
     process.env.ARBITRUM_GLV_READER_CONTRACT_ADDRESS =
       process.env.ARBITRUM_GLV_READER_CONTRACT_ADDRESS ??
       '0x2C670A23f1E798184647288072e84054938B5497'
@@ -64,6 +70,9 @@ describe('GLV price execute', () => {
     process.env.AVALANCHE_GLV_READER_CONTRACT_ADDRESS =
       process.env.AVALANCHE_GLV_READER_CONTRACT_ADDRESS ??
       '0x5C6905A3002f989E1625910ba1793d40a031f947'
+    process.env.MEGAETH_GLV_READER_CONTRACT_ADDRESS =
+      process.env.MEGAETH_GLV_READER_CONTRACT_ADDRESS ??
+      '0x424527a588D56513cB2F5161958D83883EE8aB0f'
 
     process.env.ARBITRUM_TOKENS_INFO_URL =
       process.env.ARBITRUM_TOKENS_INFO_URL ?? 'http://localhost:9044/tokens'

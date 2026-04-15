@@ -31,6 +31,35 @@ jobs:
         id: adapter_change_has_changeset
         run: ./.github/scripts/validate-changesets.sh
 
+  validate-changeset-packages:
+    name: Changeset package references exist in repo
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node and Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Enable Yarn from packageManager
+        run: corepack enable
+      - name: Check that changeset package references exist in repo
+        run: |
+          EXISTING=$(./.github/scripts/list-packages-adapters.sh | jq -r '.packages[].name' | sort -u)
+          REFERENCED=$(./.github/scripts/get-unreleased-packages.sh | sed 's/^- //' | sort -u)
+          BAD=$(echo "$REFERENCED" | while read p; do echo "$EXISTING" | grep -qFx "$p" || echo "$p"; done)
+          if [ -n "$BAD" ]; then
+            echo "::error::The following packages are referenced in .changeset but do not exist in the repo:"
+            echo "$BAD" | while read p; do
+              FILES=$(for f in .changeset/*.md; do [ "$(basename "$f")" = "README.md" ] && continue; grep -qF "'$p'" "$f" 2>/dev/null && echo "$f"; done)
+              echo "::error::  - $p"
+              echo "$FILES" | while read f; do [ -n "$f" ] && echo "::error::    mentioned in: $f"; done
+            done
+            exit 1
+          fi
+
   # Set up yarn and install dependencies, caching them to be reused across other steps in this workflow
   install-packages:
     name: Install and verify dependencies
@@ -47,9 +76,35 @@ jobs:
         uses: ./.github/actions/setup
         with:
           base-branch: origin/${{ github.base_ref }}
+      - name: Verify no files were modified by yarn install
+        run: |
+          # Check if any files were modified by yarn install
+          if ! git diff --exit-code; then
+            echo "::error::Running 'yarn install' resulted in file changes. Please run 'yarn install' locally and commit the changes."
+            echo "Changed files:"
+            git diff --name-only
+            exit 1
+          fi
+          echo "✅ No file changes after yarn install"
       - name: Build list of changed packages and changed adapters
         id: changed-adapters
         run: ./.github/scripts/changed-adapters.sh
+
+  detect-streams-adapter-changes:
+    name: Detect streams adapter changes
+    runs-on: [ubuntu-latest]
+    outputs:
+      streams-adapter-changed: ${{ steps.filter.outputs.streams }}
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Detect whether streams adapter changed
+        id: filter
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+        with:
+          filters: |
+            streams:
+              - 'packages/streams-adapter/**'
 
   # ---------- Adapter checks (only for changed EAs) ----------
 
@@ -99,6 +154,24 @@ jobs:
         env:
           CHANGED_PACKAGES: ${{ needs.install-packages.outputs.changed-packages }}
         run: yarn test --passWithNoTests $(echo $CHANGED_PACKAGES | jq '.[].location + "/test/unit"' -r | tr '\n' ' ')
+
+  streams-unit-tests:
+    name: Run Go unit tests for streams adapter
+    runs-on: [ubuntu-latest]
+    if: needs.detect-streams-adapter-changes.outputs.streams-adapter-changed == 'true'
+    needs:
+      - detect-streams-adapter-changes
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: packages/streams-adapter/go.mod
+      - name: Run streams adapter unit tests
+        run: |
+          cd packages/streams-adapter
+          go test ./...
 
   # Run integration tests
   integration-tests:

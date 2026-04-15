@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     default: 'https://api.prime.coinbase.com',
+    sensitive: false,
   },
   ACCESS_KEY: {
     description: 'The API key for Coinbase Prime auth',
@@ -29,5 +30,6 @@ export const config = new AdapterConfig({
       'The amount of time the background execute should sleep before performing the next request',
     type: 'number',
     default: 10_000,
+    sensitive: false,
   },
 })

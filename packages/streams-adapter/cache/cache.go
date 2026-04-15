@@ -1,0 +1,138 @@
+package cache
+
+import (
+	"context"
+	"sync"
+	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
+
+	types "streams-adapter/common"
+	helpers "streams-adapter/helpers"
+)
+
+var cacheDataGetCount = promauto.NewCounter(
+	prometheus.CounterOpts{
+		Name: "cache_data_get_count",
+		Help: "The number of cache get operations",
+	},
+)
+
+// Config holds cache configuration
+type Config struct {
+	TTL             time.Duration // Time-to-live for items
+	CleanupInterval time.Duration // How often to run cleanup
+}
+
+// Cache represents an in-memory cache for observation data
+type Cache struct {
+	mu              sync.RWMutex
+	items           map[string]*types.CacheItem
+	ttl             time.Duration
+	cleanupInterval time.Duration
+	ctx             context.Context
+	cancel          context.CancelFunc
+	stopOnce        sync.Once
+}
+
+// New creates a new cache instance
+func New(cfg Config) *Cache {
+	ctx, cancel := context.WithCancel(context.Background())
+	cleanupInterval := cfg.CleanupInterval
+	if cleanupInterval <= 0 {
+		cleanupInterval = time.Minute
+	}
+
+	c := &Cache{
+		items:           make(map[string]*types.CacheItem),
+		ttl:             cfg.TTL,
+		cleanupInterval: cleanupInterval,
+		ctx:             ctx,
+		cancel:          cancel,
+	}
+
+	// Start cleanup goroutine
+	go c.cleanupLoop()
+
+	return c
+
+}
+
+// Set stores an observation for the given request parameters with a timestamp
+func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	key, err := helpers.CalculateCacheKey(params)
+	if err != nil {
+		// If we cannot generate a cache key, skip caching this observation
+		return
+	}
+	c.items[key] = &types.CacheItem{
+		Observation:        obs,
+		Timestamp:          timestamp,
+		OriginalAdapterKey: originalAdapterKey,
+	}
+}
+
+// Get retrieves a cache item by its internal cache key string.
+func (c *Cache) Get(key string) *types.CacheItem {
+	cacheDataGetCount.Inc()
+
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	if item, exists := c.items[key]; exists {
+		return item
+	}
+	return nil
+}
+
+// Items returns all items in the cache
+func (c *Cache) Items() map[string]*types.CacheItem {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	// Create a copy to avoid race conditions
+	items := make(map[string]*types.CacheItem, len(c.items))
+	for key, item := range c.items {
+		items[key] = item
+	}
+	return items
+}
+
+// cleanupLoop periodically removes expired items
+func (c *Cache) cleanupLoop() {
+	ticker := time.NewTicker(c.cleanupInterval)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-c.ctx.Done():
+			return
+		case <-ticker.C:
+			c.cleanupExpired()
+		}
+	}
+}
+
+// cleanupExpired removes expired items from the cache
+func (c *Cache) cleanupExpired() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	cutoff := time.Now().Add(-c.ttl)
+	for key, item := range c.items {
+		if item.Timestamp.Before(cutoff) {
+			delete(c.items, key)
+		}
+	}
+}
+
+// Stop stops the cache cleanup goroutine
+func (c *Cache) Stop() {
+	c.stopOnce.Do(func() {
+		c.cancel()
+	})
+}

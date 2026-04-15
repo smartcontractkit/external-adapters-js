@@ -1,5 +1,23 @@
 # @chainlink/dxfeed-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#4774](https://github.com/smartcontractkit/external-adapters-js/pull/4774) [`2fe9f0e`](https://github.com/smartcontractkit/external-adapters-js/commit/2fe9f0ea0ed35db1603a900f231a164e4d647ef6) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Only use O exchange for overnight
+
+## 2.5.0
+
+### Minor Changes
+
+- [#4717](https://github.com/smartcontractkit/external-adapters-js/pull/4717) [`58d0308`](https://github.com/smartcontractkit/external-adapters-js/commit/58d03087441d408182ab85b28ad9e168c88d0e47) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Throw error when price is Nan
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 2.4.0
 
 ### Minor Changes

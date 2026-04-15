@@ -1,5 +1,11 @@
 # @chainlink/tradinghours-adapter
 
+## 0.6.0
+
+### Minor Changes
+
+- [#4564](https://github.com/smartcontractkit/external-adapters-js/pull/4564) [`3c4170a`](https://github.com/smartcontractkit/external-adapters-js/commit/3c4170a058e455cb4be5e5f73b6d557c035dea93) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add new session endpoint
+
 ## 0.5.0
 
 ### Minor Changes

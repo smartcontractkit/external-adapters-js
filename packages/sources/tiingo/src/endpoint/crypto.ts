@@ -18,5 +18,5 @@ export const endpoint = new CryptoPriceEndpoint({
   defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
 })
