@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/ix-trust-sync-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink ix-trust-sync adapter.",
   "keywords": [
     "Chainlink",
