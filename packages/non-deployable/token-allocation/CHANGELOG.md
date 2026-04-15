@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.18
+
+### Patch Changes
+
+- Updated dependencies [[`39dd2b8`](https://github.com/smartcontractkit/external-adapters-js/commit/39dd2b80c6f5b03b7bb473678fd1d8c089e6ab60)]:
+  - @chainlink/blocksize-capital-adapter@2.6.0
+
 ## 1.14.17
 
 ### Patch Changes
