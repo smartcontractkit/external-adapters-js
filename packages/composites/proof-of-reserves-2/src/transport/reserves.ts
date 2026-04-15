@@ -242,28 +242,6 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     }
   }
 
-  async applyConversion({
-    component,
-    conversionName,
-    conversions,
-  }: {
-    component: ProcessedComponent
-    conversionName: string
-    conversions: FetchedConversion[]
-  }): Promise<void> {
-    const [from, to] = conversionName.split('/')
-    // Validation guarantees that the conversion exists.
-    const conversion = conversions.find(
-      (c) => (c.from === from && c.to === to) || (c.from === to && c.to === from),
-    )!
-    component.currency = to
-    if (from === conversion.from) {
-      component.totalBalance = multiply(component.totalBalance, await conversion.rate)
-    } else {
-      component.totalBalance = divide(component.totalBalance, await conversion.rate)
-    }
-  }
-
   async processComponent({
     context,
     component,
@@ -309,6 +287,7 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
       for (const conversionName of component.conversions) {
         await this.applyConversion({ component: processedComponent, conversionName, conversions })
       }
+
       return processedComponent
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
@@ -389,6 +368,28 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     })
 
     return balances
+  }
+
+  async applyConversion({
+    component,
+    conversionName,
+    conversions,
+  }: {
+    component: ProcessedComponent
+    conversionName: string
+    conversions: FetchedConversion[]
+  }): Promise<void> {
+    const [from, to] = conversionName.split('/')
+    // Validation guarantees that the conversion exists.
+    const conversion = conversions.find(
+      (c) => (c.from === from && c.to === to) || (c.from === to && c.to === from),
+    )!
+    component.currency = to
+    if (from === conversion.from) {
+      component.totalBalance = multiply(component.totalBalance, await conversion.rate)
+    } else {
+      component.totalBalance = divide(component.totalBalance, await conversion.rate)
+    }
   }
 
   createComponentsForResponse(
