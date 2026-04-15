@@ -177,7 +177,48 @@ export const inputParameters = new InputParameters(
       required: true,
     },
   },
-  [],
+  [
+    {
+      addressLists: [
+        {
+          name: 'BTC addresses',
+          provider: 'por-address-list',
+          params: '{"endpoint":"solvBtcAddress"}',
+          addressArrayPath: 'data.result',
+        },
+      ],
+      balanceSources: [
+        {
+          name: 'por-indexer',
+          provider: 'por-indexer',
+          params: '{"minConfirmations": 6}',
+          addressArrayPath: 'addresses',
+          balancePath: 'result',
+        },
+      ],
+      components: [
+        {
+          name: 'BTC reserves',
+          currency: 'BTC',
+          addressList: 'BTC addresses',
+          balanceSource: 'por-indexer',
+          conversions: ['BTC/USD'],
+        },
+      ],
+      conversions: [
+        {
+          from: 'BTC',
+          to: 'USD',
+          provider: 'view-function-multi-chain',
+          params:
+            '{"endpoint":"calculated-multi-function","functionCalls":[{"name":"result","address":"0x6ce185860a4963106506C203335A2910413708e9","network":"arbitrum","signature":"function latestAnswer() external view returns (int256)"},{"name":"decimals","address":"0x6ce185860a4963106506C203335A2910413708e9","network":"arbitrum","signature":"function decimals() external view returns (uint8)"}]}',
+          ratePath: 'result',
+          decimalsPath: 'data.decimals',
+        },
+      ],
+      resultDecimals: 18,
+    },
+  ],
 )
 
 export type RequestParams = typeof inputParameters.validated
