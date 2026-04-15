@@ -44,6 +44,12 @@ type ErrorResponseData struct {
 	} `json:"error"`
 }
 
+// ObservationErrorResponse is returned when the cached observation has Success=false
+type ObservationErrorResponse struct {
+	ErrorMessage string          `json:"errorMessage"`
+	Timestamps   json.RawMessage `json:"timestamps"`
+}
+
 // Object pools for reducing memory allocations
 var (
 	requestDataPool = sync.Pool{
@@ -70,6 +76,7 @@ type Server struct {
 	httpClient          *http.Client
 	subscriptionTracker sync.Map
 	metrics             *appMetrics.Metrics
+	metricsForwarder    *appMetrics.Forwarder
 	keyMapper           *helpers.KeyMapper
 	ctx                 context.Context
 	cancel              context.CancelFunc
@@ -120,16 +127,20 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 		},
 	}
 
+	jsMetricsURL := fmt.Sprintf("http://%s:%s/metrics", cfg.EAHost, cfg.EAMetricsPort)
+	metricsForwarder := appMetrics.NewForwarder(jsMetricsURL, time.Duration(cfg.MetricsForwardTimeoutSeconds)*time.Second)
+
 	server := &Server{
-		config:     cfg,
-		cache:      cache,
-		logger:     logger.With("component", "server"),
-		router:     router,
-		httpClient: httpClient,
-		metrics:    metrics,
-		keyMapper:  keyMapper,
-		ctx:        ctx,
-		cancel:     cancel,
+		config:           cfg,
+		cache:            cache,
+		logger:           logger.With("component", "server"),
+		router:           router,
+		httpClient:       httpClient,
+		metrics:          metrics,
+		metricsForwarder: metricsForwarder,
+		keyMapper:        keyMapper,
+		ctx:              ctx,
+		cancel:           cancel,
 	}
 
 	server.setupRoutes()
@@ -149,9 +160,12 @@ func (s *Server) setupRoutes() {
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
-	// Start a separate HTTP server for Prometheus metrics on port 9080
+	// Start a separate HTTP server for Prometheus metrics on port 9080.
+	// The combined gatherer merges Go-native metrics with forwarded JS
+	// adapter metrics (excluding families already tracked in Go).
+	gatherer := appMetrics.CombinedGatherer(s.metricsForwarder)
 	metricsMux := http.NewServeMux()
-	metricsMux.Handle("/metrics", promhttp.Handler())
+	metricsMux.Handle("/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 
 	s.metricsServer = &http.Server{
 		Addr:    ":" + s.config.GoMetricsPort,
@@ -304,7 +318,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Try the mapper: raw key → transformed key → cache lookup by transformed key.
 	if transformedKey, ok := s.keyMapper.Get(rawCacheKey); ok {
 		if item := s.cache.Get(transformedKey); item != nil && item.Observation != nil {
-			c.JSON(http.StatusOK, item.Observation)
+			respondWithObservation(c, item.Observation)
 			return
 		}
 	}
@@ -312,7 +326,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// Fallback: try direct lookup by raw key (handles the common case where
 	// raw key == transformed key, i.e. no adapter-level requestTransform).
 	if item := s.cache.Get(rawCacheKey); item != nil && item.Observation != nil {
-		c.JSON(http.StatusOK, item.Observation)
+		respondWithObservation(c, item.Observation)
 		return
 	}
 
@@ -350,6 +364,19 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
+}
+
+// respondWithObservation writes the observation to the response. Returns 200 for
+// successful observations and 502 with an error payload for failed ones.
+func respondWithObservation(c *gin.Context, obs *types.Observation) {
+	if obs.Success {
+		c.JSON(http.StatusOK, obs)
+		return
+	}
+	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
+		ErrorMessage: obs.Error,
+		Timestamps:   obs.Timestamps,
+	})
 }
 
 // subscribeToAsset sends a subscription request to the JS adapter.
