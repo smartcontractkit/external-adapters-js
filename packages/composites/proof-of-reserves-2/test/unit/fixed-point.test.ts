@@ -232,7 +232,7 @@ describe('fixed-point', () => {
           decimalsPath: 'decimals',
           defaultDecimals: 6,
         }),
-      ).toThrow("Amount not found at path 'balance' in result '{\"reserves\":1.23}'.")
+      ).toThrow("Amount not found at path 'balance'")
     })
 
     it('should throw if result is decimals', () => {
@@ -246,9 +246,7 @@ describe('fixed-point', () => {
           decimalsPath: 'resultDecimals',
           defaultDecimals: 6,
         }),
-      ).toThrow(
-        'Decimals not found at path \'resultDecimals\' in result \'{"balance":"123000000","decimals":8}\'.',
-      )
+      ).toThrow("Decimals not found at path 'resultDecimals'")
     })
 
     it('should access nested objects', () => {

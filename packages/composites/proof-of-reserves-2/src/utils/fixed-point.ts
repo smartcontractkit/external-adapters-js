@@ -1,4 +1,3 @@
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import * as objectPath from 'object-path'
 
 export type FixedPoint = {
@@ -75,20 +74,12 @@ export const getFixedPointFromResult = ({
 }): FixedPoint => {
   const amount: number | string = objectPath.get(result, amountPath)
   if (amount === undefined) {
-    throw new AdapterError({
-      statusCode: 500,
-      message: `Amount not found at path '${amountPath}' in result '${JSON.stringify(result)}'.`,
-    })
+    throw new Error(`Amount not found at path '${amountPath}'`)
   }
   if (decimalsPath) {
     const decimals = Number(objectPath.get(result, decimalsPath))
     if (!Number.isFinite(decimals)) {
-      throw new AdapterError({
-        statusCode: 500,
-        message: `Decimals not found at path '${decimalsPath}' in result '${JSON.stringify(
-          result,
-        )}'.`,
-      })
+      throw new Error(`Decimals not found at path '${decimalsPath}'`)
     }
     return {
       amount: BigInt(amount),

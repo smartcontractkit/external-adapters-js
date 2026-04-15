@@ -47,8 +47,9 @@ describe('ReservesTransport', () => {
   }
 
   const adapterSettings = makeStub('adapterSettings', {
-    WARMUP_SUBSCRIPTION_TTL: 10_000,
+    MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE: 20,
     BACKGROUND_EXECUTE_MS,
+    WARMUP_SUBSCRIPTION_TTL: 10_000,
     MAX_COMMON_KEY_SIZE: 300,
   } as unknown as BaseEndpointTypes['Settings'])
 
@@ -254,7 +255,7 @@ describe('ReservesTransport', () => {
       expect(requester.request).toBeCalledTimes(2)
     })
 
-    it('should cache an error', async () => {
+    it('should cache an error if balance provider returns an error', async () => {
       const addressListParams = { endpoint: 'multiAddressList' }
       const balanceParams = { endpoint: 'evm' }
       const addressArray = [{ address: '0x123' }]
@@ -311,7 +312,7 @@ describe('ReservesTransport', () => {
 
       await transport.handleRequest(context, param)
 
-      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider token-balance at 'https://token.balance': The EA has not received any values from the Data Provider`
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
 
       const expectedResponse = {
         statusCode: 502,
@@ -332,6 +333,99 @@ describe('ReservesTransport', () => {
       expect(responseCache.write).toBeCalledTimes(1)
 
       expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if address array cannot be found', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'wrong.path',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Address array not found at path 'wrong.path' in response '{"data":{"result":[{...' from provider 'por-address-list'`
+
+      const expectedResponse = {
+        statusCode: 500,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
 
       expect(log).toBeCalledWith(
         new AdapterError({
@@ -1090,6 +1184,97 @@ describe('ReservesTransport', () => {
       expect(response).toEqual(expectedResponse)
 
       expect(requester.request).toBeCalledTimes(5)
+    })
+
+    it('should set address array into existing balanceSource params field', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm', nested: { field: 'value' } }
+      const addressArray = [{ address: '0x123' }]
+      const balanceParamsWithAddresses = {
+        endpoint: 'evm',
+        nested: { field: 'value', addresses: addressArray },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData('token-balance', balanceParamsWithAddresses, {
+        data: {
+          wallets: [
+            {
+              balance: '123000',
+              decimals: 6,
+            },
+          ],
+        },
+      })
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'nested.addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 200,
+        result: '123000',
+        data: {
+          decimals: 6,
+          result: '123000',
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+            },
+          ],
+          conversionRates: [],
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(2)
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {

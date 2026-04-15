@@ -4,6 +4,24 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { RequestParams } from '../endpoint/reserves'
 
+type FixedAddressList = {
+  name: string
+  fixed: string
+  provider?: never
+  params?: never
+  addressArrayPath?: never
+}
+
+type ProvidedAddressList = {
+  name: string
+  provider: string
+  params: string
+  addressArrayPath: string
+  fixed?: never
+}
+
+type CheckedAddressList = FixedAddressList | ProvidedAddressList
+
 export const getProviderUrl = (provider: string): string => {
   const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
   const url = process.env[providerUrlEnvVarName]
@@ -32,48 +50,54 @@ export const checkProviderUrls = (params: RequestParams) => {
   }
 }
 
+export const checkAddressList: (
+  addressList: RequestParams['addressLists'][number],
+) => asserts addressList is CheckedAddressList = (addressList) => {
+  if (addressList.fixed) {
+    try {
+      const parsed = JSON.parse(addressList.fixed)
+      if (!Array.isArray(parsed)) {
+        throw new Error('value is not an array')
+      }
+    } catch (error: unknown) {
+      // Catch either JSON parsing error or the error thrown when the parsed
+      // value is not an array
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Address list '${addressList.name}' has invalid fixed value: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      })
+    }
+    if (addressList.provider || addressList.params || addressList.addressArrayPath) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Address list '${addressList.name}' cannot have 'provider', 'params' or 'addressArrayPath' params when 'fixed' param is provided`,
+      })
+    }
+  } else {
+    if (!addressList.provider || !addressList.params || !addressList.addressArrayPath) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Address list '${addressList.name}' must have 'provider', 'params' and 'addressArrayPath' params when 'fixed' param is not provided`,
+      })
+    }
+    try {
+      JSON.parse(addressList.params)
+    } catch (error: unknown) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Address list '${addressList.name}' has invalid 'params' value: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      })
+    }
+  }
+}
+
 export const checkAddressLists = (params: RequestParams) => {
   for (const addressList of params.addressLists) {
-    if (addressList.fixed) {
-      try {
-        const parsed = JSON.parse(addressList.fixed)
-        if (!Array.isArray(parsed)) {
-          throw new Error('value is not an array')
-        }
-      } catch (error: unknown) {
-        // Catch either JSON parsing error or the error thrown when the parsed
-        // value is not an array
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Address list '${addressList.name}' has invalid fixed value: ${
-            error instanceof Error ? error.message : String(error)
-          }`,
-        })
-      }
-      if (addressList.provider || addressList.params || addressList.addressArrayPath) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Address list '${addressList.name}' cannot have 'provider', 'params' or 'addressArrayPath' params when 'fixed' param is provided`,
-        })
-      }
-    } else {
-      if (!addressList.provider || !addressList.params || !addressList.addressArrayPath) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Address list '${addressList.name}' must have 'provider', 'params' and 'addressArrayPath' params when 'fixed' param is not provided`,
-        })
-      }
-      try {
-        JSON.parse(addressList.params)
-      } catch (error: unknown) {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Address list '${addressList.name}' has invalid 'params' value: ${
-            error instanceof Error ? error.message : String(error)
-          }`,
-        })
-      }
-    }
+    checkAddressList(addressList)
   }
 }
 
