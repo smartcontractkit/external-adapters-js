@@ -8,6 +8,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -24,6 +25,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -58,6 +60,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -82,6 +85,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -105,6 +109,7 @@ describe('operations', () => {
             inputParams: [],
           },
         ],
+        aptosCalls: [],
         constants: [],
         operations: [
           {
@@ -120,6 +125,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -144,6 +150,7 @@ describe('operations', () => {
     it('should validate valid multiply operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -176,6 +183,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [
             {
               name: 'scale',
@@ -204,6 +212,7 @@ describe('operations', () => {
             inputParams: [],
           },
         ],
+        aptosCalls: [],
         constants: [
           {
             name: 'scale',
@@ -224,6 +233,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -248,6 +258,7 @@ describe('operations', () => {
     it('should validate valid add operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -272,6 +283,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -296,6 +308,7 @@ describe('operations', () => {
     it('should validate valid subtract operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -320,6 +333,7 @@ describe('operations', () => {
       expect(() => {
         validateOperations({
           functionCalls: [],
+          aptosCalls: [],
           constants: [
             {
               name: 'a',
@@ -344,6 +358,7 @@ describe('operations', () => {
     it('should validate valid average operation', () => {
       validateOperations({
         functionCalls: [],
+        aptosCalls: [],
         constants: [
           {
             name: 'a',
@@ -362,6 +377,152 @@ describe('operations', () => {
           },
         ],
       })
+    })
+
+    it('should validate that equal operation has at least 2 args', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [
+            {
+              name: 'a',
+              value: '1000000',
+            },
+            {
+              name: 'b',
+              value: '1000',
+            },
+          ],
+          operations: [
+            {
+              name: 'result',
+              type: 'equal',
+              args: ['a'],
+            },
+          ],
+        })
+      }).toThrowError('Equal operation "result" must have at least 2 arguments')
+    })
+
+    it('should validate valid equal operation', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [],
+        constants: [
+          {
+            name: 'a',
+            value: '1000000',
+          },
+          {
+            name: 'b',
+            value: '1000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'equal',
+            args: ['a', 'b'],
+          },
+        ],
+      })
+    })
+
+    it('should validate that assertZero operation has at least 1 arg', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [
+            {
+              name: 'a',
+              value: '1000000',
+            },
+            {
+              name: 'b',
+              value: '1000',
+            },
+          ],
+          operations: [
+            {
+              name: 'result',
+              type: 'assertZero',
+              args: [],
+            },
+          ],
+        })
+      }).toThrowError('AssertZero operation "result" must have at least 1 argument')
+    })
+
+    it('should validate valid assertZero operation', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [],
+        constants: [
+          {
+            name: 'a',
+            value: '1000000',
+          },
+          {
+            name: 'b',
+            value: '1000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'assertZero',
+            args: ['a', 'b'],
+          },
+        ],
+      })
+    })
+
+    it('should recognize aptosCalls names in operations', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [
+          {
+            name: 'aptosValue',
+            signature: '0x1::coin::balance',
+            arguments: [],
+            type: [],
+            index: 0,
+            networkType: 'mainnet',
+          },
+        ],
+        constants: [
+          {
+            name: 'scale',
+            value: '1000000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'multiply',
+            args: ['aptosValue', 'scale'],
+          },
+        ],
+      })
+    })
+
+    it('should validate that aptosCalls names must be defined before use in operations', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [],
+          operations: [
+            {
+              name: 'result',
+              type: 'multiply',
+              args: ['aptosValue', 'scale'],
+            },
+          ],
+        })
+      }).toThrowError('"aptosValue" must be defined before "result"')
     })
   })
 
@@ -385,6 +546,7 @@ describe('operations', () => {
               inputParams: [],
             },
           ],
+          aptosCalls: [],
           constants: [],
           operations: [
             {
@@ -443,6 +605,42 @@ describe('operations', () => {
       }
       const result = evaluateOperation('average', ['a', 'b'], data, {} as RequestParams)
       expect(result).toEqual('55')
+    })
+
+    it('should evaluate equal operation', () => {
+      const data = {
+        a: '100',
+        b: '100',
+        c: '100',
+        d: '999',
+        zero1: '0',
+        zero2: '0x0',
+        zero3: '0x00',
+      }
+      expect(evaluateOperation('equal', ['a', 'b'], data, {} as RequestParams)).toEqual('1')
+      expect(evaluateOperation('equal', ['a', 'b', 'c'], data, {} as RequestParams)).toEqual('1')
+      expect(evaluateOperation('equal', ['c', 'd'], data, {} as RequestParams)).toEqual('0')
+      expect(evaluateOperation('equal', ['a', 'b', 'c', 'd'], data, {} as RequestParams)).toEqual(
+        '0',
+      )
+      expect(evaluateOperation('equal', ['zero1', 'zero1'], data, {} as RequestParams)).toEqual('1')
+      expect(evaluateOperation('equal', ['zero1', 'zero2'], data, {} as RequestParams)).toEqual('1')
+      expect(evaluateOperation('equal', ['zero2', 'zero3'], data, {} as RequestParams)).toEqual('1')
+      expect(
+        evaluateOperation('equal', ['zero1', 'zero2', 'zero3'], data, {} as RequestParams),
+      ).toEqual('1')
+    })
+
+    it('should evaluate assertZero operation', () => {
+      const data = {
+        a: '0',
+        b: '0',
+        c: '1',
+      }
+      expect(evaluateOperation('assertZero', ['a', 'b'], data, {} as RequestParams)).toBe('1')
+      expect(() =>
+        evaluateOperation('assertZero', ['a', 'b', 'c'], data, {} as RequestParams),
+      ).toThrowError('1')
     })
   })
 })

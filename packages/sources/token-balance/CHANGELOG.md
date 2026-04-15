@@ -1,5 +1,19 @@
 # @chainlink/token-balance-adapter
 
+## 3.5.0
+
+### Minor Changes
+
+- [#4747](https://github.com/smartcontractkit/external-adapters-js/pull/4747) [`0bb49a7`](https://github.com/smartcontractkit/external-adapters-js/commit/0bb49a7020799d2afe1886a6d9f60d2025260885) Thanks [@dskloetc](https://github.com/dskloetc)! - Add litecoin endpoint
+
+- [#4748](https://github.com/smartcontractkit/external-adapters-js/pull/4748) [`509be25`](https://github.com/smartcontractkit/external-adapters-js/commit/509be254d4383b71289de1444bb47c20890132c8) Thanks [@dskloetc](https://github.com/dskloetc)! - Add cardano endpoint
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 3.4.0
 
 ### Minor Changes

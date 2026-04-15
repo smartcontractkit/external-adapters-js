@@ -1,12 +1,12 @@
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { AdapterBatchResponse, Requester } from '../../src'
 import {
+  ERROR_CUSTOM_RESPONSE,
   Server,
-  SUCCESS_JSON_RESPONSE,
   SUCCESS_ARRAY_RESPONSE,
   SUCCESS_BATCHLIKE_RESPONSE,
-  ERROR_CUSTOM_RESPONSE,
+  SUCCESS_JSON_RESPONSE,
 } from '../helpers/server'
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 describe('HTTP', () => {
   const server = new Server()
@@ -188,6 +188,41 @@ describe('HTTP', () => {
       expect(server.errorCount).toEqual(0)
       expect(data.result).toEqual('success')
       expect(data.value).toEqual(1)
+    })
+
+    it('error response contains error from v2 framework response', async () => {
+      const options: AxiosRequestConfig = {
+        ...baseOptions,
+        url: '/error-v2',
+      }
+      try {
+        await Requester.request(options, undefined, 0, 0)
+        expect(false).toBe(true)
+      } catch (error: any) {
+        expect(server.errorCount).toEqual(1)
+        expect(error.errorResponse).toEqual({
+          name: 'Data Provider Request Timeout error',
+          message: 'timeout of 10000ms exceeded',
+          url: 'https:/adapters.main.prod.cldev.sh/view-function-multi-chain',
+          feedID: 'f38697bba7779c2344dfdea094db4ee7',
+        })
+      }
+    })
+
+    it('error response contains errorMessage from v3 framework response', async () => {
+      const options: AxiosRequestConfig = {
+        ...baseOptions,
+        url: '/error-v3',
+      }
+      try {
+        await Requester.request(options, undefined, 0, 0)
+        expect(false).toBe(true)
+      } catch (error: any) {
+        expect(server.errorCount).toEqual(1)
+        expect(error.errorResponse).toEqual(
+          'Missing BSC_RPC_URL or BSC_RPC_CHAIN_ID environment variables',
+        )
+      }
     })
   })
 

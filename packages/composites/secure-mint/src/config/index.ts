@@ -6,11 +6,13 @@ export const config = new AdapterConfig(
       description: 'Url to secure-mint-indexer',
       type: 'string',
       required: true,
+      sensitive: false,
     },
     BITGO_RESERVES_EA_URL: {
       description: 'Url to Bitgo Reserves EA',
       type: 'string',
       default: '',
+      sensitive: false,
     },
 
     BACKGROUND_EXECUTE_MS: {
@@ -18,6 +20,7 @@ export const config = new AdapterConfig(
         'The amount of time the background execute should sleep before performing the next request',
       type: 'number',
       default: 1_000,
+      sensitive: false,
     },
   },
   {

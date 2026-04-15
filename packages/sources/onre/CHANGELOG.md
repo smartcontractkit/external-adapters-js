@@ -1,5 +1,17 @@
 # @chainlink/onre-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#4723](https://github.com/smartcontractkit/external-adapters-js/pull/4723) [`bc3071e`](https://github.com/smartcontractkit/external-adapters-js/commit/bc3071effbccc627127351379f3f8f2d5616273a) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Onre streams image
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.1.4
 
 ### Patch Changes

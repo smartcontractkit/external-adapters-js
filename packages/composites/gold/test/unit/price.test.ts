@@ -47,7 +47,7 @@ describe('PriceTransport', () => {
   }`
   const PRICE_STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
   const PREMIUM_EMA_TAU_MS = 1_000_000
-  const DEVIATION_EMA_TAU_MS = 1_000_000
+  const DEVIATION_EMA_TAU_MS = 500_000
   const DEVIATION_CAP = 0.02
   const TOKENIZED_PRICE_WEIGHT = 0.7
   const CACHE_TTL_MS = 604800000
@@ -117,7 +117,8 @@ describe('PriceTransport', () => {
       const midPriceValue = await midPrice
       if (marketStatus === MarketStatus.OPEN) {
         marketLastOpenTimestamp = Date.now()
-      } else {
+        // Once the market is closed, the closing price will be what the price
+        // was the last time the market was open.
         xauClosingPrice = BigInt(midPriceValue)
       }
       return makeStub('mockDataEngineResponse', {
@@ -168,7 +169,7 @@ describe('PriceTransport', () => {
       },
       unsmoothedDeviation,
       Date.now(),
-      PREMIUM_EMA_TAU_MS,
+      DEVIATION_EMA_TAU_MS,
     ).average
     const one = 10n ** BigInt(RESULT_DECIMALS)
     const expectedUnweightedResult = (xauClosingPrice * (one + expectedDeviation)) / one
@@ -467,6 +468,133 @@ describe('PriceTransport', () => {
                   average: goldPrice,
                   timestampMs: marketLastOpenTimestamp,
                 },
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledTimes(0)
+      log.mockClear()
+    })
+
+    it('should ignore changing gold price when market is closed', async () => {
+      const goldPrice = '4000000000000000000000'
+      const goldPriceClosed = '4200000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+      const averagePrice = '5200000000000000000000'
+
+      // Start out with all prices the same to have a premium factor if 1.
+      mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
+      mockCryptoPrice(XAUT_FEED_ID, goldPrice)
+      mockCryptoPrice(PAXG_FEED_ID, goldPrice)
+
+      const param = makeStub('param', {})
+      await transport._handleRequest(param)
+
+      jest.advanceTimersByTime(1000)
+      mockXauPriceResponse(goldPriceClosed, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const response = await transport._handleRequest(param)
+
+      const { expectedDeviation, expectedResult } = getExpectedDeviationAndResult(averagePrice)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            xauOpenMarketEma: {
+              average: goldPrice,
+              timestampMs: marketLastOpenTimestamp,
+            },
+            deviationEma: {
+              average: expectedDeviation,
+              timestampMs: Date.now(),
+            },
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: {
+                  average: goldPrice,
+                  timestampMs: marketLastOpenTimestamp,
+                },
+              },
+            },
+          },
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledTimes(0)
+      log.mockClear()
+    })
+
+    it('should initialize gold price if market starts closed', async () => {
+      const goldPrice = '4000000000000000000000'
+      const xautPrice = '5100000000000000000000'
+      const paxgPrice = '5300000000000000000000'
+
+      mockXauPriceResponse(goldPrice, MarketStatus.CLOSED)
+      mockCryptoPrice(XAUT_FEED_ID, xautPrice)
+      mockCryptoPrice(PAXG_FEED_ID, paxgPrice)
+
+      const param = makeStub('param', {})
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = goldPrice
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          result: expectedResult,
+          decimals: 18,
+          state: {
+            lastXauPrice: goldPrice,
+            marketStatus: MarketStatus.CLOSED,
+            nowMs: Date.now(),
+            xauOpenMarketEma: undefined,
+            deviationEma: {
+              average: '0',
+              timestampMs: Date.now(),
+            },
+            tokenizedStreams: {
+              XAUT: {
+                lastPrice: xautPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: undefined,
+              },
+              PAXG: {
+                lastPrice: paxgPrice,
+                lastPriceChangeTimestampMs: Date.now(),
+                openMarketEma: undefined,
               },
             },
           },

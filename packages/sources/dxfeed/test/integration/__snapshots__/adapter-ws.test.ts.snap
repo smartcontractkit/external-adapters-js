@@ -1,5 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket quote endpoint error when ask is null 1`] = `
+{
+  "errorMessage": "Bid price: 170 or Ask price: NaN for NULL_ASK is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket quote endpoint error when bid is null 1`] = `
+{
+  "errorMessage": "Bid price: NaN or Ask price: 172 for NULL_BID is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
 exports[`websocket quote endpoint error when data length is not valid 1`] = `
 {
   "error": {
@@ -8,6 +30,44 @@ exports[`websocket quote endpoint error when data length is not valid 1`] = `
   },
   "status": "errored",
   "statusCode": 504,
+}
+`;
+
+exports[`websocket quote endpoint return O when isOvernight 1`] = `
+{
+  "data": {
+    "ask_price": 172,
+    "ask_volume": 100,
+    "bid_price": 170,
+    "bid_volume": 148,
+    "mid_price": 171,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
+}
+`;
+
+exports[`websocket quote endpoint return X when not isOvernight 1`] = `
+{
+  "data": {
+    "ask_price": 172.1,
+    "ask_volume": 100.1,
+    "bid_price": 170.1,
+    "bid_volume": 148.1,
+    "mid_price": 171.1,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
 }
 `;
 
@@ -147,6 +207,17 @@ exports[`websocket quote endpoint should return success when missing volume and 
 exports[`websocket quote endpoint should throw error when missing volume and requireVolume 1`] = `
 {
   "errorMessage": "Bid volume: NaN or Ask volume: NaN for NO_VOLUME is invalid.",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+  },
+}
+`;
+
+exports[`websocket stock endpoint should error on invalid data 1`] = `
+{
+  "errorMessage": "Price: NaN for INVALID_TRADE:USLF24 is invalid.",
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,

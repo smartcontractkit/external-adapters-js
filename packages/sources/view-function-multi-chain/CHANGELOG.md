@@ -1,5 +1,27 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#4729](https://github.com/smartcontractkit/external-adapters-js/pull/4729) [`2a178ed`](https://github.com/smartcontractkit/external-adapters-js/commit/2a178ed81dc5b791f89f7dc2316d8a339bb23637) Thanks [@dskloetc](https://github.com/dskloetc)! - Support aptos in calculated-multi-function
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+## 1.7.0
+
+### Minor Changes
+
+- [#4672](https://github.com/smartcontractkit/external-adapters-js/pull/4672) [`868ffe4`](https://github.com/smartcontractkit/external-adapters-js/commit/868ffe46a69ab7f0d32ddc1897d2d86b72cdca1f) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 'equal' and 'assertZero' operations to calculated-multi-function endpoint
+
+### Patch Changes
+
+- [#4469](https://github.com/smartcontractkit/external-adapters-js/pull/4469) [`3ff13d2`](https://github.com/smartcontractkit/external-adapters-js/commit/3ff13d24b4aeed69b0023986c64ccaf4dc7903e9) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Remove view-function-multi-chain from readme generator blacklist
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.6.0
 
 ### Minor Changes

@@ -1,7 +1,6 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/iex'
-import { TiingoWebsocketTransport, wsSelectUrl } from './utils'
+import { TiingoWebsocketTransport } from './utils'
 
 const logger = makeLogger('TiingoWebsocketTransport')
 
@@ -25,21 +24,16 @@ const priceIndex = 2
 Tiingo EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
 we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
 */
-const updateTTL = async (transport: WebSocketTransport<WsTransportTypes>, ttl: number) => {
+const updateTTL = async (transport: TiingoWebsocketTransport<WsTransportTypes>, ttl: number) => {
   const params = await transport.subscriptionSet.getAll()
   transport.responseCache.writeTTL(transport.name, params, ttl)
 }
 
 export const wsTransport: TiingoWebsocketTransport<WsTransportTypes> =
   new TiingoWebsocketTransport<WsTransportTypes>({
-    url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+    url: (context) => {
       wsTransport.apiKey = context.adapterSettings.API_KEY
-      return wsSelectUrl(
-        context.adapterSettings.WS_API_ENDPOINT,
-        context.adapterSettings.SECONDARY_WS_API_ENDPOINT,
-        'iex',
-        urlConfigFunctionParameters,
-      )
+      return `${context.adapterSettings.WS_API_ENDPOINT}/iex`
     },
 
     handlers: {

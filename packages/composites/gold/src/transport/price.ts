@@ -213,10 +213,10 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }[],
   ): void {
     this.state.marketStatus = xauResponse.marketStatus
-    this.state.lastXauPrice = xauResponse.midPrice
     this.state.nowMs = Date.now()
 
     if (this.state.marketStatus === MarketStatus.OPEN) {
+      this.state.lastXauPrice = xauResponse.midPrice
       this.state.xauOpenMarketEma ??= {
         average: this.state.lastXauPrice,
         timestampMs: this.state.nowMs,
@@ -227,6 +227,19 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
         this.state.nowMs,
         this.config.PREMIUM_EMA_TAU_MS,
       )
+    }
+
+    // This only applies when the EA is first deployed while the market is
+    // closed. The XAU stream has an issue where it continues to update a few
+    // minutes after the market closes. We work around this by only updating
+    // lastXauPrice when the market is open. But if the market is closed when
+    // the EA is first deployed, lastXauPrice will be '0' and we won't have a
+    // price until the market opens for the first time. To solve this, we
+    // initialize lastXauPrice with the first XAU price we see, even if the
+    // market is closed. This way we at least have a reasonable price to use
+    // until the market opens. The difference should be very small.
+    if (this.state.lastXauPrice === '0') {
+      this.state.lastXauPrice = xauResponse.midPrice
     }
 
     for (const { name, response } of tokenizedPriceResponses) {

@@ -6,11 +6,13 @@ export const config = new AdapterConfig(
       description: 'Websocket endpoint for tiingo',
       default: 'wss://api.tiingo.com',
       type: 'string',
+      sensitive: false,
     },
     SECONDARY_WS_API_ENDPOINT: {
       description: 'Secondary websocket endpoint for tiingo',
       default: 'wss://api.redundantstack.com',
       type: 'string',
+      sensitive: false,
     },
     API_KEY: {
       description: 'API key for tiingo, valid for both WS endpoints',

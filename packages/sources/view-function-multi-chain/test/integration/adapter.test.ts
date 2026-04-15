@@ -330,6 +330,52 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
     })
 
+    it('should return success with passing assertion', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'zero',
+            value: '0x00',
+          },
+        ],
+        operations: [
+          {
+            name: 'success',
+            type: 'assertZero',
+            args: ['zero'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return error with failing assertion', async () => {
+      const data = {
+        endpoint: 'calculated-multi-function',
+        constants: [
+          {
+            name: 'nonZero',
+            value: '0x01',
+          },
+        ],
+        operations: [
+          {
+            name: 'success',
+            type: 'assertZero',
+            args: ['nonZero'],
+          },
+        ],
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(500)
+    })
+
     it('should return error for missing RPC url env var', async () => {
       const data = {
         endpoint: 'calculated-multi-function',
@@ -386,6 +432,76 @@ describe('execute', () => {
         timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
       })
       expect(response.statusCode).toBe(502)
+    })
+
+    it('should return success with aptosCalls only', async () => {
+      mockAptosSuccess()
+      const data = {
+        endpoint: 'calculated-multi-function',
+        aptosCalls: [
+          {
+            name: 'result',
+            signature: '0x1::chain_id::get',
+          },
+        ],
+      }
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success with aptosCalls and operations', async () => {
+      mockAptosSuccess()
+      const data = {
+        endpoint: 'calculated-multi-function',
+        aptosCalls: [
+          {
+            name: 'chainId',
+            signature: '0x1::chain_id::get',
+          },
+        ],
+        constants: [
+          {
+            name: 'scale',
+            value: '100',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'multiply',
+            args: ['chainId', 'scale'],
+          },
+        ],
+      }
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success with mixed EVM and aptosCalls', async () => {
+      mockETHMainnetContractCallResponseSuccess()
+      mockAptosSuccess()
+      const data = {
+        endpoint: 'calculated-multi-function',
+        functionCalls: [
+          {
+            name: 'evmResult',
+            address: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+            signature: 'function latestAnswer() external view returns (int256)',
+            network: 'ethereum_mainnet',
+          },
+        ],
+        aptosCalls: [
+          {
+            name: 'aptosResult',
+            signature: '0x1::chain_id::get',
+          },
+        ],
+      }
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
   })
 

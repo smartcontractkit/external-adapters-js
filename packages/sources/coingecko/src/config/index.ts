@@ -10,6 +10,7 @@ export const config = new AdapterConfig({
     description: 'The HTTP URL to retrieve data from',
     type: 'string',
     required: false,
+    sensitive: false,
   },
   API_KEY: {
     description: 'Optional Coingecko API key',

@@ -5,6 +5,7 @@ export const config = new AdapterConfig({
     description: 'API endpoint for OpenExchangeRates',
     default: 'https://openexchangerates.org/api/',
     type: 'string',
+    sensitive: false,
   },
   API_KEY: {
     description:
