@@ -96,13 +96,45 @@ export const checkAddressList: (
 }
 
 export const checkAddressLists = (params: RequestParams) => {
+  const addressListNames = new Set<string>()
   for (const addressList of params.addressLists) {
+    if (addressListNames.has(addressList.name)) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Duplicate address list name: '${addressList.name}'`,
+      })
+    }
+    addressListNames.add(addressList.name)
     checkAddressList(addressList)
+  }
+
+  const usedAddressListNames = new Set(
+    params.components
+      .filter((component) => component.addressList !== undefined)
+      .map((component) => component.addressList!) as string[],
+  )
+  const unusedAddressListNames = [...addressListNames].filter(
+    (name) => !usedAddressListNames.has(name),
+  )
+
+  if (unusedAddressListNames.length > 0) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Unused address list: '${unusedAddressListNames.join("', '")}'`,
+    })
   }
 }
 
 export const checkBalanceSources = (params: RequestParams) => {
+  const balanceSourceNames = new Set<string>()
   for (const balanceSource of params.balanceSources) {
+    if (balanceSourceNames.has(balanceSource.name)) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Duplicate balance source name: '${balanceSource.name}'`,
+      })
+    }
+    balanceSourceNames.add(balanceSource.name)
     try {
       JSON.parse(balanceSource.params)
     } catch (error: unknown) {
@@ -114,10 +146,36 @@ export const checkBalanceSources = (params: RequestParams) => {
       })
     }
   }
+
+  const usedBalanceSourceNames = new Set(
+    params.components.map((component) => component.balanceSource),
+  )
+  const unusedBalanceSourceNames = [...balanceSourceNames].filter(
+    (name) => !usedBalanceSourceNames.has(name),
+  )
+  if (unusedBalanceSourceNames.length > 0) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Unused balance source: '${unusedBalanceSourceNames.join("', '")}'`,
+    })
+  }
 }
 
 export const checkConversions = (params: RequestParams) => {
+  // Conversion names are canonicalized to alphabetical order to detect usage
+  // and duplicates.
+  const conversionNames = new Set<string>()
+
   for (const conversion of params.conversions) {
+    const conversionName = [conversion.from, conversion.to].sort().join('/')
+    if (conversionNames.has(conversionName)) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Duplicate conversion: '${conversionName}'`,
+      })
+    }
+    conversionNames.add(conversionName)
+
     try {
       JSON.parse(conversion.params)
     } catch (error: unknown) {
@@ -128,6 +186,21 @@ export const checkConversions = (params: RequestParams) => {
         }`,
       })
     }
+  }
+
+  const usedConversionNames = new Set(
+    params.components.flatMap((component) =>
+      component.conversions.map((conversion) => conversion.split('/').sort().join('/')),
+    ),
+  )
+  const unusedConversionNames = [...conversionNames].filter(
+    (name) => !usedConversionNames.has(name),
+  )
+  if (unusedConversionNames.length > 0) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Unused conversion: '${unusedConversionNames.join("', '")}'`,
+    })
   }
 }
 

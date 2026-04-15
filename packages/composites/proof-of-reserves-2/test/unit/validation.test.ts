@@ -44,6 +44,45 @@ const expectAdapterError = (
 }
 
 describe('validation', () => {
+  const validParams: RequestParams = {
+    addressLists: [
+      {
+        name: 'test-address-list',
+        provider: 'test-address-list-adapter',
+        params: '{}',
+        addressArrayPath: 'addresses',
+      },
+    ],
+    balanceSources: [
+      {
+        name: 'test-balance-source',
+        provider: 'test-balance-adapter',
+        params: '{}',
+        addressArrayPath: 'addresses',
+        balancePath: 'balance',
+      },
+    ],
+    components: [
+      {
+        name: 'test-component',
+        currency: 'BTC',
+        addressList: 'test-address-list',
+        balanceSource: 'test-balance-source',
+        conversions: ['BTC/USD'],
+      },
+    ],
+    conversions: [
+      {
+        from: 'BTC',
+        to: 'USD',
+        provider: 'test-view-function-adapter',
+        params: '{}',
+        ratePath: 'result',
+      },
+    ],
+    resultDecimals: 18,
+  }
+
   beforeEach(async () => {
     restoreEnv()
   })
@@ -64,47 +103,17 @@ describe('validation', () => {
   })
 
   describe('checkProviderUrls', () => {
-    const params: RequestParams = {
-      addressLists: [
-        {
-          name: 'test-address-list',
-          provider: 'test-address-list-adapter',
-          params: '{}',
-          addressArrayPath: 'addresses',
-        },
-      ],
-      balanceSources: [
-        {
-          name: 'test-balance-source',
-          provider: 'test-balance-adapter',
-          params: '{}',
-          balancePath: 'balance',
-        },
-      ],
-      components: [],
-      conversions: [
-        {
-          from: 'BTC',
-          to: 'USD',
-          provider: 'test-view-function-adapter',
-          params: '{}',
-          ratePath: 'result',
-        },
-      ],
-      resultDecimals: 18,
-    }
-
     it('should succeed if environment variables are set for all providers', () => {
       process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
       process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
       process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      checkProviderUrls(params)
+      checkProviderUrls(validParams)
     })
 
     it('should throw if the environment variable is missing for an addressList provider', () => {
       process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
       process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      expectAdapterError(() => checkProviderUrls(params), {
+      expectAdapterError(() => checkProviderUrls(validParams), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_ADDRESS_LIST_ADAPTER_URL',
       })
@@ -113,7 +122,7 @@ describe('validation', () => {
     it('should throw if the environment variable is missing for a balanceSource provider', () => {
       process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
       process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      expectAdapterError(() => checkProviderUrls(params), {
+      expectAdapterError(() => checkProviderUrls(validParams), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_BALANCE_ADAPTER_URL',
       })
@@ -122,7 +131,7 @@ describe('validation', () => {
     it('should throw if the environment variable is missing for a conversion provider', () => {
       process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
       process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
-      expectAdapterError(() => checkProviderUrls(params), {
+      expectAdapterError(() => checkProviderUrls(validParams), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_VIEW_FUNCTION_ADAPTER_URL',
       })
@@ -130,18 +139,58 @@ describe('validation', () => {
   })
 
   describe('checkAddressLists', () => {
+    it('should succeed for a valid params', () => {
+      expect(() => checkAddressLists(validParams)).not.toThrow()
+    })
+
+    it('should throw for duplicate address list name', () => {
+      const params: RequestParams = {
+        ...validParams,
+        addressLists: [
+          {
+            name: 'duplicate-name',
+            fixed: '[]',
+          },
+          {
+            name: 'duplicate-name',
+            fixed: '[]',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkAddressLists(params), {
+        statusCode: 400,
+        message: "Duplicate address list name: 'duplicate-name'",
+      })
+    })
+
+    it('should throw for unused address list name', () => {
+      const params: RequestParams = {
+        ...validParams,
+        addressLists: [
+          ...validParams.addressLists,
+          {
+            name: 'unused-address-list',
+            fixed: '[]',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkAddressLists(params), {
+        statusCode: 400,
+        message: "Unused address list: 'unused-address-list'",
+      })
+    })
+
     it('should throw if an address list has a fixed value that is not JSON', () => {
       const params: RequestParams = {
+        ...validParams,
         addressLists: [
           {
             name: 'fixed-not-json',
             fixed: 'not-json',
           },
         ],
-        balanceSources: [],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
 
       expectAdapterError(() => checkAddressLists(params), {
@@ -153,16 +202,13 @@ describe('validation', () => {
 
     it('should throw if an address list has a fixed value that is not an array', () => {
       const params: RequestParams = {
+        ...validParams,
         addressLists: [
           {
             name: 'fixed-not-array',
             fixed: '{"not":"an array"}',
           },
         ],
-        balanceSources: [],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
 
       expectAdapterError(() => checkAddressLists(params), {
@@ -173,6 +219,7 @@ describe('validation', () => {
 
     it('should throw if an address list has neither a fixed value nor a provider', () => {
       const params: RequestParams = {
+        ...validParams,
         addressLists: [
           {
             name: 'not-fixed-no-provider',
@@ -180,10 +227,6 @@ describe('validation', () => {
             addressArrayPath: 'addresses',
           },
         ],
-        balanceSources: [],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
       expectAdapterError(() => checkAddressLists(params), {
         statusCode: 400,
@@ -194,6 +237,7 @@ describe('validation', () => {
 
     it('should throw if an address list has both a fixed value and a provider', () => {
       const params: RequestParams = {
+        ...validParams,
         addressLists: [
           {
             name: 'fixed-and-provider',
@@ -201,10 +245,6 @@ describe('validation', () => {
             provider: 'test-adapter',
           },
         ],
-        balanceSources: [],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
       expectAdapterError(() => checkAddressLists(params), {
         statusCode: 400,
@@ -215,6 +255,7 @@ describe('validation', () => {
 
     it('should throw if an address list has params that are not JSON', () => {
       const params: RequestParams = {
+        ...validParams,
         addressLists: [
           {
             name: 'params-not-json',
@@ -223,10 +264,6 @@ describe('validation', () => {
             addressArrayPath: 'addresses',
           },
         ],
-        balanceSources: [],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
       expectAdapterError(() => checkAddressLists(params), {
         statusCode: 400,
@@ -237,9 +274,59 @@ describe('validation', () => {
   })
 
   describe('checkBalanceSources', () => {
+    it('should succeed for a valid params', () => {
+      expect(() => checkBalanceSources(validParams)).not.toThrow()
+    })
+
+    it('should throw for duplicate balance source name', () => {
+      const params: RequestParams = {
+        ...validParams,
+        balanceSources: [
+          ...validParams.balanceSources,
+          {
+            name: 'duplicate-name',
+            provider: 'test-adapter',
+            params: '{}',
+            balancePath: 'balance',
+          },
+          {
+            name: 'duplicate-name',
+            provider: 'test-adapter',
+            params: '{}',
+            balancePath: 'balance',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkBalanceSources(params), {
+        statusCode: 400,
+        message: "Duplicate balance source name: 'duplicate-name'",
+      })
+    })
+
+    it('should throw for unused balance source', () => {
+      const params: RequestParams = {
+        ...validParams,
+        balanceSources: [
+          ...validParams.balanceSources,
+          {
+            name: 'unused-balance-source',
+            provider: 'test-adapter',
+            params: '{}',
+            balancePath: 'balance',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkBalanceSources(params), {
+        statusCode: 400,
+        message: "Unused balance source: 'unused-balance-source'",
+      })
+    })
+
     it('should throw if a balance source has params that are not JSON', () => {
       const params: RequestParams = {
-        addressLists: [],
+        ...validParams,
         balanceSources: [
           {
             name: 'params-not-json',
@@ -248,9 +335,6 @@ describe('validation', () => {
             balancePath: 'balance',
           },
         ],
-        components: [],
-        conversions: [],
-        resultDecimals: 18,
       }
       expectAdapterError(() => checkBalanceSources(params), {
         statusCode: 400,
@@ -261,11 +345,62 @@ describe('validation', () => {
   })
 
   describe('checkConversions', () => {
+    it('should succeed for a valid params', () => {
+      expect(() => checkConversions(validParams)).not.toThrow()
+    })
+
+    it('should throw for duplicate conversion', () => {
+      const params: RequestParams = {
+        ...validParams,
+        conversions: [
+          ...validParams.conversions,
+          {
+            from: 'FOO',
+            to: 'BAR',
+            provider: 'test-adapter',
+            params: '{}',
+            ratePath: 'result',
+          },
+          {
+            from: 'BAR',
+            to: 'FOO',
+            provider: 'test-adapter',
+            params: '{}',
+            ratePath: 'result',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkConversions(params), {
+        statusCode: 400,
+        message: "Duplicate conversion: 'BAR/FOO'",
+      })
+    })
+
+    it('should throw for unused conversion', () => {
+      const params: RequestParams = {
+        ...validParams,
+        conversions: [
+          ...validParams.conversions,
+          {
+            from: 'UNUSED',
+            to: 'CONVERSION',
+            provider: 'test-adapter',
+            params: '{}',
+            ratePath: 'result',
+          },
+        ],
+      }
+
+      expectAdapterError(() => checkConversions(params), {
+        statusCode: 400,
+        message: "Unused conversion: 'CONVERSION/UNUSED'",
+      })
+    })
+
     it('should throw if a conversion has params that are not JSON', () => {
       const params: RequestParams = {
-        addressLists: [],
-        balanceSources: [],
-        components: [],
+        ...validParams,
         conversions: [
           {
             from: 'BTC',
@@ -286,6 +421,10 @@ describe('validation', () => {
   })
 
   describe('checkComponents', () => {
+    it('should succeed for a valid params', () => {
+      expect(() => checkComponents(validParams)).not.toThrow()
+    })
+
     it('should throw if a component references an unknown address list', () => {
       const params: RequestParams = {
         addressLists: [],
