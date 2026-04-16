@@ -44,7 +44,7 @@ adapters:
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.149
+    version: 2.2.152
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -86,7 +86,7 @@ adapters:
   - name: covid-tracker
     version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.45
+    version: 1.4.48
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
@@ -268,13 +268,13 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.15
   - name: savax-price
-    version: 3.0.132
+    version: 3.0.135
   - name: secure-mint
     version: 1.0.7
   - name: securitize
     version: 1.0.2
   - name: set-token-index
-    version: 3.0.58
+    version: 3.0.61
   - name: snowflake
     version: 1.2.47
   - name: sochain
@@ -312,7 +312,7 @@ adapters:
   - name: therundown
     version: 1.3.47
   - name: tiingo
-    version: 2.9.8
+    version: 2.10.1
   - name: tiingo-state
     version: 0.2.4
   - name: token-balance
@@ -354,4 +354,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.131
+    version: 2.0.134
