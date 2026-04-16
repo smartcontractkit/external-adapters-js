@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { config, getApiConfig } from '../config'
 import { httpTransport } from '../transport/http'
 import { sharedInputParameterConfig } from './shared'
@@ -37,6 +38,8 @@ export type BaseEndpointTypes = {
   }
   Settings: typeof config.settings
 }
+
+export type RequestParams = TypeFromDefinition<BaseEndpointTypes['Parameters']>
 
 export const endpoint = new AdapterEndpoint({
   name: 'http',
