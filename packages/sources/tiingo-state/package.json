@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tiingo-state-adapter",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "Chainlink tiingo-state adapter.",
   "keywords": [
     "Chainlink",
