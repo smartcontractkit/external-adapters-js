@@ -1,5 +1,15 @@
 # @chainlink/proof-of-reserves-adapter
 
+## 1.34.0
+
+### Minor Changes
+
+- [#4756](https://github.com/smartcontractkit/external-adapters-js/pull/4756) [`01de736`](https://github.com/smartcontractkit/external-adapters-js/commit/01de7364dfb5570839c8939e930f13d93783b04b) Thanks [@dskloetc](https://github.com/dskloetc)! - Support cardano and litecoin endpoints of token-balance
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.33.2
 
 ### Patch Changes

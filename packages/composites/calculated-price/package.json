@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/implied-price-test-adapter",
+  "name": "@chainlink/calculated-price-adapter",
   "version": "1.0.0",
-  "description": "Chainlink implied-price-test adapter.",
+  "description": "Chainlink calculated-price adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "implied-price-test"
+    "calculated-price"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

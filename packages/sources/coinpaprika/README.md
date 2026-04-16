@@ -1,6 +1,6 @@
 # COINPAPRIKA
 
-![2.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/coinpaprika/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -263,11 +263,11 @@ Request:
 
 ### Input Params
 
-| Required? |   Name   | Aliases |                 Description                  |  Type  |           Options           | Default | Depends On | Not Valid With |
-| :-------: | :------: | :-----: | :------------------------------------------: | :----: | :-------------------------: | :-----: | :--------: | :------------: |
-|    ✅     | exchange |         | The exchange to obtain the market price from | string |                             |         |            |                |
-|    ✅     |  symbol  |         |   The symbol of the base quote asset pair    | string |                             |         |            |                |
-|    ✅     |   type   |         |       The type of the price to obtain        | string | `mark_price`, `top_of_book` |         |            |                |
+| Required? |   Name   | Aliases |                 Description                  |  Type  |                               Options                                | Default | Depends On | Not Valid With |
+| :-------: | :------: | :-----: | :------------------------------------------: | :----: | :------------------------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     | exchange |         | The exchange to obtain the market price from | string |                                                                      |         |            |                |
+|    ✅     |  symbol  |         |   The symbol of the base quote asset pair    | string |                                                                      |         |            |                |
+|    ✅     |   type   |         |       The type of the price to obtain        | string | `mark_price`, `top_of_book`, `top_of_book_perps`, `top_of_book_spot` |         |            |                |
 
 ### Example
 
