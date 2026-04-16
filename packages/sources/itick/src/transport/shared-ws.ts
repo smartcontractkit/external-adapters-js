@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { Region, getApiKeyForRegion, inputParameters } from '../endpoint/shared'
+import { inputParameters } from '../endpoint/shared'
 
 type WsMessageBase = {
   data: {
@@ -17,12 +17,10 @@ type WsTransportTypes<Message, Response extends ResponseGenerics> = {
 }
 
 export const createWsTransport = <Message, Response extends ResponseGenerics>({
-  region,
   apiPath,
   type,
   messageHandler,
 }: {
-  region: Region
   apiPath: string
   type: string
   messageHandler: (message: Message) => ProviderResult<{
@@ -35,7 +33,7 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
     options: (context, _desiredSubs) => {
       return {
         headers: {
-          token: getApiKeyForRegion(region, context.adapterSettings),
+          token: context.adapterSettings.API_KEY,
         },
       }
     },
@@ -60,7 +58,7 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
       subscribeMessage: (params) => {
         return {
           ac: 'subscribe',
-          params: [params.base, region.toLowerCase()].join('$'),
+          params: [params.base, params.region.toLowerCase()].join('$'),
           types: type,
         }
       },
