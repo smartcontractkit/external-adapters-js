@@ -6,40 +6,17 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import objectPath from 'object-path'
 import { BaseEndpointTypes, RequestParams } from '../endpoint/reserves'
-import {
-  FixedPoint,
-  add,
-  divide,
-  fixedPointToNumber,
-  getFixedPointFromResult,
-  multiply,
-  toFixedPointWithDecimals,
-} from '../utils/fixed-point'
-import { checkAddressList, getProviderUrl } from '../utils/validation'
+import { add, fixedPointToNumber, toFixedPointWithDecimals } from '../utils/fixed-point'
+import { getProviderUrl } from '../utils/validation'
+import { AddressListRepo } from './address'
+import { BalanceSourceRepo } from './balance'
+import { Conversion, ConversionRepo } from './conversion'
+import { ProcessedComponent } from './types'
 
 const logger = makeLogger('ReservesTransport')
 
 type ComponentParam = RequestParams['components'][number]
-type ConversionParam = RequestParams['conversions'][number]
-type BalanceSourceParam = RequestParams['balanceSources'][number]
-
-type ProcessedComponent = {
-  name: string
-  currency: string
-  conversions: string[]
-  totalBalance: FixedPoint
-  originalCurrency: string
-  totalBalanceInOriginalCurrency: FixedPoint
-  addressCount?: number
-}
-
-type FetchedConversion = {
-  from: string
-  to: string
-  rate: Promise<FixedPoint>
-}
 
 export type ReservesTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -99,23 +76,36 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     const providerDataRequestedUnixMs = Date.now()
 
     const resultDecimals = params.resultDecimals
-    const addressListMap = this.fetchAddressLists(context, params.addressLists)
-    const balanceSourceMap = Object.fromEntries(
-      params.balanceSources.map((source) => [source.name, source]),
-    )
-    const conversions = params.conversions.map((conversion) =>
-      this.fetchConversion(context, conversion, resultDecimals),
-    )
+    const fetchFromProvider = this.fetchFromProvider.bind(this, context)
+    const shortJsonForError = this.shortJsonForError.bind(this)
+
+    const addressListRepo = new AddressListRepo({
+      config: params.addressLists,
+      fetchFromProvider,
+      shortJsonForError,
+    })
+
+    const balanceSourceRepo = new BalanceSourceRepo({
+      config: params.balanceSources,
+      defaultDecimals: resultDecimals,
+      fetchFromProvider,
+      shortJsonForError,
+    })
+
+    const conversionRepo = new ConversionRepo({
+      config: params.conversions,
+      defaultDecimals: resultDecimals,
+      fetchFromProvider,
+      shortJsonForError,
+    })
 
     const components = await Promise.all(
       params.components.map((component) =>
         this.processComponent({
-          context,
           component,
-          addressListMap,
-          balanceSourceMap,
-          conversions,
-          defaultDecimals: resultDecimals,
+          addressListRepo,
+          balanceSourceRepo,
+          conversionRepo,
         }),
       ),
     )
@@ -138,7 +128,7 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
         resultAsNumber,
         decimals,
         components: this.createComponentsForResponse(components),
-        conversionRates: await this.createConversionRatesForResponse(conversions),
+        conversionRates: await this.createConversionRatesForResponse(conversionRepo.conversions),
       },
       statusCode: 200,
       result,
@@ -150,124 +140,24 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     }
   }
 
-  fetchAddressLists(
-    context: EndpointContext<ReservesTransportTypes>,
-    addressListsParams: RequestParams['addressLists'],
-  ): Record<string, Promise<unknown[]>> {
-    return Object.fromEntries(
-      addressListsParams.map((addressListParams) => {
-        return [addressListParams.name, this.fetchAddressList(context, addressListParams)]
-      }),
-    )
-  }
-
-  async fetchAddressList(
-    context: EndpointContext<ReservesTransportTypes>,
-    addressListParams: RequestParams['addressLists'][number],
-  ): Promise<unknown[]> {
-    checkAddressList(addressListParams)
-
-    if (addressListParams.fixed !== undefined) {
-      // Was already validated to be a JSON array string in validation.
-      return JSON.parse(addressListParams.fixed)
-    }
-
-    const addressResponseData = await this.fetchFromProvider({
-      context,
-      provider: addressListParams.provider,
-      params: JSON.parse(addressListParams.params),
-    })
-    const addressArray = objectPath.get(addressResponseData, addressListParams.addressArrayPath)
-
-    if (addressArray === undefined) {
-      throw new Error(
-        `Address array not found at path '${
-          addressListParams.addressArrayPath
-        }' in response '${this.shortJsonForError(addressResponseData)}' from provider '${
-          addressListParams.provider
-        }'`,
-      )
-    }
-    if (!Array.isArray(addressArray)) {
-      throw new Error(
-        `Expected an array of addresses at path ${
-          addressListParams.addressArrayPath
-        } in response from provider ${addressListParams.provider}. Found '${this.shortJsonForError(
-          addressArray,
-        )}'.`,
-      )
-    }
-
-    return addressArray
-  }
-
-  fetchConversion(
-    context: EndpointContext<ReservesTransportTypes>,
-    conversion: ConversionParam,
-    resultDecimals: number,
-  ): FetchedConversion {
-    return {
-      from: conversion.from,
-      to: conversion.to,
-      rate: this.fetchConversionRate(context, conversion, resultDecimals),
-    }
-  }
-
-  async fetchConversionRate(
-    context: EndpointContext<ReservesTransportTypes>,
-    conversion: ConversionParam,
-    resultDecimals: number,
-  ): Promise<FixedPoint> {
-    const responseData = await this.fetchFromProvider({
-      context,
-      provider: conversion.provider,
-      params: JSON.parse(conversion.params),
-    })
-    try {
-      return getFixedPointFromResult({
-        result: responseData,
-        amountPath: conversion.ratePath,
-        decimalsPath: conversion.decimalsPath,
-        defaultDecimals: resultDecimals,
-      })
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      throw new Error(
-        `Error fetching conversion rate for '${conversion.from}/${
-          conversion.to
-        }': ${errorMessage} for response '${this.shortJsonForError(responseData)}' from provider '${
-          conversion.provider
-        }'`,
-      )
-    }
-  }
-
   async processComponent({
-    context,
     component,
-    addressListMap,
-    balanceSourceMap,
-    conversions,
-    defaultDecimals,
+    addressListRepo,
+    balanceSourceRepo,
+    conversionRepo,
   }: {
-    context: EndpointContext<ReservesTransportTypes>
     component: ComponentParam
-    addressListMap: Record<string, Promise<unknown[]>>
-    balanceSourceMap: Record<string, BalanceSourceParam>
-    conversions: FetchedConversion[]
-    defaultDecimals: number
+    addressListRepo: AddressListRepo
+    balanceSourceRepo: BalanceSourceRepo
+    conversionRepo: ConversionRepo
   }): Promise<ProcessedComponent> {
     try {
-      // Vadidation guarantees that balanceSource exists for the component.
-      const balanceSource = balanceSourceMap[component.balanceSource]!
+      const addressArray = await addressListRepo.getAddressArray(component.addressList)
 
-      const balances = await this.fetchBalancesForComponent({
-        context,
-        component,
-        addressListMap,
-        balanceSource,
-        defaultDecimals,
-      })
+      const { balances, addressCount } = await balanceSourceRepo.fetchBalances(
+        component.balanceSource,
+        addressArray,
+      )
 
       const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
         amount: 0n,
@@ -277,16 +167,13 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
       const processedComponent: ProcessedComponent = {
         name: component.name,
         currency: component.currency,
-        conversions: component.conversions,
         totalBalance,
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
-        addressCount: balanceSource.balancesArrayPath !== undefined ? balances.length : undefined,
+        addressCount,
       }
 
-      for (const conversionName of component.conversions) {
-        await this.applyConversion({ component: processedComponent, conversionName, conversions })
-      }
+      conversionRepo.applyConversions(component.conversions, processedComponent)
 
       return processedComponent
     } catch (error: unknown) {
@@ -296,99 +183,6 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
         statusCode,
         message: `Error processing component '${component.name}': ${errorMessage}`,
       })
-    }
-  }
-
-  async fetchBalancesForComponent({
-    context,
-    component,
-    addressListMap,
-    balanceSource,
-    defaultDecimals,
-  }: {
-    context: EndpointContext<ReservesTransportTypes>
-    component: ComponentParam
-    addressListMap: Record<string, Promise<unknown[]>>
-    balanceSource: BalanceSourceParam
-    defaultDecimals: number
-  }): Promise<FixedPoint[]> {
-    const balanceProviderParams = JSON.parse(balanceSource.params)
-
-    if (component.addressList !== undefined && balanceSource.addressArrayPath !== undefined) {
-      const addressArray = await addressListMap[component.addressList]
-      objectPath.set(balanceProviderParams, balanceSource.addressArrayPath, addressArray)
-    }
-
-    const responseData = await this.fetchFromProvider({
-      context,
-      provider: balanceSource.provider,
-      params: balanceProviderParams,
-    })
-
-    const balanceArray: Record<string, unknown>[] =
-      balanceSource.balancesArrayPath !== undefined
-        ? objectPath.get(responseData, balanceSource.balancesArrayPath)
-        : [responseData]
-    if (balanceArray === undefined) {
-      throw new Error(
-        `Balances array not found at path '${
-          balanceSource.balancesArrayPath
-        }' in response '${this.shortJsonForError(responseData)}' from provider '${
-          balanceSource.provider
-        }'`,
-      )
-    }
-
-    if (!Array.isArray(balanceArray)) {
-      throw new Error(
-        `Expected an array of balance items at path '${
-          balanceSource.balancesArrayPath
-        }' in response from provider '${balanceSource.provider}'. Found '${this.shortJsonForError(
-          balanceArray,
-        )}'.`,
-      )
-    }
-
-    const balances: FixedPoint[] = balanceArray.map((item) => {
-      try {
-        return getFixedPointFromResult({
-          result: item,
-          amountPath: balanceSource.balancePath,
-          decimalsPath: balanceSource.decimalsPath,
-          defaultDecimals,
-        })
-      } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-        throw new Error(
-          `Error getting balance: ${errorMessage} for element '${this.shortJsonForError(
-            item,
-          )}' in response from provider '${balanceSource.provider}'`,
-        )
-      }
-    })
-
-    return balances
-  }
-
-  async applyConversion({
-    component,
-    conversionName,
-    conversions,
-  }: {
-    component: ProcessedComponent
-    conversionName: string
-    conversions: FetchedConversion[]
-  }): Promise<void> {
-    const [from, to] = conversionName.split('/')
-    // Validation guarantees that the conversion exists.
-    const conversion = conversions.find(
-      (c) => (c.from === from && c.to === to) || (c.from === to && c.to === from),
-    )!
-    component.currency = to
-    if (from === conversion.from) {
-      component.totalBalance = multiply(component.totalBalance, await conversion.rate)
-    } else {
-      component.totalBalance = divide(component.totalBalance, await conversion.rate)
     }
   }
 
@@ -414,7 +208,7 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
   }
 
   createConversionRatesForResponse(
-    conversions: FetchedConversion[],
+    conversions: Conversion[],
   ): Promise<BaseEndpointTypes['Response']['Data']['conversionRates']> {
     return Promise.all(
       conversions.map(async (conversion) => ({
@@ -425,15 +219,11 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     )
   }
 
-  async fetchFromProvider({
-    context,
-    provider,
-    params,
-  }: {
-    context: EndpointContext<ReservesTransportTypes>
-    provider: string
-    params: Record<string, unknown>
-  }): Promise<Record<string, unknown>> {
+  async fetchFromProvider(
+    context: EndpointContext<ReservesTransportTypes>,
+    provider: string,
+    params: Record<string, unknown>,
+  ): Promise<Record<string, unknown>> {
     const url = getProviderUrl(provider)
     const requestConfig = {
       url,
