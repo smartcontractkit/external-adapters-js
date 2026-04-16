@@ -54,7 +54,7 @@
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
-      "path": "./composites/proof-of-reserves-2/tsconfig.test.json"
+      "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
     },
     {
       "path": "./composites/rocket-pool/tsconfig.test.json"

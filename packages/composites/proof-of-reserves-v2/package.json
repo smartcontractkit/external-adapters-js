@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/proof-of-reserves-2-adapter",
+  "name": "@chainlink/proof-of-reserves-v2-adapter",
   "version": "0.0.0",
-  "description": "Chainlink proof-of-reserves-2 adapter.",
+  "description": "Chainlink proof-of-reserves-v2 adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "proof-of-reserves-2"
+    "proof-of-reserves-v2"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
