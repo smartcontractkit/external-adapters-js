@@ -23,6 +23,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/bsol-price"\
     },\
     {\
+      "name": "@chainlink/calculated-price-adapter",\
+      "reference": "workspace:packages/composites/calculated-price"\
+    },\
+    {\
       "name": "@chainlink/crypto-volatility-index-adapter",\
       "reference": "workspace:packages/composites/crypto-volatility-index"\
     },\
@@ -49,10 +53,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/implied-price-adapter",\
       "reference": "workspace:packages/composites/implied-price"\
-    },\
-    {\
-      "name": "@chainlink/implied-price-test-adapter",\
-      "reference": "workspace:packages/composites/implied-price-test"\
     },\
     {\
       "name": "@chainlink/llama-guard-adapter",\
@@ -679,6 +679,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/synthetix-feeds"\
     },\
     {\
+      "name": "@chainlink/t-rize-proof-of-insurance-adapter",\
+      "reference": "workspace:packages/sources/t-rize-proof-of-insurance"\
+    },\
+    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -803,6 +807,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
+    ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
@@ -873,7 +878,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
-    ["@chainlink/implied-price-test-adapter", ["workspace:packages/composites/implied-price-test"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/itick-adapter", ["workspace:packages/sources/itick"]],\
@@ -942,6 +946,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
@@ -5165,6 +5170,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/calculated-price-adapter", [\
+      ["workspace:packages/composites/calculated-price", {\
+        "packageLocation": "./packages/composites/calculated-price/",\
+        "packageDependencies": [\
+          ["@chainlink/calculated-price-adapter", "workspace:packages/composites/calculated-price"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.5.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/canton-functions-adapter", [\
       ["workspace:packages/sources/canton-functions", {\
         "packageLocation": "./packages/sources/canton-functions/",\
@@ -5418,6 +5439,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["decimal.js", "npm:10.5.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6617,22 +6639,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/implied-price-test-adapter", [\
-      ["workspace:packages/composites/implied-price-test", {\
-        "packageLocation": "./packages/composites/implied-price-test/",\
-        "packageDependencies": [\
-          ["@chainlink/implied-price-test-adapter", "workspace:packages/composites/implied-price-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7847,6 +7853,21 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.4.3"],\
           ["ethers", "npm:5.8.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/t-rize-proof-of-insurance-adapter", [\
+      ["workspace:packages/sources/t-rize-proof-of-insurance", {\
+        "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
+        "packageDependencies": [\
+          ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

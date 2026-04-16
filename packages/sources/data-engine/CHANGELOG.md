@@ -1,5 +1,13 @@
 # @chainlink/data-engine-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4788](https://github.com/smartcontractkit/external-adapters-js/pull/4788) [`8896a3e`](https://github.com/smartcontractkit/external-adapters-js/commit/8896a3ee432046f1ea6c0266d54a280c4b89cf12) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add report age limit protection
+
+- [#4770](https://github.com/smartcontractkit/external-adapters-js/pull/4770) [`d1e26b8`](https://github.com/smartcontractkit/external-adapters-js/commit/d1e26b8437792b971b905746fe74b3ad0e2fe6cb) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add v7 endpoint support
+
 ## 1.2.0
 
 ### Minor Changes

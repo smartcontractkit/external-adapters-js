@@ -10,7 +10,7 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'The URL of the Turso DB API endpoint',
     type: 'string',
-    default: 'https://ion-digital-austpryb.aws-us-east-1.turso.io/v2/pipeline',
+    default: 'https://ion-digital-prod-austpryb.aws-us-east-1.turso.io/v2/pipeline',
     sensitive: false,
   },
 })
