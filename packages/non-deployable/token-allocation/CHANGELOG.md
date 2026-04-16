@@ -1,5 +1,12 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.20
+
+### Patch Changes
+
+- Updated dependencies [[`faf447b`](https://github.com/smartcontractkit/external-adapters-js/commit/faf447bfe37fe9109459670c46d8a38db84a45c7)]:
+  - @chainlink/tiingo-adapter@2.10.1
+
 ## 1.14.19
 
 ### Patch Changes
