@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { Region, getApiKeyForRegion, inputParameters } from '../endpoint/shared'
+import { inputParameters } from '../endpoint/shared'
 
 type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
   Parameters: typeof inputParameters.definition
@@ -11,15 +11,16 @@ type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
 }
 
 export const createHttpTransport = <ResponseSchema, Response extends ResponseGenerics>({
-  region,
   apiPath,
   type,
   messageHandler,
 }: {
-  region: Region
   apiPath: string
   type: string
-  messageHandler: (message: ResponseSchema) => ProviderResult<{
+  messageHandler: (
+    message: ResponseSchema,
+    defaultRegion: string,
+  ) => ProviderResult<{
     Parameters: typeof inputParameters.definition
     Response: Response
   }>[]
@@ -27,7 +28,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
   return new HttpTransport<HttpTransportTypes<ResponseSchema, Response>>({
     prepareRequests: (params, config) => {
       return params.map((param) => {
-        const { base: symbol } = param
+        const { base: symbol, region } = param
         return {
           method: 'GET',
           params: [param],
@@ -35,7 +36,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
             baseURL: config.API_ENDPOINT,
             url: `/${apiPath}/${type}`,
             headers: {
-              token: getApiKeyForRegion(region, config),
+              token: config.API_KEY,
             },
             params: {
               region,
@@ -48,7 +49,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
     parseResponse: (params, response) => {
       if (!response.data) {
         return params.map((param) => {
-          const { base: symbol } = param
+          const { base: symbol, region } = param
           return {
             params: param,
             response: {
@@ -59,7 +60,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
         })
       }
 
-      return messageHandler(response.data)
+      return params.flatMap(({ region }) => messageHandler(response.data, region))
     },
   })
 }

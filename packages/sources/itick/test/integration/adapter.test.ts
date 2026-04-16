@@ -13,30 +13,17 @@ describe('execute', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const requests = [
-    { symbol: '100', endpoint: 'hk-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'cn-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'indices-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'kr-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'jp-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'tw-depth', transport: 'rest' },
-    { symbol: '100', endpoint: 'hk-quote', transport: 'rest' },
-    { symbol: '100', endpoint: 'cn-quote', transport: 'rest' },
-    { symbol: '100', endpoint: 'indices-quote', transport: 'rest' },
-    { symbol: '100', endpoint: 'kr-quote', transport: 'rest' },
-    { symbol: '100', endpoint: 'jp-quote', transport: 'rest' },
-    { symbol: '100', endpoint: 'tw-quote', transport: 'rest' },
+    { symbol: '100', region: 'hk', endpoint: 'stock-depth', transport: 'rest' },
+    { symbol: '100', region: 'gb', endpoint: 'indices-depth', transport: 'rest' },
+    { symbol: '100', region: 'hk', endpoint: 'stock-quote', transport: 'rest' },
+    { symbol: '100', region: 'gb', endpoint: 'indices-quote', transport: 'rest' },
   ]
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
     process.env.API_ENDPOINT = 'http://localhost:9090'
-    process.env['API_KEY_HK'] = 'fake-api-key'
-    process.env['API_KEY_CN'] = 'fake-api-key'
-    process.env['API_KEY_GB'] = 'fake-api-key'
-    process.env['API_KEY_KR'] = 'fake-api-key'
-    process.env['API_KEY_JP'] = 'fake-api-key'
-    process.env['API_KEY_TW'] = 'fake-api-key'
+    process.env['API_KEY'] = 'fake-api-key'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
