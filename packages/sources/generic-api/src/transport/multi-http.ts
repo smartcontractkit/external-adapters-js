@@ -54,10 +54,10 @@ export class MultiHttpTransport extends SubscriptionTransport<BaseEndpointTypes>
 
   async _handleRequest(
     context: EndpointContext<BaseEndpointTypes>,
-    param: RequestParams,
+    params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const requestConfig = prepareRequests([param])[0]
+    const requestConfig = prepareRequests([params])[0]
     const result = await this.requester.request<object>(
       calculateHttpRequestKey<BaseEndpointTypes>({
         context,
@@ -67,11 +67,11 @@ export class MultiHttpTransport extends SubscriptionTransport<BaseEndpointTypes>
       requestConfig.request,
     )
     const response = createResponses<BaseEndpointTypes>({
-      params: [param],
+      params,
       apiResponse: result.response,
       mapParam: (p) => p,
       mapResponse: (adapterResponse) => adapterResponse,
-    })[0].response
+    })
     return {
       ...response,
       timestamps: {

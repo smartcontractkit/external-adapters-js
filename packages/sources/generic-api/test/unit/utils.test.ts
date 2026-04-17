@@ -27,7 +27,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -49,12 +49,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should convert providerIndicatedTimePath ISO string to providerIndicatedTimeUnixMs', async () => {
@@ -74,7 +69,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -93,12 +88,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should convert providerIndicatedTimePath Unix ms number to providerIndicatedTimeUnixMs', async () => {
@@ -118,7 +108,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -137,12 +127,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return an error if providerIndicatedTimePath is not found', async () => {
@@ -161,7 +146,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -178,12 +163,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return an error if providerIndicatedTimePath value is invalid', async () => {
@@ -203,7 +183,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -219,12 +199,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return an error if data path is not found', async () => {
@@ -245,7 +220,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -261,12 +236,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return an error if ripcord is activated', async () => {
@@ -285,7 +255,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -304,12 +274,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return an error if response data is empty', async () => {
@@ -325,7 +290,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -341,12 +306,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should handle nested data paths', async () => {
@@ -368,7 +328,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -385,12 +345,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should extract result field as primary result (view-function-multi-chain pattern)', async () => {
@@ -413,7 +368,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -435,12 +390,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should include ripcordDetails in error message when ripcord is activated (the-network-firm pattern)', async () => {
@@ -460,7 +410,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -479,12 +429,7 @@ describe('utils', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should handle empty ripcordDetails array', async () => {
@@ -504,7 +449,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -522,12 +467,7 @@ describe('utils', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should include ripcord status in data when ripcord is false', async () => {
@@ -546,7 +486,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -566,12 +506,7 @@ describe('utils', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should return null result when result field not in dataPaths (backward compatible)', async () => {
@@ -593,7 +528,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -612,12 +547,7 @@ describe('utils', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should handle full OpenDelta NX8 scenario', async () => {
@@ -648,7 +578,7 @@ describe('utils', () => {
       }
 
       const adapterResponses = createResponses<MultiPathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam: (param) => param,
         mapResponse: (multiHttpResponse) => multiHttpResponse,
@@ -670,12 +600,7 @@ describe('utils', () => {
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
 
     it('should map params and response', async () => {
@@ -712,7 +637,7 @@ describe('utils', () => {
       })
 
       const adapterResponses = createResponses<SinglePathEndpointTypes>({
-        params: [params],
+        params,
         apiResponse: response,
         mapParam,
         mapResponse,
@@ -734,12 +659,7 @@ describe('utils', () => {
         },
       }
 
-      expect(adapterResponses).toEqual([
-        {
-          params,
-          response: expectedResponse,
-        },
-      ])
+      expect(adapterResponses).toEqual(expectedResponse)
     })
   })
 })

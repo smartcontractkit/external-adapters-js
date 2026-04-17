@@ -162,13 +162,10 @@ const createResponse = (
   }
 }
 
-type FullProviderResult<EndpointTypes extends TransportGenerics> = {
-  params: TypeFromDefinition<EndpointTypes['Parameters']>
-  response: AdapterResponse<EndpointTypes['Response']>
-} & {
-  response: {
-    timestamps: NonStreamTimestamps
-  }
+type NonStreamAdapterResponse<EndpointTypes extends TransportGenerics> = AdapterResponse<
+  EndpointTypes['Response']
+> & {
+  timestamps: NonStreamTimestamps
 }
 
 export const createResponses = <EndpointTypes extends TransportGenerics>({
@@ -177,35 +174,27 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
   mapParam,
   mapResponse,
 }: {
-  params: Params<EndpointTypes>[]
+  params: Params<EndpointTypes>
   apiResponse: { data: object | undefined }
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
-}): FullProviderResult<EndpointTypes>[] => {
-  return params.map((param: Params<EndpointTypes>): FullProviderResult<EndpointTypes> => {
-    try {
-      return {
-        params: param,
-        response: mapResponse(createResponse(mapParam(param), apiResponse)),
-      }
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
-      const statusCode = error instanceof AdapterError ? error.statusCode : 502
-      const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
+}): NonStreamAdapterResponse<EndpointTypes> => {
+  try {
+    return mapResponse(createResponse(mapParam(params), apiResponse))
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+    const statusCode = error instanceof AdapterError ? error.statusCode : 502
+    const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
 
-      return {
-        params: param,
-        response: {
-          statusCode,
-          errorMessage,
-          ...extraFields,
-          timestamps: {
-            providerDataRequestedUnixMs: 0,
-            providerDataReceivedUnixMs: 0,
-            providerIndicatedTimeUnixMs: undefined,
-          },
-        },
-      }
+    return {
+      statusCode,
+      errorMessage,
+      ...extraFields,
+      timestamps: {
+        providerDataRequestedUnixMs: 0,
+        providerDataReceivedUnixMs: 0,
+        providerIndicatedTimeUnixMs: undefined,
+      },
     }
-  })
+  }
 }
