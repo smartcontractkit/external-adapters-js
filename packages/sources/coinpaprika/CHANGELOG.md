@@ -1,5 +1,13 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.5.0
+
+### Minor Changes
+
+- [#4820](https://github.com/smartcontractkit/external-adapters-js/pull/4820) [`122a02a`](https://github.com/smartcontractkit/external-adapters-js/commit/122a02aa486c0e42a6303704a4731c7f684d7086) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Extend markprice endpoint with top_of_book_perps and top_of_book_spot.
+  Fixes floating point edge case with decimals.js lib.
+  Fixes mixed case symbol wss edge case.
+
 ## 2.4.0
 
 ### Minor Changes

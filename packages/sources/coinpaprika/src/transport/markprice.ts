@@ -1,7 +1,13 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { BaseEndpointTypes } from '../endpoint/markprice'
+import Decimal from 'decimal.js'
+import {
+  BaseEndpointTypes,
+  legacyTopOfBookEvents,
+  markPriceEvents,
+  topOfBookEvents,
+} from '../endpoint/markprice'
 
 type WsMessage = {
   event: string
@@ -50,12 +56,23 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         return
       }
 
+      // Normalize the event type for subscription matching:
+      // The API sends 'top_of_book' for perps, but subscriptions store 'top_of_book_perps'
+      // after requestTransforms normalize the legacy alias.
+      const normalizedEventType = legacyTopOfBookEvents.includes(message.event)
+        ? 'top_of_book_perps'
+        : message.event
+
+      // Normalize the symbol for the subscription matching:
+      // The API may send back mixed case symbols eg: xyz:SILVER
+      const normalizedSymbol = message.data.symbol.toUpperCase()
+
       if (
         !subscriptions.some(
           (s) =>
             s.exchange === message.data.exchange &&
-            s.symbol === message.data.symbol &&
-            s.type === message.event,
+            s.symbol === normalizedSymbol &&
+            s.type === normalizedEventType,
         )
       ) {
         // Skip unsubscribed messages
@@ -64,20 +81,21 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
       const params = {
         exchange: message.data.exchange,
-        symbol: message.data.symbol,
+        symbol: normalizedSymbol,
+        type: normalizedEventType,
       }
       const timestamps = {
         providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
       }
 
       if (
-        message.event === 'mark_price' &&
+        markPriceEvents.includes(normalizedEventType) &&
         message.data.price &&
         !isNaN(Number(message.data.price))
       ) {
         return [
           {
-            params: { ...params, type: message.event },
+            params: { ...params },
             response: {
               result: Number(message.data.price),
               data: {
@@ -90,16 +108,18 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       }
 
       if (
-        message.event === 'top_of_book' &&
+        topOfBookEvents.includes(normalizedEventType) &&
         message.data.bid_price &&
         message.data.ask_price &&
         !isNaN(Number(message.data.bid_price)) &&
         !isNaN(Number(message.data.ask_price))
       ) {
-        const mid = (Number(message.data.bid_price) + Number(message.data.ask_price)) / 2
+        const bidDecimal = new Decimal(message.data.bid_price)
+        const askDecimal = new Decimal(message.data.ask_price)
+        const mid = bidDecimal.add(askDecimal).div(2).toNumber()
         return [
           {
-            params: { ...params, type: message.event },
+            params: { ...params },
             response: {
               result: mid,
               data: {
