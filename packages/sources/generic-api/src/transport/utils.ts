@@ -1,14 +1,24 @@
-import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import {
-  //ProviderResult,
+  TransportDependencies,
+  TransportGenerics,
+} from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import {
   AdapterResponse,
   PartialSuccessfulResponse,
   ResponseTimestamps,
+  sleep,
 } from '@chainlink/external-adapter-framework/util'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import objectPath from 'object-path'
-import { getApiConfig } from '../config'
+import { config, getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
 
 type ResponseField = string | number | boolean | undefined
@@ -196,5 +206,108 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+}
+
+type Logger = {
+  error: (...args: unknown[]) => void
+}
+
+export class GenericApiTransport<
+  EndpointTypes extends TransportGenerics & {
+    Settings: typeof config.settings
+  },
+> extends SubscriptionTransport<EndpointTypes> {
+  logger: Logger
+  mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
+  mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
+
+  requester!: Requester
+
+  constructor({
+    logger,
+    mapParam,
+    mapResponse,
+  }: {
+    logger: Logger
+    mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
+    mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
+  }) {
+    super()
+    this.logger = logger
+    this.mapParam = mapParam
+    this.mapResponse = mapResponse
+  }
+
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    adapterSettings: EndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.requester = dependencies.requester
+  }
+
+  async backgroundHandler(
+    context: EndpointContext<EndpointTypes>,
+    entries: Params<EndpointTypes>[],
+  ) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
+
+  async handleRequest(context: EndpointContext<EndpointTypes>, param: Params<EndpointTypes>) {
+    let response: AdapterResponse<EndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(context, param)
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      this.logger.error(e, errorMessage)
+      response = {
+        statusCode: (e as AdapterInputError)?.statusCode || 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+    }
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    context: EndpointContext<EndpointTypes>,
+    params: Params<EndpointTypes>,
+  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+    const requestConfig = prepareRequests([params as unknown as { apiName: string }])[0]
+    const result = await this.requester.request<object>(
+      calculateHttpRequestKey<EndpointTypes>({
+        context,
+        data: requestConfig.params,
+        transportName: this.name,
+      }),
+      requestConfig.request,
+    )
+    const response = createResponses<EndpointTypes>({
+      params,
+      apiResponse: result.response,
+      mapParam: this.mapParam,
+      mapResponse: this.mapResponse,
+    })
+    return {
+      ...response,
+      timestamps: {
+        ...response.timestamps,
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+      },
+    }
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: EndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
   }
 }
