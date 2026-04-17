@@ -1,8 +1,15 @@
-import { RequestParams } from '../endpoint/reserves'
-import { divide, FixedPoint, getFixedPointFromResult, multiply } from '../utils/fixed-point'
+import { BaseEndpointTypes, RequestParams } from '../endpoint/reserves'
+import {
+  divide,
+  FixedPoint,
+  fixedPointToNumber,
+  getFixedPointFromResult,
+  multiply,
+} from '../utils/fixed-point'
 import { Fetcher, ProcessedComponent, Stringifier } from './types'
 
 type ConversionConfig = RequestParams['conversions'][number]
+type ConversionRateForResponse = BaseEndpointTypes['Response']['Data']['conversionRates'][number]
 
 export class Conversion {
   readonly from: string
@@ -50,6 +57,14 @@ export class Conversion {
         }'`,
       )
     }
+  }
+
+  getRateForResponse(): Promise<ConversionRateForResponse> {
+    return this.rate.then((rate) => ({
+      from: this.from,
+      to: this.to,
+      rate: fixedPointToNumber(rate),
+    }))
   }
 }
 
@@ -109,5 +124,9 @@ export class ConversionRepo {
     )!
     const operation = conversion.from === from ? 'multiply' : 'divide'
     return { conversion, operation }
+  }
+
+  getRatesForResponse(): Promise<ConversionRateForResponse[]> {
+    return Promise.all(this.conversions.map((conversion) => conversion.getRateForResponse()))
   }
 }

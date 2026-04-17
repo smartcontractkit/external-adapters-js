@@ -1,5 +1,4 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
@@ -7,16 +6,14 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, RequestParams } from '../endpoint/reserves'
-import { add, fixedPointToNumber, toFixedPointWithDecimals } from '../utils/fixed-point'
-import { getProviderUrl } from '../utils/validation'
+import { fixedPointToNumber } from '../utils/fixed-point'
 import { AddressListRepo } from './address'
 import { BalanceSourceRepo } from './balance'
-import { Conversion, ConversionRepo } from './conversion'
-import { ProcessedComponent } from './types'
+import { ComponentRepo } from './component'
+import { ConversionRepo } from './conversion'
+import { fetchFromProvider, shortJsonForError } from './utils'
 
 const logger = makeLogger('ReservesTransport')
-
-type ComponentParam = RequestParams['components'][number]
 
 export type ReservesTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -76,47 +73,40 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
     const providerDataRequestedUnixMs = Date.now()
 
     const resultDecimals = params.resultDecimals
-    const fetchFromProvider = this.fetchFromProvider.bind(this, context)
-    const shortJsonForError = this.shortJsonForError.bind(this)
+    const boundFetchFromProvider = fetchFromProvider.bind(this, this.name, this.requester, context)
+    const boundShortJsonForError = shortJsonForError.bind(
+      this,
+      this.config.MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE,
+    )
 
     const addressListRepo = new AddressListRepo({
       config: params.addressLists,
-      fetchFromProvider,
-      shortJsonForError,
+      fetchFromProvider: boundFetchFromProvider,
+      shortJsonForError: boundShortJsonForError,
     })
 
     const balanceSourceRepo = new BalanceSourceRepo({
       config: params.balanceSources,
       defaultDecimals: resultDecimals,
-      fetchFromProvider,
-      shortJsonForError,
+      fetchFromProvider: boundFetchFromProvider,
+      shortJsonForError: boundShortJsonForError,
     })
 
     const conversionRepo = new ConversionRepo({
       config: params.conversions,
       defaultDecimals: resultDecimals,
-      fetchFromProvider,
-      shortJsonForError,
+      fetchFromProvider: boundFetchFromProvider,
+      shortJsonForError: boundShortJsonForError,
     })
 
-    const components = await Promise.all(
-      params.components.map((component) =>
-        this.processComponent({
-          component,
-          addressListRepo,
-          balanceSourceRepo,
-          conversionRepo,
-        }),
-      ),
-    )
+    const componentRepo = new ComponentRepo({
+      config: params.components,
+      addressListRepo,
+      balanceSourceRepo,
+      conversionRepo,
+    })
 
-    const totalReserves = toFixedPointWithDecimals(
-      components.reduce((acc, component) => add(acc, component.totalBalance), {
-        amount: 0n,
-        decimals: 0,
-      }),
-      params.resultDecimals,
-    )
+    const totalReserves = await componentRepo.getTotalReserves(resultDecimals)
 
     const result = totalReserves.amount.toString()
     const resultAsNumber = fixedPointToNumber(totalReserves)
@@ -127,8 +117,8 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
         result,
         resultAsNumber,
         decimals,
-        components: this.createComponentsForResponse(components),
-        conversionRates: await this.createConversionRatesForResponse(conversionRepo.conversions),
+        components: await componentRepo.forResponse(),
+        conversionRates: await conversionRepo.getRatesForResponse(),
       },
       statusCode: 200,
       result,
@@ -138,133 +128,6 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-  }
-
-  async processComponent({
-    component,
-    addressListRepo,
-    balanceSourceRepo,
-    conversionRepo,
-  }: {
-    component: ComponentParam
-    addressListRepo: AddressListRepo
-    balanceSourceRepo: BalanceSourceRepo
-    conversionRepo: ConversionRepo
-  }): Promise<ProcessedComponent> {
-    try {
-      const addressArray = await addressListRepo.getAddressArray(component.addressList)
-
-      const { balances, addressCount } = await balanceSourceRepo.fetchBalances(
-        component.balanceSource,
-        addressArray,
-      )
-
-      const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
-        amount: 0n,
-        decimals: 0,
-      })
-
-      const processedComponent: ProcessedComponent = {
-        name: component.name,
-        currency: component.currency,
-        totalBalance,
-        originalCurrency: component.currency,
-        totalBalanceInOriginalCurrency: totalBalance,
-        addressCount,
-      }
-
-      conversionRepo.applyConversions(component.conversions, processedComponent)
-
-      return processedComponent
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      const statusCode = error instanceof AdapterError ? error.statusCode : 500
-      throw new AdapterError({
-        statusCode,
-        message: `Error processing component '${component.name}': ${errorMessage}`,
-      })
-    }
-  }
-
-  createComponentsForResponse(
-    components: ProcessedComponent[],
-  ): BaseEndpointTypes['Response']['Data']['components'] {
-    return components.map((component) => {
-      const componentForResponse: BaseEndpointTypes['Response']['Data']['components'][number] = {
-        name: component.name,
-        currency: component.currency,
-        totalBalance: fixedPointToNumber(component.totalBalance),
-        addressCount: component.addressCount,
-      }
-      if (component.originalCurrency !== component.currency) {
-        componentForResponse.originalCurrency = component.originalCurrency
-        componentForResponse.totalBalanceInOriginalCurrency = {
-          amount: component.totalBalanceInOriginalCurrency.amount.toString(),
-          decimals: component.totalBalanceInOriginalCurrency.decimals,
-        }
-      }
-      return componentForResponse
-    })
-  }
-
-  createConversionRatesForResponse(
-    conversions: Conversion[],
-  ): Promise<BaseEndpointTypes['Response']['Data']['conversionRates']> {
-    return Promise.all(
-      conversions.map(async (conversion) => ({
-        from: conversion.from,
-        to: conversion.to,
-        rate: fixedPointToNumber(await conversion.rate),
-      })),
-    )
-  }
-
-  async fetchFromProvider(
-    context: EndpointContext<ReservesTransportTypes>,
-    provider: string,
-    params: Record<string, unknown>,
-  ): Promise<Record<string, unknown>> {
-    const url = getProviderUrl(provider)
-    const requestConfig = {
-      url,
-      method: 'POST',
-      data: { data: params },
-    }
-    try {
-      const requestKey = calculateHttpRequestKey({
-        context,
-        data: params,
-        transportName: this.name,
-      })
-      const result = await this.requester.request(requestKey, requestConfig)
-      return result.response.data as Record<string, unknown>
-    } catch (error: unknown) {
-      // Try to forward the error message from another adapter.
-      let providerErrorMessage = (error as { errorResponse: { error: { message: string } } })
-        .errorResponse?.error?.message
-      if (!providerErrorMessage) {
-        if (error instanceof Error) {
-          providerErrorMessage = error.message
-        } else {
-          providerErrorMessage = String(error)
-        }
-      }
-      throw new AdapterError({
-        statusCode: 502,
-        message: `Error fetching data from provider '${provider}' at '${url}': ${providerErrorMessage}`,
-      })
-    }
-  }
-
-  shortJsonForError(obj: unknown): string {
-    const maxLen = this.config.MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE
-    let longString: string
-    try {
-      longString = JSON.stringify(obj)
-    } catch {
-      longString = String(obj)
-    }
-    return longString.length > maxLen ? `${longString.slice(0, maxLen)}...` : longString
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: ReservesTransportTypes['Settings']): number {
