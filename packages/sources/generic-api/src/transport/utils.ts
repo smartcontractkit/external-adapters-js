@@ -43,23 +43,21 @@ class AdapterErrorWithExtraFields extends AdapterError {
 
 type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
 
-export const prepareRequests = <T extends SharedRequestParams>(params: T[]) => {
-  return params.map((param) => {
-    const apiConfig = getApiConfig(param.apiName)
-    return {
-      params: [param],
-      request: {
-        baseURL: apiConfig.url,
-        ...(apiConfig.authHeader
-          ? {
-              headers: {
-                [apiConfig.authHeader]: apiConfig.authHeaderValue,
-              },
-            }
-          : {}),
-      },
-    }
-  })
+export const prepareRequest = <T extends SharedRequestParams>(params: T) => {
+  const apiConfig = getApiConfig(params.apiName)
+  return {
+    params: [params],
+    request: {
+      baseURL: apiConfig.url,
+      ...(apiConfig.authHeader
+        ? {
+            headers: {
+              [apiConfig.authHeader]: apiConfig.authHeaderValue,
+            },
+          }
+        : {}),
+    },
+  }
 }
 
 type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
@@ -265,7 +263,7 @@ export class GenericApiTransport<
     params: Params<EndpointTypes>,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const requestConfig = prepareRequests([params as SharedRequestParams])[0]
+    const requestConfig = prepareRequest(params as SharedRequestParams)
     const result = await this.requester.request<object>(
       calculateHttpRequestKey<EndpointTypes>({
         context,
