@@ -16444,6 +16444,27 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:4.4.3", {\
+        "packageLocation": "./.yarn/cache/debug-npm-4.4.3-0105c6123a-9ada3434ea.zip/node_modules/debug/",\
+        "packageDependencies": [\
+          ["debug", "npm:4.4.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:35d9c58722526de7cfb5f367dd329b6a5c4cc72866a369c6ec5bcf55f14e1ce50c2d6f7573d4ef1f7308290e8eb947b26bb3fd32b45d8c8e6260abeb7594dde9#npm:4.4.3", {\
+        "packageLocation": "./.yarn/__virtual__/debug-virtual-b593beaece/0/cache/debug-npm-4.4.3-0105c6123a-9ada3434ea.zip/node_modules/debug/",\
+        "packageDependencies": [\
+          ["debug", "virtual:35d9c58722526de7cfb5f367dd329b6a5c4cc72866a369c6ec5bcf55f14e1ce50c2d6f7573d4ef1f7308290e8eb947b26bb3fd32b45d8c8e6260abeb7594dde9#npm:4.4.3"],\
+          ["@types/supports-color", null],\
+          ["ms", "npm:2.1.3"],\
+          ["supports-color", null]\
+        ],\
+        "packagePeers": [\
+          "@types/supports-color",\
+          "supports-color"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7", {\
         "packageLocation": "./.yarn/__virtual__/debug-virtual-10701bd095/0/cache/debug-npm-4.3.7-385645adf9-71168908b9.zip/node_modules/debug/",\
         "packageDependencies": [\
@@ -23417,7 +23438,7 @@ const RAW_RUNTIME_STATE =
           ["@socket.io/component-emitter", "npm:3.1.2"],\
           ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
           ["engine.io-client", "npm:6.6.2"],\
-          ["socket.io-parser", "npm:4.2.4"]\
+          ["socket.io-parser", "npm:4.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23434,12 +23455,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["socket.io-parser", [\
-      ["npm:4.2.4", {\
-        "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.4-bf87f78bcd-4be500a9ff.zip/node_modules/socket.io-parser/",\
+      ["npm:4.2.6", {\
+        "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.6-35d9c58722-cf8f3e9fee.zip/node_modules/socket.io-parser/",\
         "packageDependencies": [\
-          ["socket.io-parser", "npm:4.2.4"],\
+          ["socket.io-parser", "npm:4.2.6"],\
           ["@socket.io/component-emitter", "npm:3.1.2"],\
-          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"]\
+          ["debug", "virtual:35d9c58722526de7cfb5f367dd329b6a5c4cc72866a369c6ec5bcf55f14e1ce50c2d6f7573d4ef1f7308290e8eb947b26bb3fd32b45d8c8e6260abeb7594dde9#npm:4.4.3"]\
         ],\
         "linkType": "HARD"\
       }]\
