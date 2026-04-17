@@ -9,7 +9,6 @@ import {
   AdapterResponse,
   PartialAdapterResponse,
   PartialSuccessfulResponse,
-  ResponseTimestamps,
   sleep,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
@@ -58,10 +57,6 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
       },
     }
   })
-}
-
-export type NonStreamTimestamps = ResponseTimestamps & {
-  providerDataStreamEstablishedUnixMs?: never
 }
 
 type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<

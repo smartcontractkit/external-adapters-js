@@ -5,11 +5,11 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import {
   LoggerFactoryProvider,
   PartialAdapterResponse,
+  ResponseTimestamps,
 } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/multi-http'
 import { MultiHttpTransport } from '../../src/transport/multi-http'
-import { NonStreamTimestamps } from '../../src/transport/utils'
 
 const originalEnv = { ...process.env }
 
@@ -130,7 +130,7 @@ describe('MultiHttpTransport', () => {
     }
     expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']> & {
       statusCode?: number
-      timestamps?: Partial<NonStreamTimestamps>
+      timestamps?: Partial<ResponseTimestamps>
     }
   }) => {
     const context = makeStub('context', {

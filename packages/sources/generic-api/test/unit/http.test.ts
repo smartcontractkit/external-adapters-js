@@ -5,11 +5,11 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import {
   LoggerFactoryProvider,
   PartialAdapterResponse,
+  ResponseTimestamps,
 } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/http'
 import { GenericApiHttpTransport } from '../../src/transport/http'
-import { NonStreamTimestamps } from '../../src/transport/utils'
 
 const originalEnv = { ...process.env }
 
@@ -116,7 +116,7 @@ describe('GenericApiHttpTransport', () => {
     }
     expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']> & {
       statusCode?: number
-      timestamps?: Partial<NonStreamTimestamps>
+      timestamps?: Partial<ResponseTimestamps>
     }
   }) => {
     //subscriptionSet.getAll.mockReturnValue([params])
