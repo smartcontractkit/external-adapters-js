@@ -303,9 +303,7 @@ describe('utils', () => {
       const expectedResponse = {
         data: { value: 42 },
         result: null,
-        timestamps: {
-          providerIndicatedTimeUnixMs: undefined,
-        },
+        timestamps: { providerIndicatedTimeUnixMs: undefined },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -345,9 +343,7 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        timestamps: {
-          providerIndicatedTimeUnixMs: undefined,
-        },
+        timestamps: { providerIndicatedTimeUnixMs: undefined },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -449,9 +445,7 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        timestamps: {
-          providerIndicatedTimeUnixMs: undefined,
-        },
+        timestamps: { providerIndicatedTimeUnixMs: undefined },
       }
       expect(adapterResponses).toEqual(expectedResponse)
     })
@@ -487,9 +481,7 @@ describe('utils', () => {
           aum: 30127047.47,
         },
         result: null,
-        timestamps: {
-          providerIndicatedTimeUnixMs: undefined,
-        },
+        timestamps: { providerIndicatedTimeUnixMs: undefined },
       }
       expect(adapterResponses).toEqual(expectedResponse)
     })
