@@ -31,6 +31,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
           ...multiHttpResponse.data,
           result: String(multiHttpResponse.data.result),
         },
+        statusCode: multiHttpResponse.statusCode,
         timestamps: multiHttpResponse.timestamps,
       }),
     })

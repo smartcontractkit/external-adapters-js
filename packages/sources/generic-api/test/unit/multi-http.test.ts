@@ -8,7 +8,8 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/multi-http'
-import { HttpTransportTypes, MultiHttpTransport } from '../../src/transport/multi-http'
+import { MultiHttpTransport } from '../../src/transport/multi-http'
+import { NonStreamTimestamps } from '../../src/transport/utils'
 
 const originalEnv = { ...process.env }
 
@@ -52,7 +53,7 @@ describe('MultiHttpTransport', () => {
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     CACHE_MAX_AGE: 90_000,
     MAX_COMMON_KEY_SIZE: 300,
-  } as unknown as HttpTransportTypes['Settings'])
+  } as unknown as BaseEndpointTypes['Settings'])
 
   const subscriptionSet = makeStub('subscriptionSet', {
     getAll: jest.fn(),
@@ -75,12 +76,12 @@ describe('MultiHttpTransport', () => {
     requester,
     responseCache,
     subscriptionSetFactory,
-  } as unknown as TransportDependencies<HttpTransportTypes>)
+  } as unknown as TransportDependencies<BaseEndpointTypes>)
 
   let transport: MultiHttpTransport
 
   const requestKeyForParams = (params: typeof inputParameters.validated) => {
-    const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
+    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
       context: {
         adapterSettings,
         inputParameters,
@@ -127,32 +128,37 @@ describe('MultiHttpTransport', () => {
     response: {
       response: { data: object | null }
     }
-    expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']>
+    expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']> & {
+      statusCode?: number
+      timestamps?: Partial<NonStreamTimestamps>
+    }
   }) => {
-    subscriptionSet.getAll.mockReturnValue([params])
-
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
     requester.request.mockResolvedValue(response)
 
-    await transport.backgroundExecute(context)
+    await transport.handleRequest(context, params)
 
     const expectedRequestKey = requestKeyForParams(params)
 
-    expect(requester.request).toHaveBeenCalledWith(
-      expectedRequestKey,
-      expectedRequestConfig,
-      undefined,
-    )
+    expect(requester.request).toHaveBeenCalledWith(expectedRequestKey, expectedRequestConfig)
     expect(requester.request).toHaveBeenCalledTimes(1)
 
     expect(responseCache.write).toHaveBeenCalledWith(transportName, [
       {
         params,
-        response: expectedResponse,
+        response: {
+          ...expectedResponse,
+          statusCode: expectedResponse.statusCode ?? 200,
+          timestamps: {
+            ...expectedResponse.timestamps,
+            providerDataRequestedUnixMs: Date.now(),
+            providerDataReceivedUnixMs: Date.now(),
+          },
+        },
       },
     ])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
@@ -491,14 +497,13 @@ describe('MultiHttpTransport', () => {
       ripcordPath: undefined,
       ripcordDisabledValue: 'false',
     }
-    subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
-    await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
+    await expect(() => transport._handleRequest(context, params)).rejects.toThrow(
       "Missing required environment variable 'TEST_API_URL'.",
     )
 

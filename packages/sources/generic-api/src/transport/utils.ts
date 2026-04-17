@@ -1,7 +1,9 @@
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
 import {
+  //ProviderResult,
+  AdapterResponse,
   PartialSuccessfulResponse,
-  ProviderResult,
+  ResponseTimestamps,
 } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
@@ -47,12 +49,19 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
   })
 }
 
+export type NonStreamTimestamps = ResponseTimestamps & {
+  providerDataStreamEstablishedUnixMs?: never
+}
+
 type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
   EndpointTypes['Parameters']
 >
-type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
+export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
   EndpointTypes['Response']
->
+> & {
+  timestamps: NonStreamTimestamps
+  statusCode: number
+}
 
 type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
 type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
@@ -144,9 +153,22 @@ const createResponse = (
   return {
     result,
     data,
+    statusCode: 200,
     timestamps: {
       providerIndicatedTimeUnixMs,
+      providerDataReceivedUnixMs: 0, // TODO
+      providerDataRequestedUnixMs: 0, // TODO
     },
+  }
+}
+
+type FullProviderResult<EndpointTypes extends TransportGenerics> = {
+  params: TypeFromDefinition<EndpointTypes['Parameters']>
+  response: AdapterResponse<EndpointTypes['Response']>
+  //response: Response<EndpointTypes>
+} & {
+  response: {
+    timestamps: NonStreamTimestamps
   }
 }
 
@@ -160,8 +182,8 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
   apiResponse: { data: object | undefined }
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
-}): ProviderResult<EndpointTypes>[] => {
-  return params.map((param: Params<EndpointTypes>): ProviderResult<EndpointTypes> => {
+}): FullProviderResult<EndpointTypes>[] => {
+  return params.map((param: Params<EndpointTypes>): FullProviderResult<EndpointTypes> => {
     try {
       return {
         params: param,
@@ -178,6 +200,11 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
           statusCode,
           errorMessage,
           ...extraFields,
+          timestamps: {
+            providerDataRequestedUnixMs: 0,
+            providerDataReceivedUnixMs: 0,
+            providerIndicatedTimeUnixMs: undefined,
+          },
         },
       }
     }

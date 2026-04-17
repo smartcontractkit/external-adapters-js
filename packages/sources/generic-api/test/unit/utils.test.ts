@@ -1,8 +1,7 @@
-import { PartialSuccessfulResponse } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes as SinglePathEndpointTypes } from '../../src/endpoint/http'
 import { BaseEndpointTypes as MultiPathEndpointTypes } from '../../src/endpoint/multi-http'
-import { createResponses } from '../../src/transport/utils'
+import { Response, createResponses } from '../../src/transport/utils'
 
 describe('utils', () => {
   describe('createResponses', () => {
@@ -42,7 +41,10 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: null,
+        statusCode: 200,
         timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -83,7 +85,10 @@ describe('utils', () => {
           nav: 1.0043732667449965,
         },
         result: null,
+        statusCode: 200,
         timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -124,7 +129,10 @@ describe('utils', () => {
           nav: 1.0043732667449965,
         },
         result: null,
+        statusCode: 200,
         timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -163,6 +171,11 @@ describe('utils', () => {
         errorMessage:
           "Provider indicated time path 'non_existent_timestamp' not found in response for 'TEST'",
         statusCode: 500,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -199,6 +212,11 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "Invalid timestamp value at 'updatedAt' for 'TEST'",
         statusCode: 500,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -236,6 +254,11 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "Data path 'non_existent_field' not found in response for 'TEST'",
         statusCode: 500,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -274,6 +297,11 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: undefined,
         statusCode: 503,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -306,6 +334,11 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "The data provider for TEST didn't return any value",
         statusCode: 502,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -344,7 +377,12 @@ describe('utils', () => {
       const expectedResponse = {
         data: { value: 42 },
         result: null,
-        timestamps: { providerIndicatedTimeUnixMs: undefined },
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -389,7 +427,12 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        timestamps: { providerIndicatedTimeUnixMs: undefined },
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
 
       expect(adapterResponses).toEqual([
@@ -430,6 +473,11 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: 'Price deviation too high, Stale data detected',
         statusCode: 503,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
       expect(adapterResponses).toEqual([
         {
@@ -468,6 +516,11 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: undefined,
         statusCode: 503,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
       expect(adapterResponses).toEqual([
         {
@@ -506,7 +559,12 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        timestamps: { providerIndicatedTimeUnixMs: undefined },
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
       expect(adapterResponses).toEqual([
         {
@@ -547,7 +605,12 @@ describe('utils', () => {
           aum: 30127047.47,
         },
         result: null,
-        timestamps: { providerIndicatedTimeUnixMs: undefined },
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       }
       expect(adapterResponses).toEqual([
         {
@@ -600,7 +663,10 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373266744996434,
+        statusCode: 200,
         timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -635,8 +701,8 @@ describe('utils', () => {
       }
 
       const mapResponse = (
-        multiHttpResponse: PartialSuccessfulResponse<MultiPathEndpointTypes['Response']>,
-      ): PartialSuccessfulResponse<SinglePathEndpointTypes['Response']> => ({
+        multiHttpResponse: Response<MultiPathEndpointTypes>,
+      ): Response<SinglePathEndpointTypes> => ({
         ...multiHttpResponse,
         result: String(multiHttpResponse.data.nav),
         data: {
@@ -660,7 +726,10 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: '1.0043732667449965',
+        statusCode: 200,
         timestamps: {
+          providerDataReceivedUnixMs: 0,
+          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }

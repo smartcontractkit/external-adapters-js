@@ -113,7 +113,9 @@ describe('GenericApiHttpTransport', () => {
         providerIndicatedTimeUnixMs?: number
       }
     }
-    expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']>
+    expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']> & {
+      statusCode?: number
+    }
   }) => {
     subscriptionSet.getAll.mockReturnValue([params])
 
@@ -138,7 +140,10 @@ describe('GenericApiHttpTransport', () => {
     expect(responseCache.write).toHaveBeenCalledWith(transportName, [
       {
         params,
-        response: expectedResponse,
+        response: {
+          ...expectedResponse,
+          statusCode: expectedResponse.statusCode ?? 200,
+        },
       },
     ])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
