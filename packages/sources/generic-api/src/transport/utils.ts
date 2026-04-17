@@ -20,6 +20,7 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import objectPath from 'object-path'
 import { config, getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
+import { sharedInputParameterConfig } from '../endpoint/shared'
 
 type ResponseField = string | number | boolean | undefined
 
@@ -40,7 +41,9 @@ class AdapterErrorWithExtraFields extends AdapterError {
   }
 }
 
-export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
+type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
+
+export const prepareRequests = <T extends SharedRequestParams>(params: T[]) => {
   return params.map((param) => {
     const apiConfig = getApiConfig(param.apiName)
     return {
@@ -62,6 +65,7 @@ export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
 type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
   EndpointTypes['Parameters']
 >
+
 export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
   EndpointTypes['Response']
 >
@@ -261,7 +265,7 @@ export class GenericApiTransport<
     params: Params<EndpointTypes>,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const requestConfig = prepareRequests([params as unknown as { apiName: string }])[0]
+    const requestConfig = prepareRequests([params as SharedRequestParams])[0]
     const result = await this.requester.request<object>(
       calculateHttpRequestKey<EndpointTypes>({
         context,
