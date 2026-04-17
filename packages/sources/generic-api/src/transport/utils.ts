@@ -76,7 +76,7 @@ export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfu
 type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
 type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
 
-const createResponse = (
+const createResponseOrThrow = (
   param: MultiHttpParams,
   response: { data: object | undefined },
 ): MultiHttpResponse => {
@@ -178,7 +178,7 @@ type NonStreamAdapterResponse<EndpointTypes extends TransportGenerics> = Adapter
   timestamps: NonStreamTimestamps
 }
 
-export const createResponses = <EndpointTypes extends TransportGenerics>({
+export const createResponse = <EndpointTypes extends TransportGenerics>({
   params,
   apiResponse,
   mapParam,
@@ -190,7 +190,7 @@ export const createResponses = <EndpointTypes extends TransportGenerics>({
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
 }): NonStreamAdapterResponse<EndpointTypes> => {
   try {
-    return mapResponse(createResponse(mapParam(params), apiResponse))
+    return mapResponse(createResponseOrThrow(mapParam(params), apiResponse))
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     const statusCode = error instanceof AdapterError ? error.statusCode : 502
@@ -291,7 +291,7 @@ export class GenericApiTransport<
       }),
       requestConfig.request,
     )
-    const response = createResponses<EndpointTypes>({
+    const response = createResponse<EndpointTypes>({
       params,
       apiResponse: result.response,
       mapParam: this.mapParam,

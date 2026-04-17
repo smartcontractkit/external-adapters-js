@@ -1,10 +1,10 @@
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes as SinglePathEndpointTypes } from '../../src/endpoint/http'
 import { BaseEndpointTypes as MultiPathEndpointTypes } from '../../src/endpoint/multi-http'
-import { Response, createResponses } from '../../src/transport/utils'
+import { Response, createResponse } from '../../src/transport/utils'
 
 describe('utils', () => {
-  describe('createResponses', () => {
+  describe('createResponse', () => {
     const apiName = 'TEST'
 
     it('should extract multiple data paths from response', async () => {
@@ -26,7 +26,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -68,7 +68,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -107,7 +107,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -145,7 +145,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -182,7 +182,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -219,7 +219,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -254,7 +254,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -289,7 +289,7 @@ describe('utils', () => {
         data: undefined,
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -327,7 +327,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -367,7 +367,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -409,7 +409,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -448,7 +448,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -485,7 +485,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -527,7 +527,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -577,7 +577,7 @@ describe('utils', () => {
         },
       }
 
-      const adapterResponses = createResponses<MultiPathEndpointTypes>({
+      const adapterResponses = createResponse<MultiPathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam: (param) => param,
@@ -636,7 +636,7 @@ describe('utils', () => {
         },
       })
 
-      const adapterResponses = createResponses<SinglePathEndpointTypes>({
+      const adapterResponses = createResponse<SinglePathEndpointTypes>({
         params,
         apiResponse: response,
         mapParam,
