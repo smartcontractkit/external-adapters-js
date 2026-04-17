@@ -46,17 +46,14 @@ type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
 export const prepareRequest = <T extends SharedRequestParams>(params: T) => {
   const apiConfig = getApiConfig(params.apiName)
   return {
-    params: [params],
-    request: {
-      baseURL: apiConfig.url,
-      ...(apiConfig.authHeader
-        ? {
-            headers: {
-              [apiConfig.authHeader]: apiConfig.authHeaderValue,
-            },
-          }
-        : {}),
-    },
+    baseURL: apiConfig.url,
+    ...(apiConfig.authHeader
+      ? {
+          headers: {
+            [apiConfig.authHeader]: apiConfig.authHeaderValue,
+          },
+        }
+      : {}),
   }
 }
 
@@ -263,14 +260,14 @@ export class GenericApiTransport<
     params: Params<EndpointTypes>,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const requestConfig = prepareRequest(params as SharedRequestParams)
+    const request = prepareRequest(params as SharedRequestParams)
     const result = await this.requester.request<object>(
       calculateHttpRequestKey<EndpointTypes>({
         context,
-        data: requestConfig.params,
+        data: [params],
         transportName: this.name,
       }),
-      requestConfig.request,
+      request,
     )
     const response = createResponse<EndpointTypes>({
       params,

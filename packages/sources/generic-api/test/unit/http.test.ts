@@ -119,8 +119,6 @@ describe('GenericApiHttpTransport', () => {
       timestamps?: Partial<ResponseTimestamps>
     }
   }) => {
-    //subscriptionSet.getAll.mockReturnValue([params])
-
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
