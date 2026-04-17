@@ -69,9 +69,7 @@ type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
 >
 export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
   EndpointTypes['Response']
-> & {
-  statusCode: number
-}
+>
 
 type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
 type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
@@ -163,7 +161,6 @@ const createMultiResponse = (
   return {
     result,
     data,
-    statusCode: 200,
     timestamps: {
       providerIndicatedTimeUnixMs,
     },

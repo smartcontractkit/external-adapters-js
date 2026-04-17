@@ -41,7 +41,6 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: null,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
@@ -78,7 +77,6 @@ describe('utils', () => {
           nav: 1.0043732667449965,
         },
         result: null,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: 1768805782194,
         },
@@ -115,7 +113,6 @@ describe('utils', () => {
           nav: 1.0043732667449965,
         },
         result: null,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: 1768805782194,
         },
@@ -306,7 +303,6 @@ describe('utils', () => {
       const expectedResponse = {
         data: { value: 42 },
         result: null,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
@@ -349,7 +345,6 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
@@ -454,7 +449,6 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
@@ -493,7 +487,6 @@ describe('utils', () => {
           aum: 30127047.47,
         },
         result: null,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },
@@ -544,7 +537,6 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: 1.004373266744996434,
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: 1768805782194,
         },
@@ -600,7 +592,6 @@ describe('utils', () => {
           ripcordAsInt: 0,
         },
         result: '1.0043732667449965',
-        statusCode: 200,
         timestamps: {
           providerIndicatedTimeUnixMs: undefined,
         },

@@ -23,7 +23,6 @@ export class GenericApiHttpTransport extends GenericApiTransport<BaseEndpointTyp
           ...multiHttpResponse.data,
           result: String(multiHttpResponse.data.result),
         },
-        statusCode: multiHttpResponse.statusCode,
         timestamps: multiHttpResponse.timestamps,
       }),
     })
