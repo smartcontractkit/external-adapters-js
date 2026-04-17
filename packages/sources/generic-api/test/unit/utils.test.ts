@@ -43,8 +43,6 @@ describe('utils', () => {
         result: null,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -82,8 +80,6 @@ describe('utils', () => {
         result: null,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -121,8 +117,6 @@ describe('utils', () => {
         result: null,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -156,11 +150,6 @@ describe('utils', () => {
         errorMessage:
           "Provider indicated time path 'non_existent_timestamp' not found in response for 'TEST'",
         statusCode: 500,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -192,11 +181,6 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "Invalid timestamp value at 'updatedAt' for 'TEST'",
         statusCode: 500,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -229,11 +213,6 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "Data path 'non_existent_field' not found in response for 'TEST'",
         statusCode: 500,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -267,11 +246,6 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: undefined,
         statusCode: 503,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -299,11 +273,6 @@ describe('utils', () => {
       const expectedResponse = {
         errorMessage: "The data provider for TEST didn't return any value",
         statusCode: 502,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
 
       expect(adapterResponses).toEqual(expectedResponse)
@@ -339,8 +308,6 @@ describe('utils', () => {
         result: null,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -384,8 +351,6 @@ describe('utils', () => {
         result: 1.004373,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -423,11 +388,6 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: 'Price deviation too high, Stale data detected',
         statusCode: 503,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
       expect(adapterResponses).toEqual(expectedResponse)
     })
@@ -461,11 +421,6 @@ describe('utils', () => {
         ripcordAsInt: 1,
         ripcordDetails: undefined,
         statusCode: 503,
-        timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
       }
       expect(adapterResponses).toEqual(expectedResponse)
     })
@@ -501,8 +456,6 @@ describe('utils', () => {
         result: 1.004373,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -542,8 +495,6 @@ describe('utils', () => {
         result: null,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }
@@ -595,8 +546,6 @@ describe('utils', () => {
         result: 1.004373266744996434,
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: 1768805782194,
         },
       }
@@ -653,8 +602,6 @@ describe('utils', () => {
         result: '1.0043732667449965',
         statusCode: 200,
         timestamps: {
-          providerDataReceivedUnixMs: 0,
-          providerDataRequestedUnixMs: 0,
           providerIndicatedTimeUnixMs: undefined,
         },
       }

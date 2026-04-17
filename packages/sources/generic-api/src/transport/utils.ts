@@ -7,6 +7,7 @@ import {
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   AdapterResponse,
+  PartialAdapterResponse,
   PartialSuccessfulResponse,
   ResponseTimestamps,
   sleep,
@@ -69,14 +70,13 @@ type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
 export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
   EndpointTypes['Response']
 > & {
-  timestamps: NonStreamTimestamps
   statusCode: number
 }
 
 type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
 type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
 
-const createResponseOrThrow = (
+const createMultiResponse = (
   param: MultiHttpParams,
   response: { data: object | undefined },
 ): MultiHttpResponse => {
@@ -166,16 +166,8 @@ const createResponseOrThrow = (
     statusCode: 200,
     timestamps: {
       providerIndicatedTimeUnixMs,
-      providerDataReceivedUnixMs: 0, // TODO
-      providerDataRequestedUnixMs: 0, // TODO
     },
   }
-}
-
-type NonStreamAdapterResponse<EndpointTypes extends TransportGenerics> = AdapterResponse<
-  EndpointTypes['Response']
-> & {
-  timestamps: NonStreamTimestamps
 }
 
 export const createResponse = <EndpointTypes extends TransportGenerics>({
@@ -188,9 +180,9 @@ export const createResponse = <EndpointTypes extends TransportGenerics>({
   apiResponse: { data: object | undefined }
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
-}): NonStreamAdapterResponse<EndpointTypes> => {
+}): PartialAdapterResponse<EndpointTypes['Response']> => {
   try {
-    return mapResponse(createResponseOrThrow(mapParam(params), apiResponse))
+    return mapResponse(createMultiResponse(mapParam(params), apiResponse))
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     const statusCode = error instanceof AdapterError ? error.statusCode : 502
@@ -200,11 +192,6 @@ export const createResponse = <EndpointTypes extends TransportGenerics>({
       statusCode,
       errorMessage,
       ...extraFields,
-      timestamps: {
-        providerDataRequestedUnixMs: 0,
-        providerDataReceivedUnixMs: 0,
-        providerIndicatedTimeUnixMs: undefined,
-      },
     }
   }
 }
@@ -299,8 +286,10 @@ export class GenericApiTransport<
     })
     return {
       ...response,
+      statusCode: 'statusCode' in response ? response.statusCode : 200,
       timestamps: {
-        ...response.timestamps,
+        providerIndicatedTimeUnixMs: undefined,
+        ...('timestamps' in response ? response.timestamps : {}),
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
       },
