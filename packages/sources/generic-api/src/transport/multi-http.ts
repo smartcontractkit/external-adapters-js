@@ -65,7 +65,6 @@ export class MultiHttpTransport extends SubscriptionTransport<BaseEndpointTypes>
         transportName: this.name,
       }),
       requestConfig.request,
-      //requestConfig.cost,
     )
     const response = createResponses<BaseEndpointTypes>({
       params: [param],

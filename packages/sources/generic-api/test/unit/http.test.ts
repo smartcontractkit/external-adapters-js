@@ -8,7 +8,8 @@ import {
 } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/http'
-import { GenericApiHttpTransport, HttpTransportTypes } from '../../src/transport/http'
+import { GenericApiHttpTransport } from '../../src/transport/http'
+import { NonStreamTimestamps } from '../../src/transport/utils'
 
 const originalEnv = { ...process.env }
 
@@ -56,7 +57,7 @@ describe('GenericApiHttpTransport', () => {
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     CACHE_MAX_AGE: 90_000,
     MAX_COMMON_KEY_SIZE: 300,
-  } as unknown as HttpTransportTypes['Settings'])
+  } as unknown as BaseEndpointTypes['Settings'])
 
   const subscriptionSet = makeStub('subscriptionSet', {
     getAll: jest.fn(),
@@ -79,12 +80,12 @@ describe('GenericApiHttpTransport', () => {
     requester,
     responseCache,
     subscriptionSetFactory,
-  } as unknown as TransportDependencies<HttpTransportTypes>)
+  } as unknown as TransportDependencies<BaseEndpointTypes>)
 
   let transport: GenericApiHttpTransport
 
   const requestKeyForParams = (params: typeof inputParameters.validated) => {
-    const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
+    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
       context: {
         adapterSettings,
         inputParameters,
@@ -115,26 +116,23 @@ describe('GenericApiHttpTransport', () => {
     }
     expectedResponse: PartialAdapterResponse<BaseEndpointTypes['Response']> & {
       statusCode?: number
+      timestamps?: Partial<NonStreamTimestamps>
     }
   }) => {
-    subscriptionSet.getAll.mockReturnValue([params])
+    //subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
     requester.request.mockResolvedValue(response)
 
-    await transport.backgroundExecute(context)
+    await transport.handleRequest(context, params)
 
     const expectedRequestKey = requestKeyForParams(params)
 
-    expect(requester.request).toHaveBeenCalledWith(
-      expectedRequestKey,
-      expectedRequestConfig,
-      undefined,
-    )
+    expect(requester.request).toHaveBeenCalledWith(expectedRequestKey, expectedRequestConfig)
     expect(requester.request).toHaveBeenCalledTimes(1)
 
     expect(responseCache.write).toHaveBeenCalledWith(transportName, [
@@ -143,6 +141,11 @@ describe('GenericApiHttpTransport', () => {
         response: {
           ...expectedResponse,
           statusCode: expectedResponse.statusCode ?? 200,
+          timestamps: {
+            ...expectedResponse.timestamps,
+            providerDataReceivedUnixMs: Date.now(),
+            providerDataRequestedUnixMs: Date.now(),
+          },
         },
       },
     ])
@@ -225,12 +228,11 @@ describe('GenericApiHttpTransport', () => {
       ripcordPath,
       ripcordDisabledValue: 'false',
     })
-    subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
     const response = makeStub('response', {
       response: {
@@ -246,7 +248,7 @@ describe('GenericApiHttpTransport', () => {
 
     requester.request.mockResolvedValue(response)
 
-    await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
+    await expect(() => transport._handleRequest(context, params)).rejects.toThrow(
       "Missing required environment variable 'TEST_API_URL'.",
     )
 
@@ -263,12 +265,11 @@ describe('GenericApiHttpTransport', () => {
       ripcordPath,
       ripcordDisabledValue: 'false',
     })
-    subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
     const response = makeStub('response', {
       response: {
@@ -284,7 +285,7 @@ describe('GenericApiHttpTransport', () => {
 
     requester.request.mockResolvedValue(response)
 
-    await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
+    await expect(() => transport._handleRequest(context, params)).rejects.toThrow(
       'If one of TEST_AUTH_HEADER or TEST_AUTH_HEADER_VALUE is set, both must be set.',
     )
 
@@ -301,12 +302,11 @@ describe('GenericApiHttpTransport', () => {
       ripcordPath,
       ripcordDisabledValue: 'false',
     })
-    subscriptionSet.getAll.mockReturnValue([params])
 
     const context = makeStub('context', {
       adapterSettings,
       endpointName,
-    } as EndpointContext<HttpTransportTypes>)
+    } as EndpointContext<BaseEndpointTypes>)
 
     const response = makeStub('response', {
       response: {
@@ -322,7 +322,7 @@ describe('GenericApiHttpTransport', () => {
 
     requester.request.mockResolvedValue(response)
 
-    await expect(() => transport.backgroundExecute(context)).rejects.toThrow(
+    await expect(() => transport._handleRequest(context, params)).rejects.toThrow(
       'If one of TEST_AUTH_HEADER or TEST_AUTH_HEADER_VALUE is set, both must be set.',
     )
 

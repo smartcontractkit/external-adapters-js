@@ -165,7 +165,6 @@ const createResponse = (
 type FullProviderResult<EndpointTypes extends TransportGenerics> = {
   params: TypeFromDefinition<EndpointTypes['Parameters']>
   response: AdapterResponse<EndpointTypes['Response']>
-  //response: Response<EndpointTypes>
 } & {
   response: {
     timestamps: NonStreamTimestamps
