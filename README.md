@@ -1,6 +1,3 @@
-> [!IMPORTANT]
-> If you're thinking of building your own for a production use case, please contact [chainlink_data_feeds@smartcontract.com](mailto:chainlink_data_feeds@smartcontract.com) first to discuss.
-
 [![](https://img.shields.io/github/v/tag/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/releases)
 [![](https://img.shields.io/github/stars/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/stargazers)
 [![](https://img.shields.io/github/forks/smartcontractkit/external-adapters-js)](https://github.com/smartcontractkit/external-adapters-js/network/members)
