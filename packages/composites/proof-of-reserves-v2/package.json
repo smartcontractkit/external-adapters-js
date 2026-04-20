@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/proof-of-reserves-v2-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink proof-of-reserves-v2 adapter.",
   "keywords": [
     "Chainlink",
