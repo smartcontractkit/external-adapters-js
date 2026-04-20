@@ -4,7 +4,7 @@ import { config } from '../config'
 import { createAdapterResponseFromMessage } from '../transport/quote-shared'
 import { createHttpTransport } from '../transport/shared-http'
 import { createWsTransport } from '../transport/shared-ws'
-import { Region, getApiKeyForRegion, inputParameters } from './shared'
+import { inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -18,16 +18,12 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-const QUOTE_ENDPOINT_CONFIGS: { region: Region; apiPath: string; name: string }[] = [
-  { region: 'hk', apiPath: 'stock', name: 'hk-quote' },
-  { region: 'cn', apiPath: 'stock', name: 'cn-quote' },
-  { region: 'gb', apiPath: 'indices', name: 'indices-quote' },
-  { region: 'kr', apiPath: 'stock', name: 'kr-quote' },
-  { region: 'jp', apiPath: 'stock', name: 'jp-quote' },
-  { region: 'tw', apiPath: 'stock', name: 'tw-quote' },
+const QUOTE_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
+  { apiPath: 'stock', name: 'stock-quote' },
+  { apiPath: 'indices', name: 'indices-quote' },
 ]
 
-export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ region, apiPath, name }) => {
+export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
   const type = 'quote'
   const messageHandler = createAdapterResponseFromMessage
 
@@ -36,12 +32,8 @@ export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ region, apiPath, name }) 
     aliases: [],
     defaultTransport: 'ws',
     transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-      .register('rest', createHttpTransport({ type, region, apiPath, messageHandler }))
-      .register('ws', createWsTransport({ type, region, apiPath, messageHandler })),
+      .register('rest', createHttpTransport({ type, apiPath, messageHandler }))
+      .register('ws', createWsTransport({ type, apiPath, messageHandler })),
     inputParameters,
-    customInputValidation: (_request, settings): undefined => {
-      getApiKeyForRegion(region, settings)
-      return
-    },
   })
 })

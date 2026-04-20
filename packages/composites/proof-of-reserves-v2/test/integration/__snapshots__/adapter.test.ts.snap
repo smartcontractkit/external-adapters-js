@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute reserves endpoint should return success 1`] = `
+{
+  "data": {
+    "components": [
+      {
+        "addressCount": 1,
+        "currency": "USDC",
+        "name": "component1",
+        "totalBalance": 0.123,
+      },
+    ],
+    "conversionRates": [],
+    "decimals": 18,
+    "result": "123000000000000000",
+    "resultAsNumber": 0.123,
+  },
+  "result": "123000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

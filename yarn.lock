@@ -4661,6 +4661,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/proof-of-reserves-v2-adapter@workspace:packages/composites/proof-of-reserves-v2":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/proof-of-reserves-v2-adapter@workspace:packages/composites/proof-of-reserves-v2"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/object-path": "npm:^0"
+    decimal.js: "npm:^10.6.0"
+    nock: "npm:13.5.6"
+    object-path: "npm:^0.11.8"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/r25-adapter@workspace:packages/sources/r25":
   version: 0.0.0-use.local
   resolution: "@chainlink/r25-adapter@workspace:packages/sources/r25"
@@ -9848,7 +9864,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/object-path@npm:0.11.4":
+"@types/object-path@npm:0.11.4, @types/object-path@npm:^0":
   version: 0.11.4
   resolution: "@types/object-path@npm:0.11.4"
   checksum: 10/7f1f5cb18b651d21e7861da176d8f87526c936ed949a8126a2692195cbe65734ed1a1a22c06a24a54afe1890483a3d6b074b402ebfca7a7567c1c287b588f563
@@ -16437,7 +16453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object-path@npm:^0.11.5":
+"object-path@npm:^0.11.5, object-path@npm:^0.11.8":
   version: 0.11.8
   resolution: "object-path@npm:0.11.8"
   checksum: 10/cbc41515ff97aa7515bd93a3d93d5b7307c95413345d83c66c60b7618429cfc935ff4049192c96701eeeb33a78678b15ee97b5fe0857e9eca4fcd7507dfafd36
