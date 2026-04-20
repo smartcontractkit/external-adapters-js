@@ -6,6 +6,7 @@ export interface ResponseSchema {
   msg: string | null
   data: {
     s: string // symbol code
+    r?: string // region code
     ld: number // last price
     o: number // opening price
     p: number // previous closing price
@@ -22,12 +23,15 @@ export interface ResponseSchema {
 
 export const createAdapterResponseFromMessage = (
   message: ResponseSchema,
+  // Only used by rest endpoint as it doesn't include the region in the response
+  defaultRegion = 'unknown-region',
 ): ProviderResult<BaseEndpointTypes>[] => {
   const lastPrice = message.data.ld
   const symbol = message.data.s
+  const region = message.data.r ?? defaultRegion
   return [
     {
-      params: { base: symbol },
+      params: { base: symbol, region },
       response: {
         result: lastPrice,
         data: {
