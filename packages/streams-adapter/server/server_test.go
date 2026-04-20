@@ -121,6 +121,35 @@ func TestAdapterHandler_CacheHit(t *testing.T) {
 	require.Equal(t, true, resp.Success)
 }
 
+func TestAdapterHandler_CacheHit_FailedObservation(t *testing.T) {
+	params := types.RequestParams{"endpoint": "crypto", "base": "FOO", "quote": "BAR"}
+	obs := &types.Observation{
+		Data:       nil,
+		Timestamps: json.RawMessage(`{"providerDataStreamEstablishedUnixMs":1000,"providerDataReceivedUnixMs":2000}`),
+		Success:    false,
+		Error:      "Bid price: 1.23 or Ask price: 4.56 for FOO is invalid.",
+	}
+	testCache.Set(params, obs, time.Now(), "test-key-fail")
+
+	body := `{"data":{"endpoint":"crypto","base":"FOO","quote":"BAR"}}`
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusBadGateway, w.Code, "body: %s", w.Body.String())
+
+	var resp ObservationErrorResponse
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+	require.Equal(t, "Bid price: 1.23 or Ask price: 4.56 for FOO is invalid.", resp.ErrorMessage)
+	require.NotEmpty(t, resp.Timestamps)
+
+	var ts map[string]interface{}
+	require.NoError(t, json.Unmarshal(resp.Timestamps, &ts))
+	require.Equal(t, float64(1000), ts["providerDataStreamEstablishedUnixMs"])
+	require.Equal(t, float64(2000), ts["providerDataReceivedUnixMs"])
+}
+
 func TestAdapterHandler_CacheMiss(t *testing.T) {
 	// Spin up a fake EA backend so the subscribe POST doesn't fail
 	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

@@ -7,6 +7,7 @@ export interface ResponseSchema {
   msg: string | null
   data: {
     s: string // symbol code
+    r?: string // region code, only present in websocket responses
     a: {
       // ask
       po: number // price level
@@ -26,6 +27,8 @@ export interface ResponseSchema {
 
 export const createAdapterResponseFromMessage = (
   message: ResponseSchema,
+  // Only used by rest endpoint as it doesn't include the region in the response
+  defaultRegion = 'unknown-region',
 ): ProviderResult<BaseEndpointTypes>[] => {
   const ask = message.data.a[0] ?? null
   const bid = message.data.b[0] ?? null
@@ -41,9 +44,10 @@ export const createAdapterResponseFromMessage = (
   const askVolume = ask.v
   const bidVolume = bid.v
   const symbol = message.data.s
+  const region = message.data.r ?? defaultRegion
   return [
     {
-      params: { base: symbol },
+      params: { base: symbol, region },
       response: {
         result: midPrice,
         data: {

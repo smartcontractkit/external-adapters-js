@@ -1,66 +1,66 @@
 [
   {
-    "from": "CAD",
-    "to": "USD",
+    "from": "cad",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "CAD",
+        "from": "usd",
+        "to": "cad",
         "inverse": true
       }
     ]
   },
   {
-    "from": "CHF",
-    "to": "USD",
+    "from": "chf",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "CHF",
+        "from": "usd",
+        "to": "chf",
         "inverse": true
       }
     ]
   },
   {
-    "from": "JPY",
-    "to": "USD",
+    "from": "jpy",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "JPY",
+        "from": "usd",
+        "to": "jpy",
         "inverse": true
       }
     ]
   },
   {
-    "from": "TRY",
-    "to": "USD",
+    "from": "try",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "TRY",
+        "from": "usd",
+        "to": "try",
         "inverse": true
       }
     ]
   },
   {
-    "from": "HKD",
-    "to": "USD",
+    "from": "hkd",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "HKD",
+        "from": "usd",
+        "to": "hkd",
         "inverse": true
       }
     ]
   },
   {
-    "from": "ZAR",
-    "to": "USD",
+    "from": "zar",
+    "to": "usd",
     "includes": [
       {
-        "from": "USD",
-        "to": "ZAR",
+        "from": "usd",
+        "to": "zar",
         "inverse": true
       }
     ]
