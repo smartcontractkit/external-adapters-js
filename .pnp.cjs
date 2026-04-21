@@ -83,6 +83,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
     {\
+      "name": "@chainlink/proof-of-reserves-v2-adapter",\
+      "reference": "workspace:packages/composites/proof-of-reserves-v2"\
+    },\
+    {\
       "name": "@chainlink/rocket-pool-adapter",\
       "reference": "workspace:packages/composites/rocket-pool"\
     },\
@@ -922,6 +926,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
+    ["@chainlink/proof-of-reserves-v2-adapter", ["workspace:packages/composites/proof-of-reserves-v2"]],\
     ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
@@ -7415,6 +7420,24 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/proof-of-reserves-v2-adapter", [\
+      ["workspace:packages/composites/proof-of-reserves-v2", {\
+        "packageLocation": "./packages/composites/proof-of-reserves-v2/",\
+        "packageDependencies": [\
+          ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/object-path", "npm:0.11.4"],\
+          ["decimal.js", "npm:10.6.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["object-path", "npm:0.11.8"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
