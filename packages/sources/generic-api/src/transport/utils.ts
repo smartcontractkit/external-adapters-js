@@ -19,25 +19,6 @@ import { config, getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
 import { sharedInputParameterConfig } from '../endpoint/shared'
 
-type ResponseField = string | number | boolean | undefined
-
-class AdapterErrorWithExtraFields extends AdapterError {
-  readonly extraFields: { [key: string]: ResponseField }
-
-  constructor({
-    message,
-    statusCode,
-    extraFields,
-  }: {
-    message: string
-    statusCode: number
-    extraFields: { [key: string]: ResponseField }
-  }) {
-    super({ message, statusCode })
-    this.extraFields = extraFields
-  }
-}
-
 type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
 
 export const prepareRequest = <T extends SharedRequestParams>(params: T) => {
@@ -68,12 +49,12 @@ type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
 const createMultiResponse = (
   param: MultiHttpParams,
   response: { data: object | undefined },
-): MultiHttpResponse => {
+): PartialAdapterResponse<MultiHttpBaseEndpointTypes['Response']> => {
   if (!response.data) {
-    throw new AdapterError({
-      message: `The data provider for ${param.apiName} didn't return any value`,
+    return {
+      errorMessage: `The data provider for ${param.apiName} didn't return any value`,
       statusCode: 502,
-    })
+    }
   }
 
   // Check ripcord
@@ -95,15 +76,14 @@ const createMultiResponse = (
     const errorMessage = ripcordDetails
       ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
       : `Ripcord activated for '${param.apiName}'`
-    throw new AdapterErrorWithExtraFields({
-      message: errorMessage,
+    const adapterResponse = {
+      errorMessage,
       statusCode: 503,
-      extraFields: {
-        ripcord: true,
-        ripcordAsInt: 1, // 1 = paused state
-        ripcordDetails,
-      },
-    })
+      ripcord: true,
+      ripcordAsInt: 1,
+      ripcordDetails,
+    }
+    return adapterResponse
   }
 
   // Extract all dataPaths
@@ -111,10 +91,10 @@ const createMultiResponse = (
 
   for (const { name, path } of param.dataPaths) {
     if (!objectPath.has(response.data, path)) {
-      throw new AdapterError({
-        message: `Data path '${path}' not found in response for '${param.apiName}'`,
+      return {
+        errorMessage: `Data path '${path}' not found in response for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
     const value = objectPath.get(response.data, path)
     data[name] = value as number | string
@@ -124,20 +104,20 @@ const createMultiResponse = (
   let providerIndicatedTimeUnixMs: number | undefined
   if (param.providerIndicatedTimePath !== undefined) {
     if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
-      throw new AdapterError({
-        message: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+      return {
+        errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
     const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
     providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
 
     // Validate: must be finite and positive
     if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
-      throw new AdapterError({
-        message: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+      return {
+        errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
   }
 
@@ -169,19 +149,11 @@ export const createResponse = <EndpointTypes extends TransportGenerics>({
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
 }): PartialAdapterResponse<EndpointTypes['Response']> => {
-  try {
-    return mapResponse(createMultiResponse(mapParam(params), apiResponse))
-  } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
-    const statusCode = error instanceof AdapterError ? error.statusCode : 502
-    const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
-
-    return {
-      statusCode,
-      errorMessage,
-      ...extraFields,
-    }
+  const multiResponse = createMultiResponse(mapParam(params), apiResponse)
+  if ('errorMessage' in multiResponse) {
+    return multiResponse
   }
+  return mapResponse(multiResponse)
 }
 
 type Logger = {
