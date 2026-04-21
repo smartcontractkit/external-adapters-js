@@ -1,19 +1,18 @@
 # DLC_CBTC_POR
 
-![1.0.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dlc-cbtc-por/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/dlc-cbtc-por/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |         Name          |                                      Description                                       |  Type  |                       Options                       |     Default      |
-| :-------: | :-------------------: | :------------------------------------------------------------------------------------: | :----: | :-------------------------------------------------: | :--------------: |
-|    ✅     |   ATTESTER_API_URLS   |                   Comma-separated list of DLC.Link Attester API URLs                   | string |                                                     |                  |
-|           |    CANTON_API_URL     |                 Digital Asset API endpoint URL for CBTC token metadata                 | string |                                                     |                  |
-|           |      CHAIN_NAME       |                    Chain name to filter addresses from Attester API                    |  enum  | `canton-devnet`, `canton-mainnet`, `canton-testnet` | `canton-mainnet` |
-|    ✅     | BITCOIN_RPC_ENDPOINT  |          Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries           | string |                                                     |                  |
-|           |   MIN_CONFIRMATIONS   | Minimum number of Bitcoin confirmations required for a UTXO to be counted in reserves. | number |                                                     |       `6`        |
-|           | BACKGROUND_EXECUTE_MS |                 Interval in milliseconds between background executions                 | number |                                                     |     `60000`      |
+| Required? |         Name          |                             Description                             |  Type  |                       Options                       |     Default      |
+| :-------: | :-------------------: | :-----------------------------------------------------------------: | :----: | :-------------------------------------------------: | :--------------: |
+|    ✅     |   ATTESTER_API_URLS   |         Comma-separated list of DLC.Link Attester API URLs          | string |                                                     |                  |
+|           |    CANTON_API_URL     |       Digital Asset API endpoint URL for CBTC token metadata        | string |                                                     |                  |
+|           |      CHAIN_NAME       |          Chain name to filter addresses from Attester API           |  enum  | `canton-devnet`, `canton-mainnet`, `canton-testnet` | `canton-mainnet` |
+|    ✅     | BITCOIN_RPC_ENDPOINT  | Electrs-compatible Bitcoin blockchain API endpoint for UTXO queries | string |                                                     |                  |
+|           | BACKGROUND_EXECUTE_MS |       Interval in milliseconds between background executions        | number |                                                     |     `10000`      |
 
 ---
 
