@@ -2,6 +2,7 @@ import {
   EndpointContext,
   MarketStatus,
   MarketStatusResultResponse,
+  TwentyfourFiveMarketStatus,
   marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -52,7 +53,8 @@ export abstract class BaseMarketStatusTransport<
 
     let response: AdapterResponse<T['Response']>
     try {
-      const result = await this._handleRequest(context, param)
+      const rawResult = await this._handleRequest(context, param)
+      const result = this.convertMarketStatus(rawResult, param.force245MarketStatus)
       response = {
         data: {
           result: result.marketStatus,
@@ -143,6 +145,24 @@ export abstract class BaseMarketStatusTransport<
       statusString: MarketStatus[MarketStatus.UNKNOWN],
       providerIndicatedTimeUnixMs: Date.now(),
     }
+  }
+
+  // UNKNOWN(0) => UNKNOWN(0), CLOSED(1) => WEEKEND(5), OPEN(2) => REGULAR(2)
+  convertMarketStatus(marketStatus: MarketStatusResult, convert: boolean) {
+    if (convert && marketStatus.marketStatus === MarketStatus.CLOSED) {
+      return {
+        ...marketStatus,
+        marketStatus: TwentyfourFiveMarketStatus.WEEKEND,
+        statusString: TwentyfourFiveMarketStatus[TwentyfourFiveMarketStatus.WEEKEND],
+      }
+    } else if (convert && marketStatus.marketStatus === MarketStatus.OPEN) {
+      return {
+        ...marketStatus,
+        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        statusString: TwentyfourFiveMarketStatus[TwentyfourFiveMarketStatus.REGULAR],
+      }
+    }
+    return marketStatus
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseMarketStatusEndpointTypes['Settings']): number {
