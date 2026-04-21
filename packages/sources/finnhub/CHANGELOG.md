@@ -1,5 +1,11 @@
 # @chainlink/finnhub-adapter
 
+## 4.1.0
+
+### Minor Changes
+
+- [#4864](https://github.com/smartcontractkit/external-adapters-js/pull/4864) [`050e9de`](https://github.com/smartcontractkit/external-adapters-js/commit/050e9def600fc5556f15c8a55e51a7493725277d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add asian and enery markets
+
 ## 4.0.2
 
 ### Patch Changes
