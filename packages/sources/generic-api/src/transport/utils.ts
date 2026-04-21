@@ -12,10 +12,7 @@ import {
   sleep,
 } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import objectPath from 'object-path'
 import { config, getApiConfig } from '../config'
@@ -191,7 +188,7 @@ type Logger = {
   error: (...args: unknown[]) => void
 }
 
-export class GenericApiTransport<
+export class GenericApiSubscriptionTransport<
   EndpointTypes extends TransportGenerics & {
     Settings: typeof config.settings
   },
@@ -243,7 +240,7 @@ export class GenericApiTransport<
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       this.logger.error(e, errorMessage)
       response = {
-        statusCode: (e as AdapterInputError)?.statusCode || 502,
+        statusCode: (e as AdapterError)?.statusCode || 502,
         errorMessage,
         timestamps: {
           providerDataRequestedUnixMs: 0,

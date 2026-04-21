@@ -1,12 +1,12 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/http'
-import { GenericApiTransport } from './utils'
+import { GenericApiSubscriptionTransport } from './utils'
 
 const logger = makeLogger('Single HTTP Transport')
 
 // This was originally an HTTP transport and we wanted to keep the same
 // endpoint.
-export class GenericApiHttpTransport extends GenericApiTransport<BaseEndpointTypes> {
+export class GenericApiHttpTransport extends GenericApiSubscriptionTransport<BaseEndpointTypes> {
   constructor() {
     super({
       logger,
