@@ -32,8 +32,8 @@ class BtcPorTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async handleRequest(context: EndpointContext<BaseEndpointTypes>): Promise<void> {
-    const { ATTESTER_API_URLS, CHAIN_NAME, BITCOIN_RPC_ENDPOINT } = context.adapterSettings
-    const MIN_CONFIRMATIONS = 1
+    const { ATTESTER_API_URLS, CHAIN_NAME, BITCOIN_RPC_ENDPOINT, MIN_CONFIRMATIONS } =
+      context.adapterSettings
 
     const providerDataRequestedUnixMs = Date.now()
     const attesterUrls = parseUrls(ATTESTER_API_URLS)
