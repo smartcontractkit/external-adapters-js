@@ -1,71 +1,60 @@
-import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import {
+  TransportDependencies,
+  TransportGenerics,
+} from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import {
+  AdapterResponse,
+  PartialAdapterResponse,
   PartialSuccessfulResponse,
-  ProviderResult,
+  sleep,
 } from '@chainlink/external-adapter-framework/util'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import objectPath from 'object-path'
-import { getApiConfig } from '../config'
+import { config, getApiConfig } from '../config'
 import { BaseEndpointTypes as MultiHttpBaseEndpointTypes } from '../endpoint/multi-http'
+import { sharedInputParameterConfig } from '../endpoint/shared'
 
-type ResponseField = string | number | boolean | undefined
+type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
 
-class AdapterErrorWithExtraFields extends AdapterError {
-  readonly extraFields: { [key: string]: ResponseField }
-
-  constructor({
-    message,
-    statusCode,
-    extraFields,
-  }: {
-    message: string
-    statusCode: number
-    extraFields: { [key: string]: ResponseField }
-  }) {
-    super({ message, statusCode })
-    this.extraFields = extraFields
+export const prepareRequest = <T extends SharedRequestParams>(params: T) => {
+  const apiConfig = getApiConfig(params.apiName)
+  return {
+    baseURL: apiConfig.url,
+    ...(apiConfig.authHeader
+      ? {
+          headers: {
+            [apiConfig.authHeader]: apiConfig.authHeaderValue,
+          },
+        }
+      : {}),
   }
-}
-
-export const prepareRequests = <T extends { apiName: string }>(params: T[]) => {
-  return params.map((param) => {
-    const apiConfig = getApiConfig(param.apiName)
-    return {
-      params: [param],
-      request: {
-        baseURL: apiConfig.url,
-        ...(apiConfig.authHeader
-          ? {
-              headers: {
-                [apiConfig.authHeader]: apiConfig.authHeaderValue,
-              },
-            }
-          : {}),
-      },
-    }
-  })
 }
 
 type Params<EndpointTypes extends TransportGenerics> = TypeFromDefinition<
   EndpointTypes['Parameters']
 >
-type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
+
+export type Response<EndpointTypes extends TransportGenerics> = PartialSuccessfulResponse<
   EndpointTypes['Response']
 >
 
 type MultiHttpParams = Params<MultiHttpBaseEndpointTypes>
 type MultiHttpResponse = Response<MultiHttpBaseEndpointTypes>
 
-const createResponse = (
+const createMultiResponse = (
   param: MultiHttpParams,
   response: { data: object | undefined },
-): MultiHttpResponse => {
+): PartialAdapterResponse<MultiHttpBaseEndpointTypes['Response']> => {
   if (!response.data) {
-    throw new AdapterError({
-      message: `The data provider for ${param.apiName} didn't return any value`,
+    return {
+      errorMessage: `The data provider for ${param.apiName} didn't return any value`,
       statusCode: 502,
-    })
+    }
   }
 
   // Check ripcord
@@ -87,15 +76,14 @@ const createResponse = (
     const errorMessage = ripcordDetails
       ? `Ripcord activated for '${param.apiName}'. Details: ${ripcordDetails}`
       : `Ripcord activated for '${param.apiName}'`
-    throw new AdapterErrorWithExtraFields({
-      message: errorMessage,
+    const adapterResponse = {
+      errorMessage,
       statusCode: 503,
-      extraFields: {
-        ripcord: true,
-        ripcordAsInt: 1, // 1 = paused state
-        ripcordDetails,
-      },
-    })
+      ripcord: true,
+      ripcordAsInt: 1,
+      ripcordDetails,
+    }
+    return adapterResponse
   }
 
   // Extract all dataPaths
@@ -103,10 +91,10 @@ const createResponse = (
 
   for (const { name, path } of param.dataPaths) {
     if (!objectPath.has(response.data, path)) {
-      throw new AdapterError({
-        message: `Data path '${path}' not found in response for '${param.apiName}'`,
+      return {
+        errorMessage: `Data path '${path}' not found in response for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
     const value = objectPath.get(response.data, path)
     data[name] = value as number | string
@@ -116,20 +104,20 @@ const createResponse = (
   let providerIndicatedTimeUnixMs: number | undefined
   if (param.providerIndicatedTimePath !== undefined) {
     if (!objectPath.has(response.data, param.providerIndicatedTimePath)) {
-      throw new AdapterError({
-        message: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
+      return {
+        errorMessage: `Provider indicated time path '${param.providerIndicatedTimePath}' not found in response for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
     const timestampValue = objectPath.get(response.data, param.providerIndicatedTimePath)
     providerIndicatedTimeUnixMs = new Date(timestampValue).getTime()
 
     // Validate: must be finite and positive
     if (!Number.isFinite(providerIndicatedTimeUnixMs) || providerIndicatedTimeUnixMs <= 0) {
-      throw new AdapterError({
-        message: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
+      return {
+        errorMessage: `Invalid timestamp value at '${param.providerIndicatedTimePath}' for '${param.apiName}'`,
         statusCode: 500,
-      })
+      }
     }
   }
 
@@ -150,36 +138,125 @@ const createResponse = (
   }
 }
 
-export const createResponses = <EndpointTypes extends TransportGenerics>({
+export const createResponse = <EndpointTypes extends TransportGenerics>({
   params,
   apiResponse,
   mapParam,
   mapResponse,
 }: {
-  params: Params<EndpointTypes>[]
+  params: Params<EndpointTypes>
   apiResponse: { data: object | undefined }
   mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
   mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
-}): ProviderResult<EndpointTypes>[] => {
-  return params.map((param: Params<EndpointTypes>): ProviderResult<EndpointTypes> => {
-    try {
-      return {
-        params: param,
-        response: mapResponse(createResponse(mapParam(param), apiResponse)),
-      }
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
-      const statusCode = error instanceof AdapterError ? error.statusCode : 502
-      const extraFields = error instanceof AdapterErrorWithExtraFields ? error.extraFields : {}
+}): PartialAdapterResponse<EndpointTypes['Response']> => {
+  const multiResponse = createMultiResponse(mapParam(params), apiResponse)
+  if ('errorMessage' in multiResponse) {
+    return multiResponse
+  }
+  return mapResponse(multiResponse)
+}
 
-      return {
-        params: param,
-        response: {
-          statusCode,
-          errorMessage,
-          ...extraFields,
+type Logger = {
+  error: (...args: unknown[]) => void
+}
+
+export class GenericApiSubscriptionTransport<
+  EndpointTypes extends TransportGenerics & {
+    Settings: typeof config.settings
+  },
+> extends SubscriptionTransport<EndpointTypes> {
+  logger: Logger
+  mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
+  mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
+
+  requester!: Requester
+
+  constructor({
+    logger,
+    mapParam,
+    mapResponse,
+  }: {
+    logger: Logger
+    mapParam: (param: Params<EndpointTypes>) => MultiHttpParams
+    mapResponse: (response: MultiHttpResponse) => Response<EndpointTypes>
+  }) {
+    super()
+    this.logger = logger
+    this.mapParam = mapParam
+    this.mapResponse = mapResponse
+  }
+
+  async initialize(
+    dependencies: TransportDependencies<EndpointTypes>,
+    adapterSettings: EndpointTypes['Settings'],
+    endpointName: string,
+    transportName: string,
+  ): Promise<void> {
+    await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.requester = dependencies.requester
+  }
+
+  async backgroundHandler(
+    context: EndpointContext<EndpointTypes>,
+    entries: Params<EndpointTypes>[],
+  ) {
+    await Promise.all(entries.map(async (param) => this.handleRequest(context, param)))
+    await sleep(context.adapterSettings.BACKGROUND_EXECUTE_MS)
+  }
+
+  async handleRequest(context: EndpointContext<EndpointTypes>, param: Params<EndpointTypes>) {
+    let response: AdapterResponse<EndpointTypes['Response']>
+    try {
+      response = await this._handleRequest(context, param)
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
+      this.logger.error(e, errorMessage)
+      response = {
+        statusCode: (e as AdapterError)?.statusCode || 502,
+        errorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
         },
       }
     }
-  })
+    await this.responseCache.write(this.name, [{ params: param, response }])
+  }
+
+  async _handleRequest(
+    context: EndpointContext<EndpointTypes>,
+    params: Params<EndpointTypes>,
+  ): Promise<AdapterResponse<EndpointTypes['Response']>> {
+    const providerDataRequestedUnixMs = Date.now()
+    const request = prepareRequest(params as SharedRequestParams)
+    const result = await this.requester.request<object>(
+      calculateHttpRequestKey<EndpointTypes>({
+        context,
+        data: [params],
+        transportName: this.name,
+      }),
+      request,
+    )
+    const response = createResponse<EndpointTypes>({
+      params,
+      apiResponse: result.response,
+      mapParam: this.mapParam,
+      mapResponse: this.mapResponse,
+    })
+    return {
+      ...response,
+      statusCode: 'statusCode' in response ? response.statusCode : 200,
+      timestamps: {
+        providerIndicatedTimeUnixMs: undefined,
+        ...('timestamps' in response ? response.timestamps : {}),
+        providerDataRequestedUnixMs,
+        providerDataReceivedUnixMs: Date.now(),
+      },
+    }
+  }
+
+  getSubscriptionTtlFromConfig(adapterSettings: EndpointTypes['Settings']): number {
+    return adapterSettings.WARMUP_SUBSCRIPTION_TTL
+  }
 }
