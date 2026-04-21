@@ -27,6 +27,7 @@ describe('execute', () => {
     process.env.NX8_AUTH_HEADER_VALUE = 'Bearer test-token'
     process.env.RIPCORD_API_URL = 'https://ripcord-api.com/'
     process.env.MISSING_PATH_API_URL = 'https://missing-path-api.com/'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
