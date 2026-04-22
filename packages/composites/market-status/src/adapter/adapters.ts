@@ -1,9 +1,12 @@
 import { marketStatusEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
-const adapterNames = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY', 'HARD_CODE_245'] as const
+import type { StaticAdapterName } from './static'
 
-export type AdapterName = (typeof adapterNames)[number]
+const REMOTE_ADAPTER_NAMES = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY'] as const
+export type RemoteAdapterName = (typeof REMOTE_ADAPTER_NAMES)[number]
+
+export type AdapterName = RemoteAdapterName | StaticAdapterName
 
 // Mapping from market to primary and secondary adapters.
 const marketAdapters: Record<string, { primary: AdapterName; secondary: AdapterName }> = {

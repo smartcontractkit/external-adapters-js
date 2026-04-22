@@ -30,6 +30,8 @@ describe('execute', () => {
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
+    await testAdapter.metricsApi?.close()
+    await clock.runAllAsync()
     clock.uninstall()
     nock.restore()
     nock.cleanAll()

@@ -1,6 +1,6 @@
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { getMarketAdapters } from '../config/adapters'
+import { getMarketAdapters } from '../adapter/adapters'
 import type { MultiMarketStatusEndpointTypes } from '../endpoint/multi-market-status'
 import { inputParameters } from '../endpoint/multi-market-status'
 import type { MarketStatusResult } from './base-market-status'

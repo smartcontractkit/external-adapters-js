@@ -4,7 +4,7 @@ import {
   TwentyfourFiveMarketStatus,
 } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { getMarketAdapters } from '../config/adapters'
+import { getMarketAdapters } from '../adapter/adapters'
 import type { MarketStatusEndpointTypes } from '../endpoint/market-status'
 import { inputParameters } from '../endpoint/market-status'
 import type { MarketStatusResult } from './base-market-status'

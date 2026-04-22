@@ -12,8 +12,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
-import { AdapterName } from '../config/adapters'
-import { getStatus as get245Status } from '../config/hardCode245Adapter'
+import { AdapterName } from '../adapter/adapters'
+import { getStatusFromStaticSchedule, isStaticAdapter } from '../adapter/static'
 import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
 import { inputParameters } from '../endpoint/market-status'
 
@@ -95,11 +95,8 @@ export abstract class BaseMarketStatusTransport<
     adapterName: AdapterName,
     param: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>,
   ): Promise<MarketStatusResult> {
-    if (adapterName === 'HARD_CODE_245') {
-      return {
-        ...get245Status(param.weekend),
-        source: adapterName,
-      }
+    if (isStaticAdapter(adapterName)) {
+      return getStatusFromStaticSchedule(adapterName, param.weekend)
     }
     const key = `${adapterName}:${JSON.stringify(param)}`
     const config = {
