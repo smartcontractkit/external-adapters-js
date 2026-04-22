@@ -21,8 +21,16 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     for (const market of markets) {
       const adapterNames = getMarketAdapters(param.type, market)
       underlyingRequests.push(
-        this.sendAdapterRequest(context, adapterNames.primary, { market, type: param.type }),
-        this.sendAdapterRequest(context, adapterNames.secondary, { market, type: param.type }),
+        this.sendAdapterRequest(context, adapterNames.primary, {
+          market,
+          type: param.type,
+          force245MarketStatus: false,
+        }),
+        this.sendAdapterRequest(context, adapterNames.secondary, {
+          market,
+          type: param.type,
+          force245MarketStatus: false,
+        }),
       )
     }
 

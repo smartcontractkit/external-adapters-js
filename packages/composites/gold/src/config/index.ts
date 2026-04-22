@@ -38,11 +38,18 @@ export const config = new AdapterConfig({
     default: 500_000,
     sensitive: false,
   },
-  DEVIATION_CAP: {
+  DEVIATION_CAP_LOW: {
     description:
-      'Maximum deviation allowed from the closing price. Used deviation is clamped between this and minus this value.',
+      'Maximum downward deviation allowed from the closing price. Used deviation is clamped between this value and DEVIATION_CAP_HIGH.',
     type: 'number',
-    default: 0.02,
+    default: -0.05,
+    sensitive: false,
+  },
+  DEVIATION_CAP_HIGH: {
+    description:
+      'Maximum upward deviation allowed from the closing price. Used deviation is clamped between DEVIATION_CAP_LOW and this value.',
+    type: 'number',
+    default: 0.025,
     sensitive: false,
   },
   TOKENIZED_PRICE_WEIGHT: {
