@@ -32,7 +32,7 @@ export const createAdapterResponseFromMessage = (
 ): ProviderResult<BaseEndpointTypes>[] => {
   const ask = message.data.a[0] ?? null
   const bid = message.data.b[0] ?? null
-  if (ask === null && bid === null) {
+  if (ask === null || bid === null) {
     throw new AdapterError({
       statusCode: 500,
       message: 'Ask or bid data is missing',
