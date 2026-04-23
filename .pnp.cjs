@@ -1153,7 +1153,7 @@ const RAW_RUNTIME_STATE =
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
           ["@authereum/starkware-types", "npm:1.2.0-beta.1"],\
           ["bip39", "npm:3.1.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["enc-utils", "npm:2.2.3"],\
           ["ethereumjs-wallet", "npm:1.0.2"],\
@@ -4619,80 +4619,80 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@bufbuild/buf", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-npm-1.57.0-2ab3bfef25/node_modules/@bufbuild/buf/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-npm-1.68.4-43d22fd4f8/node_modules/@bufbuild/buf/",\
         "packageDependencies": [\
-          ["@bufbuild/buf", "npm:1.57.0"],\
-          ["@bufbuild/buf-darwin-arm64", "npm:1.57.0"],\
-          ["@bufbuild/buf-darwin-x64", "npm:1.57.0"],\
-          ["@bufbuild/buf-linux-aarch64", "npm:1.57.0"],\
-          ["@bufbuild/buf-linux-armv7", "npm:1.57.0"],\
-          ["@bufbuild/buf-linux-x64", "npm:1.57.0"],\
-          ["@bufbuild/buf-win32-arm64", "npm:1.57.0"],\
-          ["@bufbuild/buf-win32-x64", "npm:1.57.0"]\
+          ["@bufbuild/buf", "npm:1.68.4"],\
+          ["@bufbuild/buf-darwin-arm64", "npm:1.68.4"],\
+          ["@bufbuild/buf-darwin-x64", "npm:1.68.4"],\
+          ["@bufbuild/buf-linux-aarch64", "npm:1.68.4"],\
+          ["@bufbuild/buf-linux-armv7", "npm:1.68.4"],\
+          ["@bufbuild/buf-linux-x64", "npm:1.68.4"],\
+          ["@bufbuild/buf-win32-arm64", "npm:1.68.4"],\
+          ["@bufbuild/buf-win32-x64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-darwin-arm64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-arm64-npm-1.57.0-6f2ff0e9e6/node_modules/@bufbuild/buf-darwin-arm64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-arm64-npm-1.68.4-2f00303b3b/node_modules/@bufbuild/buf-darwin-arm64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-darwin-arm64", "npm:1.57.0"]\
+          ["@bufbuild/buf-darwin-arm64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-darwin-x64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-x64-npm-1.57.0-c2008a76e1/node_modules/@bufbuild/buf-darwin-x64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-darwin-x64-npm-1.68.4-58973da623/node_modules/@bufbuild/buf-darwin-x64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-darwin-x64", "npm:1.57.0"]\
+          ["@bufbuild/buf-darwin-x64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-linux-aarch64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-aarch64-npm-1.57.0-e1be211b1d/node_modules/@bufbuild/buf-linux-aarch64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-aarch64-npm-1.68.4-d6b8c60f60/node_modules/@bufbuild/buf-linux-aarch64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-linux-aarch64", "npm:1.57.0"]\
+          ["@bufbuild/buf-linux-aarch64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-linux-armv7", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-armv7-npm-1.57.0-1a847128e0/node_modules/@bufbuild/buf-linux-armv7/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-armv7-npm-1.68.4-a3ff9f8b0a/node_modules/@bufbuild/buf-linux-armv7/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-linux-armv7", "npm:1.57.0"]\
+          ["@bufbuild/buf-linux-armv7", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-linux-x64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-x64-npm-1.57.0-f292389579/node_modules/@bufbuild/buf-linux-x64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-linux-x64-npm-1.68.4-ad00046a7c/node_modules/@bufbuild/buf-linux-x64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-linux-x64", "npm:1.57.0"]\
+          ["@bufbuild/buf-linux-x64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-win32-arm64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-arm64-npm-1.57.0-6ee6dffa18/node_modules/@bufbuild/buf-win32-arm64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-arm64-npm-1.68.4-ccc9eca7c8/node_modules/@bufbuild/buf-win32-arm64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-win32-arm64", "npm:1.57.0"]\
+          ["@bufbuild/buf-win32-arm64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
     ]],\
     ["@bufbuild/buf-win32-x64", [\
-      ["npm:1.57.0", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-x64-npm-1.57.0-7ca34dacd7/node_modules/@bufbuild/buf-win32-x64/",\
+      ["npm:1.68.4", {\
+        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-win32-x64-npm-1.68.4-665d568bf8/node_modules/@bufbuild/buf-win32-x64/",\
         "packageDependencies": [\
-          ["@bufbuild/buf-win32-x64", "npm:1.57.0"]\
+          ["@bufbuild/buf-win32-x64", "npm:1.68.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4920,7 +4920,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["axios", "npm:1.13.4"],\
-          ["fastify", "npm:5.6.2"],\
+          ["fastify", "npm:5.8.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5129,7 +5129,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["ethers", "npm:5.8.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
@@ -5663,7 +5663,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/deutsche-boerse/",\
         "packageDependencies": [\
           ["@chainlink/deutsche-boerse-adapter", "workspace:packages/sources/deutsche-boerse"],\
-          ["@bufbuild/buf", "npm:1.57.0"],\
+          ["@bufbuild/buf", "npm:1.68.4"],\
           ["@bufbuild/protobuf", "npm:2.7.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.8.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -5780,8 +5780,8 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.6.2"],\
-          ["lodash", "npm:4.17.23"],\
+          ["fastify", "npm:5.8.5"],\
+          ["lodash", "npm:4.18.1"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
           ["object-hash", "npm:2.2.0"],\
@@ -5874,7 +5874,7 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.1.5"],\
           ["tslib", "npm:2.3.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["yaml", "npm:2.2.2"]\
+          ["yaml", "npm:2.8.3"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -7697,7 +7697,7 @@ const RAW_RUNTIME_STATE =
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8685,7 +8685,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@noble/hashes", "npm:1.8.0"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer-layout", "npm:1.2.2"],\
           ["camelcase", "npm:6.3.0"],\
@@ -8721,7 +8721,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/solana__web3.js", null],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["buffer-layout", "npm:1.2.2"]\
         ],\
         "packagePeers": [\
@@ -8890,7 +8890,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.8.0"],\
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["bitwise", "npm:2.2.1"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["braces", "npm:3.0.3"],\
           ["diff", "npm:5.2.0"],\
           ["glob-parent", "npm:6.0.2"],\
@@ -9012,7 +9012,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.8.0"],\
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["@ethersproject/logger", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -9239,7 +9239,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["@ethersproject/logger", "npm:5.8.0"],\
           ["@ethersproject/properties", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -9463,7 +9463,7 @@ const RAW_RUNTIME_STATE =
           ["@grpc/proto-loader", "npm:0.7.13"],\
           ["lodash.camelcase", "npm:4.3.0"],\
           ["long", "npm:5.2.3"],\
-          ["protobufjs", "npm:7.4.0"],\
+          ["protobufjs", "npm:7.5.5"],\
           ["yargs", "npm:17.7.2"]\
         ],\
         "linkType": "HARD"\
@@ -9563,7 +9563,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -9582,7 +9582,7 @@ const RAW_RUNTIME_STATE =
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["aes-js", "npm:3.1.2"],\
           ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["elliptic", "npm:6.6.1"],\
           ["hdkey", "npm:1.1.2"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -9643,7 +9643,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.56"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -9653,7 +9653,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@harmony-js/utils", "npm:0.1.58"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
@@ -10920,7 +10920,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/x-textdecoder", "npm:10.4.2"],\
           ["@polkadot/x-textencoder", "npm:10.4.2"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13441,7 +13441,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/buffer-layout", "npm:4.0.1"],\
           ["@solana/codecs-numbers", "virtual:85ca6fd385913f84b1e0e12bc512991a8579fde14d2a196dae95552a08812a69188fa14b9bbeb7abae92cda16f2dd4cdc5ebefffe4b5ec415c4923b3d5279c93#npm:2.3.0"],\
           ["agentkeepalive", "npm:4.5.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["borsh", "npm:0.7.0"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer", "npm:6.0.3"],\
@@ -14655,7 +14655,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:14.18.63"],\
           ["abort-controller", "npm:3.0.0"],\
           ["abortcontroller-polyfill", "npm:1.7.6"],\
-          ["lodash", "npm:4.17.21"],\
+          ["lodash", "npm:4.18.1"],\
           ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
@@ -14796,7 +14796,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["anymatch", "npm:3.1.3"],\
           ["normalize-path", "npm:3.0.0"],\
-          ["picomatch", "npm:2.3.1"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15543,17 +15543,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:4.12.2", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.2-c97b742b8d-5803983405.zip/node_modules/bn.js/",\
+      ["npm:4.12.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-4.12.3-60404d953d-57ed5a055f.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:4.12.2"]\
+          ["bn.js", "npm:4.12.3"]\
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.2.2", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.2-a1a52ffece-51ebb2df83.zip/node_modules/bn.js/",\
+      ["npm:5.2.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.3-b71041c01c-dfb3927e0d.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15563,7 +15563,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/borsh-npm-0.7.0-c3e1c21bb3-e51a9395da.zip/node_modules/borsh/",\
         "packageDependencies": [\
           ["borsh", "npm:0.7.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["bs58", "npm:4.0.1"],\
           ["text-encoding-utf-8", "npm:1.0.2"]\
         ],\
@@ -17048,7 +17048,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/elliptic-npm-6.6.1-87bb857cbc-dc678c9feb.zip/node_modules/elliptic/",\
         "packageDependencies": [\
           ["elliptic", "npm:6.6.1"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["brorand", "npm:1.1.0"],\
           ["hash.js", "npm:1.1.7"],\
           ["hmac-drbg", "npm:1.0.1"],\
@@ -17520,7 +17520,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethereumjs-abi-npm-0.6.8-c911e0a245-d4633ca300.zip/node_modules/ethereumjs-abi/",\
         "packageDependencies": [\
           ["ethereumjs-abi", "npm:0.6.8"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["ethereumjs-util", "npm:6.2.1"]\
         ],\
         "linkType": "HARD"\
@@ -17532,7 +17532,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:6.2.1"],\
           ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["elliptic", "npm:6.6.1"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
@@ -17546,7 +17546,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["ethereumjs-util", "npm:7.1.5"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
           ["rlp", "npm:2.2.7"]\
@@ -18138,7 +18138,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["fdir", "virtual:c8807de691826868d9a774dfe20fb184997709c19896ccda6c1d382d679c7c2453bf893d9e0510372bd84566a8523db06ec721126eb95bb24e97992998e8a625#npm:6.4.3"],\
           ["@types/picomatch", null],\
-          ["picomatch", "npm:4.0.2"]\
+          ["picomatch", "npm:4.0.3"]\
         ],\
         "packagePeers": [\
           "@types/picomatch",\
@@ -18780,7 +18780,7 @@ const RAW_RUNTIME_STATE =
           ["io-ts", "npm:1.10.4"],\
           ["json-stream-stringify", "npm:3.1.6"],\
           ["keccak", "npm:3.0.4"],\
-          ["lodash", "npm:4.17.21"],\
+          ["lodash", "npm:4.18.1"],\
           ["mnemonist", "npm:0.38.5"],\
           ["mocha", "npm:10.8.2"],\
           ["p-map", "npm:4.0.0"],\
@@ -20159,7 +20159,7 @@ const RAW_RUNTIME_STATE =
           ["chalk", "npm:4.1.2"],\
           ["ci-info", "npm:3.9.0"],\
           ["graceful-fs", "npm:4.2.11"],\
-          ["picomatch", "npm:2.3.1"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -20172,7 +20172,7 @@ const RAW_RUNTIME_STATE =
           ["chalk", "npm:4.1.2"],\
           ["ci-info", "npm:3.9.0"],\
           ["graceful-fs", "npm:4.2.11"],\
-          ["picomatch", "npm:2.3.1"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20508,7 +20508,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/keccak256-npm-1.0.6-30a3b4497e-c7370708a3.zip/node_modules/keccak256/",\
         "packageDependencies": [\
           ["keccak256", "npm:1.0.6"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["buffer", "npm:6.0.3"],\
           ["keccak", "npm:3.0.4"]\
         ],\
@@ -20672,17 +20672,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["lodash", [\
-      ["npm:4.17.21", {\
-        "packageLocation": "./.yarn/cache/lodash-npm-4.17.21-6382451519-c08619c038.zip/node_modules/lodash/",\
+      ["npm:4.18.1", {\
+        "packageLocation": "./.yarn/cache/lodash-npm-4.18.1-a64c3070ac-306fea53df.zip/node_modules/lodash/",\
         "packageDependencies": [\
-          ["lodash", "npm:4.17.21"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.17.23", {\
-        "packageLocation": "./.yarn/cache/lodash-npm-4.17.23-50bdb1c01a-82504c8825.zip/node_modules/lodash/",\
-        "packageDependencies": [\
-          ["lodash", "npm:4.17.23"]\
+          ["lodash", "npm:4.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21123,7 +21116,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["micromatch", "npm:4.0.8"],\
           ["braces", "npm:3.0.3"],\
-          ["picomatch", "npm:2.3.1"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -22035,17 +22028,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["picomatch", [\
-      ["npm:2.3.1", {\
-        "packageLocation": "./.yarn/cache/picomatch-npm-2.3.1-c782cfd986-60c2595003.zip/node_modules/picomatch/",\
+      ["npm:2.3.2", {\
+        "packageLocation": "./.yarn/cache/picomatch-npm-2.3.2-4d85543a37-b788ef8148.zip/node_modules/picomatch/",\
         "packageDependencies": [\
-          ["picomatch", "npm:2.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.0.2", {\
-        "packageLocation": "./.yarn/cache/picomatch-npm-4.0.2-e93516ddf2-ce617b8da3.zip/node_modules/picomatch/",\
-        "packageDependencies": [\
-          ["picomatch", "npm:4.0.2"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -22446,10 +22432,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["protobufjs", [\
-      ["npm:7.4.0", {\
-        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.4.0-12c56a3adc/node_modules/protobufjs/",\
+      ["npm:7.5.5", {\
+        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.5.5-73830b5abb/node_modules/protobufjs/",\
         "packageDependencies": [\
-          ["protobufjs", "npm:7.4.0"],\
+          ["protobufjs", "npm:7.5.5"],\
           ["@protobufjs/aspromise", "npm:1.1.2"],\
           ["@protobufjs/base64", "npm:1.1.2"],\
           ["@protobufjs/codegen", "npm:2.0.4"],\
@@ -22674,7 +22660,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/readdirp-npm-3.6.0-f950cc74ab-196b30ef6c.zip/node_modules/readdirp/",\
         "packageDependencies": [\
           ["readdirp", "npm:3.6.0"],\
-          ["picomatch", "npm:2.3.1"]\
+          ["picomatch", "npm:2.3.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -22792,7 +22778,7 @@ const RAW_RUNTIME_STATE =
           ["redux-devtools-core", "npm:0.2.1"],\
           ["get-params", "npm:0.1.2"],\
           ["jsan", "npm:3.1.14"],\
-          ["lodash", "npm:4.17.21"],\
+          ["lodash", "npm:4.18.1"],\
           ["nanoid", "npm:2.1.11"],\
           ["remotedev-serialize", "npm:0.1.9"]\
         ],\
@@ -22812,7 +22798,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["redux-devtools-instrument", "virtual:d6d65e3c3a1263370dd08fcbe29c2d93967f8d9224dabf35040898ccae389f32e79647e89a84f6c346652135d74fd9fadf33f72aba15eaa143b77a7f17f9316e#npm:1.10.0"],\
           ["@types/redux", null],\
-          ["lodash", "npm:4.17.21"],\
+          ["lodash", "npm:4.18.1"],\
           ["redux", null],\
           ["symbol-observable", "npm:1.2.0"]\
         ],\
@@ -23142,7 +23128,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rlp-npm-2.2.7-4cb283b8fe-cf1919a2dc.zip/node_modules/rlp/",\
         "packageDependencies": [\
           ["rlp", "npm:2.2.7"],\
-          ["bn.js", "npm:5.2.2"]\
+          ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23179,7 +23165,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/rsv-signature-npm-1.1.0-7857bc865f-7dee5101d3.zip/node_modules/rsv-signature/",\
         "packageDependencies": [\
           ["rsv-signature", "npm:1.1.0"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["enc-utils", "npm:2.2.3"]\
         ],\
         "linkType": "HARD"\
@@ -23359,7 +23345,7 @@ const RAW_RUNTIME_STATE =
           ["secp256k1", "npm:3.8.1"],\
           ["bindings", "npm:1.5.0"],\
           ["bip66", "npm:1.1.5"],\
-          ["bn.js", "npm:4.12.2"],\
+          ["bn.js", "npm:4.12.3"],\
           ["create-hash", "npm:1.2.0"],\
           ["drbg.js", "npm:1.0.1"],\
           ["elliptic", "npm:6.6.1"],\
@@ -24373,7 +24359,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["tinyglobby", "npm:0.2.12"],\
           ["fdir", "virtual:c8807de691826868d9a774dfe20fb184997709c19896ccda6c1d382d679c7c2453bf893d9e0510372bd84566a8523db06ec721126eb95bb24e97992998e8a625#npm:6.4.3"],\
-          ["picomatch", "npm:4.0.2"]\
+          ["picomatch", "npm:4.0.3"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -25262,7 +25248,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["web3-utils", "npm:1.10.4"],\
           ["@ethereumjs/util", "npm:8.1.0"],\
-          ["bn.js", "npm:5.2.2"],\
+          ["bn.js", "npm:5.2.3"],\
           ["ethereum-bloom-filters", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:2.2.1"],\
           ["ethjs-unit", "npm:0.1.6"],\
@@ -25664,17 +25650,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.2.2", {\
-        "packageLocation": "./.yarn/cache/yaml-npm-2.2.2-6e3cddb343-991384bf87.zip/node_modules/yaml/",\
-        "packageDependencies": [\
-          ["yaml", "npm:2.2.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.6.1", {\
         "packageLocation": "./.yarn/cache/yaml-npm-2.6.1-eb747069e9-cf412f03a3.zip/node_modules/yaml/",\
         "packageDependencies": [\
           ["yaml", "npm:2.6.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.8.3", {\
+        "packageLocation": "./.yarn/cache/yaml-npm-2.8.3-dfea86f9e0-ecad41d39d.zip/node_modules/yaml/",\
+        "packageDependencies": [\
+          ["yaml", "npm:2.8.3"]\
         ],\
         "linkType": "HARD"\
       }]\
