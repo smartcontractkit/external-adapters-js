@@ -3,7 +3,7 @@
 exports[`Market status endpoint should return failure with invalid market 1`] = `
 {
   "error": {
-    "message": "[Param: market] input is not one of valid options (forex,metals,wti,nyse,lse,xetra,tradegate,six,euronext_milan,euronext_paris,FOREX,METALS,WTI,NYSE,LSE,XETRA,TRADEGATE,SIX,EURONEXT_MILAN,EURONEXT_PARIS)",
+    "message": "[Param: market] input is not one of valid options (forex,metals,wti,nyse,lse,xetra,tradegate,six,euronext_milan,euronext_paris,tpex,twse,krx,jpx,sse,szse,nymex,ice_europe_energy,FOREX,METALS,WTI,NYSE,LSE,XETRA,TRADEGATE,SIX,EURONEXT_MILAN,EURONEXT_PARIS,TPEX,TWSE,KRX,JPX,SSE,SZSE,NYMEX,ICE_EUROPE_ENERGY)",
     "name": "AdapterError",
   },
   "status": "errored",

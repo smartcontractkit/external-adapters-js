@@ -1,4 +1,7 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 export type ErrorObj = {
   message: string
@@ -61,25 +64,38 @@ export const doAptosCustomInputValidation = (
   return
 }
 
-export const doPrepareRequests = (
+export const validateAptosViewResponse = (data: string[], index: number): void => {
+  if (!Array.isArray(data)) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Aptos view function returned non-array response: ${JSON.stringify(data)}`,
+    })
+  }
+  if (index >= data.length) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `index ${index} is out of bounds for result array of length ${data.length}`,
+    })
+  }
+}
+
+export const buildAptosViewRequest = (
   networkType: string,
   signature: string,
   type: string[],
   args: string[],
 ) => {
   return {
-    request: {
-      baseURL: getAptosRpcUrl(networkType),
-      url: '/view',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        function: signature,
-        type_arguments: type ?? [],
-        arguments: args ?? [],
-      },
+    baseURL: getAptosRpcUrl(networkType),
+    url: '/view',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: {
+      function: signature,
+      type_arguments: type ?? [],
+      arguments: args ?? [],
     },
   }
 }

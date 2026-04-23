@@ -44,6 +44,12 @@ type ErrorResponseData struct {
 	} `json:"error"`
 }
 
+// ObservationErrorResponse is returned when the cached observation has Success=false
+type ObservationErrorResponse struct {
+	ErrorMessage string          `json:"errorMessage"`
+	Timestamps   json.RawMessage `json:"timestamps"`
+}
+
 // Object pools for reducing memory allocations
 var (
 	requestDataPool = sync.Pool{
@@ -70,12 +76,14 @@ type Server struct {
 	httpClient          *http.Client
 	subscriptionTracker sync.Map
 	metrics             *appMetrics.Metrics
-	ctx                 context.Context // Add this
+	metricsForwarder    *appMetrics.Forwarder
+	keyMapper           *helpers.KeyMapper
+	ctx                 context.Context
 	cancel              context.CancelFunc
 }
 
 // New creates a new HTTP server
-func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
+func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper *helpers.KeyMapper) *Server {
 	ctx, cancel := context.WithCancel(context.Background())
 	// Set Gin mode based on log level
 	if cfg.LogLevel == "debug" {
@@ -119,15 +127,20 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 		},
 	}
 
+	jsMetricsURL := fmt.Sprintf("http://%s:%s/metrics", cfg.EAHost, cfg.EAMetricsPort)
+	metricsForwarder := appMetrics.NewForwarder(jsMetricsURL, time.Duration(cfg.MetricsForwardTimeoutSeconds)*time.Second)
+
 	server := &Server{
-		config:     cfg,
-		cache:      cache,
-		logger:     logger.With("component", "server"),
-		router:     router,
-		httpClient: httpClient,
-		metrics:    metrics,
-		ctx:        ctx,
-		cancel:     cancel,
+		config:           cfg,
+		cache:            cache,
+		logger:           logger.With("component", "server"),
+		router:           router,
+		httpClient:       httpClient,
+		metrics:          metrics,
+		metricsForwarder: metricsForwarder,
+		keyMapper:        keyMapper,
+		ctx:              ctx,
+		cancel:           cancel,
 	}
 
 	server.setupRoutes()
@@ -139,16 +152,20 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 func (s *Server) setupRoutes() {
 	// Health check endpoint
 	s.router.GET("/health", s.healthHandler)
-
+	// Cache debug endpoint
+	s.router.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
 	s.router.POST("/", s.adapterHandler)
 }
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
-	// Start a separate HTTP server for Prometheus metrics on port 9080
+	// Start a separate HTTP server for Prometheus metrics on port 9080.
+	// The combined gatherer merges Go-native metrics with forwarded JS
+	// adapter metrics (excluding families already tracked in Go).
+	gatherer := appMetrics.CombinedGatherer(s.metricsForwarder)
 	metricsMux := http.NewServeMux()
-	metricsMux.Handle("/metrics", promhttp.Handler())
+	metricsMux.Handle("/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 
 	s.metricsServer = &http.Server{
 		Addr:    ":" + s.config.GoMetricsPort,
@@ -220,7 +237,36 @@ func (s *Server) healthHandler(c *gin.Context) {
 	})
 }
 
-// adapterHandler handles the main adapter requests
+// cacheHandler returns all current cache entries for debugging.
+func (s *Server) cacheHandler(c *gin.Context) {
+	items := s.cache.Items()
+
+	type entry struct {
+		Key         string             `json:"key"`
+		AdapterKey  string             `json:"adapterKey"`
+		Timestamp   time.Time          `json:"timestamp"`
+		Observation *types.Observation `json:"observation"`
+	}
+
+	entries := make([]entry, 0, len(items))
+	for key, item := range items {
+		entries = append(entries, entry{
+			Key:         key,
+			AdapterKey:  item.OriginalAdapterKey,
+			Timestamp:   item.Timestamp,
+			Observation: item.Observation,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"items": entries,
+		"count": len(entries),
+	})
+}
+
+// adapterHandler handles the main adapter requests.
+// It uses the KeyMapper to translate raw client params into the JS adapter's
+// transformed cache key, then looks up the observation by that key.
 func (s *Server) adapterHandler(c *gin.Context) {
 	// Get request object from pool
 	reqData := requestDataPool.Get().(*RequestData)
@@ -234,8 +280,8 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		return
 	}
 
-	// Canonicalize and filter request parameters once using the alias index, including overrides.
-	canonicalParams, err := helpers.BuildCacheKeyParams(reqData.Data)
+	// Resolve endpoint alias and build raw cache key params.
+	rawParams, err := helpers.BuildCacheKeyParams(reqData.Data)
 	if err != nil {
 		s.logger.Error("Failed to canonicalize request params", "error", err, "requestData", reqData.Data)
 
@@ -252,47 +298,62 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	}
 
 	// Set request params for metrics tracking
-	middleware.SetRequestParams(c, canonicalParams)
+	middleware.SetRequestParams(c, rawParams)
 
-	// Check if cached response exists
-	cachedResponse := s.cache.Get(canonicalParams)
-
-	if cachedResponse != nil {
-		// Return the observation as JSON
-		c.JSON(http.StatusOK, cachedResponse)
-		return
-	}
-	// If no cached response, calculate the subscription key and subscribe
-	// Subscription happens async, we send a request to the JS adapter and do not expect any valid response.
-	// Once the JS adapter has subscribed, it will communicate with the Redcon server to store the observation in the cache.
-	subscriptionKey, err := helpers.CalculateCacheKey(canonicalParams)
+	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
 	if err != nil {
-		s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", canonicalParams)
+		s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", rawParams)
 		// If we cannot calculate a subscription key, do not attempt to subscribe
 		// and return a 500 to the caller.
 		errorResp := errorResponsePool.Get().(*ErrorResponseData)
 		defer errorResponsePool.Put(errorResp)
 
 		errorResp.Error.Name = "AdapterError"
-		errorResp.Error.Message = "Unable to subsribe to an asset pair with the the requested data"
+		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
 	}
 
-	// Only subscribe if we're not already subscribing to this request
-	// This prevents thundering herd of duplicate subscription requests
-	if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(subscriptionKey, true); !alreadySubscribing {
-		s.logger.Debug("Initiating new subscription", "requestParams", canonicalParams, "subscriptionKey", subscriptionKey)
-		go func(key string, params types.RequestParams) {
-			s.subscribeToAsset(params)
-			// Remove from tracker after subscription attempt completes
-			// Allow retries after 10 seconds if data still not available
-			time.Sleep(10 * time.Second)
+	// Try the mapper: raw key → transformed key → cache lookup by transformed key.
+	if transformedKey, ok := s.keyMapper.Get(rawCacheKey); ok {
+		if item := s.cache.Get(transformedKey); item != nil && item.Observation != nil {
+			respondWithObservation(c, item.Observation)
+			return
+		}
+	}
+
+	// Fallback: try direct lookup by raw key (handles the common case where
+	// raw key == transformed key, i.e. no adapter-level requestTransform).
+	if item := s.cache.Get(rawCacheKey); item != nil && item.Observation != nil {
+		respondWithObservation(c, item.Observation)
+		return
+	}
+
+	// Cache miss — fire subscription concurrently, then learn mapping serially.
+	if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(rawCacheKey, true); !alreadySubscribing {
+		s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
+		go func(key string, params types.RequestParams, originalData map[string]interface{}) {
+			// Phase 1: Fire subscription immediately with original data
+			// (includes overrides). Gets the subscription queued at the JS
+			// adapter ASAP without waiting for the per-endpoint learning lock.
+			s.subscribeToAsset(originalData)
+
+			// Phase 2: Learn the raw→transformed cache key mapping.
+			// Serialized per endpoint via KeyMapper's existing mutex.
+			// The re-subscribe is fast because the JS adapter already has
+			// the subscription active from phase 1.
+			s.keyMapper.SubscribeAndLearn(params["endpoint"], key, func() {
+				s.subscribeToAsset(originalData)
+			})
+
+			// Remove from tracker after subscription attempt completes.
+			// Allow retries after delay if data still not available.
+			time.Sleep(time.Duration(s.config.SubscriptionRetryDelaySeconds) * time.Second)
 			s.subscriptionTracker.Delete(key)
-		}(subscriptionKey, canonicalParams)
+		}(rawCacheKey, rawParams, reqData.Data)
 	} else if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscription already in progress, skipping", "key", subscriptionKey)
+		s.logger.Debug("Subscription already in progress, skipping", "key", rawCacheKey)
 	}
 
 	// Get error response from pool
@@ -305,11 +366,26 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	c.JSON(http.StatusGatewayTimeout, errorResp)
 }
 
-// subscribeToAsset sends a subscription request for the given request parameters
-func (s *Server) subscribeToAsset(params types.RequestParams) {
+// respondWithObservation writes the observation to the response. Returns 200 for
+// successful observations and 502 with an error payload for failed ones.
+func respondWithObservation(c *gin.Context, obs *types.Observation) {
+	if obs.Success {
+		c.JSON(http.StatusOK, obs)
+		return
+	}
+	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
+		ErrorMessage: obs.Error,
+		Timestamps:   obs.Timestamps,
+	})
+}
 
+// subscribeToAsset sends a subscription request to the JS adapter.
+// The data parameter is sent as the "data" field in the POST body.
+// It accepts either the original client request data (map[string]interface{},
+// preserving overrides) or stripped RequestParams (map[string]string).
+func (s *Server) subscribeToAsset(data interface{}) {
 	subscribeBody := map[string]interface{}{
-		"data": params,
+		"data": data,
 	}
 
 	jsonBody, err := json.Marshal(subscribeBody)
@@ -349,7 +425,8 @@ func (s *Server) resubscribeLoop() {
 	}
 }
 
-// resubscribeAllAssets resubscribes to all assets in the cache
+// resubscribeAllAssets resubscribes to all assets in the cache.
+// Parses request params from the OriginalAdapterKey stored on each cache item.
 func (s *Server) resubscribeAllAssets() {
 	items := s.cache.Items()
 

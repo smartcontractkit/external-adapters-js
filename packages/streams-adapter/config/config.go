@@ -11,12 +11,19 @@ type Config struct {
 	HTTPPort      string
 	EAPort        string
 	EAHost        string
+	EAMetricsPort string
 	RedconPort    string
 	GoMetricsPort string
 
 	// Cache configuration
 	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
 	CacheCleanupInterval uint // Cache cleanup interval in minutes (0 = default 1 minute)
+
+	// Subscription configuration
+	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
+
+	// Metrics forwarding
+	MetricsForwardTimeoutSeconds uint // HTTP timeout for scraping JS adapter metrics (0 = default 5s)
 
 	// Other configuration
 	LogLevel    string
@@ -32,12 +39,19 @@ func Load() *Config {
 		HTTPPort:      getEnv("HTTP_PORT", "8080"),
 		EAPort:        getEnv("EA_PORT", "8070"),
 		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
+		EAMetricsPort: getEnv("EA_METRICS_PORT", "9081"),
 		RedconPort:    getEnv("REDCON_PORT", "6379"),
 		GoMetricsPort: getEnv("METRICS_PORT", "9080"),
 
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
 		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
+
+		// Subscription
+		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
+
+		// Metrics forwarding
+		MetricsForwardTimeoutSeconds: getEnvAsInt("METRICS_FORWARD_TIMEOUT_SECONDS", 2),
 
 		// Other
 		LogLevel:    getEnv("LOG_LEVEL", "info"),

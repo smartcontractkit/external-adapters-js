@@ -1,5 +1,25 @@
 # @chainlink/tiingo-state-adapter
 
+## 0.3.0
+
+### Minor Changes
+
+- [#4847](https://github.com/smartcontractkit/external-adapters-js/pull/4847) [`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 0.2.4
+
+### Patch Changes
+
+- [#4778](https://github.com/smartcontractkit/external-adapters-js/pull/4778) [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439) Thanks [@guandali](https://github.com/guandali)! - fix tiingo casing issue
+
+## 0.2.3
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 0.2.2
 
 ### Patch Changes

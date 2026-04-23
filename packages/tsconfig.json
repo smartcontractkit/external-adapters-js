@@ -9,6 +9,9 @@
       "path": "./composites/bsol-price"
     },
     {
+      "path": "./composites/calculated-price"
+    },
+    {
       "path": "./composites/crypto-volatility-index"
     },
     {
@@ -30,9 +33,6 @@
       "path": "./composites/implied-price"
     },
     {
-      "path": "./composites/implied-price-test"
-    },
-    {
       "path": "./composites/llama-guard"
     },
     {
@@ -52,6 +52,9 @@
     },
     {
       "path": "./composites/proof-of-reserves"
+    },
+    {
+      "path": "./composites/proof-of-reserves-v2"
     },
     {
       "path": "./composites/rocket-pool"
@@ -336,6 +339,12 @@
       "path": "./sources/ion.au"
     },
     {
+      "path": "./sources/itick"
+    },
+    {
+      "path": "./sources/ix-trust-sync"
+    },
+    {
       "path": "./sources/json-rpc"
     },
     {
@@ -486,6 +495,9 @@
       "path": "./sources/synthetix-feeds"
     },
     {
+      "path": "./sources/t-rize-proof-of-insurance"
+    },
+    {
       "path": "./sources/the-network-firm"
     },
     {
@@ -511,6 +523,9 @@
     },
     {
       "path": "./sources/trueusd"
+    },
+    {
+      "path": "./sources/truflation"
     },
     {
       "path": "./sources/twelvedata"

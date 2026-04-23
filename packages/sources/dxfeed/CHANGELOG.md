@@ -1,5 +1,17 @@
 # @chainlink/dxfeed-adapter
 
+## 2.7.0
+
+### Minor Changes
+
+- [#4847](https://github.com/smartcontractkit/external-adapters-js/pull/4847) [`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 2.6.0
+
+### Minor Changes
+
+- [#4774](https://github.com/smartcontractkit/external-adapters-js/pull/4774) [`2fe9f0e`](https://github.com/smartcontractkit/external-adapters-js/commit/2fe9f0ea0ed35db1603a900f231a164e4d647ef6) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Only use O exchange for overnight
+
 ## 2.5.0
 
 ### Minor Changes

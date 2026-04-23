@@ -1,5 +1,23 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#4840](https://github.com/smartcontractkit/external-adapters-js/pull/4840) [`39dd2b8`](https://github.com/smartcontractkit/external-adapters-js/commit/39dd2b80c6f5b03b7bb473678fd1d8c089e6ab60) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 2.5.7
+
+### Patch Changes
+
+- [#4780](https://github.com/smartcontractkit/external-adapters-js/pull/4780) [`cb30c2c`](https://github.com/smartcontractkit/external-adapters-js/commit/cb30c2c1704d02ffe9080b0055d57178722e1fa0) Thanks [@guandali](https://github.com/guandali)! - add casing normalization for blocksize-capital
+
+## 2.5.6
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 2.5.5
 
 ### Patch Changes

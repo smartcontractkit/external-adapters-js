@@ -5,27 +5,12 @@ import { getWorkspaceAdapters } from '../workspace'
 
 const OUTPUT_PATH = 'packages/streams-adapter/endpoint_aliases.json'
 
-interface ParamSpec {
-  aliases?: string[]
-  required: boolean
-}
-
 interface EndpointConfig {
   aliases?: string[]
-  params?: Record<string, ParamSpec>
-}
-
-interface AdapterConfig {
-  endpoints?: Record<string, EndpointConfig>
 }
 
 interface AllAdaptersConfig {
-  adapters: Record<string, AdapterConfig>
-}
-
-interface DefinitionEntry {
-  aliases?: string[]
-  required?: boolean
+  adapters: Record<string, { endpoints?: Record<string, EndpointConfig> }>
 }
 
 interface LoadResult {
@@ -50,7 +35,7 @@ async function loadAdapter(adapterPath: string): Promise<LoadResult> {
   }
 }
 
-function extractAdapterConfig(adapter: Adapter): AdapterConfig {
+function extractEndpoints(adapter: Adapter): Record<string, EndpointConfig> | undefined {
   const endpoints: Record<string, EndpointConfig> = {}
 
   for (const ep of adapter.endpoints || []) {
@@ -64,33 +49,12 @@ function extractAdapterConfig(adapter: Adapter): AdapterConfig {
       }
     }
 
-    const params: Record<string, ParamSpec> = {}
-    const definition = (ep.inputParameters?.definition ?? {}) as Record<string, DefinitionEntry>
-
-    for (const [paramName, attrs] of Object.entries(definition)) {
-      const canonicalParam = paramName.toLowerCase()
-      const paramAliases: string[] = []
-
-      if (Array.isArray(attrs.aliases)) {
-        for (const alias of attrs.aliases) {
-          const lower = alias.toLowerCase()
-          if (!paramAliases.includes(lower)) paramAliases.push(lower)
-        }
-      }
-
-      params[canonicalParam] = {
-        aliases: paramAliases.length > 0 ? paramAliases : undefined,
-        required: attrs.required === true,
-      }
-    }
-
     endpoints[canonicalName] = {
       aliases: allAliases.length > 0 ? allAliases : undefined,
-      params: Object.keys(params).length > 0 ? params : undefined,
     }
   }
 
-  return { endpoints: Object.keys(endpoints).length > 0 ? endpoints : undefined }
+  return Object.keys(endpoints).length > 0 ? endpoints : undefined
 }
 
 async function main(): Promise<void> {
@@ -109,9 +73,8 @@ async function main(): Promise<void> {
   for (const meta of v3Sources) {
     const { adapter, skipReason } = await loadAdapter(meta.location)
     if (adapter) {
-      // Use directory name (lowercase, without -adapter suffix) as the key to match Go parser
       const adapterKey = meta.descopedName.replace(/-adapter$/, '')
-      result.adapters[adapterKey] = extractAdapterConfig(adapter)
+      result.adapters[adapterKey] = { endpoints: extractEndpoints(adapter) }
     } else {
       skipped.push({ name: meta.descopedName, reason: skipReason || 'unknown' })
     }

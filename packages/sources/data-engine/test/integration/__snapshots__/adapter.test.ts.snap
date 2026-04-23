@@ -11,8 +11,8 @@ exports[`execute crypto-v3 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 1114,
-    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataStreamEstablishedUnixMs": 978347471111,
   },
 }
 `;
@@ -33,8 +33,23 @@ exports[`execute deutscheBoerse-v11 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 3134,
-    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataStreamEstablishedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute exchangeRate-v7 endpoint should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "exchangeRate": "1156789000000000000",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataStreamEstablishedUnixMs": 978347471111,
   },
 }
 `;
@@ -49,8 +64,8 @@ exports[`execute rwa-v8 endpoint should return success 1`] = `
   "result": null,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 2124,
-    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataStreamEstablishedUnixMs": 978347471111,
   },
 }
 `;

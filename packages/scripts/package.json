@@ -6,7 +6,7 @@
     "@apidevtools/json-schema-ref-parser": "9.1.2",
     "@chainlink/ea-bootstrap": "workspace:*",
     "@chainlink/ea-factories": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.13.3",
     "airtable": "0.11.6",
     "axios": "1.13.4",
     "axios-mock-adapter": "1.20.0",
@@ -19,16 +19,18 @@
     "json-schema-ref-parser": "9.0.9",
     "mockserver-client": "5.15.0",
     "rxjs": "7.4.0",
+    "semver": "7.7.2",
     "shelljs": "0.8.5",
     "snake-case": "3.0.4",
     "swagger-jsdoc": "6.1.0",
     "tslib": "2.3.1",
-    "yaml": "2.2.2"
+    "yaml": "2.8.3"
   },
   "devDependencies": {
     "@types/command-line-args": "5.2.3",
     "@types/command-line-usage": "5.0.4",
     "@types/jest": "^29.5.14",
+    "@types/semver": "7.5.8",
     "@types/shelljs": "0.8.16",
     "@types/swagger-jsdoc": "6.0.4",
     "@types/yaml": "1.9.7",

@@ -1,5 +1,17 @@
 # @chainlink/ncfx-adapter
 
+## 4.7.0
+
+### Minor Changes
+
+- [#4847](https://github.com/smartcontractkit/external-adapters-js/pull/4847) [`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 4.6.2
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 4.6.1
 
 ### Patch Changes
