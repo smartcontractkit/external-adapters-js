@@ -83,6 +83,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
     {\
+      "name": "@chainlink/proof-of-reserves-v2-adapter",\
+      "reference": "workspace:packages/composites/proof-of-reserves-v2"\
+    },\
+    {\
       "name": "@chainlink/rocket-pool-adapter",\
       "reference": "workspace:packages/composites/rocket-pool"\
     },\
@@ -922,6 +926,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
+    ["@chainlink/proof-of-reserves-v2-adapter", ["workspace:packages/composites/proof-of-reserves-v2"]],\
     ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
@@ -5439,6 +5444,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["decimal.js", "npm:10.5.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5840,7 +5846,7 @@ const RAW_RUNTIME_STATE =
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.3"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6102,6 +6108,44 @@ const RAW_RUNTIME_STATE =
           ["eventsource", "npm:4.1.0"],\
           ["fastify", "npm:5.7.4"],\
           ["ioredis", "npm:5.9.3"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:d1125cad7cf4c8422f5687c530d5c77cd47d0284668bdf40ba159afe1dece93ccff4a39786c83d40b9ae95db12169db693190e9ab277c1a495c58278ba6e6890#npm:8.19.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.13.2", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.13.2-5c4174f0f6-43a1f2ee9b.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.13.2"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.18.0"],\
+          ["axios", "npm:1.15.0"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:d1125cad7cf4c8422f5687c530d5c77cd47d0284668bdf40ba159afe1dece93ccff4a39786c83d40b9ae95db12169db693190e9ab277c1a495c58278ba6e6890#npm:8.19.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.13.3", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.13.3-ea8ebc6748-bdd5c56e48.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.13.3"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.18.0"],\
+          ["axios", "npm:1.15.0"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
           ["mock-socket", "npm:9.3.1"],\
           ["pino", "npm:10.3.1"],\
           ["pino-pretty", "npm:13.1.3"],\
@@ -6900,7 +6944,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/market-status/",\
         "packageDependencies": [\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.2"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7414,6 +7458,24 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/proof-of-reserves-v2-adapter", [\
+      ["workspace:packages/composites/proof-of-reserves-v2", {\
+        "packageLocation": "./packages/composites/proof-of-reserves-v2/",\
+        "packageDependencies": [\
+          ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/object-path", "npm:0.11.4"],\
+          ["decimal.js", "npm:10.6.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["object-path", "npm:0.11.8"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -9680,6 +9742,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.5.0-a7f9964632-b5a842fde4.zip/node_modules/@ioredis/commands/",\
         "packageDependencies": [\
           ["@ioredis/commands", "npm:1.5.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.5.1", {\
+        "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.5.1-c707e1afdc-7efb033930.zip/node_modules/@ioredis/commands/",\
+        "packageDependencies": [\
+          ["@ioredis/commands", "npm:1.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14791,6 +14860,16 @@ const RAW_RUNTIME_STATE =
           ["proxy-from-env", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.15.0", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.15.0-9132fa0a61-d39a2c0ebc.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.15.0"],\
+          ["follow-redirects", "virtual:ed8865f696cebfbc109886bcd430c823f73cb3daaa6597dac1f006748e0fc10ed81734823f049aec03fadda2608be9aa560f98b843c8321891f307f4a175db89#npm:1.15.11"],\
+          ["form-data", "npm:4.0.5"],\
+          ["proxy-from-env", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["axios-mock-adapter", [\
@@ -17822,6 +17901,28 @@ const RAW_RUNTIME_STATE =
           ["toad-cache", "npm:3.7.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.8.5", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.8.5-f95e0767d8-286054e099.zip/node_modules/fastify/",\
+        "packageDependencies": [\
+          ["fastify", "npm:5.8.5"],\
+          ["@fastify/ajv-compiler", "npm:4.0.5"],\
+          ["@fastify/error", "npm:4.0.0"],\
+          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
+          ["@fastify/proxy-addr", "npm:5.0.0"],\
+          ["abstract-logging", "npm:2.0.1"],\
+          ["avvio", "npm:9.1.0"],\
+          ["fast-json-stringify", "npm:6.0.0"],\
+          ["find-my-way", "npm:9.1.0"],\
+          ["light-my-request", "npm:6.4.0"],\
+          ["pino", "npm:10.3.1"],\
+          ["process-warning", "npm:5.0.0"],\
+          ["rfdc", "npm:1.4.1"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["semver", "npm:7.7.2"],\
+          ["toad-cache", "npm:3.7.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["fastq", [\
@@ -18937,6 +19038,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ioredis", [\
+      ["npm:5.10.1", {\
+        "packageLocation": "./.yarn/cache/ioredis-npm-5.10.1-5e9921e0bf-a85786fc17.zip/node_modules/ioredis/",\
+        "packageDependencies": [\
+          ["ioredis", "npm:5.10.1"],\
+          ["@ioredis/commands", "npm:1.5.1"],\
+          ["cluster-key-slot", "npm:1.1.2"],\
+          ["debug", "virtual:e376c6d25689d1413f13b759a5649fe969efab30320e886cab81ece2b6daf8c4c74f642faff7228a9a286b4b82bc7bac5773e45f1085910307cd111b19a8cd17#npm:4.3.7"],\
+          ["denque", "npm:2.1.0"],\
+          ["lodash.defaults", "npm:4.2.0"],\
+          ["lodash.isarguments", "npm:3.1.0"],\
+          ["redis-errors", "npm:1.2.0"],\
+          ["redis-parser", "npm:3.0.0"],\
+          ["standard-as-callback", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:5.8.1", {\
         "packageLocation": "./.yarn/cache/ioredis-npm-5.8.1-21266a0c28-f1e328e9ce.zip/node_modules/ioredis/",\
         "packageDependencies": [\
@@ -22213,6 +22330,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/proxy-from-env-npm-1.1.0-c13d07f26b-f0bb4a87cf.zip/node_modules/proxy-from-env/",\
         "packageDependencies": [\
           ["proxy-from-env", "npm:1.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.1.0", {\
+        "packageLocation": "./.yarn/cache/proxy-from-env-npm-2.1.0-ce678f045b-fbbaf4dab2.zip/node_modules/proxy-from-env/",\
+        "packageDependencies": [\
+          ["proxy-from-env", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\

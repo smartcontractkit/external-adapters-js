@@ -15,6 +15,14 @@ export const markets = [
   'six',
   'euronext_milan',
   'euronext_paris',
+  'tpex', // Taipei Exchange
+  'twse', // Taiwan Stock Exchange
+  'krx', // Korea Exchange
+  'jpx', // Japan Exchange Group
+  'sse', // Shanghai Stock Exchange
+  'szse', // Shenzhen Stock Exchange
+  'nymex',
+  'ice_europe_energy',
 ] as const
 
 const marketToFinId: Record<Market, string> = {
@@ -28,6 +36,14 @@ const marketToFinId: Record<Market, string> = {
   six: 'CH.SIX',
   euronext_milan: 'IT.EURONEXT',
   euronext_paris: 'FR.EURONEXT',
+  tpex: 'TW.TPEX',
+  twse: 'TW.TWSE',
+  krx: 'KR.KRX',
+  jpx: 'JP.JPX',
+  sse: 'CN.SSE',
+  szse: 'CN.SZSE',
+  nymex: 'US.CHNLNK.WTI',
+  ice_europe_energy: 'US.ICE.ENERGY.GROUP3',
 }
 
 const market245ToFinId: Partial<Record<Market, string>> = {

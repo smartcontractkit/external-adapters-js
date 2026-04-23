@@ -43,6 +43,34 @@ const marketAdapters: Record<string, { primary: AdapterName; secondary: AdapterN
     primary: 'TRADINGHOURS',
     secondary: 'FINNHUB_SECONDARY',
   },
+  nymex: {
+    primary: 'TRADINGHOURS',
+    secondary: 'TRADINGHOURS', // TODO: Switch to a different provider
+  },
+  tpex: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  twse: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  krx: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  jpx: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  sse: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
+  szse: {
+    primary: 'TRADINGHOURS',
+    secondary: 'FINNHUB_SECONDARY',
+  },
 }
 
 export const getMarketAdapters = (
