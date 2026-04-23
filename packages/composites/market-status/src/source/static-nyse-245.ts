@@ -1,75 +1,74 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { isWeekendNow } from '@chainlink/external-adapter-framework/validation/market-status'
 import { TZDate } from '@date-fns/tz'
+import { HALF_HOUR, HOUR, tzDate } from './utils'
 
-const HOUR = 60
-const HALF_HOUR = 30
 const TZ = 'America/New_York'
 
 const HOLIDAY_SCHEDULE = [
   {
-    start: new TZDate(2026, 0, 18, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 0, 19, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 1, 18, 20, 0, TZ),
+    end: tzDate(2026, 1, 19, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 1, 15, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 1, 16, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 2, 15, 20, 0, TZ),
+    end: tzDate(2026, 2, 16, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 3, 2, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 3, 3, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 4, 2, 20, 0, TZ),
+    end: tzDate(2026, 4, 3, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 4, 24, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 4, 25, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 5, 24, 20, 0, TZ),
+    end: tzDate(2026, 5, 25, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 5, 18, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 5, 19, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 6, 18, 20, 0, TZ),
+    end: tzDate(2026, 6, 19, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 6, 2, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 6, 3, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 7, 2, 20, 0, TZ),
+    end: tzDate(2026, 7, 3, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 8, 6, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 8, 7, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 9, 6, 20, 0, TZ),
+    end: tzDate(2026, 9, 7, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 10, 25, 20, 0, 0, 0, TZ),
-    end: new TZDate(2026, 10, 26, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 11, 25, 20, 0, TZ),
+    end: tzDate(2026, 11, 26, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 10, 27, 13, 0, 0, 0, TZ),
-    end: new TZDate(2026, 10, 27, 17, 0, 0, 0, TZ),
+    start: tzDate(2026, 11, 27, 13, 0, TZ),
+    end: tzDate(2026, 11, 27, 17, 0, TZ),
     status: TwentyfourFiveMarketStatus.POST_MARKET,
   },
   {
-    start: new TZDate(2026, 10, 27, 17, 0, 0, 0, TZ),
-    end: new TZDate(2026, 10, 27, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 11, 27, 17, 0, TZ),
+    end: tzDate(2026, 11, 27, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 11, 24, 13, 0, 0, 0, TZ),
-    end: new TZDate(2026, 11, 24, 17, 0, 0, 0, TZ),
+    start: tzDate(2026, 12, 24, 13, 0, TZ),
+    end: tzDate(2026, 12, 24, 17, 0, TZ),
     status: TwentyfourFiveMarketStatus.POST_MARKET,
   },
   {
-    start: new TZDate(2026, 11, 24, 17, 0, 0, 0, TZ),
-    end: new TZDate(2026, 11, 25, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 12, 24, 17, 0, TZ),
+    end: tzDate(2026, 12, 25, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
   {
-    start: new TZDate(2026, 11, 31, 20, 0, 0, 0, TZ),
-    end: new TZDate(2027, 0, 1, 20, 0, 0, 0, TZ),
+    start: tzDate(2026, 12, 31, 20, 0, TZ),
+    end: tzDate(2027, 1, 1, 20, 0, TZ),
     status: TwentyfourFiveMarketStatus.WEEKEND,
   },
 ]
