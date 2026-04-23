@@ -181,6 +181,8 @@ adapters:
     version: 2.0.8
   - name: ion.au
     version: 1.0.32
+  - name: itick
+    version: 1.0.1
   - name: ix-trust-sync
     version: 1.0.0
   - name: json-rpc
@@ -307,6 +309,8 @@ adapters:
     version: 4.1.21
   - name: synthetix-feeds
     version: 1.1.21
+  - name: t-rize-proof-of-insurance
+    version: 1.0.0
   - name: the-graph
     version: 1.2.48
   - name: the-network-firm
