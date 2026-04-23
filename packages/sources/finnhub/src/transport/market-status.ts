@@ -11,12 +11,6 @@ export const marketAliases = [
   'SIX',
   'EURONEXT_MILAN',
   'EURONEXT_PARIS',
-  'TPEX', // Taipei Exchange
-  'TWSE', // Taiwan Stock Exchange
-  'KRX', // Korea Exchange
-  'JPX', // Japan Exchange Group
-  'SSE', // Shanghai Stock Exchange
-  'SZSE', // Shenzhen Stock Exchange
 ] as const
 
 export type Market = (typeof marketAliases)[number]
@@ -29,12 +23,6 @@ const marketToExchange: Record<Market, string> = {
   SIX: 'SW',
   EURONEXT_MILAN: 'MI',
   EURONEXT_PARIS: 'PA',
-  TPEX: 'TWO',
-  TWSE: 'TW',
-  KRX: 'KS',
-  JPX: 'T',
-  SSE: 'SS',
-  SZSE: 'SZ',
 }
 
 // See: https://finnhub.io/docs/api/market-status

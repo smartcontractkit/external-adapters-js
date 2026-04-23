@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/market-status-adapter",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Chainlink market-status adapter.",
   "keywords": [
     "Chainlink",
@@ -40,7 +40,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.13.3",
     "tslib": "2.4.1"
   }
 }

@@ -1,5 +1,11 @@
 # @chainlink/itick-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4871](https://github.com/smartcontractkit/external-adapters-js/pull/4871) [`a4d7053`](https://github.com/smartcontractkit/external-adapters-js/commit/a4d7053db2210a303830a5bfdf421c5c443db9e0) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix error for missing bids/asks.
+
 ## 1.0.0
 
 ### Major Changes
