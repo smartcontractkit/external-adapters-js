@@ -1,8 +1,8 @@
 import type { MarketStatusResult } from '../transport/base-market-status'
-import { getStatus as get245Status } from './hard-code-245'
+import { getStatus as staticNyse245Status } from './static-nyse-245'
 
 const mapping = {
-  HARD_CODE_245: get245Status,
+  STATIC_NYSE_245: staticNyse245Status,
 }
 
 export type StaticSourceName = keyof typeof mapping
