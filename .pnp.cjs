@@ -5874,7 +5874,7 @@ const RAW_RUNTIME_STATE =
           ["ts-jest", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:27.1.5"],\
           ["tslib", "npm:2.3.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["yaml", "npm:2.2.2"]\
+          ["yaml", "npm:2.8.3"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -25676,17 +25676,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.2.2", {\
-        "packageLocation": "./.yarn/cache/yaml-npm-2.2.2-6e3cddb343-991384bf87.zip/node_modules/yaml/",\
-        "packageDependencies": [\
-          ["yaml", "npm:2.2.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.6.1", {\
         "packageLocation": "./.yarn/cache/yaml-npm-2.6.1-eb747069e9-cf412f03a3.zip/node_modules/yaml/",\
         "packageDependencies": [\
           ["yaml", "npm:2.6.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.8.3", {\
+        "packageLocation": "./.yarn/cache/yaml-npm-2.8.3-dfea86f9e0-ecad41d39d.zip/node_modules/yaml/",\
+        "packageDependencies": [\
+          ["yaml", "npm:2.8.3"]\
         ],\
         "linkType": "HARD"\
       }]\
