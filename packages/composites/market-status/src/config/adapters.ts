@@ -43,6 +43,10 @@ const marketAdapters: Record<string, { primary: AdapterName; secondary: AdapterN
     primary: 'TRADINGHOURS',
     secondary: 'FINNHUB_SECONDARY',
   },
+  nymex: {
+    primary: 'TRADINGHOURS',
+    secondary: 'TRADINGHOURS', // TODO: Switch to a different provider
+  },
   tpex: {
     primary: 'TRADINGHOURS',
     secondary: 'FINNHUB_SECONDARY',
