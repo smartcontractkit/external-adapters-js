@@ -1,6 +1,6 @@
 import { TwentyfourFiveMarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { TZDate } from '@date-fns/tz'
-import { getStatusFromStaticSchedule } from '../../src/adapter/static'
+import { getStatusFromStaticSchedule } from '../../src/source/static'
 
 describe('getStatusFromStaticSchedule (HARD_CODE_245)', () => {
   const WEEKEND = '520-020:America/New_York'

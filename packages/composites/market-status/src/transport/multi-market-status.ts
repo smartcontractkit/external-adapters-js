@@ -1,8 +1,8 @@
 import { EndpointContext, MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { getMarketAdapters } from '../adapter/adapters'
 import type { MultiMarketStatusEndpointTypes } from '../endpoint/multi-market-status'
 import { inputParameters } from '../endpoint/multi-market-status'
+import { getMarketSources } from '../source/sources'
 import type { MarketStatusResult } from './base-market-status'
 import { BaseMarketStatusTransport } from './base-market-status'
 
@@ -19,14 +19,14 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
     const underlyingRequests = []
 
     for (const market of markets) {
-      const adapterNames = getMarketAdapters(param.type, market)
+      const sourceNames = getMarketSources(param.type, market)
       underlyingRequests.push(
-        this.sendAdapterRequest(context, adapterNames.primary, {
+        this.sendSourceRequest(context, sourceNames.primary, {
           market,
           type: param.type,
           force245MarketStatus: false,
         }),
-        this.sendAdapterRequest(context, adapterNames.secondary, {
+        this.sendSourceRequest(context, sourceNames.secondary, {
           market,
           type: param.type,
           force245MarketStatus: false,
