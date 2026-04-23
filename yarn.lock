@@ -2139,66 +2139,66 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-darwin-arm64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-darwin-arm64@npm:1.57.0"
+"@bufbuild/buf-darwin-arm64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-darwin-arm64@npm:1.68.4"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-darwin-x64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-darwin-x64@npm:1.57.0"
+"@bufbuild/buf-darwin-x64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-darwin-x64@npm:1.68.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-linux-aarch64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-linux-aarch64@npm:1.57.0"
+"@bufbuild/buf-linux-aarch64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-linux-aarch64@npm:1.68.4"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-linux-armv7@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-linux-armv7@npm:1.57.0"
+"@bufbuild/buf-linux-armv7@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-linux-armv7@npm:1.68.4"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-linux-x64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-linux-x64@npm:1.57.0"
+"@bufbuild/buf-linux-x64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-linux-x64@npm:1.68.4"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-win32-arm64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-win32-arm64@npm:1.57.0"
+"@bufbuild/buf-win32-arm64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-win32-arm64@npm:1.68.4"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@bufbuild/buf-win32-x64@npm:1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf-win32-x64@npm:1.57.0"
+"@bufbuild/buf-win32-x64@npm:1.68.4":
+  version: 1.68.4
+  resolution: "@bufbuild/buf-win32-x64@npm:1.68.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
 "@bufbuild/buf@npm:^1.57.0":
-  version: 1.57.0
-  resolution: "@bufbuild/buf@npm:1.57.0"
+  version: 1.68.4
+  resolution: "@bufbuild/buf@npm:1.68.4"
   dependencies:
-    "@bufbuild/buf-darwin-arm64": "npm:1.57.0"
-    "@bufbuild/buf-darwin-x64": "npm:1.57.0"
-    "@bufbuild/buf-linux-aarch64": "npm:1.57.0"
-    "@bufbuild/buf-linux-armv7": "npm:1.57.0"
-    "@bufbuild/buf-linux-x64": "npm:1.57.0"
-    "@bufbuild/buf-win32-arm64": "npm:1.57.0"
-    "@bufbuild/buf-win32-x64": "npm:1.57.0"
+    "@bufbuild/buf-darwin-arm64": "npm:1.68.4"
+    "@bufbuild/buf-darwin-x64": "npm:1.68.4"
+    "@bufbuild/buf-linux-aarch64": "npm:1.68.4"
+    "@bufbuild/buf-linux-armv7": "npm:1.68.4"
+    "@bufbuild/buf-linux-x64": "npm:1.68.4"
+    "@bufbuild/buf-win32-arm64": "npm:1.68.4"
+    "@bufbuild/buf-win32-x64": "npm:1.68.4"
   dependenciesMeta:
     "@bufbuild/buf-darwin-arm64":
       optional: true
@@ -2218,7 +2218,7 @@ __metadata:
     buf: bin/buf
     protoc-gen-buf-breaking: bin/protoc-gen-buf-breaking
     protoc-gen-buf-lint: bin/protoc-gen-buf-lint
-  checksum: 10/3870772d7363943e14b66cb86830dbc8df45ada72af74fb8a1b0aceef55906a01289e1d8883ff4a71488c22898f544fb108e58c860f91f056ca7055535352040
+  checksum: 10/d41b7b166b37b909fac7110d4f073cf5f72c8dda293b138a76781eb8e8f3278200c65e2de5c6075f0291354bcbd47b855aea3eb84d4eddeecda5a686a842866a
   languageName: node
   linkType: hard
 
@@ -3260,7 +3260,7 @@ __metadata:
     ts-jest: "npm:27.1.5"
     tslib: "npm:2.3.1"
     typescript: "npm:5.8.3"
-    yaml: "npm:2.2.2"
+    yaml: "npm:2.8.3"
   languageName: unknown
   linkType: soft
 
@@ -11189,9 +11189,9 @@ __metadata:
   linkType: hard
 
 "bn.js@npm:*, bn.js@npm:^5.1.2, bn.js@npm:^5.2.0, bn.js@npm:^5.2.1":
-  version: 5.2.2
-  resolution: "bn.js@npm:5.2.2"
-  checksum: 10/51ebb2df83b33e5d8581165206e260d5e9c873752954616e5bf3758952b84d7399a9c6d00852815a0aeefb1150a7f34451b62d4287342d457fa432eee869e83e
+  version: 5.2.3
+  resolution: "bn.js@npm:5.2.3"
+  checksum: 10/dfb3927e0d531e6ec4f191597ce6f7f7665310c356fef5f968ada676b8058027f959af42eaa37b5f5c63617e819d3741813025ab15dd71a90f2e74698df0b58e
   languageName: node
   linkType: hard
 
@@ -11210,9 +11210,9 @@ __metadata:
   linkType: hard
 
 "bn.js@npm:^4.11.0, bn.js@npm:^4.11.8, bn.js@npm:^4.11.9, bn.js@npm:^4.8.0":
-  version: 4.12.2
-  resolution: "bn.js@npm:4.12.2"
-  checksum: 10/5803983405c087443e0e6c9bb5d0bc863d9f987d77e710f81b14c55616494f5a274e1650ee892531acb3529d52c0e0ea48aa12d2873dd80a75dde9d73a2ec518
+  version: 4.12.3
+  resolution: "bn.js@npm:4.12.3"
+  checksum: 10/57ed5a055f946f3e009f1589c45a5242db07f3dddfc72e4506f0dd9d8b145f0dbee4edabc2499288f3fc338eb712fb96a1c623a2ed2bcd49781df1a64db64dd1
   languageName: node
   linkType: hard
 
@@ -13354,7 +13354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.6.2, fastify@npm:^5.0.0":
+"fastify@npm:5.6.2":
   version: 5.6.2
   resolution: "fastify@npm:5.6.2"
   dependencies:
@@ -13423,7 +13423,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastify@npm:5.8.5":
+"fastify@npm:5.8.5, fastify@npm:^5.0.0":
   version: 5.8.5
   resolution: "fastify@npm:5.8.5"
   dependencies:
@@ -15854,17 +15854,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.11, lodash@npm:^4.17.19, lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: 10/c08619c038846ea6ac754abd6dd29d2568aa705feb69339e836dfa8d8b09abbb2f859371e86863eda41848221f9af43714491467b5b0299122431e202bb0c532
-  languageName: node
-  linkType: hard
-
-"lodash@npm:^4.17.23":
-  version: 4.17.23
-  resolution: "lodash@npm:4.17.23"
-  checksum: 10/82504c88250f58da7a5a4289f57a4f759c44946c005dd232821c7688b5fcfbf4a6268f6a6cdde4b792c91edd2f3b5398c1d2a0998274432cff76def48735e233
+"lodash@npm:^4.17.11, lodash@npm:^4.17.19, lodash@npm:^4.17.21, lodash@npm:^4.17.23":
+  version: 4.18.1
+  resolution: "lodash@npm:4.18.1"
+  checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
   languageName: node
   linkType: hard
 
@@ -17276,8 +17269,8 @@ __metadata:
   linkType: hard
 
 "protobufjs@npm:^7.2.5":
-  version: 7.4.0
-  resolution: "protobufjs@npm:7.4.0"
+  version: 7.5.5
+  resolution: "protobufjs@npm:7.5.5"
   dependencies:
     "@protobufjs/aspromise": "npm:^1.1.2"
     "@protobufjs/base64": "npm:^1.1.2"
@@ -17291,7 +17284,7 @@ __metadata:
     "@protobufjs/utf8": "npm:^1.1.0"
     "@types/node": "npm:>=13.7.0"
     long: "npm:^5.0.0"
-  checksum: 10/408423506610f70858d7593632f4a6aa4f05796c90fd632be9b9252457c795acc71aa6d3b54bb7f48a890141728fee4ca3906723ccea6c202ad71f21b3879b8b
+  checksum: 10/048898023a38d22f5fc9a1bcf0dcce5cfbcd37fb00753bd72283720eee7e2cb6055b23957542e5bcdc136379af66203a2ddb8d8c39d11f73169bacf07885fedd
   languageName: node
   linkType: hard
 
@@ -20083,10 +20076,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:2.2.2":
-  version: 2.2.2
-  resolution: "yaml@npm:2.2.2"
-  checksum: 10/991384bf875dd1df9ab8e3393d6db7010d222eef4e750f17590b5d3d96d3f3ad49420f58fff6a3896321fb64d08f4bb3b4edf0d337fdfd6e960119ef5aa0527c
+"yaml@npm:2.8.3":
+  version: 2.8.3
+  resolution: "yaml@npm:2.8.3"
+  bin:
+    yaml: bin.mjs
+  checksum: 10/ecad41d39d34fae5cc17ea2d4b7f7f55faacd45cbce8983ba22d48d1ed1a92ed242ea49ea813a79ac39a69f75f9c5a03e7b5395fd954d55476f25e21a47c141d
   languageName: node
   linkType: hard
 
