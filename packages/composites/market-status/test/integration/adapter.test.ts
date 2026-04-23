@@ -29,8 +29,12 @@ describe('execute', () => {
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
-    clock.uninstall()
     await testAdapter.api.close()
+    await testAdapter.metricsApi?.close()
+    await clock.runAllAsync()
+    clock.uninstall()
+    nock.restore()
+    nock.cleanAll()
   })
 
   const waitForSuccessfulRequest = async (data: object) => {
@@ -451,6 +455,69 @@ describe('execute', () => {
           statusString: 'OPEN',
         },
         result: 2,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+  })
+
+  describe('force245MarketStatus', () => {
+    it('unknown -> unknown', async () => {
+      const market = 'force-test-1'
+      mockUnknown(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      mockUnknown(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+
+      const response = await waitForSuccessfulRequest({
+        market: market,
+        force245MarketStatus: true,
+      })
+      await testAdapter.waitForCache()
+      expect(response.json()).toEqual({
+        data: {
+          result: 0,
+          statusString: 'UNKNOWN',
+        },
+        result: 0,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+
+    it('open -> regular', async () => {
+      const market = 'force-test-2'
+      mockOpen(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      const response = await waitForSuccessfulRequest({
+        market: market,
+        force245MarketStatus: true,
+      })
+      await testAdapter.waitForCache()
+      expect(response.json()).toEqual({
+        data: {
+          result: 2,
+          statusString: 'REGULAR',
+          source: 'TRADINGHOURS',
+        },
+        result: 2,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+
+    it('closed -> weekend', async () => {
+      const market = 'force-test-3'
+      mockClosed(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      const response = await waitForSuccessfulRequest({
+        market: market,
+        force245MarketStatus: true,
+      })
+      await testAdapter.waitForCache()
+      expect(response.json()).toEqual({
+        data: {
+          result: 5,
+          statusString: 'WEEKEND',
+          source: 'TRADINGHOURS',
+        },
+        result: 5,
         statusCode: 200,
         timestamps,
       })

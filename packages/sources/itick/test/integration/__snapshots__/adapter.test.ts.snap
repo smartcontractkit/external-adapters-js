@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute rest endpoints should return success 1`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+    "symbol": "100",
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute rest endpoints should return success 2`] = `
+{
+  "data": {
+    "askPrice": 125,
+    "askVolume": 11,
+    "bidPrice": 123,
+    "bidVolume": 12,
+    "midPrice": 124,
+    "symbol": "100",
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute rest endpoints should return success 3`] = `
+{
+  "data": {
+    "lastPrice": 124,
+    "symbol": "100",
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute rest endpoints should return success 4`] = `
+{
+  "data": {
+    "lastPrice": 124,
+    "symbol": "100",
+  },
+  "result": 124,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

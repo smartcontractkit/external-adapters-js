@@ -1,5 +1,23 @@
 ## v1.1.0
 
+## 2.10.1
+
+### Patch Changes
+
+- [#4846](https://github.com/smartcontractkit/external-adapters-js/pull/4846) [`faf447b`](https://github.com/smartcontractkit/external-adapters-js/commit/faf447bfe37fe9109459670c46d8a38db84a45c7) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Fixed inversions
+
+## 2.10.0
+
+### Minor Changes
+
+- [#4847](https://github.com/smartcontractkit/external-adapters-js/pull/4847) [`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 2.9.8
+
+### Patch Changes
+
+- [#4778](https://github.com/smartcontractkit/external-adapters-js/pull/4778) [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439) Thanks [@guandali](https://github.com/guandali)! - fix tiingo casing issue
+
 ## 2.9.7
 
 ### Patch Changes

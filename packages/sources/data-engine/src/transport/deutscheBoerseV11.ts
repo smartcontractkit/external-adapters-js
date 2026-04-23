@@ -1,6 +1,7 @@
 import { DecodedV11Report } from '@chainlink/data-streams-sdk'
 import { BaseEndpointTypes } from '../endpoint/deutscheBoerseV11'
-import { createDataEngineTransport, DECIMALS } from './wsTransportBase'
+import { DECIMALS } from './utils'
+import { createDataEngineTransport } from './wsTransportBase'
 
 export const deutscheBoerseV11Transport = createDataEngineTransport<
   BaseEndpointTypes,
@@ -21,4 +22,5 @@ export const deutscheBoerseV11Transport = createDataEngineTransport<
       decimals: DECIMALS,
     }
   },
+  reportTimestampS: (decoded) => Number(decoded.lastSeenTimestampNs / 10n ** 9n),
 })

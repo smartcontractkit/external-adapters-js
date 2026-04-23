@@ -1,5 +1,17 @@
 # @chainlink/tiingo-state-adapter
 
+## 0.3.0
+
+### Minor Changes
+
+- [#4847](https://github.com/smartcontractkit/external-adapters-js/pull/4847) [`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
+## 0.2.4
+
+### Patch Changes
+
+- [#4778](https://github.com/smartcontractkit/external-adapters-js/pull/4778) [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439) Thanks [@guandali](https://github.com/guandali)! - fix tiingo casing issue
+
 ## 0.2.3
 
 ### Patch Changes

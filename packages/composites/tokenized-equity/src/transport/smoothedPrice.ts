@@ -9,6 +9,7 @@ export const smoothedStreamPrice = async (param: {
   regularStreamId: string
   extendedStreamId: string
   overnightStreamId: string
+  overnightStreamMaxAgeInSeconds?: number
   url: string
   tradingHoursUrl: string
   requester: Requester
@@ -21,11 +22,12 @@ export const smoothedStreamPrice = async (param: {
 }) => {
   const [price, secondsFromTransition] = await Promise.all([
     getPrice(
+      param.url,
+      param.requester,
       param.regularStreamId,
       param.extendedStreamId,
       param.overnightStreamId,
-      param.url,
-      param.requester,
+      param.overnightStreamMaxAgeInSeconds,
     ),
     calculateSecondsFromTransition(
       param.tradingHoursUrl,

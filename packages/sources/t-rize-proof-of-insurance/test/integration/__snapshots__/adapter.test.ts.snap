@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute proof-of-insurance endpoint happy path should handle minimal merkle root 1`] = `
+{
+  "data": {
+    "contractId": "0",
+    "root": "1",
+  },
+  "result": "1",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;
+
+exports[`execute proof-of-insurance endpoint happy path should handle special characters in ownerPartyId and treeId 1`] = `
+{
+  "data": {
+    "contractId": "1",
+    "root": "340282366920938463463374607431768211455",
+  },
+  "result": "340282366920938463463374607431768211455",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1740787200000,
+  },
+}
+`;
+
+exports[`execute proof-of-insurance endpoint happy path should return success 1`] = `
+{
+  "data": {
+    "contractId": "57162387792002371595947067494468869255362946836973445",
+    "root": "1354379164455806330400696522124505861414782960378538491",
+  },
+  "result": "1354379164455806330400696522124505861414782960378538491",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1773147978000,
+  },
+}
+`;
+
+exports[`execute proof-of-insurance endpoint happy path should return success for another tree 1`] = `
+{
+  "data": {
+    "contractId": "255",
+    "root": "0",
+  },
+  "result": "0",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1749988800000,
+  },
+}
+`;
+
+exports[`execute proof-of-insurance endpoint validation errors should fail on empty request 1`] = `
+{
+  "error": {
+    "message": "[Param: ownerPartyId] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof-of-insurance endpoint validation errors should fail on invalid ownerPartyId type 1`] = `
+{
+  "error": {
+    "message": "[Param: ownerPartyId] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof-of-insurance endpoint validation errors should fail on invalid treeId type 1`] = `
+{
+  "error": {
+    "message": "[Param: treeId] input type is not the expected one (string)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof-of-insurance endpoint validation errors should fail on missing ownerPartyId 1`] = `
+{
+  "error": {
+    "message": "[Param: ownerPartyId] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute proof-of-insurance endpoint validation errors should fail on missing treeId 1`] = `
+{
+  "error": {
+    "message": "[Param: treeId] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;

@@ -70,7 +70,8 @@ func TestMain(m *testing.M) {
 		CleanupInterval: 10 * time.Minute,
 	})
 
-	testSrv = New(cfg, testCache, slog.Default())
+	keyMapper := helpers.NewKeyMapper(slog.Default())
+	testSrv = New(cfg, testCache, slog.Default(), keyMapper)
 
 	os.Exit(m.Run())
 }
@@ -98,8 +99,9 @@ func TestAdapterHandler_BadRequest(t *testing.T) {
 }
 
 func TestAdapterHandler_CacheHit(t *testing.T) {
-	// Pre-populate cache with known params
-	params := types.RequestParams{"endpoint": "crypto", "base": "eth", "quote": "usd"}
+	// Pre-populate cache with params that match the handler's raw key.
+	// The test alias config has "crypto" as canonical endpoint name.
+	params := types.RequestParams{"endpoint": "crypto", "base": "ETH", "quote": "USD"}
 	obs := &types.Observation{
 		Data:    json.RawMessage(`{"result":1234}`),
 		Success: true,
@@ -117,6 +119,35 @@ func TestAdapterHandler_CacheHit(t *testing.T) {
 	var resp types.Observation
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
 	require.Equal(t, true, resp.Success)
+}
+
+func TestAdapterHandler_CacheHit_FailedObservation(t *testing.T) {
+	params := types.RequestParams{"endpoint": "crypto", "base": "FOO", "quote": "BAR"}
+	obs := &types.Observation{
+		Data:       nil,
+		Timestamps: json.RawMessage(`{"providerDataStreamEstablishedUnixMs":1000,"providerDataReceivedUnixMs":2000}`),
+		Success:    false,
+		Error:      "Bid price: 1.23 or Ask price: 4.56 for FOO is invalid.",
+	}
+	testCache.Set(params, obs, time.Now(), "test-key-fail")
+
+	body := `{"data":{"endpoint":"crypto","base":"FOO","quote":"BAR"}}`
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusBadGateway, w.Code, "body: %s", w.Body.String())
+
+	var resp ObservationErrorResponse
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+	require.Equal(t, "Bid price: 1.23 or Ask price: 4.56 for FOO is invalid.", resp.ErrorMessage)
+	require.NotEmpty(t, resp.Timestamps)
+
+	var ts map[string]interface{}
+	require.NoError(t, json.Unmarshal(resp.Timestamps, &ts))
+	require.Equal(t, float64(1000), ts["providerDataStreamEstablishedUnixMs"])
+	require.Equal(t, float64(2000), ts["providerDataReceivedUnixMs"])
 }
 
 func TestAdapterHandler_CacheMiss(t *testing.T) {

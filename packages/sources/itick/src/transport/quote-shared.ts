@@ -1,0 +1,47 @@
+import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/quote'
+
+export interface ResponseSchema {
+  code: number // response code
+  msg: string | null
+  data: {
+    s: string // symbol code
+    r?: string // region code
+    ld: number // last price
+    o: number // opening price
+    p: number // previous closing price
+    h: number // highest price
+    l: number // lowest price
+    t: number // timestamp of the latest trade
+    v: number // trading volume
+    tu: number // trading amount
+    ts: number // trading status (0: normal, 1: halted, 2: delisted, 3: circut breaker)
+    ch: number // change
+    chp: number // change percentage
+  }
+}
+
+export const createAdapterResponseFromMessage = (
+  message: ResponseSchema,
+  // Only used by rest endpoint as it doesn't include the region in the response
+  defaultRegion = 'unknown-region',
+): ProviderResult<BaseEndpointTypes>[] => {
+  const lastPrice = message.data.ld
+  const symbol = message.data.s
+  const region = message.data.r ?? defaultRegion
+  return [
+    {
+      params: { base: symbol, region },
+      response: {
+        result: lastPrice,
+        data: {
+          symbol,
+          lastPrice,
+        },
+        timestamps: {
+          providerIndicatedTimeUnixMs: message.data.t,
+        },
+      },
+    },
+  ]
+}
