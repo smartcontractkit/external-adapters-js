@@ -86,7 +86,7 @@ export const getMarketSources = (
     case '24/5':
       return {
         primary: 'TRADINGHOURS',
-        secondary: 'HARD_CODE_245',
+        secondary: 'STATIC_NYSE_245',
       } as const
   }
 }

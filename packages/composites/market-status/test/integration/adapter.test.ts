@@ -199,7 +199,7 @@ describe('execute', () => {
         data: {
           result: 2,
           statusString: 'REGULAR',
-          source: 'HARD_CODE_245',
+          source: 'STATIC_NYSE_245',
         },
         result: 2,
         statusCode: 200,
@@ -222,7 +222,7 @@ describe('execute', () => {
         data: {
           result: 2,
           statusString: 'REGULAR',
-          source: 'HARD_CODE_245',
+          source: 'STATIC_NYSE_245',
         },
         result: 2,
         statusCode: 200,
