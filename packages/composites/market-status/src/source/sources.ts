@@ -55,7 +55,7 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   },
   twse: {
     primary: 'TRADINGHOURS',
-    secondary: 'STATIC_TPEX',
+    secondary: 'STATIC_TWSE',
   },
   krx: {
     primary: 'TRADINGHOURS',
@@ -71,7 +71,11 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   },
   szse: {
     primary: 'TRADINGHOURS',
-    secondary: 'STATIC_SSE',
+    secondary: 'STATIC_SZSE',
+  },
+  ice_europe_energy: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_ICE_EUROPE_ENERGY',
   },
 }
 

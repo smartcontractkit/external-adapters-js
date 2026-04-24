@@ -1,4 +1,5 @@
 import type { MarketStatusResult } from '../transport/base-market-status'
+import { getStatus as staticIceEuropeEnery } from './static-ice-europe-energy'
 import { getStatus as staticJpxStatus } from './static-jpx'
 import { getStatus as staticKrxStatus } from './static-krx'
 import { getStatus as staticNymexStatus } from './static-nymex'
@@ -11,8 +12,11 @@ const mapping = {
   STATIC_NYMEX: staticNymexStatus,
   STATIC_JPX: staticJpxStatus,
   STATIC_SSE: staticSseStatus,
+  STATIC_SZSE: staticSseStatus,
   STATIC_TPEX: staticTpexStatus,
+  STATIC_TWSE: staticTpexStatus,
   STATIC_KRX: staticKrxStatus,
+  STATIC_ICE_EUROPE_ENERGY: staticIceEuropeEnery,
 }
 
 export type StaticSourceName = keyof typeof mapping
