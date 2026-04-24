@@ -1,6 +1,7 @@
 import { MarketStatus } from '@chainlink/external-adapter-framework/adapter'
 import { TZDate } from '@date-fns/tz'
 import { getStatusFromStaticSchedule } from '../../src/source/static'
+import { expectClosesAt, expectOpensAt } from './utils'
 
 describe('getStatusFromStaticSchedule (STATIC_NYMEX)', () => {
   const TZ = 'US/Central'
@@ -14,79 +15,72 @@ describe('getStatusFromStaticSchedule (STATIC_NYMEX)', () => {
   })
 
   describe('holidays', () => {
-    it('returns CLOSED for Memorial Day early close (May 25, 2026 1:30PM-5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 4, 25, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Memorial Day early close: closes at 1:30PM CT, reopens at 5PM CT (May 25, 2026)', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 4, 25, 13, 30, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 4, 25, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for Juneteenth (Jun 19, 2026 12PM CT - Jun 21 5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 5, 19, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Juneteenth: closes at 12PM Jun 19, reopens at 5PM Jun 21, 2026', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 5, 19, 12, 0, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 5, 21, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for Independence Day (Jul 3, 2026 12PM CT - Jul 5 5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 6, 3, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Independence Day: closes at 12PM Jul 3, reopens at 5PM Jul 5, 2026', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 6, 3, 12, 0, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 6, 5, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for Labor Day early close (Sep 7, 2026 1:30PM-5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 8, 7, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Labor Day early close: closes at 1:30PM CT, reopens at 5PM CT (Sep 7, 2026)', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 8, 7, 13, 30, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 8, 7, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for Thanksgiving early close (Nov 26, 2026 1:30PM-5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 10, 26, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Thanksgiving early close: closes at 1:30PM CT, reopens at 5PM CT (Nov 26, 2026)', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 10, 26, 13, 30, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 10, 26, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for day after Thanksgiving (Nov 27, 2026 1:45PM CT - Nov 29 5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 10, 27, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Day after Thanksgiving: closes at 1:45PM Nov 27, reopens at 5PM Nov 29, 2026', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 10, 27, 13, 45, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 10, 29, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for Christmas holiday (Dec 24, 2026 12:45PM CT - Dec 27 5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2026, 11, 24, 13, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('Christmas: closes at 12:45PM Dec 24, reopens at 5PM Dec 27, 2026', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 11, 24, 12, 45, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 11, 27, 17, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED for New Year holiday (Dec 31, 2026 4PM CT - Jan 3, 2027 5PM CT)', () => {
-      jest.setSystemTime(new TZDate(2027, 0, 1, 10, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('New Year: closes at 4PM Dec 31 2026, reopens at 5PM Jan 3, 2027', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 11, 31, 16, 0, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2027, 0, 3, 17, 0, 0, 0, TZ))
     })
   })
 
   describe('weekend (Friday 4PM - Sunday 5PM CT)', () => {
-    it('returns CLOSED on Friday after 4PM CT', () => {
-      jest.setSystemTime(new TZDate(2026, 0, 16, 17, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('closes at Friday 4PM CT (Jan 16, 2026)', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 0, 16, 16, 0, 0, 0, TZ))
     })
 
-    it('returns CLOSED on Saturday', () => {
-      jest.setSystemTime(new TZDate(2026, 0, 17, 12, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
-    })
-
-    it('returns CLOSED on Sunday before 5PM CT', () => {
-      jest.setSystemTime(new TZDate(2026, 0, 18, 14, 0, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('reopens at Sunday 5PM CT (Jan 18, 2026)', () => {
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 0, 18, 17, 0, 0, 0, TZ))
     })
   })
 
   describe('daily maintenance (4PM - 5PM CT)', () => {
-    it('returns CLOSED during daily maintenance window on a weekday', () => {
-      jest.setSystemTime(new TZDate(2026, 0, 12, 16, 30, 0, 0, TZ).getTime())
-      expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.CLOSED)
+    it('closes at 4PM and reopens at 5PM CT on a weekday (Jan 12, 2026)', () => {
+      expectClosesAt('STATIC_NYMEX', new TZDate(2026, 0, 12, 16, 0, 0, 0, TZ))
+      expectOpensAt('STATIC_NYMEX', new TZDate(2026, 0, 12, 17, 0, 0, 0, TZ))
     })
   })
 
   describe('open', () => {
-    it('returns OPEN on a weekday morning', () => {
+    it('is open at 10AM CT on a weekday (Jan 12, 2026)', () => {
       jest.setSystemTime(new TZDate(2026, 0, 12, 10, 0, 0, 0, TZ).getTime())
       expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.OPEN)
     })
 
-    it('returns OPEN on Sunday after 5PM CT', () => {
-      jest.setSystemTime(new TZDate(2026, 0, 18, 18, 0, 0, 0, TZ).getTime())
+    it('is open at 2PM CT on a weekday (Jan 12, 2026)', () => {
+      jest.setSystemTime(new TZDate(2026, 0, 12, 14, 0, 0, 0, TZ).getTime())
       expect(getStatusFromStaticSchedule('STATIC_NYMEX').marketStatus).toEqual(MarketStatus.OPEN)
     })
   })
