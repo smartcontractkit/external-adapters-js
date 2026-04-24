@@ -47,7 +47,7 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   },
   nymex: {
     primary: 'TRADINGHOURS',
-    secondary: 'TRADINGHOURS', // TODO: Switch to a different provider
+    secondary: 'STATIC_NYMEX',
   },
   tpex: {
     primary: 'TRADINGHOURS',
