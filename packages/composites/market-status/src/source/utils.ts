@@ -17,6 +17,8 @@ export enum Month {
 
 export const HOUR = 60
 export const HALF_HOUR = 30
+export const FIVE_MINUTES = 5
+export const ONE_MINUTE = 1
 
 export const tzDate = (
   year: number,

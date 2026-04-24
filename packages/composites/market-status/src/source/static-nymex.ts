@@ -55,6 +55,7 @@ const HOLIDAY_SCHEDULE = [
 ]
 
 // https://www.cmegroup.com/trading-hours.html
+// Open 5PM Sun to 4PM Fri CT, with daily closures from 4PM to 5PM
 export const getStatus = () => {
   const now = TZDate.tz(TZ)
 
