@@ -1,5 +1,11 @@
 # @chainlink/coingecko-adapter
 
+## 2.2.0
+
+### Minor Changes
+
+- [#4858](https://github.com/smartcontractkit/external-adapters-js/pull/4858) [`e1ce27f`](https://github.com/smartcontractkit/external-adapters-js/commit/e1ce27f8df0e1d3ab2894d102d1e7258ad04d67e) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Removes overrides from Coingecko
+
 ## 2.1.6
 
 ### Patch Changes
