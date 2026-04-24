@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#4840](https://github.com/smartcontractkit/external-adapters-js/pull/4840) [`39dd2b8`](https://github.com/smartcontractkit/external-adapters-js/commit/39dd2b80c6f5b03b7bb473678fd1d8c089e6ab60) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
 ## 2.5.7
 
 ### Patch Changes

@@ -12,8 +12,6 @@ import (
 	helpers "streams-adapter/helpers"
 )
 
-var _ types.Cache = (*Cache)(nil)
-
 var cacheDataGetCount = promauto.NewCounter(
 	prometheus.CounterOpts{
 		Name: "cache_data_get_count",
@@ -78,41 +76,17 @@ func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestam
 	}
 }
 
-// Get retrieves an observation for the given request parameters
-func (c *Cache) Get(params types.RequestParams) *types.Observation {
+// Get retrieves a cache item by its internal cache key string.
+func (c *Cache) Get(key string) *types.CacheItem {
 	cacheDataGetCount.Inc()
 
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
-	key, err := helpers.CalculateCacheKey(params)
-	if err != nil {
-		return nil
-	}
 	if item, exists := c.items[key]; exists {
-		return item.Observation
+		return item
 	}
 	return nil
-}
-
-// Keys returns all keys in the cache
-func (c *Cache) Keys() []string {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
-
-	keys := make([]string, 0, len(c.items))
-	for key := range c.items {
-		keys = append(keys, key)
-	}
-	return keys
-}
-
-// Size returns the number of items in the cache
-func (c *Cache) Size() int {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
-
-	return len(c.items)
 }
 
 // Items returns all items in the cache

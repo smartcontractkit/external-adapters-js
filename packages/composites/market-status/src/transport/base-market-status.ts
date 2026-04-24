@@ -2,6 +2,7 @@ import {
   EndpointContext,
   MarketStatus,
   MarketStatusResultResponse,
+  TwentyfourFiveMarketStatus,
   marketStatusEndpointInputParametersDefinition,
 } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -11,10 +12,10 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
-import { AdapterName } from '../config/adapters'
-import { getStatus as get245Status } from '../config/hardCode245Adapter'
 import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
 import { inputParameters } from '../endpoint/market-status'
+import { SourceName } from '../source/sources'
+import { getStatusFromStaticSchedule, isStaticSource } from '../source/static'
 
 const logger = makeLogger('BaseMarketStatusTransport')
 
@@ -22,7 +23,7 @@ export type MarketStatusResult = {
   marketStatus: MarketStatusResultResponse['Result']
   statusString: string
   providerIndicatedTimeUnixMs: number
-  source?: AdapterName
+  source?: SourceName
 }
 
 type RequestParams = typeof inputParameters.validated
@@ -52,7 +53,8 @@ export abstract class BaseMarketStatusTransport<
 
     let response: AdapterResponse<T['Response']>
     try {
-      const result = await this._handleRequest(context, param)
+      const rawResult = await this._handleRequest(context, param)
+      const result = this.convertMarketStatus(rawResult, param.force245MarketStatus)
       response = {
         data: {
           result: result.marketStatus,
@@ -88,21 +90,18 @@ export abstract class BaseMarketStatusTransport<
     param: RequestParams,
   ): Promise<MarketStatusResult>
 
-  async sendAdapterRequest(
+  async sendSourceRequest(
     context: EndpointContext<T>,
-    adapterName: AdapterName,
+    sourceName: SourceName,
     param: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>,
   ): Promise<MarketStatusResult> {
-    if (adapterName === 'HARD_CODE_245') {
-      return {
-        ...get245Status(param.weekend),
-        source: adapterName,
-      }
+    if (isStaticSource(sourceName)) {
+      return getStatusFromStaticSchedule(sourceName, param.weekend)
     }
-    const key = `${adapterName}:${JSON.stringify(param)}`
+    const key = `${sourceName}:${JSON.stringify(param)}`
     const config = {
       method: 'POST',
-      baseURL: context.adapterSettings[`${adapterName}_ADAPTER_URL`],
+      baseURL: context.adapterSettings[`${sourceName}_ADAPTER_URL`],
       data: {
         data: {
           endpoint: 'market-status',
@@ -125,17 +124,17 @@ export abstract class BaseMarketStatusTransport<
             resp.response.data?.data?.statusString ?? MarketStatus[MarketStatus.UNKNOWN],
           providerIndicatedTimeUnixMs:
             resp.response.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
-          source: adapterName,
+          source: sourceName,
         }
       } else {
         logger.error(
-          `Request to ${adapterName} ${JSON.stringify(param)} got status ${resp.response.status}: ${
+          `Request to ${sourceName} ${JSON.stringify(param)} got status ${resp.response.status}: ${
             resp.response.data
           }`,
         )
       }
     } catch (e) {
-      logger.error(`Request to ${adapterName} ${JSON.stringify(param)} failed: ${e}`)
+      logger.error(`Request to ${sourceName} ${JSON.stringify(param)} failed: ${e}`)
     }
 
     return {
@@ -143,6 +142,24 @@ export abstract class BaseMarketStatusTransport<
       statusString: MarketStatus[MarketStatus.UNKNOWN],
       providerIndicatedTimeUnixMs: Date.now(),
     }
+  }
+
+  // UNKNOWN(0) => UNKNOWN(0), CLOSED(1) => WEEKEND(5), OPEN(2) => REGULAR(2)
+  convertMarketStatus(marketStatus: MarketStatusResult, convert: boolean) {
+    if (convert && marketStatus.marketStatus === MarketStatus.CLOSED) {
+      return {
+        ...marketStatus,
+        marketStatus: TwentyfourFiveMarketStatus.WEEKEND,
+        statusString: TwentyfourFiveMarketStatus[TwentyfourFiveMarketStatus.WEEKEND],
+      }
+    } else if (convert && marketStatus.marketStatus === MarketStatus.OPEN) {
+      return {
+        ...marketStatus,
+        marketStatus: TwentyfourFiveMarketStatus.REGULAR,
+        statusString: TwentyfourFiveMarketStatus[TwentyfourFiveMarketStatus.REGULAR],
+      }
+    }
+    return marketStatus
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseMarketStatusEndpointTypes['Settings']): number {

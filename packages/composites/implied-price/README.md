@@ -1,5 +1,7 @@
 # Chainlink Implied-price Composite Adapter
 
+## NOTE: This EA is deprecated, new feature development has moved to `calculated-price` adapter.
+
 An adapter that fetches the median value from any two sets of underlying adapters, and divides or multiplied the results from each set together.
 
 ## Configuration
