@@ -30,6 +30,8 @@ describe('execute', () => {
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
+    await testAdapter.metricsApi?.close()
+    await clock.runAllAsync()
     clock.uninstall()
     nock.restore()
     nock.cleanAll()
@@ -197,7 +199,7 @@ describe('execute', () => {
         data: {
           result: 2,
           statusString: 'REGULAR',
-          source: 'HARD_CODE_245',
+          source: 'STATIC_NYSE_245',
         },
         result: 2,
         statusCode: 200,
@@ -220,7 +222,7 @@ describe('execute', () => {
         data: {
           result: 2,
           statusString: 'REGULAR',
-          source: 'HARD_CODE_245',
+          source: 'STATIC_NYSE_245',
         },
         result: 2,
         statusCode: 200,

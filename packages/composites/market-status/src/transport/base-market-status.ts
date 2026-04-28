@@ -12,10 +12,10 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterResponse } from '@chainlink/external-adapter-framework/util/types'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
-import { AdapterName } from '../config/adapters'
-import { getStatus as get245Status } from '../config/hardCode245Adapter'
 import { BaseMarketStatusEndpointTypes } from '../endpoint/common'
 import { inputParameters } from '../endpoint/market-status'
+import { SourceName } from '../source/sources'
+import { getStatusFromStaticSchedule, isStaticSource } from '../source/static'
 
 const logger = makeLogger('BaseMarketStatusTransport')
 
@@ -23,7 +23,7 @@ export type MarketStatusResult = {
   marketStatus: MarketStatusResultResponse['Result']
   statusString: string
   providerIndicatedTimeUnixMs: number
-  source?: AdapterName
+  source?: SourceName
 }
 
 type RequestParams = typeof inputParameters.validated
@@ -90,21 +90,18 @@ export abstract class BaseMarketStatusTransport<
     param: RequestParams,
   ): Promise<MarketStatusResult>
 
-  async sendAdapterRequest(
+  async sendSourceRequest(
     context: EndpointContext<T>,
-    adapterName: AdapterName,
+    sourceName: SourceName,
     param: TypeFromDefinition<typeof marketStatusEndpointInputParametersDefinition>,
   ): Promise<MarketStatusResult> {
-    if (adapterName === 'HARD_CODE_245') {
-      return {
-        ...get245Status(param.weekend),
-        source: adapterName,
-      }
+    if (isStaticSource(sourceName)) {
+      return getStatusFromStaticSchedule(sourceName, param.weekend)
     }
-    const key = `${adapterName}:${JSON.stringify(param)}`
+    const key = `${sourceName}:${JSON.stringify(param)}`
     const config = {
       method: 'POST',
-      baseURL: context.adapterSettings[`${adapterName}_ADAPTER_URL`],
+      baseURL: context.adapterSettings[`${sourceName}_ADAPTER_URL`],
       data: {
         data: {
           endpoint: 'market-status',
@@ -127,17 +124,17 @@ export abstract class BaseMarketStatusTransport<
             resp.response.data?.data?.statusString ?? MarketStatus[MarketStatus.UNKNOWN],
           providerIndicatedTimeUnixMs:
             resp.response.data?.timestamps?.providerIndicatedTimeUnixMs ?? Date.now(),
-          source: adapterName,
+          source: sourceName,
         }
       } else {
         logger.error(
-          `Request to ${adapterName} ${JSON.stringify(param)} got status ${resp.response.status}: ${
+          `Request to ${sourceName} ${JSON.stringify(param)} got status ${resp.response.status}: ${
             resp.response.data
           }`,
         )
       }
     } catch (e) {
-      logger.error(`Request to ${adapterName} ${JSON.stringify(param)} failed: ${e}`)
+      logger.error(`Request to ${sourceName} ${JSON.stringify(param)} failed: ${e}`)
     }
 
     return {

@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.324.0",
+  "version": "1.326.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
