@@ -1,5 +1,16 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4869](https://github.com/smartcontractkit/external-adapters-js/pull/4869) [`3e5f51c`](https://github.com/smartcontractkit/external-adapters-js/commit/3e5f51c8b36a43a5142db7d61207caa99b993908) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove asian markets
+
+### Patch Changes
+
+- Updated dependencies [[`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4), [`3e5f51c`](https://github.com/smartcontractkit/external-adapters-js/commit/3e5f51c8b36a43a5142db7d61207caa99b993908)]:
+  - @chainlink/finnhub-adapter@4.2.0
+
 ## 1.0.3
 
 ### Patch Changes

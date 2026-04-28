@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.7.1
+
+### Patch Changes
+
+- [#4894](https://github.com/smartcontractkit/external-adapters-js/pull/4894) [`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter code - race conditions fix
+
 ## 4.7.0
 
 ### Minor Changes
