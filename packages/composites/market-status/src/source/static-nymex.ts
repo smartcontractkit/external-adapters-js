@@ -43,11 +43,6 @@ const HOLIDAY_SCHEDULE = [
     status: MarketStatus.CLOSED,
   },
   {
-    start: tzDate(2026, Month.Dec, 24, 12, 45, TZ),
-    end: tzDate(2026, Month.Dec, 27, 17, 0, TZ),
-    status: MarketStatus.CLOSED,
-  },
-  {
     start: tzDate(2026, Month.Dec, 31, 16, 0, TZ),
     end: tzDate(2027, Month.Jan, 3, 17, 0, TZ),
     status: MarketStatus.CLOSED,
