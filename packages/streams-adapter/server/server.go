@@ -78,10 +78,13 @@ type Server struct {
 	metrics             *appMetrics.Metrics
 	metricsForwarder    *appMetrics.Forwarder
 	keyMapper           *helpers.KeyMapper
+	ctx                 context.Context
+	cancel              context.CancelFunc
 }
 
 // New creates a new HTTP server
 func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper *helpers.KeyMapper) *Server {
+	ctx, cancel := context.WithCancel(context.Background())
 	// Set Gin mode based on log level
 	if cfg.LogLevel == "debug" {
 		gin.SetMode(gin.DebugMode)
@@ -136,6 +139,8 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 		metrics:          metrics,
 		metricsForwarder: metricsForwarder,
 		keyMapper:        keyMapper,
+		ctx:              ctx,
+		cancel:           cancel,
 	}
 
 	server.setupRoutes()
@@ -183,6 +188,8 @@ func (s *Server) Start() error {
 		MaxHeaderBytes: 1 << 20,
 	}
 
+	go s.resubscribeLoop()
+
 	s.logger.Info("Starting HTTP server", "port", s.config.HTTPPort)
 
 	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
@@ -194,8 +201,13 @@ func (s *Server) Start() error {
 
 // Stop gracefully stops the HTTP server
 func (s *Server) Stop() error {
-	// Shutdown HTTP servers
-	// 1. Shutdown main server
+	// 1. Stop background goroutines first
+	if s.cancel != nil {
+		s.cancel()
+	}
+
+	// 2. Shutdown HTTP servers
+	// 2a. Shutdown main server
 	if s.server != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -205,7 +217,7 @@ func (s *Server) Stop() error {
 		}
 	}
 
-	// 2. Shutdown metrics server
+	// 2b. Shutdown metrics server
 	if s.metricsServer != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -403,5 +415,36 @@ func (s *Server) subscribeToAsset(data interface{}) {
 
 	if s.config.LogLevel == "debug" {
 		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode, "url", internalUrl)
+	}
+}
+
+// resubscribeLoop periodically resubscribes to all assets in the cache.
+func (s *Server) resubscribeLoop() {
+	cleanupInterval := time.Duration(s.config.CacheCleanupInterval) * time.Minute
+	ticker := time.NewTicker(cleanupInterval)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-s.ctx.Done():
+			return
+		case <-ticker.C:
+			s.resubscribeAllAssets()
+		}
+	}
+}
+
+// resubscribeAllAssets resubscribes to all assets in the cache.
+// Parses request params from the OriginalAdapterKey stored on each cache item.
+func (s *Server) resubscribeAllAssets() {
+	items := s.cache.Items()
+
+	for _, item := range items {
+		params, err := helpers.RequestParamsFromKey(item.OriginalAdapterKey)
+		if err != nil {
+			s.logger.Debug("Failed to parse params from adapter key", "key", item.OriginalAdapterKey, "error", err)
+			continue
+		}
+		go s.subscribeToAsset(params)
 	}
 }
