@@ -37,11 +37,10 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, adapterSettings) => {
     return params.map((param) => {
-      const baseUrl: string = adapterSettings.API_BASE_URL
       return {
         params: [param],
         request: {
-          baseURL: baseUrl,
+          baseURL: adapterSettings.API_BASE_URL,
           url: `/asset/${param.assetId}`,
         },
       }
