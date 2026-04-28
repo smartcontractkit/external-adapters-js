@@ -20,26 +20,58 @@ type KeyMapper struct {
 	mapping map[string]string // raw_cache_key → transformed_cache_key
 
 	pendingMu sync.Mutex
-	pending   map[string]chan zaddNotification // endpoint_transport key → channel
+	pending   map[string]chan zaddNotification // canonical endpoint → channel
 
-	epMu   sync.Mutex
+	// phase1InFlight tracks the raw cache keys of subscriptions whose Phase-1
+	// HTTP request is still in-flight (sent but response not yet received).
+	// Keyed by canonical endpoint; values are sets of rawCacheKey strings.
+	// When a ZADD arrives and its computed transformedKey matches one of these
+	// keys, the ZADD originated from a concurrent Phase-1 request and must be
+	// dropped so it is not mistakenly attributed to a Phase-2 SubscribeAndLearn.
+	phase1Mu       sync.Mutex
+	phase1InFlight map[string]map[string]struct{} // endpoint → rawCacheKey set
+
+	epMu    sync.Mutex
 	epLocks map[string]*sync.Mutex
 
 	logger *slog.Logger
 }
 
 type zaddNotification struct {
-	Member           string // JSON member from ZADD (transformed params)
-	SubscriptionKey  string // ZADD key minus "-subscriptionSet" suffix
+	Member          string // JSON member from ZADD (transformed params)
+	SubscriptionKey string // ZADD key minus "-subscriptionSet" suffix
 }
 
 // NewKeyMapper creates a new KeyMapper instance.
 func NewKeyMapper(logger *slog.Logger) *KeyMapper {
 	return &KeyMapper{
-		mapping: make(map[string]string),
-		pending: make(map[string]chan zaddNotification),
-		epLocks: make(map[string]*sync.Mutex),
-		logger:  logger,
+		mapping:        make(map[string]string),
+		pending:        make(map[string]chan zaddNotification),
+		phase1InFlight: make(map[string]map[string]struct{}),
+		epLocks:        make(map[string]*sync.Mutex),
+		logger:         logger,
+	}
+}
+
+// RegisterPhase1InFlight marks rawCacheKey as having an active Phase-1
+// subscribe HTTP request in-flight for the given endpoint.
+// Must be called before the Phase-1 subscribeToAsset call.
+func (km *KeyMapper) RegisterPhase1InFlight(endpoint, rawCacheKey string) {
+	km.phase1Mu.Lock()
+	defer km.phase1Mu.Unlock()
+	if km.phase1InFlight[endpoint] == nil {
+		km.phase1InFlight[endpoint] = make(map[string]struct{})
+	}
+	km.phase1InFlight[endpoint][rawCacheKey] = struct{}{}
+}
+
+// DeregisterPhase1InFlight removes rawCacheKey from the in-flight set once
+// Phase-1's HTTP response has been received (and the ZADD already processed).
+func (km *KeyMapper) DeregisterPhase1InFlight(endpoint, rawCacheKey string) {
+	km.phase1Mu.Lock()
+	defer km.phase1Mu.Unlock()
+	if s, ok := km.phase1InFlight[endpoint]; ok {
+		delete(s, rawCacheKey)
 	}
 }
 
@@ -121,8 +153,20 @@ func (km *KeyMapper) SubscribeAndLearn(
 // NotifyZAdd is called by the Redcon ZADD handler when it detects a
 // subscription set write. It sends the notification to any pending subscriber.
 // The subscription set key format is "<ADAPTER>-<endpoint>-<transport>-subscriptionSet".
-// We extract the canonical endpoint via findEndpointInKey and use it to match
-// against pending subscribers, since we can't predict the transport name.
+//
+// To prevent Phase-1 ZADDs from other goroutines being delivered to the
+// goroutine currently waiting in SubscribeAndLearn, we first compute the
+// transformedKey from the ZADD member and check the phase1InFlight set:
+//   - If transformedKey is in the in-flight set the ZADD was triggered by a
+//     concurrent Phase-1 subscribe on the same endpoint (possibly for a
+//     different symbol). Drop it so it cannot corrupt the Phase-2 mapping.
+//   - Otherwise deliver to the endpoint channel as normal.
+//
+// This filter is effective for adapters where rawCacheKey == transformedKey
+// (no param transformation, e.g. cfbenchmarks).  For adapters that do
+// transform params (rawCacheKey != transformedKey) the in-flight check finds
+// no match and the ZADD falls through to the original endpoint-based delivery
+// — identical to the pre-fix behaviour.
 func (km *KeyMapper) NotifyZAdd(subscriptionSetKey, member string) {
 	if !strings.HasSuffix(subscriptionSetKey, "-subscriptionSet") {
 		return
@@ -136,16 +180,35 @@ func (km *KeyMapper) NotifyZAdd(subscriptionSetKey, member string) {
 
 	subKeyPrefix := strings.TrimSuffix(subscriptionSetKey, "-subscriptionSet")
 
+	notif := zaddNotification{
+		Member:          member,
+		SubscriptionKey: subKeyPrefix,
+	}
+
+	// Compute the transformed cache key from the ZADD member params.
+	transformedKey := km.computeTransformedKey(notif)
+	if transformedKey != "" {
+		km.phase1Mu.Lock()
+		_, isPhase1 := km.phase1InFlight[canonicalEndpoint][transformedKey]
+		if isPhase1 {
+			// Deregister on first ZADD arrival — the HTTP-response fallback in
+			// server.go becomes a no-op. Drop the notification so it cannot be
+			// delivered to the Phase-2 SubscribeAndLearn goroutine waiting on
+			// the same endpoint.
+			delete(km.phase1InFlight[canonicalEndpoint], transformedKey)
+			km.phase1Mu.Unlock()
+			return
+		}
+		km.phase1Mu.Unlock()
+	}
+
 	km.pendingMu.Lock()
 	ch, ok := km.pending[canonicalEndpoint]
 	km.pendingMu.Unlock()
 
 	if ok {
 		select {
-		case ch <- zaddNotification{
-			Member:          member,
-			SubscriptionKey: subKeyPrefix,
-		}:
+		case ch <- notif:
 		default:
 		}
 	}
@@ -182,4 +245,3 @@ func (km *KeyMapper) Size() int {
 	defer km.mu.RUnlock()
 	return len(km.mapping)
 }
-

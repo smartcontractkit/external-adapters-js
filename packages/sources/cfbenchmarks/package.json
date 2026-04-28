@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/cfbenchmarks-adapter",
-  "version": "2.7.0",
+  "version": "2.7.2",
   "description": "Chainlink cfbenchmarks adapter.",
   "keywords": [
     "Chainlink",

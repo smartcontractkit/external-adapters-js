@@ -1,5 +1,27 @@
 # @chainlink/generic-api-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4783](https://github.com/smartcontractkit/external-adapters-js/pull/4783) [`1a5f573`](https://github.com/smartcontractkit/external-adapters-js/commit/1a5f573b0aa4819a5c7bd99806c32da7fd467b1c) Thanks [@dskloetc](https://github.com/dskloetc)! - Support providerIndicatedTimePath on single data path http endpoint
+
+- [#4786](https://github.com/smartcontractkit/external-adapters-js/pull/4786) [`4e35a32`](https://github.com/smartcontractkit/external-adapters-js/commit/4e35a323c377dc10cf979dcd3b47b07bcfc1dbd3) Thanks [@dskloetc](https://github.com/dskloetc)! - Add ripcordDetails in http endpoint
+
+- [#4857](https://github.com/smartcontractkit/external-adapters-js/pull/4857) [`1690fc3`](https://github.com/smartcontractkit/external-adapters-js/commit/1690fc39b5d0e8aad15d8a1753886e52cba046ed) Thanks [@dskloetc](https://github.com/dskloetc)! - Use SubscriptionTransport instead of HttpTransport to avoid shared rate limiting
+
+### Patch Changes
+
+- [#4791](https://github.com/smartcontractkit/external-adapters-js/pull/4791) [`7877f44`](https://github.com/smartcontractkit/external-adapters-js/commit/7877f44f58ae8f29074047c6929db9019cc4c72a) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor to use same code path for both endpoints
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4845](https://github.com/smartcontractkit/external-adapters-js/pull/4845) [`197f779`](https://github.com/smartcontractkit/external-adapters-js/commit/197f7795478fff051a45112e185657da1ed98266) Thanks [@dskloetc](https://github.com/dskloetc)! - Test refactoring
+
+- [#4781](https://github.com/smartcontractkit/external-adapters-js/pull/4781) [`012e411`](https://github.com/smartcontractkit/external-adapters-js/commit/012e4118bbc33ec8ccd0645483516d1c38b0f5cc) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor common input params
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 1.2.0
 
 ### Minor Changes

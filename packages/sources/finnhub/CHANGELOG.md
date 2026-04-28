@@ -1,5 +1,21 @@
 # @chainlink/finnhub-adapter
 
+## 4.2.1
+
+### Patch Changes
+
+- [#4898](https://github.com/smartcontractkit/external-adapters-js/pull/4898) [`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - New strems adapter image with restored resubscribe loop
+
+## 4.2.0
+
+### Minor Changes
+
+- [#4869](https://github.com/smartcontractkit/external-adapters-js/pull/4869) [`3e5f51c`](https://github.com/smartcontractkit/external-adapters-js/commit/3e5f51c8b36a43a5142db7d61207caa99b993908) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove asian markets
+
+### Patch Changes
+
+- [#4894](https://github.com/smartcontractkit/external-adapters-js/pull/4894) [`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter code - race conditions fix
+
 ## 4.1.0
 
 ### Minor Changes
