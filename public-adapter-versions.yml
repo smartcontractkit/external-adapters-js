@@ -38,13 +38,13 @@ adapters:
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.5.7
+    version: 2.6.1
   - name: blocksize-capital-state
     version: 1.0.2
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.152
+    version: 2.2.154
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -56,7 +56,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.6.6
+    version: 2.7.1
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: cmeth
@@ -74,7 +74,7 @@ adapters:
   - name: coinmarketcap
     version: 2.1.6
   - name: coinmetrics
-    version: 3.10.6
+    version: 3.11.1
   - name: coinmetrics-lwba
     version: 2.2.6
   - name: coinpaprika
@@ -86,7 +86,7 @@ adapters:
   - name: covid-tracker
     version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.48
+    version: 1.4.50
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
@@ -104,11 +104,11 @@ adapters:
   - name: dlc-cbtc-por
     version: 1.0.1
   - name: dxfeed
-    version: 2.6.0
+    version: 2.7.1
   - name: dydx-stark
     version: 2.0.31
   - name: elwood
-    version: 3.1.23
+    version: 3.2.1
   - name: enzyme
     version: 2.0.33
   - name: eodhistoricaldata
@@ -124,13 +124,13 @@ adapters:
   - name: expand-network
     version: 0.1.17
   - name: finage
-    version: 2.5.4
+    version: 2.6.1
   - name: finalto
-    version: 1.3.2
+    version: 1.4.1
   - name: finnhub
-    version: 4.1.0
+    version: 4.2.0
   - name: finnhub-secondary
-    version: 1.0.3
+    version: 1.1.0
   - name: fireblocks
     version: 1.0.18
   - name: fmpcloud
@@ -158,7 +158,7 @@ adapters:
   - name: graphql
     version: 1.2.47
   - name: gsr
-    version: 2.4.26
+    version: 2.5.1
   - name: harmony
     version: 1.1.47
   - name: harris-and-trotter
@@ -232,7 +232,7 @@ adapters:
   - name: nav-generic
     version: 1.0.4
   - name: ncfx
-    version: 4.6.2
+    version: 4.7.1
   - name: nexus-kiln
     version: 1.0.18
   - name: nftx
@@ -272,13 +272,13 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.15
   - name: savax-price
-    version: 3.0.135
+    version: 3.0.137
   - name: secure-mint
     version: 1.0.7
   - name: securitize
     version: 1.0.2
   - name: set-token-index
-    version: 3.0.61
+    version: 3.0.63
   - name: snowflake
     version: 1.2.47
   - name: sochain
@@ -318,9 +318,9 @@ adapters:
   - name: therundown
     version: 1.3.47
   - name: tiingo
-    version: 2.10.1
+    version: 2.10.2
   - name: tiingo-state
-    version: 0.2.4
+    version: 0.3.1
   - name: token-balance
     version: 3.5.0
   - name: tokenized-equity
@@ -360,4 +360,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.134
+    version: 2.0.136
