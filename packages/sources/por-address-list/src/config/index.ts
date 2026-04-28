@@ -43,37 +43,37 @@ export const config = new AdapterConfig({
   SOLVBTC_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC native BTC wallet address',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-addresses.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/solv-btc-addresses',
     sensitive: false,
   },
   SOLVBTC_BBN_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.BBN native BTC wallet address',
     type: 'string',
-    default: 'https://por.sft-api.com/x-solv-btc-addresses.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/x-solv-btc-addresses',
     sensitive: false,
   },
   SOLVBTC_ENA_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-ena-addresses.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/solv-btc-ena-addresses',
     sensitive: false,
   },
   SOLVBTC_TRADING_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.TRADING native BTC wallet address',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-trading-addresses.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/solv-btc-trading-addresses',
     sensitive: false,
   },
   SOLVBTC_CORE_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.CORE native BTC wallet address',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-core-addresses.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/solv-btc-core-addresses',
     sensitive: false,
   },
   SOLVBTC_JUP_API_ENDPOINT: {
     description: 'An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU',
     type: 'string',
-    default: 'https://por.sft-api.com/solv-btc-jup-mirrorx.json',
+    default: 'https://open-data.solvprotocol.org/api/open/config/get/solv-btc-jup-mirrorx',
     sensitive: false,
   },
   ZEUS_ZBTC_API_URL: {
