@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.6.2
+
+### Patch Changes
+
+- [#4898](https://github.com/smartcontractkit/external-adapters-js/pull/4898) [`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - New strems adapter image with restored resubscribe loop
+
 ## 2.6.1
 
 ### Patch Changes
