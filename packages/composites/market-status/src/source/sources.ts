@@ -51,27 +51,31 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   },
   tpex: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_TPEX',
   },
   twse: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_TWSE',
   },
   krx: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_KRX',
   },
   jpx: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_JPX',
   },
   sse: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_SSE',
   },
   szse: {
     primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    secondary: 'STATIC_SZSE',
+  },
+  ice_europe_energy: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_ICE_EUROPE_ENERGY',
   },
 }
 
