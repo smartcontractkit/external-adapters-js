@@ -436,15 +436,22 @@ func (s *Server) resubscribeLoop() {
 
 // resubscribeAllAssets resubscribes to all assets in the cache.
 // Parses request params from the OriginalAdapterKey stored on each cache item.
+// Each resubscribe is registered in phase1InFlight so that its ZADD cannot be
+// mis-attributed to a concurrently waiting SubscribeAndLearn goroutine on the
+// same endpoint.
 func (s *Server) resubscribeAllAssets() {
 	items := s.cache.Items()
 
-	for _, item := range items {
+	for cacheKey, item := range items {
 		params, err := helpers.RequestParamsFromKey(item.OriginalAdapterKey)
 		if err != nil {
 			s.logger.Debug("Failed to parse params from adapter key", "key", item.OriginalAdapterKey, "error", err)
 			continue
 		}
-		go s.subscribeToAsset(params)
+		go func(key string, p types.RequestParams) {
+			s.keyMapper.RegisterPhase1InFlight(p["endpoint"], key)
+			s.subscribeToAsset(p)
+			s.keyMapper.DeregisterPhase1InFlight(p["endpoint"], key)
+		}(cacheKey, params)
 	}
 }
