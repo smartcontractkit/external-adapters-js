@@ -1,5 +1,13 @@
 # @chainlink/market-status-adapter
 
+## 1.9.0
+
+### Minor Changes
+
+- [#4868](https://github.com/smartcontractkit/external-adapters-js/pull/4868) [`729579a`](https://github.com/smartcontractkit/external-adapters-js/commit/729579a3ddd1021859627dcbf4696a2c6674bedb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add option to force return 24/5 market status
+
+- [#4876](https://github.com/smartcontractkit/external-adapters-js/pull/4876) [`6eaa7e7`](https://github.com/smartcontractkit/external-adapters-js/commit/6eaa7e7949b1432d5914a792d55a756429f0270c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add WTI
+
 ## 1.8.0
 
 ### Minor Changes
