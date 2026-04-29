@@ -9,6 +9,7 @@ import { NavTransport } from '../../src/transport/nav'
 LoggerFactoryProvider.set()
 
 const FUND_ID = 123
+const TIMEZONE = 'UTC'
 const transportName = 'nav_transport'
 const endpointName = 'nav'
 
@@ -64,7 +65,10 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -108,7 +112,10 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES) // first OK
     requester.request.mockRejectedValueOnce(new AdapterError({ message: 'boom' }))
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -131,7 +138,10 @@ describe('NavTransport – handleRequest', () => {
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
     requester.request.mockResolvedValueOnce(fundRes)
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -149,12 +159,32 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(
       makeStub('emptyFund', { response: { data: { Data: [] } } }),
     )
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
     const cached = getCachedResponse()
     expect(cached.statusCode).toBe(400)
     expect(cached.errorMessage).toMatch(/No fund found/i)
+  })
+
+  it('returns midnight in the given timezone for navDateTimestampMs', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: 'America/Los_Angeles',
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    // June 25, 2025 midnight PT (UTC-7) = 7AM UTC
+    expect(cached.data.navDateTimestampMs).toBe(Date.UTC(2025, 5, 25, 7, 0, 0, 0))
+    expect(cached.timestamps.providerIndicatedTimeUnixMs).toBe(1750809600000)
   })
 })
