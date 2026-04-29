@@ -3,7 +3,11 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
-import { BaseEndpointTypes, inputParameters as navInputParams } from '../../src/endpoint/nav'
+import {
+  BaseEndpointTypes,
+  DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
+  inputParameters as navInputParams,
+} from '../../src/endpoint/nav'
 import { NavTransport } from '../../src/transport/nav'
 
 LoggerFactoryProvider.set()
@@ -66,7 +70,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: 6,
+      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -113,7 +117,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: 6,
+      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -139,7 +143,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: 6,
+      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -160,7 +164,7 @@ describe('NavTransport – handleRequest', () => {
     )
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: 6,
+      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
