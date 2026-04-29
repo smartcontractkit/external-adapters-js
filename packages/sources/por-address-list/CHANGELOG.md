@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.16.1
+
+### Patch Changes
+
+- [#4902](https://github.com/smartcontractkit/external-adapters-js/pull/4902) [`7a2e8bb`](https://github.com/smartcontractkit/external-adapters-js/commit/7a2e8bb3444f2419b5bc245d73d8507538d0ea36) Thanks [@dskloetc](https://github.com/dskloetc)! - Update default URLs for solvBTC endpoint
+
 ## 5.16.0
 
 ### Minor Changes
