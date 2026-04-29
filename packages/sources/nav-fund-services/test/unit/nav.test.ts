@@ -183,7 +183,7 @@ describe('NavTransport – handleRequest', () => {
     await transport.handleRequest(param)
 
     const cached = getCachedResponse()
-    // June 25, 2025 midnight EDT (UTC-4) = 4AM UTC
+    // June 25, 2025 midnight PT (UTC-7) = 7AM UTC
     expect(cached.data.navDateTimestampMs).toBe(Date.UTC(2025, 5, 25, 7, 0, 0, 0))
     expect(cached.timestamps.providerIndicatedTimeUnixMs).toBe(1750809600000)
   })
