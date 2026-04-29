@@ -39,6 +39,7 @@ describe('execute', () => {
         globalFundID: 1234,
         endpoint: 'nav',
         transport: 'rest',
+        navDateTimestampTimezone: 'UTC',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
@@ -46,12 +47,12 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should reject navDateTimestampUtcHourOffset out of range', async () => {
+    it('should reject an invalid timezone', async () => {
       const data = {
         globalFundID: 1234,
         endpoint: 'nav',
         transport: 'rest',
-        navDateTimestampUtcOffsetHours: 100,
+        navDateTimestampTimezone: 'Not/ATimezone',
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)

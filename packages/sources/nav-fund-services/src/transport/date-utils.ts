@@ -1,4 +1,4 @@
-import { tz } from '@date-fns/tz'
+import { TZDate, tz } from '@date-fns/tz'
 import { differenceInBusinessDays, format, isValid, parse, subBusinessDays } from 'date-fns'
 
 // Date format used by the NavFundServices API
@@ -18,14 +18,11 @@ export function parseDateString(dateStr: string): Date {
 }
 
 /**
- * Unix timestamp for the NAV accounting calendar date at `utcHourOffsetFromMidnight` hours UTC (0 = midnight).
- * Business-day logic should keep using {@link parseDateString} only; this is for consumer-facing timestamps.
+ * Return midnight in specified timezone for a given inputDate.
  */
-export function accountingDateToNavTimestampMs(
-  accountingDateStr: string,
-  utcHourOffsetFromMidnight: number,
-): number {
-  return parseDateString(accountingDateStr).getTime() + utcHourOffsetFromMidnight * 60 * 60 * 1000
+export function dateToTimezoneOffsetUtcMs(inputDate: string, timezone: string): number {
+  const d = parseDateString(inputDate)
+  return new TZDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), timezone).getTime()
 }
 
 /**

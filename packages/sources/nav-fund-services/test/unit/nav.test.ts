@@ -3,16 +3,13 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 
-import {
-  BaseEndpointTypes,
-  DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
-  inputParameters as navInputParams,
-} from '../../src/endpoint/nav'
+import { BaseEndpointTypes, inputParameters as navInputParams } from '../../src/endpoint/nav'
 import { NavTransport } from '../../src/transport/nav'
 
 LoggerFactoryProvider.set()
 
 const FUND_ID = 123
+const TIMEZONE = 'UTC'
 const transportName = 'nav_transport'
 const endpointName = 'nav'
 
@@ -70,7 +67,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
+      navDateTimestampTimezone: TIMEZONE,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -86,7 +83,7 @@ describe('NavTransport – handleRequest', () => {
         navPerShare: 150,
         nextNavPerShare: 151,
         navDate: '06-25-2025',
-        navDateTimestampMs: 1750831200000,
+        navDateTimestampMs: 1750809600000,
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),
@@ -117,7 +114,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
+      navDateTimestampTimezone: TIMEZONE,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -143,7 +140,7 @@ describe('NavTransport – handleRequest', () => {
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
+      navDateTimestampTimezone: TIMEZONE,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -164,7 +161,7 @@ describe('NavTransport – handleRequest', () => {
     )
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS,
+      navDateTimestampTimezone: TIMEZONE,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -174,19 +171,20 @@ describe('NavTransport – handleRequest', () => {
     expect(cached.errorMessage).toMatch(/No fund found/i)
   })
 
-  it('uses UTC midnight when navDateTimestampUtcOffsetHours is 0', async () => {
+  it('returns midnight in the given timezone for navDateTimestampMs', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
-      navDateTimestampUtcOffsetHours: 0,
+      navDateTimestampTimezone: 'America/New_York',
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
     const cached = getCachedResponse()
-    expect(cached.data.navDateTimestampMs).toBe(1750809600000)
+    // June 5, 2025 midnight EDT (UTC-4) = 4AM UTC
+    expect(cached.data.navDateTimestampMs).toBe(Date.UTC(2025, 5, 25, 4, 0, 0, 0))
     expect(cached.timestamps.providerIndicatedTimeUnixMs).toBe(1750809600000)
   })
 })

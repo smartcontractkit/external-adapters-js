@@ -1,8 +1,8 @@
 import { differenceInBusinessDays, parse } from 'date-fns'
 import {
-  accountingDateToNavTimestampMs,
   clampStartByBusinessDays,
   DATE_FORMAT,
+  dateToTimezoneOffsetUtcMs,
   MAX_BUSINESS_DAYS,
   parseDateString,
   toDateString,
@@ -33,15 +33,14 @@ describe('date-utils', () => {
   })
 
   describe('accountingDateToNavTimestampMs', () => {
-    it('adds the given UTC hour offset from midnight on the accounting date', () => {
-      expect(accountingDateToNavTimestampMs('06-25-2025', 0)).toBe(
-        Date.UTC(2025, 5, 25, 0, 0, 0, 0),
-      )
-      expect(accountingDateToNavTimestampMs('06-25-2025', 6)).toBe(
-        Date.UTC(2025, 5, 25, 6, 0, 0, 0),
-      )
-      expect(accountingDateToNavTimestampMs('06-25-2025', 23)).toBe(
-        Date.UTC(2025, 5, 25, 23, 0, 0, 0),
+    it('returns UTC midnight for the UTC timezone', () => {
+      expect(dateToTimezoneOffsetUtcMs('06-25-2025', 'UTC')).toBe(Date.UTC(2025, 5, 25, 0, 0, 0, 0))
+    })
+
+    it('returns midnight in the given timezone', () => {
+      // America/New_York is EDT (UTC-4) in June – midnight NY = 04:00 UTC
+      expect(dateToTimezoneOffsetUtcMs('06-25-2025', 'America/New_York')).toBe(
+        Date.UTC(2025, 5, 25, 4, 0, 0, 0),
       )
     })
   })

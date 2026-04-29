@@ -10,8 +10,8 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { getApiKeys } from './creds'
 import {
-  accountingDateToNavTimestampMs,
   clampStartByBusinessDays,
+  dateToTimezoneOffsetUtcMs,
   parseDateString,
   toDateString,
 } from './date-utils'
@@ -114,9 +114,9 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     )
     // Assumes UTC
     const providerIndicatedTimeUnixMs = parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime()
-    const navDateTimestampMs = accountingDateToNavTimestampMs(
+    const navDateTimestampMs = dateToTimezoneOffsetUtcMs(
       latest[ACCOUNTING_DATE_KEY],
-      param.navDateTimestampUtcOffsetHours,
+      param.navDateTimestampTimezone,
     )
     return {
       statusCode: 200,
