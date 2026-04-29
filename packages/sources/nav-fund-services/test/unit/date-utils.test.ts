@@ -32,7 +32,7 @@ describe('date-utils', () => {
     })
   })
 
-  describe('accountingDateToNavTimestampMs', () => {
+  describe('dateToTimezoneOffsetUtcMs', () => {
     it('returns UTC midnight for the UTC timezone', () => {
       expect(dateToTimezoneOffsetUtcMs('06-25-2025', 'UTC')).toBe(Date.UTC(2025, 5, 25, 0, 0, 0, 0))
     })
