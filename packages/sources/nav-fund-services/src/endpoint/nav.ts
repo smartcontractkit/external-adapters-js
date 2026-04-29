@@ -5,7 +5,7 @@ import { config } from '../config'
 import { getApiKeys } from '../transport/creds'
 import { navTransport } from '../transport/nav'
 
-/** Default hours after UTC midnight on the accounting date for `navDateTimestampMs` (NA calendar-day alignment). */
+/** Default hours after UTC midnight on the accounting date for navDateTimestampMs. */
 const DEFAULT_NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS = 6
 const NAV_DATE_TIMESTAMP_UTC_OFFSET_HOURS_OPTIONS = [...Array(24).keys()] as const
 
