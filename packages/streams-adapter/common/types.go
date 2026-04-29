@@ -14,6 +14,7 @@ type RequestParams map[string]string
 type Observation struct {
 	Data       json.RawMessage `json:"data"`
 	Timestamps json.RawMessage `json:"timestamps"`
+	Meta       json.RawMessage `json:"meta"`
 	Success    bool            `json:"success"`
 	Error      string          `json:"error,omitempty"`
 }

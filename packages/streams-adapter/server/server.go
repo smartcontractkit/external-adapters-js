@@ -207,6 +207,7 @@ func (s *Server) Stop() error {
 	}
 
 	// 2. Shutdown HTTP servers
+	// 2a. Shutdown main server
 	if s.server != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -216,7 +217,7 @@ func (s *Server) Stop() error {
 		}
 	}
 
-	// 3. Shutdown metrics server
+	// 2b. Shutdown metrics server
 	if s.metricsServer != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -337,7 +338,15 @@ func (s *Server) adapterHandler(c *gin.Context) {
 			// Phase 1: Fire subscription immediately with original data
 			// (includes overrides). Gets the subscription queued at the JS
 			// adapter ASAP without waiting for the per-endpoint learning lock.
+			// Register as in-flight BEFORE the HTTP call so that the ZADD
+			// it triggers is excluded from Phase-2 learning of other goroutines.
+			s.keyMapper.RegisterPhase1InFlight(params["endpoint"], key)
 			s.subscribeToAsset(originalData)
+			// Deregister before Phase-2 so that Phase-2's own ZADD (same
+			// symbol, same transformedKey) is not mistakenly filtered out.
+			// Any late Phase-1 ZADD for this symbol reaching Phase-2's channel
+			// is harmless — it carries the correct params for this symbol.
+			s.keyMapper.DeregisterPhase1InFlight(params["endpoint"], key)
 
 			// Phase 2: Learn the raw→transformed cache key mapping.
 			// Serialized per endpoint via KeyMapper's existing mutex.
@@ -409,7 +418,7 @@ func (s *Server) subscribeToAsset(data interface{}) {
 	}
 }
 
-// resubscribe loop periodically resubscribes to all assets in the cache
+// resubscribeLoop periodically resubscribes to all assets in the cache.
 func (s *Server) resubscribeLoop() {
 	cleanupInterval := time.Duration(s.config.CacheCleanupInterval) * time.Minute
 	ticker := time.NewTicker(cleanupInterval)

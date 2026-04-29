@@ -125,6 +125,50 @@ func TestKeyMapper_SerializedPerEndpoint(t *testing.T) {
 	mu.Unlock()
 }
 
+func TestKeyMapper_Phase1InFlight_DifferentEndpointDoesNotInterfere(t *testing.T) {
+	initTestAdapter(t)
+	km := NewKeyMapper(slog.Default())
+
+	// Endpoint A has a Phase-1 in-flight for a key that would produce the same
+	// transformedKey as the ZADD we're about to fire.
+	endpointA := "price"
+	endpointB := "volume"
+	zaddKeyA := "TEST-ADAPTER-price-ws-subscriptionSet"
+	zaddKeyB := "TEST-ADAPTER-volume-ws-subscriptionSet"
+	rawKeyA := "base=btc:endpoint=price:quote=usd"
+	rawKeyB := "base=eth:endpoint=volume:quote=usd"
+
+	// Pre-seed endpointA's transformedKey into the phase1InFlight set.
+	// We compute it by running the ZADD through computeTransformedKey indirectly:
+	// just register the raw key directly — it matches what NotifyZAdd would look up.
+	km.RegisterPhase1InFlight(endpointA, rawKeyA)
+
+	// SubscribeAndLearn on endpointB must still receive its ZADD and learn its mapping.
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		km.SubscribeAndLearn(endpointB, rawKeyB, func() {
+			// Fire a ZADD for endpointA first — should be dropped (Phase-1 guard),
+			// and must NOT be delivered to the endpointB waiter.
+			km.NotifyZAdd(zaddKeyA, `{"base":"BTC","quote":"USD"}`)
+			// Then fire the legitimate ZADD for endpointB.
+			km.NotifyZAdd(zaddKeyB, `{"base":"ETH","quote":"USD"}`)
+		})
+	}()
+
+	wg.Wait()
+
+	// endpointB mapping must be learned.
+	transformedB, ok := km.Get(rawKeyB)
+	require.True(t, ok, "endpointB mapping should be learned")
+	require.NotEmpty(t, transformedB)
+
+	// endpointA mapping must NOT have been learned (its ZADD was dropped).
+	_, ok = km.Get(rawKeyA)
+	require.False(t, ok, "endpointA mapping should not be learned — ZADD was Phase-1 and dropped")
+}
+
 func TestKeyMapper_Size(t *testing.T) {
 	km := NewKeyMapper(slog.Default())
 	require.Equal(t, 0, km.Size())
