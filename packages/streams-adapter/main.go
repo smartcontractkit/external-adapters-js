@@ -66,21 +66,18 @@ func main() {
 	})
 	defer appCache.Stop()
 
-	keyMapper := helpers.NewKeyMapper(logger)
-
 	// Wait for EA server to be ready before starting
 	waitForEAServer(cfg, logger)
 
 	// Initialize HTTP server
-	httpServer := server.New(cfg, appCache, logger, keyMapper)
+	httpServer := server.New(cfg, appCache, logger)
 	defer httpServer.Stop()
 
 	// Initialize Redcon server
 	redconServer := redcon.New(redcon.Config{
-		Addr:      ":" + cfg.RedconPort,
-		Cache:     appCache,
-		Logger:    logger,
-		KeyMapper: keyMapper,
+		Addr:   ":" + cfg.RedconPort,
+		Cache:  appCache,
+		Logger: logger,
 	})
 
 	// Create error channel for goroutine failures

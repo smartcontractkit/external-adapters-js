@@ -70,10 +70,21 @@ func TestMain(m *testing.M) {
 		CleanupInterval: 10 * time.Minute,
 	})
 
-	keyMapper := helpers.NewKeyMapper(slog.Default())
-	testSrv = New(cfg, testCache, slog.Default(), keyMapper)
+	testSrv = New(cfg, testCache, slog.Default())
 
 	os.Exit(m.Run())
+}
+
+// setCache drives a raw key through the full item lifecycle so tests can
+// pre-populate the cache with an active observation without needing a JS adapter.
+// Use rawKey == transformedKey for adapters without parameter transformation.
+func setCache(t *testing.T, params types.RequestParams, obs *types.Observation, originalAdapterKey string) {
+	t.Helper()
+	rawKey, err := helpers.CalculateCacheKey(params)
+	require.NoError(t, err)
+	testCache.SetNew(rawKey)
+	testCache.SetTransformedKey(rawKey, rawKey)
+	testCache.SetObservation(rawKey, obs, time.Now(), originalAdapterKey)
 }
 
 func TestHealthHandler(t *testing.T) {
@@ -106,7 +117,7 @@ func TestAdapterHandler_CacheHit(t *testing.T) {
 		Data:    json.RawMessage(`{"result":1234}`),
 		Success: true,
 	}
-	testCache.Set(params, obs, time.Now(), "test-key")
+	setCache(t, params, obs, "test-key")
 
 	body := `{"data":{"endpoint":"crypto","base":"ETH","quote":"USD"}}`
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
@@ -129,7 +140,7 @@ func TestAdapterHandler_CacheHit_FailedObservation(t *testing.T) {
 		Success:    false,
 		Error:      "Bid price: 1.23 or Ask price: 4.56 for FOO is invalid.",
 	}
-	testCache.Set(params, obs, time.Now(), "test-key-fail")
+	setCache(t, params, obs, "test-key-fail")
 
 	body := `{"data":{"endpoint":"crypto","base":"FOO","quote":"BAR"}}`
 	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))

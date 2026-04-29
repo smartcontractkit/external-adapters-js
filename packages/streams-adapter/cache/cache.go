@@ -9,13 +9,26 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 
 	types "streams-adapter/common"
-	helpers "streams-adapter/helpers"
 )
 
 var cacheDataGetCount = promauto.NewCounter(
 	prometheus.CounterOpts{
 		Name: "cache_data_get_count",
 		Help: "The number of cache get operations",
+	},
+)
+
+var cacheItemsTotal = promauto.NewGauge(
+	prometheus.GaugeOpts{
+		Name: "cache_items_total",
+		Help: "The current number of items in the cache (all statuses)",
+	},
+)
+
+var cacheItemsActive = promauto.NewGauge(
+	prometheus.GaugeOpts{
+		Name: "cache_items_active",
+		Help: "The current number of active cache items with live observation data",
 	},
 )
 
@@ -27,13 +40,14 @@ type Config struct {
 
 // Cache represents an in-memory cache for observation data
 type Cache struct {
-	mu              sync.RWMutex
-	items           map[string]*types.CacheItem
-	ttl             time.Duration
-	cleanupInterval time.Duration
-	ctx             context.Context
-	cancel          context.CancelFunc
-	stopOnce        sync.Once
+	mu               sync.RWMutex
+	items            map[string]*types.CacheItem // rawKey → item
+	byTransformedKey map[string]string           // transformedKey → rawKey (secondary index)
+	ttl              time.Duration
+	cleanupInterval  time.Duration
+	ctx              context.Context
+	cancel           context.CancelFunc
+	stopOnce         sync.Once
 }
 
 // New creates a new cache instance
@@ -45,11 +59,12 @@ func New(cfg Config) *Cache {
 	}
 
 	c := &Cache{
-		items:           make(map[string]*types.CacheItem),
-		ttl:             cfg.TTL,
-		cleanupInterval: cleanupInterval,
-		ctx:             ctx,
-		cancel:          cancel,
+		items:            make(map[string]*types.CacheItem),
+		byTransformedKey: make(map[string]string),
+		ttl:              cfg.TTL,
+		cleanupInterval:  cleanupInterval,
+		ctx:              ctx,
+		cancel:           cancel,
 	}
 
 	// Start cleanup goroutine
@@ -59,21 +74,62 @@ func New(cfg Config) *Cache {
 
 }
 
-// Set stores an observation for the given request parameters with a timestamp
-func (c *Cache) Set(params types.RequestParams, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
+// SetNew creates a "new" cache item for the given raw key if one does not
+// already exist. Returns true if the item was created (i.e. this is the first
+// caller for this key), false if an item already existed.
+func (c *Cache) SetNew(rawKey string) bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if _, exists := c.items[rawKey]; exists {
+		return false
+	}
+	c.items[rawKey] = &types.CacheItem{
+		Status:    types.StatusNew,
+		Timestamp: time.Now(),
+	}
+	cacheItemsTotal.Inc()
+	return true
+}
+
+// SetTransformedKey transitions a "new" item to "learned" by recording the
+// raw→transformed key mapping. If a pending observation has already arrived
+// for this transformed key, it is applied immediately and the item becomes
+// "active". No-op if the raw key is not present in the cache.
+func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	key, err := helpers.CalculateCacheKey(params)
-	if err != nil {
-		// If we cannot generate a cache key, skip caching this observation
+	item, ok := c.items[rawKey]
+	if !ok {
 		return
 	}
-	c.items[key] = &types.CacheItem{
-		Observation:        obs,
-		Timestamp:          timestamp,
-		OriginalAdapterKey: originalAdapterKey,
+	item.TransformedKey = transformedKey
+	item.Status = types.StatusLearned
+	item.Timestamp = time.Now()
+	c.byTransformedKey[transformedKey] = rawKey
+}
+
+// SetObservation transitions the item identified by transformedKey to "active"
+// with the given observation. Observations that arrive before the mapping is
+// known (before SetTransformedKey is called) are dropped.
+func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	rawKey, ok := c.byTransformedKey[transformedKey]
+	if !ok {
+		return
 	}
+
+	item, ok := c.items[rawKey]
+	if !ok {
+		return
+	}
+	item.Status = types.StatusActive
+	item.Observation = obs
+	item.Timestamp = timestamp
+	item.OriginalAdapterKey = originalAdapterKey
+	cacheItemsActive.Inc()
 }
 
 // Get retrieves a cache item by its internal cache key string.
@@ -123,9 +179,16 @@ func (c *Cache) cleanupExpired() {
 	defer c.mu.Unlock()
 
 	cutoff := time.Now().Add(-c.ttl)
-	for key, item := range c.items {
+	for rawKey, item := range c.items {
 		if item.Timestamp.Before(cutoff) {
-			delete(c.items, key)
+			if item.TransformedKey != "" {
+				delete(c.byTransformedKey, item.TransformedKey)
+			}
+			if item.Status == types.StatusActive {
+				cacheItemsActive.Dec()
+			}
+			cacheItemsTotal.Dec()
+			delete(c.items, rawKey)
 		}
 	}
 }
