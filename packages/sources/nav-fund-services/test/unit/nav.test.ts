@@ -64,7 +64,10 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampUtcOffsetHours: 6,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -79,7 +82,7 @@ describe('NavTransport – handleRequest', () => {
         navPerShare: 150,
         nextNavPerShare: 151,
         navDate: '06-25-2025',
-        navDateTimestampMs: 1750809600000,
+        navDateTimestampMs: 1750831200000,
       },
       timestamps: expect.objectContaining({
         providerDataRequestedUnixMs: expect.any(Number),
@@ -108,7 +111,10 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES) // first OK
     requester.request.mockRejectedValueOnce(new AdapterError({ message: 'boom' }))
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampUtcOffsetHours: 6,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -131,7 +137,10 @@ describe('NavTransport – handleRequest', () => {
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
     requester.request.mockResolvedValueOnce(fundRes)
 
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampUtcOffsetHours: 6,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
@@ -149,12 +158,31 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(
       makeStub('emptyFund', { response: { data: { Data: [] } } }),
     )
-    const param = makeStub('param', { globalFundID: FUND_ID } as typeof navInputParams.validated)
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampUtcOffsetHours: 6,
+    } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
 
     const cached = getCachedResponse()
     expect(cached.statusCode).toBe(400)
     expect(cached.errorMessage).toMatch(/No fund found/i)
+  })
+
+  it('uses UTC midnight when navDateTimestampUtcOffsetHours is 0', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampUtcOffsetHours: 0,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    expect(cached.data.navDateTimestampMs).toBe(1750809600000)
+    expect(cached.timestamps.providerIndicatedTimeUnixMs).toBe(1750809600000)
   })
 })

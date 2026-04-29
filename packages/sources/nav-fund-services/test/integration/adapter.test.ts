@@ -45,5 +45,17 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should reject navDateTimestampUtcHourOffset out of range', async () => {
+      const data = {
+        globalFundID: 1234,
+        endpoint: 'nav',
+        transport: 'rest',
+        navDateTimestampUtcOffsetHours: 100,
+      }
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })

@@ -1,5 +1,6 @@
 import { differenceInBusinessDays, parse } from 'date-fns'
 import {
+  accountingDateToNavTimestampMs,
   clampStartByBusinessDays,
   DATE_FORMAT,
   MAX_BUSINESS_DAYS,
@@ -27,6 +28,20 @@ describe('date-utils', () => {
       const badInput = '2025-07-11'
       expect(() => parseDateString(badInput)).toThrow(
         `date must be in ${DATE_FORMAT} format: got "${badInput}"`,
+      )
+    })
+  })
+
+  describe('accountingDateToNavTimestampMs', () => {
+    it('adds the given UTC hour offset from midnight on the accounting date', () => {
+      expect(accountingDateToNavTimestampMs('06-25-2025', 0)).toBe(
+        Date.UTC(2025, 5, 25, 0, 0, 0, 0),
+      )
+      expect(accountingDateToNavTimestampMs('06-25-2025', 6)).toBe(
+        Date.UTC(2025, 5, 25, 6, 0, 0, 0),
+      )
+      expect(accountingDateToNavTimestampMs('06-25-2025', 23)).toBe(
+        Date.UTC(2025, 5, 25, 23, 0, 0, 0),
       )
     })
   })

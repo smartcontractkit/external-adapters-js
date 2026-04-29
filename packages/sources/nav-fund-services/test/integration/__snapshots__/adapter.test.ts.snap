@@ -1,11 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute nav endpoint should reject navDateTimestampUtcHourOffset out of range 1`] = `
+{
+  "error": {
+    "message": "[Param: navDateTimestampUtcOffsetHours] input is not one of valid options (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23)",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
     "globalFundID": 1234,
     "navDate": "01-01-2024",
-    "navDateTimestampMs": 1704067200000,
+    "navDateTimestampMs": 1704088800000,
     "navPerShare": 123.45,
     "nextNavPerShare": 124.56,
   },
