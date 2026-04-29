@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/xsushi-price-adapter",
-  "version": "2.0.137",
+  "version": "2.0.138",
   "description": "Chainlink xsushi-price adapter.",
   "keywords": [
     "Chainlink",
