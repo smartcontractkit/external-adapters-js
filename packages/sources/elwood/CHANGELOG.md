@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 3.2.3
+
+### Patch Changes
+
+- [#4905](https://github.com/smartcontractkit/external-adapters-js/pull/4905) [`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapters] fixed race condition in the resubscribe loop
+
 ## 3.2.2
 
 ### Patch Changes
