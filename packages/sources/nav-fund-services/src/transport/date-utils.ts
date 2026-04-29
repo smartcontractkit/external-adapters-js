@@ -18,7 +18,7 @@ export function parseDateString(dateStr: string): Date {
 }
 
 /**
- * Return midnight in specified timezone for a given inputDate.
+ * Returns the UTC timestamp (ms) for midnight on inputDate in the given timezone.
  */
 export function dateToTimezoneOffsetUtcMs(inputDate: string, timezone: string): number {
   const d = parseDateString(inputDate)

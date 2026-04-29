@@ -39,7 +39,6 @@ describe('execute', () => {
         globalFundID: 1234,
         endpoint: 'nav',
         transport: 'rest',
-        navDateTimestampTimezone: 'UTC',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)
