@@ -6,7 +6,7 @@ import { getApiKeys } from '../transport/creds'
 import { navTransport } from '../transport/nav'
 
 /** Default timezone to offset UTC midnight for navDateTimestampMs. */
-export const DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE = 'America/New_York'
+export const DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE = 'America/Los_Angeles'
 
 export const inputParameters = new InputParameters(
   {
@@ -18,7 +18,8 @@ export const inputParameters = new InputParameters(
     navDateTimestampTimezone: {
       required: false,
       type: 'string',
-      description: 'timezone for midnight in navDateTimestampMs (e.g. "America/New_York", "UTC").',
+      description:
+        'timezone for midnight in navDateTimestampMs (e.g. "America/New_York", "America/Los_Angeles", "UTC").',
       default: DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE,
     },
   },
