@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.11.4
+
+### Patch Changes
+
+- [#4914](https://github.com/smartcontractkit/external-adapters-js/pull/4914) [`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - new images with proper streams race condition fix
+
 ## 3.11.3
 
 ### Patch Changes
