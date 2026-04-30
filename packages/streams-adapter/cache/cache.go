@@ -32,6 +32,14 @@ var cacheItemsActive = promauto.NewGauge(
 	},
 )
 
+var cacheObservationsTotal = promauto.NewCounterVec(
+	prometheus.CounterOpts{
+		Name: "cache_observations_total",
+		Help: "The total number of observations received per cache item (feed_id)",
+	},
+	[]string{"feed_id"},
+)
+
 // Config holds cache configuration
 type Config struct {
 	TTL             time.Duration // Time-to-live for items
@@ -133,6 +141,7 @@ func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, ti
 	if !wasActive {
 		cacheItemsActive.Inc()
 	}
+	cacheObservationsTotal.WithLabelValues(transformedKey).Inc()
 }
 
 // Get retrieves a cache item by its internal cache key string.

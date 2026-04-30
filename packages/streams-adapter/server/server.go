@@ -432,6 +432,9 @@ func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
+		if resp.StatusCode != http.StatusGatewayTimeout {
+			s.logger.Warn("Unexpected status from JS adapter during feedId poll", "status", resp.StatusCode)
+		}
 		return "", false
 	}
 
