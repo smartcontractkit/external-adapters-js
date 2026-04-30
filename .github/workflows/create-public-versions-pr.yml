@@ -75,7 +75,7 @@ jobs:
           git checkout -b $BRANCH
           git push --set-upstream origin $BRANCH
       - name: Sign commit and push
-        uses: planetscale/ghcommit-action@f035dd97212c4009aaa9e3197abf88f80d1d8d91 # v0.2.8
+        uses: planetscale/ghcommit-action@86434b0b2603b57a211bae56ceee257b85646630 # v0.2.8
         with:
           commit_message: 'Update public adapter versions'
           repo: ${{ github.repository }}
