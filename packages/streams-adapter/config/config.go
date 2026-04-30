@@ -21,6 +21,8 @@ type Config struct {
 
 	// Subscription configuration
 	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
+	FeedIDPollIntervalSeconds     uint // Interval between feedId polling retries (0 = default 2s)
+	FeedIDMaxRetries              uint // Max feedId polling attempts before giving up (0 = default 90)
 
 	// Metrics forwarding
 	MetricsForwardTimeoutSeconds uint // HTTP timeout for scraping JS adapter metrics (0 = default 5s)
@@ -49,6 +51,8 @@ func Load() *Config {
 
 		// Subscription
 		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
+		FeedIDPollIntervalSeconds:     getEnvAsInt("FEEDID_POLL_INTERVAL_SECONDS", 2),
+		FeedIDMaxRetries:              getEnvAsInt("FEEDID_MAX_RETRIES", 90),
 
 		// Metrics forwarding
 		MetricsForwardTimeoutSeconds: getEnvAsInt("METRICS_FORWARD_TIMEOUT_SECONDS", 2),
