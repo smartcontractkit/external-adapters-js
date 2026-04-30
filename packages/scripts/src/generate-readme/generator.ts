@@ -254,7 +254,8 @@ export class ReadmeGenerator {
 
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
       const required = this.requiredEnvVars.includes(key) ? '✅' : ''
-      const name = key ?? ''
+      const placeholder = envVar.variablePlaceholder
+      const name = placeholder ? key.replace(placeholder, `\${${placeholder}}`) : key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
       const options = codeList(envVar.options as Array<string | number>)

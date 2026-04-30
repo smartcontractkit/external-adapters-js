@@ -20,6 +20,7 @@ adapter.
 
 | Required? |                Name                |                                         Description                                         |  Type  | Options | Default |
 | :-------: | :--------------------------------: | :-----------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |          ${PROVIDER}\_URL          |                    The URL for the given provider used in request params                    | string |         |         |
 |           | MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE | How many characters of a response may be included in an error message before trunctating it | number |         |  `200`  |
 |           |       BACKGROUND_EXECUTE_MS        |  The amount of time the background execute should sleep before performing the next request  | number |         | `10000` |
 
