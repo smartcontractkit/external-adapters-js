@@ -125,11 +125,14 @@ func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, ti
 	if !ok {
 		return
 	}
+	wasActive := item.Status == types.StatusActive
 	item.Status = types.StatusActive
 	item.Observation = obs
 	item.Timestamp = timestamp
 	item.OriginalAdapterKey = originalAdapterKey
-	cacheItemsActive.Inc()
+	if !wasActive {
+		cacheItemsActive.Inc()
+	}
 }
 
 // Get retrieves a cache item by its internal cache key string.
