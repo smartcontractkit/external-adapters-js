@@ -4,18 +4,17 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/sanctum-infinity'
-import { fetchFieldFromBufferLayoutStateAccount } from '../shared/buffer-layout-accounts'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/pool-token-rate'
+import { fetchDataFromBufferLayoutStateAccount } from '../shared/buffer-layout-accounts'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
-const logger = makeLogger('SanctumInfinityTransport')
+const logger = makeLogger('PoolTokenRateTransport')
 
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const RESULT_DECIMALS = 18
 
 type RequestParams = typeof inputParameters.validated
 
-export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class PoolTokenRateTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
 
   async initialize(
@@ -55,29 +54,35 @@ export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpoint
   }
 
   async _handleRequest(
-    _params: RequestParams,
+    params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const [totalPoolValueString, totalPoolTokenSupplyString] = await Promise.all([
-      fetchFieldFromBufferLayoutStateAccount({
-        stateAccountAddress: poolStateAddress,
-        field: 'total_sol_value',
-        rpc: this.rpc,
-      }),
+    const { programAddress, data } = await fetchDataFromBufferLayoutStateAccount({
+      stateAccountAddress: params.stakePoolAccountAddress,
+      rpc: this.rpc,
+    })
 
-      fetchFieldFromBufferLayoutStateAccount({
-        stateAccountAddress: infinityTokenMintAddress,
-        field: 'supply',
-        rpc: this.rpc,
-      }),
-    ])
+    if (!('totalLamports' in data) || !('poolTokenSupply' in data)) {
+      throw new AdapterInputError({
+        message: `Expected account data for program '${programAddress}' to contain 'totalLamports' and 'poolTokenSupply' fields. Found fields: ${Object.keys(
+          data,
+        ).join(', ')}`,
+        statusCode: 500,
+      })
+    }
 
-    const result = Number(totalPoolValueString) / Number(totalPoolTokenSupplyString)
+    const totalLamports = BigInt(String(data.totalLamports))
+    const poolTokenSupply = BigInt(String(data.poolTokenSupply))
+    const rate = (totalLamports * 10n ** BigInt(RESULT_DECIMALS)) / poolTokenSupply
+    const result = rate.toString()
 
     return {
       data: {
-        result,
+        rate: result,
+        decimals: RESULT_DECIMALS,
+        totalLamports: totalLamports.toString(),
+        poolTokenSupply: poolTokenSupply.toString(),
       },
       statusCode: 200,
       result,
@@ -94,4 +99,4 @@ export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpoint
   }
 }
 
-export const sanctumInfinityTransport = new SanctumInfinityTransport()
+export const poolTokenRateTransport = new PoolTokenRateTransport()

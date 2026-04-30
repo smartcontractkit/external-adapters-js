@@ -2,10 +2,9 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes } from '../../src/endpoint/sanctum-infinity'
-import { SanctumInfinityTransport } from '../../src/transport/sanctum-infinity'
-import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
-import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
+import { BaseEndpointTypes } from '../../src/endpoint/pool-token-rate'
+import { PoolTokenRateTransport } from '../../src/transport/pool-token-rate'
+import * as jitoStakePoolAccountData from '../fixtures/jito-stake-pool-account-data-2026-04-29.json'
 
 const originalEnv = { ...process.env }
 
@@ -19,18 +18,14 @@ const restoreEnv = () => {
   }
 }
 
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const jitoStakePoolAccountAddress = 'Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb'
 
-const getPoolAccountInfoMock = jest.fn()
-const getTokenAccountInfoMock = jest.fn()
+const getStakePoolAccountInfoMock = jest.fn()
 
 const solanaRpc = makeStub('solanaRpc', {
-  getAccountInfo: (address: string) => ({
+  getAccountInfo: (_address: string) => ({
     send() {
-      if (address === poolStateAddress) return getPoolAccountInfoMock()
-      if (address === infinityTokenMintAddress) return getTokenAccountInfoMock()
-      throw new Error(`Unexpected account address: ${address}`)
+      return getStakePoolAccountInfoMock()
     },
   }),
 })
@@ -58,12 +53,17 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('SanctumInfinityTransport', () => {
+describe('PoolTokenRateTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'sanctum-infinity'
+  const endpointName = 'pool-token-rate'
   const RPC_URL = 'https://solana.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
-  const expectedTokenPrice = 1.367248413526656
+  const expectedTotalLamports = '10409494211336524'
+  const expectedPoolTokenSupply = '8158765909908130'
+  const expectedRate = (
+    (BigInt(expectedTotalLamports) * 10n ** 18n) /
+    BigInt(expectedPoolTokenSupply)
+  ).toString()
 
   const adapterSettings = makeStub('adapterSettings', {
     RPC_URL,
@@ -88,14 +88,14 @@ describe('SanctumInfinityTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: SanctumInfinityTransport
+  let transport: PoolTokenRateTransport
 
   beforeEach(async () => {
     restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
 
-    transport = new SanctumInfinityTransport()
+    transport = new PoolTokenRateTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -118,19 +118,22 @@ describe('SanctumInfinityTransport', () => {
 
   describe('handleRequest', () => {
     it('should cache token price response', async () => {
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(sanctumInfinityTokenAccountData.result)
+      getStakePoolAccountInfoMock.mockResolvedValue(jitoStakePoolAccountData.result)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'pool-token-rate',
+        stakePoolAccountAddress: jitoStakePoolAccountAddress,
       })
       await transport.handleRequest(param)
 
       const expectedResponse = {
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedRate,
         data: {
-          result: expectedTokenPrice,
+          rate: expectedRate,
+          decimals: 18,
+          totalLamports: expectedTotalLamports,
+          poolTokenSupply: expectedPoolTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -151,20 +154,23 @@ describe('SanctumInfinityTransport', () => {
 
   describe('_handleRequest', () => {
     it('should return token price', async () => {
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(sanctumInfinityTokenAccountData.result)
+      getStakePoolAccountInfoMock.mockResolvedValue(jitoStakePoolAccountData.result)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'pool-token-rate',
+        stakePoolAccountAddress: jitoStakePoolAccountAddress,
       })
 
       const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedRate,
         data: {
-          result: expectedTokenPrice,
+          rate: expectedRate,
+          decimals: 18,
+          totalLamports: expectedTotalLamports,
+          poolTokenSupply: expectedPoolTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -175,14 +181,14 @@ describe('SanctumInfinityTransport', () => {
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const tokenData = sanctumInfinityTokenAccountData.result
-      const [tokenDataPromise, resolveTokenData] = deferredPromise<typeof tokenData>()
+      const tokenData = jitoStakePoolAccountData.result
+      const [poolDataPromise, resolvePoolData] = deferredPromise<typeof tokenData>()
 
-      getPoolAccountInfoMock.mockResolvedValue(sanctumInfinityPoolAccountData.result)
-      getTokenAccountInfoMock.mockResolvedValue(tokenDataPromise)
+      getStakePoolAccountInfoMock.mockResolvedValue(poolDataPromise)
 
       const param = makeStub('param', {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'pool-token-rate',
+        stakePoolAccountAddress: jitoStakePoolAccountAddress,
       })
 
       const requestTimestamp = Date.now()
@@ -191,13 +197,16 @@ describe('SanctumInfinityTransport', () => {
       const responseTimestamp = Date.now()
       expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
 
-      resolveTokenData(tokenData)
+      resolvePoolData(tokenData)
 
       expect(await responsePromise).toEqual({
         statusCode: 200,
-        result: expectedTokenPrice,
+        result: expectedRate,
         data: {
-          result: expectedTokenPrice,
+          rate: expectedRate,
+          decimals: 18,
+          totalLamports: expectedTotalLamports,
+          poolTokenSupply: expectedPoolTokenSupply,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,

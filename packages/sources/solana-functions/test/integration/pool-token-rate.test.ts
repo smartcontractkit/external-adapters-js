@@ -3,18 +3,14 @@ import {
   makeStub,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
-import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
+import * as jitoStakePoolAccountData from '../fixtures/jito-stake-pool-account-data-2026-04-29.json'
 
-const poolStateAddress = 'AYhux5gJzCoeoc1PoJ1VxwPDe22RwcvpHviLDD1oCGvW'
-const infinityTokenMintAddress = '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm'
+const jitoStakePoolAccountAddress = 'Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb'
 
 const solanaRpc = makeStub('solanaRpc', {
-  getAccountInfo: (address: string) => ({
+  getAccountInfo: (_address: string) => ({
     async send() {
-      if (address === poolStateAddress) return sanctumInfinityPoolAccountData.result
-      if (address === infinityTokenMintAddress) return sanctumInfinityTokenAccountData.result
-      throw new Error(`Unexpected account address: ${address}`)
+      return jitoStakePoolAccountData.result
     },
   }),
 })
@@ -52,10 +48,11 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('sanctum-infinity', () => {
+  describe('pool-token-rate', () => {
     it('should return success', async () => {
       const data = {
-        endpoint: 'sanctum-infinity',
+        endpoint: 'pool-token-rate',
+        stakePoolAccountAddress: jitoStakePoolAccountAddress,
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
