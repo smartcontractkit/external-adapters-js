@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import type {
   AdapterContext,
   AdapterImplementation,
@@ -93,7 +94,7 @@ export const getRandomEnv = (name: string, delimiter = ',', prefix = ''): string
   const val = getEnv(name, prefix)
   if (!val) return val
   const items = val.split(delimiter)
-  return items[Math.floor(Math.random() * items.length)]
+  return items[crypto.randomInt(items.length)]
 }
 
 // pick a random string from env var after splitting with the delimiter ("a&b&c" "&" -> choice(["a","b","c"]))
@@ -104,7 +105,7 @@ export const getRandomRequiredEnv = (
 ): string | undefined => {
   const val = getRequiredEnv(name, prefix)
   const items = val.split(delimiter)
-  return items[Math.floor(Math.random() * items.length)]
+  return items[crypto.randomInt(items.length)]
 }
 
 // We generate an UUID per instance
