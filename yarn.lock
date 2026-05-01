@@ -4383,7 +4383,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-fund-services-adapter@workspace:packages/sources/nav-fund-services"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.13.3"
+    "@date-fns/tz": "npm:^1.4.1"
     "@types/crypto-js": "npm:^4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5840,7 +5841,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@date-fns/tz@npm:1.4.1":
+"@date-fns/tz@npm:1.4.1, @date-fns/tz@npm:^1.4.1":
   version: 1.4.1
   resolution: "@date-fns/tz@npm:1.4.1"
   checksum: 10/062097590005cce3da4c7d9880f9c77d386cff5b4dd58fa3dde3c346a8b2e4f4a8025a613306351a7cad8eb71178a0f67b4840d5884f73aa4c759085fac92063

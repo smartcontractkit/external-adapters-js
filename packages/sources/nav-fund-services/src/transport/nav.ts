@@ -9,7 +9,12 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { getApiKeys } from './creds'
-import { clampStartByBusinessDays, parseDateString, toDateString } from './date-utils'
+import {
+  clampStartByBusinessDays,
+  dateToTimezoneOffsetUtcMs,
+  parseDateString,
+  toDateString,
+} from './date-utils'
 
 const logger = makeLogger('NavTransport')
 
@@ -109,6 +114,10 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     )
     // Assumes UTC
     const providerIndicatedTimeUnixMs = parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime()
+    const navDateTimestampMs = dateToTimezoneOffsetUtcMs(
+      latest[ACCOUNTING_DATE_KEY],
+      param.navDateTimestampTimezone,
+    )
     return {
       statusCode: 200,
       result: latest[NAV_PER_SHARE_KEY],
@@ -117,7 +126,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         navPerShare: latest[NAV_PER_SHARE_KEY],
         nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
-        navDateTimestampMs: parseDateString(latest[ACCOUNTING_DATE_KEY]).getTime(),
+        navDateTimestampMs,
       },
       timestamps: {
         providerDataRequestedUnixMs,

@@ -1,3 +1,4 @@
+import { TZDate, tz } from '@date-fns/tz'
 import { differenceInBusinessDays, format, isValid, parse, subBusinessDays } from 'date-fns'
 
 // Date format used by the NavFundServices API
@@ -14,6 +15,14 @@ export function parseDateString(dateStr: string): Date {
     throw new Error(`date must be in ${DATE_FORMAT} format: got "${dateStr}"`)
   }
   return new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()))
+}
+
+/**
+ * Returns the UTC timestamp (ms) for midnight on inputDate in the given timezone.
+ */
+export function dateToTimezoneOffsetUtcMs(inputDate: string, timezone: string): number {
+  const d = parseDateString(inputDate)
+  return new TZDate(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), timezone).getTime()
 }
 
 /**
@@ -34,11 +43,11 @@ export function clampStartByBusinessDays(
   to: Date,
   maxBusinessDays = MAX_BUSINESS_DAYS,
 ): Date {
-  const span = differenceInBusinessDays(to, from)
-  return span > maxBusinessDays ? subBusinessDays(to, maxBusinessDays) : from
+  const span = differenceInBusinessDays(to, from, { in: tz('UTC') })
+  return span > maxBusinessDays ? subBusinessDays(to, maxBusinessDays, { in: tz('UTC') }) : from
 }
 
-/** Convenience formatter so every outbound string is consistent. */
+/** Convenience formatter: UTC calendar date as MM-dd-yyyy. */
 export function toDateString(d: Date): string {
-  return format(d, DATE_FORMAT)
+  return format(d, DATE_FORMAT, { in: tz('UTC') })
 }

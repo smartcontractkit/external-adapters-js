@@ -5,6 +5,9 @@ import { config } from '../config'
 import { getApiKeys } from '../transport/creds'
 import { navTransport } from '../transport/nav'
 
+/** Default timezone to offset UTC midnight for navDateTimestampMs. */
+export const DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE = 'America/Los_Angeles'
+
 export const inputParameters = new InputParameters(
   {
     globalFundID: {
@@ -12,10 +15,18 @@ export const inputParameters = new InputParameters(
       type: 'number',
       description: 'Used to match API_KEY_${globalFundID} SECRET_KEY_${globalFundID} env variables',
     },
+    navDateTimestampTimezone: {
+      required: false,
+      type: 'string',
+      description:
+        'timezone for midnight in navDateTimestampMs (e.g. "America/New_York", "America/Los_Angeles", "UTC").',
+      default: DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE,
+    },
   },
   [
     {
       globalFundID: 1234,
+      navDateTimestampTimezone: 'UTC',
     },
   ],
 )
@@ -40,6 +51,15 @@ export const endpoint = new AdapterEndpoint({
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
     getApiKeys(req.requestContext.data.globalFundID)
+    const timezone = req.requestContext.data.navDateTimestampTimezone
+    try {
+      Intl.DateTimeFormat(undefined, { timeZone: timezone })
+    } catch {
+      return new AdapterInputError({
+        message: `navDateTimestampTimezone "${timezone}" is invalid`,
+        statusCode: 400,
+      })
+    }
     return
   },
 })
