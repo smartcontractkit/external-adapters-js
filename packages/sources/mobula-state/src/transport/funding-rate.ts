@@ -60,7 +60,6 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         payload: {
           symbol: params.base,
           quote: params.quote,
-          ...(params.protocol && { protocol: params.protocol }),
         },
       }
     },
@@ -94,16 +93,8 @@ const getFundingRateResult = (
   queryDetails: WSResponse['queryDetails'],
   fundingRate: FundingRateResponse,
 ): ProviderResult<WsTransportTypes> => {
-  // Symbol may contain protocol prefix, e.g. "xyz:SILVER"
-  const symbolParts = String(fundingRate.symbol).split(':')
-  const protocol = symbolParts.length > 1 ? symbolParts[0] : undefined
   return {
-    params: {
-      base: queryDetails.base,
-      quote: queryDetails.quote ?? '',
-      exchange,
-      ...(protocol && { protocol }),
-    },
+    params: { base: queryDetails.base, quote: queryDetails.quote ?? '', exchange },
     response: {
       result: null,
       data: {

@@ -40,8 +40,6 @@ export const endpoint = new CryptoPriceEndpoint({
   transport: wsTransport,
   inputParameters,
   requestTransforms: [
-    // Uppercase base/quote for case-insensitive lookups
-    // Framework will then apply includes.json transformations
     (req) => {
       req.requestContext.data.base = req.requestContext.data.base.toUpperCase()
       req.requestContext.data.quote = req.requestContext.data.quote.toUpperCase()
