@@ -450,6 +450,9 @@
       "path": "./sources/securitize/tsconfig.test.json"
     },
     {
+      "path": "./sources/six/tsconfig.test.json"
+    },
+    {
       "path": "./sources/snowflake/tsconfig.test.json"
     },
     {
