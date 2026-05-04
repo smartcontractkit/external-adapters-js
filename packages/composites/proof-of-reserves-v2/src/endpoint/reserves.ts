@@ -257,9 +257,9 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: reservesTransport,
   inputParameters,
-  customInputValidation: (request, _settings): undefined => {
+  customInputValidation: (request, settings): undefined => {
     const params = request.requestContext.data
-    checkProviderUrls(params)
+    checkProviderUrls(params, settings)
     checkAddressLists(params)
     checkBalanceSources(params)
     checkConversions(params)

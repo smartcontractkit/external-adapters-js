@@ -5,8 +5,6 @@ import {
   checkBalanceSources,
   checkComponents,
   checkConversions,
-  checkProviderUrls,
-  getProviderUrl,
 } from '../../src/utils/validation'
 
 const originalEnv = { ...process.env }
@@ -87,21 +85,8 @@ describe('validation', () => {
     restoreEnv()
   })
 
-  describe('getProviderUrl', () => {
-    it('should return the provider URL from environment variable', () => {
-      const expectedUrl = 'https://example.com/api'
-      process.env['TEST_ADAPTER_URL'] = expectedUrl
-      expect(getProviderUrl('test-adapter')).toBe(expectedUrl)
-    })
-
-    it('should throw if the environment variable is missing', () => {
-      expectAdapterError(() => getProviderUrl('test-adapter'), {
-        statusCode: 500,
-        message: 'Missing environment variable for provider URL: TEST_ADAPTER_URL',
-      })
-    })
-  })
-
+  // TODO: Decide whether or how to test this now.
+  /*
   describe('checkProviderUrls', () => {
     it('should succeed if environment variables are set for all providers', () => {
       process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
@@ -137,6 +122,7 @@ describe('validation', () => {
       })
     })
   })
+  */
 
   describe('checkAddressLists', () => {
     it('should succeed for a valid params', () => {

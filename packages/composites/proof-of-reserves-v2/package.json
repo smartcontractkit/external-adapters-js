@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.13.1",
+    "@chainlink/external-adapter-framework": "portal:/Users/dskloet/dev/ea-framework-js/tree2/dist/src",
     "decimal.js": "^10.6.0",
     "object-path": "^0.11.8",
     "tslib": "2.4.1"

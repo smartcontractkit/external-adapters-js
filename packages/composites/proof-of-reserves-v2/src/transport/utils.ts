@@ -2,7 +2,6 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { getProviderUrl } from '../utils/validation'
 import { ReservesTransportTypes } from './reserves'
 
 export const fetchFromProvider = async (
@@ -12,7 +11,7 @@ export const fetchFromProvider = async (
   provider: string,
   params: Record<string, unknown>,
 ): Promise<Record<string, unknown>> => {
-  const url = getProviderUrl(provider)
+  const url = context.adapterSettings.PROVIDER_URL.get(provider)
   const requestConfig = {
     url,
     method: 'POST',

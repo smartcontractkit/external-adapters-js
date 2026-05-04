@@ -47,6 +47,15 @@ describe('ReservesTransport', () => {
   }
 
   const adapterSettings = makeStub('adapterSettings', {
+    PROVIDER_URL: {
+      get(provider: keyof typeof PROVIDER_URLS) {
+        const url = PROVIDER_URLS[provider]
+        if (!url) {
+          throw new Error(`Unknown provider '${provider}'`)
+        }
+        return url
+      },
+    },
     MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE: 20,
     BACKGROUND_EXECUTE_MS,
     WARMUP_SUBSCRIPTION_TTL: 10_000,

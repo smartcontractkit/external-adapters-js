@@ -6153,6 +6153,25 @@ const RAW_RUNTIME_STATE =
           ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["portal:/Users/dskloet/dev/ea-framework-js/tree2/dist/src::locator=%40chainlink%2Fproof-of-reserves-v2-adapter%40workspace%3Apackages%2Fcomposites%2Fproof-of-reserves-v2", {\
+        "packageLocation": "../../ea-framework-js/tree2/dist/src/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "portal:/Users/dskloet/dev/ea-framework-js/tree2/dist/src::locator=%40chainlink%2Fproof-of-reserves-v2-adapter%40workspace%3Apackages%2Fcomposites%2Fproof-of-reserves-v2"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.20.0"],\
+          ["axios", "npm:1.15.2"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:dbdee4802c13faf39d8793dbdc95669e1f887d8ff9c82d7fd6e5bde68182881941ebb04ed3d3e7857be1e65864ec959099c7a26c39b1f3bb20db52ebd5eb2b0a#npm:8.20.0"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -7450,7 +7469,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/proof-of-reserves-v2/",\
         "packageDependencies": [\
           ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
-          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@chainlink/external-adapter-framework", "portal:/Users/dskloet/dev/ea-framework-js/tree2/dist/src::locator=%40chainlink%2Fproof-of-reserves-v2-adapter%40workspace%3Apackages%2Fcomposites%2Fproof-of-reserves-v2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\
@@ -14737,6 +14756,17 @@ const RAW_RUNTIME_STATE =
           ["require-from-string", "npm:2.0.2"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:8.20.0", {\
+        "packageLocation": "./.yarn/cache/ajv-npm-8.20.0-d622223dad-5ce59c0537.zip/node_modules/ajv/",\
+        "packageDependencies": [\
+          ["ajv", "npm:8.20.0"],\
+          ["fast-deep-equal", "npm:3.1.3"],\
+          ["fast-uri", "npm:3.0.5"],\
+          ["json-schema-traverse", "npm:1.0.0"],\
+          ["require-from-string", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["ajv-formats", [\
@@ -15047,6 +15077,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/axios-npm-1.15.0-9132fa0a61-d39a2c0ebc.zip/node_modules/axios/",\
         "packageDependencies": [\
           ["axios", "npm:1.15.0"],\
+          ["follow-redirects", "virtual:ed8865f696cebfbc109886bcd430c823f73cb3daaa6597dac1f006748e0fc10ed81734823f049aec03fadda2608be9aa560f98b843c8321891f307f4a175db89#npm:1.16.0"],\
+          ["form-data", "npm:4.0.5"],\
+          ["proxy-from-env", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.15.2", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.15.2-fa91c7b40b-eebbd8cb77.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.15.2"],\
           ["follow-redirects", "virtual:ed8865f696cebfbc109886bcd430c823f73cb3daaa6597dac1f006748e0fc10ed81734823f049aec03fadda2608be9aa560f98b843c8321891f307f4a175db89#npm:1.16.0"],\
           ["form-data", "npm:4.0.5"],\
           ["proxy-from-env", "npm:2.1.0"]\
@@ -25516,6 +25556,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:8.20.0", {\
+        "packageLocation": "./.yarn/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "npm:8.20.0"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["virtual:1fc28e6a0bc7815dccbbc173bcb3ef80b7886ec6e060ad7ffa801b5e503acf145bc09f828c59d5aaed91f20a8fac2a8a89557b62fd0994ad897388a4c69deac5#npm:8.18.0", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-9e159cd071/0/cache/ws-npm-8.18.0-56f68bc4d6-70dfe53f23.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -25571,6 +25618,23 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/__virtual__/ws-virtual-c0f027a61a/0/cache/ws-npm-8.19.0-c967c046a5-26e4901e93.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["ws", "virtual:d1125cad7cf4c8422f5687c530d5c77cd47d0284668bdf40ba159afe1dece93ccff4a39786c83d40b9ae95db12169db693190e9ab277c1a495c58278ba6e6890#npm:8.19.0"],\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:dbdee4802c13faf39d8793dbdc95669e1f887d8ff9c82d7fd6e5bde68182881941ebb04ed3d3e7857be1e65864ec959099c7a26c39b1f3bb20db52ebd5eb2b0a#npm:8.20.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-098a3b16b6/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "virtual:dbdee4802c13faf39d8793dbdc95669e1f887d8ff9c82d7fd6e5bde68182881941ebb04ed3d3e7857be1e65864ec959099c7a26c39b1f3bb20db52ebd5eb2b0a#npm:8.20.0"],\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
