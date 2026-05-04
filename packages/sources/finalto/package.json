@@ -40,6 +40,6 @@
     "@chainlink/external-adapter-framework": "2.11.6",
     "decimal.js": "^10.3.1",
     "tslib": "2.4.1",
-    "uuid": "^8.3.0"
+    "uuid": "^14.0.0"
   }
 }
