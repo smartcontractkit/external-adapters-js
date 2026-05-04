@@ -15599,6 +15599,13 @@ const RAW_RUNTIME_STATE =
           ["bn.js", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.2.3", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.3-b71041c01c-dfb3927e0d.zip/node_modules/bn.js/",\
+        "packageDependencies": [\
+          ["bn.js", "npm:5.2.3"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["borsh", [\
