@@ -41,7 +41,7 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async handleRequest(param: RequestParams) {
-    let responses: Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>
+    let responses: Partial<Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>>
     try {
       responses = await this._handleRequest(param)
     } catch (e) {

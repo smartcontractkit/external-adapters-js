@@ -34,6 +34,23 @@ describe('execute', () => {
   })
 
   describe('price endpoint', () => {
+    it('should return success - no smoother', async () => {
+      const data = {
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b6',
+        overnightStreamId: '0x000b7',
+        smoother: 'none',
+        decimals: 8,
+      }
+      mockResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should return success - kalman', async () => {
       const data = {
         asset: '0x0',
@@ -74,6 +91,25 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
 
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('missing sessionMarketType', async () => {
+      const data = {
+        asset: '0x0',
+        regularStreamId: '0x000b5',
+        extendedStreamId: '0x000b6',
+        overnightStreamId: '0x000b7',
+        sessionMarket: 'nyse',
+        sessionBoundaries: [],
+        sessionBoundariesTimeZone: 'UTC',
+        smoother: 'ema',
+        decimals: 8,
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
     })
 
