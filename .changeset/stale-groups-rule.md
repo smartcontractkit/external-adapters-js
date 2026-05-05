@@ -2,4 +2,4 @@
 '@chainlink/tokenized-equity-adapter': patch
 ---
 
-Skip smoothing
+Allow no smoothing as well as only 1 streams

@@ -26,17 +26,14 @@ export const inputDefinition = new InputParameters(
         'Unique identifier of the underlying asset. Used to maintain smoother internal state.',
     },
     regularStreamId: {
-      required: true,
       type: 'string',
       description: 'Data Streams regular hour feed ID for the underlying asset',
     },
     extendedStreamId: {
-      required: true,
       type: 'string',
       description: 'Data Streams extended hour feed ID for the underlying asset',
     },
     overnightStreamId: {
-      required: true,
       type: 'string',
       description: 'Data Streams overnight hour feed ID for the underlying asset',
     },
@@ -82,6 +79,19 @@ export const inputDefinition = new InputParameters(
 )
 
 export type Smoother = TypeFromDefinition<typeof inputDefinition.definition>['smoother']
+
+export const validateStreamIds = (
+  regularStreamId?: string,
+  extendedStreamId?: string,
+  overnightStreamId?: string,
+) => {
+  if (!regularStreamId && !extendedStreamId && !overnightStreamId) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `At least one of regularStreamId, extendedStreamId or overnightStreamId must be provided`,
+    })
+  }
+}
 
 export const validateSmoother = (
   smoother: string,

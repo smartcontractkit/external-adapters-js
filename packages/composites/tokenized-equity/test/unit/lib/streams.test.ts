@@ -87,6 +87,23 @@ describe('getPrice', () => {
     })
   })
 
+  it('regular stream only', async () => {
+    const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.REGULAR, 2)
+
+    setupMock(regularData, null, null)
+
+    const result = await getPrice('', requester, regularStreamId)
+
+    expect(result).toEqual({
+      price: regularData.mid,
+      spread: 1n,
+      decimals: regularData.decimals,
+      data: {
+        regular: regularData,
+      },
+    })
+  })
+
   it('PRE_MARKET', async () => {
     const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.UNKNOWN, 2)
     const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.PRE_MARKET, 3)
@@ -267,7 +284,7 @@ describe('getPrice', () => {
     expect(error.message).toContain('Market is not open')
   })
 
-  it('error', async () => {
+  it('error - market not open', async () => {
     const regularData = createStreamData('100.5', TwentyfourFiveMarketStatus.UNKNOWN, 2)
     const extendedData = createStreamData('99.5', TwentyfourFiveMarketStatus.WEEKEND, 3)
     const overnightData = createStreamData('98.5', TwentyfourFiveMarketStatus.UNKNOWN, 4)
@@ -284,5 +301,16 @@ describe('getPrice', () => {
 
     expect(error).toBeInstanceOf(AdapterError)
     expect(error.message).toContain('Market is not open')
+  })
+
+  it('error - missing stream', async () => {
+    setupMock(null, null, null)
+
+    const error = await getPrice('', requester).catch((e) => e)
+
+    expect(error).toBeInstanceOf(AdapterError)
+    expect(error.message).toBe(
+      'Market is not open: regular  Error: streamId not provided, extended  Error: streamId not provided, overnight  Error: streamId not provided',
+    )
   })
 })

@@ -6,9 +6,9 @@ import { getPrice } from '../lib/streams'
 
 export const smoothedStreamPrice = async (param: {
   asset: string
-  regularStreamId: string
-  extendedStreamId: string
-  overnightStreamId: string
+  regularStreamId?: string
+  extendedStreamId?: string
+  overnightStreamId?: string
   overnightStreamMaxAgeInSeconds?: number
   url: string
   tradingHoursUrl: string

@@ -10,19 +10,23 @@ type DataEngineResponse = BaseEndpointTypes['Response']['Data']
 export const getPrice = async (
   url: string,
   requester: Requester,
-  regularStreamId: string,
-  extendedStreamId: string,
-  overnightStreamId: string,
+  regularStreamId?: string,
+  extendedStreamId?: string,
+  overnightStreamId?: string,
   overnightStreamMaxAgeInSeconds?: number,
 ) => {
   const [regular, extended, overnight] = await Promise.allSettled(
     [regularStreamId, extendedStreamId, overnightStreamId].map((streamId) =>
-      getDeutscheBoersePrice(
-        streamId,
-        url,
-        requester,
-        streamId === overnightStreamId ? { maxAgeInSeconds: overnightStreamMaxAgeInSeconds } : {},
-      ),
+      streamId
+        ? getDeutscheBoersePrice(
+            streamId,
+            url,
+            requester,
+            streamId === overnightStreamId
+              ? { maxAgeInSeconds: overnightStreamMaxAgeInSeconds }
+              : {},
+          )
+        : Promise.reject(new Error('streamId not provided')),
     ),
   )
 

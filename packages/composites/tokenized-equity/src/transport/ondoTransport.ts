@@ -57,10 +57,13 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      responses = {
-        ema: errorResponse,
-        kalman: errorResponse,
-      }
+      responses =
+        param.smoother === 'none'
+          ? { none: errorResponse }
+          : {
+              ema: errorResponse,
+              kalman: errorResponse,
+            }
     }
 
     await this.responseCache.write(
