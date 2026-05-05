@@ -7,10 +7,12 @@ exports[`execute with address.chainId should return success 1`] = `
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
         "balance": "842796652117371",
+        "decimals": 18,
       },
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
         "balance": "1604497408893139674",
+        "decimals": 18,
       },
     ],
   },
@@ -20,10 +22,12 @@ exports[`execute with address.chainId should return success 1`] = `
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
       "balance": "842796652117371",
+      "decimals": 18,
     },
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "1604497408893139674",
+      "decimals": 18,
     },
   ],
   "statusCode": 200,
@@ -37,6 +41,7 @@ exports[`execute with address.chainId should use default provider when string ch
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
         "balance": "1604497408893139674",
+        "decimals": 18,
       },
     ],
   },
@@ -46,6 +51,7 @@ exports[`execute with address.chainId should use default provider when string ch
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "1604497408893139674",
+      "decimals": 18,
     },
   ],
   "statusCode": 200,
@@ -59,6 +65,7 @@ exports[`execute with explicit minConfirmations should return success 1`] = `
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
         "balance": "15671674977708000",
+        "decimals": 18,
       },
     ],
   },
@@ -68,6 +75,7 @@ exports[`execute with explicit minConfirmations should return success 1`] = `
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "15671674977708000",
+      "decimals": 18,
     },
   ],
   "statusCode": 200,
@@ -81,10 +89,12 @@ exports[`execute with multiple addresses should return success 1`] = `
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
         "balance": "842796652117371",
+        "decimals": 18,
       },
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
         "balance": "1604497408893139674",
+        "decimals": 18,
       },
     ],
   },
@@ -94,10 +104,12 @@ exports[`execute with multiple addresses should return success 1`] = `
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
       "balance": "842796652117371",
+      "decimals": 18,
     },
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
       "balance": "1604497408893139674",
+      "decimals": 18,
     },
   ],
   "statusCode": 200,
@@ -111,6 +123,7 @@ exports[`execute with single address should return success 1`] = `
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
         "balance": "842796652117371",
+        "decimals": 18,
       },
     ],
   },
@@ -120,6 +133,7 @@ exports[`execute with single address should return success 1`] = `
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
       "balance": "842796652117371",
+      "decimals": 18,
     },
   ],
   "statusCode": 200,

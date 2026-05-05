@@ -38,6 +38,7 @@ export const inputParameters: InputParameters<TInputParameters> = {
 interface AddressWithBalance {
   address: string
   balance: string
+  decimals: 18
 }
 
 type Address = {
@@ -162,4 +163,5 @@ const getBalance = async (
 ): Promise<AddressWithBalance> => ({
   address,
   balance: (await provider.getBalance(address, targetBlockTag)).toString(),
+  decimals: 18,
 })
