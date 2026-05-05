@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js'
 import * as objectPath from 'object-path'
 
 export type FixedPoint = {
@@ -5,13 +6,20 @@ export type FixedPoint = {
   decimals: number
 }
 
-type NumberType = FixedPoint | number
+type NumberType = FixedPoint | number | Decimal
 
 const isFixedPoint = (num: NumberType): num is FixedPoint => {
   return typeof num !== 'number' && 'amount' in num && 'decimals' in num
 }
 
 export const toFixedPointWithDecimals = (num: NumberType, decimals: number): FixedPoint => {
+  if (num instanceof Decimal) {
+    return {
+      amount: BigInt(num.mul(Decimal.pow(10, decimals)).trunc().toFixed(0)),
+      decimals,
+    }
+  }
+
   if (!isFixedPoint(num)) {
     return {
       amount: BigInt(Math.trunc(num * 10 ** decimals)),
@@ -86,5 +94,5 @@ export const getFixedPointFromResult = ({
       decimals: decimals,
     }
   }
-  return toFixedPointWithDecimals(Number(amount), defaultDecimals)
+  return toFixedPointWithDecimals(new Decimal(amount), defaultDecimals)
 }
