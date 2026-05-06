@@ -48,7 +48,7 @@ export const createAdapterResponseFromMessage = (
 
   return [
     {
-      params: { base: symbol, region },
+      params: { base: `${symbol}$${region}` },
       response: {
         result: null,
         data: {

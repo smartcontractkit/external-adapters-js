@@ -30,7 +30,7 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
 }) => {
   return new WebSocketTransport<WsTransportTypes<Message, Response>>({
     url: (context) => `${context.adapterSettings.WS_API_ENDPOINT}/${apiPath}`,
-    options: (context, _desiredSubs) => {
+    options: (context) => {
       return {
         headers: {
           token: context.adapterSettings.API_KEY,
@@ -39,7 +39,7 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
     },
     handlers: {
       // changed via WS_HEARTBEAT_INTERVAL_MS.
-      heartbeat: (connection, _context) => {
+      heartbeat: (connection) => {
         connection.send(
           JSON.stringify({
             ac: 'ping',
@@ -58,11 +58,11 @@ export const createWsTransport = <Message, Response extends ResponseGenerics>({
       subscribeMessage: (params) => {
         return {
           ac: 'subscribe',
-          params: [params.base, params.region.toLowerCase()].join('$'),
+          params: params.base,
           types: type,
         }
       },
-      unsubscribeMessage: (_params) => {
+      unsubscribeMessage: () => {
         // iTick doesn't support unsubscribing.
         // Return a ping message instead.
         return {
