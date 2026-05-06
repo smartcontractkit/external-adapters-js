@@ -1,11 +1,12 @@
 import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/stock'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { createHttpTransport } from '../transport/shared-http'
 import { createWsTransport } from '../transport/shared-ws'
 import { createAdapterResponseFromMessage } from '../transport/stock'
-import { inputParameters } from './shared'
+import { getBaseRegion, inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -30,5 +31,9 @@ export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
       .register('rest', createHttpTransport({ type, apiPath, messageHandler }))
       .register('ws', createWsTransport({ type, apiPath, messageHandler })),
     inputParameters,
+    customInputValidation: (req): AdapterInputError | undefined => {
+      getBaseRegion(req.requestContext.data.base)
+      return
+    },
   })
 })

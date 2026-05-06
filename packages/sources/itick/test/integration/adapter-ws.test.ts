@@ -18,37 +18,32 @@ describe('websocket', () => {
 
   const requests = [
     {
-      symbol: '100',
-      region: 'hk',
+      symbol: '100$hk',
       endpoint: 'stock_quotes',
       transport: 'ws',
     },
     {
-      symbol: '100',
-      region: 'hk',
+      symbol: '100$hk',
       endpoint: 'indices_quotes',
       transport: 'ws',
     },
     {
-      symbol: '100',
-      region: 'hk',
+      symbol: '100$hk',
       endpoint: 'price',
       transport: 'ws',
     },
     {
-      symbol: '100',
-      region: 'hk',
+      symbol: '100$hk',
       endpoint: 'indices_price',
       transport: 'ws',
     },
     {
-      symbol: 'X700',
-      region: 'hk',
+      symbol: 'X700$hk',
       endpoint: 'stock_quotes',
       transport: 'ws',
       overrides: {
         itick: {
-          X700: '700',
+          X700$hk: '700$hk',
         },
       },
     },

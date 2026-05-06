@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { inputParameters } from '../endpoint/shared'
+import { getBaseRegion, inputParameters } from '../endpoint/shared'
 
 type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
   Parameters: typeof inputParameters.definition
@@ -28,7 +28,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
   return new HttpTransport<HttpTransportTypes<ResponseSchema, Response>>({
     prepareRequests: (params, config) => {
       return params.map((param) => {
-        const { base: symbol, region } = param
+        const { base: symbol, region } = getBaseRegion(param.base)
         return {
           method: 'GET',
           params: [param],
@@ -49,7 +49,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
     parseResponse: (params, response) => {
       if (!response.data) {
         return params.map((param) => {
-          const { base: symbol, region } = param
+          const { base: symbol, region } = getBaseRegion(param.base)
           return {
             params: param,
             response: {
@@ -60,7 +60,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
         })
       }
 
-      return params.flatMap(({ region }) => messageHandler(response.data, region))
+      return params.flatMap(({ base }) => messageHandler(response.data, getBaseRegion(base).region))
     },
   })
 }

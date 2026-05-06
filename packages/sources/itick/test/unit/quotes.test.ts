@@ -37,7 +37,7 @@ describe('quotes', () => {
       }
 
       const expectedResponse = {
-        params: { base: symbol, region },
+        params: { base: `${symbol}$${region}` },
         response: {
           result: null,
           data: {
@@ -94,7 +94,7 @@ describe('quotes', () => {
       }
 
       const expectedResponse = {
-        params: { base: symbol, region },
+        params: { base: `${symbol}$${region}` },
         response: {
           result: null,
           data: {

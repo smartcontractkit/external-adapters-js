@@ -31,7 +31,7 @@ export const createAdapterResponseFromMessage = (
   const region = message.data.r ?? defaultRegion
   return [
     {
-      params: { base: symbol, region },
+      params: { base: `${symbol}$${region}` },
       response: {
         result: lastPrice,
         data: {
