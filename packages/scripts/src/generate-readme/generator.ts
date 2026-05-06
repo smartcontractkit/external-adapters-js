@@ -28,7 +28,6 @@ import {
   wrapJson,
 } from '../shared/docGenUtils'
 import { TableText, buildTable } from '../shared/tableUtils'
-import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders, rateLimitHeaders } from './tableAssets'
 
 const testEnvOverrides = {
@@ -105,9 +104,9 @@ export class ReadmeGenerator {
   customPath: string
   customSection: string | null
 
-  constructor(adapter: WorkspaceAdapter, verbose = false) {
+  constructor(adapterPath: string, verbose = false) {
     this.verbose = verbose
-    this.adapterPath = adapter.location
+    this.adapterPath = adapterPath
 
     if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
     if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
@@ -121,7 +120,8 @@ export class ReadmeGenerator {
         this.frameworkVersion = 'v3'
         const generatorEA = generatorPack.dependencies['@chainlink/external-adapter-framework']
         if (adapterEA != generatorEA) {
-          console.log(`This generator uses ${generatorEA} but ${adapter.name} uses ${adapterEA}`)
+          const adapterName = path.basename(this.adapterPath)
+          console.log(`This generator uses ${generatorEA} but ${adapterName} uses ${adapterEA}`)
         }
       } else {
         this.frameworkVersion = 'v2'
@@ -575,5 +575,6 @@ export class ReadmeGenerator {
   createReadmeFile(): void {
     const path = this.adapterPath + 'README.md'
     saveText({ path, text: this.readmeText })
+    exec('yarn prettier --write ' + path)
   }
 }

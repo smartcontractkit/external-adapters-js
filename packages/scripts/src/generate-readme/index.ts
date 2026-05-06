@@ -76,12 +76,7 @@ export async function main(): Promise<void | string> {
 
     // Test setting
     if (options.testPath) {
-      const adapter = adapters.find((a) => a.location === options.testPath)
-      if (!adapter) {
-        console.error(`Adapter at ${options.testPath} was not found`)
-        return
-      }
-      const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
+      const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
       await readmeGenerator.loadAdapterContent()
       readmeGenerator.buildReadme()
       readmeGenerator.createReadmeFile()
@@ -129,7 +124,7 @@ export async function main(): Promise<void | string> {
     // Collect new README versions
     const readmeQueue = await Promise.all(
       adapters.map(async (adapter) => {
-        const readmeGenerator = new ReadmeGenerator(adapter, options.verbose)
+        const readmeGenerator = new ReadmeGenerator(adapter.location, options.verbose)
         await readmeGenerator.loadAdapterContent()
         readmeGenerator.buildReadme()
         return readmeGenerator
