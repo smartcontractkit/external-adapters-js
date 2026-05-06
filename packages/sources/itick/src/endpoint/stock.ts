@@ -15,7 +15,7 @@ export type BaseEndpointTypes = {
 
 const QUOTE_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
   { apiPath: 'stock', name: 'price' },
-  { apiPath: 'indices', name: 'indices' },
+  { apiPath: 'indices', name: 'indices_price' },
 ]
 
 export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {

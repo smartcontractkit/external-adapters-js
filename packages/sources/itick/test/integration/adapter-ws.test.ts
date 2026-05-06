@@ -38,7 +38,7 @@ describe('websocket', () => {
     {
       symbol: '100',
       region: 'hk',
-      endpoint: 'indices',
+      endpoint: 'indices_price',
       transport: 'ws',
     },
     {
