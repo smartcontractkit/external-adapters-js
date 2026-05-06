@@ -1,5 +1,13 @@
 # @chainlink/itick-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#4927](https://github.com/smartcontractkit/external-adapters-js/pull/4927) [`a285843`](https://github.com/smartcontractkit/external-adapters-js/commit/a285843f34da029851553bd224a7f862a846edb3) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Refactor
+
+- [#4928](https://github.com/smartcontractkit/external-adapters-js/pull/4928) [`513d8d0`](https://github.com/smartcontractkit/external-adapters-js/commit/513d8d03f5a023e9c4320eb37b3e49e706045eaa) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use 1 input param instead of 2
+
 ## 1.0.1
 
 ### Patch Changes
