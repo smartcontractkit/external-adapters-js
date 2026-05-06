@@ -22,6 +22,17 @@ exports[`execute price endpoint bad sessionBoundariesTimeZone 1`] = `
 }
 `;
 
+exports[`execute price endpoint error when no smoother with session parameters 1`] = `
+{
+  "error": {
+    "message": "Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute price endpoint missing sessionMarketType 1`] = `
 {
   "error": {

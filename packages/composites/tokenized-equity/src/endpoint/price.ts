@@ -22,19 +22,8 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
-    validateStreamIds(
-      req.requestContext.data.regularStreamId,
-      req.requestContext.data.extendedStreamId,
-      req.requestContext.data.overnightStreamId,
-    )
-
-    validateSmoother(
-      req.requestContext.data.smoother,
-      req.requestContext.data.sessionBoundaries,
-      req.requestContext.data.sessionBoundariesTimeZone,
-      req.requestContext.data.sessionMarket,
-      req.requestContext.data.sessionMarketType,
-    )
+    validateStreamIds(req.requestContext.data)
+    validateSmoother(req.requestContext.data)
 
     return
   },

@@ -80,11 +80,15 @@ export const inputDefinition = new InputParameters(
 
 export type Smoother = TypeFromDefinition<typeof inputDefinition.definition>['smoother']
 
-export const validateStreamIds = (
-  regularStreamId?: string,
-  extendedStreamId?: string,
-  overnightStreamId?: string,
-) => {
+export const validateStreamIds = ({
+  regularStreamId,
+  extendedStreamId,
+  overnightStreamId,
+}: {
+  regularStreamId?: string
+  extendedStreamId?: string
+  overnightStreamId?: string
+}) => {
   if (!regularStreamId && !extendedStreamId && !overnightStreamId) {
     throw new AdapterInputError({
       statusCode: 400,
@@ -93,14 +97,31 @@ export const validateStreamIds = (
   }
 }
 
-export const validateSmoother = (
-  smoother: string,
-  sessionBoundaries: string[],
-  sessionBoundariesTimeZone?: string,
-  sessionMarket?: string,
-  sessionMarketType?: string,
-) => {
+export const validateSmoother = ({
+  smoother,
+  sessionBoundaries,
+  sessionBoundariesTimeZone,
+  sessionMarket,
+  sessionMarketType,
+}: {
+  smoother: string
+  sessionBoundaries: string[]
+  sessionBoundariesTimeZone?: string
+  sessionMarket?: string
+  sessionMarketType?: string
+}) => {
   if (smoother === 'none') {
+    if (
+      sessionBoundaries.length > 0 ||
+      sessionBoundariesTimeZone ||
+      sessionMarket ||
+      sessionMarketType
+    ) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Parameters sessionBoundaries, sessionBoundariesTimeZone, sessionMarket, and sessionMarketType should not be provided when smoother is 'none'`,
+      })
+    }
     return
   }
 

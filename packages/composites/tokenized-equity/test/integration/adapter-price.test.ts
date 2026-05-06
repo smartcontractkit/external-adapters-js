@@ -145,6 +145,22 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('error when no smoother with session parameters', async () => {
+      const data = {
+        asset: '0x0',
+        extendedStreamId: '0x000b6',
+        sessionMarket: 'nyse',
+        smoother: 'none',
+        decimals: 8,
+      }
+      mockResponseSuccess()
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('bad sessionBoundariesTimeZone', async () => {
       const data = {
         asset: '0x0',
