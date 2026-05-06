@@ -64,6 +64,15 @@ export async function main(): Promise<void | string> {
       return
     }
 
+    // Test setting
+    if (options.testPath) {
+      const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
+      await readmeGenerator.loadAdapterContent()
+      readmeGenerator.buildReadme()
+      readmeGenerator.createReadmeFile()
+      return
+    }
+
     const shouldBuildAll =
       options.all ||
       getWorkspacePackages(process.env['UPSTREAM_BRANCH']).find(
@@ -73,15 +82,6 @@ export async function main(): Promise<void | string> {
     let adapters = shouldBuildAll
       ? getWorkspaceAdapters()
       : getWorkspaceAdapters([], process.env['UPSTREAM_BRANCH'])
-
-    // Test setting
-    if (options.testPath) {
-      const readmeGenerator = new ReadmeGenerator(options.testPath, options.verbose)
-      await readmeGenerator.loadAdapterContent()
-      readmeGenerator.buildReadme()
-      readmeGenerator.createReadmeFile()
-      return
-    }
 
     options.verbose &&
       console.log(
