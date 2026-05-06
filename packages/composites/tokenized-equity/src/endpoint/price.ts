@@ -3,7 +3,7 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { config } from '../config'
 import { transport } from '../transport/priceTransport'
 import type { output } from './common'
-import { inputDefinition, validateSession } from './common'
+import { inputDefinition, validateSmoother, validateStreamIds } from './common'
 
 export const inputParameters = inputDefinition
 
@@ -21,11 +21,9 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport,
   inputParameters,
-  customInputValidation: (req, _): AdapterInputError | undefined => {
-    validateSession(
-      req.requestContext.data.sessionBoundaries,
-      req.requestContext.data.sessionBoundariesTimeZone,
-    )
+  customInputValidation: (req): AdapterInputError | undefined => {
+    validateStreamIds(req.requestContext.data)
+    validateSmoother(req.requestContext.data)
 
     return
   },

@@ -22,6 +22,17 @@ exports[`execute price endpoint bad sessionBoundariesTimeZone 1`] = `
 }
 `;
 
+exports[`execute price endpoint missing sessionMarket 1`] = `
+{
+  "error": {
+    "message": "Missing required parameter sessionMarket when smoother is ema",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
 exports[`execute price endpoint should return success - ema 1`] = `
 {
   "data": {
