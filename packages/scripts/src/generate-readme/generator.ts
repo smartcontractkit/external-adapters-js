@@ -3,11 +3,11 @@ import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
 import { InputParameters as V3InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { InputParametersDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { execFileSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
-import { execFileSync } from 'child_process'
-import { test } from 'shelljs'
+import { exec, test } from 'shelljs'
 import * as generatorPack from '../../package.json'
 import {
   EndpointDetails,
