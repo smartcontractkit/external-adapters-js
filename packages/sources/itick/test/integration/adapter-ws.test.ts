@@ -20,31 +20,31 @@ describe('websocket', () => {
     {
       symbol: '100',
       region: 'hk',
-      endpoint: 'stock-depth',
+      endpoint: 'stock_quotes',
       transport: 'ws',
     },
     {
       symbol: '100',
       region: 'hk',
-      endpoint: 'indices-depth',
+      endpoint: 'indices_quotes',
       transport: 'ws',
     },
     {
       symbol: '100',
       region: 'hk',
-      endpoint: 'stock-quote',
+      endpoint: 'price',
       transport: 'ws',
     },
     {
       symbol: '100',
       region: 'hk',
-      endpoint: 'indices-quote',
+      endpoint: 'indices_price',
       transport: 'ws',
     },
     {
       symbol: 'X700',
       region: 'hk',
-      endpoint: 'stock-depth',
+      endpoint: 'stock_quotes',
       transport: 'ws',
       overrides: {
         itick: {
@@ -82,7 +82,7 @@ describe('websocket', () => {
     await testAdapter.api.close()
   })
 
-  describe('depth endpoint', () => {
+  describe('ws endpoint', () => {
     it('should return success', async () => {
       for (const request of requests) {
         const response = await testAdapter.request(request)
