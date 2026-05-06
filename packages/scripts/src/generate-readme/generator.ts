@@ -6,7 +6,8 @@ import { InputParametersDefinition } from '@chainlink/external-adapter-framework
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
-import { exec, test } from 'shelljs'
+import { execFileSync } from 'child_process'
+import { test } from 'shelljs'
 import * as generatorPack from '../../package.json'
 import {
   EndpointDetails,
@@ -575,6 +576,6 @@ export class ReadmeGenerator {
   createReadmeFile(): void {
     const path = this.adapterPath + 'README.md'
     saveText({ path, text: this.readmeText })
-    exec('yarn prettier --write ' + path)
+    execFileSync('yarn', ['prettier', '--write', path], { stdio: 'inherit' })
   }
 }
