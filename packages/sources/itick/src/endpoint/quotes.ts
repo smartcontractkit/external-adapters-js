@@ -8,18 +8,17 @@ import { inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
+  Settings: typeof config.settings
   Response: {
-    Result: number | null
+    Result: null
     Data: {
-      symbol: string
-      askPrice: number
-      bidPrice: number
-      midPrice: number
-      askVolume: number
-      bidVolume: number
+      mid_price: number
+      bid_price: number
+      bid_volume: number
+      ask_price: number
+      ask_volume: number
     }
   }
-  Settings: typeof config.settings
 }
 
 const QUOTES_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [

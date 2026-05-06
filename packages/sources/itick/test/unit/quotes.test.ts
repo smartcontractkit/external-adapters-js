@@ -39,14 +39,13 @@ describe('quotes', () => {
       const expectedResponse = {
         params: { base: symbol, region },
         response: {
-          result: midPrice,
+          result: null,
           data: {
-            symbol,
-            askPrice,
-            bidPrice,
-            midPrice,
-            askVolume,
-            bidVolume,
+            ask_price: askPrice,
+            bid_price: bidPrice,
+            mid_price: midPrice,
+            ask_volume: askVolume,
+            bid_volume: bidVolume,
           },
         },
       }
@@ -97,14 +96,13 @@ describe('quotes', () => {
       const expectedResponse = {
         params: { base: symbol, region },
         response: {
-          result: midPrice,
+          result: null,
           data: {
-            symbol,
-            askPrice,
-            bidPrice,
-            midPrice,
-            askVolume,
-            bidVolume,
+            ask_price: askPrice,
+            bid_price: bidPrice,
+            mid_price: midPrice,
+            ask_volume: askVolume,
+            bid_volume: bidVolume,
           },
         },
       }

@@ -45,18 +45,18 @@ export const createAdapterResponseFromMessage = (
   const bidVolume = bid.v
   const symbol = message.data.s
   const region = message.data.r ?? defaultRegion
+
   return [
     {
       params: { base: symbol, region },
       response: {
-        result: midPrice,
+        result: null,
         data: {
-          symbol,
-          askPrice,
-          bidPrice,
-          midPrice,
-          askVolume,
-          bidVolume,
+          mid_price: midPrice,
+          bid_price: bidPrice,
+          bid_volume: bidVolume,
+          ask_price: askPrice,
+          ask_volume: askVolume,
         },
       },
     },
