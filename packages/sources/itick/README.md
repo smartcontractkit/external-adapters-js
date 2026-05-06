@@ -1,6 +1,6 @@
 # ITICK
 
-![1.0.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/itick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/itick/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -24,20 +24,19 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                            Options                                                                             | Default |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [indices-depth](#indices-depth-endpoint), [indices-quote](#indices-quote-endpoint), [stock-depth](#stock-depth-endpoint), [stock-quote](#stock-quote-endpoint) |         |
+| Required? |   Name   |     Description     |  Type  |                                                                        Options                                                                         | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [indices_price](#indices_price-endpoint), [indices_quotes](#indices_quotes-endpoint), [price](#price-endpoint), [stock_quotes](#stock_quotes-endpoint) |         |
 
-## Stock-depth Endpoint
+## Price Endpoint
 
-`stock-depth` is the only supported name for this endpoint.
+`price` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name  | Aliases  |                          Description                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------: | :-----------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `symbol` |               The symbol of the stock to query                | string |         |         |            |                |
-|    ✅     | region |          | The code of the stock exchange region (e.g. "hk", "kr", "jq") | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -46,25 +45,23 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "stock-depth",
-    "base": "700",
-    "region": "hk"
+    "endpoint": "price",
+    "base": "700$hk"
   }
 }
 ```
 
 ---
 
-## Indices-depth Endpoint
+## Indices_price Endpoint
 
-`indices-depth` is the only supported name for this endpoint.
+`indices_price` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name  | Aliases  |                          Description                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------: | :-----------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `symbol` |               The symbol of the stock to query                | string |         |         |            |                |
-|    ✅     | region |          | The code of the stock exchange region (e.g. "hk", "kr", "jq") | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -73,25 +70,23 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "indices-depth",
-    "base": "700",
-    "region": "hk"
+    "endpoint": "indices_price",
+    "base": "700$hk"
   }
 }
 ```
 
 ---
 
-## Stock-quote Endpoint
+## Stock_quotes Endpoint
 
-`stock-quote` is the only supported name for this endpoint.
+`stock_quotes` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name  | Aliases  |                          Description                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------: | :-----------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `symbol` |               The symbol of the stock to query                | string |         |         |            |                |
-|    ✅     | region |          | The code of the stock exchange region (e.g. "hk", "kr", "jq") | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -100,25 +95,23 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "stock-quote",
-    "base": "700",
-    "region": "hk"
+    "endpoint": "stock_quotes",
+    "base": "700$hk"
   }
 }
 ```
 
 ---
 
-## Indices-quote Endpoint
+## Indices_quotes Endpoint
 
-`indices-quote` is the only supported name for this endpoint.
+`indices_quotes` is the only supported name for this endpoint.
 
 ### Input Params
 
-| Required? |  Name  | Aliases  |                          Description                          |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----: | :------: | :-----------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |  base  | `symbol` |               The symbol of the stock to query                | string |         |         |            |                |
-|    ✅     | region |          | The code of the stock exchange region (e.g. "hk", "kr", "jq") | string |         |         |            |                |
+| Required? | Name |                   Aliases                   |        Description        |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--: | :-----------------------------------------: | :-----------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | base | `asset`, `coin`, `from`, `symbol`, `ticker` | The stock ticker to query | string |         |         |            |                |
 
 ### Example
 
@@ -127,9 +120,8 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "indices-quote",
-    "base": "700",
-    "region": "hk"
+    "endpoint": "indices_quotes",
+    "base": "700$hk"
   }
 }
 ```
