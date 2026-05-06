@@ -1,5 +1,5 @@
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/quote'
+import { BaseEndpointTypes } from '../endpoint/stock'
 
 export interface ResponseSchema {
   code: number // response code
@@ -35,8 +35,7 @@ export const createAdapterResponseFromMessage = (
       response: {
         result: lastPrice,
         data: {
-          symbol,
-          lastPrice,
+          result: lastPrice,
         },
         timestamps: {
           providerIndicatedTimeUnixMs: message.data.t,
