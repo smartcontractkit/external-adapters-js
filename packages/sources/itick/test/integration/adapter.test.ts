@@ -13,10 +13,10 @@ describe('execute', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const requests = [
-    { symbol: '100', region: 'hk', endpoint: 'stock-depth', transport: 'rest' },
-    { symbol: '100', region: 'gb', endpoint: 'indices-depth', transport: 'rest' },
-    { symbol: '100', region: 'hk', endpoint: 'stock-quote', transport: 'rest' },
-    { symbol: '100', region: 'gb', endpoint: 'indices-quote', transport: 'rest' },
+    { symbol: '100', region: 'hk', endpoint: 'stock_quotes', transport: 'rest' },
+    { symbol: '100', region: 'gb', endpoint: 'indices_quotes', transport: 'rest' },
+    { symbol: '100', region: 'hk', endpoint: 'price', transport: 'rest' },
+    { symbol: '100', region: 'gb', endpoint: 'indices', transport: 'rest' },
   ]
 
   beforeAll(async () => {

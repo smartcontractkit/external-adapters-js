@@ -1,6 +1,6 @@
 import { createAdapterResponseFromMessage } from '../../src/transport/quotes'
 
-describe('depth-shared', () => {
+describe('quotes', () => {
   const symbol = 'TEST'
   const region = 'hk'
   const askPrice = 100

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket depth endpoint should return success 1`] = `
+exports[`websocket ws endpoint should return success 1`] = `
 {
   "data": {
     "askPrice": 125,
@@ -19,7 +19,7 @@ exports[`websocket depth endpoint should return success 1`] = `
 }
 `;
 
-exports[`websocket depth endpoint should return success 2`] = `
+exports[`websocket ws endpoint should return success 2`] = `
 {
   "data": {
     "askPrice": 125,
@@ -38,7 +38,7 @@ exports[`websocket depth endpoint should return success 2`] = `
 }
 `;
 
-exports[`websocket depth endpoint should return success 3`] = `
+exports[`websocket ws endpoint should return success 3`] = `
 {
   "data": {
     "lastPrice": 124,
@@ -53,7 +53,7 @@ exports[`websocket depth endpoint should return success 3`] = `
 }
 `;
 
-exports[`websocket depth endpoint should return success 4`] = `
+exports[`websocket ws endpoint should return success 4`] = `
 {
   "data": {
     "lastPrice": 124,
@@ -68,7 +68,7 @@ exports[`websocket depth endpoint should return success 4`] = `
 }
 `;
 
-exports[`websocket depth endpoint should return success 5`] = `
+exports[`websocket ws endpoint should return success 5`] = `
 {
   "data": {
     "askPrice": 125,

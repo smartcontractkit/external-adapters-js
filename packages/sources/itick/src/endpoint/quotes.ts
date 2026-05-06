@@ -22,12 +22,12 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
-const DEPTH_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
-  { apiPath: 'stock', name: 'stock-depth' },
-  { apiPath: 'indices', name: 'indices-depth' },
+const QUOTES_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
+  { apiPath: 'stock', name: 'stock_quotes' },
+  { apiPath: 'indices', name: 'indices_quotes' },
 ]
 
-export const endpoints = DEPTH_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
+export const endpoints = QUOTES_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
   const type = 'depth'
   const messageHandler = createAdapterResponseFromMessage
 
