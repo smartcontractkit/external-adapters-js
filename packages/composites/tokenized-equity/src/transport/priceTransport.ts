@@ -35,7 +35,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async handleRequest(param: RequestParams) {
-    let responses: Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>
+    let responses: Partial<Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>>
     try {
       responses = await this._handleRequest(param)
     } catch (e) {
@@ -51,10 +51,13 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      responses = {
-        ema: errorResponse,
-        kalman: errorResponse,
-      }
+      responses =
+        param.smoother === 'none'
+          ? { none: errorResponse }
+          : {
+              ema: errorResponse,
+              kalman: errorResponse,
+            }
     }
 
     await this.responseCache.write(
