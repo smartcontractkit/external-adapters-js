@@ -1,5 +1,5 @@
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/quote'
+import { BaseEndpointTypes } from '../endpoint/stock'
 
 export interface ResponseSchema {
   code: number // response code

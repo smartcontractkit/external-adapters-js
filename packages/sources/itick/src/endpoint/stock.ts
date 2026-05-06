@@ -1,34 +1,30 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { config } from '../config'
-import { createAdapterResponseFromMessage } from '../transport/depth-shared'
 import { createHttpTransport } from '../transport/shared-http'
 import { createWsTransport } from '../transport/shared-ws'
+import { createAdapterResponseFromMessage } from '../transport/stock'
 import { inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: number | null
+    Result: number
     Data: {
       symbol: string
-      askPrice: number
-      bidPrice: number
-      midPrice: number
-      askVolume: number
-      bidVolume: number
+      lastPrice: number
     }
   }
   Settings: typeof config.settings
 }
 
-const DEPTH_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
-  { apiPath: 'stock', name: 'stock-depth' },
-  { apiPath: 'indices', name: 'indices-depth' },
+const QUOTE_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
+  { apiPath: 'stock', name: 'stock-quote' },
+  { apiPath: 'indices', name: 'indices-quote' },
 ]
 
-export const endpoints = DEPTH_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
-  const type = 'depth'
+export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
+  const type = 'quote'
   const messageHandler = createAdapterResponseFromMessage
 
   return new AdapterEndpoint({

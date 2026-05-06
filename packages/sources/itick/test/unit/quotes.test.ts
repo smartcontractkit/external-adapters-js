@@ -1,4 +1,4 @@
-import { createAdapterResponseFromMessage } from '../../src/transport/depth-shared'
+import { createAdapterResponseFromMessage } from '../../src/transport/quotes'
 
 describe('depth-shared', () => {
   const symbol = 'TEST'
