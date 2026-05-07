@@ -7456,9 +7456,11 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
           ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-path", "npm:0.11.4"],\
+          ["date-fns", "npm:4.1.0"],\
           ["decimal.js", "npm:10.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["object-path", "npm:0.11.8"],\

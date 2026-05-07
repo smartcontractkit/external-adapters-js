@@ -6,6 +6,7 @@ import {
   checkComponents,
   checkConversions,
   checkProviderUrls,
+  checkSchedule,
   getProviderUrl,
 } from '../../src/utils/validation'
 
@@ -44,7 +45,7 @@ const expectAdapterError = (
 }
 
 describe('validation', () => {
-  const validParams: RequestParams = {
+  const validParams = {
     addressLists: [
       {
         name: 'test-address-list',
@@ -80,10 +81,25 @@ describe('validation', () => {
         ratePath: 'result',
       },
     ],
+    schedule: {
+      feedDescription: 'My test feed',
+      timezone: 'America/New_York',
+      daily: [
+        {
+          start: '03:00',
+          end: '11:59',
+        },
+        {
+          start: '12:00',
+          end: '02:59', // Wraps around midnight
+        },
+      ],
+    },
     resultDecimals: 18,
-  }
+  } as const satisfies RequestParams
 
   beforeEach(async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2026-05-07T12:34:56Z'))
     restoreEnv()
   })
 
@@ -714,6 +730,299 @@ describe('validation', () => {
         message:
           'Components cannot be added together as they are not converted to the same final currency. Final currencies: {"test-component":"USD","test-component-2":"BTC"}',
       })
+    })
+  })
+
+  describe('checkSchedule', () => {
+    const newYorkNoon = new Date('2026-05-07T16:00:00Z')
+
+    it('should succeed for a valid schedule', () => {
+      expect(() => checkSchedule(validParams)).not.toThrow()
+    })
+
+    it('should throw when timezone is invalid', () => {
+      const invalidTimezone = 'Invalid/Timezone'
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: invalidTimezone,
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Invalid schedule timezone: '${invalidTimezone}'`,
+      })
+    })
+
+    it('should throw when schedule is present but empty', () => {
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: 'When present, schedule must include at least one daily time range.',
+      })
+    })
+
+    it('should throw when start time is in wrong format', () => {
+      const invalidTime = '00:00:00' // Invalid format with seconds
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: invalidTime,
+              end: '20:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Invalid time format: '${invalidTime}', expected 'HH:mm'`,
+      })
+    })
+
+    it('should throw when end time is in wrong format', () => {
+      const invalidTime = '00:00:00' // Invalid format with seconds
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: '20:00',
+              end: invalidTime,
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Invalid time format: '${invalidTime}', expected 'HH:mm'`,
+      })
+    })
+
+    it('should throw when start time equals end time', () => {
+      const time = '12:34'
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: time,
+              end: time,
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Invalid daily time range with identical start and end times: '${time}'`,
+      })
+    })
+
+    it('should throw when ranges are not in order', () => {
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: '22:00',
+              end: '23:00',
+            },
+            {
+              start: '02:00',
+              end: '03:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Daily time ranges must be in chronological order and must not overlap. Start time '02:00' is not after previous end time '23:00'.`,
+      })
+    })
+
+    it('should throw when ranges overlap', () => {
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: '02:00',
+              end: '12:00',
+            },
+            {
+              start: '08:00',
+              end: '18:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Daily time ranges must be in chronological order and must not overlap. Start time '08:00' is not after previous end time '12:00'.`,
+      })
+    })
+
+    it('should threat connecting ranges as overlapping', () => {
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          daily: [
+            {
+              start: '02:00',
+              end: '12:00',
+            },
+            {
+              start: '12:00',
+              end: '18:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Daily time ranges must be in chronological order and must not overlap. Start time '12:00' is not after previous end time '12:00'.`,
+      })
+    })
+
+    it('should throw when current time is outside of schedule', () => {
+      jest.setSystemTime(newYorkNoon)
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: 'America/New_York',
+          daily: [
+            {
+              start: '08:00',
+              end: '11:00',
+            },
+            {
+              start: '13:00',
+              end: '20:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 409,
+        message: `Request for feed 'My test feed' received at time 12:00 outside of schedule: 08:00 to 11:00; 13:00 to 20:00`,
+      })
+    })
+
+    it('should throw when current time is outside of wrapped schedule', () => {
+      jest.setSystemTime(newYorkNoon)
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: 'America/New_York',
+          daily: [
+            {
+              start: '13:00',
+              end: '11:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 409,
+        message: `Request for feed 'My test feed' received at time 12:00 outside of schedule: 13:00 to 11:00`,
+      })
+    })
+
+    it('should throw for overlapping ranges even if current time is within the first range', () => {
+      jest.setSystemTime(newYorkNoon)
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: 'America/New_York',
+          daily: [
+            {
+              start: '02:00',
+              end: '14:00',
+            },
+            {
+              start: '08:00',
+              end: '18:00',
+            },
+          ],
+        },
+      }
+
+      expectAdapterError(() => checkSchedule(params), {
+        statusCode: 400,
+        message: `Daily time ranges must be in chronological order and must not overlap. Start time '08:00' is not after previous end time '14:00'.`,
+      })
+    })
+
+    it('should succeed for current time in first part of wrapped schedule', () => {
+      jest.setSystemTime(newYorkNoon)
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: 'America/New_York',
+          daily: [
+            {
+              start: '11:00',
+              end: '01:00',
+            },
+          ],
+        },
+      }
+
+      expect(() => checkSchedule(params)).not.toThrow()
+    })
+
+    it('should succeed for current time in second part of wrapped schedule', () => {
+      jest.setSystemTime(newYorkNoon)
+
+      const params: RequestParams = {
+        ...validParams,
+        schedule: {
+          ...validParams.schedule,
+          timezone: 'America/New_York',
+          daily: [
+            {
+              start: '23:00',
+              end: '13:00',
+            },
+          ],
+        },
+      }
+
+      expect(() => checkSchedule(params)).not.toThrow()
     })
   })
 })
