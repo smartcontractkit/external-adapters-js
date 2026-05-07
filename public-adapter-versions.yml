@@ -68,7 +68,7 @@ adapters:
   - name: coinbase-prime
     version: 1.2.24
   - name: coingecko
-    version: 2.1.6
+    version: 2.2.0
   - name: coinlore
     version: 1.3.47
   - name: coinmarketcap
