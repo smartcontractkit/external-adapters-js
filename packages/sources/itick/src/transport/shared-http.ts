@@ -1,7 +1,7 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult, ResponseGenerics } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { inputParameters } from '../endpoint/shared'
+import { getBaseRegion, inputParameters } from '../endpoint/shared'
 
 type HttpTransportTypes<ResponseSchema, Response extends ResponseGenerics> = {
   Parameters: typeof inputParameters.definition
@@ -28,7 +28,7 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
   return new HttpTransport<HttpTransportTypes<ResponseSchema, Response>>({
     prepareRequests: (params, config) => {
       return params.map((param) => {
-        const { base: symbol, region } = param
+        const { base: symbol, region } = getBaseRegion(param.base)
         return {
           method: 'GET',
           params: [param],
@@ -47,20 +47,20 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
       })
     },
     parseResponse: (params, response) => {
+      const mappedParams = params.map((param) => getBaseRegion(param.base))
       if (!response.data) {
-        return params.map((param) => {
-          const { base: symbol, region } = param
+        return mappedParams.map((param) => {
           return {
             params: param,
             response: {
-              errorMessage: `The data provider didn't return any value for symbol '${symbol}' and region '${region}'.`,
+              errorMessage: `The data provider didn't return any value for symbol '${param.base}' and region '${param.region}'.`,
               statusCode: 502,
             },
           }
         })
       }
 
-      return params.flatMap(({ region }) => messageHandler(response.data, region))
+      return mappedParams.flatMap(({ region }) => messageHandler(response.data, region))
     },
   })
 }

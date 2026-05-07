@@ -1,5 +1,6 @@
 ---
 '@chainlink/tokenized-equity-adapter': patch
+'@chainlink/itick-adapter': patch
 ---
 
-Allow no smoothing as well as only 1 streams
+Code refactoring

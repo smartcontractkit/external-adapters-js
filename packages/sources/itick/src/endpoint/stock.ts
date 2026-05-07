@@ -1,33 +1,28 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/stock'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
+import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { config } from '../config'
-import { createAdapterResponseFromMessage } from '../transport/quote-shared'
 import { createHttpTransport } from '../transport/shared-http'
 import { createWsTransport } from '../transport/shared-ws'
-import { inputParameters } from './shared'
+import { createAdapterResponseFromMessage } from '../transport/stock'
+import { getBaseRegion, inputParameters } from './shared'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: {
-    Result: number
-    Data: {
-      symbol: string
-      lastPrice: number
-    }
-  }
   Settings: typeof config.settings
+  Response: SingleNumberResultResponse
 }
 
 const QUOTE_ENDPOINT_CONFIGS: { apiPath: string; name: string }[] = [
-  { apiPath: 'stock', name: 'stock-quote' },
-  { apiPath: 'indices', name: 'indices-quote' },
+  { apiPath: 'stock', name: 'price' },
+  { apiPath: 'indices', name: 'indices_price' },
 ]
 
 export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
   const type = 'quote'
   const messageHandler = createAdapterResponseFromMessage
 
-  return new AdapterEndpoint({
+  return new StockEndpoint({
     name,
     aliases: [],
     defaultTransport: 'ws',
@@ -35,5 +30,11 @@ export const endpoints = QUOTE_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
       .register('rest', createHttpTransport({ type, apiPath, messageHandler }))
       .register('ws', createWsTransport({ type, apiPath, messageHandler })),
     inputParameters,
+    // Not using customInputValidation because we want to validate after overrides are applied
+    requestTransforms: [
+      (request) => {
+        getBaseRegion(request.requestContext.data.base)
+      },
+    ],
   })
 })

@@ -45,7 +45,7 @@ export const smoothedStreamPrice = async (param: {
     stream: price.data,
   }
 
-  const smoothers = secondsFromTransition ? ['ema', 'kalman'] : ['none']
+  const smoothers = param.smoother === 'none' ? ['none'] : ['ema', 'kalman']
 
   return smoothers.map((smoother) => {
     const smoothed = secondsFromTransition
