@@ -1,6 +1,5 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { createAdapterResponseFromMessage } from '../transport/quotes'
 import { createHttpTransport } from '../transport/shared-http'
@@ -39,9 +38,11 @@ export const endpoints = QUOTES_ENDPOINT_CONFIGS.map(({ apiPath, name }) => {
       .register('rest', createHttpTransport({ type, apiPath, messageHandler }))
       .register('ws', createWsTransport({ type, apiPath, messageHandler })),
     inputParameters,
-    customInputValidation: (req): AdapterInputError | undefined => {
-      getBaseRegion(req.requestContext.data.base)
-      return
-    },
+    // Not using customInputValidation because we want to validate after overrides are applied
+    requestTransforms: [
+      (request) => {
+        getBaseRegion(request.requestContext.data.base)
+      },
+    ],
   })
 })
