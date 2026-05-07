@@ -155,6 +155,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"\
     },\
     {\
+      "name": "@chainlink/readme-test-v3-adapter",\
+      "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"\
+    },\
+    {\
       "name": "@chainlink/ada-balance-adapter",\
       "reference": "workspace:packages/sources/ada-balance"\
     },\
@@ -929,6 +933,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/proof-of-reserves-v2-adapter", ["workspace:packages/composites/proof-of-reserves-v2"]],\
     ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
+    ["@chainlink/readme-test-v3-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
     ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
@@ -7492,6 +7497,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.3.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/readme-test-v3-adapter", [\
+      ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter", {\
+        "packageLocation": "./packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter/",\
+        "packageDependencies": [\
+          ["@chainlink/readme-test-v3-adapter", "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"],\
+          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
       }]\
