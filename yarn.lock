@@ -3241,7 +3241,7 @@ __metadata:
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
     airtable: "npm:0.11.6"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.0"
     axios-mock-adapter: "npm:1.20.0"
     axios-observable: "npm:2.1.0"
     backoff-rxjs: "npm:6.5.7"
