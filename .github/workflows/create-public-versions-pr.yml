@@ -86,7 +86,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up GATI token for PR creation
         id: setup-github-token
-        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
+        uses: smartcontractkit/.github/actions/setup-github-token@7ac9af09dda8c553593d2153a975b43b6958fa9f # setup-github-token@0.1.2
         with:
           aws-role-arn: ${{ secrets.GATI_AWS_ROLE_ARN_FOR_CREATE_PRS }}
           aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
