@@ -143,7 +143,6 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       // Calculate next available window
       const nextWindowStart = new Date(startUTC)
       if (currentUTC > endUTC) {
-        // If we're past today's window, next window is tomorrow
         nextWindowStart.setUTCDate(nextWindowStart.getUTCDate() + 1)
       }
 

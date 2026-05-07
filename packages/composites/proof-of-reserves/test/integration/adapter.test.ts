@@ -42,7 +42,7 @@ describe('execute', () => {
   })
 
   describe('Schedule window behavior', () => {
-    it('should return a custom outside-window error with RDD feed description identifier', async () => {
+    it('should return a custom outside-window error with description feed identifier', async () => {
       const data: AdapterRequest = {
         id: '1',
         data: {
@@ -75,7 +75,7 @@ describe('execute', () => {
       })
     })
 
-    it('should fallback feed identifier to protocol:indexer using RDD PoR feed params when description is not provided', async () => {
+    it('should fallback feed identifier to protocol:indexer when description is not provided', async () => {
       const data: AdapterRequest = {
         id: '1',
         data: {
