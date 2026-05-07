@@ -182,7 +182,7 @@ adapters:
   - name: ion.au
     version: 1.0.32
   - name: itick
-    version: 1.0.1
+    version: 1.1.0
   - name: ix-trust-sync
     version: 1.0.0
   - name: json-rpc
@@ -324,7 +324,7 @@ adapters:
   - name: token-balance
     version: 3.5.0
   - name: tokenized-equity
-    version: 1.1.0
+    version: 1.1.1
   - name: tp
     version: 1.10.0
   - name: tradermade
