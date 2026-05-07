@@ -1,5 +1,5 @@
 import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
-import { Logger, Validator } from '@chainlink/ea-bootstrap'
+import { AdapterCustomError, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
 import { getValidAddresses } from '../utils/addressValidator'
 import {
@@ -147,14 +147,24 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
         nextWindowStart.setUTCDate(nextWindowStart.getUTCDate() + 1)
       }
 
-      const message =
-        `Skipping execution - outside schedule window. ` +
-        `JobRunId: ${jobRunID}, ` +
-        `Current: ${currentUTC.toISOString()}, ` +
-        `Window: [${startUTC.toISOString()} - ${endUTC.toISOString()}], ` +
-        `NextWindowStart: ${nextWindowStart.toISOString()}`
-      Logger.info(message)
-      throw new Error(message)
+      const feedIdentifier =
+        validator.validated.data.description?.trim() || `${protocol}:${indexer}`
+
+      throw new AdapterCustomError({
+        jobRunID,
+        name: 'OutsideScheduleWindowError',
+        statusCode: 422,
+        message: `OUTSIDE_SCHEDULE_WINDOW: feed "${feedIdentifier}" is outside its scheduled window`,
+        errorResponse: {
+          code: 'OUTSIDE_SCHEDULE_WINDOW',
+          expectedBehavior: true,
+          feedIdentifier,
+          currentUTC: currentUTC.toISOString(),
+          windowStartUTC: startUTC.toISOString(),
+          windowEndUTC: endUTC.toISOString(),
+          nextWindowStartUTC: nextWindowStart.toISOString(),
+        },
+      })
     }
   }
 

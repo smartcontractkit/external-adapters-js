@@ -41,6 +41,70 @@ describe('execute', () => {
     done()
   })
 
+  describe('Schedule window behavior', () => {
+    it('should return a custom outside-window error with RDD feed description identifier', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'reserves',
+          protocol: 'por_address_list',
+          protocolEndpoint: 'openedenAddress',
+          indexer: 'token_balance',
+          indexerEndpoint: 'evm',
+          startUTC: '0000',
+          endUTC: '0800',
+          description: 'USDO Reserves',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(422)
+
+      expect(response.body.status).toBe('errored')
+      expect(response.body.error.name).toBe('OutsideScheduleWindowError')
+      expect(response.body.error.message).toContain('OUTSIDE_SCHEDULE_WINDOW')
+      expect(response.body.error.errorResponse).toMatchObject({
+        code: 'OUTSIDE_SCHEDULE_WINDOW',
+        expectedBehavior: true,
+        feedIdentifier: 'USDO Reserves',
+      })
+    })
+
+    it('should fallback feed identifier to protocol:indexer using RDD PoR feed params when description is not provided', async () => {
+      const data: AdapterRequest = {
+        id: '1',
+        data: {
+          endpoint: 'reserves',
+          protocol: 'por_address_list',
+          protocolEndpoint: 'openedenAddress',
+          indexer: 'token_balance',
+          indexerEndpoint: 'evm',
+          startUTC: '0000',
+          endUTC: '0800',
+        },
+      }
+
+      const response = await (context.req as SuperTest<Test>)
+        .post('/')
+        .send(data)
+        .set('Accept', '*/*')
+        .set('Content-Type', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(422)
+
+      expect(response.body.error.errorResponse).toMatchObject({
+        code: 'OUTSIDE_SCHEDULE_WINDOW',
+        expectedBehavior: true,
+        feedIdentifier: 'POR_ADDRESS_LIST:TOKEN_BALANCE',
+      })
+    })
+  })
+
   describe('Bitcoin list protocol', () => {
     const data: AdapterRequest = {
       id: '1',
