@@ -125,7 +125,7 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 		},
 	}
 
-	jsMetricsURL := fmt.Sprintf("http://%s:%s/metrics", cfg.EAHost, cfg.EAMetricsPort)
+	jsMetricsURL := buildMetricsURL(cfg)
 	metricsForwarder := appMetrics.NewForwarder(jsMetricsURL, time.Duration(cfg.MetricsForwardTimeoutSeconds)*time.Second)
 
 	server := &Server{
@@ -147,12 +147,13 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 
 // setupRoutes configures the HTTP routes
 func (s *Server) setupRoutes() {
+	group := s.router.Group(s.config.EABaseUrl)
 	// Health check endpoint
-	s.router.GET("/health", s.healthHandler)
+	group.GET("/health", s.healthHandler)
 	// Cache debug endpoint
-	s.router.GET("/cache", s.cacheHandler)
+	group.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
-	s.router.POST("/", s.adapterHandler)
+	group.POST("/", s.adapterHandler)
 }
 
 // Start starts the HTTP server
@@ -162,7 +163,7 @@ func (s *Server) Start() error {
 	// adapter metrics (excluding families already tracked in Go).
 	gatherer := appMetrics.CombinedGatherer(s.metricsForwarder)
 	metricsMux := http.NewServeMux()
-	metricsMux.Handle("/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
+	metricsMux.Handle(s.config.EABaseUrl+"/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 
 	s.metricsServer = &http.Server{
 		Addr:    ":" + s.config.GoMetricsPort,
@@ -378,33 +379,31 @@ func respondWithObservation(c *gin.Context, obs *types.Observation) {
 	})
 }
 
+// postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.
+// The caller is responsible for closing resp.Body.
+func (s *Server) postToAdapter(data interface{}) (*http.Response, error) {
+	body, err := json.Marshal(map[string]interface{}{"data": data})
+	if err != nil {
+		return nil, fmt.Errorf("marshal: %w", err)
+	}
+	url := fmt.Sprintf("http://%s:%s%s", s.config.EAHost, s.config.EAPort, s.config.EABaseUrl)
+	return s.httpClient.Post(url, "application/json", bytes.NewBuffer(body))
+}
+
 // subscribeToAsset sends a subscription request to the JS adapter.
 // The data parameter is sent as the "data" field in the POST body.
 // It accepts either the original client request data (map[string]interface{},
 // preserving overrides) or stripped RequestParams (map[string]string).
 func (s *Server) subscribeToAsset(data interface{}) {
-	subscribeBody := map[string]interface{}{
-		"data": data,
-	}
-
-	jsonBody, err := json.Marshal(subscribeBody)
+	resp, err := s.postToAdapter(data)
 	if err != nil {
-		s.logger.Error("Failed to marshal subscribe request", "error", err)
-		return
-	}
-
-	internalUrl := fmt.Sprintf("http://%s:%s", s.config.EAHost, s.config.EAPort)
-
-	// Use the reusable HTTP client to avoid port exhaustion
-	resp, err := s.httpClient.Post(internalUrl, "application/json", bytes.NewBuffer(jsonBody))
-	if err != nil {
-		s.logger.Error("Failed to send subscribe request", "error", err, "url", internalUrl)
+		s.logger.Error("Failed to send subscribe request", "error", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode, "url", internalUrl)
+		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode)
 	}
 }
 
@@ -412,21 +411,9 @@ func (s *Server) subscribeToAsset(data interface{}) {
 // feedId from meta.metrics.feedId on a 200 response. Returns empty string and
 // false if the adapter returns a non-200 status or feedId is absent.
 func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool) {
-	subscribeBody := map[string]interface{}{
-		"data": data,
-	}
-
-	jsonBody, err := json.Marshal(subscribeBody)
+	resp, err := s.postToAdapter(data)
 	if err != nil {
-		s.logger.Error("Failed to marshal feedId query request", "error", err)
-		return "", false
-	}
-
-	internalUrl := fmt.Sprintf("http://%s:%s", s.config.EAHost, s.config.EAPort)
-
-	resp, err := s.httpClient.Post(internalUrl, "application/json", bytes.NewBuffer(jsonBody))
-	if err != nil {
-		s.logger.Error("Failed to query JS adapter for feedId", "error", err, "url", internalUrl)
+		s.logger.Error("Failed to query JS adapter for feedId", "error", err)
 		return "", false
 	}
 	defer resp.Body.Close()
@@ -491,4 +478,14 @@ func (s *Server) resubscribeAllAssets() {
 			s.subscribeToAsset(p)
 		}(params)
 	}
+}
+
+// buildMetricsURL constructs the JS adapter metrics scrape URL.
+// When MetricsUseBaseUrl is true, EABaseUrl is prepended to /metrics.
+func buildMetricsURL(cfg *config.Config) string {
+	metricsPath := "/metrics"
+	if cfg.MetricsUseBaseUrl {
+		metricsPath = cfg.EABaseUrl + "/metrics"
+	}
+	return fmt.Sprintf("http://%s:%s%s", cfg.EAHost, cfg.EAMetricsPort, metricsPath)
 }
