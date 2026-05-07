@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/tokenized-equity-adapter",
-  "version": "1.1.2",
-  "description": "Chainlink tokenized equity adapter.",
+  "name": "@chainlink/readme-test-v3-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink readme-test-v3 adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "tokenized-equity"
+    "readme-test-v3"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,10 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/data-engine-adapter": "workspace:*",
-    "@chainlink/external-adapter-framework": "2.11.6",
-    "@date-fns/tz": "1.4.1",
-    "ethers": "^6.13.2",
+    "@chainlink/external-adapter-framework": "2.13.1",
     "tslib": "2.4.1"
   }
 }

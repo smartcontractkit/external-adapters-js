@@ -4731,6 +4731,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/readme-test-v3-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/readme-test-v3-adapter@workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce"
