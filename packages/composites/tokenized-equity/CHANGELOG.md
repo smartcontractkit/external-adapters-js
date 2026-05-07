@@ -1,5 +1,11 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#4932](https://github.com/smartcontractkit/external-adapters-js/pull/4932) [`0a9e8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/0a9e8baf6071ec879815260f8f6b7f9563a44f6d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactoring
+
 ## 1.1.1
 
 ### Patch Changes
