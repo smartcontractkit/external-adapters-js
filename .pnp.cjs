@@ -4627,7 +4627,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@bufbuild/buf", [\
       ["npm:1.68.4", {\
-        "packageLocation": "./.yarn/unplugged/@bufbuild-buf-npm-1.68.4-43d22fd4f8/node_modules/@bufbuild/buf/",\
+        "packageLocation": "./.yarn/cache/@bufbuild-buf-npm-1.68.4-43d22fd4f8-d41b7b166b.zip/node_modules/@bufbuild/buf/",\
         "packageDependencies": [\
           ["@bufbuild/buf", "npm:1.68.4"],\
           ["@bufbuild/buf-darwin-arm64", "npm:1.68.4"],\
@@ -13575,7 +13575,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@stellar/stellar-sdk", [\
       ["npm:14.3.3", {\
-        "packageLocation": "./.yarn/unplugged/@stellar-stellar-sdk-npm-14.3.3-47d8432056/node_modules/@stellar/stellar-sdk/",\
+        "packageLocation": "./.yarn/cache/@stellar-stellar-sdk-npm-14.3.3-47d8432056-e161552210.zip/node_modules/@stellar/stellar-sdk/",\
         "packageDependencies": [\
           ["@stellar/stellar-base", "npm:14.0.2"],\
           ["@stellar/stellar-sdk", "npm:14.3.3"],\
@@ -17302,7 +17302,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["es5-ext", [\
       ["npm:0.10.64", {\
-        "packageLocation": "./.yarn/unplugged/es5-ext-npm-0.10.64-c30cdc3d60/node_modules/es5-ext/",\
+        "packageLocation": "./.yarn/cache/es5-ext-npm-0.10.64-c30cdc3d60-0c5d865770.zip/node_modules/es5-ext/",\
         "packageDependencies": [\
           ["es5-ext", "npm:0.10.64"],\
           ["es6-iterator", "npm:2.0.3"],\
@@ -22540,7 +22540,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["protobufjs", [\
       ["npm:7.5.5", {\
-        "packageLocation": "./.yarn/unplugged/protobufjs-npm-7.5.5-73830b5abb/node_modules/protobufjs/",\
+        "packageLocation": "./.yarn/cache/protobufjs-npm-7.5.5-73830b5abb-048898023a.zip/node_modules/protobufjs/",\
         "packageDependencies": [\
           ["@protobufjs/aspromise", "npm:1.1.2"],\
           ["@protobufjs/base64", "npm:1.1.2"],\
@@ -23408,7 +23408,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["scrypt-shim", [\
       ["https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb", {\
-        "packageLocation": "./.yarn/unplugged/scrypt-shim-https-cd6b603ed0/node_modules/scrypt-shim/",\
+        "packageLocation": "./.yarn/cache/scrypt-shim-https-cd6b603ed0-3c2f5d6aae.zip/node_modules/scrypt-shim/",\
         "packageDependencies": [\
           ["scrypt-shim", "https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"],\
           ["scryptsy", "npm:2.1.0"],\
