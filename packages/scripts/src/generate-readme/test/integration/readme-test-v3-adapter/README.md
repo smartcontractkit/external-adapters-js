@@ -8,11 +8,12 @@ This is a fake adapter for testing, and should not be used as a template for ada
 
 ## Environment Variables
 
-| Required? |      Name       |            Description            |  Type  | Options |            Default            |
-| :-------: | :-------------: | :-------------------------------: | :----: | :-----: | :---------------------------: |
-|    ✅     |     API_KEY     |   An API key for Data Provider    | string |         |                               |
-|           |  API_ENDPOINT   | An API endpoint for Data Provider | string |         | `https://dataproviderapi.com` |
-|           | WS_API_ENDPOINT |   WS endpoint for Data Provider   | string |         |     `ws://localhost:9090`     |
+| Required? |         Name         |            Description            |  Type  | Options |            Default            |
+| :-------: | :------------------: | :-------------------------------: | :----: | :-----: | :---------------------------: |
+|    ✅     |       API_KEY        |   An API key for Data Provider    | string |         |                               |
+|           |     API_ENDPOINT     | An API endpoint for Data Provider | string |         | `https://dataproviderapi.com` |
+|           |   WS_API_ENDPOINT    |   WS endpoint for Data Provider   | string |         |     `ws://localhost:9090`     |
+|           | ${NETWORK}\_RPCL_URL | RPC URL for the given ${NETWORK}. | string |         |                               |
 
 ---
 

@@ -19,4 +19,10 @@ export const config = new AdapterConfig({
     default: 'ws://localhost:9090',
     sensitive: false,
   },
+  NETWORK_RPCL_URL: {
+    description: 'RPC URL for the given ${NETWORK}.',
+    type: 'string',
+    required: false,
+    variablePlaceholder: 'NETWORK',
+  },
 })
