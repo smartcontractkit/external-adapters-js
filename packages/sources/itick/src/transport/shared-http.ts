@@ -47,20 +47,20 @@ export const createHttpTransport = <ResponseSchema, Response extends ResponseGen
       })
     },
     parseResponse: (params, response) => {
+      const mappedParams = params.map((param) => getBaseRegion(param.base))
       if (!response.data) {
-        return params.map((param) => {
-          const { base: symbol, region } = getBaseRegion(param.base)
+        return mappedParams.map((param) => {
           return {
             params: param,
             response: {
-              errorMessage: `The data provider didn't return any value for symbol '${symbol}' and region '${region}'.`,
+              errorMessage: `The data provider didn't return any value for symbol '${param.base}' and region '${param.region}'.`,
               statusCode: 502,
             },
           }
         })
       }
 
-      return params.flatMap(({ base }) => messageHandler(response.data, getBaseRegion(base).region))
+      return mappedParams.flatMap(({ region }) => messageHandler(response.data, region))
     },
   })
 }

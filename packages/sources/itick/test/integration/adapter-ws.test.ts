@@ -38,12 +38,12 @@ describe('websocket', () => {
       transport: 'ws',
     },
     {
-      symbol: 'X700$hk',
+      symbol: 'lol',
       endpoint: 'stock_quotes',
       transport: 'ws',
       overrides: {
         itick: {
-          X700$hk: '700$hk',
+          lol: '700$hk',
         },
       },
     },
