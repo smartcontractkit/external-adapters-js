@@ -6,6 +6,8 @@ import { tz, TZDate } from '@date-fns/tz'
 import { addDays, ContextFn, format, isValid, isWithinInterval, parse, startOfDay } from 'date-fns'
 import { RequestParams } from '../endpoint/reserves'
 
+type Timezone = ContextFn<TZDate>
+
 type FixedAddressList = {
   name: string
   fixed: string
@@ -312,7 +314,7 @@ const parseTimeOfDay = ({
 }: {
   timeStr: string
   day: TZDate
-  timezone: ContextFn<TZDate>
+  timezone: Timezone
 }): TZDate => {
   const time = parse(timeStr, 'HH:mm', day, { in: timezone })
   if (!isValid(time)) {
@@ -325,13 +327,6 @@ const parseTimeOfDay = ({
 }
 
 export const checkSchedule = (params: RequestParams) => {
-  /*
-  throw new AdapterError({
-    statusCode: 503,
-    message: 'Feed is temporarily unavailable due to schedule maintenance. Please try again later.',
-  })
-  */
-
   const schedule = params.schedule
   if (schedule === undefined) {
     return
