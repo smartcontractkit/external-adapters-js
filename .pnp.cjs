@@ -6158,7 +6158,26 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0"]\
+          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.14.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.1-35134abbe0-39fe4bfcf8.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.1"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.20.0"],\
+          ["axios", "npm:1.15.2"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -7475,7 +7494,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/composites/proof-of-reserves-v2", {\
         "packageLocation": "./packages/composites/proof-of-reserves-v2/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.14.1"],\
           ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -25604,6 +25623,23 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-6f4b74e52d/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null],\
+          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.3", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-9b565f5760/0/cache/ws-npm-8.18.3-665d39209d-725964438d.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -25629,23 +25665,6 @@ const RAW_RUNTIME_STATE =
           ["bufferutil", "npm:4.0.8"],\
           ["utf-8-validate", "npm:5.0.10"],\
           ["ws", "virtual:a4d909a61e93daed8b0f848db71f77bdb5ea1775c18ad3db85de4172204ddb9f7f82dbc310d890029da6267fa4af96340d5ff43faec0b46ba34566f507673938#npm:8.18.3"]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-afda44ad9c/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", null],\
-          ["utf-8-validate", null],\
-          ["ws", "virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\

@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute reserves endpoint should return error for missing provider env var 1`] = `
+{
+  "error": {
+    "message": "Missing required environment variable: MISSING_PROVIDER_URL",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 500,
+}
+`;
+
 exports[`execute reserves endpoint should return error for request outside of schedule 1`] = `
 {
   "error": {
