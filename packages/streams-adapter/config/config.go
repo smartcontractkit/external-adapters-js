@@ -8,12 +8,14 @@ import (
 
 // Config holds all configuration for the adapter
 type Config struct {
-	HTTPPort      string
-	EAPort        string
-	EAHost        string
-	EAMetricsPort string
-	RedconPort    string
-	GoMetricsPort string
+	HTTPPort          string
+	EAPort            string
+	EAHost            string
+	EABaseUrl         string
+	EAMetricsPort     string
+	MetricsUseBaseUrl bool
+	RedconPort        string
+	GoMetricsPort     string
 
 	// Cache configuration
 	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
@@ -38,12 +40,14 @@ func Load() *Config {
 	adapterName := extractAdapterName(packageName)
 
 	cfg := &Config{
-		HTTPPort:      getEnv("HTTP_PORT", "8080"),
-		EAPort:        getEnv("EA_PORT", "8070"),
-		EAHost:        getEnv("EA_INTERNAL_HOST", "localhost"),
-		EAMetricsPort: getEnv("EA_METRICS_PORT", "9081"),
-		RedconPort:    getEnv("REDCON_PORT", "6379"),
-		GoMetricsPort: getEnv("METRICS_PORT", "9080"),
+		HTTPPort:          getEnv("HTTP_PORT", "8080"),
+		EAPort:            getEnv("EA_PORT", "8070"),
+		EAHost:            getEnv("EA_INTERNAL_HOST", "localhost"),
+		EABaseUrl:         strings.TrimRight(getEnv("BASE_URL", "/"), "/"),
+		EAMetricsPort:     getEnv("EA_METRICS_PORT", "9081"),
+		MetricsUseBaseUrl: getEnvAsBool("METRICS_USE_BASE_URL", false),
+		RedconPort:        getEnv("REDCON_PORT", "6379"),
+		GoMetricsPort:     getEnv("METRICS_PORT", "9080"),
 
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
@@ -90,6 +94,15 @@ func getEnvAsInt(key string, defaultValue uint) uint {
 			return defaultValue
 		}
 		return uint(value)
+	}
+	return defaultValue
+}
+
+// getEnvAsBool gets an environment variable as boolean with a default value
+func getEnvAsBool(key string, defaultValue bool) bool {
+	valueStr := getEnv(key, "")
+	if value, err := strconv.ParseBool(valueStr); err == nil {
+		return value
 	}
 	return defaultValue
 }
