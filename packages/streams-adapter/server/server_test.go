@@ -15,6 +15,7 @@ import (
 	config "streams-adapter/config"
 	"streams-adapter/helpers"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )
 
@@ -190,4 +191,92 @@ func TestAdapterHandler_CacheMiss(t *testing.T) {
 	var errResp ErrorResponseData
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &errResp))
 	require.Equal(t, "AdapterError", errResp.Error.Name)
+}
+
+func TestBuildMetricsURL_NoBaseUrl(t *testing.T) {
+	cfg := &config.Config{
+		EAHost:              "localhost",
+		EAMetricsPort:       "9081",
+		EABaseUrl:           "",
+		MetricsUseBaseUrl: false,
+	}
+	got := buildMetricsURL(cfg)
+	require.Equal(t, "http://localhost:9081/metrics", got)
+}
+
+func TestBuildMetricsURL_WithBaseUrl(t *testing.T) {
+	cfg := &config.Config{
+		EAHost:              "localhost",
+		EAMetricsPort:       "9081",
+		EABaseUrl:           "/blocksize-capital-llo-exp",
+		MetricsUseBaseUrl: true,
+	}
+	got := buildMetricsURL(cfg)
+	require.Equal(t, "http://localhost:9081/blocksize-capital-llo-exp/metrics", got)
+}
+
+func TestBuildMetricsURL_WithBaseUrlTrailingSlash(t *testing.T) {
+	// Config normalizes trailing slashes at load time; EABaseUrl is always stored without one.
+	cfg := &config.Config{
+		EAHost:              "localhost",
+		EAMetricsPort:       "9081",
+		EABaseUrl:           "/blocksize-capital-llo-exp",
+		MetricsUseBaseUrl: true,
+	}
+	got := buildMetricsURL(cfg)
+	require.Equal(t, "http://localhost:9081/blocksize-capital-llo-exp/metrics", got)
+}
+
+func TestBuildMetricsURL_WithBaseUrlDefault_UseBaseUrl(t *testing.T) {
+	// Config normalizes "/" to "" (empty string) at load time.
+	cfg := &config.Config{
+		EAHost:              "localhost",
+		EAMetricsPort:       "9081",
+		EABaseUrl:           "",
+		MetricsUseBaseUrl: true,
+	}
+	got := buildMetricsURL(cfg)
+	require.Equal(t, "http://localhost:9081/metrics", got)
+}
+
+func newServerWithBaseURL(t *testing.T, baseURL string) *Server {
+	t.Helper()
+	gin.SetMode(gin.TestMode)
+	router := gin.New()
+	router.Use(gin.Recovery())
+	srv := &Server{
+		config: &config.Config{EABaseUrl: baseURL, LogLevel: "info"},
+		router: router,
+	}
+	srv.setupRoutes()
+	return srv
+}
+
+func TestSetupRoutes_DefaultBaseUrl_RoutesAccessible(t *testing.T) {
+	srv := newServerWithBaseURL(t, "/")
+
+	req := httptest.NewRequest(http.MethodGet, "/health", nil)
+	w := httptest.NewRecorder()
+	srv.router.ServeHTTP(w, req)
+	require.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestSetupRoutes_CustomBaseUrl_RoutesAccessible(t *testing.T) {
+	srv := newServerWithBaseURL(t, "/blocksize-capital-llo-exp")
+
+	req := httptest.NewRequest(http.MethodGet, "/blocksize-capital-llo-exp/health", nil)
+	w := httptest.NewRecorder()
+	srv.router.ServeHTTP(w, req)
+	require.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestSetupRoutes_CustomBaseUrl_OldPathsReturn404(t *testing.T) {
+	srv := newServerWithBaseURL(t, "/blocksize-capital-llo-exp")
+
+	for _, path := range []string{"/health", "/cache"} {
+		req := httptest.NewRequest(http.MethodGet, path, nil)
+		w := httptest.NewRecorder()
+		srv.router.ServeHTTP(w, req)
+		require.Equal(t, http.StatusNotFound, w.Code, "expected 404 at %s with custom base URL", path)
+	}
 }
