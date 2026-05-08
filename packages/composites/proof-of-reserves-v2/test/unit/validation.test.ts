@@ -1,4 +1,6 @@
+import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../../src/config'
 import { RequestParams } from '../../src/endpoint/reserves'
 import {
   checkAddressLists,
@@ -7,20 +9,7 @@ import {
   checkConversions,
   checkProviderUrls,
   checkSchedule,
-  getProviderUrl,
 } from '../../src/utils/validation'
-
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
 
 const expectAdapterError = (
   call: () => void,
@@ -100,54 +89,58 @@ describe('validation', () => {
 
   beforeEach(async () => {
     jest.useFakeTimers().setSystemTime(new Date('2026-05-07T12:34:56Z'))
-    restoreEnv()
-  })
-
-  describe('getProviderUrl', () => {
-    it('should return the provider URL from environment variable', () => {
-      const expectedUrl = 'https://example.com/api'
-      process.env['TEST_ADAPTER_URL'] = expectedUrl
-      expect(getProviderUrl('test-adapter')).toBe(expectedUrl)
-    })
-
-    it('should throw if the environment variable is missing', () => {
-      expectAdapterError(() => getProviderUrl('test-adapter'), {
-        statusCode: 500,
-        message: 'Missing environment variable for provider URL: TEST_ADAPTER_URL',
-      })
-    })
   })
 
   describe('checkProviderUrls', () => {
+    const providerUrls = new Map<string, string>()
+    const settings = makeStub('settings', {
+      PROVIDER_URL: {
+        get(provider: string) {
+          const envVarName = provider.toUpperCase().replace(/-/g, '_') + '_URL'
+          if (!providerUrls.has(envVarName)) {
+            throw new AdapterError({
+              statusCode: 500,
+              message: `Missing environment variable for provider URL: ${envVarName}`,
+            })
+          }
+          return providerUrls.get(envVarName)!
+        },
+      },
+    } as typeof config.settings)
+
+    beforeEach(() => {
+      providerUrls.clear()
+    })
+
     it('should succeed if environment variables are set for all providers', () => {
-      process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
-      process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
-      process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      checkProviderUrls(validParams)
+      providerUrls.set('TEST_ADDRESS_LIST_ADAPTER_URL', 'https://example.com/address')
+      providerUrls.set('TEST_BALANCE_ADAPTER_URL', 'https://example.com/balance')
+      providerUrls.set('TEST_VIEW_FUNCTION_ADAPTER_URL', 'https://example.com/conversion')
+      checkProviderUrls(validParams, settings)
     })
 
     it('should throw if the environment variable is missing for an addressList provider', () => {
-      process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
-      process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      expectAdapterError(() => checkProviderUrls(validParams), {
+      providerUrls.set('TEST_BALANCE_ADAPTER_URL', 'https://example.com/balance')
+      providerUrls.set('TEST_VIEW_FUNCTION_ADAPTER_URL', 'https://example.com/conversion')
+      expectAdapterError(() => checkProviderUrls(validParams, settings), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_ADDRESS_LIST_ADAPTER_URL',
       })
     })
 
     it('should throw if the environment variable is missing for a balanceSource provider', () => {
-      process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
-      process.env.TEST_VIEW_FUNCTION_ADAPTER_URL = 'https://example.com/conversion'
-      expectAdapterError(() => checkProviderUrls(validParams), {
+      providerUrls.set('TEST_ADDRESS_LIST_ADAPTER_URL', 'https://example.com/address')
+      providerUrls.set('TEST_VIEW_FUNCTION_ADAPTER_URL', 'https://example.com/conversion')
+      expectAdapterError(() => checkProviderUrls(validParams, settings), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_BALANCE_ADAPTER_URL',
       })
     })
 
     it('should throw if the environment variable is missing for a conversion provider', () => {
-      process.env.TEST_ADDRESS_LIST_ADAPTER_URL = 'https://example.com/address'
-      process.env.TEST_BALANCE_ADAPTER_URL = 'https://example.com/balance'
-      expectAdapterError(() => checkProviderUrls(validParams), {
+      providerUrls.set('TEST_ADDRESS_LIST_ADAPTER_URL', 'https://example.com/address')
+      providerUrls.set('TEST_BALANCE_ADAPTER_URL', 'https://example.com/balance')
+      expectAdapterError(() => checkProviderUrls(validParams, settings), {
         statusCode: 500,
         message: 'Missing environment variable for provider URL: TEST_VIEW_FUNCTION_ADAPTER_URL',
       })

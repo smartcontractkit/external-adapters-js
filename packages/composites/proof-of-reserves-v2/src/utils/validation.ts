@@ -4,6 +4,7 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { tz, TZDate } from '@date-fns/tz'
 import { addDays, ContextFn, format, isValid, isWithinInterval, parse, startOfDay } from 'date-fns'
+import { config } from '../config'
 import { RequestParams } from '../endpoint/reserves'
 
 type Timezone = ContextFn<TZDate>
@@ -26,31 +27,19 @@ type ProvidedAddressList = {
 
 type CheckedAddressList = FixedAddressList | ProvidedAddressList
 
-export const getProviderUrl = (provider: string): string => {
-  const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
-  const url = process.env[providerUrlEnvVarName]
-  if (!url) {
-    throw new AdapterError({
-      statusCode: 500,
-      message: `Missing environment variable for provider URL: ${providerUrlEnvVarName}`,
-    })
-  }
-  return url
-}
-
-export const checkProviderUrls = (params: RequestParams) => {
+export const checkProviderUrls = (params: RequestParams, settings: typeof config.settings) => {
   for (const addressList of params.addressLists) {
     if (addressList.provider !== undefined) {
-      getProviderUrl(addressList.provider)
+      settings.PROVIDER_URL.get(addressList.provider)
     }
   }
 
   for (const balanceSource of params.balanceSources) {
-    getProviderUrl(balanceSource.provider)
+    settings.PROVIDER_URL.get(balanceSource.provider)
   }
 
   for (const conversion of params.conversions) {
-    getProviderUrl(conversion.provider)
+    settings.PROVIDER_URL.get(conversion.provider)
   }
 }
 
