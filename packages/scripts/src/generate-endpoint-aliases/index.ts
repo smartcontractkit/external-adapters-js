@@ -10,7 +10,7 @@ interface EndpointConfig {
 }
 
 interface AllAdaptersConfig {
-  adapters: Record<string, { endpoints?: Record<string, EndpointConfig> }>
+  adapters: Record<string, { defaultEndpoint?: string; endpoints?: Record<string, EndpointConfig> }>
 }
 
 interface LoadResult {
@@ -74,7 +74,10 @@ async function main(): Promise<void> {
     const { adapter, skipReason } = await loadAdapter(meta.location)
     if (adapter) {
       const adapterKey = meta.descopedName.replace(/-adapter$/, '')
-      result.adapters[adapterKey] = { endpoints: extractEndpoints(adapter) }
+      result.adapters[adapterKey] = {
+        defaultEndpoint: adapter.defaultEndpoint ?? undefined,
+        endpoints: extractEndpoints(adapter),
+      }
     } else {
       skipped.push({ name: meta.descopedName, reason: skipReason || 'unknown' })
     }

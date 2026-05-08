@@ -29,6 +29,7 @@ func writeTempConfig(t *testing.T, content string) string {
 const sampleConfig = `{
   "adapters": {
     "test-adapter": {
+      "defaultEndpoint": "price",
       "endpoints": {
         "price": {
           "aliases": ["crypto", "forex"]
@@ -176,13 +177,27 @@ func TestBuildCacheKeyParams_UnknownEndpoint(t *testing.T) {
 	require.Error(t, err)
 }
 
+func TestBuildCacheKeyParams_MissingEndpointNoDefault(t *testing.T) {
+	resetGlobals()
+	path := writeTempConfig(t, sampleConfig)
+	require.NoError(t, InitAliasIndex("other-adapter", path))
+
+	_, err := BuildCacheKeyParams(map[string]interface{}{
+		"base": "ETH",
+	})
+	require.Error(t, err)
+}
+
 func TestBuildCacheKeyParams_MissingEndpoint(t *testing.T) {
 	initTestAdapter(t)
-	_, err := BuildCacheKeyParams(map[string]interface{}{
+	result, err := BuildCacheKeyParams(map[string]interface{}{
 		"base":  "ETH",
 		"quote": "USD",
 	})
-	require.Error(t, err)
+	require.NoError(t, err)
+	assertParam(t, result, "endpoint", "price")
+	assertParam(t, result, "base", "ETH")
+	assertParam(t, result, "quote", "USD")
 }
 
 func TestBuildCacheKeyParams_BasicCanonical(t *testing.T) {
