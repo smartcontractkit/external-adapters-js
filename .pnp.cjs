@@ -1023,10 +1023,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@actions/core", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/@actions-core-npm-3.0.0-fbea614863-fddeebfaf6.zip/node_modules/@actions/core/",\
+      ["npm:3.0.1", {\
+        "packageLocation": "./.yarn/cache/@actions-core-npm-3.0.1-aac60a1c20-e1295f6b81.zip/node_modules/@actions/core/",\
         "packageDependencies": [\
-          ["@actions/core", "npm:3.0.0"],\
+          ["@actions/core", "npm:3.0.1"],\
           ["@actions/exec", "npm:3.0.0"],\
           ["@actions/http-client", "npm:4.0.0"]\
         ],\
@@ -5973,7 +5973,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/scripts", {\
         "packageLocation": "./packages/scripts/",\
         "packageDependencies": [\
-          ["@actions/core", "npm:3.0.0"],\
+          ["@actions/core", "npm:3.0.1"],\
           ["@apidevtools/json-schema-ref-parser", "npm:9.1.2"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
