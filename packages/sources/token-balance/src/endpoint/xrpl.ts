@@ -13,12 +13,12 @@ export const inputParameters = new InputParameters(
       description: 'Identifies the token, e.g., TBILL, to fetch the balance of',
     },
     priceOracleAddress: {
-      required: true,
+      required: false,
       type: 'string',
       description: 'Address of the price oracle contract to use to convert the above token to USD',
     },
     priceOracleNetwork: {
-      required: true,
+      required: false,
       type: 'string',
       description: 'EVM network on which to query the price oracle (ethereum, arbitrum, etc.)',
     },
@@ -65,8 +65,19 @@ export const endpoint = new AdapterEndpoint({
   name: 'xrpl',
   transport: xrplTransport,
   inputParameters,
-  customInputValidation: (_request, settings): AdapterError | undefined => {
+  customInputValidation: (request, settings): AdapterError | undefined => {
     getXrplRpcUrl(settings)
+    const params = request.requestContext.data
+    if (
+      (params.priceOracleAddress || params.priceOracleNetwork) &&
+      !(params.priceOracleAddress && params.priceOracleNetwork)
+    ) {
+      throw new AdapterError({
+        statusCode: 400,
+        message:
+          'If one of priceOracleAddress or priceOracleNetwork is provider, both must be provided.',
+      })
+    }
     return
   },
 })
