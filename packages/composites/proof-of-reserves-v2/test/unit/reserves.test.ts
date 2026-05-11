@@ -7,18 +7,6 @@ import { AdapterError } from '@chainlink/external-adapter-framework/validation/e
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/reserves'
 import { ReservesTransport, ReservesTransportTypes } from '../../src/transport/reserves'
 
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
-
 const log = jest.fn()
 const debugLog = jest.fn()
 const logger = {
@@ -47,6 +35,15 @@ describe('ReservesTransport', () => {
   }
 
   const adapterSettings = makeStub('adapterSettings', {
+    PROVIDER_URL: {
+      get(provider: keyof typeof PROVIDER_URLS) {
+        const url = PROVIDER_URLS[provider]
+        if (!url) {
+          throw new Error(`Unknown provider '${provider}'`)
+        }
+        return url
+      },
+    },
     MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE: 20,
     BACKGROUND_EXECUTE_MS,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
@@ -126,13 +123,8 @@ describe('ReservesTransport', () => {
   }
 
   beforeEach(async () => {
-    restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
-
-    for (const [key, value] of Object.entries(PROVIDER_URLS)) {
-      process.env[`${key.toUpperCase().replace(/-/g, '_')}_URL`] = value
-    }
 
     transport = new ReservesTransport()
 

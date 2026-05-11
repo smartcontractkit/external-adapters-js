@@ -4,24 +4,13 @@
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-## Variable env vars
-
-Several parameters in the request refer to a `provider`. This is a string that
-identifies the data provider to use for that parameter. To support a
-specific value for the `provider` parameter, the environment variable
-`<PROVIDER>_URL` must be set, where `<PROVIDER>` is the
-upper-snake-case version of the value provided for the `provider` parameter.
-
-For example, if there is an address list with `"provider": "por-address-list"`,
-then `POR_ADDRESS_LIST_URL` must be set to the URL of the `por-address-list`
-adapter.
-
 ## Environment Variables
 
-| Required? |                Name                |                                         Description                                         |  Type  | Options | Default |
-| :-------: | :--------------------------------: | :-----------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           | MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE | How many characters of a response may be included in an error message before trunctating it | number |         |  `200`  |
-|           |       BACKGROUND_EXECUTE_MS        |  The amount of time the background execute should sleep before performing the next request  | number |         | `10000` |
+| Required? |                Name                |                                                                             Description                                                                              |  Type  | Options | Default |
+| :-------: | :--------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |          ${PROVIDER}\_URL          | The URL for the given ${PROVIDER} used in request params. The used provider name is converted to upper-snake-case to determine the name of the environment variable. | string |         |         |
+|           | MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE |                                     How many characters of a response may be included in an error message before trunctating it                                      | number |         |  `200`  |
+|           |       BACKGROUND_EXECUTE_MS        |                                      The amount of time the background execute should sleep before performing the next request                                       | number |         | `10000` |
 
 ---
 
@@ -72,6 +61,12 @@ There are no rate limits for this adapter.
 |    ✅     |        conversions.params        |         |                                                              JSON string encoding the parameters to be passed to the provider when querying for conversion rates.                                                              |  string  |         |         |            |                |
 |    ✅     |       conversions.ratePath       |         |                                                                          The object path to find the conversion rate in the result from the provider.                                                                          |  string  |         |         |            |                |
 |           |     conversions.decimalsPath     |         |              The object path to find the number of decimals to scale the fixed point conversion rate in the result from the provider. If absent, the result is considered to be an unscaled floating point number              |  string  |         |         |            |                |
+|           |             schedule             |         |                                                           If the current time is outside the given schedule, the endpoint will respond with an HTTP 409 error code.                                                            |  object  |         |         |            |                |
+|    ✅     |     schedule.feedDescription     |         |                                                          Description used to identify which feed is requested outside the schedule when errors are found in the logs.                                                          |  string  |         |         |            |                |
+|    ✅     |        schedule.timezone         |         |                                                                              Timezone to use for the schedule, e.g. "UTC" or "America/New_York".                                                                               |  string  |         |         |            |                |
+|           |          schedule.daily          |         |                                                   Daily time ranges when the endpoint should be active. If start comes after end, the range is considered to span midnight.                                                    | object[] |         |         |            |                |
+|    ✅     |       schedule.daily.start       |         |                                                                                                Start time in 24h format "HH:mm"                                                                                                |  string  |         |         |            |                |
+|    ✅     |        schedule.daily.end        |         |                                                                                                 End time in 24h format "HH:mm"                                                                                                 |  string  |         |         |            |                |
 |    ✅     |          resultDecimals          |         |                                                                                     Number of decimals to use for the fixed point result.                                                                                      |  number  |         |         |            |                |
 
 ### Example
@@ -118,6 +113,20 @@ Request:
         "decimalsPath": "data.decimals"
       }
     ],
+    "schedule": {
+      "feedDescription": "My test feed",
+      "timezone": "America/New_York",
+      "daily": [
+        {
+          "start": "03:00",
+          "end": "11:59"
+        },
+        {
+          "start": "12:00",
+          "end": "02:59"
+        }
+      ]
+    },
     "resultDecimals": 18
   }
 }
