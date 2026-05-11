@@ -1,22 +1,24 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
-  API_KEY: {
-    description: 'An API key for Data Provider',
+  API_ENDPOINT: {
+    description: 'An API endpoint for Data Provider',
+    type: 'string',
+    default: 'https://api.six-group.com',
+    sensitive: false,
+  },
+  PRIVATE_KEY: {
+    description:
+      'Base64 Private Key. Expected to be formatted as a single line eg: "-----BEGIN PRIVATE KEY-----\n...contents...\n-----END PRIVATE KEY-----"',
     type: 'string',
     required: true,
     sensitive: true,
   },
-  API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
+  PUBLIC_CERT: {
+    description:
+      'Base64 Public Certificate. Expected to be formatted as a single line eg: "-----BEGIN CERTIFICATE-----\n...contents...\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\n...contents...\n-----END CERTIFICATE-----"',
     type: 'string',
-    default: 'https://dataproviderapi.com',
-    sensitive: false,
-  },
-  WS_API_ENDPOINT: {
-    description: 'WS endpoint for Data Provider',
-    type: 'string',
-    default: 'ws://localhost:9090',
+    required: true,
     sensitive: false,
   },
 })

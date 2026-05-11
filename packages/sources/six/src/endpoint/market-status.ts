@@ -1,43 +1,24 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import {
+  MarketStatusEndpoint,
+  MarketStatusResultResponse,
+  marketStatusEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
+
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/market-status'
 
-export const inputParameters = new InputParameters(
-  {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
-    },
-  },
-  [
-    {
-      base: 'BTC',
-      quote: 'USD',
-    },
-  ],
-)
+export const inputParameters = new InputParameters(marketStatusEndpointInputParametersDefinition)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: MarketStatusResultResponse
   Settings: typeof config.settings
 }
 
-export const endpoint = new AdapterEndpoint({
+export const endpoint = new MarketStatusEndpoint({
   name: 'market-status',
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  overrides: overrides['six'],
 })
