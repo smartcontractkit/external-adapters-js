@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.6.5
+
+### Patch Changes
+
+- [#4950](https://github.com/smartcontractkit/external-adapters-js/pull/4950) [`8fc90ab`](https://github.com/smartcontractkit/external-adapters-js/commit/8fc90abc7f6d439b5ecdad09e663d76131b066e9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Support for BASE_URL, and payload without endpoint
+
 ## 2.6.4
 
 ### Patch Changes
