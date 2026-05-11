@@ -117,5 +117,35 @@ describe('execute', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
+
+    it('should filter by token', async () => {
+      const data = {
+        endpoint: 'evm',
+        addresses: [
+          {
+            token: 'FBTC',
+            network: 'ethereum',
+            contractAddress: '0xC96dE26018A54D51c097160568752c4E3BD6C364',
+            wallets: [
+              '0x3A29CD3052774224E7C2CF001254211C986967B2',
+              '0x3d9bCcA8Bc7D438a4c5171435f41a0AF5d5E6083',
+            ],
+          },
+          {
+            token: 'cbBTC',
+            network: 'base',
+            contractAddress: '0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf',
+            wallets: ['0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E'],
+          },
+        ],
+        token: 'cbbtc',
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      mockBASEMainnetContractCallResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
   })
 })
