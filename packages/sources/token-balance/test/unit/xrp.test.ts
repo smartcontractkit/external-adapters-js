@@ -172,6 +172,7 @@ describe('XrpTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: 6,
         },
       ]
 
@@ -222,10 +223,12 @@ describe('XrpTransport', () => {
         {
           address: address1,
           balance: balance1.toString(),
+          decimals: 6,
         },
         {
           address: address2,
           balance: balance2.toString(),
+          decimals: 6,
         },
       ]
       expect(response).toEqual({
@@ -277,6 +280,7 @@ describe('XrpTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: 6,
         },
       ]
       expect(await responsePromise).toEqual({
@@ -320,8 +324,8 @@ describe('XrpTransport', () => {
       ])
 
       expect(balances).toEqual([
-        { address: address1, balance: '100.0' },
-        { address: address2, balance: '200.0' },
+        { address: address1, balance: '100.0', decimals: 6 },
+        { address: address2, balance: '200.0', decimals: 6 },
       ])
 
       expect(requester.request).toHaveBeenNthCalledWith(
@@ -389,10 +393,10 @@ describe('XrpTransport', () => {
       resolveLines4('104.0')
 
       expect(await balancePromise).toEqual([
-        { address: address1, balance: '101.0' },
-        { address: address2, balance: '102.0' },
-        { address: address3, balance: '103.0' },
-        { address: address4, balance: '104.0' },
+        { address: address1, balance: '101.0', decimals: 6 },
+        { address: address2, balance: '102.0', decimals: 6 },
+        { address: address3, balance: '103.0', decimals: 6 },
+        { address: address4, balance: '104.0', decimals: 6 },
       ])
 
       expect(log).toHaveBeenNthCalledWith(
