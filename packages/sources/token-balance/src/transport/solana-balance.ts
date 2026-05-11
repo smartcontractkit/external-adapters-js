@@ -89,6 +89,7 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
         return {
           address,
           balance: balance.toString(),
+          decimals: RESULT_DECIMALS,
         }
       },
     )
