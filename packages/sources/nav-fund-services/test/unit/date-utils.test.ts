@@ -2,6 +2,7 @@ import { differenceInBusinessDays, parse } from 'date-fns'
 import {
   clampStartByBusinessDays,
   DATE_FORMAT,
+  dateToTimezoneOffsetUtcMs,
   MAX_BUSINESS_DAYS,
   parseDateString,
   toDateString,
@@ -27,6 +28,19 @@ describe('date-utils', () => {
       const badInput = '2025-07-11'
       expect(() => parseDateString(badInput)).toThrow(
         `date must be in ${DATE_FORMAT} format: got "${badInput}"`,
+      )
+    })
+  })
+
+  describe('dateToTimezoneOffsetUtcMs', () => {
+    it('returns UTC midnight for the UTC timezone', () => {
+      expect(dateToTimezoneOffsetUtcMs('06-25-2025', 'UTC')).toBe(Date.UTC(2025, 5, 25, 0, 0, 0, 0))
+    })
+
+    it('returns midnight in the given timezone', () => {
+      // America/New_York is EDT (UTC-4) in June – midnight NY = 04:00 UTC
+      expect(dateToTimezoneOffsetUtcMs('06-25-2025', 'America/New_York')).toBe(
+        Date.UTC(2025, 5, 25, 4, 0, 0, 0),
       )
     })
   })

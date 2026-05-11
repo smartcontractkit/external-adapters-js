@@ -11,10 +11,14 @@ export const calculateSecondsFromTransition = async (
   tradingHoursUrl: string,
   requester: Requester,
   sessionBoundaries: string[],
-  sessionBoundariesTimeZone: string,
-  sessionMarket: string,
-  sessionMarketType: string,
+  sessionBoundariesTimeZone?: string,
+  sessionMarket?: string,
+  sessionMarketType?: string,
 ) => {
+  if (!sessionBoundariesTimeZone || !sessionMarket || !sessionMarketType) {
+    return
+  }
+
   const now = new TZDate(new Date().getTime(), sessionBoundariesTimeZone)
 
   let sessions: number[]

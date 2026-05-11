@@ -182,5 +182,83 @@ describe('smoothedStreamPrice', () => {
       expect(result[0].result.toString()).toEqual('10')
       expect(result[0].decimals).toEqual(7)
     })
+
+    it('no smoother', async () => {
+      const streams = {
+        regular: {
+          mid: '1',
+          lastSeenTimestampNs: '2',
+          bid: '0.99',
+          bidVolume: 100,
+          ask: '1.01',
+          askVolume: 100,
+          lastTradedPrice: '1.00',
+          marketStatus: 1,
+          decimals: 18,
+        },
+        extended: {
+          mid: '10',
+          lastSeenTimestampNs: '20',
+          bid: '9.9',
+          bidVolume: 1000,
+          ask: '10.1',
+          askVolume: 1000,
+          lastTradedPrice: '10.0',
+          marketStatus: 2,
+          decimals: 18,
+        },
+        overnight: {
+          mid: '100',
+          lastSeenTimestampNs: '200',
+          bid: '99',
+          bidVolume: 10000,
+          ask: '101',
+          askVolume: 10000,
+          lastTradedPrice: '100',
+          marketStatus: 3,
+          decimals: 18,
+        },
+      }
+      mockGetPrice.mockResolvedValue({
+        price: '1',
+        spread: 2n,
+        decimals: 6,
+        data: {
+          regular: streams.regular,
+          extended: streams.extended,
+          overnight: streams.overnight,
+        },
+      })
+
+      mockCalculateSecondsFromTransition.mockReturnValue(Promise.resolve(undefined))
+
+      const result = (
+        await smoothedStreamPrice({
+          ...defaultParams,
+          smoother: 'none',
+          decimals: 6,
+        })
+      ).map((r) => ({
+        ...r,
+        result: r.result.toString(),
+      }))
+
+      expect(result.length).toEqual(1)
+      expect(result[0]).toStrictEqual({
+        result: '1',
+
+        rawPrice: '1',
+        decimals: 6,
+        stream: streams,
+        smoother: {
+          price: '1',
+          x: '0',
+          p: '0',
+          smoother: 'none',
+          secondsFromTransition: undefined,
+        },
+        sessionSource: undefined,
+      })
+    })
   })
 })

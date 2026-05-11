@@ -8,6 +8,7 @@ import {
   checkComponents,
   checkConversions,
   checkProviderUrls,
+  checkSchedule,
 } from '../utils/validation'
 
 export const inputParameters = new InputParameters(
@@ -171,6 +172,41 @@ export const inputParameters = new InputParameters(
         },
       },
     },
+    schedule: {
+      description:
+        'If the current time is outside the given schedule, the endpoint will respond with an HTTP 409 error code.',
+      type: {
+        feedDescription: {
+          description:
+            'Description used to identify which feed is requested outside the schedule when errors are found in the logs.',
+          type: 'string',
+          required: true,
+        },
+        timezone: {
+          description: 'Timezone to use for the schedule, e.g. "UTC" or "America/New_York".',
+          type: 'string',
+          required: true,
+        },
+        daily: {
+          description:
+            'Daily time ranges when the endpoint should be active. If start comes after end, the range is considered to span midnight.',
+          array: true,
+          type: {
+            start: {
+              description: 'Start time in 24h format "HH:mm"',
+              type: 'string',
+              required: true,
+            },
+            end: {
+              description: 'End time in 24h format "HH:mm"',
+              type: 'string',
+              required: true,
+            },
+          },
+        },
+      },
+      required: false,
+    },
     resultDecimals: {
       description: 'Number of decimals to use for the fixed point result.',
       type: 'number',
@@ -216,6 +252,20 @@ export const inputParameters = new InputParameters(
           decimalsPath: 'data.decimals',
         },
       ],
+      schedule: {
+        feedDescription: 'My test feed',
+        timezone: 'America/New_York',
+        daily: [
+          {
+            start: '03:00',
+            end: '11:59',
+          },
+          {
+            start: '12:00',
+            end: '02:59', // Wraps around midnight
+          },
+        ],
+      },
       resultDecimals: 18,
     },
   ],
@@ -257,13 +307,14 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: reservesTransport,
   inputParameters,
-  customInputValidation: (request, _settings): undefined => {
+  customInputValidation: (request, settings): undefined => {
     const params = request.requestContext.data
-    checkProviderUrls(params)
+    checkProviderUrls(params, settings)
     checkAddressLists(params)
     checkBalanceSources(params)
     checkConversions(params)
     checkComponents(params)
+    checkSchedule(params)
     return
   },
 })

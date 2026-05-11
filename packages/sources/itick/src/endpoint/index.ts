@@ -1,2 +1,2 @@
-export { endpoints as depthEndpoints } from './depth'
-export { endpoints as quoteEndpoints } from './quote'
+export { endpoints as quotesEndpoints } from './quotes'
+export { endpoints as stockEndpoints } from './stock'

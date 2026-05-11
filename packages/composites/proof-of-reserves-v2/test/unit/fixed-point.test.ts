@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js'
 import {
   add,
   divide,
@@ -6,6 +7,11 @@ import {
   multiply,
   toFixedPointWithDecimals,
 } from '../../src/utils/fixed-point'
+
+// @ts-expect-error - Make errors involving BigInt more readable
+BigInt.prototype.toJSON = function () {
+  return this.toString()
+}
 
 describe('fixed-point', () => {
   describe('toFixedPointWithDecimals', () => {
@@ -87,6 +93,13 @@ describe('fixed-point', () => {
       expect(toFixedPointWithDecimals({ amount: 123n, decimals: 2 }, 2)).toEqual({
         amount: 123n,
         decimals: 2,
+      })
+    })
+
+    it('should work with decimal.js', () => {
+      expect(toFixedPointWithDecimals(new Decimal('76977.62420307'), 8)).toEqual({
+        amount: 7_697_762_420_307n,
+        decimals: 8,
       })
     })
   })
@@ -219,6 +232,26 @@ describe('fixed-point', () => {
       ).toEqual({
         amount: 1_230_000n,
         decimals: 6,
+      })
+    })
+
+    it('should work with precise decimal string', () => {
+      // This specific number gets a rounding error when converted with `Number`.
+      const balance = '76977.62420307'
+      expect(Math.trunc(Number(balance) * 10 ** 8)).toEqual(7697762420306)
+
+      expect(
+        getFixedPointFromResult({
+          result: {
+            balance,
+          },
+          amountPath: 'balance',
+          decimalsPath: undefined,
+          defaultDecimals: 8,
+        }),
+      ).toEqual({
+        amount: 7_697_762_420_307n,
+        decimals: 8,
       })
     })
 

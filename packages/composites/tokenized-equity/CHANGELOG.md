@@ -1,5 +1,17 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#4932](https://github.com/smartcontractkit/external-adapters-js/pull/4932) [`0a9e8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/0a9e8baf6071ec879815260f8f6b7f9563a44f6d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactoring
+
+## 1.1.1
+
+### Patch Changes
+
+- [#4924](https://github.com/smartcontractkit/external-adapters-js/pull/4924) [`b98ee45`](https://github.com/smartcontractkit/external-adapters-js/commit/b98ee45b89ef4634fbb207d9d46bd2eda27957e0) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow no smoothing as well as only 1 streams
+
 ## 1.1.0
 
 ### Minor Changes

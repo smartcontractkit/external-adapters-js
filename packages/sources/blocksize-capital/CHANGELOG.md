@@ -1,5 +1,17 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.6.4
+
+### Patch Changes
+
+- [#4914](https://github.com/smartcontractkit/external-adapters-js/pull/4914) [`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - new images with proper streams race condition fix
+
+## 2.6.3
+
+### Patch Changes
+
+- [#4905](https://github.com/smartcontractkit/external-adapters-js/pull/4905) [`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapters] fixed race condition in the resubscribe loop
+
 ## 2.6.2
 
 ### Patch Changes

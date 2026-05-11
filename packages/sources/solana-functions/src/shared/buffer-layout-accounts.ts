@@ -2,6 +2,7 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { type Address } from '@solana/addresses'
 import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
+import { StakePoolLayout } from '@solana/spl-stake-pool'
 import { AccountLayout, MintLayout } from '@solana/spl-token'
 
 interface SanctumPoolState {
@@ -35,10 +36,12 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
 ])
 
 const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+const solanaStakePoolProgramAddress = 'SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
 const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> = {
   [solanaTokenProgramAddress]: [AccountLayout, MintLayout],
+  [solanaStakePoolProgramAddress]: [StakePoolLayout],
   [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
 }
 
@@ -49,6 +52,9 @@ const getLayout = (programAddress: string, dataLength: number): BufferLayout.Lay
       message: `No layout known for program address '${programAddress}'`,
       statusCode: 500,
     })
+  }
+  if (layoutCandidates.length === 1) {
+    return layoutCandidates[0]!
   }
   for (const layout of layoutCandidates) {
     if (layout.span === dataLength) {
@@ -63,15 +69,16 @@ const getLayout = (programAddress: string, dataLength: number): BufferLayout.Lay
   })
 }
 
-export const fetchFieldFromBufferLayoutStateAccount = async ({
+export const fetchDataFromBufferLayoutStateAccount = async ({
   stateAccountAddress,
-  field,
   rpc,
 }: {
   stateAccountAddress: string
-  field: string
   rpc: Rpc<SolanaRpcApi>
-}): Promise<string> => {
+}): Promise<{
+  programAddress: string
+  data: Record<string, unknown>
+}> => {
   const encoding = 'base64'
   const resp = await rpc.getAccountInfo(stateAccountAddress as Address, { encoding }).send()
   const programAddress = resp.value?.owner
@@ -84,7 +91,26 @@ export const fetchFieldFromBufferLayoutStateAccount = async ({
 
   const data = Buffer.from(resp.value.data[0] as string, encoding)
   const layout = getLayout(programAddress.toString(), data.length)
-  const dataDecoded = layout.decode(data) as Record<string, unknown>
+  const decodedData = layout.decode(data) as Record<string, unknown>
+  return {
+    programAddress: programAddress.toString(),
+    data: decodedData,
+  }
+}
+
+export const fetchFieldFromBufferLayoutStateAccount = async ({
+  stateAccountAddress,
+  field,
+  rpc,
+}: {
+  stateAccountAddress: string
+  field: string
+  rpc: Rpc<SolanaRpcApi>
+}): Promise<string> => {
+  const { programAddress, data: dataDecoded } = await fetchDataFromBufferLayoutStateAccount({
+    stateAccountAddress,
+    rpc,
+  })
   const resultValue = dataDecoded[field]
 
   if (resultValue === undefined || resultValue === null) {

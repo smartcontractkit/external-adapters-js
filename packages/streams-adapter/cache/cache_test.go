@@ -20,6 +20,15 @@ func mustKey(t *testing.T, params types.RequestParams) string {
 	return key
 }
 
+// setActive is a test helper that drives a raw key through the full lifecycle
+// (new → learned → active) with the given observation.
+// When there is no parameter transformation rawKey == transformedKey.
+func setActive(c *Cache, rawKey, transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
+	c.SetNew(rawKey)
+	c.SetTransformedKey(rawKey, transformedKey)
+	c.SetObservation(transformedKey, obs, timestamp, originalAdapterKey)
+}
+
 func TestNew(t *testing.T) {
 	tests := []struct {
 		name   string
@@ -48,6 +57,7 @@ func TestNew(t *testing.T) {
 
 			require.NotNil(t, c)
 			require.NotNil(t, c.items)
+			require.NotNil(t, c.byTransformedKey)
 			require.Equal(t, tt.config.TTL, c.ttl)
 			require.Equal(t, tt.config.CleanupInterval, c.cleanupInterval)
 			require.NotNil(t, c.ctx)
@@ -87,7 +97,7 @@ func TestNew_DefaultCleanupIntervalWhenNonPositive(t *testing.T) {
 func TestCache_SetAndGet(t *testing.T) {
 	c := New(Config{
 		TTL:             time.Minute,
-		CleanupInterval: time.Hour, // Long interval to avoid interference
+		CleanupInterval: time.Hour,
 	})
 	defer c.Stop()
 
@@ -129,12 +139,14 @@ func TestCache_SetAndGet(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			rawKey := mustKey(t, tt.params)
 			timestamp := time.Now()
-			c.Set(tt.params, tt.observation, timestamp, tt.originalAdapterKey)
+			setActive(c, rawKey, rawKey, tt.observation, timestamp, tt.originalAdapterKey)
 
-			got := c.Get(mustKey(t, tt.params))
+			got := c.Get(rawKey)
 			if tt.shouldFind {
 				require.NotNil(t, got)
+				require.Equal(t, types.StatusActive, got.Status)
 				require.Equal(t, tt.observation.Success, got.Observation.Success)
 				require.Equal(t, tt.observation.Error, got.Observation.Error)
 				require.Equal(t, string(tt.observation.Data), string(got.Observation.Data))
@@ -152,32 +164,69 @@ func TestCache_Get_NotFound(t *testing.T) {
 	})
 	defer c.Stop()
 
-	// Set a value first
-	c.Set(types.RequestParams{"endpoint": "crypto", "base": "BTC"}, &types.Observation{Success: true}, time.Now(), "adapter")
+	key := mustKey(t, types.RequestParams{"endpoint": "crypto", "base": "BTC"})
+	setActive(c, key, key, &types.Observation{Success: true}, time.Now(), "adapter")
 
-	// Try to get a different key
 	got := c.Get(mustKey(t, types.RequestParams{"endpoint": "nonexistent", "base": "XYZ"}))
 	assert.Nil(t, got)
 }
 
-func TestCache_Set_EmptyParams(t *testing.T) {
+func TestCache_SetNew_Idempotent(t *testing.T) {
 	c := New(Config{
 		TTL:             time.Minute,
 		CleanupInterval: time.Hour,
 	})
 	defer c.Stop()
 
-	params := types.RequestParams{}
-	obs := &types.Observation{
-		Data:    json.RawMessage(`{"test": true}`),
-		Success: true,
-	}
+	created := c.SetNew("some-key")
+	require.True(t, created, "first SetNew should create the item")
 
-	// Should not panic and should not store anything
-	c.Set(params, obs, time.Now(), "adapter-key")
+	created = c.SetNew("some-key")
+	require.False(t, created, "second SetNew should be a no-op")
 
-	// Verify nothing was stored
-	require.Len(t, c.Items(), 0)
+	require.Len(t, c.Items(), 1)
+}
+
+func TestCache_SetNew_StatusNew(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw-key")
+	item := c.Get("raw-key")
+	require.NotNil(t, item)
+	require.Equal(t, types.StatusNew, item.Status)
+	require.Nil(t, item.Observation)
+	require.Empty(t, item.TransformedKey)
+}
+
+func TestCache_SetTransformedKey_StatusLearned(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	c.SetNew("raw-key")
+	c.SetTransformedKey("raw-key", "transformed-key")
+
+	item := c.Get("raw-key")
+	require.NotNil(t, item)
+	require.Equal(t, types.StatusLearned, item.Status)
+	require.Equal(t, "transformed-key", item.TransformedKey)
+	require.Nil(t, item.Observation)
+}
+
+func TestCache_SetObservation_StatusActive(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":42}`)}
+	c.SetNew("raw-key")
+	c.SetTransformedKey("raw-key", "transformed-key")
+	c.SetObservation("transformed-key", obs, time.Now(), "adapter-key")
+
+	item := c.Get("raw-key")
+	require.NotNil(t, item)
+	require.Equal(t, types.StatusActive, item.Status)
+	require.Equal(t, obs, item.Observation)
+	require.Equal(t, "adapter-key", item.OriginalAdapterKey)
 }
 
 func TestCache_Set_Overwrite(t *testing.T) {
@@ -187,29 +236,16 @@ func TestCache_Set_Overwrite(t *testing.T) {
 	})
 	defer c.Stop()
 
-	params := types.RequestParams{
-		"endpoint": "crypto",
-		"base":     "BTC",
-	}
+	rawKey := mustKey(t, types.RequestParams{"endpoint": "crypto", "base": "BTC"})
+	obs1 := &types.Observation{Data: json.RawMessage(`{"result": 50000}`), Success: true}
+	obs2 := &types.Observation{Data: json.RawMessage(`{"result": 60000}`), Success: true}
 
-	obs1 := &types.Observation{
-		Data:    json.RawMessage(`{"result": 50000}`),
-		Success: true,
-	}
+	setActive(c, rawKey, rawKey, obs1, time.Now(), "adapter-key-1")
+	setActive(c, rawKey, rawKey, obs2, time.Now(), "adapter-key-2")
 
-	obs2 := &types.Observation{
-		Data:    json.RawMessage(`{"result": 60000}`),
-		Success: true,
-	}
-
-	c.Set(params, obs1, time.Now(), "adapter-key-1")
-	c.Set(params, obs2, time.Now(), "adapter-key-2")
-
-	got := c.Get(mustKey(t, params))
+	got := c.Get(rawKey)
 	require.NotNil(t, got)
 	require.Equal(t, string(obs2.Data), string(got.Observation.Data))
-
-	// Size should still be 1
 	require.Len(t, c.Items(), 1)
 }
 
@@ -220,25 +256,21 @@ func TestCache_Items(t *testing.T) {
 	})
 	defer c.Stop()
 
-	// Empty cache
-	items := c.Items()
-	require.Len(t, items, 0)
+	require.Len(t, c.Items(), 0)
 
-	// Add items
 	params1 := types.RequestParams{"endpoint": "a"}
 	obs1 := &types.Observation{Data: json.RawMessage(`{"id": 1}`), Success: true}
-
 	ts1 := time.Now()
+	key1 := mustKey(t, params1)
 
-	c.Set(params1, obs1, ts1, "adapter-1")
-	c.Set(types.RequestParams{"endpoint": "b"}, &types.Observation{Data: json.RawMessage(`{"id": 2}`), Success: true}, time.Now().Add(time.Second), "adapter-2")
+	setActive(c, key1, key1, obs1, ts1, "adapter-1")
 
-	items = c.Items()
+	key2 := mustKey(t, types.RequestParams{"endpoint": "b"})
+	setActive(c, key2, key2, &types.Observation{Data: json.RawMessage(`{"id": 2}`), Success: true}, time.Now().Add(time.Second), "adapter-2")
+
+	items := c.Items()
 	require.Len(t, items, 2)
 
-	// Verify one inserted item by its deterministic cache key.
-	key1, err := helpers.CalculateCacheKey(params1)
-	require.NoError(t, err)
 	item1, ok := items[key1]
 	require.True(t, ok)
 	require.NotNil(t, item1)
@@ -251,32 +283,39 @@ func TestCache_CleanupExpired(t *testing.T) {
 	ttl := 50 * time.Millisecond
 	c := New(Config{
 		TTL:             ttl,
-		CleanupInterval: time.Hour, // Manual cleanup
+		CleanupInterval: time.Hour,
 	})
 	defer c.Stop()
 
 	obs := &types.Observation{Success: true}
 
-	// Set item with old timestamp
-	oldTime := time.Now().Add(-ttl * 2)
-	c.Set(types.RequestParams{"endpoint": "old"}, obs, oldTime, "old-adapter")
+	// Set item with old timestamp (bypassing the lifecycle for simplicity).
+	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
+	c.SetNew(oldRawKey)
+	c.SetTransformedKey(oldRawKey, "old-transformed")
+	c.SetObservation("old-transformed", obs, time.Now().Add(-ttl*2), "old-adapter")
+	// Force the item's own timestamp back too.
+	c.mu.Lock()
+	c.items[oldRawKey].Timestamp = time.Now().Add(-ttl * 2)
+	c.mu.Unlock()
 
-	// Set item with current timestamp
-	c.Set(types.RequestParams{"endpoint": "new"}, obs, time.Now(), "new-adapter")
+	newRawKey := mustKey(t, types.RequestParams{"endpoint": "new"})
+	setActive(c, newRawKey, newRawKey, obs, time.Now(), "new-adapter")
 
 	require.Len(t, c.Items(), 2)
-
-	// Run cleanup
 	c.cleanupExpired()
-
 	require.Len(t, c.Items(), 1)
 
-	// Verify the old item was removed
-	got := c.Get(mustKey(t, types.RequestParams{"endpoint": "old"}))
+	// byTransformedKey entry for the expired item must be gone.
+	c.mu.RLock()
+	_, oldEntryExists := c.byTransformedKey["old-transformed"]
+	c.mu.RUnlock()
+	assert.False(t, oldEntryExists, "expired item's transformedKey entry should be removed")
+
+	got := c.Get(oldRawKey)
 	assert.Nil(t, got)
 
-	// Verify the new item still exists
-	got = c.Get(mustKey(t, types.RequestParams{"endpoint": "new"}))
+	got = c.Get(newRawKey)
 	require.NotNil(t, got)
 }
 
@@ -292,13 +331,16 @@ func TestCache_CleanupLoop(t *testing.T) {
 
 	obs := &types.Observation{Success: true}
 
-	// Set item with old timestamp (should be expired)
-	oldTime := time.Now().Add(-ttl * 2)
-	c.Set(types.RequestParams{"endpoint": "old"}, obs, oldTime, "old-adapter")
+	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
+	c.SetNew(oldRawKey)
+	c.SetTransformedKey(oldRawKey, oldRawKey)
+	c.SetObservation(oldRawKey, obs, time.Now().Add(-ttl*2), "old-adapter")
+	c.mu.Lock()
+	c.items[oldRawKey].Timestamp = time.Now().Add(-ttl * 2)
+	c.mu.Unlock()
 
 	require.Len(t, c.Items(), 1)
 
-	// Wait for automatic cleanup to run
 	time.Sleep(cleanupInterval + 20*time.Millisecond)
 
 	require.Len(t, c.Items(), 0)
@@ -310,17 +352,12 @@ func TestCache_Stop(t *testing.T) {
 		CleanupInterval: time.Millisecond,
 	})
 
-	// Stop should not panic
 	c.Stop()
-
-	// Multiple Stop calls should not panic (sync.Once)
 	c.Stop()
 	c.Stop()
 
-	// Verify context is cancelled
 	select {
 	case <-c.ctx.Done():
-		// Expected
 	default:
 		t.Error("Context should be cancelled after Stop()")
 	}
@@ -338,14 +375,13 @@ func TestCache_CaseInsensitiveKeys(t *testing.T) {
 		Success: true,
 	}
 
-	// Set with uppercase
-	c.Set(types.RequestParams{"endpoint": "CRYPTO", "base": "BTC"}, obs, time.Now(), "adapter")
+	rawKey := mustKey(t, types.RequestParams{"endpoint": "CRYPTO", "base": "BTC"})
+	setActive(c, rawKey, rawKey, obs, time.Now(), "adapter")
 
-	// Get with lowercase (should find due to key normalization)
+	// mustKey normalises, so both lookups resolve to the same key.
 	got := c.Get(mustKey(t, types.RequestParams{"endpoint": "crypto", "base": "btc"}))
 	require.NotNil(t, got)
 
-	// Get with mixed case
 	got = c.Get(mustKey(t, types.RequestParams{"endpoint": "Crypto", "base": "Btc"}))
 	require.NotNil(t, got)
 }
@@ -359,16 +395,15 @@ func TestCache_DeterministicKeyOrdering(t *testing.T) {
 
 	obs := &types.Observation{Success: true}
 
-	// Set with params in one order
 	params1 := types.RequestParams{
 		"z-param":  "z",
 		"a-param":  "a",
 		"m-param":  "m",
 		"endpoint": "test",
 	}
-	c.Set(params1, obs, time.Now(), "adapter")
+	rawKey := mustKey(t, params1)
+	setActive(c, rawKey, rawKey, obs, time.Now(), "adapter")
 
-	// Get with params in different order (should find same item)
 	params2 := types.RequestParams{
 		"endpoint": "test",
 		"m-param":  "m",
@@ -378,6 +413,5 @@ func TestCache_DeterministicKeyOrdering(t *testing.T) {
 	got := c.Get(mustKey(t, params2))
 	require.NotNil(t, got)
 
-	// Should still be 1 item
 	require.Len(t, c.Items(), 1)
 }

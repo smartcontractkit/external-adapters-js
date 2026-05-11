@@ -2,7 +2,12 @@ import {
   AdapterError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
+import { tz, TZDate } from '@date-fns/tz'
+import { addDays, ContextFn, format, isValid, isWithinInterval, parse, startOfDay } from 'date-fns'
+import { config } from '../config'
 import { RequestParams } from '../endpoint/reserves'
+
+type Timezone = ContextFn<TZDate>
 
 type FixedAddressList = {
   name: string
@@ -22,31 +27,19 @@ type ProvidedAddressList = {
 
 type CheckedAddressList = FixedAddressList | ProvidedAddressList
 
-export const getProviderUrl = (provider: string): string => {
-  const providerUrlEnvVarName = `${provider.replace(/\W/g, '_').toUpperCase()}_URL`
-  const url = process.env[providerUrlEnvVarName]
-  if (!url) {
-    throw new AdapterError({
-      statusCode: 500,
-      message: `Missing environment variable for provider URL: ${providerUrlEnvVarName}`,
-    })
-  }
-  return url
-}
-
-export const checkProviderUrls = (params: RequestParams) => {
+export const checkProviderUrls = (params: RequestParams, settings: typeof config.settings) => {
   for (const addressList of params.addressLists) {
     if (addressList.provider !== undefined) {
-      getProviderUrl(addressList.provider)
+      settings.PROVIDER_URL.get(addressList.provider)
     }
   }
 
   for (const balanceSource of params.balanceSources) {
-    getProviderUrl(balanceSource.provider)
+    settings.PROVIDER_URL.get(balanceSource.provider)
   }
 
   for (const conversion of params.conversions) {
-    getProviderUrl(conversion.provider)
+    settings.PROVIDER_URL.get(conversion.provider)
   }
 }
 
@@ -301,4 +294,101 @@ export const checkComponents = (params: RequestParams) => {
   checkComponentReferences(params)
   checkComponentAddressArrayPaths(params)
   checkComponentConversions(params)
+}
+
+const parseTimeOfDay = ({
+  timeStr,
+  day,
+  timezone,
+}: {
+  timeStr: string
+  day: TZDate
+  timezone: Timezone
+}): TZDate => {
+  const time = parse(timeStr, 'HH:mm', day, { in: timezone })
+  if (!isValid(time)) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Invalid time format: '${timeStr}', expected 'HH:mm'`,
+    })
+  }
+  return time
+}
+
+export const checkSchedule = (params: RequestParams) => {
+  const schedule = params.schedule
+  if (schedule === undefined) {
+    return
+  }
+
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: schedule.timezone })
+  } catch (error: unknown) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Invalid schedule timezone: '${schedule.timezone}'`,
+      cause: error,
+    })
+  }
+
+  if (schedule.daily.length === 0) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: 'When present, schedule must include at least one daily time range.',
+    })
+  }
+
+  const now = Date.now()
+  const timezone = tz(schedule.timezone)
+  const today = startOfDay(now, { in: timezone })
+
+  let isInRange = false
+  let prevEnd: TZDate | undefined = undefined
+  let prevEndStr: string | undefined = undefined
+  for (const range of schedule.daily) {
+    if (range.start === range.end) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Invalid daily time range with identical start and end times: '${range.start}'`,
+      })
+    }
+
+    const start = parseTimeOfDay({ timeStr: range.start, day: today, timezone })
+    let end = parseTimeOfDay({ timeStr: range.end, day: today, timezone })
+
+    if (prevEnd !== undefined && start <= prevEnd) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message: `Daily time ranges must be in chronological order and must not overlap. Start time '${range.start}' is not after previous end time '${prevEndStr}'.`,
+      })
+    }
+
+    if (end < start) {
+      end = addDays(end, 1)
+    }
+
+    if (
+      isWithinInterval(now, { start, end }) ||
+      isWithinInterval(addDays(now, 1), { start, end })
+    ) {
+      isInRange = true
+      // Don't break because validating the input is more important than
+      // observing the schedule.
+    }
+
+    prevEnd = end
+    prevEndStr = range.end
+  }
+  if (!isInRange) {
+    throw new AdapterError({
+      statusCode: 409,
+      message: `Request for feed '${schedule.feedDescription}' received at time ${format(
+        now,
+        'HH:mm',
+        { in: timezone },
+      )} outside of schedule: ${schedule.daily
+        .map((range) => `${range.start} to ${range.end}`)
+        .join('; ')}`,
+    })
+  }
 }

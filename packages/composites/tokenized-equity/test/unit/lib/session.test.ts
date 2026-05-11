@@ -401,4 +401,16 @@ describe('calculateSecondsFromTransition', () => {
       }
     })
   })
+
+  describe('Missing sesson', () => {
+    it('returns null', async () => {
+      const result = await calculateSecondsFromTransition(
+        'https://tradinghours.example.com',
+        {} as Requester,
+        [],
+      )
+
+      expect(result).toBeUndefined()
+    })
+  })
 })

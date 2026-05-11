@@ -101,5 +101,155 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
     })
+
+    it('should return error for missing provider env var', async () => {
+      const addressListParams = { endpoint: 'addressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const data = {
+        addressLists: [
+          {
+            name: 'list1',
+            provider: 'missing-provider',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        schedule: {
+          feedDescription: 'My feed',
+          timezone: 'UTC',
+          daily: [
+            {
+              start: '22:00',
+              end: '23:00',
+            },
+          ],
+        },
+        resultDecimals: 18,
+      }
+
+      const addressArray = [
+        {
+          address: '0x0123',
+        },
+      ]
+      mockProviderResponse(POR_ADDRESS_LIST_URL, addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+      mockProviderResponse(
+        TOKEN_BALANCE_URL,
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(500)
+    })
+
+    it('should return error for request outside of schedule', async () => {
+      const addressListParams = { endpoint: 'addressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const data = {
+        addressLists: [
+          {
+            name: 'list1',
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        schedule: {
+          feedDescription: 'My feed',
+          timezone: 'UTC',
+          daily: [
+            {
+              start: '22:00',
+              end: '23:00',
+            },
+          ],
+        },
+        resultDecimals: 18,
+      }
+
+      const addressArray = [
+        {
+          address: '0x0123',
+        },
+      ]
+      mockProviderResponse(POR_ADDRESS_LIST_URL, addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+      mockProviderResponse(
+        TOKEN_BALANCE_URL,
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(409)
+    })
   })
 })

@@ -1,5 +1,19 @@
 # @chainlink/solana-functions-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4917](https://github.com/smartcontractkit/external-adapters-js/pull/4917) [`cf1cdb5`](https://github.com/smartcontractkit/external-adapters-js/commit/cf1cdb5145b18cff139b8f9ec37b6c6eb9cdf7cc) Thanks [@dskloetc](https://github.com/dskloetc)! - Add pool-token-rate endpoint
+
+- [#4350](https://github.com/smartcontractkit/external-adapters-js/pull/4350) [`4f17e00`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17e00f1c0762294fb09c62b95de9ecba7bee30) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Added support for Token Accounts
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.3.0
 
 ### Minor Changes

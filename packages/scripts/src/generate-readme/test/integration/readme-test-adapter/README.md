@@ -1,6 +1,6 @@
 # README Test Adapter
 
-![1.2.53](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![1.2.71](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/scripts/src/generate-readme/test/integration/readme-test-adapter/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 This is a fake adapter for testing, and should not be used as a template for adapters.
 
@@ -17,6 +17,12 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |     MODE     | API Mode has `live` for live data, `sandbox` for development, and `test` for live-like environment testing | string | `live`, `sandbox`, `test` |            `sandbox`             |
 |    ✅     | PRIVATE_KEY  |                                          Private subscription key                                          | string |                           |                                  |
 |    ✅     |   RPC_URL    |                                            RPC Endpoint to use                                             | string |                           |                                  |
+
+---
+
+## Data Provider Rate Limits
+
+There are no rate limits for this adapter.
 
 ---
 
@@ -149,7 +155,7 @@ Request:
     "endpoint": "marketcap"
   },
   "debug": {
-    "cacheKey": "2iiCdAuTmfjH0bS2z1yv/Ly6Pb0="
+    "cacheKey": "DpZS5CoFN19tP4shmR6mkFkvJ2w="
   }
 }
 ```
@@ -185,7 +191,7 @@ Request:
     "endpoint": "mc"
   },
   "debug": {
-    "cacheKey": "oiEGtIbbJAJxXb37guRFigIef64="
+    "cacheKey": "w3GwX88vkpKKHcxGEVagYaFaozw="
   }
 }
 ```
@@ -237,7 +243,7 @@ Request:
     "endpoint": "price"
   },
   "debug": {
-    "cacheKey": "q4gXYcTK9jHJrUUzwltWBL7NAUI="
+    "cacheKey": "L98LAmN1SgxnUxkXmEcJC1+nxVY="
   }
 }
 ```
@@ -273,7 +279,7 @@ Request:
     "endpoint": "convert"
   },
   "debug": {
-    "cacheKey": "mTCSl1wfCZoVuG6Epaf7HkJgDwk="
+    "cacheKey": "4FyMTrMFLiEe85bTJ4tVO4XRuFA="
   }
 }
 ```

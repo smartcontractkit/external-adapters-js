@@ -3,6 +3,7 @@ import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { SettingsDefinitionMap } from '@chainlink/external-adapter-framework/config'
 import { InputParameters as V3InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { InputParametersDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { execFileSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import process from 'process'
@@ -28,7 +29,6 @@ import {
   wrapJson,
 } from '../shared/docGenUtils'
 import { TableText, buildTable } from '../shared/tableUtils'
-import { WorkspaceAdapter } from '../workspace'
 import { getBalanceTable, inputParamHeaders, paramHeaders, rateLimitHeaders } from './tableAssets'
 
 const testEnvOverrides = {
@@ -105,9 +105,9 @@ export class ReadmeGenerator {
   customPath: string
   customSection: string | null
 
-  constructor(adapter: WorkspaceAdapter, verbose = false) {
+  constructor(adapterPath: string, verbose = false) {
     this.verbose = verbose
-    this.adapterPath = adapter.location
+    this.adapterPath = adapterPath
 
     if (!this.adapterPath.endsWith('/')) this.adapterPath += '/'
     if (!test('-d', this.adapterPath)) throw Error(`${this.adapterPath} is not a directory`)
@@ -121,7 +121,8 @@ export class ReadmeGenerator {
         this.frameworkVersion = 'v3'
         const generatorEA = generatorPack.dependencies['@chainlink/external-adapter-framework']
         if (adapterEA != generatorEA) {
-          console.log(`This generator uses ${generatorEA} but ${adapter.name} uses ${adapterEA}`)
+          const adapterName = path.basename(this.adapterPath)
+          console.log(`This generator uses ${generatorEA} but ${adapterName} uses ${adapterEA}`)
         }
       } else {
         this.frameworkVersion = 'v2'
@@ -254,7 +255,8 @@ export class ReadmeGenerator {
 
     const tableText: TableText = Object.entries(envVars).map(([key, envVar]) => {
       const required = this.requiredEnvVars.includes(key) ? '✅' : ''
-      const name = key ?? ''
+      const placeholder = envVar.variablePlaceholder
+      const name = placeholder ? key.replace(placeholder, `\${${placeholder}}`) : key ?? ''
       const description = envVar.description ?? ''
       const type = envVar.type ?? ''
       const options = codeList(envVar.options as Array<string | number>)
@@ -575,5 +577,6 @@ export class ReadmeGenerator {
   createReadmeFile(): void {
     const path = this.adapterPath + 'README.md'
     saveText({ path, text: this.readmeText })
+    execFileSync('yarn', ['prettier', '--write', path], { stdio: 'inherit' })
   }
 }
