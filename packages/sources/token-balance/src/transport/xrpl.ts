@@ -90,14 +90,14 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const [tokenPriceInUsd, tokenBalance]: [SharePriceType, Decimal] = await Promise.all([
-      getTokenPrice(param),
+    const [tokenPrice, tokenBalance]: [SharePriceType, Decimal] = await Promise.all([
+      this.getTokenPrice(param),
       this.getTotalTokenBalance(param),
     ])
 
     const tokenBalanceInUsd = tokenBalance
-      .times(new Decimal(tokenPriceInUsd.value.toString()))
-      .times(10 ** (RESULT_DECIMALS - tokenPriceInUsd.decimal))
+      .times(new Decimal(tokenPrice.value.toString()))
+      .times(10 ** (RESULT_DECIMALS - tokenPrice.decimal))
 
     const result = tokenBalanceInUsd.toFixed(0)
 
@@ -113,6 +113,22 @@ export class XrplTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
+    }
+  }
+
+  async getTokenPrice(param: RequestParams): Promise<SharePriceType> {
+    const priceOracleAddress = param.priceOracleAddress
+    const priceOracleNetwork = param.priceOracleNetwork
+    if (priceOracleAddress && priceOracleNetwork) {
+      return getTokenPrice({
+        priceOracleAddress,
+        priceOracleNetwork,
+      })
+    }
+    // Without price oracle, a price of 1 means no conversion.
+    return {
+      value: 1n,
+      decimal: 0,
     }
   }
 
