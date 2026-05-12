@@ -8,6 +8,7 @@ exports[`execute litecoin endpoint should return success 1`] = `
       {
         "address": "LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm",
         "balance": "111111111111111",
+        "decimals": 8,
       },
     ],
   },
