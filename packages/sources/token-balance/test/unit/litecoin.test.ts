@@ -163,6 +163,7 @@ describe('LitecoinTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
 
@@ -213,10 +214,12 @@ describe('LitecoinTransport', () => {
         {
           address: address1,
           balance: balance1.toString(),
+          decimals: RESULT_DECIMALS,
         },
         {
           address: address2,
           balance: balance2.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
       expect(response).toEqual({
@@ -268,6 +271,7 @@ describe('LitecoinTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
       expect(await responsePromise).toEqual({
@@ -311,8 +315,8 @@ describe('LitecoinTransport', () => {
       ])
 
       expect(balances).toEqual([
-        { address: address1, balance: '100.0' },
-        { address: address2, balance: '200.0' },
+        { address: address1, balance: '100.0', decimals: RESULT_DECIMALS },
+        { address: address2, balance: '200.0', decimals: RESULT_DECIMALS },
       ])
 
       expect(requester.request).toHaveBeenNthCalledWith(
@@ -380,10 +384,10 @@ describe('LitecoinTransport', () => {
       resolveLines4('104.0')
 
       expect(await balancePromise).toEqual([
-        { address: address1, balance: '101.0' },
-        { address: address2, balance: '102.0' },
-        { address: address3, balance: '103.0' },
-        { address: address4, balance: '104.0' },
+        { address: address1, balance: '101.0', decimals: RESULT_DECIMALS },
+        { address: address2, balance: '102.0', decimals: RESULT_DECIMALS },
+        { address: address3, balance: '103.0', decimals: RESULT_DECIMALS },
+        { address: address4, balance: '104.0', decimals: RESULT_DECIMALS },
       ])
 
       expect(log).toHaveBeenNthCalledWith(
