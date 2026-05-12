@@ -36,6 +36,7 @@ export const inputParameters = new InputParameters(
 export type AddressWithBalance = {
   address: string
   balance: string
+  decimals: 7
 }
 
 export type BaseEndpointTypes = {
