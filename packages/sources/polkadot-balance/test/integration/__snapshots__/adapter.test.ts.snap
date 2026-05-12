@@ -18,18 +18,21 @@ exports[`Balance Endpoint should return success 1`] = `
       {
         "address": "13nogjgyJcGQduHt8RtZiKKbt7Uy6py9hv1WMDZWueEcsHdh",
         "balance": "554312742041197",
+        "decimals": 10,
         "free": "10249387394",
         "reserved": "554302492653803",
       },
       {
         "address": "126rjyDQEJm6V6YPDcN85hJDYraqB6hL9bFsvWLDnM8rLc3J",
         "balance": "10164493645506991",
+        "decimals": 10,
         "free": "536730221406",
         "reserved": "10163956915285585",
       },
       {
         "address": "15vJFD1Y8nButjmgjbK5x6SYU2cQnbihM4GgkR5enkwyTVLq",
         "balance": "10577378450377986",
+        "decimals": 10,
         "free": "10577378450377986",
         "reserved": "0",
       },

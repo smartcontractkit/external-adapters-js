@@ -10,6 +10,8 @@ export type BalanceTransportTypes = BaseEndpointTypes
 
 type RequestParams = typeof inputParameters.validated
 
+const RESULT_DECIMALS = 10
+
 export class BalanceTransport extends SubscriptionTransport<BalanceTransportTypes> {
   api!: ApiPromise
   config!: BalanceTransportTypes['Settings']
@@ -77,6 +79,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
         free: free.toString(),
         reserved: reserved.toString(),
         balance: balance.toString(),
+        decimals: RESULT_DECIMALS,
       })
     })
 
