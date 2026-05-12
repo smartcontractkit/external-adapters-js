@@ -211,6 +211,7 @@ describe('TotalBalanceTransport', () => {
           unlocked: (123_000_000_000).toString(),
           lockedStakeable: '0',
           lockedNotStakeable: '0',
+          decimals: RESULT_DECIMALS,
         },
       ]
 
@@ -264,6 +265,7 @@ describe('TotalBalanceTransport', () => {
           unlocked: '100000000000',
           lockedStakeable: '0',
           lockedNotStakeable: '0',
+          decimals: RESULT_DECIMALS,
         },
         {
           address: address2,
@@ -272,6 +274,7 @@ describe('TotalBalanceTransport', () => {
           unlocked: '200000000000',
           lockedStakeable: '0',
           lockedNotStakeable: '0',
+          decimals: RESULT_DECIMALS,
         },
       ]
 
@@ -314,6 +317,7 @@ describe('TotalBalanceTransport', () => {
           unlocked: '101000000000',
           lockedStakeable: '201000000000',
           lockedNotStakeable: '301000000000',
+          decimals: RESULT_DECIMALS,
         },
       ]
 
@@ -361,6 +365,7 @@ describe('TotalBalanceTransport', () => {
           unlocked: '1000000000',
           lockedStakeable: '0',
           lockedNotStakeable: '0',
+          decimals: RESULT_DECIMALS,
         },
       ]
       expect(await responsePromise).toEqual({
