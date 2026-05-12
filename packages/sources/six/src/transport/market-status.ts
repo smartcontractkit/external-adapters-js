@@ -69,7 +69,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
 })
 
 const getMarketStatus = (market: string, statuses: ResponseSchema['data']['markets']) => {
-  const status = statuses.find((s) => s.referenceData?.marketBase?.bc == market)
+  const status = statuses.find((s) => s.referenceData?.marketBase?.bc?.toString() === market)
   const marketStatus = status?.referenceData?.marketBase?.marketStatus
 
   let result = MarketStatus.UNKNOWN

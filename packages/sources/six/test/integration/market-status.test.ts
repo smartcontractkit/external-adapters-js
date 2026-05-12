@@ -18,8 +18,10 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.PRIVATE_KEY = 'fake-private-key'
-    process.env.PUBLIC_CERT = 'fake-public-cert'
+    process.env.PRIVATE_KEY =
+      '-----BEGIN PRIVATE KEY-----\nfake-private-key\n-----END PRIVATE KEY-----'
+    process.env.PUBLIC_CERT =
+      '-----BEGIN CERTIFICATE-----\nfake-public-cert\n-----END CERTIFICATE-----'
     // By-pass any HTTP(S)_PROXY/ALL_PROXY set locally
     process.env.no_proxy = '*'
 
