@@ -1,6 +1,13 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  PROVIDER_URL: {
+    description:
+      'The URL for the given ${PROVIDER} used in request params. The used provider name is converted to upper-snake-case to determine the name of the environment variable.',
+    type: 'string',
+    required: true,
+    variablePlaceholder: 'PROVIDER',
+  },
   MAX_RESPONSE_TEXT_IN_ERROR_MESSAGE: {
     description:
       'How many characters of a response may be included in an error message before trunctating it',

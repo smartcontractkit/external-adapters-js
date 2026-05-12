@@ -8,6 +8,7 @@ exports[`execute totalBalance endpoint should return success 1`] = `
       {
         "address": "P-fuji1vd9sddlllrlk9fvj9lhntpw8t00lmvtnqkl2jt",
         "balance": "5000000000000000000000",
+        "decimals": 18,
         "lockedNotStakeable": "0",
         "lockedStakeable": "0",
         "staked": "2000000000000000000000",

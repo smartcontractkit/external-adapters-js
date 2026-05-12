@@ -72,10 +72,16 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
 
     // 1. Fetch token price ONCE from oracle contract
-    const tokenPrice = await getTokenPrice({
-      priceOracleAddress: param.priceOracle.contractAddress,
-      priceOracleNetwork: param.priceOracle.network,
-    })
+    // Or use a price of 1 if no oracle provided.
+    const tokenPrice = param.priceOracle
+      ? await getTokenPrice({
+          priceOracleAddress: param.priceOracle.contractAddress,
+          priceOracleNetwork: param.priceOracle.network,
+        })
+      : {
+          value: 1n,
+          decimal: 0,
+        }
 
     // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE tokenPrice
     const totalTokenUSD = await this.calculateTokenAumUSD(addresses, tokenMint, tokenPrice)

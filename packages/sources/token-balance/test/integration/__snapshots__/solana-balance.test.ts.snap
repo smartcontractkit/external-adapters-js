@@ -8,6 +8,7 @@ exports[`execute SolanaBalanceTransport endpoint returns success 1`] = `
       {
         "address": "G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG",
         "balance": "123000000000",
+        "decimals": 9,
       },
     ],
   },
