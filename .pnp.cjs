@@ -7844,6 +7844,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
           ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
+          ["@sinonjs/fake-timers", "npm:15.4.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -11922,6 +11923,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@sinonjs/commons", "npm:3.0.1"],\
           ["@sinonjs/fake-timers", "npm:14.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:15.4.0", {\
+        "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-15.4.0-94cf7a0827-3960a9fe06.zip/node_modules/@sinonjs/fake-timers/",\
+        "packageDependencies": [\
+          ["@sinonjs/commons", "npm:3.0.1"],\
+          ["@sinonjs/fake-timers", "npm:15.4.0"]\
         ],\
         "linkType": "HARD"\
       }],\
