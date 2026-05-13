@@ -1,8 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  WS_API_ENDPOINT: {
+    description: 'SIX WebSocket API endpoint',
+    type: 'string',
+    default: 'wss://api.six-group.com/web/v2/websocket',
+    sensitive: false,
+  },
   API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
+    description: 'SIX REST API base URL',
     type: 'string',
     default: 'https://api.six-group.com',
     sensitive: false,
