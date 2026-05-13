@@ -95,6 +95,7 @@ export class CardanoTransport extends SubscriptionTransport<BaseEndpointTypes> {
         return {
           address,
           balance,
+          decimals: RESULT_DECIMALS,
         }
       },
     )

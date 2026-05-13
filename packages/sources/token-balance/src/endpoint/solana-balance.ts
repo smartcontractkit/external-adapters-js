@@ -34,6 +34,7 @@ export const inputParameters = new InputParameters(
 export type AddressWithBalance = {
   address: string
   balance: string
+  decimals: 9
 }
 
 export type BaseEndpointTypes = {

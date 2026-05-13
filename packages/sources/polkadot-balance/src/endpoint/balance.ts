@@ -26,6 +26,7 @@ export type PolkadotBalance = {
   free: string
   reserved: string
   balance: string // sum of free and reserved
+  decimals: 10
 }
 
 export type BaseEndpointTypes = {

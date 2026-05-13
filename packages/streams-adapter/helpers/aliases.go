@@ -14,7 +14,8 @@ import (
 // aliasConfig mirrors the JSON produced by the endpoint alias generator.
 type aliasConfig struct {
 	Adapters map[string]struct {
-		Endpoints map[string]struct {
+		DefaultEndpoint string `json:"defaultEndpoint,omitempty"`
+		Endpoints       map[string]struct {
 			Aliases []string `json:"aliases,omitempty"`
 		} `json:"endpoints,omitempty"`
 	} `json:"adapters"`
@@ -26,6 +27,8 @@ type endpointIndex struct {
 	alias map[string]string
 	// ordered lists aliases sorted by length desc for longest-match scanning of Redis keys
 	ordered []string
+	// defaultEndpoint is the canonical endpoint name to use when none is specified in a request
+	defaultEndpoint string
 }
 
 var (
@@ -60,7 +63,8 @@ func InitAliasIndex(adapterName, configPath string) error {
 	}
 
 	idx := &endpointIndex{
-		alias: make(map[string]string),
+		alias:           make(map[string]string),
+		defaultEndpoint: strings.ToLower(adapterCfg.DefaultEndpoint),
 	}
 
 	for canonical, epCfg := range adapterCfg.Endpoints {
@@ -148,7 +152,11 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 	}
 	canonicalEndpoint, ok := activeIndex.alias[strings.ToLower(ep)]
 	if !ok || canonicalEndpoint == "" {
-		return nil, fmt.Errorf("unknown or unsupported endpoint %q", ep)
+		if ep == "" && activeIndex.defaultEndpoint != "" {
+			canonicalEndpoint = activeIndex.defaultEndpoint
+		} else {
+			return nil, fmt.Errorf("unknown or unsupported endpoint %q", ep)
+		}
 	}
 
 	out["endpoint"] = canonicalEndpoint

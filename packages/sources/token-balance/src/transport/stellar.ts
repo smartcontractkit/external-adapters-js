@@ -130,6 +130,7 @@ export class StellarTransport extends SubscriptionTransport<BaseEndpointTypes> {
       return {
         address: addresses[index].address,
         balance: stroops,
+        decimals: RESULT_DECIMALS,
       }
     })
   }
