@@ -38,8 +38,8 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
             .join(','),
         },
         httpsAgent: new https.Agent({
-          cert: config.PUBLIC_CERT.replace(/\\n/g, '\n'),
-          key: config.PRIVATE_KEY.replace(/\\n/g, '\n'),
+          cert: config.PUBLIC_CERT,
+          key: config.PRIVATE_KEY,
         }),
       },
     }

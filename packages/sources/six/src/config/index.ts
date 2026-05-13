@@ -9,7 +9,7 @@ export const config = new AdapterConfig({
   },
   PRIVATE_KEY: {
     description:
-      'The private key formatted as a single line eg: "-----BEGIN PRIVATE KEY-----\n...contents...\n-----END PRIVATE KEY-----"',
+      'The private key that starts with "-----BEGIN PRIVATE KEY-----" and end with "-----END PRIVATE KEY-----"',
     type: 'string',
     required: true,
     sensitive: true,
@@ -33,7 +33,7 @@ export const config = new AdapterConfig({
   },
   PUBLIC_CERT: {
     description:
-      'The public certificate formatted as a single line eg: "-----BEGIN CERTIFICATE-----\n...contents...\n-----END CERTIFICATE-----\n-----BEGIN CERTIFICATE-----\n...contents...\n-----END CERTIFICATE-----"',
+      'The public certificate that starts with "-----BEGIN CERTIFICATE-----" and end with "-----END CERTIFICATE-----"',
     type: 'string',
     required: true,
     sensitive: false,
