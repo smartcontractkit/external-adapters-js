@@ -627,6 +627,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/securitize"\
     },\
     {\
+      "name": "@chainlink/six-adapter",\
+      "reference": "workspace:packages/sources/six"\
+    },\
+    {\
       "name": "@chainlink/snowflake-adapter",\
       "reference": "workspace:packages/sources/snowflake"\
     },\
@@ -942,6 +946,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
+    ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
@@ -7809,6 +7814,21 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/six-adapter", [\
+      ["workspace:packages/sources/six", {\
+        "packageLocation": "./packages/sources/six/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.1"],\
+          ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

@@ -99,6 +99,9 @@
       "path": "./scripts"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter"
+    },
+    {
       "path": "./sources/ada-balance"
     },
     {
@@ -448,6 +451,9 @@
     },
     {
       "path": "./sources/securitize"
+    },
+    {
+      "path": "./sources/six"
     },
     {
       "path": "./sources/snowflake"

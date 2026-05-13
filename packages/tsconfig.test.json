@@ -99,6 +99,9 @@
       "path": "./scripts/tsconfig.test.json"
     },
     {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter/tsconfig.test.json"
+    },
+    {
       "path": "./sources/ada-balance/tsconfig.test.json"
     },
     {
@@ -448,6 +451,9 @@
     },
     {
       "path": "./sources/securitize/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/six/tsconfig.test.json"
     },
     {
       "path": "./sources/snowflake/tsconfig.test.json"
