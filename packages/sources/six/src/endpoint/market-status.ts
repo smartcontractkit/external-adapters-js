@@ -6,6 +6,7 @@ import {
 
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
+import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/market-status'
 
 export const inputParameters = new InputParameters(marketStatusEndpointInputParametersDefinition)
@@ -21,4 +22,12 @@ export const endpoint = new MarketStatusEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
+  requestTransforms: [
+    (req) => {
+      const market = req.requestContext.data.market.toUpperCase()
+      if (market in overrides) {
+        req.requestContext.data.market = overrides[market as keyof typeof overrides]
+      }
+    },
+  ],
 })

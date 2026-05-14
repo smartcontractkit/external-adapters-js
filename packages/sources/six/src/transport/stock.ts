@@ -74,7 +74,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
       if (pongWaitTimer) {
         clearPongWaitTimer()
         connection.close(
-          1006,
+          1011,
           `Heartbeat frequency exceeded ${PONG_TIMEOUT}ms, increase WS_HEARTBEAT_INTERVAL_MS in environment variable`,
         )
       } else {
@@ -83,7 +83,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
           pongWaitTimer = undefined
           logger.error(`Pong not received within ${PONG_TIMEOUT}ms after ping; closing connection`)
           connection.close(
-            1006,
+            1011,
             'The connection appears to be active but stopped receiving updates',
           )
         }, PONG_TIMEOUT)

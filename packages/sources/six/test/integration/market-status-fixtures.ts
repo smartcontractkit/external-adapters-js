@@ -3,7 +3,7 @@ import nock from 'nock'
 export const mockOneMarket = (): nock.Scope =>
   nock('https://api.six-group.com')
     .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '1' })
+    .query({ scheme: 'BC', ids: '4' })
     .reply(
       200,
       {
@@ -12,7 +12,7 @@ export const mockOneMarket = (): nock.Scope =>
             {
               referenceData: {
                 marketBase: {
-                  bc: 1,
+                  bc: 4,
                   marketStatus: 'ACTIVE',
                 },
               },
@@ -27,7 +27,7 @@ export const mockOneMarket = (): nock.Scope =>
 export const mockTwoMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
     .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '1,2' })
+    .query({ scheme: 'BC', ids: '2,4' })
     .reply(
       200,
       {
@@ -36,7 +36,7 @@ export const mockTwoMarkets = (): nock.Scope =>
             {
               referenceData: {
                 marketBase: {
-                  bc: 1,
+                  bc: 4,
                   marketStatus: 'ACTIVE',
                 },
               },
@@ -59,7 +59,7 @@ export const mockTwoMarkets = (): nock.Scope =>
 export const mockThreeMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
     .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '1,2,3' })
+    .query({ scheme: 'BC', ids: '2,3,4' })
     .reply(
       200,
       {
@@ -68,7 +68,7 @@ export const mockThreeMarkets = (): nock.Scope =>
             {
               referenceData: {
                 marketBase: {
-                  bc: 1,
+                  bc: 4,
                   marketStatus: 'ACTIVE',
                 },
               },
@@ -99,7 +99,7 @@ export const mockThreeMarkets = (): nock.Scope =>
 export const mockFourMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
     .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '1,2,3,4' })
+    .query({ scheme: 'BC', ids: '2,3,4,5' })
     .reply(
       200,
       {
@@ -108,7 +108,7 @@ export const mockFourMarkets = (): nock.Scope =>
             {
               referenceData: {
                 marketBase: {
-                  bc: 1,
+                  bc: 4,
                   marketStatus: 'ACTIVE',
                 },
               },
