@@ -45,12 +45,10 @@ This means that on regular weekdays, as long as at least one exchange is operati
 
 ## Environment Variables
 
-| Required? |             Name              |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :---------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |   TRADINGHOURS_ADAPTER_URL    |                              URL of the TradingHours adapter                              | string |         |         |
-|    ✅     |       NCFX_ADAPTER_URL        |                                  URL of the NCFX adapter                                  | string |         |         |
-|    ✅     | FINNHUB_SECONDARY_ADAPTER_URL |                           URL of the Finnhub Secondary adapter                            | string |         |         |
-|           |     BACKGROUND_EXECUTE_MS     | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |           Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :----------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ${PROVIDER}\_ADAPTER_URL | The URL for the ${PROVIDER} adapter. PROVIDER is: NCFX,TRADINGHOURS,FINNHUB_SECONDARY,SIX | string |         |         |
+|           |  BACKGROUND_EXECUTE_MS   | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 
