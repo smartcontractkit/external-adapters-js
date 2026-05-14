@@ -98,10 +98,11 @@ export abstract class BaseMarketStatusTransport<
     if (isStaticSource(sourceName)) {
       return getStatusFromStaticSchedule(sourceName, param.weekend)
     }
+
     const key = `${sourceName}:${JSON.stringify(param)}`
     const config = {
       method: 'POST',
-      baseURL: context.adapterSettings[`${sourceName}_ADAPTER_URL`],
+      baseURL: context.adapterSettings.PROVIDER_ADAPTER_URL.get(sourceName),
       data: {
         data: {
           endpoint: 'market-status',
