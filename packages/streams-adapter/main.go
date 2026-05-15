@@ -62,7 +62,7 @@ func main() {
 
 	appCache := cache.New(cache.Config{
 		TTL:             time.Duration(cfg.CacheTTLMinutes) * time.Minute,
-		CleanupInterval: time.Duration(cfg.CacheCleanupInterval) * time.Minute,
+		CleanupInterval: time.Duration(cfg.CacheCleanupIntervalSeconds) * time.Second,
 	})
 	defer appCache.Stop()
 

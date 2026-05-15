@@ -241,23 +241,24 @@ func (s *Server) cacheHandler(c *gin.Context) {
 	items := s.cache.Items()
 
 	type entry struct {
-		Key            string                `json:"key"`
-		Status         types.CacheItemStatus `json:"status"`
-		TransformedKey string                `json:"transformedKey,omitempty"`
-		AdapterKey     string                `json:"adapterKey,omitempty"`
-		Timestamp      time.Time             `json:"timestamp"`
-		Observation    *types.Observation    `json:"observation,omitempty"`
+		Key                 string                 `json:"key"`
+		Status              types.CacheItemStatus  `json:"status"`
+		TransformedKey      string                 `json:"transformedKey,omitempty"`
+		AdapterKey          string                 `json:"adapterKey,omitempty"`
+		Timestamp           time.Time              `json:"timestamp"`
+		Observation         *types.Observation     `json:"observation,omitempty"`
+		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
 	}
-
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
 		entries = append(entries, entry{
-			Key:            key,
-			Status:         item.Status,
-			TransformedKey: item.TransformedKey,
-			AdapterKey:     item.OriginalAdapterKey,
-			Timestamp:      item.Timestamp,
-			Observation:    item.Observation,
+			Key:                 key,
+			Status:              item.Status,
+			TransformedKey:      item.TransformedKey,
+			AdapterKey:          item.OriginalAdapterKey,
+			Timestamp:           item.Timestamp,
+			Observation:         item.Observation,
+			OriginalRequestData: item.OriginalRequestData,
 		})
 	}
 
@@ -329,7 +330,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		// Fall through to 504 below.
 	} else {
 		// First request for this key — create the item and start polling.
-		if s.cache.SetNew(rawCacheKey) {
+		if s.cache.SetNew(rawCacheKey, reqData.Data) {
 			s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
 			go func(key string, params types.RequestParams, originalData map[string]interface{}) {
 				endpoint := params["endpoint"]
@@ -446,7 +447,7 @@ func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool
 
 // resubscribeLoop periodically resubscribes to all assets in the cache.
 func (s *Server) resubscribeLoop() {
-	cleanupInterval := time.Duration(s.config.CacheCleanupInterval) * time.Minute
+	cleanupInterval := time.Duration(s.config.CacheCleanupIntervalSeconds) * time.Second
 	ticker := time.NewTicker(cleanupInterval)
 	defer ticker.Stop()
 
@@ -461,7 +462,10 @@ func (s *Server) resubscribeLoop() {
 }
 
 // resubscribeAllAssets resubscribes to all active assets in the cache.
-// Parses request params from the OriginalAdapterKey stored on each active cache item.
+// Uses OriginalRequestData (stored at first subscription time) when available so
+// that overrides and the exact original params are preserved, avoiding case
+// mismatches that can cause the JS adapter to re-subscribe with a different
+// symbol and have that subscription rejected.
 func (s *Server) resubscribeAllAssets() {
 	items := s.cache.Items()
 
@@ -469,14 +473,13 @@ func (s *Server) resubscribeAllAssets() {
 		if item.Status != types.StatusActive {
 			continue
 		}
-		params, err := helpers.RequestParamsFromKey(item.OriginalAdapterKey)
-		if err != nil {
-			s.logger.Debug("Failed to parse params from adapter key", "key", item.OriginalAdapterKey, "error", err)
+		if item.OriginalRequestData == nil {
+			s.logger.Warn("No original request data for active cache item, skipping resubscribe", "key", item.OriginalAdapterKey)
 			continue
 		}
-		go func(p types.RequestParams) {
+		go func(p interface{}) {
 			s.subscribeToAsset(p)
-		}(params)
+		}(item.OriginalRequestData)
 	}
 }
 

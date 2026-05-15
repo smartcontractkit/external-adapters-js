@@ -172,5 +172,36 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 		out[strings.ToLower(k)] = strings.ToUpper(value)
 	}
 
+	// Apply adapter-specific symbol overrides so the cache key reflects the
+	// actual symbol the JS adapter will subscribe to. Without this, requests
+	// that map a symbol via overrides (e.g. CRCL → CRCL.xnys) would produce
+	// the same cache key as requests for the raw symbol, causing incorrect
+	// resubscription payloads to be stored and used.
+	if overridesRaw, ok := data["overrides"]; ok {
+		if overridesMap, ok := overridesRaw.(map[string]interface{}); ok {
+			for adapterKey, adapterOverridesRaw := range overridesMap {
+				if !strings.EqualFold(adapterKey, activeAdapter) {
+					continue
+				}
+				adapterOverrides, ok := adapterOverridesRaw.(map[string]interface{})
+				if !ok {
+					break
+				}
+				for paramKey, paramVal := range out {
+					if paramKey == "endpoint" {
+						continue
+					}
+					for overrideKey, overrideVal := range adapterOverrides {
+						if strings.EqualFold(overrideKey, paramVal) {
+							out[paramKey] = strings.ToUpper(toString(overrideVal))
+							break
+						}
+					}
+				}
+				break
+			}
+		}
+	}
+
 	return out, nil
 }
