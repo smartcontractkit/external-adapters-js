@@ -110,7 +110,7 @@ describe('coinpaprika-state adapter', () => {
     nock.cleanAll()
   })
 
-  it('401 conection error response causes 504 return', async () => {
+  it('401 connection error response causes 504 return', async () => {
     const scope = nock('http://localhost:1234')
       .post('/stream')
       .matchHeader('authorization', 'INVALID-KEY')
