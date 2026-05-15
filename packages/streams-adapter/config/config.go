@@ -51,7 +51,7 @@ func Load() *Config {
 
 		// Cache configuration
 		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
-		CacheCleanupIntervalSeconds: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 60),
+		CacheCleanupIntervalSeconds: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
 
 		// Subscription
 		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
