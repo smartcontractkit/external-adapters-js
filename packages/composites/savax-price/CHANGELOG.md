@@ -1,5 +1,12 @@
 # @chainlink/savax-price-adapter
 
+## 3.0.142
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.27
+
 ## 3.0.141
 
 ### Patch Changes
