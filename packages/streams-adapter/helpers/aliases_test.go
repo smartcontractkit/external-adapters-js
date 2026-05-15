@@ -258,10 +258,11 @@ func TestBuildCacheKeyParams_EmptyStringValueSkipped(t *testing.T) {
 	}
 }
 
-func TestBuildCacheKeyParams_OverridesStripped(t *testing.T) {
+func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {
 	initTestAdapter(t)
 
-	// Overrides are no longer processed, just stripped from output.
+	// Overrides for the active adapter are applied to the cache key params so the
+	// key reflects the actual symbol the JS adapter will subscribe to.
 	result, err := BuildCacheKeyParams(map[string]interface{}{
 		"endpoint": "price",
 		"base":     "WBTC",
@@ -274,8 +275,8 @@ func TestBuildCacheKeyParams_OverridesStripped(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	// No override applied — value stays as WBTC
-	assertParam(t, result, "base", "WBTC")
+	// Override applied — base is remapped to BTC
+	assertParam(t, result, "base", "BTC")
 	assertParam(t, result, "quote", "USD")
 	if _, ok := result["overrides"]; ok {
 		t.Error("'overrides' key should not appear in output params")

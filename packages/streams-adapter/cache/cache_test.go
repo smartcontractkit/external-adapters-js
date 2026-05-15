@@ -24,7 +24,7 @@ func mustKey(t *testing.T, params types.RequestParams) string {
 // (new → learned → active) with the given observation.
 // When there is no parameter transformation rawKey == transformedKey.
 func setActive(c *Cache, rawKey, transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
-	c.SetNew(rawKey)
+	c.SetNew(rawKey, nil)
 	c.SetTransformedKey(rawKey, transformedKey)
 	c.SetObservation(transformedKey, obs, timestamp, originalAdapterKey)
 }
@@ -178,10 +178,10 @@ func TestCache_SetNew_Idempotent(t *testing.T) {
 	})
 	defer c.Stop()
 
-	created := c.SetNew("some-key")
+	created := c.SetNew("some-key", nil)
 	require.True(t, created, "first SetNew should create the item")
 
-	created = c.SetNew("some-key")
+	created = c.SetNew("some-key", nil)
 	require.False(t, created, "second SetNew should be a no-op")
 
 	require.Len(t, c.Items(), 1)
@@ -191,7 +191,7 @@ func TestCache_SetNew_StatusNew(t *testing.T) {
 	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
 	defer c.Stop()
 
-	c.SetNew("raw-key")
+	c.SetNew("raw-key", nil)
 	item := c.Get("raw-key")
 	require.NotNil(t, item)
 	require.Equal(t, types.StatusNew, item.Status)
@@ -203,7 +203,7 @@ func TestCache_SetTransformedKey_StatusLearned(t *testing.T) {
 	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
 	defer c.Stop()
 
-	c.SetNew("raw-key")
+	c.SetNew("raw-key", nil)
 	c.SetTransformedKey("raw-key", "transformed-key")
 
 	item := c.Get("raw-key")
@@ -218,7 +218,7 @@ func TestCache_SetObservation_StatusActive(t *testing.T) {
 	defer c.Stop()
 
 	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":42}`)}
-	c.SetNew("raw-key")
+	c.SetNew("raw-key", nil)
 	c.SetTransformedKey("raw-key", "transformed-key")
 	c.SetObservation("transformed-key", obs, time.Now(), "adapter-key")
 
@@ -291,7 +291,7 @@ func TestCache_CleanupExpired(t *testing.T) {
 
 	// Set item with old timestamp (bypassing the lifecycle for simplicity).
 	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
-	c.SetNew(oldRawKey)
+	c.SetNew(oldRawKey, nil)
 	c.SetTransformedKey(oldRawKey, "old-transformed")
 	c.SetObservation("old-transformed", obs, time.Now().Add(-ttl*2), "old-adapter")
 	// Force the item's own timestamp back too.
@@ -332,7 +332,7 @@ func TestCache_CleanupLoop(t *testing.T) {
 	obs := &types.Observation{Success: true}
 
 	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
-	c.SetNew(oldRawKey)
+	c.SetNew(oldRawKey, nil)
 	c.SetTransformedKey(oldRawKey, oldRawKey)
 	c.SetObservation(oldRawKey, obs, time.Now().Add(-ttl*2), "old-adapter")
 	c.mu.Lock()

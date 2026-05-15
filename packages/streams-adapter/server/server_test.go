@@ -55,15 +55,15 @@ func TestMain(m *testing.M) {
 	}
 
 	cfg := &config.Config{
-		HTTPPort:             "0",
-		EAPort:               "0",
-		EAHost:               "localhost",
-		RedconPort:           "0",
-		GoMetricsPort:        "0",
-		CacheTTLMinutes:      5,
-		CacheCleanupInterval: 60,
-		LogLevel:             "info",
-		AdapterName:          "test",
+		HTTPPort:                    "0",
+		EAPort:                      "0",
+		EAHost:                      "localhost",
+		RedconPort:                  "0",
+		GoMetricsPort:               "0",
+		CacheTTLMinutes:             5,
+		CacheCleanupIntervalSeconds: 60,
+		LogLevel:                    "info",
+		AdapterName:                 "test",
 	}
 
 	testCache = cache.New(cache.Config{
@@ -83,7 +83,7 @@ func setCache(t *testing.T, params types.RequestParams, obs *types.Observation, 
 	t.Helper()
 	rawKey, err := helpers.CalculateCacheKey(params)
 	require.NoError(t, err)
-	testCache.SetNew(rawKey)
+	testCache.SetNew(rawKey, nil)
 	testCache.SetTransformedKey(rawKey, rawKey)
 	testCache.SetObservation(rawKey, obs, time.Now(), originalAdapterKey)
 }
@@ -195,9 +195,9 @@ func TestAdapterHandler_CacheMiss(t *testing.T) {
 
 func TestBuildMetricsURL_NoBaseUrl(t *testing.T) {
 	cfg := &config.Config{
-		EAHost:              "localhost",
-		EAMetricsPort:       "9081",
-		EABaseUrl:           "",
+		EAHost:            "localhost",
+		EAMetricsPort:     "9081",
+		EABaseUrl:         "",
 		MetricsUseBaseUrl: false,
 	}
 	got := buildMetricsURL(cfg)
@@ -206,9 +206,9 @@ func TestBuildMetricsURL_NoBaseUrl(t *testing.T) {
 
 func TestBuildMetricsURL_WithBaseUrl(t *testing.T) {
 	cfg := &config.Config{
-		EAHost:              "localhost",
-		EAMetricsPort:       "9081",
-		EABaseUrl:           "/blocksize-capital-llo-exp",
+		EAHost:            "localhost",
+		EAMetricsPort:     "9081",
+		EABaseUrl:         "/blocksize-capital-llo-exp",
 		MetricsUseBaseUrl: true,
 	}
 	got := buildMetricsURL(cfg)
@@ -218,9 +218,9 @@ func TestBuildMetricsURL_WithBaseUrl(t *testing.T) {
 func TestBuildMetricsURL_WithBaseUrlTrailingSlash(t *testing.T) {
 	// Config normalizes trailing slashes at load time; EABaseUrl is always stored without one.
 	cfg := &config.Config{
-		EAHost:              "localhost",
-		EAMetricsPort:       "9081",
-		EABaseUrl:           "/blocksize-capital-llo-exp",
+		EAHost:            "localhost",
+		EAMetricsPort:     "9081",
+		EABaseUrl:         "/blocksize-capital-llo-exp",
 		MetricsUseBaseUrl: true,
 	}
 	got := buildMetricsURL(cfg)
@@ -230,9 +230,9 @@ func TestBuildMetricsURL_WithBaseUrlTrailingSlash(t *testing.T) {
 func TestBuildMetricsURL_WithBaseUrlDefault_UseBaseUrl(t *testing.T) {
 	// Config normalizes "/" to "" (empty string) at load time.
 	cfg := &config.Config{
-		EAHost:              "localhost",
-		EAMetricsPort:       "9081",
-		EABaseUrl:           "",
+		EAHost:            "localhost",
+		EAMetricsPort:     "9081",
+		EABaseUrl:         "",
 		MetricsUseBaseUrl: true,
 	}
 	got := buildMetricsURL(cfg)
