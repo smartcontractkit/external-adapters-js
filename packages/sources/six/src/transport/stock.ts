@@ -1,7 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/price'
-import { PriceCache } from './price-cache'
+import { BaseEndpointTypes } from '../endpoint/stock'
+import { StockCache } from './stock-cache'
 
 export type Message = DataMessage | ErrorMessage
 
@@ -38,15 +38,21 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('PriceTransport')
+const logger = makeLogger('StockTransport')
 const PONG_TIMEOUT = 2000
 
-// Track when the last ping is send
-let pingTime = Date.now()
+let pongWaitTimer: ReturnType<typeof setTimeout> | undefined
+function clearPongWaitTimer() {
+  if (pongWaitTimer !== undefined) {
+    clearTimeout(pongWaitTimer)
+    pongWaitTimer = undefined
+  }
+}
+
 // Prevent sending duplicate streamId to server
 const activeStreamIds = new Set<string>()
 // We may get bid and ask updates in two seperate messages
-const cache = new PriceCache()
+const cache = new StockCache()
 
 export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
@@ -58,18 +64,33 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
   handlers: {
     open() {
+      clearPongWaitTimer()
       activeStreamIds.clear()
     },
-    heartbeat(connection) {
-      connection.ping()
-      pingTime = Date.now()
+    close() {
+      clearPongWaitTimer()
     },
-    pong(connection) {
-      const pongTime = Date.now() - pingTime
-      if (pongTime > PONG_TIMEOUT) {
-        logger.error(`Pong received ${pongTime}ms after ping exceeding ${PONG_TIMEOUT}ms timeout`)
-        connection.close(1006, 'The connection appears to be active but stopped receiving updates')
+    heartbeat(connection) {
+      if (pongWaitTimer) {
+        clearPongWaitTimer()
+        connection.close(
+          1006,
+          `Heartbeat frequency exceeded ${PONG_TIMEOUT}ms, increase WS_HEARTBEAT_INTERVAL_MS in environment variable`,
+        )
+      } else {
+        connection.ping()
+        pongWaitTimer = setTimeout(() => {
+          pongWaitTimer = undefined
+          logger.error(`Pong not received within ${PONG_TIMEOUT}ms after ping; closing connection`)
+          connection.close(
+            1006,
+            'The connection appears to be active but stopped receiving updates',
+          )
+        }, PONG_TIMEOUT)
       }
+    },
+    pong() {
+      clearPongWaitTimer()
     },
     message(message) {
       if ('errors' in message) {
@@ -85,8 +106,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
             return []
           }
           if (stream.type === 'ERROR') {
-            return ['stock', 'stock_quotes'].map((rawEndpoint) => ({
-              params: { base: stream.streamId, rawEndpoint },
+            return ['stock', 'stock_quotes'].map((requestEndpoint) => ({
+              params: { base: stream.streamId, rawEndpoint: requestEndpoint },
               response: {
                 statusCode: 502,
                 errorMessage: `Data Provider returned error for this request`,

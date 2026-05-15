@@ -1,15 +1,15 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { PriceMessage } from './price'
+import { PriceMessage } from './stock'
 
 const MESSAGE_TTL_SECONDS = 300
-const coverTimeToMs = (time?: number) => (time ? Math.floor(time * 1000) : undefined)
+const convertTimeToMs = (time?: number) => (time ? Math.floor(time * 1000) : undefined)
 const isMessageOld = (time?: number) =>
   time ? Date.now() - time > MESSAGE_TTL_SECONDS * 1000 : false
 
-export class PriceCache {
+export class StockCache {
   bidCache: Map<string, { price: number; volume: number; time?: number }> = new Map()
   askCache: Map<string, { price: number; volume: number; time?: number }> = new Map()
-  private logger = makeLogger('PriceCache')
+  private logger = makeLogger('StockCache')
 
   processBidAsk(streamId: string, bid?: PriceMessage, ask?: PriceMessage) {
     this.setBookSide(streamId, 'bid', bid)
@@ -20,7 +20,7 @@ export class PriceCache {
     const cache = side === 'bid' ? this.bidCache : this.askCache
     const price = msg?.value
     const volume = msg?.size
-    const time = coverTimeToMs(msg?.unixTimestamp)
+    const time = convertTimeToMs(msg?.unixTimestamp)
 
     if (isMessageOld(time)) {
       this.logger.warn(
@@ -28,8 +28,13 @@ export class PriceCache {
       )
       return
     }
-    if (price == undefined || Number.isNaN(price) || volume === undefined || Number.isNaN(volume)) {
-      this.logger.debug(`Invalid or missing ${side} ${JSON.stringify(msg)}`)
+    if (
+      price === undefined ||
+      Number.isNaN(price) ||
+      volume === undefined ||
+      Number.isNaN(volume)
+    ) {
+      this.logger.warn(`Invalid or missing ${side} ${JSON.stringify(msg)}`)
       return
     }
     cache.set(streamId, {
@@ -46,7 +51,7 @@ export class PriceCache {
       return []
     }
 
-    const time = coverTimeToMs(last?.unixTimestamp)
+    const time = convertTimeToMs(last?.unixTimestamp)
     if (isMessageOld(time)) {
       this.logger.warn(
         `Last message ${JSON.stringify(last)} is more than ${MESSAGE_TTL_SECONDS}s old`,
@@ -78,9 +83,9 @@ export class PriceCache {
 
     if (bid && ask) {
       let midPrice: number
-      if (bid.price == 0) {
+      if (bid.price === 0) {
         midPrice = ask.price
-      } else if (ask.price == 0) {
+      } else if (ask.price === 0) {
         midPrice = bid.price
       } else {
         midPrice = (bid.price + ask.price) / 2

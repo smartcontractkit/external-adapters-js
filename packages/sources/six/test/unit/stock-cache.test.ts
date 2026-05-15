@@ -1,15 +1,15 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { PriceCache } from '../../src/transport/price-cache'
+import { StockCache } from '../../src/transport/stock-cache'
 
 LoggerFactoryProvider.set()
 
-describe('PriceCache', () => {
+describe('StockCache', () => {
   const streamId = 'stream-1'
 
   describe('processBidAsk', () => {
     it('stores bid and ask with provider time in ms', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 100, size: 10, unixTimestamp: now / 1000 },
@@ -21,14 +21,14 @@ describe('PriceCache', () => {
     })
 
     it('does not store when price or volume is missing', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: 1 }, { size: 2 })
       expect(cache.bidCache.has(streamId)).toBe(false)
       expect(cache.askCache.has(streamId)).toBe(false)
     })
 
     it('does not store when message is too old', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
 
       const old = Date.now() / 1000 - 305
       cache.processBidAsk(
@@ -50,14 +50,14 @@ describe('PriceCache', () => {
     })
 
     it('does not store NaN price or volume', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: NaN, size: 1 }, { value: 1, size: NaN })
       expect(cache.bidCache.has(streamId)).toBe(false)
       expect(cache.askCache.has(streamId)).toBe(false)
     })
 
     it('allows zero price and volume and no timestamp', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: 0, size: 0 }, { value: 0, size: 0 })
       expect(cache.bidCache.get(streamId)).toEqual({ price: 0, volume: 0 })
       expect(cache.askCache.get(streamId)).toEqual({ price: 0, volume: 0 })
@@ -67,7 +67,7 @@ describe('PriceCache', () => {
   describe('getPriceResponse', () => {
     it('returns adapter response successfully', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       expect(cache.getPriceResponse(streamId, { value: 55.5, unixTimestamp: now / 1000 })).toEqual([
         {
           params: { base: streamId, rawEndpoint: 'stock' },
@@ -81,7 +81,7 @@ describe('PriceCache', () => {
     })
 
     it('no timestamps when missing unixTimestamp', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       expect(cache.getPriceResponse(streamId, { value: 10 })).toEqual([
         {
           params: { base: streamId, rawEndpoint: 'stock' },
@@ -91,14 +91,14 @@ describe('PriceCache', () => {
     })
 
     it('returns empty array when last value is missing or NaN', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       expect(cache.getPriceResponse(streamId, undefined)).toEqual([])
       expect(cache.getPriceResponse(streamId, {})).toEqual([])
       expect(cache.getPriceResponse(streamId, { value: NaN })).toEqual([])
     })
 
     it('returns empty array when message is too old', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       expect(
         cache.getPriceResponse(streamId, {
           value: 55.5,
@@ -117,7 +117,7 @@ describe('PriceCache', () => {
   describe('getBidAskResponse', () => {
     it('returns mid, sides, volumes, and max provider time', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 100, size: 10, unixTimestamp: now / 1000 },
@@ -144,7 +144,7 @@ describe('PriceCache', () => {
 
     it('returns mid, sides, volumes, and max provider time - update seperately', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: 100, size: 10, unixTimestamp: now / 1000 })
       cache.processBidAsk(streamId, undefined, {
         value: 104,
@@ -172,7 +172,7 @@ describe('PriceCache', () => {
 
     it('refreshes bid only when there is a bid update', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 100, size: 10, unixTimestamp: now / 1000 },
@@ -201,7 +201,7 @@ describe('PriceCache', () => {
 
     it('uses ask price as mid when bid is zero', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 0, size: 1, unixTimestamp: now / 1000 },
@@ -213,7 +213,7 @@ describe('PriceCache', () => {
 
     it('uses bid price as mid when ask is zero', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 100, size: 1, unixTimestamp: now / 1000 },
@@ -224,19 +224,19 @@ describe('PriceCache', () => {
     })
 
     it('returns empty array when bid is missing', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: 1, size: 1 }, undefined)
       expect(cache.getBidAskResponse(streamId)).toEqual([])
     })
 
     it('returns empty array when ask is missing', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, undefined, { value: 2, size: 2 })
       expect(cache.getBidAskResponse(streamId)).toEqual([])
     })
 
     it('omits timestamps when neither side has provider time', () => {
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(streamId, { value: 10, size: 1 }, { value: 20, size: 1 })
       const [row] = cache.getBidAskResponse(streamId)
       expect(row.response).not.toHaveProperty('timestamps')
@@ -244,7 +244,7 @@ describe('PriceCache', () => {
 
     it('use bid timestamps if ask timestamp is missing', () => {
       const now = Date.now()
-      const cache = new PriceCache()
+      const cache = new StockCache()
       cache.processBidAsk(
         streamId,
         { value: 10, size: 1, unixTimestamp: now / 1000 },

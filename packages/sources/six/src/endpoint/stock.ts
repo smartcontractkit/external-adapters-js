@@ -4,7 +4,7 @@ import { SingleNumberResultResponse } from '@chainlink/external-adapter-framewor
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { wsTransport } from '../transport/price'
+import { wsTransport } from '../transport/stock'
 
 export const inputParameters = new InputParameters(
   {

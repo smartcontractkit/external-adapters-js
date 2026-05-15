@@ -6,7 +6,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockSixPriceWebSocketServer } from './price-fixtures'
+import { mockSixStockWebSocketServer } from './stock-fixtures'
 
 describe('execute', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -29,7 +29,7 @@ describe('execute', () => {
     process.env.WS_API_ENDPOINT = wsEndpoint
 
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockSixPriceWebSocketServer(wsEndpoint)
+    mockWsServer = mockSixStockWebSocketServer(wsEndpoint)
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -56,13 +56,13 @@ describe('execute', () => {
     await testAdapter.api.close()
   })
 
-  describe('price endpoint - invalid base', () => {
+  describe('stock endpoint - invalid base', () => {
     it('stock fail', async () => {
       expect((await testAdapter.request({ base: 'lol' })).json()).toMatchSnapshot()
     })
   })
 
-  describe('price endpoint - happy path', () => {
+  describe('stock endpoint - happy path', () => {
     it('stock pass', async () => {
       expect((await testAdapter.request(normalRequest)).json()).toMatchSnapshot()
     })
@@ -75,7 +75,7 @@ describe('execute', () => {
     })
   })
 
-  describe('price endpoint - last only', () => {
+  describe('stock endpoint - last only', () => {
     it('stock pass', async () => {
       expect((await testAdapter.request(lastonlyRequest)).json()).toMatchSnapshot()
     })
@@ -88,7 +88,7 @@ describe('execute', () => {
     })
   })
 
-  describe('price endpoint - bid ask only', () => {
+  describe('stock endpoint - bid ask only', () => {
     it('stock fail', async () => {
       expect((await testAdapter.request(bidaskonlyRequest)).json()).toMatchSnapshot()
     })
@@ -101,7 +101,7 @@ describe('execute', () => {
     })
   })
 
-  describe('price endpoint - bid update', () => {
+  describe('stock endpoint - bid update', () => {
     it('stock_quotes pass', async () => {
       const response = await testAdapter.request({
         ...bidUpdateRequest,

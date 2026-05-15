@@ -1,6 +1,6 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockSixPriceWebSocketServer = (URL: string): MockWebsocketServer => {
+export const mockSixStockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
 
   const streams = JSON.stringify({

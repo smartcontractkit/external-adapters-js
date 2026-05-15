@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price endpoint - bid ask only stock fail 1`] = `
+exports[`execute stock endpoint - bid ask only stock fail 1`] = `
 {
   "error": {
     "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
@@ -11,7 +11,7 @@ exports[`execute price endpoint - bid ask only stock fail 1`] = `
 }
 `;
 
-exports[`execute price endpoint - bid ask only stock_quotes pass 1`] = `
+exports[`execute stock endpoint - bid ask only stock_quotes pass 1`] = `
 {
   "data": {
     "ask_price": 4,
@@ -30,7 +30,7 @@ exports[`execute price endpoint - bid ask only stock_quotes pass 1`] = `
 }
 `;
 
-exports[`execute price endpoint - bid update stock_quotes pass 1`] = `
+exports[`execute stock endpoint - bid update stock_quotes pass 1`] = `
 {
   "data": {
     "ask_price": 13,
@@ -49,7 +49,7 @@ exports[`execute price endpoint - bid update stock_quotes pass 1`] = `
 }
 `;
 
-exports[`execute price endpoint - happy path stock pass 1`] = `
+exports[`execute stock endpoint - happy path stock pass 1`] = `
 {
   "data": {
     "result": 100.25,
@@ -64,7 +64,7 @@ exports[`execute price endpoint - happy path stock pass 1`] = `
 }
 `;
 
-exports[`execute price endpoint - happy path stock_quotes pass 1`] = `
+exports[`execute stock endpoint - happy path stock_quotes pass 1`] = `
 {
   "data": {
     "ask_price": 100.5,
@@ -83,7 +83,7 @@ exports[`execute price endpoint - happy path stock_quotes pass 1`] = `
 }
 `;
 
-exports[`execute price endpoint - invalid base stock fail 1`] = `
+exports[`execute stock endpoint - invalid base stock fail 1`] = `
 {
   "error": {
     "message": "base must be in the format of \${TICKER}_\${MARKET}",
@@ -94,7 +94,7 @@ exports[`execute price endpoint - invalid base stock fail 1`] = `
 }
 `;
 
-exports[`execute price endpoint - last only stock pass 1`] = `
+exports[`execute stock endpoint - last only stock pass 1`] = `
 {
   "data": {
     "result": 1,
@@ -109,7 +109,7 @@ exports[`execute price endpoint - last only stock pass 1`] = `
 }
 `;
 
-exports[`execute price endpoint - last only stock_quotes fail 1`] = `
+exports[`execute stock endpoint - last only stock_quotes fail 1`] = `
 {
   "error": {
     "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
