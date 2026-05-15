@@ -3,7 +3,9 @@ import { ADAPTER_NAMES } from '../source/sources'
 
 export const config = new AdapterConfig({
   PROVIDER_ADAPTER_URL: {
-    description: `The URL for the \${PROVIDER} adapter. Configurable PROVIDERs are: ${ADAPTER_NAMES.join(',')}`,
+    description: `The URL for the \${PROVIDER} adapter. Configurable PROVIDERs are: ${ADAPTER_NAMES.join(
+      ',',
+    )}`,
     type: 'string',
     required: true,
     variablePlaceholder: 'PROVIDER',
