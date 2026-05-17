@@ -12,4 +12,11 @@ export const adapter = new Adapter({
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
 
-export { getCryptoPrice, getDeutscheBoersePrice, getExchangeRate, getRwaPrice } from './lib'
+export {
+  getCryptoPrice,
+  getDeutscheBoersePrice,
+  getExchangeRate,
+  getFeedData,
+  getRwaPrice,
+} from './lib'
+export type { FeedDataResult } from './lib'

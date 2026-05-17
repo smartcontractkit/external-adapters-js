@@ -1,4 +1,5 @@
-import { getCryptoPrice } from '@chainlink/data-engine-adapter'
+import type { FeedDataResult } from '@chainlink/data-engine-adapter'
+import { getFeedData } from '@chainlink/data-engine-adapter'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { ResponseCache } from '@chainlink/external-adapter-framework/cache/response'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -24,6 +25,16 @@ import {
 } from './utils'
 
 const logger = makeLogger('GlvBaseTransport')
+
+const extractBidAsk = (result: FeedDataResult): { bid: string; ask: string; decimals: number } => {
+  switch (result.version) {
+    case 'V3':
+    case 'V11':
+      return { bid: result.data.bid, ask: result.data.ask, decimals: result.data.decimals }
+    default:
+      throw new Error(`Unsupported report version '${result.version}'`)
+  }
+}
 
 interface glvInformation {
   glvToken: string
@@ -246,7 +257,8 @@ export abstract class BaseGlvTransport<
         const feedId = await this.getFeedId(asset, dataRequestedTimestamp)
 
         try {
-          const { bid, ask, decimals } = await getCryptoPrice(feedId, source.url, this.requester)
+          const result = await getFeedData(feedId, source.url, this.requester)
+          const { bid, ask, decimals } = extractBidAsk(result)
           const bidNum = toNumFromDS(bid, decimals)
           const askNum = toNumFromDS(ask, decimals)
           priceData[asset] = priceData[asset] || { bids: [], asks: [] }
