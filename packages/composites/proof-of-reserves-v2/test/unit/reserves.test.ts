@@ -1474,7 +1474,7 @@ describe('ReservesTransport', () => {
       expect(requester.request).toBeCalledTimes(2)
     })
 
-    it('should work with "isValid" ripcord path', async () => {
+    it('should succeed with "isValid" ripcord path', async () => {
       const addressListParams = { endpoint: 'multiAddressList' }
       const balanceParams = { endpoint: 'evm' }
       const addressArray = [{ address: '0x123' }]
@@ -1572,6 +1572,103 @@ describe('ReservesTransport', () => {
       expect(requester.request).toBeCalledTimes(2)
     })
 
+    it('should succeed with "undefined" ripcord disabledValue and missing ripcord', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+            ripcord: {
+              path: 'data.ripcord',
+              disabledValue: 'undefined',
+            },
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 200,
+        result: '123000',
+        data: {
+          decimals: 6,
+          result: '123000',
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+              ripcord: false,
+            },
+          ],
+          conversionRates: [],
+          ripcord: false,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(2)
+    })
+
     it('should remove result and return status code 503 when ripcord is enabled', async () => {
       const addressListParams = { endpoint: 'multiAddressList' }
       const balanceParams = { endpoint: 'evm' }
@@ -1595,6 +1692,103 @@ describe('ReservesTransport', () => {
               },
             ],
             ripcord: true,
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+            ripcord: {
+              path: 'data.ripcord',
+              disabledValue: 'false',
+            },
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 503,
+        result: null,
+        data: {
+          decimals: 6,
+          result: null,
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+              ripcord: true,
+            },
+          ],
+          conversionRates: [],
+          ripcord: true,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(2)
+    })
+
+    it('should remove result and return status code 503 when ripcord field is expected but missing', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
           },
         },
       )
