@@ -108,7 +108,11 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
 
     const totalReserves = await componentRepo.getTotalReserves(resultDecimals)
 
-    const result = totalReserves.amount.toString()
+    const ripcord = await componentRepo.getRipcord()
+    // Exclude result from response if ripcord is true to avoid using wrong
+    // data. But provide all the other information for convenience and
+    // debugging.
+    const result = ripcord === true ? null : totalReserves.amount.toString()
     const resultAsNumber = fixedPointToNumber(totalReserves)
     const decimals = totalReserves.decimals
 
@@ -119,8 +123,9 @@ export class ReservesTransport extends SubscriptionTransport<ReservesTransportTy
         decimals,
         components: await componentRepo.forResponse(),
         conversionRates: await conversionRepo.getRatesForResponse(),
+        ripcord,
       },
-      statusCode: 200,
+      statusCode: ripcord ? 503 : 200,
       result,
       timestamps: {
         providerDataRequestedUnixMs,

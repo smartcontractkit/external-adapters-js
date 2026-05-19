@@ -18,8 +18,8 @@ type Config struct {
 	GoMetricsPort     string
 
 	// Cache configuration
-	CacheTTLMinutes      uint // Cache TTL in minutes (0 = default 5 minutes)
-	CacheCleanupInterval uint // Cache cleanup interval in minutes (0 = default 1 minute)
+	CacheTTLMinutes             uint // Cache TTL in minutes (0 = default 5 minutes)
+	CacheCleanupIntervalSeconds uint // Cache cleanup interval in seconds (0 = default 60 seconds)
 
 	// Subscription configuration
 	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
@@ -50,8 +50,8 @@ func Load() *Config {
 		GoMetricsPort:     getEnv("METRICS_PORT", "9080"),
 
 		// Cache configuration
-		CacheTTLMinutes:      getEnvAsInt("CACHE_TTL_MINUTES", 5),
-		CacheCleanupInterval: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
+		CacheTTLMinutes:             getEnvAsInt("CACHE_TTL_MINUTES", 5),
+		CacheCleanupIntervalSeconds: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
 
 		// Subscription
 		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),

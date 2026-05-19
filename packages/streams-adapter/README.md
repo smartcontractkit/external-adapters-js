@@ -51,7 +51,7 @@ The Go runtime waits for the JS adapter `/health` endpoint before starting.
 - `REDCON_PORT` (default: `6379`): Redis-compatible ingestion server port.
 - `METRICS_PORT` (default: `9080`): Prometheus metrics server port.
 - `CACHE_TTL_MINUTES` (default: `5`): in-memory cache TTL.
-- `CACHE_CLEANUP_INTERVAL` (default: `1`): cache cleanup interval; also used as periodic resubscribe interval.
+- `CACHE_CLEANUP_INTERVAL` (default: `60`): cache cleanup interval in seconds; also used as periodic resubscribe interval.
 - `SUBSCRIPTION_RETRY_DELAY_SECONDS` (default: `10`): delay before allowing re-subscription after a miss.
 - `LOG_LEVEL` (default: `info`): use `debug` to enable Gin request logging and additional debug logs.
 - `PACKAGE_NAME` (required for alias mapping): adapter package name, for example `@chainlink/tiingo-adapter`.

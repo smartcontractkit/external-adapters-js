@@ -36,9 +36,10 @@ const (
 
 // CacheItem represents a cached value with metadata
 type CacheItem struct {
-	Status             CacheItemStatus
-	TransformedKey     string       // populated once StatusLearned or StatusActive
-	Observation        *Observation // populated once StatusActive
-	Timestamp          time.Time    // last write time (used for TTL)
-	OriginalAdapterKey string       // JS adapter Redis key; populated once StatusActive
+	Status              CacheItemStatus
+	TransformedKey      string                 // populated once StatusLearned or StatusActive
+	Observation         *Observation           // populated once StatusActive
+	Timestamp           time.Time              // last write time (used for TTL)
+	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive
+	OriginalRequestData map[string]interface{} // raw request body data from the first subscription request
 }
