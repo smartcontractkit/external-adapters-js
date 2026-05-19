@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { marketStatus } from './endpoint'
+import { marketStatus, stock } from './endpoint'
 
 export const adapter = new Adapter({
-  defaultEndpoint: marketStatus.name,
+  defaultEndpoint: stock.name,
   name: 'SIX',
   config,
-  endpoints: [marketStatus],
+  endpoints: [marketStatus, stock],
   rateLimiting: {
     tiers: {
       default: {
