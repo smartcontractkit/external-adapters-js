@@ -9692,7 +9692,7 @@ const RAW_RUNTIME_STATE =
           ["@grpc/proto-loader", "npm:0.7.13"],\
           ["lodash.camelcase", "npm:4.3.0"],\
           ["long", "npm:5.2.3"],\
-          ["protobufjs", "npm:7.5.5"],\
+          ["protobufjs", "npm:7.6.0"],\
           ["yargs", "npm:17.7.2"]\
         ],\
         "linkType": "HARD"\
@@ -11469,10 +11469,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@protobufjs/codegen", [\
-      ["npm:2.0.4", {\
-        "packageLocation": "./.yarn/cache/@protobufjs-codegen-npm-2.0.4-36e188bbe6-c6ee5fa172.zip/node_modules/@protobufjs/codegen/",\
+      ["npm:2.0.5", {\
+        "packageLocation": "./.yarn/cache/@protobufjs-codegen-npm-2.0.5-bb74ff329d-290335fa11.zip/node_modules/@protobufjs/codegen/",\
         "packageDependencies": [\
-          ["@protobufjs/codegen", "npm:2.0.4"]\
+          ["@protobufjs/codegen", "npm:2.0.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11487,12 +11487,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@protobufjs/fetch", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/@protobufjs-fetch-npm-1.1.0-ca857b7df4-67ae40572a.zip/node_modules/@protobufjs/fetch/",\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/@protobufjs-fetch-npm-1.1.1-b98d5396a8-427cf2da8c.zip/node_modules/@protobufjs/fetch/",\
         "packageDependencies": [\
           ["@protobufjs/aspromise", "npm:1.1.2"],\
-          ["@protobufjs/fetch", "npm:1.1.0"],\
-          ["@protobufjs/inquire", "npm:1.1.0"]\
+          ["@protobufjs/fetch", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11507,10 +11506,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@protobufjs/inquire", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/@protobufjs-inquire-npm-1.1.0-3c7759e9ce-c09efa34a5.zip/node_modules/@protobufjs/inquire/",\
+      ["npm:1.1.2", {\
+        "packageLocation": "./.yarn/cache/@protobufjs-inquire-npm-1.1.2-d8a203d287-259756489c.zip/node_modules/@protobufjs/inquire/",\
         "packageDependencies": [\
-          ["@protobufjs/inquire", "npm:1.1.0"]\
+          ["@protobufjs/inquire", "npm:1.1.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11534,10 +11533,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@protobufjs/utf8", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/@protobufjs-utf8-npm-1.1.0-02c590807c-131e289c57.zip/node_modules/@protobufjs/utf8/",\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/@protobufjs-utf8-npm-1.1.1-77a500f5e9-ed0c3f9ff1.zip/node_modules/@protobufjs/utf8/",\
         "packageDependencies": [\
-          ["@protobufjs/utf8", "npm:1.1.0"]\
+          ["@protobufjs/utf8", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21228,6 +21227,13 @@ const RAW_RUNTIME_STATE =
           ["long", "npm:5.2.3"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:5.3.2", {\
+        "packageLocation": "./.yarn/cache/long-npm-5.3.2-f80d0f7d39-b6b55ddae5.zip/node_modules/long/",\
+        "packageDependencies": [\
+          ["long", "npm:5.3.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["long-timeout", [\
@@ -22766,22 +22772,22 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["protobufjs", [\
-      ["npm:7.5.5", {\
-        "packageLocation": "./.yarn/cache/protobufjs-npm-7.5.5-73830b5abb-048898023a.zip/node_modules/protobufjs/",\
+      ["npm:7.6.0", {\
+        "packageLocation": "./.yarn/cache/protobufjs-npm-7.6.0-3f49e954b3-2becdf429f.zip/node_modules/protobufjs/",\
         "packageDependencies": [\
           ["@protobufjs/aspromise", "npm:1.1.2"],\
           ["@protobufjs/base64", "npm:1.1.2"],\
-          ["@protobufjs/codegen", "npm:2.0.4"],\
+          ["@protobufjs/codegen", "npm:2.0.5"],\
           ["@protobufjs/eventemitter", "npm:1.1.0"],\
-          ["@protobufjs/fetch", "npm:1.1.0"],\
+          ["@protobufjs/fetch", "npm:1.1.1"],\
           ["@protobufjs/float", "npm:1.0.2"],\
-          ["@protobufjs/inquire", "npm:1.1.0"],\
+          ["@protobufjs/inquire", "npm:1.1.2"],\
           ["@protobufjs/path", "npm:1.1.2"],\
           ["@protobufjs/pool", "npm:1.1.0"],\
-          ["@protobufjs/utf8", "npm:1.1.0"],\
+          ["@protobufjs/utf8", "npm:1.1.1"],\
           ["@types/node", "npm:22.14.1"],\
-          ["long", "npm:5.2.3"],\
-          ["protobufjs", "npm:7.5.5"]\
+          ["long", "npm:5.3.2"],\
+          ["protobufjs", "npm:7.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
