@@ -15,8 +15,7 @@ describe('websocket', () => {
   let oldEnv: NodeJS.ProcessEnv
 
   const dataStock_quotes = {
-    base: 'ETH',
-    quote: 'USD',
+    base: '9988-HKD:SPOT',
     endpoint: 'stock_quotes',
     transport: 'ws',
   }

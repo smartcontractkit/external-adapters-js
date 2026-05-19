@@ -2,11 +2,16 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
 
 export interface WSResponse {
-  success: boolean
-  price: number
-  base: string
-  quote: string
-  time: number
+  egress_ts: number // microseconds
+  data: {
+    type: 'PRICE'
+    symbol: string
+    ingress_ts: number // microseconds
+    publish_ts: null
+    transaction_ts: number // microseconds
+    price: number
+    spread: number
+  }
 }
 
 export type WsTransportTypes = BaseEndpointTypes & {
@@ -16,22 +21,36 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+  options: (context) => {
+    return {
+      headers: {
+        'X-API-KEY': context.adapterSettings.API_KEY,
+      },
+    }
+  },
   handlers: {
     message(message) {
-      if (message.success === false) {
+      if (message.data.type !== 'PRICE') {
         return
       }
 
+      const mid_price = message.data.price
+      const spread = message.data.spread
+      const bid_price = mid_price - spread / 2
+      const ask_price = mid_price + spread / 2
+
       return [
         {
-          params: { base: message.base, quote: message.quote },
+          params: { base: message.data.symbol },
           response: {
-            result: message.price,
+            result: null,
             data: {
-              result: message.price,
+              mid_price,
+              bid_price,
+              ask_price,
             },
             timestamps: {
-              providerIndicatedTimeUnixMs: message.time,
+              providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
             },
           },
         },
@@ -41,14 +60,24 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   builders: {
     subscribeMessage: (params) => {
       return {
-        type: 'subscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase(),
+        op: 'SUBSCRIBE',
+        topics: [
+          {
+            symbol: params.base,
+            type: 'PRICE',
+          },
+        ],
       }
     },
     unsubscribeMessage: (params) => {
       return {
-        type: 'unsubscribe',
-        symbols: `${params.base}/${params.quote}`.toUpperCase(),
+        op: 'UNSUBSCRIBE',
+        topics: [
+          {
+            symbol: params.base,
+            type: 'PRICE',
+          },
+        ],
       }
     },
   },
