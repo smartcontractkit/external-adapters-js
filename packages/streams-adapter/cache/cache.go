@@ -85,15 +85,16 @@ func New(cfg Config) *Cache {
 // SetNew creates a "new" cache item for the given raw key if one does not
 // already exist. Returns true if the item was created (i.e. this is the first
 // caller for this key), false if an item already existed.
-func (c *Cache) SetNew(rawKey string) bool {
+func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}) bool {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if _, exists := c.items[rawKey]; exists {
 		return false
 	}
 	c.items[rawKey] = &types.CacheItem{
-		Status:    types.StatusNew,
-		Timestamp: time.Now(),
+		Status:              types.StatusNew,
+		Timestamp:           time.Now(),
+		OriginalRequestData: originalRequestData,
 	}
 	cacheItemsTotal.Inc()
 	return true

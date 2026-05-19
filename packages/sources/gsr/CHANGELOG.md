@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.5.6
+
+### Patch Changes
+
+- [#4966](https://github.com/smartcontractkit/external-adapters-js/pull/4966) [`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapter] data provider case sensitivity fix
+
 ## 2.5.5
 
 ### Patch Changes

@@ -53,7 +53,6 @@ describe('execute', () => {
         endpoint: 'http',
         apiName: 'test',
         dataPath: 'PoR',
-        ripcordPath: 'ripcord',
       }
       mockResponseSuccess()
       const response = await testAdapter.request(data)

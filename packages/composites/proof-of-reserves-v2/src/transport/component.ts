@@ -50,7 +50,7 @@ export class Component {
     try {
       const addressArray = await this.addressListRepo.getAddressArray(component.addressList)
 
-      const { balances, addressCount } = await this.balanceSourceRepo.fetchBalances(
+      const { balances, addressCount, ripcord } = await this.balanceSourceRepo.fetchBalances(
         component.balanceSource,
         addressArray,
       )
@@ -67,6 +67,7 @@ export class Component {
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
         addressCount,
+        ripcord,
       }
 
       await this.conversionRepo.applyConversions(component.conversions, processedComponent)
@@ -90,6 +91,10 @@ export class Component {
     return (await this.processedComponent).addressCount
   }
 
+  async getRipcord(): Promise<boolean | undefined> {
+    return (await this.processedComponent).ripcord
+  }
+
   async getCurrency(): Promise<string> {
     return (await this.processedComponent).currency
   }
@@ -105,6 +110,7 @@ export class Component {
       currency: currency,
       totalBalance: fixedPointToNumber(await this.getTotalBalance()),
       addressCount: await this.getAddressCount(),
+      ripcord: await this.getRipcord(),
     }
     const originalCurrency = this.originalCurrency
     if (originalCurrency !== currency) {
@@ -155,6 +161,17 @@ export class ComponentRepo {
       ),
       resultDecimals,
     )
+  }
+
+  async getRipcord(): Promise<boolean | undefined> {
+    const ripcordValues = await Promise.all(this.components.map((c) => c.getRipcord()))
+    if (ripcordValues.includes(true)) {
+      return true
+    }
+    if (ripcordValues.includes(false)) {
+      return false
+    }
+    return undefined
   }
 
   async forResponse(): Promise<ComponentForResponse[]> {
