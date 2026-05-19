@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stock endpoint - bid ask only stock fail 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
+exports[`execute stock endpoint - bid ask only stock_quotes pass 1`] = `
+{
+  "data": {
+    "ask_price": 4,
+    "ask_volume": 5,
+    "bid_price": 1,
+    "bid_volume": 2,
+    "mid_price": 2.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 6000,
+  },
+}
+`;
+
+exports[`execute stock endpoint - bid update stock_quotes pass 1`] = `
+{
+  "data": {
+    "ask_price": 13,
+    "ask_volume": 14,
+    "bid_price": 100,
+    "bid_volume": 120,
+    "mid_price": 56.5,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 120000,
+  },
+}
+`;
+
+exports[`execute stock endpoint - happy path stock pass 1`] = `
+{
+  "data": {
+    "result": 100.25,
+  },
+  "result": 100.25,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1500,
+  },
+}
+`;
+
+exports[`execute stock endpoint - happy path stock_quotes pass 1`] = `
+{
+  "data": {
+    "ask_price": 100.5,
+    "ask_volume": 5,
+    "bid_price": 100,
+    "bid_volume": 10,
+    "mid_price": 100.25,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 2000,
+  },
+}
+`;
+
+exports[`execute stock endpoint - invalid base stock fail 1`] = `
+{
+  "error": {
+    "message": "base must be in the format of \${TICKER}_\${MARKET}",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute stock endpoint - last only stock pass 1`] = `
+{
+  "data": {
+    "result": 1,
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 6068,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 2000,
+  },
+}
+`;
+
+exports[`execute stock endpoint - last only stock_quotes fail 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
