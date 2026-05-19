@@ -165,10 +165,10 @@ export class ComponentRepo {
 
   async getRipcord(): Promise<boolean | undefined> {
     const ripcordValues = await Promise.all(this.components.map((c) => c.getRipcord()))
-    if (ripcordValues.some((value) => value === true)) {
+    if (ripcordValues.includes(true)) {
       return true
     }
-    if (ripcordValues.some((value) => value === false)) {
+    if (ripcordValues.includes(false)) {
       return false
     }
     return undefined
