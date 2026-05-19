@@ -120,6 +120,7 @@ describe('BufferLayoutTransport', () => {
         endpoint: 'buffer-layout',
         stateAccountAddress: usdcMinterAccountAddress,
         field: 'supply',
+        extraFields: [],
       })
       await transport.handleRequest(param)
 
@@ -154,6 +155,7 @@ describe('BufferLayoutTransport', () => {
         endpoint: 'buffer-layout',
         stateAccountAddress: usdcMinterAccountAddress,
         field: 'supply',
+        extraFields: ['decimals'],
       })
 
       const response = await transport._handleRequest(param)
@@ -163,6 +165,7 @@ describe('BufferLayoutTransport', () => {
         result: expectedTokenSupply,
         data: {
           result: expectedTokenSupply,
+          decimals: '6',
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -182,6 +185,7 @@ describe('BufferLayoutTransport', () => {
         endpoint: 'buffer-layout',
         stateAccountAddress: usdcMinterAccountAddress,
         field: 'supply',
+        extraFields: [],
       })
 
       const requestTimestamp = Date.now()

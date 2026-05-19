@@ -73,7 +73,7 @@ export class SanctumInfinityTransport extends SubscriptionTransport<BaseEndpoint
       }),
     ])
 
-    const result = Number(totalPoolValueString) / Number(totalPoolTokenSupplyString)
+    const result = Number(totalPoolValueString.result) / Number(totalPoolTokenSupplyString.result)
 
     return {
       data: {
