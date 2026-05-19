@@ -27,28 +27,6 @@ describe('StockCache', () => {
       expect(cache.askCache.has(streamId)).toBe(false)
     })
 
-    it('does not store when message is too old', () => {
-      const cache = new StockCache()
-
-      const old = Date.now() / 1000 - 305
-      cache.processBidAsk(
-        streamId,
-        { value: 100, size: 10, unixTimestamp: old },
-        { value: 102, size: 5, unixTimestamp: old },
-      )
-      expect(cache.bidCache.has(streamId)).toBe(false)
-      expect(cache.askCache.has(streamId)).toBe(false)
-
-      const notOld = Date.now() / 1000 - 295
-      cache.processBidAsk(
-        streamId,
-        { value: 100, size: 10, unixTimestamp: notOld },
-        { value: 102, size: 5, unixTimestamp: notOld },
-      )
-      expect(cache.bidCache.has(streamId)).toBe(true)
-      expect(cache.askCache.has(streamId)).toBe(true)
-    })
-
     it('does not store NaN price or volume', () => {
       const cache = new StockCache()
       cache.processBidAsk(streamId, { value: NaN, size: 1 }, { value: 1, size: NaN })
@@ -70,7 +48,7 @@ describe('StockCache', () => {
       const cache = new StockCache()
       expect(cache.getPriceResponse(streamId, { value: 55.5, unixTimestamp: now / 1000 })).toEqual([
         {
-          params: { base: streamId, rawEndpoint: 'stock' },
+          params: { base: streamId, type: 'stock' },
           response: {
             result: 55.5,
             data: { result: 55.5 },
@@ -84,7 +62,7 @@ describe('StockCache', () => {
       const cache = new StockCache()
       expect(cache.getPriceResponse(streamId, { value: 10 })).toEqual([
         {
-          params: { base: streamId, rawEndpoint: 'stock' },
+          params: { base: streamId, type: 'stock' },
           response: { result: 10, data: { result: 10 } },
         },
       ])
@@ -95,22 +73,6 @@ describe('StockCache', () => {
       expect(cache.getPriceResponse(streamId, undefined)).toEqual([])
       expect(cache.getPriceResponse(streamId, {})).toEqual([])
       expect(cache.getPriceResponse(streamId, { value: NaN })).toEqual([])
-    })
-
-    it('returns empty array when message is too old', () => {
-      const cache = new StockCache()
-      expect(
-        cache.getPriceResponse(streamId, {
-          value: 55.5,
-          unixTimestamp: Date.now() / 1000 - 295,
-        }).length,
-      ).toBeGreaterThan(0)
-      expect(
-        cache.getPriceResponse(streamId, {
-          value: 55.5,
-          unixTimestamp: Date.now() / 1000 - 305,
-        }).length,
-      ).toEqual(0)
     })
   })
 
@@ -126,7 +88,7 @@ describe('StockCache', () => {
 
       expect(cache.getBidAskResponse(streamId)).toEqual([
         {
-          params: { base: streamId, rawEndpoint: 'stock_quotes' },
+          params: { base: streamId, type: 'stock_quotes' },
           response: {
             result: null,
             data: {
@@ -154,7 +116,7 @@ describe('StockCache', () => {
 
       expect(cache.getBidAskResponse(streamId)).toEqual([
         {
-          params: { base: streamId, rawEndpoint: 'stock_quotes' },
+          params: { base: streamId, type: 'stock_quotes' },
           response: {
             result: null,
             data: {
@@ -183,7 +145,7 @@ describe('StockCache', () => {
 
       expect(cache.getBidAskResponse(streamId)).toEqual([
         {
-          params: { base: streamId, rawEndpoint: 'stock_quotes' },
+          params: { base: streamId, type: 'stock_quotes' },
           response: {
             result: null,
             data: {

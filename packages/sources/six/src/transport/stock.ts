@@ -106,8 +106,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
             return []
           }
           if (stream.type === 'ERROR') {
-            return ['stock', 'stock_quotes'].map((requestEndpoint) => ({
-              params: { base: stream.streamId, rawEndpoint: requestEndpoint },
+            return (['stock', 'stock_quotes'] as const).map((type) => ({
+              params: { base: stream.streamId, type },
               response: {
                 statusCode: 502,
                 errorMessage: `Data Provider returned error for this request`,

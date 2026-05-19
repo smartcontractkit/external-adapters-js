@@ -1,10 +1,7 @@
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { PriceMessage } from './stock'
 
-const MESSAGE_TTL_SECONDS = 300
 const convertTimeToMs = (time?: number) => (time ? Math.floor(time * 1000) : undefined)
-const isMessageOld = (time?: number) =>
-  time ? Date.now() - time > MESSAGE_TTL_SECONDS * 1000 : false
 
 export class StockCache {
   bidCache: Map<string, { price: number; volume: number; time?: number }> = new Map()
@@ -22,12 +19,6 @@ export class StockCache {
     const volume = msg?.size
     const time = convertTimeToMs(msg?.unixTimestamp)
 
-    if (isMessageOld(time)) {
-      this.logger.warn(
-        `${side} message ${JSON.stringify(msg)} is more than ${MESSAGE_TTL_SECONDS}s old`,
-      )
-      return
-    }
     if (
       price === undefined ||
       Number.isNaN(price) ||
@@ -52,16 +43,10 @@ export class StockCache {
     }
 
     const time = convertTimeToMs(last?.unixTimestamp)
-    if (isMessageOld(time)) {
-      this.logger.warn(
-        `Last message ${JSON.stringify(last)} is more than ${MESSAGE_TTL_SECONDS}s old`,
-      )
-      return []
-    }
 
     return [
       {
-        params: { base: streamId, rawEndpoint: 'stock' },
+        params: { base: streamId, type: 'stock' as const },
         response: {
           result,
           data: {
@@ -94,7 +79,7 @@ export class StockCache {
       const time = Math.max(bid.time || 0, ask.time || 0)
       return [
         {
-          params: { base: streamId, rawEndpoint: 'stock_quotes' },
+          params: { base: streamId, type: 'stock_quotes' as const },
           response: {
             result: null,
             data: {

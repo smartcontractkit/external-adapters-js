@@ -9,15 +9,15 @@ import { wsTransport } from '../transport/stock'
 export const inputParameters = new InputParameters(
   {
     ...stockEndpointInputParametersDefinition,
-    rawEndpoint: {
+    type: {
       type: 'string',
-      description: 'The value of endpoint input',
+      description: 'The type of request to serve',
+      options: ['stock', 'stock_quotes'],
     },
   },
   [
     {
       base: 'ABBN_4',
-      rawEndpoint: '',
     },
   ],
 )
@@ -54,7 +54,12 @@ export const endpoint = new AdapterEndpoint({
           message: 'base must be in the format of ${TICKER}_${MARKET}',
         })
       }
-      req.requestContext.data.rawEndpoint = req.requestContext.requestEndpointName
+      // Legacy feed does not have this param set, we backfill from endpoint name
+      if (!req.requestContext.data.type) {
+        req.requestContext.data.type = req.requestContext.requestEndpointName as
+          | 'stock'
+          | 'stock_quotes'
+      }
     },
   ],
 })
