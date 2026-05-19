@@ -1,5 +1,12 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45)]:
+  - @chainlink/finnhub-adapter@4.2.5
+
 ## 1.1.4
 
 ### Patch Changes

@@ -32,7 +32,7 @@ func TestLoad_Defaults(t *testing.T) {
 	require.Equal(t, "6379", cfg.RedconPort)
 	require.Equal(t, "9080", cfg.GoMetricsPort)
 	require.Equal(t, uint(5), cfg.CacheTTLMinutes)
-	require.Equal(t, uint(1), cfg.CacheCleanupInterval)
+	require.Equal(t, uint(1), cfg.CacheCleanupIntervalSeconds)
 	require.Equal(t, "info", cfg.LogLevel)
 	require.Equal(t, "", cfg.AdapterName)
 }
@@ -58,7 +58,7 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 	require.Equal(t, "6380", cfg.RedconPort)
 	require.Equal(t, "9090", cfg.GoMetricsPort)
 	require.Equal(t, uint(10), cfg.CacheTTLMinutes)
-	require.Equal(t, uint(3), cfg.CacheCleanupInterval)
+	require.Equal(t, uint(3), cfg.CacheCleanupIntervalSeconds)
 	require.Equal(t, "debug", cfg.LogLevel)
 	require.Equal(t, "tiingo", cfg.AdapterName)
 }

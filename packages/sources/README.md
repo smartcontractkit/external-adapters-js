@@ -121,6 +121,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [r25](./r25/README.md)
 - [s3-csv-reader](./s3-csv-reader/README.md)
 - [securitize](./securitize/README.md)
+- [six](./six/README.md)
 - [snowflake](./snowflake/README.md)
 - [sochain](./sochain/README.md)
 - [solactive](./solactive/README.md)

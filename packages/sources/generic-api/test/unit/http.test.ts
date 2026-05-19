@@ -179,7 +179,7 @@ describe('GenericApiHttpTransport', () => {
     const params = makeStub('params', {
       apiName,
       dataPath,
-      ripcordPath,
+      ripcordPath: undefined,
       ripcordDisabledValue: 'false',
       providerIndicatedTimePath: undefined,
     })
@@ -199,8 +199,6 @@ describe('GenericApiHttpTransport', () => {
     const expectedResponse = {
       data: {
         result: expectedValue,
-        ripcord: false,
-        ripcordAsInt: 0,
       },
       result: expectedValue,
       timestamps: {
@@ -333,7 +331,7 @@ describe('GenericApiHttpTransport', () => {
     const params = makeStub('params', {
       apiName,
       dataPath,
-      ripcordPath,
+      ripcordPath: undefined,
       ripcordDisabledValue: 'false',
       providerIndicatedTimePath: undefined,
     })
@@ -353,8 +351,6 @@ describe('GenericApiHttpTransport', () => {
     const expectedResponse = {
       data: {
         result: expectedValue,
-        ripcord: false,
-        ripcordAsInt: 0,
       },
       result: expectedValue,
       timestamps: {
@@ -380,7 +376,7 @@ describe('GenericApiHttpTransport', () => {
     const params = makeStub('params', {
       apiName,
       dataPath,
-      ripcordPath,
+      ripcordPath: undefined,
       ripcordDisabledValue: 'false',
       providerIndicatedTimePath: undefined,
     })
@@ -736,6 +732,44 @@ describe('GenericApiHttpTransport', () => {
     })
   })
 
+  it('should treat missing ripcord as success with undefined disabledValue', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordPath: 'ripcord',
+      ripcordDisabledValue: 'undefined',
+    }
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    const expectedResponse = {
+      data: {
+        result: '1.004373',
+        ripcord: false,
+        ripcordAsInt: 0,
+      },
+      result: '1.004373',
+      timestamps: { providerIndicatedTimeUnixMs: undefined },
+    }
+
+    await doTransportTest({
+      params,
+      expectedRequestConfig: requestConfigWithoutAuthHeader,
+      response,
+      expectedResponse,
+    })
+  })
+
   it('should not include ripcord status when ripcord path is absent', async () => {
     process.env.TEST_API_URL = apiUrl
 
@@ -762,6 +796,42 @@ describe('GenericApiHttpTransport', () => {
       },
       result: '1.004373',
       timestamps: { providerIndicatedTimeUnixMs: undefined },
+    }
+
+    await doTransportTest({
+      params,
+      expectedRequestConfig: requestConfigWithoutAuthHeader,
+      response,
+      expectedResponse,
+    })
+  })
+
+  it('should treat ripcord as enabled if ripcord field is expected but missing', async () => {
+    process.env.TEST_API_URL = apiUrl
+
+    const params = {
+      apiName,
+      dataPath: 'net_asset_value',
+      ripcordPath,
+      ripcordDisabledValue: 'false',
+    }
+
+    const response = {
+      response: {
+        data: {
+          net_asset_value: 1.004373,
+        },
+        cost: undefined,
+      },
+      timestamps: {},
+    }
+
+    const expectedResponse = {
+      errorMessage: `Ripcord activated for 'test'`,
+      ripcord: true,
+      ripcordAsInt: 1,
+      statusCode: 503,
+      timestamps: {},
     }
 
     await doTransportTest({
