@@ -332,28 +332,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		// First request for this key — create the item and start polling.
 		if s.cache.SetNew(rawCacheKey, reqData.Data) {
 			s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
-			go func(key string, params types.RequestParams, originalData map[string]interface{}) {
-				endpoint := params["endpoint"]
-				retryInterval := time.Duration(s.config.FeedIDPollIntervalSeconds) * time.Second
-				maxRetries := int(s.config.FeedIDMaxRetries)
-
-				for i := 0; i < maxRetries; i++ {
-					if i > 0 {
-						time.Sleep(retryInterval)
-					}
-					feedID, ok := s.queryAdapterForFeedID(originalData)
-					if ok {
-						transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
-						if err != nil {
-							s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
-							break
-						}
-						s.cache.SetTransformedKey(key, transformedKey)
-						s.logger.Debug("Learned key mapping from feedId", "rawKey", key, "transformedKey", transformedKey)
-						break
-					}
-				}
-			}(rawCacheKey, rawParams, reqData.Data)
+			go s.bootstrapSubscription(rawCacheKey, rawParams, reqData.Data)
 		}
 	}
 
@@ -365,6 +344,52 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
+}
+
+// bootstrapSubscription polls the JS adapter until it learns the feedId/transformed
+// key for rawKey and marks the cache entry ready. Must be called as a goroutine.
+func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams, originalData map[string]interface{}) {
+	endpoint := params["endpoint"]
+	retryInterval := time.Duration(s.config.FeedIDPollIntervalSeconds) * time.Second
+	maxRetries := int(s.config.FeedIDMaxRetries)
+
+	for i := 0; i < maxRetries; i++ {
+		if i > 0 {
+			time.Sleep(retryInterval)
+		}
+		feedID, ok := s.queryAdapterForFeedID(originalData)
+		if ok {
+			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
+			if err != nil {
+				s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
+				break
+			}
+			s.cache.SetTransformedKey(rawKey, transformedKey)
+			s.logger.Debug("Learned key mapping from feedId", "rawKey", rawKey, "transformedKey", transformedKey)
+			break
+		}
+	}
+}
+
+// BootstrapSubscription registers data in the cache (if new) and starts the
+// feedId polling goroutine. It follows the same path as adapterHandler and is
+// safe to call from the gRPC transmitter for assets not yet in the cache.
+func (s *Server) BootstrapSubscription(data map[string]interface{}) error {
+	rawParams, err := helpers.BuildCacheKeyParams(data)
+	if err != nil {
+		return fmt.Errorf("canonicalize params: %w", err)
+	}
+	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
+	if err != nil {
+		return fmt.Errorf("calculate cache key: %w", err)
+	}
+	if s.cache.Get(rawCacheKey) == nil {
+		if s.cache.SetNew(rawCacheKey, data) {
+			s.logger.Debug("Bootstrapping subscription from gRPC", "rawCacheKey", rawCacheKey)
+			go s.bootstrapSubscription(rawCacheKey, rawParams, data)
+		}
+	}
+	return nil
 }
 
 // respondWithObservation writes the observation to the response. Returns 200 for

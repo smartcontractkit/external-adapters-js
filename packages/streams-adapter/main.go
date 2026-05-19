@@ -4,15 +4,20 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"time"
 
+	"google.golang.org/grpc"
+
 	"streams-adapter/cache"
 	"streams-adapter/config"
+	pb "streams-adapter/gen/streams/v1"
 	"streams-adapter/helpers"
 	"streams-adapter/redcon"
 	"streams-adapter/server"
+	"streams-adapter/transmitter"
 )
 
 // waitForEAServer waits for the EA server to be ready before proceeding
@@ -66,6 +71,9 @@ func main() {
 	})
 	defer appCache.Stop()
 
+	// Create the gRPC publisher (fanout to subscribed clients)
+	pub := transmitter.NewPublisher()
+
 	// Wait for EA server to be ready before starting
 	waitForEAServer(cfg, logger)
 
@@ -75,9 +83,10 @@ func main() {
 
 	// Initialize Redcon server
 	redconServer := redcon.New(redcon.Config{
-		Addr:   ":" + cfg.RedconPort,
-		Cache:  appCache,
-		Logger: logger,
+		Addr:      ":" + cfg.RedconPort,
+		Cache:     appCache,
+		Publisher: pub,
+		Logger:    logger,
 	})
 
 	// Create error channel for goroutine failures
@@ -95,6 +104,23 @@ func main() {
 	go func() {
 		if err := redconServer.Start(); err != nil {
 			logger.Error("Redcon server failed", "error", err)
+			errChan <- err
+		}
+	}()
+
+	// Start gRPC transmitter server in a goroutine
+	go func() {
+		lis, err := net.Listen("tcp", ":"+cfg.GRPCPort)
+		if err != nil {
+			logger.Error("gRPC listen failed", "error", err)
+			errChan <- err
+			return
+		}
+		grpcServer := grpc.NewServer()
+		pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(pub, logger, httpServer.BootstrapSubscription))
+		logger.Info("gRPC transmitter listening", "port", cfg.GRPCPort)
+		if err := grpcServer.Serve(lis); err != nil {
+			logger.Error("gRPC server failed", "error", err)
 			errChan <- err
 		}
 	}()

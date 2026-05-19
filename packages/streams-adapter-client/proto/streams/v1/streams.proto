@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package streams.v1;
+
+option go_package = "streams-adapter-client/gen/streams/v1;streamsv1";
+
+service StreamService {
+  // Bidirectional streaming: client sends subscribe/unsubscribe commands,
+  // server pushes observation events for subscribed assets.
+  rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeResponse) {}
+}
+
+message SubscribeRequest {
+  oneof action {
+    SubscribeAction subscribe = 1;
+    UnsubscribeAction unsubscribe = 2;
+  }
+}
+
+message SubscribeAction {
+  string payload_json = 1;
+}
+
+message UnsubscribeAction {
+  string payload_json = 1;
+}
+
+message SubscribeResponse {
+  string asset_id = 1;
+  string timestamp = 2;
+  bytes observation_json = 3;
+}

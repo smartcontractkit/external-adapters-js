@@ -145,6 +145,15 @@ func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, ti
 	cacheObservationsTotal.WithLabelValues(transformedKey).Inc()
 }
 
+// RawKeyByTransformed returns the raw cache key for the given transformed key,
+// or ("", false) if the mapping is not yet known.
+func (c *Cache) RawKeyByTransformed(transformedKey string) (string, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	rawKey, ok := c.byTransformedKey[transformedKey]
+	return rawKey, ok
+}
+
 // Get retrieves a cache item by its internal cache key string.
 func (c *Cache) Get(key string) *types.CacheItem {
 	cacheDataGetCount.Inc()

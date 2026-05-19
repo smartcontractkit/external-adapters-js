@@ -15,6 +15,7 @@ type Config struct {
 	EAMetricsPort     string
 	MetricsUseBaseUrl bool
 	RedconPort        string
+	GRPCPort          string
 	GoMetricsPort     string
 
 	// Cache configuration
@@ -47,6 +48,7 @@ func Load() *Config {
 		EAMetricsPort:     getEnv("EA_METRICS_PORT", "9081"),
 		MetricsUseBaseUrl: getEnvAsBool("METRICS_USE_BASE_URL", false),
 		RedconPort:        getEnv("REDCON_PORT", "6379"),
+		GRPCPort:          getEnv("GRPC_PORT", "5050"),
 		GoMetricsPort:     getEnv("METRICS_PORT", "9080"),
 
 		// Cache configuration
