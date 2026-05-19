@@ -60,8 +60,7 @@ const createMultiResponse = (
   // Check ripcord
   if (
     param.ripcordPath !== undefined &&
-    objectPath.has(response.data, param.ripcordPath) &&
-    objectPath.get(response.data, param.ripcordPath).toString() !== param.ripcordDisabledValue
+    String(objectPath.get(response.data, param.ripcordPath)) !== param.ripcordDisabledValue
   ) {
     // Look for ripcordDetails as sibling field
     const ripcordDetailsPath = `${param.ripcordPath}Details`

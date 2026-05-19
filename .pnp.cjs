@@ -519,6 +519,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/liveart"\
     },\
     {\
+      "name": "@chainlink/lo-tech-adapter",\
+      "reference": "workspace:packages/sources/lo-tech"\
+    },\
+    {\
       "name": "@chainlink/lotus-adapter",\
       "reference": "workspace:packages/sources/lotus"\
     },\
@@ -904,6 +908,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
+    ["@chainlink/lo-tech-adapter", ["workspace:packages/sources/lo-tech"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
@@ -7083,6 +7088,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/lo-tech-adapter", [\
+      ["workspace:packages/sources/lo-tech", {\
+        "packageLocation": "./packages/sources/lo-tech/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
+          ["@chainlink/lo-tech-adapter", "workspace:packages/sources/lo-tech"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/lotus-adapter", [\
       ["workspace:packages/sources/lotus", {\
         "packageLocation": "./packages/sources/lotus/",\
@@ -7844,6 +7866,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
           ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
+          ["@sinonjs/fake-timers", "npm:15.4.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -11922,6 +11945,14 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@sinonjs/commons", "npm:3.0.1"],\
           ["@sinonjs/fake-timers", "npm:14.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:15.4.0", {\
+        "packageLocation": "./.yarn/cache/@sinonjs-fake-timers-npm-15.4.0-94cf7a0827-3960a9fe06.zip/node_modules/@sinonjs/fake-timers/",\
+        "packageDependencies": [\
+          ["@sinonjs/commons", "npm:3.0.1"],\
+          ["@sinonjs/fake-timers", "npm:15.4.0"]\
         ],\
         "linkType": "HARD"\
       }],\
