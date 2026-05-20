@@ -3,6 +3,12 @@
 exports[`GM-token price execute price endpoint should return error when data-engine has no responses 1`] = `
 {
   "errorMessage": "Token with symbol "DOGE" not found",
+  "meta": {
+    "adapterName": "GMX_TOKENS",
+    "metrics": {
+      "feedId": "{"index":"doge","long":"doge","short":"usdc","market":"0x000000000000000000000000000000000000dead","chain":"arbitrum"}",
+    },
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -22,6 +28,12 @@ exports[`GM-token price execute price endpoint success on Arbitrum (default chai
       "USDC": [
         "data-engine",
       ],
+    },
+  },
+  "meta": {
+    "adapterName": "GMX_TOKENS",
+    "metrics": {
+      "feedId": "{"index":"link","long":"link","short":"usdc","market":"0x7f1fa204bb700853d36994da19f830b6ad18455c","chain":"arbitrum"}",
     },
   },
   "result": 1.95367431640625e-12,
@@ -46,6 +58,12 @@ exports[`GM-token price execute price endpoint success on Avalanche chain 1`] = 
       ],
     },
   },
+  "meta": {
+    "adapterName": "GMX_TOKENS",
+    "metrics": {
+      "feedId": "{"index":"btc.b","long":"btc.b","short":"usdc.e","market":"0x62cb8740e6986b29dc671b2eb596676f60590a5b","chain":"avalanche"}",
+    },
+  },
   "result": 2.5564715558664465e-12,
   "statusCode": 200,
   "timestamps": {
@@ -66,6 +84,12 @@ exports[`GM-token price execute price endpoint success on Botanix chain 1`] = `
       "USDC": [
         "data-engine",
       ],
+    },
+  },
+  "meta": {
+    "adapterName": "GMX_TOKENS",
+    "metrics": {
+      "feedId": "{"index":"link","long":"link","short":"usdc","market":"0x7f1fa204bb700853d36994da19f830b6ad18455c","chain":"botanix"}",
     },
   },
   "result": 2.176051636343451e-12,

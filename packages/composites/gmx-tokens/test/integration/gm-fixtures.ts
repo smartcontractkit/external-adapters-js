@@ -116,22 +116,27 @@ const DEFAULT_GLV_PRICE = {
   minimized: '0x0e7a4edfc978cf077056d4bea6',
 }
 
+// Feed IDs must start with a valid schema prefix (0x0003 = V3) so that
+// getReportVersion() in getFeedData() can resolve the correct endpoint.
+const V3_PREFIX = '0x0003'
+export const padFeedId = (tag: string): string => (V3_PREFIX + tag + '0'.repeat(64)).slice(0, 66)
+
 const defaultFeedIds: Record<ChainKeyName, Record<string, string>> = {
   arbitrum: {
-    [WETH_ADDRESS]: '0xfeedweth',
-    [USDC_ADDRESS]: '0xfeedusdc',
+    [WETH_ADDRESS]: padFeedId('ae01'),
+    [USDC_ADDRESS]: padFeedId('ac01'),
   },
   botanix: {
-    [WETH_ADDRESS]: '0xfeedweth',
-    [USDC_ADDRESS]: '0xfeedusdc',
+    [WETH_ADDRESS]: padFeedId('ae01'),
+    [USDC_ADDRESS]: padFeedId('ac01'),
   },
   avalanche: {
-    [GLV_LONG_TOKEN_AVAX]: '0xfeedbtcb',
-    [GLV_SHORT_TOKEN_AVAX]: '0xfeedusdce',
+    [GLV_LONG_TOKEN_AVAX]: padFeedId('bb01'),
+    [GLV_SHORT_TOKEN_AVAX]: padFeedId('ce01'),
   },
   megaeth: {
-    [USDM_ADDRESS_MEGAETH]: '0xfeedusdm',
-    [ETH_ADDRESS_MEGAETH]: '0xfeedeth',
+    [USDM_ADDRESS_MEGAETH]: padFeedId('d001'),
+    [ETH_ADDRESS_MEGAETH]: padFeedId('ee01'),
   },
 }
 
