@@ -519,6 +519,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/liveart"\
     },\
     {\
+      "name": "@chainlink/lo-tech-adapter",\
+      "reference": "workspace:packages/sources/lo-tech"\
+    },\
+    {\
       "name": "@chainlink/lotus-adapter",\
       "reference": "workspace:packages/sources/lotus"\
     },\
@@ -904,6 +908,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
+    ["@chainlink/lo-tech-adapter", ["workspace:packages/sources/lo-tech"]],\
     ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
@@ -6288,7 +6293,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+          ["ws", "virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -6307,7 +6312,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+          ["ws", "virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -6326,7 +6331,7 @@ const RAW_RUNTIME_STATE =
           ["pino-pretty", "npm:13.1.3"],\
           ["prom-client", "npm:15.1.3"],\
           ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+          ["ws", "virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -7083,6 +7088,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/lo-tech-adapter", [\
+      ["workspace:packages/sources/lo-tech", {\
+        "packageLocation": "./packages/sources/lo-tech/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
+          ["@chainlink/lo-tech-adapter", "workspace:packages/sources/lo-tech"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/lotus-adapter", [\
       ["workspace:packages/sources/lotus", {\
         "packageLocation": "./packages/sources/lotus/",\
@@ -7118,7 +7140,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/composites/market-status", {\
         "packageLocation": "./packages/composites/market-status/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.13.3"],\
+          ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
           ["@chainlink/market-status-adapter", "workspace:packages/composites/market-status"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -25831,14 +25853,14 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-6f4b74e52d/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
+      ["virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-5acda6a5b5/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
         "packageDependencies": [\
           ["@types/bufferutil", null],\
           ["@types/utf-8-validate", null],\
           ["bufferutil", null],\
           ["utf-8-validate", null],\
-          ["ws", "virtual:35134abbe002d5a0bc4ef4d26adee2b381ad896248f65984a5e4d47c734a62eb4f4a04f947c76163753e37ab74cddfdd084ecb9823184e399eda7a5ef44ad498#npm:8.20.0"]\
+          ["ws", "virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\

@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/calculated-price-adapter",
-  "version": "1.1.0",
-  "description": "Chainlink calculated-price adapter.",
+  "name": "@chainlink/lo-tech-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink lo-tech adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "calculated-price"
+    "lo-tech"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,14 +28,15 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
-    "decimal.js": "^10.3.1",
+    "@chainlink/external-adapter-framework": "2.14.2",
     "tslib": "2.4.1"
   }
 }

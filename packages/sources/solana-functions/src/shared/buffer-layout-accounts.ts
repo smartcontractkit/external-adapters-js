@@ -101,12 +101,14 @@ export const fetchDataFromBufferLayoutStateAccount = async ({
 export const fetchFieldFromBufferLayoutStateAccount = async ({
   stateAccountAddress,
   field,
+  extraFields,
   rpc,
 }: {
   stateAccountAddress: string
   field: string
+  extraFields?: string[]
   rpc: Rpc<SolanaRpcApi>
-}): Promise<string> => {
+}) => {
   const { programAddress, data: dataDecoded } = await fetchDataFromBufferLayoutStateAccount({
     stateAccountAddress,
     rpc,
@@ -122,5 +124,10 @@ export const fetchFieldFromBufferLayoutStateAccount = async ({
     })
   }
 
-  return resultValue.toString()
+  return {
+    result: resultValue.toString(),
+    extraFields: Object.fromEntries(
+      (extraFields ?? []).map((f) => [f, dataDecoded[f]?.toString()]),
+    ),
+  }
 }
