@@ -37,15 +37,11 @@ export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: [],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-    .register('wsasia', new StockQuotesWebSocketTransport('asia'))
-    .register('wsus', new StockQuotesWebSocketTransport('us')),
+    .register('asia', new StockQuotesWebSocketTransport('asia'))
+    .register('us', new StockQuotesWebSocketTransport('us')),
   customRouter: (req, _adapterConfig) => {
     const { base } = req.requestContext.data
-    const region = getRegionFromSymbol(base)
-    if (region === 'asia') {
-      return 'wsasia'
-    }
-    return 'wsus'
+    return getRegionFromSymbol(base)
   },
   customInputValidation: (request, settings): undefined => {
     const params = request.requestContext.data
