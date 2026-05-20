@@ -48,7 +48,7 @@ describe('execute', () => {
       mockOneMarket()
       const response = await testAdapter.request({
         endpoint: 'market-status',
-        market: '1',
+        market: 'six',
       })
       expect(response.statusCode).toBe(200)
       expect(response.json().result).toEqual(MarketStatus.OPEN)
@@ -81,7 +81,7 @@ describe('execute', () => {
       mockFourMarkets()
       const response = await testAdapter.request({
         endpoint: 'market-status',
-        market: '4',
+        market: '5',
       })
       expect(response.statusCode).toBe(200)
       expect(response.json().result).toEqual(MarketStatus.UNKNOWN)

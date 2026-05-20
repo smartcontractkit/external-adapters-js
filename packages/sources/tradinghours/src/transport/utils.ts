@@ -23,6 +23,7 @@ export const markets = [
   'szse', // Shenzhen Stock Exchange
   'nymex',
   'ice_europe_energy',
+  'bme',
 ] as const
 
 const marketToFinId: Record<Market, string> = {
@@ -44,6 +45,7 @@ const marketToFinId: Record<Market, string> = {
   szse: 'CN.SZSE',
   nymex: 'US.CHNLNK.WTI',
   ice_europe_energy: 'US.ICE.ENERGY.GROUP3',
+  bme: 'ES.BME',
 }
 
 const market245ToFinId: Partial<Record<Market, string>> = {

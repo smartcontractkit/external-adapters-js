@@ -59,7 +59,7 @@ describe('six stock websocket ping / pong watchdog', () => {
 
     jest.advanceTimersByTime(1)
     expect(conn.close).toHaveBeenCalledWith(
-      1006,
+      1011,
       'The connection appears to be active but stopped receiving updates',
     )
   })
@@ -89,7 +89,7 @@ describe('six stock websocket ping / pong watchdog', () => {
     handlers.heartbeat(conn)
 
     expect(conn.close).toHaveBeenCalledWith(
-      1006,
+      1011,
       'Heartbeat frequency exceeded 2000ms, increase WS_HEARTBEAT_INTERVAL_MS in environment variable',
     )
 
