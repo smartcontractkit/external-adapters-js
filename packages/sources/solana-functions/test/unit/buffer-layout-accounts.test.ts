@@ -28,9 +28,13 @@ describe('buffer-layout-accounts', () => {
       const poolTotalSolValue = await fetchFieldFromBufferLayoutStateAccount({
         stateAccountAddress,
         field: 'supply',
+        extraFields: ['decimals'],
         rpc,
       })
-      expect(poolTotalSolValue).toBe('1116792619507830')
+      expect(poolTotalSolValue).toEqual({
+        result: '1116792619507830',
+        extraFields: { decimals: '9' },
+      })
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
@@ -48,7 +52,7 @@ describe('buffer-layout-accounts', () => {
         field: 'amount',
         rpc,
       })
-      expect(amount).toBe('34228590128')
+      expect(amount).toEqual({ result: '34228590128', extraFields: {} })
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
@@ -65,7 +69,7 @@ describe('buffer-layout-accounts', () => {
         field: 'total_sol_value',
         rpc,
       })
-      expect(poolTotalSolValue).toBe('1526932937260359')
+      expect(poolTotalSolValue).toEqual({ result: '1526932937260359', extraFields: {} })
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)

@@ -59,15 +59,17 @@ export class BufferLayoutTransport extends SubscriptionTransport<BaseEndpointTyp
     const result = await fetchFieldFromBufferLayoutStateAccount({
       stateAccountAddress: params.stateAccountAddress,
       field: params.field,
+      extraFields: params.extraFields,
       rpc: this.rpc,
     })
 
     return {
       data: {
-        result,
+        result: result.result,
+        ...result.extraFields,
       },
       statusCode: 200,
-      result,
+      result: result.result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),

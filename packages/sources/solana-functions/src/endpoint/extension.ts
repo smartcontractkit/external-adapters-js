@@ -77,6 +77,16 @@ export const inputParameters = new InputParameters(
       required: false,
       array: true,
     },
+    resultName: {
+      description: 'Name of the field to be on result response field',
+      type: 'string',
+      required: false,
+    },
+    resultDecimals: {
+      description: 'decimals of the result response field',
+      type: 'number',
+      required: false,
+    },
   },
   [
     {
@@ -126,7 +136,7 @@ export type BaseEndpointTypes = {
     Data: {
       [fieldName: string]: number | string
     }
-    Result: null
+    Result: number | string | null
   }
   Settings: typeof config.settings
 }
