@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -126,10 +126,11 @@ Request:
 
 ### Input Params
 
-| Required? |        Name         | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | stateAccountAddress |         |        The state account address for the program         | string |         |         |            |                |
-|    ✅     |        field        |         | The name of the field to retrieve from the state account | string |         |         |            |                |
+| Required? |        Name         | Aliases |                         Description                          |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :----------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stateAccountAddress |         |          The state account address for the program           |  string  |         |         |            |                |
+|    ✅     |        field        |         |   The name of the field to retrieve from the state account   |  string  |         |         |            |                |
+|           |     extraFields     |         | The names of other fields to retrieve from the state account | string[] |         |         |            |                |
 
 ### Example
 
@@ -140,7 +141,8 @@ Request:
   "data": {
     "endpoint": "buffer-layout",
     "stateAccountAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-    "field": "supply"
+    "field": "supply",
+    "extraFields": []
   }
 }
 ```
@@ -166,6 +168,8 @@ Request:
 |    ✅     |     extensionFields.name      |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
 |    ✅     |    extensionFields.offset     |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
 |    ✅     |     extensionFields.type      |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |          resultName           |         |          Name of the field to be on result response field           |  string  |                              |         |            |                |
+|           |        resultDecimals         |         |                decimals of the result response field                |  number  |                              |         |            |                |
 
 ### Example
 
