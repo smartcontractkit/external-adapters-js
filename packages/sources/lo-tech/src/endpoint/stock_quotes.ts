@@ -26,6 +26,13 @@ export type BaseEndpointTypes = {
 
 const asianSymbolRegexp = /^\w+-\w\w\w:SPOT$/
 
+const getRegionFromSymbol = (symbol: string): 'asia' | 'us' => {
+  if (asianSymbolRegexp.test(symbol.toUpperCase())) {
+    return 'asia'
+  }
+  return 'us'
+}
+
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: [],
@@ -34,10 +41,18 @@ export const endpoint = new AdapterEndpoint({
     .register('wsus', new StockQuotesWebSocketTransport('us')),
   customRouter: (req, _adapterConfig) => {
     const { base } = req.requestContext.data
-    if (asianSymbolRegexp.test(base.toUpperCase())) {
+    const region = getRegionFromSymbol(base)
+    if (region === 'asia') {
       return 'wsasia'
     }
     return 'wsus'
+  },
+  customInputValidation: (request, settings): undefined => {
+    const params = request.requestContext.data
+    const region = getRegionFromSymbol(params.base)
+    settings.REGION_WS_API_ENDPOINT.get(region)
+    settings.REGION_API_KEY.get(region)
+    return
   },
   inputParameters,
 })
