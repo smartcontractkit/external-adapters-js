@@ -94,6 +94,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [lido](./lido/README.md)
 - [lido-por](./lido-por/README.md)
 - [liveart](./liveart/README.md)
+- [lo-tech](./lo-tech/README.md)
 - [lotus](./lotus/README.md)
 - [m0](./m0/README.md)
 - [matrixdock](./matrixdock/README.md)

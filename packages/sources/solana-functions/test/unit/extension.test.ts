@@ -129,14 +129,17 @@ describe('ExtensionTransport', () => {
         ],
         extensionDataOffset,
         extensionFields: [],
+        resultName: 'supply',
+        resultDecimals: 8,
       })
       await transport.handleRequest(param)
 
       const expectedResponse = {
         statusCode: 200,
-        result: null,
+        result: expectedTokenSupply,
         data: {
           supply: expectedTokenSupply,
+          decimals: 8,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -171,6 +174,8 @@ describe('ExtensionTransport', () => {
         ],
         extensionDataOffset,
         extensionFields: [],
+        resultName: undefined,
+        resultDecimals: undefined,
       })
 
       const response = await transport._handleRequest(param)
@@ -205,6 +210,8 @@ describe('ExtensionTransport', () => {
             type: 'float64' as const,
           },
         ],
+        resultName: undefined,
+        resultDecimals: undefined,
       })
 
       const response = await transport._handleRequest(param)
@@ -257,6 +264,8 @@ describe('ExtensionTransport', () => {
             type: 'int64' as const,
           },
         ],
+        resultName: undefined,
+        resultDecimals: undefined,
       })
 
       const response = await transport._handleRequest(param)
@@ -296,6 +305,8 @@ describe('ExtensionTransport', () => {
         ],
         extensionDataOffset,
         extensionFields: [],
+        resultName: undefined,
+        resultDecimals: undefined,
       })
 
       const requestTimestamp = Date.now()
