@@ -19,66 +19,80 @@ export type WsTransportTypes = BaseEndpointTypes & {
     WsMessage: WSResponse
   }
 }
-export const wsTransport = new WebSocketTransport<WsTransportTypes>({
-  url: (context) => context.adapterSettings.WS_API_ENDPOINT,
-  options: (context) => {
-    return {
-      headers: {
-        'X-API-KEY': context.adapterSettings.API_KEY,
+
+type Region = 'us' | 'asia'
+
+export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
+  constructor(region: Region) {
+    super({
+      url: (context) => context.adapterSettings.REGION_WS_API_ENDPOINT.get(region),
+      options: (context) => {
+        return {
+          headers: {
+            'X-API-KEY': context.adapterSettings.REGION_API_KEY.get(region),
+          },
+        }
       },
-    }
-  },
-  handlers: {
-    message(message) {
-      if (message.data.type !== 'PRICE') {
-        return
-      }
-
-      const mid_price = message.data.price
-      const spread = message.data.spread
-      const bid_price = mid_price - spread / 2
-      const ask_price = mid_price + spread / 2
-
-      return [
-        {
-          params: { base: message.data.symbol },
-          response: {
-            result: null,
-            data: {
-              mid_price,
-              bid_price,
-              ask_price,
-            },
-            timestamps: {
-              providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
-            },
-          },
+      handlers: {
+        heartbeat(connection) {
+          connection.send(
+            JSON.stringify({
+              op: 'PING',
+            }),
+          )
         },
-      ]
-    },
-  },
-  builders: {
-    subscribeMessage: (params) => {
-      return {
-        op: 'SUBSCRIBE',
-        topics: [
-          {
-            symbol: params.base,
-            type: 'PRICE',
-          },
-        ],
-      }
-    },
-    unsubscribeMessage: (params) => {
-      return {
-        op: 'UNSUBSCRIBE',
-        topics: [
-          {
-            symbol: params.base,
-            type: 'PRICE',
-          },
-        ],
-      }
-    },
-  },
-})
+        message(message) {
+          if (message.data.type !== 'PRICE') {
+            return
+          }
+
+          const mid_price = message.data.price
+          const spread = message.data.spread
+          const bid_price = mid_price - spread / 2
+          const ask_price = mid_price + spread / 2
+
+          return [
+            {
+              params: { base: message.data.symbol },
+              response: {
+                result: null,
+                data: {
+                  mid_price,
+                  bid_price,
+                  ask_price,
+                },
+                timestamps: {
+                  providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
+                },
+              },
+            },
+          ]
+        },
+      },
+      builders: {
+        subscribeMessage: (params) => {
+          return {
+            op: 'SUBSCRIBE',
+            topics: [
+              {
+                symbol: params.base,
+                type: 'PRICE',
+              },
+            ],
+          }
+        },
+        unsubscribeMessage: (params) => {
+          return {
+            op: 'UNSUBSCRIBE',
+            topics: [
+              {
+                symbol: params.base,
+                type: 'PRICE',
+              },
+            ],
+          }
+        },
+      },
+    })
+  }
+}

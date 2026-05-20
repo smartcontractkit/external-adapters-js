@@ -9,23 +9,34 @@ import FakeTimers from '@sinonjs/fake-timers'
 import { mockWebsocketServer } from './fixtures'
 
 describe('websocket', () => {
-  let mockWsServer: MockWebsocketServer | undefined
+  let mockWsServerAsia: MockWebsocketServer | undefined
+  let mockWsServerUs: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
-  const wsEndpoint = 'ws://localhost:9090'
+  const wsEndpointAsia = 'ws://localhost:9090/asia'
+  const wsEndpointUs = 'ws://localhost:9090/us'
+  const symbolAsia = '9988-HKD:SPOT'
+  const symbolUs = 'AAPL'
   let oldEnv: NodeJS.ProcessEnv
 
-  const dataStock_quotes = {
-    base: '9988-HKD:SPOT',
+  const dataStockQuotesAsia = {
+    base: symbolAsia,
     endpoint: 'stock_quotes',
-    transport: 'ws',
+  }
+
+  const dataStockQuotesUs = {
+    base: symbolUs,
+    endpoint: 'stock_quotes',
   }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'fake-api-key'
+    process.env['ASIA_WS_API_ENDPOINT'] = wsEndpointAsia
+    process.env['US_WS_API_ENDPOINT'] = wsEndpointUs
+    process.env['ASIA_API_KEY'] = 'fake-api-key'
+    process.env['US_API_KEY'] = 'fake-api-key'
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    mockWsServerAsia = mockWebsocketServer(wsEndpointAsia, symbolAsia)
+    mockWsServerUs = mockWebsocketServer(wsEndpointUs, symbolUs)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -35,20 +46,27 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
 
-    await testAdapter.request(dataStock_quotes)
+    await testAdapter.request(dataStockQuotesAsia)
+    await testAdapter.request(dataStockQuotesUs)
     await testAdapter.waitForCache(1)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
-    mockWsServer?.close()
+    mockWsServerAsia?.close()
+    mockWsServerUs?.close()
     testAdapter.clock?.uninstall()
     await testAdapter.api.close()
   })
 
   describe('stock_quotes endpoint', () => {
-    it('should return success', async () => {
-      const response = await testAdapter.request(dataStock_quotes)
+    it('should return success for Asian stock symbol', async () => {
+      const response = await testAdapter.request(dataStockQuotesAsia)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for US stock symbol', async () => {
+      const response = await testAdapter.request(dataStockQuotesUs)
       expect(response.json()).toMatchSnapshot()
     })
   })

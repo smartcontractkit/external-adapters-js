@@ -1,6 +1,6 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
-export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
+export const mockWebsocketServer = (URL: string, symbol: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     socket.on('message', (_message) => {
@@ -9,7 +9,7 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
           egress_ts: Date.now() * 1000,
           data: {
             type: 'PRICE',
-            symbol: '9988-HKD:SPOT',
+            symbol,
             ingress_ts: Date.now() * 1000 - 50,
             publish_ts: null,
             transaction_ts: Date.now() * 1000 - 50000,
