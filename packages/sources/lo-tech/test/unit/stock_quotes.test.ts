@@ -43,8 +43,16 @@ describe('stock_quotes', () => {
   const endpointName = 'stock_quotes'
 
   const adapterSettings = makeStub('adapterSettings', {
-    WS_API_ENDPOINT: 'wss://data.lo.tech/ws/v1/rwa',
-    API_KEY: 'test-api-key',
+    REGION_WS_API_ENDPOINT: {
+      get() {
+        return 'wss://data.lo.tech/ws/v1/rwa'
+      },
+    },
+    REGION_API_KEY: {
+      get() {
+        return 'test-api-key'
+      },
+    },
     WS_SUBSCRIPTION_TTL: 30_000,
     WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_001,
     STREAM_HANDLER_RETRY_MIN_MS: 101,
@@ -92,7 +100,9 @@ describe('stock_quotes', () => {
     receivedMessages.length = 0
     mockWsServer?.close()
     mockWsServer?.stop()
-    mockWsServer = new MockWebsocketServer(adapterSettings.WS_API_ENDPOINT, { mock: false })
+    mockWsServer = new MockWebsocketServer(adapterSettings.REGION_WS_API_ENDPOINT.get('asia'), {
+      mock: false,
+    })
 
     mockWsServer.on('connection', (sock) => {
       socket = sock as WebSocket
@@ -101,7 +111,7 @@ describe('stock_quotes', () => {
       })
     })
 
-    transport = new StockQuotesWebSocketTransport()
+    transport = new StockQuotesWebSocketTransport('asia')
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 

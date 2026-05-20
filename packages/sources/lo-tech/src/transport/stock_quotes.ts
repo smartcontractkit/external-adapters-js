@@ -20,14 +20,16 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
+type Region = 'us' | 'asia'
+
 export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
-  constructor() {
+  constructor(region: Region) {
     super({
-      url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+      url: (context) => context.adapterSettings.REGION_WS_API_ENDPOINT.get(region),
       options: (context) => {
         return {
           headers: {
-            'X-API-KEY': context.adapterSettings.API_KEY,
+            'X-API-KEY': context.adapterSettings.REGION_API_KEY.get(region),
           },
         }
       },
@@ -94,5 +96,3 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
     })
   }
 }
-
-export const wsTransport = new StockQuotesWebSocketTransport()

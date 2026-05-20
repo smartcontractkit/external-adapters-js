@@ -2,16 +2,19 @@ import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig(
   {
-    API_KEY: {
-      description: 'An API key for Data Provider',
+    REGION_API_KEY: {
+      description: 'Lo-Tech API key for the given ${REGION}. Region can be "US" or "ASIA"',
       type: 'string',
       required: true,
+      variablePlaceholder: 'REGION',
       sensitive: true,
     },
-    WS_API_ENDPOINT: {
-      description: 'WS endpoint for Data Provider',
+    REGION_WS_API_ENDPOINT: {
+      description:
+        'Lo-Tech websocket endpoint for the given ${REGION}. Region can be "US" or "ASIA"',
       type: 'string',
-      default: 'wss://data.lo.tech/ws/v1/rwa-jp',
+      required: true,
+      variablePlaceholder: 'REGION',
       sensitive: false,
     },
   },
