@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket stock_quotes endpoint should return success 1`] = `
+exports[`websocket stock_quotes endpoint should return success for Asian stock symbol 1`] = `
 {
   "data": {
     "ask_price": 133.29500000000002,
@@ -13,6 +13,23 @@ exports[`websocket stock_quotes endpoint should return success 1`] = `
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
     "providerIndicatedTimeUnixMs": 1018,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint should return success for US stock symbol 1`] = `
+{
+  "data": {
+    "ask_price": 133.29500000000002,
+    "bid_price": 133.305,
+    "mid_price": 133.3,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 2028,
   },
 }
 `;

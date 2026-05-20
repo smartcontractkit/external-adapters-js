@@ -1,8 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { wsTransport } from '../transport/stock_quotes'
+import { StockQuotesWebSocketTransport } from '../transport/stock_quotes'
 
 export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
   {
@@ -23,9 +24,20 @@ export type BaseEndpointTypes = {
   Settings: typeof config.settings
 }
 
+const asianSymbolRegexp = /^\w+-\w\w\w:SPOT$/
+
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   aliases: [],
-  transport: wsTransport,
+  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
+    .register('wsasia', new StockQuotesWebSocketTransport('asia'))
+    .register('wsus', new StockQuotesWebSocketTransport('us')),
+  customRouter: (req, _adapterConfig) => {
+    const { base } = req.requestContext.data
+    if (asianSymbolRegexp.test(base.toUpperCase())) {
+      return 'wsasia'
+    }
+    return 'wsus'
+  },
   inputParameters,
 })
