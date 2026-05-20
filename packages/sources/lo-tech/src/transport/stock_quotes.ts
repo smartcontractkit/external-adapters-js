@@ -32,6 +32,13 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         }
       },
       handlers: {
+        heartbeat(connection) {
+          connection.send(
+            JSON.stringify({
+              op: 'PING',
+            }),
+          )
+        },
         message(message) {
           if (message.data.type !== 'PRICE') {
             return

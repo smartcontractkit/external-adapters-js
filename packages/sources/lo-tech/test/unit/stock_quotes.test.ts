@@ -53,6 +53,7 @@ describe('stock_quotes', () => {
     MAX_COMMON_KEY_SIZE: 300,
     WS_CONNECTION_OPEN_TIMEOUT: 10_001,
     BACKGROUND_EXECUTE_MS_WS: 1_002,
+    WS_HEARTBEAT_INTERVAL_MS: 30_000,
   } as unknown as BaseEndpointTypes['Settings'])
 
   const subscriptionSet = makeStub('subscriptionSet', {
@@ -89,6 +90,7 @@ describe('stock_quotes', () => {
 
     mockWebSocketProvider(WebSocketClassProvider)
     receivedMessages.length = 0
+    mockWsServer?.close()
     mockWsServer?.stop()
     mockWsServer = new MockWebsocketServer(adapterSettings.WS_API_ENDPOINT, { mock: false })
 
@@ -218,6 +220,41 @@ describe('stock_quotes', () => {
             type: 'PRICE',
           },
         ],
+      }),
+    )
+  })
+
+  it('should send keep-alive ping', async () => {
+    const symbol = '9988-HKD:SPOT'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    subscriptionSet.getAll.mockReturnValue([params])
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    expect(receivedMessages.length).toBe(1)
+
+    clock.tick(adapterSettings.WS_HEARTBEAT_INTERVAL_MS)
+    expect(receivedMessages.length).toBe(2)
+
+    await expect(receivedMessages[1]).toBe(
+      JSON.stringify({
+        op: 'PING',
+      }),
+    )
+
+    clock.tick(adapterSettings.WS_HEARTBEAT_INTERVAL_MS)
+    expect(receivedMessages.length).toBe(3)
+
+    await expect(receivedMessages[2]).toBe(
+      JSON.stringify({
+        op: 'PING',
       }),
     )
   })
