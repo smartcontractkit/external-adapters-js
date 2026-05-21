@@ -19,6 +19,9 @@ export type BaseEndpointTypes = {
       mid_price: number
       bid_price: number
       ask_price: number
+      bid_volume: 0
+      ask_volume: 0
+      ingress_ts_iso: string
     }
   }
   Settings: typeof config.settings

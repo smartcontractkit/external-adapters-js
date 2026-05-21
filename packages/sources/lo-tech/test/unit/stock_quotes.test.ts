@@ -167,6 +167,7 @@ describe('stock_quotes', () => {
     const spread = ask_price - bid_price
 
     const providerIndicatedTimeUnixMs = 123456789
+    const ingressTimestamp = providerIndicatedTimeUnixMs - 555
 
     socket.send(
       JSON.stringify({
@@ -176,6 +177,7 @@ describe('stock_quotes', () => {
           symbol,
           spread,
           type: 'PRICE',
+          ingress_ts: ingressTimestamp * 1000,
         },
       }),
     )
@@ -189,6 +191,9 @@ describe('stock_quotes', () => {
             mid_price,
             bid_price,
             ask_price,
+            bid_volume: 0,
+            ask_volume: 0,
+            ingress_ts_iso: new Date(ingressTimestamp).toISOString(),
           },
           timestamps: {
             providerDataStreamEstablishedUnixMs: t0,

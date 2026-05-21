@@ -60,6 +60,9 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
                   mid_price,
                   bid_price,
                   ask_price,
+                  bid_volume: 0,
+                  ask_volume: 0,
+                  ingress_ts_iso: new Date(message.data.ingress_ts / 1000).toISOString(),
                 },
                 timestamps: {
                   providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
