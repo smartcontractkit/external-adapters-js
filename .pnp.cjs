@@ -6335,6 +6335,25 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:2.14.3", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.3-8efad54441-766706e364.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.3"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.20.0"],\
+          ["axios", "npm:1.16.1"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:8efad5444169b399e0d0b6ac490a9a78135aa54086e31115b20e9903f7f4cede53b13dd2903ee7816e4d122b242f5368dc60b2016ac692a55edacdfa6e3c34d2#npm:8.20.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7092,7 +7111,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/lo-tech", {\
         "packageLocation": "./packages/sources/lo-tech/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.2"],\
+          ["@chainlink/external-adapter-framework", "npm:2.14.3"],\
           ["@chainlink/lo-tech-adapter", "workspace:packages/sources/lo-tech"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -15362,6 +15381,17 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.16.0"],\
           ["follow-redirects", "virtual:ed8865f696cebfbc109886bcd430c823f73cb3daaa6597dac1f006748e0fc10ed81734823f049aec03fadda2608be9aa560f98b843c8321891f307f4a175db89#npm:1.16.0"],\
           ["form-data", "npm:4.0.5"],\
+          ["proxy-from-env", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.16.1", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.16.1-c946e2f9bd-9b6218cf96.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.16.1"],\
+          ["follow-redirects", "virtual:ed8865f696cebfbc109886bcd430c823f73cb3daaa6597dac1f006748e0fc10ed81734823f049aec03fadda2608be9aa560f98b843c8321891f307f4a175db89#npm:1.16.0"],\
+          ["form-data", "npm:4.0.5"],\
+          ["https-proxy-agent", "npm:5.0.1"],\
           ["proxy-from-env", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
@@ -25836,6 +25866,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:8.20.1", {\
+        "packageLocation": "./.yarn/cache/ws-npm-8.20.1-b0e0eae8d5-8c4d2b06dc.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["ws", "npm:8.20.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["virtual:1fc28e6a0bc7815dccbbc173bcb3ef80b7886ec6e060ad7ffa801b5e503acf145bc09f828c59d5aaed91f20a8fac2a8a89557b62fd0994ad897388a4c69deac5#npm:8.18.0", {\
         "packageLocation": "./.yarn/__virtual__/ws-virtual-9e159cd071/0/cache/ws-npm-8.18.0-56f68bc4d6-70dfe53f23.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -25878,6 +25915,23 @@ const RAW_RUNTIME_STATE =
           ["bufferutil", null],\
           ["utf-8-validate", null],\
           ["ws", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:8.18.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/bufferutil",\
+          "@types/utf-8-validate",\
+          "bufferutil",\
+          "utf-8-validate"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:8efad5444169b399e0d0b6ac490a9a78135aa54086e31115b20e9903f7f4cede53b13dd2903ee7816e4d122b242f5368dc60b2016ac692a55edacdfa6e3c34d2#npm:8.20.1", {\
+        "packageLocation": "./.yarn/__virtual__/ws-virtual-1ef77323f5/0/cache/ws-npm-8.20.1-b0e0eae8d5-8c4d2b06dc.zip/node_modules/ws/",\
+        "packageDependencies": [\
+          ["@types/bufferutil", null],\
+          ["@types/utf-8-validate", null],\
+          ["bufferutil", null],\
+          ["utf-8-validate", null],\
+          ["ws", "virtual:8efad5444169b399e0d0b6ac490a9a78135aa54086e31115b20e9903f7f4cede53b13dd2903ee7816e4d122b242f5368dc60b2016ac692a55edacdfa6e3c34d2#npm:8.20.1"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
