@@ -1,18 +1,44 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
 
-export interface WSResponse {
-  egress_ts: number // microseconds
-  data: {
-    type: 'PRICE'
-    symbol: string
-    ingress_ts: number // microseconds
-    publish_ts: null
-    transaction_ts: number // microseconds
-    price: number
-    spread: number
-  }
-}
+const logger = makeLogger('lo-tech - stock_quotes')
+
+export type WSResponse =
+  | {
+      egress_ts: number // microseconds
+      data: {
+        type: 'PRICE'
+        symbol: string
+        ingress_ts: number // microseconds
+        publish_ts: null
+        transaction_ts: number // microseconds
+        price: number
+        spread: number
+      }
+    }
+  | {
+      egress_ts: number // microseconds
+      error: {
+        error: string
+        code: number
+        id: null
+        info: {
+          type: string
+          failures: {
+            symbol: string
+            type: string
+          }[]
+          succeeded: []
+        }
+      }
+    }
+  | {
+      egress_ts: number // microseconds
+      pong: {
+        api_version: string
+      }
+    }
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -42,7 +68,27 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
           )
         },
         message(message) {
-          if (message.data.type !== 'PRICE') {
+          if ('error' in message) {
+            logger.error(`Received error message on websocket: ${JSON.stringify(message)}`)
+            return message.error.info.failures.map((failure) => ({
+              params: { base: failure.symbol },
+              response: {
+                statusCode: 502,
+                errorMessage: failure.type,
+                timestamps: {
+                  providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
+                },
+              },
+            }))
+          }
+
+          if ('pong' in message) {
+            // Ignore
+            return
+          }
+
+          if (message.data?.type !== 'PRICE') {
+            logger.warn(`Received unsupported message type: ${message.data.type}`)
             return
           }
 
