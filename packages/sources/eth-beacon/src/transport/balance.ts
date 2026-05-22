@@ -1,28 +1,30 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { PoRBalance } from '@chainlink/external-adapter-framework/adapter/por'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import {
   AdapterResponse,
   makeLogger,
   sleep,
   splitArrayIntoChunks,
 } from '@chainlink/external-adapter-framework/util'
+import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
+import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import BigNumber from 'bignumber.js'
+import { ethers } from 'ethers'
+import { DepositEvent_ABI } from '../config/DepositAbi'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import {
   DEPOSIT_EVENT_LOOKBACK_WINDOW,
   DEPOSIT_EVENT_TOPIC,
   formatValueInGwei,
   parseLittleEndian,
 } from './utils'
-import { ethers } from 'ethers'
-import BigNumber from 'bignumber.js'
-import { DepositEvent_ABI } from '../config/DepositAbi'
-import { PoRBalance } from '@chainlink/external-adapter-framework/adapter/por'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 
 const logger = makeLogger('BalanceTransport')
+
+const RESULT_DECIMALS = 9
 
 interface StateResponseSchema {
   execution_optimistic: false
@@ -146,6 +148,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
         balances.push({
           address: validator.validator.pubkey,
           balance: validator.balance,
+          decimals: RESULT_DECIMALS,
         })
       })
     })
@@ -167,6 +170,7 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
         balances.push({
           address,
           balance: '0',
+          decimals: RESULT_DECIMALS,
         })
       })
     }
@@ -235,11 +239,13 @@ export class BalanceTransport extends SubscriptionTransport<BalanceTransportType
         balances.push({
           address: validator.address,
           balance: formatValueInGwei(limboBalance),
+          decimals: RESULT_DECIMALS,
         })
       } else {
         balances.push({
           address: validator.address,
           balance: '0',
+          decimals: RESULT_DECIMALS,
         })
       }
     })
