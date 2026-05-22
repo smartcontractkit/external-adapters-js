@@ -16,13 +16,14 @@ import { BaseEndpointTypes } from '../../src/endpoint/stock_quotes'
 import { StockQuotesWebSocketTransport, WsTransportTypes } from '../../src/transport/stock_quotes'
 
 const log = jest.fn()
+const debugLog = jest.fn()
 const logger = {
   fatal: log,
   error: log,
   warn: log,
   info: log,
-  debug: log,
-  trace: log,
+  debug: debugLog,
+  trace: debugLog,
   msgPrefix: 'mock-logger',
 }
 
@@ -113,6 +114,10 @@ describe('stock_quotes', () => {
 
     transport = new StockQuotesWebSocketTransport('asia')
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+  })
+
+  afterEach(() => {
+    expect(log).not.toHaveBeenCalled()
   })
 
   it('should subscribe to the stock price', async () => {
@@ -272,5 +277,125 @@ describe('stock_quotes', () => {
         op: 'PING',
       }),
     )
+  })
+
+  it('should write error to cache', async () => {
+    const symbol = '9988-HKD:SPOT'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    const t0 = Date.now()
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    const t1 = Date.now()
+
+    const providerIndicatedTimeUnixMs = 123456789
+
+    const message = JSON.stringify({
+      egress_ts: providerIndicatedTimeUnixMs * 1000,
+      error: {
+        error: 'Some subscriptions failed',
+        code: 14,
+        id: null,
+        info: {
+          type: 'subscription_failure',
+          failures: [
+            {
+              type: 'invalid_permission',
+              symbol,
+            },
+          ],
+          succeeded: [],
+        },
+      },
+    })
+    socket.send(message)
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          errorMessage: 'invalid_permission',
+          statusCode: 502,
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: t0,
+            providerDataReceivedUnixMs: t1,
+            providerIndicatedTimeUnixMs,
+          },
+        },
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+
+    expect(log).toHaveBeenCalledWith(`Received error message on websocket: ${message}`)
+    log.mockClear()
+  })
+
+  it('should log warning for unknown message type', async () => {
+    const symbol = '9988-HKD:SPOT'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    const providerIndicatedTimeUnixMs = 123456789
+
+    socket.send(
+      JSON.stringify({
+        egress_ts: providerIndicatedTimeUnixMs * 1000,
+        data: {
+          trades: [],
+          symbol,
+          type: 'TRADE',
+        },
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledTimes(0)
+    expect(log).toHaveBeenCalledWith(`Received unsupported message type: TRADE`)
+    log.mockClear()
+  })
+
+  it('should ignore pong message', async () => {
+    const symbol = '9988-HKD:SPOT'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    const providerIndicatedTimeUnixMs = 123456789
+
+    socket.send(
+      JSON.stringify({
+        egress_ts: providerIndicatedTimeUnixMs * 1000,
+        pong: { api_version: '3.0.63' },
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledTimes(0)
+    expect(log).toHaveBeenCalledTimes(0)
   })
 })
