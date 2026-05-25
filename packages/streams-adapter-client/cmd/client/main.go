@@ -1,29 +1,56 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
+	"net/url"
 	"os"
-	"sort"
 	"strings"
-	"time"
 
-	"golang.org/x/term"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 
 	"streams-adapter-client/internal/client"
 )
 
-func serverAddr() string {
-	if v := os.Getenv("SERVER_ADDR"); v != "" {
-		return v
+// parseServerAddr parses SERVER_ADDR (or the default) and returns the
+// dial target (host:port) and whether TLS should be used.
+// Accepts plain "host:port" or a URL like "https://host/path:port".
+func parseServerAddr() (addr string, useTLS bool) {
+	raw := os.Getenv("SERVER_ADDR")
+	if raw == "" {
+		return "localhost:5050", false
 	}
-	return "localhost:5050"
+	// If no scheme, treat as plain host:port.
+	if !strings.Contains(raw, "://") {
+		return raw, false
+	}
+	u, err := url.Parse(raw)
+	if err != nil {
+		log.Fatalf("invalid SERVER_ADDR %q: %v", raw, err)
+	}
+	useTLS = u.Scheme == "https" || u.Scheme == "grpcs"
+	// url.Parse puts host:port in u.Host when the URL has a standard port.
+	// When the port is embedded in the path (e.g. .../path:5050) we need to
+	// extract it manually.
+	host := u.Host
+	if host == "" {
+		host = u.Hostname()
+	}
+	// If the path contains a port suffix (":NNNN" at the end), move it to host.
+	path := strings.TrimPrefix(u.Path, "/")
+	if idx := strings.LastIndex(path, ":"); idx != -1 {
+		port := path[idx+1:]
+		host = host + ":" + port
+	}
+	if host == "" {
+		log.Fatalf("could not determine host from SERVER_ADDR %q", raw)
+	}
+	return host, useTLS
 }
 
 // parsePayload extracts the JSON payload from CLI args.
@@ -43,86 +70,6 @@ func truncate(s string, n int) string {
 		return s
 	}
 	return s[:n-3] + "..."
-}
-
-const (
-	colKey  = 55
-	colRate = 10
-	// 2-space left margin + two 2-space gaps between columns
-	colOverhead = 2 + 2 + 2
-	colObsMin   = 20
-)
-
-// termWidth returns the current terminal width, falling back to 160.
-func termWidth() int {
-	w, _, err := term.GetSize(int(os.Stdout.Fd()))
-	if err != nil || w <= 0 {
-		return 160
-	}
-	return w
-}
-
-// obsWidth computes the observation column width to fill the full terminal.
-func obsWidth() int {
-	w := termWidth() - colOverhead - colKey - colRate
-	if w < colObsMin {
-		return colObsMin
-	}
-	return w
-}
-
-// runCacheLiveLoop clears the screen and redraws the cache table every second
-// until stop is closed.
-func runCacheLiveLoop(c *client.Cache, stop <-chan struct{}) {
-	ticker := time.NewTicker(time.Second)
-	defer ticker.Stop()
-
-	draw := func() {
-		entries := c.All()
-		keys := make([]string, 0, len(entries))
-		for k := range entries {
-			keys = append(keys, k)
-		}
-		sort.Strings(keys)
-
-		// Clear screen, move cursor to top-left.
-		colObs := obsWidth()
-		fmt.Print("\033[H\033[2J")
-		fmt.Printf("  Cache — %s   (press Enter to stop)\n\n",
-			time.Now().Format("15:04:05.000"))
-		fmt.Printf("  %-*s  %-*s  %*s\n",
-			colKey, "CACHE KEY",
-			colObs, "OBSERVATION",
-			colRate, "RATE/s")
-		fmt.Printf("  %s  %s  %s\n",
-			strings.Repeat("─", colKey),
-			strings.Repeat("─", colObs),
-			strings.Repeat("─", colRate))
-
-		if len(keys) == 0 {
-			fmt.Println("  (empty)")
-			return
-		}
-		for _, k := range keys {
-			e := entries[k]
-			obs := strings.TrimSpace(string(e.ObservationJSON))
-			r := c.Rate(k)
-			fmt.Printf("  %-*s  %-*s  %*.4f\n",
-				colKey, truncate(k, colKey),
-				colObs, truncate(obs, colObs),
-				colRate, r)
-		}
-	}
-
-	draw()
-	for {
-		select {
-		case <-stop:
-			return
-		case <-ticker.C:
-			draw()
-		}
-	}
 }
 
 // loadSubscriptionsFile reads a JSON file containing an array of payload strings
@@ -157,22 +104,29 @@ func main() {
 	subsFile := flag.String("subscriptions", "", "path to a JSON file containing an array of payloads to subscribe on start")
 	flag.Parse()
 
-	addr := serverAddr()
+	addr, useTLS := parseServerAddr()
 
-	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	var creds grpc.DialOption
+	if useTLS {
+		creds = grpc.WithTransportCredentials(credentials.NewClientTLSFromCert(nil, ""))
+	} else {
+		creds = grpc.WithTransportCredentials(insecure.NewCredentials())
 	}
+	opts := []grpc.DialOption{creds}
 
 	ctx := context.Background()
 	cache := client.NewCache()
+	subscriptions := newSubscriptionBook()
+	initialLogs := []string{
+		fmt.Sprintf("connected to streams-adapter at %s", addr),
+		"type help or ? for available commands",
+	}
 
 	c, err := client.NewClient(ctx, addr, cache, opts...)
 	if err != nil {
 		log.Fatalf("failed to connect to %s: %v", addr, err)
 	}
 	defer c.Close()
-
-	fmt.Printf("Connected to streams-adapter at %s\n", addr)
 
 	if *subsFile != "" {
 		payloads, err := loadSubscriptionsFile(*subsFile)
@@ -181,83 +135,15 @@ func main() {
 		}
 		for _, p := range payloads {
 			if err := c.Subscribe(p); err != nil {
-				log.Printf("auto-subscribe error (payload=%s): %v", p, err)
+				initialLogs = append(initialLogs, fmt.Sprintf("auto-subscribe failed: %v", err))
 			} else {
-				fmt.Printf("auto-subscribed: %s\n", p)
+				subscriptions.Add(p)
+				initialLogs = append(initialLogs, fmt.Sprintf("auto-subscribed: %s", p))
 			}
 		}
 	}
 
-	fmt.Println("Commands: subscribe <payload> | unsubscribe <payload> | cache | rate | quit")
-	fmt.Println(`Example:  subscribe payload='{"data":{"endpoint":"cryptolwba","from":"LINK","to":"USD"}}'`)
-
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-		parts := strings.Fields(line)
-		if len(parts) == 0 {
-			continue
-		}
-
-		switch parts[0] {
-		case "subscribe":
-			if len(parts) < 2 {
-				fmt.Println(`usage: subscribe payload='{"data":{...}}'`)
-				continue
-			}
-			payload, err := parsePayload(parts[1:])
-			if err != nil {
-				fmt.Printf("invalid payload: %v\n", err)
-				continue
-			}
-			if err := c.Subscribe(payload); err != nil {
-				log.Printf("subscribe error: %v", err)
-			} else {
-				fmt.Printf("subscribed with payload %s\n", payload)
-			}
-
-		case "unsubscribe":
-			if len(parts) < 2 {
-				fmt.Println(`usage: unsubscribe payload='{"data":{...}}'`)
-				continue
-			}
-			payload, err := parsePayload(parts[1:])
-			if err != nil {
-				fmt.Printf("invalid payload: %v\n", err)
-				continue
-			}
-			if err := c.Unsubscribe(payload); err != nil {
-				log.Printf("unsubscribe error: %v", err)
-			} else {
-				fmt.Printf("unsubscribed with payload %s\n", payload)
-			}
-
-		case "cache":
-			stop := make(chan struct{})
-			go runCacheLiveLoop(cache, stop)
-			scanner.Scan() // block until Enter
-			close(stop)
-			fmt.Print("\033[H\033[2J") // clear screen on exit
-
-		case "rate":
-			entries := cache.All()
-			if len(entries) == 0 {
-				fmt.Println("(no subscriptions)")
-				continue
-			}
-			fmt.Printf("  %-40s  %10s  %10s\n", "asset_id", "msgs/sec", "total")
-			for id := range entries {
-				r := cache.Rate(id)
-				e, _ := cache.Get(id)
-				fmt.Printf("  %-40s  %10.4f  %10d\n", id, r, e.Count)
-			}
-
-		case "quit", "exit":
-			fmt.Println("bye")
-			return
-
-		default:
-			fmt.Printf("unknown command %q. try: subscribe | unsubscribe | cache | rate | quit\n", parts[0])
-		}
+	if err := runClientApp(addr, c, cache, subscriptions, initialLogs); err != nil {
+		log.Fatalf("client ui error: %v", err)
 	}
 }

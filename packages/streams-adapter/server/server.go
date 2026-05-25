@@ -158,6 +158,16 @@ func (s *Server) setupRoutes() {
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
+	return s.startWithListener(nil)
+}
+
+// StartOnListener starts the HTTP server on an already-open net.Listener.
+// Used when multiplexing gRPC and HTTP on the same port via cmux.
+func (s *Server) StartOnListener(lis net.Listener) error {
+	return s.startWithListener(lis)
+}
+
+func (s *Server) startWithListener(lis net.Listener) error {
 	// Start a separate HTTP server for Prometheus metrics on port 9080.
 	// The combined gatherer merges Go-native metrics with forwarded JS
 	// adapter metrics (excluding families already tracked in Go).
@@ -188,12 +198,18 @@ func (s *Server) Start() error {
 
 	go s.resubscribeLoop()
 
-	s.logger.Info("Starting HTTP server", "port", s.config.HTTPPort)
+	if lis != nil {
+		s.logger.Info("Starting HTTP server on shared listener", "port", s.config.HTTPPort)
+		if err := s.server.Serve(lis); err != nil && err != http.ErrServerClosed {
+			return fmt.Errorf("failed to start HTTP server: %w", err)
+		}
+		return nil
+	}
 
+	s.logger.Info("Starting HTTP server", "port", s.config.HTTPPort)
 	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return fmt.Errorf("failed to start HTTP server: %w", err)
 	}
-
 	return nil
 }
 

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const rateWindow = 60 * time.Second
+const rateWindow = 10 * time.Second
 
 // CacheEntry holds the latest observation for an asset plus rate-tracking state.
 type CacheEntry struct {
@@ -50,7 +50,7 @@ func (c *Cache) Set(assetID string, obsJSON []byte, ts time.Time) {
 	entry.recentTimes = entry.recentTimes[i:]
 }
 
-// Rate returns the rolling messages-per-second over the last 60 s for assetID.
+// Rate returns the rolling messages-per-second over the last 10 s for assetID.
 func (c *Cache) Rate(assetID string) float64 {
 	c.mu.RLock()
 	defer c.mu.RUnlock()

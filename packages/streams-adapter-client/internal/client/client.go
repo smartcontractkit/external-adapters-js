@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"google.golang.org/grpc"
@@ -16,6 +15,7 @@ type Client struct {
 	conn   *grpc.ClientConn
 	stream pb.StreamService_SubscribeClient
 	cache  *Cache
+	errCh  chan error
 }
 
 // NewClient dials addr, opens the bidirectional Subscribe stream, and starts
@@ -33,7 +33,7 @@ func NewClient(ctx context.Context, addr string, cache *Cache, opts ...grpc.Dial
 		return nil, fmt.Errorf("open stream: %w", err)
 	}
 
-	c := &Client{conn: conn, stream: stream, cache: cache}
+	c := &Client{conn: conn, stream: stream, cache: cache, errCh: make(chan error, 1)}
 	go c.recvLoop()
 	return c, nil
 }
@@ -63,11 +63,19 @@ func (c *Client) Close() {
 	_ = c.conn.Close()
 }
 
+// Errors returns asynchronous stream-level errors produced by the receive loop.
+func (c *Client) Errors() <-chan error {
+	return c.errCh
+}
+
 func (c *Client) recvLoop() {
 	for {
 		resp, err := c.stream.Recv()
 		if err != nil {
-			log.Printf("stream closed: %v", err)
+			select {
+			case c.errCh <- err:
+			default:
+			}
 			return
 		}
 		ts := time.Now()

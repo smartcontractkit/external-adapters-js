@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/soheilhy/cmux"
 	"google.golang.org/grpc"
 
 	"streams-adapter/cache"
@@ -92,9 +93,33 @@ func main() {
 	// Create error channel for goroutine failures
 	errChan := make(chan error, 1)
 
-	// Start HTTP server in a goroutine
+	// Open a single TCP listener on the HTTP port; cmux routes connections to
+	// either the gRPC handler (HTTP/2 with content-type: application/grpc)
+	// or the HTTP/1.x gin handler.
+	lis, err := net.Listen("tcp", ":"+cfg.HTTPPort)
+	if err != nil {
+		log.Fatalf("failed to listen on port %s: %v", cfg.HTTPPort, err)
+	}
+	mux := cmux.New(lis)
+	grpcL := mux.MatchWithWriters(
+		cmux.HTTP2MatchHeaderFieldSendSettings("content-type", "application/grpc"),
+	)
+	httpL := mux.Match(cmux.Any())
+
+	// Start gRPC transmitter server
+	grpcServer := grpc.NewServer()
+	pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(pub, logger, httpServer.BootstrapSubscription))
 	go func() {
-		if err := httpServer.Start(); err != nil {
+		logger.Info("gRPC transmitter listening (shared port)", "port", cfg.HTTPPort)
+		if err := grpcServer.Serve(grpcL); err != nil {
+			logger.Error("gRPC server failed", "error", err)
+			errChan <- err
+		}
+	}()
+
+	// Start HTTP server on the cmux HTTP sub-listener
+	go func() {
+		if err := httpServer.StartOnListener(httpL); err != nil {
 			logger.Error("HTTP server failed", "error", err)
 			errChan <- err
 		}
@@ -108,19 +133,10 @@ func main() {
 		}
 	}()
 
-	// Start gRPC transmitter server in a goroutine
+	// Start cmux dispatcher
 	go func() {
-		lis, err := net.Listen("tcp", ":"+cfg.GRPCPort)
-		if err != nil {
-			logger.Error("gRPC listen failed", "error", err)
-			errChan <- err
-			return
-		}
-		grpcServer := grpc.NewServer()
-		pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(pub, logger, httpServer.BootstrapSubscription))
-		logger.Info("gRPC transmitter listening", "port", cfg.GRPCPort)
-		if err := grpcServer.Serve(lis); err != nil {
-			logger.Error("gRPC server failed", "error", err)
+		if err := mux.Serve(); err != nil {
+			logger.Error("cmux failed", "error", err)
 			errChan <- err
 		}
 	}()
