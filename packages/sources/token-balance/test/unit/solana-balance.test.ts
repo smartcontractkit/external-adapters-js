@@ -133,6 +133,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
+        throwOnRipcord: true,
       })
       await transport.handleRequest(context, param)
 
@@ -150,6 +151,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -180,6 +182,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address: address1 }, { address: address2 }],
+        throwOnRipcord: true,
       })
       const response = await transport._handleRequest(param)
 
@@ -201,6 +204,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -219,6 +223,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
+        throwOnRipcord: true,
       })
 
       const requestTimestamp = Date.now()
@@ -242,6 +247,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,

@@ -19,6 +19,11 @@ export const inputParameters = new InputParameters(
       array: true,
       description: 'List of addresses to read',
     },
+    throwOnRipcord: {
+      type: 'boolean',
+      default: true,
+      description: 'Throw error if a ripcord error is encountered.',
+    },
   },
   [
     {
@@ -27,6 +32,7 @@ export const inputParameters = new InputParameters(
           address: '7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq',
         },
       ],
+      throwOnRipcord: true,
     },
   ],
 )
@@ -44,6 +50,8 @@ export type BaseEndpointTypes = {
     Data: {
       result: AddressWithBalance[]
       decimals: number
+      ripcord: boolean
+      ripcordDetails?: string
     }
   }
   Settings: typeof config.settings

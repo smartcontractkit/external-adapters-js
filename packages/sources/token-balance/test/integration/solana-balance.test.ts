@@ -7,17 +7,22 @@ import * as nock from 'nock'
 
 const accountBalance = 123_000_000_000
 const ownerAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'
+const invalidAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFH'
+
+const mockGetAccountInfo = jest
+  .fn()
+  .mockImplementation((pubkey: { _address: string }) =>
+    pubkey._address === invalidAddress
+      ? Promise.resolve(null)
+      : Promise.resolve({ lamports: accountBalance }),
+  )
 
 jest.mock('@solana/web3.js', () => ({
-  PublicKey: function (): PublicKey {
-    return {} as PublicKey
+  PublicKey: function (address: string): PublicKey {
+    return { _address: address } as unknown as PublicKey
   },
   Connection: class {
-    async getAccountInfo() {
-      return {
-        lamports: accountBalance,
-      }
-    }
+    getAccountInfo = mockGetAccountInfo
   },
 }))
 
@@ -59,6 +64,39 @@ describe('execute', () => {
             address: ownerAddress,
           },
         ],
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('returns ripcord error for invalid address when throwOnRipcord is true', async () => {
+      const data = {
+        endpoint: 'solana-balance',
+        addresses: [
+          {
+            address: invalidAddress,
+          },
+        ],
+      }
+
+      const response = await testAdapter.request(data)
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('returns success for invalid address when throwOnRipcord is false', async () => {
+      const data = {
+        endpoint: 'solana-balance',
+        addresses: [
+          {
+            address: invalidAddress,
+          },
+        ],
+        throwOnRipcord: false,
       }
 
       const response = await testAdapter.request(data)
