@@ -133,7 +133,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
-        throwOnRipcord: true,
+        noErrorOnRipcord: false,
       })
       await transport.handleRequest(context, param)
 
@@ -182,7 +182,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address: address1 }, { address: address2 }],
-        throwOnRipcord: true,
+        noErrorOnRipcord: false,
       })
       const response = await transport._handleRequest(param)
 
@@ -223,7 +223,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
-        throwOnRipcord: true,
+        noErrorOnRipcord: false,
       })
 
       const requestTimestamp = Date.now()

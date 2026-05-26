@@ -3,20 +3,17 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection, PublicKey } from '@solana/web3.js'
 import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/solana-balance'
 import { getSolanaRpcUrl } from './solana-utils'
 
 const logger = makeLogger('Token Balance - Salana Balance')
 
-class RipcordError extends Error {
-  ripcordDetails: string
-  constructor(message: string) {
-    super(message)
-    this.ripcordDetails = message
-  }
-}
+class RipcordError extends AdapterError {}
 
 type RequestParams = typeof inputParameters.validated
 
@@ -57,7 +54,7 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
 
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
-      if (e instanceof RipcordError && !param.throwOnRipcord) {
+      if (e instanceof RipcordError && param.noErrorOnRipcord) {
         response = {
           statusCode: 200,
           result: null,
@@ -65,7 +62,7 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
             result: [],
             decimals: RESULT_DECIMALS,
             ripcord: true,
-            ripcordDetails: e.ripcordDetails,
+            ripcordDetails: errorMessage,
           },
           timestamps,
         }
@@ -124,7 +121,10 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
   async getTokenBalance(address: string): Promise<number> {
     const result = await this.getConnection().getAccountInfo(new PublicKey(address))
     if (!result) {
-      throw new RipcordError(`Solana stake account not found for address ${address}`)
+      throw new RipcordError({
+        statusCode: 503,
+        message: `Solana stake account not found for address ${address}`,
+      })
     }
     return result.lamports
   }

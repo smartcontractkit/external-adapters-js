@@ -72,7 +72,7 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('returns ripcord error for invalid address when throwOnRipcord is true', async () => {
+    it('returns ripcord error for invalid address when noErrorOnRipcord is false', async () => {
       const data = {
         endpoint: 'solana-balance',
         addresses: [
@@ -84,11 +84,11 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(502)
+      expect(response.statusCode).toBe(503)
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('returns success for invalid address when throwOnRipcord is false', async () => {
+    it('returns success for invalid address when noErrorOnRipcord is true', async () => {
       const data = {
         endpoint: 'solana-balance',
         addresses: [
@@ -96,7 +96,7 @@ describe('execute', () => {
             address: invalidAddress,
           },
         ],
-        throwOnRipcord: false,
+        noErrorOnRipcord: true,
       }
 
       const response = await testAdapter.request(data)

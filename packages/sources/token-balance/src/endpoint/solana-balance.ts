@@ -19,10 +19,11 @@ export const inputParameters = new InputParameters(
       array: true,
       description: 'List of addresses to read',
     },
-    throwOnRipcord: {
+    noErrorOnRipcord: {
       type: 'boolean',
-      default: true,
-      description: 'Throw error if a ripcord error is encountered.',
+      default: false,
+      description:
+        'Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset',
     },
   },
   [
@@ -32,7 +33,7 @@ export const inputParameters = new InputParameters(
           address: '7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq',
         },
       ],
-      throwOnRipcord: true,
+      noErrorOnRipcord: false,
     },
   ],
 )
