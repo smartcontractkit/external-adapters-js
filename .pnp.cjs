@@ -571,6 +571,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ncfx"\
     },\
     {\
+      "name": "@chainlink/nobi-adapter",\
+      "reference": "workspace:packages/sources/nobi"\
+    },\
+    {\
       "name": "@chainlink/nomia-adapter",\
       "reference": "workspace:packages/sources/nomia"\
     },\
@@ -926,6 +930,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
+    ["@chainlink/nobi-adapter", ["workspace:packages/sources/nobi"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
@@ -6354,6 +6359,25 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:2.14.4", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.4-ac92103a0e-4b7b074284.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.4"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["ajv", "npm:8.20.0"],\
+          ["axios", "npm:1.16.1"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.10.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:8efad5444169b399e0d0b6ac490a9a78135aa54086e31115b20e9903f7f4cede53b13dd2903ee7816e4d122b242f5368dc60b2016ac692a55edacdfa6e3c34d2#npm:8.20.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:2.8.0", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.8.0-2b0ebd2740-5eee866738.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7421,6 +7445,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nobi-adapter", [\
+      ["workspace:packages/sources/nobi", {\
+        "packageLocation": "./packages/sources/nobi/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.14.4"],\
+          ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
