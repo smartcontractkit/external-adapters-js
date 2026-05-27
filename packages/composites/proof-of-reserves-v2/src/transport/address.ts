@@ -2,6 +2,7 @@ import objectPath from 'object-path'
 import { RequestParams } from '../endpoint/reserves'
 import { checkAddressList } from '../utils/validation'
 import { Fetcher, Stringifier } from './types'
+import { getRipcord } from './utils'
 
 type AddressListConfig = RequestParams['addressLists'][number]
 
@@ -9,7 +10,10 @@ class AddressList {
   fetchFromProvider: Fetcher
   shortJsonForError: Stringifier
 
-  addressArray: Promise<unknown[]>
+  addressArray: Promise<{
+    addressArray: unknown[]
+    ripcord?: boolean
+  }>
 
   constructor({
     config,
@@ -25,11 +29,14 @@ class AddressList {
     this.addressArray = this._fetchAddressArray(config)
   }
 
-  async getAddressArray(): Promise<unknown[]> {
+  async getAddressArray(): Promise<{ addressArray: unknown[]; ripcord?: boolean }> {
     return this.addressArray
   }
 
-  private async _fetchAddressArray(config: AddressListConfig): Promise<unknown[]> {
+  private async _fetchAddressArray(config: AddressListConfig): Promise<{
+    addressArray: unknown[]
+    ripcord?: boolean
+  }> {
     checkAddressList(config)
 
     if (config.fixed !== undefined) {
@@ -42,6 +49,7 @@ class AddressList {
       JSON.parse(config.params),
     )
     const addressArray = objectPath.get(addressResponseData, config.addressArrayPath)
+    const ripcord = getRipcord(addressResponseData, config.ripcord)
 
     if (addressArray === undefined) {
       throw new Error(
@@ -62,7 +70,7 @@ class AddressList {
       )
     }
 
-    return addressArray
+    return { addressArray, ripcord }
   }
 }
 
@@ -90,9 +98,11 @@ export class AddressListRepo {
     )
   }
 
-  async getAddressArray(name: string | undefined): Promise<unknown[] | undefined> {
+  async getAddressArray(
+    name: string | undefined,
+  ): Promise<{ addressArray: unknown[]; ripcord?: boolean }> {
     if (name === undefined) {
-      return undefined
+      return { addressArray: [] }
     }
     // Validation guarantees that the name is present in the config.
     const addressList = this.addressListMap[name]!

@@ -48,12 +48,15 @@ export class Component {
     const component = this.config
 
     try {
-      const addressArray = await this.addressListRepo.getAddressArray(component.addressList)
-
-      const { balances, addressCount, ripcord } = await this.balanceSourceRepo.fetchBalances(
-        component.balanceSource,
-        addressArray,
+      const { addressArray, ripcord: addressRipcord } = await this.addressListRepo.getAddressArray(
+        component.addressList,
       )
+
+      const {
+        balances,
+        addressCount,
+        ripcord: balanceRipcord,
+      } = await this.balanceSourceRepo.fetchBalances(component.balanceSource, addressArray)
 
       const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
         amount: 0n,
@@ -67,7 +70,7 @@ export class Component {
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
         addressCount,
-        ripcord,
+        ripcord: addressRipcord || balanceRipcord,
       }
 
       await this.conversionRepo.applyConversions(component.conversions, processedComponent)

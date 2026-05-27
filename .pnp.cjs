@@ -6297,25 +6297,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.14.1", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.1-35134abbe0-39fe4bfcf8.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.1"],\
-          ["@date-fns/tz", "npm:1.4.1"],\
-          ["ajv", "npm:8.20.0"],\
-          ["axios", "npm:1.15.2"],\
-          ["eventsource", "npm:4.1.0"],\
-          ["fastify", "npm:5.8.5"],\
-          ["ioredis", "npm:5.10.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:10.3.1"],\
-          ["pino-pretty", "npm:13.1.3"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:7406f5c8295b3a000ef5bae7e0869bf84f77afbd72940d5a17c19fba04a6d4e632a8c7f6d00783af973325e44cd4eb9ec94833f9dec1d3879e2fdff3dc2b5617#npm:8.20.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.14.2", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.2-7406f5c829-261835a731.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7705,7 +7686,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/composites/proof-of-reserves-v2", {\
         "packageLocation": "./packages/composites/proof-of-reserves-v2/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.14.5"],\
           ["@chainlink/proof-of-reserves-v2-adapter", "workspace:packages/composites/proof-of-reserves-v2"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/jest", "npm:29.5.14"],\
