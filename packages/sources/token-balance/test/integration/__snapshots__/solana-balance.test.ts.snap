@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute SolanaBalanceTransport endpoint returns ripcord error for invalid address when noErrorOnRipcord is false 1`] = `
+{
+  "errorMessage": "Solana stake account not found for address G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFH",
+  "statusCode": 503,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
 exports[`execute SolanaBalanceTransport endpoint returns success 1`] = `
 {
   "data": {
@@ -11,12 +22,30 @@ exports[`execute SolanaBalanceTransport endpoint returns success 1`] = `
         "decimals": 9,
       },
     ],
+    "ripcord": false,
   },
   "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute SolanaBalanceTransport endpoint returns success for invalid address when noErrorOnRipcord is true 1`] = `
+{
+  "data": {
+    "decimals": 9,
+    "result": [],
+    "ripcord": true,
+    "ripcordDetails": "Solana stake account not found for address G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFH",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
   },
 }
 `;

@@ -3,12 +3,17 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { GroupRunner } from '@chainlink/external-adapter-framework/util/group-runner'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection, PublicKey } from '@solana/web3.js'
 import { AddressWithBalance, BaseEndpointTypes, inputParameters } from '../endpoint/solana-balance'
 import { getSolanaRpcUrl } from './solana-utils'
 
 const logger = makeLogger('Token Balance - Salana Balance')
+
+class RipcordError extends AdapterError {}
 
 type RequestParams = typeof inputParameters.validated
 
@@ -41,16 +46,32 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
     try {
       response = await this._handleRequest(param)
     } catch (e: unknown) {
+      const timestamps = {
+        providerDataRequestedUnixMs: 0,
+        providerDataReceivedUnixMs: 0,
+        providerIndicatedTimeUnixMs: undefined,
+      }
+
       const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred'
       logger.error(e, errorMessage)
-      response = {
-        statusCode: (e as AdapterInputError)?.statusCode || 502,
-        errorMessage,
-        timestamps: {
-          providerDataRequestedUnixMs: 0,
-          providerDataReceivedUnixMs: 0,
-          providerIndicatedTimeUnixMs: undefined,
-        },
+      if (e instanceof RipcordError && param.noErrorOnRipcord) {
+        response = {
+          statusCode: 200,
+          result: null,
+          data: {
+            result: [],
+            decimals: RESULT_DECIMALS,
+            ripcord: true,
+            ripcordDetails: errorMessage,
+          },
+          timestamps,
+        }
+      } else {
+        response = {
+          statusCode: (e as AdapterInputError)?.statusCode || 502,
+          errorMessage,
+          timestamps,
+        }
       }
     }
     await this.responseCache.write(this.name, [{ params: param, response }])
@@ -66,6 +87,7 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
       data: {
         result,
         decimals: RESULT_DECIMALS,
+        ripcord: false,
       },
       statusCode: 200,
       result: null,
@@ -99,9 +121,9 @@ export class SolanaBalanceTransport extends SubscriptionTransport<BaseEndpointTy
   async getTokenBalance(address: string): Promise<number> {
     const result = await this.getConnection().getAccountInfo(new PublicKey(address))
     if (!result) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Account not found for address ${address}`,
+      throw new RipcordError({
+        statusCode: 503,
+        message: `Solana stake account not found for address ${address}`,
       })
     }
     return result.lamports

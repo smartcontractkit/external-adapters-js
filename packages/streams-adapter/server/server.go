@@ -153,7 +153,7 @@ func (s *Server) setupRoutes() {
 	// Cache debug endpoint
 	group.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
-	group.POST("/", s.adapterHandler)
+	group.POST("", s.adapterHandler)
 }
 
 // Start starts the HTTP server
