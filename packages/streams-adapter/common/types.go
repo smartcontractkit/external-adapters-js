@@ -17,6 +17,8 @@ type Observation struct {
 	Meta       json.RawMessage `json:"meta"`
 	Success    bool            `json:"success"`
 	Error      string          `json:"error,omitempty"`
+	StatusCode int             `json:"statusCode,omitempty"`
+	Result     json.RawMessage `json:"result"`
 }
 
 // CacheItemStatus tracks the lifecycle of a cache item.
