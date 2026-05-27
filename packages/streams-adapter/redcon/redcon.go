@@ -2,6 +2,7 @@ package redcon
 
 import (
 	"log/slog"
+	"net/http"
 	"sort"
 	"strconv"
 	"strings"
@@ -191,7 +192,8 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 
 	// Create Observation from JSON
 	obs := &types.Observation{
-		Success: true,
+		Success:    true,
+		StatusCode: http.StatusOK,
 	}
 
 	// Check for errorMessage field
@@ -216,6 +218,11 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	// Extract meta field
 	if meta, hasMeta := rawJSON["meta"]; hasMeta {
 		obs.Meta = append(json.RawMessage(nil), meta...)
+	}
+
+	// Extract result field
+	if result, hasResult := rawJSON["result"]; hasResult {
+		obs.Result = append(json.RawMessage(nil), result...)
 	}
 
 	transformedKey, err := helpers.CalculateCacheKey(params)
