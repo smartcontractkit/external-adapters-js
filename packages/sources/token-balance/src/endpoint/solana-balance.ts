@@ -19,6 +19,12 @@ export const inputParameters = new InputParameters(
       array: true,
       description: 'List of addresses to read',
     },
+    noErrorOnRipcord: {
+      type: 'boolean',
+      default: false,
+      description:
+        'Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset',
+    },
   },
   [
     {
@@ -27,6 +33,7 @@ export const inputParameters = new InputParameters(
           address: '7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq',
         },
       ],
+      noErrorOnRipcord: false,
     },
   ],
 )
@@ -44,6 +51,8 @@ export type BaseEndpointTypes = {
     Data: {
       result: AddressWithBalance[]
       decimals: number
+      ripcord: boolean
+      ripcordDetails?: string
     }
   }
   Settings: typeof config.settings
