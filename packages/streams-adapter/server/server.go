@@ -32,8 +32,9 @@ type ResponseData struct {
 	Data struct {
 		Result interface{} `json:"result"`
 	} `json:"data"`
-	Success bool   `json:"success"`
-	Error   string `json:"error,omitempty"`
+	Success    bool   `json:"success"`
+	Error      string `json:"error,omitempty"`
+	StatusCode int    `json:"statusCode,omitempty"`
 }
 
 // ErrorResponseData represents the structure of error responses
@@ -280,8 +281,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
-			Success: false,
-			Error:   fmt.Sprintf("Invalid request format: %v", err),
+			Success:    false,
+			Error:      fmt.Sprintf("Invalid request format: %v", err),
+			StatusCode: http.StatusBadRequest,
 		})
 		return
 	}
@@ -298,6 +300,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -316,6 +319,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
