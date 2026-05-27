@@ -6,6 +6,7 @@
 '@chainlink/coinpaprika-adapter': minor
 '@chainlink/coinpaprika-state-adapter': minor
 '@chainlink/deutsche-boerse-adapter': minor
+'@chainlink/expand-network-adapter': minor
 '@chainlink/icap-adapter': minor
 '@chainlink/mobula-state-adapter': minor
 '@chainlink/the-network-firm-adapter': minor
