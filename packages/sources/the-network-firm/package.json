@@ -24,7 +24,7 @@
     "prepack": "yarn build",
     "build": "tsc -b",
     "server": "node -e 'require(\"./index.js\").server()'",
-    "server:dist": "node -e 'require(\"./dist/index.js\").server()'",
+    "server:dist": "node --inspect=0.0.0.0:9229 --expose-gc -e 'require(\"./dist/index.js\").server()'",
     "start": "yarn server:dist"
   },
   "devDependencies": {
