@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.16.2
+
+### Patch Changes
+
+- [#4993](https://github.com/smartcontractkit/external-adapters-js/pull/4993) [`60296dd`](https://github.com/smartcontractkit/external-adapters-js/commit/60296dde44e3e1950b298859aa5e61e9533dbda4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ripcord in okxAssetsAddress
+
 ## 5.16.1
 
 ### Patch Changes
