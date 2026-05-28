@@ -23,6 +23,7 @@ type ProvidedAddressList = {
   params: string
   addressArrayPath: string
   fixed?: never
+  ripcord?: { path: string; disabledValue: string }
 }
 
 type CheckedAddressList = FixedAddressList | ProvidedAddressList

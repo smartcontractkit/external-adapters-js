@@ -2,6 +2,7 @@ import objectPath from 'object-path'
 import { RequestParams } from '../endpoint/reserves'
 import { FixedPoint, getFixedPointFromResult } from '../utils/fixed-point'
 import { Fetcher, Stringifier } from './types'
+import { getRipcord } from './utils'
 
 type BalanceSourceConfig = RequestParams['balanceSources'][number]
 
@@ -40,13 +41,7 @@ export class BalanceSource {
     }
 
     const responseData = await this.fetchFromProvider(this.config.provider, balanceProviderParams)
-
-    let ripcord: boolean | undefined = undefined
-    if (this.config.ripcord !== undefined) {
-      const ripcordValue = String(objectPath.get(responseData, this.config.ripcord.path))
-      const expectedValue = this.config.ripcord.disabledValue
-      ripcord = ripcordValue !== expectedValue
-    }
+    const ripcord = getRipcord(responseData, this.config.ripcord)
 
     try {
       const balanceArray: Record<string, unknown>[] =
