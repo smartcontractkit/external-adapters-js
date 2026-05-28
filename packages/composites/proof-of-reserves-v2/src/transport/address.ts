@@ -6,14 +6,16 @@ import { getRipcord } from './utils'
 
 type AddressListConfig = RequestParams['addressLists'][number]
 
+type AddressListResult = {
+  addressArray: unknown[]
+  ripcord?: boolean
+}
+
 class AddressList {
   fetchFromProvider: Fetcher
   shortJsonForError: Stringifier
 
-  addressArray: Promise<{
-    addressArray: unknown[]
-    ripcord?: boolean
-  }>
+  addressListResult: Promise<AddressListResult>
 
   constructor({
     config,
@@ -26,17 +28,14 @@ class AddressList {
   }) {
     this.fetchFromProvider = fetchFromProvider
     this.shortJsonForError = shortJsonForError
-    this.addressArray = this._fetchAddressArray(config)
+    this.addressListResult = this._fetchAddressListResult(config)
   }
 
-  async getAddressArray(): Promise<{ addressArray: unknown[]; ripcord?: boolean }> {
-    return this.addressArray
+  async getAddressListResult(): Promise<AddressListResult> {
+    return this.addressListResult
   }
 
-  private async _fetchAddressArray(config: AddressListConfig): Promise<{
-    addressArray: unknown[]
-    ripcord?: boolean
-  }> {
+  private async _fetchAddressListResult(config: AddressListConfig): Promise<AddressListResult> {
     checkAddressList(config)
 
     if (config.fixed !== undefined) {
@@ -98,14 +97,12 @@ export class AddressListRepo {
     )
   }
 
-  async getAddressArray(
-    name: string | undefined,
-  ): Promise<{ addressArray: unknown[]; ripcord?: boolean }> {
+  async getAddressListResult(name: string | undefined): Promise<AddressListResult> {
     if (name === undefined) {
       return { addressArray: [] }
     }
     // Validation guarantees that the name is present in the config.
     const addressList = this.addressListMap[name]!
-    return addressList.getAddressArray()
+    return addressList.getAddressListResult()
   }
 }

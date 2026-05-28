@@ -58,12 +58,10 @@ export const getRipcord = (
   responseData: Record<string, unknown>,
   config?: { path: string; disabledValue: string },
 ): boolean | undefined => {
-  let ripcord: boolean | undefined = undefined
-  if (config !== undefined) {
-    const ripcordValue = String(objectPath.get(responseData, config.path))
-    const expectedValue = config.disabledValue
-    ripcord = ripcordValue !== expectedValue
+  if (config === undefined) {
+    return undefined
   }
-
-  return ripcord
+  const ripcordValue = String(objectPath.get(responseData, config.path))
+  const expectedValue = config.disabledValue
+  return ripcordValue !== expectedValue
 }

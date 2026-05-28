@@ -48,9 +48,8 @@ export class Component {
     const component = this.config
 
     try {
-      const { addressArray, ripcord: addressRipcord } = await this.addressListRepo.getAddressArray(
-        component.addressList,
-      )
+      const { addressArray, ripcord: addressRipcord } =
+        await this.addressListRepo.getAddressListResult(component.addressList)
 
       const {
         balances,
@@ -70,7 +69,8 @@ export class Component {
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
         addressCount,
-        ripcord: addressRipcord || balanceRipcord,
+        addressRipcord,
+        balanceRipcord,
       }
 
       await this.conversionRepo.applyConversions(component.conversions, processedComponent)
@@ -95,7 +95,8 @@ export class Component {
   }
 
   async getRipcord(): Promise<boolean | undefined> {
-    return (await this.processedComponent).ripcord
+    const component = await this.processedComponent
+    return component.addressRipcord || component.balanceRipcord
   }
 
   async getCurrency(): Promise<string> {
@@ -113,7 +114,8 @@ export class Component {
       currency: currency,
       totalBalance: fixedPointToNumber(await this.getTotalBalance()),
       addressCount: await this.getAddressCount(),
-      ripcord: await this.getRipcord(),
+      addressRipcord: (await this.processedComponent).addressRipcord,
+      balanceRipcord: (await this.processedComponent).balanceRipcord,
     }
     const originalCurrency = this.originalCurrency
     if (originalCurrency !== currency) {

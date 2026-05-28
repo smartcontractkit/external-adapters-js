@@ -312,7 +312,8 @@ export type BaseEndpointTypes = {
           decimals: number
         }
         addressCount?: number
-        ripcord: boolean | undefined
+        addressRipcord?: boolean
+        balanceRipcord?: boolean
       }[]
       conversionRates: {
         from: string
