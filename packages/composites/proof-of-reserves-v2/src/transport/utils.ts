@@ -2,6 +2,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import objectPath from 'object-path'
 import { ReservesTransportTypes } from './reserves'
 
 export const fetchFromProvider = async (
@@ -51,4 +52,16 @@ export const shortJsonForError = (maxLen: number, obj: unknown): string => {
     longString = String(obj)
   }
   return longString.length > maxLen ? `${longString.slice(0, maxLen)}...` : longString
+}
+
+export const getRipcord = (
+  responseData: Record<string, unknown>,
+  config?: { path: string; disabledValue: string },
+): boolean | undefined => {
+  if (config === undefined) {
+    return undefined
+  }
+  const ripcordValue = String(objectPath.get(responseData, config.path))
+  const expectedValue = config.disabledValue
+  return ripcordValue !== expectedValue
 }
