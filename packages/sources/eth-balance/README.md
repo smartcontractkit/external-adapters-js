@@ -1,6 +1,6 @@
 # Chainlink External Adapter for Eth-balance
 
-![2.1.15](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
+![2.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/eth-balance/package.json) ![v2](https://img.shields.io/badge/framework%20version-v2-blueviolet)
 
 External adapter for fetching balances for ETH addresses
 
@@ -92,14 +92,16 @@ Response:
     "result": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-        "balance": "842796652117371"
+        "balance": "842796652117371",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-      "balance": "842796652117371"
+      "balance": "842796652117371",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -142,22 +144,26 @@ Response:
     "result": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-        "balance": "842796652117371"
+        "balance": "842796652117371",
+        "decimals": 18
       },
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-        "balance": "1604497408893139674"
+        "balance": "1604497408893139674",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-      "balance": "842796652117371"
+      "balance": "842796652117371",
+      "decimals": 18
     },
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-      "balance": "1604497408893139674"
+      "balance": "1604497408893139674",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -194,14 +200,16 @@ Response:
     "result": [
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-        "balance": "15671674977708000"
+        "balance": "15671674977708000",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-      "balance": "15671674977708000"
+      "balance": "15671674977708000",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -240,14 +248,16 @@ Response:
     "result": [
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-        "balance": "1604497408893139674"
+        "balance": "1604497408893139674",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-      "balance": "1604497408893139674"
+      "balance": "1604497408893139674",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -289,22 +299,26 @@ Response:
     "result": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-        "balance": "842796652117371"
+        "balance": "842796652117371",
+        "decimals": 18
       },
       {
         "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-        "balance": "1604497408893139674"
+        "balance": "1604497408893139674",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-      "balance": "842796652117371"
+      "balance": "842796652117371",
+      "decimals": 18
     },
     {
       "address": "0x6a1544F72A2A275715e8d5924e6D8A017F0e41ed",
-      "balance": "1604497408893139674"
+      "balance": "1604497408893139674",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -343,14 +357,16 @@ Response:
     "result": [
       {
         "address": "0x3376ebca0a85fc8d791b1001a571c41fdd61514a",
-        "balance": "442214234643137536"
+        "balance": "442214234643137536",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0x3376ebca0a85fc8d791b1001a571c41fdd61514a",
-      "balance": "442214234643137536"
+      "balance": "442214234643137536",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -389,14 +405,16 @@ Response:
     "result": [
       {
         "address": "0x3376ebca0a85fc8d791b1001a571c41fdd61514a",
-        "balance": "442214234643137536"
+        "balance": "442214234643137536",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0x3376ebca0a85fc8d791b1001a571c41fdd61514a",
-      "balance": "442214234643137536"
+      "balance": "442214234643137536",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
@@ -434,14 +452,16 @@ Response:
     "result": [
       {
         "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-        "balance": "842796652117371"
+        "balance": "842796652117371",
+        "decimals": 18
       }
     ]
   },
   "result": [
     {
       "address": "0xEF9FFcFbeCB6213E5903529c8457b6F61141140d",
-      "balance": "842796652117371"
+      "balance": "842796652117371",
+      "decimals": 18
     }
   ],
   "statusCode": 200,
