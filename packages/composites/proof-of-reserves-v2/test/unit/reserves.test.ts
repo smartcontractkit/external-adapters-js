@@ -31,6 +31,7 @@ describe('ReservesTransport', () => {
   const PROVIDER_URLS = {
     'por-address-list': 'https://por.address.list',
     'token-balance': 'https://token.balance',
+    'ethereum-cl-indexer': 'https://ethereum.cl.indexer',
     'view-function-multi-chain': 'https://view.function.multi.chain',
   }
 
@@ -308,6 +309,471 @@ describe('ReservesTransport', () => {
       await transport.handleRequest(context, param)
 
       const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a v3 framework error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          status: 'errored',
+          statusCode: 504,
+          error: {
+            name: 'AdapterError',
+            message: 'The EA has not received any values from the Data Provider',
+          },
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a v2 framework error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          errorMessage: 'The EA has not received any values from the Data Provider',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a fastify error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          message: 'Service unavailable',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': Service unavailable`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a ethereum-cl-indexer error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          error: 'Invalid validator credential',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'ethereum-cl-indexer',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'ethereum-cl-indexer',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'ethereum-cl-indexer' at 'https://ethereum.cl.indexer': Invalid validator credential`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns an Axios error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        cause: {
+          code: 'E_ADDRESS_NOT_FOUND',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'ethereum-cl-indexer',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'ethereum-cl-indexer',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'ethereum-cl-indexer' at 'https://ethereum.cl.indexer': E_ADDRESS_NOT_FOUND`
 
       const expectedResponse = {
         statusCode: 502,
