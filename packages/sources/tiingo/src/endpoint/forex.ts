@@ -33,5 +33,5 @@ export const endpoint = new ForexPriceEndpoint({
   defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
 })

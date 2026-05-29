@@ -15,6 +15,21 @@ exports[`websocket state endpoint should return aggregated_state_price and inclu
 }
 `;
 
+exports[`websocket state endpoint should normalize mixed-case base and quote params 1`] = `
+{
+  "data": {
+    "result": 1234.56,
+  },
+  "result": 1234.56,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1122,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1672531200000,
+  },
+}
+`;
+
 exports[`websocket state endpoint should return success 1`] = `
 {
   "data": {

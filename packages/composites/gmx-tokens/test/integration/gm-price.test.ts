@@ -14,6 +14,7 @@ import {
   mockChainRpc,
   mockDataEnginePriceFailure,
   mockDataEnginePriceSuccess,
+  padFeedId,
   resetChainMocks,
 } from './gm-fixtures'
 
@@ -125,29 +126,36 @@ describe('GM-token price execute', () => {
   })
 
   describe('price endpoint', () => {
+    const FEED_LINK = padFeedId('1111')
+    const FEED_USDC = padFeedId('2222')
+
     const arbPriceMap = {
-      '0xfeedlink': { bid: '1999000000000000000', ask: '2001000000000000000', decimals: 18 },
-      '0xfeedusdc': { bid: '1000000000000000000', ask: '1000000000000000000', decimals: 18 },
+      [FEED_LINK]: { bid: '1999000000000000000', ask: '2001000000000000000', decimals: 18 },
+      [FEED_USDC]: { bid: '1000000000000000000', ask: '1000000000000000000', decimals: 18 },
     }
 
     const botanixPriceMap = {
-      '0xfeedlink': { bid: '3000000000000000000', ask: '3200000000000000000', decimals: 18 },
-      '0xfeedusdc': { bid: '1000000000000000000', ask: '1000000000000000000', decimals: 18 },
+      [FEED_LINK]: { bid: '3000000000000000000', ask: '3200000000000000000', decimals: 18 },
+      [FEED_USDC]: { bid: '1000000000000000000', ask: '1000000000000000000', decimals: 18 },
     }
 
+    const FEED_BTC = padFeedId('3333')
+    const FEED_USDCE = padFeedId('4444')
+
     const avalanchePriceMap = {
-      '0xfeedbtc': { bid: '25000000000000000000000', ask: '25100000000000000000000', decimals: 18 },
-      '0xfeedusdce': { bid: '100000000', ask: '100000000', decimals: 8 },
+      [FEED_BTC]: { bid: '25000000000000000000000', ask: '25100000000000000000000', decimals: 18 },
+      [FEED_USDCE]: { bid: '100000000', ask: '100000000', decimals: 8 },
     }
 
     const DOGE_ADDRESS = '0x000000000000000000000000000000000000d06e'
+    const FEED_DOGE = padFeedId('d06e')
 
     it('success on Arbitrum (default chain)', async () => {
       mockDataEnginePriceSuccess(arbPriceMap)
       mockChainRpc('arbitrum', {
         feedIds: {
-          '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4': '0xfeedlink',
-          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': '0xfeedusdc',
+          '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4': FEED_LINK,
+          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': FEED_USDC,
         },
         marketPrices: {
           '0x7f1fa204bb700853D36994DA19F830b6Ad18455C': {
@@ -173,8 +181,8 @@ describe('GM-token price execute', () => {
       mockDataEnginePriceSuccess(botanixPriceMap)
       mockChainRpc('botanix', {
         feedIds: {
-          '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4': '0xfeedlink',
-          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': '0xfeedusdc',
+          '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4': FEED_LINK,
+          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': FEED_USDC,
         },
         marketPrices: {
           '0x7f1fa204bb700853D36994DA19F830b6Ad18455C': {
@@ -200,8 +208,8 @@ describe('GM-token price execute', () => {
       mockDataEnginePriceSuccess(avalanchePriceMap)
       mockChainRpc('avalanche', {
         feedIds: {
-          '0x152b9d0fdc40c096757f570a51e494bd4b943e50': '0xfeedbtc',
-          '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664': '0xfeedusdce',
+          '0x152b9d0fdc40c096757f570a51e494bd4b943e50': FEED_BTC,
+          '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664': FEED_USDCE,
         },
         marketPrices: {
           '0x62Cb8740E6986B29dC671B2EB596676f60590A5B': {
@@ -243,8 +251,8 @@ describe('GM-token price execute', () => {
 
       mockChainRpc('arbitrum', {
         feedIds: {
-          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': '0xfeedusdc',
-          [DOGE_ADDRESS]: '0xfeed0d0e',
+          '0xaf88d065e77c8cC2239327C5EDb3A432268e5831': FEED_USDC,
+          [DOGE_ADDRESS]: FEED_DOGE,
         },
         marketPrices: {
           '0x000000000000000000000000000000000000dead': {

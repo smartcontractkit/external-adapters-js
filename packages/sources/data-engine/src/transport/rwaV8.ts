@@ -13,4 +13,5 @@ export const rwaV8Transport = createDataEngineTransport<BaseEndpointTypes, Decod
       decimals: DECIMALS,
     }
   },
+  reportTimestampS: (decoded) => decoded.lastUpdateTimestamp / 10 ** 9,
 })

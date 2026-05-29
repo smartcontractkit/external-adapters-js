@@ -1,6 +1,6 @@
 # TOKEN_BALANCE
 
-![3.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![3.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/token-balance/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -26,6 +26,8 @@ Additional env vars in the form `${NETWORK}_RPC_URL` and `${NETWORK}_RPC_CHAIN_I
 |           |   SOLANA_COMMITMENT   |                                                                                Solana transaction commitment level                                                                                 | string |         | `finalized` |
 |           |     XRPL_RPC_URL      |                                                                                        RPC url of XRPL node                                                                                        | string |         |     ``      |
 |           |    STELLAR_RPC_URL    |                                                                                  RPC url of Stellar JSON-RPC node                                                                                  | string |         |     ``      |
+|           |   LITECOIN_RPC_URL    |                                             RPC url of Litecoin indexer Blockbook API. See https://github.com/trezor/blockbook/blob/master/docs/api.md                                             | string |         |     ``      |
+|           |    CARDANO_RPC_URL    |                                                                           RPC url of Cardano Yaci Store Indexer RPC node                                                                           | string |         |     ``      |
 |           | BACKGROUND_EXECUTE_MS |                                                     The amount of time the background execute should sleep before performing the next request                                                      | number |         |   `10000`   |
 |           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. Setting this lower than the default may result in lower performance from the adapter. | number |         |    `25`     |
 
@@ -39,9 +41,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                           Options                                                                                                                                                            | Default |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [stellar](#stellar-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                          Options                                                                                                                                                                                           | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [cardano](#cardano-endpoint), [erc20](#evm-endpoint), [etherfi](#etherfi-endpoint), [evm](#evm-endpoint), [litecoin](#litecoin-endpoint), [solana-balance](#solana-balance-endpoint), [solana](#solana-endpoint), [solanamulti](#solanamulti-endpoint), [solvjlp](#solvjlp-endpoint), [stellar](#stellar-endpoint), [tbill](#tbill-endpoint), [xrp](#xrp-endpoint), [xrpl](#xrpl-endpoint) |  `evm`  |
 
 ## Evm Endpoint
 
@@ -52,12 +54,14 @@ Supported names for this endpoint are: `erc20`, `evm`.
 | Required? |             Name             | Aliases |                                                                         Description                                                                         |   Type   | Options |                                Default                                | Depends On | Not Valid With |
 | :-------: | :--------------------------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-------------------------------------------------------------------: | :--------: | :------------: |
 |    ✅     |          addresses           |         |                                                                  List of addresses to read                                                                  | object[] |         |                                                                       |            |                |
+|           |       addresses.token        |         |                                                     Token symbol of the token of the contract address.                                                      |  string  |         |                                                                       |            |                |
 |           |      addresses.network       | `chain` |                                                                   Network of the contract                                                                   |  string  |         |                                                                       |            |                |
 |           |      addresses.chainId       |         |                                                                   Chain ID of the network                                                                   |  string  |         |                                                                       |            |                |
 |    ✅     |  addresses.contractAddress   |         |                                                                  Address of token contract                                                                  |  string  |         |                                                                       |            |                |
 |    ✅     |      addresses.wallets       |         |                                                              Array of wallets to sum balances                                                               | string[] |         |                                                                       |            |                |
 |           | addresses.balanceOfSignature |         | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |         | `function balanceOf(address account) external view returns (uint256)` |            |                |
 |           | addresses.decimalsSignature  |         | Function signature. Should be formatted as [human readable ABI](https://docs.ethers.io/v5/single-page/#/v5/getting-started/-%23-getting-started--contracts) |  string  |         |          `function decimals() external pure returns (uint8)`          |            |                |
+|           |            token             |         |                                                            Token symbol used to filter addresses                                                            |  string  |         |                                                                       |            |                |
 
 ### Example
 
@@ -69,6 +73,7 @@ Request:
     "endpoint": "evm",
     "addresses": [
       {
+        "token": "LINK",
         "network": "ethereum",
         "chainId": "1",
         "contractAddress": "0x514910771af9ca656af840dff83e8264ecf986ca",
@@ -79,7 +84,8 @@ Request:
         "balanceOfSignature": "function balanceOf(address account) external view returns (uint256)",
         "decimalsSignature": "function decimals() external pure returns (uint8)"
       }
-    ]
+    ],
+    "token": "LINK"
   }
 }
 ```
@@ -235,8 +241,8 @@ Request:
 | Required? |        Name        | Aliases |                                  Description                                  |   Type   | Options | Default | Depends On | Not Valid With |
 | :-------: | :----------------: | :-----: | :---------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
 |    ✅     | tokenIssuerAddress |         |          Identifies the token, e.g., TBILL, to fetch the balance of           |  string  |         |         |            |                |
-|    ✅     | priceOracleAddress |         | Address of the price oracle contract to use to convert the above token to USD |  string  |         |         |            |                |
-|    ✅     | priceOracleNetwork |         |   EVM network on which to query the price oracle (ethereum, arbitrum, etc.)   |  string  |         |         |            |                |
+|           | priceOracleAddress |         | Address of the price oracle contract to use to convert the above token to USD |  string  |         |         |            |                |
+|           | priceOracleNetwork |         |   EVM network on which to query the price oracle (ethereum, arbitrum, etc.)   |  string  |         |         |            |                |
 |    ✅     |     addresses      |         |                           List of addresses to read                           | object[] |         |         |            |                |
 |    ✅     | addresses.address  |         |                Address of the account to fetch the balance of                 |  string  |         |         |            |                |
 
@@ -262,6 +268,36 @@ Request:
 
 ---
 
+## Cardano Endpoint
+
+`cardano` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
+|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "cardano",
+    "addresses": [
+      {
+        "address": "addr1w8z0xlftcx54tn7uxdvhk0qgj9u7hmlaccjthnc9kvu4pmcyemglm"
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## Solana Endpoint
 
 `solana` is the only supported name for this endpoint.
@@ -275,7 +311,7 @@ Request:
 |    ✅     |          tokenMint          |         | A token mint is the canonical on-chain account that defines the token’s metadata (name, symbol, supply rules). |  object  |         |         |            |                |
 |    ✅     |       tokenMint.token       |         |                                          token symbol of token mint.                                           |  string  |         |         |            |                |
 |    ✅     |  tokenMint.contractAddress  |         |                                  On-chain contract address of the token mint.                                  |  string  |         |         |            |                |
-|    ✅     |         priceOracle         |         |              Configuration of the on-chain price oracle that provides real-time token valuations.              |  object  |         |         |            |                |
+|           |         priceOracle         |         |              Configuration of the on-chain price oracle that provides real-time token valuations.              |  object  |         |         |            |                |
 |    ✅     | priceOracle.contractAddress |         |                      Contract address of the price oracle used to fetch token price data.                      |  string  |         |         |            |                |
 |    ✅     |     priceOracle.network     |         |                  Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).                   |  string  |         |         |            |                |
 
@@ -357,10 +393,11 @@ Request:
 
 ### Input Params
 
-| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
-| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
-|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+| Required? |       Name        | Aliases |                                                                   Description                                                                    |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |                                                            List of addresses to read                                                             | object[] |         |         |            |                |
+|    ✅     | addresses.address |         |                                                  Address of the account to fetch the balance of                                                  |  string  |         |         |            |                |
+|           | noErrorOnRipcord  |         | Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset | boolean  |         |         |            |                |
 
 ### Example
 
@@ -374,7 +411,8 @@ Request:
       {
         "address": "7d73NFxuWQ2F248NA4XwxE95oFfbWZrc1sg4wcDJjzTq"
       }
-    ]
+    ],
+    "noErrorOnRipcord": false
   }
 }
 ```
@@ -403,6 +441,36 @@ Request:
     "addresses": [
       {
         "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Litecoin Endpoint
+
+`litecoin` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |       Name        | Aliases |                  Description                   |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------: | :-----: | :--------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |     addresses     |         |           List of addresses to read            | object[] |         |         |            |                |
+|    ✅     | addresses.address |         | Address of the account to fetch the balance of |  string  |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "litecoin",
+    "addresses": [
+      {
+        "address": "LQmJHaWCWGeL4WLhuRg5c3PrD1pb6nW3hm"
       }
     ]
   }

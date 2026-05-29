@@ -1,5 +1,25 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#5000](https://github.com/smartcontractkit/external-adapters-js/pull/5000) [`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Changeset to release the following adapters: aleno, allium-state, backed-fi, blocksize-capital-state, coinpaprika, coinpaprika-state, deutsche-boerse, expand-network, icap, mobula-state, the-network-firm, tp, view-function-multi-chain
+
+## 2.5.0
+
+### Minor Changes
+
+- [#4820](https://github.com/smartcontractkit/external-adapters-js/pull/4820) [`122a02a`](https://github.com/smartcontractkit/external-adapters-js/commit/122a02aa486c0e42a6303704a4731c7f684d7086) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Extend markprice endpoint with top_of_book_perps and top_of_book_spot.
+  Fixes floating point edge case with decimals.js lib.
+  Fixes mixed case symbol wss edge case.
+
+## 2.4.0
+
+### Minor Changes
+
+- [#4808](https://github.com/smartcontractkit/external-adapters-js/pull/4808) [`881c41a`](https://github.com/smartcontractkit/external-adapters-js/commit/881c41afa105c99e59273e727d919941578d81af) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Fix timestamp missing from response bug
+
 ## 2.3.0
 
 ### Minor Changes

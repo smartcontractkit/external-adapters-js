@@ -41,7 +41,7 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async handleRequest(param: RequestParams) {
-    let responses: Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>
+    let responses: Partial<Record<Smoother, AdapterResponse<BaseEndpointTypes['Response']>>>
     try {
       responses = await this._handleRequest(param)
     } catch (e) {
@@ -57,10 +57,13 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
           providerIndicatedTimeUnixMs: undefined,
         },
       }
-      responses = {
-        ema: errorResponse,
-        kalman: errorResponse,
-      }
+      responses =
+        param.smoother === 'none'
+          ? { none: errorResponse }
+          : {
+              ema: errorResponse,
+              kalman: errorResponse,
+            }
     }
 
     await this.responseCache.write(
@@ -120,6 +123,7 @@ const dedupeParams = (params: RequestParams[]) => {
       p.regularStreamId,
       p.extendedStreamId,
       p.overnightStreamId,
+      p.overnightStreamMaxAgeInSeconds,
       p.sessionMarket,
       p.sessionMarketType,
       p.sessionBoundaries.join('|'),

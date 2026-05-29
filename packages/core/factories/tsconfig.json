@@ -2,9 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "noUncheckedIndexedAccess": true
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "**/*.spec.ts", "**/*.test.ts"],
-  "references": [{ "path": "../../core/test-helpers" }, { "path": "../bootstrap" }]
+  "references": [
+    {
+      "path": "../../core/test-helpers"
+    },
+    {
+      "path": "../bootstrap"
+    }
+  ]
 }

@@ -2,6 +2,7 @@ package redcon
 
 import (
 	"log/slog"
+	"net/http"
 	"sort"
 	"strconv"
 	"strings"
@@ -16,20 +17,18 @@ import (
 	"github.com/tidwall/redcon"
 )
 
-// SortedSetMember represents a member in a sorted set with its score
-type SortedSetMember struct {
+type sortedSetMember struct {
 	member string
 	score  float64
 }
 
-// Server represents a Redis-compatible server
+// RedconServer represents a Redis-compatible server
 type RedconServer struct {
 	addr       string
 	cache      *cache.Cache
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
-	server     *redcon.Server
 }
 
 // Config holds the Redis server configuration
@@ -56,14 +55,6 @@ func (s *RedconServer) Start() error {
 		s.handleConnect,
 		s.handleDisconnect,
 	)
-}
-
-// Stop stops the Redis server
-func (s *RedconServer) Stop() error {
-	if s.server != nil {
-		return s.server.Close()
-	}
-	return nil
 }
 
 // handleCommand processes incoming Redis commands
@@ -201,7 +192,8 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 
 	// Create Observation from JSON
 	obs := &types.Observation{
-		Success: true,
+		Success:    true,
+		StatusCode: http.StatusOK,
 	}
 
 	// Check for errorMessage field
@@ -215,10 +207,31 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 
 	// Extract data field
 	if data, hasData := rawJSON["data"]; hasData {
-		obs.Data = data
+		obs.Data = append(json.RawMessage(nil), data...)
 	}
 
-	s.cache.Set(params, obs, time.Now(), key)
+	// Extract timestamps field
+	if timestamps, hasTimestamps := rawJSON["timestamps"]; hasTimestamps {
+		obs.Timestamps = append(json.RawMessage(nil), timestamps...)
+	}
+
+	// Extract meta field
+	if meta, hasMeta := rawJSON["meta"]; hasMeta {
+		obs.Meta = append(json.RawMessage(nil), meta...)
+	}
+
+	// Extract result field
+	if result, hasResult := rawJSON["result"]; hasResult {
+		obs.Result = append(json.RawMessage(nil), result...)
+	}
+
+	transformedKey, err := helpers.CalculateCacheKey(params)
+	if err != nil {
+		s.logger.Warn("unable to compute transformed cache key", "key", key, "error", err)
+		conn.WriteInt(1)
+		return
+	}
+	s.cache.SetObservation(transformedKey, obs, time.Now(), key)
 	conn.WriteInt(1)
 }
 
@@ -240,7 +253,6 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	s.mu.Lock()
-	defer s.mu.Unlock()
 
 	// Get or create the sorted set
 	zset, exists := s.sortedSets[key]
@@ -249,12 +261,14 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 		s.sortedSets[key] = zset
 	}
 
-	// Check if member is new
 	addedCount := 0
 	if _, exists := zset[member]; !exists {
 		addedCount = 1
 	}
 	zset[member] = score
+
+	s.mu.Unlock()
+
 	conn.WriteInt(addedCount)
 }
 
@@ -326,9 +340,9 @@ func (s *RedconServer) handleZRange(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	// Convert map to slice and sort by score
-	members := make([]SortedSetMember, 0, len(zset))
+	members := make([]sortedSetMember, 0, len(zset))
 	for member, score := range zset {
-		members = append(members, SortedSetMember{member: member, score: score})
+		members = append(members, sortedSetMember{member: member, score: score})
 	}
 	sort.Slice(members, func(i, j int) bool {
 		if members[i].score == members[j].score {

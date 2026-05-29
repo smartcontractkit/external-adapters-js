@@ -48,7 +48,8 @@ describe('PriceTransport', () => {
   const PRICE_STALE_TIMEOUT_MS = 5 * 60 * 1000 // 5 minutes
   const PREMIUM_EMA_TAU_MS = 1_000_000
   const DEVIATION_EMA_TAU_MS = 500_000
-  const DEVIATION_CAP = 0.02
+  const DEVIATION_CAP_LOW = -0.05
+  const DEVIATION_CAP_HIGH = 0.025
   const TOKENIZED_PRICE_WEIGHT = 0.7
   const CACHE_TTL_MS = 604800000
   const CACHE_PREFIX = 'cache-prefix'
@@ -62,7 +63,8 @@ describe('PriceTransport', () => {
     PRICE_STALE_TIMEOUT_MS,
     PREMIUM_EMA_TAU_MS,
     DEVIATION_EMA_TAU_MS,
-    DEVIATION_CAP,
+    DEVIATION_CAP_LOW,
+    DEVIATION_CAP_HIGH,
     TOKENIZED_PRICE_WEIGHT,
     CACHE_TTL_MS,
     CACHE_PREFIX,
@@ -916,13 +918,13 @@ describe('PriceTransport', () => {
     })
 
     it('should cap increase to 1.4%', async () => {
-      // The deviation is capped to 2% but is only applied with a weight of 70%
-      // so the maximum increase is 70% of 2% which is 1.4%.
+      // The deviation is capped to 2.5% but is only applied with a weight of 70%
+      // so the maximum increase is 70% of 2.5% which is 1.75%.
       const goldPrice = '4000000000000000000000'
       const xautPrice = '5100000000000000000000'
       const paxgPrice = '5300000000000000000000'
       const averagePrice = '5200000000000000000000'
-      const cappedExpectedResult = '4056000000000000000000' // 1.4% higher than goldPrice
+      const cappedExpectedResult = '4070000000000000000000' // 1.75% higher than goldPrice
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)
@@ -994,14 +996,14 @@ describe('PriceTransport', () => {
       log.mockClear()
     })
 
-    it('should cap decrease to 1.4%', async () => {
-      // The deviation is capped to 2% but is only applied with a weight of 70%
-      // so the maximum decrease is 70% of 2% which is 1.4%.
+    it('should cap decrease to 3.5%', async () => {
+      // The deviation is capped to 5% but is only applied with a weight of 70%
+      // so the maximum decrease is 70% of 5% which is 3.5%.
       const goldPrice = '4000000000000000000000'
       const xautPrice = '2900000000000000000000'
       const paxgPrice = '2700000000000000000000'
       const averagePrice = '2800000000000000000000'
-      const cappedExpectedResult = '3944000000000000000000' // 1.4% lower than goldPrice
+      const cappedExpectedResult = '3860000000000000000000' // 3.5% lower than goldPrice
 
       // Start out with all prices the same to have a premium factor if 1.
       mockXauPriceResponse(goldPrice, MarketStatus.OPEN)

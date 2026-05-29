@@ -25,8 +25,10 @@ export const DEFAULT_MARKETS = [
 ]
 
 const feedIdLookup: Record<string, string> = {
-  [dataStreamIdKey(WETH_ADDRESS).toLowerCase()]: '0xfeedweth',
-  [dataStreamIdKey(USDC_ADDRESS).toLowerCase()]: '0xfeedusdc',
+  [dataStreamIdKey(WETH_ADDRESS).toLowerCase()]:
+    '0x00030000000000000000000000000000000000000000000000000000000000e1',
+  [dataStreamIdKey(USDC_ADDRESS).toLowerCase()]:
+    '0x00030000000000000000000000000000000000000000000000000000000000c1',
 }
 
 const DEFAULT_MARKET_PRICES = {

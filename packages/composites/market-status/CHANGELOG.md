@@ -1,5 +1,37 @@
 # @chainlink/market-status-adapter
 
+## 1.9.1
+
+### Patch Changes
+
+- [#4886](https://github.com/smartcontractkit/external-adapters-js/pull/4886) [`030aa22`](https://github.com/smartcontractkit/external-adapters-js/commit/030aa2274cb55ada22f36475a1183902219d463e) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add asian hours
+
+- [#4883](https://github.com/smartcontractkit/external-adapters-js/pull/4883) [`8d8b362`](https://github.com/smartcontractkit/external-adapters-js/commit/8d8b36244bc742b1e5b79f47e091e1a3e06ef828) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Rename hard-code-245 to static-nyse-245
+
+- [#4879](https://github.com/smartcontractkit/external-adapters-js/pull/4879) [`a2092a6`](https://github.com/smartcontractkit/external-adapters-js/commit/a2092a622a543e5555195b5e0bac48ccd3eebb77) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Refactor
+
+- [#4884](https://github.com/smartcontractkit/external-adapters-js/pull/4884) [`c6df447`](https://github.com/smartcontractkit/external-adapters-js/commit/c6df447b0cf14a2c0550c2e3452e603f26dfd3f4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Hard-code NYMEX
+
+## 1.9.0
+
+### Minor Changes
+
+- [#4868](https://github.com/smartcontractkit/external-adapters-js/pull/4868) [`729579a`](https://github.com/smartcontractkit/external-adapters-js/commit/729579a3ddd1021859627dcbf4696a2c6674bedb) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add option to force return 24/5 market status
+
+- [#4876](https://github.com/smartcontractkit/external-adapters-js/pull/4876) [`6eaa7e7`](https://github.com/smartcontractkit/external-adapters-js/commit/6eaa7e7949b1432d5914a792d55a756429f0270c) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add WTI
+
+## 1.8.0
+
+### Minor Changes
+
+- [#4864](https://github.com/smartcontractkit/external-adapters-js/pull/4864) [`050e9de`](https://github.com/smartcontractkit/external-adapters-js/commit/050e9def600fc5556f15c8a55e51a7493725277d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add asian and enery markets
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.7.0
 
 ### Minor Changes

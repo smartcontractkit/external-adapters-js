@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute pool-token-rate should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "poolTokenSupply": "8158765909908130",
+    "rate": "1275866267801001025",
+    "totalLamports": "10409494211336524",
+  },
+  "result": "1275866267801001025",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

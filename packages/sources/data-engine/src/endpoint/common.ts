@@ -17,4 +17,10 @@ export const commonInputParams = {
     type: 'number',
     description: 'Number of decimals to scale the resultPath value to (from native 18)',
   },
+  maxAgeInSeconds: {
+    required: false,
+    type: 'number',
+    description:
+      'Ignore report if the streams report is older than current time by more than this value in seconds. If not provided, all reports will be processed regardless of age.',
+  },
 } as const

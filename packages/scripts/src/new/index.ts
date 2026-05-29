@@ -1,5 +1,53 @@
 import { execSync } from 'child_process'
+import { gt } from 'semver'
 import { generate, writeJson } from './lib'
+
+const FRAMEWORK = '@chainlink/external-adapter-framework@'
+const EA_SCRIPTS = '@chainlink/ea-scripts@workspace:packages/scripts'
+
+type WhyRow = { value: string; children: Record<string, unknown> }
+
+function descriptor(childKey: string): string | null {
+  return childKey.startsWith(FRAMEWORK) ? childKey.slice(FRAMEWORK.length) : null
+}
+
+// Returns highest framework version used in the repo.
+// Except it returns the portal version if it's used in ea-scripts.
+function getFrameworkVersionSpecFromRepo(): string {
+  const out = execSync('yarn why @chainlink/external-adapter-framework --json', {
+    encoding: 'utf-8',
+  })
+
+  const rows = out
+    .trimEnd()
+    .split('\n')
+    .map((line) => JSON.parse(line.trim()) as WhyRow)
+
+  const eaScripts = rows.find((r) => r.value === EA_SCRIPTS)!
+
+  for (const key of Object.keys(eaScripts.children)) {
+    const d = descriptor(key)
+    if (d?.startsWith('portal:')) {
+      return d
+    }
+  }
+
+  let max: string | undefined
+  for (const row of rows) {
+    for (const key of Object.keys(row.children)) {
+      const d = descriptor(key)
+      if (!d?.startsWith('npm:')) {
+        continue
+      }
+      const v = d.slice('npm:'.length)
+      if (max === undefined || gt(v, max)) {
+        max = v
+      }
+    }
+  }
+
+  return `npm:${max}`
+}
 
 if (process.argv[2] == 'tsconfig') {
   // Update tsconfig files
@@ -27,14 +75,7 @@ if (process.argv[2] == 'tsconfig') {
   execSync(`rm -rf ./.yarn/cache/node_modules`)
   // This should give either something like 'npm:1.2.3' or
   // 'portal:some/local/path:...'
-  const frameworkVersion = execSync(
-    `yarn --cwd packages/scripts info @chainlink/external-adapter-framework --json | jq -r '.value'`,
-    {
-      encoding: 'utf-8',
-    },
-  )
-    .trim()
-    .split('@')[2]
+  const frameworkVersion = getFrameworkVersionSpecFromRepo()
 
   let generatorIndexPath = ''
 

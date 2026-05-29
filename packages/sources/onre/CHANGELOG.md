@@ -1,5 +1,11 @@
 # @chainlink/onre-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4836](https://github.com/smartcontractkit/external-adapters-js/pull/4836) [`4e1be98`](https://github.com/smartcontractkit/external-adapters-js/commit/4e1be9872e7c85009e1ae8b1002128eea72a49f9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Unified streams adapter image
+
 ## 1.2.0
 
 ### Minor Changes

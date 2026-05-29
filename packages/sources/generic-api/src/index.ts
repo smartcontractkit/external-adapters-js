@@ -8,14 +8,6 @@ export const adapter = new Adapter({
   name: 'GENERIC_API',
   config,
   endpoints: [http, multiHttp],
-  rateLimiting: {
-    tiers: {
-      default: {
-        rateLimit1m: 20,
-        note: 'Rate Limiter is shared across all feeds',
-      },
-    },
-  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

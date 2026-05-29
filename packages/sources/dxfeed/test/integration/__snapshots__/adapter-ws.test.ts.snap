@@ -33,6 +33,44 @@ exports[`websocket quote endpoint error when data length is not valid 1`] = `
 }
 `;
 
+exports[`websocket quote endpoint return O when isOvernight 1`] = `
+{
+  "data": {
+    "ask_price": 172,
+    "ask_volume": 100,
+    "bid_price": 170,
+    "bid_volume": 148,
+    "mid_price": 171,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
+}
+`;
+
+exports[`websocket quote endpoint return X when not isOvernight 1`] = `
+{
+  "data": {
+    "ask_price": 172.1,
+    "ask_volume": 100.1,
+    "bid_price": 170.1,
+    "bid_volume": 148.1,
+    "mid_price": 171.1,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1670868378000,
+  },
+}
+`;
+
 exports[`websocket quote endpoint should return ask when bid is 0 1`] = `
 {
   "data": {

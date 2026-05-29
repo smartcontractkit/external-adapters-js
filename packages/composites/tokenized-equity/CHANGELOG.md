@@ -1,5 +1,28 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#4932](https://github.com/smartcontractkit/external-adapters-js/pull/4932) [`0a9e8ba`](https://github.com/smartcontractkit/external-adapters-js/commit/0a9e8baf6071ec879815260f8f6b7f9563a44f6d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Code refactoring
+
+## 1.1.1
+
+### Patch Changes
+
+- [#4924](https://github.com/smartcontractkit/external-adapters-js/pull/4924) [`b98ee45`](https://github.com/smartcontractkit/external-adapters-js/commit/b98ee45b89ef4634fbb207d9d46bd2eda27957e0) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Allow no smoothing as well as only 1 streams
+
+## 1.1.0
+
+### Minor Changes
+
+- [#4792](https://github.com/smartcontractkit/external-adapters-js/pull/4792) [`8868570`](https://github.com/smartcontractkit/external-adapters-js/commit/88685702290479905d3daa3e77bd6b1e326e1923) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Include overnightStreamMaxAgeInSeconds
+
+### Patch Changes
+
+- Updated dependencies [[`8896a3e`](https://github.com/smartcontractkit/external-adapters-js/commit/8896a3ee432046f1ea6c0266d54a280c4b89cf12), [`d1e26b8`](https://github.com/smartcontractkit/external-adapters-js/commit/d1e26b8437792b971b905746fe74b3ad0e2fe6cb)]:
+  - @chainlink/data-engine-adapter@1.3.0
+
 ## 1.0.1
 
 ### Patch Changes

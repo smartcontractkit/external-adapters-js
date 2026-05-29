@@ -1,5 +1,27 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.16.2
+
+### Patch Changes
+
+- [#4993](https://github.com/smartcontractkit/external-adapters-js/pull/4993) [`60296dd`](https://github.com/smartcontractkit/external-adapters-js/commit/60296dde44e3e1950b298859aa5e61e9533dbda4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ripcord in okxAssetsAddress
+
+## 5.16.1
+
+### Patch Changes
+
+- [#4902](https://github.com/smartcontractkit/external-adapters-js/pull/4902) [`7a2e8bb`](https://github.com/smartcontractkit/external-adapters-js/commit/7a2e8bb3444f2419b5bc245d73d8507538d0ea36) Thanks [@dskloetc](https://github.com/dskloetc)! - Update default URLs for solvBTC endpoint
+
+## 5.16.0
+
+### Minor Changes
+
+- [#4760](https://github.com/smartcontractkit/external-adapters-js/pull/4760) [`0d20656`](https://github.com/smartcontractkit/external-adapters-js/commit/0d2065689873d2d960ee5f69da13c78cd0f15a9f) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add staking support to okx addresses
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 5.15.0
 
 ### Minor Changes

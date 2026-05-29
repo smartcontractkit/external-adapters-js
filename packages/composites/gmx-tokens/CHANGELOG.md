@@ -1,5 +1,11 @@
 # @chainlink/gmx-tokens-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#4802](https://github.com/smartcontractkit/external-adapters-js/pull/4802) [`ca9aba6`](https://github.com/smartcontractkit/external-adapters-js/commit/ca9aba6bb91e0f79e6f28812c6a349a30c2d6a37) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Updated dependencies @chainlink/data-engine-adapter@1.3.0
+
 ## 1.1.1
 
 ### Patch Changes

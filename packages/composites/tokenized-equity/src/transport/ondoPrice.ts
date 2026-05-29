@@ -13,16 +13,17 @@ export const calculatePrice = async (param: {
   asset: string
   registry: string
   provider: JsonRpcProvider
-  regularStreamId: string
-  extendedStreamId: string
-  overnightStreamId: string
+  regularStreamId?: string
+  extendedStreamId?: string
+  overnightStreamId?: string
+  overnightStreamMaxAgeInSeconds?: number
   url: string
   tradingHoursUrl: string
   requester: Requester
-  sessionMarket: string
-  sessionMarketType: string
+  sessionMarket?: string
+  sessionMarketType?: string
   sessionBoundaries: string[]
-  sessionBoundariesTimeZone: string
+  sessionBoundariesTimeZone?: string
   smoother: Smoother
   decimals: number
 }) => {

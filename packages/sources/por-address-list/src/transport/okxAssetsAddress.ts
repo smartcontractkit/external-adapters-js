@@ -1,4 +1,10 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import {
+  isValidBitcoinAddress,
+  isValidEthereumAddress,
+  isValidEthereumWithdrawalCredentials,
+  isValidSolanaAddress,
+} from '@chainlink/external-adapter-framework/validation/address'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { BaseEndpointTypes } from '../endpoint/okxAssetsAddress'
 
@@ -12,6 +18,7 @@ interface ResponseSchema {
     stakingBalanceDetails: {
       address: string
     }[]
+    stakingWithdrawalCredentials: string[]
   }
   detailMsg: string
   error_code: string
@@ -25,6 +32,7 @@ export type HttpTransportTypes = BaseEndpointTypes & {
     ResponseBody: ResponseSchema
   }
 }
+
 export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
@@ -39,41 +47,45 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
   },
   parseResponse: (params, response) => {
     if (!response.data) {
-      return [
-        {
-          params: params[0],
-          response: {
-            errorMessage: `The data provider didn't return any data for OKX ${params[0].coin}`,
-            statusCode: 502,
-          },
-        },
-      ]
+      return errorResponse(
+        params[0],
+        `The data provider didn't return any data for OKX ${params[0].coin}`,
+      )
     }
 
     if (response.data.error_code !== '0') {
-      return [
-        {
-          params: params[0],
-          response: {
-            errorMessage: `Error code ${response.data.error_code}: ${response.data.error_message}`,
-            statusCode: 502,
-          },
-        },
-      ]
+      return errorResponse(
+        params[0],
+        `Error code ${response.data.error_code}: ${response.data.error_message}`,
+      )
     }
 
-    const addresses = getAddresses(params[0].addressField, response.data)
+    const addresses = getAddresses(params[0], response.data)
 
     if (addresses.length === 0) {
-      return [
-        {
-          params: params[0],
-          response: {
-            errorMessage: `The data provider didn't return any ${params[0].addressField} for OKX ${params[0].coin}`,
-            statusCode: 502,
-          },
-        },
-      ]
+      return errorResponse(
+        params[0],
+        `The data provider didn't return any ${params[0].addressField} for OKX ${params[0].coin}`,
+      )
+    }
+
+    const errors = addresses.flatMap((item) => ('error' in item ? [item.error] : []))
+    if (errors.length > 0) {
+      return params[0].noErrorOnRipcord
+        ? [
+            {
+              params: params[0],
+              response: {
+                result: null,
+                data: {
+                  result: [],
+                  ripcord: true,
+                  ripcordDetails: errors.join('; '),
+                },
+              },
+            },
+          ]
+        : errorResponse(params[0], errors.join('; '))
     }
 
     return [
@@ -82,11 +94,14 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
         response: {
           result: null,
           data: {
-            result: addresses.map((address) => ({
-              address,
-              network: params[0].network,
-              chainId: params[0].chainId,
-            })),
+            result: addresses
+              .flatMap((item) => ('address' in item ? [item.address] : []))
+              .map((address) => ({
+                address,
+                network: params[0].network,
+                chainId: params[0].chainId,
+              })),
+            ripcord: false,
           },
         },
       },
@@ -95,15 +110,51 @@ export const okxAssetsAddressHttpTransport = new HttpTransport<HttpTransportType
 })
 
 const getAddresses = (
-  type: TypeFromDefinition<BaseEndpointTypes['Parameters']>['addressField'],
+  param: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
   data: ResponseSchema,
-) => {
-  switch (type) {
+): ({ address: string } | { error: string })[] => {
+  switch (param.addressField) {
     case 'lockAddresses':
-      return (data.data.lockAddresses ?? []).map((item) => item.address)
     case 'stakingBalanceDetails':
-      return (data.data.stakingBalanceDetails ?? []).map((item) => item.address)
+      return (data.data[param.addressField] ?? []).map((item) =>
+        isValidateAddress(item.address, param.network)
+          ? { address: item.address }
+          : { error: `Invalid ${param.network} address ${item.address} for OKX ${param.coin}` },
+      )
+    case 'stakingWithdrawalCredentials':
+      return (data.data.stakingWithdrawalCredentials ?? []).map((item) => {
+        const withdrawalCred = item.trim().toLowerCase()
+        return isValidEthereumWithdrawalCredentials(withdrawalCred)
+          ? { address: `0x${withdrawalCred.slice(26)}` }
+          : { error: `Invalid withdrawalCred ${withdrawalCred} for OKX ${param.coin}` }
+      })
     default:
       return []
   }
 }
+
+const isValidateAddress = (address: string, network: string) => {
+  switch (network.toLowerCase()) {
+    case 'ethereum':
+      return isValidEthereumAddress(address)
+    case 'bitcoin':
+      return isValidBitcoinAddress(address)
+    case 'solana':
+      return isValidSolanaAddress(address)
+    default:
+      return false
+  }
+}
+
+const errorResponse = (
+  params: TypeFromDefinition<BaseEndpointTypes['Parameters']>,
+  errorMessage: string,
+) => [
+  {
+    params,
+    response: {
+      errorMessage,
+      statusCode: 502,
+    },
+  },
+]

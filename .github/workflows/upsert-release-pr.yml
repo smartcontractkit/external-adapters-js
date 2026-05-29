@@ -7,11 +7,6 @@ on:
         description: comma (and/or space) separated list of adapters to release (if empty, all changed adapters with changesets will be released)
         required: false
         default: ''
-      build-streams-adapter-images:
-        description: build streams adapter images during deploy (adds streams test/build steps)
-        required: false
-        default: false
-        type: boolean
 
 # TODO: This entire workflow would be immensely sped up (~3min -> 30s tops) if:
 # - Readme generation did not require built TS files
@@ -36,7 +31,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       UPSTREAM_BRANCH: 'HEAD~1'
       SELECTED_ADAPTERS: ${{ inputs.selected-adapters }}
-      BUILD_STREAMS_ADAPTER_IMAGES: ${{ inputs.build-streams-adapter-images }}
     steps:
       - name: Check if changeset release branch already exists
         shell: bash
@@ -102,13 +96,13 @@ jobs:
           git stash
       - name: Set up GATI token for PR creation
         id: setup-github-token
-        uses: smartcontractkit/.github/actions/setup-github-token@9e7cc0779934cae4a9028b8588c9adb64d8ce68c # setup-github-token@0.1.2
+        uses: smartcontractkit/.github/actions/setup-github-token@7ac9af09dda8c553593d2153a975b43b6958fa9f # setup-github-token@0.1.2
         with:
           aws-role-arn: ${{ secrets.GATI_AWS_ROLE_ARN_FOR_CREATE_PRS }}
           aws-lambda-url: ${{ secrets.GATI_LAMBDA_DATA_FEEDS_URL }}
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Create Release Pull Request
-        uses: smartcontractkit/.github/actions/signed-commits@4b7aa1d5b60f0d5704400a1d2b192905ad386e6c # changesets-signed-commits@1.2.4
+        uses: smartcontractkit/.github/actions/signed-commits@aae9a00d6c15d5e9b9dae731c3eec983b6aa7fe3 # changesets-signed-commits@1.2.4
         with:
           # This version command is not only necessary because of yarn pnp, but because the changeset action
           # performs git resets and we want to keep those changes, so we stash and then pop them here.
@@ -132,29 +126,9 @@ jobs:
             --state open \
             --json number,title \
             --jq ".[] | select(.title == \"Release $BUMPED_VERSION\") | .number")
-
-          if [[ -z "$PR_NUMBER" ]]; then
-            echo "Unable to find release PR for version $BUMPED_VERSION"
-            exit 1
-          fi
-
           PR_BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
-
           printf -v PR_BODY_PREFIX "This release was triggered by @%s.\n\n" "${{ github.actor }}"
-          PR_BODY_SUFFIX=""
-
-          if [[ "$BUILD_STREAMS_ADAPTER_IMAGES" = "true" ]]; then
-            MARKER='<!-- build-streams-adapter-images:true -->'
-
-            if [[ "$PR_BODY" == *"$MARKER"* ]]; then
-              echo "Streams marker already present in PR body"
-              exit 0
-            fi
-
-            printf -v PR_BODY_SUFFIX "\n\n## Release Options\n%s\n- [x] Build streams adapter images\n" "$MARKER"
-          fi
-
-          printf -v UPDATED_BODY "%s%s%s" "$PR_BODY_PREFIX" "$PR_BODY" "$PR_BODY_SUFFIX"
+          printf -v UPDATED_BODY "%s%s" "$PR_BODY_PREFIX" "$PR_BODY"
 
           gh api \
             --method PATCH \

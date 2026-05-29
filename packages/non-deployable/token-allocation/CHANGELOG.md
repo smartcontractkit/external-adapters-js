@@ -1,5 +1,138 @@
 # @chainlink/token-allocation-adapter
 
+## 1.14.28
+
+### Patch Changes
+
+- Updated dependencies [[`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4)]:
+  - @chainlink/coinpaprika-adapter@2.6.0
+
+## 1.14.27
+
+### Patch Changes
+
+- Updated dependencies [[`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45)]:
+  - @chainlink/blocksize-capital-adapter@2.6.6
+  - @chainlink/cfbenchmarks-adapter@2.7.6
+  - @chainlink/coinmetrics-adapter@3.11.6
+  - @chainlink/finage-adapter@2.6.6
+  - @chainlink/ncfx-adapter@4.7.6
+  - @chainlink/tiingo-adapter@2.10.7
+
+## 1.14.26
+
+### Patch Changes
+
+- Updated dependencies [[`8fc90ab`](https://github.com/smartcontractkit/external-adapters-js/commit/8fc90abc7f6d439b5ecdad09e663d76131b066e9)]:
+  - @chainlink/blocksize-capital-adapter@2.6.5
+  - @chainlink/cfbenchmarks-adapter@2.7.5
+  - @chainlink/coinmetrics-adapter@3.11.5
+  - @chainlink/finage-adapter@2.6.5
+  - @chainlink/ncfx-adapter@4.7.5
+  - @chainlink/tiingo-adapter@2.10.6
+
+## 1.14.25
+
+### Patch Changes
+
+- Updated dependencies [[`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9)]:
+  - @chainlink/blocksize-capital-adapter@2.6.4
+  - @chainlink/cfbenchmarks-adapter@2.7.4
+  - @chainlink/coinmetrics-adapter@3.11.4
+  - @chainlink/finage-adapter@2.6.4
+  - @chainlink/ncfx-adapter@4.7.4
+  - @chainlink/tiingo-adapter@2.10.5
+
+## 1.14.24
+
+### Patch Changes
+
+- Updated dependencies [[`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25)]:
+  - @chainlink/blocksize-capital-adapter@2.6.3
+  - @chainlink/cfbenchmarks-adapter@2.7.3
+  - @chainlink/coinmetrics-adapter@3.11.3
+  - @chainlink/finage-adapter@2.6.3
+  - @chainlink/ncfx-adapter@4.7.3
+  - @chainlink/tiingo-adapter@2.10.4
+
+## 1.14.23
+
+### Patch Changes
+
+- Updated dependencies [[`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33)]:
+  - @chainlink/blocksize-capital-adapter@2.6.2
+  - @chainlink/cfbenchmarks-adapter@2.7.2
+  - @chainlink/coinmetrics-adapter@3.11.2
+  - @chainlink/finage-adapter@2.6.2
+  - @chainlink/ncfx-adapter@4.7.2
+  - @chainlink/tiingo-adapter@2.10.3
+
+## 1.14.22
+
+### Patch Changes
+
+- Updated dependencies [[`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4)]:
+  - @chainlink/blocksize-capital-adapter@2.6.1
+  - @chainlink/cfbenchmarks-adapter@2.7.1
+  - @chainlink/coinmetrics-adapter@3.11.1
+  - @chainlink/finage-adapter@2.6.1
+  - @chainlink/ncfx-adapter@4.7.1
+  - @chainlink/tiingo-adapter@2.10.2
+
+## 1.14.21
+
+### Patch Changes
+
+- Updated dependencies [[`e1ce27f`](https://github.com/smartcontractkit/external-adapters-js/commit/e1ce27f8df0e1d3ab2894d102d1e7258ad04d67e)]:
+  - @chainlink/coingecko-adapter@2.2.0
+
+## 1.14.20
+
+### Patch Changes
+
+- Updated dependencies [[`faf447b`](https://github.com/smartcontractkit/external-adapters-js/commit/faf447bfe37fe9109459670c46d8a38db84a45c7)]:
+  - @chainlink/tiingo-adapter@2.10.1
+
+## 1.14.19
+
+### Patch Changes
+
+- Updated dependencies [[`063ee6b`](https://github.com/smartcontractkit/external-adapters-js/commit/063ee6b2914cbff1745f42802454731d3f6f1d43)]:
+  - @chainlink/cfbenchmarks-adapter@2.7.0
+  - @chainlink/coinmetrics-adapter@3.11.0
+  - @chainlink/finage-adapter@2.6.0
+  - @chainlink/ncfx-adapter@4.7.0
+  - @chainlink/tiingo-adapter@2.10.0
+
+## 1.14.18
+
+### Patch Changes
+
+- Updated dependencies [[`39dd2b8`](https://github.com/smartcontractkit/external-adapters-js/commit/39dd2b80c6f5b03b7bb473678fd1d8c089e6ab60)]:
+  - @chainlink/blocksize-capital-adapter@2.6.0
+
+## 1.14.17
+
+### Patch Changes
+
+- Updated dependencies [[`122a02a`](https://github.com/smartcontractkit/external-adapters-js/commit/122a02aa486c0e42a6303704a4731c7f684d7086)]:
+  - @chainlink/coinpaprika-adapter@2.5.0
+
+## 1.14.16
+
+### Patch Changes
+
+- Updated dependencies [[`881c41a`](https://github.com/smartcontractkit/external-adapters-js/commit/881c41afa105c99e59273e727d919941578d81af)]:
+  - @chainlink/coinpaprika-adapter@2.4.0
+
+## 1.14.15
+
+### Patch Changes
+
+- Updated dependencies [[`cb30c2c`](https://github.com/smartcontractkit/external-adapters-js/commit/cb30c2c1704d02ffe9080b0055d57178722e1fa0), [`c3514ef`](https://github.com/smartcontractkit/external-adapters-js/commit/c3514ef14f969f98fc5166e6286c06b76bbd0439)]:
+  - @chainlink/blocksize-capital-adapter@2.5.7
+  - @chainlink/tiingo-adapter@2.9.8
+
 ## 1.14.14
 
 ### Patch Changes

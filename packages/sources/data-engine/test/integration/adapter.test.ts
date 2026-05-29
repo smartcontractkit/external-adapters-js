@@ -12,6 +12,7 @@ describe('execute', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
+  let spy: jest.SpyInstance
   const wsEndpoint = 'ws://localhost:9090'
 
   const v3Data = {
@@ -25,6 +26,11 @@ describe('execute', () => {
   const v11Data = {
     endpoint: 'deutscheBoerse-v11',
     feedId: '0x000b5',
+  }
+
+  const v7Data = {
+    endpoint: 'exchangeRate-v7',
+    feedId: '0x0007',
   }
 
   const v3WithResultPath = {
@@ -42,6 +48,19 @@ describe('execute', () => {
     endpoint: 'rwa-v8',
     feedId: '0x0008',
     resultPath: 'midPrice',
+  }
+
+  const v7WithResultPath = {
+    endpoint: 'exchangeRate-v7',
+    feedId: '0x0007',
+    resultPath: 'exchangeRate',
+  }
+
+  const v7WithResultPathAndDecimals = {
+    endpoint: 'exchangeRate-v7',
+    feedId: '0x0007',
+    resultPath: 'exchangeRate',
+    decimals: 8,
   }
 
   const v11WithResultPathAndDecimals = {
@@ -67,23 +86,31 @@ describe('execute', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
+    // Mock Date.now to return a fixed timestamp so snapshots stay stable when requests are added/removed
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+
     // Send initial requests to start background execute and wait for cache to be filled with results.
     // Base requests (no resultPath/decimals)
     await testAdapter.request(v3Data)
     await testAdapter.request(v8Data)
     await testAdapter.request(v11Data)
+    await testAdapter.request(v7Data)
     // Requests with resultPath and/or decimals
     await testAdapter.request(v3WithResultPath)
     await testAdapter.request(v3WithResultPathAndDecimals)
     await testAdapter.request(v8WithResultPath)
+    await testAdapter.request(v7WithResultPath)
+    await testAdapter.request(v7WithResultPathAndDecimals)
     await testAdapter.request(v11WithResultPathAndDecimals)
-    await testAdapter.waitForCache(7)
+    await testAdapter.waitForCache(10)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     testAdapter.clock?.uninstall()
+    spy.mockRestore()
     await testAdapter.api.close()
   })
 
@@ -106,6 +133,14 @@ describe('execute', () => {
   describe('deutscheBoerse-v11 endpoint', () => {
     it('should return success', async () => {
       const response = await testAdapter.request(v11Data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('exchangeRate-v7 endpoint', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(v7Data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })
@@ -142,6 +177,28 @@ describe('execute', () => {
       const json = response.json()
       expect(json.result).toBe('609515000000000000000')
       expect(json.data.midPrice).toBe('609515000000000000000')
+    })
+  })
+
+  describe('exchangeRate-v7 with resultPath', () => {
+    it('should return redemptionRate in result field', async () => {
+      const response = await testAdapter.request(v7WithResultPath)
+      expect(response.statusCode).toBe(200)
+      const json = response.json()
+      expect(json.result).toBe('1156789000000000000')
+      expect(json.data.exchangeRate).toBe('1156789000000000000')
+    })
+  })
+
+  describe('exchangeRate-v7 with resultPath and decimals', () => {
+    it('should return scaled redemptionRate in result field', async () => {
+      const response = await testAdapter.request(v7WithResultPathAndDecimals)
+      expect(response.statusCode).toBe(200)
+      const json = response.json()
+      // redemptionRate 1156789000000000000 scaled from 18 to 8 decimals
+      expect(json.result).toBe('115678900')
+      // data should still contain raw unscaled values
+      expect(json.data.exchangeRate).toBe('1156789000000000000')
     })
   })
 

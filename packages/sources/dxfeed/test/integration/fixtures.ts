@@ -57,7 +57,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['TSLA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+        ['TSLA', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 172.0, 100.0],
       ],
       channel: '/service/data',
     },
@@ -67,8 +67,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       data: [
         'Quote',
         [
-          ...['MULTI_1', 1, 2, 3, 4, 'V', 5, 6, 7, 'V', 8, 9],
-          ...['MULTI_2', 10, 11, 12, 13, 'V', 14, 15, 16, 'V', 17, 18],
+          ...['MULTI_1', 1, 2, 3, 4, 'O', 5, 6, 7, 'O', 8, 9],
+          ...['MULTI_2', 10, 11, 12, 13, 'O', 14, 15, 16, 'O', 17, 18],
         ],
       ],
       channel: '/service/data',
@@ -78,7 +78,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['NO_BID', 0, 0, 0, 1670868378000, 'V', 0, 148.0, 1670868370000, 'V', 172.0, 100.0],
+        ['NO_BID', 0, 0, 0, 1670868378000, 'O', 0, 148.0, 1670868370000, 'O', 172.0, 100.0],
       ],
       channel: '/service/data',
     },
@@ -87,7 +87,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['NO_ASK', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 0, 100.0],
+        ['NO_ASK', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 0, 100.0],
       ],
       channel: '/service/data',
     },
@@ -96,7 +96,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['NO_VOLUME', 0, 0, 0, 1670868378000, 'V', 170.0, 'NaN', 1670868370000, 'V', 172.0, 'NaN'],
+        ['NO_VOLUME', 0, 0, 0, 1670868378000, 'O', 170.0, 'NaN', 1670868370000, 'O', 172.0, 'NaN'],
       ],
       channel: '/service/data',
     },
@@ -105,7 +105,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['INVALID_DATA', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 0],
+        ['INVALID_DATA', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 0],
       ],
       channel: '/service/data',
     },
@@ -114,7 +114,7 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['NULL_BID', 0, 0, 0, 1670868378000, 'V', 'NaN', 148.0, 1670868370000, 'V', 172.0, 100.0],
+        ['NULL_BID', 0, 0, 0, 1670868378000, 'O', 'NaN', 148.0, 1670868370000, 'O', 172.0, 100.0],
       ],
       channel: '/service/data',
     },
@@ -123,7 +123,25 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
     {
       data: [
         'Quote',
-        ['NULL_ASK', 0, 0, 0, 1670868378000, 'V', 170.0, 148.0, 1670868370000, 'V', 'NaN', 100.0],
+        ['NULL_ASK', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 'NaN', 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const quoteReponseInO = [
+    {
+      data: [
+        'Quote',
+        ['OX', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 172.0, 100.0],
+      ],
+      channel: '/service/data',
+    },
+  ]
+  const quoteReponseInX = [
+    {
+      data: [
+        'Quote',
+        ['OX', 0, 0, 0, 1670868378000, 'O', 170.1, 148.1, 1670868370000, 'X', 172.1, 100.1],
       ],
       channel: '/service/data',
     },
@@ -316,6 +334,8 @@ export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
       socket.send(JSON.stringify(invalidQuoteReponse))
       socket.send(JSON.stringify(nullBidQuoteResponse))
       socket.send(JSON.stringify(nullAskQuoteResponse))
+      socket.send(JSON.stringify(quoteReponseInO))
+      socket.send(JSON.stringify(quoteReponseInX))
       socket.send(JSON.stringify(tradeResponse))
       socket.send(JSON.stringify(tradeResponseIgnored))
       socket.send(JSON.stringify(tradeResponseOvernight))

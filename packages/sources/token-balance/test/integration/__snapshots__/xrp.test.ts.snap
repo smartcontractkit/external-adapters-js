@@ -8,6 +8,7 @@ exports[`execute xrpl endpoint should return success 1`] = `
       {
         "address": "rGSA6YCGzywj2hsPA8DArSsLr1DMTBi2LH",
         "balance": "19999926",
+        "decimals": 6,
       },
     ],
   },

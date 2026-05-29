@@ -22,4 +22,5 @@ export const deutscheBoerseV11Transport = createDataEngineTransport<
       decimals: DECIMALS,
     }
   },
+  reportTimestampS: (decoded) => Number(decoded.lastSeenTimestampNs / 10n ** 9n),
 })

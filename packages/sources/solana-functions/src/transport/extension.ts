@@ -128,10 +128,14 @@ export class ExtensionTransport extends SubscriptionTransport<BaseEndpointTypes>
       }
     }
 
+    if (params.resultDecimals !== undefined) {
+      resultData['decimals'] = params.resultDecimals
+    }
+
     return {
       data: resultData,
       statusCode: 200,
-      result: null,
+      result: resultData[params.resultName ?? ''] ?? null,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),

@@ -20,8 +20,10 @@ export type BaseCryptoEndpointTypes = {
 }
 
 export function tiingoCommonSubscriptionRequestTransform() {
-  return (req: AdapterRequest<{ base: string; quote: string }>) => {
+  return (req: AdapterRequest<{ base: string; quote?: string }>) => {
     req.requestContext.data.base = req.requestContext.data.base.toLowerCase()
-    req.requestContext.data.quote = req.requestContext.data.quote.toLowerCase()
+    if (req.requestContext.data.quote) {
+      req.requestContext.data.quote = req.requestContext.data.quote.toLowerCase()
+    }
   }
 }

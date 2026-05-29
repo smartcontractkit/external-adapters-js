@@ -84,6 +84,49 @@ describe('solanaTransport._handleRequest', () => {
     expect(resp.result).toBe(String(BigInt(expectedUsdBalance * 10 ** RESULT_DECIMALS)))
   })
 
+  it('should not convert if priceOracle is not specified', async () => {
+    const tokenBalanceValue = 1000
+    const tokenBalanceDecimals = 6
+    jest.mocked(getToken).mockResolvedValue({
+      result: [
+        {
+          value: BigInt(tokenBalanceValue * 10 ** tokenBalanceDecimals),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+      formattedResponse: [
+        {
+          token: tokenMintContractAddress,
+          wallet: ownerAddress,
+          value: (tokenBalanceValue * 10 ** tokenBalanceDecimals).toString(),
+          decimals: tokenBalanceDecimals,
+        },
+      ],
+    })
+
+    const resp = await transport._handleRequest({
+      addresses: [{ address: ownerAddress }],
+      tokenMint: {
+        token: token,
+        contractAddress: tokenMintContractAddress,
+      },
+    })
+
+    expect(getToken).toHaveBeenCalledWith(
+      [
+        {
+          token: 'tbill',
+          contractAddress: tokenMintContractAddress,
+          wallets: [ownerAddress],
+        },
+      ],
+      'tbill',
+      transport.connection,
+    )
+    expect(resp.statusCode).toBe(200)
+    expect(resp.result).toBe(String(BigInt(tokenBalanceValue * 10 ** RESULT_DECIMALS)))
+  })
+
   it('test scaling of calculates correct USD result', async () => {
     const tokenBalanceValue = 10
     const tokenBalanceDecimals = 6

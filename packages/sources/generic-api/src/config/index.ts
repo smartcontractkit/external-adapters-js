@@ -1,7 +1,15 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
-export const config = new AdapterConfig({})
+export const config = new AdapterConfig({
+  BACKGROUND_EXECUTE_MS: {
+    description:
+      'The amount of time the background execute should sleep before performing the next request',
+    type: 'number',
+    default: 10_000,
+    sensitive: false,
+  },
+})
 
 const sanitizeEnvVarName = (name: string): string => {
   return name.toUpperCase().replace(/[^a-zA-Z0-9]/g, '_')

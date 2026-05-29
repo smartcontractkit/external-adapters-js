@@ -16,6 +16,11 @@ export const stockQuotesInputParameters = new InputParameters({
     description: 'If true, throw error if bid/ask volume is invalid',
     type: 'boolean',
   },
+  isOvernight: {
+    default: false,
+    description: 'If true, only accept O exchange codes for bid and ask',
+    type: 'boolean',
+  },
 })
 
 export type BaseEndpointTypes = {

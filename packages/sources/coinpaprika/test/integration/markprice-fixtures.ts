@@ -11,7 +11,7 @@ const MARK_PRICE_MESSAGE = {
   },
 }
 
-const TOP_OF_BOOK_MESSAGE = {
+const TOP_OF_BOOK_PERPS_MESSAGE = {
   event: 'top_of_book',
   data: {
     id: 'btcusdt',
@@ -23,11 +23,50 @@ const TOP_OF_BOOK_MESSAGE = {
   },
 }
 
+const TOP_OF_BOOK_SPOT_MESSAGE = {
+  event: 'top_of_book_spot',
+  data: {
+    id: 'btcusdt',
+    exchange: 'binance',
+    symbol: 'BTCUSDT',
+    bid_price: '97490.00',
+    ask_price: '97510.00',
+    timestamp: '2026-03-12T15:24:40Z',
+  },
+}
+
+const HYPERLIQUID_PERPS_MESSAGE = {
+  event: 'top_of_book',
+  data: {
+    id: 'btc',
+    exchange: 'hyperliquid',
+    symbol: 'BTC',
+    bid_price: '97470.00',
+    ask_price: '97530.00',
+    timestamp: '2026-03-12T15:24:40Z',
+  },
+}
+
+const HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE = {
+  event: 'top_of_book',
+  data: {
+    id: 'xyz:silver',
+    exchange: 'hyperliquid',
+    symbol: 'xyz:SILVER',
+    bid_price: '45.50',
+    ask_price: '45.60',
+    timestamp: '2026-03-12T15:24:40Z',
+  },
+}
+
 export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     setTimeout(() => socket.send(JSON.stringify(MARK_PRICE_MESSAGE)), 100)
-    setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_MESSAGE)), 101)
+    setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_PERPS_MESSAGE)), 101)
+    setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_SPOT_MESSAGE)), 102)
+    setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_PERPS_MESSAGE)), 103)
+    setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE)), 104)
   })
   return mockWsServer
 }

@@ -1,15 +1,20 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { erc20TokenBalanceTransport } from '../transport/evm'
-import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const inputParameters = new InputParameters(
   {
     addresses: {
       required: true,
       type: {
+        token: {
+          required: false,
+          type: 'string',
+          description: 'Token symbol of the token of the contract address.',
+        },
         network: {
           aliases: ['chain'],
           required: false,
@@ -50,11 +55,17 @@ export const inputParameters = new InputParameters(
       array: true,
       description: 'List of addresses to read',
     },
+    token: {
+      required: false,
+      description: 'Token symbol used to filter addresses',
+      type: 'string',
+    },
   },
   [
     {
       addresses: [
         {
+          token: 'LINK',
           network: 'ethereum',
           chainId: '1',
           contractAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
@@ -66,6 +77,7 @@ export const inputParameters = new InputParameters(
           decimalsSignature: 'function decimals() external pure returns (uint8)',
         },
       ],
+      token: 'LINK',
     },
   ],
 )
@@ -106,6 +118,18 @@ export const endpoint = new AdapterEndpoint({
           statusCode: 400,
           message: "One or more addresses is missing one of ['chainId', 'network'].",
         })
+      }
+    }
+    // If filtering by token symbol, ensure each address has a token specified
+    if (req.requestContext.data.token) {
+      for (const address of addresses) {
+        if (!address.token) {
+          throw new AdapterInputError({
+            statusCode: 400,
+            message:
+              'When top-level token is specified, each address must have a token specified as well.',
+          })
+        }
       }
     }
     return

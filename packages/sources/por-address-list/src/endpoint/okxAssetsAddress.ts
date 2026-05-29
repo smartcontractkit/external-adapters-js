@@ -15,7 +15,7 @@ export const inputParameters = new InputParameters(
       description: 'The field name in the API response that contains the addresses.',
       type: 'string',
       required: true,
-      options: ['lockAddresses', 'stakingBalanceDetails'],
+      options: ['lockAddresses', 'stakingBalanceDetails', 'stakingWithdrawalCredentials'],
     },
     network: {
       description: 'The network name to associate with the addresses',
@@ -27,6 +27,12 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    noErrorOnRipcord: {
+      type: 'boolean',
+      default: false,
+      description:
+        'Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset',
+    },
   },
   [
     {
@@ -34,6 +40,7 @@ export const inputParameters = new InputParameters(
       addressField: 'lockAddresses',
       network: 'bitcoin',
       chainId: 'mainnet',
+      noErrorOnRipcord: false,
     },
   ],
 )
@@ -44,6 +51,8 @@ export type BaseEndpointTypes = {
     Result: null
     Data: {
       result: PoRAddress[] | PoRTokenAddress[]
+      ripcord: boolean
+      ripcordDetails?: string
     }
   }
   Settings: typeof config.settings

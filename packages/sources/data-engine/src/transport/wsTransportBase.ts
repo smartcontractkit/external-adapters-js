@@ -50,6 +50,7 @@ export function createDataEngineTransport<
   schemaVersion: string
   loggerName: string
   extractData: (decoded: DecodedReport) => BaseEndpointTypes['Response']['Data']
+  reportTimestampS?: (decoded: DecodedReport) => number
 }) {
   const logger = makeLogger(config.loggerName)
 
@@ -108,7 +109,21 @@ export function createDataEngineTransport<
 
         // Build one result per subscription that matches this message's feedId
         return currentDesiredSubs
-          .filter((sub) => sub.feedId === msg.report!.feedID)
+          .filter((sub) => sub.feedId === msg.report?.feedID)
+          .filter((sub) => {
+            if (!sub.maxAgeInSeconds || !config.reportTimestampS) {
+              return true
+            }
+            const reportTimestamp = config.reportTimestampS(decoded as DecodedReport)
+            const ageInSeconds = Date.now() / 1000 - reportTimestamp
+            if (ageInSeconds > sub.maxAgeInSeconds) {
+              logger.warn(
+                `Filtering out stale report: feedId=${sub.feedId}, age=${ageInSeconds}s, max=${sub.maxAgeInSeconds}s`,
+              )
+              return false
+            }
+            return true
+          })
           .map((sub) => {
             const params = sub as ProviderResult<BaseEndpointTypes & ProviderTypes>['params']
             try {

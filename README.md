@@ -86,9 +86,9 @@ The [MASTERLIST.md](./MASTERLIST.md) file in the root directory contains the lis
 
 ## Streams Adapters
 
-Streams adapters are built and published as separate container images and are currently used by the Data Streams product only.
+Streams adapters are used by the Data Streams product. Every adapter image is built from a unified `Dockerfile` that includes both the JS adapter and the Go streams runtime. The mode is selected at runtime by setting the environment variable `STREAMS_ADAPTER=true`.
 
-See `packages/streams-adapter/README.md` for architecture, configuration, and runtime details.
+See [packages/streams-adapter/README.md](packages/streams-adapter/README.md) for architecture, configuration, and runtime details.
 
 ## How to Run
 

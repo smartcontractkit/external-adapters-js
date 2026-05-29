@@ -32,5 +32,5 @@ export const endpoint = new StockEndpoint({
   defaultTransport: 'ws',
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
-  requestTransforms: [tiingoCommonSubscriptionRequestTransform],
+  requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
 })

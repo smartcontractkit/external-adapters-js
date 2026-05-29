@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                               Options                                                                                                |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                      Options                                                                                                                       |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -126,10 +126,11 @@ Request:
 
 ### Input Params
 
-| Required? |        Name         | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | stateAccountAddress |         |        The state account address for the program         | string |         |         |            |                |
-|    ✅     |        field        |         | The name of the field to retrieve from the state account | string |         |         |            |                |
+| Required? |        Name         | Aliases |                         Description                          |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :----------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stateAccountAddress |         |          The state account address for the program           |  string  |         |         |            |                |
+|    ✅     |        field        |         |   The name of the field to retrieve from the state account   |  string  |         |         |            |                |
+|           |     extraFields     |         | The names of other fields to retrieve from the state account | string[] |         |         |            |                |
 
 ### Example
 
@@ -140,7 +141,8 @@ Request:
   "data": {
     "endpoint": "buffer-layout",
     "stateAccountAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-    "field": "supply"
+    "field": "supply",
+    "extraFields": []
   }
 }
 ```
@@ -166,6 +168,8 @@ Request:
 |    ✅     |     extensionFields.name      |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
 |    ✅     |    extensionFields.offset     |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
 |    ✅     |     extensionFields.type      |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |          resultName           |         |          Name of the field to be on result response field           |  string  |                              |         |            |                |
+|           |        resultDecimals         |         |                decimals of the result response field                |  number  |                              |         |            |                |
 
 ### Example
 
@@ -204,6 +208,31 @@ Request:
         "type": "int64"
       }
     ]
+  }
+}
+```
+
+---
+
+## Pool-token-rate Endpoint
+
+`pool-token-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |          Name           | Aliases |                              Description                               |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :---------------------: | :-----: | :--------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stakePoolAccountAddress |         | The address of the stake pool account to fetch the pool token rate for | string |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "pool-token-rate",
+    "stakePoolAccountAddress": "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb"
   }
 }
 ```

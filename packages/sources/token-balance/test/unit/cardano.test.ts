@@ -164,6 +164,7 @@ describe('CardanoTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: 6,
         },
       ]
 
@@ -214,10 +215,12 @@ describe('CardanoTransport', () => {
         {
           address: address1,
           balance: balance1.toString(),
+          decimals: 6,
         },
         {
           address: address2,
           balance: balance2.toString(),
+          decimals: 6,
         },
       ]
       expect(response).toEqual({
@@ -269,6 +272,7 @@ describe('CardanoTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: 6,
         },
       ]
       expect(await responsePromise).toEqual({
@@ -312,8 +316,8 @@ describe('CardanoTransport', () => {
       ])
 
       expect(balances).toEqual([
-        { address: address1, balance: '100' },
-        { address: address2, balance: '200' },
+        { address: address1, balance: '100', decimals: 6 },
+        { address: address2, balance: '200', decimals: 6 },
       ])
 
       expect(requester.request).toHaveBeenNthCalledWith(
@@ -381,10 +385,10 @@ describe('CardanoTransport', () => {
       resolveLines4('104')
 
       expect(await balancePromise).toEqual([
-        { address: address1, balance: '101' },
-        { address: address2, balance: '102' },
-        { address: address3, balance: '103' },
-        { address: address4, balance: '104' },
+        { address: address1, balance: '101', decimals: 6 },
+        { address: address2, balance: '102', decimals: 6 },
+        { address: address3, balance: '103', decimals: 6 },
+        { address: address4, balance: '104', decimals: 6 },
       ])
 
       expect(log).toHaveBeenNthCalledWith(

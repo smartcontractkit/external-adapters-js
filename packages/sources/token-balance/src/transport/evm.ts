@@ -1,9 +1,9 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { ethers } from 'ethers'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/evm'
 
 const logger = makeLogger('Token Balances')
@@ -103,7 +103,11 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const addresses = param.addresses.filter((a) => a.chainId != '0')
+    const addresses = param.addresses
+      .filter((a) => a.chainId != '0')
+      .filter(
+        (a) => param.token === undefined || a.token?.toLowerCase() === param.token.toLowerCase(),
+      )
 
     // verify providers exist for this request
     const normalizedAddresses = this.verifyProviders(addresses)

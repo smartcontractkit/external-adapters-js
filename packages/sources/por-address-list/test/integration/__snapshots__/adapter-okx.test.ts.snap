@@ -1,9 +1,52 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`execute okxAssetsAddress should return error for invalid Solana addresses and noErrorOnRipcord false 1`] = `
+{
+  "errorMessage": "Invalid solana address 1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br for OKX lock; Invalid solana address 17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT for OKX lock",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute okxAssetsAddress should return error when data source returns error 1`] = `
 {
   "errorMessage": "Error code 50001: Internal server error",
   "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return ripcord for invalid Solana addresses 1`] = `
+{
+  "data": {
+    "result": [],
+    "ripcord": true,
+    "ripcordDetails": "Invalid solana address 1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br for OKX lock; Invalid solana address 17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT for OKX lock",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return ripcord for invalid withdrawal credentials 1`] = `
+{
+  "data": {
+    "result": [],
+    "ripcord": true,
+    "ripcordDetails": "Invalid withdrawalCred 0x01 for OKX bad_credentials",
+  },
+  "result": null,
+  "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
@@ -16,16 +59,17 @@ exports[`execute okxAssetsAddress should return success for lockAddresses 1`] = 
   "data": {
     "result": [
       {
-        "address": "bc1qlock1abc",
+        "address": "1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br",
         "chainId": "mainnet",
         "network": "bitcoin",
       },
       {
-        "address": "bc1qlock2def",
+        "address": "17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT",
         "chainId": "mainnet",
         "network": "bitcoin",
       },
     ],
+    "ripcord": false,
   },
   "result": null,
   "statusCode": 200,
@@ -41,16 +85,43 @@ exports[`execute okxAssetsAddress should return success for stakingBalanceDetail
   "data": {
     "result": [
       {
-        "address": "bc1qstaking1xyz",
+        "address": "1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br",
         "chainId": "mainnet",
         "network": "bitcoin",
       },
       {
-        "address": "bc1qstaking2uvw",
+        "address": "17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT",
         "chainId": "mainnet",
         "network": "bitcoin",
       },
     ],
+    "ripcord": false,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute okxAssetsAddress should return success for stakingWithdrawalCredentials 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "0xabcdef0123456789abcdef0123456789abcdef00",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+      {
+        "address": "0x1234567890abcdef1234567890abcdef12345678",
+        "chainId": "1",
+        "network": "ethereum",
+      },
+    ],
+    "ripcord": false,
   },
   "result": null,
   "statusCode": 200,

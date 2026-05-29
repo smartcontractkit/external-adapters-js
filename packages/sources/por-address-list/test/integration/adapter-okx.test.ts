@@ -46,8 +46,8 @@ describe('execute', () => {
         addressField: 'lockAddresses',
       })
 
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('should return success for stakingBalanceDetails', async () => {
@@ -65,6 +65,68 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return success for stakingWithdrawalCredentials', async () => {
+      mockOkxResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'okxAssetsAddress',
+        coin: 'credentials',
+        network: 'ethereum',
+        chainId: '1',
+        addressField: 'stakingWithdrawalCredentials',
+      })
+
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return error for invalid Solana addresses and noErrorOnRipcord false', async () => {
+      mockOkxResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'okxAssetsAddress',
+        coin: 'lock',
+        network: 'solana',
+        chainId: 'mainnet',
+        addressField: 'lockAddresses',
+      })
+
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(502)
+    })
+
+    it('should return ripcord for invalid Solana addresses', async () => {
+      mockOkxResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'okxAssetsAddress',
+        coin: 'lock',
+        network: 'solana',
+        chainId: 'mainnet',
+        addressField: 'lockAddresses',
+        noErrorOnRipcord: true,
+      })
+
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return ripcord for invalid withdrawal credentials', async () => {
+      mockOkxResponseSuccess()
+
+      const response = await testAdapter.request({
+        endpoint: 'okxAssetsAddress',
+        coin: 'bad_credentials',
+        network: 'ethereum',
+        chainId: '1',
+        addressField: 'stakingWithdrawalCredentials',
+        noErrorOnRipcord: true,
+      })
+
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
     it('should return error when data source returns error', async () => {
       mockOkxResponseError('ERROR_COIN')
 
@@ -76,8 +138,8 @@ describe('execute', () => {
         addressField: 'stakingBalanceDetails',
       })
 
-      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(502)
     })
   })
 })

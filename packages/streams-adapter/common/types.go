@@ -12,32 +12,36 @@ type RequestParams map[string]string
 
 // Observation represents the data returned from an adapter
 type Observation struct {
-	Data    json.RawMessage `json:"data"`
-	Success bool            `json:"success"`
-	Error   string          `json:"error,omitempty"`
+	Data       json.RawMessage `json:"data"`
+	Timestamps json.RawMessage `json:"timestamps"`
+	Meta       json.RawMessage `json:"meta"`
+	Success    bool            `json:"success"`
+	Error      string          `json:"error,omitempty"`
+	StatusCode int             `json:"statusCode,omitempty"`
+	Result     json.RawMessage `json:"result"`
 }
+
+// CacheItemStatus tracks the lifecycle of a cache item.
+type CacheItemStatus string
+
+const (
+	// StatusNew is set when the first client request arrives and a subscription
+	// is being initiated. No observation data is available yet.
+	StatusNew CacheItemStatus = "new"
+	// StatusLearned is set when the raw→transformed key mapping has been learned
+	// from the JS adapter's feedId response. Still waiting for the first observation.
+	StatusLearned CacheItemStatus = "learned"
+	// StatusActive is set once the first observation has been received via the
+	// Redcon EVAL handler and live data is flowing.
+	StatusActive CacheItemStatus = "active"
+)
 
 // CacheItem represents a cached value with metadata
 type CacheItem struct {
-	Observation        *Observation
-	Timestamp          time.Time // Last write time
-	OriginalAdapterKey string
-}
-
-// Cache interface for storing and retrieving observations
-type Cache interface {
-	Set(params RequestParams, observation *Observation, timestamp time.Time, originalAdapterKey string)
-	Get(params RequestParams) *Observation
-}
-
-// Config interface for configuration management
-type Config interface {
-	Set(string, any)
-	Get(string) any
-}
-
-// Server interface
-type Server interface {
-	Start() error
-	Close() error
+	Status              CacheItemStatus
+	TransformedKey      string                 // populated once StatusLearned or StatusActive
+	Observation         *Observation           // populated once StatusActive
+	Timestamp           time.Time              // last write time (used for TTL)
+	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive
+	OriginalRequestData map[string]interface{} // raw request body data from the first subscription request
 }
