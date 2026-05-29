@@ -1663,6 +1663,92 @@ describe('ReservesTransport', () => {
       expect(requester.request).toBeCalledTimes(5)
     })
 
+    it('should use a fixed address list', async () => {
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: JSON.stringify(addressArray),
+            provider: undefined,
+            params: undefined,
+            addressArrayPath: undefined,
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+            ripcord: undefined,
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 200,
+        result: '123000',
+        data: {
+          decimals: 6,
+          result: '123000',
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+            },
+          ],
+          conversionRates: [],
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(1)
+    })
+
     it('should set address array into existing balanceSource params field', async () => {
       const addressListParams = { endpoint: 'multiAddressList' }
       const balanceParams = { endpoint: 'evm', nested: { field: 'value' } }

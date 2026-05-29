@@ -40,7 +40,7 @@ class AddressList {
 
     if (config.fixed !== undefined) {
       // Was already validated to be a JSON array string in validation.
-      return JSON.parse(config.fixed)
+      return { addressArray: JSON.parse(config.fixed) }
     }
 
     const addressResponseData = await this.fetchFromProvider(
