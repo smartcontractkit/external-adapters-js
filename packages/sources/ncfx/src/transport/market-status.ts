@@ -42,7 +42,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       return markets.map((market) => {
         const marketStatus = parseMarketStatus(message.marketStatus[marketToNcfxMarket[market]])
         return {
-          params: { market, type: 'regular' }, // Only regular is supported
+          params: { market, type: 'regular', force245MarketStatus: false }, // Only regular is supported
           response: {
             result: marketStatus,
             data: {
