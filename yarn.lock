@@ -2668,7 +2668,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2833,7 +2833,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2923,7 +2923,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -2954,7 +2954,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2967,7 +2967,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2984,7 +2984,7 @@ __metadata:
   resolution: "@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba"
   dependencies:
     "@chainlink/coinmetrics-adapter": "workspace:^"
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2999,7 +2999,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3109,7 +3109,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3729,6 +3729,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@chainlink/external-adapter-framework@npm:2.14.6":
+  version: 2.14.6
+  resolution: "@chainlink/external-adapter-framework@npm:2.14.6"
+  dependencies:
+    "@date-fns/tz": "npm:1.5.0"
+    "@solana/kit": "npm:6.9.0"
+    ajv: "npm:8.20.0"
+    axios: "npm:1.16.1"
+    ethers: "npm:6.16.0"
+    eventsource: "npm:4.1.0"
+    fastify: "npm:5.8.5"
+    ioredis: "npm:5.11.0"
+    mock-socket: "npm:9.3.1"
+    pino: "npm:10.3.1"
+    pino-pretty: "npm:13.1.3"
+    prom-client: "npm:15.1.3"
+    redlock: "npm:5.0.0-beta.2"
+    ws: "npm:8.21.0"
+  bin:
+    create-external-adapter: adapter-generator.js
+  checksum: 10/053e06732360b7f6874639c76bbd3662b7e6535f1cc8cee4e0fb8fe8598894a72c4361460a1dd6f838b9856aa36b45c4d74fd7a35569189d70a8f4d7547dc328
+  languageName: node
+  linkType: hard
+
 "@chainlink/external-adapter-framework@npm:2.8.0":
   version: 2.8.0
   resolution: "@chainlink/external-adapter-framework@npm:2.8.0"
@@ -3785,7 +3809,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4133,7 +4157,7 @@ __metadata:
     "@chainlink/coinmarketcap-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -4283,7 +4307,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4641,7 +4665,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5410,7 +5434,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5452,7 +5476,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.14.6"
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"
@@ -6949,6 +6973,13 @@ __metadata:
     "@types/node":
       optional: true
   checksum: 10/c95d7237a885b32031715089f92820525731d4d3c2bd7afdb826307dc296cc2b39e7a644b0bb265441963348cca42e7785feb29c3aaf18fd2b63131769bf6587
+  languageName: node
+  linkType: hard
+
+"@ioredis/commands@npm:1.10.0":
+  version: 1.10.0
+  resolution: "@ioredis/commands@npm:1.10.0"
+  checksum: 10/2b0322f99d24f11d99ae279b59d977bb129f95f973ed3a31cbee68376e8fad41f974d23d7f9a06151b3d9c140038ef312e0b45d4577048ab0797aa9a6839213d
   languageName: node
   linkType: hard
 
@@ -12916,6 +12947,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cluster-key-slot@npm:1.1.1":
+  version: 1.1.1
+  resolution: "cluster-key-slot@npm:1.1.1"
+  checksum: 10/2b926e8ebe7c350f4d87f0156a581cdaf3d26722b1256ec7c0b970c136e51dddd3cd2dc69acee61d5c310dc3730531705eac6ecaf9fec51903cf3a9f9287babf
+  languageName: node
+  linkType: hard
+
 "cluster-key-slot@npm:1.1.2, cluster-key-slot@npm:^1.1.0":
   version: 1.1.2
   resolution: "cluster-key-slot@npm:1.1.2"
@@ -13333,16 +13371,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^2.2.0":
-  version: 2.6.9
-  resolution: "debug@npm:2.6.9"
-  dependencies:
-    ms: "npm:2.0.0"
-  checksum: 10/e07005f2b40e04f1bd14a3dd20520e9c4f25f60224cb006ce9d6781732c917964e9ec029fc7f1a151083cd929025ad5133814d4dc624a9aaf020effe4914ed14
-  languageName: node
-  linkType: hard
-
-"debug@npm:~4.4.1":
+"debug@npm:4.4.3, debug@npm:~4.4.1":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -13351,6 +13380,15 @@ __metadata:
     supports-color:
       optional: true
   checksum: 10/9ada3434ea2993800bd9a1e320bd4aa7af69659fb51cca685d390949434bc0a8873c21ed7c9b852af6f2455a55c6d050aa3937d52b3c69f796dab666f762acad
+  languageName: node
+  linkType: hard
+
+"debug@npm:^2.2.0":
+  version: 2.6.9
+  resolution: "debug@npm:2.6.9"
+  dependencies:
+    ms: "npm:2.0.0"
+  checksum: 10/e07005f2b40e04f1bd14a3dd20520e9c4f25f60224cb006ce9d6781732c917964e9ec029fc7f1a151083cd929025ad5133814d4dc624a9aaf020effe4914ed14
   languageName: node
   linkType: hard
 
@@ -13470,7 +13508,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"denque@npm:^2.1.0":
+"denque@npm:2.1.0, denque@npm:^2.1.0":
   version: 2.1.0
   resolution: "denque@npm:2.1.0"
   checksum: 10/8ea05321576624b90acfc1ee9208b8d1d04b425cf7573b9b4fa40a2c3ed4d4b0af5190567858f532f677ed2003d4d2b73c8130b34e3c7b8d5e88cdcfbfaa1fe7
@@ -15589,6 +15627,21 @@ __metadata:
     redis-parser: "npm:^3.0.0"
     standard-as-callback: "npm:^2.1.0"
   checksum: 10/a85786fc17e7180ac342219ebef5c138b82d056c44c00470a1827f7a4b2499041fa13f253b337aeca2ab6681a2bf52b622ca541e9c9a993d81f1b1e6f21ab59a
+  languageName: node
+  linkType: hard
+
+"ioredis@npm:5.11.0":
+  version: 5.11.0
+  resolution: "ioredis@npm:5.11.0"
+  dependencies:
+    "@ioredis/commands": "npm:1.10.0"
+    cluster-key-slot: "npm:1.1.1"
+    debug: "npm:4.4.3"
+    denque: "npm:2.1.0"
+    redis-errors: "npm:1.2.0"
+    redis-parser: "npm:3.0.0"
+    standard-as-callback: "npm:2.1.0"
+  checksum: 10/ab802874e22aeb90db5fa0c0d35dc9e9faca3b544afa0faa4b94c30ee0961f70dbfa73f123eb7dd8ca43b3c5a3fb7e5eafaa9d03fb3ad7b5f6c4c4aad6a23bee
   languageName: node
   linkType: hard
 
@@ -18654,14 +18707,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+"redis-errors@npm:1.2.0, redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
   version: 1.2.0
   resolution: "redis-errors@npm:1.2.0"
   checksum: 10/001c11f63ddd52d7c80eb4f4ede3a9433d29a458a7eea06b9154cb37c9802a218d93b7988247aa8c958d4b5d274b18354e8853c148f1096fda87c6e675cfd3ee
   languageName: node
   linkType: hard
 
-"redis-parser@npm:^3.0.0":
+"redis-parser@npm:3.0.0, redis-parser@npm:^3.0.0":
   version: 3.0.0
   resolution: "redis-parser@npm:3.0.0"
   dependencies:
@@ -19769,7 +19822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"standard-as-callback@npm:^2.1.0":
+"standard-as-callback@npm:2.1.0, standard-as-callback@npm:^2.1.0":
   version: 2.1.0
   resolution: "standard-as-callback@npm:2.1.0"
   checksum: 10/88bec83ee220687c72d94fd86a98d5272c91d37ec64b66d830dbc0d79b62bfa6e47f53b71646011835fc9ce7fae62739545d13124262b53be4fbb3e2ebad551c
@@ -21179,6 +21232,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ws@npm:8.21.0, ws@npm:^8.19.0":
+  version: 8.21.0
+  resolution: "ws@npm:8.21.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/088411956432c8f876158409d5a285cb9ad1382f593391f51d3a599bd0a5b277f876609ebd00fc3596321c4a4c9064d6fffe1ebad960e8ea7fd9ae25324f35c2
+  languageName: node
+  linkType: hard
+
 "ws@npm:^7.4.6, ws@npm:^7.5.0, ws@npm:^7.5.10":
   version: 7.5.10
   resolution: "ws@npm:7.5.10"
@@ -21191,21 +21259,6 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/9c796b84ba80ffc2c2adcdfc9c8e9a219ba99caa435c9a8d45f9ac593bba325563b3f83edc5eb067cc6d21b9a6bf2c930adf76dd40af5f58a5ca6859e81858f0
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.19.0":
-  version: 8.21.0
-  resolution: "ws@npm:8.21.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10/088411956432c8f876158409d5a285cb9ad1382f593391f51d3a599bd0a5b277f876609ebd00fc3596321c4a4c9064d6fffe1ebad960e8ea7fd9ae25324f35c2
   languageName: node
   linkType: hard
 
