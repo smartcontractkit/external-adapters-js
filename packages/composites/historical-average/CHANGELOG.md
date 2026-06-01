@@ -1,5 +1,16 @@
 # @chainlink/historical-average-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+### Patch Changes
+
+- Updated dependencies [[`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787)]:
+  - @chainlink/coinmarketcap-adapter@2.2.0
+
 ## 1.3.6
 
 ### Patch Changes
