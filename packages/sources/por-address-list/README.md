@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.16.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.16.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -313,12 +313,13 @@ Request:
 
 ### Input Params
 
-| Required? |     Name     | Aliases |                           Description                           |  Type  |                                 Options                                  | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :-----: | :-------------------------------------------------------------: | :----: | :----------------------------------------------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |     coin     |         |            The coin to retrieve the address list for            | string |                                                                          |         |            |                |
-|    ✅     | addressField |         | The field name in the API response that contains the addresses. | string | `lockAddresses`, `stakingBalanceDetails`, `stakingWithdrawalCredentials` |         |            |                |
-|    ✅     |   network    |         |        The network name to associate with the addresses         | string |                                                                          |         |            |                |
-|    ✅     |   chainId    |         |          The chain ID to associate with the addresses           | string |                                                                          |         |            |                |
+| Required? |       Name       | Aliases |                                                                   Description                                                                    |  Type   |                                 Options                                  | Default | Depends On | Not Valid With |
+| :-------: | :--------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :----------------------------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |       coin       |         |                                                    The coin to retrieve the address list for                                                     | string  |                                                                          |         |            |                |
+|    ✅     |   addressField   |         |                                         The field name in the API response that contains the addresses.                                          | string  | `lockAddresses`, `stakingBalanceDetails`, `stakingWithdrawalCredentials` |         |            |                |
+|    ✅     |     network      |         |                                                 The network name to associate with the addresses                                                 | string  |                                                                          |         |            |                |
+|    ✅     |     chainId      |         |                                                   The chain ID to associate with the addresses                                                   | string  |                                                                          |         |            |                |
+|           | noErrorOnRipcord |         | Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset | boolean |                                                                          |         |            |                |
 
 ### Example
 
@@ -331,7 +332,8 @@ Request:
     "coin": "xBTC",
     "addressField": "lockAddresses",
     "network": "bitcoin",
-    "chainId": "mainnet"
+    "chainId": "mainnet",
+    "noErrorOnRipcord": false
   }
 }
 ```

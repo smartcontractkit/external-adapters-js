@@ -14,5 +14,6 @@ export type ProcessedComponent = {
   originalCurrency: string
   totalBalanceInOriginalCurrency: FixedPoint
   addressCount?: number
-  ripcord: boolean | undefined
+  addressRipcord?: boolean
+  balanceRipcord?: boolean
 }

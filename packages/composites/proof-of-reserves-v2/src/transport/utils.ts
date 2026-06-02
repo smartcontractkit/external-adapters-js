@@ -2,6 +2,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import objectPath from 'object-path'
 import { ReservesTransportTypes } from './reserves'
 
 export const fetchFromProvider = async (
@@ -27,8 +28,17 @@ export const fetchFromProvider = async (
     return result.response.data as Record<string, unknown>
   } catch (error: unknown) {
     // Try to forward the error message from another adapter.
-    let providerErrorMessage = (error as { errorResponse: { error: { message: string } } })
-      .errorResponse?.error?.message
+    let providerErrorMessage =
+      // Error format of framework v3 adapters
+      (error as { errorResponse: { error: { message: string } } }).errorResponse?.error?.message ??
+      // Error format of framework v2 adapters
+      (error as { errorResponse: { errorMessage: string } }).errorResponse?.errorMessage ??
+      // Error format from fastify server
+      (error as { errorResponse: { message: string } }).errorResponse?.message ??
+      // Error format from ethereum-cl-indexer
+      (error as { errorResponse: { error: string } }).errorResponse?.error ??
+      // Error format when Axios can't connect
+      (error as { cause: { code: string } }).cause?.code
     if (!providerErrorMessage) {
       if (error instanceof Error) {
         providerErrorMessage = error.message
@@ -51,4 +61,16 @@ export const shortJsonForError = (maxLen: number, obj: unknown): string => {
     longString = String(obj)
   }
   return longString.length > maxLen ? `${longString.slice(0, maxLen)}...` : longString
+}
+
+export const getRipcord = (
+  responseData: Record<string, unknown>,
+  config?: { path: string; disabledValue: string },
+): boolean | undefined => {
+  if (config === undefined) {
+    return undefined
+  }
+  const ripcordValue = String(objectPath.get(responseData, config.path))
+  const expectedValue = config.disabledValue
+  return ripcordValue !== expectedValue
 }

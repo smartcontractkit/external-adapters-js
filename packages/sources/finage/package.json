@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/finage-adapter",
-  "version": "2.6.6",
+  "version": "2.7.0",
   "description": "Chainlink Finage adapter.",
   "keywords": [
     "Chainlink",
@@ -27,7 +27,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.13.1",
+    "@chainlink/external-adapter-framework": "2.14.6",
     "tslib": "2.4.1"
   },
   "devDependencies": {

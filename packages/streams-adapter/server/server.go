@@ -32,8 +32,9 @@ type ResponseData struct {
 	Data struct {
 		Result interface{} `json:"result"`
 	} `json:"data"`
-	Success bool   `json:"success"`
-	Error   string `json:"error,omitempty"`
+	Success    bool   `json:"success"`
+	Error      string `json:"error,omitempty"`
+	StatusCode int    `json:"statusCode,omitempty"`
 }
 
 // ErrorResponseData represents the structure of error responses
@@ -42,12 +43,14 @@ type ErrorResponseData struct {
 		Name    string `json:"name"`
 		Message string `json:"message"`
 	} `json:"error"`
+	StatusCode int `json:"statusCode,omitempty"`
 }
 
 // ObservationErrorResponse is returned when the cached observation has Success=false
 type ObservationErrorResponse struct {
 	ErrorMessage string          `json:"errorMessage"`
 	Timestamps   json.RawMessage `json:"timestamps"`
+	StatusCode   int             `json:"statusCode,omitempty"`
 }
 
 // Object pools for reducing memory allocations
@@ -153,7 +156,7 @@ func (s *Server) setupRoutes() {
 	// Cache debug endpoint
 	group.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
-	group.POST("/", s.adapterHandler)
+	group.POST("", s.adapterHandler)
 }
 
 // Start starts the HTTP server
@@ -278,8 +281,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
-			Success: false,
-			Error:   fmt.Sprintf("Invalid request format: %v", err),
+			Success:    false,
+			Error:      fmt.Sprintf("Invalid request format: %v", err),
+			StatusCode: http.StatusBadRequest,
 		})
 		return
 	}
@@ -296,6 +300,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -314,6 +319,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -363,6 +369,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	errorResp.Error.Name = "AdapterError"
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
+	errorResp.StatusCode = http.StatusGatewayTimeout
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
 }
@@ -377,6 +384,7 @@ func respondWithObservation(c *gin.Context, obs *types.Observation) {
 	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
 		ErrorMessage: obs.Error,
 		Timestamps:   obs.Timestamps,
+		StatusCode:   http.StatusBadGateway,
 	})
 }
 

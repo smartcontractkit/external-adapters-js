@@ -1,5 +1,11 @@
 # @chainlink/lo-tech-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#4988](https://github.com/smartcontractkit/external-adapters-js/pull/4988) [`00638e5`](https://github.com/smartcontractkit/external-adapters-js/commit/00638e57a587d583f309cb8c88366eb82e7d5b4d) Thanks [@dskloetc](https://github.com/dskloetc)! - Improve error handling
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,33 @@
 # @chainlink/token-allocation-adapter
 
+## 1.15.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+### Patch Changes
+
+- Updated dependencies [[`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787)]:
+  - @chainlink/blocksize-capital-adapter@2.7.0
+  - @chainlink/coinmarketcap-adapter@2.2.0
+  - @chainlink/cryptocompare-adapter@3.5.0
+  - @chainlink/cfbenchmarks-adapter@2.8.0
+  - @chainlink/coinmetrics-adapter@3.12.0
+  - @chainlink/coinpaprika-adapter@2.7.0
+  - @chainlink/coingecko-adapter@2.3.0
+  - @chainlink/finage-adapter@2.7.0
+  - @chainlink/tiingo-adapter@2.11.0
+  - @chainlink/kaiko-adapter@2.4.0
+  - @chainlink/ncfx-adapter@4.8.0
+
+## 1.14.28
+
+### Patch Changes
+
+- Updated dependencies [[`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4)]:
+  - @chainlink/coinpaprika-adapter@2.6.0
+
 ## 1.14.27
 
 ### Patch Changes
