@@ -4,8 +4,8 @@ import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import {
   BaseMessage,
   blocksizeDefaultWebsocketOpenHandler,
-  buildBlocksizeWebsocketTickersMessage,
-  buildTicker,
+  buildBatchSubscribeMessage,
+  buildBatchUnsubscribeMessage,
 } from './utils'
 
 const logger = makeLogger('BlocksizeCapitalLwbaWebsocketEndpoint')
@@ -77,17 +77,9 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      batchSubscribeMessage: (params) => {
-        const pairsWithParams = params.map((param) => ({ pair: buildTicker(param), param }))
-        pairsWithParams.forEach(({ pair, param }) => transport.setReverseMapping(pair, param))
-        return buildBlocksizeWebsocketTickersMessage(
-          'bidask_subscribe',
-          pairsWithParams.map(({ pair }) => pair),
-        )
-      },
-      batchUnsubscribeMessage: (params) => {
-        const pairs = params.map((param) => buildTicker(param))
-        return buildBlocksizeWebsocketTickersMessage('bidask_unsubscribe', pairs)
-      },
+      batchSubscribeMessage: (params) =>
+        buildBatchSubscribeMessage('bidask_subscribe', transport, params),
+      batchUnsubscribeMessage: (params) =>
+        buildBatchUnsubscribeMessage('bidask_unsubscribe', params),
     },
   })

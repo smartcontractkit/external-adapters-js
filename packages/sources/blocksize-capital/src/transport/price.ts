@@ -4,8 +4,8 @@ import { BaseEndpointTypes } from '../endpoint/price'
 import {
   BaseMessage,
   blocksizeDefaultWebsocketOpenHandler,
-  buildBlocksizeWebsocketTickersMessage,
-  buildTicker,
+  buildBatchSubscribeMessage,
+  buildBatchUnsubscribeMessage,
   handlePriceUpdates,
   VwapUpdate,
 } from './utils'
@@ -52,17 +52,8 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      batchSubscribeMessage: (params) => {
-        const pairsWithParams = params.map((param) => ({ pair: buildTicker(param), param }))
-        pairsWithParams.forEach(({ pair, param }) => transport.setReverseMapping(pair, param))
-        return buildBlocksizeWebsocketTickersMessage(
-          'vwap_subscribe',
-          pairsWithParams.map(({ pair }) => pair),
-        )
-      },
-      batchUnsubscribeMessage: (params) => {
-        const pairs = params.map((param) => buildTicker(param))
-        return buildBlocksizeWebsocketTickersMessage('vwap_unsubscribe', pairs)
-      },
+      batchSubscribeMessage: (params) =>
+        buildBatchSubscribeMessage('vwap_subscribe', transport, params),
+      batchUnsubscribeMessage: (params) => buildBatchUnsubscribeMessage('vwap_unsubscribe', params),
     },
   })

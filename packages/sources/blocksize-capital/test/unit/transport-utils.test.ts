@@ -2,6 +2,7 @@ import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-fr
 import { transport as lwbaTransport } from '../../src/transport/crypto-lwba'
 import { transport as priceTransport } from '../../src/transport/price'
 import {
+  buildBatchSubscribeMessage,
   buildBlocksizeWebsocketTickersMessage,
   buildTicker,
   buildTickers,
@@ -46,6 +47,39 @@ describe('transport utils', () => {
       })
     })
   })
+
+  describe('buildBatchSubscribeMessage', () => {
+    it('subscribes using local subscriptions plus new params, not just the delta', () => {
+      const existing: TickerParam[] = [{ base: 'BTC', quote: 'USD' }]
+      const newParams: TickerParam[] = [
+        { base: 'ETH', quote: 'EUR' },
+        { base: 'LINK', quote: 'ETH' },
+      ]
+      const transport = {
+        localSubscriptions: existing,
+        setReverseMapping: jest.fn(),
+      } as unknown as WebsocketReverseMappingTransport<unknown, string>
+
+      const message = buildBatchSubscribeMessage('vwap_subscribe', transport, newParams)
+
+      expect(message).toEqual({
+        jsonrpc: '2.0',
+        method: 'vwap_subscribe',
+        params: { tickers: ['BTCUSD', 'ETHEUR', 'LINKETH'] },
+      })
+      expect(transport.setReverseMapping).toHaveBeenCalledTimes(3)
+    })
+
+    it('skips resubscribe when there are no new params', () => {
+      const transport = {
+        localSubscriptions: [{ base: 'BTC', quote: 'USD' }],
+        setReverseMapping: jest.fn(),
+      } as unknown as WebsocketReverseMappingTransport<unknown, string>
+
+      expect(buildBatchSubscribeMessage('vwap_subscribe', transport, [])).toBeUndefined()
+      expect(transport.setReverseMapping).not.toHaveBeenCalled()
+    })
+  })
 })
 
 describe.each([
@@ -60,8 +94,12 @@ describe.each([
       { base: 'LINK', quote: 'ETH' },
     ]
 
-    it('sends one subscribe message containing all tickers', () => {
+    it('sends one subscribe message containing all tickers from local state plus new params', () => {
       const setReverseMapping = jest.spyOn(transport, 'setReverseMapping')
+      Object.defineProperty(transport, 'localSubscriptions', {
+        configurable: true,
+        value: [],
+      })
       const message = getBatchBuilders(transport).batchSubscribeMessage(params)
 
       expect(message).toEqual({

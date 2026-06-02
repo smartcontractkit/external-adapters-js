@@ -5,8 +5,8 @@ import {
   BaseMessage,
   VwapUpdate,
   blocksizeDefaultWebsocketOpenHandler,
-  buildBlocksizeWebsocketTickersMessage,
-  buildTicker,
+  buildBatchSubscribeMessage,
+  buildBatchUnsubscribeMessage,
   handlePriceUpdates,
 } from './utils'
 
@@ -60,17 +60,9 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      batchSubscribeMessage: (params) => {
-        const pairsWithParams = params.map((param) => ({ pair: buildTicker(param), param }))
-        pairsWithParams.forEach(({ pair, param }) => transport.setReverseMapping(pair, param))
-        return buildBlocksizeWebsocketTickersMessage(
-          'fixedvwap_subscribe',
-          pairsWithParams.map(({ pair }) => pair),
-        )
-      },
-      batchUnsubscribeMessage: (params) => {
-        const pairs = params.map((param) => buildTicker(param))
-        return buildBlocksizeWebsocketTickersMessage('fixedvwap_unsubscribe', pairs)
-      },
+      batchSubscribeMessage: (params) =>
+        buildBatchSubscribeMessage('fixedvwap_subscribe', transport, params),
+      batchUnsubscribeMessage: (params) =>
+        buildBatchUnsubscribeMessage('fixedvwap_unsubscribe', params),
     },
   })

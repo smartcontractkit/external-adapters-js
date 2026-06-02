@@ -5,6 +5,7 @@ import {
   SingleNumberResultResponse,
   makeLogger,
 } from '@chainlink/external-adapter-framework/util'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 
 const logger = makeLogger('BlocksizeCapitalTransportUtils')
 
@@ -43,6 +44,33 @@ export const buildTicker = (param: TickerParam) => `${param.base}${param.quote}`
 export const buildTickers = (params: TickerParam[]) => params.map(buildTicker)
 export const buildBlocksizeWebsocketTickersMessage = (method: string, pairs: string[]) =>
   buildBlocksizeWebsocketMessage(method, { tickers: pairs })
+
+export const buildBatchSubscribeMessage = <T extends WebsocketTransportGenerics>(
+  method: string,
+  transport: WebsocketReverseMappingTransport<T, string>,
+  newParams: TypeFromDefinition<T['Parameters']>[],
+): unknown => {
+  if (newParams.length === 0) {
+    return undefined
+  }
+
+  // Blocksize treats subscribe tickers as the full active set, not a delta.
+  // The framework passes only subscriptions.new; merge with localSubscriptions for the full set.
+  const desired = [...transport.localSubscriptions, ...newParams]
+  const pairsWithParams = desired.map((param) => {
+    const tickerParam = param as unknown as TickerParam
+    const pair = buildTicker(tickerParam)
+    transport.setReverseMapping(pair, param)
+    return { pair }
+  })
+  return buildBlocksizeWebsocketTickersMessage(
+    method,
+    pairsWithParams.map(({ pair }) => pair),
+  )
+}
+
+export const buildBatchUnsubscribeMessage = (method: string, params: TickerParam[]) =>
+  buildBlocksizeWebsocketTickersMessage(method, buildTickers(params))
 
 // use as open handler for standard WS connections
 export const blocksizeDefaultWebsocketOpenHandler = (
