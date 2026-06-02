@@ -11,7 +11,7 @@ import { mockWebsocketServerMultiPair } from './fixtures'
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
-  const wsEndpoint = 'ws://localhost:9090'
+  const wsEndpoint = 'wss://nobi.invalid/api/ws'
   let oldEnv: NodeJS.ProcessEnv
 
   const msolUsd = {
