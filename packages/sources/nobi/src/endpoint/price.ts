@@ -1,31 +1,18 @@
-import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import {
+  AdapterEndpoint,
+  priceEndpointInputParametersDefinition,
+} from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import { wsTransport } from '../transport/price'
+import { transportManager } from './transportManager'
 
-export const inputParameters = new InputParameters(
+export const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
-    },
+    base: 'BTC',
+    quote: 'USD',
   },
-  [
-    {
-      base: 'BTC',
-      quote: 'USD',
-    },
-  ],
-)
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -36,6 +23,11 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'price',
   aliases: ['state'],
-  transport: wsTransport,
   inputParameters,
+  transportRoutes: transportManager.setupTransportRoutes(),
+  defaultTransport: transportManager.getDefaultTransportName(),
+  customRouter: (req): string => {
+    const { base, quote } = req.requestContext.data
+    return transportManager.routeRequest(base, quote)
+  },
 })

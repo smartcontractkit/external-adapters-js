@@ -6,7 +6,7 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { mockWebsocketServer } from './fixtures'
+import { mockWebsocketServerMultiPair } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -14,19 +14,24 @@ describe('websocket', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
 
-  const dataPrice = {
-    base: 'ETH',
+  const msolUsd = {
+    base: 'MSOL',
     quote: 'USD',
     endpoint: 'price',
-    transport: 'ws',
+  }
+  const btcUsd = {
+    base: 'BTC',
+    quote: 'USD',
+    endpoint: 'price',
   }
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
+
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    mockWsServer = mockWebsocketServerMultiPair(wsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -34,10 +39,9 @@ describe('websocket', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // Send initial request to start background execute and wait for cache to be filled with results
-
-    await testAdapter.request(dataPrice)
-    await testAdapter.waitForCache(1)
+    await testAdapter.request(msolUsd)
+    await testAdapter.request(btcUsd)
+    await testAdapter.waitForCache(2)
   })
 
   afterAll(async () => {
@@ -47,9 +51,20 @@ describe('websocket', () => {
     await testAdapter.api.close()
   })
 
-  describe('price endpoint', () => {
+  describe('price endpoint - MSOL/USD', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(dataPrice)
+      const response = await testAdapter.request(msolUsd)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().result).toBe(111.96373354894808)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('price endpoint - BTC/USD', () => {
+    it('should return success', async () => {
+      const response = await testAdapter.request(btcUsd)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().result).toBe(71282.06887230572)
       expect(response.json()).toMatchSnapshot()
     })
   })
