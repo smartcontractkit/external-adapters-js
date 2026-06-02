@@ -1,11 +1,11 @@
-import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import {
   BaseMessage,
-  blocksizeDefaultUnsubscribeMessageBuilder,
   blocksizeDefaultWebsocketOpenHandler,
   buildBlocksizeWebsocketTickersMessage,
+  buildTicker,
 } from './utils'
 
 const logger = makeLogger('BlocksizeCapitalLwbaWebsocketEndpoint')
@@ -77,12 +77,17 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      subscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`.toUpperCase()
-        transport.setReverseMapping(pair, params)
-        return buildBlocksizeWebsocketTickersMessage('bidask_subscribe', pair)
+      batchSubscribeMessage: (params) => {
+        const pairsWithParams = params.map((param) => ({ pair: buildTicker(param), param }))
+        pairsWithParams.forEach(({ pair, param }) => transport.setReverseMapping(pair, param))
+        return buildBlocksizeWebsocketTickersMessage(
+          'bidask_subscribe',
+          pairsWithParams.map(({ pair }) => pair),
+        )
       },
-      unsubscribeMessage: (params) =>
-        blocksizeDefaultUnsubscribeMessageBuilder(params.base, params.quote, 'bidask_unsubscribe'),
+      batchUnsubscribeMessage: (params) => {
+        const pairs = params.map((param) => buildTicker(param))
+        return buildBlocksizeWebsocketTickersMessage('bidask_unsubscribe', pairs)
+      },
     },
   })

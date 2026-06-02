@@ -67,6 +67,13 @@ export const mockFixedVwapSnapshotResponse = {
         volume: 801589.604643832,
         ts: 1670630400000,
       },
+      {
+        ticker: 'ETHUSD',
+        price: 1700.5,
+        size: 100,
+        volume: 170050,
+        ts: 1670630400000,
+      },
     ],
   },
 }
@@ -79,13 +86,22 @@ export const mockLoginResponse = {
   },
 }
 
-export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
+export const mockWebSocketServer = (
+  URL: string,
+  options?: {
+    onMessage?: (parsed: {
+      method?: string
+      params?: { tickers?: string[]; api_key?: string }
+    }) => void
+  },
+): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
     const data = JSON.stringify(mockPriceResponse)
     const lwbaData = JSON.stringify(mockLwbaResponse)
     socket.on('message', (message) => {
       const parsed = JSON.parse(message.toString())
+      options?.onMessage?.(parsed)
       if (parsed.params?.api_key) {
         socket.send(JSON.stringify(mockLoginResponse))
       } else if (parsed?.method === 'bidask_subscribe') {

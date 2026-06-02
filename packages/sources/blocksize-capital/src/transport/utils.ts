@@ -1,7 +1,10 @@
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports'
-import { ProviderResult, makeLogger } from '@chainlink/external-adapter-framework/util'
-import { WsTransportTypes as PriceWsTransportTypes } from './price'
-import { WsTransportTypes as VwapWsTransportTypes } from './vwap'
+import type { WebsocketTransportGenerics } from '@chainlink/external-adapter-framework/transports/websocket'
+import {
+  ProviderResult,
+  SingleNumberResultResponse,
+  makeLogger,
+} from '@chainlink/external-adapter-framework/util'
 
 const logger = makeLogger('BlocksizeCapitalTransportUtils')
 
@@ -34,17 +37,12 @@ const buildBlocksizeWebsocketMessage = (method: string, params: ProviderParams):
 
 export const buildBlocksizeWebsocketAuthMessage = (apiKey: string) =>
   buildBlocksizeWebsocketMessage('authentication_logon', { api_key: apiKey })
-export const buildBlocksizeWebsocketTickersMessage = (method: string, pair: string) =>
-  buildBlocksizeWebsocketMessage(method, { tickers: [pair] })
+export type TickerParam = { base: string; quote: string }
 
-export const blocksizeDefaultUnsubscribeMessageBuilder = (
-  base: string,
-  quote: string,
-  method: string,
-): unknown => {
-  const pair = `${base}${quote}`.toUpperCase()
-  return buildBlocksizeWebsocketTickersMessage(method, pair)
-}
+export const buildTicker = (param: TickerParam) => `${param.base}${param.quote}`.toUpperCase()
+export const buildTickers = (params: TickerParam[]) => params.map(buildTicker)
+export const buildBlocksizeWebsocketTickersMessage = (method: string, pairs: string[]) =>
+  buildBlocksizeWebsocketMessage(method, { tickers: pairs })
 
 // use as open handler for standard WS connections
 export const blocksizeDefaultWebsocketOpenHandler = (
@@ -72,18 +70,23 @@ export const blocksizeDefaultWebsocketOpenHandler = (
   })
 }
 
-export const handlePriceUpdates = (
+type SingleNumberWsTransportGenerics = WebsocketTransportGenerics & {
+  Response: SingleNumberResultResponse
+}
+
+export const handlePriceUpdates = <T extends SingleNumberWsTransportGenerics>(
   updates: VwapUpdate[],
-  transport: WebsocketReverseMappingTransport<any, any>,
-): ProviderResult<PriceWsTransportTypes | VwapWsTransportTypes>[] | undefined => {
-  const results = []
+  transport: WebsocketReverseMappingTransport<T, string>,
+): ProviderResult<T>[] | undefined => {
+  const results: ProviderResult<T>[] = []
   for (const update of updates) {
     const params = transport.getReverseMapping(update.ticker)
     if (!params) {
       continue
     }
     if (!update.price) {
-      const errorMessage = `The data provider didn't return any value for ${params.base}/${params.quote}`
+      const { base, quote } = params as unknown as TickerParam
+      const errorMessage = `The data provider didn't return any value for ${base}/${quote}`
       logger.info(errorMessage)
       results.push({
         params,

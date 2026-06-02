@@ -1,11 +1,11 @@
-import { BaseEndpointTypes } from '../endpoint/price'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/price'
 import {
   BaseMessage,
-  blocksizeDefaultUnsubscribeMessageBuilder,
   blocksizeDefaultWebsocketOpenHandler,
   buildBlocksizeWebsocketTickersMessage,
+  buildTicker,
   handlePriceUpdates,
   VwapUpdate,
 } from './utils'
@@ -52,12 +52,17 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      subscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`.toUpperCase()
-        transport.setReverseMapping(pair, params)
-        return buildBlocksizeWebsocketTickersMessage('vwap_subscribe', pair)
+      batchSubscribeMessage: (params) => {
+        const pairsWithParams = params.map((param) => ({ pair: buildTicker(param), param }))
+        pairsWithParams.forEach(({ pair, param }) => transport.setReverseMapping(pair, param))
+        return buildBlocksizeWebsocketTickersMessage(
+          'vwap_subscribe',
+          pairsWithParams.map(({ pair }) => pair),
+        )
       },
-      unsubscribeMessage: (params) =>
-        blocksizeDefaultUnsubscribeMessageBuilder(params.base, params.quote, 'vwap_unsubscribe'),
+      batchUnsubscribeMessage: (params) => {
+        const pairs = params.map((param) => buildTicker(param))
+        return buildBlocksizeWebsocketTickersMessage('vwap_unsubscribe', pairs)
+      },
     },
   })
