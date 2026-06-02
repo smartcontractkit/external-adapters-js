@@ -6340,25 +6340,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.14.4", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.4-ac92103a0e-4b7b074284.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.4"],\
-          ["@date-fns/tz", "npm:1.4.1"],\
-          ["ajv", "npm:8.20.0"],\
-          ["axios", "npm:1.16.1"],\
-          ["eventsource", "npm:4.1.0"],\
-          ["fastify", "npm:5.8.5"],\
-          ["ioredis", "npm:5.10.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:10.3.1"],\
-          ["pino-pretty", "npm:13.1.3"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:afbc484b6b556a5068013b2934d57b1ecdc254df394f3233ec92c4d8514ece8452761c61f47b7a14cff60cdd426aa614272538789f03a610dc670cc2a8420dac#npm:8.20.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.14.5", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.5-afbc484b6b-37b4755c9c.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7477,7 +7458,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nobi", {\
         "packageLocation": "./packages/sources/nobi/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.4"],\
+          ["@chainlink/external-adapter-framework", "npm:2.14.6"],\
           ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
