@@ -92,12 +92,3 @@ export class NobiTransportManager {
 }
 
 export const transportManager = new NobiTransportManager()
-
-let _transportManager: NobiTransportManager | undefined
-
-export const getTransportManager = (): NobiTransportManager => {
-  if (!_transportManager) {
-    _transportManager = new NobiTransportManager()
-  }
-  return _transportManager
-}
