@@ -14,6 +14,12 @@ export const config = new AdapterConfig(
       default: 'wss://ws.price.usenobi.com/v2',
       sensitive: false,
     },
+    MAX_SUBSCRIPTIONS_PER_TRANSPORT: {
+      description: 'The maximum number of subscriptions per transport',
+      type: 'number',
+      default: 100,
+      sensitive: false,
+    },
   },
   {
     envDefaultOverrides: {
