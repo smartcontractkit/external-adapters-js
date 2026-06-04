@@ -6,26 +6,29 @@ export const mockAddressesResponseSuccess = (): nock.Scope =>
   })
     .persist()
     .get('/')
+    .query({ pageSize: '500', pageIndex: '1' })
     .reply(
       200,
       () => ({
-        result: [
+        data: [
           {
             id: '601c5e4b11b1d4001e37091aa2618ee9',
             address: '31h6SJ58NqVrifuyXN5A19ByD6vgyKVHEY',
             balance: '123',
             type: 'custodial',
-            verified: false,
+            chain: 'btc',
           },
           {
             id: '602412a8a8f831001e0395eeeca68779',
             address: '31rbKHDMsFpTF9T4u74osP24ZejMJnHukj',
             balance: '0',
             type: 'custodial',
-            verified: false,
+            chain: 'btc',
           },
         ],
-        count: 1,
+        total: 2,
+        pageIndex: 1,
+        pageSize: 500,
       }),
       [
         'Content-Type',

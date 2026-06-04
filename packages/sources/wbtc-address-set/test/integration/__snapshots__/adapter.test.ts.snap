@@ -12,7 +12,6 @@ exports[`execute addresses endpoint should return success 1`] = `
         "id": "601c5e4b11b1d4001e37091aa2618ee9",
         "network": "bitcoin",
         "type": "custodial",
-        "verified": false,
       },
     ],
   },
