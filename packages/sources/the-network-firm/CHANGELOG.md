@@ -1,5 +1,11 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.6.1
+
+### Patch Changes
+
+- [#5026](https://github.com/smartcontractkit/external-adapters-js/pull/5026) [`1abb200`](https://github.com/smartcontractkit/external-adapters-js/commit/1abb20074c0f3ebe4201514becebabb243ad7faa) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.6.0
 
 ### Minor Changes
