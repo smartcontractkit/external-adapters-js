@@ -6962,11 +6962,10 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/ix-trust-sync", {\
         "packageLocation": "./packages/sources/ix-trust-sync/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.13.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/ix-trust-sync-adapter", "workspace:packages/sources/ix-trust-sync"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.13.5"],\
           ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
