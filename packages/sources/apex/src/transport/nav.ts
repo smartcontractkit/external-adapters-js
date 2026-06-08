@@ -1,11 +1,10 @@
-import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { makeLogger, AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
+import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { AxiosResponse } from 'axios'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
 
 const logger = makeLogger('NavTransport')
 
@@ -137,7 +136,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     return this.latestToken.token
   }
 
-  async requestAuth(): Promise<AxiosResponse<AuthResponseSchema>> {
+  async requestAuth(): Promise<void> {
     const startTimeMs = Date.now()
 
     const baseURL = this.settings.AUTH_API_ENDPOINT
@@ -170,7 +169,6 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
     }
 
     logger.debug('Successfully fetched token')
-    return a.response
   }
 
   async getNav(accountName: string, token: string): Promise<NavResponseSchema> {
