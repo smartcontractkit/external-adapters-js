@@ -5,13 +5,6 @@ exports[`execute aptos endpoint should return success 1`] = `
   "data": {
     "result": "1",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"arguments":[],"index":0,"networkType":"mainnet","signature":"0x1::chain_id::get","type":[]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "1",
   "statusCode": 200,
   "timestamps": {
@@ -26,13 +19,6 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
   "data": {
     "result": "10568348893862534",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"arguments":[],"feedId":"0x015d2ae47f000328000000000000000000000000000000000000000000000000","index":0,"networkType":"testnet","signature":"0xf1099f135ddddad1c065203431be328a408b0ca452ada70374ce26bd2b32fdd3::registry::get_feeds","type":[]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "10568348893862534",
   "statusCode": 200,
   "timestamps": {
@@ -45,13 +31,6 @@ exports[`execute aptos-df-reader endpoint should return success 1`] = `
 exports[`execute calculated-multi-function endpoint should fail additional data requests in case of missing signature 1`] = `
 {
   "errorMessage": "Function call "decimals" failed: TypeError: no matching function (argument="key", value="", code=INVALID_ARGUMENT, version=6.15.0)",
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"result","network":"ethereum_mainnet","signature":"function latestanswer() external view returns (int256)"},{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"decimals","network":"ethereum_mainnet","signature":""}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -85,13 +64,6 @@ exports[`execute calculated-multi-function endpoint should return error for miss
 exports[`execute calculated-multi-function endpoint should return error with failing assertion 1`] = `
 {
   "errorMessage": "AssertZero operation failed: "nonZero" is "0x01" and not zero",
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[{"name":"nonzero","value":"0x01"}],"functionCalls":[],"operations":[{"args":["nonzero"],"name":"success","type":"assertzero"}]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "statusCode": 500,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -104,13 +76,6 @@ exports[`execute calculated-multi-function endpoint should return success 1`] = 
 {
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"result","network":"ethereum_mainnet","signature":"function latestanswer() external view returns (int256)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   "statusCode": 200,
@@ -125,13 +90,6 @@ exports[`execute calculated-multi-function endpoint should return success for di
 {
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0x779877a7b0d9e8603169ddbd7836e478b4624789","inputParams":[],"name":"result","network":"ethereum_goerli","signature":"function latestanswer() external view returns (int256)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
   "statusCode": 200,
@@ -149,13 +107,6 @@ exports[`execute calculated-multi-function endpoint should return success with a
     "result": "100",
     "scale": "100",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[{"arguments":[],"index":0,"name":"chainid","networkType":"mainnet","signature":"0x1::chain_id::get","type":[]}],"constants":[{"name":"scale","value":"100"}],"functionCalls":[],"operations":[{"args":["chainid","scale"],"name":"result","type":"multiply"}]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "100",
   "statusCode": 200,
   "timestamps": {
@@ -169,13 +120,6 @@ exports[`execute calculated-multi-function endpoint should return success with a
 {
   "data": {
     "result": "1",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[{"arguments":[],"index":0,"name":"result","networkType":"mainnet","signature":"0x1::chain_id::get","type":[]}],"constants":[],"functionCalls":[],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "1",
   "statusCode": 200,
@@ -192,13 +136,6 @@ exports[`execute calculated-multi-function endpoint should return success with c
     "decimals": "18",
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[{"name":"decimals","value":"18"}],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":["110680464442257317364"],"name":"result","network":"ethereum_mainnet","signature":"function getanswer(uint256 roundid) external view returns (int256)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   "statusCode": 200,
   "timestamps": {
@@ -213,13 +150,6 @@ exports[`execute calculated-multi-function endpoint should return success with m
   "data": {
     "aptosResult": "1",
     "evmResult": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[{"arguments":[],"index":0,"name":"aptosresult","networkType":"mainnet","signature":"0x1::chain_id::get","type":[]}],"constants":[],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"evmresult","network":"ethereum_mainnet","signature":"function latestanswer() external view returns (int256)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": null,
   "statusCode": 200,
@@ -236,13 +166,6 @@ exports[`execute calculated-multi-function endpoint should return success with m
     "decimals": "0x0000000000000000000000000000000000000000000000000000000000000008",
     "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"result","network":"ethereum_mainnet","signature":"function latestanswer() external view returns (int256)"},{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"name":"decimals","network":"ethereum_mainnet","signature":"function decimals() view returns (uint8)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   "statusCode": 200,
   "timestamps": {
@@ -256,13 +179,6 @@ exports[`execute calculated-multi-function endpoint should return success with o
 {
   "data": {
     "result": "18",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[{"name":"result","value":"18"}],"functionCalls":[],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "18",
   "statusCode": 200,
@@ -280,13 +196,6 @@ exports[`execute calculated-multi-function endpoint should return success with o
     "b": "5",
     "result": "15",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[{"name":"a","value":"3"},{"name":"b","value":"5"}],"functionCalls":[],"operations":[{"args":["a","b"],"name":"result","type":"multiply"}]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "15",
   "statusCode": 200,
   "timestamps": {
@@ -300,13 +209,6 @@ exports[`execute calculated-multi-function endpoint should return success with p
 {
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":["110680464442257317364"],"name":"result","network":"ethereum_mainnet","signature":"function getanswer(uint256 roundid) external view returns (int256)"}],"operations":[]}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   "statusCode": 200,
@@ -323,13 +225,6 @@ exports[`execute calculated-multi-function endpoint should return success with p
     "success": "1",
     "zero": "0x00",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"aptosCalls":[],"constants":[{"name":"zero","value":"0x00"}],"functionCalls":[],"operations":[{"args":["zero"],"name":"success","type":"assertzero"}]}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -343,13 +238,6 @@ exports[`execute function endpoint should return success 1`] = `
 {
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":[],"network":"ethereum_mainnet","signature":"function latestanswer() external view returns (int256)"}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "0x000000000000000000000000000000000000000000000000000000005ad789f8",
   "statusCode": 200,
@@ -365,13 +253,6 @@ exports[`execute function endpoint should return success for different network 1
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"address":"0x779877a7b0d9e8603169ddbd7836e478b4624789","inputParams":[],"network":"ethereum_goerli","signature":"function latestanswer() external view returns (int256)"}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "0x000000000000000000000000000000000000000000000000eead809f678d30f0",
   "statusCode": 200,
   "timestamps": {
@@ -386,13 +267,6 @@ exports[`execute function endpoint should return success with parameters 1`] = `
   "data": {
     "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"address":"0x2c1d072e956affc0d435cb7ac38ef18d24d9127c","inputParams":["110680464442257317364"],"network":"ethereum_mainnet","signature":"function getanswer(uint256 roundid) external view returns (int256)"}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "0x000000000000000000000000000000000000000000000000000000005cf7ff3b",
   "statusCode": 200,
   "timestamps": {
@@ -405,13 +279,6 @@ exports[`execute function endpoint should return success with parameters 1`] = `
 exports[`execute function-response-selector endpoint should fail with non-existant resultField 1`] = `
 {
   "errorMessage": "Invalid resultField not found in response",
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"address":"0xae2364579d6cb4bbd6695846c1d595ca9af3574d","inputParams":[],"network":"ethereum_mainnet","resultField":"missingfield","signature":"function lastprice() external view returns (uint256 price, uint256 timestamp)"}",
-    },
-    "transportName": "default_single_transport",
-  },
   "statusCode": 400,
   "timestamps": {
     "providerDataReceivedUnixMs": 0,
@@ -424,13 +291,6 @@ exports[`execute function-response-selector endpoint should return success with 
 {
   "data": {
     "result": "123456789",
-  },
-  "meta": {
-    "adapterName": "VIEW_FUNCTION_MULTI_CHAIN",
-    "metrics": {
-      "feedId": "{"address":"0xae2364579d6cb4bbd6695846c1d595ca9af3574d","inputParams":[],"network":"ethereum_mainnet","resultField":"price","signature":"function lastprice() external view returns (uint256 price, uint256 timestamp)"}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "123456789",
   "statusCode": 200,

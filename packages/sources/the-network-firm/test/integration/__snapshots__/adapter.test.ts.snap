@@ -3,13 +3,6 @@
 exports[`execute backed endpoint account name not found should return error 1`] = `
 {
   "errorMessage": "Account with name QQQ could not be found",
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"accountName":"qqq"}",
-    },
-    "transportName": "default_single_transport",
-  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
@@ -24,13 +17,6 @@ exports[`execute backed endpoint should return success 1`] = `
   "data": {
     "result": 195605,
     "ripcord": false,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"accountName":"ibta"}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": 195605,
   "statusCode": 200,
@@ -48,13 +34,6 @@ exports[`execute emgemx endpoint should return success 1`] = `
     "result": 1000000,
     "ripcord": false,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": 1000000,
   "statusCode": 200,
   "timestamps": {
@@ -70,13 +49,6 @@ exports[`execute eurr endpoint should return success 1`] = `
   "data": {
     "result": 10000000,
     "ripcord": false,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
   },
   "result": 10000000,
   "statusCode": 200,
@@ -94,13 +66,6 @@ exports[`execute gift endpoint should return success 1`] = `
     "result": 10000000,
     "ripcord": false,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": 10000000,
   "statusCode": 200,
   "timestamps": {
@@ -115,13 +80,6 @@ exports[`execute mco2 endpoint should return success 1`] = `
 {
   "data": {
     "result": 3041044,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
   },
   "result": 3041044,
   "statusCode": 200,
@@ -139,13 +97,6 @@ exports[`execute stbt endpoint should return success 1`] = `
     "result": 72178807.56,
     "ripcord": false,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": 72178807.56,
   "statusCode": 200,
   "timestamps": {
@@ -159,13 +110,6 @@ exports[`execute stbt endpoint should return success 1`] = `
 exports[`execute uranium endpoint should fail 1`] = `
 {
   "errorMessage": "Response is missing response fields (expected: totalReserve & totalToken)",
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
-  },
   "ripcord": true,
   "statusCode": 502,
   "timestamps": {
@@ -183,13 +127,6 @@ exports[`execute uranium endpoint should return success 1`] = `
     "ripcord": false,
     "ripcordAsInt": 0,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": 1000000,
   "statusCode": 200,
   "timestamps": {
@@ -205,13 +142,6 @@ exports[`execute usdr endpoint should return success 1`] = `
   "data": {
     "result": 39138216.32189752,
     "ripcord": false,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "N/A",
-    },
-    "transportName": "default_single_transport",
   },
   "result": 39138216.32189752,
   "statusCode": 200,
