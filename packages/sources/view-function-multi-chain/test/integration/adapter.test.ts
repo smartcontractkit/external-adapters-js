@@ -29,7 +29,6 @@ describe('execute', () => {
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.APTOS_URL = process.env.APTOS_URL ?? 'http://fake-aptos'
     process.env.APTOS_TESTNET_URL = process.env.APTOS_TESTNET_URL ?? 'http://fake-aptos-testnet'
-    process.env.FEED_ID_JSON = process.env.FEED_ID_JSON ?? 'true'
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -47,6 +46,7 @@ describe('execute', () => {
 
   beforeEach(() => {
     testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 500
+    testAdapter.adapter.config.settings.FEED_ID_JSON = false
   })
 
   afterEach(() => {
@@ -68,6 +68,7 @@ describe('execute', () => {
 
     it('should return hash code if data length exceeds max key size', async () => {
       testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 1
+      testAdapter.adapter.config.settings.FEED_ID_JSON = true
       const data = {
         contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
         function: 'function latestAnswer() external view returns (int256)',
