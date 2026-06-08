@@ -11,12 +11,12 @@ const logger = makeLogger('ProtobufWsTransport')
 export class ProtobufWsTransport<
   T extends WebsocketTransportGenerics,
 > extends WebSocketTransport<T> {
-  private heartbeatInterval?: ReturnType<typeof setInterval>
+  private customHeartbeatInterval?: ReturnType<typeof setInterval>
 
-  startHeartbeat(intervalMs: number, cacheMaxAge: number): void {
+  startCustomHeartbeat(intervalMs: number, cacheMaxAge: number): void {
     this.stopHeartbeat() // Clear any existing interval
 
-    this.heartbeatInterval = setInterval(() => {
+    this.customHeartbeatInterval = setInterval(() => {
       if (this.wsConnection && this.wsConnection.readyState === WebSocket.OPEN) {
         logger.debug('Sending WebSocket ping')
         this.wsConnection.ping()
@@ -28,10 +28,10 @@ export class ProtobufWsTransport<
     }, intervalMs)
   }
 
-  stopHeartbeat(): void {
-    if (this.heartbeatInterval) {
-      clearInterval(this.heartbeatInterval)
-      this.heartbeatInterval = undefined
+  stopCustomHeartbeat(): void {
+    if (this.customHeartbeatInterval) {
+      clearInterval(this.customHeartbeatInterval)
+      this.customHeartbeatInterval = undefined
     }
   }
 
