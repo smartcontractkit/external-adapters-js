@@ -4,7 +4,7 @@ import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { inputParameters } from '../../src/endpoint/circle'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { CircleTransport, HttpTransportTypes } from '../../src/transport/circle'
 
 const log = jest.fn()
@@ -61,11 +61,11 @@ describe('CircleTransport', () => {
 
   let transport: CircleTransport
 
-  const requestKeyForParams = (params: typeof inputParameters.validated) => {
+  const requestKeyForParams = (params: Record<string, never>) => {
     const requestKey = calculateHttpRequestKey<HttpTransportTypes>({
       context: {
         adapterSettings,
-        inputParameters,
+        inputParameters: new InputParameters({}),
         endpointName,
       },
       data: [params],
