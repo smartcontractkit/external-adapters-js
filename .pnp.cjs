@@ -8603,7 +8603,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/view-function-multi-chain", {\
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

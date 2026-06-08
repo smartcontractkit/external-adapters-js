@@ -3,6 +3,13 @@
 exports[`execute backed endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "{"accountName":"ibta"}",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,
@@ -17,6 +24,13 @@ exports[`execute backed endpoint when ripcord true should return error 1`] = `
 exports[`execute emgemx endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,
@@ -31,6 +45,13 @@ exports[`execute emgemx endpoint when ripcord true should return error 1`] = `
 exports[`execute eurr endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,
@@ -45,6 +66,13 @@ exports[`execute eurr endpoint when ripcord true should return error 1`] = `
 exports[`execute gift endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,
@@ -59,6 +87,13 @@ exports[`execute gift endpoint when ripcord true should return error 1`] = `
 exports[`execute reserve endpoint when ripcord true should fail 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "{"client":"emgemx-tdfkf3","noErrorOnRipcord":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordAsInt": 1,
   "ripcordDetails": "Balances",
@@ -80,6 +115,13 @@ exports[`execute reserve endpoint when ripcord true should succeed with noErrorO
     "totalReserve": 1000000,
     "totalToken": 100000,
   },
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "{"client":"emgemx-tdfkf3","noErrorOnRipcord":true}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": "1000000",
   "statusCode": 200,
   "timestamps": {
@@ -93,6 +135,13 @@ exports[`execute reserve endpoint when ripcord true should succeed with noErrorO
 exports[`execute stbt endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,
@@ -111,6 +160,13 @@ exports[`execute uranium endpoint when ripcord true should succeed 1`] = `
     "ripcord": true,
     "ripcordAsInt": 1,
   },
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": 1000000,
   "statusCode": 200,
   "timestamps": {
@@ -124,6 +180,13 @@ exports[`execute uranium endpoint when ripcord true should succeed 1`] = `
 exports[`execute usdr endpoint when ripcord true should return error 1`] = `
 {
   "errorMessage": "Ripcord indicator true. Details: Balances",
+  "meta": {
+    "adapterName": "THE_NETWORK_FIRM",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
+  },
   "ripcord": true,
   "ripcordDetails": "Balances",
   "statusCode": 502,

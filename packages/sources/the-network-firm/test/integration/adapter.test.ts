@@ -41,6 +41,10 @@ describe('execute', () => {
     })
   })
 
+  beforeEach(() => {
+    testAdapter.adapter.config.settings.FEED_ID_JSON = false
+  })
+
   afterEach(() => {
     nock.cleanAll()
     // clear EA cache
@@ -67,6 +71,16 @@ describe('execute', () => {
       const response = await testAdapter.request()
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('mco2 endpoint empty feed id with FEED_ID_JSON=true', () => {
+    it('should return empty json feed id', async () => {
+      testAdapter.adapter.config.settings.FEED_ID_JSON = true
+      mockMCO2Response()
+      const response = await testAdapter.request()
+      expect(response.statusCode).toBe(200)
+      expect(response.json().meta.metrics.feedId).toBe('{}')
     })
   })
 
