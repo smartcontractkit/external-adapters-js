@@ -8587,7 +8587,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/view-function", {\
         "packageLocation": "./packages/sources/view-function/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
