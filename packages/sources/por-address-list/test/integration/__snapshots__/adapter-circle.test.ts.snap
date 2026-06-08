@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute circle should return success 1`] = `
+{
+  "data": {
+    "result": [
+      {
+        "address": "1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "1HkJ6hcN4h4PtUYHiSi1hrUEUKQJmedM6z",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+      {
+        "address": "1KVBNjpYfJvASdzeTAwqNbe9WecpKyugM3",
+        "chainId": "mainnet",
+        "network": "bitcoin",
+      },
+    ],
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

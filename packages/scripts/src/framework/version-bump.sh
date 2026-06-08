@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash -e
 
 LATEST_VERSION=$(npm view @chainlink/external-adapter-framework version)''
 
@@ -56,13 +56,22 @@ echo "Running yarn..."
 yarn > /dev/null
 
 if [ -s changed_eas.tmp ]; then
-  # Generate changeset (manually for now, since the changesets CLI has no options to automate this part)
-  changeset_name="$(cd packages/scripts && yarn node -e 'console.log(require("human-id").humanId({ separator: "-", capitalize: false }))').md"
-  echo "Creating changeset ($changeset_name)..."
-  touch .changeset/$changeset_name
-  echo "---" >> .changeset/$changeset_name
-  cat changed_eas.tmp >> .changeset/$changeset_name
-  printf -- '---\n\nBumped framework version\n' >> .changeset/$changeset_name
+  # We create a separate changeset file for each package so we don't enforce
+  # releasing all packages at the same time.
+  mapfile -t changeset_lines < changed_eas.tmp
+  count=${#changeset_lines[@]}
+  # Create changeset names with a single call to yarn node as calling it 100+
+  # times is quite slow.
+  mapfile -t changeset_names < <(cd packages/scripts && yarn node -e "
+    const { humanId } = require('human-id')
+    for (let i = 0; i < $count; i++) console.log(humanId({ separator: '-', capitalize: false }))
+  ")
+  for i in "${!changeset_lines[@]}"; do
+    # Generate changeset (manually for now, since the changesets CLI has no options to automate this part)
+    changeset_filename="${changeset_names[$i]}.md"
+    echo "Creating changeset ($changeset_filename)..."
+    printf '%s\n%s\n%s\n\nBumped framework version\n' "---" "${changeset_lines[$i]}" "---" > ".changeset/$changeset_filename"
+  done
 else
   echo "No adapters were changed, no need to create a changeset."
 fi
