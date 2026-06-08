@@ -6377,10 +6377,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.16.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.0-d3eb751c90-428328556e.zip/node_modules/@chainlink/external-adapter-framework/",\
+      ["npm:2.16.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0-4eaa996fbf.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@date-fns/tz", "npm:1.5.0"],\
           ["@solana/kit", "virtual:e164854d300ea35b7fa3cd6a156e91619b18483c375f0e19e840c2407b9c2b3cb28559dd82b52bd774a11ef6eda89d1c73e1df84aa088be71b59fe686bdc8d15#npm:6.9.0"],\
           ["ajv", "npm:8.20.0"],\
@@ -8252,7 +8252,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -8603,7 +8603,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/view-function-multi-chain", {\
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
