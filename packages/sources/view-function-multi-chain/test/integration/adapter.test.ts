@@ -138,14 +138,6 @@ describe('execute', () => {
         errorMessage: expect.stringMatching(
           /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
         ),
-        meta: {
-          adapterName: 'VIEW_FUNCTION_MULTI_CHAIN',
-          metrics: {
-            feedId:
-              '{"address":"0xdac17f958d2ee523a2206206994597c13d831ec7","inputParams":[],"network":"ethereum_mainnet","signature":"symbol() view returns (string)"}',
-          },
-          transportName: 'default_single_transport',
-        },
         statusCode: 502,
         timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
       })
@@ -454,14 +446,6 @@ describe('execute', () => {
         errorMessage: expect.stringMatching(
           /no matching function \(argument="key", value="symbol\(\) view returns \(string\)", code=INVALID_ARGUMENT, version=/,
         ),
-        meta: {
-          adapterName: 'VIEW_FUNCTION_MULTI_CHAIN',
-          metrics: {
-            feedId:
-              '{"aptosCalls":[],"constants":[],"functionCalls":[{"address":"0xdac17f958d2ee523a2206206994597c13d831ec7","inputParams":[],"name":"result","network":"ethereum_mainnet","signature":"symbol() view returns (string)"}],"operations":[]}',
-          },
-          transportName: 'default_single_transport',
-        },
         statusCode: 502,
         timestamps: { providerDataReceivedUnixMs: 0, providerDataRequestedUnixMs: 0 },
       })
