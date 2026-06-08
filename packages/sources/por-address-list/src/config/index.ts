@@ -101,4 +101,10 @@ export const config = new AdapterConfig({
     default: 'https://www.okx.com/v2/asset/audit/minted-coin-balances',
     sensitive: false,
   },
+  CIRCLE_API_URL: {
+    description: 'An API endpoint for Circle address list',
+    type: 'string',
+    default: 'https://api.circle.com/v1/reserveAddresses/cirbtc',
+    sensitive: false,
+  },
 })

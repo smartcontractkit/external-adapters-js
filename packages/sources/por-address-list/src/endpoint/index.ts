@@ -1,5 +1,6 @@
 export { endpoint as address } from './address'
 export { endpoint as bedrockBTC } from './bedrockBTC'
+export { endpoint as circle } from './circle'
 export { endpoint as coinbaseBTC } from './coinbaseCBBTC'
 export { endpoint as multichainAddress } from './multichainAddress'
 export { endpoint as okxAssetsAddress } from './okxAssetsAddress'
