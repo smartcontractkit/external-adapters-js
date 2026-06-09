@@ -8423,7 +8423,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tradinghours", {\
         "packageLocation": "./packages/sources/tradinghours/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/tradinghours-adapter", "workspace:packages/sources/tradinghours"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\

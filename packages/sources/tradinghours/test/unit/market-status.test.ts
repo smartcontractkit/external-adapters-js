@@ -26,6 +26,7 @@ describe('parseMarketStatus', () => {
     const param = {
       market: 'NYSE',
       type: 'regular' as const,
+      force245MarketStatus: false,
     }
 
     it('return OPEN when status is Open', () => {
@@ -60,6 +61,7 @@ describe('parseMarketStatus', () => {
       market: 'BTC',
       type: '24/5' as const,
       weekend: '520-020:America/New_York',
+      force245MarketStatus: false,
     }
 
     it('return WEEKEND when isWeekend returns true', () => {
