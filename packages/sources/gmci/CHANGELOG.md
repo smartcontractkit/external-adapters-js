@@ -1,5 +1,15 @@
 # @chainlink/gmci-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#5040](https://github.com/smartcontractkit/external-adapters-js/pull/5040) [`35de7c9`](https://github.com/smartcontractkit/external-adapters-js/commit/35de7c9a24a04e527aad81e7fefc8ebf71f2eec7) Thanks [@dskloetc](https://github.com/dskloetc)! - Bump framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.0.3
 
 ### Patch Changes

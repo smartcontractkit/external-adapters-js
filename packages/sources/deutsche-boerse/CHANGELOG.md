@@ -1,5 +1,11 @@
 # @chainlink/deutsche-boerse-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- [#5033](https://github.com/smartcontractkit/external-adapters-js/pull/5033) [`30a9296`](https://github.com/smartcontractkit/external-adapters-js/commit/30a9296dce7fd010f6e306f470587712bf36444c) Thanks [@dskloetc](https://github.com/dskloetc)! - Bump framework version
+
 ## 1.5.0
 
 ### Minor Changes

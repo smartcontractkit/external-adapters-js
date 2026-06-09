@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/matrixdock-adapter",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Chainlink matrixdock adapter for XAUM Reference Rate Feed.",
   "keywords": [
     "Chainlink",

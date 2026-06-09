@@ -1,5 +1,13 @@
 # @chainlink/generic-api-adapter
 
+## 1.3.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#4972](https://github.com/smartcontractkit/external-adapters-js/pull/4972) [`7191dd0`](https://github.com/smartcontractkit/external-adapters-js/commit/7191dd0b736058a00d71479b67ee6ad3e84c0371) Thanks [@dskloetc](https://github.com/dskloetc)! - Require ripcord field to be present when configured
+
 ## 1.3.0
 
 ### Minor Changes

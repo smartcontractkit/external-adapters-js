@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polygon-adapter",
-  "version": "2.0.40",
+  "version": "2.0.41",
   "description": "Chainlink polygon adapter.",
   "keywords": [
     "Chainlink",
