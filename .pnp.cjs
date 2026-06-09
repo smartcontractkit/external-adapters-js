@@ -789,10 +789,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/dydx-stark-adapter",\
       "reference": "workspace:packages/targets/dydx-stark"\
-    },\
-    {\
-      "name": "@chainlink/harmony-adapter",\
-      "reference": "workspace:packages/targets/harmony"\
     }\
   ],\
   "enableTopLevelFallback": true,\
@@ -886,7 +882,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
     ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
-    ["@chainlink/harmony-adapter", ["workspace:packages/targets/harmony"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
@@ -6577,28 +6572,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/harmony-adapter", [\
-      ["workspace:packages/targets/harmony", {\
-        "packageLocation": "./packages/targets/harmony/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/harmony-adapter", "workspace:packages/targets/harmony"],\
-          ["@harmony-js/core", "npm:0.1.57"],\
-          ["@harmony-js/crypto", "npm:0.1.58"],\
-          ["@harmony-js/utils", "npm:0.1.58"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/harris-and-trotter-adapter", [\
       ["workspace:packages/sources/harris-and-trotter", {\
         "packageLocation": "./packages/sources/harris-and-trotter/",\
@@ -9589,187 +9562,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@hapi-bourne-npm-2.1.0-dbe7c97050-c8740753ea.zip/node_modules/@hapi/bourne/",\
         "packageDependencies": [\
           ["@hapi/bourne", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/account", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-account-npm-0.1.56-e650d6dfbe-0f18cddf87.zip/node_modules/@harmony-js/account/",\
-        "packageDependencies": [\
-          ["@harmony-js/account", "npm:0.1.56"],\
-          ["@harmony-js/core", "npm:0.1.56"],\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/staking", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:0.1.57", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-account-npm-0.1.57-5d4e57032e-8262542ca3.zip/node_modules/@harmony-js/account/",\
-        "packageDependencies": [\
-          ["@harmony-js/account", "npm:0.1.57"],\
-          ["@harmony-js/core", "npm:0.1.57"],\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/staking", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/contract", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-contract-npm-0.1.56-5767c254d0-e06cc63c3d.zip/node_modules/@harmony-js/contract/",\
-        "packageDependencies": [\
-          ["@harmony-js/account", "npm:0.1.56"],\
-          ["@harmony-js/contract", "npm:0.1.56"],\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/core", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-core-npm-0.1.56-fcc627d5f4-06cc57f379.zip/node_modules/@harmony-js/core/",\
-        "packageDependencies": [\
-          ["@harmony-js/account", "npm:0.1.56"],\
-          ["@harmony-js/contract", "npm:0.1.56"],\
-          ["@harmony-js/core", "npm:0.1.56"],\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/staking", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:0.1.57", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-core-npm-0.1.57-8db3b24a6f-26af18275f.zip/node_modules/@harmony-js/core/",\
-        "packageDependencies": [\
-          ["@harmony-js/account", "npm:0.1.57"],\
-          ["@harmony-js/contract", "npm:0.1.56"],\
-          ["@harmony-js/core", "npm:0.1.57"],\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/staking", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/crypto", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-crypto-npm-0.1.56-f713d5380e-5b66ecca94.zip/node_modules/@harmony-js/crypto/",\
-        "packageDependencies": [\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["aes-js", "npm:3.1.2"],\
-          ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.3"],\
-          ["elliptic", "npm:6.6.1"],\
-          ["hdkey", "npm:1.1.2"],\
-          ["hmac-drbg", "npm:1.0.1"],\
-          ["js-sha3", "npm:0.8.0"],\
-          ["pbkdf2", "npm:3.1.5"],\
-          ["scrypt-shim", "https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"],\
-          ["tslib", "npm:2.8.1"],\
-          ["uuid", "npm:3.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:0.1.58", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-crypto-npm-0.1.58-fb53a5266a-6796751ca5.zip/node_modules/@harmony-js/crypto/",\
-        "packageDependencies": [\
-          ["@harmony-js/crypto", "npm:0.1.58"],\
-          ["@harmony-js/utils", "npm:0.1.58"],\
-          ["aes-js", "npm:3.1.2"],\
-          ["bip39", "npm:2.6.0"],\
-          ["bn.js", "npm:4.12.3"],\
-          ["elliptic", "npm:6.6.1"],\
-          ["hdkey", "npm:1.1.2"],\
-          ["hmac-drbg", "npm:1.0.1"],\
-          ["js-sha3", "npm:0.8.0"],\
-          ["pbkdf2", "npm:3.1.5"],\
-          ["scrypt.js", "npm:0.3.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["uuid", "npm:3.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/network", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-network-npm-0.1.56-8a58e625e3-eb389b3032.zip/node_modules/@harmony-js/network/",\
-        "packageDependencies": [\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["cross-fetch", "npm:3.2.0"],\
-          ["mitt", "npm:1.2.0"],\
-          ["tslib", "npm:2.8.1"],\
-          ["websocket", "npm:1.0.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/staking", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-staking-npm-0.1.56-804211c19f-6a0f7092cd.zip/node_modules/@harmony-js/staking/",\
-        "packageDependencies": [\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/staking", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["text-encoding", "npm:0.7.0"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/transaction", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-transaction-npm-0.1.56-0836e7d5e1-501ef559cb.zip/node_modules/@harmony-js/transaction/",\
-        "packageDependencies": [\
-          ["@harmony-js/crypto", "npm:0.1.56"],\
-          ["@harmony-js/network", "npm:0.1.56"],\
-          ["@harmony-js/transaction", "npm:0.1.56"],\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@harmony-js/utils", [\
-      ["npm:0.1.56", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-utils-npm-0.1.56-ee269ec664-6c1f2664d8.zip/node_modules/@harmony-js/utils/",\
-        "packageDependencies": [\
-          ["@harmony-js/utils", "npm:0.1.56"],\
-          ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.3"],\
-          ["tslib", "npm:2.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:0.1.58", {\
-        "packageLocation": "./.yarn/cache/@harmony-js-utils-npm-0.1.58-fb7dd84c93-ea25dfcb33.zip/node_modules/@harmony-js/utils/",\
-        "packageDependencies": [\
-          ["@harmony-js/utils", "npm:0.1.58"],\
-          ["@types/bn.js", "npm:4.11.6"],\
-          ["bn.js", "npm:4.12.3"],\
-          ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16720,33 +16512,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["bip39", [\
-      ["npm:2.6.0", {\
-        "packageLocation": "./.yarn/cache/bip39-npm-2.6.0-c369effd70-f2cc7331d1.zip/node_modules/bip39/",\
-        "packageDependencies": [\
-          ["bip39", "npm:2.6.0"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["pbkdf2", "npm:3.1.5"],\
-          ["randombytes", "npm:2.1.0"],\
-          ["safe-buffer", "npm:5.2.1"],\
-          ["unorm", "npm:1.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.1.0", {\
         "packageLocation": "./.yarn/cache/bip39-npm-3.1.0-03958ed434-406c0b5bda.zip/node_modules/bip39/",\
         "packageDependencies": [\
           ["@noble/hashes", "npm:1.8.0"],\
           ["bip39", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["bip66", [\
-      ["npm:1.1.5", {\
-        "packageLocation": "./.yarn/cache/bip66-npm-1.1.5-e1d2ea7768-6257e90ff2.zip/node_modules/bip66/",\
-        "packageDependencies": [\
-          ["bip66", "npm:1.1.5"],\
-          ["safe-buffer", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -18256,18 +18026,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/dotenv-npm-8.6.0-2ce3e9f7bb-31d7b5c010.zip/node_modules/dotenv/",\
         "packageDependencies": [\
           ["dotenv", "npm:8.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["drbg.js", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/drbg.js-npm-1.0.1-4fc2512327-a50e770cf6.zip/node_modules/drbg.js/",\
-        "packageDependencies": [\
-          ["browserify-aes", "npm:1.2.0"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["create-hmac", "npm:1.1.7"],\
-          ["drbg.js", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20064,18 +19822,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["function-bind", "npm:1.1.2"],\
           ["hasown", "npm:2.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["hdkey", [\
-      ["npm:1.1.2", {\
-        "packageLocation": "./.yarn/cache/hdkey-npm-1.1.2-9e141b07e7-aaebe82e1a.zip/node_modules/hdkey/",\
-        "packageDependencies": [\
-          ["bs58check", "npm:2.1.2"],\
-          ["hdkey", "npm:1.1.2"],\
-          ["safe-buffer", "npm:5.2.1"],\
-          ["secp256k1", "npm:3.8.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -22429,15 +22175,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["mitt", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/mitt-npm-1.2.0-9b286e6978-bb426fe060.zip/node_modules/mitt/",\
-        "packageDependencies": [\
-          ["mitt", "npm:1.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["mnemonist", [\
       ["npm:0.38.5", {\
         "packageLocation": "./.yarn/cache/mnemonist-npm-0.38.5-3014297e32-2df3486256.zip/node_modules/mnemonist/",\
@@ -24328,17 +24065,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["scrypt", [\
-      ["npm:6.0.3", {\
-        "packageLocation": "./.yarn/unplugged/scrypt-npm-6.0.3-4138106ba6/node_modules/scrypt/",\
-        "packageDependencies": [\
-          ["nan", "npm:2.23.0"],\
-          ["node-gyp", "npm:12.2.0"],\
-          ["scrypt", "npm:6.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["scrypt-js", [\
       ["npm:3.0.1", {\
         "packageLocation": "./.yarn/cache/scrypt-js-npm-3.0.1-fd2d3fa606-2f8aa72b7f.zip/node_modules/scrypt-js/",\
@@ -24348,62 +24074,7 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["scrypt-shim", [\
-      ["https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb", {\
-        "packageLocation": "./.yarn/cache/scrypt-shim-https-cd6b603ed0-3c2f5d6aae.zip/node_modules/scrypt-shim/",\
-        "packageDependencies": [\
-          ["scrypt-shim", "https://github.com/web3-js/scrypt-shim.git#commit=aafdadda13e660e25e1c525d1f5b2443f5eb1ebb"],\
-          ["scryptsy", "npm:2.1.0"],\
-          ["semver", "npm:6.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["scrypt.js", [\
-      ["npm:0.3.0", {\
-        "packageLocation": "./.yarn/cache/scrypt.js-npm-0.3.0-25c2a3a4b5-c0a53151fe.zip/node_modules/scrypt.js/",\
-        "packageDependencies": [\
-          ["scrypt", "npm:6.0.3"],\
-          ["scrypt.js", "npm:0.3.0"],\
-          ["scryptsy", "npm:1.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["scryptsy", [\
-      ["npm:1.2.1", {\
-        "packageLocation": "./.yarn/cache/scryptsy-npm-1.2.1-6e0bd2ca6b-ec053305f1.zip/node_modules/scryptsy/",\
-        "packageDependencies": [\
-          ["pbkdf2", "npm:3.1.5"],\
-          ["scryptsy", "npm:1.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.1.0", {\
-        "packageLocation": "./.yarn/cache/scryptsy-npm-2.1.0-7d7fbe38f3-1cbdab9d7e.zip/node_modules/scryptsy/",\
-        "packageDependencies": [\
-          ["scryptsy", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["secp256k1", [\
-      ["npm:3.8.1", {\
-        "packageLocation": "./.yarn/unplugged/secp256k1-npm-3.8.1-2ae0c3b85e/node_modules/secp256k1/",\
-        "packageDependencies": [\
-          ["bindings", "npm:1.5.0"],\
-          ["bip66", "npm:1.1.5"],\
-          ["bn.js", "npm:4.12.3"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["drbg.js", "npm:1.0.1"],\
-          ["elliptic", "npm:6.6.1"],\
-          ["nan", "npm:2.23.0"],\
-          ["node-gyp", "npm:12.2.0"],\
-          ["safe-buffer", "npm:5.2.1"],\
-          ["secp256k1", "npm:3.8.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.4", {\
         "packageLocation": "./.yarn/unplugged/secp256k1-npm-4.0.4-bd33fe030c/node_modules/secp256k1/",\
         "packageDependencies": [\
@@ -25348,15 +25019,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["text-encoding", [\
-      ["npm:0.7.0", {\
-        "packageLocation": "./.yarn/cache/text-encoding-npm-0.7.0-ff0c4af052-c61b7a59a5.zip/node_modules/text-encoding/",\
-        "packageDependencies": [\
-          ["text-encoding", "npm:0.7.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["text-encoding-utf-8", [\
       ["npm:1.0.2", {\
         "packageLocation": "./.yarn/cache/text-encoding-utf-8-npm-1.0.2-d3a9fb552b-845bb4bd05.zip/node_modules/text-encoding-utf-8/",\
@@ -26075,15 +25737,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["unorm", [\
-      ["npm:1.6.0", {\
-        "packageLocation": "./.yarn/cache/unorm-npm-1.6.0-43467eccf1-af09a4c656.zip/node_modules/unorm/",\
-        "packageDependencies": [\
-          ["unorm", "npm:1.6.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["unpipe", [\
       ["npm:1.0.0", {\
         "packageLocation": "./.yarn/cache/unpipe-npm-1.0.0-2ed2a3c2bf-4fa18d8d8d.zip/node_modules/unpipe/",\
@@ -26197,13 +25850,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/uuid-npm-3.2.1-b6e2b4d551-30804effc1.zip/node_modules/uuid/",\
         "packageDependencies": [\
           ["uuid", "npm:3.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:3.4.0", {\
-        "packageLocation": "./.yarn/cache/uuid-npm-3.4.0-4fd8ef88ad-4f2b86432b.zip/node_modules/uuid/",\
-        "packageDependencies": [\
-          ["uuid", "npm:3.4.0"]\
         ],\
         "linkType": "HARD"\
       }],\
