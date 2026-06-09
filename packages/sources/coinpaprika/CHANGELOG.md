@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.7.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
 ## 2.6.0
 
 ### Minor Changes

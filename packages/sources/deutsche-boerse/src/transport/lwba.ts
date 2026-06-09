@@ -62,7 +62,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         logger.info('LWBA websocket connection established')
 
         // Start heartbeat to keep connection alive
-        transport.startHeartbeat(
+        transport.startCustomHeartbeat(
           context.adapterSettings.HEARTBEAT_INTERVAL_MS,
           context.adapterSettings.CACHE_MAX_AGE,
         )
@@ -77,7 +77,7 @@ export function createLwbaWsTransport<BaseEndpointTypes extends BaseTransportTyp
         logger.info({ code, reason, wasClean }, 'LWBA websocket closed')
 
         // Stop heartbeat
-        transport.stopHeartbeat()
+        transport.stopCustomHeartbeat()
 
         // Reset state on disconnections / interrupts
         cache.clear()
