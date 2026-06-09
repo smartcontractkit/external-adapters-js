@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/securitize-adapter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Chainlink securitize adapter.",
   "keywords": [
     "Chainlink",
