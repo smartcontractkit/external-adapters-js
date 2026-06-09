@@ -109,8 +109,6 @@ jobs:
   # ---------- Adapter checks (only for changed EAs) ----------
 
   # Check that there are no compilation errors in test.
-  # There are many existing tests with compilation errors, so we skip them
-  # until we can fix them.
   compile-tests:
     name: Compile tests for changed packages
     runs-on: [ubuntu-latest]
