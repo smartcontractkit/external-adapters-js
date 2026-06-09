@@ -1,14 +1,18 @@
+import { HttpTransportConfig } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { AxiosResponse } from 'axios'
 import { BaseEndpointTypes } from '../../src/endpoint/price'
 import {
+  HttpTransportTypes,
   PriceReport,
   RequestParams,
-  ResponseSchema,
   parseResponse,
   prepareRequests,
 } from '../../src/transport/price'
+
+// Derived from framework type instead of using AxiosResponse<ResponseSchema>
+// to avoid having to keep our axios dependency in sync with the framework's.
+type Response = Parameters<HttpTransportConfig<HttpTransportTypes>['parseResponse']>[1]
 
 LoggerFactoryProvider.set()
 
@@ -90,9 +94,9 @@ describe('price transport', () => {
           entity: 'usyc_price_report',
           data: [newestReport],
         },
-      } as AxiosResponse<ResponseSchema>)
+      } as Response)
 
-      const parsedResponse = parseResponse([param], response)
+      const parsedResponse = parseResponse([param], response, config)
 
       expect(parsedResponse).toEqual([
         {
@@ -112,9 +116,9 @@ describe('price transport', () => {
           entity: 'usyc_price_report',
           data: [newestReport, olderReport],
         },
-      } as AxiosResponse<ResponseSchema>)
+      } as Response)
 
-      const parsedResponse = parseResponse([param], response)
+      const parsedResponse = parseResponse([param], response, config)
 
       expect(parsedResponse).toEqual([
         {
@@ -134,9 +138,9 @@ describe('price transport', () => {
           entity: 'usyc_price_report',
           data: [olderReport, newestReport],
         },
-      } as AxiosResponse<ResponseSchema>)
+      } as Response)
 
-      const parsedResponse = parseResponse([param], response)
+      const parsedResponse = parseResponse([param], response, config)
 
       expect(parsedResponse).toEqual([
         {

@@ -4017,7 +4017,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/gmci-adapter@workspace:packages/sources/gmci"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4129,10 +4129,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/hashnote-adapter@workspace:packages/sources/hashnote"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4278,10 +4277,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ix-trust-sync-adapter@workspace:packages/sources/ix-trust-sync"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.13.1"
+    "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.5"
     ethers: "npm:^6.15.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -5579,7 +5577,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tradinghours-adapter@workspace:packages/sources/tradinghours"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@date-fns/tz": "npm:1.4.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -5761,7 +5759,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/wintermute-adapter@workspace:packages/sources/wintermute"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.11.6"
+    "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
