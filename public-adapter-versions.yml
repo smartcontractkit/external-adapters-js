@@ -159,8 +159,6 @@ adapters:
     version: 1.2.47
   - name: gsr
     version: 2.5.6
-  - name: harmony
-    version: 1.1.47
   - name: harris-and-trotter
     version: 1.1.21
   - name: hashnote
