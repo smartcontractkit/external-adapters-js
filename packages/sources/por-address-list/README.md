@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.16.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.17.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -24,6 +24,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |       VIRTUNE_API_URL        |                                                        An API endpoint for Virtune address lists                                                         | string |         | `https://proof-of-reserves-chainlink-283003lt.nw.gateway.dev/api/external/proof-of-reserves` |
 |           |       VIRTUNE_API_KEY        |                                                         The API key for Virtune address list API                                                         | string |         |                                              ``                                              |
 |           |     OKX_X_ASSET_API_URL      |                                                       An API endpoint for OKX X-Asset address list                                                       | string |         |                  `https://www.okx.com/v2/asset/audit/minted-coin-balances`                   |
+|           |        CIRCLE_API_URL        |                                                         An API endpoint for Circle address list                                                          | string |         |                     `https://api.circle.com/v1/reserveAddresses/cirbtc`                      |
 
 ---
 
@@ -37,9 +38,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                      Options                                                                                                                                                                                                                       |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [okxassetsaddress](#okxassetsaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [virtune-token](#virtune-token-endpoint), [virtune](#virtune-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                    Options                                                                                                                                                                                                                                     |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [circle](#circle-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [okxassetsaddress](#okxassetsaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [virtune-token](#virtune-token-endpoint), [virtune](#virtune-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
 
 ## Address Endpoint
 
@@ -123,6 +124,28 @@ Request:
   "data": {
     "endpoint": "bedrockbtcaddress",
     "type": "BTC"
+  }
+}
+```
+
+---
+
+## Circle Endpoint
+
+`circle` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "circle"
   }
 }
 ```
