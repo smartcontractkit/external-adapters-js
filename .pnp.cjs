@@ -8629,7 +8629,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/wintermute", {\
         "packageLocation": "./packages/sources/wintermute/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.11.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/wintermute-adapter", "workspace:packages/sources/wintermute"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
