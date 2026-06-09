@@ -16,7 +16,7 @@ adapters:
   - name: asseto-finance
     version: 1.0.2
   - name: avalanche-platform
-    version: 2.1.2
+    version: 2.2.0
   - name: backed-fi
     version: 1.2.0
   - name: bank-frick
@@ -116,7 +116,7 @@ adapters:
   - name: eth-balance
     version: 2.2.0
   - name: eth-beacon
-    version: 3.0.23
+    version: 3.1.0
   - name: etherscan
     version: 1.3.47
   - name: exchange-copter
@@ -254,7 +254,7 @@ adapters:
   - name: openexchangerates
     version: 3.0.0
   - name: polkadot-balance
-    version: 2.0.0
+    version: 2.1.0
   - name: polygon
     version: 2.0.40
   - name: por-address-list
