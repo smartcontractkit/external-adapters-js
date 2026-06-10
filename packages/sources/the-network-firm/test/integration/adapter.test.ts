@@ -43,6 +43,7 @@ describe('execute', () => {
 
   beforeEach(() => {
     testAdapter.adapter.config.settings.FEED_ID_JSON = false
+    testAdapter.adapter.config.settings.METRICS_ENABLED = false
   })
 
   afterEach(() => {
@@ -77,6 +78,7 @@ describe('execute', () => {
   describe('mco2 endpoint empty feed id with FEED_ID_JSON=true', () => {
     it('should return empty json feed id', async () => {
       testAdapter.adapter.config.settings.FEED_ID_JSON = true
+      testAdapter.adapter.config.settings.METRICS_ENABLED = true
       mockMCO2Response()
       const response = await testAdapter.request()
       expect(response.statusCode).toBe(200)

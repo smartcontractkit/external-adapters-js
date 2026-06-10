@@ -47,6 +47,7 @@ describe('execute', () => {
   beforeEach(() => {
     testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 500
     testAdapter.adapter.config.settings.FEED_ID_JSON = false
+    testAdapter.adapter.config.settings.METRICS_ENABLED = false
   })
 
   afterEach(() => {
@@ -69,6 +70,7 @@ describe('execute', () => {
     it('should return hash code if data length exceeds max key size', async () => {
       testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 1
       testAdapter.adapter.config.settings.FEED_ID_JSON = true
+      testAdapter.adapter.config.settings.METRICS_ENABLED = true
       const data = {
         contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
         function: 'function latestAnswer() external view returns (int256)',
