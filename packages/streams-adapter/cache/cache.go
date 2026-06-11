@@ -46,8 +46,8 @@ type Config struct {
 	CleanupInterval time.Duration // How often to run cleanup
 }
 
-// pendingObservation holds an EVAL observation that arrived before the
-// transformedKey→rawKey mapping was established by SetTransformedKey.
+// pendingObservation holds an observation that arrived before the
+// transformedKey to rawKey mapping was established by SetTransformedKey.
 type pendingObservation struct {
 	obs                *types.Observation
 	timestamp          time.Time
@@ -136,7 +136,7 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 }
 
 // SetObservation transitions the item identified by transformedKey to "active"
-// with the given observation. If the transformedKey→rawKey mapping is not yet
+// with the given observation. If the transformedKey to rawKey mapping is not yet
 // known (i.e. SetTransformedKey has not been called), the observation is buffered
 // and applied as soon as SetTransformedKey resolves the mapping.
 func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
