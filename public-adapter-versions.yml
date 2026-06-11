@@ -14,7 +14,7 @@ adapters:
   - name: apex
     version: 1.0.12
   - name: asseto-finance
-    version: 1.0.3
+    version: 1.0.4
   - name: avalanche-platform
     version: 2.2.1
   - name: backed-fi
