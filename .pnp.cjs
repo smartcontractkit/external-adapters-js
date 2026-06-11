@@ -6216,6 +6216,27 @@ const RAW_RUNTIME_STATE =
           ["ws", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:8.21.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:2.17.1", {\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.17.1-90566c4584-16f6166917.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@date-fns/tz", "npm:1.5.0"],\
+          ["@solana/kit", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:6.9.0"],\
+          ["ajv", "npm:8.20.0"],\
+          ["axios", "npm:1.17.0"],\
+          ["ethers", "npm:6.16.0"],\
+          ["eventsource", "npm:4.1.0"],\
+          ["fastify", "npm:5.8.5"],\
+          ["ioredis", "npm:5.11.1"],\
+          ["mock-socket", "npm:9.3.1"],\
+          ["pino", "npm:10.3.1"],\
+          ["pino-pretty", "npm:13.1.3"],\
+          ["prom-client", "npm:15.1.3"],\
+          ["redlock", "npm:5.0.0-beta.2"],\
+          ["ws", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:8.21.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["@chainlink/external-adapters-js", [\
@@ -6255,12 +6276,13 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finage", {\
         "packageLocation": "./packages/sources/finage/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finage-adapter", "workspace:packages/sources/finage"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["decimal.js", "npm:10.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -16057,6 +16079,17 @@ const RAW_RUNTIME_STATE =
           ["proxy-from-env", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:1.17.0", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.17.0-a83ee0b582-bc6995122f.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.17.0"],\
+          ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"],\
+          ["form-data", "npm:4.0.5"],\
+          ["https-proxy-agent", "npm:5.0.1"],\
+          ["proxy-from-env", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["axios-mock-adapter", [\
@@ -20130,6 +20163,20 @@ const RAW_RUNTIME_STATE =
           ["debug", "virtual:1af96edd87105bd0404c8842f76706a07cace93856ddd1514d9e0709ea159d192df2228d0be8591ca151cdd71037bd84f00958c629fef8487831fd81d80f21e3#npm:4.4.3"],\
           ["denque", "npm:2.1.0"],\
           ["ioredis", "npm:5.11.0"],\
+          ["redis-errors", "npm:1.2.0"],\
+          ["redis-parser", "npm:3.0.0"],\
+          ["standard-as-callback", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.11.1", {\
+        "packageLocation": "./.yarn/cache/ioredis-npm-5.11.1-0ce2bc576f-f27653075b.zip/node_modules/ioredis/",\
+        "packageDependencies": [\
+          ["@ioredis/commands", "npm:1.10.0"],\
+          ["cluster-key-slot", "npm:1.1.1"],\
+          ["debug", "virtual:1af96edd87105bd0404c8842f76706a07cace93856ddd1514d9e0709ea159d192df2228d0be8591ca151cdd71037bd84f00958c629fef8487831fd81d80f21e3#npm:4.4.3"],\
+          ["denque", "npm:2.1.0"],\
+          ["ioredis", "npm:5.11.1"],\
           ["redis-errors", "npm:1.2.0"],\
           ["redis-parser", "npm:3.0.0"],\
           ["standard-as-callback", "npm:2.1.0"]\
