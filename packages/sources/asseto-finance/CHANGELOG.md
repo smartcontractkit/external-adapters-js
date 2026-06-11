@@ -1,5 +1,11 @@
 # @chainlink/asseto-finance-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#5047](https://github.com/smartcontractkit/external-adapters-js/pull/5047) [`a804911`](https://github.com/smartcontractkit/external-adapters-js/commit/a8049114da5add774d563d452b51fbf022e44069) Thanks [@karen-stepanyan](https://github.com/karen-stepanyan)! - Bugfix. Fix request coalescing bug
+
 ## 1.0.3
 
 ### Patch Changes
