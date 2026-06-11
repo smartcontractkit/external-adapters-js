@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.7.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update framework version to 2.17.1 and use decimal.js for REST stock transport
+
 ## 2.7.1
 
 ### Patch Changes
