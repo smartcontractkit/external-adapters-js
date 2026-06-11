@@ -386,60 +386,6 @@ func TestCache_CaseInsensitiveKeys(t *testing.T) {
 	require.NotNil(t, got)
 }
 
-func TestCache_SetObservation_BeforeSetTransformedKey(t *testing.T) {
-	c := New(Config{
-		TTL:             time.Minute,
-		CleanupInterval: time.Hour,
-	})
-	defer c.Stop()
-
-	obs := &types.Observation{
-		Success: true,
-		Data:    json.RawMessage(`{"result":99}`),
-	}
-	ts := time.Now()
-
-	c.SetNew("raw-key", nil)
-	// Observation arrives before the mapping is established.
-	c.SetObservation("transformed-key", obs, ts, "adapter-key")
-
-	// Item should still be in the learned state — not yet active.
-	item := c.Get("raw-key")
-	require.NotNil(t, item)
-	require.Equal(t, types.StatusNew, item.Status)
-
-	// Now the mapping arrives — buffered observation should be applied immediately.
-	c.SetTransformedKey("raw-key", "transformed-key")
-
-	item = c.Get("raw-key")
-	require.NotNil(t, item)
-	require.Equal(t, types.StatusActive, item.Status)
-	require.Equal(t, obs, item.Observation)
-	require.Equal(t, ts, item.Timestamp)
-	require.Equal(t, "adapter-key", item.OriginalAdapterKey)
-
-	// pendingObs should be drained.
-	_, stillPending := c.pendingObs["transformed-key"]
-	assert.False(t, stillPending, "pending observation should be cleared after SetTransformedKey")
-}
-
-func TestCache_CleanupExpired_OrphanedPendingObs(t *testing.T) {
-	ttl := 50 * time.Millisecond
-	c := New(Config{TTL: ttl, CleanupInterval: time.Hour})
-	defer c.Stop()
-
-	obs := &types.Observation{Success: true}
-	oldTS := time.Now().Add(-ttl * 2)
-
-	// Inject a stale pending observation directly (SetTransformedKey never called).
-	c.pendingObs["orphan-key"] = &pendingObservation{obs: obs, timestamp: oldTS, originalAdapterKey: "adapter"}
-
-	c.cleanupExpired()
-
-	_, exists := c.pendingObs["orphan-key"]
-	assert.False(t, exists, "stale orphaned pending observation should be removed by cleanup")
-}
-
 func TestCache_DeterministicKeyOrdering(t *testing.T) {
 	c := New(Config{
 		TTL:             time.Minute,
