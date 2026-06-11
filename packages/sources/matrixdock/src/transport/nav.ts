@@ -21,62 +21,68 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params, config) => {
-    return params.map((param) => {
-      const method = 'GET'
-      const path = '/rwa/api/v1/quote/price'
-      const timestamp = Date.now()
-      const queryString = `symbol=${param.symbol}`
+export class NavTransport extends HttpTransport<HttpTransportTypes> {
+  constructor() {
+    super({
+      prepareRequests: (params, config) => {
+        return params.map((param) => {
+          const method = 'GET'
+          const path = '/rwa/api/v1/quote/price'
+          const timestamp = Date.now()
+          const queryString = `symbol=${param.symbol}`
 
-      const headers = getRequestHeaders({
-        method,
-        path,
-        queryString,
-        apiKey: config.API_KEY,
-        secret: config.API_SECRET,
-        timestamp,
-      })
+          const headers = getRequestHeaders({
+            method,
+            path,
+            queryString,
+            apiKey: config.API_KEY,
+            secret: config.API_SECRET,
+            timestamp,
+          })
 
-      return {
-        params: [param],
-        request: {
-          baseURL: config.API_ENDPOINT,
-          url: path,
-          params: { symbol: param.symbol },
-          headers,
-        },
-      }
+          return {
+            params: [param],
+            request: {
+              baseURL: config.API_ENDPOINT,
+              url: path,
+              params: { symbol: param.symbol },
+              headers,
+            },
+          }
+        })
+      },
+      parseResponse: (params, response) => {
+        return params.map((param) => {
+          const apiResponse = response.data
+
+          if (apiResponse.code !== 0 || !apiResponse.data) {
+            return {
+              params: param,
+              response: {
+                errorMessage: apiResponse.message || 'Unknown error from Matrixdock API',
+                statusCode: 502,
+              },
+            }
+          }
+
+          const result = Number(apiResponse.data.issue_price)
+
+          return {
+            params: param,
+            response: {
+              result,
+              data: {
+                result,
+              },
+              timestamps: {
+                providerIndicatedTimeUnixMs: apiResponse.data.last_updated_timestamp,
+              },
+            },
+          }
+        })
+      },
     })
-  },
-  parseResponse: (params, response) => {
-    return params.map((param) => {
-      const apiResponse = response.data
+  }
+}
 
-      if (apiResponse.code !== 0 || !apiResponse.data) {
-        return {
-          params: param,
-          response: {
-            errorMessage: apiResponse.message || 'Unknown error from Matrixdock API',
-            statusCode: 502,
-          },
-        }
-      }
-
-      const result = Number(apiResponse.data.issue_price)
-
-      return {
-        params: param,
-        response: {
-          result,
-          data: {
-            result,
-          },
-          timestamps: {
-            providerIndicatedTimeUnixMs: apiResponse.data.last_updated_timestamp,
-          },
-        },
-      }
-    })
-  },
-})
+export const httpTransport = new NavTransport()

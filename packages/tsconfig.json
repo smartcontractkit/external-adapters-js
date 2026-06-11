@@ -574,9 +574,6 @@
     },
     {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/harmony"
     }
   ]
 }

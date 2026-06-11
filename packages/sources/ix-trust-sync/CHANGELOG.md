@@ -1,5 +1,11 @@
 # @chainlink/ix-trust-sync-adapter
 
+## 1.0.1
+
+### Patch Changes
+
+- [#5034](https://github.com/smartcontractkit/external-adapters-js/pull/5034) [`80c6bb1`](https://github.com/smartcontractkit/external-adapters-js/commit/80c6bb1fbd37b0b2f79111bded038de2a89d0c7d) Thanks [@dskloetc](https://github.com/dskloetc)! - Bump framework version
+
 ## 1.0.0
 
 ### Major Changes

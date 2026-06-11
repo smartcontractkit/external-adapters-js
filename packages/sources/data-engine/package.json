@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@chainlink/data-streams-sdk": "1.2.0",
-    "@chainlink/external-adapter-framework": "2.14.2",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "decimal.js": "^10.5.0",
     "tslib": "2.4.1"
   }
