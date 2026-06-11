@@ -5,7 +5,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { inputParameters } from '../../src/endpoint/nav'
-import { httpTransport, HttpTransportTypes, ResponseSchema } from '../../src/transport/nav'
+import { HttpTransportTypes, NavTransport, ResponseSchema } from '../../src/transport/nav'
 
 const originalEnv = { ...process.env }
 
@@ -89,11 +89,15 @@ describe('NavHttpTransport', () => {
     return requestKey
   }
 
+  let httpTransport: NavTransport
+
   beforeEach(async () => {
     restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
     jest.setSystemTime(new Date('2026-02-13T12:00:00.000Z'))
+
+    httpTransport = new NavTransport()
 
     await httpTransport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
