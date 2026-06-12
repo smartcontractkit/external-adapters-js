@@ -1,6 +1,6 @@
 # MARKET_STATUS
 
-![1.9.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/market-status/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.10.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/market-status/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -45,10 +45,10 @@ This means that on regular weekdays, as long as at least one exchange is operati
 
 ## Environment Variables
 
-| Required? |           Name           |                                               Description                                                |  Type  | Options | Default |
-| :-------: | :----------------------: | :------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     | ${PROVIDER}\_ADAPTER_URL | The URL for the ${PROVIDER} adapter. Configurable PROVIDERs are: NCFX,TRADINGHOURS,FINNHUB_SECONDARY,SIX | string |         |         |
-|           |  BACKGROUND_EXECUTE_MS   |        The amount of time the background execute should sleep before performing the next request         | number |         | `1000`  |
+| Required? |           Name           |                                             Description                                              |  Type  | Options | Default |
+| :-------: | :----------------------: | :--------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | ${PROVIDER}\_ADAPTER_URL | The URL for the ${PROVIDER} adapter. Configurable PROVIDERs are: NCFX,TRADINGHOURS,FINNHUB_SECONDARY | string |         |         |
+|           |  BACKGROUND_EXECUTE_MS   |      The amount of time the background execute should sleep before performing the next request       | number |         | `1000`  |
 
 ---
 
