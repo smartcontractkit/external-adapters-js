@@ -1,17 +1,13 @@
 import { Contract, JsonRpcProvider } from 'ethers'
-import ABI from '../config/SyntheticSharesOracleABI.json'
+import ABI from '../config/RobinhoodTokenABI.json'
 
-export const getRegistryData = async (
-  asset: string,
-  registry: string,
-  provider: JsonRpcProvider,
-) => {
-  const registryContract = new Contract(registry, ABI, provider)
+export const getTokenData = async (tokenContractAddress: string, provider: JsonRpcProvider) => {
+  const contract = new Contract(tokenContractAddress, ABI, provider)
 
-  const { sValue, paused } = await registryContract.getSValue(asset)
+  const [multiplier, paused] = await Promise.all([contract.uiMultiplier(), contract.oraclePaused()])
 
   return {
-    multiplier: BigInt(sValue),
+    multiplier: BigInt(multiplier),
     paused: Boolean(paused),
   }
 }

@@ -17,8 +17,11 @@ jest.mock('ethers', () => {
     Contract: jest.fn().mockImplementation((address: string) => {
       if (address === validContract) {
         return {
-          getSValue: jest.fn().mockImplementation(() => {
-            return Promise.resolve({ sValue: 2n * 10n ** 18n, paused: false })
+          uiMultiplier: jest.fn().mockImplementation(() => {
+            return Promise.resolve(2n * 10n ** 18n)
+          }),
+          oraclePaused: jest.fn().mockImplementation(() => {
+            return Promise.resolve(false)
           }),
         }
       } else {
@@ -37,7 +40,8 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
-    process.env.ETHEREUM_RPC_URL = 'fake-url'
+    process.env.ROBINHOOD_MAINNET_RPC_URL = 'rpc.url'
+    process.env.ROBINHOOD_MAINNET_CHAIN_ID = '4663'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -57,12 +61,11 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('price endpoint', () => {
+  describe('robinhood endpoint', () => {
     it('should return success - kalman', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: validContract,
-        asset: '0x0',
+        endpoint: 'robinhood',
+        asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
@@ -77,15 +80,14 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('should return success - ema', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: validContract,
-        asset: '0x0',
+        endpoint: 'robinhood',
+        asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
@@ -101,15 +103,14 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
     })
 
     it('missing sessionMarket', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: validContract,
-        asset: '0x0',
+        endpoint: 'robinhood',
+        asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
         overnightStreamId: '0x000b7',
@@ -122,15 +123,14 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(400)
     })
 
     it('bad sessionBoundariesTimeZone', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: validContract,
-        asset: '0x0',
+        endpoint: 'robinhood',
+        asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
         overnightStreamId: '0x000b5',
@@ -143,15 +143,14 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(400)
     })
 
     it('bad sessionBoundaries', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: validContract,
-        asset: '0x0',
+        endpoint: 'robinhood',
+        asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
         overnightStreamId: '0x000b5',
@@ -164,14 +163,13 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
 
-      expect(response.statusCode).toBe(400)
       expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(400)
     })
 
     it('should return failure - kalman', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: '0x0',
+        endpoint: 'robinhood',
         asset: '0x0',
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
@@ -189,8 +187,7 @@ describe('execute', () => {
 
     it('should return failure - ema', async () => {
       const data = {
-        endpoint: 'ondo',
-        registry: '0x0',
+        endpoint: 'robinhood',
         asset: '0x0',
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',

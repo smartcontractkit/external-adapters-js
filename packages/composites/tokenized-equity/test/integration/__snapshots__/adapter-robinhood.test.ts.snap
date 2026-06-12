@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute price endpoint bad sessionBoundaries 1`] = `
+exports[`execute robinhood endpoint bad sessionBoundaries 1`] = `
 {
   "error": {
     "message": "99:88 in [Param: sessionBoundaries] does not match format HH:MM",
@@ -11,7 +11,7 @@ exports[`execute price endpoint bad sessionBoundaries 1`] = `
 }
 `;
 
-exports[`execute price endpoint bad sessionBoundariesTimeZone 1`] = `
+exports[`execute robinhood endpoint bad sessionBoundariesTimeZone 1`] = `
 {
   "error": {
     "message": "[Param: sessionBoundariesTimeZone] is not valid timezone: RangeError: Invalid time zone specified: random",
@@ -22,7 +22,7 @@ exports[`execute price endpoint bad sessionBoundariesTimeZone 1`] = `
 }
 `;
 
-exports[`execute price endpoint missing sessionMarket 1`] = `
+exports[`execute robinhood endpoint missing sessionMarket 1`] = `
 {
   "error": {
     "message": "Missing required parameter sessionMarket when smoother is ema",
@@ -33,15 +33,11 @@ exports[`execute price endpoint missing sessionMarket 1`] = `
 }
 `;
 
-exports[`execute price endpoint should return success - ema 1`] = `
+exports[`execute robinhood endpoint should return success - ema 1`] = `
 {
   "data": {
     "decimals": 8,
     "rawPrice": "1",
-    "registry": {
-      "paused": false,
-      "sValue": "2000000000000000000",
-    },
     "result": "20000000",
     "sessionSource": "FALLBACK",
     "smoother": {
@@ -86,6 +82,10 @@ exports[`execute price endpoint should return success - ema 1`] = `
         "mid": "1",
       },
     },
+    "tokenContract": {
+      "multiplier": "2000000000000000000",
+      "paused": false,
+    },
   },
   "result": "20000000",
   "statusCode": 200,
@@ -96,15 +96,11 @@ exports[`execute price endpoint should return success - ema 1`] = `
 }
 `;
 
-exports[`execute price endpoint should return success - kalman 1`] = `
+exports[`execute robinhood endpoint should return success - kalman 1`] = `
 {
   "data": {
     "decimals": 8,
     "rawPrice": "1",
-    "registry": {
-      "paused": false,
-      "sValue": "2000000000000000000",
-    },
     "result": "20000000",
     "sessionSource": "FALLBACK",
     "smoother": {
@@ -148,6 +144,10 @@ exports[`execute price endpoint should return success - kalman 1`] = `
         "marketStatus": 1,
         "mid": "1",
       },
+    },
+    "tokenContract": {
+      "multiplier": "2000000000000000000",
+      "paused": false,
     },
   },
   "result": "20000000",

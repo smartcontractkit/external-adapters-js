@@ -1,22 +1,25 @@
 import { JsonRpcProvider } from 'ethers'
-import { getRegistryData } from '../../../src/lib/registry'
+import { getTokenData } from '../../../src/lib/robinhood'
 
-const mockGetSValue = jest.fn()
+const mockGetUiMultiplier = jest.fn()
+const mockGetOraclePaused = jest.fn()
 
 jest.mock('ethers', () => ({
   Contract: jest.fn().mockImplementation(() => ({
-    getSValue: mockGetSValue,
+    uiMultiplier: mockGetUiMultiplier,
+    oraclePaused: mockGetOraclePaused,
   })),
   JsonRpcProvider: jest.fn(),
 }))
 
-describe('getRegistryData', () => {
+describe('getTokenData', () => {
   it('should return multiplier and paused status', async () => {
-    const sValue = '1500000000000000000'
-    mockGetSValue.mockResolvedValue({ sValue, paused: false })
+    const multiplier = '1500000000000000000'
+    mockGetUiMultiplier.mockResolvedValue(multiplier)
+    mockGetOraclePaused.mockResolvedValue(false)
 
-    expect(await getRegistryData('0x0', '0x1', {} as JsonRpcProvider)).toEqual({
-      multiplier: BigInt(sValue),
+    expect(await getTokenData('0x1', {} as JsonRpcProvider)).toEqual({
+      multiplier: BigInt(multiplier),
       paused: false,
     })
   })

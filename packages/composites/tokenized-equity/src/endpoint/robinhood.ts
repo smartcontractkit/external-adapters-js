@@ -2,22 +2,30 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { ondoTransport } from '../transport/ondoTransport'
+import { robinhoodTransport } from '../transport/robinhoodTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
 
 export const inputParameters = new InputParameters(
   {
-    registry: {
+    ...inputDefinition.definition,
+    network: {
+      type: 'string',
+      description:
+        'Identifier to determine which RPC URL to use. Corresponds to ROBINHOOD_${NETWORK}_RPC_URL environment variable.',
+      default: 'mainnet',
+    },
+    // Repeat asset parameter from the share definition to override the
+    // description.
+    asset: {
       required: true,
       type: 'string',
-      description: 'Ondo on-chain registry address',
+      description: 'Token address of the asset on the Robinhood chain',
     },
-    ...inputDefinition.definition,
   },
   [
     {
-      registry: '0x0',
+      network: 'mainnet',
       ...inputExample,
     },
   ],
@@ -28,8 +36,8 @@ export type BaseEndpointTypes = {
   Response: {
     Result: string
     Data: output & {
-      registry: {
-        sValue: string
+      tokenContract: {
+        multiplier: string
         paused: boolean
       }
     }
@@ -38,17 +46,13 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'ondo',
+  name: 'robinhood',
   aliases: [],
-  transport: ondoTransport,
+  transport: robinhoodTransport,
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    if (!adapterSettings.ETHEREUM_RPC_URL) {
-      throw new AdapterInputError({
-        message: 'Missing ETHEREUM_RPC_URL',
-        statusCode: 400,
-      })
-    }
+    adapterSettings.ROBINHOOD_NETWORK_RPC_URL.get(req.requestContext.data.network)
+    adapterSettings.ROBINHOOD_NETWORK_CHAIN_ID.get(req.requestContext.data.network)
 
     validateStreamIds(req.requestContext.data)
     validateSmoother(req.requestContext.data)

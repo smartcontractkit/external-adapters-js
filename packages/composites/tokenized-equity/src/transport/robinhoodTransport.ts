@@ -6,18 +6,20 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
 import { Smoother } from '../endpoint/common'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/ondo'
-import { calculatePrice } from './ondoPrice'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/robinhood'
+import { calculatePrice } from './robinhoodPrice'
 
-const logger = makeLogger('OndoTransport')
+const logger = makeLogger('RobinhoodTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
+  config!: BaseEndpointTypes['Settings']
   dataEngineUrl!: string
   tradingHoursUrl!: string
+  providerForNetwork: Record<string, JsonRpcProvider> = {}
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -27,11 +29,7 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
-    this.provider = new JsonRpcProvider(
-      adapterSettings.ETHEREUM_RPC_URL,
-      adapterSettings.ETHEREUM_RPC_CHAIN_ID,
-    )
-
+    this.config = adapterSettings
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
     this.tradingHoursUrl = adapterSettings.TRADING_HOURS_ADAPTER_URL
   }
@@ -85,9 +83,14 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<Record<string, AdapterResponse<BaseEndpointTypes['Response']>>> {
     const providerDataRequestedUnixMs = Date.now()
 
+    this.providerForNetwork[param.network] ??= new JsonRpcProvider(
+      this.config.ROBINHOOD_NETWORK_RPC_URL.get(param.network),
+      this.config.ROBINHOOD_NETWORK_CHAIN_ID.get(param.network),
+    )
+
     const results = await calculatePrice({
       ...param,
-      provider: this.provider,
+      provider: this.providerForNetwork[param.network],
       url: this.dataEngineUrl,
       tradingHoursUrl: this.tradingHoursUrl,
       requester: this.requester,
@@ -118,8 +121,8 @@ const dedupeParams = (params: RequestParams[]) => {
   const seen = new Map<string, RequestParams>()
   for (const p of params) {
     const key = [
-      p.registry,
       p.asset,
+      p.network,
       p.regularStreamId,
       p.extendedStreamId,
       p.overnightStreamId,
@@ -137,4 +140,4 @@ const dedupeParams = (params: RequestParams[]) => {
   return Array.from(seen.values())
 }
 
-export const ondoTransport = new OndoTransport()
+export const robinhoodTransport = new RobinhoodTransport()

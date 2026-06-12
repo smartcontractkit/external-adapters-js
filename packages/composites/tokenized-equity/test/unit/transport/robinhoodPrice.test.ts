@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getRegistryData } from '../../../src/lib/registry'
-import { calculatePrice } from '../../../src/transport/ondoPrice'
+import { getTokenData } from '../../../src/lib/robinhood'
+import { calculatePrice } from '../../../src/transport/robinhoodPrice'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
 jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
@@ -9,13 +9,12 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/registry', () => ({ getRegistryData: jest.fn() }))
-const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getRegistryData>
+jest.mock('../../../src/lib/robinhood', () => ({ getTokenData: jest.fn() }))
+const mockGetTokenData = getTokenData as jest.MockedFunction<typeof getTokenData>
 
 describe('calculatePrice', () => {
   const defaultParams = {
-    asset: 'USDC',
-    registry: '0x1234567890123456789012345678901234567890',
+    asset: '0x1234567890123456789012345678901234567890',
     provider: {} as JsonRpcProvider,
     regularStreamId: 'regular-stream-id',
     extendedStreamId: 'extended-stream-id',
@@ -103,7 +102,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetRegistryData.mockResolvedValue({
+    mockGetTokenData.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: false,
     })
@@ -114,20 +113,20 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedRegistry = { sValue: '5000000000000000000', paused: false }
+    const expectedTokenData = { multiplier: '5000000000000000000', paused: false }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
-      registry: expectedRegistry,
+      tokenContract: expectedTokenData,
       result: '5',
     })
     expect(result[1]).toStrictEqual({
       ...smoothedStreamPriceReturn[1],
-      registry: expectedRegistry,
+      tokenContract: expectedTokenData,
       result: '5',
     })
   })
 
-  it('throws when registry is paused', async () => {
+  it('throws when token is paused', async () => {
     mockSmoothedStreamPrice.mockResolvedValue([
       {
         result: 1n,
@@ -158,7 +157,7 @@ describe('calculatePrice', () => {
         sessionSource: 'FALLBACK' as const,
       },
     ])
-    mockGetRegistryData.mockResolvedValue({
+    mockGetTokenData.mockResolvedValue({
       multiplier: 5n * 10n ** 18n,
       paused: true,
     })
@@ -171,7 +170,7 @@ describe('calculatePrice', () => {
       }),
     ).rejects.toMatchObject({
       statusCode: 503,
-      message: 'asset: USDC paused on registry 0x1234567890123456789012345678901234567890',
+      message: `asset: '0x1234567890123456789012345678901234567890' paused`,
     })
   })
 })
