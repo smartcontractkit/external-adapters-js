@@ -15,11 +15,18 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    extraFields: {
+      description: 'The names of other fields to retrieve from the state account',
+      type: 'string',
+      required: false,
+      array: true,
+    },
   },
   [
     {
       stateAccountAddress: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
       field: 'supply',
+      extraFields: [],
     },
   ],
 )

@@ -133,6 +133,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
+        noErrorOnRipcord: false,
       })
       await transport.handleRequest(context, param)
 
@@ -140,6 +141,7 @@ describe('SolanaBalanceTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
 
@@ -149,6 +151,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -179,6 +182,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address: address1 }, { address: address2 }],
+        noErrorOnRipcord: false,
       })
       const response = await transport._handleRequest(param)
 
@@ -186,10 +190,12 @@ describe('SolanaBalanceTransport', () => {
         {
           address: address1,
           balance: balance1.toString(),
+          decimals: RESULT_DECIMALS,
         },
         {
           address: address2,
           balance: balance2.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
       expect(response).toEqual({
@@ -198,6 +204,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -216,6 +223,7 @@ describe('SolanaBalanceTransport', () => {
 
       const param = makeStub('param', {
         addresses: [{ address }],
+        noErrorOnRipcord: false,
       })
 
       const requestTimestamp = Date.now()
@@ -230,6 +238,7 @@ describe('SolanaBalanceTransport', () => {
         {
           address,
           balance: balance.toString(),
+          decimals: RESULT_DECIMALS,
         },
       ]
       expect(await responsePromise).toEqual({
@@ -238,6 +247,7 @@ describe('SolanaBalanceTransport', () => {
         data: {
           decimals: RESULT_DECIMALS,
           result: expectedResult,
+          ripcord: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,
@@ -263,8 +273,8 @@ describe('SolanaBalanceTransport', () => {
       ])
 
       expect(balances).toEqual([
-        { address: address1, balance: '100' },
-        { address: address2, balance: '200' },
+        { address: address1, balance: '100', decimals: RESULT_DECIMALS },
+        { address: address2, balance: '200', decimals: RESULT_DECIMALS },
       ])
 
       expect(connectionGetAccountInfo).toHaveBeenNthCalledWith(1, createFakePublicKey(address1))
@@ -313,10 +323,10 @@ describe('SolanaBalanceTransport', () => {
       resolveLines4(104.0)
 
       expect(await balancePromise).toEqual([
-        { address: address1, balance: '101' },
-        { address: address2, balance: '102' },
-        { address: address3, balance: '103' },
-        { address: address4, balance: '104' },
+        { address: address1, balance: '101', decimals: RESULT_DECIMALS },
+        { address: address2, balance: '102', decimals: RESULT_DECIMALS },
+        { address: address3, balance: '103', decimals: RESULT_DECIMALS },
+        { address: address4, balance: '104', decimals: RESULT_DECIMALS },
       ])
     })
   })

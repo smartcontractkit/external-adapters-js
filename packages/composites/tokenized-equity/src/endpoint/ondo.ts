@@ -4,7 +4,7 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { config } from '../config'
 import { ondoTransport } from '../transport/ondoTransport'
 import type { output } from './common'
-import { inputDefinition, inputExample, validateSession } from './common'
+import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
 
 export const inputParameters = new InputParameters(
   {
@@ -50,10 +50,8 @@ export const endpoint = new AdapterEndpoint({
       })
     }
 
-    validateSession(
-      req.requestContext.data.sessionBoundaries,
-      req.requestContext.data.sessionBoundariesTimeZone,
-    )
+    validateStreamIds(req.requestContext.data)
+    validateSmoother(req.requestContext.data)
 
     return
   },

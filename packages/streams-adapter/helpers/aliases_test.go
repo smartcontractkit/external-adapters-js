@@ -29,6 +29,7 @@ func writeTempConfig(t *testing.T, content string) string {
 const sampleConfig = `{
   "adapters": {
     "test-adapter": {
+      "defaultEndpoint": "price",
       "endpoints": {
         "price": {
           "aliases": ["crypto", "forex"]
@@ -176,13 +177,27 @@ func TestBuildCacheKeyParams_UnknownEndpoint(t *testing.T) {
 	require.Error(t, err)
 }
 
+func TestBuildCacheKeyParams_MissingEndpointNoDefault(t *testing.T) {
+	resetGlobals()
+	path := writeTempConfig(t, sampleConfig)
+	require.NoError(t, InitAliasIndex("other-adapter", path))
+
+	_, err := BuildCacheKeyParams(map[string]interface{}{
+		"base": "ETH",
+	})
+	require.Error(t, err)
+}
+
 func TestBuildCacheKeyParams_MissingEndpoint(t *testing.T) {
 	initTestAdapter(t)
-	_, err := BuildCacheKeyParams(map[string]interface{}{
+	result, err := BuildCacheKeyParams(map[string]interface{}{
 		"base":  "ETH",
 		"quote": "USD",
 	})
-	require.Error(t, err)
+	require.NoError(t, err)
+	assertParam(t, result, "endpoint", "price")
+	assertParam(t, result, "base", "ETH")
+	assertParam(t, result, "quote", "USD")
 }
 
 func TestBuildCacheKeyParams_BasicCanonical(t *testing.T) {
@@ -243,10 +258,11 @@ func TestBuildCacheKeyParams_EmptyStringValueSkipped(t *testing.T) {
 	}
 }
 
-func TestBuildCacheKeyParams_OverridesStripped(t *testing.T) {
+func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {
 	initTestAdapter(t)
 
-	// Overrides are no longer processed, just stripped from output.
+	// Overrides for the active adapter are applied to the cache key params so the
+	// key reflects the actual symbol the JS adapter will subscribe to.
 	result, err := BuildCacheKeyParams(map[string]interface{}{
 		"endpoint": "price",
 		"base":     "WBTC",
@@ -259,8 +275,8 @@ func TestBuildCacheKeyParams_OverridesStripped(t *testing.T) {
 	})
 	require.NoError(t, err)
 
-	// No override applied — value stays as WBTC
-	assertParam(t, result, "base", "WBTC")
+	// Override applied — base is remapped to BTC
+	assertParam(t, result, "base", "BTC")
 	assertParam(t, result, "quote", "USD")
 	if _, ok := result["overrides"]; ok {
 		t.Error("'overrides' key should not appear in output params")

@@ -6,11 +6,11 @@ export const mockCryptoSuccess = (): nock.Scope =>
   })
     .get('/simple/price')
     .query({
-      ids: 'ethereum',
+      ids: 'ETH',
       vs_currencies: 'USD',
       precision: 'full',
     })
-    .reply(200, () => ({ ethereum: { usd: 4226.71 } }), [
+    .reply(200, () => ({ eth: { usd: 4226.71 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -23,12 +23,12 @@ export const mockCryptoSuccess = (): nock.Scope =>
     .persist()
     .get('/simple/price')
     .query({
-      ids: 'ethereum',
+      ids: 'ETH',
       vs_currencies: 'USD',
       include_market_cap: true,
       precision: 'full',
     })
-    .reply(200, () => ({ ethereum: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }), [
+    .reply(200, () => ({ eth: { usd: 4208.38, usd_market_cap: 499351414399.08246 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -41,12 +41,12 @@ export const mockCryptoSuccess = (): nock.Scope =>
     .persist()
     .get('/simple/price')
     .query({
-      ids: 'ethereum',
+      ids: 'ETH',
       vs_currencies: 'USD',
       include_24hr_vol: true,
       precision: 'full',
     })
-    .reply(200, () => ({ ethereum: { usd: 4220.49, usd_24h_vol: 17345604238.153397 } }), [
+    .reply(200, () => ({ eth: { usd: 4220.49, usd_24h_vol: 17345604238.153397 } }), [
       'Content-Type',
       'application/json',
       'Connection',
@@ -80,12 +80,12 @@ export const mockCryptoSuccess = (): nock.Scope =>
         return false
       }
       const ids = query['ids'].split(',').sort()
-      return ids[0] === 'ethereum' && ids[1] === 'olympus' && query['vs_currencies'] === 'USD'
+      return ids[0] === 'ETH' && ids[1] === 'olympus' && query['vs_currencies'] === 'USD'
     })
     .reply(
       200,
       () => ({
-        ethereum: {
+        eth: {
           usd: 3015.64,
         },
         olympus: {

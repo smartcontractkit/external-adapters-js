@@ -45,6 +45,7 @@ type BalanceResult = {
   lockedStakeable: string
   lockedNotStakeable: string
   staked: string
+  decimals: 18
 }
 
 const RESULT_DECIMALS = 18
@@ -165,6 +166,7 @@ export class TotalBalanceTransport extends SubscriptionTransport<BaseEndpointTyp
           lockedStakeable,
           lockedNotStakeable,
           staked,
+          decimals: RESULT_DECIMALS,
         }
       }),
     )

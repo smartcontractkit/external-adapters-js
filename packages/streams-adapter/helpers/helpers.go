@@ -2,7 +2,9 @@ package helpers
 
 import (
 	"errors"
-	"sort"
+	"fmt"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/goccy/go-json"
@@ -64,11 +66,7 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 	}
 
 	// Extract and sort keys for deterministic ordering
-	keys := make([]string, 0, len(params))
-	for key := range params {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+	keys := slices.Sorted(maps.Keys(params))
 
 	// Build the cache key
 	var parts []string
@@ -83,4 +81,25 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 	}
 
 	return strings.Join(parts, ":"), nil
+}
+
+// TransformedKeyFromFeedID derives the internal transformed cache key from the
+// feedId string returned in the JS adapter's HTTP response under
+// meta.metrics.feedId (e.g. `{"index":"u_aixbtusd_rti","adapterNameOverride":"cfbenchmarks2"}`).
+//
+// The endpoint parameter is the canonical endpoint name (e.g. "cryptolwba") and
+// is injected into the params when the feedId JSON does not already contain it.
+func TransformedKeyFromFeedID(feedID, endpoint string) (string, error) {
+	var feedParams map[string]interface{}
+	if err := json.Unmarshal([]byte(feedID), &feedParams); err != nil {
+		return "", fmt.Errorf("failed to parse feedId %q: %w", feedID, err)
+	}
+	if _, ok := feedParams["endpoint"]; !ok {
+		feedParams["endpoint"] = endpoint
+	}
+	params, err := BuildCacheKeyParams(feedParams)
+	if err != nil {
+		return "", fmt.Errorf("failed to build cache key params from feedId: %w", err)
+	}
+	return CalculateCacheKey(params)
 }

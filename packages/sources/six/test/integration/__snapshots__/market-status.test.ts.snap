@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute market-status endpoint should return success with closed market 1`] = `
+{
+  "data": {
+    "result": 1,
+    "statusString": "CLOSED",
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute market-status endpoint should return success with open market 1`] = `
+{
+  "data": {
+    "result": 2,
+    "statusString": "OPEN",
+  },
+  "result": 2,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute market-status endpoint should return unknown for REFERENCE_ONLY market status 1`] = `
+{
+  "data": {
+    "result": 0,
+    "statusString": "UNKNOWN",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute market-status endpoint should return unknown when market is not in response 1`] = `
+{
+  "data": {
+    "result": 0,
+    "statusString": "UNKNOWN",
+  },
+  "result": 0,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

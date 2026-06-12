@@ -1,5 +1,34 @@
 # @chainlink/historical-average-adapter
 
+## 1.4.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bump FW version
+
+- Updated dependencies [[`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66)]:
+  - @chainlink/coinmarketcap-adapter@2.2.2
+
+## 1.4.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- Updated dependencies [[`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226)]:
+  - @chainlink/coinmarketcap-adapter@2.2.1
+
+## 1.4.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+### Patch Changes
+
+- Updated dependencies [[`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787)]:
+  - @chainlink/coinmarketcap-adapter@2.2.0
+
 ## 1.3.6
 
 ### Patch Changes

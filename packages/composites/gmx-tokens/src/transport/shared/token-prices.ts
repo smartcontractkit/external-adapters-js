@@ -1,4 +1,5 @@
-import { getCryptoPrice } from '@chainlink/data-engine-adapter'
+import type { FeedDataResult } from '@chainlink/data-engine-adapter'
+import { getFeedData } from '@chainlink/data-engine-adapter'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
 import { AbiCoder, Contract, ethers, getAddress, keccak256 } from 'ethers'
@@ -37,6 +38,16 @@ type FeedAssetWithId = {
 
 const abi = AbiCoder.defaultAbiCoder()
 const DATA_STREAM_ID = keccak256(abi.encode(['string'], ['DATA_STREAM_ID']))
+
+const extractBidAsk = (result: FeedDataResult): { bid: string; ask: string; decimals: number } => {
+  switch (result.version) {
+    case 'V3':
+    case 'V11':
+      return { bid: result.data.bid, ask: result.data.ask, decimals: result.data.decimals }
+    default:
+      throw new Error(`Unsupported report version '${result.version}'`)
+  }
+}
 
 const hashData = (types: string[], values: unknown[]): string => {
   return keccak256(abi.encode(types, values))
@@ -161,11 +172,8 @@ const fetchPriceData = async (
   await Promise.all(
     assets.map(async ({ key, feedId, providerKey }) => {
       try {
-        const { bid, ask, decimals } = await getCryptoPrice(
-          feedId,
-          options.dataEngineUrl!,
-          options.requester,
-        )
+        const result = await getFeedData(feedId, options.dataEngineUrl!, options.requester)
+        const { bid, ask, decimals } = extractBidAsk(result)
         const bidNum = toNumFromDS(bid, decimals)
         const askNum = toNumFromDS(ask, decimals)
 

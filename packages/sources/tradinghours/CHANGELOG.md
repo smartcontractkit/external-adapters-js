@@ -1,5 +1,25 @@
 # @chainlink/tradinghours-adapter
 
+## 0.7.1
+
+### Patch Changes
+
+- [#5039](https://github.com/smartcontractkit/external-adapters-js/pull/5039) [`09d8edb`](https://github.com/smartcontractkit/external-adapters-js/commit/09d8edb5b01907c5fdf2188dbde88a2f14dac2f6) Thanks [@dskloetc](https://github.com/dskloetc)! - Bump framework version
+
+- [#4962](https://github.com/smartcontractkit/external-adapters-js/pull/4962) [`323e4f3`](https://github.com/smartcontractkit/external-adapters-js/commit/323e4f3b9751e1b2927b92c7743001388f4af582) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add SIX and BME
+
+## 0.7.0
+
+### Minor Changes
+
+- [#4864](https://github.com/smartcontractkit/external-adapters-js/pull/4864) [`050e9de`](https://github.com/smartcontractkit/external-adapters-js/commit/050e9def600fc5556f15c8a55e51a7493725277d) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add asian and enery markets
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
 ## 0.6.0
 
 ### Minor Changes

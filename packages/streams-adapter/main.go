@@ -17,7 +17,7 @@ import (
 
 // waitForEAServer waits for the EA server to be ready before proceeding
 func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
-	eaURL := fmt.Sprintf("http://%s:%s/health", cfg.EAHost, cfg.EAPort)
+	eaURL := fmt.Sprintf("http://%s:%s%s/health", cfg.EAHost, cfg.EAPort, cfg.EABaseUrl)
 	maxWaitTime := 60 * time.Second
 	checkInterval := 500 * time.Millisecond
 	startTime := time.Now()
@@ -62,25 +62,22 @@ func main() {
 
 	appCache := cache.New(cache.Config{
 		TTL:             time.Duration(cfg.CacheTTLMinutes) * time.Minute,
-		CleanupInterval: time.Duration(cfg.CacheCleanupInterval) * time.Minute,
+		CleanupInterval: time.Duration(cfg.CacheCleanupIntervalSeconds) * time.Second,
 	})
 	defer appCache.Stop()
-
-	keyMapper := helpers.NewKeyMapper(logger)
 
 	// Wait for EA server to be ready before starting
 	waitForEAServer(cfg, logger)
 
 	// Initialize HTTP server
-	httpServer := server.New(cfg, appCache, logger, keyMapper)
+	httpServer := server.New(cfg, appCache, logger)
 	defer httpServer.Stop()
 
 	// Initialize Redcon server
 	redconServer := redcon.New(redcon.Config{
-		Addr:      ":" + cfg.RedconPort,
-		Cache:     appCache,
-		Logger:    logger,
-		KeyMapper: keyMapper,
+		Addr:   ":" + cfg.RedconPort,
+		Cache:  appCache,
+		Logger: logger,
 	})
 
 	// Create error channel for goroutine failures

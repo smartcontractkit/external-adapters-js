@@ -1,5 +1,31 @@
 # @chainlink/solana-functions-adapter
 
+## 1.5.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 1.5.0
+
+### Minor Changes
+
+- [#4977](https://github.com/smartcontractkit/external-adapters-js/pull/4977) [`aa1c999`](https://github.com/smartcontractkit/external-adapters-js/commit/aa1c999d71456d73eb85b5d801220af2bf0b06b5) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support Solana functions in calculated-price
+
+## 1.4.0
+
+### Minor Changes
+
+- [#4917](https://github.com/smartcontractkit/external-adapters-js/pull/4917) [`cf1cdb5`](https://github.com/smartcontractkit/external-adapters-js/commit/cf1cdb5145b18cff139b8f9ec37b6c6eb9cdf7cc) Thanks [@dskloetc](https://github.com/dskloetc)! - Add pool-token-rate endpoint
+
+- [#4350](https://github.com/smartcontractkit/external-adapters-js/pull/4350) [`4f17e00`](https://github.com/smartcontractkit/external-adapters-js/commit/4f17e00f1c0762294fb09c62b95de9ecba7bee30) Thanks [@chray-zhang](https://github.com/chray-zhang)! - Added support for Token Accounts
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 1.3.0
 
 ### Minor Changes

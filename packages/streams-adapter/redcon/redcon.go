@@ -2,6 +2,7 @@ package redcon
 
 import (
 	"log/slog"
+	"net/http"
 	"sort"
 	"strconv"
 	"strings"
@@ -28,15 +29,13 @@ type RedconServer struct {
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
-	keyMapper  *helpers.KeyMapper
 }
 
 // Config holds the Redis server configuration
 type Config struct {
-	Addr      string
-	Cache     *cache.Cache
-	Logger    *slog.Logger
-	KeyMapper *helpers.KeyMapper
+	Addr   string
+	Cache  *cache.Cache
+	Logger *slog.Logger
 }
 
 // New creates a new Redis server instance
@@ -46,7 +45,6 @@ func New(cfg Config) *RedconServer {
 		cache:      cfg.Cache,
 		logger:     cfg.Logger,
 		sortedSets: make(map[string]map[string]float64),
-		keyMapper:  cfg.KeyMapper,
 	}
 }
 
@@ -194,7 +192,8 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 
 	// Create Observation from JSON
 	obs := &types.Observation{
-		Success: true,
+		Success:    true,
+		StatusCode: http.StatusOK,
 	}
 
 	// Check for errorMessage field
@@ -208,15 +207,31 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 
 	// Extract data field
 	if data, hasData := rawJSON["data"]; hasData {
-		obs.Data = data
+		obs.Data = append(json.RawMessage(nil), data...)
 	}
 
 	// Extract timestamps field
 	if timestamps, hasTimestamps := rawJSON["timestamps"]; hasTimestamps {
-		obs.Timestamps = timestamps
+		obs.Timestamps = append(json.RawMessage(nil), timestamps...)
 	}
 
-	s.cache.Set(params, obs, time.Now(), key)
+	// Extract meta field
+	if meta, hasMeta := rawJSON["meta"]; hasMeta {
+		obs.Meta = append(json.RawMessage(nil), meta...)
+	}
+
+	// Extract result field
+	if result, hasResult := rawJSON["result"]; hasResult {
+		obs.Result = append(json.RawMessage(nil), result...)
+	}
+
+	transformedKey, err := helpers.CalculateCacheKey(params)
+	if err != nil {
+		s.logger.Warn("unable to compute transformed cache key", "key", key, "error", err)
+		conn.WriteInt(1)
+		return
+	}
+	s.cache.SetObservation(transformedKey, obs, time.Now(), key)
 	conn.WriteInt(1)
 }
 
@@ -253,12 +268,6 @@ func (s *RedconServer) handleZAdd(conn redcon.Conn, cmd redcon.Command) {
 	zset[member] = score
 
 	s.mu.Unlock()
-
-	// Notify KeyMapper for subscription set writes so it can learn
-	// the raw→transformed cache key mapping.
-	if s.keyMapper != nil && strings.HasSuffix(key, "-subscriptionSet") {
-		s.keyMapper.NotifyZAdd(key, member)
-	}
 
 	conn.WriteInt(addedCount)
 }

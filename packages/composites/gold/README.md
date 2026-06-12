@@ -1,6 +1,6 @@
 # GOLD
 
-![1.2.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gold/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/gold/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -18,7 +18,8 @@ This document was generated automatically. Please see [README Generator](../../s
 | | PRICE_STALE_TIMEOUT_MS | The amount of time in milliseconds before a price is considered stale if there has been no change | number | | `300000` |
 | | PREMIUM_EMA_TAU_MS | Time constant (tau) in milliseconds for the EMA filters used to calculate the average premium of tokenized streams over the XAU price | number | | `1000000` |
 | | DEVIATION_EMA_TAU_MS | Time constant (tau) in milliseconds for the EMA filters used to calculate the smoothed deviation from the XAU closing price | number | | `500000` |
-| | DEVIATION_CAP | Maximum deviation allowed from the closing price. Used deviation is clamped between this and minus this value. | number | | `0.02` |
+| | DEVIATION_CAP_LOW | Maximum downward deviation allowed from the closing price. Used deviation is clamped between this value and DEVIATION_CAP_HIGH. | number | | `-0.05` |
+| | DEVIATION_CAP_HIGH | Maximum upward deviation allowed from the closing price. Used deviation is clamped between DEVIATION_CAP_LOW and this value. | number | | `0.025` |
 | | TOKENIZED_PRICE_WEIGHT | Weight given to the tokenized stream derived price when calculating the composite price. 1.0 equals 100% | number | | `0.7` |
 | | CACHE_TTL_MS | How long to keep the state in the cache in milliseconds before reinitializing | number | | `604800000` |
 | ✅ | DATA_ENGINE_ADAPTER_URL | URL of data engine ea | string | | |

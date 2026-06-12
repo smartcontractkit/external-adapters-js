@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket stock_quotes endpoint should return success for Asian stock symbol 1`] = `
+{
+  "data": {
+    "ask_price": 133.29500000000002,
+    "ask_volume": 0,
+    "bid_price": 133.305,
+    "bid_volume": 0,
+    "ingress_ts_iso": "1970-01-01T00:00:01.017Z",
+    "mid_price": 133.3,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1018,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint should return success for US stock symbol 1`] = `
+{
+  "data": {
+    "ask_price": 133.29500000000002,
+    "ask_volume": 0,
+    "bid_price": 133.305,
+    "bid_volume": 0,
+    "ingress_ts_iso": "1970-01-01T00:00:02.027Z",
+    "mid_price": 133.3,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 2028,
+    "providerDataStreamEstablishedUnixMs": 2020,
+    "providerIndicatedTimeUnixMs": 2028,
+  },
+}
+`;

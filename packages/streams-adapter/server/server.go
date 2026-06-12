@@ -32,8 +32,9 @@ type ResponseData struct {
 	Data struct {
 		Result interface{} `json:"result"`
 	} `json:"data"`
-	Success bool   `json:"success"`
-	Error   string `json:"error,omitempty"`
+	Success    bool   `json:"success"`
+	Error      string `json:"error,omitempty"`
+	StatusCode int    `json:"statusCode,omitempty"`
 }
 
 // ErrorResponseData represents the structure of error responses
@@ -42,12 +43,14 @@ type ErrorResponseData struct {
 		Name    string `json:"name"`
 		Message string `json:"message"`
 	} `json:"error"`
+	StatusCode int `json:"statusCode,omitempty"`
 }
 
 // ObservationErrorResponse is returned when the cached observation has Success=false
 type ObservationErrorResponse struct {
 	ErrorMessage string          `json:"errorMessage"`
 	Timestamps   json.RawMessage `json:"timestamps"`
+	StatusCode   int             `json:"statusCode,omitempty"`
 }
 
 // Object pools for reducing memory allocations
@@ -67,23 +70,21 @@ var (
 
 // Server represents the HTTP server
 type Server struct {
-	config              *config.Config
-	cache               *cache.Cache
-	logger              *slog.Logger
-	server              *http.Server
-	metricsServer       *http.Server
-	router              *gin.Engine
-	httpClient          *http.Client
-	subscriptionTracker sync.Map
-	metrics             *appMetrics.Metrics
-	metricsForwarder    *appMetrics.Forwarder
-	keyMapper           *helpers.KeyMapper
-	ctx                 context.Context
-	cancel              context.CancelFunc
+	config           *config.Config
+	cache            *cache.Cache
+	logger           *slog.Logger
+	server           *http.Server
+	metricsServer    *http.Server
+	router           *gin.Engine
+	httpClient       *http.Client
+	metrics          *appMetrics.Metrics
+	metricsForwarder *appMetrics.Forwarder
+	ctx              context.Context
+	cancel           context.CancelFunc
 }
 
 // New creates a new HTTP server
-func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper *helpers.KeyMapper) *Server {
+func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 	ctx, cancel := context.WithCancel(context.Background())
 	// Set Gin mode based on log level
 	if cfg.LogLevel == "debug" {
@@ -127,7 +128,7 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 		},
 	}
 
-	jsMetricsURL := fmt.Sprintf("http://%s:%s/metrics", cfg.EAHost, cfg.EAMetricsPort)
+	jsMetricsURL := buildMetricsURL(cfg)
 	metricsForwarder := appMetrics.NewForwarder(jsMetricsURL, time.Duration(cfg.MetricsForwardTimeoutSeconds)*time.Second)
 
 	server := &Server{
@@ -138,7 +139,6 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 		httpClient:       httpClient,
 		metrics:          metrics,
 		metricsForwarder: metricsForwarder,
-		keyMapper:        keyMapper,
 		ctx:              ctx,
 		cancel:           cancel,
 	}
@@ -150,12 +150,13 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger, keyMapper 
 
 // setupRoutes configures the HTTP routes
 func (s *Server) setupRoutes() {
+	group := s.router.Group(s.config.EABaseUrl)
 	// Health check endpoint
-	s.router.GET("/health", s.healthHandler)
+	group.GET("/health", s.healthHandler)
 	// Cache debug endpoint
-	s.router.GET("/cache", s.cacheHandler)
+	group.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
-	s.router.POST("/", s.adapterHandler)
+	group.POST("", s.adapterHandler)
 }
 
 // Start starts the HTTP server
@@ -165,7 +166,7 @@ func (s *Server) Start() error {
 	// adapter metrics (excluding families already tracked in Go).
 	gatherer := appMetrics.CombinedGatherer(s.metricsForwarder)
 	metricsMux := http.NewServeMux()
-	metricsMux.Handle("/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
+	metricsMux.Handle(s.config.EABaseUrl+"/metrics", promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 
 	s.metricsServer = &http.Server{
 		Addr:    ":" + s.config.GoMetricsPort,
@@ -207,6 +208,7 @@ func (s *Server) Stop() error {
 	}
 
 	// 2. Shutdown HTTP servers
+	// 2a. Shutdown main server
 	if s.server != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -216,7 +218,7 @@ func (s *Server) Stop() error {
 		}
 	}
 
-	// 3. Shutdown metrics server
+	// 2b. Shutdown metrics server
 	if s.metricsServer != nil {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
@@ -242,19 +244,24 @@ func (s *Server) cacheHandler(c *gin.Context) {
 	items := s.cache.Items()
 
 	type entry struct {
-		Key         string             `json:"key"`
-		AdapterKey  string             `json:"adapterKey"`
-		Timestamp   time.Time          `json:"timestamp"`
-		Observation *types.Observation `json:"observation"`
+		Key                 string                 `json:"key"`
+		Status              types.CacheItemStatus  `json:"status"`
+		TransformedKey      string                 `json:"transformedKey,omitempty"`
+		AdapterKey          string                 `json:"adapterKey,omitempty"`
+		Timestamp           time.Time              `json:"timestamp"`
+		Observation         *types.Observation     `json:"observation,omitempty"`
+		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
 	}
-
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
 		entries = append(entries, entry{
-			Key:         key,
-			AdapterKey:  item.OriginalAdapterKey,
-			Timestamp:   item.Timestamp,
-			Observation: item.Observation,
+			Key:                 key,
+			Status:              item.Status,
+			TransformedKey:      item.TransformedKey,
+			AdapterKey:          item.OriginalAdapterKey,
+			Timestamp:           item.Timestamp,
+			Observation:         item.Observation,
+			OriginalRequestData: item.OriginalRequestData,
 		})
 	}
 
@@ -274,8 +281,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
-			Success: false,
-			Error:   fmt.Sprintf("Invalid request format: %v", err),
+			Success:    false,
+			Error:      fmt.Sprintf("Invalid request format: %v", err),
+			StatusCode: http.StatusBadRequest,
 		})
 		return
 	}
@@ -292,6 +300,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -310,50 +319,48 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
 	}
 
-	// Try the mapper: raw key → transformed key → cache lookup by transformed key.
-	if transformedKey, ok := s.keyMapper.Get(rawCacheKey); ok {
-		if item := s.cache.Get(transformedKey); item != nil && item.Observation != nil {
+	// Try the cache: if the item exists and is active, serve it.
+	// If it exists but is still new/learned, a subscription is already in
+	// progress — return 504 without starting another goroutine.
+	if item := s.cache.Get(rawCacheKey); item != nil {
+		if item.Status == types.StatusActive && item.Observation != nil {
 			respondWithObservation(c, item.Observation)
 			return
 		}
-	}
+		// Fall through to 504 below.
+	} else {
+		// First request for this key — create the item and start polling.
+		if s.cache.SetNew(rawCacheKey, reqData.Data) {
+			s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
+			go func(key string, params types.RequestParams, originalData map[string]interface{}) {
+				endpoint := params["endpoint"]
+				retryInterval := time.Duration(s.config.FeedIDPollIntervalSeconds) * time.Second
+				maxRetries := int(s.config.FeedIDMaxRetries)
 
-	// Fallback: try direct lookup by raw key (handles the common case where
-	// raw key == transformed key, i.e. no adapter-level requestTransform).
-	if item := s.cache.Get(rawCacheKey); item != nil && item.Observation != nil {
-		respondWithObservation(c, item.Observation)
-		return
-	}
-
-	// Cache miss — fire subscription concurrently, then learn mapping serially.
-	if _, alreadySubscribing := s.subscriptionTracker.LoadOrStore(rawCacheKey, true); !alreadySubscribing {
-		s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
-		go func(key string, params types.RequestParams, originalData map[string]interface{}) {
-			// Phase 1: Fire subscription immediately with original data
-			// (includes overrides). Gets the subscription queued at the JS
-			// adapter ASAP without waiting for the per-endpoint learning lock.
-			s.subscribeToAsset(originalData)
-
-			// Phase 2: Learn the raw→transformed cache key mapping.
-			// Serialized per endpoint via KeyMapper's existing mutex.
-			// The re-subscribe is fast because the JS adapter already has
-			// the subscription active from phase 1.
-			s.keyMapper.SubscribeAndLearn(params["endpoint"], key, func() {
-				s.subscribeToAsset(originalData)
-			})
-
-			// Remove from tracker after subscription attempt completes.
-			// Allow retries after delay if data still not available.
-			time.Sleep(time.Duration(s.config.SubscriptionRetryDelaySeconds) * time.Second)
-			s.subscriptionTracker.Delete(key)
-		}(rawCacheKey, rawParams, reqData.Data)
-	} else if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscription already in progress, skipping", "key", rawCacheKey)
+				for i := 0; i < maxRetries; i++ {
+					if i > 0 {
+						time.Sleep(retryInterval)
+					}
+					feedID, ok := s.queryAdapterForFeedID(originalData)
+					if ok {
+						transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
+						if err != nil {
+							s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
+							break
+						}
+						s.cache.SetTransformedKey(key, transformedKey)
+						s.logger.Debug("Learned key mapping from feedId", "rawKey", key, "transformedKey", transformedKey)
+						break
+					}
+				}
+			}(rawCacheKey, rawParams, reqData.Data)
+		}
 	}
 
 	// Get error response from pool
@@ -362,6 +369,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	errorResp.Error.Name = "AdapterError"
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
+	errorResp.StatusCode = http.StatusGatewayTimeout
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
 }
@@ -376,7 +384,19 @@ func respondWithObservation(c *gin.Context, obs *types.Observation) {
 	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
 		ErrorMessage: obs.Error,
 		Timestamps:   obs.Timestamps,
+		StatusCode:   http.StatusBadGateway,
 	})
+}
+
+// postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.
+// The caller is responsible for closing resp.Body.
+func (s *Server) postToAdapter(data interface{}) (*http.Response, error) {
+	body, err := json.Marshal(map[string]interface{}{"data": data})
+	if err != nil {
+		return nil, fmt.Errorf("marshal: %w", err)
+	}
+	url := fmt.Sprintf("http://%s:%s%s", s.config.EAHost, s.config.EAPort, s.config.EABaseUrl)
+	return s.httpClient.Post(url, "application/json", bytes.NewBuffer(body))
 }
 
 // subscribeToAsset sends a subscription request to the JS adapter.
@@ -384,34 +404,58 @@ func respondWithObservation(c *gin.Context, obs *types.Observation) {
 // It accepts either the original client request data (map[string]interface{},
 // preserving overrides) or stripped RequestParams (map[string]string).
 func (s *Server) subscribeToAsset(data interface{}) {
-	subscribeBody := map[string]interface{}{
-		"data": data,
-	}
-
-	jsonBody, err := json.Marshal(subscribeBody)
+	resp, err := s.postToAdapter(data)
 	if err != nil {
-		s.logger.Error("Failed to marshal subscribe request", "error", err)
-		return
-	}
-
-	internalUrl := fmt.Sprintf("http://%s:%s", s.config.EAHost, s.config.EAPort)
-
-	// Use the reusable HTTP client to avoid port exhaustion
-	resp, err := s.httpClient.Post(internalUrl, "application/json", bytes.NewBuffer(jsonBody))
-	if err != nil {
-		s.logger.Error("Failed to send subscribe request", "error", err, "url", internalUrl)
+		s.logger.Error("Failed to send subscribe request", "error", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode, "url", internalUrl)
+		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode)
 	}
 }
 
-// resubscribe loop periodically resubscribes to all assets in the cache
+// queryAdapterForFeedID sends a request to the JS adapter and returns the
+// feedId from meta.metrics.feedId on a 200 response. Returns empty string and
+// false if the adapter returns a non-200 status or feedId is absent.
+func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool) {
+	resp, err := s.postToAdapter(data)
+	if err != nil {
+		s.logger.Error("Failed to query JS adapter for feedId", "error", err)
+		return "", false
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		if resp.StatusCode != http.StatusGatewayTimeout {
+			s.logger.Warn("Unexpected status from JS adapter during feedId poll", "status", resp.StatusCode)
+		}
+		return "", false
+	}
+
+	var result struct {
+		Meta struct {
+			Metrics struct {
+				FeedId string `json:"feedId"`
+			} `json:"metrics"`
+		} `json:"meta"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		s.logger.Error("Failed to decode JS adapter response for feedId", "error", err)
+		return "", false
+	}
+
+	if result.Meta.Metrics.FeedId == "" {
+		return "", false
+	}
+
+	return result.Meta.Metrics.FeedId, true
+}
+
+// resubscribeLoop periodically resubscribes to all assets in the cache.
 func (s *Server) resubscribeLoop() {
-	cleanupInterval := time.Duration(s.config.CacheCleanupInterval) * time.Minute
+	cleanupInterval := time.Duration(s.config.CacheCleanupIntervalSeconds) * time.Second
 	ticker := time.NewTicker(cleanupInterval)
 	defer ticker.Stop()
 
@@ -425,17 +469,34 @@ func (s *Server) resubscribeLoop() {
 	}
 }
 
-// resubscribeAllAssets resubscribes to all assets in the cache.
-// Parses request params from the OriginalAdapterKey stored on each cache item.
+// resubscribeAllAssets resubscribes to all active assets in the cache.
+// Uses OriginalRequestData (stored at first subscription time) when available so
+// that overrides and the exact original params are preserved, avoiding case
+// mismatches that can cause the JS adapter to re-subscribe with a different
+// symbol and have that subscription rejected.
 func (s *Server) resubscribeAllAssets() {
 	items := s.cache.Items()
 
 	for _, item := range items {
-		params, err := helpers.RequestParamsFromKey(item.OriginalAdapterKey)
-		if err != nil {
-			s.logger.Debug("Failed to parse params from adapter key", "key", item.OriginalAdapterKey, "error", err)
+		if item.Status != types.StatusActive {
 			continue
 		}
-		go s.subscribeToAsset(params)
+		if item.OriginalRequestData == nil {
+			s.logger.Warn("No original request data for active cache item, skipping resubscribe", "key", item.OriginalAdapterKey)
+			continue
+		}
+		go func(p interface{}) {
+			s.subscribeToAsset(p)
+		}(item.OriginalRequestData)
 	}
+}
+
+// buildMetricsURL constructs the JS adapter metrics scrape URL.
+// When MetricsUseBaseUrl is true, EABaseUrl is prepended to /metrics.
+func buildMetricsURL(cfg *config.Config) string {
+	metricsPath := "/metrics"
+	if cfg.MetricsUseBaseUrl {
+		metricsPath = cfg.EABaseUrl + "/metrics"
+	}
+	return fmt.Sprintf("http://%s:%s%s", cfg.EAHost, cfg.EAMetricsPort, metricsPath)
 }

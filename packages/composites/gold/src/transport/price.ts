@@ -59,7 +59,8 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   tokenizedPriceStreamsConfig!: Record<string, string>
   tokenizedPriceWeight!: bigint
-  maxDeviation!: bigint
+  maxDeviationDown!: bigint
+  maxDeviationUp!: bigint
   state!: State
   stateCache!: Cache<State>
   stateCacheKey!: string
@@ -86,8 +87,12 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
       new Decimal(this.config.TOKENIZED_PRICE_WEIGHT).mul(10 ** RESULT_DECIMALS).toFixed(),
     )
 
-    this.maxDeviation = BigInt(
-      new Decimal(this.config.DEVIATION_CAP).mul(10 ** RESULT_DECIMALS).toFixed(),
+    this.maxDeviationDown = BigInt(
+      new Decimal(this.config.DEVIATION_CAP_LOW).mul(10 ** RESULT_DECIMALS).toFixed(),
+    )
+
+    this.maxDeviationUp = BigInt(
+      new Decimal(this.config.DEVIATION_CAP_HIGH).mul(10 ** RESULT_DECIMALS).toFixed(),
     )
 
     this.stateCache = dependencies.cache as Cache<State>
@@ -343,10 +348,10 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   capDeviation(deviation: bigint): bigint {
-    if (deviation > this.maxDeviation) {
-      return this.maxDeviation
-    } else if (deviation < -this.maxDeviation) {
-      return -this.maxDeviation
+    if (deviation > this.maxDeviationUp) {
+      return this.maxDeviationUp
+    } else if (deviation < this.maxDeviationDown) {
+      return this.maxDeviationDown
     }
     return deviation
   }

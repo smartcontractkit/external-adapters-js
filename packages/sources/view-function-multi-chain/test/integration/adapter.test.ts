@@ -18,6 +18,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
     process.env.ETHEREUM_MAINNET_RPC_URL =
       process.env.ETHEREUM_MAINNET_RPC_URL ?? 'http://localhost:8545'
     process.env.ETHEREUM_MAINNET_CHAIN_ID = process.env.ETHEREUM_MAINNET_CHAIN_ID ?? '1'
@@ -27,9 +29,6 @@ describe('execute', () => {
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.APTOS_URL = process.env.APTOS_URL ?? 'http://fake-aptos'
     process.env.APTOS_TESTNET_URL = process.env.APTOS_TESTNET_URL ?? 'http://fake-aptos-testnet'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -43,6 +42,12 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     spy.mockRestore()
+  })
+
+  beforeEach(() => {
+    testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 500
+    testAdapter.adapter.config.settings.FEED_ID_JSON = false
+    testAdapter.adapter.config.settings.METRICS_ENABLED = false
   })
 
   afterEach(() => {
@@ -60,6 +65,21 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return hash code if data length exceeds max key size', async () => {
+      testAdapter.adapter.config.settings.MAX_COMMON_KEY_SIZE = 1
+      testAdapter.adapter.config.settings.FEED_ID_JSON = true
+      testAdapter.adapter.config.settings.METRICS_ENABLED = true
+      const data = {
+        contract: '0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c',
+        function: 'function latestAnswer() external view returns (int256)',
+        network: 'ethereum_mainnet',
+      }
+      mockETHMainnetContractCallResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json().meta.metrics.feedId).toBe('{"hash":"oZQF1WbGvmgrgf32HSV0Mm5GSyo="}')
     })
 
     it('should return success for different network', async () => {

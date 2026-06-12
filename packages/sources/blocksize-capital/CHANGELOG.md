@@ -1,5 +1,59 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.7.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bump FW version
+
+## 2.7.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 2.7.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+## 2.6.6
+
+### Patch Changes
+
+- [#4966](https://github.com/smartcontractkit/external-adapters-js/pull/4966) [`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapter] data provider case sensitivity fix
+
+## 2.6.5
+
+### Patch Changes
+
+- [#4950](https://github.com/smartcontractkit/external-adapters-js/pull/4950) [`8fc90ab`](https://github.com/smartcontractkit/external-adapters-js/commit/8fc90abc7f6d439b5ecdad09e663d76131b066e9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Support for BASE_URL, and payload without endpoint
+
+## 2.6.4
+
+### Patch Changes
+
+- [#4914](https://github.com/smartcontractkit/external-adapters-js/pull/4914) [`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - new images with proper streams race condition fix
+
+## 2.6.3
+
+### Patch Changes
+
+- [#4905](https://github.com/smartcontractkit/external-adapters-js/pull/4905) [`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapters] fixed race condition in the resubscribe loop
+
+## 2.6.2
+
+### Patch Changes
+
+- [#4898](https://github.com/smartcontractkit/external-adapters-js/pull/4898) [`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - New strems adapter image with restored resubscribe loop
+
+## 2.6.1
+
+### Patch Changes
+
+- [#4894](https://github.com/smartcontractkit/external-adapters-js/pull/4894) [`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter code - race conditions fix
+
 ## 2.6.0
 
 ### Minor Changes

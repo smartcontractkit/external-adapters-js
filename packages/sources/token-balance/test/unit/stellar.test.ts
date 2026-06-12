@@ -106,10 +106,12 @@ describe('StellarTransport', () => {
     {
       address: address1,
       balance: balance1.toString(),
+      decimals: 7,
     },
     {
       address: address2,
       balance: balance2.toString(),
+      decimals: 7,
     },
   ]
 

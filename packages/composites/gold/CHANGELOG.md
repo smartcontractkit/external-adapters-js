@@ -1,5 +1,11 @@
 # @chainlink/gold-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#4867](https://github.com/smartcontractkit/external-adapters-js/pull/4867) [`62aafe1`](https://github.com/smartcontractkit/external-adapters-js/commit/62aafe1ce5aa1b5c9504772589202c5045afe68d) Thanks [@dskloetc](https://github.com/dskloetc)! - Change default deviation cap
+
 ## 1.2.2
 
 ### Patch Changes

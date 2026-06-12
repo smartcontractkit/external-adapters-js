@@ -1,23 +1,15 @@
-import {
-  HttpTransport,
-  HttpTransportConfig,
-} from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/http'
-import { createResponses, prepareRequests } from './utils'
+import { GenericApiSubscriptionTransport } from './utils'
 
-export type HttpTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: object
-  }
-}
+const logger = makeLogger('Single HTTP Transport')
 
-const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
-  prepareRequests,
-  parseResponse: (params, apiResponse) => {
-    return createResponses<BaseEndpointTypes>({
-      params,
-      apiResponse,
+// This was originally an HTTP transport and we wanted to keep the same
+// endpoint.
+export class GenericApiHttpTransport extends GenericApiSubscriptionTransport<BaseEndpointTypes> {
+  constructor() {
+    super({
+      logger,
       mapParam: (param) => ({
         apiName: param.apiName,
         dataPaths: [{ name: 'result', path: param.dataPath }],
@@ -34,13 +26,6 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         timestamps: multiHttpResponse.timestamps,
       }),
     })
-  },
-}
-
-// Exported for testing
-export class GenericApiHttpTransport extends HttpTransport<HttpTransportTypes> {
-  constructor() {
-    super(transportConfig)
   }
 }
 

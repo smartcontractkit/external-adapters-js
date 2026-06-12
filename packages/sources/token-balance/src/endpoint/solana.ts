@@ -36,7 +36,7 @@ export const inputParameters = new InputParameters(
       },
     },
     priceOracle: {
-      required: true,
+      required: false,
       description:
         'Configuration of the on-chain price oracle that provides real-time token valuations.',
       type: {

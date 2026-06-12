@@ -54,6 +54,9 @@
       "path": "./composites/proof-of-reserves"
     },
     {
+      "path": "./composites/proof-of-reserves-v2"
+    },
+    {
       "path": "./composites/rocket-pool"
     },
     {
@@ -94,6 +97,9 @@
     },
     {
       "path": "./scripts"
+    },
+    {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter"
     },
     {
       "path": "./sources/ada-balance"
@@ -366,6 +372,9 @@
       "path": "./sources/liveart"
     },
     {
+      "path": "./sources/lo-tech"
+    },
+    {
       "path": "./sources/lotus"
     },
     {
@@ -445,6 +454,9 @@
     },
     {
       "path": "./sources/securitize"
+    },
+    {
+      "path": "./sources/six"
     },
     {
       "path": "./sources/snowflake"
@@ -562,9 +574,6 @@
     },
     {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/harmony"
     }
   ]
 }

@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.16.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.17.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -14,16 +14,17 @@ This document was generated automatically. Please see [README Generator](../../s
 |           |    BACKGROUND_EXECUTE_MS     |                                The amount of time the background execute should sleep before performing the next request                                 | number |         |                                           `10000`                                            |
 |           | COINBASE_CBBTC_API_ENDPOINT  |                                               An API endpoint for Coinbase cbBTC native BTC wallet address                                               | string |         |                     `https://coinbase.com/cbbtc/proof-of-reserves.json`                      |
 |           | BEDROCK_UNIBTC_API_ENDPOINT  |                                               An API endpoint for Bedrock uniBTC native BTC wallet address                                               | string |         |           `https://bedrock-datacenter.rockx.com/data/tvl/reserve_with_native.json`           |
-|           |     SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |                      `https://por.sft-api.com/solv-btc-addresses.json`                       |
-|           |   SOLVBTC_BBN_API_ENDPOINT   |                                                An API endpoint for SolvBTC.BBN native BTC wallet address                                                 | string |         |                     `https://por.sft-api.com/x-solv-btc-addresses.json`                      |
-|           |   SOLVBTC_ENA_API_ENDPOINT   |                                          An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated                                           | string |         |                    `https://por.sft-api.com/solv-btc-ena-addresses.json`                     |
-|           | SOLVBTC_TRADING_API_ENDPOINT |                                              An API endpoint for SolvBTC.TRADING native BTC wallet address                                               | string |         |                  `https://por.sft-api.com/solv-btc-trading-addresses.json`                   |
-|           |  SOLVBTC_CORE_API_ENDPOINT   |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |                    `https://por.sft-api.com/solv-btc-core-addresses.json`                    |
-|           |   SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |                     `https://por.sft-api.com/solv-btc-jup-mirrorx.json`                      |
+|           |     SOLVBTC_API_ENDPOINT     |                                                  An API endpoint for SolvBTC native BTC wallet address                                                   | string |         |         `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-addresses`          |
+|           |   SOLVBTC_BBN_API_ENDPOINT   |                                                An API endpoint for SolvBTC.BBN native BTC wallet address                                                 | string |         |        `https://open-data.solvprotocol.org/api/open/config/get/x-solv-btc-addresses`         |
+|           |   SOLVBTC_ENA_API_ENDPOINT   |                                          An API endpoint for SolvBTC.ENA native BTC wallet address. Deprecated                                           | string |         |       `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-ena-addresses`        |
+|           | SOLVBTC_TRADING_API_ENDPOINT |                                              An API endpoint for SolvBTC.TRADING native BTC wallet address                                               | string |         |     `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-trading-addresses`      |
+|           |  SOLVBTC_CORE_API_ENDPOINT   |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |       `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-core-addresses`       |
+|           |   SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |        `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-jup-mirrorx`         |
 |           |      ZEUS_ZBTC_API_URL       |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |              `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`               |
 |           |       VIRTUNE_API_URL        |                                                        An API endpoint for Virtune address lists                                                         | string |         | `https://proof-of-reserves-chainlink-283003lt.nw.gateway.dev/api/external/proof-of-reserves` |
 |           |       VIRTUNE_API_KEY        |                                                         The API key for Virtune address list API                                                         | string |         |                                              ``                                              |
 |           |     OKX_X_ASSET_API_URL      |                                                       An API endpoint for OKX X-Asset address list                                                       | string |         |                  `https://www.okx.com/v2/asset/audit/minted-coin-balances`                   |
+|           |        CIRCLE_API_URL        |                                                         An API endpoint for Circle address list                                                          | string |         |                     `https://api.circle.com/v1/reserveAddresses/cirbtc`                      |
 
 ---
 
@@ -37,9 +38,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                      Options                                                                                                                                                                                                                       |  Default  |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
-|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [okxassetsaddress](#okxassetsaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [virtune-token](#virtune-token-endpoint), [virtune](#virtune-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                                                                                    Options                                                                                                                                                                                                                                     |  Default  |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------: |
+|           | endpoint | The endpoint to use | string | [address](#address-endpoint), [bedrockbtcaddress](#bedrockbtcaddress-endpoint), [circle](#circle-endpoint), [coinbasebtcaddress](#coinbasebtcaddress-endpoint), [multichainaddress](#multichainaddress-endpoint), [okxassetsaddress](#okxassetsaddress-endpoint), [openedenaddress](#openedenaddress-endpoint), [solvbtcaddress](#solvbtcaddress-endpoint), [virtune-token](#virtune-token-endpoint), [virtune](#virtune-endpoint), [zeusbtcaddress](#zeusbtcaddress-endpoint) | `address` |
 
 ## Address Endpoint
 
@@ -123,6 +124,28 @@ Request:
   "data": {
     "endpoint": "bedrockbtcaddress",
     "type": "BTC"
+  }
+}
+```
+
+---
+
+## Circle Endpoint
+
+`circle` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "circle"
   }
 }
 ```
@@ -313,12 +336,13 @@ Request:
 
 ### Input Params
 
-| Required? |     Name     | Aliases |                           Description                           |  Type  |                                 Options                                  | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :-----: | :-------------------------------------------------------------: | :----: | :----------------------------------------------------------------------: | :-----: | :--------: | :------------: |
-|    ✅     |     coin     |         |            The coin to retrieve the address list for            | string |                                                                          |         |            |                |
-|    ✅     | addressField |         | The field name in the API response that contains the addresses. | string | `lockAddresses`, `stakingBalanceDetails`, `stakingWithdrawalCredentials` |         |            |                |
-|    ✅     |   network    |         |        The network name to associate with the addresses         | string |                                                                          |         |            |                |
-|    ✅     |   chainId    |         |          The chain ID to associate with the addresses           | string |                                                                          |         |            |                |
+| Required? |       Name       | Aliases |                                                                   Description                                                                    |  Type   |                                 Options                                  | Default | Depends On | Not Valid With |
+| :-------: | :--------------: | :-----: | :----------------------------------------------------------------------------------------------------------------------------------------------: | :-----: | :----------------------------------------------------------------------: | :-----: | :--------: | :------------: |
+|    ✅     |       coin       |         |                                                    The coin to retrieve the address list for                                                     | string  |                                                                          |         |            |                |
+|    ✅     |   addressField   |         |                                         The field name in the API response that contains the addresses.                                          | string  | `lockAddresses`, `stakingBalanceDetails`, `stakingWithdrawalCredentials` |         |            |                |
+|    ✅     |     network      |         |                                                 The network name to associate with the addresses                                                 | string  |                                                                          |         |            |                |
+|    ✅     |     chainId      |         |                                                   The chain ID to associate with the addresses                                                   | string  |                                                                          |         |            |                |
+|           | noErrorOnRipcord |         | Lax ripcord handling, return 200 on ripcord when noErrorOnRipcord is true, return 502 with ripcord details if noErrorOnRipcord is false or unset | boolean |                                                                          |         |            |                |
 
 ### Example
 
@@ -331,7 +355,8 @@ Request:
     "coin": "xBTC",
     "addressField": "lockAddresses",
     "network": "bitcoin",
-    "chainId": "mainnet"
+    "chainId": "mainnet",
+    "noErrorOnRipcord": false
   }
 }
 ```

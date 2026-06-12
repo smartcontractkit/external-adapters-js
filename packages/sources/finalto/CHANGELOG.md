@@ -1,5 +1,47 @@
 # @chainlink/finalto-adapter
 
+## 1.4.7
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 1.4.6
+
+### Patch Changes
+
+- [#4966](https://github.com/smartcontractkit/external-adapters-js/pull/4966) [`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapter] data provider case sensitivity fix
+
+## 1.4.5
+
+### Patch Changes
+
+- [#4950](https://github.com/smartcontractkit/external-adapters-js/pull/4950) [`8fc90ab`](https://github.com/smartcontractkit/external-adapters-js/commit/8fc90abc7f6d439b5ecdad09e663d76131b066e9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Support for BASE_URL, and payload without endpoint
+
+## 1.4.4
+
+### Patch Changes
+
+- [#4914](https://github.com/smartcontractkit/external-adapters-js/pull/4914) [`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - new images with proper streams race condition fix
+
+## 1.4.3
+
+### Patch Changes
+
+- [#4905](https://github.com/smartcontractkit/external-adapters-js/pull/4905) [`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - [Streams Adapters] fixed race condition in the resubscribe loop
+
+## 1.4.2
+
+### Patch Changes
+
+- [#4898](https://github.com/smartcontractkit/external-adapters-js/pull/4898) [`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - New strems adapter image with restored resubscribe loop
+
+## 1.4.1
+
+### Patch Changes
+
+- [#4894](https://github.com/smartcontractkit/external-adapters-js/pull/4894) [`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter code - race conditions fix
+
 ## 1.4.0
 
 ### Minor Changes

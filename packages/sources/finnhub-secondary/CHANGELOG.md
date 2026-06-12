@@ -1,5 +1,67 @@
 # @chainlink/finnhub-secondary-adapter
 
+## 1.1.6
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- Updated dependencies [[`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226)]:
+  - @chainlink/finnhub-adapter@4.2.6
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`fd78fc8`](https://github.com/smartcontractkit/external-adapters-js/commit/fd78fc8991ac781b7054a3b0fac95ee8dc6e0c45)]:
+  - @chainlink/finnhub-adapter@4.2.5
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies [[`8fc90ab`](https://github.com/smartcontractkit/external-adapters-js/commit/8fc90abc7f6d439b5ecdad09e663d76131b066e9)]:
+  - @chainlink/finnhub-adapter@4.2.4
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [[`f32b94a`](https://github.com/smartcontractkit/external-adapters-js/commit/f32b94acc753582be14d76a842acd3d4002ca1d9)]:
+  - @chainlink/finnhub-adapter@4.2.3
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`210cff4`](https://github.com/smartcontractkit/external-adapters-js/commit/210cff4235bc55746cd2444fc326b903ec9e9e25)]:
+  - @chainlink/finnhub-adapter@4.2.2
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`b5a7161`](https://github.com/smartcontractkit/external-adapters-js/commit/b5a7161d7eb969d7e5e541346cc591550784dd33)]:
+  - @chainlink/finnhub-adapter@4.2.1
+
+## 1.1.0
+
+### Minor Changes
+
+- [#4869](https://github.com/smartcontractkit/external-adapters-js/pull/4869) [`3e5f51c`](https://github.com/smartcontractkit/external-adapters-js/commit/3e5f51c8b36a43a5142db7d61207caa99b993908) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Remove asian markets
+
+### Patch Changes
+
+- Updated dependencies [[`3c0cbf0`](https://github.com/smartcontractkit/external-adapters-js/commit/3c0cbf07eacf36f43868adafa7214dc35046aae4), [`3e5f51c`](https://github.com/smartcontractkit/external-adapters-js/commit/3e5f51c8b36a43a5142db7d61207caa99b993908)]:
+  - @chainlink/finnhub-adapter@4.2.0
+
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`050e9de`](https://github.com/smartcontractkit/external-adapters-js/commit/050e9def600fc5556f15c8a55e51a7493725277d)]:
+  - @chainlink/finnhub-adapter@4.1.0
+
 ## 1.0.2
 
 ### Patch Changes

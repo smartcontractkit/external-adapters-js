@@ -1,5 +1,82 @@
 # @chainlink/set-token-index-adapter
 
+## 3.0.72
+
+### Patch Changes
+
+- Updated dependencies [[`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66)]:
+  - @chainlink/token-allocation-adapter@1.15.2
+
+## 3.0.71
+
+### Patch Changes
+
+- Updated dependencies [[`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226)]:
+  - @chainlink/token-allocation-adapter@1.15.1
+
+## 3.0.70
+
+### Patch Changes
+
+- Updated dependencies [[`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787)]:
+  - @chainlink/token-allocation-adapter@1.15.0
+
+## 3.0.69
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.28
+
+## 3.0.68
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.27
+
+## 3.0.67
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.26
+
+## 3.0.66
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.25
+
+## 3.0.65
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.24
+
+## 3.0.64
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.23
+
+## 3.0.63
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.22
+
+## 3.0.62
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.14.21
+
 ## 3.0.61
 
 ### Patch Changes

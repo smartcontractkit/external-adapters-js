@@ -1,33 +1,18 @@
-import {
-  HttpTransport,
-  HttpTransportConfig,
-} from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/multi-http'
-import { createResponses, prepareRequests } from './utils'
+import { GenericApiSubscriptionTransport } from './utils'
 
-export type HttpTransportTypes = BaseEndpointTypes & {
-  Provider: {
-    RequestBody: never
-    ResponseBody: object
-  }
-}
+const logger = makeLogger('Multi HTTP Transport')
 
-const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
-  prepareRequests,
-  parseResponse: (params, apiResponse) => {
-    return createResponses({
-      params,
-      apiResponse,
-      mapParam: (param) => param,
+// This was originally an HTTP transport and we wanted to keep the same
+// endpoint.
+export class MultiHttpTransport extends GenericApiSubscriptionTransport<BaseEndpointTypes> {
+  constructor() {
+    super({
+      logger,
+      mapParam: (p) => p,
       mapResponse: (adapterResponse) => adapterResponse,
     })
-  },
-}
-
-// Exported for testing
-export class MultiHttpTransport extends HttpTransport<HttpTransportTypes> {
-  constructor() {
-    super(transportConfig)
   }
 }
 

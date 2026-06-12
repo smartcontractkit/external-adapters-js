@@ -54,6 +54,9 @@
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
+      "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
+    },
+    {
       "path": "./composites/rocket-pool/tsconfig.test.json"
     },
     {
@@ -94,6 +97,9 @@
     },
     {
       "path": "./scripts/tsconfig.test.json"
+    },
+    {
+      "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter/tsconfig.test.json"
     },
     {
       "path": "./sources/ada-balance/tsconfig.test.json"
@@ -366,6 +372,9 @@
       "path": "./sources/liveart/tsconfig.test.json"
     },
     {
+      "path": "./sources/lo-tech/tsconfig.test.json"
+    },
+    {
       "path": "./sources/lotus/tsconfig.test.json"
     },
     {
@@ -445,6 +454,9 @@
     },
     {
       "path": "./sources/securitize/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/six/tsconfig.test.json"
     },
     {
       "path": "./sources/snowflake/tsconfig.test.json"
@@ -562,9 +574,6 @@
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/harmony/tsconfig.test.json"
     }
   ]
 }

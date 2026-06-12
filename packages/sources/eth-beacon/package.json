@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/eth-beacon-adapter",
-  "version": "3.0.23",
+  "version": "3.1.1",
   "description": "Chainlink eth-beacon adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "bignumber.js": "9.1.2",
     "ethers": "^5.8.0",
     "tslib": "2.4.1"

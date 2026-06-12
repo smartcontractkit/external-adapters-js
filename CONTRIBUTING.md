@@ -2,6 +2,9 @@
 
 Thank you for your interest in improving the Chainlink External Adapter codebase! The steps below support development of original adapters, but you are more than welcome to contribute to existing adapters as well. When opening a PR, please invite `smartcontractkit/solutions-engineering` to review the changes.
 
+> [!IMPORTANT]
+> If you're thinking of building your own for a production use case, please contact [chainlink_data_feeds@smartcontract.com](mailto:chainlink_data_feeds@smartcontract.com) first to discuss.
+
 ## Table of Contents
 
 1. [Creating A New Adapter](#Creating-A-New-Adapter)

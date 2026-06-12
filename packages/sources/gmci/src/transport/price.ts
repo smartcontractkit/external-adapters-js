@@ -42,7 +42,7 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('GmciTransport')
 
-export const options: WebSocketTransportConfig<WsTransportTypes> = {
+export const options = {
   url: (context: EndpointContext<WsTransportTypes>) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context: EndpointContext<WsTransportTypes>) => ({
     headers: {
@@ -95,6 +95,6 @@ export const options: WebSocketTransportConfig<WsTransportTypes> = {
       }
     },
   },
-}
+} satisfies WebSocketTransportConfig<WsTransportTypes>
 
 export const transport = new WebSocketTransport(options)

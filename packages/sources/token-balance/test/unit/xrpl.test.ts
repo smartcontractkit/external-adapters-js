@@ -326,6 +326,56 @@ describe('XrplTransport', () => {
       log.mockClear()
     })
 
+    it('should not convert if no oracle is provided', async () => {
+      const arbitrumRpcUrl = 'https://arb.rpc.url'
+      const arbitrumChainId = 42161
+      const address1 = 'r101'
+      const address2 = 'r102'
+      const tokenIssuerAddress = 'r456'
+      const balance1 = 100
+      const balance2 = 200
+
+      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
+      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumChainId.toString()
+
+      mockLineBalances([balance1.toString()])
+      mockLineBalances([balance2.toString()])
+
+      const param = makeStub('param', {
+        priceOracleAddress: undefined,
+        priceOracleNetwork: undefined,
+        tokenIssuerAddress,
+        addresses: [{ address: address1 }, { address: address2 }],
+      })
+      const response = await transport._handleRequest(param)
+
+      const expectedResult = ((balance1 + balance2) * 10 ** 18).toString()
+      expect(response).toEqual({
+        statusCode: 200,
+        result: expectedResult,
+        data: {
+          decimals: 18,
+          result: expectedResult,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toHaveBeenNthCalledWith(
+        1,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toHaveBeenNthCalledWith(
+        2,
+        expect.stringContaining('Generated HTTP request queue key:'),
+      )
+      expect(log).toBeCalledTimes(2)
+      log.mockClear()
+    })
+
     it('should record received timestamp separate from requested timestamp', async () => {
       const priceOracleAddress = '0x123'
       const priceOracleNetwork = 'arbitrum'

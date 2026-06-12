@@ -1,5 +1,29 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.7.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bump FW version
+
+## 2.7.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 2.7.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+## 2.6.0
+
+### Minor Changes
+
+- [#5000](https://github.com/smartcontractkit/external-adapters-js/pull/5000) [`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Changeset to release the following adapters: aleno, allium-state, backed-fi, blocksize-capital-state, coinpaprika, coinpaprika-state, deutsche-boerse, expand-network, icap, mobula-state, the-network-firm, tp, view-function-multi-chain
+
 ## 2.5.0
 
 ### Minor Changes
