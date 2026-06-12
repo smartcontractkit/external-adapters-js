@@ -6201,27 +6201,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:2.14.6", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.6-e164854d30-053e067323.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.6"],\
-          ["@date-fns/tz", "npm:1.5.0"],\
-          ["@solana/kit", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:6.9.0"],\
-          ["ajv", "npm:8.20.0"],\
-          ["axios", "npm:1.16.1"],\
-          ["ethers", "npm:6.16.0"],\
-          ["eventsource", "npm:4.1.0"],\
-          ["fastify", "npm:5.8.5"],\
-          ["ioredis", "npm:5.11.0"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:10.3.1"],\
-          ["pino-pretty", "npm:13.1.3"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:8.21.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.16.1", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0-4eaa996fbf.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -7299,7 +7278,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nobi", {\
         "packageLocation": "./packages/sources/nobi/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.6"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\

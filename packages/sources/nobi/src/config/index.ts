@@ -14,6 +14,13 @@ export const config = new AdapterConfig(
       default: 'wss://ws.price.usenobi.com/v2',
       sensitive: false,
     },
+    MAX_SUBSCRIPTIONS_PER_TRANSPORT: {
+      description:
+        'The maximum number of currency pairs to route through a single transport before routing to the next one',
+      type: 'number',
+      default: 100,
+      sensitive: false,
+    },
   },
   {
     envDefaultOverrides: {
