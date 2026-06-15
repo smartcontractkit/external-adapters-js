@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.354.0",
+  "version": "1.357.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -26,6 +26,7 @@
     "generate:master-list": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "generate:endpoint-aliases": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-endpoint-aliases",
+    "check-adapter-names": "ts-node-transpile-only ./packages/scripts/src/check-adapter-names",
     "get-changeset-arguments": "ts-node-transpile-only ./packages/scripts/src/get-changeset-arguments",
     "postinstall": "husky install",
     "cm": "cz",
