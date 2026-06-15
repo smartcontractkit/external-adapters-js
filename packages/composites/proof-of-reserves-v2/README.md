@@ -1,6 +1,6 @@
-# PROOF_OF-RESERVES-2
+# PROOF_OF_RESERVES_V2
 
-![1.1.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/proof-of-reserves-v2/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.4](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/proof-of-reserves-v2/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 

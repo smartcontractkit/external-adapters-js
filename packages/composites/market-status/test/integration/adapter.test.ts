@@ -523,18 +523,4 @@ describe('execute', () => {
       })
     })
   })
-
-  describe('missing env var', () => {
-    it('throws error', async () => {
-      let response
-      for (let i = 0; i < 10; i++) {
-        response = await testAdapter.request({
-          market: 'six',
-        })
-      }
-      expect(response.json().errorMessage).toEqual(
-        'Missing required environment variable: SIX_ADAPTER_URL',
-      )
-    })
-  })
 })

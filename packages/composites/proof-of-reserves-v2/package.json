@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/proof-of-reserves-v2-adapter",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Chainlink proof-of-reserves-v2 adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.14.5",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "@date-fns/tz": "^1.4.1",
     "date-fns": "^4.1.0",
     "decimal.js": "^10.6.0",

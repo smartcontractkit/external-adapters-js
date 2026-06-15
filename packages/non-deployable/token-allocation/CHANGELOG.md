@@ -1,5 +1,64 @@
 # @chainlink/token-allocation-adapter
 
+## 1.15.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bump FW version
+
+- Updated dependencies [[`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66), [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66)]:
+  - @chainlink/blocksize-capital-adapter@2.7.2
+  - @chainlink/coinmarketcap-adapter@2.2.2
+  - @chainlink/cryptocompare-adapter@3.5.2
+  - @chainlink/cfbenchmarks-adapter@2.8.2
+  - @chainlink/coinmetrics-adapter@3.12.2
+  - @chainlink/coinpaprika-adapter@2.7.2
+  - @chainlink/coingecko-adapter@2.3.2
+  - @chainlink/tiingo-adapter@2.11.2
+  - @chainlink/kaiko-adapter@2.4.2
+  - @chainlink/ncfx-adapter@4.8.2
+  - @chainlink/finage-adapter@2.7.2
+
+## 1.15.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- Updated dependencies [[`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226)]:
+  - @chainlink/coingecko-adapter@2.3.1
+  - @chainlink/kaiko-adapter@2.4.1
+  - @chainlink/cfbenchmarks-adapter@2.8.1
+  - @chainlink/tiingo-adapter@2.11.1
+  - @chainlink/coinpaprika-adapter@2.7.1
+  - @chainlink/blocksize-capital-adapter@2.7.1
+  - @chainlink/ncfx-adapter@4.8.1
+  - @chainlink/finage-adapter@2.7.1
+  - @chainlink/coinmarketcap-adapter@2.2.1
+  - @chainlink/coinmetrics-adapter@3.12.1
+  - @chainlink/cryptocompare-adapter@3.5.1
+
+## 1.15.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
+### Patch Changes
+
+- Updated dependencies [[`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787)]:
+  - @chainlink/blocksize-capital-adapter@2.7.0
+  - @chainlink/coinmarketcap-adapter@2.2.0
+  - @chainlink/cryptocompare-adapter@3.5.0
+  - @chainlink/cfbenchmarks-adapter@2.8.0
+  - @chainlink/coinmetrics-adapter@3.12.0
+  - @chainlink/coinpaprika-adapter@2.7.0
+  - @chainlink/coingecko-adapter@2.3.0
+  - @chainlink/finage-adapter@2.7.0
+  - @chainlink/tiingo-adapter@2.11.0
+  - @chainlink/kaiko-adapter@2.4.0
+  - @chainlink/ncfx-adapter@4.8.0
+
 ## 1.14.28
 
 ### Patch Changes

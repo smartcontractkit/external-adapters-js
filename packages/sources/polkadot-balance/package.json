@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/polkadot-balance-adapter",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Chainlink Polkadot balance adapter.",
   "keywords": [
     "Chainlink",
@@ -28,7 +28,7 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "@polkadot/api": "9.14.2",
     "@polkadot/types": "^9.14.2",
     "@polkadot/types-codec": "^9.14.2",

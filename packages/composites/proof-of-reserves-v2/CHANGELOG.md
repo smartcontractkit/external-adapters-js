@@ -1,5 +1,17 @@
 # @chainlink/proof-of-reserves-v2-adapter
 
+## 1.1.4
+
+### Patch Changes
+
+- [#5063](https://github.com/smartcontractkit/external-adapters-js/pull/5063) [`f909111`](https://github.com/smartcontractkit/external-adapters-js/commit/f9091113912a7e5763babf25bfffbf288e184fd7) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix adapter name
+
+## 1.1.3
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.1.2
 
 ### Patch Changes

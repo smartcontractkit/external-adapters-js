@@ -69,11 +69,11 @@ describe('ProtobufWsTransport heartbeat + establishWsConnection', () => {
     jest.restoreAllMocks()
   })
 
-  test('startHeartbeat sends ping every interval and writes response TTL', async () => {
+  test('startCustomHeartbeat sends ping every interval and writes response TTL', async () => {
     const intervalMs = 30000
     const cacheMaxAge = 60000
 
-    transport.startHeartbeat(intervalMs, cacheMaxAge)
+    transport.startCustomHeartbeat(intervalMs, cacheMaxAge)
 
     expect(mockWsConnection.ping).not.toHaveBeenCalled()
 
@@ -92,12 +92,12 @@ describe('ProtobufWsTransport heartbeat + establishWsConnection', () => {
     expect(mockWsConnection.ping).toHaveBeenCalledTimes(2)
   })
 
-  test('startHeartbeat updates lastMessageReceivedAt when sending ping', () => {
+  test('startCustomHeartbeat updates lastMessageReceivedAt when sending ping', () => {
     const intervalMs = 30000
     const cacheMaxAge = 60000
     const initialTime = Date.now()
 
-    transport.startHeartbeat(intervalMs, cacheMaxAge)
+    transport.startCustomHeartbeat(intervalMs, cacheMaxAge)
     jest.advanceTimersByTime(intervalMs)
 
     expect((transport as any).lastMessageReceivedAt).toBeGreaterThanOrEqual(initialTime)
@@ -116,19 +116,19 @@ describe('ProtobufWsTransport heartbeat + establishWsConnection', () => {
     expect(mockWsConnection.on).toHaveBeenCalledWith('pong', expect.any(Function))
   })
 
-  test('stopHeartbeat clears the interval', () => {
-    transport.startHeartbeat(30000, 60000)
+  test('stopCustomHeartbeat clears the interval', () => {
+    transport.startCustomHeartbeat(30000, 60000)
     jest.advanceTimersByTime(30000)
     expect(mockWsConnection.ping).toHaveBeenCalledTimes(1)
 
-    transport.stopHeartbeat()
+    transport.stopCustomHeartbeat()
     jest.advanceTimersByTime(60000)
     expect(mockWsConnection.ping).toHaveBeenCalledTimes(1)
   })
 
   test('heartbeat does not send ping when connection is not OPEN', () => {
     mockWsConnection.readyState = WebSocket.CONNECTING
-    transport.startHeartbeat(30000, 60000)
+    transport.startCustomHeartbeat(30000, 60000)
     jest.advanceTimersByTime(30000)
     expect(mockWsConnection.ping).not.toHaveBeenCalled()
   })
@@ -136,7 +136,7 @@ describe('ProtobufWsTransport heartbeat + establishWsConnection', () => {
   test('heartbeat safe when wsConnection is null', () => {
     ;(transport as any).wsConnection = null
     expect(() => {
-      transport.startHeartbeat(30000, 60000)
+      transport.startCustomHeartbeat(30000, 60000)
       jest.advanceTimersByTime(30000)
     }).not.toThrow()
   })

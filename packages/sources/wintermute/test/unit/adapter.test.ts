@@ -1,15 +1,12 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { options, WSResponse, WsTransportTypes } from '../../src/transport/price'
+import { options, WSResponse } from '../../src/transport/price'
 describe('Wintermute WebSocketTransport - Unit', () => {
   describe('builders', () => {
-    const context = {} as EndpointContext<WsTransportTypes>
-
     it('should build subscribe message correctly', () => {
       if (!options || !options.builders || !options.builders.subscribeMessage) {
         throw new Error('subscribeMessage is undefined, cannot run test')
       }
 
-      const message = options.builders.subscribeMessage!({ symbol: 'GMCI30' }, context) as any
+      const message = options.builders.subscribeMessage!({ symbol: 'GMCI30' }) as any
       expect(message).toEqual({
         op: 'subscribe',
         args: ['price.gmci30'],
@@ -21,7 +18,7 @@ describe('Wintermute WebSocketTransport - Unit', () => {
         throw new Error('subscribeMessage is undefined, cannot run test')
       }
 
-      const msg = options.builders.unsubscribeMessage({ symbol: 'GMCI30' }, context)
+      const msg = options.builders.unsubscribeMessage({ symbol: 'GMCI30' })
       expect(msg).toEqual({
         op: 'unsubscribe',
         args: ['price.gmci30'],
@@ -31,11 +28,10 @@ describe('Wintermute WebSocketTransport - Unit', () => {
 
   describe('handlers.message', () => {
     const messageHandler = options.handlers.message!
-    const context = {} as EndpointContext<WsTransportTypes>
 
     it('should return undefined for unsuccessful message', () => {
       const msg: WSResponse = { success: false, data: [], topic: 'price' }
-      const result = messageHandler(msg, context)
+      const result = messageHandler(msg)
       expect(result).toBeUndefined()
     })
 
@@ -45,7 +41,7 @@ describe('Wintermute WebSocketTransport - Unit', () => {
         topic: 'price',
         data: [{ last_updated: '2025-10-21T21:27:11.498199Z', price: 202.22, symbol: 'GMCI30' }],
       }
-      const result = messageHandler(msg, context)
+      const result = messageHandler(msg)
       expect(result).toHaveLength(1)
       const item = result![0]
       expect(item.params).toEqual({ symbol: 'GMCI30' })
@@ -59,7 +55,7 @@ describe('Wintermute WebSocketTransport - Unit', () => {
         topic: 'rebalance_status',
         data: [],
       }
-      const result = messageHandler(msg, context)
+      const result = messageHandler(msg)
       expect(result).toEqual([])
     })
   })
