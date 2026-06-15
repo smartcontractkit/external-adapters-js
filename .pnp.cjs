@@ -571,6 +571,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ncfx"\
     },\
     {\
+      "name": "@chainlink/nobi-adapter",\
+      "reference": "workspace:packages/sources/nobi"\
+    },\
+    {\
       "name": "@chainlink/nomia-adapter",\
       "reference": "workspace:packages/sources/nomia"\
     },\
@@ -921,6 +925,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
+    ["@chainlink/nobi-adapter", ["workspace:packages/sources/nobi"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
@@ -7264,6 +7269,23 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/nobi-adapter", [\
+      ["workspace:packages/sources/nobi", {\
+        "packageLocation": "./packages/sources/nobi/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/nobi-adapter", "workspace:packages/sources/nobi"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
