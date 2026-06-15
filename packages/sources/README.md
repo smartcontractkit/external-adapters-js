@@ -107,6 +107,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [nav-fund-services](./nav-fund-services/README.md)
 - [nav-generic](./nav-generic/README.md)
 - [ncfx](./ncfx/README.md)
+- [nobi](./nobi/README.md)
 - [nomia](./nomia/README.md)
 - [nomia2](./nomia2/README.md)
 - [nyfed](./nyfed/README.md)
