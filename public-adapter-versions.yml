@@ -14,7 +14,7 @@ adapters:
   - name: apex
     version: 1.0.12
   - name: asseto-finance
-    version: 1.0.4
+    version: 1.0.5
   - name: avalanche-platform
     version: 2.2.1
   - name: backed-fi
@@ -38,13 +38,13 @@ adapters:
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.7.1
+    version: 2.7.2
   - name: blocksize-capital-state
     version: 1.1.1
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.162
+    version: 2.2.163
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -56,7 +56,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.8.1
+    version: 2.8.2
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: cmeth
@@ -68,17 +68,17 @@ adapters:
   - name: coinbase-prime
     version: 1.2.25
   - name: coingecko
-    version: 2.3.1
+    version: 2.3.2
   - name: coinlore
     version: 1.3.47
   - name: coinmarketcap
-    version: 2.2.1
+    version: 2.2.2
   - name: coinmetrics
-    version: 3.12.1
+    version: 3.12.2
   - name: coinmetrics-lwba
-    version: 2.3.1
+    version: 2.3.2
   - name: coinpaprika
-    version: 2.7.1
+    version: 2.7.2
   - name: coinpaprika-state
     version: 1.1.1
   - name: coinranking
@@ -86,11 +86,11 @@ adapters:
   - name: covid-tracker
     version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.58
+    version: 1.4.59
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
-    version: 3.5.1
+    version: 3.5.2
   - name: data-engine
     version: 1.3.0
   - name: deep-blue
@@ -124,7 +124,7 @@ adapters:
   - name: expand-network
     version: 0.2.1
   - name: finage
-    version: 2.7.1
+    version: 2.7.2
   - name: finalto
     version: 1.4.7
   - name: finnhub
@@ -166,7 +166,7 @@ adapters:
   - name: hastra
     version: 1.0.1
   - name: historical-average
-    version: 1.4.1
+    version: 1.4.2
   - name: icap
     version: 1.6.1
   - name: ice
@@ -186,7 +186,7 @@ adapters:
   - name: json-rpc
     version: 1.3.47
   - name: kaiko
-    version: 2.4.1
+    version: 2.4.2
   - name: kaiko-state
     version: 1.1.4
   - name: layer2-sequencer-health
@@ -232,7 +232,7 @@ adapters:
   - name: nav-generic
     version: 1.0.5
   - name: ncfx
-    version: 4.8.1
+    version: 4.8.2
   - name: nexus-kiln
     version: 1.0.19
   - name: nftx
@@ -264,7 +264,7 @@ adapters:
   - name: proof-of-reserves
     version: 1.34.1
   - name: proof-of-reserves-v2
-    version: 1.1.3
+    version: 1.1.4
   - name: r25
     version: 1.1.1
   - name: rocket-pool
@@ -272,13 +272,13 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.145
+    version: 3.0.146
   - name: secure-mint
     version: 1.0.8
   - name: securitize
     version: 1.0.3
   - name: set-token-index
-    version: 3.0.71
+    version: 3.0.72
   - name: six
     version: 1.0.0
   - name: snowflake
@@ -320,7 +320,7 @@ adapters:
   - name: therundown
     version: 1.3.47
   - name: tiingo
-    version: 2.11.1
+    version: 2.11.2
   - name: tiingo-state
     version: 0.3.7
   - name: token-balance
@@ -362,4 +362,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.144
+    version: 2.0.145
