@@ -1,5 +1,15 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#5076](https://github.com/smartcontractkit/external-adapters-js/pull/5076) [`a2c0159`](https://github.com/smartcontractkit/external-adapters-js/commit/a2c0159049df5de569c0eeb6cf6c8cfa8239e8ef) Thanks [@dskloetc](https://github.com/dskloetc)! - Update ea framework to support json only feed id
+
+### Patch Changes
+
+- [#5074](https://github.com/smartcontractkit/external-adapters-js/pull/5074) [`05d9760`](https://github.com/smartcontractkit/external-adapters-js/commit/05d9760fff375152c9795bde0c0c2cf9e9499d62) Thanks [@dskloetc](https://github.com/dskloetc)! - Disable mco2 endpoint
+
 ## 1.6.1
 
 ### Patch Changes
