@@ -1,6 +1,5 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { options, WsResponse, WsTransportTypes } from '../../src/transport/price'
+import { options, WsResponse } from '../../src/transport/price'
 import { convertTimetoUnixMs } from '../../src/transport/util'
 
 // Initialize logger to avoid errors during test
@@ -20,10 +19,9 @@ describe('convertTimetoUnixMs', () => {
 
 describe('builders.subscribeMessage', () => {
   const builders = options.builders!
-  const context = {} as EndpointContext<WsTransportTypes>
 
   it('builds correct subscribe message for a symbol', () => {
-    const message = builders.subscribeMessage!({ symbol: 'GMCI30' }, context) as any
+    const message = builders.subscribeMessage!({ symbol: 'GMCI30' }) as any
     expect(message.op).toBe('subscribe')
     expect(message.args).toContain('price.gmci30')
     expect(message.args.length).toBe(1)
@@ -32,10 +30,9 @@ describe('builders.subscribeMessage', () => {
 
 describe('builders.unsubscribeMessage', () => {
   const builders = options.builders!
-  const context = {} as EndpointContext<WsTransportTypes>
 
   it('builds correct unsubscribe message for a symbol', () => {
-    const message = builders.unsubscribeMessage!({ symbol: 'GMCI30' }, context) as any
+    const message = builders.unsubscribeMessage!({ symbol: 'GMCI30' }) as any
     expect(message.op).toBe('unsubscribe')
     expect(message.args).toContain('price.gmci30')
     expect(message.args.length).toBe(1)
@@ -44,7 +41,6 @@ describe('builders.unsubscribeMessage', () => {
 
 describe('message handler', () => {
   const handlers = options.handlers!
-  const context = {} as EndpointContext<WsTransportTypes>
 
   it('parses a valid price message', () => {
     const mockpriceMessage: WsResponse = {
@@ -59,7 +55,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = handlers.message(mockpriceMessage, context)
+    const results = handlers.message(mockpriceMessage)
 
     expect(results).toEqual([
       {
@@ -85,7 +81,7 @@ describe('message handler', () => {
       data: [],
     }
 
-    const result = handlers.message(mockUnsuccessfulMessage, context)
+    const result = handlers.message(mockUnsuccessfulMessage)
     expect(result).toBeUndefined()
   })
 
@@ -107,7 +103,7 @@ describe('message handler', () => {
       ],
     }
 
-    const results = handlers.message(mockMessage, context)
+    const results = handlers.message(mockMessage)
 
     expect(results).toHaveLength(2)
     expect(results?.[0].params.symbol).toBe('GMCI30')
@@ -128,7 +124,7 @@ describe('message handler', () => {
       ],
     }
 
-    const result = handlers.message(mockMessage, context)
+    const result = handlers.message(mockMessage)
     expect(result).toEqual([])
   })
 })

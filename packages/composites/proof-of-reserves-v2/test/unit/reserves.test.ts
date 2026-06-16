@@ -31,6 +31,7 @@ describe('ReservesTransport', () => {
   const PROVIDER_URLS = {
     'por-address-list': 'https://por.address.list',
     'token-balance': 'https://token.balance',
+    'ethereum-cl-indexer': 'https://ethereum.cl.indexer',
     'view-function-multi-chain': 'https://view.function.multi.chain',
   }
 
@@ -184,6 +185,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -277,6 +279,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -306,6 +309,471 @@ describe('ReservesTransport', () => {
       await transport.handleRequest(context, param)
 
       const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a v3 framework error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          status: 'errored',
+          statusCode: 504,
+          error: {
+            name: 'AdapterError',
+            message: 'The EA has not received any values from the Data Provider',
+          },
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a v2 framework error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          errorMessage: 'The EA has not received any values from the Data Provider',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': The EA has not received any values from the Data Provider`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a fastify error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          message: 'Service unavailable',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'token-balance' at 'https://token.balance': Service unavailable`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns a ethereum-cl-indexer error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        errorResponse: {
+          error: 'Invalid validator credential',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'ethereum-cl-indexer',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'ethereum-cl-indexer',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'ethereum-cl-indexer' at 'https://ethereum.cl.indexer': Invalid validator credential`
+
+      const expectedResponse = {
+        statusCode: 502,
+        errorMessage: expectedErrorMessage,
+        timestamps: {
+          providerDataRequestedUnixMs: 0,
+          providerDataReceivedUnixMs: 0,
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+
+      expect(requester.request).toBeCalledTimes(2)
+
+      expect(log).toBeCalledWith(
+        new AdapterError({
+          statusCode: 502,
+          message: expectedErrorMessage,
+        }),
+        expectedErrorMessage,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should cache an error if balance provider returns an Axios error', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+      const providerError = {
+        cause: {
+          code: 'E_ADDRESS_NOT_FOUND',
+        },
+      }
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+        },
+      })
+
+      mockFetchData(
+        'ethereum-cl-indexer',
+        { ...balanceParams, addresses: addressArray },
+        Promise.reject(providerError),
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'ethereum-cl-indexer',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      await transport.handleRequest(context, param)
+
+      const expectedErrorMessage = `Error processing component 'component1': Error fetching data from provider 'ethereum-cl-indexer' at 'https://ethereum.cl.indexer': E_ADDRESS_NOT_FOUND`
 
       const expectedResponse = {
         statusCode: 502,
@@ -372,6 +840,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'wrong.path',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -467,6 +936,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -567,6 +1037,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -683,6 +1154,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -791,6 +1263,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -922,6 +1395,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1069,6 +1543,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1188,6 +1663,92 @@ describe('ReservesTransport', () => {
       expect(requester.request).toBeCalledTimes(5)
     })
 
+    it('should use a fixed address list', async () => {
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: JSON.stringify(addressArray),
+            provider: undefined,
+            params: undefined,
+            addressArrayPath: undefined,
+            ripcord: undefined,
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+            ripcord: undefined,
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 200,
+        result: '123000',
+        data: {
+          decimals: 6,
+          result: '123000',
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+            },
+          ],
+          conversionRates: [],
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(1)
+    })
+
     it('should set address array into existing balanceSource params field', async () => {
       const addressListParams = { endpoint: 'multiAddressList' }
       const balanceParams = { endpoint: 'evm', nested: { field: 'value' } }
@@ -1222,6 +1783,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1303,6 +1865,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1411,6 +1974,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1456,7 +2020,8 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0.123,
               addressCount: 1,
-              ripcord: false,
+              addressRipcord: undefined,
+              balanceRipcord: false,
             },
           ],
           conversionRates: [],
@@ -1509,6 +2074,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1554,7 +2120,8 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0.123,
               addressCount: 1,
-              ripcord: false,
+              addressRipcord: undefined,
+              balanceRipcord: false,
             },
           ],
           conversionRates: [],
@@ -1606,6 +2173,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1651,7 +2219,8 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0.123,
               addressCount: 1,
-              ripcord: false,
+              addressRipcord: undefined,
+              balanceRipcord: false,
             },
           ],
           conversionRates: [],
@@ -1704,6 +2273,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1749,7 +2319,109 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0.123,
               addressCount: 1,
-              ripcord: true,
+              addressRipcord: undefined,
+              balanceRipcord: true,
+            },
+          ],
+          conversionRates: [],
+          ripcord: true,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+
+      expect(requester.request).toBeCalledTimes(2)
+    })
+
+    it('should remove result and return status code 503 when ripcord is enabled from address list', async () => {
+      const addressListParams = { endpoint: 'multiAddressList' }
+      const balanceParams = { endpoint: 'evm' }
+      const addressArray = [{ address: '0x123' }]
+
+      mockFetchData('por-address-list', addressListParams, {
+        data: {
+          result: addressArray,
+          ripcord: true,
+        },
+      })
+
+      mockFetchData(
+        'token-balance',
+        { ...balanceParams, addresses: addressArray },
+        {
+          data: {
+            wallets: [
+              {
+                balance: '123000',
+                decimals: 6,
+              },
+            ],
+            ripcord: false,
+          },
+        },
+      )
+
+      const param = makeStub('param', {
+        addressLists: [
+          {
+            name: 'list1',
+            fixed: undefined,
+            provider: 'por-address-list',
+            params: JSON.stringify(addressListParams),
+            addressArrayPath: 'data.result',
+            ripcord: {
+              path: 'data.ripcord',
+              disabledValue: 'false',
+            },
+          },
+        ],
+        balanceSources: [
+          {
+            name: 'source1',
+            provider: 'token-balance',
+            params: JSON.stringify(balanceParams),
+            addressArrayPath: 'addresses',
+            balancesArrayPath: 'data.wallets',
+            balancePath: 'balance',
+            decimalsPath: 'decimals',
+            ripcord: undefined,
+          },
+        ],
+        components: [
+          {
+            name: 'component1',
+            currency: 'USDC',
+            addressList: 'list1',
+            balanceSource: 'source1',
+            conversions: [],
+          },
+        ],
+        conversions: [],
+        resultDecimals: 6,
+      } as unknown as RequestParams)
+
+      const response = await transport._handleRequest(context, param)
+
+      const expectedResponse = {
+        statusCode: 503,
+        result: null,
+        data: {
+          decimals: 6,
+          result: null,
+          resultAsNumber: 0.123,
+          components: [
+            {
+              name: 'component1',
+              currency: 'USDC',
+              totalBalance: 0.123,
+              addressCount: 1,
+              addressRipcord: true,
+              balanceRipcord: undefined,
             },
           ],
           conversionRates: [],
@@ -1801,6 +2473,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1846,7 +2519,8 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0.123,
               addressCount: 1,
-              ripcord: true,
+              addressRipcord: undefined,
+              balanceRipcord: true,
             },
           ],
           conversionRates: [],
@@ -1893,6 +2567,7 @@ describe('ReservesTransport', () => {
             provider: 'por-address-list',
             params: JSON.stringify(addressListParams),
             addressArrayPath: 'data.result',
+            ripcord: undefined,
           },
         ],
         balanceSources: [
@@ -1938,7 +2613,8 @@ describe('ReservesTransport', () => {
               currency: 'USDC',
               totalBalance: 0,
               addressCount: undefined,
-              ripcord: true,
+              addressRipcord: undefined,
+              balanceRipcord: true,
             },
           ],
           conversionRates: [],

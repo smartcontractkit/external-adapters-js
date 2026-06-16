@@ -5,7 +5,7 @@ import { reserves } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: reserves.name,
-  name: 'PROOF_OF-RESERVES-2',
+  name: 'PROOF_OF_RESERVES_V2',
   config,
   endpoints: [reserves],
 })

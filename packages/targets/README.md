@@ -7,4 +7,3 @@ This document was generated automatically. Please see [Master List Generator](..
 ## List
 
 - [dydx-stark](./dydx-stark/README.md)
-- [harmony](./harmony/README.md)

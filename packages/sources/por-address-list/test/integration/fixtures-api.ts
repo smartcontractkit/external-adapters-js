@@ -533,3 +533,34 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
       detailMsg: '',
     }))
     .persist()
+
+export const mockCircleResponseSuccess = (): nock.Scope =>
+  nock('http://circle.api')
+    .get('/')
+    .reply(
+      200,
+      () => ({
+        data: [
+          {
+            address: '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9',
+          },
+          {
+            address: '1HkJ6hcN4h4PtUYHiSi1hrUEUKQJmedM6z',
+          },
+          {
+            address: '1KVBNjpYfJvASdzeTAwqNbe9WecpKyugM3',
+          },
+        ],
+      }),
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()

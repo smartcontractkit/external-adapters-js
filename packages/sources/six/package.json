@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/six-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink six adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.14.2",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "tslib": "2.4.1"
   }
 }

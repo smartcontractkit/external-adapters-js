@@ -1,5 +1,7 @@
-import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
-import { AxiosResponse } from 'axios'
+import {
+  HttpTransport,
+  HttpTransportConfig,
+} from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 
 export interface PriceReport {
@@ -72,7 +74,10 @@ export const prepareRequests = (params: RequestParams[], config: Config) => {
 }
 
 // Exported for testing
-export const parseResponse = (params: RequestParams[], response: AxiosResponse<ResponseSchema>) => {
+export const parseResponse: HttpTransportConfig<HttpTransportTypes>['parseResponse'] = (
+  params,
+  response,
+) => {
   if (!response.data) {
     return params.map((param) => {
       return {

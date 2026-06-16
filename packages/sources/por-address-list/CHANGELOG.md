@@ -1,5 +1,21 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.17.0
+
+### Minor Changes
+
+- [#5029](https://github.com/smartcontractkit/external-adapters-js/pull/5029) [`99d3814`](https://github.com/smartcontractkit/external-adapters-js/commit/99d38144cf221e4df94637278a6d7dbea9d69439) Thanks [@dskloetc](https://github.com/dskloetc)! - Add circle endpoint
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 5.16.2
+
+### Patch Changes
+
+- [#4993](https://github.com/smartcontractkit/external-adapters-js/pull/4993) [`60296dd`](https://github.com/smartcontractkit/external-adapters-js/commit/60296dde44e3e1950b298859aa5e61e9533dbda4) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add ripcord in okxAssetsAddress
+
 ## 5.16.1
 
 ### Patch Changes

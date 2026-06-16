@@ -411,6 +411,9 @@
       "path": "./sources/ncfx"
     },
     {
+      "path": "./sources/nobi"
+    },
+    {
       "path": "./sources/nomia"
     },
     {
@@ -574,9 +577,6 @@
     },
     {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/harmony"
     }
   ]
 }

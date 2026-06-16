@@ -1,5 +1,23 @@
 # @chainlink/eth-beacon-adapter
 
+## 3.1.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 3.1.0
+
+### Minor Changes
+
+- [#4989](https://github.com/smartcontractkit/external-adapters-js/pull/4989) [`c3e88b8`](https://github.com/smartcontractkit/external-adapters-js/commit/c3e88b86e5b67d1528bba060909280bebda8654f) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals in individual balance responses
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 3.0.23
 
 ### Patch Changes

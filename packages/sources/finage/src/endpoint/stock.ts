@@ -1,5 +1,5 @@
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { StockEndpoint } from '@chainlink/external-adapter-framework/adapter/stock'
+import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import overrides from '../config/overrides.json'
 import { httpTransport } from '../transport/stock-http'
 import { wsTransport } from '../transport/stock-ws'
@@ -10,6 +10,7 @@ export const endpoint = new StockEndpoint({
   transportRoutes: new TransportRoutes<StockEndpointTypes>()
     .register('ws', wsTransport)
     .register('rest', httpTransport),
+  enableCompositeTransport: true,
   defaultTransport: 'rest',
   customRouter: (_req, adapterConfig) => {
     return adapterConfig.WS_ENABLED ? 'ws' : 'rest'

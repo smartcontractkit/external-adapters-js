@@ -4,6 +4,7 @@ import { config } from './config'
 import {
   address,
   bedrockBTC,
+  circle,
   coinbaseBTC,
   multichainAddress,
   okxAssetsAddress,
@@ -22,6 +23,7 @@ export const adapter = new PoRAdapter({
     address,
     solvBTC,
     bedrockBTC,
+    circle,
     coinbaseBTC,
     multichainAddress,
     openedenAddress,

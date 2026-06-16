@@ -411,6 +411,9 @@
       "path": "./sources/ncfx/tsconfig.test.json"
     },
     {
+      "path": "./sources/nobi/tsconfig.test.json"
+    },
+    {
       "path": "./sources/nomia/tsconfig.test.json"
     },
     {
@@ -574,9 +577,6 @@
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/harmony/tsconfig.test.json"
     }
   ]
 }

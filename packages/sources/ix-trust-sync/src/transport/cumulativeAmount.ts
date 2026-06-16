@@ -5,7 +5,6 @@ import {
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { AxiosResponse } from 'axios'
 import { TypedDataDomain, TypedDataField, verifyTypedData } from 'ethers'
 import { BaseEndpointTypes } from '../endpoint/cumulativeAmount'
 
@@ -280,10 +279,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }
     })
   },
-  parseResponse: (
-    params: Params[],
-    response: AxiosResponse<ResponseSchema>,
-  ): ProviderResult<HttpTransportTypes>[] => {
+  parseResponse: (params, response): ProviderResult<HttpTransportTypes>[] => {
     if (!response.data) {
       return params.map((param) => {
         return {

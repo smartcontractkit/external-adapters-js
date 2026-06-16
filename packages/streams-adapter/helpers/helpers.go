@@ -3,7 +3,8 @@ package helpers
 import (
 	"errors"
 	"fmt"
-	"sort"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/goccy/go-json"
@@ -65,11 +66,7 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 	}
 
 	// Extract and sort keys for deterministic ordering
-	keys := make([]string, 0, len(params))
-	for key := range params {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+	keys := slices.Sorted(maps.Keys(params))
 
 	// Build the cache key
 	var parts []string
