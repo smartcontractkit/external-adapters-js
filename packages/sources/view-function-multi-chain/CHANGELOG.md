@@ -1,5 +1,15 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.10.0
+
+### Minor Changes
+
+- [#5024](https://github.com/smartcontractkit/external-adapters-js/pull/5024) [`0b56c4e`](https://github.com/smartcontractkit/external-adapters-js/commit/0b56c4e88e987468ab1a7277f3915159801ca213) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update ea framework to support json only feed id
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.9.0
 
 ### Minor Changes
