@@ -237,6 +237,8 @@ adapters:
     version: 1.0.19
   - name: nftx
     version: 3.0.31
+  - name: nobi
+    version: 1.0.0
   - name: nomia
     version: 2.0.4
   - name: nomia2
