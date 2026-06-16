@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`websocket price endpoint - BTC/USD should return success 1`] = `
+{
+  "data": {
+    "result": 71282.06887230572,
+  },
+  "result": 71282.06887230572,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358216000,
+  },
+}
+`;
+
+exports[`websocket price endpoint - MSOL/USD should return success 1`] = `
+{
+  "data": {
+    "result": 111.96373354894808,
+  },
+  "result": 111.96373354894808,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1018,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1780358217116,
+  },
+}
+`;
