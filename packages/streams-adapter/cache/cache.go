@@ -46,11 +46,20 @@ type Config struct {
 	CleanupInterval time.Duration // How often to run cleanup
 }
 
+// pendingObservation holds an observation that arrived before the
+// transformedKey to rawKey mapping was established by SetTransformedKey.
+type pendingObservation struct {
+	obs                *types.Observation
+	timestamp          time.Time
+	originalAdapterKey string
+}
+
 // Cache represents an in-memory cache for observation data
 type Cache struct {
 	mu               sync.RWMutex
-	items            map[string]*types.CacheItem // rawKey → item
-	byTransformedKey map[string]string           // transformedKey → rawKey (secondary index)
+	items            map[string]*types.CacheItem    // rawKey → item
+	byTransformedKey map[string]string              // transformedKey → rawKey (secondary index)
+	pendingObs       map[string]*pendingObservation // transformedKey → buffered observation (pre-mapping race)
 	ttl              time.Duration
 	cleanupInterval  time.Duration
 	ctx              context.Context
@@ -69,6 +78,7 @@ func New(cfg Config) *Cache {
 	c := &Cache{
 		items:            make(map[string]*types.CacheItem),
 		byTransformedKey: make(map[string]string),
+		pendingObs:       make(map[string]*pendingObservation),
 		ttl:              cfg.TTL,
 		cleanupInterval:  cleanupInterval,
 		ctx:              ctx,
@@ -116,17 +126,30 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
 	c.byTransformedKey[transformedKey] = rawKey
+
+	// Apply observation that arrived before the transformed key was known.
+	pending, ok := c.pendingObs[transformedKey]
+	if ok {
+		c.applyObservation(item, transformedKey, pending.obs, pending.timestamp, pending.originalAdapterKey)
+		delete(c.pendingObs, transformedKey)
+	}
 }
 
 // SetObservation transitions the item identified by transformedKey to "active"
-// with the given observation. Observations that arrive before the mapping is
-// known (before SetTransformedKey is called) are dropped.
+// with the given observation. If the transformedKey to rawKey mapping is not yet
+// known (i.e. SetTransformedKey has not been called), the observation is buffered
+// and applied as soon as SetTransformedKey resolves the mapping.
 func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
 	rawKey, ok := c.byTransformedKey[transformedKey]
 	if !ok {
+		c.pendingObs[transformedKey] = &pendingObservation{
+			obs:                obs,
+			timestamp:          timestamp,
+			originalAdapterKey: originalAdapterKey,
+		}
 		return
 	}
 
@@ -134,6 +157,12 @@ func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, ti
 	if !ok {
 		return
 	}
+	c.applyObservation(item, transformedKey, obs, timestamp, originalAdapterKey)
+}
+
+// applyObservation writes an observation into a cache item, marking it active.
+// Must be called with c.mu held.
+func (c *Cache) applyObservation(item *types.CacheItem, transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
 	wasActive := item.Status == types.StatusActive
 	item.Status = types.StatusActive
 	item.Observation = obs
@@ -186,7 +215,8 @@ func (c *Cache) cleanupLoop() {
 	}
 }
 
-// cleanupExpired removes expired items from the cache
+// cleanupExpired removes expired items from the cache and any stale pending
+// observations whose corresponding raw item no longer exists.
 func (c *Cache) cleanupExpired() {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -196,12 +226,24 @@ func (c *Cache) cleanupExpired() {
 		if item.Timestamp.Before(cutoff) {
 			if item.TransformedKey != "" {
 				delete(c.byTransformedKey, item.TransformedKey)
+				delete(c.pendingObs, item.TransformedKey)
 			}
 			if item.Status == types.StatusActive {
 				cacheItemsActive.Dec()
 			}
 			cacheItemsTotal.Dec()
 			delete(c.items, rawKey)
+		}
+	}
+
+	// Remove orphaned pending observations (SetTransformedKey never arrived).
+	for transformedKey := range c.pendingObs {
+		_, exists := c.byTransformedKey[transformedKey]
+		if !exists {
+			pending := c.pendingObs[transformedKey]
+			if pending.timestamp.Before(cutoff) {
+				delete(c.pendingObs, transformedKey)
+			}
 		}
 	}
 }
