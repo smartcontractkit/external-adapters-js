@@ -1,4 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
+import Decimal from 'decimal.js'
 import { StockEndpointTypes } from '../endpoint/utils'
 
 export interface ResponseSchema {
@@ -36,7 +37,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     const response: ResponseSchema[] = res.data.filter((e) => e)
 
     return response.map((entry) => {
-      const result = (entry.bid + entry.ask) / 2
+      const result = new Decimal(entry.bid).add(entry.ask).div(2).toNumber()
       return {
         params: { base: entry.symbol },
         response: {

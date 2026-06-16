@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.353.0",
+  "version": "1.359.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -26,6 +26,7 @@
     "generate:master-list": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-master-list",
     "generate:readme": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-readme",
     "generate:endpoint-aliases": "METRICS_ENABLED=false ts-node-transpile-only ./packages/scripts/src/generate-endpoint-aliases",
+    "check-adapter-names": "ts-node-transpile-only ./packages/scripts/src/check-adapter-names",
     "get-changeset-arguments": "ts-node-transpile-only ./packages/scripts/src/get-changeset-arguments",
     "postinstall": "husky install",
     "cm": "cz",
@@ -35,7 +36,7 @@
     "unreleased-packages": ".github/scripts/get-unreleased-packages.sh"
   },
   "dependencies": {
-    "@babel/core": "7.26.10",
+    "@babel/core": "7.29.6",
     "@babel/preset-env": "7.26.9",
     "@babel/preset-typescript": "7.26.0",
     "@typescript-eslint/eslint-plugin": "5.59.11",
