@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { config } from '../config'
-import { httpTransport } from '../transport/mco2'
 import { EmptyInputParameters } from '@chainlink/external-adapter-framework/validation/input-params'
+import { config } from '../config'
+import { customTransport } from '../transport/mco2'
 
 export type BaseEndpointTypes = {
   Parameters: EmptyInputParameters
@@ -13,5 +13,5 @@ export type BaseEndpointTypes = {
 export const endpoint = new AdapterEndpoint({
   name: 'mco2',
   aliases: ['balance'],
-  transport: httpTransport,
+  transport: customTransport,
 })

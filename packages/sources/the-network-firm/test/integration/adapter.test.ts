@@ -8,7 +8,6 @@ import {
   mockEmgemxResponseSuccess,
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
-  mockMCO2Response,
   mockSTBTResponseSuccess,
   mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
@@ -67,22 +66,18 @@ describe('execute', () => {
   })
 
   describe('mco2 endpoint', () => {
-    it('should return success', async () => {
-      mockMCO2Response()
+    it('should return error that endpoint is no longer supported', async () => {
       const response = await testAdapter.request()
-      expect(response.statusCode).toBe(200)
+      expect(response.statusCode).toBe(410)
       expect(response.json()).toMatchSnapshot()
     })
   })
 
-  describe('mco2 endpoint empty feed id with FEED_ID_JSON=true', () => {
-    it('should return empty json feed id', async () => {
-      testAdapter.adapter.config.settings.FEED_ID_JSON = true
-      testAdapter.adapter.config.settings.METRICS_ENABLED = true
-      mockMCO2Response()
-      const response = await testAdapter.request()
-      expect(response.statusCode).toBe(200)
-      expect(response.json().meta.metrics.feedId).toBe('{}')
+  describe('mco2 endpoint with balance alias', () => {
+    it('should return error that endpoint is no longer supported', async () => {
+      const response = await testAdapter.request({ endpoint: 'balance' })
+      expect(response.statusCode).toBe(410)
+      expect(response.json().errorMessage).toBe('The mco2 endpoint is no longer supported.')
     })
   })
 
