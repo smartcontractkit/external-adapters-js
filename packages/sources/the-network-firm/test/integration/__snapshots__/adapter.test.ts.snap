@@ -76,17 +76,13 @@ exports[`execute gift endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute mco2 endpoint should return success 1`] = `
+exports[`execute mco2 endpoint should return error that endpoint is no longer supported 1`] = `
 {
-  "data": {
-    "result": 3041044,
-  },
-  "result": 3041044,
-  "statusCode": 200,
+  "errorMessage": "The mco2 endpoint is no longer supported.",
+  "statusCode": 410,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
-    "providerIndicatedTimeUnixMs": 1649070046577,
   },
 }
 `;
