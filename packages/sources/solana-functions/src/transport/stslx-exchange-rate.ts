@@ -169,16 +169,12 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     const vaultAddress = deriveVaultAddress()
     const slxTokenAccountAddress = deriveSlxTokenAccountAddress(vaultAddress)
 
-    // This implements Path B: derive the exchange rate from raw on-chain balances.
-    // GLAM can write a PricedProtocol AUM entry after priceSingleAssetVault runs, but that
-    // field is only useful for Path A if an external actor keeps it populated and fresh.
-    // The current stSLX state does not expose a passive current price/share field, so this
-    // transport reads GLAM's base_asset_ata directly instead of relying on cached pricing state.
-    // Fetch the three independent inputs in parallel: both mint accounts and the vault's SLX ATA.
+    // Compute the rate from raw on-chain state: SLX held in GLAM's base-asset ATA
+    // divided by stSLX mint supply, normalized by each mint's native decimals.
     const [slxMint, stslxMint, slxBalance] = await Promise.all([
       this.fetchMintInfo(SLX_MINT_ADDRESS, 'SLX mint'),
       this.fetchMintInfo(STSLX_MINT_ADDRESS, 'stSLX mint'),
-      this.fetchSlxBalance(vaultAddress, slxTokenAccountAddress),
+      this.fetchBaseAssetBalance(vaultAddress, slxTokenAccountAddress),
     ])
 
     if (stslxMint.supply === 0n) {
@@ -191,7 +187,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     // Rate is returned as an integer with 18 decimals:
     //   SLX balance / stSLX supply, normalized by each mint's native decimals.
     const rate =
-      (slxBalance.balance * 10n ** BigInt(RESULT_DECIMALS + stslxMint.decimals)) /
+      (slxBalance * 10n ** BigInt(RESULT_DECIMALS + stslxMint.decimals)) /
       (stslxMint.supply * 10n ** BigInt(slxMint.decimals))
     const result = rate.toString()
 
@@ -199,7 +195,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       data: {
         rate: result,
         decimals: RESULT_DECIMALS,
-        slxBalance: slxBalance.balance.toString(),
+        slxBalance: slxBalance.toString(),
         stslxSupply: stslxMint.supply.toString(),
         slxMintDecimals: slxMint.decimals,
         stslxMintDecimals: stslxMint.decimals,
@@ -240,15 +236,16 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     }
   }
 
-  private async fetchSlxBalance(vaultAddress: string, tokenAccountAddress: string) {
+  private async fetchBaseAssetBalance(vaultAddress: string, tokenAccountAddress: string) {
     const encoding = 'base64'
     const resp = (await this.rpc
       .getAccountInfo(tokenAccountAddress as Address, { encoding })
       .send()) as AccountInfoRpcResponse
     const accountInfo = resp.value
-    assertLegacyTokenProgramOwner(accountInfo, `SLX token account '${tokenAccountAddress}'`)
 
     const data = getAccountDataBuffer(accountInfo, `SLX token account '${tokenAccountAddress}'`)
+    assertLegacyTokenProgramOwner(accountInfo, `SLX token account '${tokenAccountAddress}'`)
+
     if (data.length < AccountLayout.span) {
       throw new AdapterInputError({
         message: `Expected SLX token account '${tokenAccountAddress}' data to be at least ${AccountLayout.span} bytes, found ${data.length}`,
@@ -273,9 +270,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       })
     }
 
-    return {
-      balance: decoded.amount,
-    }
+    return decoded.amount
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

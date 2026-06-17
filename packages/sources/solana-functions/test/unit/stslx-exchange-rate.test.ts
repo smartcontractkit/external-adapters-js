@@ -326,7 +326,7 @@ describe('StslxExchangeRateTransport', () => {
         throw new Error(`Unexpected getAccountInfo address: ${address}`)
       })
 
-      await expect(transport._handleRequest(param)).rejects.toThrow('legacy SPL Token program')
+      await expect(transport._handleRequest(param)).rejects.toThrow('No account data found')
     })
 
     it('should error when the SLX base-asset ATA has the wrong mint', async () => {
