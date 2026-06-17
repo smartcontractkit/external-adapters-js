@@ -1,3 +1,4 @@
+import { Decimal } from 'decimal.js'
 import { config as adapterSettings } from '../config'
 
 export interface EtfMessage {
@@ -90,4 +91,16 @@ export function parseEtfWsMessage<T>(param: T | undefined, message: EtfMessage) 
       },
     },
   ]
+}
+
+export const isValidNumber = (field: string | number) => field != null && !isNaN(Number(field))
+
+export function determineStockQuotesMidPrice(bidPrice: number, askPrice: number): number {
+  if (bidPrice === 0) {
+    return askPrice
+  } else if (askPrice === 0) {
+    return bidPrice
+  } else {
+    return new Decimal(bidPrice).add(askPrice).div(2).toNumber()
+  }
 }
