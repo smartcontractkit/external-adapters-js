@@ -57,9 +57,6 @@
       "path": "./composites/proof-of-reserves-v2"
     },
     {
-      "path": "./composites/rocket-pool"
-    },
-    {
       "path": "./composites/savax-price"
     },
     {
