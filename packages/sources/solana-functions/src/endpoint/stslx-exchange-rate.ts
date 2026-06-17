@@ -10,10 +10,22 @@ export const inputParameters = new InputParameters(
       type: 'string',
       required: true,
     },
+    minRate: {
+      description: 'Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer',
+      type: 'string',
+      required: true,
+    },
+    maxRate: {
+      description: 'Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer',
+      type: 'string',
+      required: true,
+    },
   },
   [
     {
       glamStateAddress: '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB',
+      minRate: '950000000000000000',
+      maxRate: '1050000000000000000',
     },
   ],
 )
@@ -24,7 +36,11 @@ export type BaseEndpointTypes = {
     Result: string
     Data: {
       result: string
+      computedResult: string
       decimals: number
+      minRate: string
+      maxRate: string
+      boundsApplied: boolean
       slxBalance: string
       stslxSupply: string
       slxMintDecimals: number

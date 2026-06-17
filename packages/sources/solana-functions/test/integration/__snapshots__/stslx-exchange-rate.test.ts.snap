@@ -3,8 +3,12 @@
 exports[`execute stslx-exchange-rate should return success 1`] = `
 {
   "data": {
+    "boundsApplied": false,
+    "computedResult": "1500000000000000000",
     "decimals": 18,
     "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
+    "maxRate": "2000000000000000000",
+    "minRate": "1000000000000000000",
     "result": "1500000000000000000",
     "slxBalance": "1500000000",
     "slxMintDecimals": 9,

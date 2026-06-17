@@ -16,6 +16,8 @@ const stslxMintAddress = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
 const glamStateAddress = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
 const vaultAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 const slxTokenAccountAddress = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
+const minRate = '1000000000000000000'
+const maxRate = '2000000000000000000'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
 
@@ -121,6 +123,8 @@ describe('execute', () => {
       const data = {
         endpoint: 'stslx-exchange-rate',
         glamStateAddress,
+        minRate,
+        maxRate,
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()

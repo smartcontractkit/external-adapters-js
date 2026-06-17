@@ -55,6 +55,25 @@ type MintInfo = {
   decimals: number
 }
 
+const parseRateBound = (value: string, name: string) => {
+  if (!/^\d+$/.test(value)) {
+    throw new AdapterInputError({
+      message: `${name} must be a positive integer string`,
+      statusCode: 400,
+    })
+  }
+
+  const parsed = BigInt(value)
+  if (parsed === 0n) {
+    throw new AdapterInputError({
+      message: `${name} must be greater than zero`,
+      statusCode: 400,
+    })
+  }
+
+  return parsed
+}
+
 const getAccountDataBuffer = (accountInfo: AccountInfo | null | undefined, description: string) => {
   // All account reads request raw base64 data so we can decode integer fields directly.
   const encodedData = accountInfo?.data?.[0]
@@ -164,6 +183,15 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     const glamStateAddress = params.glamStateAddress
+    const minRate = parseRateBound(params.minRate, 'minRate')
+    const maxRate = parseRateBound(params.maxRate, 'maxRate')
+    if (minRate > maxRate) {
+      throw new AdapterInputError({
+        message: `minRate must be less than or equal to maxRate`,
+        statusCode: 400,
+      })
+    }
+
     const vaultAddress = deriveVaultAddress(glamStateAddress)
     const slxTokenAccountAddress = deriveSlxTokenAccountAddress(vaultAddress)
 
@@ -184,15 +212,24 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
 
     // Rate is returned as an integer with 18 decimals:
     //   SLX balance / stSLX supply, normalized by each mint's native decimals.
-    const rate =
+    const computedRate =
       (slxBalance * 10n ** BigInt(RESULT_DECIMALS + stslxMint.decimals)) /
       (stslxMint.supply * 10n ** BigInt(slxMint.decimals))
+
+    // Bounds are an explicit jobspec safeguard against transient RPC/read-skew spikes.
+    // The EA is stateless, so it clamps against configured absolute limits instead of a cached rate.
+    const rate = computedRate < minRate ? minRate : computedRate > maxRate ? maxRate : computedRate
     const result = rate.toString()
+    const computedResult = computedRate.toString()
 
     return {
       data: {
         result,
+        computedResult,
         decimals: RESULT_DECIMALS,
+        minRate: minRate.toString(),
+        maxRate: maxRate.toString(),
+        boundsApplied: result !== computedResult,
         slxBalance: slxBalance.toString(),
         stslxSupply: stslxMint.supply.toString(),
         slxMintDecimals: slxMint.decimals,

@@ -134,6 +134,8 @@ describe('StslxExchangeRateTransport', () => {
   const stslxSupply = 1_000_000n
   const slxMintDecimals = 9
   const stslxMintDecimals = 6
+  const minRate = '1000000000000000000'
+  const maxRate = '2000000000000000000'
   const expectedRate = (
     (slxBalance * 10n ** BigInt(18 + stslxMintDecimals)) /
     (stslxSupply * 10n ** BigInt(slxMintDecimals))
@@ -165,6 +167,8 @@ describe('StslxExchangeRateTransport', () => {
   const param = makeStub('param', {
     endpoint: 'stslx-exchange-rate',
     glamStateAddress,
+    minRate,
+    maxRate,
   })
 
   let transport: StslxExchangeRateTransport
@@ -237,7 +241,11 @@ describe('StslxExchangeRateTransport', () => {
         result: expectedRate,
         data: {
           result: expectedRate,
+          computedResult: expectedRate,
           decimals: 18,
+          minRate,
+          maxRate,
+          boundsApplied: false,
           slxBalance: slxBalance.toString(),
           stslxSupply: stslxSupply.toString(),
           slxMintDecimals,
@@ -274,7 +282,11 @@ describe('StslxExchangeRateTransport', () => {
         result: expectedRate,
         data: {
           result: expectedRate,
+          computedResult: expectedRate,
           decimals: 18,
+          minRate,
+          maxRate,
+          boundsApplied: false,
           slxBalance: slxBalance.toString(),
           stslxSupply: stslxSupply.toString(),
           slxMintDecimals,
@@ -292,6 +304,66 @@ describe('StslxExchangeRateTransport', () => {
       expect(getAccountInfoRequestMock).toBeCalledWith(slxTokenAccountAddress, {
         encoding: 'base64',
       })
+    })
+
+    it('should clamp the exchange rate to minRate', async () => {
+      mockValidAccountData()
+      const minClampedRate = (BigInt(expectedRate) + 1n).toString()
+
+      const response = await transport._handleRequest({
+        ...param,
+        minRate: minClampedRate,
+      })
+
+      if (!response.data) {
+        throw new Error('Expected response data')
+      }
+      expect(response.result).toBe(minClampedRate)
+      expect(response.data.result).toBe(minClampedRate)
+      expect(response.data.computedResult).toBe(expectedRate)
+      expect(response.data.boundsApplied).toBe(true)
+    })
+
+    it('should clamp the exchange rate to maxRate', async () => {
+      mockValidAccountData()
+      const maxClampedRate = (BigInt(expectedRate) - 1n).toString()
+
+      const response = await transport._handleRequest({
+        ...param,
+        maxRate: maxClampedRate,
+      })
+
+      if (!response.data) {
+        throw new Error('Expected response data')
+      }
+      expect(response.result).toBe(maxClampedRate)
+      expect(response.data.result).toBe(maxClampedRate)
+      expect(response.data.computedResult).toBe(expectedRate)
+      expect(response.data.boundsApplied).toBe(true)
+    })
+
+    it('should error when rate bounds are invalid', async () => {
+      await expect(
+        transport._handleRequest({
+          ...param,
+          minRate: maxRate,
+          maxRate: minRate,
+        }),
+      ).rejects.toThrow('minRate must be less than or equal to maxRate')
+
+      await expect(
+        transport._handleRequest({
+          ...param,
+          minRate: '0',
+        }),
+      ).rejects.toThrow('minRate must be greater than zero')
+
+      await expect(
+        transport._handleRequest({
+          ...param,
+          maxRate: 'not-a-rate',
+        }),
+      ).rejects.toThrow('maxRate must be a positive integer string')
     })
 
     it('should error when the stSLX mint has zero supply', async () => {
