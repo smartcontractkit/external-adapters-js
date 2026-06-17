@@ -39,25 +39,16 @@
       "path": "./composites/market-status/tsconfig.test.json"
     },
     {
-      "path": "./composites/medianizer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
       "path": "./composites/nexus-kiln/tsconfig.test.json"
     },
     {
-      "path": "./composites/nftx/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
       "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/rocket-pool/tsconfig.test.json"
     },
     {
       "path": "./composites/savax-price/tsconfig.test.json"
@@ -393,9 +384,6 @@
       "path": "./sources/moore-hk/tsconfig.test.json"
     },
     {
-      "path": "./sources/mycryptoapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
@@ -421,9 +409,6 @@
     },
     {
       "path": "./sources/oanda/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/onchain-gas/tsconfig.test.json"
     },
     {
       "path": "./sources/ondo/tsconfig.test.json"
@@ -457,9 +442,6 @@
     },
     {
       "path": "./sources/six/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/snowflake/tsconfig.test.json"
     },
     {
       "path": "./sources/sochain/tsconfig.test.json"
@@ -547,9 +529,6 @@
     },
     {
       "path": "./sources/upvest/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/uscpi-one/tsconfig.test.json"
     },
     {
       "path": "./sources/view-function/tsconfig.test.json"
