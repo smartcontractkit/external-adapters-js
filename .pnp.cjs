@@ -75,10 +75,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/nexus-kiln"\
     },\
     {\
-      "name": "@chainlink/nftx-adapter",\
-      "reference": "workspace:packages/composites/nftx"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
@@ -908,7 +904,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
-    ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nobi-adapter", ["workspace:packages/sources/nobi"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
@@ -7378,27 +7373,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.13.7"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nftx-adapter", [\
-      ["workspace:packages/composites/nftx", {\
-        "packageLocation": "./packages/composites/nftx/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/nftx-adapter", "workspace:packages/composites/nftx"],\
-          ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
