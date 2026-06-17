@@ -587,10 +587,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/oanda"\
     },\
     {\
-      "name": "@chainlink/onchain-gas-adapter",\
-      "reference": "workspace:packages/sources/onchain-gas"\
-    },\
-    {\
       "name": "@chainlink/ondo-adapter",\
       "reference": "workspace:packages/sources/ondo"\
     },\
@@ -919,7 +915,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
-    ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
@@ -7493,24 +7488,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/observation", "workspace:packages/observation"],\
           ["axios", "npm:1.13.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/onchain-gas-adapter", [\
-      ["workspace:packages/sources/onchain-gas", {\
-        "packageLocation": "./packages/sources/onchain-gas/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

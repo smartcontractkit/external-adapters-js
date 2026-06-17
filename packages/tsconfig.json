@@ -423,9 +423,6 @@
       "path": "./sources/oanda"
     },
     {
-      "path": "./sources/onchain-gas"
-    },
-    {
       "path": "./sources/ondo"
     },
     {
