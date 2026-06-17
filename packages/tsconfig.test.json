@@ -360,9 +360,6 @@
       "path": "./sources/layer2-sequencer-health/tsconfig.test.json"
     },
     {
-      "path": "./sources/lcx/tsconfig.test.json"
-    },
-    {
       "path": "./sources/lido/tsconfig.test.json"
     },
     {
