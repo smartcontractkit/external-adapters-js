@@ -47,10 +47,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/gold"\
     },\
     {\
-      "name": "@chainlink/historical-average-adapter",\
-      "reference": "workspace:packages/composites/historical-average"\
-    },\
-    {\
       "name": "@chainlink/implied-price-adapter",\
       "reference": "workspace:packages/composites/implied-price"\
     },\
@@ -63,10 +59,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/market-status"\
     },\
     {\
-      "name": "@chainlink/medianizer-adapter",\
-      "reference": "workspace:packages/composites/medianizer"\
-    },\
-    {\
       "name": "@chainlink/multi-address-list-adapter",\
       "reference": "workspace:packages/composites/multi-address-list"\
     },\
@@ -75,20 +67,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/nexus-kiln"\
     },\
     {\
-      "name": "@chainlink/nftx-adapter",\
-      "reference": "workspace:packages/composites/nftx"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
     {\
       "name": "@chainlink/proof-of-reserves-v2-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves-v2"\
-    },\
-    {\
-      "name": "@chainlink/rocket-pool-adapter",\
-      "reference": "workspace:packages/composites/rocket-pool"\
     },\
     {\
       "name": "@chainlink/savax-price-adapter",\
@@ -411,20 +395,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/fireblocks"\
     },\
     {\
-      "name": "@chainlink/fmpcloud-adapter",\
-      "reference": "workspace:packages/sources/fmpcloud"\
-    },\
-    {\
       "name": "@chainlink/frxeth-exchange-rate-adapter",\
       "reference": "workspace:packages/sources/frxeth-exchange-rate"\
     },\
     {\
       "name": "@chainlink/ftse-sftp-adapter",\
       "reference": "workspace:packages/sources/ftse-sftp"\
-    },\
-    {\
-      "name": "@chainlink/galaxis-adapter",\
-      "reference": "workspace:packages/sources/galaxis"\
     },\
     {\
       "name": "@chainlink/gemini-adapter",\
@@ -503,10 +479,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/layer2-sequencer-health"\
     },\
     {\
-      "name": "@chainlink/lcx-adapter",\
-      "reference": "workspace:packages/sources/lcx"\
-    },\
-    {\
       "name": "@chainlink/lido-adapter",\
       "reference": "workspace:packages/sources/lido"\
     },\
@@ -551,10 +523,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/moore-hk"\
     },\
     {\
-      "name": "@chainlink/mycryptoapi-adapter",\
-      "reference": "workspace:packages/sources/mycryptoapi"\
-    },\
-    {\
       "name": "@chainlink/nav-consulting-adapter",\
       "reference": "workspace:packages/sources/nav-consulting"\
     },\
@@ -589,10 +557,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/oanda-adapter",\
       "reference": "workspace:packages/sources/oanda"\
-    },\
-    {\
-      "name": "@chainlink/onchain-gas-adapter",\
-      "reference": "workspace:packages/sources/onchain-gas"\
     },\
     {\
       "name": "@chainlink/ondo-adapter",\
@@ -637,10 +601,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/six-adapter",\
       "reference": "workspace:packages/sources/six"\
-    },\
-    {\
-      "name": "@chainlink/snowflake-adapter",\
-      "reference": "workspace:packages/sources/snowflake"\
     },\
     {\
       "name": "@chainlink/sochain-adapter",\
@@ -759,10 +719,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/upvest"\
     },\
     {\
-      "name": "@chainlink/uscpi-one-adapter",\
-      "reference": "workspace:packages/sources/uscpi-one"\
-    },\
-    {\
       "name": "@chainlink/view-function-adapter",\
       "reference": "workspace:packages/sources/view-function"\
     },\
@@ -873,10 +829,8 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
     ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
-    ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
     ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
-    ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/generic-api-adapter", ["workspace:packages/sources/generic-api"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
@@ -889,7 +843,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
-    ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
@@ -902,7 +855,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
-    ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
@@ -912,26 +864,22 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
-    ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
-    ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
     ["@chainlink/nav-fund-services-adapter", ["workspace:packages/sources/nav-fund-services"]],\
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
     ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
-    ["@chainlink/nftx-adapter", ["workspace:packages/composites/nftx"]],\
     ["@chainlink/nobi-adapter", ["workspace:packages/sources/nobi"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
     ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
-    ["@chainlink/onchain-gas-adapter", ["workspace:packages/sources/onchain-gas"]],\
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
@@ -945,14 +893,12 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/readme-test-v3-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
-    ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
-    ["@chainlink/snowflake-adapter", ["workspace:packages/sources/snowflake"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
@@ -986,7 +932,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
-    ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -6515,24 +6460,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/fmpcloud-adapter", [\
-      ["workspace:packages/sources/fmpcloud", {\
-        "packageLocation": "./packages/sources/fmpcloud/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/frxeth-exchange-rate-adapter", [\
       ["workspace:packages/sources/frxeth-exchange-rate", {\
         "packageLocation": "./packages/sources/frxeth-exchange-rate/",\
@@ -6566,27 +6493,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["ssh2-sftp-client", "npm:12.0.1"],\
           ["ts-jest", "virtual:574dc4ff24172c9d1b6014b09ac4f0f8a617e1a95145ad46aecd2ebd04a4f75de4ab8a41492c5d05a29c48f79f7f8b9ebb3a7bb1b88d778e9d134d1f21b3f7cf#npm:29.4.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/galaxis-adapter", [\
-      ["workspace:packages/sources/galaxis", {\
-        "packageLocation": "./packages/sources/galaxis/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
-          ["@ethercards/ec-util", "npm:1.0.8"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -6789,27 +6695,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/historical-average-adapter", [\
-      ["workspace:packages/composites/historical-average", {\
-        "packageLocation": "./packages/composites/historical-average/",\
-        "packageDependencies": [\
-          ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
-          ["@chainlink/historical-average-adapter", "workspace:packages/composites/historical-average"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7021,24 +6906,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/lcx-adapter", [\
-      ["workspace:packages/sources/lcx", {\
-        "packageLocation": "./packages/sources/lcx/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/lido-adapter", [\
       ["workspace:packages/sources/lido", {\
         "packageLocation": "./packages/sources/lido/",\
@@ -7191,24 +7058,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/medianizer-adapter", [\
-      ["workspace:packages/composites/medianizer", {\
-        "packageLocation": "./packages/composites/medianizer/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/medianizer-adapter", "workspace:packages/composites/medianizer"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/mobula-state-adapter", [\
       ["workspace:packages/sources/mobula-state", {\
         "packageLocation": "./packages/sources/mobula-state/",\
@@ -7293,24 +7142,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/mycryptoapi-adapter", [\
-      ["workspace:packages/sources/mycryptoapi", {\
-        "packageLocation": "./packages/sources/mycryptoapi/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7403,27 +7234,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/nftx-adapter", [\
-      ["workspace:packages/composites/nftx", {\
-        "packageLocation": "./packages/composites/nftx/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/nftx-adapter", "workspace:packages/composites/nftx"],\
-          ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/nobi-adapter", [\
       ["workspace:packages/sources/nobi", {\
         "packageLocation": "./packages/sources/nobi/",\
@@ -7508,24 +7318,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/observation", "workspace:packages/observation"],\
           ["axios", "npm:1.13.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/onchain-gas-adapter", [\
-      ["workspace:packages/sources/onchain-gas", {\
-        "packageLocation": "./packages/sources/onchain-gas/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/onchain-gas-adapter", "workspace:packages/sources/onchain-gas"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7782,27 +7574,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/rocket-pool-adapter", [\
-      ["workspace:packages/composites/rocket-pool", {\
-        "packageLocation": "./packages/composites/rocket-pool/",\
-        "packageDependencies": [\
-          ["@chainlink/contracts", "npm:0.8.0"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/s3-csv-reader-adapter", [\
       ["workspace:packages/sources/s3-csv-reader", {\
         "packageLocation": "./packages/sources/s3-csv-reader/",\
@@ -7905,26 +7676,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/snowflake-adapter", [\
-      ["workspace:packages/sources/snowflake", {\
-        "packageLocation": "./packages/sources/snowflake/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/snowflake-adapter", "workspace:packages/sources/snowflake"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/jsonwebtoken", "npm:8.5.9"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["jsonwebtoken", "npm:9.0.2"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -8525,24 +8276,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/uscpi-one-adapter", [\
-      ["workspace:packages/sources/uscpi-one", {\
-        "packageLocation": "./packages/sources/uscpi-one/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
@@ -9170,25 +8903,6 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/web", "npm:5.8.0"],\
           ["bufio", "npm:1.2.2"],\
           ["chai", "npm:4.5.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@ethercards/ec-util", [\
-      ["npm:1.0.8", {\
-        "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.8-9982887bc1-20c33c15c2.zip/node_modules/@ethercards/ec-util/",\
-        "packageDependencies": [\
-          ["@ethercards/ec-util", "npm:1.0.8"],\
-          ["@ethersproject/bignumber", "npm:5.8.0"],\
-          ["@ethersproject/bytes", "npm:5.8.0"],\
-          ["bitwise", "npm:2.2.1"],\
-          ["bn.js", "npm:5.2.3"],\
-          ["braces", "npm:3.0.3"],\
-          ["diff", "npm:5.2.0"],\
-          ["glob-parent", "npm:6.0.2"],\
-          ["is-svg", "npm:5.1.0"],\
-          ["js-yaml", "npm:4.1.0"],\
-          ["lodash.template", "npm:4.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15110,16 +14824,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/jsonwebtoken", [\
-      ["npm:8.5.9", {\
-        "packageLocation": "./.yarn/cache/@types-jsonwebtoken-npm-8.5.9-79c2843a81-4654f8429e.zip/node_modules/@types/jsonwebtoken/",\
-        "packageDependencies": [\
-          ["@types/jsonwebtoken", "npm:8.5.9"],\
-          ["@types/node", "npm:22.14.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/lodash", [\
       ["npm:4.17.17", {\
         "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.17-f9393376c2-496459a3cb.zip/node_modules/@types/lodash/",\
@@ -16752,15 +16456,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["bitwise", [\
-      ["npm:2.2.1", {\
-        "packageLocation": "./.yarn/cache/bitwise-npm-2.2.1-6b96d7e8f2-517aea40f3.zip/node_modules/bitwise/",\
-        "packageDependencies": [\
-          ["bitwise", "npm:2.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["blakejs", [\
       ["npm:1.2.1", {\
         "packageLocation": "./.yarn/cache/blakejs-npm-1.2.1-b1ff783529-0638b1bd05.zip/node_modules/blakejs/",\
@@ -17005,15 +16700,6 @@ const RAW_RUNTIME_STATE =
           ["base64-js", "npm:1.5.1"],\
           ["buffer", "npm:6.0.3"],\
           ["ieee754", "npm:1.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["buffer-equal-constant-time", [\
-      ["npm:1.0.1", {\
-        "packageLocation": "./.yarn/cache/buffer-equal-constant-time-npm-1.0.1-41826f3419-80bb945f5d.zip/node_modules/buffer-equal-constant-time/",\
-        "packageDependencies": [\
-          ["buffer-equal-constant-time", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -18258,16 +17944,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["ecdsa-sig-formatter", [\
-      ["npm:1.0.11", {\
-        "packageLocation": "./.yarn/cache/ecdsa-sig-formatter-npm-1.0.11-b6784e7852-878e1aab8a.zip/node_modules/ecdsa-sig-formatter/",\
-        "packageDependencies": [\
-          ["ecdsa-sig-formatter", "npm:1.0.11"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["ed2curve", [\
       ["npm:0.3.0", {\
         "packageLocation": "./.yarn/cache/ed2curve-npm-0.3.0-45358a038a-b5551bea14.zip/node_modules/ed2curve/",\
@@ -19203,14 +18879,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.4.1-b48f31eba7-0c05ab8703.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
           ["fast-xml-parser", "npm:4.4.1"],\
-          ["strnum", "npm:1.0.5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.5.0", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.5.0-353a57f69a-dc9571c10e.zip/node_modules/fast-xml-parser/",\
-        "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.5.0"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
@@ -20571,16 +20239,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-svg", [\
-      ["npm:5.1.0", {\
-        "packageLocation": "./.yarn/cache/is-svg-npm-5.1.0-8a8bc45632-9ea9a076cc.zip/node_modules/is-svg/",\
-        "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.5.0"],\
-          ["is-svg", "npm:5.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-typed-array", [\
       ["npm:1.1.15", {\
         "packageLocation": "./.yarn/cache/is-typed-array-npm-1.1.15-33aa18e28f-e8cf60b9ea.zip/node_modules/is-typed-array/",\
@@ -21546,53 +21204,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["jsonwebtoken", [\
-      ["npm:9.0.2", {\
-        "packageLocation": "./.yarn/cache/jsonwebtoken-npm-9.0.2-42c6b14d02-6e9b6d879c.zip/node_modules/jsonwebtoken/",\
-        "packageDependencies": [\
-          ["jsonwebtoken", "npm:9.0.2"],\
-          ["jws", "npm:3.2.3"],\
-          ["lodash.includes", "npm:4.3.0"],\
-          ["lodash.isboolean", "npm:3.0.3"],\
-          ["lodash.isinteger", "npm:4.0.4"],\
-          ["lodash.isnumber", "npm:3.0.3"],\
-          ["lodash.isplainobject", "npm:4.0.6"],\
-          ["lodash.isstring", "npm:4.0.1"],\
-          ["lodash.once", "npm:4.1.1"],\
-          ["ms", "npm:2.1.3"],\
-          ["semver", "npm:7.7.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["just-extend", [\
       ["npm:6.2.0", {\
         "packageLocation": "./.yarn/cache/just-extend-npm-6.2.0-25e57ed812-1f487b074b.zip/node_modules/just-extend/",\
         "packageDependencies": [\
           ["just-extend", "npm:6.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["jwa", [\
-      ["npm:1.4.2", {\
-        "packageLocation": "./.yarn/cache/jwa-npm-1.4.2-9b996c4b2d-a46c9ddbcc.zip/node_modules/jwa/",\
-        "packageDependencies": [\
-          ["buffer-equal-constant-time", "npm:1.0.1"],\
-          ["ecdsa-sig-formatter", "npm:1.0.11"],\
-          ["jwa", "npm:1.4.2"],\
-          ["safe-buffer", "npm:5.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["jws", [\
-      ["npm:3.2.3", {\
-        "packageLocation": "./.yarn/cache/jws-npm-3.2.3-b393e05a7c-707387dd1c.zip/node_modules/jws/",\
-        "packageDependencies": [\
-          ["jwa", "npm:1.4.2"],\
-          ["jws", "npm:3.2.3"],\
-          ["safe-buffer", "npm:5.2.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21787,15 +21403,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash._reinterpolate", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/lodash._reinterpolate-npm-3.0.0-3c62ca439e-06d2d5f331.zip/node_modules/lodash._reinterpolate/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.camelcase", [\
       ["npm:4.3.0", {\
         "packageLocation": "./.yarn/cache/lodash.camelcase-npm-4.3.0-bf268e3bf0-c301cc3793.zip/node_modules/lodash.camelcase/",\
@@ -21832,15 +21439,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash.includes", [\
-      ["npm:4.3.0", {\
-        "packageLocation": "./.yarn/cache/lodash.includes-npm-4.3.0-3a2f6fa22c-45e0a7c783.zip/node_modules/lodash.includes/",\
-        "packageDependencies": [\
-          ["lodash.includes", "npm:4.3.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.isarguments", [\
       ["npm:3.1.0", {\
         "packageLocation": "./.yarn/cache/lodash.isarguments-npm-3.1.0-9e74d350b8-e5186d5fe0.zip/node_modules/lodash.isarguments/",\
@@ -21850,56 +21448,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash.isboolean", [\
-      ["npm:3.0.3", {\
-        "packageLocation": "./.yarn/cache/lodash.isboolean-npm-3.0.3-b575b41488-b70068b4a8.zip/node_modules/lodash.isboolean/",\
-        "packageDependencies": [\
-          ["lodash.isboolean", "npm:3.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.isequal", [\
       ["npm:4.5.0", {\
         "packageLocation": "./.yarn/cache/lodash.isequal-npm-4.5.0-f8b0f64d63-82fc58a83a.zip/node_modules/lodash.isequal/",\
         "packageDependencies": [\
           ["lodash.isequal", "npm:4.5.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.isinteger", [\
-      ["npm:4.0.4", {\
-        "packageLocation": "./.yarn/cache/lodash.isinteger-npm-4.0.4-42add9f4e1-c971f5a2d6.zip/node_modules/lodash.isinteger/",\
-        "packageDependencies": [\
-          ["lodash.isinteger", "npm:4.0.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.isnumber", [\
-      ["npm:3.0.3", {\
-        "packageLocation": "./.yarn/cache/lodash.isnumber-npm-3.0.3-b3bb5f7347-913784275b.zip/node_modules/lodash.isnumber/",\
-        "packageDependencies": [\
-          ["lodash.isnumber", "npm:3.0.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.isplainobject", [\
-      ["npm:4.0.6", {\
-        "packageLocation": "./.yarn/cache/lodash.isplainobject-npm-4.0.6-d73937742f-29c6351f28.zip/node_modules/lodash.isplainobject/",\
-        "packageDependencies": [\
-          ["lodash.isplainobject", "npm:4.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.isstring", [\
-      ["npm:4.0.1", {\
-        "packageLocation": "./.yarn/cache/lodash.isstring-npm-4.0.1-721fee791c-eaac87ae96.zip/node_modules/lodash.isstring/",\
-        "packageDependencies": [\
-          ["lodash.isstring", "npm:4.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21931,41 +21484,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash.once", [\
-      ["npm:4.1.1", {\
-        "packageLocation": "./.yarn/cache/lodash.once-npm-4.1.1-d8ba329ead-202f2c8c3d.zip/node_modules/lodash.once/",\
-        "packageDependencies": [\
-          ["lodash.once", "npm:4.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.startcase", [\
       ["npm:4.4.0", {\
         "packageLocation": "./.yarn/cache/lodash.startcase-npm-4.4.0-637aa8cc15-3091048a54.zip/node_modules/lodash.startcase/",\
         "packageDependencies": [\
           ["lodash.startcase", "npm:4.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.template", [\
-      ["npm:4.18.1", {\
-        "packageLocation": "./.yarn/cache/lodash.template-npm-4.18.1-b933a13b68-cdab27ff08.zip/node_modules/lodash.template/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"],\
-          ["lodash.template", "npm:4.18.1"],\
-          ["lodash.templatesettings", "npm:4.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.templatesettings", [\
-      ["npm:4.2.0", {\
-        "packageLocation": "./.yarn/cache/lodash.templatesettings-npm-4.2.0-15fbdebcf4-ef470fa8b6.zip/node_modules/lodash.templatesettings/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"],\
-          ["lodash.templatesettings", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
