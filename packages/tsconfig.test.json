@@ -27,9 +27,6 @@
       "path": "./composites/gold/tsconfig.test.json"
     },
     {
-      "path": "./composites/historical-average/tsconfig.test.json"
-    },
-    {
       "path": "./composites/implied-price/tsconfig.test.json"
     },
     {

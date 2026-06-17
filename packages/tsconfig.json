@@ -27,9 +27,6 @@
       "path": "./composites/gold"
     },
     {
-      "path": "./composites/historical-average"
-    },
-    {
       "path": "./composites/implied-price"
     },
     {

@@ -165,8 +165,6 @@ adapters:
     version: 1.0.4
   - name: hastra
     version: 1.0.1
-  - name: historical-average
-    version: 1.4.2
   - name: icap
     version: 1.6.1
   - name: ice
