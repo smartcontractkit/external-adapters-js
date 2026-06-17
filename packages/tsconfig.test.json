@@ -396,9 +396,6 @@
       "path": "./sources/moore-hk/tsconfig.test.json"
     },
     {
-      "path": "./sources/mycryptoapi/tsconfig.test.json"
-    },
-    {
       "path": "./sources/nav-consulting/tsconfig.test.json"
     },
     {
