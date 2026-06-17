@@ -426,9 +426,6 @@
       "path": "./sources/oanda/tsconfig.test.json"
     },
     {
-      "path": "./sources/onchain-gas/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ondo/tsconfig.test.json"
     },
     {
