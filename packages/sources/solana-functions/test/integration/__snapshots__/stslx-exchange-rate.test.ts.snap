@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute stslx-exchange-rate should return success 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "rate": "1500000000000000000",
+    "slxBalance": "1500000000",
+    "slxMintDecimals": 9,
+    "slxTokenAccountAddress": "7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf",
+    "stslxMintDecimals": 6,
+    "stslxSupply": "1000000",
+    "vaultAddress": "GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH",
+  },
+  "result": "1500000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

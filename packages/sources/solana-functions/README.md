@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                      Options                                                                                                                       |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                 Options                                                                                                                                                  |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -233,6 +233,28 @@ Request:
   "data": {
     "endpoint": "pool-token-rate",
     "stakePoolAccountAddress": "Jito4APyf642JPZPx3hGc6WWJ8zPKtRbRs4P815Awbb"
+  }
+}
+```
+
+---
+
+## Stslx-exchange-rate Endpoint
+
+`stslx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+There are no input parameters for this endpoint.
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stslx-exchange-rate"
   }
 }
 ```
