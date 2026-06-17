@@ -54,9 +54,6 @@
       "path": "./composites/proof-of-reserves-v2"
     },
     {
-      "path": "./composites/rocket-pool"
-    },
-    {
       "path": "./composites/savax-price"
     },
     {
@@ -423,9 +420,6 @@
       "path": "./sources/oanda"
     },
     {
-      "path": "./sources/onchain-gas"
-    },
-    {
       "path": "./sources/ondo"
     },
     {
@@ -457,9 +451,6 @@
     },
     {
       "path": "./sources/six"
-    },
-    {
-      "path": "./sources/snowflake"
     },
     {
       "path": "./sources/sochain"
@@ -547,9 +538,6 @@
     },
     {
       "path": "./sources/upvest"
-    },
-    {
-      "path": "./sources/uscpi-one"
     },
     {
       "path": "./sources/view-function"
