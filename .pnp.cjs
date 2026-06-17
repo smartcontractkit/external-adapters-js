@@ -87,10 +87,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/proof-of-reserves-v2"\
     },\
     {\
-      "name": "@chainlink/rocket-pool-adapter",\
-      "reference": "workspace:packages/composites/rocket-pool"\
-    },\
-    {\
       "name": "@chainlink/savax-price-adapter",\
       "reference": "workspace:packages/composites/savax-price"\
     },\
@@ -945,7 +941,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
     ["@chainlink/readme-test-v3-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"]],\
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
-    ["@chainlink/rocket-pool-adapter", ["workspace:packages/composites/rocket-pool"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
@@ -7775,27 +7770,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.5.0"],\
           ["object-path", "npm:0.11.8"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/rocket-pool-adapter", [\
-      ["workspace:packages/composites/rocket-pool", {\
-        "packageLocation": "./packages/composites/rocket-pool/",\
-        "packageDependencies": [\
-          ["@chainlink/contracts", "npm:0.8.0"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/rocket-pool-adapter", "workspace:packages/composites/rocket-pool"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
