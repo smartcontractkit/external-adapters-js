@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.8.0
+
+### Minor Changes
+
+- [#5101](https://github.com/smartcontractkit/external-adapters-js/pull/5101) [`6f7d771`](https://github.com/smartcontractkit/external-adapters-js/commit/6f7d7716fe1bcf03dd30329226d5eea326e21305) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add http transport to stock quotes and enable compositeTransport capability
+
 ## 2.7.2
 
 ### Patch Changes

@@ -65,22 +65,6 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('mco2 endpoint', () => {
-    it('should return error that endpoint is no longer supported', async () => {
-      const response = await testAdapter.request()
-      expect(response.statusCode).toBe(410)
-      expect(response.json()).toMatchSnapshot()
-    })
-  })
-
-  describe('mco2 endpoint with balance alias', () => {
-    it('should return error that endpoint is no longer supported', async () => {
-      const response = await testAdapter.request({ endpoint: 'balance' })
-      expect(response.statusCode).toBe(410)
-      expect(response.json().errorMessage).toBe('The mco2 endpoint is no longer supported.')
-    })
-  })
-
   describe('stbt endpoint', () => {
     it('should return success', async () => {
       const data = {
