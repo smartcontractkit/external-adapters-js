@@ -1,6 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock-quotes'
+import { determineStockQuotesMidPrice, isValidNumber } from './utils'
 
 const logger = makeLogger('StockQuotes')
 
@@ -23,9 +24,7 @@ type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const isValidNumber = (field: string | number) => field != null && !isNaN(Number(field))
-
-export const transport = new WebSocketTransport<WsTransportTypes>({
+export const wsTransport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => {
     const url = context.adapterSettings.STOCK_QUOTES_WS_API_ENDPOINT
     return url.includes('/?token=') ? url : `${url}/?token=${context.adapterSettings.WS_SOCKET_KEY}`
@@ -53,15 +52,7 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       const bidVolume = Number(message.bs)
       const askPrice = isValidNumber(message.a) ? Number(message.a) : Number(message.ap)
       const askVolume = Number(message.as)
-
-      let midPrice: number
-      if (bidPrice == 0) {
-        midPrice = askPrice
-      } else if (askPrice == 0) {
-        midPrice = bidPrice
-      } else {
-        midPrice = (askPrice + bidPrice) / 2
-      }
+      const midPrice = determineStockQuotesMidPrice(bidPrice, askPrice)
 
       return [
         {
