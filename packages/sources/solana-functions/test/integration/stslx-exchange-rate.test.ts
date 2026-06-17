@@ -130,5 +130,16 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
     })
+
+    it('should reject requests missing required bounds', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'stslx-exchange-rate',
+        glamStateAddress,
+        maxRate,
+      })
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchSnapshot()
+    })
   })
 })
