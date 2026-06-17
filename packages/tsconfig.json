@@ -39,9 +39,6 @@
       "path": "./composites/market-status"
     },
     {
-      "path": "./composites/medianizer"
-    },
-    {
       "path": "./composites/multi-address-list"
     },
     {

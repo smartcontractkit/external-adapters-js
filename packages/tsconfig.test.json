@@ -39,9 +39,6 @@
       "path": "./composites/market-status/tsconfig.test.json"
     },
     {
-      "path": "./composites/medianizer/tsconfig.test.json"
-    },
-    {
       "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
