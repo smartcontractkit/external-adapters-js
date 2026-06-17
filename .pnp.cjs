@@ -543,10 +543,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/moore-hk"\
     },\
     {\
-      "name": "@chainlink/mycryptoapi-adapter",\
-      "reference": "workspace:packages/sources/mycryptoapi"\
-    },\
-    {\
       "name": "@chainlink/nav-consulting-adapter",\
       "reference": "workspace:packages/sources/nav-consulting"\
     },\
@@ -898,7 +894,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
-    ["@chainlink/mycryptoapi-adapter", ["workspace:packages/sources/mycryptoapi"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
     ["@chainlink/nav-fund-services-adapter", ["workspace:packages/sources/nav-fund-services"]],\
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
@@ -7268,24 +7263,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/mycryptoapi-adapter", [\
-      ["workspace:packages/sources/mycryptoapi", {\
-        "packageLocation": "./packages/sources/mycryptoapi/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/mycryptoapi-adapter", "workspace:packages/sources/mycryptoapi"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
