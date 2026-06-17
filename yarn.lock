@@ -4084,25 +4084,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/historical-average-adapter@workspace:packages/composites/historical-average":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/historical-average-adapter@workspace:packages/composites/historical-average"
-  dependencies:
-    "@chainlink/coinmarketcap-adapter": "workspace:*"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/icap-adapter@workspace:packages/sources/icap":
   version: 0.0.0-use.local
   resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"

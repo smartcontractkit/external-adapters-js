@@ -47,10 +47,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/gold"\
     },\
     {\
-      "name": "@chainlink/historical-average-adapter",\
-      "reference": "workspace:packages/composites/historical-average"\
-    },\
-    {\
       "name": "@chainlink/implied-price-adapter",\
       "reference": "workspace:packages/composites/implied-price"\
     },\
@@ -889,7 +885,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
-    ["@chainlink/historical-average-adapter", ["workspace:packages/composites/historical-average"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
@@ -6789,27 +6784,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/historical-average-adapter", [\
-      ["workspace:packages/composites/historical-average", {\
-        "packageLocation": "./packages/composites/historical-average/",\
-        "packageDependencies": [\
-          ["@chainlink/coinmarketcap-adapter", "workspace:packages/sources/coinmarketcap"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
-          ["@chainlink/historical-average-adapter", "workspace:packages/composites/historical-average"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
