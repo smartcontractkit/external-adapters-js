@@ -56,17 +56,19 @@ type MintInfo = {
 }
 
 const parseRateBound = (value: string, name: string) => {
-  if (!/^\d+$/.test(value)) {
+  let parsed: bigint
+  try {
+    parsed = BigInt(value)
+  } catch {
     throw new AdapterInputError({
-      message: `${name} must be a positive integer string`,
+      message: `${name} must be a positive base-10 integer string`,
       statusCode: 400,
     })
   }
 
-  const parsed = BigInt(value)
-  if (parsed === 0n) {
+  if (parsed <= 0n || parsed.toString() !== value) {
     throw new AdapterInputError({
-      message: `${name} must be greater than zero`,
+      message: `${name} must be a positive base-10 integer string`,
       statusCode: 400,
     })
   }

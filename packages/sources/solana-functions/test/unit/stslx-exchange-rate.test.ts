@@ -356,14 +356,14 @@ describe('StslxExchangeRateTransport', () => {
           ...param,
           minRate: '0',
         }),
-      ).rejects.toThrow('minRate must be greater than zero')
+      ).rejects.toThrow('minRate must be a positive base-10 integer string')
 
       await expect(
         transport._handleRequest({
           ...param,
           maxRate: 'not-a-rate',
         }),
-      ).rejects.toThrow('maxRate must be a positive integer string')
+      ).rejects.toThrow('maxRate must be a positive base-10 integer string')
     })
 
     it('should error when the stSLX mint has zero supply', async () => {
