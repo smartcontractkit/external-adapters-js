@@ -41,13 +41,6 @@ export type BaseEndpointTypes = {
       minRate: string
       maxRate: string
       boundsApplied: boolean
-      slxBalance: string
-      stslxSupply: string
-      slxMintDecimals: number
-      stslxMintDecimals: number
-      glamStateAddress: string
-      vaultAddress: string
-      slxTokenAccountAddress: string
     }
   }
   Settings: typeof config.settings
