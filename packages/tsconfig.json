@@ -291,9 +291,6 @@
       "path": "./sources/ftse-sftp"
     },
     {
-      "path": "./sources/galaxis"
-    },
-    {
       "path": "./sources/gemini"
     },
     {

@@ -411,10 +411,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ftse-sftp"\
     },\
     {\
-      "name": "@chainlink/galaxis-adapter",\
-      "reference": "workspace:packages/sources/galaxis"\
-    },\
-    {\
       "name": "@chainlink/gemini-adapter",\
       "reference": "workspace:packages/sources/gemini"\
     },\
@@ -844,7 +840,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
     ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
-    ["@chainlink/galaxis-adapter", ["workspace:packages/sources/galaxis"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
     ["@chainlink/generic-api-adapter", ["workspace:packages/sources/generic-api"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
@@ -6532,27 +6527,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/galaxis-adapter", [\
-      ["workspace:packages/sources/galaxis", {\
-        "packageLocation": "./packages/sources/galaxis/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/galaxis-adapter", "workspace:packages/sources/galaxis"],\
-          ["@ethercards/ec-util", "npm:1.0.8"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/gemini-adapter", [\
       ["workspace:packages/sources/gemini", {\
         "packageLocation": "./packages/sources/gemini/",\
@@ -8978,25 +8952,6 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/web", "npm:5.8.0"],\
           ["bufio", "npm:1.2.2"],\
           ["chai", "npm:4.5.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@ethercards/ec-util", [\
-      ["npm:1.0.8", {\
-        "packageLocation": "./.yarn/cache/@ethercards-ec-util-npm-1.0.8-9982887bc1-20c33c15c2.zip/node_modules/@ethercards/ec-util/",\
-        "packageDependencies": [\
-          ["@ethercards/ec-util", "npm:1.0.8"],\
-          ["@ethersproject/bignumber", "npm:5.8.0"],\
-          ["@ethersproject/bytes", "npm:5.8.0"],\
-          ["bitwise", "npm:2.2.1"],\
-          ["bn.js", "npm:5.2.3"],\
-          ["braces", "npm:3.0.3"],\
-          ["diff", "npm:5.2.0"],\
-          ["glob-parent", "npm:6.0.2"],\
-          ["is-svg", "npm:5.1.0"],\
-          ["js-yaml", "npm:4.1.0"],\
-          ["lodash.template", "npm:4.18.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16550,15 +16505,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["bitwise", [\
-      ["npm:2.2.1", {\
-        "packageLocation": "./.yarn/cache/bitwise-npm-2.2.1-6b96d7e8f2-517aea40f3.zip/node_modules/bitwise/",\
-        "packageDependencies": [\
-          ["bitwise", "npm:2.2.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["blakejs", [\
       ["npm:1.2.1", {\
         "packageLocation": "./.yarn/cache/blakejs-npm-1.2.1-b1ff783529-0638b1bd05.zip/node_modules/blakejs/",\
@@ -18985,14 +18931,6 @@ const RAW_RUNTIME_STATE =
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:4.5.0", {\
-        "packageLocation": "./.yarn/cache/fast-xml-parser-npm-4.5.0-353a57f69a-dc9571c10e.zip/node_modules/fast-xml-parser/",\
-        "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.5.0"],\
-          ["strnum", "npm:1.0.5"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["fastify", [\
@@ -20350,16 +20288,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["is-svg", [\
-      ["npm:5.1.0", {\
-        "packageLocation": "./.yarn/cache/is-svg-npm-5.1.0-8a8bc45632-9ea9a076cc.zip/node_modules/is-svg/",\
-        "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.5.0"],\
-          ["is-svg", "npm:5.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["is-typed-array", [\
       ["npm:1.1.15", {\
         "packageLocation": "./.yarn/cache/is-typed-array-npm-1.1.15-33aa18e28f-e8cf60b9ea.zip/node_modules/is-typed-array/",\
@@ -21524,15 +21452,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash._reinterpolate", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/lodash._reinterpolate-npm-3.0.0-3c62ca439e-06d2d5f331.zip/node_modules/lodash._reinterpolate/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.camelcase", [\
       ["npm:4.3.0", {\
         "packageLocation": "./.yarn/cache/lodash.camelcase-npm-4.3.0-bf268e3bf0-c301cc3793.zip/node_modules/lodash.camelcase/",\
@@ -21619,27 +21538,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/lodash.startcase-npm-4.4.0-637aa8cc15-3091048a54.zip/node_modules/lodash.startcase/",\
         "packageDependencies": [\
           ["lodash.startcase", "npm:4.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.template", [\
-      ["npm:4.18.1", {\
-        "packageLocation": "./.yarn/cache/lodash.template-npm-4.18.1-b933a13b68-cdab27ff08.zip/node_modules/lodash.template/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"],\
-          ["lodash.template", "npm:4.18.1"],\
-          ["lodash.templatesettings", "npm:4.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.templatesettings", [\
-      ["npm:4.2.0", {\
-        "packageLocation": "./.yarn/cache/lodash.templatesettings-npm-4.2.0-15fbdebcf4-ef470fa8b6.zip/node_modules/lodash.templatesettings/",\
-        "packageDependencies": [\
-          ["lodash._reinterpolate", "npm:3.0.0"],\
-          ["lodash.templatesettings", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
