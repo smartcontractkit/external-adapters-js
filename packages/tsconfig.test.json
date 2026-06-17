@@ -39,9 +39,6 @@
       "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
-      "path": "./composites/nexus-kiln/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {

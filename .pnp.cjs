@@ -63,10 +63,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/multi-address-list"\
     },\
     {\
-      "name": "@chainlink/nexus-kiln-adapter",\
-      "reference": "workspace:packages/composites/nexus-kiln"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves"\
     },\
@@ -873,7 +869,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nav-fund-services-adapter", ["workspace:packages/sources/nav-fund-services"]],\
     ["@chainlink/nav-generic-adapter", ["workspace:packages/sources/nav-generic"]],\
     ["@chainlink/ncfx-adapter", ["workspace:packages/sources/ncfx"]],\
-    ["@chainlink/nexus-kiln-adapter", ["workspace:packages/composites/nexus-kiln"]],\
     ["@chainlink/nobi-adapter", ["workspace:packages/sources/nobi"]],\
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
@@ -7213,22 +7208,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/nexus-kiln-adapter", [\
-      ["workspace:packages/composites/nexus-kiln", {\
-        "packageLocation": "./packages/composites/nexus-kiln/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/nexus-kiln-adapter", "workspace:packages/composites/nexus-kiln"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.13.7"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -18526,20 +18505,6 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/web", "npm:5.8.0"],\
           ["@ethersproject/wordlists", "npm:5.8.0"],\
           ["ethers", "npm:5.8.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:6.13.7", {\
-        "packageLocation": "./.yarn/cache/ethers-npm-6.13.7-f6f30c4272-930ab1a444.zip/node_modules/ethers/",\
-        "packageDependencies": [\
-          ["@adraffy/ens-normalize", "npm:1.10.1"],\
-          ["@noble/curves", "npm:1.2.0"],\
-          ["@noble/hashes", "npm:1.3.2"],\
-          ["@types/node", "npm:22.7.5"],\
-          ["aes-js", "npm:4.0.0-beta.5"],\
-          ["ethers", "npm:6.13.7"],\
-          ["tslib", "npm:2.7.0"],\
-          ["ws", "virtual:9f3270046395fad7049f40a1fc999033198f0270cd9f18e06c1c9f8356561f9d760eb272fa3799392ca89725dbdc5c8c4d9bb2694bbda26eed0fa6c797fbd554#npm:8.17.1"]\
         ],\
         "linkType": "HARD"\
       }],\

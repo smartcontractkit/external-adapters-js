@@ -221,8 +221,6 @@ adapters:
     version: 1.0.5
   - name: ncfx
     version: 4.8.2
-  - name: nexus-kiln
-    version: 1.0.19
   - name: nobi
     version: 1.0.0
   - name: nomia
