@@ -211,8 +211,6 @@ adapters:
     version: 1.10.0
   - name: matrixdock
     version: 2.0.1
-  - name: medianizer
-    version: 1.2.44
   - name: mobula-state
     version: 2.2.1
   - name: mock-ea

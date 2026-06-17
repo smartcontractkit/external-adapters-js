@@ -63,10 +63,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/market-status"\
     },\
     {\
-      "name": "@chainlink/medianizer-adapter",\
-      "reference": "workspace:packages/composites/medianizer"\
-    },\
-    {\
       "name": "@chainlink/multi-address-list-adapter",\
       "reference": "workspace:packages/composites/multi-address-list"\
     },\
@@ -888,7 +884,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
-    ["@chainlink/medianizer-adapter", ["workspace:packages/composites/medianizer"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
@@ -7156,24 +7151,6 @@ const RAW_RUNTIME_STATE =
           ["crypto-js", "npm:4.2.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/medianizer-adapter", [\
-      ["workspace:packages/composites/medianizer", {\
-        "packageLocation": "./packages/composites/medianizer/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/medianizer-adapter", "workspace:packages/composites/medianizer"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
