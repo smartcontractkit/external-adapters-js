@@ -459,9 +459,6 @@
       "path": "./sources/six"
     },
     {
-      "path": "./sources/snowflake"
-    },
-    {
       "path": "./sources/sochain"
     },
     {
@@ -547,9 +544,6 @@
     },
     {
       "path": "./sources/upvest"
-    },
-    {
-      "path": "./sources/uscpi-one"
     },
     {
       "path": "./sources/view-function"
