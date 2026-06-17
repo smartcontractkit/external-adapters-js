@@ -14,6 +14,9 @@ const logger = makeLogger('StrcusxExchangeRateTransport')
 
 const RESULT_DECIMALS = 18
 const TOKEN_PROGRAM_ADDRESSES = [TOKEN_PROGRAM_ID.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58()]
+const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
+const CLOCK_ACCOUNT_LENGTH = 40
+const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
 
 const ACCOUNTING_STATE_DISCRIMINATOR = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
 const CONTROLLER_DISCRIMINATOR = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
@@ -35,6 +38,10 @@ type AccountInfo = {
 
 type MultipleAccountsRpcResponse = {
   value?: (AccountInfo | null)[]
+}
+
+type AccountInfoRpcResponse = {
+  value?: AccountInfo | null
 }
 
 type DecodedMint = {
@@ -70,6 +77,10 @@ type AccountingState = {
   juniorShares: bigint
   totalAssets: bigint
   seniorAssets: bigint
+  totalVestingAssets: bigint
+  seniorVestingAssets: bigint
+  vestingStartTime: bigint
+  vestingEndTime: bigint
 }
 
 const parseRateBound = (value: string, name: string) => {
@@ -129,6 +140,8 @@ const parseTranche = (value: string): Tranche => {
 
 export const readU128LE = (data: Buffer, offset: number) =>
   data.readBigUInt64LE(offset) + (data.readBigUInt64LE(offset + 8) << 64n)
+
+const readU64LE = (data: Buffer, offset: number) => data.readBigUInt64LE(offset)
 
 const readPublicKey = (data: Buffer, offset: number) =>
   new PublicKey(data.subarray(offset, offset + 32)).toBase58()
@@ -301,6 +314,93 @@ export const decodeAccountingState = (data: Buffer): AccountingState => {
     juniorShares: readU128LE(data, 57),
     totalAssets: readU128LE(data, 73),
     seniorAssets: readU128LE(data, 89),
+    totalVestingAssets: readU64LE(data, 105),
+    seniorVestingAssets: readU64LE(data, 113),
+    vestingStartTime: readU64LE(data, 121),
+    vestingEndTime: readU64LE(data, 129),
+  }
+}
+
+const calculateVestedAssets = (
+  assets: bigint,
+  unixTimestamp: bigint,
+  vestingStartTime: bigint,
+  vestingEndTime: bigint,
+) => {
+  if (assets === 0n) {
+    return 0n
+  }
+  if (vestingEndTime <= vestingStartTime) {
+    throw new AdapterInputError({
+      message: 'AccountingState vestingEndTime must be greater than vestingStartTime',
+      statusCode: 500,
+    })
+  }
+  if (unixTimestamp <= vestingStartTime) {
+    return 0n
+  }
+  if (unixTimestamp >= vestingEndTime) {
+    return assets
+  }
+
+  return (assets * (unixTimestamp - vestingStartTime)) / (vestingEndTime - vestingStartTime)
+}
+
+const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bigint | null) => {
+  if (accounting.seniorVestingAssets > accounting.totalVestingAssets) {
+    throw new AdapterInputError({
+      message:
+        'AccountingState seniorVestingAssets must be less than or equal to totalVestingAssets',
+      statusCode: 500,
+    })
+  }
+
+  if (accounting.totalVestingAssets === 0n && accounting.seniorVestingAssets === 0n) {
+    return {
+      totalAssets: accounting.totalAssets,
+      seniorAssets: accounting.seniorAssets,
+    }
+  }
+  if (unixTimestamp === null) {
+    throw new AdapterInputError({
+      message: 'Clock sysvar timestamp is required when AccountingState has vesting assets',
+      statusCode: 500,
+    })
+  }
+
+  const vestedTotalVestingAssets = calculateVestedAssets(
+    accounting.totalVestingAssets,
+    unixTimestamp,
+    accounting.vestingStartTime,
+    accounting.vestingEndTime,
+  )
+  const vestedSeniorVestingAssets = calculateVestedAssets(
+    accounting.seniorVestingAssets,
+    unixTimestamp,
+    accounting.vestingStartTime,
+    accounting.vestingEndTime,
+  )
+  const unvestedTotalVestingAssets = accounting.totalVestingAssets - vestedTotalVestingAssets
+  const unvestedSeniorVestingAssets = accounting.seniorVestingAssets - vestedSeniorVestingAssets
+
+  if (accounting.totalAssets < unvestedTotalVestingAssets) {
+    throw new AdapterInputError({
+      message:
+        'AccountingState totalAssets must be greater than or equal to unvested totalVestingAssets',
+      statusCode: 500,
+    })
+  }
+  if (accounting.seniorAssets < unvestedSeniorVestingAssets) {
+    throw new AdapterInputError({
+      message:
+        'AccountingState seniorAssets must be greater than or equal to unvested seniorVestingAssets',
+      statusCode: 500,
+    })
+  }
+
+  return {
+    totalAssets: accounting.totalAssets - unvestedTotalVestingAssets,
+    seniorAssets: accounting.seniorAssets - unvestedSeniorVestingAssets,
   }
 }
 
@@ -466,7 +566,21 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       })
     }
 
-    const juniorAssets = accounting.totalAssets - accounting.seniorAssets
+    const hasVestingAssets =
+      accounting.totalVestingAssets > 0n || accounting.seniorVestingAssets > 0n
+    const bookValueAssets = calculateBookValueAssets(
+      accounting,
+      hasVestingAssets ? await this.fetchClockUnixTimestamp() : null,
+    )
+
+    if (bookValueAssets.totalAssets < bookValueAssets.seniorAssets) {
+      throw new AdapterInputError({
+        message: `AccountingState vested totalAssets must be greater than or equal to vested seniorAssets`,
+        statusCode: 500,
+      })
+    }
+
+    const juniorAssets = bookValueAssets.totalAssets - bookValueAssets.seniorAssets
     const juniorComputedRate = calculateRate(
       juniorAssets,
       accounting.juniorShares,
@@ -474,7 +588,7 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       juniorMint.decimals,
     )
     const seniorComputedRate = calculateRate(
-      accounting.seniorAssets,
+      bookValueAssets.seniorAssets,
       accounting.seniorShares,
       assetMint.decimals,
       seniorMint.decimals,
@@ -533,6 +647,17 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     }
 
     return resp.value
+  }
+
+  private async fetchClockUnixTimestamp() {
+    const encoding = 'base64'
+    const resp = (await this.rpc
+      .getAccountInfo(CLOCK_SYSVAR_ADDRESS as Address, { encoding })
+      .send()) as AccountInfoRpcResponse
+    const data = getAccountDataBuffer(resp.value, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
+    assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
+
+    return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

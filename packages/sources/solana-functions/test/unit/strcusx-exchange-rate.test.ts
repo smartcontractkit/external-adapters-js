@@ -38,6 +38,7 @@ const assetVaultAddress = 'CPAUEk6XiZf4mvnWhEZZn1ojA3PyhTzDkovZX9sK6bgJ'
 const vestingVaultAddress = '4NeU4YUyTX2fN9XTTRDpqddL94AvvWrcvVf4FGKaXBsd'
 const feeVaultAddress = 'CGfUqdJoGKSEQMjdiRebxTxqB2PtfsJcphorC5Nnpxgs'
 const lossVaultAddress = 'J5TUHd2nzueopWNatEMW514uAYwyyLxioYsPQA6UuGt2'
+const clockSysvarAddress = 'SysvarC1ock11111111111111111111111111111111'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const minRate = '950000000000000000'
 const maxRate = '1050000000000000000'
@@ -53,10 +54,16 @@ const seniorAssets = 200_000_000n
 const mintDecimals = 6
 const expectedSeniorRate = '1000000000000000000'
 const expectedJuniorRate = '1000000002222222222'
+const expectedHalfVestedSeniorRate = '1020000000000000000'
+const expectedHalfVestedJuniorRate = '1013333333333333333'
 
 const writeU128LE = (buffer: Buffer, value: bigint, offset: number) => {
   buffer.writeBigUInt64LE(value & ((1n << 64n) - 1n), offset)
   buffer.writeBigUInt64LE(value >> 64n, offset + 8)
+}
+
+const writeU64LE = (buffer: Buffer, value: bigint, offset: number) => {
+  buffer.writeBigUInt64LE(value, offset)
 }
 
 const writePublicKey = (buffer: Buffer, address: string, offset: number) => {
@@ -82,6 +89,16 @@ const encodeMint = (supply: bigint, decimals: number) => {
     buffer,
   )
 
+  return buffer.toString('base64')
+}
+
+const encodeClock = (unixTimestamp: bigint) => {
+  const buffer = Buffer.alloc(40)
+  buffer.writeBigUInt64LE(0n, 0)
+  buffer.writeBigInt64LE(0n, 8)
+  buffer.writeBigUInt64LE(0n, 16)
+  buffer.writeBigUInt64LE(0n, 24)
+  buffer.writeBigInt64LE(unixTimestamp, 32)
   return buffer.toString('base64')
 }
 
@@ -123,6 +140,10 @@ const encodeAccounting = ({
   juniorSharesValue = juniorShares,
   totalAssetsValue = totalAssets,
   seniorAssetsValue = seniorAssets,
+  totalVestingAssetsValue = 0n,
+  seniorVestingAssetsValue = 0n,
+  vestingStartTimeValue = 0n,
+  vestingEndTimeValue = 0n,
 } = {}) => {
   const buffer = Buffer.alloc(185)
   accountingDiscriminator.copy(buffer, 0)
@@ -132,6 +153,10 @@ const encodeAccounting = ({
   writeU128LE(buffer, juniorSharesValue, 57)
   writeU128LE(buffer, totalAssetsValue, 73)
   writeU128LE(buffer, seniorAssetsValue, 89)
+  writeU64LE(buffer, totalVestingAssetsValue, 105)
+  writeU64LE(buffer, seniorVestingAssetsValue, 113)
+  writeU64LE(buffer, vestingStartTimeValue, 121)
+  writeU64LE(buffer, vestingEndTimeValue, 129)
   return buffer.toString('base64')
 }
 
@@ -142,6 +167,8 @@ const makeAccountInfoResponse = (data: string, owner = tokenProgramAddress) => (
 
 const getMultipleAccountsSendMock = jest.fn()
 const getMultipleAccountsRequestMock = jest.fn()
+const getAccountInfoSendMock = jest.fn()
+const getAccountInfoRequestMock = jest.fn()
 
 const mockRpcRequests = () => {
   getMultipleAccountsRequestMock.mockImplementation(
@@ -151,10 +178,16 @@ const mockRpcRequests = () => {
       },
     }),
   )
+  getAccountInfoRequestMock.mockImplementation((address: string, config: { encoding: string }) => ({
+    send() {
+      return getAccountInfoSendMock(address, config)
+    },
+  }))
 }
 
 const solanaRpc = makeStub('solanaRpc', {
   getMultipleAccounts: getMultipleAccountsRequestMock,
+  getAccountInfo: getAccountInfoRequestMock,
 })
 
 const createSolanaRpc = () => solanaRpc
@@ -225,11 +258,11 @@ describe('StrcusxExchangeRateTransport', () => {
 
   let transport: StrcusxExchangeRateTransport
 
-  const mockValidAccountData = () => {
+  const mockValidAccountData = (accountingData = encodeAccounting()) => {
     const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
       [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
       [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
-      [accountingAddress]: makeAccountInfoResponse(encodeAccounting(), programAddress),
+      [accountingAddress]: makeAccountInfoResponse(accountingData, programAddress),
       [assetMintAddress]: makeAccountInfoResponse(
         encodeMint(1_000_000_000_000_000_000n, mintDecimals),
       ),
@@ -240,6 +273,15 @@ describe('StrcusxExchangeRateTransport', () => {
     getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
       value: addresses.map((address) => accountsByAddress[address] ?? null),
     }))
+  }
+
+  const mockClockUnixTimestamp = (unixTimestamp: bigint) => {
+    getAccountInfoSendMock.mockImplementation((address: string) => {
+      if (address === clockSysvarAddress) {
+        return { value: makeAccountInfoResponse(encodeClock(unixTimestamp)) }
+      }
+      throw new Error(`Unexpected getAccountInfo address: ${address}`)
+    })
   }
 
   beforeEach(async () => {
@@ -346,6 +388,29 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(response.data?.result).toBe(expectedSeniorRate)
       expect(response.data?.computedResult).toBe(expectedSeniorRate)
       expect(response.data?.tranche).toBe('senior')
+    })
+
+    it('should exclude unvested total and senior yield from exchange rates', async () => {
+      mockValidAccountData(
+        encodeAccounting({
+          totalAssetsValue: 670_000_000n,
+          seniorAssetsValue: 208_000_000n,
+          totalVestingAssetsValue: 20_000_000n,
+          seniorVestingAssetsValue: 8_000_000n,
+          vestingStartTimeValue: 1_000n,
+          vestingEndTimeValue: 3_000n,
+        }),
+      )
+      mockClockUnixTimestamp(2_000n)
+
+      const juniorResponse = await transport._handleRequest(juniorParam)
+      const seniorResponse = await transport._handleRequest(seniorParam)
+
+      expect(juniorResponse.result).toBe(expectedHalfVestedJuniorRate)
+      expect(juniorResponse.data?.computedResult).toBe(expectedHalfVestedJuniorRate)
+      expect(seniorResponse.result).toBe(expectedHalfVestedSeniorRate)
+      expect(seniorResponse.data?.computedResult).toBe(expectedHalfVestedSeniorRate)
+      expect(getAccountInfoRequestMock).toBeCalledWith(clockSysvarAddress, { encoding: 'base64' })
     })
 
     it('should clamp the exchange rate to minRate', async () => {
