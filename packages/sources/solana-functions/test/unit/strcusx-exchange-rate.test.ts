@@ -50,7 +50,6 @@ const seniorShares = 200_000_000n
 const juniorShares = 450_000_000n
 const totalAssets = 650_000_001n
 const seniorAssets = 200_000_000n
-const juniorAssets = totalAssets - seniorAssets
 const mintDecimals = 6
 const expectedSeniorRate = '1000000000000000000'
 const expectedJuniorRate = '1000000002222222222'
@@ -321,33 +320,6 @@ describe('StrcusxExchangeRateTransport', () => {
           minRate,
           maxRate,
           boundsApplied: false,
-          juniorComputedResult: expectedJuniorRate,
-          seniorComputedResult: expectedSeniorRate,
-          totalAssets: totalAssets.toString(),
-          seniorAssets: seniorAssets.toString(),
-          juniorAssets: juniorAssets.toString(),
-          seniorShares: seniorShares.toString(),
-          juniorShares: juniorShares.toString(),
-          assetMintDecimals: mintDecimals,
-          juniorMintDecimals: mintDecimals,
-          seniorMintDecimals: mintDecimals,
-          assetMintAddress,
-          juniorMintAddress,
-          seniorMintAddress,
-          juniorMintSupply: juniorShares.toString(),
-          seniorMintSupply: seniorShares.toString(),
-          programAddress,
-          strategyName,
-          controllerAddress,
-          strategyAddress,
-          accountingAddress,
-          assetVaultAddress,
-          vestingVaultAddress,
-          feeVaultAddress,
-          lossVaultAddress,
-          strategyStatus: 0,
-          strategyPaused: false,
-          controllerPaused: false,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),

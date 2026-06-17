@@ -61,33 +61,6 @@ export type BaseEndpointTypes = {
       minRate: string
       maxRate: string
       boundsApplied: boolean
-      juniorComputedResult: string | null
-      seniorComputedResult: string | null
-      totalAssets: string
-      seniorAssets: string
-      juniorAssets: string
-      seniorShares: string
-      juniorShares: string
-      assetMintDecimals: number
-      juniorMintDecimals: number
-      seniorMintDecimals: number
-      assetMintAddress: string
-      juniorMintAddress: string
-      seniorMintAddress: string
-      juniorMintSupply: string
-      seniorMintSupply: string
-      programAddress: string
-      strategyName: string
-      controllerAddress: string
-      strategyAddress: string
-      accountingAddress: string
-      assetVaultAddress: string
-      vestingVaultAddress: string
-      feeVaultAddress: string
-      lossVaultAddress: string
-      strategyStatus: number
-      strategyPaused: boolean
-      controllerPaused: boolean
     }
   }
   Settings: typeof config.settings
