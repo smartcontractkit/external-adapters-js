@@ -552,9 +552,6 @@
       "path": "./sources/upvest/tsconfig.test.json"
     },
     {
-      "path": "./sources/uscpi-one/tsconfig.test.json"
-    },
-    {
       "path": "./sources/view-function/tsconfig.test.json"
     },
     {
