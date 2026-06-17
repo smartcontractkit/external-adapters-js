@@ -503,10 +503,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/layer2-sequencer-health"\
     },\
     {\
-      "name": "@chainlink/lcx-adapter",\
-      "reference": "workspace:packages/sources/lcx"\
-    },\
-    {\
       "name": "@chainlink/lido-adapter",\
       "reference": "workspace:packages/sources/lido"\
     },\
@@ -902,7 +898,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
-    ["@chainlink/lcx-adapter", ["workspace:packages/sources/lcx"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
@@ -7014,24 +7009,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["sinon", "npm:12.0.1"],\
           ["starknet", "npm:6.9.0"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/lcx-adapter", [\
-      ["workspace:packages/sources/lcx", {\
-        "packageLocation": "./packages/sources/lcx/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/lcx-adapter", "workspace:packages/sources/lcx"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
