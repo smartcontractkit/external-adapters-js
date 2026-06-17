@@ -234,7 +234,7 @@ describe('StslxExchangeRateTransport', () => {
         statusCode: 200,
         result: expectedRate,
         data: {
-          rate: expectedRate,
+          result: expectedRate,
           decimals: 18,
           slxBalance: slxBalance.toString(),
           stslxSupply: stslxSupply.toString(),
@@ -270,7 +270,7 @@ describe('StslxExchangeRateTransport', () => {
         statusCode: 200,
         result: expectedRate,
         data: {
-          rate: expectedRate,
+          result: expectedRate,
           decimals: 18,
           slxBalance: slxBalance.toString(),
           stslxSupply: stslxSupply.toString(),

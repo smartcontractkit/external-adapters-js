@@ -11,7 +11,7 @@ export type BaseEndpointTypes = {
   Response: {
     Result: string
     Data: {
-      rate: string
+      result: string
       decimals: number
       slxBalance: string
       stslxSupply: string

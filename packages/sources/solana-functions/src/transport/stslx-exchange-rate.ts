@@ -193,7 +193,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
 
     return {
       data: {
-        rate: result,
+        result,
         decimals: RESULT_DECIMALS,
         slxBalance: slxBalance.toString(),
         stslxSupply: stslxMint.supply.toString(),
