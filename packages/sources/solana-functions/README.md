@@ -104,9 +104,7 @@ Request:
 
 ### Input Params
 
-| Required? |       Name       | Aliases |                    Description                     |  Type  | Options |                    Default                     | Depends On | Not Valid With |
-| :-------: | :--------------: | :-----: | :------------------------------------------------: | :----: | :-----: | :--------------------------------------------: | :--------: | :------------: |
-|           | glamStateAddress |         | The GLAM state account address for the stSLX vault | string |         | `5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB` |            |                |
+There are no input parameters for this endpoint.
 
 ### Example
 
@@ -247,7 +245,9 @@ Request:
 
 ### Input Params
 
-There are no input parameters for this endpoint.
+| Required? |       Name       | Aliases |                    Description                     |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :--------------: | :-----: | :------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | glamStateAddress |         | The GLAM state account address for the stSLX vault | string |         |         |            |                |
 
 ### Example
 

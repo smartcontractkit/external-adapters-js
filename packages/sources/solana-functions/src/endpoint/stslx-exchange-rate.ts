@@ -3,20 +3,17 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
 
-const DEFAULT_GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
-
 export const inputParameters = new InputParameters(
   {
     glamStateAddress: {
       description: 'The GLAM state account address for the stSLX vault',
       type: 'string',
-      required: false,
-      default: DEFAULT_GLAM_STATE_ADDRESS,
+      required: true,
     },
   },
   [
     {
-      glamStateAddress: DEFAULT_GLAM_STATE_ADDRESS,
+      glamStateAddress: '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB',
     },
   ],
 )

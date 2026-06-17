@@ -204,7 +204,7 @@ describe('StslxExchangeRateTransport', () => {
 
   describe('deriveVaultAddress', () => {
     it('should derive the expected GLAM vault PDA', () => {
-      expect(deriveVaultAddress()).toBe(vaultAddress)
+      expect(deriveVaultAddress(glamStateAddress)).toBe(vaultAddress)
     })
   })
 

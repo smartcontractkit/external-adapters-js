@@ -20,8 +20,7 @@ const logger = makeLogger('StslxExchangeRateTransport')
 
 const RESULT_DECIMALS = 18
 
-// stSLX-specific accounts. Only the GLAM state is request-configurable for this feed today.
-const GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
+// stSLX-specific accounts. The GLAM state is supplied by the request.
 const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
 const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
@@ -103,7 +102,7 @@ const assertLegacyTokenProgramOwner = (
     'the legacy SPL Token program',
   )
 
-export const deriveVaultAddress = (glamStateAddress = GLAM_STATE_ADDRESS) => {
+export const deriveVaultAddress = (glamStateAddress: string) => {
   // GLAM stores token assets in a vault PDA derived from the state account and protocol program.
   const [vaultAddress] = PublicKey.findProgramAddressSync(
     [Buffer.from('vault'), new PublicKey(glamStateAddress).toBuffer()],
@@ -113,7 +112,7 @@ export const deriveVaultAddress = (glamStateAddress = GLAM_STATE_ADDRESS) => {
   return vaultAddress.toBase58()
 }
 
-export const deriveSlxTokenAccountAddress = (vaultAddress = deriveVaultAddress()) =>
+export const deriveSlxTokenAccountAddress = (vaultAddress: string) =>
   getAssociatedTokenAddressSync(
     new PublicKey(SLX_MINT_ADDRESS),
     new PublicKey(vaultAddress),
@@ -164,7 +163,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const glamStateAddress = params.glamStateAddress ?? GLAM_STATE_ADDRESS
+    const glamStateAddress = params.glamStateAddress
     const vaultAddress = deriveVaultAddress(glamStateAddress)
     const slxTokenAccountAddress = deriveSlxTokenAccountAddress(vaultAddress)
 
