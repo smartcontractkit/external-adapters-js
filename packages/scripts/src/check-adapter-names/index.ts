@@ -25,8 +25,6 @@ const getExpectedSelfReportedName = (adapter: WorkspaceAdapter) => {
   switch (nameFromLocation) {
     case 'crypto-volatility-index':
       return 'CVI'
-    case 'nftx':
-      return 'NFTX_VAULT_PRICE'
     case 'liveart':
       return 'LIVE_ART'
     case 'wbtc-address-set':

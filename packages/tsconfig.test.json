@@ -48,9 +48,6 @@
       "path": "./composites/nexus-kiln/tsconfig.test.json"
     },
     {
-      "path": "./composites/nftx/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
