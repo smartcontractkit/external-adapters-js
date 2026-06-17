@@ -395,10 +395,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/fireblocks"\
     },\
     {\
-      "name": "@chainlink/fmpcloud-adapter",\
-      "reference": "workspace:packages/sources/fmpcloud"\
-    },\
-    {\
       "name": "@chainlink/frxeth-exchange-rate-adapter",\
       "reference": "workspace:packages/sources/frxeth-exchange-rate"\
     },\
@@ -833,7 +829,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/finnhub-adapter", ["workspace:packages/sources/finnhub"]],\
     ["@chainlink/finnhub-secondary-adapter", ["workspace:packages/sources/finnhub-secondary"]],\
     ["@chainlink/fireblocks-adapter", ["workspace:packages/sources/fireblocks"]],\
-    ["@chainlink/fmpcloud-adapter", ["workspace:packages/sources/fmpcloud"]],\
     ["@chainlink/frxeth-exchange-rate-adapter", ["workspace:packages/sources/frxeth-exchange-rate"]],\
     ["@chainlink/ftse-sftp-adapter", ["workspace:packages/sources/ftse-sftp"]],\
     ["@chainlink/gemini-adapter", ["workspace:packages/sources/gemini"]],\
@@ -6460,24 +6455,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/fmpcloud-adapter", [\
-      ["workspace:packages/sources/fmpcloud", {\
-        "packageLocation": "./packages/sources/fmpcloud/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/fmpcloud-adapter", "workspace:packages/sources/fmpcloud"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
