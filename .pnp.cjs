@@ -755,10 +755,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/upvest"\
     },\
     {\
-      "name": "@chainlink/uscpi-one-adapter",\
-      "reference": "workspace:packages/sources/uscpi-one"\
-    },\
-    {\
       "name": "@chainlink/view-function-adapter",\
       "reference": "workspace:packages/sources/view-function"\
     },\
@@ -981,7 +977,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
-    ["@chainlink/uscpi-one-adapter", ["workspace:packages/sources/uscpi-one"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -8500,24 +8495,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/uscpi-one-adapter", [\
-      ["workspace:packages/sources/uscpi-one", {\
-        "packageLocation": "./packages/sources/uscpi-one/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/uscpi-one-adapter", "workspace:packages/sources/uscpi-one"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\

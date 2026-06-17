@@ -345,8 +345,6 @@ adapters:
     version: 2.0.31
   - name: upvest
     version: 1.3.47
-  - name: uscpi-one
-    version: 1.3.47
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain
