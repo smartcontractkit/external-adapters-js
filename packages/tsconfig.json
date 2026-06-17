@@ -39,25 +39,16 @@
       "path": "./composites/market-status"
     },
     {
-      "path": "./composites/medianizer"
-    },
-    {
       "path": "./composites/multi-address-list"
     },
     {
       "path": "./composites/nexus-kiln"
     },
     {
-      "path": "./composites/nftx"
-    },
-    {
       "path": "./composites/proof-of-reserves"
     },
     {
       "path": "./composites/proof-of-reserves-v2"
-    },
-    {
-      "path": "./composites/rocket-pool"
     },
     {
       "path": "./composites/savax-price"
@@ -357,9 +348,6 @@
       "path": "./sources/layer2-sequencer-health"
     },
     {
-      "path": "./sources/lcx"
-    },
-    {
       "path": "./sources/lido"
     },
     {
@@ -393,9 +381,6 @@
       "path": "./sources/moore-hk"
     },
     {
-      "path": "./sources/mycryptoapi"
-    },
-    {
       "path": "./sources/nav-consulting"
     },
     {
@@ -421,9 +406,6 @@
     },
     {
       "path": "./sources/oanda"
-    },
-    {
-      "path": "./sources/onchain-gas"
     },
     {
       "path": "./sources/ondo"
@@ -457,9 +439,6 @@
     },
     {
       "path": "./sources/six"
-    },
-    {
-      "path": "./sources/snowflake"
     },
     {
       "path": "./sources/sochain"
@@ -547,9 +526,6 @@
     },
     {
       "path": "./sources/upvest"
-    },
-    {
-      "path": "./sources/uscpi-one"
     },
     {
       "path": "./sources/view-function"
