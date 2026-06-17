@@ -20,8 +20,7 @@ const logger = makeLogger('StslxExchangeRateTransport')
 
 const RESULT_DECIMALS = 18
 
-// stSLX-specific accounts. The endpoint is intentionally hardcoded for this feed today;
-// optional input plumbing can be added later if we need to reuse the same logic elsewhere.
+// stSLX-specific accounts. Only the GLAM state is request-configurable for this feed today.
 const GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
 const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
 const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
@@ -104,10 +103,10 @@ const assertLegacyTokenProgramOwner = (
     'the legacy SPL Token program',
   )
 
-export const deriveVaultAddress = () => {
+export const deriveVaultAddress = (glamStateAddress = GLAM_STATE_ADDRESS) => {
   // GLAM stores token assets in a vault PDA derived from the state account and protocol program.
   const [vaultAddress] = PublicKey.findProgramAddressSync(
-    [Buffer.from('vault'), new PublicKey(GLAM_STATE_ADDRESS).toBuffer()],
+    [Buffer.from('vault'), new PublicKey(glamStateAddress).toBuffer()],
     new PublicKey(GLAM_PROTOCOL_PROGRAM_ADDRESS),
   )
 
@@ -164,9 +163,9 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
   async _handleRequest(
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    void params
     const providerDataRequestedUnixMs = Date.now()
-    const vaultAddress = deriveVaultAddress()
+    const glamStateAddress = params.glamStateAddress ?? GLAM_STATE_ADDRESS
+    const vaultAddress = deriveVaultAddress(glamStateAddress)
     const slxTokenAccountAddress = deriveSlxTokenAccountAddress(vaultAddress)
 
     // Compute the rate from raw on-chain state: SLX held in GLAM's base-asset ATA
@@ -199,6 +198,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
         stslxSupply: stslxMint.supply.toString(),
         slxMintDecimals: slxMint.decimals,
         stslxMintDecimals: stslxMint.decimals,
+        glamStateAddress,
         vaultAddress,
         slxTokenAccountAddress,
       },

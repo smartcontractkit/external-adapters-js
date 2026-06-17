@@ -3,8 +3,23 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
 
-// TODO: Add optional address inputs if future stSLX-like feeds need configurable accounts.
-export const inputParameters = new InputParameters({}, [{}])
+const DEFAULT_GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
+
+export const inputParameters = new InputParameters(
+  {
+    glamStateAddress: {
+      description: 'The GLAM state account address for the stSLX vault',
+      type: 'string',
+      required: false,
+      default: DEFAULT_GLAM_STATE_ADDRESS,
+    },
+  },
+  [
+    {
+      glamStateAddress: DEFAULT_GLAM_STATE_ADDRESS,
+    },
+  ],
+)
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -17,6 +32,7 @@ export type BaseEndpointTypes = {
       stslxSupply: string
       slxMintDecimals: number
       stslxMintDecimals: number
+      glamStateAddress: string
       vaultAddress: string
       slxTokenAccountAddress: string
     }

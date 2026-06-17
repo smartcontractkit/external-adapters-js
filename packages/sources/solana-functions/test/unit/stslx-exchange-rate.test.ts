@@ -30,6 +30,7 @@ const restoreEnv = () => {
 
 const slxMintAddress = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 const stslxMintAddress = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
+const glamStateAddress = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
 const vaultAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 const slxTokenAccountAddress = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
@@ -163,6 +164,7 @@ describe('StslxExchangeRateTransport', () => {
 
   const param = makeStub('param', {
     endpoint: 'stslx-exchange-rate',
+    glamStateAddress,
   })
 
   let transport: StslxExchangeRateTransport
@@ -240,6 +242,7 @@ describe('StslxExchangeRateTransport', () => {
           stslxSupply: stslxSupply.toString(),
           slxMintDecimals,
           stslxMintDecimals,
+          glamStateAddress,
           vaultAddress,
           slxTokenAccountAddress,
         },
@@ -276,6 +279,7 @@ describe('StslxExchangeRateTransport', () => {
           stslxSupply: stslxSupply.toString(),
           slxMintDecimals,
           stslxMintDecimals,
+          glamStateAddress,
           vaultAddress,
           slxTokenAccountAddress,
         },

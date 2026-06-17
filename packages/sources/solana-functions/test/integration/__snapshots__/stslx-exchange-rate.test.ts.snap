@@ -4,6 +4,7 @@ exports[`execute stslx-exchange-rate should return success 1`] = `
 {
   "data": {
     "decimals": 18,
+    "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
     "result": "1500000000000000000",
     "slxBalance": "1500000000",
     "slxMintDecimals": 9,
