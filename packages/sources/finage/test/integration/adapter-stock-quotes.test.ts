@@ -41,12 +41,10 @@ describe('stock quotes', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
-    // The mock WS server sends ALL symbols on any subscription message, so three
-    // requests here seed the full WS symbol set (AAPL, AAPL_NUMBER, FALLBACK, NO_BID, NO_ASK).
+    // Seed the cache with both WS (5) and HTTP (2) responses
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'AAPL' })
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'AAPL_NUMBER' })
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'FALLBACK' })
-    // Also seed the HTTP cache; transport: 'rest' uses a separate cache key from WS
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'AAPL', transport: 'rest' })
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'MSFT', transport: 'rest' })
     await testAdapter.waitForCache(7)
