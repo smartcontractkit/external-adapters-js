@@ -18,6 +18,7 @@ const assetVaultAddress = 'CPAUEk6XiZf4mvnWhEZZn1ojA3PyhTzDkovZX9sK6bgJ'
 const vestingVaultAddress = '4NeU4YUyTX2fN9XTTRDpqddL94AvvWrcvVf4FGKaXBsd'
 const feeVaultAddress = 'CGfUqdJoGKSEQMjdiRebxTxqB2PtfsJcphorC5Nnpxgs'
 const lossVaultAddress = 'J5TUHd2nzueopWNatEMW514uAYwyyLxioYsPQA6UuGt2'
+const clockSysvarAddress = 'SysvarC1ock11111111111111111111111111111111'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const minRate = '950000000000000000'
 const maxRate = '1050000000000000000'
@@ -60,6 +61,16 @@ const encodeMint = (supply: bigint, decimals: number) => {
     buffer,
   )
 
+  return buffer.toString('base64')
+}
+
+const encodeClock = (unixTimestamp: bigint) => {
+  const buffer = Buffer.alloc(40)
+  buffer.writeBigUInt64LE(0n, 0)
+  buffer.writeBigInt64LE(0n, 8)
+  buffer.writeBigUInt64LE(0n, 16)
+  buffer.writeBigUInt64LE(0n, 24)
+  buffer.writeBigInt64LE(unixTimestamp, 32)
   return buffer.toString('base64')
 }
 
@@ -114,6 +125,7 @@ const solanaRpc = makeStub('solanaRpc', {
         ),
         [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
         [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
+        [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(0n)),
       }
 
       return {

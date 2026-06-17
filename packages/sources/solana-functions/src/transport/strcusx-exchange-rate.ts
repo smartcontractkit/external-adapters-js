@@ -40,10 +40,6 @@ type MultipleAccountsRpcResponse = {
   value?: (AccountInfo | null)[]
 }
 
-type AccountInfoRpcResponse = {
-  value?: AccountInfo | null
-}
-
 type DecodedMint = {
   supply: bigint
   decimals: number
@@ -321,32 +317,25 @@ export const decodeAccountingState = (data: Buffer): AccountingState => {
   }
 }
 
-const calculateVestedAssets = (
+const calculateUnvestedAssets = (
   assets: bigint,
   unixTimestamp: bigint,
   vestingStartTime: bigint,
   vestingEndTime: bigint,
 ) => {
-  if (assets === 0n) {
+  if (assets === 0n || vestingEndTime <= vestingStartTime || unixTimestamp >= vestingEndTime) {
     return 0n
-  }
-  if (vestingEndTime <= vestingStartTime) {
-    throw new AdapterInputError({
-      message: 'AccountingState vestingEndTime must be greater than vestingStartTime',
-      statusCode: 500,
-    })
   }
   if (unixTimestamp <= vestingStartTime) {
-    return 0n
-  }
-  if (unixTimestamp >= vestingEndTime) {
     return assets
   }
 
-  return (assets * (unixTimestamp - vestingStartTime)) / (vestingEndTime - vestingStartTime)
+  const vestedAssets =
+    (assets * (unixTimestamp - vestingStartTime)) / (vestingEndTime - vestingStartTime)
+  return assets - vestedAssets
 }
 
-const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bigint | null) => {
+const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bigint) => {
   if (accounting.seniorVestingAssets > accounting.totalVestingAssets) {
     throw new AdapterInputError({
       message:
@@ -355,33 +344,18 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
     })
   }
 
-  if (accounting.totalVestingAssets === 0n && accounting.seniorVestingAssets === 0n) {
-    return {
-      totalAssets: accounting.totalAssets,
-      seniorAssets: accounting.seniorAssets,
-    }
-  }
-  if (unixTimestamp === null) {
-    throw new AdapterInputError({
-      message: 'Clock sysvar timestamp is required when AccountingState has vesting assets',
-      statusCode: 500,
-    })
-  }
-
-  const vestedTotalVestingAssets = calculateVestedAssets(
+  const unvestedTotalVestingAssets = calculateUnvestedAssets(
     accounting.totalVestingAssets,
     unixTimestamp,
     accounting.vestingStartTime,
     accounting.vestingEndTime,
   )
-  const vestedSeniorVestingAssets = calculateVestedAssets(
+  const unvestedSeniorVestingAssets = calculateUnvestedAssets(
     accounting.seniorVestingAssets,
     unixTimestamp,
     accounting.vestingStartTime,
     accounting.vestingEndTime,
   )
-  const unvestedTotalVestingAssets = accounting.totalVestingAssets - vestedTotalVestingAssets
-  const unvestedSeniorVestingAssets = accounting.seniorVestingAssets - vestedSeniorVestingAssets
 
   if (accounting.totalAssets < unvestedTotalVestingAssets) {
     throw new AdapterInputError({
@@ -402,6 +376,13 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
     totalAssets: accounting.totalAssets - unvestedTotalVestingAssets,
     seniorAssets: accounting.seniorAssets - unvestedSeniorVestingAssets,
   }
+}
+
+const decodeClockUnixTimestamp = (accountInfo: AccountInfo | null | undefined) => {
+  const data = getAccountDataBuffer(accountInfo, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
+  assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
+
+  return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
 }
 
 const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
@@ -490,10 +471,20 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const expectedJuniorMintAddress = deriveJuniorMintAddress(programAddress, strategyName)
     const expectedSeniorMintAddress = deriveSeniorMintAddress(programAddress, strategyName)
 
-    const [controllerAccount, strategyAccount, accountingAccount] = await this.fetchAccounts([
+    const [
+      controllerAccount,
+      strategyAccount,
+      accountingAccount,
+      juniorMintAccount,
+      seniorMintAccount,
+      clockAccount,
+    ] = await this.fetchAccounts([
       controllerAddress,
       strategyAddress,
       accountingAddress,
+      expectedJuniorMintAddress,
+      expectedSeniorMintAddress,
+      CLOCK_SYSVAR_ADDRESS,
     ])
 
     assertProgramOwner(
@@ -530,11 +521,7 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       })
     }
 
-    const [assetMintAccount, juniorMintAccount, seniorMintAccount] = await this.fetchAccounts([
-      controller.assetMintAddress,
-      strategy.juniorMintAddress,
-      strategy.seniorMintAddress,
-    ])
+    const [assetMintAccount] = await this.fetchAccounts([controller.assetMintAddress])
 
     assertTokenProgramOwner(assetMintAccount, `asset mint '${controller.assetMintAddress}'`)
     assertTokenProgramOwner(juniorMintAccount, `junior mint '${strategy.juniorMintAddress}'`)
@@ -566,11 +553,9 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       })
     }
 
-    const hasVestingAssets =
-      accounting.totalVestingAssets > 0n || accounting.seniorVestingAssets > 0n
     const bookValueAssets = calculateBookValueAssets(
       accounting,
-      hasVestingAssets ? await this.fetchClockUnixTimestamp() : null,
+      decodeClockUnixTimestamp(clockAccount),
     )
 
     if (bookValueAssets.totalAssets < bookValueAssets.seniorAssets) {
@@ -647,17 +632,6 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     }
 
     return resp.value
-  }
-
-  private async fetchClockUnixTimestamp() {
-    const encoding = 'base64'
-    const resp = (await this.rpc
-      .getAccountInfo(CLOCK_SYSVAR_ADDRESS as Address, { encoding })
-      .send()) as AccountInfoRpcResponse
-    const data = getAccountDataBuffer(resp.value, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
-    assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
-
-    return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

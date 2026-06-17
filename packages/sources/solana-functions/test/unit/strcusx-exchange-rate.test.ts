@@ -167,8 +167,6 @@ const makeAccountInfoResponse = (data: string, owner = tokenProgramAddress) => (
 
 const getMultipleAccountsSendMock = jest.fn()
 const getMultipleAccountsRequestMock = jest.fn()
-const getAccountInfoSendMock = jest.fn()
-const getAccountInfoRequestMock = jest.fn()
 
 const mockRpcRequests = () => {
   getMultipleAccountsRequestMock.mockImplementation(
@@ -178,16 +176,10 @@ const mockRpcRequests = () => {
       },
     }),
   )
-  getAccountInfoRequestMock.mockImplementation((address: string, config: { encoding: string }) => ({
-    send() {
-      return getAccountInfoSendMock(address, config)
-    },
-  }))
 }
 
 const solanaRpc = makeStub('solanaRpc', {
   getMultipleAccounts: getMultipleAccountsRequestMock,
-  getAccountInfo: getAccountInfoRequestMock,
 })
 
 const createSolanaRpc = () => solanaRpc
@@ -258,7 +250,7 @@ describe('StrcusxExchangeRateTransport', () => {
 
   let transport: StrcusxExchangeRateTransport
 
-  const mockValidAccountData = (accountingData = encodeAccounting()) => {
+  const mockValidAccountData = (accountingData = encodeAccounting(), unixTimestamp = 0n) => {
     const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
       [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
       [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
@@ -268,20 +260,12 @@ describe('StrcusxExchangeRateTransport', () => {
       ),
       [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
       [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
+      [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(unixTimestamp)),
     }
 
     getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
       value: addresses.map((address) => accountsByAddress[address] ?? null),
     }))
-  }
-
-  const mockClockUnixTimestamp = (unixTimestamp: bigint) => {
-    getAccountInfoSendMock.mockImplementation((address: string) => {
-      if (address === clockSysvarAddress) {
-        return { value: makeAccountInfoResponse(encodeClock(unixTimestamp)) }
-      }
-      throw new Error(`Unexpected getAccountInfo address: ${address}`)
-    })
   }
 
   beforeEach(async () => {
@@ -370,13 +354,19 @@ describe('StrcusxExchangeRateTransport', () => {
         },
       })
       expect(getMultipleAccountsRequestMock).toBeCalledWith(
-        [controllerAddress, strategyAddress, accountingAddress],
+        [
+          controllerAddress,
+          strategyAddress,
+          accountingAddress,
+          juniorMintAddress,
+          seniorMintAddress,
+          clockSysvarAddress,
+        ],
         { encoding: 'base64' },
       )
-      expect(getMultipleAccountsRequestMock).toBeCalledWith(
-        [assetMintAddress, juniorMintAddress, seniorMintAddress],
-        { encoding: 'base64' },
-      )
+      expect(getMultipleAccountsRequestMock).toBeCalledWith([assetMintAddress], {
+        encoding: 'base64',
+      })
     })
 
     it('should return the senior tranche exchange rate', async () => {
@@ -400,8 +390,8 @@ describe('StrcusxExchangeRateTransport', () => {
           vestingStartTimeValue: 1_000n,
           vestingEndTimeValue: 3_000n,
         }),
+        2_000n,
       )
-      mockClockUnixTimestamp(2_000n)
 
       const juniorResponse = await transport._handleRequest(juniorParam)
       const seniorResponse = await transport._handleRequest(seniorParam)
@@ -410,7 +400,28 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(juniorResponse.data?.computedResult).toBe(expectedHalfVestedJuniorRate)
       expect(seniorResponse.result).toBe(expectedHalfVestedSeniorRate)
       expect(seniorResponse.data?.computedResult).toBe(expectedHalfVestedSeniorRate)
-      expect(getAccountInfoRequestMock).toBeCalledWith(clockSysvarAddress, { encoding: 'base64' })
+      expect(getMultipleAccountsRequestMock).toBeCalledWith(
+        expect.arrayContaining([clockSysvarAddress, juniorMintAddress, seniorMintAddress]),
+        { encoding: 'base64' },
+      )
+    })
+
+    it('should treat non-active vesting schedules as fully vested', async () => {
+      mockValidAccountData(
+        encodeAccounting({
+          totalVestingAssetsValue: 20_000_000n,
+          seniorVestingAssetsValue: 8_000_000n,
+          vestingStartTimeValue: 3_000n,
+          vestingEndTimeValue: 1_000n,
+        }),
+        2_000n,
+      )
+
+      const juniorResponse = await transport._handleRequest(juniorParam)
+      const seniorResponse = await transport._handleRequest(seniorParam)
+
+      expect(juniorResponse.result).toBe(expectedJuniorRate)
+      expect(seniorResponse.result).toBe(expectedSeniorRate)
     })
 
     it('should clamp the exchange rate to minRate', async () => {
@@ -498,6 +509,7 @@ describe('StrcusxExchangeRateTransport', () => {
         ),
         [juniorMintAddress]: makeAccountInfoResponse(encodeMint(0n, mintDecimals)),
         [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
+        [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(0n)),
       }
       getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
         value: addresses.map((address) => accountsByAddress[address] ?? null),
