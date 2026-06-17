@@ -133,14 +133,10 @@ adapters:
     version: 1.1.6
   - name: fireblocks
     version: 1.0.19
-  - name: fmpcloud
-    version: 1.3.47
   - name: frxeth-exchange-rate
     version: 1.1.30
   - name: ftse-sftp
     version: 1.0.3
-  - name: galaxis
-    version: 4.0.24
   - name: gemini
     version: 3.0.34
   - name: generic-api
@@ -165,8 +161,6 @@ adapters:
     version: 1.0.4
   - name: hastra
     version: 1.0.1
-  - name: historical-average
-    version: 1.4.2
   - name: icap
     version: 1.6.1
   - name: ice
@@ -191,8 +185,6 @@ adapters:
     version: 1.1.4
   - name: layer2-sequencer-health
     version: 4.10.0
-  - name: lcx
-    version: 1.3.48
   - name: lido
     version: 2.0.31
   - name: lido-por
@@ -211,8 +203,6 @@ adapters:
     version: 1.10.0
   - name: matrixdock
     version: 2.0.1
-  - name: medianizer
-    version: 1.2.44
   - name: mobula-state
     version: 2.2.1
   - name: mock-ea
@@ -223,8 +213,6 @@ adapters:
     version: 1.0.29
   - name: multi-address-list
     version: 1.2.2
-  - name: mycryptoapi
-    version: 1.3.47
   - name: nav-consulting
     version: 1.2.7
   - name: nav-fund-services
@@ -233,10 +221,6 @@ adapters:
     version: 1.0.5
   - name: ncfx
     version: 4.8.2
-  - name: nexus-kiln
-    version: 1.0.19
-  - name: nftx
-    version: 3.0.31
   - name: nobi
     version: 1.0.0
   - name: nomia
@@ -247,8 +231,6 @@ adapters:
     version: 1.0.13
   - name: oanda
     version: 1.1.50
-  - name: onchain-gas
-    version: 1.3.47
   - name: ondo
     version: 1.0.4
   - name: onre
@@ -269,8 +251,6 @@ adapters:
     version: 1.1.4
   - name: r25
     version: 1.1.1
-  - name: rocket-pool
-    version: 1.1.22
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
@@ -283,8 +263,6 @@ adapters:
     version: 3.0.72
   - name: six
     version: 1.0.0
-  - name: snowflake
-    version: 1.2.47
   - name: sochain
     version: 1.3.47
   - name: solactive
@@ -346,8 +324,6 @@ adapters:
   - name: uniswap-v2
     version: 2.0.31
   - name: upvest
-    version: 1.3.47
-  - name: uscpi-one
     version: 1.3.47
   - name: view-function
     version: 3.1.19
