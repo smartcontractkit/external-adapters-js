@@ -14,19 +14,7 @@ import {
   mockStockWebSocketServer,
 } from './fixtures'
 
-// These tests require COMPOSITE_TRANSPORT=true, which activates the CompositeTransport path in
-// AdapterEndpoint.initialize(). Without it, enableCompositeTransport: true in the endpoint config
-// has no effect and routing falls back to customRouter / defaultTransport.
-//
-// With composite transport active:
-// - Both WS and HTTP transports register and run simultaneously via Promise.allSettled
-// - All writes go to a single shared cache key (the composite transport name)
-// - CompareResponseCache only overwrites if providerIndicatedTimeUnixMs is strictly newer
-//
-// The two tests exercise opposite sides of the timestamp comparison:
-//   stock_quotes: HTTP timestamp (9999999) > WS timestamp (1000)  → HTTP wins
-//   stock:        WS timestamp (1646154954689) > HTTP timestamp (1628899200621) → WS wins
-
+// Sanity test for COMPOSITE_TRANSPORT=true selection between REST & WS via timestamp comparison.
 describe('composite transport', () => {
   let mockWsServerStockQuotes: MockWebsocketServer | undefined
   let mockWsServerStock: MockWebsocketServer | undefined
@@ -59,9 +47,6 @@ describe('composite transport', () => {
 
     await testAdapter.request({ endpoint: 'stock_quotes', base: 'AAPL' })
     await testAdapter.request({ base: 'AAPL' })
-    // waitForCache checks mockCache.cache.size — the number of distinct cache entries.
-    // With COMPOSITE_TRANSPORT=true both transports share a single cache key per symbol,
-    // so there are exactly 2 entries: stock_quotes/AAPL and stock/AAPL.
     await testAdapter.waitForCache(2)
   })
 
