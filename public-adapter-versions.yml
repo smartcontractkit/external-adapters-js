@@ -191,8 +191,6 @@ adapters:
     version: 1.1.4
   - name: layer2-sequencer-health
     version: 4.10.0
-  - name: lcx
-    version: 1.3.48
   - name: lido
     version: 2.0.31
   - name: lido-por

@@ -351,9 +351,6 @@
       "path": "./sources/layer2-sequencer-health"
     },
     {
-      "path": "./sources/lcx"
-    },
-    {
       "path": "./sources/lido"
     },
     {
