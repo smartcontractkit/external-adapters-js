@@ -451,10 +451,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ion.au"\
     },\
     {\
-      "name": "@chainlink/itick-adapter",\
-      "reference": "workspace:packages/sources/itick"\
-    },\
-    {\
       "name": "@chainlink/ix-trust-sync-adapter",\
       "reference": "workspace:packages/sources/ix-trust-sync"\
     },\
@@ -711,10 +707,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/uniswap-v2"\
     },\
     {\
-      "name": "@chainlink/upvest-adapter",\
-      "reference": "workspace:packages/sources/upvest"\
-    },\
-    {\
       "name": "@chainlink/view-function-adapter",\
       "reference": "workspace:packages/sources/view-function"\
     },\
@@ -845,7 +837,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
-    ["@chainlink/itick-adapter", ["workspace:packages/sources/itick"]],\
     ["@chainlink/ix-trust-sync-adapter", ["workspace:packages/sources/ix-trust-sync"]],\
     ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
@@ -926,7 +917,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
-    ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -6324,7 +6314,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
@@ -6357,23 +6346,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ion.au-adapter", "workspace:packages/sources/ion.au"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/itick-adapter", [\
-      ["workspace:packages/sources/itick", {\
-        "packageLocation": "./packages/sources/itick/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/itick-adapter", "workspace:packages/sources/itick"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -6958,7 +6930,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.16.1"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -7809,24 +7780,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.5.0"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/upvest-adapter", [\
-      ["workspace:packages/sources/upvest", {\
-        "packageLocation": "./packages/sources/upvest/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
