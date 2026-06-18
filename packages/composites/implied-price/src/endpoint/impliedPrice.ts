@@ -1,6 +1,5 @@
 import type {
   AdapterRequest,
-  AxiosRequestConfig,
   Config,
   ExecuteWithConfig,
   InputParameters,
@@ -9,8 +8,6 @@ import { Validator } from '@chainlink/ea-bootstrap'
 import { executeComputedPrice, validateInputPayload } from './computedPrice'
 
 export const supportedEndpoints = ['impliedPrice']
-
-export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
 export type TInputParameters = {
   dividendSources: string | string[]
