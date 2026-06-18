@@ -173,8 +173,6 @@ adapters:
     version: 2.0.9
   - name: ion.au
     version: 1.0.33
-  - name: itick
-    version: 1.1.2
   - name: ix-trust-sync
     version: 1.0.1
   - name: json-rpc
