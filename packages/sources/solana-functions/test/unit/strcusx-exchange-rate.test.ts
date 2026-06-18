@@ -42,6 +42,8 @@ const clockSysvarAddress = 'SysvarC1ock11111111111111111111111111111111'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const minRate = '950000000000000000'
 const maxRate = '1050000000000000000'
+const clockUnixTimestamp = 1_781_704_234n
+const providerIndicatedTimeUnixMs = Number(clockUnixTimestamp * 1000n)
 
 const accountingDiscriminator = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
 const controllerDiscriminator = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
@@ -51,6 +53,7 @@ const seniorShares = 200_000_000n
 const juniorShares = 450_000_000n
 const totalAssets = 650_000_001n
 const seniorAssets = 200_000_000n
+const juniorAssets = totalAssets - seniorAssets
 const mintDecimals = 6
 const expectedSeniorRate = '1000000000000000000'
 const expectedJuniorRate = '1000000002222222222'
@@ -250,13 +253,17 @@ describe('StrcusxExchangeRateTransport', () => {
 
   let transport: StrcusxExchangeRateTransport
 
-  const mockValidAccountData = (accountingData = encodeAccounting(), unixTimestamp = 0n) => {
+  const mockValidAccountData = (
+    accountingData = encodeAccounting(),
+    unixTimestamp = clockUnixTimestamp,
+    assetMintDecimals = mintDecimals,
+  ) => {
     const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
       [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
       [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
       [accountingAddress]: makeAccountInfoResponse(accountingData, programAddress),
       [assetMintAddress]: makeAccountInfoResponse(
-        encodeMint(1_000_000_000_000_000_000n, mintDecimals),
+        encodeMint(1_000_000_000_000_000_000n, assetMintDecimals),
       ),
       [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
       [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
@@ -346,11 +353,18 @@ describe('StrcusxExchangeRateTransport', () => {
           minRate,
           maxRate,
           boundsApplied: false,
+          vestedTotalAssets: totalAssets.toString(),
+          vestedSeniorAssets: seniorAssets.toString(),
+          vestedJuniorAssets: juniorAssets.toString(),
+          seniorShares: seniorShares.toString(),
+          juniorShares: juniorShares.toString(),
+          unvestedTotalAssets: '0',
+          unvestedSeniorAssets: '0',
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
           providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
+          providerIndicatedTimeUnixMs,
         },
       })
       expect(getMultipleAccountsRequestMock).toBeCalledWith(
@@ -400,6 +414,11 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(juniorResponse.data?.computedResult).toBe(expectedHalfVestedJuniorRate)
       expect(seniorResponse.result).toBe(expectedHalfVestedSeniorRate)
       expect(seniorResponse.data?.computedResult).toBe(expectedHalfVestedSeniorRate)
+      expect(juniorResponse.data?.vestedTotalAssets).toBe('660000000')
+      expect(juniorResponse.data?.vestedSeniorAssets).toBe('204000000')
+      expect(juniorResponse.data?.vestedJuniorAssets).toBe('456000000')
+      expect(juniorResponse.data?.unvestedTotalAssets).toBe('10000000')
+      expect(juniorResponse.data?.unvestedSeniorAssets).toBe('4000000')
       expect(getMultipleAccountsRequestMock).toBeCalledWith(
         expect.arrayContaining([clockSysvarAddress, juniorMintAddress, seniorMintAddress]),
         { encoding: 'base64' },
@@ -422,6 +441,14 @@ describe('StrcusxExchangeRateTransport', () => {
 
       expect(juniorResponse.result).toBe(expectedJuniorRate)
       expect(seniorResponse.result).toBe(expectedSeniorRate)
+    })
+
+    it('should error when asset mint decimals do not match USX decimals', async () => {
+      mockValidAccountData(encodeAccounting(), clockUnixTimestamp, mintDecimals + 1)
+
+      await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
+        'Expected asset mint decimals to be 6, found 7',
+      )
     })
 
     it('should clamp the exchange rate to minRate', async () => {

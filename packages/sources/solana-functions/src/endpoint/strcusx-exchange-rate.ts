@@ -61,6 +61,13 @@ export type BaseEndpointTypes = {
       minRate: string
       maxRate: string
       boundsApplied: boolean
+      vestedTotalAssets: string
+      vestedSeniorAssets: string
+      vestedJuniorAssets: string
+      seniorShares: string
+      juniorShares: string
+      unvestedTotalAssets: string
+      unvestedSeniorAssets: string
     }
   }
   Settings: typeof config.settings

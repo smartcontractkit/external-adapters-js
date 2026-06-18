@@ -22,6 +22,7 @@ const clockSysvarAddress = 'SysvarC1ock11111111111111111111111111111111'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const minRate = '950000000000000000'
 const maxRate = '1050000000000000000'
+const clockUnixTimestamp = 1_781_704_234n
 
 const accountingDiscriminator = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
 const controllerDiscriminator = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
@@ -125,7 +126,7 @@ const solanaRpc = makeStub('solanaRpc', {
         ),
         [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
         [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
-        [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(0n)),
+        [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(clockUnixTimestamp)),
       }
 
       return {
@@ -152,7 +153,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.RPC_URL = 'solana.rpc.url'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    const mockDate = new Date('2026-06-17T13:50:34.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('./../../src')).adapter

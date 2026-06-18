@@ -13,6 +13,7 @@ import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 const logger = makeLogger('StrcusxExchangeRateTransport')
 
 const RESULT_DECIMALS = 18
+const ASSET_MINT_DECIMALS = 6
 const TOKEN_PROGRAM_ADDRESSES = [TOKEN_PROGRAM_ID.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58()]
 const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
 const CLOCK_ACCOUNT_LENGTH = 40
@@ -375,6 +376,8 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
   return {
     totalAssets: accounting.totalAssets - unvestedTotalVestingAssets,
     seniorAssets: accounting.seniorAssets - unvestedSeniorVestingAssets,
+    unvestedTotalAssets: unvestedTotalVestingAssets,
+    unvestedSeniorAssets: unvestedSeniorVestingAssets,
   }
 }
 
@@ -391,6 +394,15 @@ const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
   return {
     supply: decoded.supply,
     decimals: decoded.decimals,
+  }
+}
+
+const assertAssetMintDecimals = (decimals: number) => {
+  if (decimals !== ASSET_MINT_DECIMALS) {
+    throw new AdapterInputError({
+      message: `Expected asset mint decimals to be ${ASSET_MINT_DECIMALS}, found ${decimals}`,
+      statusCode: 500,
+    })
   }
 }
 
@@ -531,6 +543,7 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       getAccountDataBuffer(assetMintAccount, `asset mint '${controller.assetMintAddress}'`),
       `asset mint '${controller.assetMintAddress}'`,
     )
+    assertAssetMintDecimals(assetMint.decimals)
     const juniorMint = decodeMintInfo(
       getAccountDataBuffer(juniorMintAccount, `junior mint '${strategy.juniorMintAddress}'`),
       `junior mint '${strategy.juniorMintAddress}'`,
@@ -553,10 +566,8 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       })
     }
 
-    const bookValueAssets = calculateBookValueAssets(
-      accounting,
-      decodeClockUnixTimestamp(clockAccount),
-    )
+    const clockUnixTimestamp = decodeClockUnixTimestamp(clockAccount)
+    const bookValueAssets = calculateBookValueAssets(accounting, clockUnixTimestamp)
 
     if (bookValueAssets.totalAssets < bookValueAssets.seniorAssets) {
       throw new AdapterInputError({
@@ -569,13 +580,13 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const juniorComputedRate = calculateRate(
       juniorAssets,
       accounting.juniorShares,
-      assetMint.decimals,
+      ASSET_MINT_DECIMALS,
       juniorMint.decimals,
     )
     const seniorComputedRate = calculateRate(
       bookValueAssets.seniorAssets,
       accounting.seniorShares,
-      assetMint.decimals,
+      ASSET_MINT_DECIMALS,
       seniorMint.decimals,
     )
     const selectedComputedRate = tranche === 'junior' ? juniorComputedRate : seniorComputedRate
@@ -605,13 +616,20 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
         minRate: minRate.toString(),
         maxRate: maxRate.toString(),
         boundsApplied: result !== computedResult,
+        vestedTotalAssets: bookValueAssets.totalAssets.toString(),
+        vestedSeniorAssets: bookValueAssets.seniorAssets.toString(),
+        vestedJuniorAssets: juniorAssets.toString(),
+        seniorShares: accounting.seniorShares.toString(),
+        juniorShares: accounting.juniorShares.toString(),
+        unvestedTotalAssets: bookValueAssets.unvestedTotalAssets.toString(),
+        unvestedSeniorAssets: bookValueAssets.unvestedSeniorAssets.toString(),
       },
       statusCode: 200,
       result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: undefined,
+        providerIndicatedTimeUnixMs: Number(clockUnixTimestamp * 1000n),
       },
     }
   }
