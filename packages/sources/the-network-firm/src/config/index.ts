@@ -27,9 +27,4 @@ export const config = new AdapterConfig({
     sensitive: true,
     default: '',
   },
-  HEAPDUMP_ENABLED: {
-    description: 'Whether to enable the headpump endpoint',
-    type: 'boolean',
-    default: false,
-  },
 })
