@@ -321,9 +321,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/itick"
-    },
-    {
       "path": "./sources/ix-trust-sync"
     },
     {
@@ -514,9 +511,6 @@
     },
     {
       "path": "./sources/uniswap-v2"
-    },
-    {
-      "path": "./sources/upvest"
     },
     {
       "path": "./sources/view-function"

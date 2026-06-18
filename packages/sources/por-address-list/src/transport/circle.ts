@@ -64,37 +64,13 @@ export class CircleTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   async _handleRequest(
-    params: RequestParams,
+    _params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    const requestConfig = {
-      baseURL: this.config.CIRCLE_API_URL,
-    }
+    const addresses = await this.getAllAddresses(this.config.CIRCLE_API_PAGE_SIZE)
 
-    const response = await this.requester.request<ResponseSchema>(
-      calculateHttpRequestKey<BaseEndpointTypes>({
-        context: {
-          adapterSettings: this.config,
-          inputParameters: emptyInputParameters,
-          endpointName: this.endpointName,
-        },
-        data: params,
-        transportName: this.name,
-      }),
-      requestConfig,
-    )
-
-    const data = response.response.data.data
-
-    if (data === undefined) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider didn't return any value`,
-      })
-    }
-
-    for (const { address } of data) {
+    for (const address of addresses) {
       if (!isValidBitcoinAddress(address)) {
         throw new AdapterError({
           message: `Invalid Bitcoin address returned from data provider: '${address}'`,
@@ -105,8 +81,8 @@ export class CircleTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     return {
       data: {
-        result: data.map((item) => ({
-          address: item.address,
+        result: addresses.map((address) => ({
+          address,
           network: 'bitcoin',
           chainId: 'mainnet',
         })),
@@ -119,6 +95,56 @@ export class CircleTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async getAllAddresses(pageSize: number): Promise<string[]> {
+    const addresses: string[] = []
+    let page: string[] = []
+    do {
+      page = await this.getAddressPage({ pageSize, offset: addresses.length })
+      addresses.push(...page)
+    } while (page.length !== 0)
+    return addresses
+  }
+
+  async getAddressPage({
+    pageSize: limit,
+    offset,
+  }: {
+    pageSize: number
+    offset: number
+  }): Promise<string[]> {
+    const requestConfig = {
+      baseURL: this.config.CIRCLE_API_URL,
+      params: {
+        limit,
+        offset,
+      },
+    }
+
+    const response = await this.requester.request<ResponseSchema>(
+      calculateHttpRequestKey<BaseEndpointTypes>({
+        context: {
+          adapterSettings: this.config,
+          inputParameters: emptyInputParameters,
+          endpointName: this.endpointName,
+        },
+        data: requestConfig.params,
+        transportName: this.name,
+      }),
+      requestConfig,
+    )
+
+    const data = response.response.data.data
+
+    if (data === undefined) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `The data provider didn't return any value for offset ${offset} and limit ${limit}`,
+      })
+    }
+
+    return data.map(({ address }) => address)
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
