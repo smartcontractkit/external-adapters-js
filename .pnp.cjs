@@ -6958,7 +6958,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.16.1"],\
+          ["axios", "npm:1.18.0"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -15004,6 +15004,17 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/axios-npm-1.17.0-a83ee0b582-bc6995122f.zip/node_modules/axios/",\
         "packageDependencies": [\
           ["axios", "npm:1.17.0"],\
+          ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"],\
+          ["form-data", "npm:4.0.5"],\
+          ["https-proxy-agent", "npm:5.0.1"],\
+          ["proxy-from-env", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.18.0", {\
+        "packageLocation": "./.yarn/cache/axios-npm-1.18.0-063f207ba7-586a1a9534.zip/node_modules/axios/",\
+        "packageDependencies": [\
+          ["axios", "npm:1.18.0"],\
           ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"],\
           ["form-data", "npm:4.0.5"],\
           ["https-proxy-agent", "npm:5.0.1"],\
