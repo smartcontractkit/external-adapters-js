@@ -513,9 +513,6 @@
       "path": "./sources/uniswap-v2/tsconfig.test.json"
     },
     {
-      "path": "./sources/upvest/tsconfig.test.json"
-    },
-    {
       "path": "./sources/view-function/tsconfig.test.json"
     },
     {
