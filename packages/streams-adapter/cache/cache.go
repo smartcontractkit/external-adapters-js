@@ -2,6 +2,8 @@ package cache
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -123,6 +125,7 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 		return
 	}
 	item.TransformedKey = transformedKey
+	item.RequiresInverse = requiresInverse(item.OriginalRequestData, transformedKey)
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
 	c.byTransformedKey[transformedKey] = rawKey
@@ -172,6 +175,50 @@ func (c *Cache) applyObservation(item *types.CacheItem, transformedKey string, o
 		cacheItemsActive.Inc()
 	}
 	cacheObservationsTotal.WithLabelValues(transformedKey).Inc()
+}
+
+func requiresInverse(originalRequestData map[string]interface{}, transformedKey string) bool {
+	if originalRequestData == nil {
+		return false
+	}
+
+	originalBase := getPairValue(originalRequestData, "base", "from")
+	originalQuote := getPairValue(originalRequestData, "quote", "to")
+	if originalBase == "" || originalQuote == "" {
+		return false
+	}
+
+	transformedParams := parseCacheKey(transformedKey)
+	transformedBase := strings.ToUpper(transformedParams["base"])
+	transformedQuote := strings.ToUpper(transformedParams["quote"])
+	if transformedBase == "" || transformedQuote == "" {
+		return false
+	}
+
+	return originalBase == transformedQuote && originalQuote == transformedBase
+}
+
+func getPairValue(data map[string]interface{}, names ...string) string {
+	for _, name := range names {
+		for key, value := range data {
+			if strings.EqualFold(key, name) {
+				return strings.ToUpper(fmt.Sprintf("%v", value))
+			}
+		}
+	}
+	return ""
+}
+
+func parseCacheKey(key string) map[string]string {
+	params := make(map[string]string)
+	for _, part := range strings.Split(key, ":") {
+		pieces := strings.SplitN(part, "=", 2)
+		if len(pieces) != 2 {
+			continue
+		}
+		params[pieces[0]] = pieces[1]
+	}
+	return params
 }
 
 // Get retrieves a cache item by its internal cache key string.

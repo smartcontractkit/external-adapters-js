@@ -40,6 +40,7 @@ const (
 type CacheItem struct {
 	Status              CacheItemStatus
 	TransformedKey      string                 // populated once StatusLearned or StatusActive
+	RequiresInverse     bool                   // true when the original request is the inverse of TransformedKey
 	Observation         *Observation           // populated once StatusActive
 	Timestamp           time.Time              // last write time (used for TTL)
 	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive

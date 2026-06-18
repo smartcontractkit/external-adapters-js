@@ -8,6 +8,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -330,7 +331,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	// progress — return 504 without starting another goroutine.
 	if item := s.cache.Get(rawCacheKey); item != nil {
 		if item.Status == types.StatusActive && item.Observation != nil {
-			respondWithObservation(c, item.Observation)
+			respondWithObservation(c, item)
 			return
 		}
 		// Fall through to 504 below.
@@ -376,8 +377,21 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 // respondWithObservation writes the observation to the response. Returns 200 for
 // successful observations and 502 with an error payload for failed ones.
-func respondWithObservation(c *gin.Context, obs *types.Observation) {
+func respondWithObservation(c *gin.Context, item *types.CacheItem) {
+	obs := item.Observation
 	if obs.Success {
+		if item.RequiresInverse {
+			inverted, err := invertObservation(obs)
+			if err != nil {
+				c.JSON(http.StatusBadGateway, ObservationErrorResponse{
+					ErrorMessage: err.Error(),
+					Timestamps:   obs.Timestamps,
+					StatusCode:   http.StatusBadGateway,
+				})
+				return
+			}
+			obs = inverted
+		}
 		c.JSON(http.StatusOK, obs)
 		return
 	}
@@ -386,6 +400,76 @@ func respondWithObservation(c *gin.Context, obs *types.Observation) {
 		Timestamps:   obs.Timestamps,
 		StatusCode:   http.StatusBadGateway,
 	})
+}
+
+func invertObservation(obs *types.Observation) (*types.Observation, error) {
+	inverted := *obs
+
+	data, err := invertResultInObject(obs.Data)
+	if err != nil {
+		return nil, err
+	}
+	inverted.Data = data
+
+	if len(obs.Result) > 0 {
+		result, err := invertRawNumber(obs.Result)
+		if err != nil {
+			return nil, err
+		}
+		inverted.Result = result
+	}
+
+	return &inverted, nil
+}
+
+func invertResultInObject(raw json.RawMessage) (json.RawMessage, error) {
+	var data map[string]interface{}
+	if err := json.Unmarshal(raw, &data); err != nil {
+		return nil, fmt.Errorf("unable to invert observation result: %w", err)
+	}
+
+	result, ok := data["result"]
+	if !ok {
+		return nil, fmt.Errorf("unable to invert observation result: missing result")
+	}
+	num, err := numberFromInterface(result)
+	if err != nil {
+		return nil, err
+	}
+	if num == 0 {
+		return nil, fmt.Errorf("unable to invert observation result: result is zero")
+	}
+
+	data["result"] = 1 / num
+	return json.Marshal(data)
+}
+
+func invertRawNumber(raw json.RawMessage) (json.RawMessage, error) {
+	var num float64
+	if err := json.Unmarshal(raw, &num); err != nil {
+		return nil, fmt.Errorf("unable to invert top-level result: %w", err)
+	}
+	if num == 0 {
+		return nil, fmt.Errorf("unable to invert top-level result: result is zero")
+	}
+	return json.Marshal(1 / num)
+}
+
+func numberFromInterface(value interface{}) (float64, error) {
+	switch v := value.(type) {
+	case float64:
+		return v, nil
+	case json.Number:
+		return v.Float64()
+	case string:
+		num, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
+		}
+		return num, nil
+	default:
+		return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
+	}
 }
 
 // postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.
