@@ -107,4 +107,10 @@ export const config = new AdapterConfig({
     default: 'https://api.circle.com/v1/reserveAddresses/cirbtc',
     sensitive: false,
   },
+  CIRCLE_API_PAGE_SIZE: {
+    description: 'Number of addresses to fetch per request',
+    type: 'number',
+    default: 200,
+    sensitive: false,
+  },
 })

@@ -537,21 +537,27 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
 export const mockCircleResponseSuccess = (): nock.Scope =>
   nock('http://circle.api')
     .get('/')
+    .query(true)
     .reply(
       200,
-      () => ({
-        data: [
-          {
-            address: '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9',
-          },
-          {
-            address: '1HkJ6hcN4h4PtUYHiSi1hrUEUKQJmedM6z',
-          },
-          {
-            address: '1KVBNjpYfJvASdzeTAwqNbe9WecpKyugM3',
-          },
-        ],
-      }),
+      (uri) => {
+        const params = new URL(uri, 'http://circle.api').searchParams
+        const offset = Number(params.get('offset'))
+        const limit = Number(params.get('limit'))
+        return {
+          data: [
+            {
+              address: '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9',
+            },
+            {
+              address: '1HkJ6hcN4h4PtUYHiSi1hrUEUKQJmedM6z',
+            },
+            {
+              address: '1KVBNjpYfJvASdzeTAwqNbe9WecpKyugM3',
+            },
+          ].slice(offset, offset + limit),
+        }
+      },
       [
         'Content-Type',
         'application/json',
