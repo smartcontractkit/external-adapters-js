@@ -485,6 +485,70 @@ describe('execute', () => {
       nock.cleanAll()
     })
 
+    it('should return success for min', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD12',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD12',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'min',
+      }
+      mockDPResponseSuccess('ncfx', 20)
+      mockDPResponseSuccess('tiingo', 10)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
+    it('should return success for max', async () => {
+      const data = {
+        operand1Sources: ['ncfx'],
+        operand1Input: JSON.stringify({
+          from: 'LINK',
+          to: 'USD13',
+          overrides: {
+            coingecko: {
+              LINK: 'chainlink',
+            },
+          },
+        }),
+        operand2Sources: ['tiingo'],
+        operand2Input: JSON.stringify({
+          from: 'ETH',
+          to: 'USD13',
+          overrides: {
+            coingecko: {
+              ETH: 'ethereum',
+            },
+          },
+        }),
+        operation: 'max',
+      }
+      mockDPResponseSuccess('ncfx', 5)
+      mockDPResponseSuccess('tiingo', 20)
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+      nock.cleanAll()
+    })
+
     it('returns failure with mismatched operand1Decimals', async () => {
       const data = {
         operand1Sources: ['ncfx', 'elwood'],
