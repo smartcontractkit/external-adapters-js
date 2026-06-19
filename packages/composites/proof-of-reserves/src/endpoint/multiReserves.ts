@@ -1,6 +1,10 @@
-import type { ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
+import type { AdapterResponse, ExecuteWithConfig, InputParameters } from '@chainlink/ea-bootstrap'
 import { AdapterError, Validator } from '@chainlink/ea-bootstrap'
 import { Config } from '../config'
+import {
+  getOutsideUpdateWindowDetails,
+  isOutsideUpdateWindowResponse,
+} from '../utils/outsideUpdateWindow'
 import type { TInputParameters as SingleTInputParameters } from './reserves'
 import { execute as singleExecute } from './reserves'
 
@@ -43,6 +47,25 @@ export const execute: ExecuteWithConfig<Config> = async (input, context, config)
       ),
     ),
   )
+
+  // If any sub-reserve is outside its update window, return a 200/errored
+  // response with outsideUpdateWindow fields so monitoring can detect a
+  // planned pause vs an unplanned failure, preserving the existing error shape.
+  const outsideWindowResult = results.find((r) => isOutsideUpdateWindowResponse(r))
+  if (outsideWindowResult) {
+    const details = getOutsideUpdateWindowDetails(outsideWindowResult)
+    return {
+      jobRunID,
+      status: 'errored',
+      statusCode: 200,
+      error: {
+        name: 'AdapterError',
+        message: details ?? 'Outside schedule window',
+        outsideUpdateWindow: true,
+        outsideUpdateWindowDetails: details,
+      },
+    } as unknown as AdapterResponse
+  }
 
   const result = results
     .map((result) => {
