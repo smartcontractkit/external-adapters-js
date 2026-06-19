@@ -1,5 +1,11 @@
 # @chainlink/mobula-state-adapter
 
+## 2.3.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
 ## 2.2.1
 
 ### Patch Changes
