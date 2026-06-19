@@ -4558,7 +4558,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/aleno/",\
         "packageDependencies": [\
           ["@chainlink/aleno-adapter", "workspace:packages/sources/aleno"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -4575,7 +4575,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/allium-state/",\
         "packageDependencies": [\
           ["@chainlink/allium-state-adapter", "workspace:packages/sources/allium-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -4691,7 +4691,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/backed-fi/",\
         "packageDependencies": [\
           ["@chainlink/backed-fi-adapter", "workspace:packages/sources/backed-fi"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -4873,7 +4873,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital-state/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5247,7 +5247,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika-state/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-state-adapter", "workspace:packages/sources/coinpaprika-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -5455,7 +5455,7 @@ const RAW_RUNTIME_STATE =
           ["@bufbuild/buf", "npm:1.68.4"],\
           ["@bufbuild/protobuf", "npm:2.7.0"],\
           ["@chainlink/deutsche-boerse-adapter", "workspace:packages/sources/deutsche-boerse"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5818,7 +5818,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/expand-network/",\
         "packageDependencies": [\
           ["@chainlink/expand-network-adapter", "workspace:packages/sources/expand-network"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6258,7 +6258,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/icap", {\
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6598,7 +6598,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/mobula-state", {\
         "packageLocation": "./packages/sources/mobula-state/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/mobula-state-adapter", "workspace:packages/sources/mobula-state"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7493,7 +7493,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7648,7 +7648,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tp", {\
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7808,7 +7808,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/view-function-multi-chain", {\
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
