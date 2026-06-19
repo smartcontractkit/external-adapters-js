@@ -1,5 +1,17 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5081](https://github.com/smartcontractkit/external-adapters-js/pull/5081) [`b662346`](https://github.com/smartcontractkit/external-adapters-js/commit/b6623469260af7716aaa2e3f516ef46ba5f62b49) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove heapdump endpoint
+
+- [#5080](https://github.com/smartcontractkit/external-adapters-js/pull/5080) [`2f12e59`](https://github.com/smartcontractkit/external-adapters-js/commit/2f12e5962914c9ab795cf64045ae562da9bc560e) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove mco2 endpoint
+
 ## 1.7.0
 
 ### Minor Changes
