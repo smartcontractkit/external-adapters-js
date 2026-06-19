@@ -707,10 +707,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/uniswap-v2"\
     },\
     {\
-      "name": "@chainlink/upvest-adapter",\
-      "reference": "workspace:packages/sources/upvest"\
-    },\
-    {\
       "name": "@chainlink/view-function-adapter",\
       "reference": "workspace:packages/sources/view-function"\
     },\
@@ -921,7 +917,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
-    ["@chainlink/upvest-adapter", ["workspace:packages/sources/upvest"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -4563,7 +4558,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/aleno/",\
         "packageDependencies": [\
           ["@chainlink/aleno-adapter", "workspace:packages/sources/aleno"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -4580,7 +4575,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/allium-state/",\
         "packageDependencies": [\
           ["@chainlink/allium-state-adapter", "workspace:packages/sources/allium-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -4695,7 +4690,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/backed-fi/",\
         "packageDependencies": [\
           ["@chainlink/backed-fi-adapter", "workspace:packages/sources/backed-fi"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -4877,7 +4872,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/blocksize-capital-state/",\
         "packageDependencies": [\
           ["@chainlink/blocksize-capital-state-adapter", "workspace:packages/sources/blocksize-capital-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5251,7 +5246,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/coinpaprika-state/",\
         "packageDependencies": [\
           ["@chainlink/coinpaprika-state-adapter", "workspace:packages/sources/coinpaprika-state"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
@@ -5459,7 +5454,7 @@ const RAW_RUNTIME_STATE =
           ["@bufbuild/buf", "npm:1.68.4"],\
           ["@bufbuild/protobuf", "npm:2.7.0"],\
           ["@chainlink/deutsche-boerse-adapter", "workspace:packages/sources/deutsche-boerse"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5640,7 +5635,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5822,7 +5817,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/expand-network/",\
         "packageDependencies": [\
           ["@chainlink/expand-network-adapter", "workspace:packages/sources/expand-network"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5835,25 +5830,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@chainlink/external-adapter-framework", [\
-      ["npm:2.14.0", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.14.0-a76564006f-67c7c82c87.zip/node_modules/@chainlink/external-adapter-framework/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.0"],\
-          ["@date-fns/tz", "npm:1.4.1"],\
-          ["ajv", "npm:8.20.0"],\
-          ["axios", "npm:1.15.2"],\
-          ["eventsource", "npm:4.1.0"],\
-          ["fastify", "npm:5.8.5"],\
-          ["ioredis", "npm:5.10.1"],\
-          ["mock-socket", "npm:9.3.1"],\
-          ["pino", "npm:10.3.1"],\
-          ["pino-pretty", "npm:13.1.3"],\
-          ["prom-client", "npm:15.1.3"],\
-          ["redlock", "npm:5.0.0-beta.2"],\
-          ["ws", "virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:2.16.1", {\
         "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0-4eaa996fbf.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
@@ -6262,7 +6238,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/icap", {\
         "packageLocation": "./packages/sources/icap/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/icap-adapter", "workspace:packages/sources/icap"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6602,7 +6578,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/mobula-state", {\
         "packageLocation": "./packages/sources/mobula-state/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/mobula-state-adapter", "workspace:packages/sources/mobula-state"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7067,7 +7043,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter", {\
         "packageLocation": "./packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.14.0"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/readme-test-v3-adapter", "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7497,7 +7473,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7652,7 +7628,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tp", {\
         "packageLocation": "./packages/sources/tp/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/tp-adapter", "workspace:packages/sources/tp"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7792,29 +7768,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/upvest-adapter", [\
-      ["workspace:packages/sources/upvest", {\
-        "packageLocation": "./packages/sources/upvest/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/upvest-adapter", "workspace:packages/sources/upvest"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/view-function-adapter", [\
       ["workspace:packages/sources/view-function", {\
         "packageLocation": "./packages/sources/view-function/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/view-function-adapter", "workspace:packages/sources/view-function"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7830,7 +7788,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/view-function-multi-chain", {\
         "packageLocation": "./packages/sources/view-function-multi-chain/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -9054,13 +9012,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.10.0-0ecb8bcb37-2b0322f99d.zip/node_modules/@ioredis/commands/",\
         "packageDependencies": [\
           ["@ioredis/commands", "npm:1.10.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:1.5.1", {\
-        "packageLocation": "./.yarn/cache/@ioredis-commands-npm-1.5.1-c707e1afdc-7efb033930.zip/node_modules/@ioredis/commands/",\
-        "packageDependencies": [\
-          ["@ioredis/commands", "npm:1.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -14954,16 +14905,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:1.15.2", {\
-        "packageLocation": "./.yarn/cache/axios-npm-1.15.2-fa91c7b40b-eebbd8cb77.zip/node_modules/axios/",\
-        "packageDependencies": [\
-          ["axios", "npm:1.15.2"],\
-          ["follow-redirects", "virtual:c946e2f9bd84d4a5b64d292492d645adda1b366acb53b9515731a2143f7bb8966747ccd47d4acf6f43b8bd014ccf849bbaf9566c37e813d458bf0b646917b18c#npm:1.16.0"],\
-          ["form-data", "npm:4.0.5"],\
-          ["proxy-from-env", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:1.16.1", {\
         "packageLocation": "./.yarn/cache/axios-npm-1.16.1-c946e2f9bd-9b6218cf96.zip/node_modules/axios/",\
         "packageDependencies": [\
@@ -18998,22 +18939,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["ioredis", [\
-      ["npm:5.10.1", {\
-        "packageLocation": "./.yarn/cache/ioredis-npm-5.10.1-5e9921e0bf-a85786fc17.zip/node_modules/ioredis/",\
-        "packageDependencies": [\
-          ["@ioredis/commands", "npm:1.5.1"],\
-          ["cluster-key-slot", "npm:1.1.2"],\
-          ["debug", "virtual:85d5d916b6a745b2f8de0d4b1704b7084bdd4f7573c1ef5d1c877f2c866045a9b29fe2bc752d1b73e531c378a0518dd3f9fa187b31427fb9bacbe34b14715dde#npm:4.3.7"],\
-          ["denque", "npm:2.1.0"],\
-          ["ioredis", "npm:5.10.1"],\
-          ["lodash.defaults", "npm:4.2.0"],\
-          ["lodash.isarguments", "npm:3.1.0"],\
-          ["redis-errors", "npm:1.2.0"],\
-          ["redis-parser", "npm:3.0.0"],\
-          ["standard-as-callback", "npm:2.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.11.0", {\
         "packageLocation": "./.yarn/cache/ioredis-npm-5.11.0-1af96edd87-ab802874e2.zip/node_modules/ioredis/",\
         "packageDependencies": [\
@@ -20429,29 +20354,11 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["lodash.defaults", [\
-      ["npm:4.2.0", {\
-        "packageLocation": "./.yarn/cache/lodash.defaults-npm-4.2.0-c5dea025ab-6a2a9ea5ad.zip/node_modules/lodash.defaults/",\
-        "packageDependencies": [\
-          ["lodash.defaults", "npm:4.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["lodash.get", [\
       ["npm:4.4.2", {\
         "packageLocation": "./.yarn/cache/lodash.get-npm-4.4.2-7bda64ed87-2a4925f6e8.zip/node_modules/lodash.get/",\
         "packageDependencies": [\
           ["lodash.get", "npm:4.4.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["lodash.isarguments", [\
-      ["npm:3.1.0", {\
-        "packageLocation": "./.yarn/cache/lodash.isarguments-npm-3.1.0-9e74d350b8-e5186d5fe0.zip/node_modules/lodash.isarguments/",\
-        "packageDependencies": [\
-          ["lodash.isarguments", "npm:3.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24924,13 +24831,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["npm:8.20.0", {\
-        "packageLocation": "./.yarn/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["ws", "npm:8.20.0"]\
-        ],\
-        "linkType": "SOFT"\
-      }],\
       ["npm:8.21.0", {\
         "packageLocation": "./.yarn/cache/ws-npm-8.21.0-7629fe02dd-0884119564.zip/node_modules/ws/",\
         "packageDependencies": [\
@@ -24997,23 +24897,6 @@ const RAW_RUNTIME_STATE =
           ["bufferutil", "npm:4.0.8"],\
           ["utf-8-validate", "npm:5.0.10"],\
           ["ws", "virtual:a4d909a61e93daed8b0f848db71f77bdb5ea1775c18ad3db85de4172204ddb9f7f82dbc310d890029da6267fa4af96340d5ff43faec0b46ba34566f507673938#npm:8.18.3"]\
-        ],\
-        "packagePeers": [\
-          "@types/bufferutil",\
-          "@types/utf-8-validate",\
-          "bufferutil",\
-          "utf-8-validate"\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0", {\
-        "packageLocation": "./.yarn/__virtual__/ws-virtual-afda44ad9c/0/cache/ws-npm-8.20.0-b8684d1fe3-b7ab934b21.zip/node_modules/ws/",\
-        "packageDependencies": [\
-          ["@types/bufferutil", null],\
-          ["@types/utf-8-validate", null],\
-          ["bufferutil", null],\
-          ["utf-8-validate", null],\
-          ["ws", "virtual:a76564006fec385a3bbd1ceb6fbaabd9e4af5e9b2052879a7a6e8cc41d5cde45acb3bf9a406a7afbd3a750c9381330dd1c7759f6ac89f80db40c3a2433277cda#npm:8.20.0"]\
         ],\
         "packagePeers": [\
           "@types/bufferutil",\
