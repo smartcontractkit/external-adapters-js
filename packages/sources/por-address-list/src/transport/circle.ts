@@ -19,6 +19,7 @@ export interface ResponseSchema {
   data: {
     address: string
   }[]
+  ripcord?: boolean
 }
 
 export class CircleTransport extends SubscriptionTransport<BaseEndpointTypes> {
@@ -135,7 +136,14 @@ export class CircleTransport extends SubscriptionTransport<BaseEndpointTypes> {
       requestConfig,
     )
 
-    const data = response.response.data.data
+    const { ripcord, data } = response.response.data
+
+    if (ripcord !== undefined && ripcord !== false) {
+      throw new AdapterError({
+        statusCode: 502,
+        message: `The data provider returned { ripcord: ${ripcord} } for offset ${offset} and limit ${limit}`,
+      })
+    }
 
     if (data === undefined) {
       throw new AdapterError({
