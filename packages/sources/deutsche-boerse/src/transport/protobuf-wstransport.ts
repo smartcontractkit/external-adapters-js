@@ -79,8 +79,12 @@ export class ProtobufWsTransport<
     return Buffer.from(JSON.stringify(payload), 'utf8')
   }
 
-  async sendMessages(_context: EndpointContext<T>, messages: unknown[]): Promise<void> {
-    messages
+  async sendMessages(
+    _context: EndpointContext<T>,
+    subscribes: unknown[],
+    unsubscribes: unknown[],
+  ): Promise<void> {
+    ;[...subscribes, ...unsubscribes]
       .map((m) => this.toRawData(m))
       .filter((m): m is Buffer => m !== null)
       .forEach((m) => this.wsConnection?.send(m))
