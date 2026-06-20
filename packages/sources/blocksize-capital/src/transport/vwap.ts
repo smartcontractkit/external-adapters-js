@@ -1,6 +1,7 @@
-import { BaseEndpointTypes } from '../endpoint/vwap'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/vwap'
+import { ShardedWebsocketReverseMappingTransport } from './sharded'
 import {
   BaseMessage,
   VwapUpdate,
@@ -48,21 +49,25 @@ const preProcessFixedVwapMessage = (message: FixedVwapMessage): VwapUpdate[] => 
   return updates
 }
 
-export const transport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
-  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
+// See price.ts for sharding rationale. Default is 1 — opt-in via env var.
+const NUM_SHARDS = Number(process.env.WS_NUM_SHARDS || 1)
+
+const createInnerVwapTransport = (): WebsocketReverseMappingTransport<WsTransportTypes, string> => {
+  let t: WebsocketReverseMappingTransport<WsTransportTypes, string>
+  t = new WebsocketReverseMappingTransport<WsTransportTypes, string>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT,
     handlers: {
       open: (connection, context) =>
         blocksizeDefaultWebsocketOpenHandler(connection, context.adapterSettings.API_KEY),
       message: (message) => {
         const updates = preProcessFixedVwapMessage(message)
-        return handlePriceUpdates(updates, transport)
+        return handlePriceUpdates(updates, t)
       },
     },
     builders: {
       subscribeMessage: (params) => {
         const pair = `${params.base}${params.quote}`.toUpperCase()
-        transport.setReverseMapping(pair, params)
+        t.setReverseMapping(pair, params)
         return buildBlocksizeWebsocketTickersMessage('fixedvwap_subscribe', pair)
       },
       unsubscribeMessage: (params) =>
@@ -73,3 +78,10 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
         ),
     },
   })
+  return t
+}
+
+export const transport = new ShardedWebsocketReverseMappingTransport<WsTransportTypes, string>(
+  NUM_SHARDS,
+  () => createInnerVwapTransport(),
+)

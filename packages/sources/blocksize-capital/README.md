@@ -6,10 +6,11 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |      Name       |             Description              |  Type  | Options |                     Default                     |
-| :-------: | :-------------: | :----------------------------------: | :----: | :-----: | :---------------------------------------------: |
-|    ✅     |     API_KEY     | The Blocksize Capital API key to use | string |         |                                                 |
-|           | WS_API_ENDPOINT |  The default WebSocket API base url  | string |         | `wss://data.blocksize.capital/marketdata/v1/ws` |
+| Required? |      Name       |                                                                                          Description                                                                                           |  Type  | Options |                     Default                     |
+| :-------: | :-------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :---------------------------------------------: |
+|    ✅     |     API_KEY     |                                                                              The Blocksize Capital API key to use                                                                              | string |         |                                                 |
+|           | WS_API_ENDPOINT |                                                                               The default WebSocket API base url                                                                               | string |         | `wss://data.blocksize.capital/marketdata/v1/ws` |
+|           |  WS_NUM_SHARDS  | Number of WebSocket connections to shard subscriptions across (each WS endpoint). Useful when the provider has a per-connection subscription cap. Default 1 = single connection (no sharding). | number |         |                       `1`                       |
 
 ---
 

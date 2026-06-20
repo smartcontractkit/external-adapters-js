@@ -16,4 +16,12 @@ export const config = new AdapterConfig({
     default: 'wss://data.blocksize.capital/marketdata/v1/ws',
     sensitive: false,
   },
+  WS_NUM_SHARDS: {
+    description:
+      'Number of WebSocket connections to shard subscriptions across (each WS endpoint). Useful when the provider has a per-connection subscription cap. Default 1 = single connection (no sharding).',
+    type: 'number',
+    required: false,
+    default: 1,
+    sensitive: false,
+  },
 })

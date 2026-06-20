@@ -1,6 +1,7 @@
-import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
+import { ShardedWebsocketReverseMappingTransport } from './sharded'
 import {
   BaseMessage,
   blocksizeDefaultUnsubscribeMessageBuilder,
@@ -31,8 +32,12 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export const transport: WebsocketReverseMappingTransport<WsTransportTypes, string> =
-  new WebsocketReverseMappingTransport<WsTransportTypes, string>({
+// See price.ts for sharding rationale. Default is 1 — opt-in via env var.
+const NUM_SHARDS = Number(process.env.WS_NUM_SHARDS || 1)
+
+const createInnerLwbaTransport = (): WebsocketReverseMappingTransport<WsTransportTypes, string> => {
+  let t: WebsocketReverseMappingTransport<WsTransportTypes, string>
+  t = new WebsocketReverseMappingTransport<WsTransportTypes, string>({
     url: (context) => context.adapterSettings.WS_API_ENDPOINT,
     handlers: {
       open: (connection, context) =>
@@ -42,7 +47,7 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
         const updates = message.params.updates
         const results: ProviderResult<WsTransportTypes>[] = []
         for (const update of updates) {
-          const params = transport.getReverseMapping(update.ticker)
+          const params = t.getReverseMapping(update.ticker)
           if (!params) {
             continue
           }
@@ -79,10 +84,17 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
     builders: {
       subscribeMessage: (params) => {
         const pair = `${params.base}${params.quote}`.toUpperCase()
-        transport.setReverseMapping(pair, params)
+        t.setReverseMapping(pair, params)
         return buildBlocksizeWebsocketTickersMessage('bidask_subscribe', pair)
       },
       unsubscribeMessage: (params) =>
         blocksizeDefaultUnsubscribeMessageBuilder(params.base, params.quote, 'bidask_unsubscribe'),
     },
   })
+  return t
+}
+
+export const transport = new ShardedWebsocketReverseMappingTransport<WsTransportTypes, string>(
+  NUM_SHARDS,
+  () => createInnerLwbaTransport(),
+)
