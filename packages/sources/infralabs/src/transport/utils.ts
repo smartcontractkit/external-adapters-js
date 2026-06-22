@@ -7,7 +7,7 @@ const OUTPUT_DECIMALS = 8
  * exact remaining bytes. Using string manipulation rather than parse→stringify
  * avoids any serialisation mismatch between Python's json.dumps (which they sign with) and JS JSON.stringify (compact).
  */
-export function buildUnsignedMessage(rawBody: string): string {
+function buildUnsignedMessage(rawBody: string): string {
   return rawBody.replace(/,?\s*"signature"\s*:\s*"[^"]*"/, '')
 }
 
@@ -29,7 +29,7 @@ export function isSaneSignature(
 
 /** Returns true if the provider timestamp is within `maxAgeSecs` of `nowMs`. */
 export function isFresh(timestamp: string, maxAgeSecs: number, nowMs: number): boolean {
-  const ageSecs = Math.floor(nowMs / 1000) - parseInt(timestamp)
+  const ageSecs = Math.floor(nowMs / 1000) - parseInt(timestamp) // nowMs (ms) → seconds; timestamp is Unix seconds
   return ageSecs <= maxAgeSecs
 }
 

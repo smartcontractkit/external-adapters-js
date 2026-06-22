@@ -144,7 +144,7 @@ export class InfralabsTransport extends SubscriptionTransport<BaseEndpointTypes>
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
-        providerIndicatedTimeUnixMs: parseInt(responseBody.timestamp) * 1000,
+        providerIndicatedTimeUnixMs: parseInt(responseBody.timestamp) * 1000, // provider Unix seconds → ms
       },
     }
   }
