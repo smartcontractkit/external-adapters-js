@@ -2,7 +2,6 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { AxiosRequestConfig } from 'axios'
 import { BaseEndpointTypes } from '../../src/endpoint/totalBalance'
 import {
   GetBalanceResult,
@@ -143,33 +142,31 @@ describe('TotalBalanceTransport', () => {
     mockedBalanceResultByAddress = {}
     mockedStakeResultByAddress = {}
 
-    requester.request.mockImplementation(
-      async (_cacheKey: string, requestConfig: AxiosRequestConfig) => {
-        const method = requestConfig.data.method
-        let result: Promise<GetBalanceResult | GetStakeResult>
-        const address = requestConfig.data.params.addresses[0]
-        if (method === 'platform.getBalance') {
-          result = mockedBalanceResultByAddress[address]
-          if (!result) {
-            throw new Error(`No mocked balance for address ${address}`)
-          }
-        } else if (method === 'platform.getStake') {
-          result = mockedStakeResultByAddress[address]
-          if (!result) {
-            throw new Error(`No mocked stake for address ${address}`)
-          }
-        } else {
-          throw new Error(`Unexpected method '${method}'`)
+    requester.request.mockImplementation(async (_cacheKey, requestConfig) => {
+      const method = requestConfig.data.method
+      let result: Promise<GetBalanceResult | GetStakeResult>
+      const address = requestConfig.data.params.addresses[0]
+      if (method === 'platform.getBalance') {
+        result = mockedBalanceResultByAddress[address]
+        if (!result) {
+          throw new Error(`No mocked balance for address ${address}`)
         }
-        return {
-          response: {
-            data: {
-              result: await result,
-            },
+      } else if (method === 'platform.getStake') {
+        result = mockedStakeResultByAddress[address]
+        if (!result) {
+          throw new Error(`No mocked stake for address ${address}`)
+        }
+      } else {
+        throw new Error(`Unexpected method '${method}'`)
+      }
+      return {
+        response: {
+          data: {
+            result: await result,
           },
-        }
-      },
-    )
+        },
+      }
+    })
 
     transport = new TotalBalanceTransport()
 

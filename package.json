@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/external-adapters-js",
-  "version": "1.360.0",
+  "version": "1.361.0",
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -36,7 +36,7 @@
     "unreleased-packages": ".github/scripts/get-unreleased-packages.sh"
   },
   "dependencies": {
-    "@babel/core": "7.29.6",
+    "@babel/core": "7.29.7",
     "@babel/preset-env": "7.26.9",
     "@babel/preset-typescript": "7.26.0",
     "@typescript-eslint/eslint-plugin": "5.59.11",

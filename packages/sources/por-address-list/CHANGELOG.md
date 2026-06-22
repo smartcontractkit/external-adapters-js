@@ -1,5 +1,19 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.18.0
+
+### Minor Changes
+
+- [#5107](https://github.com/smartcontractkit/external-adapters-js/pull/5107) [`ce31295`](https://github.com/smartcontractkit/external-adapters-js/commit/ce312950574a548cb0596bd5e08376ab1ce17e19) Thanks [@dskloetc](https://github.com/dskloetc)! - Use pagination on circle endpoint
+
+### Patch Changes
+
+- [#5114](https://github.com/smartcontractkit/external-adapters-js/pull/5114) [`69ea5e2`](https://github.com/smartcontractkit/external-adapters-js/commit/69ea5e2fdb8e65efcdaf782c01e260006b8e6a5d) Thanks [@dskloetc](https://github.com/dskloetc)! - Support ripcord in circle endpoint
+
+- [#5105](https://github.com/smartcontractkit/external-adapters-js/pull/5105) [`f177113`](https://github.com/smartcontractkit/external-adapters-js/commit/f177113a85121f01519379aa8f5c863355b97cdc) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove dependency on axios
+
+- [#5096](https://github.com/smartcontractkit/external-adapters-js/pull/5096) [`e0687e9`](https://github.com/smartcontractkit/external-adapters-js/commit/e0687e9c54c1903ef94c4ede65d23f9a45e87c13) Thanks [@dskloetc](https://github.com/dskloetc)! - Convert circle transport to custom subscription transport
+
 ## 5.17.0
 
 ### Minor Changes
