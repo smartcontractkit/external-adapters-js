@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.8.1
+
+### Patch Changes
+
+- [#5122](https://github.com/smartcontractkit/external-adapters-js/pull/5122) [`2973d74`](https://github.com/smartcontractkit/external-adapters-js/commit/2973d74402f7c816da669ba1efe730e3c6e66753) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix 24-5 assets ruberbanding
+
 ## 2.8.0
 
 ### Minor Changes
