@@ -229,6 +229,57 @@ func TestCache_SetObservation_StatusActive(t *testing.T) {
 	require.Equal(t, "adapter-key", item.OriginalAdapterKey)
 }
 
+func TestCache_SetObservation_FansOutToSameTransformedKey(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	transformedKey := "base=amzn:endpoint=stockquotes"
+	rawKeyWithoutVolume := "endpoint=stockquotes:from=amzn:to=usd"
+	rawKeyWithVolume := "endpoint=stockquotes:from=amzn:requirevolume=true:to=usd"
+	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":233.78}`)}
+	ts := time.Now()
+
+	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"})
+	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true})
+	c.SetTransformedKey(rawKeyWithoutVolume, transformedKey)
+	c.SetTransformedKey(rawKeyWithVolume, transformedKey)
+	c.SetObservation(transformedKey, obs, ts, "adapter-key")
+
+	for _, rawKey := range []string{rawKeyWithoutVolume, rawKeyWithVolume} {
+		item := c.Get(rawKey)
+		require.NotNil(t, item)
+		require.Equal(t, types.StatusActive, item.Status)
+		require.Equal(t, obs, item.Observation)
+		require.Equal(t, ts, item.Timestamp)
+		require.Equal(t, "adapter-key", item.OriginalAdapterKey)
+	}
+}
+
+func TestCache_SetTransformedKey_UsesExistingObservationForSharedTransformedKey(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	transformedKey := "base=amzn:endpoint=stockquotes"
+	rawKeyWithoutVolume := "endpoint=stockquotes:from=amzn:to=usd"
+	rawKeyWithVolume := "endpoint=stockquotes:from=amzn:requirevolume=true:to=usd"
+	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":233.78}`)}
+	ts := time.Now()
+
+	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"})
+	c.SetTransformedKey(rawKeyWithoutVolume, transformedKey)
+	c.SetObservation(transformedKey, obs, ts, "adapter-key")
+
+	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true})
+	c.SetTransformedKey(rawKeyWithVolume, transformedKey)
+
+	item := c.Get(rawKeyWithVolume)
+	require.NotNil(t, item)
+	require.Equal(t, types.StatusActive, item.Status)
+	require.Equal(t, obs, item.Observation)
+	require.Equal(t, ts, item.Timestamp)
+	require.Equal(t, "adapter-key", item.OriginalAdapterKey)
+}
+
 func TestCache_Set_Overwrite(t *testing.T) {
 	c := New(Config{
 		TTL:             time.Minute,
