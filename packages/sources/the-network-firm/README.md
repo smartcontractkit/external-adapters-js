@@ -1,18 +1,17 @@
 # THE_NETWORK_FIRM
 
-![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/the-network-firm/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |       Name       |               Description               |  Type   | Options |                                   Default                                   |
-| :-------: | :--------------: | :-------------------------------------: | :-----: | :-----: | :-------------------------------------------------------------------------: |
-|           |   API_ENDPOINT   |           API Endpoint to use           | string  |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
-|           | ALT_API_ENDPOINT |          TNF alt API Endpoint           | string  |         |                      `https://api.ledgerlens.io/oc/v1`                      |
-|           |  EMGEMX_API_KEY  |    API key used for emgemx endpoint     | string  |         |                                     ``                                      |
-|           | URANIUM_API_KEY  |    API key used for uranium endpoint    | string  |         |                                     ``                                      |
-|           | HEAPDUMP_ENABLED | Whether to enable the headpump endpoint | boolean |         |                                   `false`                                   |
+| Required? |       Name       |            Description            |  Type  | Options |                                   Default                                   |
+| :-------: | :--------------: | :-------------------------------: | :----: | :-----: | :-------------------------------------------------------------------------: |
+|           |   API_ENDPOINT   |        API Endpoint to use        | string |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
+|           | ALT_API_ENDPOINT |       TNF alt API Endpoint        | string |         |                      `https://api.ledgerlens.io/oc/v1`                      |
+|           |  EMGEMX_API_KEY  | API key used for emgemx endpoint  | string |         |                                     ``                                      |
+|           | URANIUM_API_KEY  | API key used for uranium endpoint | string |         |                                     ``                                      |
 
 ---
 
@@ -26,9 +25,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                Options                                                                                                                                                | Default |
-| :-------: | :------: | :-----------------: | :----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
-|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [balance](#mco2-endpoint), [emgemx](#emgemx-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [heapdump](#heapdump-endpoint), [mco2](#mco2-endpoint), [reserve](#reserve-endpoint), [stbt](#stbt-endpoint), [uranium](#uranium-endpoint), [usdr](#usdr-endpoint) | `mco2`  |
+| Required? |   Name   |     Description     |  Type  |                                                                                                      Options                                                                                                       | Default |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----: |
+|           | endpoint | The endpoint to use | string | [backed](#backed-endpoint), [emgemx](#emgemx-endpoint), [eurr](#eurr-endpoint), [gift](#gift-endpoint), [reserve](#reserve-endpoint), [stbt](#stbt-endpoint), [uranium](#uranium-endpoint), [usdr](#usdr-endpoint) |         |
 
 ## Backed Endpoint
 
@@ -115,28 +114,6 @@ Request:
 {
   "data": {
     "endpoint": "gift"
-  }
-}
-```
-
----
-
-## Mco2 Endpoint
-
-Supported names for this endpoint are: `balance`, `mco2`.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "mco2"
   }
 }
 ```
@@ -230,28 +207,6 @@ Request:
     "endpoint": "reserve",
     "client": "acme",
     "noErrorOnRipcord": false
-  }
-}
-```
-
----
-
-## Heapdump Endpoint
-
-`heapdump` is the only supported name for this endpoint.
-
-### Input Params
-
-There are no input parameters for this endpoint.
-
-### Example
-
-Request:
-
-```json
-{
-  "data": {
-    "endpoint": "heapdump"
   }
 }
 ```
