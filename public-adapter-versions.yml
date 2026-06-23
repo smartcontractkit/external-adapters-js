@@ -324,7 +324,7 @@ adapters:
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain
-    version: 1.8.0
+    version: 1.9.0
   - name: view-starknet-latest-answer
     version: 1.0.27
   - name: wbtc-address-set
