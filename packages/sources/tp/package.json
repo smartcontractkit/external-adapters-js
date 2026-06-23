@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/tp-adapter",
-  "version": "1.11.1",
+  "version": "1.12.0",
   "description": "Chainlink TP adapter (sister to ICAP adapter).",
   "keywords": [
     "Chainlink",
