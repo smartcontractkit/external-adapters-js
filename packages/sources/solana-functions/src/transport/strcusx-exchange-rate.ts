@@ -331,9 +331,7 @@ const calculateUnvestedAssets = (
     return assets
   }
 
-  const vestedAssets =
-    (assets * (unixTimestamp - vestingStartTime)) / (vestingEndTime - vestingStartTime)
-  return assets - vestedAssets
+  return (assets * (vestingEndTime - unixTimestamp)) / (vestingEndTime - vestingStartTime)
 }
 
 const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bigint) => {

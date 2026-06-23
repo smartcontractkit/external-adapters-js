@@ -425,6 +425,27 @@ describe('StrcusxExchangeRateTransport', () => {
       )
     })
 
+    it('should floor the direct unvested asset calculation during active vesting', async () => {
+      mockValidAccountData(
+        encodeAccounting({
+          totalVestingAssetsValue: 10n,
+          seniorVestingAssetsValue: 4n,
+          vestingStartTimeValue: 0n,
+          vestingEndTimeValue: 3n,
+        }),
+        1n,
+      )
+
+      const response = await transport._handleRequest(seniorParam)
+
+      expect(response.result).toBe('999999990000000000')
+      expect(response.data?.computedResult).toBe('999999990000000000')
+      expect(response.data?.vestedTotalAssets).toBe('649999995')
+      expect(response.data?.vestedSeniorAssets).toBe('199999998')
+      expect(response.data?.unvestedTotalAssets).toBe('6')
+      expect(response.data?.unvestedSeniorAssets).toBe('2')
+    })
+
     it('should treat non-active vesting schedules as fully vested', async () => {
       mockValidAccountData(
         encodeAccounting({
