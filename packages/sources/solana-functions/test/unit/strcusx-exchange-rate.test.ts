@@ -256,12 +256,12 @@ describe('StrcusxExchangeRateTransport', () => {
   })
 
   describe('PDA derivation', () => {
-    it('should derive expected devnet addresses', () => {
-      expect(deriveControllerAddress(programAddress)).toBe(controllerAddress)
-      expect(deriveStrategyAddress(programAddress, strategyName)).toBe(strategyAddress)
-      expect(deriveAccountingAddress(programAddress, strategyName)).toBe(accountingAddress)
-      expect(deriveJuniorMintAddress(programAddress, strategyName)).toBe(juniorMintAddress)
-      expect(deriveSeniorMintAddress(programAddress, strategyName)).toBe(seniorMintAddress)
+    it('should derive expected devnet addresses', async () => {
+      expect(await deriveControllerAddress(programAddress)).toBe(controllerAddress)
+      expect(await deriveStrategyAddress(programAddress, strategyName)).toBe(strategyAddress)
+      expect(await deriveAccountingAddress(programAddress, strategyName)).toBe(accountingAddress)
+      expect(await deriveJuniorMintAddress(programAddress, strategyName)).toBe(juniorMintAddress)
+      expect(await deriveSeniorMintAddress(programAddress, strategyName)).toBe(seniorMintAddress)
     })
   })
 

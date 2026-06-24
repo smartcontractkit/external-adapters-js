@@ -3,10 +3,11 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { getAddressDecoder } from '@solana/addresses'
+import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
-import { decodeMintInfo, TOKEN_PROGRAM_ADDRESSES } from '../shared/buffer-layout-accounts'
+import { assertTokenProgramOwner, decodeMintInfo } from '../shared/buffer-layout-accounts'
 import {
   applyRateBounds,
   calculateNormalizedRate,
@@ -16,20 +17,28 @@ import {
 } from '../shared/exchange-rate-utils'
 import {
   AccountInfo,
+  assertAddressMatches,
   assertDataLength,
   assertDiscriminator,
+  assertNameMatches,
   assertOwnerProgram,
+  CLOCK_SYSVAR_ADDRESS,
+  decodeClockUnixTimestamp,
+  derivePda,
   fetchMultipleAccounts,
   getAccountDataBuffer,
+  parseSolanaAddress,
 } from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StrcusxExchangeRateTransport')
 
 const EXPECTED_ASSET_MINT_DECIMALS = 6
-const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
-const CLOCK_ACCOUNT_LENGTH = 40
-const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
+const ACCOUNT_DISCRIMINATOR_LENGTH = 8
+const PUBLIC_KEY_LENGTH = 32
+const STRATEGY_NAME_LENGTH = 32
+const U64_LENGTH = 8
+const U128_LENGTH = 16
 
 const PDA_SEEDS = {
   CONTROLLER: 'CONTROLLER',
@@ -43,34 +52,88 @@ const ACCOUNTING_STATE_DISCRIMINATOR = Buffer.from([9, 238, 56, 53, 228, 92, 217
 const CONTROLLER_DISCRIMINATOR = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
 const STRATEGY_DISCRIMINATOR = Buffer.from([174, 110, 39, 119, 82, 106, 169, 102])
 
-const ACCOUNTING_MIN_LENGTH = 185
-const CONTROLLER_MIN_LENGTH = 106
-const STRATEGY_MIN_LENGTH = 337
-const PUBLIC_KEY_LENGTH = 32
-const STRATEGY_NAME_LENGTH = 32
+// These named spans mirror the Solstice zero-copy account layout while the official IDL is pending.
+const CONTROLLER_RESERVED_BEFORE_ASSET_MINT_LENGTH = 65
+const STRATEGY_RESERVED_AFTER_NAME_LENGTH = 7
+const STRATEGY_TRAILING_DATA_LENGTH = 96
+const ACCOUNTING_RESERVED_AFTER_NAME_LENGTH = 1
+const ACCOUNTING_TRAILING_DATA_LENGTH = 48
 
-const CONTROLLER_ASSET_MINT_OFFSET = 73
-const CONTROLLER_IS_PAUSED_OFFSET = 105
+type ControllerStateLayoutFields = {
+  discriminator: Uint8Array
+  reservedBeforeAssetMint: Uint8Array
+  assetMintAddress: Uint8Array
+  isPaused: number
+}
 
-const STRATEGY_NAME_OFFSET = 8
-const STRATEGY_JUNIOR_MINT_OFFSET = 47
-const STRATEGY_SENIOR_MINT_OFFSET = 79
-const STRATEGY_ASSET_VAULT_OFFSET = 111
-const STRATEGY_VESTING_VAULT_OFFSET = 143
-const STRATEGY_FEE_VAULT_OFFSET = 175
-const STRATEGY_LOSS_VAULT_OFFSET = 207
-const STRATEGY_STATUS_OFFSET = 239
-const STRATEGY_IS_PAUSED_OFFSET = 240
+type StrategyStateLayoutFields = {
+  discriminator: Uint8Array
+  name: Uint8Array
+  reservedAfterName: Uint8Array
+  juniorMintAddress: Uint8Array
+  seniorMintAddress: Uint8Array
+  assetVaultAddress: Uint8Array
+  vestingVaultAddress: Uint8Array
+  feeVaultAddress: Uint8Array
+  lossVaultAddress: Uint8Array
+  status: number
+  isPaused: number
+  trailingData: Uint8Array
+}
 
-const ACCOUNTING_NAME_OFFSET = 8
-const ACCOUNTING_SENIOR_SHARES_OFFSET = 41
-const ACCOUNTING_JUNIOR_SHARES_OFFSET = 57
-const ACCOUNTING_TOTAL_ASSETS_OFFSET = 73
-const ACCOUNTING_SENIOR_ASSETS_OFFSET = 89
-const ACCOUNTING_TOTAL_VESTING_ASSETS_OFFSET = 105
-const ACCOUNTING_SENIOR_VESTING_ASSETS_OFFSET = 113
-const ACCOUNTING_VESTING_START_TIME_OFFSET = 121
-const ACCOUNTING_VESTING_END_TIME_OFFSET = 129
+type AccountingStateLayoutFields = {
+  discriminator: Uint8Array
+  name: Uint8Array
+  reservedAfterName: Uint8Array
+  seniorShares: Uint8Array
+  juniorShares: Uint8Array
+  totalAssets: Uint8Array
+  seniorAssets: Uint8Array
+  totalVestingAssets: Uint8Array
+  seniorVestingAssets: Uint8Array
+  vestingStartTime: Uint8Array
+  vestingEndTime: Uint8Array
+  trailingData: Uint8Array
+}
+
+const ControllerStateLayout = BufferLayout.struct<ControllerStateLayoutFields>([
+  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
+  BufferLayout.blob(CONTROLLER_RESERVED_BEFORE_ASSET_MINT_LENGTH, 'reservedBeforeAssetMint'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'assetMintAddress'),
+  BufferLayout.u8('isPaused'),
+])
+
+const StrategyStateLayout = BufferLayout.struct<StrategyStateLayoutFields>([
+  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
+  BufferLayout.blob(STRATEGY_NAME_LENGTH, 'name'),
+  BufferLayout.blob(STRATEGY_RESERVED_AFTER_NAME_LENGTH, 'reservedAfterName'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'juniorMintAddress'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'seniorMintAddress'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'assetVaultAddress'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'vestingVaultAddress'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'feeVaultAddress'),
+  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'lossVaultAddress'),
+  BufferLayout.u8('status'),
+  BufferLayout.u8('isPaused'),
+  BufferLayout.blob(STRATEGY_TRAILING_DATA_LENGTH, 'trailingData'),
+])
+
+const AccountingStateLayout = BufferLayout.struct<AccountingStateLayoutFields>([
+  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
+  BufferLayout.blob(STRATEGY_NAME_LENGTH, 'name'),
+  BufferLayout.blob(ACCOUNTING_RESERVED_AFTER_NAME_LENGTH, 'reservedAfterName'),
+  BufferLayout.blob(U128_LENGTH, 'seniorShares'),
+  BufferLayout.blob(U128_LENGTH, 'juniorShares'),
+  BufferLayout.blob(U128_LENGTH, 'totalAssets'),
+  BufferLayout.blob(U128_LENGTH, 'seniorAssets'),
+  BufferLayout.blob(U64_LENGTH, 'totalVestingAssets'),
+  BufferLayout.blob(U64_LENGTH, 'seniorVestingAssets'),
+  BufferLayout.blob(U64_LENGTH, 'vestingStartTime'),
+  BufferLayout.blob(U64_LENGTH, 'vestingEndTime'),
+  BufferLayout.blob(ACCOUNTING_TRAILING_DATA_LENGTH, 'trailingData'),
+])
+
+const addressDecoder = getAddressDecoder()
 
 type RequestParams = typeof inputParameters.validated
 type Tranche = 'junior' | 'senior'
@@ -104,17 +167,6 @@ type AccountingState = {
   vestingEndTime: bigint
 }
 
-const parsePublicKey = (value: string, name: string) => {
-  try {
-    return new PublicKey(value)
-  } catch {
-    throw new AdapterInputError({
-      message: `${name} must be a valid Solana address`,
-      statusCode: 400,
-    })
-  }
-}
-
 const parseStrategyName = (value: string) => {
   const byteLength = Buffer.byteLength(value)
   if (byteLength === 0 || byteLength > STRATEGY_NAME_LENGTH) {
@@ -127,19 +179,17 @@ const parseStrategyName = (value: string) => {
   return value
 }
 
-const readU128LE = (data: Buffer, offset: number) =>
-  data.readBigUInt64LE(offset) + (data.readBigUInt64LE(offset + 8) << 64n)
+const readU128LE = (bytes: Uint8Array) => {
+  const data = Buffer.from(bytes)
+  return data.readBigUInt64LE(0) + (data.readBigUInt64LE(8) << 64n)
+}
 
-const readU64LE = (data: Buffer, offset: number) => data.readBigUInt64LE(offset)
+const readU64LE = (bytes: Uint8Array) => Buffer.from(bytes).readBigUInt64LE(0)
 
-const readPublicKey = (data: Buffer, offset: number) =>
-  new PublicKey(data.subarray(offset, offset + PUBLIC_KEY_LENGTH)).toBase58()
+const decodeAddress = (bytes: Uint8Array) => addressDecoder.decode(bytes).toString()
 
-const readPaddedString = (data: Buffer, offset: number, length: number) =>
-  data
-    .subarray(offset, offset + length)
-    .toString('utf8')
-    .replace(/\0+$/, '')
+const readPaddedString = (bytes: Uint8Array) =>
+  Buffer.from(bytes).toString('utf8').replace(/\0+$/, '')
 
 const assertProgramOwner = (
   accountInfo: AccountInfo | null | undefined,
@@ -153,111 +203,76 @@ const assertProgramOwner = (
     'the requested yield strategy program',
   )
 
-const assertTokenProgramOwner = (
-  accountInfo: AccountInfo | null | undefined,
-  description: string,
-) =>
-  assertOwnerProgram(accountInfo, description, TOKEN_PROGRAM_ADDRESSES, 'a supported token program')
-
-const assertNameMatches = (actualName: string, expectedName: string, description: string) => {
-  if (actualName !== expectedName) {
-    throw new AdapterInputError({
-      message: `Expected ${description} name to be '${expectedName}', found '${actualName}'`,
-      statusCode: 500,
-    })
-  }
-}
-
-const assertAddressMatches = (actual: string, expected: string, description: string) => {
-  if (actual !== expected) {
-    throw new AdapterInputError({
-      message: `Expected ${description} to be '${expected}', found '${actual}'`,
-      statusCode: 500,
-    })
-  }
-}
-
 export const deriveControllerAddress = (programAddress: string) => {
-  const [address] = PublicKey.findProgramAddressSync(
-    [Buffer.from(PDA_SEEDS.CONTROLLER)],
-    parsePublicKey(programAddress, 'programAddress'),
-  )
-  return address.toBase58()
+  return derivePda(programAddress, [PDA_SEEDS.CONTROLLER]).then((pda) => pda.toString())
 }
 
 export const deriveStrategyAddress = (programAddress: string, strategyName: string) => {
-  const [address] = PublicKey.findProgramAddressSync(
-    [Buffer.from(PDA_SEEDS.STRATEGY), Buffer.from(strategyName)],
-    parsePublicKey(programAddress, 'programAddress'),
-  )
-  return address.toBase58()
+  return derivePda(programAddress, [PDA_SEEDS.STRATEGY, strategyName]).then((pda) => pda.toString())
 }
 
 export const deriveAccountingAddress = (programAddress: string, strategyName: string) => {
-  const [address] = PublicKey.findProgramAddressSync(
-    [Buffer.from(PDA_SEEDS.ACCOUNTING), Buffer.from(strategyName)],
-    parsePublicKey(programAddress, 'programAddress'),
+  return derivePda(programAddress, [PDA_SEEDS.ACCOUNTING, strategyName]).then((pda) =>
+    pda.toString(),
   )
-  return address.toBase58()
 }
 
 export const deriveJuniorMintAddress = (programAddress: string, strategyName: string) => {
-  const [address] = PublicKey.findProgramAddressSync(
-    [Buffer.from(PDA_SEEDS.JUNIOR_MINT), Buffer.from(strategyName)],
-    parsePublicKey(programAddress, 'programAddress'),
+  return derivePda(programAddress, [PDA_SEEDS.JUNIOR_MINT, strategyName]).then((pda) =>
+    pda.toString(),
   )
-  return address.toBase58()
 }
 
 export const deriveSeniorMintAddress = (programAddress: string, strategyName: string) => {
-  const [address] = PublicKey.findProgramAddressSync(
-    [Buffer.from(PDA_SEEDS.SENIOR_MINT), Buffer.from(strategyName)],
-    parsePublicKey(programAddress, 'programAddress'),
+  return derivePda(programAddress, [PDA_SEEDS.SENIOR_MINT, strategyName]).then((pda) =>
+    pda.toString(),
   )
-  return address.toBase58()
 }
 
 const decodeControllerState = (data: Buffer): ControllerState => {
-  assertDataLength(data, 'Controller', CONTROLLER_MIN_LENGTH)
+  assertDataLength(data, 'Controller', ControllerStateLayout.span)
   assertDiscriminator(data, 'Controller', CONTROLLER_DISCRIMINATOR)
+  const decoded = ControllerStateLayout.decode(data)
 
   return {
-    assetMintAddress: readPublicKey(data, CONTROLLER_ASSET_MINT_OFFSET),
-    isPaused: data.readUInt8(CONTROLLER_IS_PAUSED_OFFSET) === 1,
+    assetMintAddress: decodeAddress(decoded.assetMintAddress),
+    isPaused: decoded.isPaused === 1,
   }
 }
 
 const decodeStrategyState = (data: Buffer): StrategyState => {
-  assertDataLength(data, 'Strategy', STRATEGY_MIN_LENGTH)
+  assertDataLength(data, 'Strategy', StrategyStateLayout.span)
   assertDiscriminator(data, 'Strategy', STRATEGY_DISCRIMINATOR)
+  const decoded = StrategyStateLayout.decode(data)
 
   return {
-    name: readPaddedString(data, STRATEGY_NAME_OFFSET, STRATEGY_NAME_LENGTH),
-    juniorMintAddress: readPublicKey(data, STRATEGY_JUNIOR_MINT_OFFSET),
-    seniorMintAddress: readPublicKey(data, STRATEGY_SENIOR_MINT_OFFSET),
-    assetVaultAddress: readPublicKey(data, STRATEGY_ASSET_VAULT_OFFSET),
-    vestingVaultAddress: readPublicKey(data, STRATEGY_VESTING_VAULT_OFFSET),
-    feeVaultAddress: readPublicKey(data, STRATEGY_FEE_VAULT_OFFSET),
-    lossVaultAddress: readPublicKey(data, STRATEGY_LOSS_VAULT_OFFSET),
-    status: data.readUInt8(STRATEGY_STATUS_OFFSET),
-    isPaused: data.readUInt8(STRATEGY_IS_PAUSED_OFFSET) === 1,
+    name: readPaddedString(decoded.name),
+    juniorMintAddress: decodeAddress(decoded.juniorMintAddress),
+    seniorMintAddress: decodeAddress(decoded.seniorMintAddress),
+    assetVaultAddress: decodeAddress(decoded.assetVaultAddress),
+    vestingVaultAddress: decodeAddress(decoded.vestingVaultAddress),
+    feeVaultAddress: decodeAddress(decoded.feeVaultAddress),
+    lossVaultAddress: decodeAddress(decoded.lossVaultAddress),
+    status: decoded.status,
+    isPaused: decoded.isPaused === 1,
   }
 }
 
 const decodeAccountingState = (data: Buffer): AccountingState => {
-  assertDataLength(data, 'AccountingState', ACCOUNTING_MIN_LENGTH)
+  assertDataLength(data, 'AccountingState', AccountingStateLayout.span)
   assertDiscriminator(data, 'AccountingState', ACCOUNTING_STATE_DISCRIMINATOR)
+  const decoded = AccountingStateLayout.decode(data)
 
   return {
-    name: readPaddedString(data, ACCOUNTING_NAME_OFFSET, STRATEGY_NAME_LENGTH),
-    seniorShares: readU128LE(data, ACCOUNTING_SENIOR_SHARES_OFFSET),
-    juniorShares: readU128LE(data, ACCOUNTING_JUNIOR_SHARES_OFFSET),
-    totalAssets: readU128LE(data, ACCOUNTING_TOTAL_ASSETS_OFFSET),
-    seniorAssets: readU128LE(data, ACCOUNTING_SENIOR_ASSETS_OFFSET),
-    totalVestingAssets: readU64LE(data, ACCOUNTING_TOTAL_VESTING_ASSETS_OFFSET),
-    seniorVestingAssets: readU64LE(data, ACCOUNTING_SENIOR_VESTING_ASSETS_OFFSET),
-    vestingStartTime: readU64LE(data, ACCOUNTING_VESTING_START_TIME_OFFSET),
-    vestingEndTime: readU64LE(data, ACCOUNTING_VESTING_END_TIME_OFFSET),
+    name: readPaddedString(decoded.name),
+    seniorShares: readU128LE(decoded.seniorShares),
+    juniorShares: readU128LE(decoded.juniorShares),
+    totalAssets: readU128LE(decoded.totalAssets),
+    seniorAssets: readU128LE(decoded.seniorAssets),
+    totalVestingAssets: readU64LE(decoded.totalVestingAssets),
+    seniorVestingAssets: readU64LE(decoded.seniorVestingAssets),
+    vestingStartTime: readU64LE(decoded.vestingStartTime),
+    vestingEndTime: readU64LE(decoded.vestingEndTime),
   }
 }
 
@@ -304,13 +319,6 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
     unvestedTotalAssets: unvestedTotalVestingAssets,
     unvestedSeniorAssets: unvestedSeniorVestingAssets,
   }
-}
-
-const decodeClockUnixTimestamp = (accountInfo: AccountInfo | null | undefined) => {
-  const data = getAccountDataBuffer(accountInfo, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
-  assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
-
-  return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
 }
 
 const assertAssetMintDecimals = (decimals: number) => {
@@ -365,16 +373,24 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const programAddress = parsePublicKey(params.programAddress, 'programAddress').toBase58()
+    const programAddress = parseSolanaAddress(params.programAddress, 'programAddress').toString()
     const strategyName = parseStrategyName(params.strategyName)
     const tranche = params.tranche as Tranche
     const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
 
-    const controllerAddress = deriveControllerAddress(programAddress)
-    const strategyAddress = deriveStrategyAddress(programAddress, strategyName)
-    const accountingAddress = deriveAccountingAddress(programAddress, strategyName)
-    const expectedJuniorMintAddress = deriveJuniorMintAddress(programAddress, strategyName)
-    const expectedSeniorMintAddress = deriveSeniorMintAddress(programAddress, strategyName)
+    const [
+      controllerAddress,
+      strategyAddress,
+      accountingAddress,
+      expectedJuniorMintAddress,
+      expectedSeniorMintAddress,
+    ] = await Promise.all([
+      deriveControllerAddress(programAddress),
+      deriveStrategyAddress(programAddress, strategyName),
+      deriveAccountingAddress(programAddress, strategyName),
+      deriveJuniorMintAddress(programAddress, strategyName),
+      deriveSeniorMintAddress(programAddress, strategyName),
+    ])
 
     const [
       controllerAccount,
