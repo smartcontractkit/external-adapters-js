@@ -1,6 +1,12 @@
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { fetchFieldFromBufferLayoutStateAccount } from '../../src/shared/buffer-layout-accounts'
+import { AccountLayout, MintLayout } from '@solana/spl-token'
+import { PublicKey } from '@solana/web3.js'
+import {
+  decodeMintInfo,
+  decodeTokenAccountInfo,
+  fetchFieldFromBufferLayoutStateAccount,
+} from '../../src/shared/buffer-layout-accounts'
 import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
 import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
 import * as tokenAccountData from '../fixtures/token-account-data-2025-12-01.json'
@@ -9,6 +15,44 @@ describe('buffer-layout-accounts', () => {
   const sendMock = jest.fn()
   const getAccountInfoMock = jest.fn()
   const rpc = { getAccountInfo: getAccountInfoMock } as unknown as Rpc<SolanaRpcApi>
+
+  const encodeMint = (supply: bigint, decimals: number) => {
+    const buffer = Buffer.alloc(MintLayout.span)
+    MintLayout.encode(
+      {
+        mintAuthorityOption: 0,
+        mintAuthority: PublicKey.default,
+        supply,
+        decimals,
+        isInitialized: true,
+        freezeAuthorityOption: 0,
+        freezeAuthority: PublicKey.default,
+      },
+      buffer,
+    )
+    return buffer
+  }
+
+  const encodeTokenAccount = (mintAddress: string, ownerAddress: string, amount: bigint) => {
+    const buffer = Buffer.alloc(AccountLayout.span)
+    AccountLayout.encode(
+      {
+        mint: new PublicKey(mintAddress),
+        owner: new PublicKey(ownerAddress),
+        amount,
+        delegateOption: 0,
+        delegate: PublicKey.default,
+        state: 1,
+        isNativeOption: 0,
+        isNative: 0n,
+        delegatedAmount: 0n,
+        closeAuthorityOption: 0,
+        closeAuthority: PublicKey.default,
+      },
+      buffer,
+    )
+    return buffer
+  }
 
   beforeEach(() => {
     jest.resetAllMocks()
@@ -171,6 +215,33 @@ describe('buffer-layout-accounts', () => {
 
       expect(getAccountInfoMock).toHaveBeenCalledWith(stateAccountAddress, { encoding: 'base64' })
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('decodeMintInfo', () => {
+    it('should decode SPL mint supply and decimals', () => {
+      expect(decodeMintInfo(encodeMint(123n, 6), 'test mint')).toEqual({
+        supply: 123n,
+        decimals: 6,
+      })
+    })
+  })
+
+  describe('decodeTokenAccountInfo', () => {
+    it('should decode SPL token account mint, owner, and amount', () => {
+      const mintAddress = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
+      const ownerAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
+
+      expect(
+        decodeTokenAccountInfo(
+          encodeTokenAccount(mintAddress, ownerAddress, 456n),
+          'test token account',
+        ),
+      ).toEqual({
+        mintAddress,
+        ownerAddress,
+        amount: 456n,
+      })
     })
   })
 })

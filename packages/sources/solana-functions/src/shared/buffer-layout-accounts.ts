@@ -3,7 +3,39 @@ import { type Address } from '@solana/addresses'
 import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { StakePoolLayout } from '@solana/spl-stake-pool'
-import { AccountLayout, MintLayout } from '@solana/spl-token'
+import {
+  AccountLayout,
+  MintLayout,
+  TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token'
+import { assertDataLength } from './solana-account-utils'
+
+export const LEGACY_TOKEN_PROGRAM_ADDRESS = TOKEN_PROGRAM_ID.toBase58()
+export const TOKEN_2022_PROGRAM_ADDRESS = TOKEN_2022_PROGRAM_ID.toBase58()
+export const TOKEN_PROGRAM_ADDRESSES = [LEGACY_TOKEN_PROGRAM_ADDRESS, TOKEN_2022_PROGRAM_ADDRESS]
+
+export type MintInfo = {
+  supply: bigint
+  decimals: number
+}
+
+export type TokenAccountInfo = {
+  mintAddress: string
+  ownerAddress: string
+  amount: bigint
+}
+
+type DecodedMint = {
+  supply: bigint
+  decimals: number
+}
+
+type DecodedTokenAccount = {
+  mint: { toBase58?(): string; toString(): string }
+  owner: { toBase58?(): string; toString(): string }
+  amount: bigint
+}
 
 interface SanctumPoolState {
   total_sol_value: bigint
@@ -35,14 +67,40 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
   BufferLayout.blob(32, 'lp_token_mint'),
 ])
 
-const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+const solanaTokenProgramAddress = LEGACY_TOKEN_PROGRAM_ADDRESS
+const solanaToken2022ProgramAddress = TOKEN_2022_PROGRAM_ADDRESS
 const solanaStakePoolProgramAddress = 'SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
 const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> = {
   [solanaTokenProgramAddress]: [AccountLayout, MintLayout],
+  [solanaToken2022ProgramAddress]: [AccountLayout, MintLayout],
   [solanaStakePoolProgramAddress]: [StakePoolLayout],
   [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
+}
+
+const publicKeyToString = (value: { toBase58?(): string; toString(): string }) =>
+  value.toBase58 ? value.toBase58() : value.toString()
+
+export const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
+  assertDataLength(data, description, MintLayout.span)
+  const decoded = MintLayout.decode(data) as DecodedMint
+
+  return {
+    supply: decoded.supply,
+    decimals: decoded.decimals,
+  }
+}
+
+export const decodeTokenAccountInfo = (data: Buffer, description: string): TokenAccountInfo => {
+  assertDataLength(data, description, AccountLayout.span)
+  const decoded = AccountLayout.decode(data) as DecodedTokenAccount
+
+  return {
+    mintAddress: publicKeyToString(decoded.mint),
+    ownerAddress: publicKeyToString(decoded.owner),
+    amount: decoded.amount,
+  }
 }
 
 const getLayout = (programAddress: string, dataLength: number): BufferLayout.Layout<unknown> => {
@@ -54,7 +112,8 @@ const getLayout = (programAddress: string, dataLength: number): BufferLayout.Lay
     })
   }
   if (layoutCandidates.length === 1) {
-    return layoutCandidates[0]!
+    const layout = layoutCandidates[0]
+    if (layout) return layout
   }
   for (const layout of layoutCandidates) {
     if (layout.span === dataLength) {
