@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint"
     },
     {
-      "path": "./composites/set-token-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {

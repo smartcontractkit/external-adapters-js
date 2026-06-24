@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint/tsconfig.test.json"
     },
     {
-      "path": "./composites/set-token-index/tsconfig.test.json"
-    },
-    {
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
