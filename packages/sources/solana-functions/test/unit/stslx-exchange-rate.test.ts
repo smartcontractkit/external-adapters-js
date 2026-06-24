@@ -9,6 +9,9 @@ import {
 import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes } from '../../src/endpoint/stslx-exchange-rate'
 import {
+  deriveSlxTokenAccountAddress,
+  deriveVaultAddress,
+  GLAM_STATE_ADDRESS,
   GLAM_VAULT_ADDRESS,
   SLX_MINT_ADDRESS,
   SLX_TOKEN_ACCOUNT_ADDRESS,
@@ -153,6 +156,18 @@ describe('StslxExchangeRateTransport', () => {
     transport = new StslxExchangeRateTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+  })
+
+  describe('account derivation', () => {
+    it('should derive the expected GLAM vault PDA', async () => {
+      expect(await deriveVaultAddress(GLAM_STATE_ADDRESS)).toBe(GLAM_VAULT_ADDRESS)
+      expect(await deriveVaultAddress()).toBe(GLAM_VAULT_ADDRESS)
+    })
+
+    it('should derive the expected GLAM SLX base-asset ATA', async () => {
+      expect(await deriveSlxTokenAccountAddress(GLAM_VAULT_ADDRESS)).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
+      expect(await deriveSlxTokenAccountAddress()).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
+    })
   })
 
   describe('_handleRequest', () => {

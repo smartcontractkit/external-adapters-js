@@ -3,13 +3,14 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { getAddressEncoder } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
 import {
+  assertTokenProgramOwner,
   decodeMintInfo,
   decodeTokenAccountInfo,
   LEGACY_TOKEN_PROGRAM_ADDRESS,
-  TOKEN_PROGRAM_ADDRESSES,
 } from '../shared/buffer-layout-accounts'
 import {
   applyRateBounds,
@@ -19,8 +20,10 @@ import {
 } from '../shared/exchange-rate-utils'
 import {
   assertOwnerProgram,
+  derivePda,
   fetchMultipleAccounts,
   getAccountDataBuffer,
+  parseSolanaAddress,
 } from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
@@ -28,10 +31,35 @@ const logger = makeLogger('StslxExchangeRateTransport')
 
 export const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 export const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
+export const GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
+export const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
 export const GLAM_VAULT_ADDRESS = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 export const SLX_TOKEN_ACCOUNT_ADDRESS = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
+export const ASSOCIATED_TOKEN_PROGRAM_ADDRESS = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
+
+const GLAM_VAULT_SEED = 'vault'
+const addressEncoder = getAddressEncoder()
 
 type RequestParams = typeof inputParameters.validated
+
+export const deriveVaultAddress = async (glamStateAddress = GLAM_STATE_ADDRESS) => {
+  const vaultAddress = await derivePda(GLAM_PROTOCOL_PROGRAM_ADDRESS, [
+    GLAM_VAULT_SEED,
+    addressEncoder.encode(parseSolanaAddress(glamStateAddress, 'glamStateAddress')),
+  ])
+
+  return vaultAddress.toString()
+}
+
+export const deriveSlxTokenAccountAddress = async (vaultAddress = GLAM_VAULT_ADDRESS) => {
+  const tokenAccountAddress = await derivePda(ASSOCIATED_TOKEN_PROGRAM_ADDRESS, [
+    addressEncoder.encode(parseSolanaAddress(vaultAddress, 'vaultAddress')),
+    addressEncoder.encode(parseSolanaAddress(LEGACY_TOKEN_PROGRAM_ADDRESS, 'tokenProgramAddress')),
+    addressEncoder.encode(parseSolanaAddress(SLX_MINT_ADDRESS, 'slxMintAddress')),
+  ])
+
+  return tokenAccountAddress.toString()
+}
 
 export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
@@ -84,18 +112,8 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       [SLX_MINT_ADDRESS, STSLX_MINT_ADDRESS, SLX_TOKEN_ACCOUNT_ADDRESS],
     )
 
-    assertOwnerProgram(
-      slxMintAccount,
-      `SLX mint '${SLX_MINT_ADDRESS}'`,
-      TOKEN_PROGRAM_ADDRESSES,
-      'a supported token program',
-    )
-    assertOwnerProgram(
-      stslxMintAccount,
-      `stSLX mint '${STSLX_MINT_ADDRESS}'`,
-      TOKEN_PROGRAM_ADDRESSES,
-      'a supported token program',
-    )
+    assertTokenProgramOwner(slxMintAccount, `SLX mint '${SLX_MINT_ADDRESS}'`)
+    assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${STSLX_MINT_ADDRESS}'`)
     assertOwnerProgram(
       slxTokenAccount,
       `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
