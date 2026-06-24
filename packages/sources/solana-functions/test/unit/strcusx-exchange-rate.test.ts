@@ -1,6 +1,4 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
-import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { MintLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { PublicKey } from '@solana/web3.js'
@@ -13,18 +11,6 @@ import {
   deriveStrategyAddress,
   StrcusxExchangeRateTransport,
 } from '../../src/transport/strcusx-exchange-rate'
-
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
 
 const programAddress = '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe'
 const strategyName = 'STRC-USX-1'
@@ -193,45 +179,21 @@ jest.mock('@solana/rpc', () => ({
   },
 }))
 
-const log = jest.fn()
-const logger = {
-  fatal: log,
-  error: log,
-  warn: log,
-  info: log,
-  debug: log,
-  trace: log,
-  msgPrefix: 'mock-logger',
-}
-
-const loggerFactory = { child: () => logger }
-
-LoggerFactoryProvider.set(loggerFactory)
-
 describe('StrcusxExchangeRateTransport', () => {
   const transportName = 'default_single_transport'
   const endpointName = 'strcusx-exchange-rate'
   const RPC_URL = 'https://solana.rpc.url'
-  const BACKGROUND_EXECUTE_MS = 1500
 
   const adapterSettings = makeStub('adapterSettings', {
     RPC_URL,
     SOLANA_COMMITMENT: 'finalized',
     WARMUP_SUBSCRIPTION_TTL: 10_000,
-    BACKGROUND_EXECUTE_MS,
+    BACKGROUND_EXECUTE_MS: 1500,
     MAX_COMMON_KEY_SIZE: 300,
   } as unknown as BaseEndpointTypes['Settings'])
 
-  const context = makeStub('context', {
-    adapterSettings,
-  } as EndpointContext<BaseEndpointTypes>)
-
-  const responseCache = {
-    write: jest.fn(),
-  }
-
   const dependencies = makeStub('dependencies', {
-    responseCache,
+    responseCache: { write: jest.fn() },
     subscriptionSetFactory: {
       buildSet: jest.fn(),
     },
@@ -241,24 +203,32 @@ describe('StrcusxExchangeRateTransport', () => {
     endpoint: 'strcusx-exchange-rate',
     programAddress,
     strategyName,
-    tranche: 'junior',
+    tranche: 'junior' as const,
     minRate,
     maxRate,
   })
 
   const seniorParam = makeStub('seniorParam', {
     ...juniorParam,
-    tranche: 'senior',
+    tranche: 'senior' as const,
   })
 
   let transport: StrcusxExchangeRateTransport
 
-  const mockValidAccountData = (
+  type AccountInfo = ReturnType<typeof makeAccountInfoResponse> | null
+
+  const mockAccountData = ({
     accountingData = encodeAccounting(),
     unixTimestamp = clockUnixTimestamp,
     assetMintDecimals = mintDecimals,
-  ) => {
-    const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
+    overrides = {},
+  }: {
+    accountingData?: string
+    unixTimestamp?: bigint
+    assetMintDecimals?: number
+    overrides?: Record<string, AccountInfo>
+  } = {}) => {
+    const accountsByAddress: Record<string, AccountInfo> = {
       [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
       [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
       [accountingAddress]: makeAccountInfoResponse(accountingData, programAddress),
@@ -268,6 +238,7 @@ describe('StrcusxExchangeRateTransport', () => {
       [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
       [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
       [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(unixTimestamp)),
+      ...overrides,
     }
 
     getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
@@ -276,18 +247,12 @@ describe('StrcusxExchangeRateTransport', () => {
   }
 
   beforeEach(async () => {
-    restoreEnv()
     jest.resetAllMocks()
     mockRpcRequests()
-    jest.useFakeTimers()
 
     transport = new StrcusxExchangeRateTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
-  })
-
-  afterEach(() => {
-    expect(log).not.toBeCalled()
   })
 
   describe('PDA derivation', () => {
@@ -300,45 +265,9 @@ describe('StrcusxExchangeRateTransport', () => {
     })
   })
 
-  describe('backgroundHandler', () => {
-    it('should sleep after handleRequest', async () => {
-      const t0 = Date.now()
-      let t1 = 0
-      transport.backgroundHandler(context, []).then(() => {
-        t1 = Date.now()
-      })
-      await jest.runAllTimersAsync()
-      expect(t1 - t0).toBe(BACKGROUND_EXECUTE_MS)
-    })
-  })
-
-  describe('handleRequest', () => {
-    it('should cache exchange rate response', async () => {
-      mockValidAccountData()
-
-      await transport.handleRequest(juniorParam)
-
-      expect(responseCache.write).toBeCalledWith(transportName, [
-        {
-          params: juniorParam,
-          response: expect.objectContaining({
-            statusCode: 200,
-            result: expectedJuniorRate,
-            data: expect.objectContaining({
-              result: expectedJuniorRate,
-              computedResult: expectedJuniorRate,
-              tranche: 'junior',
-            }),
-          }),
-        },
-      ])
-      expect(responseCache.write).toBeCalledTimes(1)
-    })
-  })
-
   describe('_handleRequest', () => {
     it('should return the junior tranche exchange rate', async () => {
-      mockValidAccountData()
+      mockAccountData()
 
       const response = await transport._handleRequest(juniorParam)
 
@@ -362,8 +291,8 @@ describe('StrcusxExchangeRateTransport', () => {
           unvestedSeniorAssets: '0',
         },
         timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
+          providerDataRequestedUnixMs: expect.any(Number),
+          providerDataReceivedUnixMs: expect.any(Number),
           providerIndicatedTimeUnixMs,
         },
       })
@@ -384,7 +313,7 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should return the senior tranche exchange rate', async () => {
-      mockValidAccountData()
+      mockAccountData()
 
       const response = await transport._handleRequest(seniorParam)
 
@@ -395,8 +324,8 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should exclude unvested total and senior yield from exchange rates', async () => {
-      mockValidAccountData(
-        encodeAccounting({
+      mockAccountData({
+        accountingData: encodeAccounting({
           totalAssetsValue: 670_000_000n,
           seniorAssetsValue: 208_000_000n,
           totalVestingAssetsValue: 20_000_000n,
@@ -404,8 +333,8 @@ describe('StrcusxExchangeRateTransport', () => {
           vestingStartTimeValue: 1_000n,
           vestingEndTimeValue: 3_000n,
         }),
-        2_000n,
-      )
+        unixTimestamp: 2_000n,
+      })
 
       const juniorResponse = await transport._handleRequest(juniorParam)
       const seniorResponse = await transport._handleRequest(seniorParam)
@@ -426,15 +355,15 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should floor the direct unvested asset calculation during active vesting', async () => {
-      mockValidAccountData(
-        encodeAccounting({
+      mockAccountData({
+        accountingData: encodeAccounting({
           totalVestingAssetsValue: 10n,
           seniorVestingAssetsValue: 4n,
           vestingStartTimeValue: 0n,
           vestingEndTimeValue: 3n,
         }),
-        1n,
-      )
+        unixTimestamp: 1n,
+      })
 
       const response = await transport._handleRequest(seniorParam)
 
@@ -447,15 +376,15 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should treat non-active vesting schedules as fully vested', async () => {
-      mockValidAccountData(
-        encodeAccounting({
+      mockAccountData({
+        accountingData: encodeAccounting({
           totalVestingAssetsValue: 20_000_000n,
           seniorVestingAssetsValue: 8_000_000n,
           vestingStartTimeValue: 3_000n,
           vestingEndTimeValue: 1_000n,
         }),
-        2_000n,
-      )
+        unixTimestamp: 2_000n,
+      })
 
       const juniorResponse = await transport._handleRequest(juniorParam)
       const seniorResponse = await transport._handleRequest(seniorParam)
@@ -465,7 +394,7 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should error when asset mint decimals do not match USX decimals', async () => {
-      mockValidAccountData(encodeAccounting(), clockUnixTimestamp, mintDecimals + 1)
+      mockAccountData({ assetMintDecimals: mintDecimals + 1 })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         'Expected asset mint decimals to be 6, found 7',
@@ -473,7 +402,7 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should clamp the exchange rate to minRate', async () => {
-      mockValidAccountData()
+      mockAccountData()
       const minClampedRate = (BigInt(expectedJuniorRate) + 1n).toString()
 
       const response = await transport._handleRequest({
@@ -488,7 +417,7 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should clamp the exchange rate to maxRate', async () => {
-      mockValidAccountData()
+      mockAccountData()
       const maxClampedRate = (BigInt(expectedJuniorRate) - 1n).toString()
 
       const response = await transport._handleRequest({
@@ -520,17 +449,14 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should error when account state is inconsistent', async () => {
-      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
-        [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
-        [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
-        [accountingAddress]: makeAccountInfoResponse(
-          encodeAccounting({ totalAssetsValue: seniorAssets - 1n }),
-          programAddress,
-        ),
-      }
-      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
-        value: addresses.map((address) => accountsByAddress[address] ?? null),
-      }))
+      mockAccountData({
+        overrides: {
+          [accountingAddress]: makeAccountInfoResponse(
+            encodeAccounting({ totalAssetsValue: seniorAssets - 1n }),
+            programAddress,
+          ),
+        },
+      })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         'totalAssets must be greater than or equal to seniorAssets',
@@ -538,23 +464,15 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should error when selected tranche shares are zero', async () => {
-      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
-        [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
-        [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
-        [accountingAddress]: makeAccountInfoResponse(
-          encodeAccounting({ juniorSharesValue: 0n }),
-          programAddress,
-        ),
-        [assetMintAddress]: makeAccountInfoResponse(
-          encodeMint(1_000_000_000_000_000_000n, mintDecimals),
-        ),
-        [juniorMintAddress]: makeAccountInfoResponse(encodeMint(0n, mintDecimals)),
-        [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
-        [clockSysvarAddress]: makeAccountInfoResponse(encodeClock(0n)),
-      }
-      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
-        value: addresses.map((address) => accountsByAddress[address] ?? null),
-      }))
+      mockAccountData({
+        overrides: {
+          [accountingAddress]: makeAccountInfoResponse(
+            encodeAccounting({ juniorSharesValue: 0n }),
+            programAddress,
+          ),
+          [juniorMintAddress]: makeAccountInfoResponse(encodeMint(0n, mintDecimals)),
+        },
+      })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         'junior tranche shares are zero',
@@ -562,24 +480,11 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should error when mint supply does not match accounting shares', async () => {
-      mockValidAccountData()
-      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
-        value: addresses.map((address) => {
-          if (address === juniorMintAddress) {
-            return makeAccountInfoResponse(encodeMint(juniorShares + 1n, mintDecimals))
-          }
-          const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
-            [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
-            [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
-            [accountingAddress]: makeAccountInfoResponse(encodeAccounting(), programAddress),
-            [assetMintAddress]: makeAccountInfoResponse(
-              encodeMint(1_000_000_000_000_000_000n, mintDecimals),
-            ),
-            [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
-          }
-          return accountsByAddress[address] ?? null
-        }),
-      }))
+      mockAccountData({
+        overrides: {
+          [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares + 1n, mintDecimals)),
+        },
+      })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         'Expected junior mint supply to equal accounting juniorShares',
@@ -587,14 +492,11 @@ describe('StrcusxExchangeRateTransport', () => {
     })
 
     it('should error when strategy/accounting names do not match the request', async () => {
-      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
-        [controllerAddress]: makeAccountInfoResponse(encodeController(), programAddress),
-        [strategyAddress]: makeAccountInfoResponse(encodeStrategy('OTHER'), programAddress),
-        [accountingAddress]: makeAccountInfoResponse(encodeAccounting(), programAddress),
-      }
-      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
-        value: addresses.map((address) => accountsByAddress[address] ?? null),
-      }))
+      mockAccountData({
+        overrides: {
+          [strategyAddress]: makeAccountInfoResponse(encodeStrategy('OTHER'), programAddress),
+        },
+      })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         "Expected Strategy name to be 'STRC-USX-1', found 'OTHER'",

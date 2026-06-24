@@ -33,6 +33,10 @@ const juniorShares = 450_000_000n
 const totalAssets = 650_000_001n
 const seniorAssets = 200_000_000n
 const mintDecimals = 6
+const expectedJuniorRate = '1000000002222222222'
+const expectedSeniorRate = '1000000000000000000'
+const providerDataTimestampUnixMs = 1_781_704_234_111
+const providerIndicatedTimeUnixMs = Number(clockUnixTimestamp * 1000n)
 
 const writeU128LE = (buffer: Buffer, value: bigint, offset: number) => {
   buffer.writeBigUInt64LE(value & ((1n << 64n) - 1n), offset)
@@ -179,8 +183,32 @@ describe('execute', () => {
         minRate,
         maxRate,
       })
-      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual({
+        data: {
+          boundsApplied: false,
+          computedResult: expectedJuniorRate,
+          decimals: 18,
+          juniorShares: juniorShares.toString(),
+          maxRate,
+          minRate,
+          result: expectedJuniorRate,
+          seniorShares: seniorShares.toString(),
+          tranche: 'junior',
+          unvestedSeniorAssets: '0',
+          unvestedTotalAssets: '0',
+          vestedJuniorAssets: (totalAssets - seniorAssets).toString(),
+          vestedSeniorAssets: seniorAssets.toString(),
+          vestedTotalAssets: totalAssets.toString(),
+        },
+        result: expectedJuniorRate,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: providerDataTimestampUnixMs,
+          providerDataRequestedUnixMs: providerDataTimestampUnixMs,
+          providerIndicatedTimeUnixMs,
+        },
+      })
     })
 
     it('should return senior success', async () => {
@@ -192,8 +220,32 @@ describe('execute', () => {
         minRate,
         maxRate,
       })
-      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual({
+        data: {
+          boundsApplied: false,
+          computedResult: expectedSeniorRate,
+          decimals: 18,
+          juniorShares: juniorShares.toString(),
+          maxRate,
+          minRate,
+          result: expectedSeniorRate,
+          seniorShares: seniorShares.toString(),
+          tranche: 'senior',
+          unvestedSeniorAssets: '0',
+          unvestedTotalAssets: '0',
+          vestedJuniorAssets: (totalAssets - seniorAssets).toString(),
+          vestedSeniorAssets: seniorAssets.toString(),
+          vestedTotalAssets: totalAssets.toString(),
+        },
+        result: expectedSeniorRate,
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: providerDataTimestampUnixMs,
+          providerDataRequestedUnixMs: providerDataTimestampUnixMs,
+          providerIndicatedTimeUnixMs,
+        },
+      })
     })
 
     it('should reject requests missing required bounds', async () => {
@@ -206,7 +258,14 @@ describe('execute', () => {
       })
 
       expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.json()).toEqual({
+        error: {
+          message: '[Param: minRate] param is required but no value was provided',
+          name: 'AdapterError',
+        },
+        status: 'errored',
+        statusCode: 400,
+      })
     })
   })
 })

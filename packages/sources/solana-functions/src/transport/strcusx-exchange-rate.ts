@@ -127,7 +127,7 @@ const parseStrategyName = (value: string) => {
   return value
 }
 
-export const readU128LE = (data: Buffer, offset: number) =>
+const readU128LE = (data: Buffer, offset: number) =>
   data.readBigUInt64LE(offset) + (data.readBigUInt64LE(offset + 8) << 64n)
 
 const readU64LE = (data: Buffer, offset: number) => data.readBigUInt64LE(offset)
@@ -217,7 +217,7 @@ export const deriveSeniorMintAddress = (programAddress: string, strategyName: st
   return address.toBase58()
 }
 
-export const decodeControllerState = (data: Buffer): ControllerState => {
+const decodeControllerState = (data: Buffer): ControllerState => {
   assertDataLength(data, 'Controller', CONTROLLER_MIN_LENGTH)
   assertDiscriminator(data, 'Controller', CONTROLLER_DISCRIMINATOR)
 
@@ -227,7 +227,7 @@ export const decodeControllerState = (data: Buffer): ControllerState => {
   }
 }
 
-export const decodeStrategyState = (data: Buffer): StrategyState => {
+const decodeStrategyState = (data: Buffer): StrategyState => {
   assertDataLength(data, 'Strategy', STRATEGY_MIN_LENGTH)
   assertDiscriminator(data, 'Strategy', STRATEGY_DISCRIMINATOR)
 
@@ -244,7 +244,7 @@ export const decodeStrategyState = (data: Buffer): StrategyState => {
   }
 }
 
-export const decodeAccountingState = (data: Buffer): AccountingState => {
+const decodeAccountingState = (data: Buffer): AccountingState => {
   assertDataLength(data, 'AccountingState', ACCOUNTING_MIN_LENGTH)
   assertDiscriminator(data, 'AccountingState', ACCOUNTING_STATE_DISCRIMINATOR)
 
