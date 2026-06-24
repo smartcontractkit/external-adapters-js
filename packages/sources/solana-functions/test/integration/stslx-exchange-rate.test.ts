@@ -125,8 +125,23 @@ describe('execute', () => {
         maxRate,
       }
       const response = await testAdapter.request(data)
-      expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
+      expect(response.json()).toEqual({
+        data: {
+          boundsApplied: false,
+          computedResult: '1500000000000000000',
+          decimals: 18,
+          maxRate,
+          minRate,
+          result: '1500000000000000000',
+        },
+        result: '1500000000000000000',
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: 978347471111,
+          providerDataRequestedUnixMs: 978347471111,
+        },
+      })
     })
 
     it('should reject requests missing required bounds', async () => {
@@ -136,7 +151,14 @@ describe('execute', () => {
       })
 
       expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.json()).toEqual({
+        error: {
+          message: '[Param: minRate] param is required but no value was provided',
+          name: 'AdapterError',
+        },
+        status: 'errored',
+        statusCode: 400,
+      })
     })
   })
 })

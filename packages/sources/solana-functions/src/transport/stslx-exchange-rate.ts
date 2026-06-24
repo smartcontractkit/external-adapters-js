@@ -4,8 +4,6 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from '@solana/spl-token'
-import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
 import {
   decodeMintInfo,
@@ -28,31 +26,12 @@ import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StslxExchangeRateTransport')
 
-export const GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
-export const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
 export const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 export const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
 export const GLAM_VAULT_ADDRESS = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 export const SLX_TOKEN_ACCOUNT_ADDRESS = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 
 type RequestParams = typeof inputParameters.validated
-
-export const deriveVaultAddress = (glamStateAddress = GLAM_STATE_ADDRESS) => {
-  const [vaultAddress] = PublicKey.findProgramAddressSync(
-    [Buffer.from('vault'), new PublicKey(glamStateAddress).toBuffer()],
-    new PublicKey(GLAM_PROTOCOL_PROGRAM_ADDRESS),
-  )
-
-  return vaultAddress.toBase58()
-}
-
-export const deriveSlxTokenAccountAddress = (vaultAddress = GLAM_VAULT_ADDRESS) =>
-  getAssociatedTokenAddressSync(
-    new PublicKey(SLX_MINT_ADDRESS),
-    new PublicKey(vaultAddress),
-    true,
-    TOKEN_PROGRAM_ID,
-  ).toBase58()
 
 export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
