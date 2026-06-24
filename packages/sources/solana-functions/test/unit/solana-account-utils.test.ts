@@ -57,6 +57,14 @@ describe('solana-account-utils', () => {
         'No account data found for test account',
       )
     })
+
+    it('should throw when account data is not a base64 string', () => {
+      const accountInfo = { data: [123, 'base64'], owner: systemProgramAddress }
+
+      expect(() =>
+        getAccountDataBuffer(accountInfo as unknown as AccountInfo, 'test account'),
+      ).toThrow('No account data found for test account')
+    })
   })
 
   describe('assertOwnerProgram', () => {
