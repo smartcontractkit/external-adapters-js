@@ -32,8 +32,8 @@ type DecodedMint = {
 }
 
 type DecodedTokenAccount = {
-  mint: { toBase58?(): string; toString(): string }
-  owner: { toBase58?(): string; toString(): string }
+  mint: { toString(): string }
+  owner: { toString(): string }
   amount: bigint
 }
 
@@ -79,9 +79,6 @@ const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> =
   [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
 }
 
-const publicKeyToString = (value: { toBase58?(): string; toString(): string }) =>
-  value.toBase58 ? value.toBase58() : value.toString()
-
 export const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
   assertDataLength(data, description, MintLayout.span)
   const decoded = MintLayout.decode(data) as DecodedMint
@@ -97,8 +94,8 @@ export const decodeTokenAccountInfo = (data: Buffer, description: string): Token
   const decoded = AccountLayout.decode(data) as DecodedTokenAccount
 
   return {
-    mintAddress: publicKeyToString(decoded.mint),
-    ownerAddress: publicKeyToString(decoded.owner),
+    mintAddress: decoded.mint.toString(),
+    ownerAddress: decoded.owner.toString(),
     amount: decoded.amount,
   }
 }

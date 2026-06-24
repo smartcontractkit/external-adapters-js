@@ -9,7 +9,7 @@ export type AccountInfo = {
   owner?: { toString(): string } | string
 }
 
-export type MultipleAccountsRpcResponse = {
+type MultipleAccountsRpcResponse = {
   value?: (AccountInfo | null)[]
 }
 

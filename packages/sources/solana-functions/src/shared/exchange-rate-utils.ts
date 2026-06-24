@@ -1,26 +1,17 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 export const RESULT_DECIMALS = 18
+const POSITIVE_INTEGER_PATTERN = /^[1-9]\d*$/
 
 export const parseRateBound = (value: string, name: string) => {
-  let parsed: bigint
-  try {
-    parsed = BigInt(value)
-  } catch {
+  if (!POSITIVE_INTEGER_PATTERN.test(value)) {
     throw new AdapterInputError({
       message: `${name} must be a positive base-10 integer string`,
       statusCode: 400,
     })
   }
 
-  if (parsed <= 0n || parsed.toString() !== value) {
-    throw new AdapterInputError({
-      message: `${name} must be a positive base-10 integer string`,
-      statusCode: 400,
-    })
-  }
-
-  return parsed
+  return BigInt(value)
 }
 
 export const parseRateBounds = (minRateValue: string, maxRateValue: string) => {

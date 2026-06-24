@@ -13,18 +13,11 @@ describe('exchange-rate-utils', () => {
     })
 
     it('should reject non-positive or non-canonical values', () => {
-      expect(() => parseRateBound('0', 'minRate')).toThrow(
-        'minRate must be a positive base-10 integer string',
-      )
-      expect(() => parseRateBound('-1', 'minRate')).toThrow(
-        'minRate must be a positive base-10 integer string',
-      )
-      expect(() => parseRateBound('01', 'minRate')).toThrow(
-        'minRate must be a positive base-10 integer string',
-      )
-      expect(() => parseRateBound('not-a-rate', 'minRate')).toThrow(
-        'minRate must be a positive base-10 integer string',
-      )
+      for (const value of ['0', '-1', '01', 'not-a-rate']) {
+        expect(() => parseRateBound(value, 'minRate')).toThrow(
+          'minRate must be a positive base-10 integer string',
+        )
+      }
     })
   })
 
