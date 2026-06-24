@@ -506,13 +506,6 @@ describe('StrcusxExchangeRateTransport', () => {
       await expect(
         transport._handleRequest({
           ...juniorParam,
-          tranche: 'mezzanine',
-        }),
-      ).rejects.toThrow("tranche must be either 'junior' or 'senior'")
-
-      await expect(
-        transport._handleRequest({
-          ...juniorParam,
           minRate: maxRate,
           maxRate: minRate,
         }),

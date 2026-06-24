@@ -18,6 +18,7 @@ export const inputParameters = new InputParameters(
     tranche: {
       description: 'The tranche to price: junior or senior',
       type: 'string',
+      options: ['junior', 'senior'],
       required: true,
     },
     minRate: {
