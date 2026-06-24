@@ -4,6 +4,7 @@ import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 
 export const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
 
+// Solana Clock sysvar layout stores unix_timestamp as an i64 at byte offset 32.
 const CLOCK_ACCOUNT_LENGTH = 40
 const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
 
@@ -40,7 +41,7 @@ export const getAccountDataBuffer = (
   description: string,
 ) => {
   const encodedData = accountInfo?.data?.[0]
-  if (!encodedData) {
+  if (typeof encodedData !== 'string' || encodedData.length === 0) {
     throw new AdapterInputError({
       message: `No account data found for ${description}`,
       statusCode: 500,
