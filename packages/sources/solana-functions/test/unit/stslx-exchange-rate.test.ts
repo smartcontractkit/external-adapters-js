@@ -13,6 +13,11 @@ import { BaseEndpointTypes } from '../../src/endpoint/stslx-exchange-rate'
 import {
   deriveSlxTokenAccountAddress,
   deriveVaultAddress,
+  GLAM_STATE_ADDRESS,
+  GLAM_VAULT_ADDRESS,
+  SLX_MINT_ADDRESS,
+  SLX_TOKEN_ACCOUNT_ADDRESS,
+  STSLX_MINT_ADDRESS,
   StslxExchangeRateTransport,
 } from '../../src/transport/stslx-exchange-rate'
 
@@ -28,11 +33,6 @@ const restoreEnv = () => {
   }
 }
 
-const slxMintAddress = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
-const stslxMintAddress = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
-const glamStateAddress = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
-const vaultAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
-const slxTokenAccountAddress = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
 
@@ -56,8 +56,8 @@ const encodeMint = (supply: bigint, decimals: number) => {
 
 const encodeTokenAccount = (
   amount: bigint,
-  mintAddress = slxMintAddress,
-  ownerAddress = vaultAddress,
+  mintAddress = SLX_MINT_ADDRESS,
+  ownerAddress = GLAM_VAULT_ADDRESS,
 ) => {
   const buffer = Buffer.alloc(AccountLayout.span)
   AccountLayout.encode(
@@ -80,26 +80,26 @@ const encodeTokenAccount = (
   return buffer.toString('base64')
 }
 
-const makeAccountInfoResponse = (data: string, owner = tokenProgramAddress) => ({
-  value: {
-    data: [data, 'base64'],
-    owner,
-  },
+const makeAccountInfo = (data: string, owner = tokenProgramAddress) => ({
+  data: [data, 'base64'],
+  owner,
 })
 
-const getAccountInfoSendMock = jest.fn()
-const getAccountInfoRequestMock = jest.fn()
+const getMultipleAccountsSendMock = jest.fn()
+const getMultipleAccountsRequestMock = jest.fn()
 
 const mockRpcRequests = () => {
-  getAccountInfoRequestMock.mockImplementation((address: string, config: { encoding: string }) => ({
-    send() {
-      return getAccountInfoSendMock(address, config)
-    },
-  }))
+  getMultipleAccountsRequestMock.mockImplementation(
+    (addresses: string[], config: { encoding: string }) => ({
+      send() {
+        return getMultipleAccountsSendMock(addresses, config)
+      },
+    }),
+  )
 }
 
 const solanaRpc = makeStub('solanaRpc', {
-  getAccountInfo: getAccountInfoRequestMock,
+  getMultipleAccounts: getMultipleAccountsRequestMock,
 })
 
 const createSolanaRpc = () => solanaRpc
@@ -166,7 +166,6 @@ describe('StslxExchangeRateTransport', () => {
 
   const param = makeStub('param', {
     endpoint: 'stslx-exchange-rate',
-    glamStateAddress,
     minRate,
     maxRate,
   })
@@ -174,21 +173,18 @@ describe('StslxExchangeRateTransport', () => {
   let transport: StslxExchangeRateTransport
 
   const mockValidAccountData = () => {
-    getAccountInfoSendMock.mockImplementation((address: string) => {
-      if (address === slxMintAddress) {
-        return makeAccountInfoResponse(encodeMint(100_000_000_000n, slxMintDecimals))
-      }
-      if (address === stslxMintAddress) {
-        return makeAccountInfoResponse(
-          encodeMint(stslxSupply, stslxMintDecimals),
-          token2022ProgramAddress,
-        )
-      }
-      if (address === slxTokenAccountAddress) {
-        return makeAccountInfoResponse(encodeTokenAccount(slxBalance))
-      }
-      throw new Error(`Unexpected getAccountInfo address: ${address}`)
-    })
+    const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfo>> = {
+      [SLX_MINT_ADDRESS]: makeAccountInfo(encodeMint(100_000_000_000n, slxMintDecimals)),
+      [STSLX_MINT_ADDRESS]: makeAccountInfo(
+        encodeMint(stslxSupply, stslxMintDecimals),
+        token2022ProgramAddress,
+      ),
+      [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(encodeTokenAccount(slxBalance)),
+    }
+
+    getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
+      value: addresses.map((address) => accountsByAddress[address] ?? null),
+    }))
   }
 
   beforeEach(async () => {
@@ -208,13 +204,15 @@ describe('StslxExchangeRateTransport', () => {
 
   describe('deriveVaultAddress', () => {
     it('should derive the expected GLAM vault PDA', () => {
-      expect(deriveVaultAddress(glamStateAddress)).toBe(vaultAddress)
+      expect(deriveVaultAddress(GLAM_STATE_ADDRESS)).toBe(GLAM_VAULT_ADDRESS)
+      expect(deriveVaultAddress()).toBe(GLAM_VAULT_ADDRESS)
     })
   })
 
   describe('deriveSlxTokenAccountAddress', () => {
     it('should derive the expected GLAM SLX base-asset ATA', () => {
-      expect(deriveSlxTokenAccountAddress(vaultAddress)).toBe(slxTokenAccountAddress)
+      expect(deriveSlxTokenAccountAddress(GLAM_VAULT_ADDRESS)).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
+      expect(deriveSlxTokenAccountAddress()).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
     })
   })
 
@@ -265,7 +263,7 @@ describe('StslxExchangeRateTransport', () => {
   })
 
   describe('_handleRequest', () => {
-    it('should read the SLX base-asset ATA and return the normalized exchange rate', async () => {
+    it('should read all accounts atomically and return the normalized exchange rate', async () => {
       mockValidAccountData()
 
       const response = await transport._handleRequest(param)
@@ -287,9 +285,10 @@ describe('StslxExchangeRateTransport', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       })
-      expect(getAccountInfoRequestMock).toBeCalledWith(slxTokenAccountAddress, {
-        encoding: 'base64',
-      })
+      expect(getMultipleAccountsRequestMock).toBeCalledWith(
+        [SLX_MINT_ADDRESS, STSLX_MINT_ADDRESS, SLX_TOKEN_ACCOUNT_ADDRESS],
+        { encoding: 'base64' },
+      )
     })
 
     it('should clamp the exchange rate to minRate', async () => {
@@ -301,13 +300,10 @@ describe('StslxExchangeRateTransport', () => {
         minRate: minClampedRate,
       })
 
-      if (!response.data) {
-        throw new Error('Expected response data')
-      }
       expect(response.result).toBe(minClampedRate)
-      expect(response.data.result).toBe(minClampedRate)
-      expect(response.data.computedResult).toBe(expectedRate)
-      expect(response.data.boundsApplied).toBe(true)
+      expect(response.data?.result).toBe(minClampedRate)
+      expect(response.data?.computedResult).toBe(expectedRate)
+      expect(response.data?.boundsApplied).toBe(true)
     })
 
     it('should clamp the exchange rate to maxRate', async () => {
@@ -319,13 +315,10 @@ describe('StslxExchangeRateTransport', () => {
         maxRate: maxClampedRate,
       })
 
-      if (!response.data) {
-        throw new Error('Expected response data')
-      }
       expect(response.result).toBe(maxClampedRate)
-      expect(response.data.result).toBe(maxClampedRate)
-      expect(response.data.computedResult).toBe(expectedRate)
-      expect(response.data.boundsApplied).toBe(true)
+      expect(response.data?.result).toBe(maxClampedRate)
+      expect(response.data?.computedResult).toBe(expectedRate)
+      expect(response.data?.boundsApplied).toBe(true)
     })
 
     it('should error when rate bounds are invalid', async () => {
@@ -353,84 +346,71 @@ describe('StslxExchangeRateTransport', () => {
     })
 
     it('should error when the stSLX mint has zero supply', async () => {
-      mockValidAccountData()
-      getAccountInfoSendMock.mockImplementation((address: string) => {
-        if (address === slxMintAddress) {
-          return makeAccountInfoResponse(encodeMint(100_000_000_000n, slxMintDecimals))
-        }
-        if (address === stslxMintAddress) {
-          return makeAccountInfoResponse(encodeMint(0n, stslxMintDecimals), token2022ProgramAddress)
-        }
-        if (address === slxTokenAccountAddress) {
-          return makeAccountInfoResponse(encodeTokenAccount(slxBalance))
-        }
-        throw new Error(`Unexpected getAccountInfo address: ${address}`)
-      })
+      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfo>> = {
+        [SLX_MINT_ADDRESS]: makeAccountInfo(encodeMint(100_000_000_000n, slxMintDecimals)),
+        [STSLX_MINT_ADDRESS]: makeAccountInfo(
+          encodeMint(0n, stslxMintDecimals),
+          token2022ProgramAddress,
+        ),
+        [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(encodeTokenAccount(slxBalance)),
+      }
+      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
+        value: addresses.map((address) => accountsByAddress[address] ?? null),
+      }))
 
       await expect(transport._handleRequest(param)).rejects.toThrow('has zero supply')
     })
 
     it('should error when the derived SLX base-asset ATA is missing', async () => {
-      mockValidAccountData()
-      getAccountInfoSendMock.mockImplementation((address: string) => {
-        if (address === slxMintAddress) {
-          return makeAccountInfoResponse(encodeMint(100_000_000_000n, slxMintDecimals))
-        }
-        if (address === stslxMintAddress) {
-          return makeAccountInfoResponse(
-            encodeMint(stslxSupply, stslxMintDecimals),
-            token2022ProgramAddress,
-          )
-        }
-        if (address === slxTokenAccountAddress) {
-          return { value: null }
-        }
-        throw new Error(`Unexpected getAccountInfo address: ${address}`)
-      })
+      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfo> | null> = {
+        [SLX_MINT_ADDRESS]: makeAccountInfo(encodeMint(100_000_000_000n, slxMintDecimals)),
+        [STSLX_MINT_ADDRESS]: makeAccountInfo(
+          encodeMint(stslxSupply, stslxMintDecimals),
+          token2022ProgramAddress,
+        ),
+        [SLX_TOKEN_ACCOUNT_ADDRESS]: null,
+      }
+      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
+        value: addresses.map((address) => accountsByAddress[address] ?? null),
+      }))
 
-      await expect(transport._handleRequest(param)).rejects.toThrow('No account data found')
+      await expect(transport._handleRequest(param)).rejects.toThrow(
+        `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' to be owned by the legacy SPL Token program`,
+      )
     })
 
     it('should error when the SLX base-asset ATA has the wrong mint', async () => {
-      mockValidAccountData()
-      getAccountInfoSendMock.mockImplementation((address: string) => {
-        if (address === slxMintAddress) {
-          return makeAccountInfoResponse(encodeMint(100_000_000_000n, slxMintDecimals))
-        }
-        if (address === stslxMintAddress) {
-          return makeAccountInfoResponse(
-            encodeMint(stslxSupply, stslxMintDecimals),
-            token2022ProgramAddress,
-          )
-        }
-        if (address === slxTokenAccountAddress) {
-          return makeAccountInfoResponse(encodeTokenAccount(slxBalance, stslxMintAddress))
-        }
-        throw new Error(`Unexpected getAccountInfo address: ${address}`)
-      })
+      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfo>> = {
+        [SLX_MINT_ADDRESS]: makeAccountInfo(encodeMint(100_000_000_000n, slxMintDecimals)),
+        [STSLX_MINT_ADDRESS]: makeAccountInfo(
+          encodeMint(stslxSupply, stslxMintDecimals),
+          token2022ProgramAddress,
+        ),
+        [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(
+          encodeTokenAccount(slxBalance, STSLX_MINT_ADDRESS),
+        ),
+      }
+      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
+        value: addresses.map((address) => accountsByAddress[address] ?? null),
+      }))
 
       await expect(transport._handleRequest(param)).rejects.toThrow('mint to be')
     })
 
     it('should error when the SLX base-asset ATA has the wrong owner', async () => {
-      mockValidAccountData()
-      getAccountInfoSendMock.mockImplementation((address: string) => {
-        if (address === slxMintAddress) {
-          return makeAccountInfoResponse(encodeMint(100_000_000_000n, slxMintDecimals))
-        }
-        if (address === stslxMintAddress) {
-          return makeAccountInfoResponse(
-            encodeMint(stslxSupply, stslxMintDecimals),
-            token2022ProgramAddress,
-          )
-        }
-        if (address === slxTokenAccountAddress) {
-          return makeAccountInfoResponse(
-            encodeTokenAccount(slxBalance, slxMintAddress, PublicKey.default.toBase58()),
-          )
-        }
-        throw new Error(`Unexpected getAccountInfo address: ${address}`)
-      })
+      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfo>> = {
+        [SLX_MINT_ADDRESS]: makeAccountInfo(encodeMint(100_000_000_000n, slxMintDecimals)),
+        [STSLX_MINT_ADDRESS]: makeAccountInfo(
+          encodeMint(stslxSupply, stslxMintDecimals),
+          token2022ProgramAddress,
+        ),
+        [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(
+          encodeTokenAccount(slxBalance, SLX_MINT_ADDRESS, PublicKey.default.toBase58()),
+        ),
+      }
+      getMultipleAccountsSendMock.mockImplementation((addresses: string[]) => ({
+        value: addresses.map((address) => accountsByAddress[address] ?? null),
+      }))
 
       await expect(transport._handleRequest(param)).rejects.toThrow('owner to be')
     })

@@ -3,128 +3,41 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import {
-  AccountLayout,
-  getAssociatedTokenAddressSync,
-  MintLayout,
-  TOKEN_2022_PROGRAM_ID,
-  TOKEN_PROGRAM_ID,
-} from '@solana/spl-token'
+import { getAssociatedTokenAddressSync, TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
+import {
+  decodeMintInfo,
+  decodeTokenAccountInfo,
+  LEGACY_TOKEN_PROGRAM_ADDRESS,
+  TOKEN_PROGRAM_ADDRESSES,
+} from '../shared/buffer-layout-accounts'
+import {
+  applyRateBounds,
+  calculateNormalizedRate,
+  parseRateBounds,
+  RESULT_DECIMALS,
+} from '../shared/exchange-rate-utils'
+import {
+  assertOwnerProgram,
+  fetchMultipleAccounts,
+  getAccountDataBuffer,
+} from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StslxExchangeRateTransport')
 
-const RESULT_DECIMALS = 18
-
-// stSLX-specific accounts. The GLAM state is supplied by the request.
-const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
-const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
-const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
-const TOKEN_PROGRAM_ADDRESSES = [TOKEN_PROGRAM_ID.toBase58(), TOKEN_2022_PROGRAM_ID.toBase58()]
+export const GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
+export const GLAM_PROTOCOL_PROGRAM_ADDRESS = 'GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz'
+export const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
+export const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
+export const GLAM_VAULT_ADDRESS = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
+export const SLX_TOKEN_ACCOUNT_ADDRESS = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 
 type RequestParams = typeof inputParameters.validated
 
-type EncodedAccountData = readonly [string, string]
-
-type AccountInfo = {
-  data?: EncodedAccountData
-  owner?: { toString(): string } | string
-}
-
-type AccountInfoRpcResponse = {
-  value?: AccountInfo | null
-}
-
-type DecodedMint = {
-  supply: bigint
-  decimals: number
-}
-
-type DecodedTokenAccount = {
-  mint: PublicKey
-  owner: PublicKey
-  amount: bigint
-}
-
-type MintInfo = {
-  supply: bigint
-  decimals: number
-}
-
-const parseRateBound = (value: string, name: string) => {
-  let parsed: bigint
-  try {
-    parsed = BigInt(value)
-  } catch {
-    throw new AdapterInputError({
-      message: `${name} must be a positive base-10 integer string`,
-      statusCode: 400,
-    })
-  }
-
-  if (parsed <= 0n || parsed.toString() !== value) {
-    throw new AdapterInputError({
-      message: `${name} must be a positive base-10 integer string`,
-      statusCode: 400,
-    })
-  }
-
-  return parsed
-}
-
-const getAccountDataBuffer = (accountInfo: AccountInfo | null | undefined, description: string) => {
-  // All account reads request raw base64 data so we can decode integer fields directly.
-  const encodedData = accountInfo?.data?.[0]
-  if (!encodedData) {
-    throw new AdapterInputError({
-      message: `No account data found for ${description}`,
-      statusCode: 500,
-    })
-  }
-
-  return Buffer.from(encodedData, 'base64')
-}
-
-const assertOwnerProgram = (
-  accountInfo: AccountInfo | null | undefined,
-  description: string,
-  expectedOwners: string[],
-  ownerDescription: string,
-) => {
-  const owner = accountInfo?.owner?.toString()
-  if (!owner || !expectedOwners.includes(owner)) {
-    throw new AdapterInputError({
-      message: `Expected ${description} to be owned by ${ownerDescription} [${expectedOwners.join(
-        ', ',
-      )}], found '${owner}'`,
-      statusCode: 500,
-    })
-  }
-}
-
-const assertTokenProgramOwner = (
-  accountInfo: AccountInfo | null | undefined,
-  description: string,
-) =>
-  assertOwnerProgram(accountInfo, description, TOKEN_PROGRAM_ADDRESSES, 'a supported token program')
-
-const assertLegacyTokenProgramOwner = (
-  accountInfo: AccountInfo | null | undefined,
-  description: string,
-) =>
-  assertOwnerProgram(
-    accountInfo,
-    description,
-    [TOKEN_PROGRAM_ID.toBase58()],
-    'the legacy SPL Token program',
-  )
-
-export const deriveVaultAddress = (glamStateAddress: string) => {
-  // GLAM stores token assets in a vault PDA derived from the state account and protocol program.
+export const deriveVaultAddress = (glamStateAddress = GLAM_STATE_ADDRESS) => {
   const [vaultAddress] = PublicKey.findProgramAddressSync(
     [Buffer.from('vault'), new PublicKey(glamStateAddress).toBuffer()],
     new PublicKey(GLAM_PROTOCOL_PROGRAM_ADDRESS),
@@ -133,7 +46,7 @@ export const deriveVaultAddress = (glamStateAddress: string) => {
   return vaultAddress.toBase58()
 }
 
-export const deriveSlxTokenAccountAddress = (vaultAddress: string) =>
+export const deriveSlxTokenAccountAddress = (vaultAddress = GLAM_VAULT_ADDRESS) =>
   getAssociatedTokenAddressSync(
     new PublicKey(SLX_MINT_ADDRESS),
     new PublicKey(vaultAddress),
@@ -184,43 +97,73 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const glamStateAddress = params.glamStateAddress
-    const minRate = parseRateBound(params.minRate, 'minRate')
-    const maxRate = parseRateBound(params.maxRate, 'maxRate')
-    if (minRate > maxRate) {
+    const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
+
+    // The stSLX feed reads GLAM vault's canonical SLX ATA as its SLX balance source.
+    const [slxMintAccount, stslxMintAccount, slxTokenAccount] = await fetchMultipleAccounts(
+      this.rpc,
+      [SLX_MINT_ADDRESS, STSLX_MINT_ADDRESS, SLX_TOKEN_ACCOUNT_ADDRESS],
+    )
+
+    assertOwnerProgram(
+      slxMintAccount,
+      `SLX mint '${SLX_MINT_ADDRESS}'`,
+      TOKEN_PROGRAM_ADDRESSES,
+      'a supported token program',
+    )
+    assertOwnerProgram(
+      stslxMintAccount,
+      `stSLX mint '${STSLX_MINT_ADDRESS}'`,
+      TOKEN_PROGRAM_ADDRESSES,
+      'a supported token program',
+    )
+    assertOwnerProgram(
+      slxTokenAccount,
+      `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
+      [LEGACY_TOKEN_PROGRAM_ADDRESS],
+      'the legacy SPL Token program',
+    )
+
+    const slxMint = decodeMintInfo(
+      getAccountDataBuffer(slxMintAccount, `SLX mint '${SLX_MINT_ADDRESS}'`),
+      `SLX mint '${SLX_MINT_ADDRESS}'`,
+    )
+    const stslxMint = decodeMintInfo(
+      getAccountDataBuffer(stslxMintAccount, `stSLX mint '${STSLX_MINT_ADDRESS}'`),
+      `stSLX mint '${STSLX_MINT_ADDRESS}'`,
+    )
+    const slxToken = decodeTokenAccountInfo(
+      getAccountDataBuffer(slxTokenAccount, `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`),
+      `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
+    )
+
+    if (slxToken.mintAddress !== SLX_MINT_ADDRESS) {
       throw new AdapterInputError({
-        message: `minRate must be less than or equal to maxRate`,
-        statusCode: 400,
+        message: `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' mint to be '${SLX_MINT_ADDRESS}', found '${slxToken.mintAddress}'`,
+        statusCode: 500,
+      })
+    }
+    if (slxToken.ownerAddress !== GLAM_VAULT_ADDRESS) {
+      throw new AdapterInputError({
+        message: `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' owner to be '${GLAM_VAULT_ADDRESS}', found '${slxToken.ownerAddress}'`,
+        statusCode: 500,
       })
     }
 
-    const vaultAddress = deriveVaultAddress(glamStateAddress)
-    const slxTokenAccountAddress = deriveSlxTokenAccountAddress(vaultAddress)
-
-    // Compute the rate from raw on-chain state: SLX held in GLAM's base-asset ATA
-    // divided by stSLX mint supply, normalized by each mint's native decimals.
-    const [slxMint, stslxMint, slxBalance] = await Promise.all([
-      this.fetchMintInfo(SLX_MINT_ADDRESS, 'SLX mint'),
-      this.fetchMintInfo(STSLX_MINT_ADDRESS, 'stSLX mint'),
-      this.fetchBaseAssetBalance(vaultAddress, slxTokenAccountAddress),
-    ])
-
-    if (stslxMint.supply === 0n) {
+    const computedRate = calculateNormalizedRate(
+      slxToken.amount,
+      stslxMint.supply,
+      slxMint.decimals,
+      stslxMint.decimals,
+    )
+    if (computedRate === null) {
       throw new AdapterInputError({
         message: `stSLX mint '${STSLX_MINT_ADDRESS}' has zero supply`,
         statusCode: 500,
       })
     }
 
-    // Rate is returned as an integer with 18 decimals:
-    //   SLX balance / stSLX supply, normalized by each mint's native decimals.
-    const computedRate =
-      (slxBalance * 10n ** BigInt(RESULT_DECIMALS + stslxMint.decimals)) /
-      (stslxMint.supply * 10n ** BigInt(slxMint.decimals))
-
-    // Bounds are an explicit jobspec safeguard against transient RPC/read-skew spikes.
-    // The EA is stateless, so it clamps against configured absolute limits instead of a cached rate.
-    const rate = computedRate < minRate ? minRate : computedRate > maxRate ? maxRate : computedRate
+    const { rate, boundsApplied } = applyRateBounds(computedRate, minRate, maxRate)
     const result = rate.toString()
     const computedResult = computedRate.toString()
 
@@ -231,7 +174,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
         decimals: RESULT_DECIMALS,
         minRate: minRate.toString(),
         maxRate: maxRate.toString(),
-        boundsApplied: result !== computedResult,
+        boundsApplied,
       },
       statusCode: 200,
       result,
@@ -241,67 +184,6 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-  }
-
-  private async fetchMintInfo(mintAddress: string, description: string): Promise<MintInfo> {
-    const encoding = 'base64'
-    const resp = (await this.rpc
-      .getAccountInfo(mintAddress as Address, { encoding })
-      .send()) as AccountInfoRpcResponse
-    const accountInfo = resp.value
-    assertTokenProgramOwner(accountInfo, description)
-
-    // MintLayout gives us the raw SPL mint supply and token decimals without using uiAmount floats.
-    const data = getAccountDataBuffer(accountInfo, description)
-    if (data.length < MintLayout.span) {
-      throw new AdapterInputError({
-        message: `Expected ${description} account data to be at least ${MintLayout.span} bytes, found ${data.length}`,
-        statusCode: 500,
-      })
-    }
-
-    const decoded = MintLayout.decode(data) as DecodedMint
-    return {
-      supply: decoded.supply,
-      decimals: decoded.decimals,
-    }
-  }
-
-  private async fetchBaseAssetBalance(vaultAddress: string, tokenAccountAddress: string) {
-    const encoding = 'base64'
-    const resp = (await this.rpc
-      .getAccountInfo(tokenAccountAddress as Address, { encoding })
-      .send()) as AccountInfoRpcResponse
-    const accountInfo = resp.value
-
-    const data = getAccountDataBuffer(accountInfo, `SLX token account '${tokenAccountAddress}'`)
-    assertLegacyTokenProgramOwner(accountInfo, `SLX token account '${tokenAccountAddress}'`)
-
-    if (data.length < AccountLayout.span) {
-      throw new AdapterInputError({
-        message: `Expected SLX token account '${tokenAccountAddress}' data to be at least ${AccountLayout.span} bytes, found ${data.length}`,
-        statusCode: 500,
-      })
-    }
-
-    const decoded = AccountLayout.decode(data) as DecodedTokenAccount
-    const mintAddress = decoded.mint.toBase58()
-    if (mintAddress !== SLX_MINT_ADDRESS) {
-      throw new AdapterInputError({
-        message: `Expected SLX token account '${tokenAccountAddress}' mint to be '${SLX_MINT_ADDRESS}', found '${mintAddress}'`,
-        statusCode: 500,
-      })
-    }
-
-    const ownerAddress = decoded.owner.toBase58()
-    if (ownerAddress !== vaultAddress) {
-      throw new AdapterInputError({
-        message: `Expected SLX token account '${tokenAccountAddress}' owner to be '${vaultAddress}', found '${ownerAddress}'`,
-        statusCode: 500,
-      })
-    }
-
-    return decoded.amount
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

@@ -5,11 +5,6 @@ import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
 
 export const inputParameters = new InputParameters(
   {
-    glamStateAddress: {
-      description: 'The GLAM state account address for the stSLX vault',
-      type: 'string',
-      required: true,
-    },
     minRate: {
       description: 'Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer',
       type: 'string',
@@ -23,7 +18,6 @@ export const inputParameters = new InputParameters(
   },
   [
     {
-      glamStateAddress: '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB',
       minRate: '950000000000000000',
       maxRate: '1050000000000000000',
     },

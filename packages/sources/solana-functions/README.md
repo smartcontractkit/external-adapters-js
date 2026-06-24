@@ -245,11 +245,10 @@ Request:
 
 ### Input Params
 
-| Required? |       Name       | Aliases |                                 Description                                  |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :--------------: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | glamStateAddress |         |              The GLAM state account address for the stSLX vault              | string |         |         |            |                |
-|    ✅     |     minRate      |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
-|    ✅     |     maxRate      |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
+| Required? |  Name   | Aliases |                                 Description                                  |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | minRate |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
+|    ✅     | maxRate |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
 
 ### Example
 
@@ -259,7 +258,6 @@ Request:
 {
   "data": {
     "endpoint": "stslx-exchange-rate",
-    "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
     "minRate": "950000000000000000",
     "maxRate": "1050000000000000000"
   }

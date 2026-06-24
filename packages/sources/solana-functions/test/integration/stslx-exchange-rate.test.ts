@@ -13,7 +13,6 @@ import { PublicKey } from '@solana/web3.js'
 
 const slxMintAddress = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 const stslxMintAddress = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
-const glamStateAddress = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
 const vaultAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 const slxTokenAccountAddress = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 const minRate = '1000000000000000000'
@@ -62,25 +61,25 @@ const encodeTokenAccount = (amount: bigint) => {
 }
 
 const makeAccountInfoResponse = (data: string, owner = tokenProgramAddress) => ({
-  value: {
-    data: [data, 'base64'],
-    owner,
-  },
+  data: [data, 'base64'],
+  owner,
 })
 
 const solanaRpc = makeStub('solanaRpc', {
-  getAccountInfo: (address: string) => ({
+  getMultipleAccounts: (addresses: string[]) => ({
     async send() {
-      if (address === slxMintAddress) {
-        return makeAccountInfoResponse(encodeMint(100_000_000_000n, 9))
+      const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
+        [slxMintAddress]: makeAccountInfoResponse(encodeMint(100_000_000_000n, 9)),
+        [stslxMintAddress]: makeAccountInfoResponse(
+          encodeMint(1_000_000n, 6),
+          token2022ProgramAddress,
+        ),
+        [slxTokenAccountAddress]: makeAccountInfoResponse(encodeTokenAccount(1_500_000_000n)),
       }
-      if (address === stslxMintAddress) {
-        return makeAccountInfoResponse(encodeMint(1_000_000n, 6), token2022ProgramAddress)
+
+      return {
+        value: addresses.map((address) => accountsByAddress[address] ?? null),
       }
-      if (address === slxTokenAccountAddress) {
-        return makeAccountInfoResponse(encodeTokenAccount(1_500_000_000n))
-      }
-      throw new Error(`Unexpected getAccountInfo address: ${address}`)
     },
   }),
 })
@@ -122,7 +121,6 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         endpoint: 'stslx-exchange-rate',
-        glamStateAddress,
         minRate,
         maxRate,
       }
@@ -134,7 +132,6 @@ describe('execute', () => {
     it('should reject requests missing required bounds', async () => {
       const response = await testAdapter.request({
         endpoint: 'stslx-exchange-rate',
-        glamStateAddress,
         maxRate,
       })
 
