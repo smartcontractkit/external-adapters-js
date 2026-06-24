@@ -1,16 +1,38 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { type Address } from '@solana/addresses'
+import { address, getProgramDerivedAddress } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 
-export type EncodedAccountData = readonly [string, string]
+export const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
 
-export type AccountInfo = {
-  data?: EncodedAccountData
-  owner?: { toString(): string } | string
+const CLOCK_ACCOUNT_LENGTH = 40
+const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
+
+type MultipleAccountsResponse = Awaited<
+  ReturnType<ReturnType<Rpc<SolanaRpcApi>['getMultipleAccounts']>['send']>
+>
+
+export type AccountInfo = NonNullable<MultipleAccountsResponse['value']>[number]
+
+export type PdaSeed = Parameters<typeof getProgramDerivedAddress>[0]['seeds'][number]
+
+export const parseSolanaAddress = (value: string, name: string) => {
+  try {
+    return address(value)
+  } catch {
+    throw new AdapterInputError({
+      message: `${name} must be a valid Solana address`,
+      statusCode: 400,
+    })
+  }
 }
 
-type MultipleAccountsRpcResponse = {
-  value?: (AccountInfo | null)[]
+export const derivePda = async (programAddress: string, seeds: PdaSeed[]) => {
+  const [pda] = await getProgramDerivedAddress({
+    programAddress: parseSolanaAddress(programAddress, 'programAddress'),
+    seeds,
+  })
+
+  return pda
 }
 
 export const getAccountDataBuffer = (
@@ -45,6 +67,28 @@ export const assertOwnerProgram = (
   }
 }
 
+export const assertNameMatches = (
+  actualName: string,
+  expectedName: string,
+  description: string,
+) => {
+  if (actualName !== expectedName) {
+    throw new AdapterInputError({
+      message: `Expected ${description} name to be '${expectedName}', found '${actualName}'`,
+      statusCode: 500,
+    })
+  }
+}
+
+export const assertAddressMatches = (actual: string, expected: string, description: string) => {
+  if (actual !== expected) {
+    throw new AdapterInputError({
+      message: `Expected ${description} to be '${expected}', found '${actual}'`,
+      statusCode: 500,
+    })
+  }
+}
+
 export const assertDataLength = (data: Buffer, description: string, minLength: number) => {
   if (data.length < minLength) {
     throw new AdapterInputError({
@@ -65,11 +109,19 @@ export const assertDiscriminator = (data: Buffer, description: string, discrimin
   }
 }
 
+export const decodeClockUnixTimestamp = (accountInfo: AccountInfo | null | undefined) => {
+  const data = getAccountDataBuffer(accountInfo, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
+  assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
+
+  return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
+}
+
 export const fetchMultipleAccounts = async (rpc: Rpc<SolanaRpcApi>, addresses: string[]) => {
-  const encoding = 'base64'
-  const resp = (await rpc
-    .getMultipleAccounts(addresses as Address[], { encoding })
-    .send()) as MultipleAccountsRpcResponse
+  const encoding = 'base64' as const
+  const validatedAddresses = addresses.map((accountAddress) =>
+    parseSolanaAddress(accountAddress, 'address'),
+  )
+  const resp = await rpc.getMultipleAccounts(validatedAddresses, { encoding }).send()
 
   if (!resp.value || resp.value.length !== addresses.length) {
     throw new AdapterInputError({

@@ -1,10 +1,13 @@
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import {
+  TOKEN_2022_PROGRAM_ADDRESS,
+  assertTokenProgramOwner,
   decodeMintInfo,
   decodeTokenAccountInfo,
   fetchFieldFromBufferLayoutStateAccount,
 } from '../../src/shared/buffer-layout-accounts'
+import { type AccountInfo } from '../../src/shared/solana-account-utils'
 import * as sanctumInfinityPoolAccountData from '../fixtures/sanctum-infinity-pool-account-data-2025-10-07.json'
 import * as sanctumInfinityTokenAccountData from '../fixtures/sanctum-infinity-token-account-data-2025-10-07.json'
 import * as tokenAccountData from '../fixtures/token-account-data-2025-12-01.json'
@@ -20,6 +23,8 @@ describe('buffer-layout-accounts', () => {
 
     getAccountInfoMock.mockReturnValue({ send: sendMock })
   })
+
+  const makeAccountInfo = (owner: string) => ({ owner } as unknown as AccountInfo)
 
   describe('fetchFieldFromBufferLayoutStateAccount', () => {
     it('should fetch and decode field from mint account', async () => {
@@ -129,6 +134,25 @@ describe('buffer-layout-accounts', () => {
       expect(getAccountInfoMock).toHaveBeenCalledTimes(1)
     })
 
+    it('should not use the exact-span layout map for Token-2022 accounts', async () => {
+      const response = makeStub('response', {
+        value: {
+          data: [Buffer.alloc(200).toString('base64'), 'base64'],
+          owner: TOKEN_2022_PROGRAM_ADDRESS,
+        },
+      })
+
+      sendMock.mockResolvedValue(response)
+
+      await expect(() =>
+        fetchFieldFromBufferLayoutStateAccount({
+          stateAccountAddress: '5oVNBeEEQvYi1cX3ir8Dx5n1P7pdxydbGF2X4TxVusJm',
+          field: 'amount',
+          rpc,
+        }),
+      ).rejects.toThrow(`No layout known for program address '${TOKEN_2022_PROGRAM_ADDRESS}'`)
+    })
+
     it('should throw for unknown program', async () => {
       const response = makeStub('response', {
         value: {
@@ -189,6 +213,20 @@ describe('buffer-layout-accounts', () => {
         supply: 1_116_792_619_507_830n,
         decimals: 9,
       })
+    })
+  })
+
+  describe('assertTokenProgramOwner', () => {
+    it('should accept supported SPL token programs', () => {
+      expect(() =>
+        assertTokenProgramOwner(makeAccountInfo(TOKEN_2022_PROGRAM_ADDRESS), 'test mint'),
+      ).not.toThrow()
+    })
+
+    it('should reject unsupported owners', () => {
+      expect(() => assertTokenProgramOwner(makeAccountInfo('other-owner'), 'test mint')).toThrow(
+        'Expected test mint to be owned by a supported token program',
+      )
     })
   })
 

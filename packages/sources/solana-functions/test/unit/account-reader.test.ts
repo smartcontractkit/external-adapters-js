@@ -13,6 +13,7 @@ jest.mock('@coral-xyz/anchor', () => {
 })
 
 jest.mock('@solana/addresses', () => ({
+  address: jest.fn((value) => value),
   getProgramDerivedAddress: jest.fn(),
 }))
 
@@ -110,9 +111,10 @@ describe('SolanaAccountReader', () => {
 
       // Spy on the inner method to ensure delegation with the derived PDA
       const reader = new SolanaAccountReader()
+      const delegated = { delegated: true }
       const innerSpy = jest
         .spyOn(reader, 'fetchAccountInformation')
-        .mockResolvedValue({ delegated: true } as any)
+        .mockImplementation(async () => delegated)
 
       const result = await reader.fetchAccountInformationByAddressAndSeeds(
         rpc,
@@ -133,7 +135,7 @@ describe('SolanaAccountReader', () => {
       expect(innerSpy).toHaveBeenCalledTimes(1)
       expect(innerSpy).toHaveBeenCalledWith(rpc, derivedPda, accountName, fakeIdl)
 
-      expect(result).toEqual({ delegated: true })
+      expect(result).toEqual(delegated)
     })
   })
 })

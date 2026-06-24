@@ -9,7 +9,7 @@ import {
   TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
-import { assertDataLength } from './solana-account-utils'
+import { assertDataLength, assertOwnerProgram, type AccountInfo } from './solana-account-utils'
 
 export const LEGACY_TOKEN_PROGRAM_ADDRESS = TOKEN_PROGRAM_ID.toBase58()
 export const TOKEN_2022_PROGRAM_ADDRESS = TOKEN_2022_PROGRAM_ID.toBase58()
@@ -68,16 +68,20 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
 ])
 
 const solanaTokenProgramAddress = LEGACY_TOKEN_PROGRAM_ADDRESS
-const solanaToken2022ProgramAddress = TOKEN_2022_PROGRAM_ADDRESS
 const solanaStakePoolProgramAddress = 'SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
 const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> = {
   [solanaTokenProgramAddress]: [AccountLayout, MintLayout],
-  [solanaToken2022ProgramAddress]: [AccountLayout, MintLayout],
   [solanaStakePoolProgramAddress]: [StakePoolLayout],
   [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
 }
+
+export const assertTokenProgramOwner = (
+  accountInfo: AccountInfo | null | undefined,
+  description: string,
+) =>
+  assertOwnerProgram(accountInfo, description, TOKEN_PROGRAM_ADDRESSES, 'a supported token program')
 
 export const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
   assertDataLength(data, description, MintLayout.span)
