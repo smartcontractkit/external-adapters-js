@@ -79,10 +79,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/secure-mint"\
     },\
     {\
-      "name": "@chainlink/set-token-index-adapter",\
-      "reference": "workspace:packages/composites/set-token-index"\
-    },\
-    {\
       "name": "@chainlink/the-graph-adapter",\
       "reference": "workspace:packages/composites/the-graph"\
     },\
@@ -297,10 +293,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/coinranking-adapter",\
       "reference": "workspace:packages/sources/coinranking"\
-    },\
-    {\
-      "name": "@chainlink/covid-tracker-adapter",\
-      "reference": "workspace:packages/sources/covid-tracker"\
     },\
     {\
       "name": "@chainlink/cryptoapis-adapter",\
@@ -786,7 +778,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
@@ -883,7 +874,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
-    ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
@@ -5330,24 +5320,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@chainlink/covid-tracker-adapter", [\
-      ["workspace:packages/sources/covid-tracker", {\
-        "packageLocation": "./packages/sources/covid-tracker/",\
-        "packageDependencies": [\
-          ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/crypto-volatility-index-adapter", [\
       ["workspace:packages/composites/crypto-volatility-index", {\
         "packageLocation": "./packages/composites/crypto-volatility-index/",\
@@ -7175,27 +7147,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["tweetnacl", "npm:1.0.3"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/set-token-index-adapter", [\
-      ["workspace:packages/composites/set-token-index", {\
-        "packageLocation": "./packages/composites/set-token-index/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/set-token-index-adapter", "workspace:packages/composites/set-token-index"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["bignumber.js", "npm:9.1.2"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
