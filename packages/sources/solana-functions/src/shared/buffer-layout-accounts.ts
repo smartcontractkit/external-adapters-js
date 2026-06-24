@@ -113,8 +113,7 @@ const getLayout = (programAddress: string, dataLength: number): BufferLayout.Lay
     })
   }
   if (layoutCandidates.length === 1) {
-    const layout = layoutCandidates[0]
-    if (layout) return layout
+    return layoutCandidates[0]!
   }
   for (const layout of layoutCandidates) {
     if (layout.span === dataLength) {
