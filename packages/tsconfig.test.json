@@ -204,9 +204,6 @@
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
-      "path": "./sources/covid-tracker/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {

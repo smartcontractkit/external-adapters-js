@@ -204,9 +204,6 @@
       "path": "./sources/coinranking"
     },
     {
-      "path": "./sources/covid-tracker"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
