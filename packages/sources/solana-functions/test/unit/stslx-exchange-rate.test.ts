@@ -2,6 +2,7 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   AccountLayout,
+  ASSOCIATED_TOKEN_PROGRAM_ID,
   MintLayout,
   TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
@@ -9,9 +10,6 @@ import {
 import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes } from '../../src/endpoint/stslx-exchange-rate'
 import {
-  deriveSlxTokenAccountAddress,
-  deriveVaultAddress,
-  GLAM_STATE_ADDRESS,
   GLAM_VAULT_ADDRESS,
   SLX_MINT_ADDRESS,
   SLX_TOKEN_ACCOUNT_ADDRESS,
@@ -21,6 +19,8 @@ import {
 
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
+const glamStateAddress = new PublicKey('5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB')
+const glamProtocolProgramAddress = new PublicKey('GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz')
 
 const encodeMint = (supply: bigint, decimals: number) => {
   const buffer = Buffer.alloc(MintLayout.span)
@@ -159,14 +159,27 @@ describe('StslxExchangeRateTransport', () => {
   })
 
   describe('account derivation', () => {
-    it('should derive the expected GLAM vault PDA', async () => {
-      expect(await deriveVaultAddress(GLAM_STATE_ADDRESS)).toBe(GLAM_VAULT_ADDRESS)
-      expect(await deriveVaultAddress()).toBe(GLAM_VAULT_ADDRESS)
-    })
+    it('should match the canonical GLAM vault and SLX token account addresses', () => {
+      const [vaultAddress] = PublicKey.findProgramAddressSync(
+        [Buffer.from('vault'), glamStateAddress.toBuffer()],
+        glamProtocolProgramAddress,
+      )
+      const [slxTokenAccountAddress] = PublicKey.findProgramAddressSync(
+        [
+          vaultAddress.toBuffer(),
+          TOKEN_PROGRAM_ID.toBuffer(),
+          new PublicKey(SLX_MINT_ADDRESS).toBuffer(),
+        ],
+        ASSOCIATED_TOKEN_PROGRAM_ID,
+      )
 
-    it('should derive the expected GLAM SLX base-asset ATA', async () => {
-      expect(await deriveSlxTokenAccountAddress(GLAM_VAULT_ADDRESS)).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
-      expect(await deriveSlxTokenAccountAddress()).toBe(SLX_TOKEN_ACCOUNT_ADDRESS)
+      expect({
+        vaultAddress: vaultAddress.toBase58(),
+        slxTokenAccountAddress: slxTokenAccountAddress.toBase58(),
+      }).toEqual({
+        vaultAddress: GLAM_VAULT_ADDRESS,
+        slxTokenAccountAddress: SLX_TOKEN_ACCOUNT_ADDRESS,
+      })
     })
   })
 
