@@ -2,10 +2,7 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterDataProviderError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BorshAccountsCoder, type Idl } from '@coral-xyz/anchor'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
@@ -16,6 +13,7 @@ import {
   calculateNormalizedRate,
   calculateUnvestedAssets,
   parseRateBounds,
+  providerError,
   RESULT_DECIMALS,
 } from '../shared/exchange-rate-utils'
 import {
@@ -41,19 +39,6 @@ const PDA_SEEDS = {
 } as const
 
 const strcusxAccountsCoder = new BorshAccountsCoder(StrcusxYieldStrategyIDL as Idl)
-
-const providerError = (message: string) =>
-  new AdapterDataProviderError(
-    {
-      message,
-      statusCode: 502,
-    },
-    {
-      providerDataRequestedUnixMs: 0,
-      providerDataReceivedUnixMs: 0,
-      providerIndicatedTimeUnixMs: undefined,
-    },
-  )
 
 type RequestParams = typeof inputParameters.validated
 type Tranche = 'junior' | 'senior'

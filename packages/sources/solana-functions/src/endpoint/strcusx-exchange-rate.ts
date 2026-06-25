@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
+import { parseRateBounds } from '../shared/exchange-rate-utils'
 import { strcusxExchangeRateTransport } from '../transport/strcusx-exchange-rate'
 
 export const inputParameters = new InputParameters(
@@ -72,4 +73,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: strcusxExchangeRateTransport,
   inputParameters,
+  customInputValidation: (req) => {
+    parseRateBounds(req.requestContext.data.minRate, req.requestContext.data.maxRate)
+    return undefined
+  },
 })

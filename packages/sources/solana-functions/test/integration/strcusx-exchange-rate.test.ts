@@ -256,5 +256,26 @@ describe('execute', () => {
         statusCode: 400,
       })
     })
+
+    it('should reject inverted bounds', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'strcusx-exchange-rate',
+        programAddress,
+        strategyName,
+        tranche: 'junior',
+        minRate: maxRate,
+        maxRate: minRate,
+      })
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toEqual({
+        error: {
+          message: 'minRate must be less than or equal to maxRate',
+          name: 'AdapterError',
+        },
+        status: 'errored',
+        statusCode: 400,
+      })
+    })
   })
 })
