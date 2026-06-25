@@ -1,5 +1,11 @@
 # @chainlink/finalto-adapter
 
+## 1.4.8
+
+### Patch Changes
+
+- [#5129](https://github.com/smartcontractkit/external-adapters-js/pull/5129) [`be5ffeb`](https://github.com/smartcontractkit/external-adapters-js/commit/be5ffeb4babe4cf319c3a5a2d85aca168f6178d0) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - updates streams-adapter code
+
 ## 1.4.7
 
 ### Patch Changes
