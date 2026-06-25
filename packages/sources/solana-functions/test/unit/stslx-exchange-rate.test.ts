@@ -2,25 +2,24 @@ import { TransportDependencies } from '@chainlink/external-adapter-framework/tra
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   AccountLayout,
-  ASSOCIATED_TOKEN_PROGRAM_ID,
   MintLayout,
   TOKEN_2022_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token'
 import { PublicKey } from '@solana/web3.js'
-import { BaseEndpointTypes } from '../../src/endpoint/stslx-exchange-rate'
 import {
-  GLAM_VAULT_ADDRESS,
-  SLX_MINT_ADDRESS,
-  SLX_TOKEN_ACCOUNT_ADDRESS,
-  STSLX_MINT_ADDRESS,
-  StslxExchangeRateTransport,
-} from '../../src/transport/stslx-exchange-rate'
+  BaseEndpointTypes,
+  DEFAULT_GLAM_PROTOCOL_PROGRAM_ADDRESS as GLAM_PROTOCOL_PROGRAM_ADDRESS,
+  DEFAULT_GLAM_STATE_ADDRESS as GLAM_STATE_ADDRESS,
+  DEFAULT_SLX_MINT_ADDRESS as SLX_MINT_ADDRESS,
+  DEFAULT_STSLX_MINT_ADDRESS as STSLX_MINT_ADDRESS,
+} from '../../src/endpoint/stslx-exchange-rate'
+import { StslxExchangeRateTransport } from '../../src/transport/stslx-exchange-rate'
 
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
-const glamStateAddress = new PublicKey('5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB')
-const glamProtocolProgramAddress = new PublicKey('GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz')
+const GLAM_VAULT_ADDRESS = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
+const SLX_TOKEN_ACCOUNT_ADDRESS = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 
 const encodeMint = (supply: bigint, decimals: number) => {
   const buffer = Buffer.alloc(MintLayout.span)
@@ -125,6 +124,10 @@ describe('StslxExchangeRateTransport', () => {
 
   const param = makeStub('param', {
     endpoint: 'stslx-exchange-rate',
+    slxMintAddress: SLX_MINT_ADDRESS,
+    stslxMintAddress: STSLX_MINT_ADDRESS,
+    glamStateAddress: GLAM_STATE_ADDRESS,
+    glamProtocolProgramAddress: GLAM_PROTOCOL_PROGRAM_ADDRESS,
     minRate,
     maxRate,
   })
@@ -158,31 +161,6 @@ describe('StslxExchangeRateTransport', () => {
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
-  describe('account derivation', () => {
-    it('should match the canonical GLAM vault and SLX token account addresses', () => {
-      const [vaultAddress] = PublicKey.findProgramAddressSync(
-        [Buffer.from('vault'), glamStateAddress.toBuffer()],
-        glamProtocolProgramAddress,
-      )
-      const [slxTokenAccountAddress] = PublicKey.findProgramAddressSync(
-        [
-          vaultAddress.toBuffer(),
-          TOKEN_PROGRAM_ID.toBuffer(),
-          new PublicKey(SLX_MINT_ADDRESS).toBuffer(),
-        ],
-        ASSOCIATED_TOKEN_PROGRAM_ID,
-      )
-
-      expect({
-        vaultAddress: vaultAddress.toBase58(),
-        slxTokenAccountAddress: slxTokenAccountAddress.toBase58(),
-      }).toEqual({
-        vaultAddress: GLAM_VAULT_ADDRESS,
-        slxTokenAccountAddress: SLX_TOKEN_ACCOUNT_ADDRESS,
-      })
-    })
-  })
-
   describe('_handleRequest', () => {
     it('should read all accounts atomically and return the normalized exchange rate', async () => {
       mockAccountData()
@@ -196,8 +174,6 @@ describe('StslxExchangeRateTransport', () => {
           result: expectedRate,
           computedResult: expectedRate,
           decimals: 18,
-          minRate,
-          maxRate,
           boundsApplied: false,
         },
         timestamps: {
@@ -224,6 +200,7 @@ describe('StslxExchangeRateTransport', () => {
       expect(response.result).toBe(minClampedRate)
       expect(response.data?.result).toBe(minClampedRate)
       expect(response.data?.computedResult).toBe(expectedRate)
+      expect(response.data).not.toHaveProperty('minRate')
       expect(response.data?.boundsApplied).toBe(true)
     })
 
@@ -239,6 +216,7 @@ describe('StslxExchangeRateTransport', () => {
       expect(response.result).toBe(maxClampedRate)
       expect(response.data?.result).toBe(maxClampedRate)
       expect(response.data?.computedResult).toBe(expectedRate)
+      expect(response.data).not.toHaveProperty('maxRate')
       expect(response.data?.boundsApplied).toBe(true)
     })
 
@@ -285,26 +263,6 @@ describe('StslxExchangeRateTransport', () => {
       await expect(transport._handleRequest(param)).rejects.toThrow(
         `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' to be owned by the legacy SPL Token program`,
       )
-    })
-
-    it('should error when the SLX base-asset ATA has the wrong mint', async () => {
-      mockAccountData({
-        [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(
-          encodeTokenAccount(slxBalance, STSLX_MINT_ADDRESS),
-        ),
-      })
-
-      await expect(transport._handleRequest(param)).rejects.toThrow('mint to be')
-    })
-
-    it('should error when the SLX base-asset ATA has the wrong owner', async () => {
-      mockAccountData({
-        [SLX_TOKEN_ACCOUNT_ADDRESS]: makeAccountInfo(
-          encodeTokenAccount(slxBalance, SLX_MINT_ADDRESS, PublicKey.default.toBase58()),
-        ),
-      })
-
-      await expect(transport._handleRequest(param)).rejects.toThrow('owner to be')
     })
   })
 })

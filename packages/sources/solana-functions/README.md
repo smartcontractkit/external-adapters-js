@@ -245,10 +245,14 @@ Request:
 
 ### Input Params
 
-| Required? |  Name   | Aliases |                                 Description                                  |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | minRate |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
-|    ✅     | maxRate |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |         |            |                |
+| Required? |            Name            | Aliases |                                 Description                                  |  Type  | Options |                    Default                     | Depends On | Not Valid With |
+| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :--------------------------------------------: | :--------: | :------------: |
+|           |       slxMintAddress       |         |                               SLX mint address                               | string |         | `SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq`  |            |                |
+|           |      stslxMintAddress      |         |                              stSLX mint address                              | string |         | `GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq` |            |                |
+|           |      glamStateAddress      |         |               GLAM state address used to derive the vault PDA                | string |         | `5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB` |            |                |
+|           | glamProtocolProgramAddress |         |          GLAM protocol program address used to derive the vault PDA          | string |         | `GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz` |            |                |
+|    ✅     |          minRate           |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+|    ✅     |          maxRate           |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
 
 ### Example
 

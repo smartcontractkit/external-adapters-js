@@ -2,7 +2,11 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
+import { address, getAddressEncoder } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
 import {
@@ -19,19 +23,54 @@ import {
 } from '../shared/exchange-rate-utils'
 import {
   assertOwnerProgram,
+  derivePda,
   fetchMultipleAccounts,
   getAccountDataBuffer,
+  parseSolanaAddress,
 } from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StslxExchangeRateTransport')
 
-export const SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
-export const STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
-export const GLAM_VAULT_ADDRESS = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
-export const SLX_TOKEN_ACCOUNT_ADDRESS = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
+const ASSOCIATED_TOKEN_PROGRAM_ADDRESS = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
+const GLAM_VAULT_SEED = 'vault'
+const addressEncoder = getAddressEncoder()
 
 type RequestParams = typeof inputParameters.validated
+
+const providerError = (message: string) =>
+  new AdapterDataProviderError(
+    {
+      message,
+      statusCode: 502,
+    },
+    {
+      providerDataRequestedUnixMs: 0,
+      providerDataReceivedUnixMs: 0,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
+
+const asProviderError = <T>(callback: () => T) => {
+  try {
+    return callback()
+  } catch (e: unknown) {
+    throw providerError(e instanceof Error ? e.message : 'Unknown provider error')
+  }
+}
+
+const deriveVaultAddress = (glamStateAddress: string, glamProtocolProgramAddress: string) =>
+  derivePda(glamProtocolProgramAddress, [
+    GLAM_VAULT_SEED,
+    addressEncoder.encode(parseSolanaAddress(glamStateAddress, 'glamStateAddress')),
+  ])
+
+const deriveSlxTokenAccountAddress = (vaultAddress: string, slxMintAddress: string) =>
+  derivePda(ASSOCIATED_TOKEN_PROGRAM_ADDRESS, [
+    addressEncoder.encode(parseSolanaAddress(vaultAddress, 'vaultAddress')),
+    addressEncoder.encode(address(LEGACY_TOKEN_PROGRAM_ADDRESS)),
+    addressEncoder.encode(parseSolanaAddress(slxMintAddress, 'slxMintAddress')),
+  ])
 
 export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpointTypes> {
   rpc!: Rpc<SolanaRpcApi>
@@ -76,48 +115,60 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
+    const slxMintAddress = parseSolanaAddress(params.slxMintAddress, 'slxMintAddress').toString()
+    const stslxMintAddress = parseSolanaAddress(
+      params.stslxMintAddress,
+      'stslxMintAddress',
+    ).toString()
+    const glamStateAddress = parseSolanaAddress(
+      params.glamStateAddress,
+      'glamStateAddress',
+    ).toString()
+    const glamProtocolProgramAddress = parseSolanaAddress(
+      params.glamProtocolProgramAddress,
+      'glamProtocolProgramAddress',
+    ).toString()
     const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
+    const vaultAddress = await deriveVaultAddress(glamStateAddress, glamProtocolProgramAddress)
+    const slxTokenAccountAddress = await deriveSlxTokenAccountAddress(vaultAddress, slxMintAddress)
 
     // The stSLX feed reads GLAM vault's canonical SLX ATA as its SLX balance source.
     const [slxMintAccount, stslxMintAccount, slxTokenAccount] = await fetchMultipleAccounts(
       this.rpc,
-      [SLX_MINT_ADDRESS, STSLX_MINT_ADDRESS, SLX_TOKEN_ACCOUNT_ADDRESS],
+      [slxMintAddress, stslxMintAddress, slxTokenAccountAddress],
     )
 
-    assertTokenProgramOwner(slxMintAccount, `SLX mint '${SLX_MINT_ADDRESS}'`)
-    assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${STSLX_MINT_ADDRESS}'`)
-    assertOwnerProgram(
-      slxTokenAccount,
-      `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
-      [LEGACY_TOKEN_PROGRAM_ADDRESS],
-      'the legacy SPL Token program',
+    asProviderError(() => assertTokenProgramOwner(slxMintAccount, `SLX mint '${slxMintAddress}'`))
+    asProviderError(() =>
+      assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`),
+    )
+    asProviderError(() =>
+      assertOwnerProgram(
+        slxTokenAccount,
+        `SLX token account '${slxTokenAccountAddress}'`,
+        [LEGACY_TOKEN_PROGRAM_ADDRESS],
+        'the legacy SPL Token program',
+      ),
     )
 
-    const slxMint = decodeMintInfo(
-      getAccountDataBuffer(slxMintAccount, `SLX mint '${SLX_MINT_ADDRESS}'`),
-      `SLX mint '${SLX_MINT_ADDRESS}'`,
+    const slxMint = asProviderError(() =>
+      decodeMintInfo(
+        getAccountDataBuffer(slxMintAccount, `SLX mint '${slxMintAddress}'`),
+        `SLX mint '${slxMintAddress}'`,
+      ),
     )
-    const stslxMint = decodeMintInfo(
-      getAccountDataBuffer(stslxMintAccount, `stSLX mint '${STSLX_MINT_ADDRESS}'`),
-      `stSLX mint '${STSLX_MINT_ADDRESS}'`,
+    const stslxMint = asProviderError(() =>
+      decodeMintInfo(
+        getAccountDataBuffer(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`),
+        `stSLX mint '${stslxMintAddress}'`,
+      ),
     )
-    const slxToken = decodeTokenAccountInfo(
-      getAccountDataBuffer(slxTokenAccount, `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`),
-      `SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
+    const slxToken = asProviderError(() =>
+      decodeTokenAccountInfo(
+        getAccountDataBuffer(slxTokenAccount, `SLX token account '${slxTokenAccountAddress}'`),
+        `SLX token account '${slxTokenAccountAddress}'`,
+      ),
     )
-
-    if (slxToken.mintAddress !== SLX_MINT_ADDRESS) {
-      throw new AdapterInputError({
-        message: `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' mint to be '${SLX_MINT_ADDRESS}', found '${slxToken.mintAddress}'`,
-        statusCode: 500,
-      })
-    }
-    if (slxToken.ownerAddress !== GLAM_VAULT_ADDRESS) {
-      throw new AdapterInputError({
-        message: `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' owner to be '${GLAM_VAULT_ADDRESS}', found '${slxToken.ownerAddress}'`,
-        statusCode: 500,
-      })
-    }
 
     const computedRate = calculateNormalizedRate(
       slxToken.amount,
@@ -126,10 +177,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       stslxMint.decimals,
     )
     if (computedRate === null) {
-      throw new AdapterInputError({
-        message: `stSLX mint '${STSLX_MINT_ADDRESS}' has zero supply`,
-        statusCode: 500,
-      })
+      throw providerError(`stSLX mint '${stslxMintAddress}' has zero supply`)
     }
 
     const { rate, boundsApplied } = applyRateBounds(computedRate, minRate, maxRate)
@@ -141,8 +189,6 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
         result,
         computedResult,
         decimals: RESULT_DECIMALS,
-        minRate: minRate.toString(),
-        maxRate: maxRate.toString(),
         boundsApplied,
       },
       statusCode: 200,

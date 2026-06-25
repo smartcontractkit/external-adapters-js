@@ -131,8 +131,6 @@ describe('execute', () => {
           boundsApplied: false,
           computedResult: '1500000000000000000',
           decimals: 18,
-          maxRate,
-          minRate,
           result: '1500000000000000000',
         },
         result: '1500000000000000000',
