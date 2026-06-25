@@ -1,5 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { type AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { parseRateBounds } from '../shared/exchange-rate-utils'
 import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
@@ -79,8 +80,9 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: stslxExchangeRateTransport,
   inputParameters,
-  customInputValidation: (req) => {
+  customInputValidation: (req): AdapterInputError | undefined => {
     parseRateBounds(req.requestContext.data.minRate, req.requestContext.data.maxRate)
-    return undefined
+
+    return
   },
 })
