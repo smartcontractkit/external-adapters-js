@@ -59,16 +59,9 @@ export type BaseEndpointTypes = {
       computedResult: string
       tranche: string
       decimals: number
-      minRate: string
-      maxRate: string
       boundsApplied: boolean
-      vestedTotalAssets: string
-      vestedSeniorAssets: string
-      vestedJuniorAssets: string
-      seniorShares: string
-      juniorShares: string
-      unvestedTotalAssets: string
-      unvestedSeniorAssets: string
+      trancheAssets: string
+      trancheShares: string
     }
   }
   Settings: typeof config.settings

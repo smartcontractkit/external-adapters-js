@@ -6,8 +6,7 @@ import {
   AdapterDataProviderError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { getAddressDecoder } from '@solana/addresses'
-import * as BufferLayout from '@solana/buffer-layout'
+import { BorshAccountsCoder, Idl } from '@coral-xyz/anchor'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
 import * as StrcusxYieldStrategyIDL from '../idl/strcusx_yield_strategy.json'
@@ -21,10 +20,6 @@ import {
 } from '../shared/exchange-rate-utils'
 import {
   AccountInfo,
-  assertAddressMatches,
-  assertDataLength,
-  assertDiscriminator,
-  assertNameMatches,
   assertOwnerProgram,
   CLOCK_SYSVAR_ADDRESS,
   decodeClockUnixTimestamp,
@@ -37,46 +32,15 @@ import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StrcusxExchangeRateTransport')
 
-const EXPECTED_ASSET_MINT_DECIMALS = 6
-const ACCOUNT_DISCRIMINATOR_LENGTH = 8
-const PUBLIC_KEY_LENGTH = 32
 const STRATEGY_NAME_LENGTH = 32
-const U64_LENGTH = 8
-const U128_LENGTH = 16
 
 const PDA_SEEDS = {
   CONTROLLER: 'CONTROLLER',
   STRATEGY: 'STRATEGY',
   ACCOUNTING: 'ACCOUNTING',
-  JUNIOR_MINT: 'JUNIOR_MINT',
-  SENIOR_MINT: 'SENIOR_MINT',
 } as const
 
-type IdlField = {
-  name: string
-  type: 'u8' | 'u32' | 'u64' | 'u128' | 'pubkey' | { array: ['u8', number] }
-}
-
-type StrcusxYieldStrategyIdl = {
-  accounts: {
-    name: string
-    discriminator: number[]
-  }[]
-  types: {
-    name: string
-    serialization?: string
-    repr?: {
-      kind?: string
-      packed?: boolean
-    }
-    type: {
-      kind: 'struct'
-      fields: IdlField[]
-    }
-  }[]
-}
-
-const strcusxYieldStrategyIdl = StrcusxYieldStrategyIDL as unknown as StrcusxYieldStrategyIdl
+const strcusxAccountsCoder = new BorshAccountsCoder(StrcusxYieldStrategyIDL as unknown as Idl)
 
 const providerError = (message: string) =>
   new AdapterDataProviderError(
@@ -91,123 +55,32 @@ const providerError = (message: string) =>
     },
   )
 
-const getIdlType = (accountName: string) => {
-  const idlType = strcusxYieldStrategyIdl.types.find((type) => type.name === accountName)
-  if (
-    !idlType ||
-    idlType.serialization !== 'bytemuck' ||
-    idlType.repr?.kind !== 'c' ||
-    idlType.repr?.packed !== true
-  ) {
-    throw new Error(`Expected ${accountName} to be a packed bytemuck account in strcUSX IDL`)
-  }
-
-  return idlType
-}
-
-const getIdlAccountDiscriminator = (accountName: string) => {
-  const idlAccount = strcusxYieldStrategyIdl.accounts.find(
-    (account) => account.name === accountName,
-  )
-  if (!idlAccount || idlAccount.discriminator.length !== ACCOUNT_DISCRIMINATOR_LENGTH) {
-    throw new Error(`Expected ${accountName} discriminator in strcUSX IDL`)
-  }
-
-  return Buffer.from(idlAccount.discriminator)
-}
-
-const getIdlFieldLayout = (field: IdlField): BufferLayout.Layout<unknown> => {
-  if (typeof field.type !== 'string') {
-    if (field.type.array[0] === 'u8') {
-      return BufferLayout.blob(field.type.array[1], field.name)
-    }
-    throw new Error(`Unsupported strcUSX IDL array field '${field.name}'`)
-  }
-
-  switch (field.type) {
-    case 'u8':
-      return BufferLayout.u8(field.name)
-    case 'u32':
-      return BufferLayout.u32(field.name)
-    case 'u64':
-      return BufferLayout.blob(U64_LENGTH, field.name)
-    case 'u128':
-      return BufferLayout.blob(U128_LENGTH, field.name)
-    case 'pubkey':
-      return BufferLayout.blob(PUBLIC_KEY_LENGTH, field.name)
-  }
-}
-
-const buildIdlAccountLayout = <T>(accountName: string): BufferLayout.Layout<T> =>
-  BufferLayout.struct<T>([
-    BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
-    ...getIdlType(accountName).type.fields.map(getIdlFieldLayout),
-  ] as unknown as BufferLayout.Layout<T[keyof T]>[])
-
-const ACCOUNTING_STATE_DISCRIMINATOR = getIdlAccountDiscriminator('AccountingState')
-const CONTROLLER_DISCRIMINATOR = getIdlAccountDiscriminator('Controller')
-const STRATEGY_DISCRIMINATOR = getIdlAccountDiscriminator('Strategy')
-
-type ControllerStateLayoutFields = {
-  discriminator: Uint8Array
-  asset_mint: Uint8Array
-  is_paused: number
-}
-
-type StrategyStateLayoutFields = {
-  discriminator: Uint8Array
-  name: Uint8Array
-  junior_mint: Uint8Array
-  senior_mint: Uint8Array
-  asset_vault: Uint8Array
-  vesting_vault: Uint8Array
-  fee_vault: Uint8Array
-  loss_vault: Uint8Array
-  status: number
-  is_paused: number
-}
-
-type AccountingStateLayoutFields = {
-  discriminator: Uint8Array
-  name: Uint8Array
-  senior_shares: Uint8Array
-  junior_shares: Uint8Array
-  total_assets: Uint8Array
-  senior_assets: Uint8Array
-  total_vesting_assets: Uint8Array
-  senior_vesting_assets: Uint8Array
-  vesting_start_time: Uint8Array
-  vesting_end_time: Uint8Array
-}
-
-const ControllerStateLayout = buildIdlAccountLayout<ControllerStateLayoutFields>('Controller')
-const StrategyStateLayout = buildIdlAccountLayout<StrategyStateLayoutFields>('Strategy')
-const AccountingStateLayout = buildIdlAccountLayout<AccountingStateLayoutFields>('AccountingState')
-
-const addressDecoder = getAddressDecoder()
-
 type RequestParams = typeof inputParameters.validated
 type Tranche = 'junior' | 'senior'
 
-type ControllerState = {
-  assetMintAddress: string
-  isPaused: boolean
+type Stringable = { toString(): string }
+
+type DecodedControllerState = {
+  asset_mint: Stringable
 }
 
-type StrategyState = {
-  name: string
-  juniorMintAddress: string
-  seniorMintAddress: string
-  assetVaultAddress: string
-  vestingVaultAddress: string
-  feeVaultAddress: string
-  lossVaultAddress: string
-  status: number
-  isPaused: boolean
+type DecodedStrategyState = {
+  junior_mint: Stringable
+  senior_mint: Stringable
+}
+
+type DecodedAccountingState = {
+  senior_shares: Stringable
+  junior_shares: Stringable
+  total_assets: Stringable
+  senior_assets: Stringable
+  total_vesting_assets: Stringable
+  senior_vesting_assets: Stringable
+  vesting_start_time: Stringable
+  vesting_end_time: Stringable
 }
 
 type AccountingState = {
-  name: string
   seniorShares: bigint
   juniorShares: bigint
   totalAssets: bigint
@@ -230,17 +103,10 @@ const parseStrategyName = (value: string) => {
   return value
 }
 
-const readU128LE = (bytes: Uint8Array) => {
-  const data = Buffer.from(bytes)
-  return data.readBigUInt64LE(0) + (data.readBigUInt64LE(8) << 64n)
-}
+const toBigint = (value: Stringable) => BigInt(value.toString())
 
-const readU64LE = (bytes: Uint8Array) => Buffer.from(bytes).readBigUInt64LE(0)
-
-const decodeAddress = (bytes: Uint8Array) => addressDecoder.decode(bytes).toString()
-
-const readPaddedString = (bytes: Uint8Array) =>
-  Buffer.from(bytes).toString('utf8').replace(/\0+$/, '')
+const decodeAnchorAccount = <T>(accountName: string, data: Buffer) =>
+  strcusxAccountsCoder.decode(accountName, data) as T
 
 const assertProgramOwner = (
   accountInfo: AccountInfo | null | undefined,
@@ -268,62 +134,35 @@ export const deriveAccountingAddress = (programAddress: string, strategyName: st
   )
 }
 
-export const deriveJuniorMintAddress = (programAddress: string, strategyName: string) => {
-  return derivePda(programAddress, [PDA_SEEDS.JUNIOR_MINT, strategyName]).then((pda) =>
-    pda.toString(),
-  )
-}
-
-export const deriveSeniorMintAddress = (programAddress: string, strategyName: string) => {
-  return derivePda(programAddress, [PDA_SEEDS.SENIOR_MINT, strategyName]).then((pda) =>
-    pda.toString(),
-  )
-}
-
-const decodeControllerState = (data: Buffer): ControllerState => {
-  assertDataLength(data, 'Controller', ControllerStateLayout.span)
-  assertDiscriminator(data, 'Controller', CONTROLLER_DISCRIMINATOR)
-  const decoded = ControllerStateLayout.decode(data)
+const decodeControllerState = (data: Buffer) => {
+  const decoded = decodeAnchorAccount<DecodedControllerState>('Controller', data)
 
   return {
-    assetMintAddress: decodeAddress(decoded.asset_mint),
-    isPaused: decoded.is_paused === 1,
+    assetMintAddress: decoded.asset_mint.toString(),
   }
 }
 
-const decodeStrategyState = (data: Buffer): StrategyState => {
-  assertDataLength(data, 'Strategy', StrategyStateLayout.span)
-  assertDiscriminator(data, 'Strategy', STRATEGY_DISCRIMINATOR)
-  const decoded = StrategyStateLayout.decode(data)
+const decodeStrategyState = (data: Buffer) => {
+  const decoded = decodeAnchorAccount<DecodedStrategyState>('Strategy', data)
 
   return {
-    name: readPaddedString(decoded.name),
-    juniorMintAddress: decodeAddress(decoded.junior_mint),
-    seniorMintAddress: decodeAddress(decoded.senior_mint),
-    assetVaultAddress: decodeAddress(decoded.asset_vault),
-    vestingVaultAddress: decodeAddress(decoded.vesting_vault),
-    feeVaultAddress: decodeAddress(decoded.fee_vault),
-    lossVaultAddress: decodeAddress(decoded.loss_vault),
-    status: decoded.status,
-    isPaused: decoded.is_paused === 1,
+    juniorMintAddress: decoded.junior_mint.toString(),
+    seniorMintAddress: decoded.senior_mint.toString(),
   }
 }
 
 const decodeAccountingState = (data: Buffer): AccountingState => {
-  assertDataLength(data, 'AccountingState', AccountingStateLayout.span)
-  assertDiscriminator(data, 'AccountingState', ACCOUNTING_STATE_DISCRIMINATOR)
-  const decoded = AccountingStateLayout.decode(data)
+  const decoded = decodeAnchorAccount<DecodedAccountingState>('AccountingState', data)
 
   return {
-    name: readPaddedString(decoded.name),
-    seniorShares: readU128LE(decoded.senior_shares),
-    juniorShares: readU128LE(decoded.junior_shares),
-    totalAssets: readU128LE(decoded.total_assets),
-    seniorAssets: readU128LE(decoded.senior_assets),
-    totalVestingAssets: readU64LE(decoded.total_vesting_assets),
-    seniorVestingAssets: readU64LE(decoded.senior_vesting_assets),
-    vestingStartTime: readU64LE(decoded.vesting_start_time),
-    vestingEndTime: readU64LE(decoded.vesting_end_time),
+    seniorShares: toBigint(decoded.senior_shares),
+    juniorShares: toBigint(decoded.junior_shares),
+    totalAssets: toBigint(decoded.total_assets),
+    seniorAssets: toBigint(decoded.senior_assets),
+    totalVestingAssets: toBigint(decoded.total_vesting_assets),
+    seniorVestingAssets: toBigint(decoded.senior_vesting_assets),
+    vestingStartTime: toBigint(decoded.vesting_start_time),
+    vestingEndTime: toBigint(decoded.vesting_end_time),
   }
 }
 
@@ -361,16 +200,6 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
   return {
     totalAssets: accounting.totalAssets - unvestedTotalVestingAssets,
     seniorAssets: accounting.seniorAssets - unvestedSeniorVestingAssets,
-    unvestedTotalAssets: unvestedTotalVestingAssets,
-    unvestedSeniorAssets: unvestedSeniorVestingAssets,
-  }
-}
-
-const assertAssetMintDecimals = (decimals: number) => {
-  if (decimals !== EXPECTED_ASSET_MINT_DECIMALS) {
-    throw providerError(
-      `Expected asset mint decimals to be ${EXPECTED_ASSET_MINT_DECIMALS}, found ${decimals}`,
-    )
   }
 }
 
@@ -422,35 +251,19 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const tranche = params.tranche as Tranche
     const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
 
-    const [
-      controllerAddress,
-      strategyAddress,
-      accountingAddress,
-      expectedJuniorMintAddress,
-      expectedSeniorMintAddress,
-    ] = await Promise.all([
+    const [controllerAddress, strategyAddress, accountingAddress] = await Promise.all([
       deriveControllerAddress(programAddress),
       deriveStrategyAddress(programAddress, strategyName),
       deriveAccountingAddress(programAddress, strategyName),
-      deriveJuniorMintAddress(programAddress, strategyName),
-      deriveSeniorMintAddress(programAddress, strategyName),
     ])
 
-    const [
-      controllerAccount,
-      strategyAccount,
-      accountingAccount,
-      juniorMintAccount,
-      seniorMintAccount,
-      clockAccount,
-    ] = await fetchMultipleAccounts(this.rpc, [
-      controllerAddress,
-      strategyAddress,
-      accountingAddress,
-      expectedJuniorMintAddress,
-      expectedSeniorMintAddress,
-      CLOCK_SYSVAR_ADDRESS,
-    ])
+    const [controllerAccount, strategyAccount, accountingAccount, clockAccount] =
+      await fetchMultipleAccounts(this.rpc, [
+        controllerAddress,
+        strategyAddress,
+        accountingAddress,
+        CLOCK_SYSVAR_ADDRESS,
+      ])
 
     assertProgramOwner(
       controllerAccount,
@@ -474,43 +287,24 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       getAccountDataBuffer(accountingAccount, `Accounting account '${accountingAddress}'`),
     )
 
-    assertNameMatches(strategy.name, strategyName, 'Strategy')
-    assertNameMatches(accounting.name, strategyName, 'AccountingState')
-    assertAddressMatches(strategy.juniorMintAddress, expectedJuniorMintAddress, 'junior mint PDA')
-    assertAddressMatches(strategy.seniorMintAddress, expectedSeniorMintAddress, 'senior mint PDA')
-
-    if (accounting.totalAssets < accounting.seniorAssets) {
-      throw providerError(
-        `AccountingState totalAssets must be greater than or equal to seniorAssets`,
-      )
-    }
-
-    const [assetMintAccount] = await fetchMultipleAccounts(this.rpc, [controller.assetMintAddress])
+    const trancheMintAddress =
+      tranche === 'junior' ? strategy.juniorMintAddress : strategy.seniorMintAddress
+    const [assetMintAccount, trancheMintAccount] = await fetchMultipleAccounts(this.rpc, [
+      controller.assetMintAddress,
+      trancheMintAddress,
+    ])
 
     assertTokenProgramOwner(assetMintAccount, `asset mint '${controller.assetMintAddress}'`)
-    assertTokenProgramOwner(juniorMintAccount, `junior mint '${strategy.juniorMintAddress}'`)
-    assertTokenProgramOwner(seniorMintAccount, `senior mint '${strategy.seniorMintAddress}'`)
+    assertTokenProgramOwner(trancheMintAccount, `${tranche} mint '${trancheMintAddress}'`)
 
     const assetMint = decodeMintInfo(
       getAccountDataBuffer(assetMintAccount, `asset mint '${controller.assetMintAddress}'`),
       `asset mint '${controller.assetMintAddress}'`,
     )
-    assertAssetMintDecimals(assetMint.decimals)
-    const juniorMint = decodeMintInfo(
-      getAccountDataBuffer(juniorMintAccount, `junior mint '${strategy.juniorMintAddress}'`),
-      `junior mint '${strategy.juniorMintAddress}'`,
+    const trancheMint = decodeMintInfo(
+      getAccountDataBuffer(trancheMintAccount, `${tranche} mint '${trancheMintAddress}'`),
+      `${tranche} mint '${trancheMintAddress}'`,
     )
-    const seniorMint = decodeMintInfo(
-      getAccountDataBuffer(seniorMintAccount, `senior mint '${strategy.seniorMintAddress}'`),
-      `senior mint '${strategy.seniorMintAddress}'`,
-    )
-
-    if (juniorMint.supply !== accounting.juniorShares) {
-      throw providerError(`Expected junior mint supply to equal accounting juniorShares`)
-    }
-    if (seniorMint.supply !== accounting.seniorShares) {
-      throw providerError(`Expected senior mint supply to equal accounting seniorShares`)
-    }
 
     const clockUnixTimestamp = decodeClockUnixTimestamp(clockAccount)
     const bookValueAssets = calculateBookValueAssets(accounting, clockUnixTimestamp)
@@ -522,19 +316,14 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     }
 
     const juniorAssets = bookValueAssets.totalAssets - bookValueAssets.seniorAssets
-    const juniorComputedRate = calculateNormalizedRate(
-      juniorAssets,
-      accounting.juniorShares,
+    const trancheAssets = tranche === 'junior' ? juniorAssets : bookValueAssets.seniorAssets
+    const trancheShares = tranche === 'junior' ? accounting.juniorShares : accounting.seniorShares
+    const selectedComputedRate = calculateNormalizedRate(
+      trancheAssets,
+      trancheShares,
       assetMint.decimals,
-      juniorMint.decimals,
+      trancheMint.decimals,
     )
-    const seniorComputedRate = calculateNormalizedRate(
-      bookValueAssets.seniorAssets,
-      accounting.seniorShares,
-      assetMint.decimals,
-      seniorMint.decimals,
-    )
-    const selectedComputedRate = tranche === 'junior' ? juniorComputedRate : seniorComputedRate
 
     if (selectedComputedRate === null) {
       throw providerError(`${tranche} tranche shares are zero`)
@@ -550,16 +339,9 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
         computedResult,
         tranche,
         decimals: RESULT_DECIMALS,
-        minRate: minRate.toString(),
-        maxRate: maxRate.toString(),
         boundsApplied,
-        vestedTotalAssets: bookValueAssets.totalAssets.toString(),
-        vestedSeniorAssets: bookValueAssets.seniorAssets.toString(),
-        vestedJuniorAssets: juniorAssets.toString(),
-        seniorShares: accounting.seniorShares.toString(),
-        juniorShares: accounting.juniorShares.toString(),
-        unvestedTotalAssets: bookValueAssets.unvestedTotalAssets.toString(),
-        unvestedSeniorAssets: bookValueAssets.unvestedSeniorAssets.toString(),
+        trancheAssets: trancheAssets.toString(),
+        trancheShares: trancheShares.toString(),
       },
       statusCode: 200,
       result,

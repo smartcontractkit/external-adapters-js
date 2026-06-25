@@ -6,8 +6,6 @@ import { BaseEndpointTypes } from '../../src/endpoint/strcusx-exchange-rate'
 import {
   deriveAccountingAddress,
   deriveControllerAddress,
-  deriveJuniorMintAddress,
-  deriveSeniorMintAddress,
   deriveStrategyAddress,
   StrcusxExchangeRateTransport,
 } from '../../src/transport/strcusx-exchange-rate'
@@ -95,18 +93,18 @@ const encodeClock = (unixTimestamp: bigint) => {
   return buffer.toString('base64')
 }
 
-const encodeController = (overrideAssetMintAddress = assetMintAddress) => {
+const encodeController = () => {
   const buffer = Buffer.alloc(controllerAccountLength)
   controllerDiscriminator.copy(buffer, 0)
-  writePublicKey(buffer, overrideAssetMintAddress, 73)
+  writePublicKey(buffer, assetMintAddress, 73)
   buffer[105] = 0
   return buffer.toString('base64')
 }
 
-const encodeStrategy = (overrideName = strategyName) => {
+const encodeStrategy = () => {
   const buffer = Buffer.alloc(strategyAccountLength)
   strategyDiscriminator.copy(buffer, 0)
-  writeName(buffer, overrideName, 8)
+  writeName(buffer, strategyName, 8)
   buffer[40] = 255
   buffer[41] = 254
   buffer[42] = 253
@@ -236,12 +234,10 @@ describe('StrcusxExchangeRateTransport', () => {
   const mockAccountData = ({
     accountingData = encodeAccounting(),
     unixTimestamp = clockUnixTimestamp,
-    assetMintDecimals = mintDecimals,
     overrides = {},
   }: {
     accountingData?: string
     unixTimestamp?: bigint
-    assetMintDecimals?: number
     overrides?: Record<string, AccountInfo>
   } = {}) => {
     const accountsByAddress: Record<string, AccountInfo> = {
@@ -249,7 +245,7 @@ describe('StrcusxExchangeRateTransport', () => {
       [strategyAddress]: makeAccountInfoResponse(encodeStrategy(), programAddress),
       [accountingAddress]: makeAccountInfoResponse(accountingData, programAddress),
       [assetMintAddress]: makeAccountInfoResponse(
-        encodeMint(1_000_000_000_000_000_000n, assetMintDecimals),
+        encodeMint(1_000_000_000_000_000_000n, mintDecimals),
       ),
       [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares, mintDecimals)),
       [seniorMintAddress]: makeAccountInfoResponse(encodeMint(seniorShares, mintDecimals)),
@@ -276,8 +272,6 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(await deriveControllerAddress(programAddress)).toBe(controllerAddress)
       expect(await deriveStrategyAddress(programAddress, strategyName)).toBe(strategyAddress)
       expect(await deriveAccountingAddress(programAddress, strategyName)).toBe(accountingAddress)
-      expect(await deriveJuniorMintAddress(programAddress, strategyName)).toBe(juniorMintAddress)
-      expect(await deriveSeniorMintAddress(programAddress, strategyName)).toBe(seniorMintAddress)
     })
   })
 
@@ -308,13 +302,8 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(response.data).toMatchObject({
         result: '1000000000000000000',
         computedResult: '1000000000000000000',
-        seniorShares: seniorShares.toString(),
-        juniorShares: juniorShares.toString(),
-        vestedTotalAssets: '650000000',
-        vestedSeniorAssets: seniorAssets.toString(),
-        vestedJuniorAssets: '450000000',
-        unvestedTotalAssets: '1',
-        unvestedSeniorAssets: '0',
+        trancheAssets: '450000000',
+        trancheShares: juniorShares.toString(),
       })
     })
 
@@ -331,16 +320,9 @@ describe('StrcusxExchangeRateTransport', () => {
           computedResult: expectedJuniorRate,
           tranche: 'junior',
           decimals: 18,
-          minRate,
-          maxRate,
           boundsApplied: false,
-          vestedTotalAssets: totalAssets.toString(),
-          vestedSeniorAssets: seniorAssets.toString(),
-          vestedJuniorAssets: juniorAssets.toString(),
-          seniorShares: seniorShares.toString(),
-          juniorShares: juniorShares.toString(),
-          unvestedTotalAssets: '0',
-          unvestedSeniorAssets: '0',
+          trancheAssets: juniorAssets.toString(),
+          trancheShares: juniorShares.toString(),
         },
         timestamps: {
           providerDataRequestedUnixMs: expect.any(Number),
@@ -349,17 +331,10 @@ describe('StrcusxExchangeRateTransport', () => {
         },
       })
       expect(getMultipleAccountsRequestMock).toBeCalledWith(
-        [
-          controllerAddress,
-          strategyAddress,
-          accountingAddress,
-          juniorMintAddress,
-          seniorMintAddress,
-          clockSysvarAddress,
-        ],
+        [controllerAddress, strategyAddress, accountingAddress, clockSysvarAddress],
         { encoding: 'base64' },
       )
-      expect(getMultipleAccountsRequestMock).toBeCalledWith([assetMintAddress], {
+      expect(getMultipleAccountsRequestMock).toBeCalledWith([assetMintAddress, juniorMintAddress], {
         encoding: 'base64',
       })
     })
@@ -373,6 +348,11 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(response.data?.result).toBe(expectedSeniorRate)
       expect(response.data?.computedResult).toBe(expectedSeniorRate)
       expect(response.data?.tranche).toBe('senior')
+      expect(response.data?.trancheAssets).toBe(seniorAssets.toString())
+      expect(response.data?.trancheShares).toBe(seniorShares.toString())
+      expect(getMultipleAccountsRequestMock).toBeCalledWith([assetMintAddress, seniorMintAddress], {
+        encoding: 'base64',
+      })
     })
 
     it('should exclude unvested total and senior yield from exchange rates', async () => {
@@ -395,13 +375,12 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(juniorResponse.data?.computedResult).toBe(expectedHalfVestedJuniorRate)
       expect(seniorResponse.result).toBe(expectedHalfVestedSeniorRate)
       expect(seniorResponse.data?.computedResult).toBe(expectedHalfVestedSeniorRate)
-      expect(juniorResponse.data?.vestedTotalAssets).toBe('660000000')
-      expect(juniorResponse.data?.vestedSeniorAssets).toBe('204000000')
-      expect(juniorResponse.data?.vestedJuniorAssets).toBe('456000000')
-      expect(juniorResponse.data?.unvestedTotalAssets).toBe('10000000')
-      expect(juniorResponse.data?.unvestedSeniorAssets).toBe('4000000')
+      expect(juniorResponse.data?.trancheAssets).toBe('456000000')
+      expect(juniorResponse.data?.trancheShares).toBe(juniorShares.toString())
+      expect(seniorResponse.data?.trancheAssets).toBe('204000000')
+      expect(seniorResponse.data?.trancheShares).toBe(seniorShares.toString())
       expect(getMultipleAccountsRequestMock).toBeCalledWith(
-        expect.arrayContaining([clockSysvarAddress, juniorMintAddress, seniorMintAddress]),
+        expect.arrayContaining([clockSysvarAddress]),
         { encoding: 'base64' },
       )
     })
@@ -421,10 +400,8 @@ describe('StrcusxExchangeRateTransport', () => {
 
       expect(response.result).toBe('999999990000000000')
       expect(response.data?.computedResult).toBe('999999990000000000')
-      expect(response.data?.vestedTotalAssets).toBe('649999995')
-      expect(response.data?.vestedSeniorAssets).toBe('199999998')
-      expect(response.data?.unvestedTotalAssets).toBe('6')
-      expect(response.data?.unvestedSeniorAssets).toBe('2')
+      expect(response.data?.trancheAssets).toBe('199999998')
+      expect(response.data?.trancheShares).toBe(seniorShares.toString())
     })
 
     it('should treat non-active vesting schedules as fully vested', async () => {
@@ -443,14 +420,6 @@ describe('StrcusxExchangeRateTransport', () => {
 
       expect(juniorResponse.result).toBe(expectedJuniorRate)
       expect(seniorResponse.result).toBe(expectedSeniorRate)
-    })
-
-    it('should error when asset mint decimals do not match USX decimals', async () => {
-      mockAccountData({ assetMintDecimals: mintDecimals + 1 })
-
-      await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
-        'Expected asset mint decimals to be 6, found 7',
-      )
     })
 
     it('should clamp the exchange rate to minRate', async () => {
@@ -511,7 +480,7 @@ describe('StrcusxExchangeRateTransport', () => {
       })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
-        'totalAssets must be greater than or equal to seniorAssets',
+        'vested totalAssets must be greater than or equal to vested seniorAssets',
       )
     })
 
@@ -522,36 +491,11 @@ describe('StrcusxExchangeRateTransport', () => {
             encodeAccounting({ juniorSharesValue: 0n }),
             programAddress,
           ),
-          [juniorMintAddress]: makeAccountInfoResponse(encodeMint(0n, mintDecimals)),
         },
       })
 
       await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
         'junior tranche shares are zero',
-      )
-    })
-
-    it('should error when mint supply does not match accounting shares', async () => {
-      mockAccountData({
-        overrides: {
-          [juniorMintAddress]: makeAccountInfoResponse(encodeMint(juniorShares + 1n, mintDecimals)),
-        },
-      })
-
-      await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
-        'Expected junior mint supply to equal accounting juniorShares',
-      )
-    })
-
-    it('should error when strategy/accounting names do not match the request', async () => {
-      mockAccountData({
-        overrides: {
-          [strategyAddress]: makeAccountInfoResponse(encodeStrategy('OTHER'), programAddress),
-        },
-      })
-
-      await expect(transport._handleRequest(juniorParam)).rejects.toThrow(
-        "Expected Strategy name to be 'STRC-USX-1', found 'OTHER'",
       )
     })
   })
