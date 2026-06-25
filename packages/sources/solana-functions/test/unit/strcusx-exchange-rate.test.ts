@@ -11,6 +11,7 @@ import {
   deriveStrategyAddress,
   StrcusxExchangeRateTransport,
 } from '../../src/transport/strcusx-exchange-rate'
+import strcusxAccountFixture from '../fixtures/strcusx-account-data-2026-06-25.json'
 
 const programAddress = '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe'
 const strategyName = 'STRC-USX-1'
@@ -34,6 +35,9 @@ const providerIndicatedTimeUnixMs = Number(clockUnixTimestamp * 1000n)
 const accountingDiscriminator = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
 const controllerDiscriminator = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
 const strategyDiscriminator = Buffer.from([174, 110, 39, 119, 82, 106, 169, 102])
+const controllerAccountLength = 362
+const strategyAccountLength = 617
+const accountingAccountLength = 441
 
 const seniorShares = 200_000_000n
 const juniorShares = 450_000_000n
@@ -92,7 +96,7 @@ const encodeClock = (unixTimestamp: bigint) => {
 }
 
 const encodeController = (overrideAssetMintAddress = assetMintAddress) => {
-  const buffer = Buffer.alloc(106)
+  const buffer = Buffer.alloc(controllerAccountLength)
   controllerDiscriminator.copy(buffer, 0)
   writePublicKey(buffer, overrideAssetMintAddress, 73)
   buffer[105] = 0
@@ -100,7 +104,7 @@ const encodeController = (overrideAssetMintAddress = assetMintAddress) => {
 }
 
 const encodeStrategy = (overrideName = strategyName) => {
-  const buffer = Buffer.alloc(337)
+  const buffer = Buffer.alloc(strategyAccountLength)
   strategyDiscriminator.copy(buffer, 0)
   writeName(buffer, overrideName, 8)
   buffer[40] = 255
@@ -134,7 +138,7 @@ const encodeAccounting = ({
   vestingStartTimeValue = 0n,
   vestingEndTimeValue = 0n,
 } = {}) => {
-  const buffer = Buffer.alloc(185)
+  const buffer = Buffer.alloc(accountingAccountLength)
   accountingDiscriminator.copy(buffer, 0)
   writeName(buffer, name, 8)
   buffer[40] = 255
@@ -217,6 +221,18 @@ describe('StrcusxExchangeRateTransport', () => {
 
   type AccountInfo = ReturnType<typeof makeAccountInfoResponse> | null
 
+  const getFixtureAccountInfo = (index: number): Exclude<AccountInfo, null> => {
+    const account = strcusxAccountFixture.result.value[index]
+    if (!account) {
+      throw new Error(`Missing strcUSX fixture account at index ${index}`)
+    }
+
+    return {
+      data: account.data as [string, string],
+      owner: account.owner,
+    }
+  }
+
   const mockAccountData = ({
     accountingData = encodeAccounting(),
     unixTimestamp = clockUnixTimestamp,
@@ -266,6 +282,42 @@ describe('StrcusxExchangeRateTransport', () => {
   })
 
   describe('_handleRequest', () => {
+    it('should decode recorded real strcUSX account fixtures', async () => {
+      expect(strcusxAccountFixture.result.value.map((account) => account.space)).toEqual([
+        controllerAccountLength,
+        strategyAccountLength,
+        accountingAccountLength,
+      ])
+      expect(
+        strcusxAccountFixture.result.value.map(
+          (account) => Buffer.from(account.data[0]!, 'base64').length,
+        ),
+      ).toEqual([controllerAccountLength, strategyAccountLength, accountingAccountLength])
+
+      mockAccountData({
+        unixTimestamp: 1n,
+        overrides: {
+          [controllerAddress]: getFixtureAccountInfo(0),
+          [strategyAddress]: getFixtureAccountInfo(1),
+          [accountingAddress]: getFixtureAccountInfo(2),
+        },
+      })
+
+      const response = await transport._handleRequest(juniorParam)
+
+      expect(response.data).toMatchObject({
+        result: '1000000000000000000',
+        computedResult: '1000000000000000000',
+        seniorShares: seniorShares.toString(),
+        juniorShares: juniorShares.toString(),
+        vestedTotalAssets: '650000000',
+        vestedSeniorAssets: seniorAssets.toString(),
+        vestedJuniorAssets: '450000000',
+        unvestedTotalAssets: '1',
+        unvestedSeniorAssets: '0',
+      })
+    })
+
     it('should return the junior tranche exchange rate', async () => {
       mockAccountData()
 

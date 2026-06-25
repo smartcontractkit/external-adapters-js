@@ -2,11 +2,15 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { getAddressDecoder } from '@solana/addresses'
 import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
+import * as StrcusxYieldStrategyIDL from '../idl/strcusx_yield_strategy.json'
 import { assertTokenProgramOwner, decodeMintInfo } from '../shared/buffer-layout-accounts'
 import {
   applyRateBounds,
@@ -48,90 +52,137 @@ const PDA_SEEDS = {
   SENIOR_MINT: 'SENIOR_MINT',
 } as const
 
-const ACCOUNTING_STATE_DISCRIMINATOR = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
-const CONTROLLER_DISCRIMINATOR = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
-const STRATEGY_DISCRIMINATOR = Buffer.from([174, 110, 39, 119, 82, 106, 169, 102])
+type IdlField = {
+  name: string
+  type: 'u8' | 'u32' | 'u64' | 'u128' | 'pubkey' | { array: ['u8', number] }
+}
 
-// These named spans mirror the Solstice zero-copy account layout while the official IDL is pending.
-const CONTROLLER_RESERVED_BEFORE_ASSET_MINT_LENGTH = 65
-const STRATEGY_RESERVED_AFTER_NAME_LENGTH = 7
-const STRATEGY_TRAILING_DATA_LENGTH = 96
-const ACCOUNTING_RESERVED_AFTER_NAME_LENGTH = 1
-const ACCOUNTING_TRAILING_DATA_LENGTH = 48
+type StrcusxYieldStrategyIdl = {
+  accounts: {
+    name: string
+    discriminator: number[]
+  }[]
+  types: {
+    name: string
+    serialization?: string
+    repr?: {
+      kind?: string
+      packed?: boolean
+    }
+    type: {
+      kind: 'struct'
+      fields: IdlField[]
+    }
+  }[]
+}
+
+const strcusxYieldStrategyIdl = StrcusxYieldStrategyIDL as unknown as StrcusxYieldStrategyIdl
+
+const providerError = (message: string) =>
+  new AdapterDataProviderError(
+    {
+      message,
+      statusCode: 502,
+    },
+    {
+      providerDataRequestedUnixMs: 0,
+      providerDataReceivedUnixMs: 0,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
+
+const getIdlType = (accountName: string) => {
+  const idlType = strcusxYieldStrategyIdl.types.find((type) => type.name === accountName)
+  if (
+    !idlType ||
+    idlType.serialization !== 'bytemuck' ||
+    idlType.repr?.kind !== 'c' ||
+    idlType.repr?.packed !== true
+  ) {
+    throw new Error(`Expected ${accountName} to be a packed bytemuck account in strcUSX IDL`)
+  }
+
+  return idlType
+}
+
+const getIdlAccountDiscriminator = (accountName: string) => {
+  const idlAccount = strcusxYieldStrategyIdl.accounts.find(
+    (account) => account.name === accountName,
+  )
+  if (!idlAccount || idlAccount.discriminator.length !== ACCOUNT_DISCRIMINATOR_LENGTH) {
+    throw new Error(`Expected ${accountName} discriminator in strcUSX IDL`)
+  }
+
+  return Buffer.from(idlAccount.discriminator)
+}
+
+const getIdlFieldLayout = (field: IdlField): BufferLayout.Layout<unknown> => {
+  if (typeof field.type !== 'string') {
+    if (field.type.array[0] === 'u8') {
+      return BufferLayout.blob(field.type.array[1], field.name)
+    }
+    throw new Error(`Unsupported strcUSX IDL array field '${field.name}'`)
+  }
+
+  switch (field.type) {
+    case 'u8':
+      return BufferLayout.u8(field.name)
+    case 'u32':
+      return BufferLayout.u32(field.name)
+    case 'u64':
+      return BufferLayout.blob(U64_LENGTH, field.name)
+    case 'u128':
+      return BufferLayout.blob(U128_LENGTH, field.name)
+    case 'pubkey':
+      return BufferLayout.blob(PUBLIC_KEY_LENGTH, field.name)
+  }
+}
+
+const buildIdlAccountLayout = <T>(accountName: string): BufferLayout.Layout<T> =>
+  BufferLayout.struct<T>([
+    BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
+    ...getIdlType(accountName).type.fields.map(getIdlFieldLayout),
+  ] as unknown as BufferLayout.Layout<T[keyof T]>[])
+
+const ACCOUNTING_STATE_DISCRIMINATOR = getIdlAccountDiscriminator('AccountingState')
+const CONTROLLER_DISCRIMINATOR = getIdlAccountDiscriminator('Controller')
+const STRATEGY_DISCRIMINATOR = getIdlAccountDiscriminator('Strategy')
 
 type ControllerStateLayoutFields = {
   discriminator: Uint8Array
-  reservedBeforeAssetMint: Uint8Array
-  assetMintAddress: Uint8Array
-  isPaused: number
+  asset_mint: Uint8Array
+  is_paused: number
 }
 
 type StrategyStateLayoutFields = {
   discriminator: Uint8Array
   name: Uint8Array
-  reservedAfterName: Uint8Array
-  juniorMintAddress: Uint8Array
-  seniorMintAddress: Uint8Array
-  assetVaultAddress: Uint8Array
-  vestingVaultAddress: Uint8Array
-  feeVaultAddress: Uint8Array
-  lossVaultAddress: Uint8Array
+  junior_mint: Uint8Array
+  senior_mint: Uint8Array
+  asset_vault: Uint8Array
+  vesting_vault: Uint8Array
+  fee_vault: Uint8Array
+  loss_vault: Uint8Array
   status: number
-  isPaused: number
-  trailingData: Uint8Array
+  is_paused: number
 }
 
 type AccountingStateLayoutFields = {
   discriminator: Uint8Array
   name: Uint8Array
-  reservedAfterName: Uint8Array
-  seniorShares: Uint8Array
-  juniorShares: Uint8Array
-  totalAssets: Uint8Array
-  seniorAssets: Uint8Array
-  totalVestingAssets: Uint8Array
-  seniorVestingAssets: Uint8Array
-  vestingStartTime: Uint8Array
-  vestingEndTime: Uint8Array
-  trailingData: Uint8Array
+  senior_shares: Uint8Array
+  junior_shares: Uint8Array
+  total_assets: Uint8Array
+  senior_assets: Uint8Array
+  total_vesting_assets: Uint8Array
+  senior_vesting_assets: Uint8Array
+  vesting_start_time: Uint8Array
+  vesting_end_time: Uint8Array
 }
 
-const ControllerStateLayout = BufferLayout.struct<ControllerStateLayoutFields>([
-  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
-  BufferLayout.blob(CONTROLLER_RESERVED_BEFORE_ASSET_MINT_LENGTH, 'reservedBeforeAssetMint'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'assetMintAddress'),
-  BufferLayout.u8('isPaused'),
-])
-
-const StrategyStateLayout = BufferLayout.struct<StrategyStateLayoutFields>([
-  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
-  BufferLayout.blob(STRATEGY_NAME_LENGTH, 'name'),
-  BufferLayout.blob(STRATEGY_RESERVED_AFTER_NAME_LENGTH, 'reservedAfterName'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'juniorMintAddress'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'seniorMintAddress'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'assetVaultAddress'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'vestingVaultAddress'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'feeVaultAddress'),
-  BufferLayout.blob(PUBLIC_KEY_LENGTH, 'lossVaultAddress'),
-  BufferLayout.u8('status'),
-  BufferLayout.u8('isPaused'),
-  BufferLayout.blob(STRATEGY_TRAILING_DATA_LENGTH, 'trailingData'),
-])
-
-const AccountingStateLayout = BufferLayout.struct<AccountingStateLayoutFields>([
-  BufferLayout.blob(ACCOUNT_DISCRIMINATOR_LENGTH, 'discriminator'),
-  BufferLayout.blob(STRATEGY_NAME_LENGTH, 'name'),
-  BufferLayout.blob(ACCOUNTING_RESERVED_AFTER_NAME_LENGTH, 'reservedAfterName'),
-  BufferLayout.blob(U128_LENGTH, 'seniorShares'),
-  BufferLayout.blob(U128_LENGTH, 'juniorShares'),
-  BufferLayout.blob(U128_LENGTH, 'totalAssets'),
-  BufferLayout.blob(U128_LENGTH, 'seniorAssets'),
-  BufferLayout.blob(U64_LENGTH, 'totalVestingAssets'),
-  BufferLayout.blob(U64_LENGTH, 'seniorVestingAssets'),
-  BufferLayout.blob(U64_LENGTH, 'vestingStartTime'),
-  BufferLayout.blob(U64_LENGTH, 'vestingEndTime'),
-  BufferLayout.blob(ACCOUNTING_TRAILING_DATA_LENGTH, 'trailingData'),
-])
+const ControllerStateLayout = buildIdlAccountLayout<ControllerStateLayoutFields>('Controller')
+const StrategyStateLayout = buildIdlAccountLayout<StrategyStateLayoutFields>('Strategy')
+const AccountingStateLayout = buildIdlAccountLayout<AccountingStateLayoutFields>('AccountingState')
 
 const addressDecoder = getAddressDecoder()
 
@@ -235,8 +286,8 @@ const decodeControllerState = (data: Buffer): ControllerState => {
   const decoded = ControllerStateLayout.decode(data)
 
   return {
-    assetMintAddress: decodeAddress(decoded.assetMintAddress),
-    isPaused: decoded.isPaused === 1,
+    assetMintAddress: decodeAddress(decoded.asset_mint),
+    isPaused: decoded.is_paused === 1,
   }
 }
 
@@ -247,14 +298,14 @@ const decodeStrategyState = (data: Buffer): StrategyState => {
 
   return {
     name: readPaddedString(decoded.name),
-    juniorMintAddress: decodeAddress(decoded.juniorMintAddress),
-    seniorMintAddress: decodeAddress(decoded.seniorMintAddress),
-    assetVaultAddress: decodeAddress(decoded.assetVaultAddress),
-    vestingVaultAddress: decodeAddress(decoded.vestingVaultAddress),
-    feeVaultAddress: decodeAddress(decoded.feeVaultAddress),
-    lossVaultAddress: decodeAddress(decoded.lossVaultAddress),
+    juniorMintAddress: decodeAddress(decoded.junior_mint),
+    seniorMintAddress: decodeAddress(decoded.senior_mint),
+    assetVaultAddress: decodeAddress(decoded.asset_vault),
+    vestingVaultAddress: decodeAddress(decoded.vesting_vault),
+    feeVaultAddress: decodeAddress(decoded.fee_vault),
+    lossVaultAddress: decodeAddress(decoded.loss_vault),
     status: decoded.status,
-    isPaused: decoded.isPaused === 1,
+    isPaused: decoded.is_paused === 1,
   }
 }
 
@@ -265,24 +316,22 @@ const decodeAccountingState = (data: Buffer): AccountingState => {
 
   return {
     name: readPaddedString(decoded.name),
-    seniorShares: readU128LE(decoded.seniorShares),
-    juniorShares: readU128LE(decoded.juniorShares),
-    totalAssets: readU128LE(decoded.totalAssets),
-    seniorAssets: readU128LE(decoded.seniorAssets),
-    totalVestingAssets: readU64LE(decoded.totalVestingAssets),
-    seniorVestingAssets: readU64LE(decoded.seniorVestingAssets),
-    vestingStartTime: readU64LE(decoded.vestingStartTime),
-    vestingEndTime: readU64LE(decoded.vestingEndTime),
+    seniorShares: readU128LE(decoded.senior_shares),
+    juniorShares: readU128LE(decoded.junior_shares),
+    totalAssets: readU128LE(decoded.total_assets),
+    seniorAssets: readU128LE(decoded.senior_assets),
+    totalVestingAssets: readU64LE(decoded.total_vesting_assets),
+    seniorVestingAssets: readU64LE(decoded.senior_vesting_assets),
+    vestingStartTime: readU64LE(decoded.vesting_start_time),
+    vestingEndTime: readU64LE(decoded.vesting_end_time),
   }
 }
 
 const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bigint) => {
   if (accounting.seniorVestingAssets > accounting.totalVestingAssets) {
-    throw new AdapterInputError({
-      message:
-        'AccountingState seniorVestingAssets must be less than or equal to totalVestingAssets',
-      statusCode: 500,
-    })
+    throw providerError(
+      'AccountingState seniorVestingAssets must be less than or equal to totalVestingAssets',
+    )
   }
 
   const unvestedTotalVestingAssets = calculateUnvestedAssets(
@@ -299,18 +348,14 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
   )
 
   if (accounting.totalAssets < unvestedTotalVestingAssets) {
-    throw new AdapterInputError({
-      message:
-        'AccountingState totalAssets must be greater than or equal to unvested totalVestingAssets',
-      statusCode: 500,
-    })
+    throw providerError(
+      'AccountingState totalAssets must be greater than or equal to unvested totalVestingAssets',
+    )
   }
   if (accounting.seniorAssets < unvestedSeniorVestingAssets) {
-    throw new AdapterInputError({
-      message:
-        'AccountingState seniorAssets must be greater than or equal to unvested seniorVestingAssets',
-      statusCode: 500,
-    })
+    throw providerError(
+      'AccountingState seniorAssets must be greater than or equal to unvested seniorVestingAssets',
+    )
   }
 
   return {
@@ -323,10 +368,9 @@ const calculateBookValueAssets = (accounting: AccountingState, unixTimestamp: bi
 
 const assertAssetMintDecimals = (decimals: number) => {
   if (decimals !== EXPECTED_ASSET_MINT_DECIMALS) {
-    throw new AdapterInputError({
-      message: `Expected asset mint decimals to be ${EXPECTED_ASSET_MINT_DECIMALS}, found ${decimals}`,
-      statusCode: 500,
-    })
+    throw providerError(
+      `Expected asset mint decimals to be ${EXPECTED_ASSET_MINT_DECIMALS}, found ${decimals}`,
+    )
   }
 }
 
@@ -436,10 +480,9 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     assertAddressMatches(strategy.seniorMintAddress, expectedSeniorMintAddress, 'senior mint PDA')
 
     if (accounting.totalAssets < accounting.seniorAssets) {
-      throw new AdapterInputError({
-        message: `AccountingState totalAssets must be greater than or equal to seniorAssets`,
-        statusCode: 500,
-      })
+      throw providerError(
+        `AccountingState totalAssets must be greater than or equal to seniorAssets`,
+      )
     }
 
     const [assetMintAccount] = await fetchMultipleAccounts(this.rpc, [controller.assetMintAddress])
@@ -463,26 +506,19 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     )
 
     if (juniorMint.supply !== accounting.juniorShares) {
-      throw new AdapterInputError({
-        message: `Expected junior mint supply to equal accounting juniorShares`,
-        statusCode: 500,
-      })
+      throw providerError(`Expected junior mint supply to equal accounting juniorShares`)
     }
     if (seniorMint.supply !== accounting.seniorShares) {
-      throw new AdapterInputError({
-        message: `Expected senior mint supply to equal accounting seniorShares`,
-        statusCode: 500,
-      })
+      throw providerError(`Expected senior mint supply to equal accounting seniorShares`)
     }
 
     const clockUnixTimestamp = decodeClockUnixTimestamp(clockAccount)
     const bookValueAssets = calculateBookValueAssets(accounting, clockUnixTimestamp)
 
     if (bookValueAssets.totalAssets < bookValueAssets.seniorAssets) {
-      throw new AdapterInputError({
-        message: `AccountingState vested totalAssets must be greater than or equal to vested seniorAssets`,
-        statusCode: 500,
-      })
+      throw providerError(
+        `AccountingState vested totalAssets must be greater than or equal to vested seniorAssets`,
+      )
     }
 
     const juniorAssets = bookValueAssets.totalAssets - bookValueAssets.seniorAssets
@@ -501,10 +537,7 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const selectedComputedRate = tranche === 'junior' ? juniorComputedRate : seniorComputedRate
 
     if (selectedComputedRate === null) {
-      throw new AdapterInputError({
-        message: `${tranche} tranche shares are zero`,
-        statusCode: 500,
-      })
+      throw providerError(`${tranche} tranche shares are zero`)
     }
 
     const { rate, boundsApplied } = applyRateBounds(selectedComputedRate, minRate, maxRate)

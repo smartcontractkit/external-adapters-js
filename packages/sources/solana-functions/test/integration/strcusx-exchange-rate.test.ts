@@ -27,6 +27,9 @@ const clockUnixTimestamp = 1_781_704_234n
 const accountingDiscriminator = Buffer.from([9, 238, 56, 53, 228, 92, 217, 40])
 const controllerDiscriminator = Buffer.from([184, 79, 171, 0, 183, 43, 113, 110])
 const strategyDiscriminator = Buffer.from([174, 110, 39, 119, 82, 106, 169, 102])
+const controllerAccountLength = 362
+const strategyAccountLength = 617
+const accountingAccountLength = 441
 
 const seniorShares = 200_000_000n
 const juniorShares = 450_000_000n
@@ -80,7 +83,7 @@ const encodeClock = (unixTimestamp: bigint) => {
 }
 
 const encodeController = () => {
-  const buffer = Buffer.alloc(106)
+  const buffer = Buffer.alloc(controllerAccountLength)
   controllerDiscriminator.copy(buffer, 0)
   writePublicKey(buffer, assetMintAddress, 73)
   buffer[105] = 0
@@ -88,7 +91,7 @@ const encodeController = () => {
 }
 
 const encodeStrategy = () => {
-  const buffer = Buffer.alloc(337)
+  const buffer = Buffer.alloc(strategyAccountLength)
   strategyDiscriminator.copy(buffer, 0)
   writeName(buffer, strategyName, 8)
   writePublicKey(buffer, juniorMintAddress, 47)
@@ -103,7 +106,7 @@ const encodeStrategy = () => {
 }
 
 const encodeAccounting = () => {
-  const buffer = Buffer.alloc(185)
+  const buffer = Buffer.alloc(accountingAccountLength)
   accountingDiscriminator.copy(buffer, 0)
   writeName(buffer, strategyName, 8)
   writeU128LE(buffer, seniorShares, 41)
