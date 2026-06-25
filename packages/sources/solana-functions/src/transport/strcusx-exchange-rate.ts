@@ -6,7 +6,7 @@ import {
   AdapterDataProviderError,
   AdapterInputError,
 } from '@chainlink/external-adapter-framework/validation/error'
-import { BorshAccountsCoder, Idl } from '@coral-xyz/anchor'
+import { BorshAccountsCoder, type Idl } from '@coral-xyz/anchor'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
 import * as StrcusxYieldStrategyIDL from '../idl/strcusx_yield_strategy.json'
@@ -40,7 +40,7 @@ const PDA_SEEDS = {
   ACCOUNTING: 'ACCOUNTING',
 } as const
 
-const strcusxAccountsCoder = new BorshAccountsCoder(StrcusxYieldStrategyIDL as unknown as Idl)
+const strcusxAccountsCoder = new BorshAccountsCoder(StrcusxYieldStrategyIDL as Idl)
 
 const providerError = (message: string) =>
   new AdapterDataProviderError(
