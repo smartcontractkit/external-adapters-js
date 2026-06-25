@@ -175,6 +175,8 @@ describe('StslxExchangeRateTransport', () => {
           computedResult: expectedRate,
           decimals: 18,
           boundsApplied: false,
+          slxBalance: slxBalance.toString(),
+          stslxSupply: stslxSupply.toString(),
         },
         timestamps: {
           providerDataRequestedUnixMs: expect.any(Number),

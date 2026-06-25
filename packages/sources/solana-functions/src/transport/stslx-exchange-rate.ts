@@ -2,11 +2,8 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterDataProviderError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
-import { address, getAddressEncoder } from '@solana/addresses'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { address, getAddressEncoder, type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
 import {
@@ -19,6 +16,7 @@ import {
   applyRateBounds,
   calculateNormalizedRate,
   parseRateBounds,
+  providerError,
   RESULT_DECIMALS,
 } from '../shared/exchange-rate-utils'
 import {
@@ -38,19 +36,6 @@ const addressEncoder = getAddressEncoder()
 
 type RequestParams = typeof inputParameters.validated
 
-const providerError = (message: string) =>
-  new AdapterDataProviderError(
-    {
-      message,
-      statusCode: 502,
-    },
-    {
-      providerDataRequestedUnixMs: 0,
-      providerDataReceivedUnixMs: 0,
-      providerIndicatedTimeUnixMs: undefined,
-    },
-  )
-
 const asProviderError = <T>(callback: () => T) => {
   try {
     return callback()
@@ -59,17 +44,14 @@ const asProviderError = <T>(callback: () => T) => {
   }
 }
 
-const deriveVaultAddress = (glamStateAddress: string, glamProtocolProgramAddress: string) =>
-  derivePda(glamProtocolProgramAddress, [
-    GLAM_VAULT_SEED,
-    addressEncoder.encode(parseSolanaAddress(glamStateAddress, 'glamStateAddress')),
-  ])
+const deriveVaultAddress = (glamStateAddress: Address, glamProtocolProgramAddress: Address) =>
+  derivePda(glamProtocolProgramAddress, [GLAM_VAULT_SEED, addressEncoder.encode(glamStateAddress)])
 
-const deriveSlxTokenAccountAddress = (vaultAddress: string, slxMintAddress: string) =>
+const deriveSlxTokenAccountAddress = (vaultAddress: Address, slxMintAddress: Address) =>
   derivePda(ASSOCIATED_TOKEN_PROGRAM_ADDRESS, [
-    addressEncoder.encode(parseSolanaAddress(vaultAddress, 'vaultAddress')),
+    addressEncoder.encode(vaultAddress),
     addressEncoder.encode(address(LEGACY_TOKEN_PROGRAM_ADDRESS)),
-    addressEncoder.encode(parseSolanaAddress(slxMintAddress, 'slxMintAddress')),
+    addressEncoder.encode(slxMintAddress),
   ])
 
 export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpointTypes> {
@@ -115,19 +97,13 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const slxMintAddress = parseSolanaAddress(params.slxMintAddress, 'slxMintAddress').toString()
-    const stslxMintAddress = parseSolanaAddress(
-      params.stslxMintAddress,
-      'stslxMintAddress',
-    ).toString()
-    const glamStateAddress = parseSolanaAddress(
-      params.glamStateAddress,
-      'glamStateAddress',
-    ).toString()
+    const slxMintAddress = parseSolanaAddress(params.slxMintAddress, 'slxMintAddress')
+    const stslxMintAddress = parseSolanaAddress(params.stslxMintAddress, 'stslxMintAddress')
+    const glamStateAddress = parseSolanaAddress(params.glamStateAddress, 'glamStateAddress')
     const glamProtocolProgramAddress = parseSolanaAddress(
       params.glamProtocolProgramAddress,
       'glamProtocolProgramAddress',
-    ).toString()
+    )
     const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
     const vaultAddress = await deriveVaultAddress(glamStateAddress, glamProtocolProgramAddress)
     const slxTokenAccountAddress = await deriveSlxTokenAccountAddress(vaultAddress, slxMintAddress)
@@ -190,6 +166,8 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
         computedResult,
         decimals: RESULT_DECIMALS,
         boundsApplied,
+        slxBalance: slxToken.amount.toString(),
+        stslxSupply: stslxMint.supply.toString(),
       },
       statusCode: 200,
       result,

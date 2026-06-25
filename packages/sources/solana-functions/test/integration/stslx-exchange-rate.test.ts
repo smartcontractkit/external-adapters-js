@@ -17,6 +17,8 @@ const vaultAddress = 'GMwdh2jTdTrrhA7dMR7Cc2zC6gV38UePzAXeoFHrXnfH'
 const slxTokenAccountAddress = '7CssRFNePpnDiCzjRC5kPRDpEJn87JMeDG7s6Gww9CTf'
 const minRate = '1000000000000000000'
 const maxRate = '2000000000000000000'
+const slxBalance = 1_500_000_000n
+const stslxSupply = 1_000_000n
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
 const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
 
@@ -71,10 +73,10 @@ const solanaRpc = makeStub('solanaRpc', {
       const accountsByAddress: Record<string, ReturnType<typeof makeAccountInfoResponse>> = {
         [slxMintAddress]: makeAccountInfoResponse(encodeMint(100_000_000_000n, 9)),
         [stslxMintAddress]: makeAccountInfoResponse(
-          encodeMint(1_000_000n, 6),
+          encodeMint(stslxSupply, 6),
           token2022ProgramAddress,
         ),
-        [slxTokenAccountAddress]: makeAccountInfoResponse(encodeTokenAccount(1_500_000_000n)),
+        [slxTokenAccountAddress]: makeAccountInfoResponse(encodeTokenAccount(slxBalance)),
       }
 
       return {
@@ -132,6 +134,8 @@ describe('execute', () => {
           computedResult: '1500000000000000000',
           decimals: 18,
           result: '1500000000000000000',
+          slxBalance: slxBalance.toString(),
+          stslxSupply: stslxSupply.toString(),
         },
         result: '1500000000000000000',
         statusCode: 200,
@@ -152,6 +156,24 @@ describe('execute', () => {
       expect(response.json()).toEqual({
         error: {
           message: '[Param: minRate] param is required but no value was provided',
+          name: 'AdapterError',
+        },
+        status: 'errored',
+        statusCode: 400,
+      })
+    })
+
+    it('should reject inverted bounds', async () => {
+      const response = await testAdapter.request({
+        endpoint: 'stslx-exchange-rate',
+        minRate: maxRate,
+        maxRate: minRate,
+      })
+
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toEqual({
+        error: {
+          message: 'minRate must be less than or equal to maxRate',
           name: 'AdapterError',
         },
         status: 'errored',

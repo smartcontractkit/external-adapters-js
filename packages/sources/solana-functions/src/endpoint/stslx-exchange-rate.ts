@@ -1,6 +1,7 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
+import { parseRateBounds } from '../shared/exchange-rate-utils'
 import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
 
 export const DEFAULT_SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
@@ -66,6 +67,8 @@ export type BaseEndpointTypes = {
       computedResult: string
       decimals: number
       boundsApplied: boolean
+      slxBalance: string
+      stslxSupply: string
     }
   }
   Settings: typeof config.settings
@@ -76,4 +79,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: stslxExchangeRateTransport,
   inputParameters,
+  customInputValidation: (req) => {
+    parseRateBounds(req.requestContext.data.minRate, req.requestContext.data.maxRate)
+    return undefined
+  },
 })
