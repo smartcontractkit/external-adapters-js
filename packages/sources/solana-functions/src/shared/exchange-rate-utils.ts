@@ -1,7 +1,23 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 
 export const RESULT_DECIMALS = 18
 const POSITIVE_INTEGER_PATTERN = /^[1-9]\d*$/
+
+export const providerError = (message: string) =>
+  new AdapterDataProviderError(
+    {
+      message,
+      statusCode: 502,
+    },
+    {
+      providerDataRequestedUnixMs: 0,
+      providerDataReceivedUnixMs: 0,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
 
 export const parseRateBound = (value: string, name: string) => {
   if (!POSITIVE_INTEGER_PATTERN.test(value)) {
