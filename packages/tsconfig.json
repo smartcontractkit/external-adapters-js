@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint"
     },
     {
-      "path": "./composites/set-token-index"
-    },
-    {
       "path": "./composites/the-graph"
     },
     {
@@ -205,9 +202,6 @@
     },
     {
       "path": "./sources/coinranking"
-    },
-    {
-      "path": "./sources/covid-tracker"
     },
     {
       "path": "./sources/cryptoapis"

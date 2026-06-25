@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint/tsconfig.test.json"
     },
     {
-      "path": "./composites/set-token-index/tsconfig.test.json"
-    },
-    {
       "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
@@ -205,9 +202,6 @@
     },
     {
       "path": "./sources/coinranking/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/covid-tracker/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptoapis/tsconfig.test.json"
