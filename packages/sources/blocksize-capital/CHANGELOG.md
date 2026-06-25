@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.8.0
+
+### Minor Changes
+
+- [#5035](https://github.com/smartcontractkit/external-adapters-js/pull/5035) [`22bdbab`](https://github.com/smartcontractkit/external-adapters-js/commit/22bdbabc71955887b9bc816b04e1c4ce5106ab43) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Optimize blocksize-capital WS subscribe/unsubscribe via customSubscriptionMessages batching
+
 ## 2.7.2
 
 ### Patch Changes

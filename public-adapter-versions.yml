@@ -2,9 +2,9 @@ adapters:
   - name: ada-balance
     version: 2.5.47
   - name: aleno
-    version: 2.2.1
+    version: 2.3.0
   - name: allium-state
-    version: 1.1.1
+    version: 1.2.0
   - name: amberdata
     version: 1.8.40
   - name: anchorage
@@ -18,7 +18,7 @@ adapters:
   - name: avalanche-platform
     version: 2.2.1
   - name: backed-fi
-    version: 1.3.1
+    version: 1.4.0
   - name: bank-frick
     version: 1.1.55
   - name: bea
@@ -38,13 +38,13 @@ adapters:
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.7.2
+    version: 2.8.0
   - name: blocksize-capital-state
-    version: 1.1.1
+    version: 1.2.0
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.163
+    version: 2.2.165
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -78,15 +78,13 @@ adapters:
   - name: coinmetrics-lwba
     version: 2.3.2
   - name: coinpaprika
-    version: 2.7.2
+    version: 2.8.0
   - name: coinpaprika-state
-    version: 1.1.1
+    version: 1.2.0
   - name: coinranking
     version: 2.1.18
-  - name: covid-tracker
-    version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.59
+    version: 1.4.61
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
@@ -98,7 +96,7 @@ adapters:
   - name: deribit
     version: 1.2.47
   - name: deutsche-boerse
-    version: 1.5.1
+    version: 1.6.0
   - name: dlc-btc-por
     version: 4.4.5
   - name: dlc-cbtc-por
@@ -122,9 +120,9 @@ adapters:
   - name: exchange-copter
     version: 1.0.1
   - name: expand-network
-    version: 0.2.1
+    version: 0.3.0
   - name: finage
-    version: 2.7.2
+    version: 2.8.1
   - name: finalto
     version: 1.4.7
   - name: finnhub
@@ -162,7 +160,7 @@ adapters:
   - name: hastra
     version: 1.0.1
   - name: icap
-    version: 1.6.1
+    version: 1.7.0
   - name: ice
     version: 1.2.1
   - name: ignition-address-list
@@ -202,7 +200,7 @@ adapters:
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
-    version: 2.2.1
+    version: 2.3.0
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
@@ -218,7 +216,7 @@ adapters:
   - name: nav-generic
     version: 1.0.5
   - name: ncfx
-    version: 4.8.2
+    version: 4.9.0
   - name: nobi
     version: 1.0.0
   - name: nomia
@@ -240,7 +238,7 @@ adapters:
   - name: polygon
     version: 2.0.41
   - name: por-address-list
-    version: 5.17.0
+    version: 5.18.0
   - name: por-indexer
     version: 2.3.1
   - name: proof-of-reserves
@@ -252,13 +250,11 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.146
+    version: 3.0.148
   - name: secure-mint
     version: 1.0.8
   - name: securitize
     version: 1.0.3
-  - name: set-token-index
-    version: 3.0.72
   - name: six
     version: 1.0.0
   - name: sochain
@@ -294,11 +290,11 @@ adapters:
   - name: the-graph
     version: 1.2.48
   - name: the-network-firm
-    version: 1.6.1
+    version: 1.8.0
   - name: therundown
     version: 1.3.47
   - name: tiingo
-    version: 2.11.2
+    version: 2.12.0
   - name: tiingo-state
     version: 0.3.7
   - name: token-balance
@@ -306,7 +302,7 @@ adapters:
   - name: tokenized-equity
     version: 1.2.0
   - name: tp
-    version: 1.11.1
+    version: 1.12.0
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
@@ -324,7 +320,7 @@ adapters:
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain
-    version: 1.8.0
+    version: 1.10.0
   - name: view-starknet-latest-answer
     version: 1.0.27
   - name: wbtc-address-set
@@ -336,4 +332,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.145
+    version: 2.0.147

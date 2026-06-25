@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/readme-test-v3-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Chainlink readme-test-v3 adapter.",
   "keywords": [
     "Chainlink",

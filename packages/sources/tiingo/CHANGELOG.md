@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.12.0
+
+### Minor Changes
+
+- [#5110](https://github.com/smartcontractkit/external-adapters-js/pull/5110) [`1d12daa`](https://github.com/smartcontractkit/external-adapters-js/commit/1d12daac12df943b20ecf1ee2528ffa8869bb90c) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Inverse quote handling fix for streams adapter
+
 ## 2.11.2
 
 ### Patch Changes
