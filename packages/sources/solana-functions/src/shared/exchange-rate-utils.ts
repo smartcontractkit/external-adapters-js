@@ -30,10 +30,10 @@ export const parseRateBound = (value: string, name: string) => {
   return BigInt(value)
 }
 
-export const parseRateBounds = (minRateValue: string, maxRateValue: string) => {
-  const minRate = parseRateBound(minRateValue, 'minRate')
-  const maxRate = parseRateBound(maxRateValue, 'maxRate')
-  if (minRate > maxRate) {
+export const parseRateBounds = (minRateValue?: string, maxRateValue?: string) => {
+  const minRate = minRateValue === undefined ? undefined : parseRateBound(minRateValue, 'minRate')
+  const maxRate = maxRateValue === undefined ? undefined : parseRateBound(maxRateValue, 'maxRate')
+  if (minRate !== undefined && maxRate !== undefined && minRate > maxRate) {
     throw new AdapterInputError({
       message: 'minRate must be less than or equal to maxRate',
       statusCode: 400,
@@ -43,8 +43,14 @@ export const parseRateBounds = (minRateValue: string, maxRateValue: string) => {
   return { minRate, maxRate }
 }
 
-export const applyRateBounds = (computedRate: bigint, minRate: bigint, maxRate: bigint) => {
-  const rate = computedRate < minRate ? minRate : computedRate > maxRate ? maxRate : computedRate
+export const applyRateBounds = (computedRate: bigint, minRate?: bigint, maxRate?: bigint) => {
+  let rate = computedRate
+  if (minRate !== undefined && rate < minRate) {
+    rate = minRate
+  }
+  if (maxRate !== undefined && rate > maxRate) {
+    rate = maxRate
+  }
 
   return {
     rate,

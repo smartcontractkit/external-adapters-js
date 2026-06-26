@@ -26,6 +26,15 @@ describe('exchange-rate-utils', () => {
       expect(parseRateBounds('1', '2')).toEqual({ minRate: 1n, maxRate: 2n })
     })
 
+    it('should allow omitted bounds', () => {
+      expect(parseRateBounds(undefined, '2')).toEqual({ minRate: undefined, maxRate: 2n })
+      expect(parseRateBounds('1', undefined)).toEqual({ minRate: 1n, maxRate: undefined })
+      expect(parseRateBounds(undefined, undefined)).toEqual({
+        minRate: undefined,
+        maxRate: undefined,
+      })
+    })
+
     it('should reject inverted bounds', () => {
       expect(() => parseRateBounds('2', '1')).toThrow(
         'minRate must be less than or equal to maxRate',
@@ -36,11 +45,17 @@ describe('exchange-rate-utils', () => {
   describe('applyRateBounds', () => {
     it('should leave in-range rates unchanged', () => {
       expect(applyRateBounds(10n, 1n, 20n)).toEqual({ rate: 10n, boundsApplied: false })
+      expect(applyRateBounds(10n, undefined, undefined)).toEqual({
+        rate: 10n,
+        boundsApplied: false,
+      })
     })
 
     it('should clamp below-minimum and above-maximum rates', () => {
       expect(applyRateBounds(10n, 11n, 20n)).toEqual({ rate: 11n, boundsApplied: true })
       expect(applyRateBounds(21n, 1n, 20n)).toEqual({ rate: 20n, boundsApplied: true })
+      expect(applyRateBounds(10n, 11n, undefined)).toEqual({ rate: 11n, boundsApplied: true })
+      expect(applyRateBounds(21n, undefined, 20n)).toEqual({ rate: 20n, boundsApplied: true })
     })
   })
 

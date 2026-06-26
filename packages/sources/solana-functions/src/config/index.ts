@@ -4,7 +4,7 @@ export const config = new AdapterConfig({
   RPC_URL: {
     description: 'The RPC URL for the Solana cluster',
     type: 'string',
-    required: true,
+    default: 'https://api.mainnet-beta.solana.com',
     sensitive: true,
   },
   BACKGROUND_EXECUTE_MS: {
