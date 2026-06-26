@@ -16,7 +16,6 @@ import {
   applyRateBounds,
   calculateNormalizedRate,
   parseRateBounds,
-  providerError,
   RESULT_DECIMALS,
 } from '../shared/exchange-rate-utils'
 import {
@@ -25,6 +24,7 @@ import {
   fetchMultipleAccounts,
   getAccountDataBuffer,
   parseSolanaAddress,
+  providerError,
 } from '../shared/solana-account-utils'
 import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
@@ -35,14 +35,6 @@ const GLAM_VAULT_SEED = 'vault'
 const addressEncoder = getAddressEncoder()
 
 type RequestParams = typeof inputParameters.validated
-
-const asProviderError = <T>(callback: () => T) => {
-  try {
-    return callback()
-  } catch (e: unknown) {
-    throw providerError(e instanceof Error ? e.message : 'Unknown provider error')
-  }
-}
 
 const deriveVaultAddress = (glamStateAddress: Address, glamProtocolProgramAddress: Address) =>
   derivePda(glamProtocolProgramAddress, [GLAM_VAULT_SEED, addressEncoder.encode(glamStateAddress)])
@@ -114,36 +106,26 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       [slxMintAddress, stslxMintAddress, slxTokenAccountAddress],
     )
 
-    asProviderError(() => assertTokenProgramOwner(slxMintAccount, `SLX mint '${slxMintAddress}'`))
-    asProviderError(() =>
-      assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`),
-    )
-    asProviderError(() =>
-      assertOwnerProgram(
-        slxTokenAccount,
-        `SLX token account '${slxTokenAccountAddress}'`,
-        [LEGACY_TOKEN_PROGRAM_ADDRESS],
-        'the legacy SPL Token program',
-      ),
+    assertTokenProgramOwner(slxMintAccount, `SLX mint '${slxMintAddress}'`)
+    assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`)
+    assertOwnerProgram(
+      slxTokenAccount,
+      `SLX token account '${slxTokenAccountAddress}'`,
+      [LEGACY_TOKEN_PROGRAM_ADDRESS],
+      'the legacy SPL Token program',
     )
 
-    const slxMint = asProviderError(() =>
-      decodeMintInfo(
-        getAccountDataBuffer(slxMintAccount, `SLX mint '${slxMintAddress}'`),
-        `SLX mint '${slxMintAddress}'`,
-      ),
+    const slxMint = decodeMintInfo(
+      getAccountDataBuffer(slxMintAccount, `SLX mint '${slxMintAddress}'`),
+      `SLX mint '${slxMintAddress}'`,
     )
-    const stslxMint = asProviderError(() =>
-      decodeMintInfo(
-        getAccountDataBuffer(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`),
-        `stSLX mint '${stslxMintAddress}'`,
-      ),
+    const stslxMint = decodeMintInfo(
+      getAccountDataBuffer(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`),
+      `stSLX mint '${stslxMintAddress}'`,
     )
-    const slxToken = asProviderError(() =>
-      decodeTokenAccountInfo(
-        getAccountDataBuffer(slxTokenAccount, `SLX token account '${slxTokenAccountAddress}'`),
-        `SLX token account '${slxTokenAccountAddress}'`,
-      ),
+    const slxToken = decodeTokenAccountInfo(
+      getAccountDataBuffer(slxTokenAccount, `SLX token account '${slxTokenAccountAddress}'`),
+      `SLX token account '${slxTokenAccountAddress}'`,
     )
 
     const computedRate = calculateNormalizedRate(
