@@ -26,12 +26,12 @@ export const inputParameters = new InputParameters(
     minRate: {
       description: 'Minimum allowed strcUSX exchange rate as an 18-decimal fixed-point integer',
       type: 'string',
-      required: true,
+      required: false,
     },
     maxRate: {
       description: 'Maximum allowed strcUSX exchange rate as an 18-decimal fixed-point integer',
       type: 'string',
-      required: true,
+      required: false,
     },
   },
   [
