@@ -5523,7 +5523,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5701,7 +5701,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elwood/",\
         "packageDependencies": [\
           ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5937,7 +5937,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finalto", {\
         "packageLocation": "./packages/sources/finalto/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5957,7 +5957,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finnhub", {\
         "packageLocation": "./packages/sources/finnhub/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5974,7 +5974,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finnhub-secondary", {\
         "packageLocation": "./packages/sources/finnhub-secondary/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -6182,7 +6182,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/gsr", {\
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7511,7 +7511,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tiingo-state", {\
         "packageLocation": "./packages/sources/tiingo-state/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
