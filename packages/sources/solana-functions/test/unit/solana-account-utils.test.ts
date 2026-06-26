@@ -2,10 +2,8 @@ import { address, getAddressEncoder } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import {
   CLOCK_SYSVAR_ADDRESS,
-  assertAddressMatches,
   assertDataLength,
   assertDiscriminator,
-  assertNameMatches,
   assertOwnerProgram,
   decodeClockUnixTimestamp,
   derivePda,
@@ -95,20 +93,6 @@ describe('solana-account-utils', () => {
     it('should assert minimum data length', () => {
       expect(() => assertDataLength(Buffer.alloc(2), 'test account', 3)).toThrow(
         'Expected test account account data to be at least 3 bytes, found 2',
-      )
-    })
-  })
-
-  describe('generic assertions', () => {
-    it('should assert matching names and addresses', () => {
-      expect(() => assertNameMatches('strategy', 'strategy', 'Strategy')).not.toThrow()
-      expect(() => assertNameMatches('other', 'strategy', 'Strategy')).toThrow(
-        "Expected Strategy name to be 'strategy', found 'other'",
-      )
-
-      expect(() => assertAddressMatches('address-1', 'address-1', 'mint PDA')).not.toThrow()
-      expect(() => assertAddressMatches('address-2', 'address-1', 'mint PDA')).toThrow(
-        "Expected mint PDA to be 'address-1', found 'address-2'",
       )
     })
   })

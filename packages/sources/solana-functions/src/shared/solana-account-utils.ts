@@ -1,4 +1,7 @@
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import {
+  AdapterDataProviderError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { address, getProgramDerivedAddress } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 
@@ -15,6 +18,19 @@ type MultipleAccountsResponse = Awaited<
 export type AccountInfo = NonNullable<MultipleAccountsResponse['value']>[number]
 
 export type PdaSeed = Parameters<typeof getProgramDerivedAddress>[0]['seeds'][number]
+
+export const providerError = (message: string) =>
+  new AdapterDataProviderError(
+    {
+      message,
+      statusCode: 502,
+    },
+    {
+      providerDataRequestedUnixMs: 0,
+      providerDataReceivedUnixMs: 0,
+      providerIndicatedTimeUnixMs: undefined,
+    },
+  )
 
 export const parseSolanaAddress = (value: string, name: string) => {
   try {
@@ -42,10 +58,7 @@ export const getAccountDataBuffer = (
 ) => {
   const encodedData = accountInfo?.data?.[0]
   if (typeof encodedData !== 'string' || encodedData.length === 0) {
-    throw new AdapterInputError({
-      message: `No account data found for ${description}`,
-      statusCode: 500,
-    })
+    throw providerError(`No account data found for ${description}`)
   }
 
   return Buffer.from(encodedData, 'base64')
@@ -59,54 +72,29 @@ export const assertOwnerProgram = (
 ) => {
   const owner = accountInfo?.owner?.toString()
   if (!owner || !expectedOwners.includes(owner)) {
-    throw new AdapterInputError({
-      message: `Expected ${description} to be owned by ${ownerDescription} [${expectedOwners.join(
+    throw providerError(
+      `Expected ${description} to be owned by ${ownerDescription} [${expectedOwners.join(
         ', ',
       )}], found '${owner}'`,
-      statusCode: 500,
-    })
-  }
-}
-
-export const assertNameMatches = (
-  actualName: string,
-  expectedName: string,
-  description: string,
-) => {
-  if (actualName !== expectedName) {
-    throw new AdapterInputError({
-      message: `Expected ${description} name to be '${expectedName}', found '${actualName}'`,
-      statusCode: 500,
-    })
-  }
-}
-
-export const assertAddressMatches = (actual: string, expected: string, description: string) => {
-  if (actual !== expected) {
-    throw new AdapterInputError({
-      message: `Expected ${description} to be '${expected}', found '${actual}'`,
-      statusCode: 500,
-    })
+    )
   }
 }
 
 export const assertDataLength = (data: Buffer, description: string, minLength: number) => {
   if (data.length < minLength) {
-    throw new AdapterInputError({
-      message: `Expected ${description} account data to be at least ${minLength} bytes, found ${data.length}`,
-      statusCode: 500,
-    })
+    throw providerError(
+      `Expected ${description} account data to be at least ${minLength} bytes, found ${data.length}`,
+    )
   }
 }
 
 export const assertDiscriminator = (data: Buffer, description: string, discriminator: Buffer) => {
   if (!data.subarray(0, discriminator.length).equals(discriminator)) {
-    throw new AdapterInputError({
-      message: `Expected ${description} discriminator to be ${discriminator.toString(
-        'hex',
-      )}, found ${data.subarray(0, discriminator.length).toString('hex')}`,
-      statusCode: 500,
-    })
+    throw providerError(
+      `Expected ${description} discriminator to be ${discriminator.toString('hex')}, found ${data
+        .subarray(0, discriminator.length)
+        .toString('hex')}`,
+    )
   }
 }
 
@@ -122,15 +110,17 @@ export const fetchMultipleAccounts = async (rpc: Rpc<SolanaRpcApi>, addresses: s
   const validatedAddresses = addresses.map((accountAddress) =>
     parseSolanaAddress(accountAddress, 'address'),
   )
-  const resp = await rpc.getMultipleAccounts(validatedAddresses, { encoding }).send()
+  let resp: MultipleAccountsResponse
+  try {
+    resp = await rpc.getMultipleAccounts(validatedAddresses, { encoding }).send()
+  } catch (e: unknown) {
+    throw providerError(e instanceof Error ? e.message : 'Failed to fetch Solana accounts')
+  }
 
   if (!resp.value || resp.value.length !== addresses.length) {
-    throw new AdapterInputError({
-      message: `Expected ${addresses.length} account responses, received ${
-        resp.value?.length ?? 0
-      }`,
-      statusCode: 500,
-    })
+    throw providerError(
+      `Expected ${addresses.length} account responses, received ${resp.value?.length ?? 0}`,
+    )
   }
 
   return resp.value
