@@ -1,14 +1,11 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { MintLayout, TOKEN_PROGRAM_ID } from '@solana/spl-token'
+import { MintLayout, TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { PublicKey } from '@solana/web3.js'
 import { BaseEndpointTypes } from '../../src/endpoint/strcusx-exchange-rate'
-import {
-  deriveAccountingAddress,
-  deriveControllerAddress,
-  deriveStrategyAddress,
-  StrcusxExchangeRateTransport,
-} from '../../src/transport/strcusx-exchange-rate'
+import { deriveAccountAddress, PDA_SEEDS } from '../../src/transport/strcusx-accounts'
+import { StrcusxExchangeRateTransport } from '../../src/transport/strcusx-exchange-rate'
 import strcusxAccountFixture from '../fixtures/strcusx-account-data-2026-06-25.json'
 
 const programAddress = '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe'
@@ -25,6 +22,7 @@ const feeVaultAddress = 'CGfUqdJoGKSEQMjdiRebxTxqB2PtfsJcphorC5Nnpxgs'
 const lossVaultAddress = 'J5TUHd2nzueopWNatEMW514uAYwyyLxioYsPQA6UuGt2'
 const clockSysvarAddress = 'SysvarC1ock11111111111111111111111111111111'
 const tokenProgramAddress = TOKEN_PROGRAM_ID.toBase58()
+const token2022ProgramAddress = TOKEN_2022_PROGRAM_ID.toBase58()
 const minRate = '950000000000000000'
 const maxRate = '1050000000000000000'
 const clockUnixTimestamp = 1_781_704_234n
@@ -82,6 +80,12 @@ const encodeMint = (supply: bigint, decimals: number) => {
 
   return buffer.toString('base64')
 }
+
+const encodeMintWithExtensions = (supply: bigint, decimals: number) =>
+  Buffer.concat([
+    Buffer.from(encodeMint(supply, decimals), 'base64'),
+    Buffer.alloc(64, 1),
+  ]).toString('base64')
 
 const encodeClock = (unixTimestamp: bigint) => {
   const buffer = Buffer.alloc(40)
@@ -181,6 +185,21 @@ jest.mock('@solana/rpc', () => ({
   },
 }))
 
+const log = jest.fn()
+const logger = {
+  fatal: log,
+  error: log,
+  warn: log,
+  info: log,
+  debug: log,
+  trace: log,
+  msgPrefix: 'mock-logger',
+}
+
+const loggerFactory = { child: () => logger }
+
+LoggerFactoryProvider.set(loggerFactory)
+
 describe('StrcusxExchangeRateTransport', () => {
   const transportName = 'default_single_transport'
   const endpointName = 'strcusx-exchange-rate'
@@ -269,9 +288,39 @@ describe('StrcusxExchangeRateTransport', () => {
 
   describe('PDA derivation', () => {
     it('should derive expected devnet addresses', async () => {
-      expect(await deriveControllerAddress(programAddress)).toBe(controllerAddress)
-      expect(await deriveStrategyAddress(programAddress, strategyName)).toBe(strategyAddress)
-      expect(await deriveAccountingAddress(programAddress, strategyName)).toBe(accountingAddress)
+      expect(await deriveAccountAddress(programAddress, [PDA_SEEDS.CONTROLLER])).toBe(
+        controllerAddress,
+      )
+      expect(await deriveAccountAddress(programAddress, [PDA_SEEDS.STRATEGY, strategyName])).toBe(
+        strategyAddress,
+      )
+      expect(await deriveAccountAddress(programAddress, [PDA_SEEDS.ACCOUNTING, strategyName])).toBe(
+        accountingAddress,
+      )
+    })
+  })
+
+  describe('handleRequest', () => {
+    it('should cache a 502 response when Solana account fetch rejects', async () => {
+      getMultipleAccountsSendMock.mockRejectedValueOnce(new Error('RPC unavailable'))
+
+      await transport.handleRequest(juniorParam)
+
+      expect(dependencies.responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: juniorParam,
+          response: {
+            statusCode: 502,
+            errorMessage: 'RPC unavailable',
+            timestamps: {
+              providerDataRequestedUnixMs: 0,
+              providerDataReceivedUnixMs: 0,
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          },
+        },
+      ])
+      expect(dependencies.responseCache.write).toBeCalledTimes(1)
     })
   })
 
@@ -353,6 +402,27 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(getMultipleAccountsRequestMock).toBeCalledWith([assetMintAddress, seniorMintAddress], {
         encoding: 'base64',
       })
+    })
+
+    it('should decode Token-2022 mint accounts with extension bytes', async () => {
+      mockAccountData({
+        overrides: {
+          [assetMintAddress]: makeAccountInfoResponse(
+            encodeMintWithExtensions(1_000_000_000_000_000_000n, mintDecimals),
+            token2022ProgramAddress,
+          ),
+          [juniorMintAddress]: makeAccountInfoResponse(
+            encodeMintWithExtensions(juniorShares, mintDecimals),
+            token2022ProgramAddress,
+          ),
+        },
+      })
+
+      const response = await transport._handleRequest(juniorParam)
+
+      expect(response.result).toBe(expectedJuniorRate)
+      expect(response.data?.trancheAssets).toBe(juniorAssets.toString())
+      expect(response.data?.trancheShares).toBe(juniorShares.toString())
     })
 
     it('should exclude unvested total and senior yield from exchange rates', async () => {
