@@ -146,21 +146,14 @@ describe('execute', () => {
       })
     })
 
-    it('should reject requests missing required bounds', async () => {
+    it('should return success when bounds are omitted', async () => {
       const response = await testAdapter.request({
         endpoint: 'stslx-exchange-rate',
-        maxRate,
       })
 
-      expect(response.statusCode).toBe(400)
-      expect(response.json()).toEqual({
-        error: {
-          message: '[Param: minRate] param is required but no value was provided',
-          name: 'AdapterError',
-        },
-        status: 'errored',
-        statusCode: 400,
-      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json().data.boundsApplied).toBe(false)
+      expect(response.json().result).toBe('1500000000000000000')
     })
 
     it('should reject inverted bounds', async () => {

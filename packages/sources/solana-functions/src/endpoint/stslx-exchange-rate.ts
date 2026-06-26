@@ -39,12 +39,12 @@ export const inputParameters = new InputParameters(
     minRate: {
       description: 'Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer',
       type: 'string',
-      required: true,
+      required: false,
     },
     maxRate: {
       description: 'Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer',
       type: 'string',
-      required: true,
+      required: false,
     },
   },
   [

@@ -251,8 +251,8 @@ Request:
 |           |      stslxMintAddress      |         |                              stSLX mint address                              | string |         | `GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq` |            |                |
 |           |      glamStateAddress      |         |               GLAM state address used to derive the vault PDA                | string |         | `5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB` |            |                |
 |           | glamProtocolProgramAddress |         |          GLAM protocol program address used to derive the vault PDA          | string |         | `GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz` |            |                |
-|    ✅     |          minRate           |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
-|    ✅     |          maxRate           |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+|           |          minRate           |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+|           |          maxRate           |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
 
 ### Example
 
@@ -262,6 +262,10 @@ Request:
 {
   "data": {
     "endpoint": "stslx-exchange-rate",
+    "slxMintAddress": "SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq",
+    "stslxMintAddress": "GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq",
+    "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
+    "glamProtocolProgramAddress": "GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz",
     "minRate": "950000000000000000",
     "maxRate": "1050000000000000000"
   }
