@@ -92,7 +92,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         const uniqueQuotes = [...new Set(list.map((p) => p.quote.toUpperCase()))]
         uniqueQuotes.forEach((uniqueQuote) => {
           requests.push({
-            params: list,
+            params: list.filter((p) => p.quote.toUpperCase() === uniqueQuote),
             request: {
               baseURL: settings.API_ENDPOINT,
               url: '/cryptocurrency/quotes/latest',
