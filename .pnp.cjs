@@ -79,10 +79,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/secure-mint"\
     },\
     {\
-      "name": "@chainlink/set-token-index-adapter",\
-      "reference": "workspace:packages/composites/set-token-index"\
-    },\
-    {\
       "name": "@chainlink/the-graph-adapter",\
       "reference": "workspace:packages/composites/the-graph"\
     },\
@@ -297,10 +293,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/coinranking-adapter",\
       "reference": "workspace:packages/sources/coinranking"\
-    },\
-    {\
-      "name": "@chainlink/covid-tracker-adapter",\
-      "reference": "workspace:packages/sources/covid-tracker"\
     },\
     {\
       "name": "@chainlink/cryptoapis-adapter",\
@@ -786,7 +778,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/covid-tracker-adapter", ["workspace:packages/sources/covid-tracker"]],\
     ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
@@ -883,7 +874,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
-    ["@chainlink/set-token-index-adapter", ["workspace:packages/composites/set-token-index"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
@@ -938,7 +928,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/external-adapters-js", "workspace:."],\
-          ["@changesets/changelog-github", "npm:0.5.1"],\
+          ["@changesets/changelog-github", "npm:0.5.2"],\
           ["@changesets/cli", "npm:2.29.8"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -5330,24 +5320,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@chainlink/covid-tracker-adapter", [\
-      ["workspace:packages/sources/covid-tracker", {\
-        "packageLocation": "./packages/sources/covid-tracker/",\
-        "packageDependencies": [\
-          ["@chainlink/covid-tracker-adapter", "workspace:packages/sources/covid-tracker"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/crypto-volatility-index-adapter", [\
       ["workspace:packages/composites/crypto-volatility-index", {\
         "packageLocation": "./packages/composites/crypto-volatility-index/",\
@@ -5551,7 +5523,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/dxfeed/",\
         "packageDependencies": [\
           ["@chainlink/dxfeed-adapter", "workspace:packages/sources/dxfeed"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5729,7 +5701,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/elwood/",\
         "packageDependencies": [\
           ["@chainlink/elwood-adapter", "workspace:packages/sources/elwood"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5919,7 +5891,7 @@ const RAW_RUNTIME_STATE =
           ["@babel/preset-typescript", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:7.26.0"],\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/external-adapters-js", "workspace:."],\
-          ["@changesets/changelog-github", "npm:0.5.1"],\
+          ["@changesets/changelog-github", "npm:0.5.2"],\
           ["@changesets/cli", "npm:2.29.8"],\
           ["@types/babel__core", "npm:7.20.5"],\
           ["@types/babel__preset-env", "npm:7.9.7"],\
@@ -5965,7 +5937,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finalto", {\
         "packageLocation": "./packages/sources/finalto/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finalto-adapter", "workspace:packages/sources/finalto"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5985,7 +5957,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finnhub", {\
         "packageLocation": "./packages/sources/finnhub/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6002,7 +5974,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/finnhub-secondary", {\
         "packageLocation": "./packages/sources/finnhub-secondary/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/finnhub-adapter", "workspace:packages/sources/finnhub"],\
           ["@chainlink/finnhub-secondary-adapter", "workspace:packages/sources/finnhub-secondary"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -6210,7 +6182,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/gsr", {\
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7180,27 +7152,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/set-token-index-adapter", [\
-      ["workspace:packages/composites/set-token-index", {\
-        "packageLocation": "./packages/composites/set-token-index/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/set-token-index-adapter", "workspace:packages/composites/set-token-index"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["bignumber.js", "npm:9.1.2"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/six-adapter", [\
       ["workspace:packages/sources/six", {\
         "packageLocation": "./packages/sources/six/",\
@@ -7560,7 +7511,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/tiingo-state", {\
         "packageLocation": "./packages/sources/tiingo-state/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/tiingo-state-adapter", "workspace:packages/sources/tiingo-state"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7986,11 +7937,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/changelog-github", [\
-      ["npm:0.5.1", {\
-        "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.5.1-ffa78a3948-1284e7dc06.zip/node_modules/@changesets/changelog-github/",\
+      ["npm:0.5.2", {\
+        "packageLocation": "./.yarn/cache/@changesets-changelog-github-npm-0.5.2-c93932b15f-f83cec0eff.zip/node_modules/@changesets/changelog-github/",\
         "packageDependencies": [\
-          ["@changesets/changelog-github", "npm:0.5.1"],\
-          ["@changesets/get-github-info", "npm:0.6.0"],\
+          ["@changesets/changelog-github", "npm:0.5.2"],\
+          ["@changesets/get-github-info", "npm:0.7.0"],\
           ["@changesets/types", "npm:6.1.0"],\
           ["dotenv", "npm:8.6.0"]\
         ],\
@@ -8074,12 +8025,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@changesets/get-github-info", [\
-      ["npm:0.6.0", {\
-        "packageLocation": "./.yarn/cache/@changesets-get-github-info-npm-0.6.0-6c129e4581-4ba61eafb0.zip/node_modules/@changesets/get-github-info/",\
+      ["npm:0.7.0", {\
+        "packageLocation": "./.yarn/cache/@changesets-get-github-info-npm-0.7.0-3ba83316b1-e71928c534.zip/node_modules/@changesets/get-github-info/",\
         "packageDependencies": [\
-          ["@changesets/get-github-info", "npm:0.6.0"],\
+          ["@changesets/get-github-info", "npm:0.7.0"],\
           ["dataloader", "npm:1.4.0"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13420,7 +13371,7 @@ const RAW_RUNTIME_STATE =
           ["buffer", "npm:6.0.3"],\
           ["fast-stable-stringify", "npm:1.0.0"],\
           ["jayson", "npm:4.1.2"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"],\
           ["rpc-websockets", "npm:9.0.4"],\
           ["superstruct", "npm:2.0.2"]\
         ],\
@@ -14619,7 +14570,7 @@ const RAW_RUNTIME_STATE =
           ["abortcontroller-polyfill", "npm:1.7.6"],\
           ["airtable", "npm:0.11.6"],\
           ["lodash", "npm:4.18.1"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16454,7 +16405,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/cross-fetch-npm-3.2.0-267029ff2f-e4ab1d390a.zip/node_modules/cross-fetch/",\
         "packageDependencies": [\
           ["cross-fetch", "npm:3.2.0"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"]\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -19283,7 +19234,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/isomorphic-fetch-npm-3.0.0-bce711adff-568fe03075.zip/node_modules/isomorphic-fetch/",\
         "packageDependencies": [\
           ["isomorphic-fetch", "npm:3.0.0"],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"],\
           ["whatwg-fetch", "npm:3.6.20"]\
         ],\
         "linkType": "HARD"\
@@ -21162,12 +21113,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0", {\
-        "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-a223233efc/0/cache/node-fetch-npm-2.7.0-587d57004e-b24f8a3dc9.zip/node_modules/node-fetch/",\
+      ["virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0", {\
+        "packageLocation": "./.yarn/__virtual__/node-fetch-virtual-f0b50fb871/0/cache/node-fetch-npm-2.7.0-587d57004e-b24f8a3dc9.zip/node_modules/node-fetch/",\
         "packageDependencies": [\
           ["@types/encoding", null],\
           ["encoding", null],\
-          ["node-fetch", "virtual:6c129e45814a3432fa3c05e870d274f2f753f3f4633ff943a2fbc215c4d7f321a72fbaf14ccf59b94633ad16c808307452f6b51b361bdaf5c08d9870df597c13#npm:2.7.0"],\
+          ["node-fetch", "virtual:3ba83316b123d56ef021f9fcd422a5954682d099e7debe4a8dbc0412f83e2419fbf47275346d12b8b64414ce0e048ba15c435997c59315f1385c332085cb4347#npm:2.7.0"],\
           ["whatwg-url", "npm:5.0.0"]\
         ],\
         "packagePeers": [\
