@@ -4,13 +4,11 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { address, getProgramDerivedAddress } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
+import { SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js'
 
-// Sources:
-// - address: @solana/web3.js `SYSVAR_CLOCK_PUBKEY`
-//   https://github.com/solana-foundation/solana-web3.js/blob/maintenance/v1.x/src/sysvar.ts
-// - layout: Solana SDK `Clock` has five 8-byte fields, with `unix_timestamp` fifth
-//   https://github.com/anza-xyz/solana-sdk/blob/master/clock/src/lib.rs
-export const CLOCK_SYSVAR_ADDRESS = 'SysvarC1ock11111111111111111111111111111111'
+// Solana SDK `Clock` has five 8-byte fields, with `unix_timestamp` fifth:
+// https://github.com/anza-xyz/solana-sdk/blob/master/clock/src/lib.rs
+export const CLOCK_SYSVAR_ADDRESS = SYSVAR_CLOCK_PUBKEY.toBase58()
 const CLOCK_ACCOUNT_LENGTH = 40
 const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
 
