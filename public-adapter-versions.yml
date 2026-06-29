@@ -218,7 +218,7 @@ adapters:
   - name: ncfx
     version: 4.9.0
   - name: nobi
-    version: 1.0.0
+    version: 1.0.1
   - name: nomia
     version: 2.0.4
   - name: nomia2
