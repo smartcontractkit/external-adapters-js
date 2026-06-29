@@ -5,6 +5,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { address, getAddressEncoder, type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
+import { ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/stslx-exchange-rate'
 import {
   assertTokenProgramOwner,
@@ -30,7 +31,7 @@ import { SolanaRpcFactory } from '../shared/solana-rpc-factory'
 
 const logger = makeLogger('StslxExchangeRateTransport')
 
-const ASSOCIATED_TOKEN_PROGRAM_ADDRESS = 'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL'
+const ASSOCIATED_TOKEN_PROGRAM_ADDRESS = ASSOCIATED_TOKEN_PROGRAM_ID.toBase58()
 const GLAM_VAULT_SEED = 'vault'
 const addressEncoder = getAddressEncoder()
 

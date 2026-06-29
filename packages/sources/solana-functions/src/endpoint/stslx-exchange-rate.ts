@@ -5,6 +5,15 @@ import { config } from '../config'
 import { parseRateBounds } from '../shared/exchange-rate-utils'
 import { stslxExchangeRateTransport } from '../transport/stslx-exchange-rate'
 
+// Defaults come from Solstice's OPDATA-7578 production stSLX feed config. They
+// are request/job-spec fallbacks; if Solstice migrates, override these params
+// first and update defaults only when the production feed defaults change. The
+// GLAM vault and SLX ATA are derived from these source addresses in transport.
+// Explorer checks:
+// - https://explorer.solana.com/address/SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq
+// - https://explorer.solana.com/address/GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq
+// - https://explorer.solana.com/address/5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB
+// - https://explorer.solana.com/address/GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz
 export const DEFAULT_SLX_MINT_ADDRESS = 'SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq'
 export const DEFAULT_STSLX_MINT_ADDRESS = 'GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq'
 export const DEFAULT_GLAM_STATE_ADDRESS = '5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB'
