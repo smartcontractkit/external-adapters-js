@@ -148,6 +148,8 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     )
 
     const clockUnixTimestamp = decodeClockUnixTimestamp(clockAccount)
+
+    // Accounting totals include vesting assets; remove unvested amounts using Solana Clock time.
     const bookValueAssets = calculateBookValueAssets(accounting, clockUnixTimestamp)
 
     if (bookValueAssets.totalAssets < bookValueAssets.seniorAssets) {
@@ -157,6 +159,9 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     }
 
     const juniorAssets = bookValueAssets.totalAssets - bookValueAssets.seniorAssets
+
+    // Junior gets residual vested assets; senior gets vested senior assets.
+    // Rate = assets / shares, normalized by mint decimals.
     const trancheAssets = tranche === 'junior' ? juniorAssets : bookValueAssets.seniorAssets
     const trancheShares = tranche === 'junior' ? accounting.juniorShares : accounting.seniorShares
     const selectedComputedRate = calculateNormalizedRate(
@@ -173,6 +178,18 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const { rate, boundsApplied } = applyRateBounds(selectedComputedRate, minRate, maxRate)
     const result = rate.toString()
     const computedResult = selectedComputedRate.toString()
+    if (boundsApplied) {
+      logger.warn(
+        {
+          tranche,
+          computedResult,
+          result,
+          minRate: minRate?.toString(),
+          maxRate: maxRate?.toString(),
+        },
+        'strcUSX exchange rate bounds applied',
+      )
+    }
 
     return {
       data: {

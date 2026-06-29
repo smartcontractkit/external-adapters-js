@@ -13,8 +13,10 @@ export const inputParameters = new InputParameters(
       required: true,
     },
     strategyName: {
-      description: 'The strategy name used as the strategy and accounting PDA seed',
+      description:
+        'Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config',
       type: 'string',
+      options: ['STRC-USX-1'],
       required: true,
     },
     tranche: {

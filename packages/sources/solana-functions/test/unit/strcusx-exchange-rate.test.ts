@@ -227,7 +227,7 @@ describe('StrcusxExchangeRateTransport', () => {
     tranche: 'junior' as const,
     minRate,
     maxRate,
-  })
+  } as const)
 
   const seniorParam = makeStub('seniorParam', {
     ...juniorParam,
@@ -505,6 +505,16 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(response.data?.result).toBe(minClampedRate)
       expect(response.data?.computedResult).toBe(expectedJuniorRate)
       expect(response.data?.boundsApplied).toBe(true)
+      expect(log).toHaveBeenCalledWith(
+        {
+          tranche: 'junior',
+          computedResult: expectedJuniorRate,
+          result: minClampedRate,
+          minRate: minClampedRate,
+          maxRate,
+        },
+        'strcUSX exchange rate bounds applied',
+      )
     })
 
     it('should clamp the exchange rate to maxRate', async () => {
