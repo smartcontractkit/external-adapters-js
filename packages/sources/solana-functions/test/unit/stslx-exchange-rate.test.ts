@@ -1,4 +1,5 @@
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import {
   AccountLayout,
@@ -94,6 +95,21 @@ jest.mock('@solana/rpc', () => ({
     return createSolanaRpc()
   },
 }))
+
+const log = jest.fn()
+const logger = {
+  fatal: log,
+  error: log,
+  warn: log,
+  info: log,
+  debug: log,
+  trace: log,
+  msgPrefix: 'mock-logger',
+}
+
+const loggerFactory = { child: () => logger }
+
+LoggerFactoryProvider.set(loggerFactory)
 
 describe('StslxExchangeRateTransport', () => {
   const transportName = 'default_single_transport'
@@ -204,6 +220,15 @@ describe('StslxExchangeRateTransport', () => {
       expect(response.data?.computedResult).toBe(expectedRate)
       expect(response.data).not.toHaveProperty('minRate')
       expect(response.data?.boundsApplied).toBe(true)
+      expect(log).toHaveBeenCalledWith(
+        {
+          computedResult: expectedRate,
+          result: minClampedRate,
+          minRate: minClampedRate,
+          maxRate,
+        },
+        'stSLX exchange rate bounds applied',
+      )
     })
 
     it('should clamp the exchange rate to maxRate', async () => {

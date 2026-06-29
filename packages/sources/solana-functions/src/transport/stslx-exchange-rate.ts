@@ -142,6 +142,17 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
     const { rate, boundsApplied } = applyRateBounds(computedRate, minRate, maxRate)
     const result = rate.toString()
     const computedResult = computedRate.toString()
+    if (boundsApplied) {
+      logger.warn(
+        {
+          computedResult,
+          result,
+          minRate: minRate?.toString(),
+          maxRate: maxRate?.toString(),
+        },
+        'stSLX exchange rate bounds applied',
+      )
+    }
 
     return {
       data: {
