@@ -44,7 +44,7 @@ adapters:
   - name: bob
     version: 2.0.29
   - name: bsol-price
-    version: 2.2.165
+    version: 2.2.166
   - name: btc.com
     version: 1.3.47
   - name: cache.gold
@@ -56,7 +56,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.8.2
+    version: 2.8.3
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: cmeth
@@ -74,7 +74,7 @@ adapters:
   - name: coinmarketcap
     version: 2.2.2
   - name: coinmetrics
-    version: 3.12.2
+    version: 3.12.3
   - name: coinmetrics-lwba
     version: 2.3.2
   - name: coinpaprika
@@ -84,7 +84,7 @@ adapters:
   - name: coinranking
     version: 2.1.18
   - name: crypto-volatility-index
-    version: 1.4.61
+    version: 1.4.62
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
@@ -102,11 +102,11 @@ adapters:
   - name: dlc-cbtc-por
     version: 1.0.2
   - name: dxfeed
-    version: 2.7.7
+    version: 2.7.8
   - name: dydx-stark
     version: 2.0.32
   - name: elwood
-    version: 3.2.7
+    version: 3.2.8
   - name: enzyme
     version: 2.0.33
   - name: eodhistoricaldata
@@ -124,11 +124,11 @@ adapters:
   - name: finage
     version: 2.8.1
   - name: finalto
-    version: 1.4.7
+    version: 1.4.8
   - name: finnhub
-    version: 4.2.6
+    version: 4.2.7
   - name: finnhub-secondary
-    version: 1.1.6
+    version: 1.1.7
   - name: fireblocks
     version: 1.0.19
   - name: frxeth-exchange-rate
@@ -152,7 +152,7 @@ adapters:
   - name: graphql
     version: 1.2.47
   - name: gsr
-    version: 2.5.7
+    version: 2.5.8
   - name: harris-and-trotter
     version: 1.1.22
   - name: hashnote
@@ -250,7 +250,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.148
+    version: 3.0.149
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -296,7 +296,7 @@ adapters:
   - name: tiingo
     version: 2.12.0
   - name: tiingo-state
-    version: 0.3.7
+    version: 0.3.8
   - name: token-balance
     version: 3.6.1
   - name: tokenized-equity
@@ -320,7 +320,7 @@ adapters:
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain
-    version: 1.10.0
+    version: 1.10.1
   - name: view-starknet-latest-answer
     version: 1.0.27
   - name: wbtc-address-set
@@ -332,4 +332,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.147
+    version: 2.0.148
