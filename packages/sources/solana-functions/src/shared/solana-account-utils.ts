@@ -4,13 +4,10 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { address, getProgramDerivedAddress } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
-import { SYSVAR_CLOCK_PUBKEY } from '@solana/web3.js'
+import { getSysvarClockDecoder, SYSVAR_CLOCK_ADDRESS } from '@solana/sysvars'
 
-// Solana SDK `Clock` has five 8-byte fields, with `unix_timestamp` fifth:
-// https://github.com/anza-xyz/solana-sdk/blob/master/clock/src/lib.rs
-export const CLOCK_SYSVAR_ADDRESS = SYSVAR_CLOCK_PUBKEY.toBase58()
-const CLOCK_ACCOUNT_LENGTH = 40
-const CLOCK_UNIX_TIMESTAMP_OFFSET = 32
+export const CLOCK_SYSVAR_ADDRESS = SYSVAR_CLOCK_ADDRESS
+const clockDecoder = getSysvarClockDecoder()
 
 type MultipleAccountsResponse = Awaited<
   ReturnType<ReturnType<Rpc<SolanaRpcApi>['getMultipleAccounts']>['send']>
@@ -101,9 +98,8 @@ export const assertDiscriminator = (data: Buffer, description: string, discrimin
 
 export const decodeClockUnixTimestamp = (accountInfo: AccountInfo | null | undefined) => {
   const data = getAccountDataBuffer(accountInfo, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
-  assertDataLength(data, 'Clock sysvar', CLOCK_ACCOUNT_LENGTH)
 
-  return data.readBigInt64LE(CLOCK_UNIX_TIMESTAMP_OFFSET)
+  return clockDecoder.decode(data).unixTimestamp
 }
 
 export const fetchMultipleAccounts = async (rpc: Rpc<SolanaRpcApi>, addresses: string[]) => {
