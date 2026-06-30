@@ -6397,7 +6397,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/kaiko-state-adapter", "workspace:packages/sources/kaiko-state"],\
-          ["@grpc/grpc-js", "npm:1.13.4"],\
+          ["@grpc/grpc-js", "npm:1.13.5"],\
           ["@kaiko-data/sdk-node", "npm:1.27.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -8915,6 +8915,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.13.4-4aa5cd2dfd-f1eb910ff7.zip/node_modules/@grpc/grpc-js/",\
         "packageDependencies": [\
           ["@grpc/grpc-js", "npm:1.13.4"],\
+          ["@grpc/proto-loader", "npm:0.7.13"],\
+          ["@js-sdsl/ordered-map", "npm:4.4.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:1.13.5", {\
+        "packageLocation": "./.yarn/cache/@grpc-grpc-js-npm-1.13.5-ef4f6e4a27-90c24cb6ab.zip/node_modules/@grpc/grpc-js/",\
+        "packageDependencies": [\
+          ["@grpc/grpc-js", "npm:1.13.5"],\
           ["@grpc/proto-loader", "npm:0.7.13"],\
           ["@js-sdsl/ordered-map", "npm:4.4.2"]\
         ],\
