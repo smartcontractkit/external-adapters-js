@@ -8,8 +8,8 @@ import {
   extension,
   poolTokenRate,
   sanctumInfinity,
-  stslxExchangeRate,
   strcusxExchangeRate,
+  stslxExchangeRate,
 } from './endpoint'
 
 export const adapter = new Adapter({
