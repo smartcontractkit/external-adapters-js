@@ -1021,7 +1021,7 @@ const RAW_RUNTIME_STATE =
           ["@jsdevtools/ono", "npm:7.1.3"],\
           ["@types/json-schema", "npm:7.0.15"],\
           ["call-me-maybe", "npm:1.0.2"],\
-          ["js-yaml", "npm:4.1.0"]\
+          ["js-yaml", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -1032,7 +1032,7 @@ const RAW_RUNTIME_STATE =
           ["@jsdevtools/ono", "npm:7.1.3"],\
           ["@types/json-schema", "npm:7.0.15"],\
           ["call-me-maybe", "npm:1.0.2"],\
-          ["js-yaml", "npm:4.1.0"]\
+          ["js-yaml", "npm:4.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8310,7 +8310,7 @@ const RAW_RUNTIME_STATE =
           ["globals", "npm:13.24.0"],\
           ["ignore", "npm:5.3.2"],\
           ["import-fresh", "npm:3.3.0"],\
-          ["js-yaml", "npm:4.1.0"],\
+          ["js-yaml", "npm:4.1.1"],\
           ["minimatch", "npm:3.1.5"],\
           ["strip-json-comments", "npm:3.1.1"]\
         ],\
@@ -9022,7 +9022,7 @@ const RAW_RUNTIME_STATE =
           ["camelcase", "npm:5.3.1"],\
           ["find-up", "npm:4.1.0"],\
           ["get-package-type", "npm:0.1.0"],\
-          ["js-yaml", "npm:3.14.1"],\
+          ["js-yaml", "npm:3.15.0"],\
           ["resolve-from", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
@@ -17172,7 +17172,7 @@ const RAW_RUNTIME_STATE =
           ["is-glob", "npm:4.0.3"],\
           ["is-path-inside", "npm:3.0.3"],\
           ["js-sdsl", "npm:4.4.2"],\
-          ["js-yaml", "npm:4.1.0"],\
+          ["js-yaml", "npm:4.1.1"],\
           ["json-stable-stringify-without-jsonify", "npm:1.0.1"],\
           ["levn", "npm:0.4.1"],\
           ["lodash.merge", "npm:4.6.2"],\
@@ -19954,20 +19954,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["js-yaml", [\
-      ["npm:3.14.1", {\
-        "packageLocation": "./.yarn/cache/js-yaml-npm-3.14.1-b968c6095e-9e22d80b4d.zip/node_modules/js-yaml/",\
+      ["npm:3.15.0", {\
+        "packageLocation": "./.yarn/cache/js-yaml-npm-3.15.0-c152ef7c11-2fdf3a1453.zip/node_modules/js-yaml/",\
         "packageDependencies": [\
           ["argparse", "npm:1.0.10"],\
           ["esprima", "npm:4.0.1"],\
-          ["js-yaml", "npm:3.14.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.1.0", {\
-        "packageLocation": "./.yarn/cache/js-yaml-npm-4.1.0-3606f32312-c138a34a3f.zip/node_modules/js-yaml/",\
-        "packageDependencies": [\
-          ["argparse", "npm:2.0.1"],\
-          ["js-yaml", "npm:4.1.0"]\
+          ["js-yaml", "npm:3.15.0"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -20854,7 +20846,7 @@ const RAW_RUNTIME_STATE =
           ["find-up", "npm:5.0.0"],\
           ["glob", "npm:8.1.0"],\
           ["he", "npm:1.2.0"],\
-          ["js-yaml", "npm:4.1.0"],\
+          ["js-yaml", "npm:4.1.1"],\
           ["log-symbols", "npm:4.1.0"],\
           ["minimatch", "npm:5.1.6"],\
           ["mocha", "npm:10.8.2"],\
@@ -22072,7 +22064,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/read-yaml-file-npm-1.1.0-52eaf1c9d4-41ee5f0755.zip/node_modules/read-yaml-file/",\
         "packageDependencies": [\
           ["graceful-fs", "npm:4.2.11"],\
-          ["js-yaml", "npm:3.14.1"],\
+          ["js-yaml", "npm:3.15.0"],\
           ["pify", "npm:4.0.1"],\
           ["read-yaml-file", "npm:1.1.0"],\
           ["strip-bom", "npm:3.0.0"]\
