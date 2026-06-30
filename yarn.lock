@@ -2580,7 +2580,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     bignumber.js: "npm:^9.0.0"
-    bn.js: "npm:^5.2.0"
+    bn.js: "npm:^5.2.3"
     ethers: "npm:^5.5.1"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
@@ -4603,7 +4603,7 @@ __metadata:
     "@types/bn.js": "npm:^5.1.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    bn.js: "npm:^5.2.0"
+    bn.js: "npm:^5.2.3"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -10967,6 +10967,13 @@ __metadata:
   linkType: hard
 
 "bn.js@npm:^5.1.2, bn.js@npm:^5.2.0, bn.js@npm:^5.2.1":
+  version: 5.2.3
+  resolution: "bn.js@npm:5.2.3"
+  checksum: 10/dfb3927e0d531e6ec4f191597ce6f7f7665310c356fef5f968ada676b8058027f959af42eaa37b5f5c63617e819d3741813025ab15dd71a90f2e74698df0b58e
+  languageName: node
+  linkType: hard
+
+"bn.js@npm:^5.2.3":
   version: 5.2.3
   resolution: "bn.js@npm:5.2.3"
   checksum: 10/dfb3927e0d531e6ec4f191597ce6f7f7665310c356fef5f968ada676b8058027f959af42eaa37b5f5c63617e819d3741813025ab15dd71a90f2e74698df0b58e

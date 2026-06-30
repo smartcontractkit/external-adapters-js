@@ -37,7 +37,7 @@
     "@solana/web3.js": "^1.95.8",
     "@types/bn.js": "^5.1.0",
     "bignumber.js": "^9.0.0",
-    "bn.js": "^5.2.0",
+    "bn.js": "^5.2.3",
     "ethers": "^5.5.1",
     "tslib": "^2.3.1"
   },
