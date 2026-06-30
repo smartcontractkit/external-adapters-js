@@ -20,7 +20,6 @@ import {
   RESULT_DECIMALS,
 } from '../shared/exchange-rate-utils'
 import {
-  assertOwnerProgram,
   derivePda,
   fetchMultipleAccounts,
   getAccountDataBuffer,
@@ -109,12 +108,6 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
 
     assertTokenProgramOwner(slxMintAccount, `SLX mint '${slxMintAddress}'`)
     assertTokenProgramOwner(stslxMintAccount, `stSLX mint '${stslxMintAddress}'`)
-    assertOwnerProgram(
-      slxTokenAccount,
-      `SLX token account '${slxTokenAccountAddress}'`,
-      [LEGACY_TOKEN_PROGRAM_ADDRESS],
-      'the legacy SPL Token program',
-    )
 
     const slxMint = decodeMintInfo(
       getAccountDataBuffer(slxMintAccount, `SLX mint '${slxMintAddress}'`),

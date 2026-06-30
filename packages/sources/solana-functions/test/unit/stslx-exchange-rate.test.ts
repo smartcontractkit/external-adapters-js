@@ -288,7 +288,7 @@ describe('StslxExchangeRateTransport', () => {
       })
 
       await expect(transport._handleRequest(param)).rejects.toThrow(
-        `Expected SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}' to be owned by the legacy SPL Token program`,
+        `No account data found for SLX token account '${SLX_TOKEN_ACCOUNT_ADDRESS}'`,
       )
     })
   })
