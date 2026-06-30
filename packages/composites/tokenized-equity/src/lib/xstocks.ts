@@ -1,13 +1,14 @@
-import { Contract, JsonRpcProvider } from 'ethers'
-import ABI from '../config/RobinhoodTokenABI.json'
+import { Contract, JsonRpcProvider, parseUnits } from 'ethers'
+import ABI from '../config/XstocksWrappedBackedTokenABI.json'
+import { MULTIPLIER_DECIMALS } from '../transport/xstocksPrice'
 
-export const getTokenData = async (tokenContractAddress: string, provider: JsonRpcProvider) => {
+const unit = parseUnits('1', MULTIPLIER_DECIMALS)
+
+export const getTokenMultiplier = async (
+  tokenContractAddress: string,
+  provider: JsonRpcProvider,
+) => {
   const contract = new Contract(tokenContractAddress, ABI, provider)
-
-  const [multiplier, paused] = await Promise.all([contract.uiMultiplier(), contract.oraclePaused()])
-
-  return {
-    multiplier: BigInt(multiplier),
-    paused: Boolean(paused),
-  }
+  const multiplier = await contract.convertToAssets(unit)
+  return BigInt(multiplier)
 }

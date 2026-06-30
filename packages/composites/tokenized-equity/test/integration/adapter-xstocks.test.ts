@@ -17,11 +17,8 @@ jest.mock('ethers', () => {
     Contract: jest.fn().mockImplementation((address: string) => {
       if (address === validContract) {
         return {
-          uiMultiplier: jest.fn().mockImplementation(() => {
+          convertToAssets: jest.fn().mockImplementation(() => {
             return Promise.resolve(2n * 10n ** 18n)
-          }),
-          oraclePaused: jest.fn().mockImplementation(() => {
-            return Promise.resolve(false)
           }),
         }
       } else {
@@ -40,8 +37,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
-    process.env.ROBINHOOD_MAINNET_RPC_URL = 'rpc.url'
-    process.env.ROBINHOOD_MAINNET_CHAIN_ID = '4663'
+    process.env.ETHEREUM_RPC_URL = 'rpc.url'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -61,10 +57,10 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('robinhood endpoint', () => {
+  describe('xstocks endpoint', () => {
     it('should return success - kalman', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
@@ -86,7 +82,7 @@ describe('execute', () => {
 
     it('should return success - ema', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
@@ -109,7 +105,7 @@ describe('execute', () => {
 
     it('missing sessionMarket', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
@@ -129,7 +125,7 @@ describe('execute', () => {
 
     it('bad sessionBoundariesTimeZone', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
@@ -149,7 +145,7 @@ describe('execute', () => {
 
     it('bad sessionBoundaries', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: validContract,
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b5',
@@ -169,7 +165,7 @@ describe('execute', () => {
 
     it('should return failure - kalman', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: '0x0',
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',
@@ -187,7 +183,7 @@ describe('execute', () => {
 
     it('should return failure - ema', async () => {
       const data = {
-        endpoint: 'robinhood',
+        endpoint: 'xstocks',
         asset: '0x0',
         regularStreamId: '0x000b5',
         extendedStreamId: '0x000b6',

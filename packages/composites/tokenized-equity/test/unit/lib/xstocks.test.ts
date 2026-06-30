@@ -1,26 +1,26 @@
 import { JsonRpcProvider } from 'ethers'
-import { getTokenData } from '../../../src/lib/robinhood'
+import { getTokenMultiplier } from '../../../src/lib/xstocks'
 
-const mockGetUiMultiplier = jest.fn()
-const mockGetOraclePaused = jest.fn()
+const mockConvertToAssets = jest.fn()
 
-jest.mock('ethers', () => ({
-  Contract: jest.fn().mockImplementation(() => ({
-    uiMultiplier: mockGetUiMultiplier,
-    oraclePaused: mockGetOraclePaused,
-  })),
-  JsonRpcProvider: jest.fn(),
-}))
+jest.mock('ethers', () => {
+  const actualModule = jest.requireActual('ethers')
+  return {
+    ...actualModule,
+    Contract: jest.fn().mockImplementation(() => ({
+      convertToAssets: mockConvertToAssets,
+    })),
+    JsonRpcProvider: jest.fn(),
+  }
+})
 
-describe('getTokenData', () => {
-  it('should return multiplier and paused status', async () => {
+describe('getTokenMultiplier', () => {
+  it('should return multiplier', async () => {
     const multiplier = '1500000000000000000'
-    mockGetUiMultiplier.mockResolvedValue(multiplier)
-    mockGetOraclePaused.mockResolvedValue(false)
+    mockConvertToAssets.mockResolvedValue(multiplier)
 
-    expect(await getTokenData('0x1', {} as JsonRpcProvider)).toEqual({
-      multiplier: BigInt(multiplier),
-      paused: false,
-    })
+    expect(await getTokenMultiplier('0x1', {} as JsonRpcProvider)).toEqual(BigInt(multiplier))
+
+    expect(mockConvertToAssets).toHaveBeenCalledWith(10n ** 18n)
   })
 })

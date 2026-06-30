@@ -2,33 +2,22 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { robinhoodTransport } from '../transport/robinhoodTransport'
+import { xstocksTransport } from '../transport/xstocksTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
 
 export const inputParameters = new InputParameters(
   {
     ...inputDefinition.definition,
-    network: {
-      type: 'string',
-      description:
-        'Identifier to determine which RPC URL to use. Corresponds to ROBINHOOD_${NETWORK}_RPC_URL environment variable.',
-      default: 'mainnet',
-    },
-    // Repeat asset parameter from the share definition to override the
+    // Repeat asset parameter from the shared definition to override the
     // description.
     asset: {
       required: true,
       type: 'string',
-      description: 'Token address of the asset on the Robinhood chain',
+      description: 'Token address of the Xstocks asset on Ethereum Mainnet',
     },
   },
-  [
-    {
-      network: 'mainnet',
-      ...inputExample,
-    },
-  ],
+  [inputExample],
 )
 
 export type BaseEndpointTypes = {
@@ -38,7 +27,6 @@ export type BaseEndpointTypes = {
     Data: output & {
       tokenContract: {
         multiplier: string
-        paused: boolean
       }
     }
   }
@@ -46,13 +34,17 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'robinhood',
+  name: 'xstocks',
   aliases: [],
-  transport: robinhoodTransport,
+  transport: xstocksTransport,
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    adapterSettings.ROBINHOOD_NETWORK_RPC_URL.get(req.requestContext.data.network)
-    adapterSettings.ROBINHOOD_NETWORK_CHAIN_ID.get(req.requestContext.data.network)
+    if (!adapterSettings.ETHEREUM_RPC_URL) {
+      throw new AdapterInputError({
+        message: 'Missing ETHEREUM_RPC_URL',
+        statusCode: 400,
+      })
+    }
 
     validateStreamIds(req.requestContext.data)
     validateSmoother(req.requestContext.data)

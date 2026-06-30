@@ -1,16 +1,16 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getTokenData } from '../../../src/lib/robinhood'
-import { calculatePrice } from '../../../src/transport/robinhoodPrice'
+import { getTokenMultiplier } from '../../../src/lib/xstocks'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
+import { calculatePrice } from '../../../src/transport/xstocksPrice'
 
 jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
 const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/robinhood', () => ({ getTokenData: jest.fn() }))
-const mockGetTokenData = getTokenData as jest.MockedFunction<typeof getTokenData>
+jest.mock('../../../src/lib/xstocks', () => ({ getTokenMultiplier: jest.fn() }))
+const mockGetTokenMultiplier = getTokenMultiplier as jest.MockedFunction<typeof getTokenMultiplier>
 
 describe('calculatePrice', () => {
   const defaultParams = {
@@ -102,10 +102,7 @@ describe('calculatePrice', () => {
     ]
 
     mockSmoothedStreamPrice.mockResolvedValue(smoothedStreamPriceReturn)
-    mockGetTokenData.mockResolvedValue({
-      multiplier: 5n * 10n ** 18n,
-      paused: false,
-    })
+    mockGetTokenMultiplier.mockResolvedValue(5n * 10n ** 18n)
 
     const result = await calculatePrice({
       ...defaultParams,
@@ -113,64 +110,16 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedTokenData = { multiplier: '5000000000000000000', paused: false }
+    const expectedTokenMultiplier = { multiplier: '5000000000000000000' }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
-      tokenContract: expectedTokenData,
+      tokenContract: expectedTokenMultiplier,
       result: '5',
     })
     expect(result[1]).toStrictEqual({
       ...smoothedStreamPriceReturn[1],
-      tokenContract: expectedTokenData,
+      tokenContract: expectedTokenMultiplier,
       result: '5',
-    })
-  })
-
-  it('throws when token is paused', async () => {
-    mockSmoothedStreamPrice.mockResolvedValue([
-      {
-        result: 1n,
-        rawPrice: '1',
-        decimals: 6,
-        stream: streams,
-        smoother: {
-          smoother: 'ema' as const,
-          price: '1',
-          x: '0',
-          p: '0',
-          secondsFromTransition: 0,
-        },
-        sessionSource: 'FALLBACK' as const,
-      },
-      {
-        result: 1n,
-        rawPrice: '1',
-        decimals: 6,
-        stream: streams,
-        smoother: {
-          smoother: 'kalman' as const,
-          price: '1',
-          x: '0',
-          p: '0',
-          secondsFromTransition: 0,
-        },
-        sessionSource: 'FALLBACK' as const,
-      },
-    ])
-    mockGetTokenData.mockResolvedValue({
-      multiplier: 5n * 10n ** 18n,
-      paused: true,
-    })
-
-    await expect(
-      calculatePrice({
-        ...defaultParams,
-        smoother: 'kalman',
-        decimals: 6,
-      }),
-    ).rejects.toMatchObject({
-      statusCode: 503,
-      message: `asset: '0x1234567890123456789012345678901234567890' paused`,
     })
   })
 })
