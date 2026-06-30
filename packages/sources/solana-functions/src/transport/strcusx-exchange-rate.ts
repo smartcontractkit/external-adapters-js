@@ -5,7 +5,7 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/strcusx-exchange-rate'
-import { assertTokenProgramOwner, decodeMintInfo } from '../shared/buffer-layout-accounts'
+import { decodeMintInfo } from '../shared/buffer-layout-accounts'
 import {
   applyRateBounds,
   calculateNormalizedRate,
@@ -13,7 +13,6 @@ import {
   RESULT_DECIMALS,
 } from '../shared/exchange-rate-utils'
 import {
-  assertOwnerProgram,
   CLOCK_SYSVAR_ADDRESS,
   decodeClockUnixTimestamp,
   fetchMultipleAccounts,
@@ -99,25 +98,6 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
         CLOCK_SYSVAR_ADDRESS,
       ])
 
-    assertOwnerProgram(
-      controllerAccount,
-      `Controller account '${controllerAddress}'`,
-      [programAddress],
-      'the requested yield strategy program',
-    )
-    assertOwnerProgram(
-      strategyAccount,
-      `Strategy account '${strategyAddress}'`,
-      [programAddress],
-      'the requested yield strategy program',
-    )
-    assertOwnerProgram(
-      accountingAccount,
-      `Accounting account '${accountingAddress}'`,
-      [programAddress],
-      'the requested yield strategy program',
-    )
-
     const controller = decodeControllerState(
       getAccountDataBuffer(controllerAccount, `Controller account '${controllerAddress}'`),
     )
@@ -134,9 +114,6 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
       controller.assetMintAddress,
       trancheMintAddress,
     ])
-
-    assertTokenProgramOwner(assetMintAccount, `asset mint '${controller.assetMintAddress}'`)
-    assertTokenProgramOwner(trancheMintAccount, `${tranche} mint '${trancheMintAddress}'`)
 
     const assetMint = decodeMintInfo(
       getAccountDataBuffer(assetMintAccount, `asset mint '${controller.assetMintAddress}'`),
