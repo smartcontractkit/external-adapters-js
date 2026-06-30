@@ -25,10 +25,10 @@ version of 0.29.0 or earlier are not compatible with anchor 0.30.0 or later.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options |                Default                |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------: |
-|           |        RPC_URL        |                            The RPC URL for the Solana cluster                             | string |         | `https://api.mainnet-beta.solana.com` |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         |                `1000`                 |
+| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |        RPC_URL        |                            The RPC URL for the Solana cluster                             | string |         |         |
+|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 
