@@ -2254,7 +2254,7 @@ __metadata:
     ethers: "npm:^5.4.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
-    ws: "npm:^8.0.0"
+    ws: "npm:^8.21.0"
   languageName: unknown
   linkType: soft
 
@@ -3038,7 +3038,7 @@ __metadata:
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-    ws: "npm:^8.18.3"
+    ws: "npm:^8.21.0"
   languageName: unknown
   linkType: soft
 
@@ -3153,7 +3153,7 @@ __metadata:
     tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
     uuid: "npm:^8.3.0"
-    ws: "npm:^8.0.0"
+    ws: "npm:^8.21.0"
   languageName: unknown
   linkType: soft
 
@@ -19187,7 +19187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.21.0, ws@npm:^8.19.0":
+"ws@npm:8.21.0, ws@npm:^8.19.0, ws@npm:^8.21.0":
   version: 8.21.0
   resolution: "ws@npm:8.21.0"
   peerDependencies:
@@ -19217,7 +19217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.0.0, ws@npm:^8.18.3, ws@npm:^8.5.0, ws@npm:^8.8.1":
+"ws@npm:^8.18.3, ws@npm:^8.5.0, ws@npm:^8.8.1":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
   peerDependencies:
