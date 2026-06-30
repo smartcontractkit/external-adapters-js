@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                                                 Options                                                                                                                                                  |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                          Options                                                                                                                                                                           |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint), [strcusx-exchange-rate](#strcusx-exchange-rate-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -271,6 +271,59 @@ Request:
   }
 }
 ```
+
+---
+
+## Strcusx-exchange-rate Endpoint
+
+`strcusx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |      Name      | Aliases |                                      Description                                      |  Type  |      Options       | Default | Depends On | Not Valid With |
+| :-------: | :------------: | :-----: | :-----------------------------------------------------------------------------------: | :----: | :----------------: | :-----: | :--------: | :------------: |
+|    ✅     | programAddress |         |                 The deployed Solstice yield strategy program address                  | string |                    |         |            |                |
+|    ✅     |  strategyName  |         | Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config | string |    `STRC-USX-1`    |         |            |                |
+|    ✅     |    tranche     |         |                        The tranche to price: junior or senior                         | string | `junior`, `senior` |         |            |                |
+|           |    minRate     |         |      Minimum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+|           |    maxRate     |         |      Maximum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "junior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "senior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+</details>
 
 ---
 
