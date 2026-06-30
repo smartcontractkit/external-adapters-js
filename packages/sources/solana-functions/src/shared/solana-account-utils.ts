@@ -86,16 +86,6 @@ export const assertDataLength = (data: Buffer, description: string, minLength: n
   }
 }
 
-export const assertDiscriminator = (data: Buffer, description: string, discriminator: Buffer) => {
-  if (!data.subarray(0, discriminator.length).equals(discriminator)) {
-    throw providerError(
-      `Expected ${description} discriminator to be ${discriminator.toString('hex')}, found ${data
-        .subarray(0, discriminator.length)
-        .toString('hex')}`,
-    )
-  }
-}
-
 export const decodeClockUnixTimestamp = (accountInfo: AccountInfo | null | undefined) => {
   const data = getAccountDataBuffer(accountInfo, `Clock sysvar '${CLOCK_SYSVAR_ADDRESS}'`)
 

@@ -6,6 +6,8 @@ import { calculateUnvestedAssets } from '../shared/exchange-rate-utils'
 import { derivePda, providerError, type PdaSeed } from '../shared/solana-account-utils'
 
 const STRATEGY_NAME_LENGTH = 32
+export const TRANCHES = ['junior', 'senior'] as const
+export type Tranche = (typeof TRANCHES)[number]
 
 export const PDA_SEEDS = {
   CONTROLLER: 'CONTROLLER',
@@ -14,8 +16,6 @@ export const PDA_SEEDS = {
 } as const
 
 const strcusxAccountsCoder = new BorshAccountsCoder(StrcusxYieldStrategyIDL as Idl)
-
-export type Tranche = 'junior' | 'senior'
 
 type DecodedAccountingState = {
   senior_shares: Stringable

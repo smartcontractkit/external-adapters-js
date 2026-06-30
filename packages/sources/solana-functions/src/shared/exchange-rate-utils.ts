@@ -3,28 +3,35 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 export const RESULT_DECIMALS = 18
 const POSITIVE_INTEGER_PATTERN = /^[1-9]\d*$/
 
-export const parseRateBound = (value: string, name: string) => {
+export const validateRateBound = (value: string, name: string) => {
   if (!POSITIVE_INTEGER_PATTERN.test(value)) {
     throw new AdapterInputError({
       message: `${name} must be a positive base-10 integer string`,
       statusCode: 400,
     })
   }
-
-  return BigInt(value)
 }
 
-export const parseRateBounds = (minRateValue?: string, maxRateValue?: string) => {
-  const minRate = minRateValue === undefined ? undefined : parseRateBound(minRateValue, 'minRate')
-  const maxRate = maxRateValue === undefined ? undefined : parseRateBound(maxRateValue, 'maxRate')
+export const toRateBounds = (minRateValue?: string, maxRateValue?: string) => ({
+  minRate: minRateValue === undefined ? undefined : BigInt(minRateValue),
+  maxRate: maxRateValue === undefined ? undefined : BigInt(maxRateValue),
+})
+
+export const validateRateBounds = (minRateValue?: string, maxRateValue?: string) => {
+  if (minRateValue !== undefined) {
+    validateRateBound(minRateValue, 'minRate')
+  }
+  if (maxRateValue !== undefined) {
+    validateRateBound(maxRateValue, 'maxRate')
+  }
+
+  const { minRate, maxRate } = toRateBounds(minRateValue, maxRateValue)
   if (minRate !== undefined && maxRate !== undefined && minRate > maxRate) {
     throw new AdapterInputError({
       message: 'minRate must be less than or equal to maxRate',
       statusCode: 400,
     })
   }
-
-  return { minRate, maxRate }
 }
 
 export const applyRateBounds = (computedRate: bigint, minRate?: bigint, maxRate?: bigint) => {

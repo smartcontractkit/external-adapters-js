@@ -16,8 +16,8 @@ import {
 import {
   applyRateBounds,
   calculateNormalizedRate,
-  parseRateBounds,
   RESULT_DECIMALS,
+  toRateBounds,
 } from '../shared/exchange-rate-utils'
 import {
   derivePda,
@@ -36,9 +36,13 @@ const addressEncoder = getAddressEncoder()
 
 type RequestParams = typeof inputParameters.validated
 
+// Solstice provided the GLAM program/state config. GLAM derives the vault PDA
+// from its program, the configured state address, and the "vault" seed.
 const deriveVaultAddress = (glamStateAddress: Address, glamProtocolProgramAddress: Address) =>
   derivePda(glamProtocolProgramAddress, [GLAM_VAULT_SEED, addressEncoder.encode(glamStateAddress)])
 
+// The derived SLX ATA assumes SLX is a legacy SPL mint; stSLX is read directly
+// and can be owned by either the legacy SPL Token program or Token-2022.
 const deriveSlxTokenAccountAddress = (vaultAddress: Address, slxMintAddress: Address) =>
   derivePda(ASSOCIATED_TOKEN_PROGRAM_ADDRESS, [
     addressEncoder.encode(vaultAddress),
@@ -96,7 +100,7 @@ export class StslxExchangeRateTransport extends SubscriptionTransport<BaseEndpoi
       params.glamProtocolProgramAddress,
       'glamProtocolProgramAddress',
     )
-    const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
+    const { minRate, maxRate } = toRateBounds(params.minRate, params.maxRate)
     const vaultAddress = await deriveVaultAddress(glamStateAddress, glamProtocolProgramAddress)
     const slxTokenAccountAddress = await deriveSlxTokenAccountAddress(vaultAddress, slxMintAddress)
 

@@ -3,7 +3,6 @@ import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import {
   CLOCK_SYSVAR_ADDRESS,
   assertDataLength,
-  assertDiscriminator,
   assertOwnerProgram,
   decodeClockUnixTimestamp,
   derivePda,
@@ -94,17 +93,6 @@ describe('solana-account-utils', () => {
       expect(() => assertDataLength(Buffer.alloc(2), 'test account', 3)).toThrow(
         'Expected test account account data to be at least 3 bytes, found 2',
       )
-    })
-  })
-
-  describe('assertDiscriminator', () => {
-    it('should assert discriminator bytes', () => {
-      expect(() =>
-        assertDiscriminator(Buffer.from([1, 2]), 'test account', Buffer.from([1])),
-      ).not.toThrow()
-      expect(() =>
-        assertDiscriminator(Buffer.from([1, 2]), 'test account', Buffer.from([2])),
-      ).toThrow('Expected test account discriminator to be 02, found 01')
     })
   })
 

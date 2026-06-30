@@ -532,23 +532,6 @@ describe('StrcusxExchangeRateTransport', () => {
       expect(response.data?.boundsApplied).toBe(true)
     })
 
-    it('should error when request inputs are invalid', async () => {
-      await expect(
-        transport._handleRequest({
-          ...juniorParam,
-          minRate: maxRate,
-          maxRate: minRate,
-        }),
-      ).rejects.toThrow('minRate must be less than or equal to maxRate')
-
-      await expect(
-        transport._handleRequest({
-          ...juniorParam,
-          minRate: '0',
-        }),
-      ).rejects.toThrow('minRate must be a positive base-10 integer string')
-    })
-
     it('should error when account state is inconsistent', async () => {
       mockAccountData({
         overrides: {

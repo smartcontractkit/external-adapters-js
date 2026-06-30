@@ -2,41 +2,44 @@ import {
   applyRateBounds,
   calculateNormalizedRate,
   calculateUnvestedAssets,
-  parseRateBound,
-  parseRateBounds,
+  toRateBounds,
+  validateRateBound,
+  validateRateBounds,
 } from '../../src/shared/exchange-rate-utils'
 
 describe('exchange-rate-utils', () => {
-  describe('parseRateBound', () => {
-    it('should parse positive base-10 integer strings', () => {
-      expect(parseRateBound('1000000000000000000', 'minRate')).toBe(1000000000000000000n)
+  describe('validateRateBound', () => {
+    it('should accept positive base-10 integer strings', () => {
+      expect(() => validateRateBound('1000000000000000000', 'minRate')).not.toThrow()
     })
 
     it('should reject non-positive or non-canonical values', () => {
       for (const value of ['0', '-1', '01', 'not-a-rate']) {
-        expect(() => parseRateBound(value, 'minRate')).toThrow(
+        expect(() => validateRateBound(value, 'minRate')).toThrow(
           'minRate must be a positive base-10 integer string',
         )
       }
     })
   })
 
-  describe('parseRateBounds', () => {
-    it('should parse valid bounds', () => {
-      expect(parseRateBounds('1', '2')).toEqual({ minRate: 1n, maxRate: 2n })
+  describe('toRateBounds', () => {
+    it('should convert valid bounds', () => {
+      expect(toRateBounds('1', '2')).toEqual({ minRate: 1n, maxRate: 2n })
     })
 
     it('should allow omitted bounds', () => {
-      expect(parseRateBounds(undefined, '2')).toEqual({ minRate: undefined, maxRate: 2n })
-      expect(parseRateBounds('1', undefined)).toEqual({ minRate: 1n, maxRate: undefined })
-      expect(parseRateBounds(undefined, undefined)).toEqual({
+      expect(toRateBounds(undefined, '2')).toEqual({ minRate: undefined, maxRate: 2n })
+      expect(toRateBounds('1', undefined)).toEqual({ minRate: 1n, maxRate: undefined })
+      expect(toRateBounds(undefined, undefined)).toEqual({
         minRate: undefined,
         maxRate: undefined,
       })
     })
+  })
 
+  describe('validateRateBounds', () => {
     it('should reject inverted bounds', () => {
-      expect(() => parseRateBounds('2', '1')).toThrow(
+      expect(() => validateRateBounds('2', '1')).toThrow(
         'minRate must be less than or equal to maxRate',
       )
     })

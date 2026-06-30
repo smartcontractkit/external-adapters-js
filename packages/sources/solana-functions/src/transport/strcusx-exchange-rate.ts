@@ -9,8 +9,8 @@ import { decodeMintInfo } from '../shared/buffer-layout-accounts'
 import {
   applyRateBounds,
   calculateNormalizedRate,
-  parseRateBounds,
   RESULT_DECIMALS,
+  toRateBounds,
 } from '../shared/exchange-rate-utils'
 import {
   CLOCK_SYSVAR_ADDRESS,
@@ -29,10 +29,11 @@ import {
   deriveAccountAddress,
   parseStrategyName,
   PDA_SEEDS,
-  type Tranche,
+  TRANCHES,
 } from './strcusx-accounts'
 
 const logger = makeLogger('StrcusxExchangeRateTransport')
+const JUNIOR_TRANCHE = TRANCHES[0]
 
 type RequestParams = typeof inputParameters.validated
 
@@ -81,8 +82,8 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     const providerDataRequestedUnixMs = Date.now()
     const programAddress = parseSolanaAddress(params.programAddress, 'programAddress').toString()
     const strategyName = parseStrategyName(params.strategyName)
-    const tranche = params.tranche as Tranche
-    const { minRate, maxRate } = parseRateBounds(params.minRate, params.maxRate)
+    const tranche = params.tranche
+    const { minRate, maxRate } = toRateBounds(params.minRate, params.maxRate)
 
     const [controllerAddress, strategyAddress, accountingAddress] = await Promise.all([
       deriveAccountAddress(programAddress, [PDA_SEEDS.CONTROLLER]),
@@ -109,7 +110,7 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
     )
 
     const trancheMintAddress =
-      tranche === 'junior' ? strategy.juniorMintAddress : strategy.seniorMintAddress
+      tranche === JUNIOR_TRANCHE ? strategy.juniorMintAddress : strategy.seniorMintAddress
     const [assetMintAccount, trancheMintAccount] = await fetchMultipleAccounts(this.rpc, [
       controller.assetMintAddress,
       trancheMintAddress,
@@ -139,8 +140,9 @@ export class StrcusxExchangeRateTransport extends SubscriptionTransport<BaseEndp
 
     // Junior gets residual vested assets; senior gets vested senior assets.
     // Rate = assets / shares, normalized by mint decimals.
-    const trancheAssets = tranche === 'junior' ? juniorAssets : bookValueAssets.seniorAssets
-    const trancheShares = tranche === 'junior' ? accounting.juniorShares : accounting.seniorShares
+    const trancheAssets = tranche === JUNIOR_TRANCHE ? juniorAssets : bookValueAssets.seniorAssets
+    const trancheShares =
+      tranche === JUNIOR_TRANCHE ? accounting.juniorShares : accounting.seniorShares
     const selectedComputedRate = calculateNormalizedRate(
       trancheAssets,
       trancheShares,

@@ -2,8 +2,11 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { type AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { parseRateBounds } from '../shared/exchange-rate-utils'
+import { validateRateBounds } from '../shared/exchange-rate-utils'
+import { TRANCHES, type Tranche } from '../transport/strcusx-accounts'
 import { strcusxExchangeRateTransport } from '../transport/strcusx-exchange-rate'
+
+const STRATEGY_NAMES = ['STRC-USX-1'] as const
 
 export const inputParameters = new InputParameters(
   {
@@ -16,13 +19,13 @@ export const inputParameters = new InputParameters(
       description:
         'Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config',
       type: 'string',
-      options: ['STRC-USX-1'],
+      options: [...STRATEGY_NAMES],
       required: true,
     },
     tranche: {
       description: 'The tranche to price: junior or senior',
       type: 'string',
-      options: ['junior', 'senior'],
+      options: [...TRANCHES],
       required: true,
     },
     minRate: {
@@ -61,7 +64,7 @@ export type BaseEndpointTypes = {
     Data: {
       result: string
       computedResult: string
-      tranche: string
+      tranche: Tranche
       decimals: number
       boundsApplied: boolean
       trancheAssets: string
@@ -77,7 +80,7 @@ export const endpoint = new AdapterEndpoint({
   transport: strcusxExchangeRateTransport,
   inputParameters,
   customInputValidation: (req): AdapterInputError | undefined => {
-    parseRateBounds(req.requestContext.data.minRate, req.requestContext.data.maxRate)
+    validateRateBounds(req.requestContext.data.minRate, req.requestContext.data.maxRate)
 
     return
   },

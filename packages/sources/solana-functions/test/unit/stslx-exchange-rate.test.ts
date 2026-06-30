@@ -247,30 +247,6 @@ describe('StslxExchangeRateTransport', () => {
       expect(response.data?.boundsApplied).toBe(true)
     })
 
-    it('should error when rate bounds are invalid', async () => {
-      await expect(
-        transport._handleRequest({
-          ...param,
-          minRate: maxRate,
-          maxRate: minRate,
-        }),
-      ).rejects.toThrow('minRate must be less than or equal to maxRate')
-
-      await expect(
-        transport._handleRequest({
-          ...param,
-          minRate: '0',
-        }),
-      ).rejects.toThrow('minRate must be a positive base-10 integer string')
-
-      await expect(
-        transport._handleRequest({
-          ...param,
-          maxRate: 'not-a-rate',
-        }),
-      ).rejects.toThrow('maxRate must be a positive base-10 integer string')
-    })
-
     it('should error when the stSLX mint has zero supply', async () => {
       mockAccountData({
         [STSLX_MINT_ADDRESS]: makeAccountInfo(
