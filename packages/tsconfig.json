@@ -48,9 +48,6 @@
       "path": "./composites/secure-mint"
     },
     {
-      "path": "./composites/the-graph"
-    },
-    {
       "path": "./composites/tokenized-equity"
     },
     {
@@ -147,9 +144,6 @@
       "path": "./sources/btc.com"
     },
     {
-      "path": "./sources/cache.gold"
-    },
-    {
       "path": "./sources/canton-functions"
     },
     {
@@ -211,9 +205,6 @@
     },
     {
       "path": "./sources/deep-blue"
-    },
-    {
-      "path": "./sources/deribit"
     },
     {
       "path": "./sources/deutsche-boerse"
@@ -399,9 +390,6 @@
       "path": "./sources/polkadot-balance"
     },
     {
-      "path": "./sources/polygon"
-    },
-    {
       "path": "./sources/por-address-list"
     },
     {
@@ -468,9 +456,6 @@
       "path": "./sources/the-network-firm"
     },
     {
-      "path": "./sources/therundown"
-    },
-    {
       "path": "./sources/tiingo"
     },
     {
@@ -499,9 +484,6 @@
     },
     {
       "path": "./sources/twosigma"
-    },
-    {
-      "path": "./sources/uniswap-v2"
     },
     {
       "path": "./sources/view-function"
