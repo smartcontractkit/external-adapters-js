@@ -11,6 +11,7 @@ import {
   mockSTBTResponseFailure,
   mockUraniumResponseRipcordSuccess,
   mockUSDRResponseFailure,
+  mockWystcResponseRipcordTripped,
 } from './fixtures'
 
 // The reason why the failure case of 'stbt' endpoint is in a separate file is because of race conditions causing tests to fail
@@ -29,6 +30,8 @@ describe('execute', () => {
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
     process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
+    process.env.WYSTC_API_ENDPOINT = 'http://test-endpoint-wystc'
+    process.env.WYSTC_API_KEY = 'wystc-api-key'
 
     const adapter = (await import('../../src')).adapter
     adapter.rateLimiting = undefined
@@ -124,6 +127,18 @@ describe('execute', () => {
         endpoint: 'uranium',
       }
       mockUraniumResponseRipcordSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('wystc endpoint when ripcord true', () => {
+    it('should succeed (ripcord is a data field, not an error)', async () => {
+      const data = {
+        endpoint: 'wystc',
+      }
+      mockWystcResponseRipcordTripped()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
