@@ -235,8 +235,6 @@ adapters:
     version: 3.0.1
   - name: polkadot-balance
     version: 2.1.1
-  - name: polygon
-    version: 2.0.41
   - name: por-address-list
     version: 5.18.0
   - name: por-indexer
