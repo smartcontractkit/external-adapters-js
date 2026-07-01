@@ -2394,7 +2394,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     fastify: "npm:^5.0.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -3043,7 +3043,7 @@ __metadata:
     "@types/uuid": "npm:8.3.4"
     "@types/ws": "npm:8.5.14"
     ajv: "npm:^8.6.2"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     decimal.js: "npm:^10.3.1"
     fast-redact: "npm:^3.0.1"
     fastify: "npm:^5.0.0"
@@ -3115,7 +3115,7 @@ __metadata:
     "@types/swagger-jsdoc": "npm:6.0.4"
     "@types/yaml": "npm:1.9.7"
     airtable: "npm:0.11.6"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     axios-mock-adapter: "npm:1.20.0"
     axios-observable: "npm:2.1.0"
     backoff-rxjs: "npm:6.5.7"
@@ -3164,7 +3164,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3603,7 +3603,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     crypto: "npm:1.0.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -4152,7 +4152,7 @@ __metadata:
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     decimal.js: "npm:^10.3.1"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4164,7 +4164,7 @@ __metadata:
   resolution: "@chainlink/observation@workspace:packages/observation"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4566,7 +4566,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     bignumber.js: "npm:^9.1.1"
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
@@ -4780,7 +4780,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
+    axios: "npm:1.15.2"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
     nock: "npm:13.5.6"
@@ -10526,14 +10526,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.13.4, axios@npm:^1.12.2":
-  version: 1.13.4
-  resolution: "axios@npm:1.13.4"
+"axios@npm:1.15.2":
+  version: 1.15.2
+  resolution: "axios@npm:1.15.2"
   dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.4"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/54b7ef71c64837f9d52475832337f520cf6fa85c94612e03a3a2aad7082804a2544741267122696662147e90e6d2746601346984cf531ae715ecdb56d586a04c
+    follow-redirects: "npm:^1.15.11"
+    form-data: "npm:^4.0.5"
+    proxy-from-env: "npm:^2.1.0"
+  checksum: 10/eebbd8cb777316d4252cd994a06ec9fb956ef519214a62dab6c5443ae8b753b5116e9a770502316789e6cdef1101e6aae53b6936d6a3791b2d66d75f4d7d2462
   languageName: node
   linkType: hard
 
@@ -10558,6 +10558,17 @@ __metadata:
     https-proxy-agent: "npm:^5.0.1"
     proxy-from-env: "npm:^2.1.0"
   checksum: 10/bc6995122fb9ca1431836579ae53fdd94894ad3d676de229d474da6465bc323ad93e8bf0b3bdb33ec4fbd460d93485ef2b5240e97d778700c029bf053c7f75cd
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.12.2":
+  version: 1.13.4
+  resolution: "axios@npm:1.13.4"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.4"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10/54b7ef71c64837f9d52475832337f520cf6fa85c94612e03a3a2aad7082804a2544741267122696662147e90e6d2746601346984cf531ae715ecdb56d586a04c
   languageName: node
   linkType: hard
 
@@ -13173,7 +13184,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.15.6, follow-redirects@npm:^1.16.0":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.15.11, follow-redirects@npm:^1.15.6, follow-redirects@npm:^1.16.0":
   version: 1.16.0
   resolution: "follow-redirects@npm:1.16.0"
   peerDependenciesMeta:
