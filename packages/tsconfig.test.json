@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint/tsconfig.test.json"
     },
     {
-      "path": "./composites/the-graph/tsconfig.test.json"
-    },
-    {
       "path": "./composites/tokenized-equity/tsconfig.test.json"
     },
     {
@@ -399,9 +396,6 @@
       "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {
-      "path": "./sources/polygon/tsconfig.test.json"
-    },
-    {
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
@@ -468,9 +462,6 @@
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
-      "path": "./sources/therundown/tsconfig.test.json"
-    },
-    {
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
@@ -499,9 +490,6 @@
     },
     {
       "path": "./sources/twosigma/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/uniswap-v2/tsconfig.test.json"
     },
     {
       "path": "./sources/view-function/tsconfig.test.json"

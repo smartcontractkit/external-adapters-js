@@ -79,10 +79,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/secure-mint"\
     },\
     {\
-      "name": "@chainlink/the-graph-adapter",\
-      "reference": "workspace:packages/composites/the-graph"\
-    },\
-    {\
       "name": "@chainlink/tokenized-equity-adapter",\
       "reference": "workspace:packages/composites/tokenized-equity"\
     },\
@@ -555,10 +551,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
     {\
-      "name": "@chainlink/polygon-adapter",\
-      "reference": "workspace:packages/sources/polygon"\
-    },\
-    {\
       "name": "@chainlink/por-address-list-adapter",\
       "reference": "workspace:packages/sources/por-address-list"\
     },\
@@ -647,10 +639,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
     {\
-      "name": "@chainlink/therundown-adapter",\
-      "reference": "workspace:packages/sources/therundown"\
-    },\
-    {\
       "name": "@chainlink/tiingo-adapter",\
       "reference": "workspace:packages/sources/tiingo"\
     },\
@@ -689,10 +677,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/twosigma-adapter",\
       "reference": "workspace:packages/sources/twosigma"\
-    },\
-    {\
-      "name": "@chainlink/uniswap-v2-adapter",\
-      "reference": "workspace:packages/sources/uniswap-v2"\
     },\
     {\
       "name": "@chainlink/view-function-adapter",\
@@ -856,7 +840,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
-    ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
@@ -885,9 +868,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
-    ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
-    ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
     ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
@@ -901,7 +882,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
-    ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -6873,21 +6853,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/polygon-adapter", [\
-      ["workspace:packages/sources/polygon", {\
-        "packageLocation": "./packages/sources/polygon/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/por-address-list-adapter", [\
       ["workspace:packages/sources/por-address-list", {\
         "packageLocation": "./packages/sources/por-address-list/",\
@@ -7184,7 +7149,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/solana-functions", {\
         "packageLocation": "./packages/sources/solana-functions/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
           ["@chainlink/solana-functions-adapter", "workspace:packages/sources/solana-functions"],\
           ["@coral-xyz/anchor", "npm:0.31.1"],\
           ["@solana/addresses", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.3"],\
@@ -7193,6 +7158,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/rpc", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/spl-stake-pool", "npm:1.1.8"],\
           ["@solana/spl-token", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:0.4.14"],\
+          ["@solana/sysvars", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -7417,23 +7383,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/the-graph-adapter", [\
-      ["workspace:packages/composites/the-graph", {\
-        "packageLocation": "./packages/composites/the-graph/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-          ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/the-network-firm-adapter", [\
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
@@ -7444,24 +7393,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/therundown-adapter", [\
-      ["workspace:packages/sources/therundown", {\
-        "packageLocation": "./packages/sources/therundown/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7707,26 +7638,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/uniswap-v2-adapter", [\
-      ["workspace:packages/sources/uniswap-v2", {\
-        "packageLocation": "./packages/sources/uniswap-v2/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -11140,12 +11051,38 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@solana/accounts", [\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@solana-accounts-npm-3.0.2-db589c23b8-a850f48091.zip/node_modules/@solana/accounts/",\
+        "packageDependencies": [\
+          ["@solana/accounts", "npm:3.0.2"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["npm:6.9.0", {\
         "packageLocation": "./.yarn/cache/@solana-accounts-npm-6.9.0-873ac954de-6456023113.zip/node_modules/@solana/accounts/",\
         "packageDependencies": [\
           ["@solana/accounts", "npm:6.9.0"]\
         ],\
         "linkType": "SOFT"\
+      }],\
+      ["virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2", {\
+        "packageLocation": "./.yarn/__virtual__/@solana-accounts-virtual-46fc7dd2d4/0/cache/@solana-accounts-npm-3.0.2-db589c23b8-a850f48091.zip/node_modules/@solana/accounts/",\
+        "packageDependencies": [\
+          ["@solana/accounts", "virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2"],\
+          ["@solana/addresses", "virtual:e3686759fd9553dd07d24afdac656ec8b70018e70ae103cc0ebd771969bdfbea8a234a3ada104a4a42a88252bfabd7b24edf2145757b931840b0b8b31456e29b#npm:3.0.2"],\
+          ["@solana/codecs-core", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/codecs-strings", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
+          ["@solana/errors", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/rpc-spec", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
+          ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
+          ["@types/typescript", null],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "packagePeers": [\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
       }],\
       ["virtual:c4d94e4399c4de0f7679b59d808e823662e8a1161bc1715a8e1d3b881339aff8f70b4955bfb712902340b57218d77bd40665e6d3ad24370cefa2681b9c215570#npm:6.9.0", {\
         "packageLocation": "./.yarn/__virtual__/@solana-accounts-virtual-5bd97f62ff/0/cache/@solana-accounts-npm-6.9.0-873ac954de-6456023113.zip/node_modules/@solana/accounts/",\
@@ -11340,6 +11277,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@solana-codecs-npm-3.0.2-261b7ade89-967acb8199.zip/node_modules/@solana/codecs/",\
+        "packageDependencies": [\
+          ["@solana/codecs", "npm:3.0.2"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["npm:6.9.0", {\
         "packageLocation": "./.yarn/cache/@solana-codecs-npm-6.9.0-35a2d05344-f17f63e694.zip/node_modules/@solana/codecs/",\
         "packageDependencies": [\
@@ -11358,6 +11302,24 @@ const RAW_RUNTIME_STATE =
           ["@solana/options", "virtual:bd1c0f12ca2409a0ffbdbe2b94f9162a5f74dc7252a76373ff0f021f7c5ebad7e3a9a856cbe55761515c56cc372b6568247ad14d648a42075754b4faf0f93b8e#npm:2.0.0-rc.1"],\
           ["@types/typescript", null],\
           ["typescript", null]\
+        ],\
+        "packagePeers": [\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2", {\
+        "packageLocation": "./.yarn/__virtual__/@solana-codecs-virtual-2d82fb4609/0/cache/@solana-codecs-npm-3.0.2-261b7ade89-967acb8199.zip/node_modules/@solana/codecs/",\
+        "packageDependencies": [\
+          ["@solana/codecs", "virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2"],\
+          ["@solana/codecs-core", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/codecs-data-structures", "virtual:9ffe11166b065cf2d9d01c97d0f98e8abd5fccb267aaee09eb3a3817361ac4de2c0b61b4e081f7bb552a7b822fcea5fb29ee200e32a811785817d5558497ba90#npm:3.0.2"],\
+          ["@solana/codecs-numbers", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/codecs-strings", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
+          ["@solana/options", "virtual:2d82fb46094c2a274d80db05bc6dea22e72bf844faa2975fc318f9abc34161008004ed73c229a12b4327fc87a976f9b69b231bd424deb03a7d5655a431f90c83#npm:3.0.2"],\
+          ["@types/typescript", null],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
@@ -12279,12 +12241,37 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@solana-options-npm-3.0.2-d90dd3225f-7ff8e1af97.zip/node_modules/@solana/options/",\
+        "packageDependencies": [\
+          ["@solana/options", "npm:3.0.2"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["npm:6.9.0", {\
         "packageLocation": "./.yarn/cache/@solana-options-npm-6.9.0-3c14ccbfb7-23fef5cec4.zip/node_modules/@solana/options/",\
         "packageDependencies": [\
           ["@solana/options", "npm:6.9.0"]\
         ],\
         "linkType": "SOFT"\
+      }],\
+      ["virtual:2d82fb46094c2a274d80db05bc6dea22e72bf844faa2975fc318f9abc34161008004ed73c229a12b4327fc87a976f9b69b231bd424deb03a7d5655a431f90c83#npm:3.0.2", {\
+        "packageLocation": "./.yarn/__virtual__/@solana-options-virtual-fdb32f1617/0/cache/@solana-options-npm-3.0.2-d90dd3225f-7ff8e1af97.zip/node_modules/@solana/options/",\
+        "packageDependencies": [\
+          ["@solana/codecs-core", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/codecs-data-structures", "virtual:9ffe11166b065cf2d9d01c97d0f98e8abd5fccb267aaee09eb3a3817361ac4de2c0b61b4e081f7bb552a7b822fcea5fb29ee200e32a811785817d5558497ba90#npm:3.0.2"],\
+          ["@solana/codecs-numbers", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/codecs-strings", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
+          ["@solana/errors", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/options", "virtual:2d82fb46094c2a274d80db05bc6dea22e72bf844faa2975fc318f9abc34161008004ed73c229a12b4327fc87a976f9b69b231bd424deb03a7d5655a431f90c83#npm:3.0.2"],\
+          ["@types/typescript", null],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "packagePeers": [\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
       }],\
       ["virtual:2de42dd3111e77cdd577723ec6be7b78d4a855877fe5a4c1f187e402016a8e14e87aa7506de165ba104542c2d77165793618312b3c6886c6eeabd7de15470da7#npm:6.9.0", {\
         "packageLocation": "./.yarn/__virtual__/@solana-options-virtual-d4d5d06140/0/cache/@solana-options-npm-6.9.0-3c14ccbfb7-23fef5cec4.zip/node_modules/@solana/options/",\
@@ -13146,6 +13133,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@solana/sysvars", [\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@solana-sysvars-npm-3.0.2-cad063b41a-423b799039.zip/node_modules/@solana/sysvars/",\
+        "packageDependencies": [\
+          ["@solana/sysvars", "npm:3.0.2"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["npm:6.9.0", {\
         "packageLocation": "./.yarn/cache/@solana-sysvars-npm-6.9.0-dd2a6896ff-4f1c744381.zip/node_modules/@solana/sysvars/",\
         "packageDependencies": [\
@@ -13165,6 +13159,23 @@ const RAW_RUNTIME_STATE =
           ["@solana/sysvars", "virtual:c4d94e4399c4de0f7679b59d808e823662e8a1161bc1715a8e1d3b881339aff8f70b4955bfb712902340b57218d77bd40665e6d3ad24370cefa2681b9c215570#npm:6.9.0"],\
           ["@types/typescript", null],\
           ["typescript", null]\
+        ],\
+        "packagePeers": [\
+          "@types/typescript",\
+          "typescript"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2", {\
+        "packageLocation": "./.yarn/__virtual__/@solana-sysvars-virtual-68dd0c34ad/0/cache/@solana-sysvars-npm-3.0.2-cad063b41a-423b799039.zip/node_modules/@solana/sysvars/",\
+        "packageDependencies": [\
+          ["@solana/accounts", "virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2"],\
+          ["@solana/codecs", "virtual:68dd0c34ad2f981fcb6940d235350cbbc15a6cb2c2397b6c6453a546bf25494eb5cee0d04ba5c72a17e814b35236504a77c305883792f08a98f8b1fcdfc3de38#npm:3.0.2"],\
+          ["@solana/errors", "virtual:c19705464ec0d9a881ece73996d6bb41f7a662050a228e48517a30b9a82c58f20eb78dcf7ae35c506e80aadf54da3443c4ea24c2f1609866f9465441310020d6#npm:3.0.2"],\
+          ["@solana/rpc-types", "virtual:c2b196a693e37c0bf4546dafa9ac4c22268bfb0355950ada99d08aa811254ba3266b019d6f58a67972917b5f4dcc63f41674ab14f349c5e90547d4015daba3ea#npm:3.0.2"],\
+          ["@solana/sysvars", "virtual:ef003a5149e1a030be208742b73558a4617d3ff34222ae88f1b64560b15c21faffaf169d5b8672dbf9995cc6922dadf923aa2a19841e7237fcbcb97c65f6a492#npm:3.0.2"],\
+          ["@types/typescript", null],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "packagePeers": [\
           "@types/typescript",\
