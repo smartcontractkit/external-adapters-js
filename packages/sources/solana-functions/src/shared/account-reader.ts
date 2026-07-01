@@ -1,22 +1,29 @@
-import { BorshCoder, Idl } from '@coral-xyz/anchor'
-import { getProgramDerivedAddress, type Address } from '@solana/addresses'
+import { BorshCoder, type BorshAccountsCoder, type Idl } from '@coral-xyz/anchor'
+import { type Address } from '@solana/addresses'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
+import { derivePda, type PdaSeed } from './solana-account-utils'
+
+export type Stringable = { toString(): string }
+
+export const toBigint = (value: Stringable) => BigInt(value.toString())
+
+export const decodeAnchorAccount = <T>(
+  coder: BorshAccountsCoder,
+  accountName: string,
+  data: Buffer,
+) => coder.decode(accountName, data) as T
 
 export class SolanaAccountReader {
   // Fetch account information by deriving an address given a program address and a list of seeds
   // accountName must match the IDL exactly
-  // seeds typed as any due to type not being exported by @solana/addresses
   async fetchAccountInformationByAddressAndSeeds<T>(
     rpc: Rpc<SolanaRpcApi>,
     programAddress: Address,
-    seeds: any[],
+    seeds: PdaSeed[],
     accountName: string,
     idl: Idl,
   ): Promise<T> {
-    const [pda] = await getProgramDerivedAddress({
-      programAddress,
-      seeds,
-    })
+    const pda = await derivePda(programAddress, seeds)
 
     return this.fetchAccountInformation(rpc, pda, accountName, idl)
   }
@@ -36,7 +43,7 @@ export class SolanaAccountReader {
     }
     const dataEncoded = value.data[0] as string
     const data = Buffer.from(dataEncoded, encoding)
-    const coder = new BorshCoder(idl as unknown as Idl)
-    return coder.accounts.decode(accountName, data) as unknown as T
+    const coder = new BorshCoder(idl)
+    return decodeAnchorAccount<T>(coder.accounts, accountName, data)
   }
 }
