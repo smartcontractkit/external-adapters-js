@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                      Options                                                                                                                       |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                              Options                                                                                                                                                                               |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint), [strcusx-exchange-rate](#strcusx-exchange-rate-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -236,6 +236,94 @@ Request:
   }
 }
 ```
+
+---
+
+## Stslx-exchange-rate Endpoint
+
+`stslx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |            Name            | Aliases |                                 Description                                  |  Type  | Options |                    Default                     | Depends On | Not Valid With |
+| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :--------------------------------------------: | :--------: | :------------: |
+|           |       slxMintAddress       |         |                               SLX mint address                               | string |         | `SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq`  |            |                |
+|           |      stslxMintAddress      |         |                              stSLX mint address                              | string |         | `GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq` |            |                |
+|           |      glamStateAddress      |         |               GLAM state address used to derive the vault PDA                | string |         | `5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB` |            |                |
+|           | glamProtocolProgramAddress |         |          GLAM protocol program address used to derive the vault PDA          | string |         | `GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz` |            |                |
+|           |          minRate           |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+|           |          maxRate           |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stslx-exchange-rate",
+    "slxMintAddress": "SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq",
+    "stslxMintAddress": "GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq",
+    "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
+    "glamProtocolProgramAddress": "GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+---
+
+## Strcusx-exchange-rate Endpoint
+
+`strcusx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |      Name      | Aliases |                                      Description                                      |  Type  |      Options       | Default | Depends On | Not Valid With |
+| :-------: | :------------: | :-----: | :-----------------------------------------------------------------------------------: | :----: | :----------------: | :-----: | :--------: | :------------: |
+|    ✅     | programAddress |         |                 The deployed Solstice yield strategy program address                  | string |                    |         |            |                |
+|    ✅     |  strategyName  |         | Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config | string |    `STRC-USX-1`    |         |            |                |
+|    ✅     |    tranche     |         |                        The tranche to price: junior or senior                         | string | `junior`, `senior` |         |            |                |
+|           |    minRate     |         |      Minimum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+|           |    maxRate     |         |      Maximum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "junior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "senior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+</details>
 
 ---
 
