@@ -307,10 +307,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/deep-blue"\
     },\
     {\
-      "name": "@chainlink/deribit-adapter",\
-      "reference": "workspace:packages/sources/deribit"\
-    },\
-    {\
       "name": "@chainlink/deutsche-boerse-adapter",\
       "reference": "workspace:packages/sources/deutsche-boerse"\
     },\
@@ -767,7 +763,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
-    ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dlc-cbtc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por"]],\
@@ -5413,24 +5408,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/deribit-adapter", [\
-      ["workspace:packages/sources/deribit", {\
-        "packageLocation": "./packages/sources/deribit/",\
-        "packageDependencies": [\
-          ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
