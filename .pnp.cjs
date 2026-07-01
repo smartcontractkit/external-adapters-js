@@ -19,10 +19,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/bitcoin-json-rpc"\
     },\
     {\
-      "name": "@chainlink/bsol-price-adapter",\
-      "reference": "workspace:packages/composites/bsol-price"\
-    },\
-    {\
       "name": "@chainlink/calculated-price-adapter",\
       "reference": "workspace:packages/composites/calculated-price"\
     },\
@@ -733,7 +729,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
-    ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
@@ -4893,30 +4888,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bsol-price-adapter", [\
-      ["workspace:packages/composites/bsol-price", {\
-        "packageLocation": "./packages/composites/bsol-price/",\
-        "packageDependencies": [\
-          ["@chainlink/bsol-price-adapter", "workspace:packages/composites/bsol-price"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@solana/web3.js", "npm:1.98.4"],\
-          ["@types/bn.js", "npm:5.1.6"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.3"],\
-          ["ethers", "npm:5.8.0"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

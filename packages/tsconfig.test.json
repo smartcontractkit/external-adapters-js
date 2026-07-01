@@ -6,9 +6,6 @@
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
-      "path": "./composites/bsol-price/tsconfig.test.json"
-    },
-    {
       "path": "./composites/calculated-price/tsconfig.test.json"
     },
     {

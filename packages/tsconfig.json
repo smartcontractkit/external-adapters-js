@@ -6,9 +6,6 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
-      "path": "./composites/bsol-price"
-    },
-    {
       "path": "./composites/calculated-price"
     },
     {
