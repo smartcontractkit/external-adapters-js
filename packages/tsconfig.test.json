@@ -216,9 +216,6 @@
       "path": "./sources/deep-blue/tsconfig.test.json"
     },
     {
-      "path": "./sources/deribit/tsconfig.test.json"
-    },
-    {
       "path": "./sources/deutsche-boerse/tsconfig.test.json"
     },
     {
