@@ -1,5 +1,11 @@
 # @chainlink/coinmarketcap-adapter
 
+## 2.2.3
+
+### Patch Changes
+
+- [#5141](https://github.com/smartcontractkit/external-adapters-js/pull/5141) [`994f490`](https://github.com/smartcontractkit/external-adapters-js/commit/994f490ca64426aa81a6a4d07d8c25d84b6ffdd0) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix key re-use
+
 ## 2.2.2
 
 ### Patch Changes

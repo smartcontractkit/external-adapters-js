@@ -70,7 +70,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [proof-of-reserves-v2](./proof-of-reserves-v2/README.md)
 - [savax-price](./savax-price/README.md)
 - [secure-mint](./secure-mint/README.md)
-- [set-token-index](./set-token-index/README.md)
 - [the-graph](./the-graph/README.md)
 - [tokenized-equity](./tokenized-equity/README.md)
 - [xsushi-price](./xsushi-price/README.md)

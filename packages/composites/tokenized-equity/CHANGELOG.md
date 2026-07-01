@@ -1,5 +1,11 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5144](https://github.com/smartcontractkit/external-adapters-js/pull/5144) [`c32bb4a`](https://github.com/smartcontractkit/external-adapters-js/commit/c32bb4acc36b4399ac73a889d3145968e422c084) Thanks [@dskloetc](https://github.com/dskloetc)! - Add xstocks endpoint
+
 ## 1.2.0
 
 ### Minor Changes
