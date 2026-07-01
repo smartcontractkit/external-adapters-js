@@ -2419,22 +2419,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/binance-adapter@workspace:packages/sources/binance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/binance-adapter@workspace:packages/sources/binance"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/bitcoin-json-rpc-adapter@workspace:*, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
@@ -2566,50 +2550,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bsol-price-adapter@workspace:packages/composites/bsol-price":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/bsol-price-adapter@workspace:packages/composites/bsol-price"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/solana-view-function-adapter": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@solana/web3.js": "npm:^1.95.8"
-    "@types/bn.js": "npm:^5.1.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    bignumber.js: "npm:^9.0.0"
-    bn.js: "npm:^5.2.0"
-    ethers: "npm:^5.5.1"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/btc.com-adapter@workspace:*, @chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/btc.com-adapter@workspace:packages/sources/btc.com"
   dependencies:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cache.gold-adapter@workspace:packages/sources/cache.gold"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3002,22 +2948,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/deribit-adapter@workspace:packages/sources/deribit":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/deribit-adapter@workspace:packages/sources/deribit"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -3667,7 +3597,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/graphql-adapter@workspace:*, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
+"@chainlink/graphql-adapter@workspace:packages/sources/graphql":
   version: 0.0.0-use.local
   resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
   dependencies:
@@ -4312,19 +4242,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polygon-adapter@workspace:packages/sources/polygon":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/polygon-adapter@workspace:packages/sources/polygon"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/por-address-list-adapter@workspace:*, @chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
@@ -4610,7 +4527,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/solana-view-function-adapter@workspace:*, @chainlink/solana-view-function-adapter@workspace:packages/sources/solana-view-function":
+"@chainlink/solana-view-function-adapter@workspace:packages/sources/solana-view-function":
   version: 0.0.0-use.local
   resolution: "@chainlink/solana-view-function-adapter@workspace:packages/sources/solana-view-function"
   dependencies:
@@ -4799,21 +4716,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/the-graph-adapter@workspace:packages/composites/the-graph":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/graphql-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm":
   version: 0.0.0-use.local
   resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
@@ -4823,22 +4725,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/therundown-adapter@workspace:packages/sources/therundown":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/therundown-adapter@workspace:packages/sources/therundown"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -5059,24 +4945,6 @@ __metadata:
     "@types/ws": "npm:8.5.14"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/uniswap-v2-adapter@workspace:packages/sources/uniswap-v2"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft

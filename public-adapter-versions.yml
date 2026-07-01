@@ -23,8 +23,6 @@ adapters:
     version: 1.1.55
   - name: bea
     version: 1.3.47
-  - name: binance
-    version: 1.4.47
   - name: bitcoin-json-rpc
     version: 1.3.47
   - name: bitgo
@@ -43,11 +41,7 @@ adapters:
     version: 1.2.0
   - name: bob
     version: 2.0.29
-  - name: bsol-price
-    version: 2.2.167
   - name: btc.com
-    version: 1.3.47
-  - name: cache.gold
     version: 1.3.47
   - name: calculated-price
     version: 1.1.1
@@ -93,8 +87,6 @@ adapters:
     version: 1.4.0
   - name: deep-blue
     version: 1.0.21
-  - name: deribit
-    version: 1.2.47
   - name: deutsche-boerse
     version: 1.6.0
   - name: dlc-btc-por
@@ -235,8 +227,6 @@ adapters:
     version: 3.0.1
   - name: polkadot-balance
     version: 2.1.1
-  - name: polygon
-    version: 2.0.41
   - name: por-address-list
     version: 5.18.0
   - name: por-indexer
@@ -287,12 +277,8 @@ adapters:
     version: 1.1.22
   - name: t-rize-proof-of-insurance
     version: 1.0.1
-  - name: the-graph
-    version: 1.2.48
   - name: the-network-firm
     version: 1.8.0
-  - name: therundown
-    version: 1.3.47
   - name: tiingo
     version: 2.12.0
   - name: tiingo-state
@@ -315,8 +301,6 @@ adapters:
     version: 1.4.16
   - name: twosigma
     version: 1.2.42
-  - name: uniswap-v2
-    version: 2.0.31
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain

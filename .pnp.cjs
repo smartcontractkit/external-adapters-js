@@ -19,10 +19,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/bitcoin-json-rpc"\
     },\
     {\
-      "name": "@chainlink/bsol-price-adapter",\
-      "reference": "workspace:packages/composites/bsol-price"\
-    },\
-    {\
       "name": "@chainlink/calculated-price-adapter",\
       "reference": "workspace:packages/composites/calculated-price"\
     },\
@@ -77,10 +73,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/secure-mint-adapter",\
       "reference": "workspace:packages/composites/secure-mint"\
-    },\
-    {\
-      "name": "@chainlink/the-graph-adapter",\
-      "reference": "workspace:packages/composites/the-graph"\
     },\
     {\
       "name": "@chainlink/tokenized-equity-adapter",\
@@ -183,10 +175,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bea"\
     },\
     {\
-      "name": "@chainlink/binance-adapter",\
-      "reference": "workspace:packages/sources/binance"\
-    },\
-    {\
       "name": "@chainlink/bitgo-adapter",\
       "reference": "workspace:packages/sources/bitgo"\
     },\
@@ -221,10 +209,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/btc.com-adapter",\
       "reference": "workspace:packages/sources/btc.com"\
-    },\
-    {\
-      "name": "@chainlink/cache.gold-adapter",\
-      "reference": "workspace:packages/sources/cache.gold"\
     },\
     {\
       "name": "@chainlink/canton-functions-adapter",\
@@ -309,10 +293,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/deep-blue-adapter",\
       "reference": "workspace:packages/sources/deep-blue"\
-    },\
-    {\
-      "name": "@chainlink/deribit-adapter",\
-      "reference": "workspace:packages/sources/deribit"\
     },\
     {\
       "name": "@chainlink/deutsche-boerse-adapter",\
@@ -559,10 +539,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
     {\
-      "name": "@chainlink/polygon-adapter",\
-      "reference": "workspace:packages/sources/polygon"\
-    },\
-    {\
       "name": "@chainlink/por-address-list-adapter",\
       "reference": "workspace:packages/sources/por-address-list"\
     },\
@@ -651,10 +627,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
     {\
-      "name": "@chainlink/therundown-adapter",\
-      "reference": "workspace:packages/sources/therundown"\
-    },\
-    {\
       "name": "@chainlink/tiingo-adapter",\
       "reference": "workspace:packages/sources/tiingo"\
     },\
@@ -693,10 +665,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/twosigma-adapter",\
       "reference": "workspace:packages/sources/twosigma"\
-    },\
-    {\
-      "name": "@chainlink/uniswap-v2-adapter",\
-      "reference": "workspace:packages/sources/uniswap-v2"\
     },\
     {\
       "name": "@chainlink/view-function-adapter",\
@@ -747,7 +715,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
-    ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
@@ -757,9 +724,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
-    ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
-    ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
@@ -783,7 +748,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
-    ["@chainlink/deribit-adapter", ["workspace:packages/sources/deribit"]],\
     ["@chainlink/deutsche-boerse-adapter", ["workspace:packages/sources/deutsche-boerse"]],\
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dlc-cbtc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por"]],\
@@ -861,7 +825,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
-    ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
@@ -890,9 +853,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
-    ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
-    ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
     ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
@@ -906,7 +867,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
-    ["@chainlink/uniswap-v2-adapter", ["workspace:packages/sources/uniswap-v2"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -4763,24 +4723,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/binance-adapter", [\
-      ["workspace:packages/sources/binance", {\
-        "packageLocation": "./packages/sources/binance/",\
-        "packageDependencies": [\
-          ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/bitcoin-json-rpc-adapter", [\
       ["workspace:packages/composites/bitcoin-json-rpc", {\
         "packageLocation": "./packages/composites/bitcoin-json-rpc/",\
@@ -4930,30 +4872,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/bsol-price-adapter", [\
-      ["workspace:packages/composites/bsol-price", {\
-        "packageLocation": "./packages/composites/bsol-price/",\
-        "packageDependencies": [\
-          ["@chainlink/bsol-price-adapter", "workspace:packages/composites/bsol-price"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@solana/web3.js", "npm:1.98.4"],\
-          ["@types/bn.js", "npm:5.1.6"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["bignumber.js", "npm:9.3.1"],\
-          ["bn.js", "npm:5.2.3"],\
-          ["ethers", "npm:5.8.0"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/btc.com-adapter", [\
       ["workspace:packages/sources/btc.com", {\
         "packageLocation": "./packages/sources/btc.com/",\
@@ -4961,24 +4879,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/cache.gold-adapter", [\
-      ["workspace:packages/sources/cache.gold", {\
-        "packageLocation": "./packages/sources/cache.gold/",\
-        "packageDependencies": [\
-          ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5433,24 +5333,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/deribit-adapter", [\
-      ["workspace:packages/sources/deribit", {\
-        "packageLocation": "./packages/sources/deribit/",\
-        "packageDependencies": [\
-          ["@chainlink/deribit-adapter", "workspace:packages/sources/deribit"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -6896,21 +6778,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/polygon-adapter", [\
-      ["workspace:packages/sources/polygon", {\
-        "packageLocation": "./packages/sources/polygon/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/por-address-list-adapter", [\
       ["workspace:packages/sources/por-address-list", {\
         "packageLocation": "./packages/sources/por-address-list/",\
@@ -7441,23 +7308,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/the-graph-adapter", [\
-      ["workspace:packages/composites/the-graph", {\
-        "packageLocation": "./packages/composites/the-graph/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-          ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/the-network-firm-adapter", [\
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
@@ -7468,24 +7318,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/therundown-adapter", [\
-      ["workspace:packages/sources/therundown", {\
-        "packageLocation": "./packages/sources/therundown/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7731,26 +7563,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["@types/ws", "npm:8.5.14"],\
           ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/uniswap-v2-adapter", [\
-      ["workspace:packages/sources/uniswap-v2", {\
-        "packageLocation": "./packages/sources/uniswap-v2/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/uniswap-v2-adapter", "workspace:packages/sources/uniswap-v2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
