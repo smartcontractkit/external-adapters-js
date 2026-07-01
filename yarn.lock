@@ -3667,7 +3667,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/graphql-adapter@workspace:*, @chainlink/graphql-adapter@workspace:packages/sources/graphql":
+"@chainlink/graphql-adapter@workspace:packages/sources/graphql":
   version: 0.0.0-use.local
   resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
   dependencies:
@@ -4794,21 +4794,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/the-graph-adapter@workspace:packages/composites/the-graph":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/the-graph-adapter@workspace:packages/composites/the-graph"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/graphql-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft

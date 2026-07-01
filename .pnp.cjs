@@ -79,10 +79,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/secure-mint"\
     },\
     {\
-      "name": "@chainlink/the-graph-adapter",\
-      "reference": "workspace:packages/composites/the-graph"\
-    },\
-    {\
       "name": "@chainlink/tokenized-equity-adapter",\
       "reference": "workspace:packages/composites/tokenized-equity"\
     },\
@@ -890,7 +886,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
-    ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
@@ -7435,23 +7430,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/the-graph-adapter", [\
-      ["workspace:packages/composites/the-graph", {\
-        "packageLocation": "./packages/composites/the-graph/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-          ["@chainlink/the-graph-adapter", "workspace:packages/composites/the-graph"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
