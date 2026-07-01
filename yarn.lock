@@ -2894,7 +2894,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/data-engine-adapter@workspace:packages/sources/data-engine"
   dependencies:
-    "@chainlink/data-streams-sdk": "npm:1.2.0"
+    "@chainlink/data-streams-sdk": "npm:1.2.1"
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -2907,9 +2907,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/data-streams-sdk@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@chainlink/data-streams-sdk@npm:1.2.0"
+"@chainlink/data-streams-sdk@npm:1.2.1":
+  version: 1.2.1
+  resolution: "@chainlink/data-streams-sdk@npm:1.2.1"
   dependencies:
     ethers: "npm:^6.15.0"
     ws: "npm:^8.18.3"
@@ -2918,7 +2918,7 @@ __metadata:
   peerDependenciesMeta:
     dotenv:
       optional: true
-  checksum: 10/6ee4c811874f97cce43cd77d9511a67163b08216313e89b7546a85bb51e63a25915eae1cc771224769a39c300de42bb4fa88726913d830ef0f2ec70a2d7f2aec
+  checksum: 10/1d369f246f4f4e375d66a7cccd147b01dd88b08ee7739fce560185d5c6b8885f5bbdaedf59973aad3db8f8963194295953012bc7150ebc2755e8b08d8425c745
   languageName: node
   linkType: hard
 
