@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-state-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5138](https://github.com/smartcontractkit/external-adapters-js/pull/5138) [`73156f7`](https://github.com/smartcontractkit/external-adapters-js/commit/73156f7fdab699ad25448a43057eec03de006229) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version
+
 ## 1.2.0
 
 ### Minor Changes
