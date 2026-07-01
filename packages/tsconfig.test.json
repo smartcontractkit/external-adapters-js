@@ -150,9 +150,6 @@
       "path": "./sources/btc.com/tsconfig.test.json"
     },
     {
-      "path": "./sources/cache.gold/tsconfig.test.json"
-    },
-    {
       "path": "./sources/canton-functions/tsconfig.test.json"
     },
     {
