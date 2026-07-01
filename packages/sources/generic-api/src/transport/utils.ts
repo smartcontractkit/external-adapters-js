@@ -21,8 +21,11 @@ import { sharedInputParameterConfig } from '../endpoint/shared'
 
 type SharedRequestParams = TypeFromDefinition<typeof sharedInputParameterConfig>
 
-export const prepareRequest = <T extends SharedRequestParams>(params: T) => {
-  const apiConfig = getApiConfig(params.apiName)
+export const prepareRequest = <T extends SharedRequestParams>(
+  params: T,
+  settings: typeof config.settings,
+) => {
+  const apiConfig = getApiConfig(params.apiName, settings)
   return {
     baseURL: apiConfig.url,
     ...(apiConfig.authHeader
@@ -228,7 +231,7 @@ export class GenericApiSubscriptionTransport<
     params: Params<EndpointTypes>,
   ): Promise<AdapterResponse<EndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
-    const request = prepareRequest(params as SharedRequestParams)
+    const request = prepareRequest(params as SharedRequestParams, context.adapterSettings)
     const result = await this.requester.request<object>(
       calculateHttpRequestKey<EndpointTypes>({
         context,

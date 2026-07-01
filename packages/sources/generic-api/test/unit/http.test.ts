@@ -11,18 +11,6 @@ import { makeStub } from '@chainlink/external-adapter-framework/util/testing-uti
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/http'
 import { GenericApiHttpTransport } from '../../src/transport/http'
 
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
-
 const log = jest.fn()
 const logger = {
   fatal: log,
@@ -53,7 +41,28 @@ describe('GenericApiHttpTransport', () => {
 
   const expectedValue = '42'
 
+  let fakeEnv: Record<string, string> = {}
+
   const adapterSettings = makeStub('adapterSettings', {
+    API_NAME_API_URL: {
+      get(apiName: string) {
+        const envVarName = `${apiName.toUpperCase()}_API_URL`
+        if (!(envVarName in fakeEnv)) {
+          throw new Error(`Missing required environment variable '${envVarName}'.`)
+        }
+        return fakeEnv[`${apiName.toUpperCase()}_API_URL`]
+      },
+    },
+    API_NAME_AUTH_HEADER: {
+      get(apiName: string) {
+        return fakeEnv[`${apiName.toUpperCase()}_AUTH_HEADER`]
+      },
+    },
+    API_NAME_AUTH_HEADER_VALUE: {
+      get(apiName: string) {
+        return fakeEnv[`${apiName.toUpperCase()}_AUTH_HEADER_VALUE`]
+      },
+    },
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     CACHE_MAX_AGE: 90_000,
     MAX_COMMON_KEY_SIZE: 300,
@@ -162,7 +171,7 @@ describe('GenericApiHttpTransport', () => {
   }
 
   beforeEach(async () => {
-    restoreEnv()
+    fakeEnv = {}
     jest.resetAllMocks()
     jest.useFakeTimers()
 
@@ -172,9 +181,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should make the request', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = makeStub('params', {
       apiName,
@@ -215,8 +224,8 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should throw if API_URL is missing', async () => {
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = makeStub('params', {
       apiName,
@@ -252,8 +261,8 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should throw if AUTH_HEADER is missing', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = makeStub('params', {
       apiName,
@@ -289,8 +298,8 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should throw if AUTH_HEADER_VALUE is missing', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
 
     const params = makeStub('params', {
       apiName,
@@ -326,7 +335,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should not throw if both AUTH_HEADER and AUTH_HEADER_VALUE are missing', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = makeStub('params', {
       apiName,
@@ -369,9 +378,9 @@ describe('GenericApiHttpTransport', () => {
   it('should return an error if data path is invalid', async () => {
     const dataPath = 'something.invalid'
 
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = makeStub('params', {
       apiName,
@@ -409,9 +418,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should return an error if ripcord is active', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = makeStub('params', {
       apiName,
@@ -453,9 +462,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should convert providerIndicatedTimePath ISO string to providerIndicatedTimeUnixMs', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -496,9 +505,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should convert providerIndicatedTimePath Unix ms number to providerIndicatedTimeUnixMs', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -539,9 +548,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should return an error if providerIndicatedTimePath is not found', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -577,9 +586,9 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should return an error if providerIndicatedTimePath value is invalid', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -615,7 +624,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should include ripcordDetails in error message when ripcord is activated (the-network-firm pattern)', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -655,7 +664,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should handle empty ripcordDetails array', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -694,7 +703,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should include ripcord status in data when ripcord is false', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -733,7 +742,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should treat missing ripcord as success with undefined disabledValue', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -771,7 +780,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should not include ripcord status when ripcord path is absent', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -807,7 +816,7 @@ describe('GenericApiHttpTransport', () => {
   })
 
   it('should treat ripcord as enabled if ripcord field is expected but missing', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
