@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import {
   AdapterContext,
   AdapterRequest,
@@ -200,10 +201,10 @@ describe('utils', () => {
       const varName = 'RANDOM_TEST_ENV_VAR'
       process.env[varName] = 'one,two,three'
       jest
-        .spyOn(global.Math, 'random')
-        .mockReturnValueOnce(0.1)
-        .mockReturnValueOnce(0.5)
-        .mockReturnValueOnce(0.7)
+        .spyOn(crypto, 'randomInt')
+        .mockImplementationOnce(() => 0)
+        .mockImplementationOnce(() => 1)
+        .mockImplementationOnce(() => 2)
 
       expect(getRandomRequiredEnv(varName)).toBe('one')
       expect(getRandomRequiredEnv(varName)).toBe('two')
