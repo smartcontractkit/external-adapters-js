@@ -219,10 +219,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/btc.com"\
     },\
     {\
-      "name": "@chainlink/cache.gold-adapter",\
-      "reference": "workspace:packages/sources/cache.gold"\
-    },\
-    {\
       "name": "@chainlink/canton-functions-adapter",\
       "reference": "workspace:packages/sources/canton-functions"\
     },\
@@ -739,7 +735,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
     ["@chainlink/bsol-price-adapter", ["workspace:packages/composites/bsol-price"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
-    ["@chainlink/cache.gold-adapter", ["workspace:packages/sources/cache.gold"]],\
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
@@ -4936,24 +4931,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
           ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/cache.gold-adapter", [\
-      ["workspace:packages/sources/cache.gold", {\
-        "packageLocation": "./packages/sources/cache.gold/",\
-        "packageDependencies": [\
-          ["@chainlink/cache.gold-adapter", "workspace:packages/sources/cache.gold"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
           ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
