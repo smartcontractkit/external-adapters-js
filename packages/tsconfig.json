@@ -51,9 +51,6 @@
       "path": "./composites/secure-mint"
     },
     {
-      "path": "./composites/the-graph"
-    },
-    {
       "path": "./composites/tokenized-equity"
     },
     {
