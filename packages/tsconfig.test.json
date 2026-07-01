@@ -135,9 +135,6 @@
       "path": "./sources/blocksize-capital-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/bob/tsconfig.test.json"
-    },
-    {
       "path": "./sources/btc.com/tsconfig.test.json"
     },
     {
