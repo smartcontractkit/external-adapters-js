@@ -46,8 +46,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (request): AdapterError | undefined => {
-    getApiConfig(request.requestContext.data.apiName)
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    getApiConfig(request.requestContext.data.apiName, settings)
     return
   },
 })
