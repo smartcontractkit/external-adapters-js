@@ -12,6 +12,8 @@ import { logPossibleSolutionForKnownErrors } from './error-handling'
 import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
+// base currencies that break the ws connection
+export const invalidBaseAssets: string[] = []
 
 export type MultiVarResult<T extends ProviderResultGenerics> = {
   params: TypeFromDefinition<T['Parameters']>
@@ -65,6 +67,9 @@ export const calculateUrl = (
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
+  //remove assets from desiredSubs that are invalid
+  desiredSubs = desiredSubs.filter(({ base }) => !invalidBaseAssets.includes(base.toLowerCase()))
+
   const generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
   const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
   generated.searchParams.append('assets', assets)
@@ -80,6 +85,19 @@ export const handleCryptoLwbaMessage = (
   if ('error' in message) {
     logger.error(message, `Error response from websocket`)
     logPossibleSolutionForKnownErrors(message.error)
+
+    const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
+    if (message['error']['type'] === 'bad_parameter') {
+      //Bad Parameter Error Message
+      // type: 'bad_paramter'
+      // message: 'Bad parameter 'assets'. Value 'ohmv2' is not supported.'
+
+      const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
+
+      if (matches && !invalidBaseAssets.includes(matches[1][1])) {
+        invalidBaseAssets.push(matches[1][1])
+      }
+    }
   } else if ('warning' in message) {
     logger.warn(message, `Warning response from websocket`)
   } else if ('type' in message && message.type === 'reorg') {
