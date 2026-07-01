@@ -203,10 +203,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/blocksize-capital-state"\
     },\
     {\
-      "name": "@chainlink/bob-adapter",\
-      "reference": "workspace:packages/sources/bob"\
-    },\
-    {\
       "name": "@chainlink/btc.com-adapter",\
       "reference": "workspace:packages/sources/btc.com"\
     },\
@@ -723,7 +719,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
-    ["@chainlink/bob-adapter", ["workspace:packages/sources/bob"]],\
     ["@chainlink/btc.com-adapter", ["workspace:packages/sources/btc.com"]],\
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
@@ -4848,25 +4843,6 @@ const RAW_RUNTIME_STATE =
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bob-adapter", [\
-      ["workspace:packages/sources/bob", {\
-        "packageLocation": "./packages/sources/bob/",\
-        "packageDependencies": [\
-          ["@chainlink/bob-adapter", "workspace:packages/sources/bob"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
