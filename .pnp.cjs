@@ -651,10 +651,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
     {\
-      "name": "@chainlink/therundown-adapter",\
-      "reference": "workspace:packages/sources/therundown"\
-    },\
-    {\
       "name": "@chainlink/tiingo-adapter",\
       "reference": "workspace:packages/sources/tiingo"\
     },\
@@ -892,7 +888,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
     ["@chainlink/the-graph-adapter", ["workspace:packages/composites/the-graph"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
-    ["@chainlink/therundown-adapter", ["workspace:packages/sources/therundown"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
     ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
     ["@chainlink/token-allocation-adapter", ["workspace:packages/non-deployable/token-allocation"]],\
@@ -7468,24 +7463,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/therundown-adapter", [\
-      ["workspace:packages/sources/therundown", {\
-        "packageLocation": "./packages/sources/therundown/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/therundown-adapter", "workspace:packages/sources/therundown"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
