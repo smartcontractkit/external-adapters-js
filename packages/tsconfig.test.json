@@ -471,9 +471,6 @@
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
-      "path": "./sources/therundown/tsconfig.test.json"
-    },
-    {
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
