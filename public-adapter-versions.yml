@@ -315,8 +315,6 @@ adapters:
     version: 1.4.16
   - name: twosigma
     version: 1.2.42
-  - name: uniswap-v2
-    version: 2.0.31
   - name: view-function
     version: 3.1.19
   - name: view-function-multi-chain

@@ -504,9 +504,6 @@
       "path": "./sources/twosigma"
     },
     {
-      "path": "./sources/uniswap-v2"
-    },
-    {
       "path": "./sources/view-function"
     },
     {
