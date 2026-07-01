@@ -175,10 +175,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bea"\
     },\
     {\
-      "name": "@chainlink/binance-adapter",\
-      "reference": "workspace:packages/sources/binance"\
-    },\
-    {\
       "name": "@chainlink/bitgo-adapter",\
       "reference": "workspace:packages/sources/bitgo"\
     },\
@@ -719,7 +715,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
     ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
-    ["@chainlink/binance-adapter", ["workspace:packages/sources/binance"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
@@ -4720,24 +4715,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["decimal.js", "npm:10.5.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/binance-adapter", [\
-      ["workspace:packages/sources/binance", {\
-        "packageLocation": "./packages/sources/binance/",\
-        "packageDependencies": [\
-          ["@chainlink/binance-adapter", "workspace:packages/sources/binance"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
