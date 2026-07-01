@@ -559,10 +559,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/polkadot-balance"\
     },\
     {\
-      "name": "@chainlink/polygon-adapter",\
-      "reference": "workspace:packages/sources/polygon"\
-    },\
-    {\
       "name": "@chainlink/por-address-list-adapter",\
       "reference": "workspace:packages/sources/por-address-list"\
     },\
@@ -861,7 +857,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
     ["@chainlink/openexchangerates-adapter", ["workspace:packages/sources/openexchangerates"]],\
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
-    ["@chainlink/polygon-adapter", ["workspace:packages/sources/polygon"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
     ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
@@ -6891,21 +6886,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/polygon-adapter", [\
-      ["workspace:packages/sources/polygon", {\
-        "packageLocation": "./packages/sources/polygon/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/polygon-adapter", "workspace:packages/sources/polygon"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
