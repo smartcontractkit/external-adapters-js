@@ -13,6 +13,7 @@ jest.mock('@coral-xyz/anchor', () => {
 })
 
 jest.mock('@solana/addresses', () => ({
+  address: jest.fn((value: string) => value),
   getProgramDerivedAddress: jest.fn(),
 }))
 
