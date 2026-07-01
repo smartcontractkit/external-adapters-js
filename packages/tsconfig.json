@@ -399,9 +399,6 @@
       "path": "./sources/polkadot-balance"
     },
     {
-      "path": "./sources/polygon"
-    },
-    {
       "path": "./sources/por-address-list"
     },
     {
