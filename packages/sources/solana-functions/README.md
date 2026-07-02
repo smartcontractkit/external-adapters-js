@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.5.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -42,7 +42,7 @@ There are no rate limits for this adapter.
 
 | Required? |   Name   |     Description     |  Type  |                                                                                                                                                                              Options                                                                                                                                                                               |   Default    |
 | :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint), [strcusx-exchange-rate](#strcusx-exchange-rate-endpoint) | `eusx-price` |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [strcusx-exchange-rate](#strcusx-exchange-rate-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
