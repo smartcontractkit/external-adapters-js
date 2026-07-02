@@ -43,6 +43,6 @@
     "@chainlink/external-adapter-framework": "2.17.1",
     "decimal.js": "10.5.0",
     "tslib": "2.4.1",
-    "ws": "^8.18.3"
+    "ws": "^8.21.0"
   }
 }
