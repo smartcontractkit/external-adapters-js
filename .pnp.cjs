@@ -18022,7 +18022,7 @@ const RAW_RUNTIME_STATE =
           ["formidable", "npm:2.1.2"],\
           ["hexoid", "npm:1.0.0"],\
           ["once", "npm:1.4.0"],\
-          ["qs", "npm:6.15.0"]\
+          ["qs", "npm:6.15.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21852,10 +21852,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["qs", [\
-      ["npm:6.15.0", {\
-        "packageLocation": "./.yarn/cache/qs-npm-6.15.0-2165244317-a3458f2f38.zip/node_modules/qs/",\
+      ["npm:6.15.2", {\
+        "packageLocation": "./.yarn/cache/qs-npm-6.15.2-4fbd3d7cd4-7a934b2dba.zip/node_modules/qs/",\
         "packageDependencies": [\
-          ["qs", "npm:6.15.0"],\
+          ["qs", "npm:6.15.2"],\
           ["side-channel", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
@@ -23396,7 +23396,7 @@ const RAW_RUNTIME_STATE =
           ["formidable", "npm:2.1.2"],\
           ["methods", "npm:1.1.2"],\
           ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.15.0"],\
+          ["qs", "npm:6.15.2"],\
           ["semver", "npm:7.7.2"],\
           ["superagent", "npm:8.1.2"]\
         ],\
