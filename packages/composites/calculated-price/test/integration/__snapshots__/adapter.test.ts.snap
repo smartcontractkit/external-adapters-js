@@ -185,6 +185,38 @@ exports[`execute computePrice endpoint should return success for legacy division
 }
 `;
 
+exports[`execute computePrice endpoint should return success for max 1`] = `
+{
+  "data": {
+    "operand1Result": "5",
+    "operand2Result": "20",
+    "result": "20",
+  },
+  "result": "20",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute computePrice endpoint should return success for min 1`] = `
+{
+  "data": {
+    "operand1Result": "20",
+    "operand2Result": "10",
+    "result": "10",
+  },
+  "result": "10",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
 exports[`execute computePrice endpoint should return success for multiply 1`] = `
 {
   "data": {

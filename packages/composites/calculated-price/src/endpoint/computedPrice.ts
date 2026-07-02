@@ -64,7 +64,7 @@ export const inputParameters = new InputParameters(
       default: 'divide',
       type: 'string',
       description: 'The operation to perform on the operands',
-      options: ['divide', 'multiply'],
+      options: ['divide', 'multiply', 'min', 'max'],
     },
     outputDecimals: {
       required: false,
