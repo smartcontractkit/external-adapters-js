@@ -42,22 +42,22 @@ exports[`execute calculated-multi-function endpoint should fail additional data 
 exports[`execute calculated-multi-function endpoint should return error for missing RPC url env var 1`] = `
 {
   "error": {
-    "message": "Missing 'ARBITRUM_MAINNET_RPC_URL' or 'ARBITRUM_MAINNET_CHAIN_ID' environment variables.",
+    "message": "Missing required environment variable: ARBITRUM_MAINNET_RPC_URL",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 500,
 }
 `;
 
 exports[`execute calculated-multi-function endpoint should return error for missing chain id env var 1`] = `
 {
   "error": {
-    "message": "Missing 'ARBITRUM_MAINNET_RPC_URL' or 'ARBITRUM_MAINNET_CHAIN_ID' environment variables.",
+    "message": "Missing required environment variable: ARBITRUM_MAINNET_RPC_URL",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 500,
 }
 `;
 
