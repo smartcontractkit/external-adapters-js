@@ -1,5 +1,11 @@
 # @chainlink/por-address-list-source-adapter
 
+## 5.18.1
+
+### Patch Changes
+
+- [#5168](https://github.com/smartcontractkit/external-adapters-js/pull/5168) [`72d718d`](https://github.com/smartcontractkit/external-adapters-js/commit/72d718d3638d1e6f8a5c0cec9c73e289fff01e7c) Thanks [@dskloetc](https://github.com/dskloetc)! - Change default value of ZEUS_ZBTC_API_URL
+
 ## 5.18.0
 
 ### Minor Changes
