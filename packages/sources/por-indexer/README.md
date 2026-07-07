@@ -8,9 +8,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Dependencies
 
-The `por-indexer` external adapter is strongly dependent on a synced `bitcoin-por-indexer` service and will not be functional without it.
+The `por-indexer` balance endpoint queries the **streams Bitcoin indexer**, an Electrs-compatible REST API. Use the same base URL as `BITCOIN_RPC_ENDPOINT` in the `dlc-cbtc-por` adapter. Dogecoin is not supported.
 
-Follow [this deployment documentation](https://chainlink.notion.site/Bitcoin-Proof-of-Reserves-v2-e670b124e429466bbb31988c6836a9da) to set up a `bitcoin-por-indexer` service. Note that sync time may take weeks in certain cases.
+See [custom.md](./docs/custom.md) for more details.
 
 ### MAX_PAYLOAD_SIZE_LIMIT configuration
 
@@ -20,12 +20,10 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 | Required? |               Name               |                                        Description                                        |  Type  | Options |                               Default                               |
 | :-------: | :------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------: |
-|           | BITCOIN_MAINNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin mainnet                              | string |         |                                 ``                                  |
-|           | BITCOIN_TESTNET_POR_INDEXER_URL  |                              Indexer URL for Bitcoin testnet                              | string |         |                                 ``                                  |
-|           | DOGECOIN_MAINNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin mainnet                              | string |         |                                 ``                                  |
-|           | DOGECOIN_TESTNET_POR_INDEXER_URL |                             Indexer URL for Dogecoin testnet                              | string |         |                                 ``                                  |
+|           |     BITCOIN_MAINNET_RPC_URL      | Streams Bitcoin indexer endpoint for Bitcoin mainnet UTXO queries | string |         |                                 ``                                  |
+|           |     BITCOIN_TESTNET_RPC_URL      | Streams Bitcoin indexer endpoint for Bitcoin testnet UTXO queries | string |         |                                 ``                                  |
 |           |        ZEUS_ZBTC_API_URL         |                                   API url for zeus zBTC                                   | string |         | `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves` |
-|           |            BATCH_SIZE            |      Maximum number of addresses to send in a single request to the balance indexer       | number |         |                               `5000`                                |
+|           |            BATCH_SIZE            |      Number of addresses to query concurrently against the streams Bitcoin indexer per batch       | number |         |                               `10`                                |
 |           |      BACKGROUND_EXECUTE_MS       | The amount of time the background execute should sleep before performing the next request | number |         |                               `10000`                               |
 
 ---
@@ -45,6 +43,8 @@ There are no rate limits for this adapter.
 ## Balance Endpoint
 
 Supported names for this endpoint are: `balance`, `index`.
+
+Balances are calculated by querying UTXOs from the streams Bitcoin indexer and filtering by `minConfirmations` using block height.
 
 ### Input Params
 
@@ -71,7 +71,7 @@ Request:
         "network": "bitcoin"
       }
     ],
-    "minConfirmations": 0
+    "minConfirmations": 6
   }
 }
 ```
@@ -93,7 +93,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "zeusminerfee"
+    "endpoint": "zeusMinerFee"
   }
 }
 ```

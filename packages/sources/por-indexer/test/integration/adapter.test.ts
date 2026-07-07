@@ -3,7 +3,12 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockResponseSuccess, mockResponseZeusMinerFeeSuccess, mockSecondBatch } from './fixtures'
+import {
+  mockMinConfirmationsExclusion,
+  mockResponseSuccess,
+  mockResponseZeusMinerFeeSuccess,
+  mockSecondBatch,
+} from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -12,8 +17,8 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['BITCOIN_MAINNET_POR_INDEXER_URL'] =
-      process.env['BITCOIN_MAINNET_POR_INDEXER_URL'] ?? 'http://localhost:8545'
+    process.env['BITCOIN_MAINNET_RPC_URL'] =
+      process.env['BITCOIN_MAINNET_RPC_URL'] ?? 'http://localhost:8545'
     process.env['ZEUS_ZBTC_API_URL'] = 'http://localhost:8546'
     process.env['BACKGROUND_EXECUTE_MS'] = '0'
     process.env['BATCH_SIZE'] = '2'
@@ -84,7 +89,23 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
-    it('should return failure for missing env', async () => {
+    it('should exclude UTXOs below minConfirmations', async () => {
+      mockMinConfirmationsExclusion()
+      const response = await testAdapter.request({
+        addresses: [
+          {
+            network: 'bitcoin',
+            chainId: 'mainnet',
+            address: '39e7mxbeNmRRnjfy1qkphv1TiMcztZ8VuE',
+          },
+        ],
+        minConfirmations: 6,
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json().result).toBe('10000')
+    })
+
+    it('should return failure for unsupported network', async () => {
       const data = {
         addresses: [
           {

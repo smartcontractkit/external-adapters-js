@@ -1,6 +1,6 @@
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { PoRTotalBalanceEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
-import { config, configDefinition } from '../config'
+import { config, rpcUrlConfigDefinition } from '../config'
 import { balanceTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
@@ -82,13 +82,19 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       })
     }
 
-    // Check if based on input parameters corresponding env vars are set
-    const foundEnv = new Map()
-    const envVarsToCheck = Object.keys(configDefinition)
+    const foundEnv = new Map<string, boolean>()
+    const envVarsToCheck = Object.keys(rpcUrlConfigDefinition)
 
     for (const address of addresses) {
+      if (address.network !== 'bitcoin') {
+        throw new AdapterInputError({
+          statusCode: 400,
+          message: `Network '${address.network}' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.`,
+        })
+      }
+
       const id = `${address.network}_${address.chainId}`
-      const env = `${id}_POR_INDEXER_URL`.toUpperCase()
+      const env = `${id}_RPC_URL`.toUpperCase()
       if (!settings[env as keyof typeof settings]) {
         throw new AdapterInputError({
           statusCode: 400,
@@ -97,7 +103,6 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       }
 
       foundEnv.set(env, true)
-      // Stop the loop if all `network_chainId` env vars are found
       if (foundEnv.size === envVarsToCheck.length) {
         break
       }

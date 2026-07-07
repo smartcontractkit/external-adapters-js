@@ -1,15 +1,10 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import {
-  AdapterResponse,
-  sleep,
-  splitArrayIntoChunks,
-} from '@chainlink/external-adapter-framework/util'
+import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import Decimal from 'decimal.js'
+import { calculateReserves } from '../lib/btc/por'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 
 export type TotalBalanceTransportTypes = BaseEndpointTypes
@@ -61,87 +56,59 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const { minConfirmations, addresses } = params
-    const porServiceRequests = new Map<string, string[]>()
+    const addressesByNetwork = new Map<string, string[]>()
 
-    // Collect addresses into their respective PoR requests
-    // Mapping from PoR ID to list of addresses
     for (const { network, chainId, address } of addresses) {
+      if (network !== 'bitcoin') {
+        throw new AdapterError({
+          message: `Network '${network}' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.`,
+        })
+      }
+
       const id = `${network}_${chainId}`.toUpperCase()
-      if (!porServiceRequests.has(id)) {
-        porServiceRequests.set(id, [])
+      if (!addressesByNetwork.has(id)) {
+        addressesByNetwork.set(id, [])
       }
-      const existingAddresses = porServiceRequests.get(id)!
-      existingAddresses.push(address)
+      addressesByNetwork.get(id)!.push(address)
     }
 
-    // Fire off requests to each PoR indexer
-    const requestResultPromises = []
     const providerDataRequestedUnixMs = Date.now()
+    let totalReserves = 0n
 
-    for (const [porId, addresses] of porServiceRequests.entries()) {
-      const indexerEndpointEnvName = `${porId}_POR_INDEXER_URL` as keyof typeof this.config
-      const indexerUrl = this.config[indexerEndpointEnvName] as string
+    for (const [networkId, networkAddresses] of addressesByNetwork.entries()) {
+      const rpcUrlEnvName = `${networkId}_RPC_URL` as keyof typeof this.config
+      const rpcUrl = this.config[rpcUrlEnvName] as string
 
-      const addressBatches = splitArrayIntoChunks(addresses, this.config.BATCH_SIZE)
-      for (const addressBatch of addressBatches) {
-        const requestResult = await this._makeRequest(indexerUrl, addressBatch, minConfirmations)
-        requestResultPromises.push(requestResult)
+      if (!rpcUrl) {
+        throw new AdapterError({
+          message: `'${rpcUrlEnvName}' environment variable is required.`,
+        })
       }
+
+      const networkTotal = await calculateReserves(
+        this.requester,
+        rpcUrl,
+        networkAddresses,
+        minConfirmations,
+        this.config.BATCH_SIZE,
+      )
+      totalReserves += networkTotal
     }
 
-    // Sum up the total reserves from each PoR indexer
-    const requestResults = await Promise.all(requestResultPromises)
-    const summedTotalReserves = requestResults
-      .map((requestResult) => {
-        const totalReserves = new Decimal(requestResult.response.data.data.totalReserves)
-        if (!totalReserves.isFinite() || totalReserves.isNaN()) {
-          throw new AdapterError({
-            message: `Invalid totalReserves answer: ${totalReserves.toString()}`,
-          })
-        }
-        return totalReserves
-      })
-      .reduce((p, c) => p.add(c), new Decimal(0))
-      .toString()
+    const result = totalReserves.toString()
 
     return {
       data: {
-        result: summedTotalReserves,
+        result,
       },
       statusCode: 200,
-      result: summedTotalReserves,
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-  }
-
-  private async _makeRequest(url: string, addresses: string[], minConfirmations: number) {
-    const requestConfig = {
-      method: 'post',
-      baseURL: url,
-      data: {
-        id: '1',
-        data: {
-          addresses,
-          minConfirmations,
-        },
-      },
-    }
-    return this.requester.request<{ data: { totalReserves: string } }>(
-      calculateHttpRequestKey<TotalBalanceTransportTypes>({
-        context: {
-          adapterSettings: this.config,
-          inputParameters,
-          endpointName: this.endpointName,
-        },
-        data: requestConfig.data,
-        transportName: this.name,
-      }),
-      requestConfig,
-    )
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

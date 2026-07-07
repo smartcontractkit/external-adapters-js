@@ -5,6 +5,13 @@ exports[`execute balance endpoint should batch addresses 1`] = `
   "data": {
     "result": "24254",
   },
+  "meta": {
+    "adapterName": "POR_INDEXER",
+    "metrics": {
+      "feedId": "//7AFG6XTOsARTEbICSBwYzYj2g=",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": "24254",
   "statusCode": 200,
   "timestamps": {
@@ -25,10 +32,10 @@ exports[`execute balance endpoint should return failure for empty addresses 1`] 
 }
 `;
 
-exports[`execute balance endpoint should return failure for missing env 1`] = `
+exports[`execute balance endpoint should return failure for unsupported network 1`] = `
 {
   "error": {
-    "message": "'DOGECOIN_MAINNET_POR_INDEXER_URL' environment variable is required.",
+    "message": "Network 'dogecoin' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -40,6 +47,13 @@ exports[`execute balance endpoint should return success 1`] = `
 {
   "data": {
     "result": "24242",
+  },
+  "meta": {
+    "adapterName": "POR_INDEXER",
+    "metrics": {
+      "feedId": "{"addresses":[{"address":"39e7mxbenmrrnjfy1qkphv1timcztz8vue","chainId":"mainnet","network":"bitcoin"},{"address":"35ulmyvnfoyapamxwhtrmagdabpathm4qr","chainId":"mainnet","network":"bitcoin"}],"minConfirmations":6}",
+    },
+    "transportName": "default_single_transport",
   },
   "result": "24242",
   "statusCode": 200,
@@ -54,6 +68,13 @@ exports[`execute zeusminerfees endpoint should return success 1`] = `
 {
   "data": {
     "result": "0.01083",
+  },
+  "meta": {
+    "adapterName": "POR_INDEXER",
+    "metrics": {
+      "feedId": "N/A",
+    },
+    "transportName": "default_single_transport",
   },
   "result": "0.01083",
   "statusCode": 200,
