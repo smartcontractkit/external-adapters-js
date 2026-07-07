@@ -1,6 +1,6 @@
 # POR_ADDRESS_LIST
 
-![5.18.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![5.18.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/por-address-list/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -20,7 +20,7 @@ This document was generated automatically. Please see [README Generator](../../s
 |           | SOLVBTC_TRADING_API_ENDPOINT |                                              An API endpoint for SolvBTC.TRADING native BTC wallet address                                               | string |         |     `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-trading-addresses`      |
 |           |  SOLVBTC_CORE_API_ENDPOINT   |                                                An API endpoint for SolvBTC.CORE native BTC wallet address                                                | string |         |       `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-core-addresses`       |
 |           |   SOLVBTC_JUP_API_ENDPOINT   |                                               An API endpoint for SolvBTC.JUP MirrorX AccountIDs on CEFFU                                                | string |         |        `https://open-data.solvprotocol.org/api/open/config/get/solv-btc-jup-mirrorx`         |
-|           |      ZEUS_ZBTC_API_URL       |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |              `https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves`               |
+|           |      ZEUS_ZBTC_API_URL       |                                                    An API endpoint for Zeus native BTC wallet address                                                    | string |         |             `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves`              |
 |           |       VIRTUNE_API_URL        |                                                        An API endpoint for Virtune address lists                                                         | string |         | `https://proof-of-reserves-chainlink-283003lt.nw.gateway.dev/api/external/proof-of-reserves` |
 |           |       VIRTUNE_API_KEY        |                                                         The API key for Virtune address list API                                                         | string |         |                                              ``                                              |
 |           |     OKX_X_ASSET_API_URL      |                                                       An API endpoint for OKX X-Asset address list                                                       | string |         |                  `https://www.okx.com/v2/asset/audit/minted-coin-balances`                   |
