@@ -226,7 +226,7 @@ adapters:
   - name: polkadot-balance
     version: 2.1.1
   - name: por-address-list
-    version: 5.18.0
+    version: 5.18.1
   - name: por-indexer
     version: 2.3.1
   - name: proof-of-reserves
