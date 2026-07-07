@@ -1,9 +1,14 @@
 import nock from 'nock'
+import { marketStatusGraphqlQuery } from '../../src/transport/market-status'
 
 export const mockOneMarket = (): nock.Scope =>
   nock('https://api.six-group.com')
-    .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '4' })
+    .post('/web/v2/graphql', {
+      query: marketStatusGraphqlQuery,
+      variables: {
+        ids: ['4'],
+      },
+    })
     .reply(
       200,
       {
@@ -26,8 +31,12 @@ export const mockOneMarket = (): nock.Scope =>
 
 export const mockTwoMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
-    .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '2,4' })
+    .post('/web/v2/graphql', {
+      query: marketStatusGraphqlQuery,
+      variables: {
+        ids: ['2', '4'],
+      },
+    })
     .reply(
       200,
       {
@@ -58,8 +67,12 @@ export const mockTwoMarkets = (): nock.Scope =>
 
 export const mockThreeMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
-    .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '2,3,4' })
+    .post('/web/v2/graphql', {
+      query: marketStatusGraphqlQuery,
+      variables: {
+        ids: ['2', '3', '4'],
+      },
+    })
     .reply(
       200,
       {
@@ -98,8 +111,12 @@ export const mockThreeMarkets = (): nock.Scope =>
 
 export const mockFourMarkets = (): nock.Scope =>
   nock('https://api.six-group.com')
-    .get('/web/v2/markets/referenceData/marketBase')
-    .query({ scheme: 'BC', ids: '2,3,4,5' })
+    .post('/web/v2/graphql', {
+      query: marketStatusGraphqlQuery,
+      variables: {
+        ids: ['2', '3', '4', '5'],
+      },
+    })
     .reply(
       200,
       {

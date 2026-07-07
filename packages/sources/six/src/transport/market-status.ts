@@ -3,6 +3,13 @@ import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import https from 'https'
 import { BaseEndpointTypes } from '../endpoint/market-status'
 
+export interface GraphqlRequest {
+  query: string
+  variables: {
+    ids: string[]
+  }
+}
+
 export interface ResponseSchema {
   data: {
     markets: {
@@ -18,7 +25,7 @@ export interface ResponseSchema {
 
 export type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
-    RequestBody: never
+    RequestBody: GraphqlRequest
     ResponseBody: ResponseSchema
   }
 }
@@ -27,15 +34,18 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     return {
       params,
       request: {
+        method: 'POST',
         baseURL: config.API_ENDPOINT,
-        url: '/web/v2/markets/referenceData/marketBase',
-        headers: { accept: 'application/json' },
-        params: {
-          scheme: 'BC',
-          ids: params
-            .map((p) => p.market)
-            .sort()
-            .join(','),
+        url: '/web/v2/graphql',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+        },
+        data: {
+          query: marketStatusGraphqlQuery,
+          variables: {
+            ids: params.map((p) => p.market).sort(),
+          },
         },
         httpsAgent: new https.Agent({
           cert: config.PUBLIC_CERT,
@@ -67,6 +77,18 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
     })
   },
 })
+
+export const marketStatusGraphqlQuery = `
+  query MarketBase($ids: [UserInputId!]!) {
+    markets(scheme: BC, ids: $ids) {
+      referenceData {
+        marketBase {
+          bc
+          marketStatus
+        }
+      }
+    }
+  }`.replace(/\s+/g, ' ')
 
 const getMarketStatus = (market: string, statuses: ResponseSchema['data']['markets']) => {
   const status = statuses.find((s) => s.referenceData?.marketBase?.bc?.toString() === market)
