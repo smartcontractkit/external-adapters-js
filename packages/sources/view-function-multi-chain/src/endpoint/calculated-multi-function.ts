@@ -205,20 +205,19 @@ export const endpoint = new AdapterEndpoint({
   name: 'calculated-multi-function',
   transport: calculatedMultiFunctionTransport,
   inputParameters,
-  customInputValidation: (req): AdapterError | undefined => {
+  customInputValidation: (req, settings): AdapterError | undefined => {
     const params: RequestParams = req.requestContext.data
     for (const fc of params.functionCalls) {
       const networkName = fc.network.toUpperCase()
-      const networkEnvName = `${networkName}_RPC_URL`
       const chainIdEnvName = `${networkName}_CHAIN_ID`
 
-      const rpcUrl = process.env[networkEnvName]
-      const chainId = Number(process.env[chainIdEnvName])
+      settings.NETWORK_RPC_URL.get(fc.network)
+      const chainId = settings.NETWORK_CHAIN_ID.get(fc.network)
 
-      if (!rpcUrl || isNaN(chainId)) {
+      if (isNaN(chainId)) {
         throw new AdapterInputError({
-          statusCode: 400,
-          message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
+          statusCode: 500,
+          message: `'${chainIdEnvName}' environment variable must be a number.`,
         })
       }
     }
