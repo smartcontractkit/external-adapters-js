@@ -10,6 +10,12 @@ import {
   mockSecondBatch,
 } from './fixtures'
 
+const snapshotBody = (response: { json: () => Record<string, unknown> }) => {
+  const body = response.json()
+  delete body.meta
+  return body
+}
+
 describe('execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
@@ -59,7 +65,7 @@ describe('execute', () => {
       mockResponseSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      expect(snapshotBody(response)).toMatchSnapshot()
     })
 
     it('should batch addresses', async () => {
@@ -86,7 +92,7 @@ describe('execute', () => {
       mockSecondBatch()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      expect(snapshotBody(response)).toMatchSnapshot()
     })
 
     it('should exclude UTXOs below minConfirmations', async () => {
@@ -118,7 +124,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
+      expect(snapshotBody(response)).toMatchSnapshot()
     })
 
     it('should return failure for empty addresses', async () => {
@@ -128,7 +134,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(400)
-      expect(response.json()).toMatchSnapshot()
+      expect(snapshotBody(response)).toMatchSnapshot()
     })
   })
 
@@ -140,7 +146,7 @@ describe('execute', () => {
       mockResponseZeusMinerFeeSuccess()
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
+      expect(snapshotBody(response)).toMatchSnapshot()
     })
   })
 })

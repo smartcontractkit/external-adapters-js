@@ -10,7 +10,10 @@ export const ADDRESSES = {
 } as const
 
 const mockBlockHeight = (): nock.Scope =>
-  nock(MOCK_BITCOIN_RPC_URL).persist().get('/blocks/tip/height').reply(200, String(MOCK_BLOCK_HEIGHT))
+  nock(MOCK_BITCOIN_RPC_URL)
+    .persist()
+    .get('/blocks/tip/height')
+    .reply(200, String(MOCK_BLOCK_HEIGHT))
 
 const mockAddressUtxos = (
   address: string,
@@ -42,24 +45,16 @@ const mockEmptyMempool = (address: string): nock.Scope =>
 
 export const mockResponseSuccess = (): void => {
   mockBlockHeight()
-  mockAddressUtxos(ADDRESSES.addr1, [
-    { txid: 'tx1', vout: 0, value: 10000, block_height: 994 },
-  ])
-  mockAddressUtxos(ADDRESSES.addr2, [
-    { txid: 'tx2', vout: 0, value: 14242, block_height: 995 },
-  ])
+  mockAddressUtxos(ADDRESSES.addr1, [{ txid: 'tx1', vout: 0, value: 10000, block_height: 994 }])
+  mockAddressUtxos(ADDRESSES.addr2, [{ txid: 'tx2', vout: 0, value: 14242, block_height: 995 }])
   mockEmptyMempool(ADDRESSES.addr1)
   mockEmptyMempool(ADDRESSES.addr2)
 }
 
 export const mockSecondBatch = (): void => {
   mockBlockHeight()
-  mockAddressUtxos(ADDRESSES.addr1, [
-    { txid: 'tx1', vout: 0, value: 10000, block_height: 994 },
-  ])
-  mockAddressUtxos(ADDRESSES.addr2, [
-    { txid: 'tx2', vout: 0, value: 14242, block_height: 995 },
-  ])
+  mockAddressUtxos(ADDRESSES.addr1, [{ txid: 'tx1', vout: 0, value: 10000, block_height: 994 }])
+  mockAddressUtxos(ADDRESSES.addr2, [{ txid: 'tx2', vout: 0, value: 14242, block_height: 995 }])
   mockAddressUtxos(ADDRESSES.addr3, [{ txid: 'tx3', vout: 0, value: 12, block_height: 994 }])
   mockEmptyMempool(ADDRESSES.addr1)
   mockEmptyMempool(ADDRESSES.addr2)

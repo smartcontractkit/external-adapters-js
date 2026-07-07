@@ -18,13 +18,13 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |               Name               |                                        Description                                        |  Type  | Options |                               Default                               |
-| :-------: | :------------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------: |
-|           |     BITCOIN_MAINNET_RPC_URL      | Streams Bitcoin indexer endpoint for Bitcoin mainnet UTXO queries | string |         |                                 ``                                  |
-|           |     BITCOIN_TESTNET_RPC_URL      | Streams Bitcoin indexer endpoint for Bitcoin testnet UTXO queries | string |         |                                 ``                                  |
-|           |        ZEUS_ZBTC_API_URL         |                                   API url for zeus zBTC                                   | string |         | `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves` |
-|           |            BATCH_SIZE            |      Number of addresses to query concurrently against the streams Bitcoin indexer per batch       | number |         |                               `10`                                |
-|           |      BACKGROUND_EXECUTE_MS       | The amount of time the background execute should sleep before performing the next request | number |         |                               `10000`                               |
+| Required? |          Name           |                                        Description                                        |  Type  | Options |                               Default                               |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------: |
+|           | BITCOIN_MAINNET_RPC_URL |             Streams Bitcoin indexer endpoint for Bitcoin mainnet UTXO queries             | string |         |                                 ``                                  |
+|           | BITCOIN_TESTNET_RPC_URL |             Streams Bitcoin indexer endpoint for Bitcoin testnet UTXO queries             | string |         |                                 ``                                  |
+|           |    ZEUS_ZBTC_API_URL    |                                   API url for zeus zBTC                                   | string |         | `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves` |
+|           |       BATCH_SIZE        |  Number of addresses to query concurrently against the streams Bitcoin indexer per batch  | number |         |                                `10`                                 |
+|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         |                               `10000`                               |
 
 ---
 
