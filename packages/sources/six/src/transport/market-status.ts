@@ -194,6 +194,7 @@ const getOpenAndCloseTimeFor = (
 
   if (holiday !== undefined) {
     if (!holiday.extraordinaryTradingDay) {
+      // market is closed the entire day
       return undefined
     }
 
@@ -207,6 +208,7 @@ const getOpenAndCloseTimeFor = (
   const dayOfWeek = format(today, 'EEEE').toUpperCase()
 
   if (!tradingDays.includes(dayOfWeek)) {
+    // market is not open on this day of the week
     return undefined
   }
 
