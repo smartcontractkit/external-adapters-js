@@ -36,6 +36,8 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.16.1",
+    "@date-fns/tz": "^1.4.1",
+    "date-fns": "^4.1.0",
     "tslib": "2.4.1"
   }
 }
