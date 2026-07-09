@@ -34,10 +34,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         providerIndicatedTimeUnixMs: new Date(response.data.timestamp).getTime(),
       }
 
-      const totalReserves = Number(response.data.totalReserves)
-      const totalSupply = Number(response.data.totalSupply)
+      const { totalReserves, totalSupply } = response.data
 
-      if (isNaN(totalReserves) || isNaN(totalSupply)) {
+      if (isNaN(Number(totalReserves)) || isNaN(Number(totalSupply))) {
         return {
           params: param,
           response: {
