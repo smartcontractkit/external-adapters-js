@@ -201,14 +201,14 @@ exports[`execute usdr endpoint when ripcord true should return error 1`] = `
 exports[`execute wystc endpoint when ripcord true should succeed (ripcord is a data field, not an error) 1`] = `
 {
   "data": {
-    "result": "965051.85",
+    "result": 965051.85,
     "ripcord": true,
     "ripcordAsInt": 1,
     "ripcordDetails": [
       "Balances",
     ],
-    "totalReserves": "965051.85",
-    "totalSupply": "965051.85",
+    "totalReserves": 965051.85,
+    "totalSupply": 965051.85,
   },
   "meta": {
     "adapterName": "THE_NETWORK_FIRM",
@@ -217,7 +217,7 @@ exports[`execute wystc endpoint when ripcord true should succeed (ripcord is a d
     },
     "transportName": "default_single_transport",
   },
-  "result": "965051.85",
+  "result": 965051.85,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

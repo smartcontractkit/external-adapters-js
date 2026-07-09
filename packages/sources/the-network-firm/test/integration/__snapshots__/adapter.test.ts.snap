@@ -141,14 +141,14 @@ exports[`execute usdr endpoint should return success 1`] = `
 exports[`execute wystc endpoint should return success 1`] = `
 {
   "data": {
-    "result": "965051.85",
+    "result": 965051.85,
     "ripcord": false,
     "ripcordAsInt": 0,
     "ripcordDetails": [],
-    "totalReserves": "965051.85",
-    "totalSupply": "965051.85",
+    "totalReserves": 965051.85,
+    "totalSupply": 965051.85,
   },
-  "result": "965051.85",
+  "result": 965051.85,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

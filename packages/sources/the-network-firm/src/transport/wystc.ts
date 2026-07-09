@@ -35,8 +35,10 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       }
 
       const { totalReserves, totalSupply } = response.data
+      const totalReservesNum = Number(totalReserves)
+      const totalSupplyNum = Number(totalSupply)
 
-      if (isNaN(Number(totalReserves)) || isNaN(Number(totalSupply))) {
+      if (isNaN(totalReservesNum) || isNaN(totalSupplyNum)) {
         return {
           params: param,
           response: {
@@ -50,11 +52,11 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: param,
         response: {
-          result: totalReserves,
+          result: totalReservesNum,
           data: {
-            result: totalReserves,
-            totalReserves,
-            totalSupply,
+            result: totalReservesNum,
+            totalReserves: totalReservesNum,
+            totalSupply: totalSupplyNum,
             ripcord: response.data.ripcord,
             ripcordAsInt: Number(response.data.ripcord),
             ripcordDetails: response.data.ripcordDetails,
