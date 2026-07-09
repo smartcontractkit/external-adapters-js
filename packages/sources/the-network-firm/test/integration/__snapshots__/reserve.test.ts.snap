@@ -20,13 +20,6 @@ exports[`execute reserve endpoint should return success for emgemx 1`] = `
     "totalReserve": 5100005,
     "totalToken": 100000,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"client":"emgemx-tdfkf3","noErrorOnRipcord":false}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "5100005",
   "statusCode": 200,
   "timestamps": {
@@ -45,13 +38,6 @@ exports[`execute reserve endpoint should return success for m0 1`] = `
     "ripcordAsInt": 0,
     "totalReserve": 2344889.68,
     "totalToken": 100000,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"client":"m0-stablecoin-inpd83","noErrorOnRipcord":false}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "2344889.68",
   "statusCode": 200,
@@ -72,13 +58,6 @@ exports[`execute reserve endpoint should return success for re 1`] = `
     "totalReserve": 333.99882,
     "totalToken": 100000,
   },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"client":"re-protocol-8tawlm","noErrorOnRipcord":false}",
-    },
-    "transportName": "default_single_transport",
-  },
   "result": "333.99882",
   "statusCode": 200,
   "timestamps": {
@@ -97,13 +76,6 @@ exports[`execute reserve endpoint should return success for uranium 1`] = `
     "ripcordAsInt": 0,
     "totalReserve": 75000000,
     "totalToken": 100000,
-  },
-  "meta": {
-    "adapterName": "THE_NETWORK_FIRM",
-    "metrics": {
-      "feedId": "{"client":"uranium-digital-qohmmjqaf4jk","noErrorOnRipcord":false}",
-    },
-    "transportName": "default_single_transport",
   },
   "result": "75000000",
   "statusCode": 200,

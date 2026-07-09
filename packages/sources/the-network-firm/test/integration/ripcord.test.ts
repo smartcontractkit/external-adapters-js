@@ -38,6 +38,7 @@ describe('execute', () => {
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
       testAdapter: {} as TestAdapter<never>,
     })
+    testAdapter.adapter.config.settings.METRICS_ENABLED = false
   })
 
   afterAll(async () => {
