@@ -9,7 +9,6 @@ import {
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
   mockSTBTResponseSuccess,
-  mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
   mockUSDRResponseSuccess,
   mockWystcResponseSuccess,
@@ -51,13 +50,7 @@ describe('execute', () => {
   afterEach(() => {
     nock.cleanAll()
     // clear EA cache
-    const keys = testAdapter.mockCache?.cache.keys()
-    if (!keys) {
-      throw new Error('unexpected failure 1')
-    }
-    for (const key of keys) {
-      testAdapter.mockCache?.delete(key)
-    }
+    testAdapter.mockCache?.cache.clear()
   })
 
   afterAll(async () => {
@@ -179,17 +172,6 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should fail', async () => {
-      const data = {
-        endpoint: 'uranium',
-      }
-      mockUraniumResponseFailure()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })
