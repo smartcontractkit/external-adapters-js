@@ -1,4 +1,5 @@
-import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import {
   makeLogger,
   PartialAdapterResponse,
@@ -6,8 +7,7 @@ import {
   ProviderResultGenerics,
 } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/lwba'
 import { logPossibleSolutionForKnownErrors } from './error-handling'
 import { ResponseError } from './types'
 
@@ -18,8 +18,7 @@ export type MultiVarResult<T extends ProviderResultGenerics> = {
   response: PartialAdapterResponse<T['Response']>
 }
 
-export type WsCryptoLwbaSuccessResponse = {
-  pair: string
+export type WsCryptoLwbaQuoteFields = {
   time: string
   ask_price: string
   ask_size: string
@@ -29,6 +28,20 @@ export type WsCryptoLwbaSuccessResponse = {
   spread: string
   cm_sequence_id: string
 }
+
+/** Response shape from `/timeseries-stream/asset-quotes` */
+export type WsCryptoLwbaAssetQuoteSuccessResponse = WsCryptoLwbaQuoteFields & {
+  asset: string
+}
+
+/** Legacy response shape from `/timeseries-stream/pair-quotes` */
+export type WsCryptoLwbaPairQuoteSuccessResponse = WsCryptoLwbaQuoteFields & {
+  pair: string
+}
+
+export type WsCryptoLwbaSuccessResponse =
+  | WsCryptoLwbaAssetQuoteSuccessResponse
+  | WsCryptoLwbaPairQuoteSuccessResponse
 export type WsCryptoLwbaErrorResponse = {
   error: ResponseError
 }
@@ -85,7 +98,19 @@ export const handleCryptoLwbaMessage = (
   } else if ('type' in message && message.type === 'reorg') {
     logger.info(message, `Reorg response from websocket`)
   } else if ('mid_price' in message) {
-    const [base, quote] = message.pair.split('-')
+    let base: string
+    let quote: string
+    if ('asset' in message) {
+      base = message.asset
+      quote = 'USD'
+    } else if ('pair' in message) {
+      const [pairBase, pairQuote] = message.pair.split('-')
+      base = pairBase
+      quote = pairQuote ?? 'USD'
+    } else {
+      logger.warn('LWBA quote message missing asset or pair field')
+      return undefined
+    }
     const res = Number(message.mid_price)
     return [
       {
