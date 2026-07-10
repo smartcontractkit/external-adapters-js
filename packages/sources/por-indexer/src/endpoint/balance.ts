@@ -2,7 +2,7 @@ import { PoRTotalBalanceEndpoint } from '@chainlink/external-adapter-framework/a
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { balanceIndexerEnvVar, config } from '../config'
+import { balanceEnvVarForAddress, config } from '../config'
 import { balanceTransport } from '../transport/balance'
 
 export const inputParameters = new InputParameters(
@@ -91,7 +91,11 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       }
       checkedNetworkIds.add(networkId)
 
-      const env = balanceIndexerEnvVar(address.network, address.chainId, settings)
+      const env = balanceEnvVarForAddress(
+        address.network,
+        address.chainId,
+        settings.BITCOIN_MAINNET_USE_STREAMS_INDEXER,
+      )
       if (!settings[env as keyof typeof settings]) {
         throw new AdapterInputError({
           statusCode: 400,

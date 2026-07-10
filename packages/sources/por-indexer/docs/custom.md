@@ -4,10 +4,10 @@
 
 **Default (unchanged):** Bitcoin balances use a NOP-run **`bitcoin-por-indexer`** HTTP service. Set `BITCOIN_MAINNET_POR_INDEXER_URL` / `BITCOIN_TESTNET_POR_INDEXER_URL`.
 
-**Opt-in streams indexer:** To use the shared BCY/streams Bitcoin indexer instead, set:
+**Opt-in streams indexer (mainnet only):** To use the shared BCY/streams Bitcoin indexer instead, set:
 
-- `BITCOIN_MAINNET_USE_STREAMS_INDEXER=true` (or testnet equivalent)
-- `BITCOIN_*_RPC_URL` to the Electrs-compatible base URL (same as `BITCOIN_RPC_ENDPOINT` in `dlc-cbtc-por`)
+- `BITCOIN_MAINNET_USE_STREAMS_INDEXER=true`
+- `BITCOIN_MAINNET_RPC_URL` to the Electrs-compatible base URL (same as `BITCOIN_RPC_ENDPOINT` in `dlc-cbtc-por`)
 
 PoR jobspecs can stay on `indexer: por_indexer`; only the `por-indexer` EA deployment env vars change.
 

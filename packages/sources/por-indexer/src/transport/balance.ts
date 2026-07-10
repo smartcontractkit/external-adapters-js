@@ -10,7 +10,6 @@ import {
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
-import { useStreamsBitcoinIndexer } from '../config'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
 import { calculateReserves } from '../lib/btc/por'
 
@@ -80,13 +79,17 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     let totalReserves = new Decimal(0)
 
     for (const [networkId, { network, chainId, addresses: networkAddresses }] of balanceRequests) {
-      if (useStreamsBitcoinIndexer(network, chainId, this.config)) {
-        const rpcUrlEnvName = `${networkId}_RPC_URL` as keyof typeof this.config
-        const rpcUrl = this.config[rpcUrlEnvName] as string
+      if (
+        network === 'bitcoin' &&
+        chainId === 'mainnet' &&
+        this.config.BITCOIN_MAINNET_USE_STREAMS_INDEXER
+      ) {
+        const rpcUrl = this.config.BITCOIN_MAINNET_RPC_URL
 
         if (!rpcUrl) {
           throw new AdapterError({
-            message: `'${rpcUrlEnvName}' environment variable is required when ${networkId}_USE_STREAMS_INDEXER is enabled.`,
+            message:
+              "'BITCOIN_MAINNET_RPC_URL' environment variable is required when BITCOIN_MAINNET_USE_STREAMS_INDEXER is enabled.",
           })
         }
 
