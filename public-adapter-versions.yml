@@ -184,7 +184,7 @@ adapters:
   - name: lotus
     version: 3.0.35
   - name: m0
-    version: 0.0.18
+    version: 0.0.19
   - name: market-status
     version: 1.10.0
   - name: matrixdock
