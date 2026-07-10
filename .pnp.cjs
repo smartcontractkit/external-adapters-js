@@ -7029,9 +7029,11 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/six-adapter", "workspace:packages/sources/six"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:15.4.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockZeusResponseSuccess = (): nock.Scope =>
-  nock('https://indexer.zeuslayer.io', {
+  nock('http://zeus-btc', {
     encodedQueryParams: true,
   })
-    .get('/api/v2/chainlink/proof-of-reserves')
+    .get('/')
     .reply(
       200,
       () => ({

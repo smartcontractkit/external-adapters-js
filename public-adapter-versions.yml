@@ -226,9 +226,9 @@ adapters:
   - name: polkadot-balance
     version: 2.1.1
   - name: por-address-list
-    version: 5.18.0
+    version: 5.18.1
   - name: por-indexer
-    version: 2.3.1
+    version: 2.3.2
   - name: proof-of-reserves
     version: 1.34.1
   - name: proof-of-reserves-v2
@@ -250,7 +250,7 @@ adapters:
   - name: solactive
     version: 1.0.4
   - name: solana-functions
-    version: 1.5.1
+    version: 1.6.0
   - name: solana-view-function
     version: 2.2.48
   - name: sportsdataio
