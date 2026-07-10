@@ -2,11 +2,16 @@
 
 ### Dependencies
 
-The `por-indexer` balance endpoint queries the **streams Bitcoin indexer**, an Electrs-compatible REST API used by other adapters such as `dlc-cbtc-por`. It requires endpoints such as `/blocks/tip/height`, `/address/{addr}/utxo`, and `/address/{addr}/txs/mempool`.
+**Default (unchanged):** Bitcoin balances use a NOP-run **`bitcoin-por-indexer`** HTTP service. Set `BITCOIN_MAINNET_POR_INDEXER_URL` / `BITCOIN_TESTNET_POR_INDEXER_URL`.
 
-Set `BITCOIN_MAINNET_RPC_URL` (and `BITCOIN_TESTNET_RPC_URL` if needed) to the same streams Bitcoin indexer base URL used for `BITCOIN_RPC_ENDPOINT` in `dlc-cbtc-por`.
+**Opt-in streams indexer:** To use the shared BCY/streams Bitcoin indexer instead, set:
 
-Dogecoin is not supported by this adapter.
+- `BITCOIN_MAINNET_USE_STREAMS_INDEXER=true` (or testnet equivalent)
+- `BITCOIN_*_RPC_URL` to the Electrs-compatible base URL (same as `BITCOIN_RPC_ENDPOINT` in `dlc-cbtc-por`)
+
+PoR jobspecs can stay on `indexer: por_indexer`; only the `por-indexer` EA deployment env vars change.
+
+Dogecoin continues to use `DOGECOIN_*_POR_INDEXER_URL`.
 
 ### MAX_PAYLOAD_SIZE_LIMIT configuration
 

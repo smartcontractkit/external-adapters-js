@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute balance endpoint should batch addresses 1`] = `
+exports[`execute (default bitcoin-por-indexer path) balance endpoint should batch addresses 1`] = `
 {
   "data": {
     "result": "24254",
@@ -14,7 +14,7 @@ exports[`execute balance endpoint should batch addresses 1`] = `
 }
 `;
 
-exports[`execute balance endpoint should return failure for empty addresses 1`] = `
+exports[`execute (default bitcoin-por-indexer path) balance endpoint should return failure for empty addresses 1`] = `
 {
   "error": {
     "message": "Input, at 'addresses' or 'result' path, must be a non-empty array.",
@@ -25,10 +25,10 @@ exports[`execute balance endpoint should return failure for empty addresses 1`] 
 }
 `;
 
-exports[`execute balance endpoint should return failure for unsupported network 1`] = `
+exports[`execute (default bitcoin-por-indexer path) balance endpoint should return failure for missing env 1`] = `
 {
   "error": {
-    "message": "Network 'dogecoin' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.",
+    "message": "'DOGECOIN_MAINNET_POR_INDEXER_URL' environment variable is required.",
     "name": "AdapterError",
   },
   "status": "errored",
@@ -36,7 +36,7 @@ exports[`execute balance endpoint should return failure for unsupported network 
 }
 `;
 
-exports[`execute balance endpoint should return success 1`] = `
+exports[`execute (default bitcoin-por-indexer path) balance endpoint should return success 1`] = `
 {
   "data": {
     "result": "24242",
@@ -50,7 +50,7 @@ exports[`execute balance endpoint should return success 1`] = `
 }
 `;
 
-exports[`execute zeusminerfees endpoint should return success 1`] = `
+exports[`execute (default bitcoin-por-indexer path) zeusminerfees endpoint should return success 1`] = `
 {
   "data": {
     "result": "0.01083",

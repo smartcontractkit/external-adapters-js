@@ -1,5 +1,5 @@
 ---
-'@chainlink/por-indexer-adapter': major
+'@chainlink/por-indexer-adapter': minor
 ---
 
-Replace bitcoin-por-indexer backend with streams Bitcoin indexer UTXO queries. Rename env vars from `BITCOIN_*_POR_INDEXER_URL` to `BITCOIN_*_RPC_URL`. Drop Dogecoin support. Preserve `minConfirmations` filtering.
+Add opt-in streams Bitcoin indexer support for Bitcoin balances in `por-indexer`. Default behaviour remains the existing `bitcoin-por-indexer` HTTP path via `BITCOIN_*_POR_INDEXER_URL`. Enable BCY/streams UTXO queries by setting `BITCOIN_*_USE_STREAMS_INDEXER=true` and `BITCOIN_*_RPC_URL`. Preserves `minConfirmations` on the streams path.

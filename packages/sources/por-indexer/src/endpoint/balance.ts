@@ -1,9 +1,9 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { PoRTotalBalanceEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
-import { config, rpcUrlConfigDefinition } from '../config'
-import { balanceTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { balanceIndexerEnvVar, config } from '../config'
+import { balanceTransport } from '../transport/balance'
 
 export const inputParameters = new InputParameters(
   {
@@ -82,29 +82,21 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       })
     }
 
-    const foundEnv = new Map<string, boolean>()
-    const envVarsToCheck = Object.keys(rpcUrlConfigDefinition)
+    const checkedNetworkIds = new Set<string>()
 
     for (const address of addresses) {
-      if (address.network !== 'bitcoin') {
-        throw new AdapterInputError({
-          statusCode: 400,
-          message: `Network '${address.network}' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.`,
-        })
+      const networkId = `${address.network}_${address.chainId}`.toUpperCase()
+      if (checkedNetworkIds.has(networkId)) {
+        continue
       }
+      checkedNetworkIds.add(networkId)
 
-      const id = `${address.network}_${address.chainId}`
-      const env = `${id}_RPC_URL`.toUpperCase()
+      const env = balanceIndexerEnvVar(address.network, address.chainId, settings)
       if (!settings[env as keyof typeof settings]) {
         throw new AdapterInputError({
           statusCode: 400,
           message: `'${env}' environment variable is required.`,
         })
-      }
-
-      foundEnv.set(env, true)
-      if (foundEnv.size === envVarsToCheck.length) {
-        break
       }
     }
 

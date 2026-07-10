@@ -8,7 +8,9 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ### Dependencies
 
-The `por-indexer` balance endpoint queries the **streams Bitcoin indexer**, an Electrs-compatible REST API. Use the same base URL as `BITCOIN_RPC_ENDPOINT` in the `dlc-cbtc-por` adapter. Dogecoin is not supported.
+By default, Bitcoin balances are fetched from a NOP-run **`bitcoin-por-indexer`** HTTP service via `BITCOIN_*_POR_INDEXER_URL`.
+
+Optionally, a NOP can opt into the **streams Bitcoin indexer** (Electrs-compatible REST API, same as `dlc-cbtc-por`) by setting `BITCOIN_*_USE_STREAMS_INDEXER=true` and `BITCOIN_*_RPC_URL`. Dogecoin continues to use `DOGECOIN_*_POR_INDEXER_URL`.
 
 See [custom.md](./docs/custom.md) for more details.
 
@@ -18,13 +20,19 @@ The `MAX_PAYLOAD_SIZE_LIMIT` environment variable is used for controlling the ma
 
 ## Environment Variables
 
-| Required? |          Name           |                                        Description                                        |  Type  | Options |                               Default                               |
-| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------: |
-|           | BITCOIN_MAINNET_RPC_URL |             Streams Bitcoin indexer endpoint for Bitcoin mainnet UTXO queries             | string |         |                                 ``                                  |
-|           | BITCOIN_TESTNET_RPC_URL |             Streams Bitcoin indexer endpoint for Bitcoin testnet UTXO queries             | string |         |                                 ``                                  |
-|           |    ZEUS_ZBTC_API_URL    |                                   API url for zeus zBTC                                   | string |         | `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves` |
-|           |       BATCH_SIZE        |  Number of addresses to query concurrently against the streams Bitcoin indexer per batch  | number |         |                                `10`                                 |
-|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         |                               `10000`                               |
+| Required? |                Name                 |                                        Description                                        |  Type   | Options |                               Default                               |
+| :-------: | :---------------------------------: | :---------------------------------------------------------------------------------------: | :-----: | :-----: | :-----------------------------------------------------------------: |
+|           |   BITCOIN_MAINNET_POR_INDEXER_URL   |            bitcoin-por-indexer HTTP service URL for Bitcoin mainnet (default)             | string  |         |                                 ``                                  |
+|           |   BITCOIN_TESTNET_POR_INDEXER_URL   |            bitcoin-por-indexer HTTP service URL for Bitcoin testnet (default)             | string  |         |                                 ``                                  |
+|           |       BITCOIN_MAINNET_RPC_URL       |             Streams Bitcoin indexer endpoint for Bitcoin mainnet UTXO queries             | string  |         |                                 ``                                  |
+|           |       BITCOIN_TESTNET_RPC_URL       |             Streams Bitcoin indexer endpoint for Bitcoin testnet UTXO queries             | string  |         |                                 ``                                  |
+|           | BITCOIN_MAINNET_USE_STREAMS_INDEXER | Use streams Bitcoin indexer for mainnet when `true` (requires `BITCOIN_MAINNET_RPC_URL`)  | boolean |         |                               `false`                               |
+|           | BITCOIN_TESTNET_USE_STREAMS_INDEXER | Use streams Bitcoin indexer for testnet when `true` (requires `BITCOIN_TESTNET_RPC_URL`)  | boolean |         |                               `false`                               |
+|           |  DOGECOIN_MAINNET_POR_INDEXER_URL   |                             Indexer URL for Dogecoin mainnet                              | string  |         |                                 ``                                  |
+|           |  DOGECOIN_TESTNET_POR_INDEXER_URL   |                             Indexer URL for Dogecoin testnet                              | string  |         |                                 ``                                  |
+|           |          ZEUS_ZBTC_API_URL          |                                   API url for zeus zBTC                                   | string  |         | `https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves` |
+|           |             BATCH_SIZE              |      Maximum number of addresses to send in a single request to the balance indexer       | number  |         |                               `5000`                                |
+|           |        BACKGROUND_EXECUTE_MS        | The amount of time the background execute should sleep before performing the next request | number  |         |                               `10000`                               |
 
 ---
 
@@ -43,8 +51,6 @@ There are no rate limits for this adapter.
 ## Balance Endpoint
 
 Supported names for this endpoint are: `balance`, `index`.
-
-Balances are calculated by querying UTXOs from the streams Bitcoin indexer and filtering by `minConfirmations` using block height.
 
 ### Input Params
 
@@ -71,7 +77,7 @@ Request:
         "network": "bitcoin"
       }
     ],
-    "minConfirmations": 6
+    "minConfirmations": 0
   }
 }
 ```
@@ -93,7 +99,7 @@ Request:
 ```json
 {
   "data": {
-    "endpoint": "zeusMinerFee"
+    "endpoint": "zeusminerfee"
   }
 }
 ```

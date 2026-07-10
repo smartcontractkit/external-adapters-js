@@ -1,11 +1,18 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
-import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import {
+  AdapterResponse,
+  sleep,
+  splitArrayIntoChunks,
+} from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
-import { calculateReserves } from '../lib/btc/por'
+import Decimal from 'decimal.js'
+import { useStreamsBitcoinIndexer } from '../config'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
+import { calculateReserves } from '../lib/btc/por'
 
 export type TotalBalanceTransportTypes = BaseEndpointTypes
 
@@ -56,43 +63,68 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const { minConfirmations, addresses } = params
-    const addressesByNetwork = new Map<string, string[]>()
+    const balanceRequests = new Map<
+      string,
+      { network: string; chainId: string; addresses: string[] }
+    >()
 
     for (const { network, chainId, address } of addresses) {
-      if (network !== 'bitcoin') {
-        throw new AdapterError({
-          message: `Network '${network}' is not supported. Only 'bitcoin' is supported via the streams Bitcoin indexer.`,
-        })
-      }
-
       const id = `${network}_${chainId}`.toUpperCase()
-      if (!addressesByNetwork.has(id)) {
-        addressesByNetwork.set(id, [])
+      if (!balanceRequests.has(id)) {
+        balanceRequests.set(id, { network, chainId, addresses: [] })
       }
-      addressesByNetwork.get(id)!.push(address)
+      balanceRequests.get(id)!.addresses.push(address)
     }
 
     const providerDataRequestedUnixMs = Date.now()
-    let totalReserves = 0n
+    let totalReserves = new Decimal(0)
 
-    for (const [networkId, networkAddresses] of addressesByNetwork.entries()) {
-      const rpcUrlEnvName = `${networkId}_RPC_URL` as keyof typeof this.config
-      const rpcUrl = this.config[rpcUrlEnvName] as string
+    for (const [networkId, { network, chainId, addresses: networkAddresses }] of balanceRequests) {
+      if (useStreamsBitcoinIndexer(network, chainId, this.config)) {
+        const rpcUrlEnvName = `${networkId}_RPC_URL` as keyof typeof this.config
+        const rpcUrl = this.config[rpcUrlEnvName] as string
 
-      if (!rpcUrl) {
+        if (!rpcUrl) {
+          throw new AdapterError({
+            message: `'${rpcUrlEnvName}' environment variable is required when ${networkId}_USE_STREAMS_INDEXER is enabled.`,
+          })
+        }
+
+        const networkTotal = await calculateReserves(
+          this.requester,
+          rpcUrl,
+          networkAddresses,
+          minConfirmations,
+          this.config.BATCH_SIZE,
+        )
+        totalReserves = totalReserves.add(new Decimal(networkTotal.toString()))
+        continue
+      }
+
+      const indexerEndpointEnvName = `${networkId}_POR_INDEXER_URL` as keyof typeof this.config
+      const indexerUrl = this.config[indexerEndpointEnvName] as string
+
+      if (!indexerUrl) {
         throw new AdapterError({
-          message: `'${rpcUrlEnvName}' environment variable is required.`,
+          message: `'${indexerEndpointEnvName}' environment variable is required.`,
         })
       }
 
-      const networkTotal = await calculateReserves(
-        this.requester,
-        rpcUrl,
-        networkAddresses,
-        minConfirmations,
-        this.config.BATCH_SIZE,
-      )
-      totalReserves += networkTotal
+      const addressBatches = splitArrayIntoChunks(networkAddresses, this.config.BATCH_SIZE)
+      for (const addressBatch of addressBatches) {
+        const requestResult = await this._makePorIndexerRequest(
+          indexerUrl,
+          addressBatch,
+          minConfirmations,
+        )
+        const batchTotal = new Decimal(requestResult.response.data.data.totalReserves)
+        if (!batchTotal.isFinite() || batchTotal.isNaN()) {
+          throw new AdapterError({
+            message: `Invalid totalReserves answer: ${batchTotal.toString()}`,
+          })
+        }
+        totalReserves = totalReserves.add(batchTotal)
+      }
     }
 
     const result = totalReserves.toString()
@@ -109,6 +141,32 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  private async _makePorIndexerRequest(url: string, addresses: string[], minConfirmations: number) {
+    const requestConfig = {
+      method: 'post',
+      baseURL: url,
+      data: {
+        id: '1',
+        data: {
+          addresses,
+          minConfirmations,
+        },
+      },
+    }
+    return this.requester.request<{ data: { totalReserves: string } }>(
+      calculateHttpRequestKey<TotalBalanceTransportTypes>({
+        context: {
+          adapterSettings: this.config,
+          inputParameters,
+          endpointName: this.endpointName,
+        },
+        data: requestConfig.data,
+        transportName: this.name,
+      }),
+      requestConfig,
+    )
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
