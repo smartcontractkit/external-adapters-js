@@ -32,9 +32,9 @@ describe('execute (streams Bitcoin indexer opt-in)', () => {
   afterAll(async () => {
     setEnvVariables(oldEnv)
     await testAdapter.api.close()
-    nock.restore()
     nock.cleanAll()
     spy.mockRestore()
+    nock.restore()
   })
 
   it('should return success', async () => {
