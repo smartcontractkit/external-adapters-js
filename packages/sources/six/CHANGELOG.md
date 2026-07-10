@@ -1,5 +1,15 @@
 # @chainlink/six-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#5176](https://github.com/smartcontractkit/external-adapters-js/pull/5176) [`067d233`](https://github.com/smartcontractkit/external-adapters-js/commit/067d233d120e405d25a62b52933094814bf66e6b) Thanks [@dskloetc](https://github.com/dskloetc)! - Implement market-status logic
+
+### Patch Changes
+
+- [#5174](https://github.com/smartcontractkit/external-adapters-js/pull/5174) [`9af992c`](https://github.com/smartcontractkit/external-adapters-js/commit/9af992ca4d76da14e4769ae26ae9f9c3e85fe8ae) Thanks [@dskloetc](https://github.com/dskloetc)! - Use graphql to query market status
+
 ## 1.0.0
 
 ### Major Changes
