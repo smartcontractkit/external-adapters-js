@@ -313,3 +313,47 @@ export const mockReResponseSuccess = (): nock.Scope =>
       timestamp: '2025-07-03T00:01:57.131Z',
     })
     .persist()
+
+export const mockWystcResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-wystc', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/proof-of-reserves/wystc/snapshot')
+    .reply(200, {
+      product: 'FRNT',
+      totalReserves: '965051.85',
+      totalSupply: '965051.85',
+      ripcord: false,
+      ripcordDetails: [],
+      ripcordTimestamp: null,
+      timestamp: '2026-07-01T12:00:44.620Z',
+      networks: [{ network: 'Base', supply: '94902.00' }],
+      accounts: [],
+      attestationProvider: {
+        name: 'The Network Firm LLP',
+        website: 'https://www.thenetworkfirm.com/',
+      },
+    })
+    .persist()
+
+export const mockWystcResponseRipcordTripped = (): nock.Scope =>
+  nock('http://test-endpoint-wystc', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/proof-of-reserves/wystc/snapshot')
+    .reply(200, {
+      product: 'FRNT',
+      totalReserves: '965051.85',
+      totalSupply: '965051.85',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+      ripcordTimestamp: '2026-07-01T12:00:44.675Z',
+      timestamp: '2026-06-30T12:00:44.620Z',
+      networks: [{ network: 'Base', supply: '94902.00' }],
+      accounts: [],
+      attestationProvider: {
+        name: 'The Network Firm LLP',
+        website: 'https://www.thenetworkfirm.com/',
+      },
+    })
+    .persist()
