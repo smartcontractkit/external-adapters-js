@@ -8269,7 +8269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/codecs-strings@npm:3.0.2, @solana/codecs-strings@npm:^3.0.2":
+"@solana/codecs-strings@npm:3.0.2":
   version: 3.0.2
   resolution: "@solana/codecs-strings@npm:3.0.2"
   dependencies:
@@ -8283,7 +8283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/codecs-strings@npm:3.0.3":
+"@solana/codecs-strings@npm:3.0.3, @solana/codecs-strings@npm:^3.0.2":
   version: 3.0.3
   resolution: "@solana/codecs-strings@npm:3.0.3"
   dependencies:
