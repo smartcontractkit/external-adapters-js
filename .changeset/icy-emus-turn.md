@@ -8,7 +8,6 @@
 '@chainlink/deutsche-boerse-adapter': minor
 '@chainlink/expand-network-adapter': minor
 '@chainlink/mobula-state-adapter': minor
-'@chainlink/the-network-firm-adapter': minor
 '@chainlink/tp-adapter': minor
 ---
 
