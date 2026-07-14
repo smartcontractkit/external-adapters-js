@@ -85,4 +85,29 @@ describe('handleCryptoLwbaMessage', () => {
       quote: 'USD',
     })
   })
+
+  it('still passes through snapshots that violate bid ≤ mid ≤ ask (framework validation rejects them)', () => {
+    // CoinMetrics can occasionally emit a skewed snapshot on thinner markets. The transport logs
+    // a warning but still returns the data so the framework's LWBA output validation can reject it
+    // consistently, rather than silently dropping or "fixing" the update.
+    const result = handleCryptoLwbaMessage({
+      asset: 'fxs',
+      ...QUOTE_FIELDS,
+      bid_price: '1.10',
+      mid_price: '1.05',
+      ask_price: '1.20',
+    })
+    expect(result).toEqual([
+      {
+        params: { base: 'fxs', quote: 'USD' },
+        response: {
+          result: null,
+          data: { bid: 1.1, mid: 1.05, ask: 1.2 },
+          timestamps: {
+            providerIndicatedTimeUnixMs: new Date(QUOTE_FIELDS.time).getTime(),
+          },
+        },
+      },
+    ])
+  })
 })

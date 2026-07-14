@@ -111,7 +111,20 @@ export const handleCryptoLwbaMessage = (
       logger.warn('LWBA quote message missing asset or pair field')
       return undefined
     }
-    const res = Number(message.mid_price)
+    const bid = Number(message.bid_price)
+    const mid = Number(message.mid_price)
+    const ask = Number(message.ask_price)
+    if (bid && mid && ask && (mid < bid || mid > ask)) {
+      // CoinMetrics can occasionally emit a snapshot where bid ≤ mid ≤ ask doesn't hold,
+      // typically due to timing skew between the bid, mid, and ask updates on thinner markets.
+      // The framework's LWBA output validation will reject this when served; log it here so the
+      // skewed snapshot is attributable to the provider (and asset) rather than only surfacing
+      // as a per-request validation error.
+      logger.warn(
+        { base, bid, mid, ask, time: message.time },
+        'CoinMetrics LWBA snapshot violates bid ≤ mid ≤ ask (likely timing skew between updates)',
+      )
+    }
     return [
       {
         params: {
@@ -121,9 +134,9 @@ export const handleCryptoLwbaMessage = (
         response: {
           result: null,
           data: {
-            bid: Number(message.bid_price),
-            mid: res,
-            ask: Number(message.ask_price),
+            bid,
+            mid,
+            ask,
           },
           timestamps: {
             providerIndicatedTimeUnixMs: new Date(message.time).getTime(),
