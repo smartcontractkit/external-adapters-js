@@ -3,7 +3,7 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 
 import type { StaticSourceName } from './static'
 
-export const ADAPTER_NAMES = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY'] as const
+export const ADAPTER_NAMES = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY', 'SIX'] as const
 export type AdapterName = (typeof ADAPTER_NAMES)[number]
 
 export type SourceName = AdapterName | StaticSourceName
@@ -35,8 +35,8 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
     secondary: 'FINNHUB_SECONDARY',
   },
   six: {
-    primary: 'TRADINGHOURS',
-    secondary: 'FINNHUB_SECONDARY',
+    primary: 'SIX',
+    secondary: 'TRADINGHOURS',
   },
   euronext_milan: {
     primary: 'TRADINGHOURS',
@@ -77,6 +77,10 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   ice_europe_energy: {
     primary: 'TRADINGHOURS',
     secondary: 'STATIC_ICE_EUROPE_ENERGY',
+  },
+  bme: {
+    primary: 'SIX',
+    secondary: 'TRADINGHOURS',
   },
 }
 
