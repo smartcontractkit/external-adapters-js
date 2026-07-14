@@ -1,9 +1,10 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import Decimal from 'decimal.js'
 import {
   BaseEndpointTypes,
+  getEventTypeFromType,
   legacyTopOfBookEvents,
   markPriceEvents,
   topOfBookEvents,
@@ -16,6 +17,7 @@ type WsMessage = {
     exchange: string
     symbol: string
     price: string
+    index_price?: string
     bid_price: string
     ask_price: string
     timestamp: string // "2026-03-12T15:24:40Z"
@@ -72,7 +74,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
           (s) =>
             s.exchange === message.data.exchange &&
             s.symbol === normalizedSymbol &&
-            s.type === normalizedEventType,
+            getEventTypeFromType(s.type) === normalizedEventType,
         )
       ) {
         // Skip unsubscribed messages
@@ -88,23 +90,40 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         providerIndicatedTimeUnixMs: new Date(message.data.timestamp).getTime(),
       }
 
-      if (
-        markPriceEvents.includes(normalizedEventType) &&
-        message.data.price &&
-        !isNaN(Number(message.data.price))
-      ) {
-        return [
-          {
+      if (markPriceEvents.includes(normalizedEventType)) {
+        const result: ProviderResult<WsTransportTypes>[] = []
+        if (message.data.price && !isNaN(Number(message.data.price))) {
+          const price = Number(message.data.price)
+          result.push({
             params: { ...params },
             response: {
-              result: Number(message.data.price),
+              result: price,
               data: {
-                mid: Number(message.data.price),
+                mid: price,
               },
               timestamps,
             },
-          },
-        ]
+          })
+        }
+        if (message.data.index_price && !isNaN(Number(message.data.index_price))) {
+          const indexPrice = Number(message.data.index_price)
+          result.push({
+            params: {
+              ...params,
+              type: 'mark_price_index',
+            },
+            response: {
+              result: indexPrice,
+              data: {
+                index_price: indexPrice,
+              },
+              timestamps,
+            },
+          })
+        }
+        if (result.length > 0) {
+          return result
+        }
       }
 
       if (
