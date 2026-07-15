@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.9.0
+
+### Minor Changes
+
+- [#5191](https://github.com/smartcontractkit/external-adapters-js/pull/5191) [`98260c4`](https://github.com/smartcontractkit/external-adapters-js/commit/98260c413575f4ed86488833f01b323074748b5b) Thanks [@dskloetc](https://github.com/dskloetc)! - Add type mark_price_index to markprice endpoint options
+
 ## 2.8.0
 
 ### Minor Changes
