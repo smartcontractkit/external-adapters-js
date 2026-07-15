@@ -1,13 +1,13 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { StockQuotesWebSocketTransport } from '../transport/stock_quotes'
+import { cmeFuturesTransport } from '../transport/cme_futures'
 
 export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
   {
-    base: '9988-HKD:SPOT',
+    base: 'WTI/1',
   },
 ])
 
@@ -21,36 +21,29 @@ export type BaseEndpointTypes = {
       ask_price: number
       bid_volume: 0
       ask_volume: 0
+      roll_date: number
+      symbol: string
+      generic_symbol: string
+      expiry_date: string
+      contract_month: number
       ingress_ts_iso: string
     }
   }
   Settings: typeof config.settings
 }
 
-const asianSymbolRegexp = /^\w+-\w\w\w:SPOT$/
-
-const getRegionFromSymbol = (symbol: string): 'asia' | 'us' => {
-  if (asianSymbolRegexp.test(symbol.toUpperCase())) {
-    return 'asia'
-  }
-  return 'us'
-}
-
 export const endpoint = new AdapterEndpoint({
-  name: 'stock_quotes',
+  name: 'cme_futures',
   aliases: [],
-  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-    .register('asia', new StockQuotesWebSocketTransport('asia'))
-    .register('us', new StockQuotesWebSocketTransport('us')),
-  customRouter: (req, _adapterConfig) => {
-    const { base } = req.requestContext.data
-    return getRegionFromSymbol(base)
-  },
-  customInputValidation: (request, settings): undefined => {
-    const params = request.requestContext.data
-    const region = getRegionFromSymbol(params.base)
-    settings.REGION_WS_API_ENDPOINT.get(region)
-    settings.REGION_API_KEY.get(region)
+  transport: cmeFuturesTransport,
+  customInputValidation: (_request, settings): undefined => {
+    if (!settings.FUTURES_API_KEY || !settings.FUTURES_WS_API_ENDPOINT) {
+      throw new AdapterError({
+        statusCode: 500,
+        message:
+          'FUTURES_API_KEY and FUTURES_WS_API_ENDPOINT must be set in the environment to use the `cme_futures` endpoint',
+      })
+    }
     return
   },
   inputParameters,

@@ -12,8 +12,14 @@ import {
   runAllUntil,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { BaseEndpointTypes } from '../../src/endpoint/stock_quotes'
-import { StockQuotesWebSocketTransport, WsTransportTypes } from '../../src/transport/stock_quotes'
+import { isValidTimezone } from '../../src/config'
+import { BaseEndpointTypes } from '../../src/endpoint/cme_futures'
+import {
+  CmeFuturesWebSocketTransport,
+  getContractMonthFromSymbol,
+  getRollDateTimestampSeconds,
+  WsTransportTypes,
+} from '../../src/transport/cme_futures'
 
 const log = jest.fn()
 const debugLog = jest.fn()
@@ -39,21 +45,15 @@ const runAllUntilSettled = async (clock: FakeTimers.Clock, promise: Promise<unkn
   return promise
 }
 
-describe('stock_quotes', () => {
+describe('cme_futures', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'stock_quotes'
+  const endpointName = 'cme_futures'
 
   const adapterSettings = makeStub('adapterSettings', {
-    REGION_WS_API_ENDPOINT: {
-      get() {
-        return 'wss://data.lo.tech/ws/v1/rwa'
-      },
-    },
-    REGION_API_KEY: {
-      get() {
-        return 'test-api-key'
-      },
-    },
+    FUTURES_WS_API_ENDPOINT: 'wss://data.lo.tech/ws/v1/rwa',
+    FUTURES_API_KEY: 'test-api-key',
+    ROLL_DATE_TIMEZONE: 'America/New_York',
+    ROLL_DATE_TIME_SECONDS: 0,
     WS_SUBSCRIPTION_TTL: 30_000,
     WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_001,
     STREAM_HANDLER_RETRY_MIN_MS: 101,
@@ -83,7 +83,7 @@ describe('stock_quotes', () => {
     subscriptionSetFactory,
   } as unknown as TransportDependencies<WsTransportTypes>)
 
-  let transport: StockQuotesWebSocketTransport
+  let transport: CmeFuturesWebSocketTransport
 
   let clock: FakeTimers.Clock
   let mockWsServer: MockWebsocketServer
@@ -101,7 +101,7 @@ describe('stock_quotes', () => {
     receivedMessages.length = 0
     mockWsServer?.close()
     mockWsServer?.stop()
-    mockWsServer = new MockWebsocketServer(adapterSettings.REGION_WS_API_ENDPOINT.get('asia'), {
+    mockWsServer = new MockWebsocketServer(adapterSettings.FUTURES_WS_API_ENDPOINT!, {
       mock: false,
     })
 
@@ -112,7 +112,7 @@ describe('stock_quotes', () => {
       })
     })
 
-    transport = new StockQuotesWebSocketTransport('asia')
+    transport = new CmeFuturesWebSocketTransport()
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
@@ -120,8 +120,8 @@ describe('stock_quotes', () => {
     expect(log).not.toHaveBeenCalled()
   })
 
-  it('should subscribe to the stock price', async () => {
-    const symbol = '9988-HKD:SPOT'
+  it('should subscribe to the price', async () => {
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -150,7 +150,8 @@ describe('stock_quotes', () => {
   })
 
   it('should write response to cache', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
+    const rollDate = '2026-07-21'
 
     const params = makeStub('params', {
       base: symbol,
@@ -179,9 +180,12 @@ describe('stock_quotes', () => {
         egress_ts: providerIndicatedTimeUnixMs * 1000,
         data: {
           price: mid_price,
-          symbol,
+          symbol: 'WTIQ6', // Q = August, 6 = 2026
+          generic_symbol: symbol,
           spread,
           type: 'PRICE',
+          expiry_date: rollDate,
+          roll_date: rollDate,
           ingress_ts: ingressTimestamp * 1000,
         },
       }),
@@ -198,6 +202,11 @@ describe('stock_quotes', () => {
             ask_price,
             bid_volume: 0,
             ask_volume: 0,
+            roll_date: new Date(`${rollDate}T00:00:00-04:00`).getTime() / 1000,
+            symbol: 'WTIQ6',
+            generic_symbol: symbol,
+            expiry_date: rollDate,
+            contract_month: 8,
             ingress_ts_iso: new Date(ingressTimestamp).toISOString(),
           },
           timestamps: {
@@ -212,7 +221,7 @@ describe('stock_quotes', () => {
   })
 
   it('should unsubscribe', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -245,7 +254,7 @@ describe('stock_quotes', () => {
   })
 
   it('should send keep-alive ping', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -280,7 +289,7 @@ describe('stock_quotes', () => {
   })
 
   it('should write error to cache', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -339,7 +348,7 @@ describe('stock_quotes', () => {
   })
 
   it('should log warning for unknown message type', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -372,7 +381,7 @@ describe('stock_quotes', () => {
   })
 
   it('should ignore pong message', async () => {
-    const symbol = '9988-HKD:SPOT'
+    const symbol = 'WTI/1'
 
     const params = makeStub('params', {
       base: symbol,
@@ -397,5 +406,107 @@ describe('stock_quotes', () => {
 
     expect(responseCache.write).toHaveBeenCalledTimes(0)
     expect(log).toHaveBeenCalledTimes(0)
+  })
+
+  describe('getContractMonthFromSymbol', () => {
+    it('should return the correct contract month for a given symbol', () => {
+      expect(getContractMonthFromSymbol('WTIF6')).toBe(1)
+      expect(getContractMonthFromSymbol('WTIG6')).toBe(2)
+      expect(getContractMonthFromSymbol('WTIH6')).toBe(3)
+      expect(getContractMonthFromSymbol('WTIJ6')).toBe(4)
+      expect(getContractMonthFromSymbol('WTIK6')).toBe(5)
+      expect(getContractMonthFromSymbol('WTIM6')).toBe(6)
+      expect(getContractMonthFromSymbol('WTIN6')).toBe(7)
+      expect(getContractMonthFromSymbol('WTIQ6')).toBe(8)
+      expect(getContractMonthFromSymbol('WTIU6')).toBe(9)
+      expect(getContractMonthFromSymbol('WTIV6')).toBe(10)
+      expect(getContractMonthFromSymbol('WTIX6')).toBe(11)
+      expect(getContractMonthFromSymbol('WTIZ6')).toBe(12)
+    })
+
+    it('should throw for a too short symbol', () => {
+      const symbol = 'Q'
+      expect(() => getContractMonthFromSymbol(symbol)).toThrow(
+        `Symbol must be at least 2 characters long. Received: '${symbol}'`,
+      )
+    })
+
+    it('should throw for an invalid month code', () => {
+      const symbol = 'WTIA6'
+      expect(() => getContractMonthFromSymbol(symbol)).toThrow(
+        `Second to last character of symbol must be a valid month code. Received: '${symbol}'`,
+      )
+    })
+  })
+
+  describe('getRollDateTimestampSeconds', () => {
+    it('should convert a date string to a unix timestamp in seconds', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'America/New_York',
+        ROLL_DATE_TIME_SECONDS: 0,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = '2026-01-21'
+      expect(getRollDateTimestampSeconds(date, settings)).toBe(
+        new Date(`${date}T00:00:00-05:00`).getTime() / 1000,
+      )
+    })
+
+    it('should convert a date string during daylight saving time', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'America/New_York',
+        ROLL_DATE_TIME_SECONDS: 0,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = '2026-07-21'
+      expect(getRollDateTimestampSeconds(date, settings)).toBe(
+        new Date(`${date}T00:00:00-04:00`).getTime() / 1000,
+      )
+    })
+
+    it('should convert a date string with time offset', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'America/New_York',
+        ROLL_DATE_TIME_SECONDS: 16 * 3600,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = '2026-01-21'
+      expect(getRollDateTimestampSeconds(date, settings)).toBe(
+        new Date(`${date}T16:00:00-05:00`).getTime() / 1000,
+      )
+    })
+
+    it('should convert a date string with different timezone', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'Europe/Zurich',
+        ROLL_DATE_TIME_SECONDS: 0,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = '2026-01-21'
+      expect(getRollDateTimestampSeconds(date, settings)).toBe(
+        new Date(`${date}T00:00:00+01:00`).getTime() / 1000,
+      )
+    })
+
+    it('should throw for an invalid date string', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'Europe/Zurich',
+        ROLL_DATE_TIME_SECONDS: 0,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = 'invalid-date'
+      expect(() => getRollDateTimestampSeconds(date, settings)).toThrow(
+        `Invalid roll date from data provider: '${date}'`,
+      )
+    })
+  })
+
+  describe('isValidTimezone', () => {
+    it('should return true for a valid timezone', () => {
+      expect(isValidTimezone('America/New_York')).toBe(true)
+      expect(isValidTimezone('Europe/Zurich')).toBe(true)
+      expect(isValidTimezone('UTC')).toBe(true)
+    })
+
+    it('should return false for an invalid timezone', () => {
+      expect(isValidTimezone('Invalid/Timezone')).toBe(false)
+      expect(isValidTimezone('')).toBe(false)
+      expect(isValidTimezone('America/New_York/Extra')).toBe(false)
+    })
   })
 })
