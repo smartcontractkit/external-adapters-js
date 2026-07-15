@@ -4,11 +4,16 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import Decimal from 'decimal.js'
 import {
   BaseEndpointTypes,
-  getEventTypeFromType,
   legacyTopOfBookEvents,
   markPriceEvents,
   topOfBookEvents,
 } from '../endpoint/markprice'
+
+export const toWsEventType = (type: string): string =>
+  type === 'mark_price_index' ? 'mark_price' : type
+
+const toNumber = (s?: string): number | undefined =>
+  s && !isNaN(Number(s)) ? Number(s) : undefined
 
 type WsMessage = {
   event: string
@@ -74,7 +79,7 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
           (s) =>
             s.exchange === message.data.exchange &&
             s.symbol === normalizedSymbol &&
-            getEventTypeFromType(s.type) === normalizedEventType,
+            toWsEventType(s.type) === normalizedEventType,
         )
       ) {
         // Skip unsubscribed messages
@@ -92,8 +97,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
 
       if (markPriceEvents.includes(normalizedEventType)) {
         const result: ProviderResult<WsTransportTypes>[] = []
-        if (message.data.price && !isNaN(Number(message.data.price))) {
-          const price = Number(message.data.price)
+        const price = toNumber(message.data.price)
+        if (price !== undefined) {
           result.push({
             params: { ...params },
             response: {
@@ -105,8 +110,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
             },
           })
         }
-        if (message.data.index_price && !isNaN(Number(message.data.index_price))) {
-          const indexPrice = Number(message.data.index_price)
+        const indexPrice = toNumber(message.data.index_price)
+        if (indexPrice !== undefined) {
           result.push({
             params: {
               ...params,

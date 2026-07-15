@@ -3,15 +3,8 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { config } from '../config'
 import { wsTransport } from '../transport/markprice'
 
-export const getEventTypeFromType = (type: string): string => {
-  if (type === 'mark_price_index') {
-    return 'mark_price'
-  }
-  return type
-}
-
 export const markPriceTypeOptions = ['mark_price', 'mark_price_index']
-export const markPriceEvents = Array.from(new Set(markPriceTypeOptions.map(getEventTypeFromType)))
+export const markPriceEvents = ['mark_price']
 export const legacyTopOfBookEvents = ['top_of_book']
 export const topOfBookEvents = ['top_of_book_perps', 'top_of_book_spot']
 
