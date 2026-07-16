@@ -15,6 +15,12 @@ export const mockTwapResponse = (): nock.Scope =>
     })
     .persist()
 
+export const mockTwapErrorResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0004', windowSeconds: 30 })
+    .reply(500, { error: 'Internal Server Error' })
+    .persist()
+
 export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL + '/api/v1/ws', { mock: false })
   mockWsServer.on('connection', (socket) => {

@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockTwapResponse } from './fixtures'
+import { mockTwapErrorResponse, mockTwapResponse } from './fixtures'
 
 describe('twap endpoint', () => {
   let testAdapter: TestAdapter
@@ -59,5 +59,22 @@ describe('twap endpoint', () => {
     expect(json.data.decimals).toBe(18)
     expect(json.data.windowStartTs).toBe(1230)
     expect(json.data.windowEndTs).toBe(1260)
+  })
+
+  it('should return error when provider returns 500', async () => {
+    mockTwapErrorResponse()
+    const response = await testAdapter.request({
+      endpoint: 'twap',
+      feedId: '0x0004',
+      windowSeconds: 30,
+    })
+    expect(response.statusCode).not.toBe(200)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return 400 when required params are missing', async () => {
+    const response = await testAdapter.request({ endpoint: 'twap', feedId: '0x0003' })
+    expect(response.statusCode).toBe(400)
+    expect(response.json()).toMatchSnapshot()
   })
 })
