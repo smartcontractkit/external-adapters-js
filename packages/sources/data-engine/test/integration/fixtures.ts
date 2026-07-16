@@ -7,11 +7,13 @@ export const mockTwapResponse = (): nock.Scope =>
     .reply(200, {
       result: '64640960000000000000000',
       feedId: '0x0003',
-      windowSeconds: 30,
       samples: 30,
       decimals: 18,
-      windowStartTs: 1230,
-      windowEndTs: 1260,
+      requestedEndTs: 1700000000,
+      windowStartTs: 1699999970,
+      windowEndTs: 1700000000,
+      effectiveWindowStartTs: 1699999971,
+      effectiveWindowEndTs: 1699999997,
     })
     .persist()
 

@@ -8,11 +8,13 @@ import { BaseEndpointTypes } from '../endpoint/twap'
 type TwapProviderResponse = {
   result: string
   feedId: string
-  windowSeconds: number
   samples: number
   decimals: number
+  requestedEndTs: number
   windowStartTs: number
   windowEndTs: number
+  effectiveWindowStartTs: number
+  effectiveWindowEndTs: number
 }
 
 type HttpTransportTypes = BaseEndpointTypes & {
@@ -26,6 +28,7 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const fullUrl = `${config.API_ENDPOINT}/api/v1/twap`
+      const body = JSON.stringify({ feedId: param.feedId, windowSeconds: param.windowSeconds })
       return {
         params: [param],
         request: {
@@ -33,13 +36,10 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
           url: '/api/v1/twap',
           method: 'POST',
           headers: {
-            ...generateAuthHeaders(config.API_USERNAME, config.API_PASSWORD, 'POST', fullUrl),
+            ...generateAuthHeaders(config.API_USERNAME, config.API_PASSWORD, 'POST', fullUrl, body),
             'Content-Type': 'application/json',
           },
-          data: {
-            feedId: param.feedId,
-            windowSeconds: param.windowSeconds,
-          },
+          data: JSON.parse(body),
         },
       }
     })
@@ -55,11 +55,13 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
           data: {
             result: data.result,
             feedId: data.feedId,
-            windowSeconds: data.windowSeconds,
             samples: data.samples,
             decimals: data.decimals,
+            requestedEndTs: data.requestedEndTs,
             windowStartTs: data.windowStartTs,
             windowEndTs: data.windowEndTs,
+            effectiveWindowStartTs: data.effectiveWindowStartTs,
+            effectiveWindowEndTs: data.effectiveWindowEndTs,
           },
         },
       }

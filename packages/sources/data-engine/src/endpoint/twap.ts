@@ -31,11 +31,13 @@ export type BaseEndpointTypes = {
     Data: {
       result: string
       feedId: string
-      windowSeconds: number
       samples: number
       decimals: number
+      requestedEndTs: number
       windowStartTs: number
       windowEndTs: number
+      effectiveWindowStartTs: number
+      effectiveWindowEndTs: number
     }
   }
   Settings: typeof config.settings
