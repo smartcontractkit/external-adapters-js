@@ -1,6 +1,6 @@
 # MOBULA_STATE
 
-![2.3.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![2.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/mobula-state/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -64,7 +64,6 @@ Request:
 |    ✅     |   base   | `coin`, `from`, `market`, `symbol` | The symbol of symbols of the currency to query | string |         |         |            |                |
 |    ✅     |  quote   |          `convert`, `to`           |    The symbol of the currency to convert to    | string |         |         |            |                |
 |    ✅     | exchange |                                    | Which exchange to return the funding rate for  | string |         |         |            |                |
-|           | protocol |                                    |    The protocol to query funding rates for     | string |         |         |            |                |
 
 ### Example
 
