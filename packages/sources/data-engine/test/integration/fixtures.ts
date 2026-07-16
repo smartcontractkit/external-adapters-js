@@ -1,4 +1,19 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
+
+export const mockTwapResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0003', windowSeconds: 30 })
+    .reply(200, {
+      result: '64640960000000000000000',
+      feedId: '0x0003',
+      windowSeconds: 30,
+      samples: 30,
+      decimals: 18,
+      windowStartTs: 1230,
+      windowEndTs: 1260,
+    })
+    .persist()
 
 export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL + '/api/v1/ws', { mock: false })

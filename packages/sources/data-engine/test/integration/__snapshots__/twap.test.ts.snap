@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`twap endpoint should return success with TWAP data 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "feedId": "0x0003",
+    "result": "64640960000000000000000",
+    "samples": 30,
+    "windowEndTs": 1260,
+    "windowSeconds": 30,
+    "windowStartTs": 1230,
+  },
+  "result": "64640960000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
