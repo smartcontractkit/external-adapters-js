@@ -190,7 +190,7 @@ adapters:
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
-    version: 2.3.0
+    version: 2.4.0
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
