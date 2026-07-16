@@ -1,5 +1,11 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.9.0
+
+### Minor Changes
+
+- [#5161](https://github.com/smartcontractkit/external-adapters-js/pull/5161) [`fa193ea`](https://github.com/smartcontractkit/external-adapters-js/commit/fa193ead02f08285a79172d5c1a6d9c27995bb5a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add `wystc` endpoint for Wyoming Stablecoin Commission FRNT Proof-of-Reserves feed
+
 ## 1.8.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @chainlink/mobula-state-adapter
 
+## 2.4.0
+
+### Minor Changes
+
+- [#5197](https://github.com/smartcontractkit/external-adapters-js/pull/5197) [`58d4d14`](https://github.com/smartcontractkit/external-adapters-js/commit/58d4d149c9332b5e7d1790418293587503868fa5) Thanks [@dskloetc](https://github.com/dskloetc)! - Revert the change that requires the protocol param on funding-rate
+
 ## 2.3.0
 
 ### Minor Changes

@@ -14,7 +14,7 @@ exports[`execute nav endpoint should handle error response 1`] = `
 exports[`execute nav endpoint should handle missing env var 1`] = `
 {
   "error": {
-    "message": "missing MISSING_ENV_VAR_API_KEY",
+    "message": "Missing required environment variable: MISSING_ENV_VAR_API_KEY",
     "name": "AdapterError",
   },
   "status": "errored",
