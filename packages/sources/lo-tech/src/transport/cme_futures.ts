@@ -1,51 +1,23 @@
-import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { tz } from '@date-fns/tz'
 import { isValid, parseISO, startOfDay } from 'date-fns'
 import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/cme_futures'
+import { BasePriceData, LoTechWebSocketTransport, LoTechWSResponse } from './common'
 
-const logger = makeLogger('lo-tech - cme_futures')
+export type PriceData = BasePriceData & {
+  symbol: string
+  generic_symbol: string
+  ingress_ts: number // microseconds
+  publish_ts: null
+  transaction_ts: number // microseconds
+  price: number
+  spread: number
+  expiry_date: string
+  roll_date: string
+}
 
-export type WSResponse =
-  | {
-      egress_ts: number // microseconds
-      data: {
-        type: 'PRICE'
-        symbol: string
-        generic_symbol: string
-        ingress_ts: number // microseconds
-        publish_ts: null
-        transaction_ts: number // microseconds
-        price: number
-        spread: number
-        expiry_date: string
-        roll_date: string
-      }
-    }
-  | {
-      egress_ts: number // microseconds
-      error: {
-        error: string
-        code: number
-        id: null
-        info: {
-          type: string
-          failures: {
-            symbol: string
-            type: string
-          }[]
-          succeeded: []
-        }
-      }
-    }
-  | {
-      egress_ts: number // microseconds
-      pong: {
-        api_version: string
-      }
-    }
+export type WSResponse = LoTechWSResponse<PriceData>
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
@@ -90,125 +62,38 @@ export const getRollDateTimestampSeconds = (
   return startOfDay(date).getTime() / 1000 + settings.ROLL_DATE_TIME_SECONDS
 }
 
-export class CmeFuturesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
+export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
+  PriceData,
+  BaseEndpointTypes['Response']['Data']
+> {
   constructor() {
     super({
-      url: (context) => {
-        return context.adapterSettings.FUTURES_WS_API_ENDPOINT!
-      },
-      options: (context) => {
+      loggerName: 'lo-tech - cme_futures',
+      url: (context) => context.adapterSettings.FUTURES_WS_API_ENDPOINT!,
+      apiKey: (context) => context.adapterSettings.FUTURES_API_KEY!,
+      getBase: (data) => data.generic_symbol,
+      toResponseData: (data, context) => {
+        const { price, spread, symbol, generic_symbol, expiry_date, roll_date, ingress_ts } = data
+
+        const mid_price = price
+        const bid_price = mid_price - spread / 2
+        const ask_price = mid_price + spread / 2
+
+        const contract_month = getContractMonthFromSymbol(symbol)
+
         return {
-          headers: {
-            'X-API-KEY': context.adapterSettings.FUTURES_API_KEY!,
-          },
+          mid_price,
+          bid_price,
+          ask_price,
+          bid_volume: 0,
+          ask_volume: 0,
+          roll_date: getRollDateTimestampSeconds(roll_date, context.adapterSettings),
+          symbol,
+          generic_symbol,
+          expiry_date,
+          contract_month,
+          ingress_ts_iso: new Date(ingress_ts / 1000).toISOString(),
         }
-      },
-      handlers: {
-        heartbeat(connection) {
-          connection.send(
-            JSON.stringify({
-              op: 'PING',
-            }),
-          )
-        },
-        message(message, context) {
-          const timestamps = {
-            providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
-          }
-          if ('error' in message) {
-            logger.error(`Received error message on websocket: ${JSON.stringify(message)}`)
-            return message.error.info.failures.map((failure) => ({
-              params: { base: failure.symbol },
-              response: {
-                statusCode: 502,
-                errorMessage: failure.type,
-                timestamps,
-              },
-            }))
-          }
-
-          if ('pong' in message) {
-            // Ignore
-            return
-          }
-
-          if (message.data?.type !== 'PRICE') {
-            logger.warn(`Received unsupported message type: ${message.data?.type}`)
-            return
-          }
-
-          const { price, spread, symbol, generic_symbol, expiry_date, roll_date, ingress_ts } =
-            message.data
-
-          try {
-            const mid_price = price
-            const bid_price = mid_price - spread / 2
-            const ask_price = mid_price + spread / 2
-
-            const contract_month = getContractMonthFromSymbol(symbol)
-
-            return [
-              {
-                params: { base: generic_symbol },
-                response: {
-                  result: null,
-                  data: {
-                    mid_price,
-                    bid_price,
-                    ask_price,
-                    bid_volume: 0,
-                    ask_volume: 0,
-                    roll_date: getRollDateTimestampSeconds(roll_date, context.adapterSettings),
-                    symbol,
-                    generic_symbol,
-                    expiry_date,
-                    contract_month,
-                    ingress_ts_iso: new Date(ingress_ts / 1000).toISOString(),
-                  },
-                  timestamps,
-                },
-              },
-            ]
-          } catch (error: unknown) {
-            const errorMessage = error instanceof Error ? error.message : String(error)
-            const statusCode = error instanceof AdapterError ? error.statusCode : 500
-
-            return [
-              {
-                params: { base: generic_symbol },
-                response: {
-                  statusCode,
-                  errorMessage,
-                  timestamps,
-                },
-              },
-            ]
-          }
-        },
-      },
-      builders: {
-        subscribeMessage: (params) => {
-          return {
-            op: 'SUBSCRIBE',
-            topics: [
-              {
-                symbol: params.base,
-                type: 'PRICE',
-              },
-            ],
-          }
-        },
-        unsubscribeMessage: (params) => {
-          return {
-            op: 'UNSUBSCRIBE',
-            topics: [
-              {
-                symbol: params.base,
-                type: 'PRICE',
-              },
-            ],
-          }
-        },
       },
     })
   }
