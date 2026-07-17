@@ -24,9 +24,6 @@ describe('twap endpoint', () => {
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
-    mockTwapResponse()
-    mockTwapResponseWithEndTs()
-
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -43,27 +40,14 @@ describe('twap endpoint', () => {
   })
 
   it('should return success with TWAP data', async () => {
+    mockTwapResponse()
     const response = await testAdapter.request(twapData)
     expect(response.statusCode).toBe(200)
     expect(response.json()).toMatchSnapshot()
   })
 
-  it('should return result equal to provider result field', async () => {
-    const response = await testAdapter.request(twapData)
-    expect(response.statusCode).toBe(200)
-    const json = response.json()
-    expect(json.result).toBe('64640960000000000000000')
-    expect(json.data.result).toBe('64640960000000000000000')
-    expect(json.data.feedId).toBe('0x0003')
-    expect(json.data.samples).toBe(30)
-    expect(json.data.decimals).toBe(18)
-    expect(json.data.windowStartTs).toBe(1699999970)
-    expect(json.data.windowEndTs).toBe(1700000000)
-    expect(json.data.effectiveWindowStartTs).toBe(1699999971)
-    expect(json.data.effectiveWindowEndTs).toBe(1699999997)
-  })
-
   it('should include endTs in request when provided', async () => {
+    mockTwapResponseWithEndTs()
     const response = await testAdapter.request({
       endpoint: 'twap',
       feedId: '0x0003',
@@ -84,7 +68,7 @@ describe('twap endpoint', () => {
       feedId: '0x0004',
       windowSeconds: 30,
     })
-    expect(response.statusCode).not.toBe(200)
+    expect(response.statusCode).toBe(502)
     expect(response.json()).toMatchSnapshot()
   })
 

@@ -8,6 +8,13 @@ export const adapter = new Adapter({
   name: 'DATA_ENGINE',
   config,
   endpoints: [cryptoV3, rwaV8, deutscheBoerseV11, exchangeRateV7, twap],
+  rateLimiting: {
+    tiers: {
+      default: {
+        rateLimit1s: 5,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

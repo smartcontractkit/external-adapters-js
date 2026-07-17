@@ -33,7 +33,7 @@ export const inputParameters = new InputParameters(
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: string | null
+    Result: string
     Data: {
       result: string
       feedId: string
