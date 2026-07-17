@@ -26,10 +26,9 @@ export class StockQuotesWebSocketTransport extends LoTechWebSocketTransport<
 > {
   constructor(region: Region) {
     super({
-      loggerName: 'lo-tech - stock_quotes',
       url: (context) => context.adapterSettings.REGION_WS_API_ENDPOINT.get(region),
       apiKey: (context) => context.adapterSettings.REGION_API_KEY.get(region),
-      getBase: (data) => data.symbol,
+      getParamsSymbolFromWsData: (data) => data.symbol,
       toResponseData: (data) => {
         const mid_price = data.price
         const spread = data.spread

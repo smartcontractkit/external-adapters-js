@@ -68,10 +68,9 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
 > {
   constructor() {
     super({
-      loggerName: 'lo-tech - cme_futures',
       url: (context) => context.adapterSettings.FUTURES_WS_API_ENDPOINT!,
       apiKey: (context) => context.adapterSettings.FUTURES_API_KEY!,
-      getBase: (data) => data.generic_symbol,
+      getParamsSymbolFromWsData: (data) => data.generic_symbol,
       toResponseData: (data, context) => {
         const { price, spread, symbol, generic_symbol, expiry_date, roll_date, ingress_ts } = data
 

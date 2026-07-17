@@ -5,6 +5,8 @@ import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 
+const logger = makeLogger('lo-tech')
+
 export type BasePriceData = {
   type: 'PRICE'
 }
@@ -56,10 +58,9 @@ export type LoTechWsTransportGenerics<TPriceData extends BasePriceData, TRespons
 }
 
 export type LoTechTransportConfig<TPriceData extends BasePriceData, TResponseData> = {
-  loggerName: string
   url: (context: EndpointContext<LoTechWsTransportGenerics<TPriceData, TResponseData>>) => string
   apiKey: (context: EndpointContext<LoTechWsTransportGenerics<TPriceData, TResponseData>>) => string
-  getBase: (data: TPriceData) => string
+  getParamsSymbolFromWsData: (data: TPriceData) => string
   toResponseData: (
     data: TPriceData,
     context: EndpointContext<LoTechWsTransportGenerics<TPriceData, TResponseData>>,
@@ -71,8 +72,6 @@ export abstract class LoTechWebSocketTransport<
   TResponseData,
 > extends WebSocketTransport<LoTechWsTransportGenerics<TPriceData, TResponseData>> {
   constructor(loTechConfig: LoTechTransportConfig<TPriceData, TResponseData>) {
-    const logger = makeLogger(loTechConfig.loggerName)
-
     super({
       url: (context) => loTechConfig.url(context),
       options: (context) => ({
@@ -115,7 +114,7 @@ export abstract class LoTechWebSocketTransport<
             return
           }
 
-          const base = loTechConfig.getBase(message.data)
+          const base = loTechConfig.getParamsSymbolFromWsData(message.data)
           try {
             return [
               {
