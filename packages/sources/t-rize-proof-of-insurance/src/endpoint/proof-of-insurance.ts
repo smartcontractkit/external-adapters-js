@@ -52,5 +52,6 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (req) => doTrizeCustomInputValidation(req.requestContext.data.network),
+  customInputValidation: (req, adapterSettings) =>
+    doTrizeCustomInputValidation(req.requestContext.data.network, adapterSettings),
 })

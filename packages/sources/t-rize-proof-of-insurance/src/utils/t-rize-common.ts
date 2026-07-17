@@ -1,4 +1,5 @@
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
 
 // 23 bytes keeps the carrier value safely within positive int192 bounds.
 const TRUNCATED_CARRIER_BYTES = 23
@@ -39,9 +40,9 @@ export const normalizeContractIdToDecimal = (hexValue: string): string => {
   return truncateBytesToDecimal(Buffer.from(normalizedHex, 'hex'), 'contractId')
 }
 
-export const getTrizeApiEndpoint = (network: string): string => {
+export const getTrizeApiEndpoint = (network: string, settings: typeof config.settings): string => {
   const endpointEnvVar = network == 'testnet' ? 'TESTNET_API_ENDPOINT' : 'API_ENDPOINT'
-  const endpoint = process.env[endpointEnvVar]
+  const endpoint = settings[endpointEnvVar]
   if (!endpoint) {
     throw new AdapterInputError({
       statusCode: 400,
@@ -51,7 +52,10 @@ export const getTrizeApiEndpoint = (network: string): string => {
   return endpoint
 }
 
-export const doTrizeCustomInputValidation = (network: string): AdapterInputError | undefined => {
-  getTrizeApiEndpoint(network)
+export const doTrizeCustomInputValidation = (
+  network: string,
+  settings: typeof config.settings,
+): AdapterInputError | undefined => {
+  getTrizeApiEndpoint(network, settings)
   return
 }

@@ -26,7 +26,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: [param],
         request: {
-          url: getTrizeApiEndpoint(param.network),
+          url: getTrizeApiEndpoint(param.network, config),
           params: {
             owner_party_id: param.ownerPartyId,
             tree_id: param.treeId,

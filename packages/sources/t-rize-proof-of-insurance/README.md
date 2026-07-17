@@ -11,7 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Testnet     | `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`      |
 | Mainnet     | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
 
-Set `API_ENDPOINT` for mainnet and `TESTNET_API_ENDPOINT` for testnet. The environment variable for the selected network must be set. For testnet, pass `network=testnet` in the request/job input.
+The adapter defaults to the URLs above. Override `API_ENDPOINT` or `TESTNET_API_ENDPOINT` to use a different URL. For testnet, pass `network=testnet` in the request/job input.
 
 ## Output Shape
 
@@ -44,11 +44,11 @@ Because the downstream stream still targets SmartData v9 carrier fields, the ada
 
 ## Environment Variables
 
-| Required? |         Name         |                             Description                             |  Type  | Options | Default |
-| :-------: | :------------------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           |     API_ENDPOINT     |            The T-Rize mainnet current-root endpoint URL.            | string |         |   ``    |
-|           | TESTNET_API_ENDPOINT |            The T-Rize testnet current-root endpoint URL.            | string |         |   ``    |
-|    ✅     |    TRIZE_API_KEY     | API key for T-Rize asset-verifier API (passed via x-api-key header) | string |         |         |
+| Required? |         Name         |                             Description                             |  Type  | Options |                                  Default                                  |
+| :-------: | :------------------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------------: |
+|           |     API_ENDPOINT     |            The T-Rize mainnet current-root endpoint URL.            | string |         | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
+|           | TESTNET_API_ENDPOINT |            The T-Rize testnet current-root endpoint URL.            | string |         |   `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`    |
+|    ✅     |    TRIZE_API_KEY     | API key for T-Rize asset-verifier API (passed via x-api-key header) | string |         |                                                                           |
 
 ---
 

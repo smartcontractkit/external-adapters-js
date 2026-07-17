@@ -237,34 +237,6 @@ describe('execute', () => {
         })
         expect(response.statusCode).toBe(400)
       })
-
-      it('should fail when the selected endpoint environment variable is missing', async () => {
-        const testnetApiEndpoint = process.env.TESTNET_API_ENDPOINT
-        delete process.env.TESTNET_API_ENDPOINT
-
-        try {
-          const response = await testAdapter.request({
-            ownerPartyId: TESTNET_OWNER_PARTY_ID,
-            treeId: 'tree-001',
-            network: 'testnet',
-            endpoint: 'proof-of-insurance',
-          })
-
-          expect(response.statusCode).toBe(400)
-          expect(response.json()).toEqual(
-            expect.objectContaining({
-              error: {
-                message: 'Error: missing environment variable TESTNET_API_ENDPOINT',
-                name: 'AdapterError',
-              },
-              status: 'errored',
-              statusCode: 400,
-            }),
-          )
-        } finally {
-          process.env.TESTNET_API_ENDPOINT = testnetApiEndpoint
-        }
-      })
     })
 
     describe('upstream failures', () => {
