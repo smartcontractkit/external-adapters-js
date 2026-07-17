@@ -26,7 +26,7 @@ type HttpTransportTypes = BaseEndpointTypes & {
 export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
-      const fullUrl = `${config.API_ENDPOINT}/api/v1/twap`
+      const fullUrl = `${config.API_ENDPOINT.replace(/\/$/, '')}/api/v1/twap`
       const bodyObj: { feedId: string; windowSeconds: number; endTs?: number } = {
         feedId: param.feedId,
         windowSeconds: param.windowSeconds,
