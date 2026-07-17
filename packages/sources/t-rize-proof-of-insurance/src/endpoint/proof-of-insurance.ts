@@ -1,8 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { httpTransport } from '../transport/proof-of-insurance'
+import { doTrizeCustomInputValidation } from '../utils/t-rize-common'
 
 const inputParameters = new InputParameters(
   {
@@ -52,18 +52,5 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    const network = req.requestContext.data.network || 'mainnet'
-    const endpoint =
-      network === 'testnet' ? adapterSettings.TESTNET_API_ENDPOINT : adapterSettings.API_ENDPOINT
-    if (!endpoint) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Error: missing ${
-          network === 'testnet' ? 'TESTNET_API_ENDPOINT' : 'API_ENDPOINT'
-        } environment variable`,
-      })
-    }
-    return
-  },
+  customInputValidation: (req) => doTrizeCustomInputValidation(req.requestContext.data.network),
 })

@@ -32,6 +32,13 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.TRIZE_API_KEY = process.env.TRIZE_API_KEY ?? 'fake-api-key'
+    process.env.API_ENDPOINT =
+      process.env.API_ENDPOINT ??
+      'http://fake-t-rize-mainnet/v1/asset-verifier/merkle-tree/current-root'
+    process.env.TESTNET_API_ENDPOINT =
+      process.env.TESTNET_API_ENDPOINT ??
+      'http://fake-t-rize-testnet/v1/asset-verifier/merkle-tree/current-root'
+    process.env.BACKGROUND_EXECUTE_MS = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -229,6 +236,34 @@ describe('execute', () => {
           endpoint: 'proof-of-insurance',
         })
         expect(response.statusCode).toBe(400)
+      })
+
+      it('should fail when the selected endpoint environment variable is missing', async () => {
+        const testnetApiEndpoint = process.env.TESTNET_API_ENDPOINT
+        delete process.env.TESTNET_API_ENDPOINT
+
+        try {
+          const response = await testAdapter.request({
+            ownerPartyId: TESTNET_OWNER_PARTY_ID,
+            treeId: 'tree-001',
+            network: 'testnet',
+            endpoint: 'proof-of-insurance',
+          })
+
+          expect(response.statusCode).toBe(400)
+          expect(response.json()).toEqual(
+            expect.objectContaining({
+              error: {
+                message: 'Error: missing environment variable TESTNET_API_ENDPOINT',
+                name: 'AdapterError',
+              },
+              status: 'errored',
+              statusCode: 400,
+            }),
+          )
+        } finally {
+          process.env.TESTNET_API_ENDPOINT = testnetApiEndpoint
+        }
       })
     })
 

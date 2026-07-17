@@ -1,44 +1,10 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { BaseEndpointTypes } from '../endpoint/proof-of-insurance'
-
-// 23 bytes keeps the carrier value safely within positive int192 bounds.
-const TRUNCATED_CARRIER_BYTES = 23
-
-// Shared carrier rule for both fields: take the leftmost 23 bytes, interpret them
-// as an unsigned big-endian integer, and return its decimal string representation.
-const truncateBytesToDecimal = (byteValue: Buffer, sourceField: 'root' | 'contractId'): string => {
-  const truncatedHex = byteValue.subarray(0, TRUNCATED_CARRIER_BYTES).toString('hex')
-
-  if (!truncatedHex) {
-    throw new Error(`Unable to map ${sourceField}: decoded value is empty.`)
-  }
-
-  return BigInt(`0x${truncatedHex}`).toString()
-}
-
-const decodeRootToDecimal = (base64Value: string): string => {
-  let decodedBytes: Buffer
-
-  try {
-    decodedBytes = Buffer.from(atob(base64Value), 'binary')
-  } catch {
-    throw new Error(`Unable to decode root: invalid base64 value ${JSON.stringify(base64Value)}.`)
-  }
-
-  return truncateBytesToDecimal(decodedBytes, 'root')
-}
-
-const normalizeContractIdToDecimal = (hexValue: string): string => {
-  const normalizedHex = hexValue.replace(/^0x/i, '')
-
-  if (!/^(?:[0-9a-f]{2})+$/i.test(normalizedHex)) {
-    throw new Error(
-      `Unable to normalize contractId: invalid hex value ${JSON.stringify(hexValue)}.`,
-    )
-  }
-
-  return truncateBytesToDecimal(Buffer.from(normalizedHex, 'hex'), 'contractId')
-}
+import {
+  decodeRootToDecimal,
+  getTrizeApiEndpoint,
+  normalizeContractIdToDecimal,
+} from '../utils/t-rize-common'
 
 export interface ResponseSchema {
   root: string
@@ -60,7 +26,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: [param],
         request: {
-          url: param.network === 'testnet' ? config.TESTNET_API_ENDPOINT : config.API_ENDPOINT,
+          url: getTrizeApiEndpoint(param.network),
           params: {
             owner_party_id: param.ownerPartyId,
             tree_id: param.treeId,

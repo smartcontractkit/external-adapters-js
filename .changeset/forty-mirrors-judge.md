@@ -2,4 +2,4 @@
 '@chainlink/t-rize-proof-of-insurance-adapter': minor
 ---
 
-Add network input param (mainnet/testnet) for endpoint selection with custom input validation. Adds TESTNET_API_ENDPOINT env var.
+Add a network input parameter (mainnet/testnet) for endpoint selection with custom input validation. Add the TESTNET_API_ENDPOINT environment variable.

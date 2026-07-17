@@ -5,7 +5,7 @@
 | Testnet     | `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`      |
 | Mainnet     | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
 
-The adapter defaults to the **production** endpoint. For testnet, pass `network=testnet` in the request/job input.
+Set `API_ENDPOINT` for mainnet and `TESTNET_API_ENDPOINT` for testnet. The environment variable for the selected network must be set. For testnet, pass `network=testnet` in the request/job input.
 
 ## Output Shape
 
