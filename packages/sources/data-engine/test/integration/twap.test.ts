@@ -3,7 +3,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockTwapErrorResponse, mockTwapResponse } from './fixtures'
+import { mockTwapErrorResponse, mockTwapResponse, mockTwapResponseWithEndTs } from './fixtures'
 
 describe('twap endpoint', () => {
   let testAdapter: TestAdapter
@@ -25,6 +25,7 @@ describe('twap endpoint', () => {
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     mockTwapResponse()
+    mockTwapResponseWithEndTs()
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -56,11 +57,24 @@ describe('twap endpoint', () => {
     expect(json.data.feedId).toBe('0x0003')
     expect(json.data.samples).toBe(30)
     expect(json.data.decimals).toBe(18)
-    expect(json.data.requestedEndTs).toBe(1700000000)
     expect(json.data.windowStartTs).toBe(1699999970)
     expect(json.data.windowEndTs).toBe(1700000000)
     expect(json.data.effectiveWindowStartTs).toBe(1699999971)
     expect(json.data.effectiveWindowEndTs).toBe(1699999997)
+  })
+
+  it('should include endTs in request when provided', async () => {
+    const response = await testAdapter.request({
+      endpoint: 'twap',
+      feedId: '0x0003',
+      windowSeconds: 30,
+      endTs: 1730000000,
+    })
+    expect(response.statusCode).toBe(200)
+    const json = response.json()
+    expect(json.result).toBe('64640960000000000000000')
+    expect(json.data.windowStartTs).toBe(1729999970)
+    expect(json.data.windowEndTs).toBe(1730000000)
   })
 
   it('should return error when provider returns 500', async () => {

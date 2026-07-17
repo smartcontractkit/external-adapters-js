@@ -15,11 +15,17 @@ export const inputParameters = new InputParameters(
       type: 'number',
       description: 'The time window in seconds to compute TWAP over',
     },
+    endTs: {
+      required: false,
+      type: 'number',
+      description: 'The end timestamp (Unix seconds) for the TWAP window.',
+    },
   },
   [
     {
       feedId: '0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9',
       windowSeconds: 30,
+      endTs: 1730000000,
     },
   ],
 )
@@ -33,7 +39,6 @@ export type BaseEndpointTypes = {
       feedId: string
       samples: number
       decimals: number
-      requestedEndTs: number
       windowStartTs: number
       windowEndTs: number
       effectiveWindowStartTs: number

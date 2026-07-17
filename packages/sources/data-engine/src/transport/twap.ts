@@ -10,7 +10,6 @@ type TwapProviderResponse = {
   feedId: string
   samples: number
   decimals: number
-  requestedEndTs: number
   windowStartTs: number
   windowEndTs: number
   effectiveWindowStartTs: number
@@ -19,7 +18,7 @@ type TwapProviderResponse = {
 
 type HttpTransportTypes = BaseEndpointTypes & {
   Provider: {
-    RequestBody: { feedId: string; windowSeconds: number }
+    RequestBody: { feedId: string; windowSeconds: number; endTs?: number }
     ResponseBody: TwapProviderResponse
   }
 }
@@ -28,7 +27,12 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
   prepareRequests: (params, config) => {
     return params.map((param) => {
       const fullUrl = `${config.API_ENDPOINT}/api/v1/twap`
-      const body = JSON.stringify({ feedId: param.feedId, windowSeconds: param.windowSeconds })
+      const bodyObj: { feedId: string; windowSeconds: number; endTs?: number } = {
+        feedId: param.feedId,
+        windowSeconds: param.windowSeconds,
+      }
+      if (param.endTs !== undefined) bodyObj.endTs = param.endTs
+      const body = JSON.stringify(bodyObj)
       return {
         params: [param],
         request: {
@@ -39,7 +43,7 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
             ...generateAuthHeaders(config.API_USERNAME, config.API_PASSWORD, 'POST', fullUrl, body),
             'Content-Type': 'application/json',
           },
-          data: JSON.parse(body),
+          data: bodyObj,
         },
       }
     })
@@ -57,7 +61,6 @@ export const twapTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
             feedId: data.feedId,
             samples: data.samples,
             decimals: data.decimals,
-            requestedEndTs: data.requestedEndTs,
             windowStartTs: data.windowStartTs,
             windowEndTs: data.windowEndTs,
             effectiveWindowStartTs: data.effectiveWindowStartTs,

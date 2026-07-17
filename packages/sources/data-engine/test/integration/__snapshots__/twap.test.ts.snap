@@ -29,7 +29,6 @@ exports[`twap endpoint should return success with TWAP data 1`] = `
     "effectiveWindowEndTs": 1699999997,
     "effectiveWindowStartTs": 1699999971,
     "feedId": "0x0003",
-    "requestedEndTs": 1700000000,
     "result": "64640960000000000000000",
     "samples": 30,
     "windowEndTs": 1700000000,
