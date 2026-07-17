@@ -53,6 +53,8 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
+// Standard month codes used in futures contracts.
+// See https://www.cmegroup.com/month-codes.html
 const monthCodes = 'FGHJKMNQUVXZ'
 
 export const getContractMonthFromSymbol = (symbol: string): number => {
@@ -110,6 +112,9 @@ export class CmeFuturesWebSocketTransport extends WebSocketTransport<WsTransport
           )
         },
         message(message, context) {
+          const timestamps = {
+            providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
+          }
           if ('error' in message) {
             logger.error(`Received error message on websocket: ${JSON.stringify(message)}`)
             return message.error.info.failures.map((failure) => ({
@@ -117,9 +122,7 @@ export class CmeFuturesWebSocketTransport extends WebSocketTransport<WsTransport
               response: {
                 statusCode: 502,
                 errorMessage: failure.type,
-                timestamps: {
-                  providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
-                },
+                timestamps,
               },
             }))
           }
@@ -162,9 +165,7 @@ export class CmeFuturesWebSocketTransport extends WebSocketTransport<WsTransport
                     contract_month,
                     ingress_ts_iso: new Date(ingress_ts / 1000).toISOString(),
                   },
-                  timestamps: {
-                    providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
-                  },
+                  timestamps,
                 },
               },
             ]
@@ -178,9 +179,7 @@ export class CmeFuturesWebSocketTransport extends WebSocketTransport<WsTransport
                 response: {
                   statusCode,
                   errorMessage,
-                  timestamps: {
-                    providerIndicatedTimeUnixMs: Math.floor(message.egress_ts / 1000),
-                  },
+                  timestamps,
                 },
               },
             ]
