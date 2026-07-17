@@ -26,6 +26,10 @@ describe('T-Rize common utilities', () => {
     ).toThrow('Error: missing environment variable TESTNET_API_ENDPOINT')
   })
 
+  it('accepts a configured selected endpoint', () => {
+    expect(() => doTrizeCustomInputValidation('mainnet', settings)).not.toThrow()
+  })
+
   it('decodes and truncates a root to a decimal string', () => {
     const root = Buffer.from(`${'ff'.repeat(24)}${'00'.repeat(8)}`, 'hex').toString('base64')
 
@@ -40,8 +44,18 @@ describe('T-Rize common utilities', () => {
     )
   })
 
+  it('rejects an empty decoded root', () => {
+    expect(() => decodeRootToDecimal('')).toThrow('Unable to map root: decoded value is empty.')
+  })
+
   it('normalizes a contract ID to a decimal string', () => {
     expect(normalizeContractIdToDecimal('0XAbCd')).toBe('43981')
+  })
+
+  it('truncates a contract ID to 23 bytes', () => {
+    expect(normalizeContractIdToDecimal(`${'ff'.repeat(24)}${'00'.repeat(8)}`)).toBe(
+      '24519928653854221733733552434404946937899825954937634815',
+    )
   })
 
   it('rejects an invalid contract ID', () => {
