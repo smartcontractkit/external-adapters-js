@@ -17,6 +17,8 @@ import {
   mockResponseSuccessMinimalRoot,
   mockResponseSuccessSignBitRoot,
   mockResponseSuccessSpecialChars,
+  mockResponseSuccessTestnet,
+  TESTNET_OWNER_PARTY_ID,
 } from './fixtures'
 
 const OWNER_PARTY_ID =
@@ -61,6 +63,30 @@ describe('execute', () => {
         const response = await testAdapter.request(data)
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
+      })
+
+      it('should use testnet endpoint when network is testnet', async () => {
+        const data = {
+          ownerPartyId: TESTNET_OWNER_PARTY_ID,
+          treeId: 'tree-001',
+          network: 'testnet',
+          endpoint: 'proof-of-insurance',
+        }
+        mockResponseSuccessTestnet()
+        const response = await testAdapter.request(data)
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            result: '1354379164455806330400696522124505861414782960378538491',
+            data: expect.objectContaining({
+              root: '1354379164455806330400696522124505861414782960378538491',
+              contractId: '5930764813757980120669252834493567470552917430872475',
+            }),
+            timestamps: expect.objectContaining({
+              providerIndicatedTimeUnixMs: 1773226228000,
+            }),
+          }),
+        )
       })
 
       it('should return success for another tree', async () => {
@@ -193,6 +219,16 @@ describe('execute', () => {
         })
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
+      })
+
+      it('should fail on invalid network', async () => {
+        const response = await testAdapter.request({
+          ownerPartyId: OWNER_PARTY_ID,
+          treeId: 'tree-001',
+          network: 'devnet',
+          endpoint: 'proof-of-insurance',
+        })
+        expect(response.statusCode).toBe(400)
       })
     })
 

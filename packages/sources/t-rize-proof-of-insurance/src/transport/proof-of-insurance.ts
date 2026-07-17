@@ -60,7 +60,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
       return {
         params: [param],
         request: {
-          url: config.API_ENDPOINT,
+          url: param.network === 'testnet' ? config.TESTNET_API_ENDPOINT : config.API_ENDPOINT,
           params: {
             owner_party_id: param.ownerPartyId,
             tree_id: param.treeId,

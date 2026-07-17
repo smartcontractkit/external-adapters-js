@@ -15,12 +15,19 @@ const inputParameters = new InputParameters(
       type: 'string',
       description: 'Tree identifier for the merkle tree',
     },
+    network: {
+      type: 'string',
+      description: 'T-Rize source network to query',
+      options: ['mainnet', 'testnet'],
+      default: 'mainnet',
+    },
   },
   [
     {
       ownerPartyId:
         'TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
       treeId: 'tree-001',
+      network: 'mainnet',
     },
   ],
 )
