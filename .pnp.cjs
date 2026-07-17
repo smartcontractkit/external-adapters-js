@@ -619,6 +619,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/t-rize-proof-of-insurance"\
     },\
     {\
+      "name": "@chainlink/t-rize-proof-of-insurance-testnet-adapter",\
+      "reference": "workspace:packages/sources/t-rize-proof-of-insurance-testnet"\
+    },\
+    {\
       "name": "@chainlink/the-network-firm-adapter",\
       "reference": "workspace:packages/sources/the-network-firm"\
     },\
@@ -848,6 +852,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
+    ["@chainlink/t-rize-proof-of-insurance-testnet-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance-testnet"]],\
     ["@chainlink/the-network-firm-adapter", ["workspace:packages/sources/the-network-firm"]],\
     ["@chainlink/tiingo-adapter", ["workspace:packages/sources/tiingo"]],\
     ["@chainlink/tiingo-state-adapter", ["workspace:packages/sources/tiingo-state"]],\
@@ -7305,6 +7310,21 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/t-rize-proof-of-insurance-testnet-adapter", [\
+      ["workspace:packages/sources/t-rize-proof-of-insurance-testnet", {\
+        "packageLocation": "./packages/sources/t-rize-proof-of-insurance-testnet/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/t-rize-proof-of-insurance-testnet-adapter", "workspace:packages/sources/t-rize-proof-of-insurance-testnet"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\

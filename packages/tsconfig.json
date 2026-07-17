@@ -447,6 +447,9 @@
       "path": "./sources/t-rize-proof-of-insurance"
     },
     {
+      "path": "./sources/t-rize-proof-of-insurance-testnet"
+    },
+    {
       "path": "./sources/the-network-firm"
     },
     {
