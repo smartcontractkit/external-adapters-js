@@ -1,7 +1,7 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
-import { getRegistryData } from '../../../src/lib/registry'
-import { calculatePrice } from '../../../src/transport/ondoPrice'
+import { getRegistryData } from '../../../src/lib/coinbase'
+import { calculatePrice } from '../../../src/transport/coinbasePrice'
 import { smoothedStreamPrice } from '../../../src/transport/smoothedPrice'
 
 jest.mock('../../../src/transport/smoothedPrice', () => ({ smoothedStreamPrice: jest.fn() }))
@@ -9,7 +9,7 @@ const mockSmoothedStreamPrice = smoothedStreamPrice as jest.MockedFunction<
   typeof smoothedStreamPrice
 >
 
-jest.mock('../../../src/lib/registry', () => ({ getRegistryData: jest.fn() }))
+jest.mock('../../../src/lib/coinbase', () => ({ getRegistryData: jest.fn() }))
 const mockGetRegistryData = getRegistryData as jest.MockedFunction<typeof getRegistryData>
 
 describe('calculatePrice', () => {
@@ -114,7 +114,7 @@ describe('calculatePrice', () => {
       decimals: 6,
     })
 
-    const expectedRegistry = { sValue: '5000000000000000000', paused: false }
+    const expectedRegistry = { multiplier: '5000000000000000000', paused: false }
     expect(result[0]).toStrictEqual({
       ...smoothedStreamPriceReturn[0],
       registry: expectedRegistry,

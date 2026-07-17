@@ -3,7 +3,7 @@ import { JsonRpcProvider } from 'ethers'
 
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { Smoother } from '../endpoint/common'
-import { getRegistryData } from '../lib/registry'
+import { getRegistryData } from '../lib/coinbase'
 
 import { smoothedStreamPrice } from './smoothedPrice'
 
@@ -42,7 +42,7 @@ export const calculatePrice = async (param: {
   return result.map((r) => ({
     ...r,
     registry: {
-      sValue: multiplier.toString(),
+      multiplier: multiplier.toString(),
       paused,
     },
     result: ((BigInt(r.result) * multiplier) / 10n ** MULTIPLIER_DECIMALS).toString(),

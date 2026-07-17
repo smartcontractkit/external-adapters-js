@@ -2,7 +2,7 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { ondoTransport } from '../transport/ondoTransport'
+import { coinbaseTransport } from '../transport/coinbaseTransport'
 import type { output } from './common'
 import { inputDefinition, inputExample, validateSmoother, validateStreamIds } from './common'
 
@@ -11,7 +11,7 @@ export const inputParameters = new InputParameters(
     registry: {
       required: true,
       type: 'string',
-      description: 'Ondo on-chain registry address',
+      description: 'Coinbase on-chain registry address',
     },
     ...inputDefinition.definition,
   },
@@ -29,7 +29,7 @@ export type BaseEndpointTypes = {
     Result: string
     Data: output & {
       registry: {
-        sValue: string
+        multiplier: string
         paused: boolean
       }
     }
@@ -38,14 +38,14 @@ export type BaseEndpointTypes = {
 }
 
 export const endpoint = new AdapterEndpoint({
-  name: 'ondo',
+  name: 'coinbase',
   aliases: [],
-  transport: ondoTransport,
+  transport: coinbaseTransport,
   inputParameters,
   customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
-    if (!adapterSettings.ETHEREUM_RPC_URL) {
+    if (!adapterSettings.BASE_RPC_URL) {
       throw new AdapterInputError({
-        message: 'Missing ETHEREUM_RPC_URL',
+        message: 'Missing BASE_RPC_URL',
         statusCode: 400,
       })
     }

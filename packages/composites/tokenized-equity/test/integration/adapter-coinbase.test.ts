@@ -17,8 +17,8 @@ jest.mock('ethers', () => {
     Contract: jest.fn().mockImplementation((address: string) => {
       if (address === validContract) {
         return {
-          getSValue: jest.fn().mockImplementation(() => {
-            return Promise.resolve({ sValue: 2n * 10n ** 18n, paused: false })
+          getOracleParams: jest.fn().mockImplementation(() => {
+            return Promise.resolve({ multiplier: 2n * 10n ** 18n, paused: false })
           }),
         }
       } else {
@@ -37,7 +37,7 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.DATA_ENGINE_ADAPTER_URL = 'http://data-engine'
     process.env.TRADING_HOURS_ADAPTER_URL = 'http://trading-hours'
-    process.env.ETHEREUM_RPC_URL = 'fake-url'
+    process.env.BASE_RPC_URL = 'fake-url'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '1000'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -60,7 +60,7 @@ describe('execute', () => {
   describe('price endpoint', () => {
     it('should return success - kalman', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -83,7 +83,7 @@ describe('execute', () => {
 
     it('should return success - ema', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -107,7 +107,7 @@ describe('execute', () => {
 
     it('missing sessionMarket', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -128,7 +128,7 @@ describe('execute', () => {
 
     it('bad sessionBoundariesTimeZone', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -149,7 +149,7 @@ describe('execute', () => {
 
     it('bad sessionBoundaries', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: validContract,
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -170,7 +170,7 @@ describe('execute', () => {
 
     it('should return failure - kalman', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: '0x0',
         asset: '0x0',
         regularStreamId: '0x000b5',
@@ -189,7 +189,7 @@ describe('execute', () => {
 
     it('should return failure - ema', async () => {
       const data = {
-        endpoint: 'ondo',
+        endpoint: 'coinbase',
         registry: '0x0',
         asset: '0x0',
         regularStreamId: '0x000b5',

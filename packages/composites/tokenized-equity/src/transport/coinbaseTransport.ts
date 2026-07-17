@@ -5,15 +5,15 @@ import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { JsonRpcProvider } from 'ethers'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/coinbase'
 import { Smoother } from '../endpoint/common'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/ondo'
-import { calculatePrice } from './ondoPrice'
+import { calculatePrice } from './coinbasePrice'
 
-const logger = makeLogger('OndoTransport')
+const logger = makeLogger('CoinbaseTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
+export class CoinbaseTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
   dataEngineUrl!: string
@@ -28,8 +28,8 @@ export class OndoTransport extends SubscriptionTransport<BaseEndpointTypes> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
     this.requester = dependencies.requester
     this.provider = new JsonRpcProvider(
-      adapterSettings.ETHEREUM_RPC_URL,
-      adapterSettings.ETHEREUM_RPC_CHAIN_ID,
+      adapterSettings.BASE_RPC_URL,
+      adapterSettings.BASE_RPC_CHAIN_ID,
     )
 
     this.dataEngineUrl = adapterSettings.DATA_ENGINE_ADAPTER_URL
@@ -137,4 +137,4 @@ const dedupeParams = (params: RequestParams[]) => {
   return Array.from(seen.values())
 }
 
-export const ondoTransport = new OndoTransport()
+export const coinbaseTransport = new CoinbaseTransport()

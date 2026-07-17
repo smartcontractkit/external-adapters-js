@@ -1,5 +1,5 @@
 import { Contract, JsonRpcProvider } from 'ethers'
-import ABI from '../config/SyntheticSharesOracleABI.json'
+import ABI from '../config/CoinbaseOracleRegistryABI.json'
 
 export const getRegistryData = async (
   asset: string,
@@ -8,10 +8,10 @@ export const getRegistryData = async (
 ) => {
   const registryContract = new Contract(registry, ABI, provider)
 
-  const { sValue, paused } = await registryContract.getSValue(asset)
+  const { multiplier, paused } = await registryContract.getOracleParams(asset)
 
   return {
-    multiplier: BigInt(sValue),
+    multiplier: BigInt(multiplier),
     paused: Boolean(paused),
   }
 }
