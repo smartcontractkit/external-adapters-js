@@ -70,7 +70,7 @@ export const getContractMonthFromSymbol = (symbol: string): number => {
     })
   }
 
-  return 1 + monthCodes.indexOf(symbol.at(-2)!)
+  return 1 + monthCodes.indexOf(monthCode)
 }
 
 export const getRollDateTimestampSeconds = (
