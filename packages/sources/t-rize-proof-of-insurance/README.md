@@ -11,7 +11,7 @@ This document was generated automatically. Please see [README Generator](../../s
 | Testnet     | `https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`      |
 | Mainnet     | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
 
-The adapter defaults to the **production** endpoint. For testnet, set `API_ENDPOINT=https://proof.t-rize.ca/v1/asset-verifier/merkle-tree/current-root`.
+The adapter defaults to the **production** endpoint. For testnet, pass `network=testnet` in the request/job input.
 
 ## Output Shape
 
@@ -44,10 +44,9 @@ Because the downstream stream still targets SmartData v9 carrier fields, the ada
 
 ## Environment Variables
 
-| Required? |     Name      |                                                     Description                                                     |  Type  | Options |                                  Default                                  |
-| :-------: | :-----------: | :-----------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----------------------------------------------------------------------: |
-|           | API_ENDPOINT  | The T-Rize current-root endpoint URL. Defaults to production. Set to the testnet current-root endpoint for testnet. | string |         | `https://proof.t-rize.network/v1/asset-verifier/merkle-tree/current-root` |
-|    ✅     | TRIZE_API_KEY |                         API key for T-Rize asset-verifier API (passed via x-api-key header)                         | string |         |                                                                           |
+| Required? |     Name      |                             Description                             |  Type  | Options | Default |
+| :-------: | :-----------: | :-----------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     | TRIZE_API_KEY | API key for T-Rize asset-verifier API (passed via x-api-key header) | string |         |         |
 
 ---
 
@@ -71,10 +70,11 @@ Because the downstream stream still targets SmartData v9 carrier fields, the ada
 
 ### Input Params
 
-| Required? |     Name     | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :----------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | ownerPartyId |         | Party ID that owns the MerkleTree contract on the ledger | string |         |         |            |                |
-|    ✅     |    treeId    |         |           Tree identifier for the merkle tree            | string |         |         |            |                |
+| Required? |     Name     | Aliases |                       Description                        |  Type  |       Options        |  Default  | Depends On | Not Valid With |
+| :-------: | :----------: | :-----: | :------------------------------------------------------: | :----: | :------------------: | :-------: | :--------: | :------------: |
+|    ✅     | ownerPartyId |         | Party ID that owns the MerkleTree contract on the ledger | string |                      |           |            |                |
+|    ✅     |    treeId    |         |           Tree identifier for the merkle tree            | string |                      |           |            |                |
+|           |   network    |         |              T-Rize source network to query              | string | `mainnet`, `testnet` | `mainnet` |            |                |
 
 ### Example
 
@@ -85,7 +85,8 @@ Request:
   "data": {
     "endpoint": "proof-of-insurance",
     "ownerPartyId": "TRIZEGroup-exampleValidator-1::0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
-    "treeId": "tree-001"
+    "treeId": "tree-001",
+    "network": "mainnet"
   }
 }
 ```

@@ -7303,7 +7303,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/t-rize-proof-of-insurance", {\
         "packageLocation": "./packages/sources/t-rize-proof-of-insurance/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/t-rize-proof-of-insurance-adapter", "workspace:packages/sources/t-rize-proof-of-insurance"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
