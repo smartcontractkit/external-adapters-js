@@ -3,7 +3,12 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockTwapErrorResponse, mockTwapResponse, mockTwapResponseWithEndTs } from './fixtures'
+import {
+  mockTwapErrorResponse,
+  mockTwapIncompleteResponse,
+  mockTwapResponse,
+  mockTwapResponseWithEndTs,
+} from './fixtures'
 
 describe('twap endpoint', () => {
   let testAdapter: TestAdapter
@@ -55,10 +60,7 @@ describe('twap endpoint', () => {
       endTs: 1730000000,
     })
     expect(response.statusCode).toBe(200)
-    const json = response.json()
-    expect(json.result).toBe('64640960000000000000000')
-    expect(json.data.windowStartTs).toBe(1729999970)
-    expect(json.data.windowEndTs).toBe(1730000000)
+    expect(response.json()).toMatchSnapshot()
   })
 
   it('should return error when provider returns 500', async () => {
@@ -66,6 +68,17 @@ describe('twap endpoint', () => {
     const response = await testAdapter.request({
       endpoint: 'twap',
       feedId: '0x0004',
+      windowSeconds: 30,
+    })
+    expect(response.statusCode).toBe(502)
+    expect(response.json()).toMatchSnapshot()
+  })
+
+  it('should return 502 when provider returns incomplete response', async () => {
+    mockTwapIncompleteResponse()
+    const response = await testAdapter.request({
+      endpoint: 'twap',
+      feedId: '0x0005',
       windowSeconds: 30,
     })
     expect(response.statusCode).toBe(502)

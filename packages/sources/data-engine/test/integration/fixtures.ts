@@ -31,6 +31,12 @@ export const mockTwapResponseWithEndTs = (): nock.Scope =>
     })
     .persist()
 
+export const mockTwapIncompleteResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0005', windowSeconds: 30 })
+    .reply(200, { feedId: '0x0005' })
+    .persist()
+
 export const mockTwapErrorResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
     .post('/api/v1/twap', { feedId: '0x0004', windowSeconds: 30 })
