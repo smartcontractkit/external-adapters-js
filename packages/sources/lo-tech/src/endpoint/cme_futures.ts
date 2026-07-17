@@ -19,6 +19,8 @@ export type BaseEndpointTypes = {
       mid_price: number
       bid_price: number
       ask_price: number
+      // The Streams schema requires bid_volume and ask_volume but we can't
+      // provide it.
       bid_volume: 0
       ask_volume: 0
       roll_date: number
