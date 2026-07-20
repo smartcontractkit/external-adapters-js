@@ -26,8 +26,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type StreamServiceClient interface {
-	// Bidirectional streaming: client sends subscribe/unsubscribe commands,
-	// server pushes observation events for subscribed assets.
+	// Each client request replaces the complete subscription set.
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[SubscribeRequest, SubscribeResponse], error)
 }
 
@@ -56,8 +55,7 @@ type StreamService_SubscribeClient = grpc.BidiStreamingClient[SubscribeRequest, 
 // All implementations must embed UnimplementedStreamServiceServer
 // for forward compatibility.
 type StreamServiceServer interface {
-	// Bidirectional streaming: client sends subscribe/unsubscribe commands,
-	// server pushes observation events for subscribed assets.
+	// Each client request replaces the complete subscription set.
 	Subscribe(grpc.BidiStreamingServer[SubscribeRequest, SubscribeResponse]) error
 	mustEmbedUnimplementedStreamServiceServer()
 }

@@ -232,7 +232,9 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	s.cache.SetObservation(transformedKey, obs, ts, key)
 	if s.publisher != nil {
 		if rawKey, ok := s.cache.RawKeyByTransformed(transformedKey); ok {
-			s.publisher.Publish(rawKey, obs, ts)
+			if payloadHash, ok := s.cache.PayloadHashByRawKey(rawKey); ok {
+				s.publisher.Publish(payloadHash, obs, ts)
+			}
 		}
 	}
 	conn.WriteInt(1)

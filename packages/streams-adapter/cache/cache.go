@@ -85,7 +85,7 @@ func New(cfg Config) *Cache {
 // SetNew creates a "new" cache item for the given raw key if one does not
 // already exist. Returns true if the item was created (i.e. this is the first
 // caller for this key), false if an item already existed.
-func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}) bool {
+func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}, payloadHash [32]byte) bool {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if _, exists := c.items[rawKey]; exists {
@@ -95,9 +95,21 @@ func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}
 		Status:              types.StatusNew,
 		Timestamp:           time.Now(),
 		OriginalRequestData: originalRequestData,
+		PayloadHash:         payloadHash,
 	}
 	cacheItemsTotal.Inc()
 	return true
+}
+
+// PayloadHashByRawKey returns a copy of the payload hash stored for rawKey.
+func (c *Cache) PayloadHashByRawKey(rawKey string) ([32]byte, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	item, ok := c.items[rawKey]
+	if !ok {
+		return [32]byte{}, false
+	}
+	return item.PayloadHash, true
 }
 
 // SetTransformedKey transitions a "new" item to "learned" by recording the

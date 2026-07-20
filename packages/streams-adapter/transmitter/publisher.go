@@ -9,79 +9,79 @@ import (
 	types "streams-adapter/common"
 )
 
-// Event is emitted to subscribers whenever a new observation arrives for an asset.
+// Event is emitted when a new observation arrives for a subscribed payload hash.
 type Event struct {
-	AssetID         string
 	Timestamp       string
 	ObservationJSON []byte
+	PayloadHash     [32]byte
 }
 
-type assetState struct {
+type subscriptionState struct {
 	subscribers map[chan<- Event]struct{}
 }
 
-// Publisher distributes incoming observations to all gRPC subscribers of an asset.
+// Publisher distributes observations to gRPC subscribers by payload hash.
 type Publisher struct {
 	mu     sync.RWMutex
-	assets map[string]*assetState
+	assets map[[32]byte]*subscriptionState
 }
 
 // NewPublisher creates a new Publisher.
 func NewPublisher() *Publisher {
 	return &Publisher{
-		assets: make(map[string]*assetState),
+		assets: make(map[[32]byte]*subscriptionState),
 	}
 }
 
-// Subscribe registers ch to receive events for assetID.
-func (p *Publisher) Subscribe(assetID string, ch chan<- Event) {
+// Subscribe registers ch to receive events for payloadHash.
+func (p *Publisher) Subscribe(payloadHash [32]byte, ch chan<- Event) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
-	state, exists := p.assets[assetID]
+	state, exists := p.assets[payloadHash]
 	if !exists {
-		state = &assetState{
+		state = &subscriptionState{
 			subscribers: make(map[chan<- Event]struct{}),
 		}
-		p.assets[assetID] = state
+		p.assets[payloadHash] = state
 	}
 	state.subscribers[ch] = struct{}{}
 }
 
-// Unsubscribe removes ch from assetID's subscriber list.
+// Unsubscribe removes ch from payloadHash's subscriber list.
 // If no subscribers remain the asset entry is cleaned up.
-func (p *Publisher) Unsubscribe(assetID string, ch chan<- Event) {
+func (p *Publisher) Unsubscribe(payloadHash [32]byte, ch chan<- Event) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 
-	state, exists := p.assets[assetID]
+	state, exists := p.assets[payloadHash]
 	if !exists {
 		return
 	}
 	delete(state.subscribers, ch)
 	if len(state.subscribers) == 0 {
-		delete(p.assets, assetID)
+		delete(p.assets, payloadHash)
 	}
 }
 
-// Publish marshals obs to JSON and fans out an Event to all subscribers of assetID.
+// Publish marshals obs to JSON and fans out an Event to payloadHash subscribers.
 // Slow subscribers are skipped (non-blocking send).
-func (p *Publisher) Publish(assetID string, obs *types.Observation, ts time.Time) {
+func (p *Publisher) Publish(payloadHash [32]byte, obs *types.Observation, ts time.Time) {
 	obsJSON, err := json.Marshal(obs)
 	if err != nil {
 		return
 	}
 
 	event := Event{
-		AssetID:         assetID,
 		Timestamp:       ts.UTC().Format(time.RFC3339Nano),
 		ObservationJSON: obsJSON,
+		PayloadHash:     payloadHash,
 	}
 
 	p.mu.RLock()
 	defer p.mu.RUnlock()
 
-	state, exists := p.assets[assetID]
+	state, exists := p.assets[payloadHash]
 	if !exists {
 		return
 	}

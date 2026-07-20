@@ -1,131 +1,171 @@
 package transmitter
 
 import (
-	"encoding/json"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"log/slog"
+	"time"
 
-	"streams-adapter/helpers"
+	types "streams-adapter/common"
 
 	pb "streams-adapter/gen/streams/v1"
 )
 
-// StreamTransmitter implements the gRPC StreamServiceServer.
-// It accepts bidirectional streams: clients send subscribe/unsubscribe commands
-// and receive observation events for their subscribed assets.
+// StreamTransmitter implements the gRPC StreamServiceServer. Each request on a
+// stream is an authoritative replacement of that client's subscription set.
 type StreamTransmitter struct {
 	pb.UnimplementedStreamServiceServer
-	publisher    *Publisher
-	logger       *slog.Logger
-	bootstrapper func(data map[string]interface{}) error
+	publisher      *Publisher
+	logger         *slog.Logger
+	resolver       func(data map[string]interface{}) (*types.ResolvedSubscription, error)
+	ensure         func(resolved *types.ResolvedSubscription) *types.CacheItem
+	refreshTimeout time.Duration
 }
 
-// NewStreamTransmitter creates a new StreamTransmitter backed by publisher.
-// bootstrapper is called when a subscribe request arrives for an asset not yet
-// in the cache; pass nil to disable (fanout-only mode).
-func NewStreamTransmitter(publisher *Publisher, logger *slog.Logger, bootstrapper func(map[string]interface{}) error) *StreamTransmitter {
-	return &StreamTransmitter{publisher: publisher, logger: logger, bootstrapper: bootstrapper}
+// NewStreamTransmitter creates a transmitter backed by publisher. Subscriptions
+// are cleared when no valid snapshot is received within refreshTimeout.
+func NewStreamTransmitter(
+	publisher *Publisher,
+	logger *slog.Logger,
+	resolver func(map[string]interface{}) (*types.ResolvedSubscription, error),
+	ensure func(*types.ResolvedSubscription) *types.CacheItem,
+	refreshTimeout time.Duration,
+) *StreamTransmitter {
+	return &StreamTransmitter{
+		publisher: publisher, logger: logger, resolver: resolver, ensure: ensure, refreshTimeout: refreshTimeout,
+	}
 }
 
-// normalizePayloadJSON parses a JSON payload (identical to the HTTP adapter
-// request body: {"data":{...}}) and returns the canonical cache key using the
-// same path as adapterHandler: BuildCacheKeyParams → CalculateCacheKey.
-func normalizePayloadJSON(payloadJSON string) (string, error) {
-	var req struct {
-		Data map[string]interface{} `json:"data"`
+type normalizedSubscription struct {
+	resolved *types.ResolvedSubscription
+}
+
+// normalizeSnapshot validates the complete snapshot before any subscription
+// registrations are changed.
+func (s *StreamTransmitter) normalizeSnapshot(req *pb.SubscribeRequest) ([]normalizedSubscription, error) {
+	if len(req.GetSubscriptions()) > 0 && s.resolver == nil {
+		return nil, fmt.Errorf("subscription resolver is not configured")
 	}
-	if err := json.Unmarshal([]byte(payloadJSON), &req); err != nil {
-		return "", fmt.Errorf("parse payload: %w", err)
+	result := make([]normalizedSubscription, 0, len(req.GetSubscriptions()))
+	for i, subscription := range req.GetSubscriptions() {
+		if subscription == nil || subscription.GetData() == nil {
+			return nil, fmt.Errorf("subscription %d is missing data", i)
+		}
+		data := subscription.GetData().AsMap()
+		resolved, err := s.resolver(data)
+		if err != nil {
+			return nil, fmt.Errorf("subscription %d: %w", i, err)
+		}
+		result = append(result, normalizedSubscription{resolved: resolved})
 	}
-	if len(req.Data) == 0 {
-		return "", fmt.Errorf("payload missing \"data\" field")
+	return result, nil
+}
+
+func resetTimer(timer *time.Timer, duration time.Duration) {
+	if !timer.Stop() {
+		select {
+		case <-timer.C:
+		default:
+		}
 	}
-	rawParams, err := helpers.BuildCacheKeyParams(req.Data)
-	if err != nil {
-		return "", err
-	}
-	return helpers.CalculateCacheKey(rawParams)
+	timer.Reset(duration)
 }
 
 // Subscribe handles a single bidirectional gRPC stream.
 func (s *StreamTransmitter) Subscribe(stream pb.StreamService_SubscribeServer) error {
 	eventCh := make(chan Event, 64)
-	subscribed := make(map[string]struct{}) // canonical key → registered
+	subscribed := make(map[[32]byte]struct{})
 
-	// Cleanup all subscriptions when client disconnects.
-	defer func() {
-		for assetID := range subscribed {
-			s.publisher.Unsubscribe(assetID, eventCh)
+	clearSubscriptions := func() {
+		for payloadHash := range subscribed {
+			s.publisher.Unsubscribe(payloadHash, eventCh)
+			delete(subscribed, payloadHash)
 		}
+	}
+	defer func() {
+		clearSubscriptions()
 		close(eventCh)
 	}()
 
-	// Goroutine: forward events to the client.
 	errCh := make(chan error, 1)
 	go func() {
 		for event := range eventCh {
-			resp := &pb.SubscribeResponse{
-				AssetId:         event.AssetID,
+			payloadHash := make([]byte, len(event.PayloadHash))
+			copy(payloadHash, event.PayloadHash[:])
+			if err := stream.Send(&pb.SubscribeResponse{
 				Timestamp:       event.Timestamp,
-				ObservationJson: event.ObservationJSON,
-			}
-			if err := stream.Send(resp); err != nil {
-				errCh <- err
+				ObservationJson: event.ObservationJSON, PayloadHash: payloadHash,
+			}); err != nil {
+				select {
+				case errCh <- err:
+				default:
+				}
 				return
 			}
 		}
 	}()
 
-	// Main loop: read subscribe/unsubscribe commands from the client.
+	recvCh := make(chan *pb.SubscribeRequest, 1)
+	go func() {
+		for {
+			req, err := stream.Recv()
+			if err != nil {
+				errCh <- err
+				return
+			}
+			recvCh <- req
+		}
+	}()
+
+	refreshTimeout := s.refreshTimeout
+	if refreshTimeout <= 0 {
+		refreshTimeout = 3 * time.Minute
+	}
+	timer := time.NewTimer(refreshTimeout)
+	defer timer.Stop()
+
 	for {
 		select {
 		case err := <-errCh:
+			if err == io.EOF {
+				return nil
+			}
 			return err
-		default:
-		}
-
-		req, err := stream.Recv()
-		if err == io.EOF {
-			return nil
-		}
-		if err != nil {
-			return err
-		}
-
-		switch action := req.Action.(type) {
-		case *pb.SubscribeRequest_Subscribe:
-			assetID, err := normalizePayloadJSON(action.Subscribe.PayloadJson)
+		case <-timer.C:
+			clearSubscriptions()
+			s.logger.Info("client subscriptions expired")
+			timer.Reset(refreshTimeout)
+		case req := <-recvCh:
+			normalized, err := s.normalizeSnapshot(req)
 			if err != nil {
-				s.logger.Warn("subscribe: invalid payload", "payload", action.Subscribe.PayloadJson, "error", err)
+				s.logger.Warn("invalid subscription snapshot", "error", err)
 				continue
 			}
-			if _, already := subscribed[assetID]; !already {
-				subscribed[assetID] = struct{}{}
-				s.publisher.Subscribe(assetID, eventCh)
-				s.logger.Info("client subscribed", "asset_id", assetID)
-				if s.bootstrapper != nil {
-					var req struct {
-						Data map[string]interface{} `json:"data"`
-					}
-					if err := json.Unmarshal([]byte(action.Subscribe.PayloadJson), &req); err == nil && len(req.Data) > 0 {
-						if err := s.bootstrapper(req.Data); err != nil {
-							s.logger.Warn("bootstrap subscription failed", "asset_id", assetID, "error", err)
-						}
-					}
+
+			next := make(map[[32]byte]struct{}, len(normalized))
+			for _, subscription := range normalized {
+				next[subscription.resolved.PayloadHash] = struct{}{}
+			}
+			for payloadHash := range subscribed {
+				if _, keep := next[payloadHash]; !keep {
+					s.publisher.Unsubscribe(payloadHash, eventCh)
+					delete(subscribed, payloadHash)
+					s.logger.Info("client subscription removed", "payload_hash", hex.EncodeToString(payloadHash[:]))
 				}
 			}
-		case *pb.SubscribeRequest_Unsubscribe:
-			assetID, err := normalizePayloadJSON(action.Unsubscribe.PayloadJson)
-			if err != nil {
-				s.logger.Warn("unsubscribe: invalid payload", "payload", action.Unsubscribe.PayloadJson, "error", err)
-				continue
+			for _, subscription := range normalized {
+				payloadHash := subscription.resolved.PayloadHash
+				if _, already := subscribed[payloadHash]; !already {
+					s.publisher.Subscribe(payloadHash, eventCh)
+					subscribed[payloadHash] = struct{}{}
+					s.logger.Info("client subscription added", "payload_hash", hex.EncodeToString(payloadHash[:]))
+				}
+				if s.ensure != nil {
+					s.ensure(subscription.resolved)
+				}
 			}
-			if _, ok := subscribed[assetID]; ok {
-				s.publisher.Unsubscribe(assetID, eventCh)
-				delete(subscribed, assetID)
-				s.logger.Info("client unsubscribed", "asset_id", assetID)
-			}
+			resetTimer(timer, refreshTimeout)
 		}
 	}
 }

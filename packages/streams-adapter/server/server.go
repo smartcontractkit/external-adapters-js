@@ -3,6 +3,7 @@ package server
 import (
 	"bytes"
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -264,6 +265,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 		Timestamp           time.Time              `json:"timestamp"`
 		Observation         *types.Observation     `json:"observation,omitempty"`
 		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
+		PayloadHash         string                 `json:"payloadHash"`
 	}
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
@@ -275,6 +277,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 			Timestamp:           item.Timestamp,
 			Observation:         item.Observation,
 			OriginalRequestData: item.OriginalRequestData,
+			PayloadHash:         hex.EncodeToString(item.PayloadHash[:]),
 		})
 	}
 
@@ -300,10 +303,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		return
 	}
 
-	// Resolve endpoint alias and build raw cache key params.
-	rawParams, err := helpers.BuildCacheKeyParams(reqData.Data)
+	resolved, err := s.ResolveSubscription(reqData.Data)
 	if err != nil {
-		s.logger.Error("Failed to canonicalize request params", "error", err, "requestData", reqData.Data)
+		s.logger.Error("Failed to resolve subscription", "error", err, "requestData", reqData.Data)
 
 		// If we cannot canonicalize the request (e.g. unknown/unsupported endpoint),
 		// do not attempt to use the cache or subscribe and return a 500 to the caller.
@@ -318,38 +320,12 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	}
 
 	// Set request params for metrics tracking
-	middleware.SetRequestParams(c, rawParams)
+	middleware.SetRequestParams(c, resolved.Params)
 
-	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
-	if err != nil {
-		s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", rawParams)
-		// If we cannot calculate a subscription key, do not attempt to subscribe
-		// and return a 500 to the caller.
-		errorResp := errorResponsePool.Get().(*ErrorResponseData)
-		defer errorResponsePool.Put(errorResp)
-
-		errorResp.Error.Name = "AdapterError"
-		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
-
-		c.JSON(http.StatusInternalServerError, errorResp)
+	item := s.EnsureSubscription(resolved)
+	if item.Status == types.StatusActive && item.Observation != nil {
+		respondWithObservation(c, item.Observation)
 		return
-	}
-
-	// Try the cache: if the item exists and is active, serve it.
-	// If it exists but is still new/learned, a subscription is already in
-	// progress — return 504 without starting another goroutine.
-	if item := s.cache.Get(rawCacheKey); item != nil {
-		if item.Status == types.StatusActive && item.Observation != nil {
-			respondWithObservation(c, item.Observation)
-			return
-		}
-		// Fall through to 504 below.
-	} else {
-		// First request for this key — create the item and start polling.
-		if s.cache.SetNew(rawCacheKey, reqData.Data) {
-			s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
-			go s.bootstrapSubscription(rawCacheKey, rawParams, reqData.Data)
-		}
 	}
 
 	// Get error response from pool
@@ -387,25 +363,34 @@ func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams
 	}
 }
 
-// BootstrapSubscription registers data in the cache (if new) and starts the
-// feedId polling goroutine. It follows the same path as adapterHandler and is
-// safe to call from the gRPC transmitter for assets not yet in the cache.
-func (s *Server) BootstrapSubscription(data map[string]interface{}) error {
+// ResolveSubscription validates data and derives all subscription identifiers
+// without mutating cache or provider state.
+func (s *Server) ResolveSubscription(data map[string]interface{}) (*types.ResolvedSubscription, error) {
 	rawParams, err := helpers.BuildCacheKeyParams(data)
 	if err != nil {
-		return fmt.Errorf("canonicalize params: %w", err)
+		return nil, fmt.Errorf("canonicalize params: %w", err)
 	}
 	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
 	if err != nil {
-		return fmt.Errorf("calculate cache key: %w", err)
+		return nil, fmt.Errorf("calculate cache key: %w", err)
 	}
-	if s.cache.Get(rawCacheKey) == nil {
-		if s.cache.SetNew(rawCacheKey, data) {
-			s.logger.Debug("Bootstrapping subscription from gRPC", "rawCacheKey", rawCacheKey)
-			go s.bootstrapSubscription(rawCacheKey, rawParams, data)
-		}
+	payloadHash, err := helpers.ObservationPayloadHash(s.config.AdapterName, data)
+	if err != nil {
+		return nil, fmt.Errorf("calculate payload hash: %w", err)
 	}
-	return nil
+	return &types.ResolvedSubscription{
+		Data: data, Params: rawParams, CacheKey: rawCacheKey, PayloadHash: payloadHash,
+	}, nil
+}
+
+// EnsureSubscription atomically creates a cache entry and starts provider
+// bootstrap for the first caller. Later HTTP or gRPC callers reuse that work.
+func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types.CacheItem {
+	if s.cache.SetNew(resolved.CacheKey, resolved.Data, resolved.PayloadHash) {
+		s.logger.Debug("Initiating new subscription", "requestParams", resolved.Params, "rawCacheKey", resolved.CacheKey)
+		go s.bootstrapSubscription(resolved.CacheKey, resolved.Params, resolved.Data)
+	}
+	return s.cache.Get(resolved.CacheKey)
 }
 
 // respondWithObservation writes the observation to the response. Returns 200 for

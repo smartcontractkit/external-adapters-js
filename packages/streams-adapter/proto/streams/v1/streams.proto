@@ -2,31 +2,25 @@ syntax = "proto3";
 
 package streams.v1;
 
+import "google/protobuf/struct.proto";
+
 option go_package = "streams-adapter/gen/streams/v1;streamsv1";
 
 service StreamService {
-  // Bidirectional streaming: client sends subscribe/unsubscribe commands,
-  // server pushes observation events for subscribed assets.
+  // Each client request replaces the complete subscription set.
   rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeResponse) {}
 }
 
 message SubscribeRequest {
-  oneof action {
-    SubscribeAction subscribe = 1;
-    UnsubscribeAction unsubscribe = 2;
-  }
+  repeated Subscription subscriptions = 1;
 }
 
-message SubscribeAction {
-  string payload_json = 1;
-}
-
-message UnsubscribeAction {
-  string payload_json = 1;
+message Subscription {
+  google.protobuf.Struct data = 1;
 }
 
 message SubscribeResponse {
-  string asset_id = 1;
   string timestamp = 2;
   bytes observation_json = 3;
+  bytes payload_hash = 4;
 }

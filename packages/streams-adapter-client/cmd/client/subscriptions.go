@@ -17,12 +17,6 @@ func (b *subscriptionBook) Add(payload string) {
 	b.payloads[payload] = struct{}{}
 }
 
-func (b *subscriptionBook) Remove(payload string) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	delete(b.payloads, payload)
-}
-
 func (b *subscriptionBook) Count() int {
 	b.mu.RLock()
 	defer b.mu.RUnlock()

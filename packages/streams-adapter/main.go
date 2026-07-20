@@ -108,7 +108,14 @@ func main() {
 
 	// Start gRPC transmitter server
 	grpcServer := grpc.NewServer()
-	pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(pub, logger, httpServer.BootstrapSubscription))
+	refreshTimeout := time.Duration(cfg.SubscriptionRefreshTimeoutSeconds) * time.Second
+	pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(
+		pub,
+		logger,
+		httpServer.ResolveSubscription,
+		httpServer.EnsureSubscription,
+		refreshTimeout,
+	))
 	go func() {
 		logger.Info("gRPC transmitter listening (shared port)", "port", cfg.HTTPPort)
 		if err := grpcServer.Serve(grpcL); err != nil {

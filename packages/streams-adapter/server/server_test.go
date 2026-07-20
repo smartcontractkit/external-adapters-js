@@ -83,7 +83,7 @@ func setCache(t *testing.T, params types.RequestParams, obs *types.Observation, 
 	t.Helper()
 	rawKey, err := helpers.CalculateCacheKey(params)
 	require.NoError(t, err)
-	testCache.SetNew(rawKey, nil)
+	testCache.SetNew(rawKey, nil, [32]byte{})
 	testCache.SetTransformedKey(rawKey, rawKey)
 	testCache.SetObservation(rawKey, obs, time.Now(), originalAdapterKey)
 }

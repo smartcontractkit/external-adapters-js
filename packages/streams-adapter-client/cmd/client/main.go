@@ -8,7 +8,9 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -122,7 +124,13 @@ func main() {
 		"type help or ? for available commands",
 	}
 
-	c, err := client.NewClient(ctx, addr, cache, opts...)
+	refreshSeconds := 60
+	if raw := os.Getenv("CACHE_CLEANUP_INTERVAL"); raw != "" {
+		if parsed, err := strconv.Atoi(raw); err == nil && parsed > 0 {
+			refreshSeconds = parsed
+		}
+	}
+	c, err := client.NewClient(ctx, addr, cache, time.Duration(refreshSeconds)*time.Second, opts...)
 	if err != nil {
 		log.Fatalf("failed to connect to %s: %v", addr, err)
 	}

@@ -19,12 +19,12 @@ const (
 	viewCache appView = iota
 	viewRates
 	viewHelp
-	appTickRate = time.Second
+	appTickRate     = time.Second
 	maxRetainedLogs = 6
 	statusBarHeight = 2
-	headerHeight = 3
-	inputHeight = 3
-	minTableRows = 5
+	headerHeight    = 3
+	inputHeight     = 3
+	minTableRows    = 5
 )
 
 var (
@@ -194,23 +194,6 @@ func (m *clientAppModel) executeCommand(command string) bool {
 		m.statusMessage = "subscription sent"
 		m.appendLog(fmt.Sprintf("subscribed: %s", payload))
 		m.view = viewCache
-	case "unsubscribe":
-		if len(parts) < 2 {
-			m.appendLog(`usage: unsubscribe payload='{"data":{...}}'`)
-			return false
-		}
-		payload, err := parsePayload(parts[1:])
-		if err != nil {
-			m.appendLog(fmt.Sprintf("invalid payload: %v", err))
-			return false
-		}
-		if err := m.client.Unsubscribe(payload); err != nil {
-			m.appendLog(fmt.Sprintf("unsubscribe error: %v", err))
-			return false
-		}
-		m.subscriptions.Remove(payload)
-		m.statusMessage = "unsubscribe sent"
-		m.appendLog(fmt.Sprintf("unsubscribed: %s", payload))
 	case "cache":
 		m.view = viewCache
 		m.offset = 0
@@ -373,7 +356,7 @@ func (m clientAppModel) renderRatesView(width int) string {
 	lines := []string{
 		cacheHeaderStyle.Render(fmt.Sprintf(
 			"%s%s%s%s%s%s%s",
-			padRight("ASSET", keyWidth),
+			padRight("PAYLOAD HASH", keyWidth),
 			strings.Repeat(" ", cacheTableGapWidth),
 			padLeft("RATE/s", cacheTableRateWidth),
 			strings.Repeat(" ", cacheTableGapWidth),
@@ -414,7 +397,6 @@ func (m clientAppModel) renderHelpView(width int) string {
 		sectionTitleStyle.Render("Commands"),
 		helpStyle.Render("help | h | ?"),
 		helpStyle.Render(`subscribe payload='{"data":{...}}'`),
-		helpStyle.Render(`unsubscribe payload='{"data":{...}}'`),
 		helpStyle.Render("cache | rates | help | quit | q"),
 		"",
 		sectionTitleStyle.Render("Keys"),
@@ -424,7 +406,7 @@ func (m clientAppModel) renderHelpView(width int) string {
 		helpStyle.Render("q / Ctrl+C: quit"),
 		"",
 		sectionTitleStyle.Render("Notes"),
-		helpStyle.Render(truncate("Active subscriptions is the number of unique payloads this client has sent subscribe for. Cached assets is the number of asset IDs with at least one received observation.", width-4)),
+		helpStyle.Render(truncate("Active subscriptions is the number of unique payloads in each full snapshot. Cached observations are keyed by payload hash.", width-4)),
 	}
 	return strings.Join(lines, "\n")
 }

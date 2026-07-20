@@ -23,25 +23,25 @@ const (
 )
 
 var (
-	cacheTitleStyle = lipgloss.NewStyle().Bold(true)
-	cacheMetaStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
+	cacheTitleStyle  = lipgloss.NewStyle().Bold(true)
+	cacheMetaStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
 	cacheHeaderStyle = lipgloss.NewStyle().
-		Bold(true).
-		Foreground(lipgloss.Color("86"))
-	emptyStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
+				Bold(true).
+				Foreground(lipgloss.Color("86"))
+	emptyStyle       = lipgloss.NewStyle().Foreground(lipgloss.Color("244"))
 	selectedRowStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("229"))
 )
 
 type cacheTickMsg time.Time
 
 type cacheTableModel struct {
-	cache             *client.Cache
+	cache               *client.Cache
 	activeSubscriptions func() int
-	width             int
-	height            int
-	now               time.Time
-	offset            int
-	quitting          bool
+	width               int
+	height              int
+	now                 time.Time
+	offset              int
+	quitting            bool
 }
 
 func runCacheTable(cache *client.Cache, activeSubscriptions func() int) error {
@@ -135,7 +135,7 @@ func (m cacheTableModel) View() string {
 
 	header := fmt.Sprintf(
 		"%s%s%s%s%s",
-		padRight("CACHE KEY", cacheTableKeyWidth),
+		padRight("PAYLOAD HASH", cacheTableKeyWidth),
 		strings.Repeat(" ", cacheTableGapWidth),
 		padRight("OBSERVATION", obsWidth),
 		strings.Repeat(" ", cacheTableGapWidth),
