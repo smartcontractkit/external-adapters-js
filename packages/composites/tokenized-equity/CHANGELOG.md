@@ -1,5 +1,18 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`8ce9820`](https://github.com/smartcontractkit/external-adapters-js/commit/8ce9820f7043b5ea503b7e9dec88c3cc917c05e1)]:
+  - @chainlink/data-engine-adapter@1.5.0
+
+## 1.4.0
+
+### Minor Changes
+
+- [#5202](https://github.com/smartcontractkit/external-adapters-js/pull/5202) [`2f1c90f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f1c90ff1006e0d486cc5ed052f1c19bbc3947c2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add coinbase endpoint
+
 ## 1.3.0
 
 ### Minor Changes

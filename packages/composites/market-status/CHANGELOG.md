@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.11.0
+
+### Minor Changes
+
+- [#5192](https://github.com/smartcontractkit/external-adapters-js/pull/5192) [`4b3682a`](https://github.com/smartcontractkit/external-adapters-js/commit/4b3682a01d4865775e16cfeea2a9e94505a90131) Thanks [@dskloetc](https://github.com/dskloetc)! - Add SIX as market status source for SIX and BME
+
 ## 1.10.0
 
 ### Minor Changes
