@@ -364,7 +364,6 @@ func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams
 				break
 			}
 			s.cache.SetTransformedKey(rawKey, transformedKey)
-			s.logger.Debug("Learned key mapping from feedId", "rawKey", rawKey, "transformedKey", transformedKey)
 			break
 		}
 	}
@@ -394,7 +393,6 @@ func (s *Server) ResolveSubscription(data map[string]interface{}) (*types.Resolv
 // bootstrap for the first caller. Later HTTP or gRPC callers reuse that work.
 func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types.CacheItem {
 	if s.cache.SetNew(resolved.CacheKey, resolved.Data, resolved.PayloadHash) {
-		s.logger.Debug("Initiating new subscription", "requestParams", resolved.Params, "rawCacheKey", resolved.CacheKey)
 		go s.bootstrapSubscription(resolved.CacheKey, resolved.Params, resolved.Data)
 	}
 	return s.cache.Get(resolved.CacheKey)
@@ -519,10 +517,6 @@ func (s *Server) subscribeToAsset(data interface{}) {
 		return
 	}
 	defer resp.Body.Close()
-
-	if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode)
-	}
 }
 
 // queryAdapterForFeedID sends a request to the JS adapter and returns the
