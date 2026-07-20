@@ -5269,7 +5269,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
           ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5965,7 +5965,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6017,7 +6017,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gmx-tokens/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/gmx-tokens-adapter", "workspace:packages/composites/gmx-tokens"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -6037,7 +6037,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gold/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/gold-adapter", "workspace:packages/composites/gold"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -7440,7 +7440,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/tokenized-equity/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/tokenized-equity-adapter", "workspace:packages/composites/tokenized-equity"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/jest", "npm:29.5.14"],\
