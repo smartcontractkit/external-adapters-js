@@ -38,7 +38,7 @@ describe('execute', () => {
     process.env.TESTNET_API_ENDPOINT =
       process.env.TESTNET_API_ENDPOINT ??
       'http://fake-t-rize-testnet/v1/asset-verifier/merkle-tree/current-root'
-    process.env.BACKGROUND_EXECUTE_MS = '0'
+    process.env.RETRY = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -259,7 +259,7 @@ describe('execute', () => {
         }
         mockResponseFailure404()
         const response = await testAdapter.request(data)
-        expect(response.statusCode).toBe(504)
+        expect(response.statusCode).toBe(502)
       })
 
       it('should handle 401 error from upstream', async () => {
@@ -270,7 +270,7 @@ describe('execute', () => {
         }
         mockResponseFailure401()
         const response = await testAdapter.request(data)
-        expect(response.statusCode).toBe(504)
+        expect(response.statusCode).toBe(502)
       })
 
       it('should handle empty response body from upstream', async () => {
