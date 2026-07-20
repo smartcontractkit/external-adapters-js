@@ -180,7 +180,7 @@ adapters:
   - name: llama-guard
     version: 1.2.6
   - name: lo-tech
-    version: 1.0.2
+    version: 1.1.0
   - name: lotus
     version: 3.0.35
   - name: m0
