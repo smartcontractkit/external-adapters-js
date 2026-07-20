@@ -108,6 +108,35 @@ describe('AnchorDataTransport', () => {
       })
     })
 
+    it('should return multiple values', async () => {
+      const accountDataResponse = makeStub('accountDataResponse', {
+        value: {
+          data: fragmetricAccountData.result.value.data,
+          owner: fragmetricLiquidStakingProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+
+      const fieldName1 = 'one_receipt_token_as_sol'
+      const fieldName2 = 'receipt_token_supply_amount'
+      const param = makeStub('param', {
+        rpc: solanaRpc,
+        stateAccountAddress: fragmetricAccountAddress,
+        account: 'FundAccount',
+        fields: [fieldName1, fieldName2],
+      })
+
+      const response = await getAnchorData(param)
+
+      const expectedTokenSupply = '316994539554695'
+
+      expect(response).toEqual({
+        [fieldName1]: createBnFromBuffer(expectedFragmetricTokenPrice),
+        [fieldName2]: createBnFromBuffer(expectedTokenSupply),
+      })
+    })
+
     it('should throw if account does not have an owner', async () => {
       const accountDataResponse = makeStub('accountDataResponse', {
         value: {
