@@ -1,5 +1,29 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.10.1
+
+### Patch Changes
+
+- [#5129](https://github.com/smartcontractkit/external-adapters-js/pull/5129) [`be5ffeb`](https://github.com/smartcontractkit/external-adapters-js/commit/be5ffeb4babe4cf319c3a5a2d85aca168f6178d0) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - updates streams-adapter code
+
+## 1.10.0
+
+### Minor Changes
+
+- [#5024](https://github.com/smartcontractkit/external-adapters-js/pull/5024) [`0b56c4e`](https://github.com/smartcontractkit/external-adapters-js/commit/0b56c4e88e987468ab1a7277f3915159801ca213) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update ea framework to support json only feed id
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
+## 1.9.0
+
+### Minor Changes
+
+- [#5000](https://github.com/smartcontractkit/external-adapters-js/pull/5000) [`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Changeset to release the following adapters: aleno, allium-state, backed-fi, blocksize-capital-state, coinpaprika, coinpaprika-state, deutsche-boerse, expand-network, icap, mobula-state, the-network-firm, tp, view-function-multi-chain
+
 ## 1.8.0
 
 ### Minor Changes

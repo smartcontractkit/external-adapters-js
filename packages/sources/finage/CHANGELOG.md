@@ -1,5 +1,35 @@
 ## v1.1.0
 
+## 2.8.1
+
+### Patch Changes
+
+- [#5122](https://github.com/smartcontractkit/external-adapters-js/pull/5122) [`2973d74`](https://github.com/smartcontractkit/external-adapters-js/commit/2973d74402f7c816da669ba1efe730e3c6e66753) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix 24-5 assets ruberbanding
+
+## 2.8.0
+
+### Minor Changes
+
+- [#5101](https://github.com/smartcontractkit/external-adapters-js/pull/5101) [`6f7d771`](https://github.com/smartcontractkit/external-adapters-js/commit/6f7d7716fe1bcf03dd30329226d5eea326e21305) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add http transport to stock quotes and enable compositeTransport capability
+
+## 2.7.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Update framework version to 2.17.1 and use decimal.js for REST stock transport
+
+## 2.7.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 2.7.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
 ## 2.6.6
 
 ### Patch Changes

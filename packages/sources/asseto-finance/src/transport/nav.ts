@@ -136,7 +136,7 @@ class NavTransport extends SubscriptionTransport<HttpTransportTypes> {
         inputParameters,
         endpointName: this.endpointName,
       },
-      data: requestConfig.data || {},
+      data: { fundId },
       transportName: this.name,
     })
 

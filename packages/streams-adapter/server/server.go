@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -33,8 +34,9 @@ type ResponseData struct {
 	Data struct {
 		Result interface{} `json:"result"`
 	} `json:"data"`
-	Success bool   `json:"success"`
-	Error   string `json:"error,omitempty"`
+	Success    bool   `json:"success"`
+	Error      string `json:"error,omitempty"`
+	StatusCode int    `json:"statusCode,omitempty"`
 }
 
 // ErrorResponseData represents the structure of error responses
@@ -43,12 +45,14 @@ type ErrorResponseData struct {
 		Name    string `json:"name"`
 		Message string `json:"message"`
 	} `json:"error"`
+	StatusCode int `json:"statusCode,omitempty"`
 }
 
 // ObservationErrorResponse is returned when the cached observation has Success=false
 type ObservationErrorResponse struct {
 	ErrorMessage string          `json:"errorMessage"`
 	Timestamps   json.RawMessage `json:"timestamps"`
+	StatusCode   int             `json:"statusCode,omitempty"`
 }
 
 // Object pools for reducing memory allocations
@@ -154,7 +158,7 @@ func (s *Server) setupRoutes() {
 	// Cache debug endpoint
 	group.GET("/cache", s.cacheHandler)
 	// Main adapter endpoint
-	group.POST("/", s.adapterHandler)
+	group.POST("", s.adapterHandler)
 }
 
 // Start starts the HTTP server
@@ -297,8 +301,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	reqData.Data = nil
 	if err := c.ShouldBindJSON(reqData); err != nil {
 		c.JSON(http.StatusBadRequest, ResponseData{
-			Success: false,
-			Error:   fmt.Sprintf("Invalid request format: %v", err),
+			Success:    false,
+			Error:      fmt.Sprintf("Invalid request format: %v", err),
+			StatusCode: http.StatusBadRequest,
 		})
 		return
 	}
@@ -314,6 +319,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 		errorResp.Error.Name = "AdapterError"
 		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
+		errorResp.StatusCode = http.StatusInternalServerError
 
 		c.JSON(http.StatusInternalServerError, errorResp)
 		return
@@ -324,7 +330,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	item := s.EnsureSubscription(resolved)
 	if item.Status == types.StatusActive && item.Observation != nil {
-		respondWithObservation(c, item.Observation)
+		respondWithObservation(c, item)
 		return
 	}
 
@@ -334,6 +340,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	errorResp.Error.Name = "AdapterError"
 	errorResp.Error.Message = "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels."
+	errorResp.StatusCode = http.StatusGatewayTimeout
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
 }
@@ -395,15 +402,99 @@ func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types
 
 // respondWithObservation writes the observation to the response. Returns 200 for
 // successful observations and 502 with an error payload for failed ones.
-func respondWithObservation(c *gin.Context, obs *types.Observation) {
+func respondWithObservation(c *gin.Context, item *types.CacheItem) {
+	obs := item.Observation
 	if obs.Success {
+		if item.RequiresInverse {
+			inverted, err := invertObservation(obs)
+			if err != nil {
+				c.JSON(http.StatusBadGateway, ObservationErrorResponse{
+					ErrorMessage: err.Error(),
+					Timestamps:   obs.Timestamps,
+					StatusCode:   http.StatusBadGateway,
+				})
+				return
+			}
+			obs = inverted
+		}
 		c.JSON(http.StatusOK, obs)
 		return
 	}
 	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
 		ErrorMessage: obs.Error,
 		Timestamps:   obs.Timestamps,
+		StatusCode:   http.StatusBadGateway,
 	})
+}
+
+func invertObservation(obs *types.Observation) (*types.Observation, error) {
+	inverted := *obs
+
+	data, err := invertResultInObject(obs.Data)
+	if err != nil {
+		return nil, err
+	}
+	inverted.Data = data
+
+	if len(obs.Result) > 0 {
+		result, err := invertRawNumber(obs.Result)
+		if err != nil {
+			return nil, err
+		}
+		inverted.Result = result
+	}
+
+	return &inverted, nil
+}
+
+func invertResultInObject(raw json.RawMessage) (json.RawMessage, error) {
+	var data map[string]interface{}
+	if err := json.Unmarshal(raw, &data); err != nil {
+		return nil, fmt.Errorf("unable to invert observation result: %w", err)
+	}
+
+	result, ok := data["result"]
+	if !ok {
+		return nil, fmt.Errorf("unable to invert observation result: missing result")
+	}
+	num, err := numberFromInterface(result)
+	if err != nil {
+		return nil, err
+	}
+	if num == 0 {
+		return nil, fmt.Errorf("unable to invert observation result: result is zero")
+	}
+
+	data["result"] = 1 / num
+	return json.Marshal(data)
+}
+
+func invertRawNumber(raw json.RawMessage) (json.RawMessage, error) {
+	var num float64
+	if err := json.Unmarshal(raw, &num); err != nil {
+		return nil, fmt.Errorf("unable to invert top-level result: %w", err)
+	}
+	if num == 0 {
+		return nil, fmt.Errorf("unable to invert top-level result: result is zero")
+	}
+	return json.Marshal(1 / num)
+}
+
+func numberFromInterface(value interface{}) (float64, error) {
+	switch v := value.(type) {
+	case float64:
+		return v, nil
+	case json.Number:
+		return v.Float64()
+	case string:
+		num, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
+		}
+		return num, nil
+	default:
+		return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
+	}
 }
 
 // postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.

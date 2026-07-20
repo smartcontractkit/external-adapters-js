@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/readme-test-v3-adapter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Chainlink readme-test-v3 adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.14.0",
+    "@chainlink/external-adapter-framework": "2.17.1",
     "tslib": "2.4.1"
   }
 }

@@ -11,6 +11,25 @@ import {
   checkSchedule,
 } from '../utils/validation'
 
+const ripcordInputParameter = {
+  description: 'If the ripcord is enabled, the adapter will respond with a 503 error',
+  type: {
+    path: {
+      description:
+        'The object path to find the ripcord value in the result from the balance provider.',
+      type: 'string',
+      required: true,
+    },
+    disabledValue: {
+      description:
+        'The value of the ripcord field that indicates the ripcord is disabled. If the value at the path matches this value, the response is considered valid.',
+      type: 'string',
+      required: true,
+    },
+  },
+  required: false,
+} as const
+
 export const inputParameters = new InputParameters(
   {
     addressLists: {
@@ -46,6 +65,7 @@ export const inputParameters = new InputParameters(
           type: 'string',
           required: false,
         },
+        ripcord: ripcordInputParameter,
       },
     },
     balanceSources: {
@@ -93,6 +113,7 @@ export const inputParameters = new InputParameters(
           type: 'string',
           required: false,
         },
+        ripcord: ripcordInputParameter,
       },
     },
     components: {
@@ -276,9 +297,9 @@ export type RequestParams = typeof inputParameters.validated
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
-    Result: string
+    Result: string | null
     Data: {
-      result: string
+      result: string | null
       resultAsNumber: number
       decimals: number
       components: {
@@ -291,12 +312,15 @@ export type BaseEndpointTypes = {
           decimals: number
         }
         addressCount?: number
+        addressRipcord?: boolean
+        balanceRipcord?: boolean
       }[]
       conversionRates: {
         from: string
         to: string
         rate: number
       }[]
+      ripcord: boolean | undefined
     }
   }
   Settings: typeof config.settings

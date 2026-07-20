@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -40,9 +40,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                      Options                                                                                                                       |   Default    |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
-|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint) | `eusx-price` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                                                                              Options                                                                                                                                                                               |   Default    |
+| :-------: | :------: | :-----------------: | :----: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------: |
+|           | endpoint | The endpoint to use | string | [anchor-data](#anchor-data-endpoint), [buffer-layout](#buffer-layout-endpoint), [eusx-price](#eusx-price-endpoint), [extension](#extension-endpoint), [pool-token-rate](#pool-token-rate-endpoint), [sanctum-infinity](#sanctum-infinity-endpoint), [strcusx-exchange-rate](#strcusx-exchange-rate-endpoint), [stslx-exchange-rate](#stslx-exchange-rate-endpoint) | `eusx-price` |
 
 ## Eusx-price Endpoint
 
@@ -126,10 +126,11 @@ Request:
 
 ### Input Params
 
-| Required? |        Name         | Aliases |                       Description                        |  Type  | Options | Default | Depends On | Not Valid With |
-| :-------: | :-----------------: | :-----: | :------------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
-|    ✅     | stateAccountAddress |         |        The state account address for the program         | string |         |         |            |                |
-|    ✅     |        field        |         | The name of the field to retrieve from the state account | string |         |         |            |                |
+| Required? |        Name         | Aliases |                         Description                          |   Type   | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------------: | :-----: | :----------------------------------------------------------: | :------: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     | stateAccountAddress |         |          The state account address for the program           |  string  |         |         |            |                |
+|    ✅     |        field        |         |   The name of the field to retrieve from the state account   |  string  |         |         |            |                |
+|           |     extraFields     |         | The names of other fields to retrieve from the state account | string[] |         |         |            |                |
 
 ### Example
 
@@ -140,7 +141,8 @@ Request:
   "data": {
     "endpoint": "buffer-layout",
     "stateAccountAddress": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-    "field": "supply"
+    "field": "supply",
+    "extraFields": []
   }
 }
 ```
@@ -166,6 +168,8 @@ Request:
 |    ✅     |     extensionFields.name      |         |             Name to give the value in the response data             |  string  |                              |         |            |                |
 |    ✅     |    extensionFields.offset     |         |            Byte offset of the field in the account data             |  number  |                              |         |            |                |
 |    ✅     |     extensionFields.type      |         |                       Data type of the field                        |  string  | `float64`, `int64`, `uint64` |         |            |                |
+|           |          resultName           |         |          Name of the field to be on result response field           |  string  |                              |         |            |                |
+|           |        resultDecimals         |         |                decimals of the result response field                |  number  |                              |         |            |                |
 
 ### Example
 
@@ -232,6 +236,94 @@ Request:
   }
 }
 ```
+
+---
+
+## Stslx-exchange-rate Endpoint
+
+`stslx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |            Name            | Aliases |                                 Description                                  |  Type  | Options |                    Default                     | Depends On | Not Valid With |
+| :-------: | :------------------------: | :-----: | :--------------------------------------------------------------------------: | :----: | :-----: | :--------------------------------------------: | :--------: | :------------: |
+|           |       slxMintAddress       |         |                               SLX mint address                               | string |         | `SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq`  |            |                |
+|           |      stslxMintAddress      |         |                              stSLX mint address                              | string |         | `GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq` |            |                |
+|           |      glamStateAddress      |         |               GLAM state address used to derive the vault PDA                | string |         | `5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB` |            |                |
+|           | glamProtocolProgramAddress |         |          GLAM protocol program address used to derive the vault PDA          | string |         | `GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz` |            |                |
+|           |          minRate           |         | Minimum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+|           |          maxRate           |         | Maximum allowed stSLX-SLX exchange rate as an 18-decimal fixed-point integer | string |         |                                                |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "stslx-exchange-rate",
+    "slxMintAddress": "SLXdx4BUt2v9uJQNzWqSfzTJ9UKLUDsvxHFMEEdrfgq",
+    "stslxMintAddress": "GxHksENo754dKj6kv5d2z7ey9KwE7YSRYgRCtoFYd2yq",
+    "glamStateAddress": "5E2scHi8LyZAqZeVHnXLeFhwoePxD2CTdSruWmjgVEoB",
+    "glamProtocolProgramAddress": "GLAMpaME8wdTEzxtiYEAa5yD8fZbxZiz2hNtV58RZiEz",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+---
+
+## Strcusx-exchange-rate Endpoint
+
+`strcusx-exchange-rate` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |      Name      | Aliases |                                      Description                                      |  Type  |      Options       | Default | Depends On | Not Valid With |
+| :-------: | :------------: | :-----: | :-----------------------------------------------------------------------------------: | :----: | :----------------: | :-----: | :--------: | :------------: |
+|    ✅     | programAddress |         |                 The deployed Solstice yield strategy program address                  | string |                    |         |            |                |
+|    ✅     |  strategyName  |         | Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config | string |    `STRC-USX-1`    |         |            |                |
+|    ✅     |    tranche     |         |                        The tranche to price: junior or senior                         | string | `junior`, `senior` |         |            |                |
+|           |    minRate     |         |      Minimum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+|           |    maxRate     |         |      Maximum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "junior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+<details>
+<summary>Additional Examples</summary>
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "strcusx-exchange-rate",
+    "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
+    "strategyName": "STRC-USX-1",
+    "tranche": "senior",
+    "minRate": "950000000000000000",
+    "maxRate": "1050000000000000000"
+  }
+}
+```
+
+</details>
 
 ---
 

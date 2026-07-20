@@ -1,5 +1,21 @@
 # @chainlink/data-engine-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#5200](https://github.com/smartcontractkit/external-adapters-js/pull/5200) [`8ce9820`](https://github.com/smartcontractkit/external-adapters-js/commit/8ce9820f7043b5ea503b7e9dec88c3cc917c05e1) Thanks [@cl-mayowa](https://github.com/cl-mayowa)! - add twap endpoint support for data engine
+
+## 1.4.0
+
+### Minor Changes
+
+- [#4970](https://github.com/smartcontractkit/external-adapters-js/pull/4970) [`70fbfdb`](https://github.com/smartcontractkit/external-adapters-js/commit/70fbfdb141092faf3d9e04a84b071dc268a26d15) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add generic getFeedData function that auto-detects report version from feedId and routes to the correct endpoint, enabling V11 support in glv-token and gmx-tokens adapters
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
 ## 1.3.0
 
 ### Minor Changes

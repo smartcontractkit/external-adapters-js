@@ -1,17 +1,8 @@
 # VIEW_FUNCTION_MULTI_CHAIN
 
-![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function-multi-chain/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.10.1](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/view-function-multi-chain/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
-
-## Generic Environment Variables
-
-In order to connect to different blockchains, you may need to set additional environment variables for the respective RPC URLs.
-
-| Required? |        Name         |       Description       |  Type  | Options | Default |
-| :-------: | :-----------------: | :---------------------: | :----: | :-----: | :-----: |
-|           | {NETWORK}\_RPC_URL  | RPC url for a NETWORK.  | string |         |         |
-|           | {NETWORK}\_CHAIN_ID | Chain id for a NETWORK. | number |         |         |
 
 ## Environment Variables
 
@@ -19,6 +10,8 @@ In order to connect to different blockchains, you may need to set additional env
 | :-------: | :-------------------: | :----------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
 |           |       APTOS_URL       |                                              Aptos rest api url                                              | string |         |   ``    |
 |           |   APTOS_TESTNET_URL   |                                          Aptos testnet rest api url                                          | string |         |   ``    |
+|    ✅     |  ${NETWORK}\_RPC_URL  |  The RPC URL for ${NETWORK} where ${NETWORK} is the upper-snake-case name of the `network` input parameter.  | string |         |         |
+|    ✅     | ${NETWORK}\_CHAIN_ID  | The chain ID for ${NETWORK} where ${NETWORK} is the upper-snake-case name of the `network` input parameter.  | number |         |         |
 |           |      GROUP_SIZE       | Number of requests to execute asynchronously before the adapter waits to execute the next group of requests. | number |         |  `10`   |
 |           | BACKGROUND_EXECUTE_MS |          The amount of time the background execute should sleep before performing the next request           | number |         | `10000` |
 

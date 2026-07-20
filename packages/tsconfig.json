@@ -6,9 +6,6 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
-      "path": "./composites/bsol-price"
-    },
-    {
       "path": "./composites/calculated-price"
     },
     {
@@ -27,9 +24,6 @@
       "path": "./composites/gold"
     },
     {
-      "path": "./composites/historical-average"
-    },
-    {
       "path": "./composites/implied-price"
     },
     {
@@ -39,16 +33,7 @@
       "path": "./composites/market-status"
     },
     {
-      "path": "./composites/medianizer"
-    },
-    {
       "path": "./composites/multi-address-list"
-    },
-    {
-      "path": "./composites/nexus-kiln"
-    },
-    {
-      "path": "./composites/nftx"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -57,19 +42,10 @@
       "path": "./composites/proof-of-reserves-v2"
     },
     {
-      "path": "./composites/rocket-pool"
-    },
-    {
       "path": "./composites/savax-price"
     },
     {
       "path": "./composites/secure-mint"
-    },
-    {
-      "path": "./composites/set-token-index"
-    },
-    {
-      "path": "./composites/the-graph"
     },
     {
       "path": "./composites/tokenized-equity"
@@ -138,9 +114,6 @@
       "path": "./sources/bea"
     },
     {
-      "path": "./sources/binance"
-    },
-    {
       "path": "./sources/bitgo"
     },
     {
@@ -162,13 +135,7 @@
       "path": "./sources/blocksize-capital-state"
     },
     {
-      "path": "./sources/bob"
-    },
-    {
       "path": "./sources/btc.com"
-    },
-    {
-      "path": "./sources/cache.gold"
     },
     {
       "path": "./sources/canton-functions"
@@ -222,9 +189,6 @@
       "path": "./sources/coinranking"
     },
     {
-      "path": "./sources/covid-tracker"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
@@ -235,9 +199,6 @@
     },
     {
       "path": "./sources/deep-blue"
-    },
-    {
-      "path": "./sources/deribit"
     },
     {
       "path": "./sources/deutsche-boerse"
@@ -291,16 +252,10 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fmpcloud"
-    },
-    {
       "path": "./sources/frxeth-exchange-rate"
     },
     {
       "path": "./sources/ftse-sftp"
-    },
-    {
-      "path": "./sources/galaxis"
     },
     {
       "path": "./sources/gemini"
@@ -342,9 +297,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/itick"
-    },
-    {
       "path": "./sources/ix-trust-sync"
     },
     {
@@ -360,9 +312,6 @@
       "path": "./sources/layer2-sequencer-health"
     },
     {
-      "path": "./sources/lcx"
-    },
-    {
       "path": "./sources/lido"
     },
     {
@@ -370,6 +319,9 @@
     },
     {
       "path": "./sources/liveart"
+    },
+    {
+      "path": "./sources/lo-tech"
     },
     {
       "path": "./sources/lotus"
@@ -393,9 +345,6 @@
       "path": "./sources/moore-hk"
     },
     {
-      "path": "./sources/mycryptoapi"
-    },
-    {
       "path": "./sources/nav-consulting"
     },
     {
@@ -406,6 +355,9 @@
     },
     {
       "path": "./sources/ncfx"
+    },
+    {
+      "path": "./sources/nobi"
     },
     {
       "path": "./sources/nomia"
@@ -420,9 +372,6 @@
       "path": "./sources/oanda"
     },
     {
-      "path": "./sources/onchain-gas"
-    },
-    {
       "path": "./sources/ondo"
     },
     {
@@ -433,9 +382,6 @@
     },
     {
       "path": "./sources/polkadot-balance"
-    },
-    {
-      "path": "./sources/polygon"
     },
     {
       "path": "./sources/por-address-list"
@@ -454,9 +400,6 @@
     },
     {
       "path": "./sources/six"
-    },
-    {
-      "path": "./sources/snowflake"
     },
     {
       "path": "./sources/sochain"
@@ -507,9 +450,6 @@
       "path": "./sources/the-network-firm"
     },
     {
-      "path": "./sources/therundown"
-    },
-    {
       "path": "./sources/tiingo"
     },
     {
@@ -540,15 +480,6 @@
       "path": "./sources/twosigma"
     },
     {
-      "path": "./sources/uniswap-v2"
-    },
-    {
-      "path": "./sources/upvest"
-    },
-    {
-      "path": "./sources/uscpi-one"
-    },
-    {
       "path": "./sources/view-function"
     },
     {
@@ -571,9 +502,6 @@
     },
     {
       "path": "./targets/dydx-stark"
-    },
-    {
-      "path": "./targets/harmony"
     }
   ]
 }

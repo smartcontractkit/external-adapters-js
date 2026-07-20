@@ -2,155 +2,139 @@ adapters:
   - name: ada-balance
     version: 2.5.47
   - name: aleno
-    version: 2.1.8
+    version: 2.3.0
   - name: allium-state
-    version: 1.0.3
+    version: 1.2.0
   - name: amberdata
     version: 1.8.40
   - name: anchorage
-    version: 3.0.0
+    version: 3.0.1
   - name: anyblock
     version: 2.1.13
   - name: apex
-    version: 1.0.11
+    version: 1.0.12
   - name: asseto-finance
-    version: 1.0.2
+    version: 1.0.5
   - name: avalanche-platform
-    version: 2.1.2
+    version: 2.2.1
   - name: backed-fi
-    version: 1.2.0
+    version: 1.4.0
   - name: bank-frick
-    version: 1.1.54
+    version: 1.1.55
   - name: bea
     version: 1.3.47
-  - name: binance
-    version: 1.4.47
   - name: bitcoin-json-rpc
     version: 1.3.47
   - name: bitgo
-    version: 1.0.23
+    version: 1.0.24
   - name: bitgo-reserves
-    version: 2.2.3
+    version: 2.2.4
   - name: bitgo-reserves-test
-    version: 1.1.3
+    version: 1.1.4
   - name: blockchain.com
     version: 1.3.47
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.6.4
+    version: 2.8.0
   - name: blocksize-capital-state
-    version: 1.0.2
-  - name: bob
-    version: 2.0.29
-  - name: bsol-price
-    version: 2.2.157
+    version: 1.2.0
   - name: btc.com
     version: 1.3.47
-  - name: cache.gold
-    version: 1.3.47
   - name: calculated-price
-    version: 1.0.0
+    version: 1.1.1
   - name: ceffu
-    version: 1.1.5
+    version: 1.1.6
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.7.4
+    version: 2.8.3
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: cmeth
-    version: 2.0.3
+    version: 2.0.4
   - name: coinapi
     version: 1.3.37
   - name: coinbase
     version: 2.0.31
   - name: coinbase-prime
-    version: 1.2.24
+    version: 1.2.25
   - name: coingecko
-    version: 2.2.0
+    version: 2.3.2
   - name: coinlore
     version: 1.3.47
   - name: coinmarketcap
-    version: 2.1.6
+    version: 2.2.3
   - name: coinmetrics
-    version: 3.11.4
+    version: 3.12.3
   - name: coinmetrics-lwba
-    version: 2.2.6
+    version: 2.3.2
   - name: coinpaprika
-    version: 2.5.0
+    version: 2.9.0
   - name: coinpaprika-state
-    version: 1.0.1
+    version: 1.2.0
   - name: coinranking
     version: 2.1.18
-  - name: covid-tracker
-    version: 1.4.39
   - name: crypto-volatility-index
-    version: 1.4.53
+    version: 1.4.64
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
-    version: 3.4.7
+    version: 3.5.2
   - name: data-engine
     version: 1.3.0
   - name: deep-blue
-    version: 1.0.20
-  - name: deribit
-    version: 1.2.47
+    version: 1.0.21
   - name: deutsche-boerse
-    version: 1.4.1
+    version: 1.6.0
   - name: dlc-btc-por
-    version: 4.4.4
+    version: 4.4.5
   - name: dlc-cbtc-por
-    version: 1.0.1
+    version: 1.0.2
   - name: dxfeed
-    version: 2.7.4
+    version: 2.7.8
   - name: dydx-stark
-    version: 2.0.31
+    version: 2.0.32
   - name: elwood
-    version: 3.2.4
+    version: 3.2.8
   - name: enzyme
     version: 2.0.33
   - name: eodhistoricaldata
     version: 1.5.16
   - name: eth-balance
-    version: 2.1.14
+    version: 2.2.0
   - name: eth-beacon
-    version: 3.0.23
+    version: 3.1.1
   - name: etherscan
     version: 1.3.47
   - name: exchange-copter
-    version: 1.0.0
+    version: 1.0.1
   - name: expand-network
-    version: 0.1.17
+    version: 0.3.0
   - name: finage
-    version: 2.6.4
+    version: 2.8.1
   - name: finalto
-    version: 1.4.4
+    version: 1.4.8
   - name: finnhub
-    version: 4.2.3
+    version: 4.2.7
   - name: finnhub-secondary
-    version: 1.1.3
+    version: 1.1.7
   - name: fireblocks
-    version: 1.0.18
-  - name: fmpcloud
-    version: 1.3.47
+    version: 1.0.19
   - name: frxeth-exchange-rate
-    version: 1.1.29
+    version: 1.1.30
   - name: ftse-sftp
-    version: 1.0.2
-  - name: galaxis
-    version: 4.0.24
+    version: 1.0.3
   - name: gemini
-    version: 3.0.33
+    version: 3.0.34
   - name: generic-api
-    version: 1.3.0
+    version: 1.3.1
   - name: glv-token
     version: 2.0.5
   - name: gm-token
-    version: 1.3.1
+    version: 1.3.2
   - name: gmci
-    version: 1.0.3
+    version: 1.0.4
   - name: gmx-tokens
     version: 1.1.2
   - name: gold
@@ -158,206 +142,176 @@ adapters:
   - name: graphql
     version: 1.2.47
   - name: gsr
-    version: 2.5.4
-  - name: harmony
-    version: 1.1.47
+    version: 2.5.8
   - name: harris-and-trotter
-    version: 1.1.21
+    version: 1.1.22
   - name: hashnote
-    version: 1.0.3
+    version: 1.0.4
   - name: hastra
-    version: 1.0.0
-  - name: historical-average
-    version: 1.3.6
+    version: 1.0.1
   - name: icap
-    version: 1.5.0
+    version: 1.7.0
   - name: ice
-    version: 1.2.0
+    version: 1.2.1
   - name: ignition-address-list
-    version: 1.0.16
+    version: 1.0.17
   - name: implied-price
     version: 1.4.0
   - name: instruxi-sxt
-    version: 2.0.8
+    version: 2.0.9
   - name: ion.au
-    version: 1.0.32
-  - name: itick
-    version: 1.1.1
+    version: 1.0.33
   - name: ix-trust-sync
-    version: 1.0.0
+    version: 1.0.1
   - name: json-rpc
     version: 1.3.47
   - name: kaiko
-    version: 2.3.6
+    version: 2.4.2
   - name: kaiko-state
-    version: 1.1.3
+    version: 1.1.4
   - name: layer2-sequencer-health
     version: 4.10.0
-  - name: lcx
-    version: 1.3.48
   - name: lido
     version: 2.0.31
   - name: lido-por
-    version: 1.1.16
+    version: 1.1.17
   - name: liveart
-    version: 1.0.1
+    version: 1.0.2
   - name: llama-guard
-    version: 1.2.5
+    version: 1.2.6
+  - name: lo-tech
+    version: 1.1.0
   - name: lotus
-    version: 3.0.34
+    version: 3.0.35
   - name: m0
-    version: 0.0.17
+    version: 0.0.19
   - name: market-status
-    version: 1.9.1
+    version: 1.10.0
   - name: matrixdock
-    version: 2.0.0
-  - name: medianizer
-    version: 1.2.44
+    version: 2.0.1
   - name: mobula-state
-    version: 2.1.0
+    version: 2.4.0
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
-    version: 1.1.51
+    version: 1.1.52
   - name: moore-hk
-    version: 1.0.28
+    version: 1.0.29
   - name: multi-address-list
-    version: 1.2.1
-  - name: mycryptoapi
-    version: 1.3.47
+    version: 1.2.2
   - name: nav-consulting
-    version: 1.2.6
+    version: 1.2.7
   - name: nav-fund-services
-    version: 1.2.0
+    version: 1.2.1
   - name: nav-generic
-    version: 1.0.4
+    version: 1.0.5
   - name: ncfx
-    version: 4.7.4
-  - name: nexus-kiln
-    version: 1.0.18
-  - name: nftx
-    version: 3.0.31
+    version: 4.9.0
+  - name: nobi
+    version: 1.0.1
   - name: nomia
-    version: 2.0.3
+    version: 2.0.4
   - name: nomia2
-    version: 1.0.0
+    version: 1.0.1
   - name: nyfed
-    version: 1.0.12
+    version: 1.0.13
   - name: oanda
-    version: 1.1.49
-  - name: onchain-gas
-    version: 1.3.47
+    version: 1.1.50
   - name: ondo
-    version: 1.0.3
+    version: 1.0.4
   - name: onre
-    version: 1.3.0
+    version: 1.3.1
   - name: openexchangerates
-    version: 3.0.0
+    version: 3.0.1
   - name: polkadot-balance
-    version: 2.0.0
-  - name: polygon
-    version: 2.0.40
+    version: 2.1.1
   - name: por-address-list
-    version: 5.16.1
+    version: 5.18.1
   - name: por-indexer
-    version: 2.3.0
+    version: 2.3.2
   - name: proof-of-reserves
-    version: 1.34.0
+    version: 1.34.1
   - name: proof-of-reserves-v2
-    version: 1.0.0
+    version: 1.1.4
   - name: r25
-    version: 1.1.0
-  - name: rocket-pool
-    version: 1.1.22
+    version: 1.1.1
   - name: s3-csv-reader
-    version: 2.2.15
+    version: 2.2.16
   - name: savax-price
-    version: 3.0.140
+    version: 3.0.151
   - name: secure-mint
-    version: 1.0.7
+    version: 1.0.8
   - name: securitize
-    version: 1.0.2
-  - name: set-token-index
-    version: 3.0.66
-  - name: snowflake
-    version: 1.2.47
+    version: 1.0.3
+  - name: six
+    version: 1.1.0
   - name: sochain
     version: 1.3.47
   - name: solactive
-    version: 1.0.3
+    version: 1.0.4
   - name: solana-functions
-    version: 1.4.0
+    version: 1.6.0
   - name: solana-view-function
     version: 2.2.48
   - name: sportsdataio
     version: 1.3.39
   - name: stader-address-list
-    version: 2.3.41
+    version: 2.3.42
   - name: stader-balance
-    version: 1.4.40
+    version: 1.4.41
   - name: stader-labs
     version: 3.0.25
   - name: starknet-gas-price
-    version: 1.0.25
+    version: 1.0.26
   - name: streamex
-    version: 1.0.0
+    version: 1.0.1
   - name: superstate
-    version: 1.5.1
+    version: 1.5.2
   - name: swell-address-list
     version: 1.0.30
   - name: synthetix-debt-pool
     version: 4.1.21
   - name: synthetix-feeds
-    version: 1.1.21
+    version: 1.1.22
   - name: t-rize-proof-of-insurance
-    version: 1.0.0
-  - name: the-graph
-    version: 1.2.48
+    version: 1.0.1
   - name: the-network-firm
-    version: 1.5.3
-  - name: therundown
-    version: 1.3.47
+    version: 1.9.0
   - name: tiingo
-    version: 2.10.5
+    version: 2.12.0
   - name: tiingo-state
-    version: 0.3.4
+    version: 0.3.8
   - name: token-balance
-    version: 3.5.0
+    version: 3.6.1
   - name: tokenized-equity
-    version: 1.1.2
+    version: 1.4.0
   - name: tp
-    version: 1.10.0
+    version: 1.12.0
   - name: tradermade
-    version: 2.1.29
+    version: 2.1.30
   - name: tradinghours
-    version: 0.7.0
+    version: 0.7.1
   - name: trueusd
-    version: 3.0.34
+    version: 3.0.35
   - name: truflation
-    version: 1.0.0
+    version: 1.0.1
   - name: twelvedata
     version: 1.4.16
   - name: twosigma
-    version: 1.2.41
-  - name: uniswap-v2
-    version: 2.0.31
-  - name: upvest
-    version: 1.3.47
-  - name: uscpi-one
-    version: 1.3.47
+    version: 1.2.42
   - name: view-function
-    version: 3.1.18
+    version: 3.1.19
   - name: view-function-multi-chain
-    version: 1.8.0
+    version: 1.10.1
   - name: view-starknet-latest-answer
-    version: 1.0.26
+    version: 1.0.27
   - name: wbtc-address-set
     version: 2.1.23
   - name: wintermute
-    version: 2.0.0
+    version: 2.0.1
   - name: wisdomtree
-    version: 1.0.4
+    version: 1.0.5
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.139
+    version: 2.0.150

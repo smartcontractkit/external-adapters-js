@@ -2,14 +2,20 @@ import objectPath from 'object-path'
 import { RequestParams } from '../endpoint/reserves'
 import { checkAddressList } from '../utils/validation'
 import { Fetcher, Stringifier } from './types'
+import { getRipcord } from './utils'
 
 type AddressListConfig = RequestParams['addressLists'][number]
+
+type AddressListResult = {
+  addressArray: unknown[]
+  ripcord?: boolean
+}
 
 class AddressList {
   fetchFromProvider: Fetcher
   shortJsonForError: Stringifier
 
-  addressArray: Promise<unknown[]>
+  addressListResult: Promise<AddressListResult>
 
   constructor({
     config,
@@ -22,19 +28,19 @@ class AddressList {
   }) {
     this.fetchFromProvider = fetchFromProvider
     this.shortJsonForError = shortJsonForError
-    this.addressArray = this._fetchAddressArray(config)
+    this.addressListResult = this._fetchAddressListResult(config)
   }
 
-  async getAddressArray(): Promise<unknown[]> {
-    return this.addressArray
+  async getAddressListResult(): Promise<AddressListResult> {
+    return this.addressListResult
   }
 
-  private async _fetchAddressArray(config: AddressListConfig): Promise<unknown[]> {
+  private async _fetchAddressListResult(config: AddressListConfig): Promise<AddressListResult> {
     checkAddressList(config)
 
     if (config.fixed !== undefined) {
       // Was already validated to be a JSON array string in validation.
-      return JSON.parse(config.fixed)
+      return { addressArray: JSON.parse(config.fixed) }
     }
 
     const addressResponseData = await this.fetchFromProvider(
@@ -42,6 +48,7 @@ class AddressList {
       JSON.parse(config.params),
     )
     const addressArray = objectPath.get(addressResponseData, config.addressArrayPath)
+    const ripcord = getRipcord(addressResponseData, config.ripcord)
 
     if (addressArray === undefined) {
       throw new Error(
@@ -62,7 +69,7 @@ class AddressList {
       )
     }
 
-    return addressArray
+    return { addressArray, ripcord }
   }
 }
 
@@ -90,12 +97,12 @@ export class AddressListRepo {
     )
   }
 
-  async getAddressArray(name: string | undefined): Promise<unknown[] | undefined> {
+  async getAddressListResult(name: string | undefined): Promise<AddressListResult> {
     if (name === undefined) {
-      return undefined
+      return { addressArray: [] }
     }
     // Validation guarantees that the name is present in the config.
     const addressList = this.addressListMap[name]!
-    return addressList.getAddressArray()
+    return addressList.getAddressListResult()
   }
 }

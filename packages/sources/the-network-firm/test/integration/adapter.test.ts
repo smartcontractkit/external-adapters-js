@@ -8,11 +8,10 @@ import {
   mockEmgemxResponseSuccess,
   mockEurrResponseSuccess,
   mockGiftResponseSuccess,
-  mockMCO2Response,
   mockSTBTResponseSuccess,
-  mockUraniumResponseFailure,
   mockUraniumResponseSuccess,
   mockUSDRResponseSuccess,
+  mockWystcResponseSuccess,
 } from './fixtures'
 
 describe('execute', () => {
@@ -28,6 +27,8 @@ describe('execute', () => {
     process.env.ALT_API_ENDPOINT = 'http://test-endpoint-new'
     process.env.EMGEMX_API_KEY = 'api-key'
     process.env.URANIUM_API_KEY = 'api-key'
+    process.env.WYSTC_API_ENDPOINT = 'http://test-endpoint-wystc'
+    process.env.WYSTC_API_KEY = 'wystc-api-key'
     process.env.ACME_API_KEY = 'acme-api-key'
     process.env.URANIUM_DIGITAL_QOHMMJQAF4JK_API_KEY = 'uranium-api-key'
     process.env.EMGEMX_TDFKF3_API_KEY = 'emgemx-api-key'
@@ -41,16 +42,15 @@ describe('execute', () => {
     })
   })
 
+  beforeEach(() => {
+    testAdapter.adapter.config.settings.FEED_ID_JSON = false
+    testAdapter.adapter.config.settings.METRICS_ENABLED = false
+  })
+
   afterEach(() => {
     nock.cleanAll()
     // clear EA cache
-    const keys = testAdapter.mockCache?.cache.keys()
-    if (!keys) {
-      throw new Error('unexpected failure 1')
-    }
-    for (const key of keys) {
-      testAdapter.mockCache?.delete(key)
-    }
+    testAdapter.mockCache?.cache.clear()
   })
 
   afterAll(async () => {
@@ -59,15 +59,6 @@ describe('execute', () => {
     nock.restore()
     nock.cleanAll()
     spy.mockRestore()
-  })
-
-  describe('mco2 endpoint', () => {
-    it('should return success', async () => {
-      mockMCO2Response()
-      const response = await testAdapter.request()
-      expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
   })
 
   describe('stbt endpoint', () => {
@@ -159,6 +150,19 @@ describe('execute', () => {
     })
   })
 
+  describe('wystc endpoint', () => {
+    it('should return success', async () => {
+      const data = {
+        endpoint: 'wystc',
+      }
+      mockWystcResponseSuccess()
+
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
   describe('uranium endpoint', () => {
     it('should return success', async () => {
       const data = {
@@ -168,17 +172,6 @@ describe('execute', () => {
 
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should fail', async () => {
-      const data = {
-        endpoint: 'uranium',
-      }
-      mockUraniumResponseFailure()
-
-      const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
   })

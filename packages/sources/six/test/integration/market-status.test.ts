@@ -4,12 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import {
-  mockFourMarkets,
-  mockOneMarket,
-  mockThreeMarkets,
-  mockTwoMarkets,
-} from './market-status-fixtures'
+import { mockOneMarket, mockThreeMarkets, mockTwoMarkets } from './market-status-fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -48,11 +43,11 @@ describe('execute', () => {
       mockOneMarket()
       const response = await testAdapter.request({
         endpoint: 'market-status',
-        market: '1',
+        market: 'six',
       })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toEqual(MarketStatus.OPEN)
       expect(response.json()).toMatchSnapshot()
+      expect(response.json().result).toEqual(MarketStatus.OPEN)
+      expect(response.statusCode).toBe(200)
     })
 
     it('should return success with closed market', async () => {
@@ -61,31 +56,19 @@ describe('execute', () => {
         endpoint: 'market-status',
         market: '2',
       })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toEqual(MarketStatus.CLOSED)
       expect(response.json()).toMatchSnapshot()
+      expect(response.json().result).toEqual(MarketStatus.CLOSED)
+      expect(response.statusCode).toBe(200)
     })
 
-    it('should return unknown for REFERENCE_ONLY market status', async () => {
+    it('should return error when market is not in response', async () => {
       mockThreeMarkets()
       const response = await testAdapter.request({
         endpoint: 'market-status',
-        market: '3',
+        market: '5',
       })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toEqual(MarketStatus.UNKNOWN)
       expect(response.json()).toMatchSnapshot()
-    })
-
-    it('should return unknown when market is not in response', async () => {
-      mockFourMarkets()
-      const response = await testAdapter.request({
-        endpoint: 'market-status',
-        market: '4',
-      })
-      expect(response.statusCode).toBe(200)
-      expect(response.json().result).toEqual(MarketStatus.UNKNOWN)
-      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(502)
     })
   })
 })

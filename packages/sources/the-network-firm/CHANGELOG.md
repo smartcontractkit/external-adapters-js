@@ -1,5 +1,57 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.9.0
+
+### Minor Changes
+
+- [#5161](https://github.com/smartcontractkit/external-adapters-js/pull/5161) [`fa193ea`](https://github.com/smartcontractkit/external-adapters-js/commit/fa193ead02f08285a79172d5c1a6d9c27995bb5a) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add `wystc` endpoint for Wyoming Stablecoin Commission FRNT Proof-of-Reserves feed
+
+## 1.8.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5081](https://github.com/smartcontractkit/external-adapters-js/pull/5081) [`b662346`](https://github.com/smartcontractkit/external-adapters-js/commit/b6623469260af7716aaa2e3f516ef46ba5f62b49) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove heapdump endpoint
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
+- [#5080](https://github.com/smartcontractkit/external-adapters-js/pull/5080) [`2f12e59`](https://github.com/smartcontractkit/external-adapters-js/commit/2f12e5962914c9ab795cf64045ae562da9bc560e) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove mco2 endpoint
+
+## 1.7.0
+
+### Minor Changes
+
+- [#5076](https://github.com/smartcontractkit/external-adapters-js/pull/5076) [`a2c0159`](https://github.com/smartcontractkit/external-adapters-js/commit/a2c0159049df5de569c0eeb6cf6c8cfa8239e8ef) Thanks [@dskloetc](https://github.com/dskloetc)! - Update ea framework to support json only feed id
+
+### Patch Changes
+
+- [#5074](https://github.com/smartcontractkit/external-adapters-js/pull/5074) [`05d9760`](https://github.com/smartcontractkit/external-adapters-js/commit/05d9760fff375152c9795bde0c0c2cf9e9499d62) Thanks [@dskloetc](https://github.com/dskloetc)! - Disable mco2 endpoint
+
+## 1.6.1
+
+### Patch Changes
+
+- [#5026](https://github.com/smartcontractkit/external-adapters-js/pull/5026) [`1abb200`](https://github.com/smartcontractkit/external-adapters-js/commit/1abb20074c0f3ebe4201514becebabb243ad7faa) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 1.6.0
+
+### Minor Changes
+
+- [#5000](https://github.com/smartcontractkit/external-adapters-js/pull/5000) [`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Changeset to release the following adapters: aleno, allium-state, backed-fi, blocksize-capital-state, coinpaprika, coinpaprika-state, deutsche-boerse, expand-network, icap, mobula-state, the-network-firm, tp, view-function-multi-chain
+
+## 1.5.4
+
+### Patch Changes
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4995](https://github.com/smartcontractkit/external-adapters-js/pull/4995) [`88ac09c`](https://github.com/smartcontractkit/external-adapters-js/commit/88ac09c95541fcffa6e1ffc05f77e1d8bf15a6e7) Thanks [@dskloetc](https://github.com/dskloetc)! - Temporarily add heapdump endpoint to debug a memory leak
+
 ## 1.5.3
 
 ### Patch Changes

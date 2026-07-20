@@ -1,5 +1,13 @@
 # @chainlink/tradinghours-adapter
 
+## 0.7.1
+
+### Patch Changes
+
+- [#5039](https://github.com/smartcontractkit/external-adapters-js/pull/5039) [`09d8edb`](https://github.com/smartcontractkit/external-adapters-js/commit/09d8edb5b01907c5fdf2188dbde88a2f14dac2f6) Thanks [@dskloetc](https://github.com/dskloetc)! - Bump framework version
+
+- [#4962](https://github.com/smartcontractkit/external-adapters-js/pull/4962) [`323e4f3`](https://github.com/smartcontractkit/external-adapters-js/commit/323e4f3b9751e1b2927b92c7743001388f4af582) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Add SIX and BME
+
 ## 0.7.0
 
 ### Minor Changes

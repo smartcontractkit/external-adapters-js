@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/expand-network-adapter",
-  "version": "0.1.17",
+  "version": "0.3.0",
   "description": "Chainlink expand-network adapter.",
   "keywords": [
     "Chainlink",
@@ -36,7 +36,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.17.1",
     "tslib": "2.4.1"
   }
 }

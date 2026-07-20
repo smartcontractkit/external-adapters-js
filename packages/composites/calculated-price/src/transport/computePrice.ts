@@ -239,7 +239,7 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       // Extract decimals from all successful responses and verify consistency
       const allDecimals = successfulResults
         .map((r) => r?.response?.data?.data?.[decimalsField])
-        .filter((d): d is number => typeof d === 'number')
+        .filter((d): d is number => d !== undefined && !Number.isNaN(d))
 
       const uniqueDecimals = new Set(allDecimals)
       if (uniqueDecimals.size !== 1) {

@@ -41,7 +41,7 @@ jest.mock('ethers', () => {
 
       // BaseGlvTransport.getFeedId() calls this on the datastore contract
       getBytes32: (_key: string) =>
-        '0xfeed000000000000000000000000000000000000000000000000000000000000',
+        '0x0003000000000000000000000000000000000000000000000000000000000000',
 
       // Your code destructures like: const [[max],[min]] = Promise.all([...])
       // So return an array; element[0] must be BigNumberish. In v6, hex string is fine.

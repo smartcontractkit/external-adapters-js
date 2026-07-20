@@ -1,5 +1,29 @@
 # @chainlink/ncfx-adapter
 
+## 4.9.0
+
+### Minor Changes
+
+- [#5110](https://github.com/smartcontractkit/external-adapters-js/pull/5110) [`1d12daa`](https://github.com/smartcontractkit/external-adapters-js/commit/1d12daac12df943b20ecf1ee2528ffa8869bb90c) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Inverse quote handling fix for streams adapter
+
+## 4.8.2
+
+### Patch Changes
+
+- [#5048](https://github.com/smartcontractkit/external-adapters-js/pull/5048) [`1f2ac50`](https://github.com/smartcontractkit/external-adapters-js/commit/1f2ac504a94964d8d018d78c31f67ff18661de66) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Bump FW version
+
+## 4.8.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 4.8.0
+
+### Minor Changes
+
+- [#4939](https://github.com/smartcontractkit/external-adapters-js/pull/4939) [`a9cc574`](https://github.com/smartcontractkit/external-adapters-js/commit/a9cc57487fe28b4ead0b1723bd328d0b66858787) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Use enableCompositeTransport on StockEndpoint on finage
+
 ## 4.7.6
 
 ### Patch Changes

@@ -36,6 +36,7 @@ packages/k6/src/config/http.json
 .envrc
 .env
 
-# Claude
+# AI dirs
 .claude
+.opencode
 skills

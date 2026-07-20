@@ -109,8 +109,6 @@ jobs:
   # ---------- Adapter checks (only for changed EAs) ----------
 
   # Check that there are no compilation errors in test.
-  # There are many existing tests with compilation errors, so we skip them
-  # until we can fix them.
   compile-tests:
     name: Compile tests for changed packages
     runs-on: [ubuntu-latest]
@@ -306,3 +304,27 @@ jobs:
             done
             exit 1
           fi
+
+  # Check that adapter names are consistent between directory, package and code.
+  check-adapter-names:
+    name: Check adapter names
+    runs-on: [ubuntu-latest]
+    permissions:
+      pull-requests: read
+    if: needs.install-packages.outputs.changed-packages != '[]'
+    needs:
+      - check-changesets
+      - install-packages
+    env:
+      METRICS_ENABLED: false
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+      - name: Check adapter names
+        run: |
+          adapters_to_check=($(echo "$CHANGED_ADAPTERS" | jq '.adapter[].location | split("/") | last | "--adapters " + .' -r || true))
+          yarn check-adapter-names "${adapters_to_check[@]}"
+        env:
+          CHANGED_ADAPTERS: ${{ needs.install-packages.outputs.adapter-list }}

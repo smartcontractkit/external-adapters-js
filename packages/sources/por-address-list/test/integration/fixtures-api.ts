@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockZeusResponseSuccess = (): nock.Scope =>
-  nock('https://indexer.zeuslayer.io', {
+  nock('http://zeus-btc', {
     encodedQueryParams: true,
   })
-    .get('/api/v2/chainlink/proof-of-reserves')
+    .get('/')
     .reply(
       200,
       () => ({
@@ -467,7 +467,10 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
       code: 0,
       data: {
         dataTime: 1700000000000,
-        lockAddresses: [{ address: 'bc1qlock1abc' }, { address: 'bc1qlock2def' }],
+        lockAddresses: [
+          { address: '1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br' },
+          { address: '17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT' },
+        ],
         stakingBalanceDetails: [],
         stakingWithdrawalCredentials: [],
       },
@@ -484,7 +487,10 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
       data: {
         dataTime: 1700000000000,
         lockAddresses: [],
-        stakingBalanceDetails: [{ address: 'bc1qstaking1xyz' }, { address: 'bc1qstaking2uvw' }],
+        stakingBalanceDetails: [
+          { address: '1JSYkxvBJy4wXDskdXfadfTj6Hg9n5r3br' },
+          { address: '17ABiL5ToFwYdjGtVngEXo2Bw4EKN5myTT' },
+        ],
         stakingWithdrawalCredentials: [],
       },
       error_code: '0',
@@ -511,4 +517,56 @@ export const mockOkxResponseSuccess = (): nock.Scope =>
       msg: 'Success',
       detailMsg: '',
     }))
+    .get('/')
+    .query({ mintedCoinName: 'bad_credentials' })
+    .reply(200, () => ({
+      code: 0,
+      data: {
+        dataTime: 1700000000000,
+        lockAddresses: [],
+        stakingBalanceDetails: [],
+        stakingWithdrawalCredentials: [`0x01`],
+      },
+      error_code: '0',
+      error_message: '',
+      msg: 'Success',
+      detailMsg: '',
+    }))
+    .persist()
+
+export const mockCircleResponseSuccess = (): nock.Scope =>
+  nock('http://circle.api')
+    .get('/')
+    .query(true)
+    .reply(
+      200,
+      (uri) => {
+        const params = new URL(uri, 'http://circle.api').searchParams
+        const offset = Number(params.get('offset'))
+        const limit = Number(params.get('limit'))
+        return {
+          data: [
+            {
+              address: '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9',
+            },
+            {
+              address: '1HkJ6hcN4h4PtUYHiSi1hrUEUKQJmedM6z',
+            },
+            {
+              address: '1KVBNjpYfJvASdzeTAwqNbe9WecpKyugM3',
+            },
+          ].slice(offset, offset + limit),
+        }
+      },
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
     .persist()

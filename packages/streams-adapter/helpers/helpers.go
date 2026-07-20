@@ -5,7 +5,8 @@ import (
 	stdjson "encoding/json"
 	"errors"
 	"fmt"
-	"sort"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/goccy/go-json"
@@ -72,6 +73,31 @@ func RequestParamsFromKey(key string) (types.RequestParams, error) {
 	return canonical, nil
 }
 
+// TransformedKeyFromAdapterKey derives the internal transformed cache key from
+// the Redis adapter key used by the JS adapter when publishing observations.
+//
+// The v3 framework cache key is structured as
+// `${prefix}-${adapterName}-${endpointName}-${transportName}-${paramsKey}`
+// where `paramsKey` is either a JSON params blob (small payloads) or a bare
+// base64 sha1 hash (when the serialized params exceed MAX_COMMON_KEY_SIZE).
+// See ea-framework-js src/cache/index.ts: calculateParamsKey.
+func TransformedKeyFromAdapterKey(key string) (string, error) {
+	if !strings.Contains(key, "{") {
+		// Hashed-params form: take the bare base64 segment after the last dash.
+		lastDash := strings.LastIndex(key, "-")
+		if lastDash == -1 || lastDash == len(key)-1 {
+			return "", errors.New("invalid key format: missing params segment")
+		}
+		return key[lastDash+1:], nil
+	}
+
+	params, err := RequestParamsFromKey(key)
+	if err != nil {
+		return "", err
+	}
+	return CalculateCacheKey(params)
+}
+
 // CalculateCacheKey generates a deterministic cache key from request parameters.
 func CalculateCacheKey(params types.RequestParams) (string, error) {
 	if len(params) == 0 {
@@ -79,11 +105,7 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 	}
 
 	// Extract and sort keys for deterministic ordering
-	keys := make([]string, 0, len(params))
-	for key := range params {
-		keys = append(keys, key)
-	}
-	sort.Strings(keys)
+	keys := slices.Sorted(maps.Keys(params))
 
 	// Build the cache key
 	var parts []string
@@ -104,9 +126,15 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 // feedId string returned in the JS adapter's HTTP response under
 // meta.metrics.feedId (e.g. `{"index":"u_aixbtusd_rti","adapterNameOverride":"cfbenchmarks2"}`).
 //
-// The endpoint parameter is the canonical endpoint name (e.g. "cryptolwba") and
-// is injected into the params when the feedId JSON does not already contain it.
+// For large payloads the v3 framework returns a bare base64 sha1 hash instead
+// of a JSON object, which is returned verbatim. The endpoint parameter is the
+// canonical endpoint name (e.g. "cryptolwba") and is injected into the params
+// when the feedId JSON does not already contain it.
 func TransformedKeyFromFeedID(feedID, endpoint string) (string, error) {
+	if !strings.HasPrefix(feedID, "{") {
+		return feedID, nil
+	}
+
 	var feedParams map[string]interface{}
 	if err := json.Unmarshal([]byte(feedID), &feedParams); err != nil {
 		return "", fmt.Errorf("failed to parse feedId %q: %w", feedID, err)

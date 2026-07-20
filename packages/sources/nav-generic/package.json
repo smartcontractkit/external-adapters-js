@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nav-generic-adapter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Chainlink nav-generic adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.18.0",
     "tslib": "2.4.1"
   }
 }

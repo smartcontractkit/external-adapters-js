@@ -14,4 +14,6 @@ export type ProcessedComponent = {
   originalCurrency: string
   totalBalanceInOriginalCurrency: FixedPoint
   addressCount?: number
+  addressRipcord?: boolean
+  balanceRipcord?: boolean
 }

@@ -27,6 +27,8 @@ type Observation struct {
 	Meta       json.RawMessage `json:"meta"`
 	Success    bool            `json:"success"`
 	Error      string          `json:"error,omitempty"`
+	StatusCode int             `json:"statusCode,omitempty"`
+	Result     json.RawMessage `json:"result"`
 }
 
 // CacheItemStatus tracks the lifecycle of a cache item.
@@ -48,6 +50,7 @@ const (
 type CacheItem struct {
 	Status              CacheItemStatus
 	TransformedKey      string                 // populated once StatusLearned or StatusActive
+	RequiresInverse     bool                   // true when the original request is the inverse of TransformedKey
 	Observation         *Observation           // populated once StatusActive
 	Timestamp           time.Time              // last write time (used for TTL)
 	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive

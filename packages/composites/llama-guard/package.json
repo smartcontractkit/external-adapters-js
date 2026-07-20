@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/llama-guard-adapter",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Chainlink llama-guard adapter.",
   "keywords": [
     "Chainlink",
@@ -34,7 +34,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.11.6",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }

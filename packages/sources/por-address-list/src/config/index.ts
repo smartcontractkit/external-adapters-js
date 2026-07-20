@@ -79,7 +79,7 @@ export const config = new AdapterConfig({
   ZEUS_ZBTC_API_URL: {
     description: 'An API endpoint for Zeus native BTC wallet address',
     type: 'string',
-    default: 'https://indexer.zeuslayer.io/api/v2/chainlink/proof-of-reserves',
+    default: 'https://hermes.zeusnetwork.xyz/api/v2/chainlink/proof-of-reserves',
     sensitive: false,
   },
   VIRTUNE_API_URL: {
@@ -99,6 +99,18 @@ export const config = new AdapterConfig({
     description: 'An API endpoint for OKX X-Asset address list',
     type: 'string',
     default: 'https://www.okx.com/v2/asset/audit/minted-coin-balances',
+    sensitive: false,
+  },
+  CIRCLE_API_URL: {
+    description: 'An API endpoint for Circle address list',
+    type: 'string',
+    default: 'https://api.circle.com/v1/reserveAddresses/cirbtc',
+    sensitive: false,
+  },
+  CIRCLE_API_PAGE_SIZE: {
+    description: 'Number of addresses to fetch per request',
+    type: 'number',
+    default: 200,
     sensitive: false,
   },
 })

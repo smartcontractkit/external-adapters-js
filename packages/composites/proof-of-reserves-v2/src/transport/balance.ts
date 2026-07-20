@@ -2,6 +2,7 @@ import objectPath from 'object-path'
 import { RequestParams } from '../endpoint/reserves'
 import { FixedPoint, getFixedPointFromResult } from '../utils/fixed-point'
 import { Fetcher, Stringifier } from './types'
+import { getRipcord } from './utils'
 
 type BalanceSourceConfig = RequestParams['balanceSources'][number]
 
@@ -31,6 +32,7 @@ export class BalanceSource {
   async fetchBalances(addressArray: unknown[] | undefined): Promise<{
     balances: FixedPoint[]
     addressCount: number | undefined
+    ripcord: boolean | undefined
   }> {
     const balanceProviderParams = JSON.parse(this.config.params)
 
@@ -39,52 +41,67 @@ export class BalanceSource {
     }
 
     const responseData = await this.fetchFromProvider(this.config.provider, balanceProviderParams)
+    const ripcord = getRipcord(responseData, this.config.ripcord)
 
-    const balanceArray: Record<string, unknown>[] =
-      this.config.balancesArrayPath !== undefined
-        ? objectPath.get(responseData, this.config.balancesArrayPath)
-        : [responseData]
-    if (balanceArray === undefined) {
-      throw new Error(
-        `Balances array not found at path '${
-          this.config.balancesArrayPath
-        }' in response '${this.shortJsonForError(responseData)}' from provider '${
-          this.config.provider
-        }'`,
-      )
-    }
-
-    if (!Array.isArray(balanceArray)) {
-      throw new Error(
-        `Expected an array of balance items at path '${
-          this.config.balancesArrayPath
-        }' in response from provider '${this.config.provider}'. Found '${this.shortJsonForError(
-          balanceArray,
-        )}'.`,
-      )
-    }
-
-    const balances: FixedPoint[] = balanceArray.map((item) => {
-      try {
-        return getFixedPointFromResult({
-          result: item,
-          amountPath: this.config.balancePath,
-          decimalsPath: this.config.decimalsPath,
-          defaultDecimals: this.defaultDecimals,
-        })
-      } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    try {
+      const balanceArray: Record<string, unknown>[] =
+        this.config.balancesArrayPath !== undefined
+          ? objectPath.get(responseData, this.config.balancesArrayPath)
+          : [responseData]
+      if (balanceArray === undefined) {
         throw new Error(
-          `Error getting balance: ${errorMessage} for element '${this.shortJsonForError(
-            item,
-          )}' in response from provider '${this.config.provider}'`,
+          `Balances array not found at path '${
+            this.config.balancesArrayPath
+          }' in response '${this.shortJsonForError(responseData)}' from provider '${
+            this.config.provider
+          }'`,
         )
       }
-    })
 
-    return {
-      balances,
-      addressCount: this.config.balancesArrayPath !== undefined ? balanceArray.length : undefined,
+      if (!Array.isArray(balanceArray)) {
+        throw new Error(
+          `Expected an array of balance items at path '${
+            this.config.balancesArrayPath
+          }' in response from provider '${this.config.provider}'. Found '${this.shortJsonForError(
+            balanceArray,
+          )}'.`,
+        )
+      }
+
+      const balances: FixedPoint[] = balanceArray.map((item) => {
+        try {
+          return getFixedPointFromResult({
+            result: item,
+            amountPath: this.config.balancePath,
+            decimalsPath: this.config.decimalsPath,
+            defaultDecimals: this.defaultDecimals,
+          })
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+          throw new Error(
+            `Error getting balance: ${errorMessage} for element '${this.shortJsonForError(
+              item,
+            )}' in response from provider '${this.config.provider}'`,
+          )
+        }
+      })
+
+      return {
+        balances,
+        addressCount: this.config.balancesArrayPath !== undefined ? balanceArray.length : undefined,
+        ripcord,
+      }
+    } catch (error: unknown) {
+      // If the ripcord is true, consider that the rest of the response might
+      // not be as expected.
+      if (ripcord === true) {
+        return {
+          balances: [],
+          addressCount: undefined,
+          ripcord: true,
+        }
+      }
+      throw error
     }
   }
 }
@@ -122,6 +139,7 @@ export class BalanceSourceRepo {
   ): Promise<{
     balances: FixedPoint[]
     addressCount: number | undefined
+    ripcord: boolean | undefined
   }> {
     // Validation guarantees that the name is present in the config.
     const balanceSource = this.balanceSourceMap[name]!

@@ -1,5 +1,35 @@
 # @chainlink/token-balance-adapter
 
+## 3.6.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 3.6.0
+
+### Minor Changes
+
+- [#4946](https://github.com/smartcontractkit/external-adapters-js/pull/4946) [`9daff4a`](https://github.com/smartcontractkit/external-adapters-js/commit/9daff4a8474c8144c5e5a17212955ae4b3e5aa9e) Thanks [@dskloetc](https://github.com/dskloetc)! - Support token filtering in evm endpoint of token-balance
+
+- [#4954](https://github.com/smartcontractkit/external-adapters-js/pull/4954) [`a58c224`](https://github.com/smartcontractkit/external-adapters-js/commit/a58c224c59ac67403e7882679a3ac2e4f27c145d) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals for individual balances of litecoin response
+
+- [#4944](https://github.com/smartcontractkit/external-adapters-js/pull/4944) [`97ecb37`](https://github.com/smartcontractkit/external-adapters-js/commit/97ecb3798eaa354780f7ea9b5b413662efb21b4a) Thanks [@dskloetc](https://github.com/dskloetc)! - Make currency conversion optional in xrpl endpoint
+
+- [#4945](https://github.com/smartcontractkit/external-adapters-js/pull/4945) [`7b2c2ae`](https://github.com/smartcontractkit/external-adapters-js/commit/7b2c2ae4855816d649c6d9e30e27b34f584ce9cf) Thanks [@dskloetc](https://github.com/dskloetc)! - Make currency conversion optional in solana endpoint
+
+- [#4948](https://github.com/smartcontractkit/external-adapters-js/pull/4948) [`3d1a92a`](https://github.com/smartcontractkit/external-adapters-js/commit/3d1a92abc0b81044cc84da7e0560addd9d34808d) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals for individual balances of solana-balance response
+
+- [#4952](https://github.com/smartcontractkit/external-adapters-js/pull/4952) [`2301ce0`](https://github.com/smartcontractkit/external-adapters-js/commit/2301ce0f76a256f8d5490f42df5c23970075083e) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals for individual balances of cardano response
+
+- [#4947](https://github.com/smartcontractkit/external-adapters-js/pull/4947) [`345201d`](https://github.com/smartcontractkit/external-adapters-js/commit/345201dee34bbe53e8e37617b04e7467e4dcc2f6) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals for individual balances for xrp response
+
+- [#4953](https://github.com/smartcontractkit/external-adapters-js/pull/4953) [`6d0f9be`](https://github.com/smartcontractkit/external-adapters-js/commit/6d0f9be76943c2f79675e6944b92b4ecf0523ea2) Thanks [@dskloetc](https://github.com/dskloetc)! - Include decimals for individual balances of stellar response
+
+### Patch Changes
+
+- [#4991](https://github.com/smartcontractkit/external-adapters-js/pull/4991) [`f4935b9`](https://github.com/smartcontractkit/external-adapters-js/commit/f4935b92b1bfdb7d9eff24c141f6be734e350026) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Include ripcord in solana-balance response
+
 ## 3.5.0
 
 ### Minor Changes

@@ -1,5 +1,33 @@
 # @chainlink/expand-network-adapter
 
+## 0.3.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
+## 0.2.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 0.2.0
+
+### Minor Changes
+
+- [#5000](https://github.com/smartcontractkit/external-adapters-js/pull/5000) [`f079f5f`](https://github.com/smartcontractkit/external-adapters-js/commit/f079f5fa47d25d1610d1507b8f0269f6ee59c0e4) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Changeset to release the following adapters: aleno, allium-state, backed-fi, blocksize-capital-state, coinpaprika, coinpaprika-state, deutsche-boerse, expand-network, icap, mobula-state, the-network-firm, tp, view-function-multi-chain
+
+### Patch Changes
+
+- [#4622](https://github.com/smartcontractkit/external-adapters-js/pull/4622) [`8488e03`](https://github.com/smartcontractkit/external-adapters-js/commit/8488e033e8783383b0a25d440b89b6e5d6d470b4) Thanks [@johnnymugs](https://github.com/johnnymugs)! - Bumped framework version
+
+- [#4598](https://github.com/smartcontractkit/external-adapters-js/pull/4598) [`14788ce`](https://github.com/smartcontractkit/external-adapters-js/commit/14788cecd69a8655f95b1af159fcbfae2d30b9fc) Thanks [@Fletch153](https://github.com/Fletch153)! - Bumped framework version
+
 ## 0.1.17
 
 ### Patch Changes

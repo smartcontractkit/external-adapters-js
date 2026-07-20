@@ -48,12 +48,14 @@ export class Component {
     const component = this.config
 
     try {
-      const addressArray = await this.addressListRepo.getAddressArray(component.addressList)
+      const { addressArray, ripcord: addressRipcord } =
+        await this.addressListRepo.getAddressListResult(component.addressList)
 
-      const { balances, addressCount } = await this.balanceSourceRepo.fetchBalances(
-        component.balanceSource,
-        addressArray,
-      )
+      const {
+        balances,
+        addressCount,
+        ripcord: balanceRipcord,
+      } = await this.balanceSourceRepo.fetchBalances(component.balanceSource, addressArray)
 
       const totalBalance = balances.reduce((acc, balance) => add(acc, balance), {
         amount: 0n,
@@ -67,6 +69,8 @@ export class Component {
         originalCurrency: component.currency,
         totalBalanceInOriginalCurrency: totalBalance,
         addressCount,
+        addressRipcord,
+        balanceRipcord,
       }
 
       await this.conversionRepo.applyConversions(component.conversions, processedComponent)
@@ -90,6 +94,11 @@ export class Component {
     return (await this.processedComponent).addressCount
   }
 
+  async getRipcord(): Promise<boolean | undefined> {
+    const component = await this.processedComponent
+    return component.addressRipcord || component.balanceRipcord
+  }
+
   async getCurrency(): Promise<string> {
     return (await this.processedComponent).currency
   }
@@ -105,6 +114,8 @@ export class Component {
       currency: currency,
       totalBalance: fixedPointToNumber(await this.getTotalBalance()),
       addressCount: await this.getAddressCount(),
+      addressRipcord: (await this.processedComponent).addressRipcord,
+      balanceRipcord: (await this.processedComponent).balanceRipcord,
     }
     const originalCurrency = this.originalCurrency
     if (originalCurrency !== currency) {
@@ -155,6 +166,17 @@ export class ComponentRepo {
       ),
       resultDecimals,
     )
+  }
+
+  async getRipcord(): Promise<boolean | undefined> {
+    const ripcordValues = await Promise.all(this.components.map((c) => c.getRipcord()))
+    if (ripcordValues.includes(true)) {
+      return true
+    }
+    if (ripcordValues.includes(false)) {
+      return false
+    }
+    return undefined
   }
 
   async forResponse(): Promise<ComponentForResponse[]> {

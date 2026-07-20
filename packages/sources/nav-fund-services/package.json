@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/nav-fund-services-adapter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Chainlink nav-fund-services adapter.",
   "keywords": [
     "Chainlink",
@@ -35,7 +35,7 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.13.3",
+    "@chainlink/external-adapter-framework": "2.16.1",
     "@date-fns/tz": "^1.4.1",
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",

@@ -35,6 +35,13 @@ func TestMain(m *testing.M) {
 							"base": {"aliases": ["from"], "required": true},
 							"quote": {"aliases": ["to"], "required": true}
 						}
+					},
+					"forex": {
+						"aliases": ["forex"],
+						"params": {
+							"base": {"aliases": ["from"], "required": true},
+							"quote": {"aliases": ["to"], "required": true}
+						}
 					}
 				}
 			}
@@ -131,6 +138,78 @@ func TestAdapterHandler_CacheHit(t *testing.T) {
 	var resp types.Observation
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
 	require.Equal(t, true, resp.Success)
+}
+
+func TestAdapterHandler_CacheHit_InvertsTransformedPairObservation(t *testing.T) {
+	rawParams := types.RequestParams{"endpoint": "forex", "from": "TRY", "to": "USD"}
+	rawKey, err := helpers.CalculateCacheKey(rawParams)
+	require.NoError(t, err)
+	transformedKey, err := helpers.CalculateCacheKey(types.RequestParams{
+		"endpoint": "forex",
+		"base":     "USD",
+		"quote":    "TRY",
+	})
+	require.NoError(t, err)
+	obs := &types.Observation{
+		Data:    json.RawMessage(`{"result":46.4407}`),
+		Result:  json.RawMessage(`46.4407`),
+		Success: true,
+	}
+	testCache.SetNew(rawKey, map[string]interface{}{
+		"endpoint": "forex",
+		"from":     "TRY",
+		"to":       "USD",
+	})
+	testCache.SetTransformedKey(rawKey, transformedKey)
+	testCache.SetObservation(transformedKey, obs, time.Now(), "ncfx-forex-"+`{"base":"usd","quote":"try"}`)
+
+	body := `{"data":{"endpoint":"forex","from":"TRY","to":"USD"}}`
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusOK, w.Code, "body: %s", w.Body.String())
+
+	var resp types.Observation
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+
+	var data map[string]float64
+	require.NoError(t, json.Unmarshal(resp.Data, &data))
+	require.InDelta(t, 1/46.4407, data["result"], 0.0000000001)
+
+	var result float64
+	require.NoError(t, json.Unmarshal(resp.Result, &result))
+	require.InDelta(t, 1/46.4407, result, 0.0000000001)
+
+	item := testCache.Get(rawKey)
+	require.NotNil(t, item)
+	require.JSONEq(t, `{"result":46.4407}`, string(item.Observation.Data))
+}
+
+func TestAdapterHandler_CacheHit_DoesNotInvertDirectTransformedPairObservation(t *testing.T) {
+	params := types.RequestParams{"endpoint": "forex", "base": "USD", "quote": "TRY"}
+	obs := &types.Observation{
+		Data:    json.RawMessage(`{"result":46.4407}`),
+		Result:  json.RawMessage(`46.4407`),
+		Success: true,
+	}
+	setCache(t, params, obs, "ncfx-forex-"+`{"base":"usd","quote":"try"}`)
+
+	body := `{"data":{"endpoint":"forex","base":"USD","quote":"TRY"}}`
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusOK, w.Code, "body: %s", w.Body.String())
+
+	var resp types.Observation
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+
+	var data map[string]float64
+	require.NoError(t, json.Unmarshal(resp.Data, &data))
+	require.Equal(t, 46.4407, data["result"])
 }
 
 func TestAdapterHandler_CacheHit_FailedObservation(t *testing.T) {

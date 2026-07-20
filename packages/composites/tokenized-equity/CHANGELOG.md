@@ -1,5 +1,39 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`8ce9820`](https://github.com/smartcontractkit/external-adapters-js/commit/8ce9820f7043b5ea503b7e9dec88c3cc917c05e1)]:
+  - @chainlink/data-engine-adapter@1.5.0
+
+## 1.4.0
+
+### Minor Changes
+
+- [#5202](https://github.com/smartcontractkit/external-adapters-js/pull/5202) [`2f1c90f`](https://github.com/smartcontractkit/external-adapters-js/commit/2f1c90ff1006e0d486cc5ed052f1c19bbc3947c2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add coinbase endpoint
+
+## 1.3.0
+
+### Minor Changes
+
+- [#5144](https://github.com/smartcontractkit/external-adapters-js/pull/5144) [`c32bb4a`](https://github.com/smartcontractkit/external-adapters-js/commit/c32bb4acc36b4399ac73a889d3145968e422c084) Thanks [@dskloetc](https://github.com/dskloetc)! - Add xstocks endpoint
+
+## 1.2.0
+
+### Minor Changes
+
+- [#5056](https://github.com/smartcontractkit/external-adapters-js/pull/5056) [`45d465b`](https://github.com/smartcontractkit/external-adapters-js/commit/45d465b17d85e85657638f8c5a8164505b5d2d76) Thanks [@dskloetc](https://github.com/dskloetc)! - Add robinhood endpoint
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#4970](https://github.com/smartcontractkit/external-adapters-js/pull/4970) [`70fbfdb`](https://github.com/smartcontractkit/external-adapters-js/commit/70fbfdb141092faf3d9e04a84b071dc268a26d15) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add generic getFeedData function that auto-detects report version from feedId and routes to the correct endpoint, enabling V11 support in glv-token and gmx-tokens adapters
+
+- Updated dependencies [[`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226), [`70fbfdb`](https://github.com/smartcontractkit/external-adapters-js/commit/70fbfdb141092faf3d9e04a84b071dc268a26d15)]:
+  - @chainlink/data-engine-adapter@1.4.0
+
 ## 1.1.2
 
 ### Patch Changes

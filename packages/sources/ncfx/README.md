@@ -1,6 +1,6 @@
 # NCFX
 
-![4.7.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![4.9.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/ncfx/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -145,11 +145,12 @@ Supported names for this endpoint are: `forex-market-status`, `market-status`, `
 
 ### Input Params
 
-| Required? |  Name   | Aliases |                                     Description                                     |  Type  |      Options      |  Default  | Depends On | Not Valid With |
-| :-------: | :-----: | :-----: | :---------------------------------------------------------------------------------: | :----: | :---------------: | :-------: | :--------: | :------------: |
-|    ✅     | market  |         |                               The name of the market                                | string | `forex`, `metals` |           |            |                |
-|           |  type   |         |                              Type of the market status                              | string | `24/5`, `regular` | `regular` |            |                |
-|           | weekend |         | DHH-DHH:TZ, 520-020:America/New_York means Fri 20:00 to Sun 20:00 Eastern Time Zone | string |                   |           |            |                |
+| Required? |         Name         | Aliases |                                     Description                                     |  Type   |      Options      |  Default  | Depends On | Not Valid With |
+| :-------: | :------------------: | :-----: | :---------------------------------------------------------------------------------: | :-----: | :---------------: | :-------: | :--------: | :------------: |
+|    ✅     |        market        |         |                               The name of the market                                | string  | `forex`, `metals` |           |            |                |
+|           |         type         |         |                              Type of the market status                              | string  | `24/5`, `regular` | `regular` |            |                |
+|           |       weekend        |         | DHH-DHH:TZ, 520-020:America/New_York means Fri 20:00 to Sun 20:00 Eastern Time Zone | string  |                   |           |            |                |
+|           | force245MarketStatus |         |                        Return response in 24/5 market status                        | boolean |                   |           |            |                |
 
 ### Example
 

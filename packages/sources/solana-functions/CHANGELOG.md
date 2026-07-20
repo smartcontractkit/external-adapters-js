@@ -1,5 +1,29 @@
 # @chainlink/solana-functions-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add strcUSX junior and senior exchange rate endpoint
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add stSLX exchange rate endpoint
+
+### Patch Changes
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add shared Solana exchange-rate utilities.
+
+## 1.5.1
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+## 1.5.0
+
+### Minor Changes
+
+- [#4977](https://github.com/smartcontractkit/external-adapters-js/pull/4977) [`aa1c999`](https://github.com/smartcontractkit/external-adapters-js/commit/aa1c999d71456d73eb85b5d801220af2bf0b06b5) Thanks [@mxiao-cll](https://github.com/mxiao-cll)! - Support Solana functions in calculated-price
+
 ## 1.4.0
 
 ### Minor Changes

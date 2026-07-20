@@ -1,23 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { ADAPTER_NAMES } from '../source/sources'
 
 export const config = new AdapterConfig({
-  TRADINGHOURS_ADAPTER_URL: {
-    description: 'URL of the TradingHours adapter',
+  PROVIDER_ADAPTER_URL: {
+    description: `The URL for the \${PROVIDER} adapter. Configurable PROVIDERs are: ${ADAPTER_NAMES.join(
+      ',',
+    )}`,
     type: 'string',
     required: true,
-    sensitive: false,
-  },
-  NCFX_ADAPTER_URL: {
-    description: 'URL of the NCFX adapter',
-    type: 'string',
-    required: true,
-    sensitive: false,
-  },
-  FINNHUB_SECONDARY_ADAPTER_URL: {
-    description: 'URL of the Finnhub Secondary adapter',
-    type: 'string',
-    required: true,
-    sensitive: false,
+    variablePlaceholder: 'PROVIDER',
   },
   BACKGROUND_EXECUTE_MS: {
     description:

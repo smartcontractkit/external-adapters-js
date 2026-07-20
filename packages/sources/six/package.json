@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/six-adapter",
-  "version": "0.0.0",
+  "version": "1.1.0",
   "description": "Chainlink six adapter.",
   "keywords": [
     "Chainlink",
@@ -28,13 +28,16 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "15.4.0",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.14.2",
+    "@chainlink/external-adapter-framework": "2.16.1",
+    "@date-fns/tz": "^1.4.1",
+    "date-fns": "^4.1.0",
     "tslib": "2.4.1"
   }
 }
