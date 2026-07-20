@@ -159,7 +159,7 @@ func TestAdapterHandler_CacheHit_InvertsTransformedPairObservation(t *testing.T)
 		"endpoint": "forex",
 		"from":     "TRY",
 		"to":       "USD",
-	})
+	}, [32]byte{})
 	testCache.SetTransformedKey(rawKey, transformedKey)
 	testCache.SetObservation(transformedKey, obs, time.Now(), "ncfx-forex-"+`{"base":"usd","quote":"try"}`)
 
