@@ -12,18 +12,6 @@ import * as adrenaAccountData from '../fixtures/adrena-account-data-2025-10-08.j
 import * as flashTradeAccountData from '../fixtures/flash-trade-account-data-2025-10-08.json'
 import * as fragmetricAccountData from '../fixtures/fragmetric-account-data-2025-10-06.json'
 
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
-
 const getAccountInfoRequest = makeStub('getAccountInfoRequest', {
   send: jest.fn(),
 })
@@ -113,7 +101,6 @@ describe('AnchorDataTransport', () => {
   let transport: AnchorDataTransport
 
   beforeEach(async () => {
-    restoreEnv()
     jest.resetAllMocks()
     jest.useFakeTimers()
 
