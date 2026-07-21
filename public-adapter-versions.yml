@@ -274,7 +274,7 @@ adapters:
   - name: synthetix-feeds
     version: 1.1.22
   - name: t-rize-proof-of-insurance
-    version: 1.0.1
+    version: 1.1.0
   - name: the-network-firm
     version: 1.9.0
   - name: tiingo
