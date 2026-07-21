@@ -1,5 +1,11 @@
 # @chainlink/data-engine-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#5200](https://github.com/smartcontractkit/external-adapters-js/pull/5200) [`8ce9820`](https://github.com/smartcontractkit/external-adapters-js/commit/8ce9820f7043b5ea503b7e9dec88c3cc917c05e1) Thanks [@cl-mayowa](https://github.com/cl-mayowa)! - add twap endpoint support for data engine
+
 ## 1.4.0
 
 ### Minor Changes

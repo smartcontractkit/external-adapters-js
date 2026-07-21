@@ -1,10 +1,13 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { BorshAccountsCoder, Idl } from '@coral-xyz/anchor'
-import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import BN from 'bn.js'
+import { BaseEndpointTypes } from '../../src/endpoint/anchor-data'
 import * as adrenaProgramIdl from '../../src/idl/adrena.json'
 import * as flashTradeProgramIdl from '../../src/idl/flash_trade.json'
-import { getAnchorData } from '../../src/shared/anchor-data'
+import { AnchorDataTransport } from '../../src/transport/anchor-data'
 import * as adrenaAccountData from '../fixtures/adrena-account-data-2025-10-08.json'
 import * as flashTradeAccountData from '../fixtures/flash-trade-account-data-2025-10-08.json'
 import * as fragmetricAccountData from '../fixtures/fragmetric-account-data-2025-10-06.json'
@@ -15,12 +18,15 @@ const getAccountInfoRequest = makeStub('getAccountInfoRequest', {
 
 const solanaRpc = makeStub('solanaRpc', {
   getAccountInfo: () => getAccountInfoRequest,
-} as unknown as Rpc<SolanaRpcApi>)
+})
 
-// BNs that represent equal value can look different to Jest because of
-// internal padding. This function creates the BN value from a buffer, which is
-// what the BorshAccountsCoder does, so that the values are equal to Jest.
-const createBnFromBuffer = (s: string) => new BN(new BN(s).toArrayLike(Buffer, 'le', 8), 'le')
+const createSolanaRpc = () => solanaRpc
+
+jest.mock('@solana/rpc', () => ({
+  createSolanaRpc() {
+    return createSolanaRpc()
+  },
+}))
 
 const setDataField = async ({
   base64Data,
@@ -43,19 +49,125 @@ const setDataField = async ({
   return newBinaryData.toString('base64')
 }
 
+const log = jest.fn()
+const logger = {
+  fatal: log,
+  error: log,
+  warn: log,
+  info: log,
+  debug: log,
+  trace: log,
+  msgPrefix: 'mock-logger',
+}
+
+const loggerFactory = { child: () => logger }
+
+LoggerFactoryProvider.set(loggerFactory)
+
 describe('AnchorDataTransport', () => {
+  const transportName = 'default_single_transport'
+  const endpointName = 'anchor-data'
+  const RPC_URL = 'https://solana.rpc.url'
+  const BACKGROUND_EXECUTE_MS = 1500
   const fragmetricAccountAddress = '3TK9fNePM4qdKC4dwvDe8Bamv14prDqdVfuANxPeiryb'
   const fragmetricLiquidStakingProgramAddress = 'fragnAis7Bp6FTsMoa6YcH8UffhEw43Ph79qAiK3iF3'
   const adrenaAccountAddress = '4bQRutgDJs6vuh6ZcWaPVXiQaBzbHketjbCDjL4oRN34'
   const flashTradeAccountAddress = 'HfF7GCcEc76xubFCHLLXRdYcgRzwjEPdfKWqzRS8Ncog'
   const expectedFragmetricTokenPrice = '1079420719'
 
+  const adapterSettings = makeStub('adapterSettings', {
+    RPC_URL,
+    SOLANA_COMMITMENT: 'finalized',
+    WARMUP_SUBSCRIPTION_TTL: 10_000,
+    BACKGROUND_EXECUTE_MS,
+    MAX_COMMON_KEY_SIZE: 300,
+  } as unknown as BaseEndpointTypes['Settings'])
+
+  const context = makeStub('context', {
+    adapterSettings,
+  } as EndpointContext<BaseEndpointTypes>)
+
+  const responseCache = {
+    write: jest.fn(),
+  }
+
+  const dependencies = makeStub('dependencies', {
+    responseCache,
+    subscriptionSetFactory: {
+      buildSet: jest.fn(),
+    },
+  } as unknown as TransportDependencies<BaseEndpointTypes>)
+
+  let transport: AnchorDataTransport
+
   beforeEach(async () => {
     jest.resetAllMocks()
     jest.useFakeTimers()
+
+    transport = new AnchorDataTransport()
+
+    await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
-  describe('getAnchorData', () => {
+  afterEach(() => {
+    expect(log).not.toBeCalled()
+  })
+
+  describe('backgroundHandler', () => {
+    it('should sleep after handleRequest', async () => {
+      const t0 = Date.now()
+      let t1 = 0
+      transport.backgroundHandler(context, []).then(() => {
+        t1 = Date.now()
+      })
+      await jest.runAllTimersAsync()
+      expect(t1 - t0).toBe(BACKGROUND_EXECUTE_MS)
+    })
+  })
+
+  describe('handleRequest', () => {
+    it('should cache fragmetric response', async () => {
+      const accountDataResponse = makeStub('accountDataResponse', {
+        value: {
+          data: fragmetricAccountData.result.value.data,
+          owner: fragmetricLiquidStakingProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'anchor-data',
+        stateAccountAddress: fragmetricAccountAddress,
+        account: 'FundAccount',
+        field: 'one_receipt_token_as_sol',
+      })
+      await transport.handleRequest(param)
+
+      const expectedResponse = {
+        statusCode: 200,
+        result: expectedFragmetricTokenPrice,
+        data: {
+          result: expectedFragmetricTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      }
+
+      expect(responseCache.write).toBeCalledWith(transportName, [
+        {
+          params: param,
+          response: expectedResponse,
+        },
+      ])
+      expect(responseCache.write).toBeCalledTimes(1)
+    })
+  })
+
+  describe('_handleRequest', () => {
     it('should return fragmetric token price', async () => {
       const accountDataResponse = makeStub('accountDataResponse', {
         value: {
@@ -66,22 +178,30 @@ describe('AnchorDataTransport', () => {
 
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
-      const fieldName = 'one_receipt_token_as_sol'
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: fragmetricAccountAddress,
         account: 'FundAccount',
-        fields: [fieldName],
+        field: 'one_receipt_token_as_sol',
       })
 
-      const response = await getAnchorData(param)
+      const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
-        [fieldName]: createBnFromBuffer(expectedFragmetricTokenPrice),
+        statusCode: 200,
+        result: expectedFragmetricTokenPrice,
+        data: {
+          result: expectedFragmetricTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
       })
     })
 
-    it('should return fragmetric token supply', async () => {
+    it('should return token supply', async () => {
       const accountDataResponse = makeStub('accountDataResponse', {
         value: {
           data: fragmetricAccountData.result.value.data,
@@ -91,24 +211,32 @@ describe('AnchorDataTransport', () => {
 
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
-      const fieldName = 'receipt_token_supply_amount'
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: fragmetricAccountAddress,
         account: 'FundAccount',
-        fields: [fieldName],
+        field: 'receipt_token_supply_amount',
       })
 
-      const response = await getAnchorData(param)
+      const response = await transport._handleRequest(param)
 
       const expectedTokenSupply = '316994539554695'
 
       expect(response).toEqual({
-        [fieldName]: createBnFromBuffer(expectedTokenSupply),
+        statusCode: 200,
+        result: expectedTokenSupply,
+        data: {
+          result: expectedTokenSupply,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
       })
     })
 
-    it('should return multiple values', async () => {
+    it('should record received timestamp separate from requested timestamp', async () => {
       const accountDataResponse = makeStub('accountDataResponse', {
         value: {
           data: fragmetricAccountData.result.value.data,
@@ -116,25 +244,39 @@ describe('AnchorDataTransport', () => {
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      const [accountDataPromise, resolveAccountData] = deferredPromise<typeof accountDataResponse>()
 
-      const fieldName1 = 'one_receipt_token_as_sol'
-      const fieldName2 = 'receipt_token_supply_amount'
+      getAccountInfoRequest.send.mockReturnValue(accountDataPromise)
+
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: fragmetricAccountAddress,
         account: 'FundAccount',
-        fields: [fieldName1, fieldName2],
+        field: 'one_receipt_token_as_sol',
       })
 
-      const response = await getAnchorData(param)
+      const requestTimestamp = Date.now()
+      const responsePromise = transport._handleRequest(param)
+      jest.advanceTimersByTime(1234)
+      const responseTimestamp = Date.now()
+      expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
 
-      const expectedTokenSupply = '316994539554695'
+      resolveAccountData(accountDataResponse)
 
-      expect(response).toEqual({
-        [fieldName1]: createBnFromBuffer(expectedFragmetricTokenPrice),
-        [fieldName2]: createBnFromBuffer(expectedTokenSupply),
+      expect(await responsePromise).toEqual({
+        statusCode: 200,
+        result: expectedFragmetricTokenPrice,
+        data: {
+          result: expectedFragmetricTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: requestTimestamp,
+          providerDataReceivedUnixMs: responseTimestamp,
+          providerIndicatedTimeUnixMs: undefined,
+        },
       })
+
+      log.mockClear()
     })
 
     it('should throw if account does not have an owner', async () => {
@@ -148,13 +290,13 @@ describe('AnchorDataTransport', () => {
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: fragmetricAccountAddress,
         account: 'FundAccount',
-        fields: ['receipt_token_supply_amount'],
+        field: 'receipt_token_supply_amount',
       })
 
-      await expect(() => getAnchorData(param)).rejects.toThrow(
+      await expect(() => transport._handleRequest(param)).rejects.toThrow(
         `No program address found for state account '${fragmetricAccountAddress}'`,
       )
     })
@@ -171,13 +313,13 @@ describe('AnchorDataTransport', () => {
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: fragmetricAccountAddress,
         account: 'FundAccount',
-        fields: ['receipt_token_supply_amount'],
+        field: 'receipt_token_supply_amount',
       })
 
-      await expect(() => getAnchorData(param)).rejects.toThrow(
+      await expect(() => transport._handleRequest(param)).rejects.toThrow(
         `No IDL known for program address '${programAddress}'`,
       )
     })
@@ -203,16 +345,25 @@ describe('AnchorDataTransport', () => {
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: adrenaAccountAddress,
         account: 'Pool',
-        fields: [priceField],
+        field: priceField,
       })
 
-      const response = await getAnchorData(param)
+      const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
-        [priceField]: createBnFromBuffer(expectedTokenPrice),
+        statusCode: 200,
+        result: expectedTokenPrice,
+        data: {
+          result: expectedTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
       })
     })
 
@@ -237,16 +388,25 @@ describe('AnchorDataTransport', () => {
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: flashTradeAccountAddress,
         account: 'Pool',
-        fields: [priceField],
+        field: priceField,
       })
 
-      const response = await getAnchorData(param)
+      const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
-        [priceField]: createBnFromBuffer(expectedTokenPrice),
+        statusCode: 200,
+        result: expectedTokenPrice,
+        data: {
+          result: expectedTokenPrice,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
       })
     })
 
@@ -256,13 +416,13 @@ describe('AnchorDataTransport', () => {
       getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
 
       const param = makeStub('param', {
-        rpc: solanaRpc,
+        endpoint: 'anchor-data',
         stateAccountAddress: adrenaAccountAddress,
         account: 'Pool',
-        fields: ['unknown_field_123'],
+        field: 'unknown_field_123',
       })
 
-      await expect(() => getAnchorData(param)).rejects.toThrow(
+      await expect(() => transport._handleRequest(param)).rejects.toThrow(
         `No field 'unknown_field_123' in IDL for program with address '13gDzEXCdocbj8iAiqrScGo47NiSuYENGsRqi3SEAwet'. Available fields are: bump, lp_token_bump, nb_stable_custody, initialized, allow_trade, allow_swap, liquidity_state, registered_custody_count, name, custodies, fees_debt_usd, referrers_fee_debt_usd, cumulative_referrer_fee_usd, lp_token_price_usd, whitelisted_swapper, ratios, last_aum_and_lp_token_price_usd_update, unique_limit_order_id_counter, aum_usd, inception_time, aum_soft_cap_usd`,
       )
     })
