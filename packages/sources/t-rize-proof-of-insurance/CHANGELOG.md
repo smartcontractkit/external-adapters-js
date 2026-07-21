@@ -1,5 +1,11 @@
 # @chainlink/t-rize-proof-of-insurance-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#5203](https://github.com/smartcontractkit/external-adapters-js/pull/5203) [`2295b32`](https://github.com/smartcontractkit/external-adapters-js/commit/2295b3248804a5eb95ab1a70a3791e3c56e60875) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add a network input parameter (mainnet/testnet) for endpoint selection with custom input validation. Add the TESTNET_API_ENDPOINT environment variable.
+
 ## 1.0.1
 
 ### Patch Changes
