@@ -40,8 +40,13 @@ export const normalizeContractIdToDecimal = (hexValue: string): string => {
   return truncateBytesToDecimal(Buffer.from(normalizedHex, 'hex'), 'contractId')
 }
 
-export const getTrizeApiEndpoint = (network: string, settings: typeof config.settings): string => {
-  const endpointEnvVar = network == 'testnet' ? 'TESTNET_API_ENDPOINT' : 'API_ENDPOINT'
+export type TrizeNetwork = 'mainnet' | 'testnet'
+
+export const getTrizeApiEndpoint = (
+  network: TrizeNetwork,
+  settings: typeof config.settings,
+): string => {
+  const endpointEnvVar = network === 'testnet' ? 'TESTNET_API_ENDPOINT' : 'API_ENDPOINT'
   const endpoint = settings[endpointEnvVar]
   if (!endpoint) {
     throw new AdapterInputError({
@@ -53,7 +58,7 @@ export const getTrizeApiEndpoint = (network: string, settings: typeof config.set
 }
 
 export const doTrizeCustomInputValidation = (
-  network: string,
+  network: TrizeNetwork,
   settings: typeof config.settings,
 ): AdapterInputError | undefined => {
   getTrizeApiEndpoint(network, settings)
