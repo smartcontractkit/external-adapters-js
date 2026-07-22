@@ -2,15 +2,14 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BorshAccountsCoder, Idl } from '@coral-xyz/anchor'
 import BN from 'bn.js'
-import { BaseEndpointTypes } from '../../src/endpoint/anchor-data'
-import * as adrenaProgramIdl from '../../src/idl/adrena.json'
-import * as flashTradeProgramIdl from '../../src/idl/flash_trade.json'
-import { AnchorDataTransport } from '../../src/transport/anchor-data'
-import * as adrenaAccountData from '../fixtures/adrena-account-data-2025-10-08.json'
-import * as flashTradeAccountData from '../fixtures/flash-trade-account-data-2025-10-08.json'
-import * as fragmetricAccountData from '../fixtures/fragmetric-account-data-2025-10-06.json'
+import { BaseEndpointTypes } from '../../src/endpoint/midas'
+import * as midasProgramIdl from '../../src/idl/midas.json'
+import { MidasTransport } from '../../src/transport/midas'
+import * as midasFeedStateAccountData from '../fixtures/midas-feed-state-data-2026-07-21.json'
+import * as midasManualFeedStateAccountData from '../fixtures/midas-manual-feed-state-data-2026-07-21.json'
 
 const getAccountInfoRequest = makeStub('getAccountInfoRequest', {
   send: jest.fn(),
@@ -28,26 +27,28 @@ jest.mock('@solana/rpc', () => ({
   },
 }))
 
-const setDataField = async ({
+const setDataFields = async ({
   base64Data,
   idl,
   account,
-  field,
-  newValue,
+  data,
 }: {
   base64Data: string
   idl: Idl
   account: string
-  field: string
-  newValue: unknown
+  data: Record<string, unknown>
 }): Promise<string> => {
   const binaryData = Buffer.from(base64Data, 'base64')
   const coder = new BorshAccountsCoder(idl)
   const decodedData = coder.decode(account, binaryData)
-  decodedData[field] = newValue
+  for (const [field, newValue] of Object.entries(data)) {
+    decodedData[field] = newValue
+  }
   const newBinaryData = await coder.encode(account, decodedData)
   return newBinaryData.toString('base64')
 }
+
+const RESULT_DECIMALS = 18
 
 const log = jest.fn()
 const logger = {
@@ -64,16 +65,30 @@ const loggerFactory = { child: () => logger }
 
 LoggerFactoryProvider.set(loggerFactory)
 
-describe('AnchorDataTransport', () => {
+describe('MidasTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'anchor-data'
+  const endpointName = 'midas'
   const RPC_URL = 'https://solana.rpc.url'
   const BACKGROUND_EXECUTE_MS = 1500
-  const fragmetricAccountAddress = '3TK9fNePM4qdKC4dwvDe8Bamv14prDqdVfuANxPeiryb'
-  const fragmetricLiquidStakingProgramAddress = 'fragnAis7Bp6FTsMoa6YcH8UffhEw43Ph79qAiK3iF3'
-  const adrenaAccountAddress = '4bQRutgDJs6vuh6ZcWaPVXiQaBzbHketjbCDjL4oRN34'
-  const flashTradeAccountAddress = 'HfF7GCcEc76xubFCHLLXRdYcgRzwjEPdfKWqzRS8Ncog'
-  const expectedFragmetricTokenPrice = '1079420719'
+  const midasFeedStateAddress = '7UVwLrMTEDVvzQRaitJi7YLJcxFY8RTmXrHvSPMjTGDm'
+  const midasFeedProgramAddress = 'MDF1kkcgJqyizY8k3U1ESAxLBYFYmE3qTwxf2pmGE1s'
+  const expectedMidasTokenPrice = '1000000000000000000'
+  const expectedResponse = {
+    statusCode: 200,
+    result: expectedMidasTokenPrice,
+    data: {
+      result: expectedMidasTokenPrice,
+      decimals: RESULT_DECIMALS,
+      price: 1,
+      rawPrice: expectedMidasTokenPrice,
+      minPrice: 0.9965,
+      maxPrice: 1.04,
+      lastUpdatedAt: 1784568395,
+      secondsSinceLastUpdate: 66805,
+      maxStaleness: 2592000,
+      ripcord: 0,
+    },
+  }
 
   const adapterSettings = makeStub('adapterSettings', {
     RPC_URL,
@@ -88,6 +103,8 @@ describe('AnchorDataTransport', () => {
   } as EndpointContext<BaseEndpointTypes>)
 
   const responseCache = {
+    getCacheKey: jest.fn(),
+    get: jest.fn(),
     write: jest.fn(),
   }
 
@@ -98,13 +115,13 @@ describe('AnchorDataTransport', () => {
     },
   } as unknown as TransportDependencies<BaseEndpointTypes>)
 
-  let transport: AnchorDataTransport
+  let transport: MidasTransport
 
   beforeEach(async () => {
     jest.resetAllMocks()
-    jest.useFakeTimers()
+    jest.useFakeTimers().setSystemTime(new Date('2026-07-21T12:00:00Z'))
 
-    transport = new AnchorDataTransport()
+    transport = new MidasTransport()
 
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
@@ -126,41 +143,40 @@ describe('AnchorDataTransport', () => {
   })
 
   describe('handleRequest', () => {
-    it('should cache fragmetric response', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', {
+    it('should cache response', async () => {
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
-          owner: fragmetricLiquidStakingProgramAddress,
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'one_receipt_token_as_sol',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
       await transport.handleRequest(param)
-
-      const expectedResponse = {
-        statusCode: 200,
-        result: expectedFragmetricTokenPrice,
-        data: {
-          result: expectedFragmetricTokenPrice,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      }
 
       expect(responseCache.write).toBeCalledWith(transportName, [
         {
           params: param,
-          response: expectedResponse,
+          response: {
+            ...expectedResponse,
+            timestamps: {
+              providerDataRequestedUnixMs: Date.now(),
+              providerDataReceivedUnixMs: Date.now(),
+              providerIndicatedTimeUnixMs: undefined,
+            },
+          },
         },
       ])
       expect(responseCache.write).toBeCalledTimes(1)
@@ -168,30 +184,80 @@ describe('AnchorDataTransport', () => {
   })
 
   describe('_handleRequest', () => {
-    it('should return fragmetric token price', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', {
+    it('should return response', async () => {
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
-          owner: fragmetricLiquidStakingProgramAddress,
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'one_receipt_token_as_sol',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
 
       const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
-        statusCode: 200,
-        result: expectedFragmetricTokenPrice,
+        ...expectedResponse,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should return a different price', async () => {
+      const expectedMidasTokenPrice = '100234500'
+      const expectedScaledMidasTokenPrice = `${expectedMidasTokenPrice}0000000000`
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const base64Data = await setDataFields({
+        base64Data: midasManualFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'ManualFeedState',
+        data: { price: new BN(expectedMidasTokenPrice) },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        ...expectedResponse,
+        result: expectedScaledMidasTokenPrice,
         data: {
-          result: expectedFragmetricTokenPrice,
+          ...expectedResponse.data,
+          result: expectedScaledMidasTokenPrice,
+          rawPrice: expectedScaledMidasTokenPrice,
+          price: Number(expectedScaledMidasTokenPrice) / 10 ** RESULT_DECIMALS,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -201,32 +267,89 @@ describe('AnchorDataTransport', () => {
       })
     })
 
-    it('should return token supply', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', {
+    it('should work with different decimals', async () => {
+      const decimals = 7
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
-          owner: fragmetricLiquidStakingProgramAddress,
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const base64Data = await setDataFields({
+        base64Data: midasManualFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'ManualFeedState',
+        data: {
+          decimals: new BN(decimals),
+          price: new BN(10 ** decimals),
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'receipt_token_supply_amount',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
 
       const response = await transport._handleRequest(param)
 
-      const expectedTokenSupply = '316994539554695'
+      expect(response).toEqual({
+        ...expectedResponse,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should return a different minPrice', async () => {
+      const expectedMinPrice = '902345000'
+      const expectedMinPriceAsNumber = 0.902345
+      const base64Data = await setDataFields({
+        base64Data: midasFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'FeedState',
+        data: {
+          min_price: new BN(expectedMinPrice),
+        },
+      })
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      const response = await transport._handleRequest(param)
 
       expect(response).toEqual({
-        statusCode: 200,
-        result: expectedTokenSupply,
+        ...expectedResponse,
         data: {
-          result: expectedTokenSupply,
+          ...expectedResponse.data,
+          minPrice: expectedMinPriceAsNumber,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -234,25 +357,238 @@ describe('AnchorDataTransport', () => {
           providerIndicatedTimeUnixMs: undefined,
         },
       })
+    })
+
+    it('should return a different maxPrice', async () => {
+      const expectedMaxPrice = '1002345000'
+      const expectedMaxPriceAsNumber = 1.002345
+
+      const base64Data = await setDataFields({
+        base64Data: midasFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'FeedState',
+        data: {
+          max_price: new BN(expectedMaxPrice),
+        },
+      })
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        ...expectedResponse,
+        data: {
+          ...expectedResponse.data,
+          maxPrice: expectedMaxPriceAsNumber,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should ripcord when price is stale', async () => {
+      jest.setSystemTime(new Date('2026-08-21T12:00:00Z'))
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        ...expectedResponse,
+        data: {
+          ...expectedResponse.data,
+          secondsSinceLastUpdate: 2745205,
+          ripcord: 1,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should ripcord and return last valid price on out-of-bounds price', async () => {
+      const lastScaledValidPrice = '1001745000000000000'
+      const lastValidUpdatedAt = 1784561111
+      const invalidPrice = '999999999'
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const base64Data = await setDataFields({
+        base64Data: midasManualFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'ManualFeedState',
+        data: {
+          price: new BN(invalidPrice),
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      const cachedResponse = makeStub('cachedResponse', {
+        result: lastScaledValidPrice,
+        data: {
+          lastUpdatedAt: lastValidUpdatedAt,
+        },
+      })
+      responseCache.get.mockResolvedValueOnce(cachedResponse)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      const response = await transport._handleRequest(param)
+
+      expect(response).toEqual({
+        ...expectedResponse,
+        result: lastScaledValidPrice,
+        data: {
+          ...expectedResponse.data,
+          result: lastScaledValidPrice,
+          lastUpdatedAt: lastValidUpdatedAt,
+          secondsSinceLastUpdate:
+            expectedResponse.data.secondsSinceLastUpdate +
+            (expectedResponse.data.lastUpdatedAt - lastValidUpdatedAt),
+          rawPrice: `${invalidPrice}0000000000`,
+          price: Number(lastScaledValidPrice) / 10 ** RESULT_DECIMALS,
+          ripcord: 1,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      expect(log).toBeCalledWith(
+        `Price 9.99999999 is out of bounds [0.9965, 1.04]. Getting price from cache.`,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
+    })
+
+    it('should throw on out-of-bounds price without cached response', async () => {
+      const invalidPrice = '999999999'
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
+        value: {
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const base64Data = await setDataFields({
+        base64Data: midasManualFeedStateAccountData.result.value.data[0],
+        idl: midasProgramIdl as unknown as Idl,
+        account: 'ManualFeedState',
+        data: {
+          price: new BN(invalidPrice),
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: [base64Data, 'base64'],
+          owner: midasFeedProgramAddress,
+        },
+      })
+
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
+
+      responseCache.get.mockResolvedValueOnce(undefined)
+
+      const param = makeStub('param', {
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
+      })
+
+      await expect(() => transport._handleRequest(param)).rejects.toThrow(
+        new AdapterInputError({
+          statusCode: 502,
+          message: `Price 9.99999999 is out of bounds [0.9965, 1.04] and no cached price is available.`,
+        }),
+      )
+
+      expect(log).toBeCalledWith(
+        `Price 9.99999999 is out of bounds [0.9965, 1.04]. Getting price from cache.`,
+      )
+      expect(log).toBeCalledTimes(1)
+      log.mockClear()
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', {
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
-          owner: fragmetricLiquidStakingProgramAddress,
+          data: midasFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
+        },
+      })
+      const manualFeedStateDataResponse = makeStub('manualFeedStateDataResponse', {
+        value: {
+          data: midasManualFeedStateAccountData.result.value.data,
+          owner: midasFeedProgramAddress,
         },
       })
 
-      const [accountDataPromise, resolveAccountData] = deferredPromise<typeof accountDataResponse>()
+      const [feedStateDataPromise, resolveFeedStateData] =
+        deferredPromise<typeof feedStateDataResponse>()
 
-      getAccountInfoRequest.send.mockReturnValue(accountDataPromise)
+      getAccountInfoRequest.send.mockReturnValueOnce(feedStateDataPromise)
+      getAccountInfoRequest.send.mockResolvedValueOnce(manualFeedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'one_receipt_token_as_sol',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
 
       const requestTimestamp = Date.now()
@@ -261,13 +597,13 @@ describe('AnchorDataTransport', () => {
       const responseTimestamp = Date.now()
       expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
 
-      resolveAccountData(accountDataResponse)
+      resolveFeedStateData(feedStateDataResponse)
 
       expect(await responsePromise).toEqual({
-        statusCode: 200,
-        result: expectedFragmetricTokenPrice,
+        ...expectedResponse,
         data: {
-          result: expectedFragmetricTokenPrice,
+          ...expectedResponse.data,
+          secondsSinceLastUpdate: expectedResponse.data.secondsSinceLastUpdate + 1,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,
@@ -280,150 +616,42 @@ describe('AnchorDataTransport', () => {
     })
 
     it('should throw if account does not have an owner', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', {
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
+          data: midasFeedStateAccountData.result.value.data,
           owner: undefined,
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'receipt_token_supply_amount',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
 
       await expect(() => transport._handleRequest(param)).rejects.toThrow(
-        `No program address found for state account '${fragmetricAccountAddress}'`,
+        `No program address found for state account '${midasFeedStateAddress}'`,
       )
     })
 
     it('should throw if account has an unknown owner', async () => {
       const programAddress = 'unknown-program-123'
-      const accountDataResponse = makeStub('accountDataResponse', {
+      const feedStateDataResponse = makeStub('feedStateDataResponse', {
         value: {
-          data: fragmetricAccountData.result.value.data,
+          data: midasFeedStateAccountData.result.value.data,
           owner: programAddress,
         },
       })
 
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
+      getAccountInfoRequest.send.mockResolvedValueOnce(feedStateDataResponse)
 
       const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricAccountAddress,
-        account: 'FundAccount',
-        field: 'receipt_token_supply_amount',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       })
-
       await expect(() => transport._handleRequest(param)).rejects.toThrow(
         `No IDL known for program address '${programAddress}'`,
-      )
-    })
-
-    it('should return adrena token price', async () => {
-      const expectedTokenPrice = '98765432123'
-      const priceField = 'lp_token_price_usd'
-      const base64Data = await setDataField({
-        base64Data: adrenaAccountData.result.value.data[0] as string,
-        idl: adrenaProgramIdl as unknown as Idl,
-        account: 'Pool',
-        field: priceField,
-        newValue: new BN(expectedTokenPrice),
-      })
-
-      const accountDataResponse = makeStub('accountDataResponse', {
-        value: {
-          data: [base64Data, 'base64'],
-          owner: adrenaAccountData.result.value.owner,
-        },
-      })
-
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
-
-      const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: adrenaAccountAddress,
-        account: 'Pool',
-        field: priceField,
-      })
-
-      const response = await transport._handleRequest(param)
-
-      expect(response).toEqual({
-        statusCode: 200,
-        result: expectedTokenPrice,
-        data: {
-          result: expectedTokenPrice,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      })
-    })
-
-    it('should return flash trade token price', async () => {
-      const expectedTokenPrice = '12345654321'
-      const priceField = 'compounding_lp_price'
-      const base64Data = await setDataField({
-        base64Data: flashTradeAccountData.result.value.data[0] as string,
-        idl: flashTradeProgramIdl as unknown as Idl,
-        account: 'Pool',
-        field: priceField,
-        newValue: new BN(expectedTokenPrice),
-      })
-
-      const accountDataResponse = makeStub('accountDataResponse', {
-        value: {
-          data: [base64Data, 'base64'],
-          owner: flashTradeAccountData.result.value.owner,
-        },
-      })
-
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
-
-      const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: flashTradeAccountAddress,
-        account: 'Pool',
-        field: priceField,
-      })
-
-      const response = await transport._handleRequest(param)
-
-      expect(response).toEqual({
-        statusCode: 200,
-        result: expectedTokenPrice,
-        data: {
-          result: expectedTokenPrice,
-        },
-        timestamps: {
-          providerDataRequestedUnixMs: Date.now(),
-          providerDataReceivedUnixMs: Date.now(),
-          providerIndicatedTimeUnixMs: undefined,
-        },
-      })
-    })
-
-    it('should throw if account does not have the given field', async () => {
-      const accountDataResponse = makeStub('accountDataResponse', adrenaAccountData.result)
-
-      getAccountInfoRequest.send.mockResolvedValueOnce(accountDataResponse)
-
-      const param = makeStub('param', {
-        endpoint: 'anchor-data',
-        stateAccountAddress: adrenaAccountAddress,
-        account: 'Pool',
-        field: 'unknown_field_123',
-      })
-
-      await expect(() => transport._handleRequest(param)).rejects.toThrow(
-        `No field 'unknown_field_123' in IDL for program with address '13gDzEXCdocbj8iAiqrScGo47NiSuYENGsRqi3SEAwet'. Available fields are: bump, lp_token_bump, nb_stable_custody, initialized, allow_trade, allow_swap, liquidity_state, registered_custody_count, name, custodies, fees_debt_usd, referrers_fee_debt_usd, cumulative_referrer_fee_usd, lp_token_price_usd, whitelisted_swapper, ratios, last_aum_and_lp_token_price_usd_update, unique_limit_order_id_counter, aum_usd, inception_time, aum_soft_cap_usd`,
       )
     })
   })

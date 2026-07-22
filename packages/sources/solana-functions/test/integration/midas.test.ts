@@ -3,24 +3,20 @@ import {
   makeStub,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as adrenaAccountData from '../fixtures/adrena-account-data-2025-10-08.json'
-import * as flashTradeAccountData from '../fixtures/flash-trade-account-data-2025-10-08.json'
-import * as fragmetricAccountData from '../fixtures/fragmetric-account-data-2025-10-06.json'
+import * as midasFeedStateAccountData from '../fixtures/midas-feed-state-data-2026-07-21.json'
+import * as midasManualFeedStateAccountData from '../fixtures/midas-manual-feed-state-data-2026-07-21.json'
 
-const fragmetricStateAccountAddress = '3TK9fNePM4qdKC4dwvDe8Bamv14prDqdVfuANxPeiryb'
-const adrenaStateAccountAddress = '4bQRutgDJs6vuh6ZcWaPVXiQaBzbHketjbCDjL4oRN34'
-const flashTradeStateAccountAddress = 'HfF7GCcEc76xubFCHLLXRdYcgRzwjEPdfKWqzRS8Ncog'
+const midasFeedStateAddress = '7UVwLrMTEDVvzQRaitJi7YLJcxFY8RTmXrHvSPMjTGDm'
+const midasManualFeedStateAddress = 'HHwwM9t8eEeNDnGpXQnkHth2xHHxkD531qqBqz5H7meX'
 
 const solanaRpc = makeStub('solanaRpc', {
   getAccountInfo: (address: string) => ({
     async send() {
       switch (address) {
-        case fragmetricStateAccountAddress:
-          return fragmetricAccountData.result
-        case adrenaStateAccountAddress:
-          return adrenaAccountData.result
-        case flashTradeStateAccountAddress:
-          return flashTradeAccountData.result
+        case midasFeedStateAddress:
+          return midasFeedStateAccountData.result
+        case midasManualFeedStateAddress:
+          return midasManualFeedStateAccountData.result
       }
       throw new Error(`Unexpected account address: ${address}`)
     },
@@ -60,37 +56,11 @@ describe('execute', () => {
     spy.mockRestore()
   })
 
-  describe('anchor-data', () => {
-    it('should return success fragmetric price', async () => {
+  describe('midas', () => {
+    it('should return success response', async () => {
       const data = {
-        endpoint: 'anchor-data',
-        stateAccountAddress: fragmetricStateAccountAddress,
-        account: 'FundAccount',
-        field: 'one_receipt_token_as_sol',
-      }
-      const response = await testAdapter.request(data)
-      expect(response.json()).toMatchSnapshot()
-      expect(response.statusCode).toBe(200)
-    })
-
-    it('should return success adrena token price', async () => {
-      const data = {
-        endpoint: 'anchor-data',
-        stateAccountAddress: adrenaStateAccountAddress,
-        account: 'Pool',
-        field: 'lp_token_price_usd',
-      }
-      const response = await testAdapter.request(data)
-      expect(response.json()).toMatchSnapshot()
-      expect(response.statusCode).toBe(200)
-    })
-
-    it('should return success flash trade token price', async () => {
-      const data = {
-        endpoint: 'anchor-data',
-        stateAccountAddress: flashTradeStateAccountAddress,
-        account: 'Pool',
-        field: 'compounding_lp_price',
+        endpoint: 'midas',
+        feedStateAddress: midasFeedStateAddress,
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
