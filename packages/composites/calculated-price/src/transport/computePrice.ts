@@ -156,14 +156,23 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
       : operand2Median
 
     let computedResult: Decimal
-    if (operation.toLowerCase() === 'divide') {
-      computedResult = scaledOperand1.div(scaledOperand2)
-    } else if (operation.toLowerCase() === 'multiply') {
-      computedResult = scaledOperand1.mul(scaledOperand2)
-    } else {
-      throw new AdapterError({
-        message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
-      })
+    switch (operation.toLowerCase()) {
+      case 'divide':
+        computedResult = scaledOperand1.div(scaledOperand2)
+        break
+      case 'multiply':
+        computedResult = scaledOperand1.mul(scaledOperand2)
+        break
+      case 'min':
+        computedResult = Decimal.min(scaledOperand1, scaledOperand2)
+        break
+      case 'max':
+        computedResult = Decimal.max(scaledOperand1, scaledOperand2)
+        break
+      default:
+        throw new AdapterError({
+          message: `Unsupported operation: ${operation}. This should not be possible because of input validation.`,
+        })
     }
 
     // Scale result up to output decimals if decimals are defined
