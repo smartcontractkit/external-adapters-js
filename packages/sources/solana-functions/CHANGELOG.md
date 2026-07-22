@@ -1,5 +1,15 @@
 # @chainlink/solana-functions-adapter
 
+## 1.7.0
+
+### Minor Changes
+
+- [#5221](https://github.com/smartcontractkit/external-adapters-js/pull/5221) [`0603cb7`](https://github.com/smartcontractkit/external-adapters-js/commit/0603cb71c598784bd55df8957b84d4f66c5c2ce2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add midas endpoint
+
+### Patch Changes
+
+- [#5213](https://github.com/smartcontractkit/external-adapters-js/pull/5213) [`da250ae`](https://github.com/smartcontractkit/external-adapters-js/commit/da250ae3a274a7ee1634e6a5c32727faca7f2768) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor anchor-data
+
 ## 1.6.0
 
 ### Minor Changes
