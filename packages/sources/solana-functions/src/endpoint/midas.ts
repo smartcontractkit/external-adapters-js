@@ -31,7 +31,7 @@ export type BaseEndpointTypes = {
       lastUpdatedAt: number // in seconds
       secondsSinceLastUpdate: number
       maxStaleness: number // in seconds
-      ripcord: 0 | 1
+      ripcordAsInt: 0 | 1
     }
     Result: string
   }

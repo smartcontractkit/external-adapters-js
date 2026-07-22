@@ -93,10 +93,10 @@ export class MidasTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     let secondsSinceLastUpdate = Math.floor(Date.now() / 1000) - lastUpdatedAt
 
-    let ripcord: 0 | 1 = 0
+    let ripcordAsInt: 0 | 1 = 0
 
     if (secondsSinceLastUpdate > maxStaleness) {
-      ripcord = 1
+      ripcordAsInt = 1
     }
 
     const rawPrice = BigInt(manualFeedStateData[ManualFeedStateFields.price])
@@ -133,7 +133,7 @@ export class MidasTransport extends SubscriptionTransport<BaseEndpointTypes> {
       result = cachedResponse.result
       lastUpdatedAt = cachedResponse.data.lastUpdatedAt
       secondsSinceLastUpdate = Math.floor(Date.now() / 1000) - lastUpdatedAt
-      ripcord = 1
+      ripcordAsInt = 1
     } else {
       result = scaledRawPrice.toString()
     }
@@ -149,7 +149,7 @@ export class MidasTransport extends SubscriptionTransport<BaseEndpointTypes> {
         lastUpdatedAt,
         secondsSinceLastUpdate,
         maxStaleness,
-        ripcord,
+        ripcordAsInt,
       },
       statusCode: 200,
       result,

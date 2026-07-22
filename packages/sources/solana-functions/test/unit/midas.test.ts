@@ -86,7 +86,7 @@ describe('MidasTransport', () => {
       lastUpdatedAt: 1784568395,
       secondsSinceLastUpdate: 66805,
       maxStaleness: 2592000,
-      ripcord: 0,
+      ripcordAsInt: 0,
     },
   }
 
@@ -438,7 +438,7 @@ describe('MidasTransport', () => {
         data: {
           ...expectedResponse.data,
           secondsSinceLastUpdate: 2745205,
-          ripcord: 1,
+          ripcordAsInt: 1,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -503,7 +503,7 @@ describe('MidasTransport', () => {
             (expectedResponse.data.lastUpdatedAt - lastValidUpdatedAt),
           rawPrice: `${invalidPrice}0000000000`,
           price: Number(lastScaledValidPrice) / 10 ** RESULT_DECIMALS,
-          ripcord: 1,
+          ripcordAsInt: 1,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),

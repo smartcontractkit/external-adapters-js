@@ -11,7 +11,7 @@ exports[`execute midas should return success response 1`] = `
     "price": 1,
     "rawPrice": "1000000000000000000",
     "result": "1000000000000000000",
-    "ripcord": 0,
+    "ripcordAsInt": 0,
     "secondsSinceLastUpdate": -806220924,
   },
   "result": "1000000000000000000",
