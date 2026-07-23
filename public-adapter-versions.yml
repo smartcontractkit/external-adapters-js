@@ -250,7 +250,7 @@ adapters:
   - name: solactive
     version: 1.0.4
   - name: solana-functions
-    version: 1.6.0
+    version: 1.7.0
   - name: solana-view-function
     version: 2.2.48
   - name: sportsdataio
