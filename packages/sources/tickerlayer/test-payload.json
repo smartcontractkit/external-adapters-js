@@ -1,6 +1,0 @@
-{
- "requests": [{
-  "endpoint": "stock",
-  "symbol": "US:AAPL"
- }]
-}
