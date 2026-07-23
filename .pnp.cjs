@@ -19698,7 +19698,7 @@ const RAW_RUNTIME_STATE =
           ["fp-ts", "npm:1.19.3"],\
           ["fs-extra", "npm:7.0.1"],\
           ["hardhat", "virtual:46a58245e91bbf54455249022aab867b613a4bb5d830b7439d125c7aaf1139ba455fffd972d899d57ff278cc45cea37ee57948cbece0e03b062c959883883b78#npm:2.22.19"],\
-          ["immutable", "npm:4.3.8"],\
+          ["immutable", "npm:4.3.9"],\
           ["io-ts", "npm:1.10.4"],\
           ["json-stream-stringify", "npm:3.1.6"],\
           ["keccak", "npm:3.0.4"],\
@@ -20001,10 +20001,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["immutable", [\
-      ["npm:4.3.8", {\
-        "packageLocation": "./.yarn/cache/immutable-npm-4.3.8-9db2d34fb7-27a134cec0.zip/node_modules/immutable/",\
+      ["npm:4.3.9", {\
+        "packageLocation": "./.yarn/cache/immutable-npm-4.3.9-04378617c7-bb951f0b69.zip/node_modules/immutable/",\
         "packageDependencies": [\
-          ["immutable", "npm:4.3.8"]\
+          ["immutable", "npm:4.3.9"]\
         ],\
         "linkType": "HARD"\
       }]\
