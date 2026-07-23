@@ -1,6 +1,6 @@
 {
  "requests": [{
-  "from": "BTC",
-  "to": "USD"
+  "endpoint": "stock",
+  "symbol": "US:AAPL"
  }]
 }

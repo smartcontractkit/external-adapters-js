@@ -7,16 +7,10 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: true,
   },
-  API_ENDPOINT: {
-    description: 'An API endpoint for Data Provider',
-    type: 'string',
-    default: 'https://dataproviderapi.com',
-    sensitive: false,
-  },
   WS_API_ENDPOINT: {
     description: 'WS endpoint for Data Provider',
     type: 'string',
-    default: 'ws://localhost:9090',
+    default: 'wss://stream.tickerlayer.com/',
     sensitive: false,
   },
 })

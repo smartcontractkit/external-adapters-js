@@ -35,6 +35,7 @@ describe('StockWebSocketTransport', () => {
   const endpointName = 'stock'
 
   const adapterSettings = makeStub('adapterSettings', {
+    API_KEY: 'test-api-key',
     WS_API_ENDPOINT: 'ws://api.example.com',
     WS_SUBSCRIPTION_TTL: 30_000,
     WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_000,
@@ -101,13 +102,11 @@ describe('StockWebSocketTransport', () => {
     expect(log).not.toHaveBeenCalled()
   })
 
-  it('should subscribe to the currency pair', async () => {
-    const from = 'ETH'
-    const to = 'USD'
+  it('should subscribe to the stock symbol', async () => {
+    const symbol = 'US:AAPL'
 
     const params = makeStub('params', {
-      base: from,
-      quote: to,
+      base: symbol,
     })
     subscriptionSet.getAll.mockReturnValue([params])
 
@@ -121,19 +120,18 @@ describe('StockWebSocketTransport', () => {
 
     await expect(receivedMessages[0]).toBe(
       JSON.stringify({
-        type: 'subscribe',
-        symbols: `${from}/${to}`,
+        action: 'subscribe',
+        channels: ['stocks.trades'],
+        symbols: [symbol],
       }),
     )
   })
 
   it('should write response to cache', async () => {
-    const from = 'ETH'
-    const to = 'USD'
+    const symbol = 'US:AAPL'
 
     const params = makeStub('params', {
-      base: from,
-      quote: to,
+      base: symbol,
     })
     subscriptionSet.getAll.mockReturnValue([params])
 
@@ -151,10 +149,13 @@ describe('StockWebSocketTransport', () => {
 
     socket.send(
       JSON.stringify({
-        base: from,
-        quote: to,
-        price,
-        time: providerIndicatedTimeUnixMs,
+        type: 'trade',
+        channel: 'stocks.trades',
+        asset: 'stocks',
+        symbol,
+        price: String(price),
+        size: '3',
+        ts: providerIndicatedTimeUnixMs,
       }),
     )
 
@@ -177,13 +178,70 @@ describe('StockWebSocketTransport', () => {
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
-  it('should unsubscribe', async () => {
-    const from = 'ETH'
-    const to = 'USD'
+  it('should ignore system messages', async () => {
+    const symbol = 'US:AAPL'
 
     const params = makeStub('params', {
-      base: from,
-      quote: to,
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    const systemMessage = { type: 'system', message: 'connected' }
+    socket.send(JSON.stringify(systemMessage))
+
+    expect(responseCache.write).not.toHaveBeenCalled()
+    expect(debugLog).toHaveBeenCalledWith({
+      msg: 'Ignoring system message',
+      ignoredMessage: systemMessage,
+    })
+  })
+
+  it('should ignore unexpected messages', async () => {
+    const symbol = 'US:AAPL'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    const malformedMessage = {
+      type: 'trade',
+      channel: 'stocks.trades',
+      asset: 'stocks',
+      symbol,
+      price: 'not-a-number',
+      size: '3',
+      ts: 123456789,
+    }
+    socket.send(JSON.stringify(malformedMessage))
+
+    expect(responseCache.write).not.toHaveBeenCalled()
+    expect(log).toHaveBeenCalledWith({
+      msg: 'Ignoring unexpected message',
+      ignoredMessage: malformedMessage,
+    })
+    log.mockClear()
+  })
+
+  it('should unsubscribe', async () => {
+    const symbol = 'US:AAPL'
+
+    const params = makeStub('params', {
+      base: symbol,
     })
 
     const context = makeStub('context', {
@@ -201,8 +259,9 @@ describe('StockWebSocketTransport', () => {
 
     await expect(receivedMessages[1]).toBe(
       JSON.stringify({
-        type: 'unsubscribe',
-        symbols: `${from}/${to}`,
+        action: 'unsubscribe',
+        channels: ['stocks.trades'],
+        symbols: [symbol],
       }),
     )
   })

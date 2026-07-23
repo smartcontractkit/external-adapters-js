@@ -6,11 +6,13 @@ export const mockWebsocketServer = (URL: string): MockWebsocketServer => {
     socket.on('message', (_message) => {
       return socket.send(
         JSON.stringify({
-          success: true,
-          price: 1000,
-          base: 'ETH',
-          quote: 'USD',
-          time: '1999999',
+          type: 'trade',
+          channel: 'stocks.trades',
+          asset: 'stocks',
+          symbol: 'US:AAPL',
+          price: '1000',
+          size: '3',
+          ts: 1999999,
         }),
       )
     })
