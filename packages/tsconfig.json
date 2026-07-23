@@ -450,6 +450,9 @@
       "path": "./sources/the-network-firm"
     },
     {
+      "path": "./sources/tickerlayer"
+    },
+    {
       "path": "./sources/tiingo"
     },
     {
