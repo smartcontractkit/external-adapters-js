@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/solana-functions-adapter",
-  "version": "1.7.0",
-  "description": "Chainlink solana-functions adapter.",
+  "name": "@chainlink/tickerlayer-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink tickerlayer adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "solana-functions"
+    "tickerlayer"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,23 +28,15 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@types/bn.js": "^5.1.0",
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "@types/sinonjs__fake-timers": "8.1.5",
+    "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/external-adapter-framework": "2.17.1",
-    "@coral-xyz/anchor": "^0.31.1",
-    "@solana/addresses": "^3.0.2",
-    "@solana/buffer-layout": "^4.0.1",
-    "@solana/codecs-strings": "^3.0.2",
-    "@solana/rpc": "^3.0.2",
-    "@solana/spl-stake-pool": "^1.1.8",
-    "@solana/spl-token": "^0.4.14",
-    "@solana/sysvars": "3.0.2",
-    "@solana/web3.js": "^1.95.8",
-    "bn.js": "^5.2.0",
+    "@chainlink/external-adapter-framework": "2.18.0",
     "tslib": "2.4.1"
   }
 }

@@ -450,6 +450,9 @@
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
+      "path": "./sources/tickerlayer/tsconfig.test.json"
+    },
+    {
       "path": "./sources/tiingo/tsconfig.test.json"
     },
     {
