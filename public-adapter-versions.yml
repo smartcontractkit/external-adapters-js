@@ -277,6 +277,8 @@ adapters:
     version: 1.1.0
   - name: the-network-firm
     version: 1.9.0
+  - name: tickerlayer
+    version: 1.0.0
   - name: tiingo
     version: 2.12.0
   - name: tiingo-state
