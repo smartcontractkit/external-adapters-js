@@ -8,7 +8,7 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers, { InstalledClock } from '@sinonjs/fake-timers'
 import { config } from '../../src/config'
-import { mockWebsocketServer } from './fixtures'
+import { mockStockWebsocketServer } from './fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
 
@@ -29,7 +29,7 @@ describe('websocket', () => {
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    mockWsServer = mockStockWebsocketServer(wsEndpoint)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {

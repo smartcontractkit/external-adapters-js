@@ -1,11 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`websocket stock endpoint should return success 1`] = `
+exports[`websocket stock_quotes endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1000,
+    "ask_price": 1001,
+    "ask_volume": 4,
+    "bid_price": 1000,
+    "bid_volume": 3,
+    "mid_price": 1000.5,
   },
-  "result": 1000,
+  "result": null,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,

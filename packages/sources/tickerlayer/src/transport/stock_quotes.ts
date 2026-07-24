@@ -1,14 +1,16 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/stock'
+import { BaseEndpointTypes } from '../endpoint/stock_quotes'
 
 export interface WSResponse {
   type: string
   channel: string
   asset: string
   symbol: string
-  price: string
-  size: string
+  bid: string
+  ask: string
+  bid_size: string
+  ask_size: string
   ts: number
 }
 
@@ -18,9 +20,14 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const logger = makeLogger('StockTransport')
+const logger = makeLogger('StockQuotesTransport')
 
-export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
+const toNumber = (s?: string | number) => {
+  const num = Number(s)
+  return isNaN(num) ? undefined : num
+}
+
+export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
     super({
       url: (context) =>
@@ -31,28 +38,39 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
             logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
             return
           }
+          const bid_price = toNumber(message.bid)
+          const ask_price = toNumber(message.ask)
+          const bid_volume = toNumber(message.bid_size)
+          const ask_volume = toNumber(message.ask_size)
+          const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
-            message.type !== 'trade' ||
-            message.channel !== 'stocks.trades' ||
+            message.type !== 'quote' ||
+            message.channel !== 'stocks.quotes' ||
             message.asset !== 'stocks' ||
             !message.symbol ||
-            !message.price ||
-            isNaN(Number(message.price)) ||
-            !message.ts ||
-            isNaN(Number(message.ts))
+            !bid_price ||
+            !ask_price ||
+            !bid_volume ||
+            !ask_volume ||
+            !providerIndicatedTimeUnixMs
           ) {
             logger.warn({ msg: 'Ignoring unexpected message', ignoredMessage: message })
             return
           }
 
-          const result = Number(message.price)
+          const mid_price = (bid_price + ask_price) / 2
+
           return [
             {
               params: { base: message.symbol },
               response: {
-                result,
+                result: null,
                 data: {
-                  result,
+                  mid_price,
+                  bid_price,
+                  ask_price,
+                  bid_volume: Number(message.bid_size),
+                  ask_volume: Number(message.ask_size),
                 },
                 timestamps: {
                   providerIndicatedTimeUnixMs: message.ts,
@@ -66,14 +84,14 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: ['stocks.trades'],
+            channels: ['stocks.quotes'],
             symbols: [params.base],
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: ['stocks.trades'],
+            channels: ['stocks.quotes'],
             symbols: [params.base],
           }
         },
@@ -82,4 +100,4 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
   }
 }
 
-export const wsTransport = new StockWebSocketTransport()
+export const wsTransport = new StockQuotesWebSocketTransport()

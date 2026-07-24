@@ -12,8 +12,8 @@ import {
   runAllUntilSettled,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import { BaseEndpointTypes } from '../../src/endpoint/stock'
-import { StockWebSocketTransport, WsTransportTypes } from '../../src/transport/stock'
+import { BaseEndpointTypes } from '../../src/endpoint/stock_quotes'
+import { StockQuotesWebSocketTransport, WsTransportTypes } from '../../src/transport/stock_quotes'
 
 const log = jest.fn()
 const debugLog = jest.fn()
@@ -30,9 +30,9 @@ const logger = {
 LoggerFactoryProvider.set({ child: () => logger })
 metrics.initialize()
 
-describe('StockWebSocketTransport', () => {
+describe('StockQuotesWebSocketTransport', () => {
   const transportName = 'default_single_transport'
-  const endpointName = 'stock'
+  const endpointName = 'stock_quotes'
 
   const adapterSettings = makeStub('adapterSettings', {
     API_KEY: 'test-api-key',
@@ -66,7 +66,7 @@ describe('StockWebSocketTransport', () => {
     subscriptionSetFactory,
   } as unknown as TransportDependencies<WsTransportTypes>)
 
-  let transport: StockWebSocketTransport
+  let transport: StockQuotesWebSocketTransport
 
   let clock: FakeTimers.Clock
   let mockWsServer: MockWebsocketServer
@@ -94,7 +94,7 @@ describe('StockWebSocketTransport', () => {
       })
     })
 
-    transport = new StockWebSocketTransport()
+    transport = new StockQuotesWebSocketTransport()
     await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
   })
 
@@ -121,7 +121,7 @@ describe('StockWebSocketTransport', () => {
     await expect(receivedMessages[0]).toBe(
       JSON.stringify({
         action: 'subscribe',
-        channels: ['stocks.trades'],
+        channels: ['stocks.quotes'],
         symbols: [symbol],
       }),
     )
@@ -144,17 +144,23 @@ describe('StockWebSocketTransport', () => {
     await runAllUntilSettled(clock, transport.backgroundExecute(context))
     const t1 = Date.now()
 
-    const price = 123
+    const bid_price = 123
+    const ask_price = 124
+    const mid_price = 123.5
+    const bid_volume = 5
+    const ask_volume = 6
     const providerIndicatedTimeUnixMs = 123456789
 
     socket.send(
       JSON.stringify({
-        type: 'trade',
-        channel: 'stocks.trades',
+        type: 'quote',
+        channel: 'stocks.quotes',
         asset: 'stocks',
         symbol,
-        price: String(price),
-        size: '3',
+        bid: String(bid_price),
+        ask: String(ask_price),
+        bid_size: String(bid_volume),
+        ask_size: String(ask_volume),
         ts: providerIndicatedTimeUnixMs,
       }),
     )
@@ -163,9 +169,13 @@ describe('StockWebSocketTransport', () => {
       {
         params,
         response: {
-          result: price,
+          result: null,
           data: {
-            result: price,
+            bid_price,
+            ask_price,
+            mid_price,
+            bid_volume,
+            ask_volume,
           },
           timestamps: {
             providerDataStreamEstablishedUnixMs: t0,
@@ -219,8 +229,8 @@ describe('StockWebSocketTransport', () => {
     await runAllUntilSettled(clock, transport.backgroundExecute(context))
 
     const malformedMessage = {
-      type: 'trade',
-      channel: 'stocks.trades',
+      type: 'quote',
+      channel: 'stocks.quotes',
       asset: 'stocks',
       symbol,
       price: 'not-a-number',
@@ -233,6 +243,42 @@ describe('StockWebSocketTransport', () => {
     expect(log).toHaveBeenCalledWith({
       msg: 'Ignoring unexpected message',
       ignoredMessage: malformedMessage,
+    })
+    log.mockClear()
+  })
+
+  it('should ignore messages with zero ask volume', async () => {
+    const symbol = 'US:AAPL'
+
+    const params = makeStub('params', {
+      base: symbol,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    const zeroAskSizeMessage = {
+      type: 'quote',
+      channel: 'stocks.quotes',
+      asset: 'stocks',
+      symbol,
+      bid: '123',
+      ask: '124',
+      bid_size: '5',
+      ask_size: '0',
+      ts: 123456789,
+    }
+    socket.send(JSON.stringify(zeroAskSizeMessage))
+
+    expect(responseCache.write).not.toHaveBeenCalled()
+    expect(log).toHaveBeenCalledWith({
+      msg: 'Ignoring unexpected message',
+      ignoredMessage: zeroAskSizeMessage,
     })
     log.mockClear()
   })
@@ -260,7 +306,7 @@ describe('StockWebSocketTransport', () => {
     await expect(receivedMessages[1]).toBe(
       JSON.stringify({
         action: 'unsubscribe',
-        channels: ['stocks.trades'],
+        channels: ['stocks.quotes'],
         symbols: [symbol],
       }),
     )
