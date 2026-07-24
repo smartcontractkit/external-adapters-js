@@ -1057,7 +1057,7 @@ const RAW_RUNTIME_STATE =
           ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
           ["@authereum/starkware-types", "npm:1.2.0-beta.1"],\
           ["bip39", "npm:3.1.0"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["elliptic", "npm:6.6.1"],\
           ["enc-utils", "npm:2.2.3"],\
           ["ethereumjs-wallet", "npm:1.0.2"],\
@@ -7101,7 +7101,7 @@ const RAW_RUNTIME_STATE =
           ["@types/bn.js", "npm:5.1.6"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -8015,7 +8015,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@noble/hashes", "npm:1.8.0"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer-layout", "npm:1.2.2"],\
           ["camelcase", "npm:6.3.0"],\
@@ -8051,7 +8051,7 @@ const RAW_RUNTIME_STATE =
           ["@coral-xyz/borsh", "virtual:898fdb68dad2b1615b99d80b5233f356e51ff818bfaba9b6729f92cdfe0d5e4e75e310c6089f0d28a9d5540a7844a2695a2991d17f07c41f6158d09e5befd3c0#npm:0.31.1"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@types/solana__web3.js", null],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["buffer-layout", "npm:1.2.2"]\
         ],\
         "packagePeers": [\
@@ -8330,7 +8330,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/bignumber", "npm:5.8.0"],\
           ["@ethersproject/bytes", "npm:5.8.0"],\
           ["@ethersproject/logger", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.3"]\
+          ["bn.js", "npm:5.2.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8557,7 +8557,7 @@ const RAW_RUNTIME_STATE =
           ["@ethersproject/logger", "npm:5.8.0"],\
           ["@ethersproject/properties", "npm:5.8.0"],\
           ["@ethersproject/signing-key", "npm:5.8.0"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["elliptic", "npm:6.6.1"],\
           ["hash.js", "npm:1.1.7"]\
         ],\
@@ -10086,7 +10086,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/x-textdecoder", "npm:10.4.2"],\
           ["@polkadot/x-textencoder", "npm:10.4.2"],\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.3"]\
+          ["bn.js", "npm:5.2.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -13967,7 +13967,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/spl-stake-pool", "npm:1.1.8"],\
           ["@solana/spl-token", "virtual:73197d5a552ccabf888a2b2f733cd706006227e9556eaeb350ec67636a3d358af47a4a60c7fd67f09a095619a8ade7610f711a9ca90ee151c9a819e14f471251#npm:0.4.9"],\
           ["@solana/web3.js", "npm:1.98.4"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["buffer", "npm:6.0.3"],\
           ["buffer-layout", "npm:1.2.2"],\
           ["superstruct", "npm:2.0.2"]\
@@ -14456,7 +14456,7 @@ const RAW_RUNTIME_STATE =
           ["@solana/codecs-numbers", "virtual:85ca6fd385913f84b1e0e12bc512991a8579fde14d2a196dae95552a08812a69188fa14b9bbeb7abae92cda16f2dd4cdc5ebefffe4b5ec415c4923b3d5279c93#npm:2.3.0"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["agentkeepalive", "npm:4.5.0"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["borsh", "npm:0.7.0"],\
           ["bs58", "npm:4.0.1"],\
           ["buffer", "npm:6.0.3"],\
@@ -16526,10 +16526,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.2.3", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.3-b71041c01c-dfb3927e0d.zip/node_modules/bn.js/",\
+      ["npm:5.2.5", {\
+        "packageLocation": "./.yarn/cache/bn.js-npm-5.2.5-b6057e1475-10b1ac91e7.zip/node_modules/bn.js/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.3"]\
+          ["bn.js", "npm:5.2.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16538,7 +16538,7 @@ const RAW_RUNTIME_STATE =
       ["npm:0.7.0", {\
         "packageLocation": "./.yarn/cache/borsh-npm-0.7.0-c3e1c21bb3-e51a9395da.zip/node_modules/borsh/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["borsh", "npm:0.7.0"],\
           ["bs58", "npm:4.0.1"],\
           ["text-encoding-utf-8", "npm:1.0.2"]\
@@ -18520,7 +18520,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/ethereumjs-util-npm-7.1.5-5bb4d00000-f28fc1ebb8.zip/node_modules/ethereumjs-util/",\
         "packageDependencies": [\
           ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["create-hash", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:0.1.3"],\
           ["ethereumjs-util", "npm:7.1.5"],\
@@ -21325,7 +21325,7 @@ const RAW_RUNTIME_STATE =
       ["npm:1.0.6", {\
         "packageLocation": "./.yarn/cache/keccak256-npm-1.0.6-30a3b4497e-c7370708a3.zip/node_modules/keccak256/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["buffer", "npm:6.0.3"],\
           ["keccak", "npm:3.0.4"],\
           ["keccak256", "npm:1.0.6"]\
@@ -23758,7 +23758,7 @@ const RAW_RUNTIME_STATE =
       ["npm:2.2.7", {\
         "packageLocation": "./.yarn/cache/rlp-npm-2.2.7-4cb283b8fe-cf1919a2dc.zip/node_modules/rlp/",\
         "packageDependencies": [\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["rlp", "npm:2.2.7"]\
         ],\
         "linkType": "HARD"\
@@ -25787,7 +25787,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/web3-utils-npm-1.10.4-5448d301b5-3e586b638c.zip/node_modules/web3-utils/",\
         "packageDependencies": [\
           ["@ethereumjs/util", "npm:8.1.0"],\
-          ["bn.js", "npm:5.2.3"],\
+          ["bn.js", "npm:5.2.5"],\
           ["ethereum-bloom-filters", "npm:1.2.0"],\
           ["ethereum-cryptography", "npm:2.2.1"],\
           ["ethjs-unit", "npm:0.1.6"],\
