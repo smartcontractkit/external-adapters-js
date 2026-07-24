@@ -18985,7 +18985,7 @@ const RAW_RUNTIME_STATE =
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:7.0.1"],\
           ["fastify", "npm:5.10.0"],\
-          ["find-my-way", "npm:9.6.0"],\
+          ["find-my-way", "npm:9.7.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
           ["process-warning", "npm:5.0.0"],\
@@ -19007,7 +19007,7 @@ const RAW_RUNTIME_STATE =
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:6.0.0"],\
           ["fastify", "npm:5.8.5"],\
-          ["find-my-way", "npm:9.1.0"],\
+          ["find-my-way", "npm:9.7.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
           ["process-warning", "npm:5.0.0"],\
@@ -19152,22 +19152,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["find-my-way", [\
-      ["npm:9.1.0", {\
-        "packageLocation": "./.yarn/cache/find-my-way-npm-9.1.0-0f4affcdb6-7c73ac9792.zip/node_modules/find-my-way/",\
+      ["npm:9.7.0", {\
+        "packageLocation": "./.yarn/cache/find-my-way-npm-9.7.0-70f500cfe9-c22817d48c.zip/node_modules/find-my-way/",\
         "packageDependencies": [\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["fast-querystring", "npm:1.1.2"],\
-          ["find-my-way", "npm:9.1.0"],\
-          ["safe-regex2", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:9.6.0", {\
-        "packageLocation": "./.yarn/cache/find-my-way-npm-9.6.0-b1938dbc74-68010a23b6.zip/node_modules/find-my-way/",\
-        "packageDependencies": [\
-          ["fast-deep-equal", "npm:3.1.3"],\
-          ["fast-querystring", "npm:1.1.2"],\
-          ["find-my-way", "npm:9.6.0"],\
+          ["find-my-way", "npm:9.7.0"],\
           ["safe-regex2", "npm:5.1.1"]\
         ],\
         "linkType": "HARD"\
@@ -23865,14 +23855,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["safe-regex2", [\
-      ["npm:4.0.1", {\
-        "packageLocation": "./.yarn/cache/safe-regex2-npm-4.0.1-26e5a31352-84ec91d37e.zip/node_modules/safe-regex2/",\
-        "packageDependencies": [\
-          ["ret", "npm:0.5.0"],\
-          ["safe-regex2", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:5.1.1", {\
         "packageLocation": "./.yarn/cache/safe-regex2-npm-5.1.1-fafdafb687-378043ef4d.zip/node_modules/safe-regex2/",\
         "packageDependencies": [\
