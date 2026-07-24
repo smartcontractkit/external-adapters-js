@@ -26,7 +26,7 @@ const marketToFinId = {
   bme: 'ES.BME',
 } as const
 
-export const markets = Object.keys(marketToFinId)
+export const markets = Object.keys(marketToFinId) as readonly Market[]
 
 const market245ToFinId: Partial<Record<Market, string>> = {
   nyse: 'US.CHNLNK.NYSE',
