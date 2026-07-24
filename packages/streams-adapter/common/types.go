@@ -10,6 +10,16 @@ import (
 // All request parameters are treated equally (endpoint, base, quote, isin, market, fundId, etc.)
 type RequestParams map[string]string
 
+// ResolvedSubscription contains the identifiers derived from subscription data.
+// It can be validated without mutating the cache and then passed to the shared
+// cache/bootstrap initialization path.
+type ResolvedSubscription struct {
+	Data        map[string]interface{}
+	Params      RequestParams
+	CacheKey    string
+	PayloadHash [32]byte
+}
+
 // Observation represents the data returned from an adapter
 type Observation struct {
 	Data       json.RawMessage `json:"data"`
@@ -45,4 +55,5 @@ type CacheItem struct {
 	Timestamp           time.Time              // last write time (used for TTL)
 	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive
 	OriginalRequestData map[string]interface{} // raw request body data from the first subscription request
+	PayloadHash         [32]byte               // SHA-256(adapter name || JSON request data)
 }

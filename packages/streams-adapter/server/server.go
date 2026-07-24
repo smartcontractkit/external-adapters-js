@@ -3,6 +3,7 @@ package server
 import (
 	"bytes"
 	"context"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log/slog"
@@ -162,6 +163,16 @@ func (s *Server) setupRoutes() {
 
 // Start starts the HTTP server
 func (s *Server) Start() error {
+	return s.startWithListener(nil)
+}
+
+// StartOnListener starts the HTTP server on an already-open net.Listener.
+// Used when multiplexing gRPC and HTTP on the same port via cmux.
+func (s *Server) StartOnListener(lis net.Listener) error {
+	return s.startWithListener(lis)
+}
+
+func (s *Server) startWithListener(lis net.Listener) error {
 	// Start a separate HTTP server for Prometheus metrics on port 9080.
 	// The combined gatherer merges Go-native metrics with forwarded JS
 	// adapter metrics (excluding families already tracked in Go).
@@ -192,12 +203,18 @@ func (s *Server) Start() error {
 
 	go s.resubscribeLoop()
 
-	s.logger.Info("Starting HTTP server", "port", s.config.HTTPPort)
+	if lis != nil {
+		s.logger.Info("Starting HTTP server on shared listener", "port", s.config.HTTPPort)
+		if err := s.server.Serve(lis); err != nil && err != http.ErrServerClosed {
+			return fmt.Errorf("failed to start HTTP server: %w", err)
+		}
+		return nil
+	}
 
+	s.logger.Info("Starting HTTP server", "port", s.config.HTTPPort)
 	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return fmt.Errorf("failed to start HTTP server: %w", err)
 	}
-
 	return nil
 }
 
@@ -252,6 +269,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 		Timestamp           time.Time              `json:"timestamp"`
 		Observation         *types.Observation     `json:"observation,omitempty"`
 		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
+		PayloadHash         string                 `json:"payloadHash"`
 	}
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
@@ -263,6 +281,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 			Timestamp:           item.Timestamp,
 			Observation:         item.Observation,
 			OriginalRequestData: item.OriginalRequestData,
+			PayloadHash:         hex.EncodeToString(item.PayloadHash[:]),
 		})
 	}
 
@@ -289,10 +308,9 @@ func (s *Server) adapterHandler(c *gin.Context) {
 		return
 	}
 
-	// Resolve endpoint alias and build raw cache key params.
-	rawParams, err := helpers.BuildCacheKeyParams(reqData.Data)
+	resolved, err := s.ResolveSubscription(reqData.Data)
 	if err != nil {
-		s.logger.Error("Failed to canonicalize request params", "error", err, "requestData", reqData.Data)
+		s.logger.Error("Failed to resolve subscription", "error", err, "requestData", reqData.Data)
 
 		// If we cannot canonicalize the request (e.g. unknown/unsupported endpoint),
 		// do not attempt to use the cache or subscribe and return a 500 to the caller.
@@ -308,60 +326,12 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	}
 
 	// Set request params for metrics tracking
-	middleware.SetRequestParams(c, rawParams)
+	middleware.SetRequestParams(c, resolved.Params)
 
-	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
-	if err != nil {
-		s.logger.Error("Failed to calculate cache key", "error", err, "requestParams", rawParams)
-		// If we cannot calculate a subscription key, do not attempt to subscribe
-		// and return a 500 to the caller.
-		errorResp := errorResponsePool.Get().(*ErrorResponseData)
-		defer errorResponsePool.Put(errorResp)
-
-		errorResp.Error.Name = "AdapterError"
-		errorResp.Error.Message = "Unable to subscribe to an asset pair with the the requested data"
-		errorResp.StatusCode = http.StatusInternalServerError
-
-		c.JSON(http.StatusInternalServerError, errorResp)
+	item := s.EnsureSubscription(resolved)
+	if item.Status == types.StatusActive && item.Observation != nil {
+		respondWithObservation(c, item)
 		return
-	}
-
-	// Try the cache: if the item exists and is active, serve it.
-	// If it exists but is still new/learned, a subscription is already in
-	// progress — return 504 without starting another goroutine.
-	if item := s.cache.Get(rawCacheKey); item != nil {
-		if item.Status == types.StatusActive && item.Observation != nil {
-			respondWithObservation(c, item)
-			return
-		}
-		// Fall through to 504 below.
-	} else {
-		// First request for this key — create the item and start polling.
-		if s.cache.SetNew(rawCacheKey, reqData.Data) {
-			s.logger.Debug("Initiating new subscription", "requestParams", rawParams, "rawCacheKey", rawCacheKey)
-			go func(key string, params types.RequestParams, originalData map[string]interface{}) {
-				endpoint := params["endpoint"]
-				retryInterval := time.Duration(s.config.FeedIDPollIntervalSeconds) * time.Second
-				maxRetries := int(s.config.FeedIDMaxRetries)
-
-				for i := 0; i < maxRetries; i++ {
-					if i > 0 {
-						time.Sleep(retryInterval)
-					}
-					feedID, ok := s.queryAdapterForFeedID(originalData)
-					if ok {
-						transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
-						if err != nil {
-							s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
-							break
-						}
-						s.cache.SetTransformedKey(key, transformedKey)
-						s.logger.Debug("Learned key mapping from feedId", "rawKey", key, "transformedKey", transformedKey)
-						break
-					}
-				}
-			}(rawCacheKey, rawParams, reqData.Data)
-		}
 	}
 
 	// Get error response from pool
@@ -373,6 +343,59 @@ func (s *Server) adapterHandler(c *gin.Context) {
 	errorResp.StatusCode = http.StatusGatewayTimeout
 
 	c.JSON(http.StatusGatewayTimeout, errorResp)
+}
+
+// bootstrapSubscription polls the JS adapter until it learns the feedId/transformed
+// key for rawKey and marks the cache entry ready. Must be called as a goroutine.
+func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams, originalData map[string]interface{}) {
+	endpoint := params["endpoint"]
+	retryInterval := time.Duration(s.config.FeedIDPollIntervalSeconds) * time.Second
+	maxRetries := int(s.config.FeedIDMaxRetries)
+
+	for i := 0; i < maxRetries; i++ {
+		if i > 0 {
+			time.Sleep(retryInterval)
+		}
+		feedID, ok := s.queryAdapterForFeedID(originalData)
+		if ok {
+			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
+			if err != nil {
+				s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
+				break
+			}
+			s.cache.SetTransformedKey(rawKey, transformedKey)
+			break
+		}
+	}
+}
+
+// ResolveSubscription validates data and derives all subscription identifiers
+// without mutating cache or provider state.
+func (s *Server) ResolveSubscription(data map[string]interface{}) (*types.ResolvedSubscription, error) {
+	rawParams, err := helpers.BuildCacheKeyParams(data)
+	if err != nil {
+		return nil, fmt.Errorf("canonicalize params: %w", err)
+	}
+	rawCacheKey, err := helpers.CalculateCacheKey(rawParams)
+	if err != nil {
+		return nil, fmt.Errorf("calculate cache key: %w", err)
+	}
+	payloadHash, err := helpers.ObservationPayloadHash(s.config.AdapterName, data)
+	if err != nil {
+		return nil, fmt.Errorf("calculate payload hash: %w", err)
+	}
+	return &types.ResolvedSubscription{
+		Data: data, Params: rawParams, CacheKey: rawCacheKey, PayloadHash: payloadHash,
+	}, nil
+}
+
+// EnsureSubscription atomically creates a cache entry and starts provider
+// bootstrap for the first caller. Later HTTP or gRPC callers reuse that work.
+func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types.CacheItem {
+	if s.cache.SetNew(resolved.CacheKey, resolved.Data, resolved.PayloadHash) {
+		go s.bootstrapSubscription(resolved.CacheKey, resolved.Params, resolved.Data)
+	}
+	return s.cache.Get(resolved.CacheKey)
 }
 
 // respondWithObservation writes the observation to the response. Returns 200 for
@@ -494,10 +517,6 @@ func (s *Server) subscribeToAsset(data interface{}) {
 		return
 	}
 	defer resp.Body.Close()
-
-	if s.config.LogLevel == "debug" {
-		s.logger.Debug("Subscribe request sent successfully", "status", resp.StatusCode)
-	}
 }
 
 // queryAdapterForFeedID sends a request to the JS adapter and returns the

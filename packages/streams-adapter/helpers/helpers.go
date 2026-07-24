@@ -1,6 +1,8 @@
 package helpers
 
 import (
+	"crypto/sha256"
+	stdjson "encoding/json"
 	"errors"
 	"fmt"
 	"maps"
@@ -11,6 +13,18 @@ import (
 
 	types "streams-adapter/common"
 )
+
+// ObservationPayloadHash identifies a request payload within an adapter.
+func ObservationPayloadHash(adapterName string, requestData map[string]interface{}) ([32]byte, error) {
+	lookupBytes, err := stdjson.Marshal(requestData)
+	if err != nil {
+		return [32]byte{}, fmt.Errorf("failed to marshal observation lookup payload: %w", err)
+	}
+	b := make([]byte, 0, len(adapterName)+len(lookupBytes))
+	b = append(b, adapterName...)
+	b = append(b, lookupBytes...)
+	return sha256.Sum256(b), nil
+}
 
 // normalizeString removes dashes and underscores for flexible matching.
 func normalizeString(s string) string {

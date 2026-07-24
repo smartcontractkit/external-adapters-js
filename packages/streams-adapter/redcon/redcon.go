@@ -12,6 +12,7 @@ import (
 	cache "streams-adapter/cache"
 	types "streams-adapter/common"
 	helpers "streams-adapter/helpers"
+	"streams-adapter/transmitter"
 
 	"github.com/goccy/go-json"
 	"github.com/tidwall/redcon"
@@ -26,6 +27,7 @@ type sortedSetMember struct {
 type RedconServer struct {
 	addr       string
 	cache      *cache.Cache
+	publisher  *transmitter.Publisher
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
@@ -33,9 +35,10 @@ type RedconServer struct {
 
 // Config holds the Redis server configuration
 type Config struct {
-	Addr   string
-	Cache  *cache.Cache
-	Logger *slog.Logger
+	Addr      string
+	Cache     *cache.Cache
+	Publisher *transmitter.Publisher
+	Logger    *slog.Logger
 }
 
 // New creates a new Redis server instance
@@ -43,6 +46,7 @@ func New(cfg Config) *RedconServer {
 	return &RedconServer{
 		addr:       cfg.Addr,
 		cache:      cfg.Cache,
+		publisher:  cfg.Publisher,
 		logger:     cfg.Logger,
 		sortedSets: make(map[string]map[string]float64),
 	}
@@ -234,8 +238,17 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	if result, hasResult := rawJSON["result"]; hasResult {
 		obs.Result = append(json.RawMessage(nil), result...)
 	}
-
-	s.cache.SetObservation(transformedKey, obs, time.Now(), key)
+	ts := time.Now()
+	s.cache.SetObservation(transformedKey, obs, ts, key)
+	if s.publisher != nil {
+		if rawKeys, ok := s.cache.RawKeysByTransformed(transformedKey); ok {
+			for _, rawKey := range rawKeys {
+				if payloadHash, ok := s.cache.PayloadHashByRawKey(rawKey); ok {
+					s.publisher.Publish(payloadHash, obs, ts)
+				}
+			}
+		}
+	}
 	conn.WriteInt(1)
 }
 

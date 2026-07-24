@@ -24,7 +24,7 @@ func mustKey(t *testing.T, params types.RequestParams) string {
 // (new → learned → active) with the given observation.
 // When there is no parameter transformation rawKey == transformedKey.
 func setActive(c *Cache, rawKey, transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
-	c.SetNew(rawKey, nil)
+	c.SetNew(rawKey, nil, [32]byte{})
 	c.SetTransformedKey(rawKey, transformedKey)
 	c.SetObservation(transformedKey, obs, timestamp, originalAdapterKey)
 }
@@ -178,10 +178,10 @@ func TestCache_SetNew_Idempotent(t *testing.T) {
 	})
 	defer c.Stop()
 
-	created := c.SetNew("some-key", nil)
+	created := c.SetNew("some-key", nil, [32]byte{})
 	require.True(t, created, "first SetNew should create the item")
 
-	created = c.SetNew("some-key", nil)
+	created = c.SetNew("some-key", nil, [32]byte{})
 	require.False(t, created, "second SetNew should be a no-op")
 
 	require.Len(t, c.Items(), 1)
@@ -191,7 +191,7 @@ func TestCache_SetNew_StatusNew(t *testing.T) {
 	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
 	defer c.Stop()
 
-	c.SetNew("raw-key", nil)
+	c.SetNew("raw-key", nil, [32]byte{})
 	item := c.Get("raw-key")
 	require.NotNil(t, item)
 	require.Equal(t, types.StatusNew, item.Status)
@@ -199,11 +199,22 @@ func TestCache_SetNew_StatusNew(t *testing.T) {
 	require.Empty(t, item.TransformedKey)
 }
 
+func TestCache_SetNew_PreservesPayloadHash(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+	payloadHash := [32]byte{1, 2, 3}
+	require.True(t, c.SetNew("raw-key-with-hash", map[string]interface{}{"base": "ETH"}, payloadHash))
+	require.Equal(t, payloadHash, c.Get("raw-key-with-hash").PayloadHash)
+	got, ok := c.PayloadHashByRawKey("raw-key-with-hash")
+	require.True(t, ok)
+	require.Equal(t, payloadHash, got)
+}
+
 func TestCache_SetTransformedKey_StatusLearned(t *testing.T) {
 	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
 	defer c.Stop()
 
-	c.SetNew("raw-key", nil)
+	c.SetNew("raw-key", nil, [32]byte{})
 	c.SetTransformedKey("raw-key", "transformed-key")
 
 	item := c.Get("raw-key")
@@ -218,7 +229,7 @@ func TestCache_SetObservation_StatusActive(t *testing.T) {
 	defer c.Stop()
 
 	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":42}`)}
-	c.SetNew("raw-key", nil)
+	c.SetNew("raw-key", nil, [32]byte{})
 	c.SetTransformedKey("raw-key", "transformed-key")
 	c.SetObservation("transformed-key", obs, time.Now(), "adapter-key")
 
@@ -239,8 +250,8 @@ func TestCache_SetObservation_FansOutToSameTransformedKey(t *testing.T) {
 	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":233.78}`)}
 	ts := time.Now()
 
-	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"})
-	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true})
+	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"}, [32]byte{})
+	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true}, [32]byte{})
 	c.SetTransformedKey(rawKeyWithoutVolume, transformedKey)
 	c.SetTransformedKey(rawKeyWithVolume, transformedKey)
 	c.SetObservation(transformedKey, obs, ts, "adapter-key")
@@ -265,11 +276,11 @@ func TestCache_SetTransformedKey_UsesExistingObservationForSharedTransformedKey(
 	obs := &types.Observation{Success: true, Data: json.RawMessage(`{"result":233.78}`)}
 	ts := time.Now()
 
-	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"})
+	c.SetNew(rawKeyWithoutVolume, map[string]interface{}{"from": "AMZN", "to": "USD"}, [32]byte{})
 	c.SetTransformedKey(rawKeyWithoutVolume, transformedKey)
 	c.SetObservation(transformedKey, obs, ts, "adapter-key")
 
-	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true})
+	c.SetNew(rawKeyWithVolume, map[string]interface{}{"from": "AMZN", "to": "USD", "requireVolume": true}, [32]byte{})
 	c.SetTransformedKey(rawKeyWithVolume, transformedKey)
 
 	item := c.Get(rawKeyWithVolume)
@@ -342,7 +353,7 @@ func TestCache_CleanupExpired(t *testing.T) {
 
 	// Set item with old timestamp (bypassing the lifecycle for simplicity).
 	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
-	c.SetNew(oldRawKey, nil)
+	c.SetNew(oldRawKey, nil, [32]byte{})
 	c.SetTransformedKey(oldRawKey, "old-transformed")
 	c.SetObservation("old-transformed", obs, time.Now().Add(-ttl*2), "old-adapter")
 	// Force the item's own timestamp back too.
@@ -383,7 +394,7 @@ func TestCache_CleanupLoop(t *testing.T) {
 	obs := &types.Observation{Success: true}
 
 	oldRawKey := mustKey(t, types.RequestParams{"endpoint": "old"})
-	c.SetNew(oldRawKey, nil)
+	c.SetNew(oldRawKey, nil, [32]byte{})
 	c.SetTransformedKey(oldRawKey, oldRawKey)
 	c.SetObservation(oldRawKey, obs, time.Now().Add(-ttl*2), "old-adapter")
 	c.mu.Lock()
@@ -450,7 +461,7 @@ func TestCache_SetObservation_BeforeSetTransformedKey(t *testing.T) {
 	}
 	ts := time.Now()
 
-	c.SetNew("raw-key", nil)
+	c.SetNew("raw-key", nil, [32]byte{})
 	// Observation arrives before the mapping is established.
 	c.SetObservation("transformed-key", obs, ts, "adapter-key")
 
