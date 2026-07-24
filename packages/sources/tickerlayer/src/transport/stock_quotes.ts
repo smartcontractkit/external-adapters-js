@@ -22,6 +22,10 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('StockQuotesTransport')
 
+export const stockQuotesType = 'quote'
+export const stockQuotesChannel = 'stocks.quotes'
+export const stockQuotesAsset = 'stocks'
+
 const toNumber = (s?: string | number) => {
   const num = Number(s)
   return isNaN(num) ? undefined : num
@@ -44,9 +48,9 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
           const ask_volume = toNumber(message.ask_size)
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
-            message.type !== 'quote' ||
-            message.channel !== 'stocks.quotes' ||
-            message.asset !== 'stocks' ||
+            message.type !== stockQuotesType ||
+            message.channel !== stockQuotesChannel ||
+            message.asset !== stockQuotesAsset ||
             !message.symbol ||
             !bid_price ||
             !ask_price ||
@@ -69,8 +73,8 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
                   mid_price,
                   bid_price,
                   ask_price,
-                  bid_volume: Number(message.bid_size),
-                  ask_volume: Number(message.ask_size),
+                  bid_volume,
+                  ask_volume,
                 },
                 timestamps: {
                   providerIndicatedTimeUnixMs: message.ts,
@@ -84,14 +88,14 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: ['stocks.quotes'],
+            channels: [stockQuotesChannel],
             symbols: [params.base],
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: ['stocks.quotes'],
+            channels: [stockQuotesChannel],
             symbols: [params.base],
           }
         },
