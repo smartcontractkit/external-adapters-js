@@ -2,31 +2,9 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 import type { BaseEndpointTypes } from '../endpoint/market-status'
 
 type MarketType = TypeFromDefinition<BaseEndpointTypes['Parameters']>['type']
-export type Market = (typeof markets)[number]
+export type Market = keyof typeof marketToFinId
 
-export const markets = [
-  'forex',
-  'metals',
-  'wti',
-  'nyse',
-  'lse',
-  'xetra',
-  'tradegate',
-  'six',
-  'euronext_milan',
-  'euronext_paris',
-  'tpex', // Taipei Exchange
-  'twse', // Taiwan Stock Exchange
-  'krx', // Korea Exchange
-  'jpx', // Japan Exchange Group
-  'sse', // Shanghai Stock Exchange
-  'szse', // Shenzhen Stock Exchange
-  'nymex',
-  'ice_europe_energy',
-  'bme',
-] as const
-
-const marketToFinId: Record<Market, string> = {
+const marketToFinId = {
   forex: 'US.CHNLNK.FX',
   metals: 'US.CHNLNK.METAL',
   wti: 'US.CHNLNK.WTI',
@@ -37,16 +15,18 @@ const marketToFinId: Record<Market, string> = {
   six: 'CH.SIX',
   euronext_milan: 'IT.EURONEXT',
   euronext_paris: 'FR.EURONEXT',
-  tpex: 'TW.TPEX',
-  twse: 'TW.TWSE',
-  krx: 'KR.KRX',
-  jpx: 'JP.JPX',
-  sse: 'CN.SSE',
-  szse: 'CN.SZSE',
+  tpex: 'TW.TPEX', // Taipei Exchange
+  twse: 'TW.TWSE', // Taiwan Stock Exchange
+  krx: 'KR.KRX', // Korea Exchange
+  jpx: 'JP.JPX', // Japan Exchange Group
+  sse: 'CN.SSE', // Shanghai Stock Exchange
+  szse: 'CN.SZSE', // Shenzhen Stock Exchange
   nymex: 'US.CHNLNK.WTI',
   ice_europe_energy: 'US.ICE.ENERGY.GROUP3',
   bme: 'ES.BME',
-}
+} as const
+
+export const markets = Object.keys(marketToFinId)
 
 const market245ToFinId: Partial<Record<Market, string>> = {
   nyse: 'US.CHNLNK.NYSE',
@@ -59,4 +39,5 @@ export const getFinId = (market: Market, type: MarketType) => {
   return marketToFinId[market]
 }
 
-export const isMarket = (v: string): v is Market => markets.includes(v as Market)
+export const isMarket = (v: string): v is Market =>
+  Object.prototype.hasOwnProperty.call(marketToFinId, v)
