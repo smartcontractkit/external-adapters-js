@@ -11,6 +11,7 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/balance'
+import { calculateReserves } from '../lib/btc/por'
 
 export type TotalBalanceTransportTypes = BaseEndpointTypes
 
@@ -61,55 +62,82 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const { minConfirmations, addresses } = params
-    const porServiceRequests = new Map<string, string[]>()
+    const balanceRequests = new Map<
+      string,
+      { network: string; chainId: string; addresses: string[] }
+    >()
 
-    // Collect addresses into their respective PoR requests
-    // Mapping from PoR ID to list of addresses
     for (const { network, chainId, address } of addresses) {
       const id = `${network}_${chainId}`.toUpperCase()
-      if (!porServiceRequests.has(id)) {
-        porServiceRequests.set(id, [])
+      if (!balanceRequests.has(id)) {
+        balanceRequests.set(id, { network, chainId, addresses: [] })
       }
-      const existingAddresses = porServiceRequests.get(id)!
-      existingAddresses.push(address)
+      balanceRequests.get(id)!.addresses.push(address)
     }
 
-    // Fire off requests to each PoR indexer
-    const requestResultPromises = []
     const providerDataRequestedUnixMs = Date.now()
+    let totalReserves = new Decimal(0)
 
-    for (const [porId, addresses] of porServiceRequests.entries()) {
-      const indexerEndpointEnvName = `${porId}_POR_INDEXER_URL` as keyof typeof this.config
-      const indexerUrl = this.config[indexerEndpointEnvName] as string
+    for (const [networkId, { network, chainId, addresses: networkAddresses }] of balanceRequests) {
+      if (
+        network === 'bitcoin' &&
+        chainId === 'mainnet' &&
+        this.config.BITCOIN_MAINNET_USE_STREAMS_INDEXER
+      ) {
+        const rpcUrl = this.config.BITCOIN_MAINNET_RPC_URL
 
-      const addressBatches = splitArrayIntoChunks(addresses, this.config.BATCH_SIZE)
-      for (const addressBatch of addressBatches) {
-        const requestResult = await this._makeRequest(indexerUrl, addressBatch, minConfirmations)
-        requestResultPromises.push(requestResult)
-      }
-    }
-
-    // Sum up the total reserves from each PoR indexer
-    const requestResults = await Promise.all(requestResultPromises)
-    const summedTotalReserves = requestResults
-      .map((requestResult) => {
-        const totalReserves = new Decimal(requestResult.response.data.data.totalReserves)
-        if (!totalReserves.isFinite() || totalReserves.isNaN()) {
+        if (!rpcUrl) {
           throw new AdapterError({
-            message: `Invalid totalReserves answer: ${totalReserves.toString()}`,
+            message:
+              "'BITCOIN_MAINNET_RPC_URL' environment variable is required when BITCOIN_MAINNET_USE_STREAMS_INDEXER is enabled.",
           })
         }
-        return totalReserves
-      })
-      .reduce((p, c) => p.add(c), new Decimal(0))
-      .toString()
+
+        const networkTotal = await calculateReserves(
+          this.requester,
+          rpcUrl,
+          networkAddresses,
+          minConfirmations,
+          this.config.BATCH_SIZE,
+        )
+        totalReserves = totalReserves.add(new Decimal(networkTotal.toString()))
+        continue
+      }
+
+      const indexerEndpointEnvName = `${networkId}_POR_INDEXER_URL` as keyof typeof this.config
+      const indexerUrl = this.config[indexerEndpointEnvName] as string
+
+      if (!indexerUrl) {
+        throw new AdapterError({
+          message: `'${indexerEndpointEnvName}' environment variable is required.`,
+        })
+      }
+
+      const addressBatches = splitArrayIntoChunks(networkAddresses, this.config.BATCH_SIZE)
+      for (const addressBatch of addressBatches) {
+        const requestResult = await this._makePorIndexerRequest(
+          indexerUrl,
+          addressBatch,
+          minConfirmations,
+        )
+        const batchTotal = new Decimal(requestResult.response.data.data.totalReserves)
+        if (!batchTotal.isFinite() || batchTotal.isNaN()) {
+          throw new AdapterError({
+            message: `Invalid totalReserves answer: ${batchTotal.toString()}`,
+          })
+        }
+        totalReserves = totalReserves.add(batchTotal)
+      }
+    }
+
+    const result = totalReserves.toString()
 
     return {
       data: {
-        result: summedTotalReserves,
+        result,
       },
       statusCode: 200,
-      result: summedTotalReserves,
+      result,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -118,7 +146,7 @@ export class TotalBalanceTransport extends SubscriptionTransport<TotalBalanceTra
     }
   }
 
-  private async _makeRequest(url: string, addresses: string[], minConfirmations: number) {
+  private async _makePorIndexerRequest(url: string, addresses: string[], minConfirmations: number) {
     const requestConfig = {
       method: 'post',
       baseURL: url,
