@@ -8056,6 +8056,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solana/buffer-layout-utils@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@solana/buffer-layout-utils@npm:0.3.0"
+  dependencies:
+    "@solana/buffer-layout": "npm:^4.0.0"
+    "@solana/web3.js": "npm:^1.32.0"
+    bigint-buffer: "npm:^1.1.5"
+    bignumber.js: "npm:^9.0.1"
+  checksum: 10/fb2fdfe50d7f4506a3fba03e197167f318a038725606d0ae2a6b34dde2afce23a19e28c035ad1967d54c821f92328cbb4df79d6bec4da3ceab8f7eec41506879
+  languageName: node
+  linkType: hard
+
 "@solana/buffer-layout@npm:^4.0.0, @solana/buffer-layout@npm:^4.0.1":
   version: 4.0.1
   resolution: "@solana/buffer-layout@npm:4.0.1"
@@ -9829,17 +9841,17 @@ __metadata:
   linkType: hard
 
 "@solana/spl-token@npm:^0.4.14":
-  version: 0.4.14
-  resolution: "@solana/spl-token@npm:0.4.14"
+  version: 0.4.15
+  resolution: "@solana/spl-token@npm:0.4.15"
   dependencies:
     "@solana/buffer-layout": "npm:^4.0.0"
-    "@solana/buffer-layout-utils": "npm:^0.2.0"
+    "@solana/buffer-layout-utils": "npm:^0.3.0"
     "@solana/spl-token-group": "npm:^0.0.7"
     "@solana/spl-token-metadata": "npm:^0.1.6"
     buffer: "npm:^6.0.3"
   peerDependencies:
     "@solana/web3.js": ^1.95.5
-  checksum: 10/c10cee32f8e01f73ea0ed12a6a5c241516125843b23db67ea7abb1c5f0083333474c5104b247dd4bdcc6a18e4bd86465a87ddcf76a8a55172e83a2d7c39123c8
+  checksum: 10/820c221010ecf53518f8566d1e17253444c70cd560d17a5b3604fd6b7b43ee1276be58f549b581c22e8487733cef2c4a436e17b7842362725ea64f2596e9d185
   languageName: node
   linkType: hard
 
