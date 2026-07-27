@@ -24,6 +24,21 @@ const marketToFinId = {
   nymex: 'US.CHNLNK.WTI',
   ice_europe_energy: 'US.ICE.ENERGY.GROUP3',
   bme: 'ES.BME',
+  cbot_ag: 'US.CBOT.AGRI.GRAINS.FTR',
+  cme_cattle: 'US.CME.AGRI.CATTLE',
+  cme_equity_index: 'US.CME.EQUITY.USINDEX1',
+  cme_trsy: 'US.CME.INTEREST.ALL',
+  comex_copper: 'US.COMEX.METALS.COPPER',
+  comex_gold: 'US.COMEX.METALS.PRECIOUS.GOLD',
+  comex_silver: 'US.COMEX.METALS.PRECIOUS.SILVER',
+  nymex_brent: 'US.NYMEX.ENERGY.CRUDEOIL1',
+  nymex_cocoa: 'US.NYMEX.AGRI.COCOA',
+  nymex_coffee: 'US.NYMEX.AGRI.COFFEE',
+  nymex_gasoil: 'US.NYMEX.ENERGY.REFINEDPRODUCTS1',
+  nymex_hhng: 'US.NYMEX.ENERGY.NATURALGAS1',
+  nymex_pld: 'US.NYMEX.METALS.PALLADIUM.FTR',
+  nymex_plt: 'US.NYMEX.METALS.PLATINUM.FTR',
+  nymex_sugar: 'US.NYMEX.AGRI.SUGAR11',
 } as const
 
 export const markets = Object.keys(marketToFinId) as readonly Market[]
