@@ -23,10 +23,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/calculated-price"\
     },\
     {\
-      "name": "@chainlink/crypto-volatility-index-adapter",\
-      "reference": "workspace:packages/composites/crypto-volatility-index"\
-    },\
-    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -179,10 +175,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves"\
     },\
     {\
-      "name": "@chainlink/bitgo-reserves-test-adapter",\
-      "reference": "workspace:packages/sources/bitgo-reserves-test"\
-    },\
-    {\
       "name": "@chainlink/blockchain.com-adapter",\
       "reference": "workspace:packages/sources/blockchain.com"\
     },\
@@ -221,10 +213,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/chain-reserve-wallet-adapter",\
       "reference": "workspace:packages/sources/chain-reserve-wallet"\
-    },\
-    {\
-      "name": "@chainlink/cmeth-adapter",\
-      "reference": "workspace:packages/sources/cmeth"\
     },\
     {\
       "name": "@chainlink/coinapi-adapter",\
@@ -373,10 +361,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/gmci-adapter",\
       "reference": "workspace:packages/sources/gmci"\
-    },\
-    {\
-      "name": "@chainlink/graphql-adapter",\
-      "reference": "workspace:packages/sources/graphql"\
     },\
     {\
       "name": "@chainlink/gsr-adapter",\
@@ -571,10 +555,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-view-function"\
     },\
     {\
-      "name": "@chainlink/sportsdataio-adapter",\
-      "reference": "workspace:packages/sources/sportsdataio"\
-    },\
-    {\
       "name": "@chainlink/stader-address-list-adapter",\
       "reference": "workspace:packages/sources/stader-address-list"\
     },\
@@ -713,7 +693,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
-    ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
@@ -725,7 +704,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
-    ["@chainlink/cmeth-adapter", ["workspace:packages/sources/cmeth"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
     ["@chainlink/coinbase-adapter", ["workspace:packages/sources/coinbase"]],\
     ["@chainlink/coinbase-prime-adapter", ["workspace:packages/sources/coinbase-prime"]],\
@@ -737,7 +715,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
@@ -775,7 +752,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/gmx-tokens-adapter", ["workspace:packages/composites/gmx-tokens"]],\
     ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
-    ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
@@ -836,7 +812,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
-    ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
     ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
@@ -4757,21 +4732,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/bitgo-reserves-test-adapter", [\
-      ["workspace:packages/sources/bitgo-reserves-test", {\
-        "packageLocation": "./packages/sources/bitgo-reserves-test/",\
-        "packageDependencies": [\
-          ["@chainlink/bitgo-reserves-test-adapter", "workspace:packages/sources/bitgo-reserves-test"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/blockchain.com-adapter", [\
       ["workspace:packages/sources/blockchain.com", {\
         "packageLocation": "./packages/sources/blockchain.com/",\
@@ -4956,22 +4916,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.8.0"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/cmeth-adapter", [\
-      ["workspace:packages/sources/cmeth", {\
-        "packageLocation": "./packages/sources/cmeth/",\
-        "packageDependencies": [\
-          ["@chainlink/cmeth-adapter", "workspace:packages/sources/cmeth"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -5184,27 +5128,6 @@ const RAW_RUNTIME_STATE =
           ]]\
         ],\
         "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@chainlink/crypto-volatility-index-adapter", [\
-      ["workspace:packages/composites/crypto-volatility-index", {\
-        "packageLocation": "./packages/composites/crypto-volatility-index/",\
-        "packageDependencies": [\
-          ["@chainlink/crypto-volatility-index-adapter", "workspace:packages/composites/crypto-volatility-index"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/cryptoapis-adapter", [\
@@ -6027,21 +5950,6 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/graphql-adapter", [\
-      ["workspace:packages/sources/graphql", {\
-        "packageLocation": "./packages/sources/graphql/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -7097,27 +7005,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/sportsdataio-adapter", [\
-      ["workspace:packages/sources/sportsdataio", {\
-        "packageLocation": "./packages/sources/sportsdataio/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/luxon", "npm:2.4.0"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["luxon", "npm:1.28.1"],\
-          ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -14870,15 +14757,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/luxon", [\
-      ["npm:2.4.0", {\
-        "packageLocation": "./.yarn/cache/@types-luxon-npm-2.4.0-081c630c88-f5e5a9b10d.zip/node_modules/@types/luxon/",\
-        "packageDependencies": [\
-          ["@types/luxon", "npm:2.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/methods", [\
       ["npm:1.1.4", {\
         "packageLocation": "./.yarn/cache/@types-methods-npm-1.1.4-8565dc8af4-ad2a717848.zip/node_modules/@types/methods/",\
@@ -21673,13 +21551,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["luxon", [\
-      ["npm:1.28.1", {\
-        "packageLocation": "./.yarn/cache/luxon-npm-1.28.1-0f675125b8-dfba84bb3c.zip/node_modules/luxon/",\
-        "packageDependencies": [\
-          ["luxon", "npm:1.28.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.5.0", {\
         "packageLocation": "./.yarn/cache/luxon-npm-3.5.0-92bb977f7f-48f86e6c1c.zip/node_modules/luxon/",\
         "packageDependencies": [\
@@ -22067,15 +21938,6 @@ const RAW_RUNTIME_STATE =
           ["mockserver-client", "npm:5.15.0"],\
           ["q", "npm:2.0.3"],\
           ["websocket", "npm:1.0.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["moment", [\
-      ["npm:2.30.1", {\
-        "packageLocation": "./.yarn/cache/moment-npm-2.30.1-1c51a5c631-ae42d876d4.zip/node_modules/moment/",\
-        "packageDependencies": [\
-          ["moment", "npm:2.30.1"]\
         ],\
         "linkType": "HARD"\
       }]\

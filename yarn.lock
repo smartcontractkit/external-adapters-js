@@ -2454,19 +2454,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitgo-reserves-test-adapter@workspace:packages/sources/bitgo-reserves-test":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/bitgo-reserves-test-adapter@workspace:packages/sources/bitgo-reserves-test"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/blockchain.com-adapter@workspace:*, @chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com"
@@ -2630,20 +2617,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/cmeth-adapter@workspace:packages/sources/cmeth":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/cmeth-adapter@workspace:packages/sources/cmeth"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2827,25 +2800,6 @@ __metadata:
   checksum: 10/dbf0fb93d3c34018e2f9994dc5359a7ff4222c4b070b54fd84b3e17c102e3fc5584c68b86028a927991b59d11bf562737c36d9cc84563d02a4371b23ea320d49
   languageName: node
   linkType: hard
-
-"@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/crypto-volatility-index-adapter@workspace:packages/composites/crypto-volatility-index"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-reference-data-reader": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/token-allocation-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.8.0"
-    moment: "npm:^2.29.4"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
 
 "@chainlink/cryptoapis-adapter@workspace:*, @chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
   version: 0.0.0-use.local
@@ -3076,7 +3030,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ea-reference-data-reader@workspace:*, @chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
+"@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader":
   version: 0.0.0-use.local
   resolution: "@chainlink/ea-reference-data-reader@workspace:packages/core/reference-data-reader"
   dependencies:
@@ -3592,19 +3546,6 @@ __metadata:
     decimal.js: "npm:^10.6.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/graphql-adapter@workspace:packages/sources/graphql":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/graphql-adapter@workspace:packages/sources/graphql"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4540,25 +4481,6 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/sportsdataio-adapter@workspace:packages/sources/sportsdataio"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/luxon": "npm:2.4.0"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    luxon: "npm:^1.28.1"
-    nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -10468,13 +10390,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:2.4.0":
-  version: 2.4.0
-  resolution: "@types/luxon@npm:2.4.0"
-  checksum: 10/f5e5a9b10d7a76974ea03e1af7d6704edd1ce0bed1c1543461871e9bf173bbaafc92e19fe93a308ae02bd485bd4382e3fcbaabe4921adbcb344b29a85ba70f10
-  languageName: node
-  linkType: hard
-
 "@types/methods@npm:^1.1.4":
   version: 1.1.4
   resolution: "@types/methods@npm:1.1.4"
@@ -16240,13 +16155,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"luxon@npm:^1.28.1":
-  version: 1.28.1
-  resolution: "luxon@npm:1.28.1"
-  checksum: 10/dfba84bb3cd72f359c77115d374937c31eccdfa6b383284b6848c075f85e02269d4d9a717608944f2c11c4ca5d3df0fc18197ce4ca21313ddd72619b39ee034c
-  languageName: node
-  linkType: hard
-
 "luxon@npm:^3.2.1":
   version: 3.5.0
   resolution: "luxon@npm:3.5.0"
@@ -16596,13 +16504,6 @@ __metadata:
     q: "npm:~2.0.3"
     websocket: "npm:~1.0.34"
   checksum: 10/494314769e0729d87afc76b2757b3068384c17a1c95b3e68cf1cfcfd4e1c8cae419e4a7e84ed81bcf40ebc14dd6bdb8018d01c58005e6e423a25b9260cfa30d1
-  languageName: node
-  linkType: hard
-
-"moment@npm:^2.29.4":
-  version: 2.30.1
-  resolution: "moment@npm:2.30.1"
-  checksum: 10/ae42d876d4ec831ef66110bdc302c0657c664991e45cf2afffc4b0f6cd6d251dde11375c982a5c0564ccc0fa593fc564576ddceb8c8845e87c15f58aa6baca69
   languageName: node
   linkType: hard
 
