@@ -120,9 +120,6 @@
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
     },
     {
-      "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blockchain.com/tsconfig.test.json"
     },
     {
