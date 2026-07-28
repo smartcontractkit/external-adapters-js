@@ -183,10 +183,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves"\
     },\
     {\
-      "name": "@chainlink/bitgo-reserves-test-adapter",\
-      "reference": "workspace:packages/sources/bitgo-reserves-test"\
-    },\
-    {\
       "name": "@chainlink/blockchain.com-adapter",\
       "reference": "workspace:packages/sources/blockchain.com"\
     },\
@@ -718,7 +714,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
-    ["@chainlink/bitgo-reserves-test-adapter", ["workspace:packages/sources/bitgo-reserves-test"]],\
     ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
@@ -4769,21 +4764,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sources/bitgo-reserves/",\
         "packageDependencies": [\
           ["@chainlink/bitgo-reserves-adapter", "workspace:packages/sources/bitgo-reserves"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bitgo-reserves-test-adapter", [\
-      ["workspace:packages/sources/bitgo-reserves-test", {\
-        "packageLocation": "./packages/sources/bitgo-reserves-test/",\
-        "packageDependencies": [\
-          ["@chainlink/bitgo-reserves-test-adapter", "workspace:packages/sources/bitgo-reserves-test"],\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
