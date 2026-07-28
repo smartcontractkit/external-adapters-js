@@ -117,9 +117,6 @@
       "path": "./sources/bitgo-reserves"
     },
     {
-      "path": "./sources/bitgo-reserves-test"
-    },
-    {
       "path": "./sources/blockchain.com"
     },
     {
@@ -264,9 +261,6 @@
       "path": "./sources/gmci"
     },
     {
-      "path": "./sources/graphql"
-    },
-    {
       "path": "./sources/gsr"
     },
     {
@@ -409,9 +403,6 @@
     },
     {
       "path": "./sources/solana-view-function"
-    },
-    {
-      "path": "./sources/sportsdataio"
     },
     {
       "path": "./sources/stader-address-list"

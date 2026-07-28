@@ -27,7 +27,6 @@ const getExpectedSelfReportedName = (adapter: WorkspaceAdapter) => {
       return 'LIVE_ART'
     case 'wbtc-address-set':
       return 'WBTC'
-    case 'bitgo-reserves-test':
     case 'ix-trust-sync':
       // Replaces only the first hyphen with an underscore.
       return nameFromLocation.toUpperCase().replace(/-/, '_')
