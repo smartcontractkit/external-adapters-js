@@ -23,10 +23,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/calculated-price"\
     },\
     {\
-      "name": "@chainlink/crypto-volatility-index-adapter",\
-      "reference": "workspace:packages/composites/crypto-volatility-index"\
-    },\
-    {\
       "name": "@chainlink/glv-token-adapter",\
       "reference": "workspace:packages/composites/glv-token"\
     },\
@@ -729,7 +725,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/crypto-volatility-index-adapter", ["workspace:packages/composites/crypto-volatility-index"]],\
     ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
@@ -5176,27 +5171,6 @@ const RAW_RUNTIME_STATE =
           ]]\
         ],\
         "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@chainlink/crypto-volatility-index-adapter", [\
-      ["workspace:packages/composites/crypto-volatility-index", {\
-        "packageLocation": "./packages/composites/crypto-volatility-index/",\
-        "packageDependencies": [\
-          ["@chainlink/crypto-volatility-index-adapter", "workspace:packages/composites/crypto-volatility-index"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-reference-data-reader", "workspace:packages/core/reference-data-reader"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/token-allocation-adapter", "workspace:packages/non-deployable/token-allocation"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["moment", "npm:2.30.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/cryptoapis-adapter", [\
@@ -22007,15 +21981,6 @@ const RAW_RUNTIME_STATE =
           ["mockserver-client", "npm:5.15.0"],\
           ["q", "npm:2.0.3"],\
           ["websocket", "npm:1.0.35"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["moment", [\
-      ["npm:2.30.1", {\
-        "packageLocation": "./.yarn/cache/moment-npm-2.30.1-1c51a5c631-ae42d876d4.zip/node_modules/moment/",\
-        "packageDependencies": [\
-          ["moment", "npm:2.30.1"]\
         ],\
         "linkType": "HARD"\
       }]\
