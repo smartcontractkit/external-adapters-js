@@ -75,8 +75,6 @@ adapters:
     version: 1.2.0
   - name: coinranking
     version: 2.1.18
-  - name: crypto-volatility-index
-    version: 1.4.64
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare

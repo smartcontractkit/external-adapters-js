@@ -9,9 +9,6 @@
       "path": "./composites/calculated-price"
     },
     {
-      "path": "./composites/crypto-volatility-index"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
