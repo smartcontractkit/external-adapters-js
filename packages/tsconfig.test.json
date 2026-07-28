@@ -411,9 +411,6 @@
       "path": "./sources/solana-view-function/tsconfig.test.json"
     },
     {
-      "path": "./sources/sportsdataio/tsconfig.test.json"
-    },
-    {
       "path": "./sources/stader-address-list/tsconfig.test.json"
     },
     {
