@@ -264,9 +264,6 @@
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
-      "path": "./sources/graphql/tsconfig.test.json"
-    },
-    {
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {

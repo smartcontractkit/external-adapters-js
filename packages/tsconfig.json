@@ -264,9 +264,6 @@
       "path": "./sources/gmci"
     },
     {
-      "path": "./sources/graphql"
-    },
-    {
       "path": "./sources/gsr"
     },
     {
