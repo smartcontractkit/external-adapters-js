@@ -379,10 +379,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/gmci"\
     },\
     {\
-      "name": "@chainlink/graphql-adapter",\
-      "reference": "workspace:packages/sources/graphql"\
-    },\
-    {\
       "name": "@chainlink/gsr-adapter",\
       "reference": "workspace:packages/sources/gsr"\
     },\
@@ -780,7 +776,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/gmx-tokens-adapter", ["workspace:packages/composites/gmx-tokens"]],\
     ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
-    ["@chainlink/graphql-adapter", ["workspace:packages/sources/graphql"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
@@ -6049,21 +6044,6 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/graphql-adapter", [\
-      ["workspace:packages/sources/graphql", {\
-        "packageLocation": "./packages/sources/graphql/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/graphql-adapter", "workspace:packages/sources/graphql"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
