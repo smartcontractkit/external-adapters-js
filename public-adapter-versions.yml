@@ -139,8 +139,6 @@ adapters:
     version: 1.2.1
   - name: gold
     version: 1.3.2
-  - name: graphql
-    version: 1.2.47
   - name: gsr
     version: 2.5.8
   - name: harris-and-trotter
