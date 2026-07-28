@@ -167,10 +167,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/backed-fi"\
     },\
     {\
-      "name": "@chainlink/bank-frick-adapter",\
-      "reference": "workspace:packages/sources/bank-frick"\
-    },\
-    {\
       "name": "@chainlink/bea-adapter",\
       "reference": "workspace:packages/sources/bea"\
     },\
@@ -713,7 +709,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/asseto-finance-adapter", ["workspace:packages/sources/asseto-finance"]],\
     ["@chainlink/avalanche-platform-adapter", ["workspace:packages/sources/avalanche-platform"]],\
     ["@chainlink/backed-fi-adapter", ["workspace:packages/sources/backed-fi"]],\
-    ["@chainlink/bank-frick-adapter", ["workspace:packages/sources/bank-frick"]],\
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/bitcoin-json-rpc-adapter", ["workspace:packages/composites/bitcoin-json-rpc"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
@@ -4689,23 +4684,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/bank-frick-adapter", [\
-      ["workspace:packages/sources/bank-frick", {\
-        "packageLocation": "./packages/sources/bank-frick/",\
-        "packageDependencies": [\
-          ["@chainlink/bank-frick-adapter", "workspace:packages/sources/bank-frick"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.13.4"],\
-          ["fastify", "npm:5.8.5"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

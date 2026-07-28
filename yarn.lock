@@ -2394,21 +2394,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/bank-frick-adapter@workspace:packages/sources/bank-frick"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
-    fastify: "npm:^5.0.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/bea-adapter@workspace:packages/sources/bea":
   version: 0.0.0-use.local
   resolution: "@chainlink/bea-adapter@workspace:packages/sources/bea"
