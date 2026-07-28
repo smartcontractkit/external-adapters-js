@@ -9,9 +9,6 @@
       "path": "./composites/calculated-price/tsconfig.test.json"
     },
     {
-      "path": "./composites/crypto-volatility-index/tsconfig.test.json"
-    },
-    {
       "path": "./composites/glv-token/tsconfig.test.json"
     },
     {
@@ -118,9 +115,6 @@
     },
     {
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
     },
     {
       "path": "./sources/blockchain.com/tsconfig.test.json"
@@ -262,9 +256,6 @@
     },
     {
       "path": "./sources/gmci/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/graphql/tsconfig.test.json"
     },
     {
       "path": "./sources/gsr/tsconfig.test.json"
@@ -409,9 +400,6 @@
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
