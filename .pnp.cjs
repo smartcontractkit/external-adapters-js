@@ -575,10 +575,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-view-function"\
     },\
     {\
-      "name": "@chainlink/sportsdataio-adapter",\
-      "reference": "workspace:packages/sources/sportsdataio"\
-    },\
-    {\
       "name": "@chainlink/stader-address-list-adapter",\
       "reference": "workspace:packages/sources/stader-address-list"\
     },\
@@ -841,7 +837,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
-    ["@chainlink/sportsdataio-adapter", ["workspace:packages/sources/sportsdataio"]],\
     ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
@@ -7119,27 +7114,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/sportsdataio-adapter", [\
-      ["workspace:packages/sources/sportsdataio", {\
-        "packageLocation": "./packages/sources/sportsdataio/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/sportsdataio-adapter", "workspace:packages/sources/sportsdataio"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/luxon", "npm:2.4.0"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["luxon", "npm:1.28.1"],\
-          ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -14892,15 +14866,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@types/luxon", [\
-      ["npm:2.4.0", {\
-        "packageLocation": "./.yarn/cache/@types-luxon-npm-2.4.0-081c630c88-f5e5a9b10d.zip/node_modules/@types/luxon/",\
-        "packageDependencies": [\
-          ["@types/luxon", "npm:2.4.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@types/methods", [\
       ["npm:1.1.4", {\
         "packageLocation": "./.yarn/cache/@types-methods-npm-1.1.4-8565dc8af4-ad2a717848.zip/node_modules/@types/methods/",\
@@ -21695,13 +21660,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["luxon", [\
-      ["npm:1.28.1", {\
-        "packageLocation": "./.yarn/cache/luxon-npm-1.28.1-0f675125b8-dfba84bb3c.zip/node_modules/luxon/",\
-        "packageDependencies": [\
-          ["luxon", "npm:1.28.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:3.5.0", {\
         "packageLocation": "./.yarn/cache/luxon-npm-3.5.0-92bb977f7f-48f86e6c1c.zip/node_modules/luxon/",\
         "packageDependencies": [\
