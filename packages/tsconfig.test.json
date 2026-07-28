@@ -120,9 +120,6 @@
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
     },
     {
-      "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blockchain.com/tsconfig.test.json"
     },
     {
@@ -409,9 +406,6 @@
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
