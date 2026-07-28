@@ -147,9 +147,6 @@
       "path": "./sources/chain-reserve-wallet"
     },
     {
-      "path": "./sources/cmeth"
-    },
-    {
       "path": "./sources/coinapi"
     },
     {

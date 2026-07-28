@@ -147,9 +147,6 @@
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
-      "path": "./sources/cmeth/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
