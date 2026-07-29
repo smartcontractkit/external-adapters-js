@@ -4,15 +4,21 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/soheilhy/cmux"
+	"google.golang.org/grpc"
+
 	"streams-adapter/cache"
 	"streams-adapter/config"
+	pb "streams-adapter/gen/streams/v1"
 	"streams-adapter/helpers"
 	"streams-adapter/redcon"
 	"streams-adapter/server"
+	"streams-adapter/transmitter"
 )
 
 // waitForEAServer waits for the EA server to be ready before proceeding
@@ -66,6 +72,9 @@ func main() {
 	})
 	defer appCache.Stop()
 
+	// Create the gRPC publisher (fanout to subscribed clients)
+	pub := transmitter.NewPublisher()
+
 	// Wait for EA server to be ready before starting
 	waitForEAServer(cfg, logger)
 
@@ -75,17 +84,49 @@ func main() {
 
 	// Initialize Redcon server
 	redconServer := redcon.New(redcon.Config{
-		Addr:   ":" + cfg.RedconPort,
-		Cache:  appCache,
-		Logger: logger,
+		Addr:      ":" + cfg.RedconPort,
+		Cache:     appCache,
+		Publisher: pub,
+		Logger:    logger,
 	})
 
 	// Create error channel for goroutine failures
 	errChan := make(chan error, 1)
 
-	// Start HTTP server in a goroutine
+	// Open a single TCP listener on the HTTP port; cmux routes connections to
+	// either the gRPC handler (HTTP/2 with content-type: application/grpc)
+	// or the HTTP/1.x gin handler.
+	lis, err := net.Listen("tcp", ":"+cfg.HTTPPort)
+	if err != nil {
+		log.Fatalf("failed to listen on port %s: %v", cfg.HTTPPort, err)
+	}
+	mux := cmux.New(lis)
+	grpcL := mux.MatchWithWriters(
+		cmux.HTTP2MatchHeaderFieldSendSettings("content-type", "application/grpc"),
+	)
+	httpL := mux.Match(cmux.Any())
+
+	// Start gRPC transmitter server
+	grpcServer := grpc.NewServer()
+	refreshTimeout := time.Duration(cfg.SubscriptionRefreshTimeoutSeconds) * time.Second
+	pb.RegisterStreamServiceServer(grpcServer, transmitter.NewStreamTransmitter(
+		pub,
+		logger,
+		httpServer.ResolveSubscription,
+		httpServer.EnsureSubscription,
+		refreshTimeout,
+	))
 	go func() {
-		if err := httpServer.Start(); err != nil {
+		logger.Info("gRPC transmitter listening (shared port)", "port", cfg.HTTPPort)
+		if err := grpcServer.Serve(grpcL); err != nil {
+			logger.Error("gRPC server failed", "error", err)
+			errChan <- err
+		}
+	}()
+
+	// Start HTTP server on the cmux HTTP sub-listener
+	go func() {
+		if err := httpServer.StartOnListener(httpL); err != nil {
 			logger.Error("HTTP server failed", "error", err)
 			errChan <- err
 		}
@@ -95,6 +136,14 @@ func main() {
 	go func() {
 		if err := redconServer.Start(); err != nil {
 			logger.Error("Redcon server failed", "error", err)
+			errChan <- err
+		}
+	}()
+
+	// Start cmux dispatcher
+	go func() {
+		if err := mux.Serve(); err != nil {
+			logger.Error("cmux failed", "error", err)
 			errChan <- err
 		}
 	}()
