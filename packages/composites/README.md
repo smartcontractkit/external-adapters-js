@@ -56,7 +56,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 
 - [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [calculated-price](./calculated-price/README.md)
-- [crypto-volatility-index](./crypto-volatility-index/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
 - [gmx-tokens](./gmx-tokens/README.md)
