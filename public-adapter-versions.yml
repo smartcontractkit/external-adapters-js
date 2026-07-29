@@ -196,7 +196,7 @@ adapters:
   - name: nav-generic
     version: 1.0.5
   - name: ncfx
-    version: 4.9.0
+    version: 4.10.0
   - name: nobi
     version: 1.0.1
   - name: nomia
@@ -228,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.151
+    version: 3.0.152
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -304,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.150
+    version: 2.0.151
