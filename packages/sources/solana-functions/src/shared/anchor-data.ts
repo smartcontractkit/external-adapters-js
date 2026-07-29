@@ -5,11 +5,13 @@ import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import * as adrenaProgramIdl from '../idl/adrena.json'
 import * as flashTradeProgramIdl from '../idl/flash_trade.json'
 import * as fragmetricLiquidRestakingProgramIdl from '../idl/fragmetric_liquid_restaking.json'
+import * as midasProgramIdl from '../idl/midas.json'
 
 const programToIdlMap: Record<string, Idl> = {
   fragnAis7Bp6FTsMoa6YcH8UffhEw43Ph79qAiK3iF3: fragmetricLiquidRestakingProgramIdl as Idl,
   '13gDzEXCdocbj8iAiqrScGo47NiSuYENGsRqi3SEAwet': adrenaProgramIdl as Idl,
   FLASH6Lo6h3iasJKWDs2F8TkW2UKf3s15C8PMGuVfgBn: flashTradeProgramIdl as Idl,
+  MDF1kkcgJqyizY8k3U1ESAxLBYFYmE3qTwxf2pmGE1s: midasProgramIdl as Idl,
 }
 
 export const getAnchorData = async <const Fields extends string[]>({
