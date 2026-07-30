@@ -1,7 +1,7 @@
-import { BaseEndpointTypes } from '../endpoint/price'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { getToken } from './authutils'
+import { BaseEndpointTypes } from '../endpoint/price'
+import { getToken, TokenWithExpiry } from './authutils'
 
 const logger = makeLogger('GSR WS price')
 
@@ -22,11 +22,35 @@ export type WsTransportTypes = BaseEndpointTypes & {
   }
 }
 
+let cachedToken: TokenWithExpiry | null = null
+const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000 // Refresh 5 minutes before expiry
+
+const getTokenForConnection = async (
+  apiEndpoint: string,
+  userId: string,
+  publicKey: string,
+  privateKey: string,
+): Promise<string> => {
+  const now = Date.now()
+
+  // If we have a cached token and it won't expire soon, reuse it
+  if (cachedToken && cachedToken.expiresAtMs - now > TOKEN_REFRESH_MARGIN_MS) {
+    return cachedToken.token
+  }
+
+  // Fetch a fresh token
+  cachedToken = await getToken(apiEndpoint, userId, publicKey, privateKey)
+  const timeUntilExpiry = cachedToken.expiresAtMs - Date.now()
+  logger.info(`Token refresh triggered, expires in ${Math.round(timeUntilExpiry / 1000)}s`)
+
+  return cachedToken.token
+}
+
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
   options: async (context) => ({
     headers: {
-      'x-auth-token': await getToken(
+      'x-auth-token': await getTokenForConnection(
         context.adapterSettings.API_ENDPOINT,
         context.adapterSettings.WS_USER_ID,
         context.adapterSettings.WS_PUBLIC_KEY,
@@ -37,6 +61,27 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
   }),
   handlers: {
     open: () => {
+      // Set up a timer to proactively reconnect before the token expires
+      // This prevents the ungraceful connection closure when GSR closes connections after token expiry
+      if (cachedToken) {
+        const now = Date.now()
+        const timeUntilExpiry = cachedToken.expiresAtMs - now
+        const reconnectInMs = timeUntilExpiry - TOKEN_REFRESH_MARGIN_MS
+
+        if (reconnectInMs > 0) {
+          logger.info(
+            `Scheduled token refresh/reconnect in ${Math.round(
+              reconnectInMs / 1000,
+            )}s to prevent ungraceful disconnection`,
+          )
+          setTimeout(() => {
+            // Trigger a reconnection by invalidating the cached token
+            // The next message/request will cause a reconnect with a fresh token
+            cachedToken = null
+            logger.info('Token expiry threshold reached, invalidating token for reconnection')
+          }, reconnectInMs)
+        }
+      }
       return
     },
     message(message): ProviderResult<WsTransportTypes>[] | undefined {

@@ -1,6 +1,6 @@
-import crypto from 'crypto'
-import axios from 'axios'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import axios from 'axios'
+import crypto from 'crypto'
 
 const logger = makeLogger('GSR Auth Token Utils')
 
@@ -19,6 +19,11 @@ interface TokenSuccess {
 
 type AccessTokenResponse = TokenError | TokenSuccess
 
+export interface TokenWithExpiry {
+  token: string
+  expiresAtMs: number
+}
+
 const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1_000_000
 
 const generateSignature = (userId: string, publicKey: string, privateKey: string, ts: number) =>
@@ -33,7 +38,7 @@ export const getToken = async (
   userId: string,
   publicKey: string,
   privateKey: string,
-) => {
+): Promise<TokenWithExpiry> => {
   logger.debug('Fetching new access token')
 
   const ts = currentTimeNanoSeconds()
@@ -69,5 +74,11 @@ export const getToken = async (
     throw new Error(response.data.error)
   }
 
-  return response.data.token
+  const expiresAtMs = new Date(response.data.validUntil).getTime()
+  logger.info(`Token obtained, expires at ${response.data.validUntil}`)
+
+  return {
+    token: response.data.token,
+    expiresAtMs,
+  }
 }
