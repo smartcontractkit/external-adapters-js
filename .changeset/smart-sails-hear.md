@@ -4,7 +4,7 @@
 '@chainlink/backed-fi-adapter': minor
 '@chainlink/blocksize-capital-adapter': minor
 '@chainlink/blocksize-capital-state-adapter': minor
-'@chainlink/cfbenchmarks2-adapter': minor
+'@chainlink/cfbenchmarks-adapter': minor
 '@chainlink/coinmetrics-adapter': minor
 '@chainlink/coinpaprika-adapter': minor
 '@chainlink/coinpaprika-state-adapter': minor
