@@ -1,5 +1,11 @@
 # @chainlink/gsr-adapter
 
+## 2.6.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
 ## 2.5.8
 
 ### Patch Changes
