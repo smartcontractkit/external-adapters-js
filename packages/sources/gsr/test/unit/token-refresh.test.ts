@@ -86,9 +86,6 @@ describe('GSR Token Refresh Logic', () => {
           ]
         })
 
-      // Import the transport to test caching (requires fresh module)
-      const { transport } = await import('../../src/transport/price')
-
       // First connection - should fetch token
       const firstResult = await getToken(apiEndpoint, userId, publicKey, privateKey)
       expect(firstResult.token).toBe('test-token-1')
