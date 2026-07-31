@@ -1,5 +1,15 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.11.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+### Patch Changes
+
+- [#5167](https://github.com/smartcontractkit/external-adapters-js/pull/5167) [`ff56426`](https://github.com/smartcontractkit/external-adapters-js/commit/ff564269ff80836d531b73fbee3509a1a36d93c7) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variablePlaceholder instead of custom env vars
+
 ## 1.10.1
 
 ### Patch Changes
