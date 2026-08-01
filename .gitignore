@@ -26,6 +26,9 @@ cl-adapter-*
 packages/k6/src/config/ws.json
 packages/k6/src/config/http.json
 
+# Claude skill eval scratch (local only)
+.claude/skills/ea-pr-reviewer-workspace/
+
 # IDE metadata
 .vscode
 .idea
