@@ -140,7 +140,7 @@ adapters:
   - name: hastra
     version: 1.0.1
   - name: icap
-    version: 1.7.0
+    version: 1.7.2
   - name: ice
     version: 1.2.1
   - name: ignition-address-list
@@ -228,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.151
+    version: 3.0.158
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -268,15 +268,15 @@ adapters:
   - name: tickerlayer
     version: 1.0.0
   - name: tiingo
-    version: 2.12.0
+    version: 2.13.1
   - name: tiingo-state
-    version: 0.3.8
+    version: 0.4.1
   - name: token-balance
     version: 3.6.1
   - name: tokenized-equity
     version: 1.4.1
   - name: tp
-    version: 1.12.0
+    version: 1.13.1
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
@@ -290,9 +290,9 @@ adapters:
   - name: twosigma
     version: 1.2.42
   - name: view-function
-    version: 3.1.19
+    version: 3.2.1
   - name: view-function-multi-chain
-    version: 1.10.1
+    version: 1.11.1
   - name: view-starknet-latest-answer
     version: 1.0.27
   - name: wbtc-address-set
@@ -304,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.150
+    version: 2.0.157
