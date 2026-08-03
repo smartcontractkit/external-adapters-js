@@ -108,9 +108,9 @@ adapters:
   - name: finalto
     version: 1.4.8
   - name: finnhub
-    version: 4.2.7
+    version: 4.3.1
   - name: finnhub-secondary
-    version: 1.1.7
+    version: 1.1.9
   - name: fireblocks
     version: 1.0.19
   - name: frxeth-exchange-rate
@@ -132,7 +132,7 @@ adapters:
   - name: gold
     version: 1.3.2
   - name: gsr
-    version: 2.5.8
+    version: 2.6.1
   - name: harris-and-trotter
     version: 1.1.22
   - name: hashnote
@@ -176,11 +176,11 @@ adapters:
   - name: m0
     version: 0.0.19
   - name: market-status
-    version: 1.11.0
+    version: 1.12.1
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
-    version: 2.4.0
+    version: 2.5.1
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
@@ -264,7 +264,7 @@ adapters:
   - name: t-rize-proof-of-insurance
     version: 1.1.0
   - name: the-network-firm
-    version: 1.9.0
+    version: 1.10.1
   - name: tickerlayer
     version: 1.0.0
   - name: tiingo
