@@ -1,5 +1,11 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.13.2
+
+### Patch Changes
+
+- [#5269](https://github.com/smartcontractkit/external-adapters-js/pull/5269) [`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Fixed invalid workspace selector for coinmetrics-lwba
+
 ## 3.13.1
 
 ### Patch Changes
