@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.13.1
+
+### Patch Changes
+
+- [#5262](https://github.com/smartcontractkit/external-adapters-js/pull/5262) [`458a930`](https://github.com/smartcontractkit/external-adapters-js/commit/458a93083d5b7d50dbadf34df565490ecc61aa69) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 20 streams adapters with gRPC transport support
+
 ## 2.13.0
 
 ### Minor Changes
