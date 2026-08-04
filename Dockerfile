@@ -7,6 +7,10 @@ RUN yarn workspaces focus $package @chainlink/external-adapters-js @chainlink/ea
 RUN yarn workspace $package build
 RUN yarn generate:endpoint-aliases
 RUN yarn bundle $location -o $location/bundle
+# TEMP local-only patch (ncfx-native-grpc-poc branch): ncc's bundler doesn't carry along
+# non-JS assets, so streams.proto has to be placed next to the bundled index.js by hand.
+# Not for upstream - remove before this branch is ever used for anything real.
+RUN cp $location/local-framework/streams.proto $location/bundle/streams.proto
 
 # Build Go binary for streams-adapter
 FROM golang:1.26 as go-builder
