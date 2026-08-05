@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute KMS key caching should return 502 and call KMS twice when signature is invalid and AWS returns the same key 1`] = `
+{
+  "errorMessage": "Signature verification failed",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute ushp endpoint should return 502 when KMS cannot return the public key 1`] = `
+{
+  "errorMessage": "KMS unavailable for key: arn:aws:kms:[KMS_REGION REDACTED]:123456789012:key/unavailable-key-id",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute ushp endpoint should return 502 when the price is stale 1`] = `
+{
+  "errorMessage": "Price is stale",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute ushp endpoint should return 502 when the signature does not match the response body 1`] = `
+{
+  "errorMessage": "Signature verification failed",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 0,
+    "providerDataRequestedUnixMs": 0,
+  },
+}
+`;
+
+exports[`execute ushp endpoint should return a rescaled result for a valid response 1`] = `
+{
+  "data": {
+    "lastUpdatedAt": 1704103871,
+    "price": 1.00396832,
+    "rawValue": "1003968325",
+    "scale": 9,
+  },
+  "result": "100396832",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1704107471111,
+    "providerDataRequestedUnixMs": 1704107471111,
+    "providerIndicatedTimeUnixMs": 1704103871000,
+  },
+}
+`;
