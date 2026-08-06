@@ -6,36 +6,61 @@ import {
   TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
-import * as nock from 'nock'
-import { mockTokenSuccess, mockWebSocketServer } from './fixtures'
+import nock from 'nock'
+import { transport } from '../../src/transport/price'
+import { mockWebSocketServer } from './fixtures'
 
-describe('GSR Token Caching Integration', () => {
-  let spy: jest.SpyInstance
+// GSR issues one hour tokens in production, but the scenario is scaled down so
+// the refresh point lands inside the window the framework's unresponsiveness
+// watchdog allows (WS_SUBSCRIPTION_UNRESPONSIVE_TTL caps at 180s). With a 400s
+// token the adapter should tear down at 100s, well before the watchdog at 180s
+// could do it instead — otherwise these assertions would hold with or without
+// the fix. The reply body is a function so the expiry tracks the fake clock.
+const TOKEN_VALIDITY_MS = 400 * 1000
+const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000 // must match the transport
+const MS_UNTIL_SCHEDULED_REFRESH = TOKEN_VALIDITY_MS - TOKEN_REFRESH_MARGIN_MS
+const UNRESPONSIVE_TTL_MS = 180 * 1000
+const OPEN = 1 // WebSocket.OPEN
+
+const mockRollingToken = () =>
+  nock('https://oracle.prod.gsr.io', { encodedQueryParams: true })
+    .post('/v1/token', {
+      apiKey: 'test-pub-key',
+      userId: 'test-user-id',
+      ts: /^\d+$/,
+      signature: /^[0-9a-f]+$/i,
+    })
+    .reply(200, () => ({
+      success: true,
+      ts: Date.now() * 1e6,
+      token: 'fake-token',
+      validUntil: new Date(Date.now() + TOKEN_VALIDITY_MS).toISOString(),
+    }))
+    .persist()
+
+describe('token expiry driven reconnection', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   let oldEnv: NodeJS.ProcessEnv
-  let clock: ReturnType<typeof FakeTimers.install>
-  const wsEndpoint = 'ws://localhost:9090'
-  const apiEndpoint = 'https://oracle.prod.gsr.io/v1'
+  const wsEndpoint = 'ws://localhost:9091'
   const data = {
     base: 'ETH',
     quote: 'USD',
   }
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['WS_USER_ID'] = process.env['WS_USER_ID'] || 'test-user-id'
-    process.env['WS_PUBLIC_KEY'] = process.env['WS_PUBLIC_KEY'] || 'test-pub-key'
-    process.env['WS_PRIVATE_KEY'] = process.env['WS_PRIVATE_KEY'] || 'test-priv-key'
-    process.env['API_ENDPOINT'] = apiEndpoint
+    process.env['WS_USER_ID'] = 'test-user-id'
+    process.env['WS_PUBLIC_KEY'] = 'test-pub-key'
+    process.env['WS_PRIVATE_KEY'] = 'test-priv-key'
+    // Hold the watchdog at its maximum so it cannot reach the refresh point
+    // first. At its 120s default it recycles the connection on its own and the
+    // assertions below pass whether or not the adapter does anything, which is
+    // precisely the broken behaviour being fixed.
+    process.env['WS_SUBSCRIPTION_UNRESPONSIVE_TTL'] = String(UNRESPONSIVE_TTL_MS)
 
-    clock = FakeTimers.install()
-    const mockDate = new Date('2022-05-10T16:09:27.193Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
-    clock.setSystemTime(mockDate.getTime())
-
-    mockTokenSuccess()
+    mockRollingToken()
     mockWebSocketProvider(WebSocketClassProvider)
     mockWsServer = mockWebSocketServer(wsEndpoint)
 
@@ -49,9 +74,7 @@ describe('GSR Token Caching Integration', () => {
     await testAdapter.waitForCache()
   })
 
-  afterEach(async () => {
-    spy.mockRestore()
-    clock.uninstall()
+  afterAll(async () => {
     setEnvVariables(oldEnv)
     mockWsServer?.close()
     testAdapter.clock?.uninstall()
@@ -59,93 +82,54 @@ describe('GSR Token Caching Integration', () => {
     nock.cleanAll()
   })
 
-  describe('token caching during connection', () => {
-    it('should maintain connection across multiple requests without fetching new token', async () => {
-      // The mock setup already mocks token fetch with .persist()
-      // If token caching works, only one token fetch should happen during setup
+  it('holds a live connection open while the token is valid', async () => {
+    expect(transport.wsConnection).toBeDefined()
 
-      const response1 = await testAdapter.request(data)
-      expect(response1.statusCode).toEqual(200)
-
-      const response2 = await testAdapter.request(data)
-      expect(response2.statusCode).toEqual(200)
-
-      const response3 = await testAdapter.request(data)
-      expect(response3.statusCode).toEqual(200)
-
-      // All should succeed - token was cached and reused
-    })
-
-    it('should handle multiple endpoints with same token', async () => {
-      const lwbaData = {
-        base: 'ETH',
-        quote: 'USD',
-        endpoint: 'crypto-lwba',
-      }
-
-      const response1 = await testAdapter.request(data)
-      expect(response1.statusCode).toEqual(200)
-
-      const response2 = await testAdapter.request(lwbaData)
-      expect(response2.statusCode).toEqual(200)
-
-      // Both should use the same cached token
-    })
+    // Well short of the refresh point: nothing should disturb the connection.
+    const connection = transport.wsConnection
+    await testAdapter.clock?.tickAsync(10 * 1000)
+    expect(transport.wsConnection).toBe(connection)
   })
 
-  describe('token refresh on expiry', () => {
-    it('should fetch new token when old token is near expiry', async () => {
-      const initialResponse = await testAdapter.request(data)
-      expect(initialResponse.statusCode).toEqual(200)
+  it('tears the connection down before the token expires and reconnects', async () => {
+    const connectionBeforeRefresh = transport.wsConnection
+    expect(connectionBeforeRefresh).toBeDefined()
 
-      // Advance time to 56 minutes (within 5 minute refresh margin)
-      const advanceMs = 56 * 60 * 1000
-      clock.tick(advanceMs)
+    // Advance the way production runs: under continuous traffic, so the
+    // subscription set stays alive. Idling past WS_SUBSCRIPTION_TTL (120s)
+    // would drop the subscriptions and leave the loop nothing to reconnect for.
+    const STEP_MS = 30 * 1000
+    const stopShortOf = MS_UNTIL_SCHEDULED_REFRESH - STEP_MS
+    for (let elapsed = 0; elapsed < stopShortOf; elapsed += STEP_MS) {
+      await testAdapter.clock?.tickAsync(Math.min(STEP_MS, stopShortOf - elapsed))
+      await testAdapter.request(data)
+    }
 
-      // Mock a new token response for the refresh
-      nock(apiEndpoint)
-        .post('/token')
-        .reply(200, {
-          success: true,
-          ts: new Date().getTime() * 1_000_000,
-          token: 'refreshed-token',
-          validUntil: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-        })
+    // A minute short of the threshold the connection must still be the original
+    // one — tearing down early would throw away a perfectly good token.
+    expect(transport.wsConnection).toBe(connectionBeforeRefresh)
+    expect(connectionBeforeRefresh?.readyState).toEqual(OPEN)
 
-      // Next request should trigger token refresh
-      const refreshResponse = await testAdapter.request(data)
-      expect(refreshResponse.statusCode).toEqual(200)
-    })
+    await testAdapter.clock?.tickAsync(STEP_MS)
 
-    it('should handle token expiry and reconnection gracefully', async () => {
-      const initialResponse = await testAdapter.request(data)
-      expect(initialResponse.statusCode).toEqual(200)
+    // Previously the adapter only dropped its cached token and left this socket
+    // open. GSR then went silent at the 60 minute mark and the cache went stale
+    // (CACHE_MAX_AGE, 90s) a full 30s before the framework's unresponsiveness
+    // watchdog (WS_SUBSCRIPTION_UNRESPONSIVE_TTL, 120s) reconnected — which is
+    // the window that served 504s. The socket must be closed outright instead,
+    // while the provider is still sending data.
+    expect(connectionBeforeRefresh?.readyState).not.toEqual(OPEN)
 
-      // Advance time to 59 minutes (just before actual 1-hour expiry)
-      const advanceMs = 59 * 60 * 1000
-      clock.tick(advanceMs)
+    // And the framework must actually bring it back: the teardown deliberately
+    // leaves wsConnection set so streamHandler's early return doesn't strand it.
+    for (let i = 0; i < 10 && transport.wsConnection?.readyState !== OPEN; i++) {
+      await testAdapter.clock?.tickAsync(1000)
+      await testAdapter.request(data)
+    }
+    expect(transport.wsConnection?.readyState).toEqual(OPEN)
+    expect(transport.wsConnection).not.toBe(connectionBeforeRefresh)
 
-      // At this point, the cached token should be invalidated and a new one should be fetched
-      // Mock the new token
-      nock(apiEndpoint)
-        .post('/token')
-        .reply(200, {
-          success: true,
-          ts: new Date().getTime() * 1_000_000,
-          token: 'new-refreshed-token',
-          validUntil: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-        })
-
-      const afterExpireResponse = await testAdapter.request(data)
-      expect(afterExpireResponse.statusCode).toEqual(200)
-    })
-  })
-
-  describe('error handling', () => {
-    it('should handle token fetch failure gracefully', async () => {
-      // This is covered by the existing error path in authutils.ts
-      // The test setup mocks successful token fetch, so failures would be handled
-      // by the existing error logging and re-throw logic
-    })
+    const response = await testAdapter.request(data)
+    expect(response.statusCode).toEqual(200)
   })
 })
