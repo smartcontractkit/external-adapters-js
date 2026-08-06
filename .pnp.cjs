@@ -5959,7 +5959,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/gsr", {\
         "packageLocation": "./packages/sources/gsr/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
           ["@chainlink/gsr-adapter", "workspace:packages/sources/gsr"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
