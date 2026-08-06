@@ -21,6 +21,7 @@ const marketToFinId = {
   jpx: 'JP.JPX', // Japan Exchange Group
   sse: 'CN.SSE', // Shanghai Stock Exchange
   szse: 'CN.SZSE', // Shenzhen Stock Exchange
+  hkex: 'HK.HKEX', // Hong Kong Exchanges and Clearing
   nymex: 'US.CHNLNK.WTI',
   ice_europe_energy: 'US.ICE.ENERGY.GROUP3',
   bme: 'ES.BME',
