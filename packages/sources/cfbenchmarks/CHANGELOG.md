@@ -1,5 +1,11 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.9.3
+
+### Patch Changes
+
+- [#5285](https://github.com/smartcontractkit/external-adapters-js/pull/5285) [`0412be1`](https://github.com/smartcontractkit/external-adapters-js/commit/0412be11f4209b324a2600df2e3b58a0aedfc766) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - generate-endpoint-aliases fix to support cfbenchmarks2 and composite adapters
+
 ## 2.9.2
 
 ### Patch Changes
