@@ -1,6 +1,7 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import crypto from 'crypto'
 import nock from 'nock'
-import { getToken } from '../../src/transport/authutils'
+import { getToken, renewToken } from '../../src/transport/authutils'
 
 LoggerFactoryProvider.set()
 
@@ -62,6 +63,71 @@ describe('GSR access token expiry', () => {
 
     await expect(getToken(apiEndpoint, userId, publicKey, privateKey)).rejects.toThrow(
       'API key mismatch',
+    )
+  })
+})
+
+describe('GSR access token renewal', () => {
+  const apiHost = 'https://oracle.prod.gsr.io'
+  const apiEndpoint = `${apiHost}/v1`
+  const userId = 'test-user-id'
+  const privateKey = 'test-priv-key'
+  const existingToken = 'existing-token'
+
+  beforeAll(() => {
+    nock.disableNetConnect()
+  })
+
+  afterAll(() => {
+    nock.enableNetConnect()
+  })
+
+  afterEach(() => {
+    nock.cleanAll()
+  })
+
+  it('renews via PUT and signs over the token rather than the API key', async () => {
+    let seenBody: Record<string, unknown> = {}
+    const validUntil = '2022-05-10T17:09:27.193Z'
+    nock(apiHost)
+      .put('/v1/token', (body) => {
+        seenBody = body
+        return true
+      })
+      .reply(200, {
+        success: true,
+        ts: 1652198967193000000,
+        token: 'renewed-token',
+        validUntil,
+      })
+
+    const result = await renewToken(apiEndpoint, userId, privateKey, existingToken)
+
+    expect(result.token).toBe('renewed-token')
+    expect(result.expiresAtMs).toBe(new Date(validUntil).getTime())
+
+    // Renewal presents the existing token, never the API key.
+    expect(seenBody['token']).toBe(existingToken)
+    expect(seenBody['apiKey']).toBeUndefined()
+    expect(seenBody['userId']).toBe(userId)
+
+    const expectedSignature = crypto
+      .createHmac('sha256', privateKey)
+      .update(`userId=${userId}&token=${existingToken}&ts=${seenBody['ts']}`)
+      .digest('hex')
+    expect(seenBody['signature']).toBe(expectedSignature)
+  })
+
+  it('throws when the provider refuses the renewal', async () => {
+    nock(apiHost).put('/v1/token').reply(200, {
+      success: false,
+      ts: 1652198967193000000,
+      error: 'Signature mismatch',
+    })
+
+    // The caller falls back to closing the connection on this rejection.
+    await expect(renewToken(apiEndpoint, userId, privateKey, existingToken)).rejects.toThrow(
+      'Signature mismatch',
     )
   })
 })

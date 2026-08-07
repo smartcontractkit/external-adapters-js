@@ -1,7 +1,13 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
-import { getToken, TokenWithExpiry } from './authutils'
+import { getToken, renewToken, TokenWithExpiry } from './authutils'
+import {
+  livenessProbeDelayMs,
+  refreshDelayMs,
+  renewalHeld,
+  TOKEN_REFRESH_MARGIN_MS,
+} from './tokenRefresh'
 
 const logger = makeLogger('GSR WS price')
 
@@ -23,12 +29,6 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 
 let cachedToken: TokenWithExpiry | null = null
-const TOKEN_REFRESH_MARGIN_MS = 5 * 60 * 1000 // Refresh 5 minutes before expiry
-
-// setTimeout coerces any delay above this to 1ms, which would turn an
-// implausibly distant expiry into a teardown on every open, i.e. a reconnect
-// loop. Clamp instead so we simply re-evaluate at the ceiling.
-const MAX_TIMEOUT_MS = 2 ** 31 - 1
 
 const getTokenForConnection = async (
   apiEndpoint: string,
@@ -51,10 +51,107 @@ const getTokenForConnection = async (
   return cachedToken.token
 }
 
-// Timer that tears down the connection before the token expires. Cleared and
-// rescheduled on every open, otherwise timers from previous connections would
-// accumulate and close a healthy connection at an arbitrary later point.
+// Timers driving the refresh cycle. Cleared and rescheduled on every open,
+// otherwise timers from previous connections would accumulate and act on a
+// healthy connection at an arbitrary later point.
 let refreshTimer: NodeJS.Timeout | undefined
+let livenessTimer: NodeJS.Timeout | undefined
+
+// Set on every inbound frame, so the liveness probe can tell whether the
+// provider is still talking to us after an in-place renewal.
+let lastMessageAtMs = 0
+
+const clearTimers = () => {
+  if (refreshTimer) {
+    clearTimeout(refreshTimer)
+    refreshTimer = undefined
+  }
+  if (livenessTimer) {
+    clearTimeout(livenessTimer)
+    livenessTimer = undefined
+  }
+}
+
+const closeForReconnect = (reason: string) => {
+  logger.info(`${reason}; closing connection to reconnect`)
+  cachedToken = null
+  // Close only — deliberately leaving wsConnection set. streamHandler bails out
+  // early when there is no connection *and* no new subscription, so clearing the
+  // field from outside its loop would strand the transport with nothing to
+  // reconnect. Leaving the closed socket in place lets connectionClosed() report
+  // true off readyState and the loop reopens on its next pass.
+  transport.wsConnection?.close(1000)
+}
+
+/**
+ * Renewing the token is an HTTP call; it says nothing about whether GSR extended
+ * the session behind the already-open socket, which still carries the old token
+ * in its handshake headers. So after a successful renewal we wait until just
+ * past the old expiry and check whether frames are still arriving. If they
+ * stopped, the renewal did not hold and we fall back to reconnecting — early
+ * enough that cached prices have not yet aged out.
+ */
+const scheduleLivenessProbe = (previousExpiryMs: number) => {
+  livenessTimer = setTimeout(() => {
+    livenessTimer = undefined
+    if (renewalHeld(lastMessageAtMs, Date.now())) {
+      logger.info('Still receiving data past the previous token expiry; in-place renewal held')
+      return
+    }
+    closeForReconnect(
+      `No provider data for ${Math.round(
+        (Date.now() - lastMessageAtMs) / 1000,
+      )}s past the previous token expiry, so the in-place renewal did not extend the session`,
+    )
+  }, livenessProbeDelayMs(previousExpiryMs, Date.now()))
+}
+
+const scheduleRefresh = (token: TokenWithExpiry, settings: RefreshSettings) => {
+  const delayMs = refreshDelayMs(token, Date.now())
+  if (delayMs === null) {
+    return
+  }
+  logger.info(
+    `Scheduled token refresh in ${Math.round(delayMs / 1000)}s to prevent ungraceful disconnection`,
+  )
+  refreshTimer = setTimeout(() => {
+    refreshTimer = undefined
+    void refreshTokenOrReconnect(settings)
+  }, delayMs)
+}
+
+/**
+ * Preferred path: renew the token in place and leave the connection up. Only
+ * tear the socket down if that fails, since a reconnect — while cheap — drops
+ * every subscription and re-runs the handshake.
+ */
+const refreshTokenOrReconnect = async (settings: RefreshSettings) => {
+  const previous = cachedToken
+  if (!previous) {
+    closeForReconnect('No cached token to renew')
+    return
+  }
+
+  try {
+    const renewed = await renewToken(
+      settings.apiEndpoint,
+      settings.userId,
+      settings.privateKey,
+      previous.token,
+    )
+    cachedToken = renewed
+    scheduleLivenessProbe(previous.expiresAtMs)
+    scheduleRefresh(renewed, settings)
+  } catch (e) {
+    closeForReconnect(`Token renewal failed (${(e as Error).message})`)
+  }
+}
+
+type RefreshSettings = {
+  apiEndpoint: string
+  userId: string
+  privateKey: string
+}
 
 export const transport = new WebSocketTransport<WsTransportTypes>({
   url: (context) => context.adapterSettings.WS_API_ENDPOINT,
@@ -70,43 +167,23 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
     },
   }),
   handlers: {
-    open: () => {
-      if (refreshTimer) {
-        clearTimeout(refreshTimer)
-        refreshTimer = undefined
-      }
+    open: (_wsConnection, context) => {
+      clearTimers()
+      lastMessageAtMs = Date.now()
 
       // GSR stops sending messages once the token expires but leaves the socket
       // open, so the framework only notices after WS_SUBSCRIPTION_UNRESPONSIVE_TTL
       // (120s) of silence — by which point the cache has already gone stale at
-      // CACHE_MAX_AGE (90s) and requests are failing. Tear the connection down
-      // ahead of expiry so the reconnect happens while data is still flowing.
+      // CACHE_MAX_AGE (90s) and requests are failing. Act ahead of expiry, while
+      // data is still flowing.
       if (cachedToken) {
-        const reconnectInMs = cachedToken.expiresAtMs - Date.now() - TOKEN_REFRESH_MARGIN_MS
-
-        if (reconnectInMs > 0) {
-          const delayMs = Math.min(reconnectInMs, MAX_TIMEOUT_MS)
-          logger.info(
-            `Scheduled token refresh/reconnect in ${Math.round(
-              delayMs / 1000,
-            )}s to prevent ungraceful disconnection`,
-          )
-          refreshTimer = setTimeout(() => {
-            refreshTimer = undefined
-            cachedToken = null
-            logger.info('Token expiry threshold reached, closing connection to reconnect')
-
-            // Close only — deliberately leaving wsConnection set. streamHandler
-            // bails out early when there is no connection *and* no new
-            // subscription, so clearing the field from outside its loop would
-            // strand the transport with nothing to reconnect. Leaving the closed
-            // socket in place lets connectionClosed() report true off readyState
-            // and the loop reopens on its next pass.
-            transport.wsConnection?.close(1000)
-          }, delayMs)
-        }
+        scheduleRefresh(cachedToken, {
+          apiEndpoint: context.adapterSettings.API_ENDPOINT,
+          userId: context.adapterSettings.WS_USER_ID,
+          privateKey: context.adapterSettings.WS_PRIVATE_KEY,
+        })
       }
-      return
+      return Promise.resolve()
     },
     close: (closeEvent) => {
       // Distinguishes a close initiated by GSR from one the framework's
@@ -116,6 +193,9 @@ export const transport = new WebSocketTransport<WsTransportTypes>({
       )
     },
     message(message): ProviderResult<WsTransportTypes>[] | undefined {
+      // Any frame proves the provider is still talking to us, whatever its type.
+      lastMessageAtMs = Date.now()
+
       if (message.type == 'error') {
         logger.error(`Got error from DP: ${JSON.stringify(message)}`)
         return

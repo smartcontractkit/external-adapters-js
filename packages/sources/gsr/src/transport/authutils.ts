@@ -26,11 +26,10 @@ export interface TokenWithExpiry {
 
 const currentTimeNanoSeconds = (): number => new Date(Date.now()).getTime() * 1_000_000
 
-const generateSignature = (userId: string, publicKey: string, privateKey: string, ts: number) =>
-  crypto
-    .createHmac('sha256', privateKey)
-    .update(`userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
-    .digest('hex')
+// GSR signs over the API key when minting a token and over the existing token
+// when renewing one.
+const generateSignature = (privateKey: string, payload: string) =>
+  crypto.createHmac('sha256', privateKey).update(payload).digest('hex')
 
 // restApiEndpoint is used for token auth
 export const getToken = async (
@@ -42,7 +41,7 @@ export const getToken = async (
   logger.debug('Fetching new access token')
 
   const ts = currentTimeNanoSeconds()
-  const signature = generateSignature(userId, publicKey, privateKey, ts)
+  const signature = generateSignature(privateKey, `userId=${userId}&apiKey=${publicKey}&ts=${ts}`)
   const response = await axios.post<AccessTokenResponse>(`${restApiEndpoint}/token`, {
     apiKey: publicKey,
     userId,
@@ -76,6 +75,50 @@ export const getToken = async (
 
   const expiresAtMs = new Date(response.data.validUntil).getTime()
   logger.info(`Token obtained, expires at ${response.data.validUntil}`)
+
+  return {
+    token: response.data.token,
+    expiresAtMs,
+  }
+}
+
+/**
+ * Renews an existing token via GSR's PUT endpoint rather than minting a fresh
+ * one. This is the provider's documented renewal path; the adapter used it
+ * until #2459 removed it in Jan 2023.
+ *
+ * Note this renews the *token*, which is a separate thing from the WebSocket
+ * session. The token travels in the connection's handshake headers, so whether
+ * a renewal extends an already-open connection is GSR-side behaviour the caller
+ * must verify rather than assume.
+ */
+export const renewToken = async (
+  restApiEndpoint: string,
+  userId: string,
+  privateKey: string,
+  existingToken: string,
+): Promise<TokenWithExpiry> => {
+  logger.debug('Renewing existing access token')
+
+  const ts = currentTimeNanoSeconds()
+  const signature = generateSignature(
+    privateKey,
+    `userId=${userId}&token=${existingToken}&ts=${ts}`,
+  )
+  const response = await axios.put<AccessTokenResponse>(`${restApiEndpoint}/token`, {
+    token: existingToken,
+    userId,
+    ts,
+    signature,
+  })
+
+  if (!response.data.success) {
+    logger.warn(`Unable to renew access token: ${response.data.error}`)
+    throw new Error(response.data.error)
+  }
+
+  const expiresAtMs = new Date(response.data.validUntil).getTime()
+  logger.info(`Token renewed, expires at ${response.data.validUntil}`)
 
   return {
     token: response.data.token,
