@@ -2,9 +2,9 @@ adapters:
   - name: ada-balance
     version: 2.5.47
   - name: aleno
-    version: 2.3.0
+    version: 2.4.1
   - name: allium-state
-    version: 1.2.0
+    version: 1.3.1
   - name: amberdata
     version: 1.8.40
   - name: anchorage
@@ -18,7 +18,7 @@ adapters:
   - name: avalanche-platform
     version: 2.2.1
   - name: backed-fi
-    version: 1.4.0
+    version: 1.5.1
   - name: bea
     version: 1.3.47
   - name: bitcoin-json-rpc
@@ -32,9 +32,9 @@ adapters:
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.8.0
+    version: 2.9.1
   - name: blocksize-capital-state
-    version: 1.2.0
+    version: 1.3.1
   - name: btc.com
     version: 1.3.47
   - name: calculated-price
@@ -228,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.151
+    version: 3.0.154
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -304,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.150
+    version: 2.0.153
