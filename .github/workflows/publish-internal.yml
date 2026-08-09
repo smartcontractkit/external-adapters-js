@@ -13,9 +13,12 @@
 #     once this file is on the default branch, which is a GitHub restriction on
 #     workflow_dispatch rather than anything about this workflow.
 #
-# It deliberately does NOT tag `latest` and does NOT notify infra-k8s. Images
-# land under a tag that cannot collide with a release, and referencing one is a
-# manual step in infra-k8s.
+# It deliberately does NOT tag `latest` and does NOT notify infra-k8s.
+#
+# To reference an image from infra-k8s the tag must first appear in that repo's
+# files/digests/<registry>-adapters-<name>-adapter.yaml, which its image-dispatcher
+# workflow generates. That generator skips any tag containing "dev", so the tags
+# chosen here avoid the word; `pr<N>` also matches what already exists there.
 name: Publish Internal Adapter Image
 
 on:
@@ -26,7 +29,7 @@ on:
         required: true
         type: string
       image-tag:
-        description: Overrides the default "<version>-dev.<short-sha>" tag. Must not be a released version or "latest".
+        description: 'Overrides the default tag ("pr<N>" on a PR, "<version>-<short-sha>" when dispatched). Must not contain "dev" or the infra-k8s digest generation will skip it.'
         required: false
         type: string
   pull_request:
@@ -55,7 +58,7 @@ jobs:
     outputs:
       adapter-list: ${{ steps.resolve.outputs.ADAPTER_LIST }}
       build-sha: ${{ steps.resolve.outputs.BUILD_SHA }}
-      tag-suffix: ${{ steps.resolve.outputs.TAG_SUFFIX }}
+      image-tag: ${{ steps.resolve.outputs.IMAGE_TAG }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -70,7 +73,7 @@ jobs:
         with:
           skip-setup: true
           base-branch: origin/${{ github.base_ref || 'main' }}
-      - name: Resolve adapter list and tag suffix
+      - name: Resolve adapter list and image tag
         id: resolve
         env:
           EVENT_NAME: ${{ github.event_name }}
@@ -95,11 +98,17 @@ jobs:
               exit 1
             fi
 
-            tag_suffix="dev.${BUILD_SHA:0:8}"
+            # Must not contain "dev": the infra-k8s image-dispatcher filters
+            # such tags out when it generates digest files, and a tag with no
+            # digest entry fails helmfile templating outright.
+            version=$(echo "$adapter_list" | jq -r '.adapter[0].version')
+            image_tag="${version}-${BUILD_SHA:0:8}"
           else
             adapter_list=$(./.github/scripts/list-packages-adapters.sh "$UPSTREAM_BRANCH" \
               | jq -c '{adapter: .adapters}')
-            tag_suffix="pr${PR_NUMBER}.${BUILD_SHA:0:8}"
+            # Matches the `pr<N>` convention already present in the infra-k8s
+            # digest files, so referencing it needs no new handling there.
+            image_tag="pr${PR_NUMBER}"
           fi
 
           if [ -n "$TAG_OVERRIDE" ]; then
@@ -108,13 +117,13 @@ jobs:
               echo "::error::Refusing to publish over \"latest\"."
               exit 1
             fi
-            tag_suffix="$TAG_OVERRIDE"
+            image_tag="$TAG_OVERRIDE"
           fi
 
           {
             echo "ADAPTER_LIST=${adapter_list}"
             echo "BUILD_SHA=${BUILD_SHA}"
-            echo "TAG_SUFFIX=${tag_suffix}"
+            echo "IMAGE_TAG=${image_tag}"
           } >> "$GITHUB_OUTPUT"
 
           echo "Building $(echo "$adapter_list" | jq -c '[.adapter[].shortName]') from ${BUILD_SHA}"
@@ -167,7 +176,7 @@ jobs:
         package=${{ matrix.adapter.name }}
         location=${{ matrix.adapter.location }}
       docker-build-context: .
-      docker-image-tag-override: ${{ matrix.adapter.version }}-${{ needs.resolve-adapters.outputs.tag-suffix }}
+      docker-image-tag-override: ${{ needs.resolve-adapters.outputs.image-tag }}
       # Intentionally no docker-manifest-additional-tags: tagging `latest` here
       # would repoint every consumer of the released image at an unreleased build.
       docker-push: true
@@ -195,12 +204,12 @@ jobs:
         id: refs
         env:
           ADAPTER_LIST: ${{ needs.resolve-adapters.outputs.adapter-list }}
-          TAG_SUFFIX: ${{ needs.resolve-adapters.outputs.tag-suffix }}
+          IMAGE_TAG: ${{ needs.resolve-adapters.outputs.image-tag }}
           BUILD_SHA: ${{ needs.resolve-adapters.outputs.build-sha }}
         run: |
           set -euo pipefail
-          body=$(echo "$ADAPTER_LIST" | jq -r --arg s "$TAG_SUFFIX" '
-            .adapter[] | "- `adapters/\(.shortName)-adapter:\(.version)-\($s)`"')
+          body=$(echo "$ADAPTER_LIST" | jq -r --arg t "$IMAGE_TAG" '
+            .adapter[] | "- `adapters/\(.shortName)-adapter:\($t)`"')
           {
             echo "### Internal images published"
             echo
