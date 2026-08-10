@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.13.0
+
+### Minor Changes
+
+- [#5288](https://github.com/smartcontractkit/external-adapters-js/pull/5288) [`f099035`](https://github.com/smartcontractkit/external-adapters-js/commit/f099035efd00943a3e7bb32eff13bcc1835d4535) Thanks [@Michipulatos](https://github.com/Michipulatos)! - add hkex as market
+
 ## 1.12.2
 
 ### Patch Changes
