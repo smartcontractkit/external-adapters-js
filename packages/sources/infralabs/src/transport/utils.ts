@@ -2,34 +2,54 @@ import * as crypto from 'crypto'
 
 const OUTPUT_DECIMALS = 8
 
+const DATA_FIELD_PATTERN = /"data"\s*:\s*(\{[^}]*\})/
+
 /**
- * Strips the "signature" field from the raw JSON response body, preserving the
- * exact remaining bytes. Using string manipulation rather than parse→stringify
- * avoids any serialisation mismatch between Python's json.dumps (which they sign with) and JS JSON.stringify (compact).
+ * Extracts the raw substring of the "data" object from the response body, preserving the
+ * exact bytes that were signed. Using a substring match rather than parse→stringify avoids
+ * any serialisation mismatch between Python's json.dumps (which they sign with) and JS JSON.stringify.
  */
-function buildUnsignedMessage(rawBody: string): string {
-  return rawBody.replace(/,?\s*"signature"\s*:\s*"[^"]*"/, '')
+export function extractSignedPayload(rawResponseBody: string): string {
+  const match = rawResponseBody.match(DATA_FIELD_PATTERN)
+  if (!match) {
+    throw new Error('Response body is missing a "data" field to verify')
+  }
+  return match[1]
 }
 
-/** Verifies that `signature` (base64) over the unsigned body (raw JSON minus the "signature" field) matches `publicKey` using SHA-256. */
+/** Parses the INFRALABS_PUBLIC_KEYS config value (a JSON array of PEM-encoded public keys). */
+export function parsePublicKeys(rawConfigValue: string): crypto.KeyObject[] {
+  let pemKeys: unknown
+  try {
+    pemKeys = JSON.parse(rawConfigValue)
+  } catch {
+    throw new Error('INFRALABS_PUBLIC_KEYS must be a JSON array of PEM-encoded public key strings')
+  }
+  if (!Array.isArray(pemKeys) || pemKeys.length === 0) {
+    throw new Error(
+      'INFRALABS_PUBLIC_KEYS must be a non-empty JSON array of PEM-encoded public key strings',
+    )
+  }
+  return pemKeys.map((pem) => crypto.createPublicKey(pem))
+}
+
+/** Verifies that `signature` (base64) over `signedPayload` matches any of `publicKeys` using SHA-256. */
 export function isSaneSignature(
-  rawResponseBody: string,
-  publicKey: crypto.KeyObject,
+  signedPayload: string,
+  publicKeys: crypto.KeyObject[],
   signature: string,
 ): boolean {
-  const unsignedResponseBody = buildUnsignedMessage(rawResponseBody)
+  const messageBytes = Buffer.from(signedPayload, 'utf-8')
+  const signatureBytes = Buffer.from(signature, 'base64')
 
-  let isSane = crypto
-    .createVerify('SHA256')
-    .update(Buffer.from(unsignedResponseBody, 'utf-8'))
-    .verify(publicKey, Buffer.from(signature, 'base64'))
-
-  return isSane
+  return publicKeys.some((publicKey) =>
+    crypto.createVerify('SHA256').update(messageBytes).verify(publicKey, signatureBytes),
+  )
 }
 
 /** Returns true if the provider timestamp is within `maxAgeSecs` of `nowMs`. */
 export function isFresh(timestamp: string, maxAgeSecs: number, nowMs: number): boolean {
-  const ageSecs = Math.floor(nowMs / 1000) - parseInt(timestamp) // nowMs (ms) → seconds; timestamp is Unix seconds
+  const ageSecs = Math.floor(nowMs / 1000) - parseInt(timestamp, 10) // nowMs (ms) → seconds; timestamp is Unix seconds
   return ageSecs <= maxAgeSecs
 }
 

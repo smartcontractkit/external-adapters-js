@@ -1,35 +1,59 @@
 import * as crypto from 'crypto'
-import { buildUnsignedMessage, isFresh, isSaneSignature, rescale } from '../../src/transport/utils'
+import {
+  extractSignedPayload,
+  isFresh,
+  isSaneSignature,
+  parsePublicKeys,
+  rescale,
+} from '../../src/transport/utils'
 
-describe('buildUnsignedMessage', () => {
-  it('strips the signature field from compact JSON (signature last)', () => {
-    const raw = '{"value":"1","scale":"9","timestamp":"1","key_id":"arn:k","signature":"abc123"}'
-    const expected = '{"value":"1","scale":"9","timestamp":"1","key_id":"arn:k"}'
-    expect(buildUnsignedMessage(raw)).toBe(expected)
+describe('extractSignedPayload', () => {
+  it('extracts the raw "data" substring, preserving exact bytes', () => {
+    const raw = '{"data":{"value":"1","scale":"9"},"signature":"abc123"}'
+    expect(extractSignedPayload(raw)).toBe('{"value":"1","scale":"9"}')
   })
 
-  it('strips the signature field from compact JSON (signature in the middle)', () => {
-    const raw = '{"value":"1","signature":"abc123","key_id":"arn:k"}'
-    const expected = '{"value":"1","key_id":"arn:k"}'
-    expect(buildUnsignedMessage(raw)).toBe(expected)
+  it('extracts "data" with Python-style spacing intact', () => {
+    const raw = '{"data": {"value": "1", "scale": "9"}, "signature": "abc123"}'
+    expect(extractSignedPayload(raw)).toBe('{"value": "1", "scale": "9"}')
   })
 
-  it('strips the signature field from Python-style JSON (space after colon and comma)', () => {
-    const raw =
-      '{"value": "1", "scale": "9", "timestamp": "1", "key_id": "arn:k", "signature": "abc123"}'
-    const expected = '{"value": "1", "scale": "9", "timestamp": "1", "key_id": "arn:k"}'
-    expect(buildUnsignedMessage(raw)).toBe(expected)
+  it('throws when the "data" field is missing', () => {
+    expect(() => extractSignedPayload('{"signature":"abc123"}')).toThrow(
+      'Response body is missing a "data" field to verify',
+    )
+  })
+})
+
+describe('parsePublicKeys', () => {
+  let pem: string
+
+  beforeAll(() => {
+    const { publicKey } = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' })
+    pem = publicKey.export({ format: 'pem', type: 'spki' })
   })
 
-  it('handles a long base64 signature value', () => {
-    const sig = 'MEUCIQDmJz2+/abc123def456ghi789jklmno=='.repeat(2)
-    const raw = `{"value":"1","signature":"${sig}"}`
-    expect(buildUnsignedMessage(raw)).toBe('{"value":"1"}')
+  it('parses a JSON array containing a single PEM key', () => {
+    const keys = parsePublicKeys(JSON.stringify([pem]))
+    expect(keys).toHaveLength(1)
+    expect(keys[0].asymmetricKeyType).toBe('ec')
   })
 
-  it('returns the input unchanged when no signature field is present', () => {
-    const raw = '{"value":"1","scale":"9"}'
-    expect(buildUnsignedMessage(raw)).toBe(raw)
+  it('parses a JSON array containing multiple PEM keys', () => {
+    const keys = parsePublicKeys(JSON.stringify([pem, pem]))
+    expect(keys).toHaveLength(2)
+  })
+
+  it('throws on malformed JSON', () => {
+    expect(() => parsePublicKeys('not json')).toThrow(
+      'INFRALABS_PUBLIC_KEYS must be a JSON array of PEM-encoded public key strings',
+    )
+  })
+
+  it('throws on an empty array', () => {
+    expect(() => parsePublicKeys('[]')).toThrow(
+      'INFRALABS_PUBLIC_KEYS must be a non-empty JSON array of PEM-encoded public key strings',
+    )
   })
 })
 
@@ -84,48 +108,50 @@ describe('isFresh', () => {
 })
 
 describe('isSaneSignature', () => {
-  const rawBody =
-    '{"value":"1003968325","scale":"9","timestamp":"1704103871","key_id":"arn:k","signature":"placeholder"}'
-  let publicKey: crypto.KeyObject
+  const signedPayload =
+    '{"value":"1003968325","scale":"9","timestamp":"1704103871","index_name":"USHP"}'
+  let publicKeys: crypto.KeyObject[]
   let privateKey: crypto.KeyObject
 
   beforeAll(() => {
     const pair = crypto.generateKeyPairSync('ec', { namedCurve: 'P-256' })
-    publicKey = pair.publicKey
+    publicKeys = [pair.publicKey]
     privateKey = pair.privateKey
   })
 
-  function sign(body: string): string {
-    const unsigned = buildUnsignedMessage(body)
-    return crypto
-      .createSign('SHA256')
-      .update(Buffer.from(unsigned, 'utf-8'))
-      .sign(privateKey, 'base64')
+  function sign(payload: string, key: crypto.KeyObject = privateKey): string {
+    return crypto.createSign('SHA256').update(Buffer.from(payload, 'utf-8')).sign(key, 'base64')
   }
 
   it('returns true for a valid signature', () => {
-    const sig = sign(rawBody)
-    expect(isSaneSignature(rawBody, publicKey, sig)).toBe(true)
+    const sig = sign(signedPayload)
+    expect(isSaneSignature(signedPayload, publicKeys, sig)).toBe(true)
   })
 
-  it('returns false when the body has been tampered with', () => {
-    const sig = sign(rawBody)
-    const tamperedBody = rawBody.replace('"value":"1003968325"', '"value":"9999999999"')
-    expect(isSaneSignature(tamperedBody, publicKey, sig)).toBe(false)
+  it('returns true when the signature matches the second of multiple configured keys', () => {
+    const { publicKey: otherPublicKey, privateKey: otherPrivateKey } = crypto.generateKeyPairSync(
+      'ec',
+      { namedCurve: 'P-256' },
+    )
+    const sig = sign(signedPayload, otherPrivateKey)
+    expect(isSaneSignature(signedPayload, [...publicKeys, otherPublicKey], sig)).toBe(true)
   })
 
-  it('returns false when the signature is for a different key', () => {
+  it('returns false when the payload has been tampered with', () => {
+    const sig = sign(signedPayload)
+    const tamperedPayload = signedPayload.replace('"value":"1003968325"', '"value":"9999999999"')
+    expect(isSaneSignature(tamperedPayload, publicKeys, sig)).toBe(false)
+  })
+
+  it('returns false when the signature is for a key not in the configured list', () => {
     const { privateKey: otherPrivateKey } = crypto.generateKeyPairSync('ec', {
       namedCurve: 'P-256',
     })
-    const sig = crypto
-      .createSign('SHA256')
-      .update(Buffer.from(buildUnsignedMessage(rawBody), 'utf-8'))
-      .sign(otherPrivateKey, 'base64')
-    expect(isSaneSignature(rawBody, publicKey, sig)).toBe(false)
+    const sig = sign(signedPayload, otherPrivateKey)
+    expect(isSaneSignature(signedPayload, publicKeys, sig)).toBe(false)
   })
 
   it('returns false for a corrupted signature', () => {
-    expect(isSaneSignature(rawBody, publicKey, 'bm90YXZhbGlkc2lnbmF0dXJl')).toBe(false)
+    expect(isSaneSignature(signedPayload, publicKeys, 'bm90YXZhbGlkc2lnbmF0dXJl')).toBe(false)
   })
 })

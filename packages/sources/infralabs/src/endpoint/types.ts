@@ -6,6 +6,10 @@ export const inputParameters = new InputParameters({})
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
+  Provider: {
+    RequestBody: never
+    ResponseBody: string
+  }
   Response: {
     Result: string
     Data: {

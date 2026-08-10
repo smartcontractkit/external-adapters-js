@@ -20,36 +20,13 @@ export const config = new AdapterConfig({
     type: 'number',
     default: 3_600_000,
   },
-  BACKGROUND_EXECUTE_MS: {
-    description: 'Milliseconds between background data refreshes',
-    type: 'number',
-    default: 10_000,
-  },
-  KMS_KEY_TTL_MS: {
-    description: 'Milliseconds before a cached KMS public key is considered expired',
-    type: 'number',
-    default: 60_000,
-  },
-  KMS_REGION: {
-    description: 'AWS region where the Infralabs KMS key is hosted',
-    type: 'string',
-    default: 'us-east-1',
-  },
-  AWS_ACCESS_KEY_ID: {
-    description: 'AWS access key ID for KMS authentication',
+  INFRALABS_PUBLIC_KEYS: {
+    description:
+      'JSON array of PEM-encoded public keys used to verify Infralabs response signatures. ' +
+      'List multiple keys during a rotation window (old + new) for zero-downtime rotation — ' +
+      'a response is accepted if it verifies against any configured key.',
     type: 'string',
     required: true,
-    sensitive: true,
-  },
-  AWS_SECRET_ACCESS_KEY: {
-    description: 'AWS secret access key for KMS authentication',
-    type: 'string',
-    required: true,
-    sensitive: true,
-  },
-  KMS_VERIFICATION_DISABLED: {
-    description: 'Disable KMS signature verification',
-    type: 'boolean',
-    default: true,
+    sensitive: false,
   },
 })
