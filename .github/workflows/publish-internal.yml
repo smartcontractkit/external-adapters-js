@@ -106,9 +106,10 @@ jobs:
           else
             adapter_list=$(./.github/scripts/list-packages-adapters.sh "$UPSTREAM_BRANCH" \
               | jq -c '{adapter: .adapters}')
-            # Matches the `pr<N>` convention already present in the infra-k8s
-            # digest files, so referencing it needs no new handling there.
-            image_tag="pr${PR_NUMBER}"
+            # Include the short SHA so each rebuild gets a unique digest entry.
+            # Moving tags (same PR, pushed again) would otherwise cause digest
+            # collisions when infra-k8s regenerates the digest file.
+            image_tag="pr${PR_NUMBER}.${BUILD_SHA:0:8}"
           fi
 
           if [ -n "$TAG_OVERRIDE" ]; then
