@@ -1,5 +1,11 @@
 # @chainlink/solana-functions-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#5292](https://github.com/smartcontractkit/external-adapters-js/pull/5292) [`4cdc858`](https://github.com/smartcontractkit/external-adapters-js/commit/4cdc8583535344b619e212e6f55a4e71a3574d9d) Thanks [@Michipulatos](https://github.com/Michipulatos)! - update STRC-USX-1 to STRC-USX
+
 ## 1.7.0
 
 ### Minor Changes
