@@ -24084,7 +24084,7 @@ const RAW_RUNTIME_STATE =
           ["debug", "virtual:3d605855b6d3d7eafd6eb5da331a216b7cc7ce7f73ae41f045460c895430bc3047336a53df4f4b3df05785b1b909917bd50bab97736ed695443f6fb65c923513#npm:4.3.7"],\
           ["engine.io-client", "npm:6.6.2"],\
           ["socket.io-client", "npm:4.8.1"],\
-          ["socket.io-parser", "npm:4.2.6"]\
+          ["socket.io-parser", "npm:4.2.7"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24101,12 +24101,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["socket.io-parser", [\
-      ["npm:4.2.6", {\
-        "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.6-35d9c58722-cf8f3e9fee.zip/node_modules/socket.io-parser/",\
+      ["npm:4.2.7", {\
+        "packageLocation": "./.yarn/cache/socket.io-parser-npm-4.2.7-0fe17183fd-da1920b9da.zip/node_modules/socket.io-parser/",\
         "packageDependencies": [\
           ["@socket.io/component-emitter", "npm:3.1.2"],\
           ["debug", "virtual:1af96edd87105bd0404c8842f76706a07cace93856ddd1514d9e0709ea159d192df2228d0be8591ca151cdd71037bd84f00958c629fef8487831fd81d80f21e3#npm:4.4.3"],\
-          ["socket.io-parser", "npm:4.2.6"]\
+          ["socket.io-parser", "npm:4.2.7"]\
         ],\
         "linkType": "HARD"\
       }]\
