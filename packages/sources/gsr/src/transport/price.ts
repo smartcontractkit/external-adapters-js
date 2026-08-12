@@ -2,7 +2,7 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { getToken, renewToken, TokenWithExpiry } from './authutils'
-import { livenessProbeDelayMs, refreshDelayMs, renewalHeld } from './tokenRefresh'
+import { refreshDelayMs } from './tokenRefresh'
 
 const logger = makeLogger('GSR WS price')
 
@@ -155,28 +155,6 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
     }
 
     this.scheduleRefresh(settings)
-    this.scheduleLivenessProbe(previous.expiresAtMs)
-  }
-
-  /**
-   * Checks shortly after the old expiry that GSR is still feeding us. This is
-   * the only real evidence the renewal extended the session, since the socket
-   * still carries the original token in its handshake headers.
-   */
-  private scheduleLivenessProbe(previousExpiryMs: number) {
-    this.livenessTimer = setTimeout(() => {
-      this.livenessTimer = undefined
-      const now = Date.now()
-      if (renewalHeld(this.lastMessageReceivedAt, now)) {
-        logger.info('Still receiving data past the previous token expiry; renewal held')
-        return
-      }
-      this.closeForReconnect(
-        `No provider data for ${Math.round(
-          (now - this.lastMessageReceivedAt) / 1000,
-        )}s past the previous token expiry, so the renewal did not extend the session`,
-      )
-    }, livenessProbeDelayMs(previousExpiryMs, Date.now()))
   }
 
   private parsePriceUpdate(message: WsMessage): ProviderResult<WsTransportTypes>[] | undefined {
