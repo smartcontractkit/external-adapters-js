@@ -8,8 +8,8 @@ export interface WSResponse {
   channel: string
   asset: string
   symbol: string
-  price: string
-  size: string
+  price: number | string
+  size: number | string
   ts: number
 }
 
@@ -21,9 +21,7 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('StockTransport')
 
-export const stockTradesType = 'trade'
-export const stockTradesChannel = 'stocks.trades'
-export const stockTradesAsset = 'stocks'
+export const tradesMessageType = 'trade'
 
 export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
@@ -39,9 +37,7 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
           const price = toNumber(message.price)
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
-            message.type !== stockTradesType ||
-            message.channel !== stockTradesChannel ||
-            message.asset !== stockTradesAsset ||
+            message.type !== tradesMessageType ||
             !message.symbol ||
             !price ||
             !providerIndicatedTimeUnixMs
@@ -53,7 +49,7 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
           const result = price
           return [
             {
-              params: { base: message.symbol },
+              params: { base: message.symbol, assetType: message.asset },
               response: {
                 result,
                 data: {
@@ -71,14 +67,14 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: [stockTradesChannel],
+            channels: [`${params.assetType}.trades`],
             symbols: [params.base],
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: [stockTradesChannel],
+            channels: [`${params.assetType}.trades`],
             symbols: [params.base],
           }
         },
