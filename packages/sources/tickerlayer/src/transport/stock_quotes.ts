@@ -1,6 +1,7 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
+import { toNumber } from './util'
 
 export interface WSResponse {
   type: string
@@ -25,11 +26,6 @@ const logger = makeLogger('StockQuotesTransport')
 export const stockQuotesType = 'quote'
 export const stockQuotesChannel = 'stocks.quotes'
 export const stockQuotesAsset = 'stocks'
-
-const toNumber = (s?: string | number) => {
-  const num = Number(s)
-  return isNaN(num) ? undefined : num
-}
 
 export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
@@ -77,7 +73,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
                   ask_volume,
                 },
                 timestamps: {
-                  providerIndicatedTimeUnixMs: message.ts,
+                  providerIndicatedTimeUnixMs,
                 },
               },
             },
