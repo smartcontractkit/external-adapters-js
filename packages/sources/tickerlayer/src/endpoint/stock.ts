@@ -1,15 +1,8 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { wsTransport } from '../transport/stock'
-
-export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
-  {
-    base: 'US:AAPL',
-  },
-])
+import { customInputValidation, inputParameters } from './common'
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -19,7 +12,8 @@ export type BaseEndpointTypes = {
 
 export const endpoint = new AdapterEndpoint({
   name: 'stock',
-  aliases: [],
+  aliases: ['price'],
   transport: wsTransport,
   inputParameters,
+  customInputValidation,
 })

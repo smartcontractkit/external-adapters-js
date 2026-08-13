@@ -8,10 +8,10 @@ export interface WSResponse {
   channel: string
   asset: string
   symbol: string
-  bid: string
-  ask: string
-  bid_size: string
-  ask_size: string
+  bid: number | string
+  ask: number | string
+  bid_size: number | string
+  ask_size: number | string
   ts: number
 }
 
@@ -23,9 +23,7 @@ export type WsTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('StockQuotesTransport')
 
-export const stockQuotesType = 'quote'
-export const stockQuotesChannel = 'stocks.quotes'
-export const stockQuotesAsset = 'stocks'
+export const quotesMessageType = 'quote'
 
 export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
@@ -44,9 +42,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
           const ask_volume = toNumber(message.ask_size)
           const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
-            message.type !== stockQuotesType ||
-            message.channel !== stockQuotesChannel ||
-            message.asset !== stockQuotesAsset ||
+            message.type !== quotesMessageType ||
             !message.symbol ||
             !bid_price ||
             !ask_price ||
@@ -62,7 +58,7 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
 
           return [
             {
-              params: { base: message.symbol },
+              params: { base: message.symbol, assetType: message.asset },
               response: {
                 result: null,
                 data: {
@@ -84,14 +80,14 @@ export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTranspor
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: [stockQuotesChannel],
+            channels: [`${params.assetType}.quotes`],
             symbols: [params.base],
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: [stockQuotesChannel],
+            channels: [`${params.assetType}.quotes`],
             symbols: [params.base],
           }
         },
