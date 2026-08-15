@@ -1,0 +1,68 @@
+# TEMPORARY, one-off workflow for a local test only - not for upstream.
+# Builds+pushes packages/sources/coinmetrics against the vendored local-framework tarball built
+# from ea-framework-js's `bun-grpc` branch (native gRPC + Bun runtime, as opposed to
+# coinmetrics-native-grpc-poc-test.yml's Node-based build) to the same throwaway ECR repo under a
+# distinct tag, so a human without direct ecr:InitiateLayerUpload rights can still get the image
+# into ECR via CI's OIDC role.
+# Delete this file (and close the PR without merging) once the test image is pushed.
+name: TEMP coinmetrics-bun-grpc-poc test build
+on:
+  pull_request:
+
+concurrency:
+  group: coinmetrics-bun-grpc-poc-test
+  cancel-in-progress: false
+
+jobs:
+  create-ecr:
+    name: Create ECR (if needed)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment: release
+    env:
+      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
+      ECR_REPO: adapters/coinmetrics-native-grpc-poc
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Create ECR for coinmetrics-native-grpc-poc
+        uses: ./.github/actions/create-ecrs
+        with:
+          aws-ecr-url: ${{ env.ECR_URL }}
+          aws-ecr-repo: ${{ env.ECR_REPO }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+          aws-ecr-private: true
+
+  build-publish:
+    name: Build and publish coinmetrics-bun-grpc-poc
+    permissions:
+      contents: read
+      id-token: write
+    needs: [create-ecr]
+    uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@ce87497eb287565c796a8a781508be949f3ed1e2 # 2025-10-10
+    with:
+      aws-ecr-name: adapters/coinmetrics-native-grpc-poc
+      aws-region-ecr: us-west-2
+      dockerfile: ./Dockerfile.coinmetrics-bun-grpc-poc
+      docker-build-args: |
+        package=@chainlink/coinmetrics-adapter
+        location=packages/sources/coinmetrics
+      docker-build-context: .
+      docker-image-tag-override: bun-grpc-poc-test
+      docker-push: true
+      environment: release
+      git-sha: ${{ github.sha }}
+      github-event-name: ${{ github.event_name }}
+      github-ref-name: ${{ github.ref_name }}
+      github-ref-type: ${{ github.ref_type }}
+      github-workflow-repository: ${{ github.repository }}
+      github-runner-arm64: ubuntu-24.04-2cores-8GB-ARM
+      github-runner-amd64: ubuntu-24.04
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
+      AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}

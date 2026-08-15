@@ -8,16 +8,10 @@ RUN yarn workspace $package build
 RUN yarn generate:endpoint-aliases
 RUN yarn bundle $location -o $location/bundle
 
-# Build Go binary for streams-adapter
-FROM golang:1.26 as go-builder
-WORKDIR /build
-
-COPY . .
-
-# Build streams-adapter binary
-WORKDIR /build/packages/streams-adapter
-RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /build/streams-adapter .
+# TEMP local-only patch (coinpaprika-native-grpc-poc branch): ncc's bundler doesn't carry along
+# non-JS assets, so streams.proto/health.proto have to be placed next to the bundled index.js by hand.
+# Not for upstream - remove before this branch is ever used for anything real.
+RUN cp $location/local-framework/streams.proto $location/local-framework/health.proto $location/bundle/
 
 FROM node:22-alpine
 ARG location
@@ -27,23 +21,9 @@ ENV PACKAGE_NAME=$package
 EXPOSE 8080
 WORKDIR /home/node/app
 
-# Install supervisor (--no-cache keeps image small)
-RUN apk add --no-cache supervisor
-
 COPY --from=builder /home/node/app/$location/bundle ./
 # Wildcards are included to handle cases where this file doesnt exist
 COPY --from=builder /home/node/app/$location/package.json /home/node/app/$location/*test-payload.js* ./
-
-# Copy Go binary and alias config
-COPY --from=go-builder /build/streams-adapter /usr/local/bin/streams-adapter
-COPY --from=builder /home/node/app/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
-COPY --from=builder /home/node/app/start-supervisor.sh /usr/local/bin/start-supervisor.sh
-
-# Make scripts executable
-RUN chmod +x /usr/local/bin/start-supervisor.sh /usr/local/bin/streams-adapter
-
-# Copy supervisord config
-COPY supervisord.conf /etc/supervisord.conf
 
 # Ensure node user owns the application directory
 RUN chown -R node:node /home/node/app
@@ -51,4 +31,4 @@ RUN chown -R node:node /home/node/app
 # Switch to node user for security
 USER node
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["yarn", "server"]
