@@ -5,7 +5,6 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import { config } from '../../src/config'
-import { mockResponseSuccess } from './fixtures'
 
 type SettingsDefinition = SettingsDefinitionFromConfig<typeof config>
 
@@ -16,7 +15,51 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
+    const timezone = 'America/New_York'
+    process.env.NYMEX_REGULAR_SCHEDULE = JSON.stringify({
+      timezone,
+      lastValidDate: '2027-01-01',
+      defaultStatus: 'CLOSED',
+      weekly: [
+        {
+          status: 'OPEN',
+          when: [
+            {
+              days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+              times: [
+                {
+                  start: '09:30:00',
+                  end: '16:00:00',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      exceptions: [],
+    })
+    process.env.NYSE_24_5_SCHEDULE = JSON.stringify({
+      timezone,
+      lastValidDate: '2027-01-01',
+      defaultStatus: 'WEEKEND',
+      weekly: [
+        {
+          status: 'REGULAR',
+          when: [
+            {
+              days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+              times: [
+                {
+                  start: '09:30:00',
+                  end: '16:00:00',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      exceptions: [],
+    })
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -37,15 +80,23 @@ describe('execute', () => {
   })
 
   describe('market-status endpoint', () => {
-    it('should return success', async () => {
+    it('should return success for regular schedule', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
-        endpoint: 'market-status',
-        transport: 'customfg',
+        market: 'nymex',
+        type: 'regular',
       }
 
-      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('should return success for 24/5 schedule', async () => {
+      const data = {
+        market: 'nyse',
+        type: '24/5',
+        weekend: '520-020:America/New_York',
+      }
 
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
