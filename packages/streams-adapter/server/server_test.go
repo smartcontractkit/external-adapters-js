@@ -90,7 +90,7 @@ func setCache(t *testing.T, params types.RequestParams, obs *types.Observation, 
 	t.Helper()
 	rawKey, err := helpers.CalculateCacheKey(params)
 	require.NoError(t, err)
-	testCache.SetNew(rawKey, nil)
+	testCache.SetNew(rawKey, nil, [32]byte{})
 	testCache.SetTransformedKey(rawKey, rawKey)
 	testCache.SetObservation(rawKey, obs, time.Now(), originalAdapterKey)
 }
@@ -159,7 +159,7 @@ func TestAdapterHandler_CacheHit_InvertsTransformedPairObservation(t *testing.T)
 		"endpoint": "forex",
 		"from":     "TRY",
 		"to":       "USD",
-	})
+	}, [32]byte{})
 	testCache.SetTransformedKey(rawKey, transformedKey)
 	testCache.SetObservation(transformedKey, obs, time.Now(), "ncfx-forex-"+`{"base":"usd","quote":"try"}`)
 

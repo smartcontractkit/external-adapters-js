@@ -1,5 +1,70 @@
 # @chainlink/token-allocation-adapter
 
+## 1.15.15
+
+### Patch Changes
+
+- Updated dependencies [[`0412be1`](https://github.com/smartcontractkit/external-adapters-js/commit/0412be11f4209b324a2600df2e3b58a0aedfc766)]:
+  - @chainlink/cfbenchmarks-adapter@2.9.3
+
+## 1.15.14
+
+### Patch Changes
+
+- Updated dependencies [[`403c383`](https://github.com/smartcontractkit/external-adapters-js/commit/403c38382d4d9e223a41ab24f5f48518a12c7db7)]:
+  - @chainlink/tiingo-adapter@2.13.1
+
+## 1.15.13
+
+### Patch Changes
+
+- Updated dependencies [[`3586479`](https://github.com/smartcontractkit/external-adapters-js/commit/3586479d6bedb65545a25032c48e25881a383cf9)]:
+  - @chainlink/finage-adapter@2.9.1
+
+## 1.15.12
+
+### Patch Changes
+
+- Updated dependencies [[`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7)]:
+  - @chainlink/cfbenchmarks-adapter@2.9.2
+  - @chainlink/coinmetrics-adapter@3.13.2
+  - @chainlink/coinpaprika-adapter@2.10.2
+
+## 1.15.11
+
+### Patch Changes
+
+- Updated dependencies [[`3600ec4`](https://github.com/smartcontractkit/external-adapters-js/commit/3600ec44157e77283ba48d92c491a2abe34a8f85)]:
+  - @chainlink/cfbenchmarks-adapter@2.9.1
+  - @chainlink/coinmetrics-adapter@3.13.1
+  - @chainlink/coinpaprika-adapter@2.10.1
+
+## 1.15.10
+
+### Patch Changes
+
+- Updated dependencies [[`25f4a06`](https://github.com/smartcontractkit/external-adapters-js/commit/25f4a0643005c9c7d8156b8a02b7710df6d004c1)]:
+  - @chainlink/blocksize-capital-adapter@2.9.1
+
+## 1.15.9
+
+### Patch Changes
+
+- Updated dependencies [[`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f)]:
+  - @chainlink/blocksize-capital-adapter@2.9.0
+  - @chainlink/cfbenchmarks-adapter@2.9.0
+  - @chainlink/coinmetrics-adapter@3.13.0
+  - @chainlink/coinpaprika-adapter@2.10.0
+  - @chainlink/finage-adapter@2.9.0
+  - @chainlink/tiingo-adapter@2.13.0
+
+## 1.15.8
+
+### Patch Changes
+
+- Updated dependencies [[`08cf478`](https://github.com/smartcontractkit/external-adapters-js/commit/08cf4783520aa88cda5f59a85161cda462694cdb)]:
+  - @chainlink/ncfx-adapter@4.10.0
+
 ## 1.15.7
 
 ### Patch Changes
