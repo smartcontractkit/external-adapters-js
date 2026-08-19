@@ -15,6 +15,13 @@ import FakeTimers from '@sinonjs/fake-timers'
 import { BaseEndpointTypes } from '../../src/endpoint/stock'
 import { StockWebSocketTransport, WsTransportTypes } from '../../src/transport/stock'
 
+const stockTradesAsset = 'stocks'
+const stockTradesChannel = 'stocks.trades'
+const tradesType = 'trade'
+
+const etfTradesAsset = 'etfs'
+const etfTradesChannel = 'etfs.trades'
+
 const log = jest.fn()
 const debugLog = jest.fn()
 const logger = {
@@ -102,11 +109,10 @@ describe('StockWebSocketTransport', () => {
     expect(log).not.toHaveBeenCalled()
   })
 
-  it('should subscribe to the stock symbol', async () => {
-    const symbol = 'US:AAPL'
-
+  const setUpSubscription = async (symbol: string, assetType: string) => {
     const params = makeStub('params', {
       base: symbol,
+      assetType,
     })
     subscriptionSet.getAll.mockReturnValue([params])
 
@@ -116,12 +122,33 @@ describe('StockWebSocketTransport', () => {
     } as EndpointContext<WsTransportTypes>)
 
     await runAllUntilSettled(clock, transport.backgroundExecute(context))
+  }
+
+  it('should subscribe to the stock symbol', async () => {
+    const symbol = 'US:AAPL'
+    await setUpSubscription(symbol, stockTradesAsset)
+
     expect(receivedMessages.length).toBe(1)
 
     await expect(receivedMessages[0]).toBe(
       JSON.stringify({
         action: 'subscribe',
-        channels: ['stocks.trades'],
+        channels: [stockTradesChannel],
+        symbols: [symbol],
+      }),
+    )
+  })
+
+  it('should subscribe to the etf symbol', async () => {
+    const symbol = 'JP:1329'
+    await setUpSubscription(symbol, etfTradesAsset)
+
+    expect(receivedMessages.length).toBe(1)
+
+    await expect(receivedMessages[0]).toBe(
+      JSON.stringify({
+        action: 'subscribe',
+        channels: [etfTradesChannel],
         symbols: [symbol],
       }),
     )
@@ -132,16 +159,11 @@ describe('StockWebSocketTransport', () => {
 
     const params = makeStub('params', {
       base: symbol,
+      assetType: stockTradesAsset,
     })
-    subscriptionSet.getAll.mockReturnValue([params])
-
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<WsTransportTypes>)
 
     const t0 = Date.now()
-    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    await setUpSubscription(params.base, stockTradesAsset)
     const t1 = Date.now()
 
     const price = 123
@@ -149,9 +171,9 @@ describe('StockWebSocketTransport', () => {
 
     socket.send(
       JSON.stringify({
-        type: 'trade',
-        channel: 'stocks.trades',
-        asset: 'stocks',
+        type: tradesType,
+        channel: stockTradesChannel,
+        asset: stockTradesAsset,
         symbol,
         price: String(price),
         size: '3',
@@ -178,20 +200,56 @@ describe('StockWebSocketTransport', () => {
     expect(responseCache.write).toHaveBeenCalledTimes(1)
   })
 
-  it('should ignore system messages', async () => {
-    const symbol = 'US:AAPL'
+  it('should write response to cache for etfs', async () => {
+    const symbol = 'JP:1329'
 
     const params = makeStub('params', {
       base: symbol,
+      assetType: etfTradesAsset,
     })
-    subscriptionSet.getAll.mockReturnValue([params])
 
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<WsTransportTypes>)
+    const t0 = Date.now()
+    await setUpSubscription(params.base, etfTradesAsset)
+    const t1 = Date.now()
 
-    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    const price = 123
+    const providerIndicatedTimeUnixMs = 123456789
+
+    socket.send(
+      JSON.stringify({
+        type: tradesType,
+        channel: etfTradesChannel,
+        asset: etfTradesAsset,
+        symbol,
+        price: Number(price), // ETFs return number instead of string
+        size: 3,
+        ts: providerIndicatedTimeUnixMs,
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          result: price,
+          data: {
+            result: price,
+          },
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: t0,
+            providerDataReceivedUnixMs: t1,
+            providerIndicatedTimeUnixMs,
+          },
+        },
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should ignore system messages', async () => {
+    const symbol = 'US:AAPL'
+
+    await setUpSubscription(symbol, stockTradesAsset)
 
     const systemMessage = { type: 'system', message: 'connected' }
     socket.send(JSON.stringify(systemMessage))
@@ -206,22 +264,12 @@ describe('StockWebSocketTransport', () => {
   it('should ignore unexpected messages', async () => {
     const symbol = 'US:AAPL'
 
-    const params = makeStub('params', {
-      base: symbol,
-    })
-    subscriptionSet.getAll.mockReturnValue([params])
-
-    const context = makeStub('context', {
-      adapterSettings,
-      endpointName,
-    } as EndpointContext<WsTransportTypes>)
-
-    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    await setUpSubscription(symbol, stockTradesAsset)
 
     const malformedMessage = {
-      type: 'trade',
-      channel: 'stocks.trades',
-      asset: 'stocks',
+      type: tradesType,
+      channel: stockTradesChannel,
+      asset: stockTradesAsset,
       symbol,
       price: 'not-a-number',
       size: '3',
@@ -242,6 +290,7 @@ describe('StockWebSocketTransport', () => {
 
     const params = makeStub('params', {
       base: symbol,
+      assetType: stockTradesAsset,
     })
 
     const context = makeStub('context', {
@@ -260,7 +309,7 @@ describe('StockWebSocketTransport', () => {
     await expect(receivedMessages[1]).toBe(
       JSON.stringify({
         action: 'unsubscribe',
-        channels: ['stocks.trades'],
+        channels: [stockTradesChannel],
         symbols: [symbol],
       }),
     )
