@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.13.1
+
+### Patch Changes
+
+- [#5280](https://github.com/smartcontractkit/external-adapters-js/pull/5280) [`403c383`](https://github.com/smartcontractkit/external-adapters-js/commit/403c38382d4d9e223a41ab24f5f48518a12c7db7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
 ## 2.13.0
 
 ### Minor Changes

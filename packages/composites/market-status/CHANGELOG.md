@@ -1,5 +1,23 @@
 # @chainlink/market-status-adapter
 
+## 1.13.0
+
+### Minor Changes
+
+- [#5288](https://github.com/smartcontractkit/external-adapters-js/pull/5288) [`f099035`](https://github.com/smartcontractkit/external-adapters-js/commit/f099035efd00943a3e7bb32eff13bcc1835d4535) Thanks [@Michipulatos](https://github.com/Michipulatos)! - add hkex as market
+
+## 1.12.2
+
+### Patch Changes
+
+- [#5285](https://github.com/smartcontractkit/external-adapters-js/pull/5285) [`0412be1`](https://github.com/smartcontractkit/external-adapters-js/commit/0412be11f4209b324a2600df2e3b58a0aedfc766) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - generate-endpoint-aliases fix to support cfbenchmarks2 and composite adapters
+
+## 1.12.1
+
+### Patch Changes
+
+- [#5277](https://github.com/smartcontractkit/external-adapters-js/pull/5277) [`fec6ff9`](https://github.com/smartcontractkit/external-adapters-js/commit/fec6ff987ec04aedf3a4ead89c9f1de3bcbf8035) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
 ## 1.12.0
 
 ### Minor Changes

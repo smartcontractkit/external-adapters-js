@@ -6,7 +6,7 @@ import { validateRateBounds } from '../shared/exchange-rate-utils'
 import { TRANCHES, type Tranche } from '../transport/strcusx-accounts'
 import { strcusxExchangeRateTransport } from '../transport/strcusx-exchange-rate'
 
-const STRATEGY_NAMES = ['STRC-USX-1'] as const
+const STRATEGY_NAMES = ['STRC-USX'] as const
 
 export const inputParameters = new InputParameters(
   {
@@ -42,14 +42,14 @@ export const inputParameters = new InputParameters(
   [
     {
       programAddress: '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe',
-      strategyName: 'STRC-USX-1',
+      strategyName: 'STRC-USX',
       tranche: 'junior',
       minRate: '950000000000000000',
       maxRate: '1050000000000000000',
     },
     {
       programAddress: '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe',
-      strategyName: 'STRC-USX-1',
+      strategyName: 'STRC-USX',
       tranche: 'senior',
       minRate: '950000000000000000',
       maxRate: '1050000000000000000',

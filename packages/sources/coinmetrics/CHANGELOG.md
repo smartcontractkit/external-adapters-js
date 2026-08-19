@@ -1,5 +1,17 @@
 # @chainlink/coinmetrics-adapter
 
+## 3.13.2
+
+### Patch Changes
+
+- [#5269](https://github.com/smartcontractkit/external-adapters-js/pull/5269) [`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Fixed invalid workspace selector for coinmetrics-lwba
+
+## 3.13.1
+
+### Patch Changes
+
+- [#5264](https://github.com/smartcontractkit/external-adapters-js/pull/5264) [`3600ec4`](https://github.com/smartcontractkit/external-adapters-js/commit/3600ec44157e77283ba48d92c491a2abe34a8f85) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 5 streams adapters with gRPC transport support
+
 ## 3.13.0
 
 ### Minor Changes
