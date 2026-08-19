@@ -74,6 +74,10 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
     primary: 'TRADINGHOURS',
     secondary: 'STATIC_SZSE',
   },
+  hkex: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_HKEX',
+  },
   ice_europe_energy: {
     primary: 'TRADINGHOURS',
     secondary: 'STATIC_ICE_EUROPE_ENERGY',

@@ -1,5 +1,11 @@
 # @chainlink/elwood-adapter
 
+## 3.3.1
+
+### Patch Changes
+
+- [#5274](https://github.com/smartcontractkit/external-adapters-js/pull/5274) [`3586479`](https://github.com/smartcontractkit/external-adapters-js/commit/3586479d6bedb65545a25032c48e25881a383cf9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
 ## 3.3.0
 
 ### Minor Changes

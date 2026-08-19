@@ -1,14 +1,15 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock'
+import { toNumber } from './util'
 
 export interface WSResponse {
   type: string
   channel: string
   asset: string
   symbol: string
-  price: string
-  size: string
+  price: number | string
+  size: number | string
   ts: number
 }
 
@@ -19,6 +20,8 @@ export type WsTransportTypes = BaseEndpointTypes & {
 }
 
 const logger = makeLogger('StockTransport')
+
+export const tradesMessageType = 'trade'
 
 export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
@@ -31,31 +34,29 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
             logger.debug({ msg: 'Ignoring system message', ignoredMessage: message })
             return
           }
+          const price = toNumber(message.price)
+          const providerIndicatedTimeUnixMs = toNumber(message.ts)
           if (
-            message.type !== 'trade' ||
-            message.channel !== 'stocks.trades' ||
-            message.asset !== 'stocks' ||
+            message.type !== tradesMessageType ||
             !message.symbol ||
-            !message.price ||
-            isNaN(Number(message.price)) ||
-            !message.ts ||
-            isNaN(Number(message.ts))
+            !price ||
+            !providerIndicatedTimeUnixMs
           ) {
             logger.warn({ msg: 'Ignoring unexpected message', ignoredMessage: message })
             return
           }
 
-          const result = Number(message.price)
+          const result = price
           return [
             {
-              params: { base: message.symbol },
+              params: { base: message.symbol, assetType: message.asset },
               response: {
                 result,
                 data: {
                   result,
                 },
                 timestamps: {
-                  providerIndicatedTimeUnixMs: message.ts,
+                  providerIndicatedTimeUnixMs,
                 },
               },
             },
@@ -66,14 +67,14 @@ export class StockWebSocketTransport extends WebSocketTransport<WsTransportTypes
         subscribeMessage: (params) => {
           return {
             action: 'subscribe',
-            channels: ['stocks.trades'],
+            channels: [`${params.assetType}.trades`],
             symbols: [params.base],
           }
         },
         unsubscribeMessage: (params) => {
           return {
             action: 'unsubscribe',
-            channels: ['stocks.trades'],
+            channels: [`${params.assetType}.trades`],
             symbols: [params.base],
           }
         },

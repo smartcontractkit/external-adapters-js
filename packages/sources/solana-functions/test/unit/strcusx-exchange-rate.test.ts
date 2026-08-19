@@ -9,10 +9,10 @@ import { StrcusxExchangeRateTransport } from '../../src/transport/strcusx-exchan
 import strcusxAccountFixture from '../fixtures/strcusx-account-data-2026-06-25.json'
 
 const programAddress = '7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe'
-const strategyName = 'STRC-USX-1'
+const strategyName = 'STRC-USX'
 const controllerAddress = 'DChEFFUoGXeZgh4Mivq7gR8mW5DQi7yMaQ1naqmnxB3q'
-const strategyAddress = 'AT57KkNUMM3UeVwQmvTL8undUkFKYYRigtsCToxfpP1o'
-const accountingAddress = '31vVMMVrketFGG9s25PxtQzm8HsAkqoSEoYuj4bXWcVn'
+const strategyAddress = '9TtdSqvYmsa9SS2tPYNB2mv2A4gvXThQhYzkNpSMM1iV'
+const accountingAddress = '3XXizgSjMFNTfNwDuEuH17HmUrD167a18WJnzMAnJUAh'
 const assetMintAddress = '4ujhCkYxvGwdQnKRRzCjuVreThRAzY3k4n78iypNSQce'
 const juniorMintAddress = 'Qc25hHS8uv2CEZUd9vC1sKBwsHgMdosF6KG6MsBavSd'
 const seniorMintAddress = '4m1JrzTPgaKg1DwG19BotH4ZAUyrMzjmSDkGUr38YAai'

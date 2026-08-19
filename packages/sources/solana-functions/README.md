@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.7.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -308,7 +308,7 @@ Request:
 | Required? |      Name      | Aliases |                                      Description                                      |  Type  |      Options       | Default | Depends On | Not Valid With |
 | :-------: | :------------: | :-----: | :-----------------------------------------------------------------------------------: | :----: | :----------------: | :-----: | :--------: | :------------: |
 |    ✅     | programAddress |         |                 The deployed Solstice yield strategy program address                  | string |                    |         |            |                |
-|    ✅     |  strategyName  |         | Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config | string |    `STRC-USX-1`    |         |            |                |
+|    ✅     |  strategyName  |         | Solstice strcUSX strategy/accounting PDA seed from the current deployment/feed config | string |     `STRC-USX`     |         |            |                |
 |    ✅     |    tranche     |         |                        The tranche to price: junior or senior                         | string | `junior`, `senior` |         |            |                |
 |           |    minRate     |         |      Minimum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
 |           |    maxRate     |         |      Maximum allowed strcUSX exchange rate as an 18-decimal fixed-point integer       | string |                    |         |            |                |
@@ -322,7 +322,7 @@ Request:
   "data": {
     "endpoint": "strcusx-exchange-rate",
     "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
-    "strategyName": "STRC-USX-1",
+    "strategyName": "STRC-USX",
     "tranche": "junior",
     "minRate": "950000000000000000",
     "maxRate": "1050000000000000000"
@@ -340,7 +340,7 @@ Request:
   "data": {
     "endpoint": "strcusx-exchange-rate",
     "programAddress": "7iNvMc3x5VvwNmYomAAg86CpWeEw7QfDF2z5GgtDzHXe",
-    "strategyName": "STRC-USX-1",
+    "strategyName": "STRC-USX",
     "tranche": "senior",
     "minRate": "950000000000000000",
     "maxRate": "1050000000000000000"
