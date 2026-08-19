@@ -1,14 +1,14 @@
 # M0
 
-![0.0.18](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/m0/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![0.0.19](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/m0/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |     Name     |            Description            |  Type  | Options |       Default        |
-| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :------------------: |
-|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://api.m0.xyz` |
+| Required? |     Name     |            Description            |  Type  | Options |            Default            |
+| :-------: | :----------: | :-------------------------------: | :----: | :-----: | :---------------------------: |
+|           | API_ENDPOINT | An API endpoint for Data Provider | string |         | `https://mnav.m0.xyz/api/rpc` |
 
 ---
 

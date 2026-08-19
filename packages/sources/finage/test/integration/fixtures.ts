@@ -235,6 +235,71 @@ export const mockEtfWebSocketServer = (URL: string): MockWebsocketServer => {
   return mockWsServer
 }
 
+export const mockStockQuotesHttpSuccess = (): nock.Scope =>
+  nock('https://api.finage.co.uk', { encodedQueryParams: true })
+    .persist()
+    .get('/last/stock/AAPL')
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      () => ({
+        symbol: 'AAPL',
+        ask: 26.32,
+        bid: 25.8,
+        asize: 13,
+        bsize: 1,
+        timestamp: 1628899200621,
+      }),
+      ['Content-Type', 'application/json', 'Connection', 'close'],
+    )
+
+export const mockStockQuotesHttpFailure = (): nock.Scope =>
+  nock('https://api.finage.co.uk', { encodedQueryParams: true })
+    .persist()
+    .get('/last/stock/MSFT')
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      () => ({
+        symbol: 'MSFT',
+        ask: null,
+        bid: 2.34,
+        asize: 8,
+        bsize: 9,
+        timestamp: 1628899200621,
+      }),
+      ['Content-Type', 'application/json', 'Connection', 'close'],
+    )
+
+// Composite transport fixtures — used when COMPOSITE_TRANSPORT=true
+// WS sends AAPL with an old timestamp (1000); HTTP returns a newer timestamp (9999999) so HTTP should win.
+export const mockCompositeStockQuotesWsServer = (URL: string): MockWebsocketServer => {
+  const wsResponse = [
+    { status_code: 200, message: 'Connect' },
+    { s: 'AAPL', a: '100', as: '10', b: '80', bs: '10', t: 1000 },
+  ]
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', () => {
+      wsResponse.forEach((message) => {
+        socket.send(JSON.stringify(message))
+      })
+    })
+  })
+  return mockWsServer
+}
+
+export const mockCompositeStockQuotesHttpNewerTimestamp = (): nock.Scope =>
+  nock('https://api.finage.co.uk', { encodedQueryParams: true })
+    .persist()
+    .get('/last/stock/AAPL')
+    .query({ apikey: 'fake-api-key' })
+    .reply(
+      200,
+      () => ({ symbol: 'AAPL', ask: 200, bid: 180, asize: 20, bsize: 20, timestamp: 9999999 }),
+      ['Content-Type', 'application/json', 'Connection', 'close'],
+    )
+
 export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer => {
   const wsResponse = [
     {

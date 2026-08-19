@@ -43,22 +43,6 @@ exports[`websocket funding rate endpoint no data should return failure 1`] = `
 }
 `;
 
-exports[`websocket funding rate endpoint with protocol param should return success 1`] = `
-{
-  "data": {
-    "epochDuration": 3600,
-    "fundingRate": 0.00000625,
-    "fundingTimestamp": 1773788400,
-  },
-  "result": null,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 18188,
-    "providerDataStreamEstablishedUnixMs": 16160,
-  },
-}
-`;
-
 exports[`websocket graceful error handling and case-insensitive requests should continue working after receiving invalid symbol requests 1`] = `
 {
   "data": {

@@ -1,5 +1,27 @@
 # @chainlink/expand-network-adapter
 
+## 0.4.1
+
+### Patch Changes
+
+- [#5274](https://github.com/smartcontractkit/external-adapters-js/pull/5274) [`3586479`](https://github.com/smartcontractkit/external-adapters-js/commit/3586479d6bedb65545a25032c48e25881a383cf9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 0.4.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 0.3.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
 ## 0.2.1
 
 ### Patch Changes

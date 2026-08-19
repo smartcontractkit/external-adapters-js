@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute midas should return success response 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "lastUpdatedAt": 1784568395,
+    "maxPrice": 1.04,
+    "maxStaleness": 2592000,
+    "minPrice": 0.9965,
+    "price": 1,
+    "rawPrice": "1000000000000000000",
+    "result": "1000000000000000000",
+    "ripcordAsInt": 0,
+    "secondsSinceLastUpdate": -806220924,
+  },
+  "result": "1000000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

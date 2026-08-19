@@ -27,9 +27,17 @@ export const config = new AdapterConfig({
     sensitive: true,
     default: '',
   },
-  HEAPDUMP_ENABLED: {
-    description: 'Whether to enable the headpump endpoint',
-    type: 'boolean',
-    default: false,
+  WYSTC_API_ENDPOINT: {
+    description: 'WYSTC LedgerLens snapshot API base URL',
+    type: 'string',
+    default: 'https://api.real-time-reserves.ledgerlens.io',
+    sensitive: false,
+  },
+  WYSTC_API_KEY: {
+    description: 'API key for WYSTC endpoint',
+    type: 'string',
+    required: false,
+    sensitive: true,
+    default: '',
   },
 })

@@ -23,6 +23,13 @@ describe('markprice endpoint', () => {
     type: 'mark_price',
   }
 
+  const marketpriceIndexData = {
+    endpoint: 'markprice',
+    exchange: 'binance',
+    symbol: 'btcusdt',
+    type: 'mark_price_index',
+  }
+
   const topOfBookData = {
     endpoint: 'markprice',
     exchange: 'binance',
@@ -75,6 +82,7 @@ describe('markprice endpoint', () => {
 
     await Promise.all([
       testAdapter.request(marketpriceData),
+      testAdapter.request(marketpriceIndexData),
       testAdapter.request(topOfBookData),
       testAdapter.request(topOfBookPerpsData),
       testAdapter.request(topOfBookSpotData),
@@ -94,6 +102,12 @@ describe('markprice endpoint', () => {
   describe('mark_price', () => {
     it('should return success with market price', async () => {
       const response = await testAdapter.request(marketpriceData)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success with market price index', async () => {
+      const response = await testAdapter.request(marketpriceIndexData)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
     })

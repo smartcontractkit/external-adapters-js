@@ -3,7 +3,6 @@ import {
   AdapterInputError,
   AdapterRequest,
   AdapterResponseInvalidError,
-  AxiosRequestConfig,
   Config,
   ExecuteWithConfig,
   InputParameters,
@@ -11,12 +10,9 @@ import {
   util,
   Validator,
 } from '@chainlink/ea-bootstrap'
-import { AxiosResponse } from 'axios'
 import Decimal from 'decimal.js'
 
 export const supportedEndpoints = ['computedPrice']
-
-export type SourceRequestOptions = { [source: string]: AxiosRequestConfig }
 
 export type TInputParameters = {
   operand1Sources: string | string[]
@@ -194,7 +190,7 @@ const getExecuteMedian = async (
   const responses = await Promise.allSettled(
     urls.map(
       async (url) =>
-        await Requester.request({
+        await Requester.request<Record<string, number>>({
           ...config.api,
           method: 'post',
           url,
@@ -207,10 +203,7 @@ const getExecuteMedian = async (
   )
   const values = responses
     .filter((result) => result.status === 'fulfilled' && 'value' in result)
-    .map(
-      (result) =>
-        (result as PromiseFulfilledResult<AxiosResponse<Record<string, number>>>).value.data.result,
-    )
+    .map((result) => result.value.data.result)
   if (values.length < minAnswers)
     throw new AdapterResponseInvalidError({
       jobRunID,

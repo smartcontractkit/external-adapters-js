@@ -1,5 +1,0 @@
-{
-  "endpoint": "depth-hk",
-  "transport": "ws",
-  "symbol": "700"
-}

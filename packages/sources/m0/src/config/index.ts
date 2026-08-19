@@ -4,7 +4,7 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://api.m0.xyz',
+    default: 'https://mnav.m0.xyz/api/rpc',
     sensitive: false,
   },
 })

@@ -23,15 +23,10 @@ const getExpectedSelfReportedName = (adapter: WorkspaceAdapter) => {
   const nameFromLocation = getNameFromLocation(adapter)
   // Grand-father non-matching adapters:
   switch (nameFromLocation) {
-    case 'crypto-volatility-index':
-      return 'CVI'
-    case 'nftx':
-      return 'NFTX_VAULT_PRICE'
     case 'liveart':
       return 'LIVE_ART'
     case 'wbtc-address-set':
       return 'WBTC'
-    case 'bitgo-reserves-test':
     case 'ix-trust-sync':
       // Replaces only the first hyphen with an underscore.
       return nameFromLocation.toUpperCase().replace(/-/, '_')

@@ -1,6 +1,8 @@
-import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import {
+  HttpTransportConfig,
+  TransportGenerics,
+} from '@chainlink/external-adapter-framework/transports'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
-import { AxiosResponse } from 'axios'
 import { config } from '../config'
 
 export const getUrl = (params: { accountId: string }): string => {
@@ -39,10 +41,15 @@ export interface ResponseSchema {
 }
 
 type VirtuneTransportGenerics = TransportGenerics & {
+  Settings: typeof config.settings
   Response: {
     Data: {
       result: unknown[]
     }
+  }
+  Provider: {
+    RequestBody: never
+    ResponseBody: ResponseSchema
   }
 }
 
@@ -70,7 +77,7 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
     params: VirtuneParams<T>
     addresses: string[]
   }) => VirtuneResult<T>,
-) => ({
+): HttpTransportConfig<T> => ({
   prepareRequests: (params: VirtuneParams<T>[], config: Config) => {
     return params.map((param) => ({
       params: [param],
@@ -83,7 +90,7 @@ export const createVirtuneTransportConfig = <T extends VirtuneTransportGenerics>
       },
     }))
   },
-  parseResponse: (params: VirtuneParams<T>[], response: AxiosResponse<ResponseSchema>) => {
+  parseResponse: (params, response) => {
     const [param] = params
     if (!response.data) {
       return [

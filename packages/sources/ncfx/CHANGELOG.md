@@ -1,5 +1,17 @@
 # @chainlink/ncfx-adapter
 
+## 4.10.0
+
+### Minor Changes
+
+- [#5247](https://github.com/smartcontractkit/external-adapters-js/pull/5247) [`08cf478`](https://github.com/smartcontractkit/external-adapters-js/commit/08cf4783520aa88cda5f59a85161cda462694cdb) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release NCFX streams adapter with gRPC transport support
+
+## 4.9.0
+
+### Minor Changes
+
+- [#5110](https://github.com/smartcontractkit/external-adapters-js/pull/5110) [`1d12daa`](https://github.com/smartcontractkit/external-adapters-js/commit/1d12daac12df943b20ecf1ee2528ffa8869bb90c) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Inverse quote handling fix for streams adapter
+
 ## 4.8.2
 
 ### Patch Changes

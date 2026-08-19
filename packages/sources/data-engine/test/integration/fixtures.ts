@@ -1,4 +1,47 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import nock from 'nock'
+
+export const mockTwapResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0003', windowSeconds: 30 })
+    .reply(200, {
+      result: '64640960000000000000000',
+      feedId: '0x0003',
+      samples: 30,
+      decimals: 18,
+      windowStartTs: 1699999970,
+      windowEndTs: 1700000000,
+      effectiveWindowStartTs: 1699999971,
+      effectiveWindowEndTs: 1699999997,
+    })
+    .persist()
+
+export const mockTwapResponseWithEndTs = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0003', windowSeconds: 30, endTs: 1730000000 })
+    .reply(200, {
+      result: '64640960000000000000000',
+      feedId: '0x0003',
+      samples: 30,
+      decimals: 18,
+      windowStartTs: 1729999970,
+      windowEndTs: 1730000000,
+      effectiveWindowStartTs: 1729999971,
+      effectiveWindowEndTs: 1729999997,
+    })
+    .persist()
+
+export const mockTwapIncompleteResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0005', windowSeconds: 30 })
+    .reply(200, { feedId: '0x0005' })
+    .persist()
+
+export const mockTwapErrorResponse = (): nock.Scope =>
+  nock('https://api.dataengine.chain.link')
+    .post('/api/v1/twap', { feedId: '0x0004', windowSeconds: 30 })
+    .reply(500, { error: 'Internal Server Error' })
+    .persist()
 
 export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL + '/api/v1/ws', { mock: false })

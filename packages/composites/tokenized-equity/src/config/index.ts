@@ -25,6 +25,18 @@ export const config = new AdapterConfig({
     default: 1,
     sensitive: false,
   },
+  BASE_RPC_URL: {
+    description: 'RPC URL of a Mainnet Base node',
+    type: 'string',
+    default: '',
+    sensitive: true,
+  },
+  BASE_RPC_CHAIN_ID: {
+    description: 'The chain id to connect to',
+    type: 'number',
+    default: 8453,
+    sensitive: false,
+  },
   ROBINHOOD_NETWORK_RPC_URL: {
     description:
       'JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".',

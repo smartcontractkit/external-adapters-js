@@ -1,10 +1,10 @@
 import nock from 'nock'
 
 export const mockResponseSuccess = (): nock.Scope =>
-  nock('https://api.m0.xyz', {
+  nock('https://m0.api', {
     encodedQueryParams: true,
   })
-    .post('/api/dashboard-backend-api/api/rpc', { method: 'navDetails' })
+    .post('/', { method: 'navDetails' })
     .reply(
       200,
       () => ({

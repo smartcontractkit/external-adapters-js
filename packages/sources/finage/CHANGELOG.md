@@ -1,5 +1,29 @@
 ## v1.1.0
 
+## 2.9.1
+
+### Patch Changes
+
+- [#5274](https://github.com/smartcontractkit/external-adapters-js/pull/5274) [`3586479`](https://github.com/smartcontractkit/external-adapters-js/commit/3586479d6bedb65545a25032c48e25881a383cf9) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 2.9.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.8.1
+
+### Patch Changes
+
+- [#5122](https://github.com/smartcontractkit/external-adapters-js/pull/5122) [`2973d74`](https://github.com/smartcontractkit/external-adapters-js/commit/2973d74402f7c816da669ba1efe730e3c6e66753) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix 24-5 assets ruberbanding
+
+## 2.8.0
+
+### Minor Changes
+
+- [#5101](https://github.com/smartcontractkit/external-adapters-js/pull/5101) [`6f7d771`](https://github.com/smartcontractkit/external-adapters-js/commit/6f7d7716fe1bcf03dd30329226d5eea326e21305) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add http transport to stock quotes and enable compositeTransport capability
+
 ## 2.7.2
 
 ### Patch Changes

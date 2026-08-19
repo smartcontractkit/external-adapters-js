@@ -11,18 +11,6 @@ import { makeStub } from '@chainlink/external-adapter-framework/util/testing-uti
 import { BaseEndpointTypes, inputParameters, RequestParams } from '../../src/endpoint/multi-http'
 import { MultiHttpTransport } from '../../src/transport/multi-http'
 
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
-
 const log = jest.fn()
 const logger = {
   fatal: log,
@@ -49,7 +37,28 @@ describe('MultiHttpTransport', () => {
 
   const apiName = 'TEST'
 
+  let fakeEnv: Record<string, string> = {}
+
   const adapterSettings = makeStub('adapterSettings', {
+    API_NAME_API_URL: {
+      get(apiName: string) {
+        const envVarName = `${apiName.toUpperCase()}_API_URL`
+        if (!(envVarName in fakeEnv)) {
+          throw new Error(`Missing required environment variable '${envVarName}'.`)
+        }
+        return fakeEnv[`${apiName.toUpperCase()}_API_URL`]
+      },
+    },
+    API_NAME_AUTH_HEADER: {
+      get(apiName: string) {
+        return fakeEnv[`${apiName.toUpperCase()}_AUTH_HEADER`]
+      },
+    },
+    API_NAME_AUTH_HEADER_VALUE: {
+      get(apiName: string) {
+        return fakeEnv[`${apiName.toUpperCase()}_AUTH_HEADER_VALUE`]
+      },
+    },
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     CACHE_MAX_AGE: 90_000,
     MAX_COMMON_KEY_SIZE: 300,
@@ -105,7 +114,7 @@ describe('MultiHttpTransport', () => {
   }
 
   beforeEach(async () => {
-    restoreEnv()
+    fakeEnv = {}
     jest.resetAllMocks()
     jest.useFakeTimers()
 
@@ -165,9 +174,9 @@ describe('MultiHttpTransport', () => {
   }
 
   it('should extract multiple data paths from response', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -213,9 +222,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should convert providerIndicatedTimePath ISO string to providerIndicatedTimeUnixMs', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -255,9 +264,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should convert providerIndicatedTimePath Unix ms number to providerIndicatedTimeUnixMs', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -297,9 +306,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return an error if providerIndicatedTimePath is not found', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -335,9 +344,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return an error if providerIndicatedTimePath value is invalid', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -373,9 +382,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return an error if data path is not found', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -412,9 +421,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return an error if ripcord is activated', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -452,9 +461,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return an error if response data is empty', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -488,8 +497,8 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should throw if API_URL is missing', async () => {
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,
@@ -511,7 +520,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should work without auth headers', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -545,7 +554,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should handle nested data paths', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -583,7 +592,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should extract result field as primary result (view-function-multi-chain pattern)', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -627,7 +636,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should include ripcordDetails in error message when ripcord is activated (the-network-firm pattern)', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -667,7 +676,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should handle empty ripcordDetails array', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -706,7 +715,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should include ripcord status in data when ripcord is false', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -745,7 +754,7 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should return null result when result field not in dataPaths (backward compatible)', async () => {
-    process.env.TEST_API_URL = apiUrl
+    fakeEnv.TEST_API_URL = apiUrl
 
     const params = {
       apiName,
@@ -786,9 +795,9 @@ describe('MultiHttpTransport', () => {
   })
 
   it('should handle full OpenDelta NX8 scenario', async () => {
-    process.env.TEST_API_URL = apiUrl
-    process.env.TEST_AUTH_HEADER = authHeader
-    process.env.TEST_AUTH_HEADER_VALUE = apiKey
+    fakeEnv.TEST_API_URL = apiUrl
+    fakeEnv.TEST_AUTH_HEADER = authHeader
+    fakeEnv.TEST_AUTH_HEADER_VALUE = apiKey
 
     const params = {
       apiName,

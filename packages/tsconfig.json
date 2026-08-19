@@ -6,13 +6,7 @@
       "path": "./composites/bitcoin-json-rpc"
     },
     {
-      "path": "./composites/bsol-price"
-    },
-    {
       "path": "./composites/calculated-price"
-    },
-    {
-      "path": "./composites/crypto-volatility-index"
     },
     {
       "path": "./composites/glv-token"
@@ -27,9 +21,6 @@
       "path": "./composites/gold"
     },
     {
-      "path": "./composites/historical-average"
-    },
-    {
       "path": "./composites/implied-price"
     },
     {
@@ -39,16 +30,7 @@
       "path": "./composites/market-status"
     },
     {
-      "path": "./composites/medianizer"
-    },
-    {
       "path": "./composites/multi-address-list"
-    },
-    {
-      "path": "./composites/nexus-kiln"
-    },
-    {
-      "path": "./composites/nftx"
     },
     {
       "path": "./composites/proof-of-reserves"
@@ -57,19 +39,10 @@
       "path": "./composites/proof-of-reserves-v2"
     },
     {
-      "path": "./composites/rocket-pool"
-    },
-    {
       "path": "./composites/savax-price"
     },
     {
       "path": "./composites/secure-mint"
-    },
-    {
-      "path": "./composites/set-token-index"
-    },
-    {
-      "path": "./composites/the-graph"
     },
     {
       "path": "./composites/tokenized-equity"
@@ -132,22 +105,13 @@
       "path": "./sources/backed-fi"
     },
     {
-      "path": "./sources/bank-frick"
-    },
-    {
       "path": "./sources/bea"
-    },
-    {
-      "path": "./sources/binance"
     },
     {
       "path": "./sources/bitgo"
     },
     {
       "path": "./sources/bitgo-reserves"
-    },
-    {
-      "path": "./sources/bitgo-reserves-test"
     },
     {
       "path": "./sources/blockchain.com"
@@ -162,13 +126,7 @@
       "path": "./sources/blocksize-capital-state"
     },
     {
-      "path": "./sources/bob"
-    },
-    {
       "path": "./sources/btc.com"
-    },
-    {
-      "path": "./sources/cache.gold"
     },
     {
       "path": "./sources/canton-functions"
@@ -184,9 +142,6 @@
     },
     {
       "path": "./sources/chain-reserve-wallet"
-    },
-    {
-      "path": "./sources/cmeth"
     },
     {
       "path": "./sources/coinapi"
@@ -222,9 +177,6 @@
       "path": "./sources/coinranking"
     },
     {
-      "path": "./sources/covid-tracker"
-    },
-    {
       "path": "./sources/cryptoapis"
     },
     {
@@ -235,9 +187,6 @@
     },
     {
       "path": "./sources/deep-blue"
-    },
-    {
-      "path": "./sources/deribit"
     },
     {
       "path": "./sources/deutsche-boerse"
@@ -291,16 +240,10 @@
       "path": "./sources/fireblocks"
     },
     {
-      "path": "./sources/fmpcloud"
-    },
-    {
       "path": "./sources/frxeth-exchange-rate"
     },
     {
       "path": "./sources/ftse-sftp"
-    },
-    {
-      "path": "./sources/galaxis"
     },
     {
       "path": "./sources/gemini"
@@ -310,9 +253,6 @@
     },
     {
       "path": "./sources/gmci"
-    },
-    {
-      "path": "./sources/graphql"
     },
     {
       "path": "./sources/gsr"
@@ -342,9 +282,6 @@
       "path": "./sources/ion.au"
     },
     {
-      "path": "./sources/itick"
-    },
-    {
       "path": "./sources/ix-trust-sync"
     },
     {
@@ -358,9 +295,6 @@
     },
     {
       "path": "./sources/layer2-sequencer-health"
-    },
-    {
-      "path": "./sources/lcx"
     },
     {
       "path": "./sources/lido"
@@ -396,9 +330,6 @@
       "path": "./sources/moore-hk"
     },
     {
-      "path": "./sources/mycryptoapi"
-    },
-    {
       "path": "./sources/nav-consulting"
     },
     {
@@ -426,9 +357,6 @@
       "path": "./sources/oanda"
     },
     {
-      "path": "./sources/onchain-gas"
-    },
-    {
       "path": "./sources/ondo"
     },
     {
@@ -439,9 +367,6 @@
     },
     {
       "path": "./sources/polkadot-balance"
-    },
-    {
-      "path": "./sources/polygon"
     },
     {
       "path": "./sources/por-address-list"
@@ -462,9 +387,6 @@
       "path": "./sources/six"
     },
     {
-      "path": "./sources/snowflake"
-    },
-    {
       "path": "./sources/sochain"
     },
     {
@@ -475,9 +397,6 @@
     },
     {
       "path": "./sources/solana-view-function"
-    },
-    {
-      "path": "./sources/sportsdataio"
     },
     {
       "path": "./sources/stader-address-list"
@@ -513,7 +432,7 @@
       "path": "./sources/the-network-firm"
     },
     {
-      "path": "./sources/therundown"
+      "path": "./sources/tickerlayer"
     },
     {
       "path": "./sources/tiingo"
@@ -544,15 +463,6 @@
     },
     {
       "path": "./sources/twosigma"
-    },
-    {
-      "path": "./sources/uniswap-v2"
-    },
-    {
-      "path": "./sources/upvest"
-    },
-    {
-      "path": "./sources/uscpi-one"
     },
     {
       "path": "./sources/view-function"

@@ -1,45 +1,5 @@
 import nock from 'nock'
 
-export const mockMCO2Response = (): nock.Scope =>
-  nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
-    encodedQueryParams: true,
-  })
-    .persist()
-    .get('/MCO2')
-    .reply(
-      200,
-      { totalMCO2: 3041044, totalCarbonCredits: 3041044, timestamp: '2022-04-04T11:00:46.577Z' },
-      [
-        'Date',
-        'Mon, 15 Nov 2021 16:14:53 GMT',
-        'Content-Type',
-        'application/json; charset=utf-8',
-        'Connection',
-        'close',
-        'Vary',
-        'Accept-Encoding',
-        'Access-Control-Allow-Origin',
-        '*',
-        'Access-Control-Allow-Credentials',
-        'true',
-        'Access-Control-Allow-Methods',
-        'GET, PUT, POST, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers',
-        'DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization',
-        'Server',
-        'BTC.com',
-        'X-Frame-Options',
-        'SAMEORIGIN',
-        'X-XSS-Protection',
-        '1; mode=block',
-        'X-Content-Type-Options',
-        'nosniff',
-        'Strict-Transport-Security',
-        'max-age=63072000; includeSubDomains; preload',
-      ],
-    )
-    .persist()
-
 export const mockSTBTResponseSuccess = (): nock.Scope =>
   nock('https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/', {
     encodedQueryParams: true,
@@ -351,5 +311,49 @@ export const mockReResponseSuccess = (): nock.Scope =>
       ripcord: false,
       ripcordDetails: [],
       timestamp: '2025-07-03T00:01:57.131Z',
+    })
+    .persist()
+
+export const mockWystcResponseSuccess = (): nock.Scope =>
+  nock('http://test-endpoint-wystc', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/proof-of-reserves/wystc/snapshot')
+    .reply(200, {
+      product: 'FRNT',
+      totalReserves: '965051.85',
+      totalSupply: '965051.85',
+      ripcord: false,
+      ripcordDetails: [],
+      ripcordTimestamp: null,
+      timestamp: '2026-07-01T12:00:44.620Z',
+      networks: [{ network: 'Base', supply: '94902.00' }],
+      accounts: [],
+      attestationProvider: {
+        name: 'The Network Firm LLP',
+        website: 'https://www.thenetworkfirm.com/',
+      },
+    })
+    .persist()
+
+export const mockWystcResponseRipcordTripped = (): nock.Scope =>
+  nock('http://test-endpoint-wystc', {
+    encodedQueryParams: true,
+  })
+    .get('/v1/proof-of-reserves/wystc/snapshot')
+    .reply(200, {
+      product: 'FRNT',
+      totalReserves: '965051.85',
+      totalSupply: '965051.85',
+      ripcord: true,
+      ripcordDetails: ['Balances'],
+      ripcordTimestamp: '2026-07-01T12:00:44.675Z',
+      timestamp: '2026-06-30T12:00:44.620Z',
+      networks: [{ network: 'Base', supply: '94902.00' }],
+      accounts: [],
+      attestationProvider: {
+        name: 'The Network Firm LLP',
+        website: 'https://www.thenetworkfirm.com/',
+      },
     })
     .persist()

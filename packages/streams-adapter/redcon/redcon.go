@@ -12,6 +12,7 @@ import (
 	cache "streams-adapter/cache"
 	types "streams-adapter/common"
 	helpers "streams-adapter/helpers"
+	"streams-adapter/transmitter"
 
 	"github.com/goccy/go-json"
 	"github.com/tidwall/redcon"
@@ -26,6 +27,7 @@ type sortedSetMember struct {
 type RedconServer struct {
 	addr       string
 	cache      *cache.Cache
+	publisher  *transmitter.Publisher
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
@@ -33,9 +35,10 @@ type RedconServer struct {
 
 // Config holds the Redis server configuration
 type Config struct {
-	Addr   string
-	Cache  *cache.Cache
-	Logger *slog.Logger
+	Addr      string
+	Cache     *cache.Cache
+	Publisher *transmitter.Publisher
+	Logger    *slog.Logger
 }
 
 // New creates a new Redis server instance
@@ -43,6 +46,7 @@ func New(cfg Config) *RedconServer {
 	return &RedconServer{
 		addr:       cfg.Addr,
 		cache:      cfg.Cache,
+		publisher:  cfg.Publisher,
 		logger:     cfg.Logger,
 		sortedSets: make(map[string]map[string]float64),
 	}
@@ -174,18 +178,28 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	}
 
 	key := string(cmd.Args[3])
+	value := cmd.Args[4]
 
-	// Extract request parameters from the key
-	params, err := helpers.RequestParamsFromKey(key)
+	// The framework only writes adapter responses via EVAL with a JSON object
+	// payload (JSON.stringify(AdapterResponse)). Any other EVAL the framework
+	// issues — most notably Redlock lock acquire/release/extend, whose ARGV[1]
+	// is a random hex identifier — is not a response cache write and must be
+	// ignored silently rather than warned about.
+	if len(value) == 0 || value[0] != '{' {
+		conn.WriteInt(1)
+		return
+	}
+
+	transformedKey, err := helpers.TransformedKeyFromAdapterKey(key)
 	if err != nil {
-		s.logger.Debug("unable to parse request params from key", "key", key)
+		s.logger.Debug("unable to compute transformed cache key from adapter key", "key", key, "error", err)
 		conn.WriteInt(1)
 		return
 	}
 	// Parse JSON value
 	var rawJSON map[string]json.RawMessage
-	if err := json.Unmarshal(cmd.Args[4], &rawJSON); err != nil {
-		s.logger.Warn("unable to parse JSON", "error", err)
+	if err := json.Unmarshal(value, &rawJSON); err != nil {
+		s.logger.Warn("unable to parse JSON", "error", err, "key", key)
 		conn.WriteInt(1)
 		return
 	}
@@ -224,14 +238,17 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	if result, hasResult := rawJSON["result"]; hasResult {
 		obs.Result = append(json.RawMessage(nil), result...)
 	}
-
-	transformedKey, err := helpers.CalculateCacheKey(params)
-	if err != nil {
-		s.logger.Warn("unable to compute transformed cache key", "key", key, "error", err)
-		conn.WriteInt(1)
-		return
+	ts := time.Now()
+	s.cache.SetObservation(transformedKey, obs, ts, key)
+	if s.publisher != nil {
+		if rawKeys, ok := s.cache.RawKeysByTransformed(transformedKey); ok {
+			for _, rawKey := range rawKeys {
+				if payloadHash, ok := s.cache.PayloadHashByRawKey(rawKey); ok {
+					s.publisher.Publish(payloadHash, obs, ts)
+				}
+			}
+		}
 	}
-	s.cache.SetObservation(transformedKey, obs, time.Now(), key)
 	conn.WriteInt(1)
 }
 
