@@ -23,3 +23,28 @@ export const mockWebsocketServer = (URL: string, symbol: string): MockWebsocketS
 
   return mockWsServer
 }
+
+export const mockFuturesWebsocketServer = (URL: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    socket.on('message', (_message) => {
+      return socket.send(
+        JSON.stringify({
+          egress_ts: Date.now() * 1000,
+          data: {
+            type: 'PRICE',
+            symbol: 'WTIQ6', // Q = August, 6 = 2026
+            generic_symbol: 'WTI/1',
+            ingress_ts: Date.now() * 1000 - 50,
+            price: 80.054,
+            spread: 0.02,
+            expiry_date: '2026-07-21',
+            roll_date: '2026-07-21',
+          },
+        }),
+      )
+    })
+  })
+
+  return mockWsServer
+}

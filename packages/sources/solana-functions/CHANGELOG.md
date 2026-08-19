@@ -1,5 +1,33 @@
 # @chainlink/solana-functions-adapter
 
+## 1.8.0
+
+### Minor Changes
+
+- [#5292](https://github.com/smartcontractkit/external-adapters-js/pull/5292) [`4cdc858`](https://github.com/smartcontractkit/external-adapters-js/commit/4cdc8583535344b619e212e6f55a4e71a3574d9d) Thanks [@Michipulatos](https://github.com/Michipulatos)! - update STRC-USX-1 to STRC-USX
+
+## 1.7.0
+
+### Minor Changes
+
+- [#5221](https://github.com/smartcontractkit/external-adapters-js/pull/5221) [`0603cb7`](https://github.com/smartcontractkit/external-adapters-js/commit/0603cb71c598784bd55df8957b84d4f66c5c2ce2) Thanks [@dskloetc](https://github.com/dskloetc)! - Add midas endpoint
+
+### Patch Changes
+
+- [#5213](https://github.com/smartcontractkit/external-adapters-js/pull/5213) [`da250ae`](https://github.com/smartcontractkit/external-adapters-js/commit/da250ae3a274a7ee1634e6a5c32727faca7f2768) Thanks [@dskloetc](https://github.com/dskloetc)! - Refactor anchor-data
+
+## 1.6.0
+
+### Minor Changes
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add strcUSX junior and senior exchange rate endpoint
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add stSLX exchange rate endpoint
+
+### Patch Changes
+
+- [#5128](https://github.com/smartcontractkit/external-adapters-js/pull/5128) [`9d92072`](https://github.com/smartcontractkit/external-adapters-js/commit/9d92072cca7bcd71bbda2bdfa91d90454bf10b72) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add shared Solana exchange-rate utilities.
+
 ## 1.5.1
 
 ### Patch Changes

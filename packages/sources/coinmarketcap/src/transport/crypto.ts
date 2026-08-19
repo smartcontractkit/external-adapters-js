@@ -2,8 +2,8 @@ import {
   HttpTransport,
   ProviderRequestConfig,
 } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/crypto'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/crypto'
 
 const logger = makeLogger('CryptoCMCEndpoint')
 
@@ -57,54 +57,70 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
+const getGroupKey = (params: typeof inputParameters.validated): string | undefined => {
+  const quote = params.quote.toUpperCase()
+  if (params.cid) {
+    return JSON.stringify({
+      idType: 'id',
+      quote,
+    })
+  }
+  if (params.slug) {
+    return JSON.stringify({
+      idType: 'slug',
+      quote,
+    })
+  }
+  if (params.base) {
+    return JSON.stringify({
+      idType: 'symbol',
+      quote,
+    })
+  }
+
+  return undefined
+}
+
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params: (typeof inputParameters.validated)[], settings) => {
     const requests: ProviderRequestConfig<HttpTransportTypes>[] = []
-    const groupedParams = {
-      id: [],
-      slug: [],
-      symbol: [],
-    } as Record<string, (typeof inputParameters.validated)[]>
+    const groupedParams: Record<string, (typeof inputParameters.validated)[]> = {}
 
     for (const param of params) {
-      if (param.cid) {
-        groupedParams.id.push(param)
-      } else if (param.slug) {
-        groupedParams.slug.push(param)
-      } else if (param.base) {
-        groupedParams.symbol.push(param)
-      } else {
+      const key = getGroupKey(param)
+      if (!key) {
         logger.error(
           `Params were not able to be classified into ID, Slug or Symbol: (${JSON.stringify(
             param,
           )})`,
         )
+        continue
       }
+      if (!(key in groupedParams)) {
+        groupedParams[key] = []
+      }
+      groupedParams[key].push(param)
     }
 
-    for (const [idType, list] of Object.entries(groupedParams)) {
+    for (const [key, list] of Object.entries(groupedParams)) {
+      const { idType, quote } = JSON.parse(key)
       if (list && list.length > 0) {
         const batchedBaseCurrencies = [...new Set(list.map((p) => p.cid || p.slug || p.base))].join(
           ',',
         )
-        // We don't want to batch quotes but only base currencies, so for each unique quote in each list we create a request
-        // This could be further optimized to make sure that lists are grouped optimally to avoid sending unnecessary bases
-        const uniqueQuotes = [...new Set(list.map((p) => p.quote.toUpperCase()))]
-        uniqueQuotes.forEach((uniqueQuote) => {
-          requests.push({
-            params: list,
-            request: {
-              baseURL: settings.API_ENDPOINT,
-              url: '/cryptocurrency/quotes/latest',
-              headers: {
-                'X-CMC_PRO_API_KEY': settings.API_KEY,
-              },
-              params: {
-                [idType]: batchedBaseCurrencies,
-                convert: uniqueQuote,
-              },
+        requests.push({
+          params: list,
+          request: {
+            baseURL: settings.API_ENDPOINT,
+            url: '/cryptocurrency/quotes/latest',
+            headers: {
+              'X-CMC_PRO_API_KEY': settings.API_KEY,
             },
-          })
+            params: {
+              [idType]: batchedBaseCurrencies,
+              convert: quote,
+            },
+          },
         })
       }
     }

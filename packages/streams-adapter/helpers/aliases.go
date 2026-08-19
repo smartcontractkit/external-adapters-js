@@ -92,14 +92,18 @@ func InitAliasIndex(adapterName, configPath string) error {
 }
 
 // toString converts an interface{} value to its string representation.
-func toString(v interface{}) string {
+func toString(v interface{}) (string, error) {
 	if s, ok := v.(string); ok {
-		return s
+		return s, nil
 	}
 	if v == nil {
-		return ""
+		return "", nil
 	}
-	return fmt.Sprintf("%v", v)
+	b, err := json.Marshal(v)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 func (idx *endpointIndex) addAlias(alias, canonical string) {
@@ -142,7 +146,11 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 	var ep string
 	for k, v := range data {
 		if strings.EqualFold(k, "endpoint") {
-			ep = toString(v)
+			value, err := toString(v)
+			if err != nil {
+				return nil, fmt.Errorf("failed to stringify endpoint param: %w", err)
+			}
+			ep = value
 			break
 		}
 	}
@@ -165,7 +173,10 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 		if strings.EqualFold(k, "endpoint") || strings.EqualFold(k, "overrides") || v == nil {
 			continue
 		}
-		value := toString(v)
+		value, err := toString(v)
+		if err != nil {
+			return nil, fmt.Errorf("failed to stringify request param %q: %w", k, err)
+		}
 		if value == "" {
 			continue
 		}
@@ -193,7 +204,11 @@ func BuildCacheKeyParams(data map[string]interface{}) (types.RequestParams, erro
 					}
 					for overrideKey, overrideVal := range adapterOverrides {
 						if strings.EqualFold(overrideKey, paramVal) {
-							out[paramKey] = strings.ToUpper(toString(overrideVal))
+							value, err := toString(overrideVal)
+							if err != nil {
+								return nil, fmt.Errorf("failed to stringify override value for param %q: %w", paramKey, err)
+							}
+							out[paramKey] = strings.ToUpper(value)
 							break
 						}
 					}

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "function",
+    "name": "getOracleParams",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "multiplier",
+        "type": "uint128"
+      },
+      {
+        "name": "paused",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  }
+]

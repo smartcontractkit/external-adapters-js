@@ -1,5 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`websocket cme_futures endpoint should return success 1`] = `
+{
+  "data": {
+    "ask_price": 80.06400000000001,
+    "ask_volume": 0,
+    "bid_price": 80.044,
+    "bid_volume": 0,
+    "contract_month": 8,
+    "expiry_date": "2026-07-21",
+    "generic_symbol": "WTI/1",
+    "ingress_ts_iso": "1970-01-01T00:00:03.037Z",
+    "mid_price": 80.054,
+    "roll_date": 1784606400,
+    "symbol": "WTIQ6",
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 3038,
+    "providerDataStreamEstablishedUnixMs": 3030,
+    "providerIndicatedTimeUnixMs": 3038,
+  },
+}
+`;
+
 exports[`websocket stock_quotes endpoint should return success for Asian stock symbol 1`] = `
 {
   "data": {

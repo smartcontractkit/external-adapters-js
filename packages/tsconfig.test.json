@@ -6,13 +6,7 @@
       "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
     },
     {
-      "path": "./composites/bsol-price/tsconfig.test.json"
-    },
-    {
       "path": "./composites/calculated-price/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/crypto-volatility-index/tsconfig.test.json"
     },
     {
       "path": "./composites/glv-token/tsconfig.test.json"
@@ -49,12 +43,6 @@
     },
     {
       "path": "./composites/secure-mint/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/set-token-index/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/the-graph/tsconfig.test.json"
     },
     {
       "path": "./composites/tokenized-equity/tsconfig.test.json"
@@ -117,22 +105,13 @@
       "path": "./sources/backed-fi/tsconfig.test.json"
     },
     {
-      "path": "./sources/bank-frick/tsconfig.test.json"
-    },
-    {
       "path": "./sources/bea/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/binance/tsconfig.test.json"
     },
     {
       "path": "./sources/bitgo/tsconfig.test.json"
     },
     {
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/bitgo-reserves-test/tsconfig.test.json"
     },
     {
       "path": "./sources/blockchain.com/tsconfig.test.json"
@@ -147,13 +126,7 @@
       "path": "./sources/blocksize-capital-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/bob/tsconfig.test.json"
-    },
-    {
       "path": "./sources/btc.com/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cache.gold/tsconfig.test.json"
     },
     {
       "path": "./sources/canton-functions/tsconfig.test.json"
@@ -169,9 +142,6 @@
     },
     {
       "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cmeth/tsconfig.test.json"
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
@@ -207,9 +177,6 @@
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
-      "path": "./sources/covid-tracker/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
@@ -220,9 +187,6 @@
     },
     {
       "path": "./sources/deep-blue/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/deribit/tsconfig.test.json"
     },
     {
       "path": "./sources/deutsche-boerse/tsconfig.test.json"
@@ -291,9 +255,6 @@
       "path": "./sources/gmci/tsconfig.test.json"
     },
     {
-      "path": "./sources/graphql/tsconfig.test.json"
-    },
-    {
       "path": "./sources/gsr/tsconfig.test.json"
     },
     {
@@ -319,9 +280,6 @@
     },
     {
       "path": "./sources/ion.au/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/itick/tsconfig.test.json"
     },
     {
       "path": "./sources/ix-trust-sync/tsconfig.test.json"
@@ -411,9 +369,6 @@
       "path": "./sources/polkadot-balance/tsconfig.test.json"
     },
     {
-      "path": "./sources/polygon/tsconfig.test.json"
-    },
-    {
       "path": "./sources/por-address-list/tsconfig.test.json"
     },
     {
@@ -442,9 +397,6 @@
     },
     {
       "path": "./sources/solana-view-function/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/sportsdataio/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
@@ -480,7 +432,7 @@
       "path": "./sources/the-network-firm/tsconfig.test.json"
     },
     {
-      "path": "./sources/therundown/tsconfig.test.json"
+      "path": "./sources/tickerlayer/tsconfig.test.json"
     },
     {
       "path": "./sources/tiingo/tsconfig.test.json"
@@ -511,12 +463,6 @@
     },
     {
       "path": "./sources/twosigma/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/uniswap-v2/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/upvest/tsconfig.test.json"
     },
     {
       "path": "./sources/view-function/tsconfig.test.json"

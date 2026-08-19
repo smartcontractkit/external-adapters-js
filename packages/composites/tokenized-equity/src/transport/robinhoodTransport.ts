@@ -15,7 +15,6 @@ type RequestParams = typeof inputParameters.validated
 
 export class RobinhoodTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
-  provider!: JsonRpcProvider
   config!: BaseEndpointTypes['Settings']
   dataEngineUrl!: string
   tradingHoursUrl!: string

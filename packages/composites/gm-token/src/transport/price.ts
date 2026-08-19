@@ -9,7 +9,7 @@ import {
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { AdapterDataProviderError } from '@chainlink/external-adapter-framework/validation/error'
-import { ethers, utils } from 'ethers'
+import { AbiCoder, ethers, keccak256 } from 'ethers'
 import { BaseEndpointTypes, ChainKey, inputParameters } from '../endpoint/price'
 import abi from './../config/readerAbi.json'
 import { TokenResolver } from './token-resolver'
@@ -25,10 +25,10 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
   name!: string
   responseCache!: ResponseCache<GmTokenTransportTypes>
   requester!: Requester
-  abiEncoder!: utils.AbiCoder
+  abiEncoder!: AbiCoder
   settings!: GmTokenTransportTypes['Settings']
   tokenResolver!: TokenResolver
-  private providers: Record<ChainKey, ethers.providers.JsonRpcProvider> = {}
+  private providers: Record<ChainKey, ethers.JsonRpcProvider> = {}
   private readers: Record<ChainKey, ethers.Contract> = {}
 
   async initialize(
@@ -97,7 +97,7 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       [indexPrices.ask, indexPrices.bid],
       [longPrices.ask, longPrices.bid],
       [shortPrices.ask, shortPrices.bid],
-      utils.keccak256(utils.defaultAbiCoder.encode(['string'], [this.settings.PNL_FACTOR_TYPE])),
+      keccak256(AbiCoder.defaultAbiCoder().encode(['string'], [this.settings.PNL_FACTOR_TYPE])),
     ]
     const readerContract = this.getReaderContract(chain)
     // Prices have a spread from min to max. The last param (maximize-true/false) decides whether to maximize the market token price
@@ -107,8 +107,8 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
       readerContract.getMarketTokenPrice(...tokenPriceContractParams, false),
     ])
 
-    const maximizedPrice = Number(utils.formatUnits(maximizedValue, SIGNED_PRICE_DECIMALS))
-    const minimizedPrice = Number(utils.formatUnits(minimizedValue, SIGNED_PRICE_DECIMALS))
+    const maximizedPrice = Number(ethers.formatUnits(maximizedValue, SIGNED_PRICE_DECIMALS))
+    const minimizedPrice = Number(ethers.formatUnits(minimizedValue, SIGNED_PRICE_DECIMALS))
     const result = median([minimizedPrice, maximizedPrice])
 
     return {
@@ -277,17 +277,19 @@ export class GmTokenTransport extends SubscriptionTransport<GmTokenTransportType
     })
   }
 
-  private getProvider(chain: ChainKey): ethers.providers.JsonRpcProvider {
+  private getProvider(chain: ChainKey): ethers.JsonRpcProvider {
     if (this.providers[chain]) return this.providers[chain]!
     const p =
       chain === 'botanix'
-        ? new ethers.providers.JsonRpcProvider(
+        ? new ethers.JsonRpcProvider(
             this.settings.BOTANIX_RPC_URL,
             this.settings.BOTANIX_CHAIN_ID,
+            { staticNetwork: true, batchMaxCount: 1 },
           )
-        : new ethers.providers.JsonRpcProvider(
+        : new ethers.JsonRpcProvider(
             this.settings.ARBITRUM_RPC_URL,
             this.settings.ARBITRUM_CHAIN_ID,
+            { staticNetwork: true, batchMaxCount: 1 },
           )
     this.providers[chain] = p
     return p

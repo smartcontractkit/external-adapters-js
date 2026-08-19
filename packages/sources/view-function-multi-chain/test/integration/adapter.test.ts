@@ -114,7 +114,7 @@ describe('execute', () => {
         network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_RPC_URL is not provided
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
     })
 
     it('should return error for missing chain id env var', async () => {
@@ -125,7 +125,7 @@ describe('execute', () => {
         network: 'arbitrum_mainnet', // ARBITRUM_MAINNET_CHAIN_ID is not provided
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
     })
 
     it('should return error for invalid input', async () => {
@@ -410,7 +410,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
     })
 
     it('should return error for missing chain id env var', async () => {
@@ -428,7 +428,7 @@ describe('execute', () => {
       }
       const response = await testAdapter.request(data)
       expect(response.json()).toMatchSnapshot()
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
     })
 
     it('should return error for invalid input', async () => {

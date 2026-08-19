@@ -1,13 +1,13 @@
 import {
+  TestAdapter,
+  setEnvVariables,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as nock from 'nock'
+import {
   mockSuccessfulCoinMarketCapResponse,
   mockSuccessfulGlobalMetricsResponse,
   mockSuccessfulHistoricalCapResponse,
 } from './fixtures'
-import * as nock from 'nock'
-import {
-  TestAdapter,
-  setEnvVariables,
-} from '@chainlink/external-adapter-framework/util/testing-utils'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -46,6 +46,26 @@ describe('execute', () => {
       const response = await testAdapter.request(data)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()
+    })
+
+    it('should return success for multiple pairs', async () => {
+      const data1 = {
+        base: 'BTC',
+        cid: '1',
+        to: 'USD',
+      }
+      const data2 = {
+        base: 'LINK',
+        cid: '234',
+        to: 'ETH',
+      }
+      mockSuccessfulCoinMarketCapResponse('id', '234', 'ETH', 0.01234)
+      const response1 = await testAdapter.request(data1)
+      const response2 = await testAdapter.request(data2)
+      expect(response1.json()).toMatchSnapshot()
+      expect(response1.statusCode).toBe(200)
+      expect(response2.json()).toMatchSnapshot()
+      expect(response2.statusCode).toBe(200)
     })
   })
 

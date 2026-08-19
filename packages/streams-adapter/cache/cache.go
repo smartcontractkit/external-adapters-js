@@ -2,6 +2,8 @@ package cache
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -46,8 +48,8 @@ type Config struct {
 	CleanupInterval time.Duration // How often to run cleanup
 }
 
-// pendingObservation holds an observation that arrived before the
-// transformedKey to rawKey mapping was established by SetTransformedKey.
+// pendingObservation holds an observation that arrived before any raw key was
+// mapped to its transformed key by SetTransformedKey.
 type pendingObservation struct {
 	obs                *types.Observation
 	timestamp          time.Time
@@ -58,7 +60,7 @@ type pendingObservation struct {
 type Cache struct {
 	mu               sync.RWMutex
 	items            map[string]*types.CacheItem    // rawKey → item
-	byTransformedKey map[string]string              // transformedKey → rawKey (secondary index)
+	byTransformedKey map[string]map[string]struct{} // transformedKey → rawKeys (secondary index)
 	pendingObs       map[string]*pendingObservation // transformedKey → buffered observation (pre-mapping race)
 	ttl              time.Duration
 	cleanupInterval  time.Duration
@@ -77,7 +79,7 @@ func New(cfg Config) *Cache {
 
 	c := &Cache{
 		items:            make(map[string]*types.CacheItem),
-		byTransformedKey: make(map[string]string),
+		byTransformedKey: make(map[string]map[string]struct{}),
 		pendingObs:       make(map[string]*pendingObservation),
 		ttl:              cfg.TTL,
 		cleanupInterval:  cleanupInterval,
@@ -95,7 +97,7 @@ func New(cfg Config) *Cache {
 // SetNew creates a "new" cache item for the given raw key if one does not
 // already exist. Returns true if the item was created (i.e. this is the first
 // caller for this key), false if an item already existed.
-func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}) bool {
+func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}, payloadHash [32]byte) bool {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 	if _, exists := c.items[rawKey]; exists {
@@ -105,9 +107,21 @@ func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}
 		Status:              types.StatusNew,
 		Timestamp:           time.Now(),
 		OriginalRequestData: originalRequestData,
+		PayloadHash:         payloadHash,
 	}
 	cacheItemsTotal.Inc()
 	return true
+}
+
+// PayloadHashByRawKey returns a copy of the payload hash stored for rawKey.
+func (c *Cache) PayloadHashByRawKey(rawKey string) ([32]byte, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	item, ok := c.items[rawKey]
+	if !ok {
+		return [32]byte{}, false
+	}
+	return item.PayloadHash, true
 }
 
 // SetTransformedKey transitions a "new" item to "learned" by recording the
@@ -122,29 +136,38 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 	if !ok {
 		return
 	}
+	// A raw key should belong to only one transformed-key bucket at a time.
+	if item.TransformedKey != "" && item.TransformedKey != transformedKey {
+		c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
+	}
 	item.TransformedKey = transformedKey
+	item.RequiresInverse = requiresInverse(item.OriginalRequestData, transformedKey)
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
-	c.byTransformedKey[transformedKey] = rawKey
+	c.addTransformedKeyMapping(transformedKey, rawKey)
 
 	// Apply observation that arrived before the transformed key was known.
 	pending, ok := c.pendingObs[transformedKey]
 	if ok {
+		// The provider can publish before the HTTP request has learned its mapping.
 		c.applyObservation(item, transformedKey, pending.obs, pending.timestamp, pending.originalAdapterKey)
 		delete(c.pendingObs, transformedKey)
+		return
 	}
+	// If another raw key already resolved this feed, make this item immediately usable.
+	c.applyExistingObservation(rawKey, item, transformedKey)
 }
 
-// SetObservation transitions the item identified by transformedKey to "active"
-// with the given observation. If the transformedKey to rawKey mapping is not yet
-// known (i.e. SetTransformedKey has not been called), the observation is buffered
-// and applied as soon as SetTransformedKey resolves the mapping.
+// SetObservation transitions all items identified by transformedKey to "active"
+// with the given observation. If no raw key has been mapped yet (i.e.
+// SetTransformedKey has not been called), the observation is buffered and
+// applied as soon as SetTransformedKey resolves the mapping.
 func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, timestamp time.Time, originalAdapterKey string) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	rawKey, ok := c.byTransformedKey[transformedKey]
-	if !ok {
+	rawKeys, ok := c.byTransformedKey[transformedKey]
+	if !ok || len(rawKeys) == 0 {
 		c.pendingObs[transformedKey] = &pendingObservation{
 			obs:                obs,
 			timestamp:          timestamp,
@@ -153,11 +176,59 @@ func (c *Cache) SetObservation(transformedKey string, obs *types.Observation, ti
 		return
 	}
 
-	item, ok := c.items[rawKey]
+	applied := false
+	for rawKey := range rawKeys {
+		item, ok := c.items[rawKey]
+		if !ok {
+			continue
+		}
+		c.applyObservation(item, transformedKey, obs, timestamp, originalAdapterKey)
+		applied = true
+	}
+	if !applied {
+		// Keep the latest observation if the index exists but all raw entries vanished.
+		c.pendingObs[transformedKey] = &pendingObservation{
+			obs:                obs,
+			timestamp:          timestamp,
+			originalAdapterKey: originalAdapterKey,
+		}
+	}
+}
+
+func (c *Cache) addTransformedKeyMapping(transformedKey, rawKey string) {
+	rawKeys, ok := c.byTransformedKey[transformedKey]
+	if !ok {
+		rawKeys = make(map[string]struct{})
+		c.byTransformedKey[transformedKey] = rawKeys
+	}
+	rawKeys[rawKey] = struct{}{}
+}
+
+func (c *Cache) removeTransformedKeyMapping(transformedKey, rawKey string) {
+	rawKeys, ok := c.byTransformedKey[transformedKey]
 	if !ok {
 		return
 	}
-	c.applyObservation(item, transformedKey, obs, timestamp, originalAdapterKey)
+	delete(rawKeys, rawKey)
+	if len(rawKeys) == 0 {
+		// No request is waiting on this transformed key anymore.
+		delete(c.byTransformedKey, transformedKey)
+		delete(c.pendingObs, transformedKey)
+	}
+}
+
+func (c *Cache) applyExistingObservation(rawKey string, item *types.CacheItem, transformedKey string) {
+	for mappedRawKey := range c.byTransformedKey[transformedKey] {
+		if mappedRawKey == rawKey {
+			continue
+		}
+		mappedItem, ok := c.items[mappedRawKey]
+		if !ok || mappedItem.Status != types.StatusActive || mappedItem.Observation == nil {
+			continue
+		}
+		c.applyObservation(item, transformedKey, mappedItem.Observation, mappedItem.Timestamp, mappedItem.OriginalAdapterKey)
+		return
+	}
 }
 
 // applyObservation writes an observation into a cache item, marking it active.
@@ -172,6 +243,67 @@ func (c *Cache) applyObservation(item *types.CacheItem, transformedKey string, o
 		cacheItemsActive.Inc()
 	}
 	cacheObservationsTotal.WithLabelValues(transformedKey).Inc()
+}
+
+// RawKeysByTransformed returns the raw cache keys mapped to the given
+// transformed key (there can be more than one, e.g. a pair and its inverse),
+// or (nil, false) if the mapping is not yet known.
+func (c *Cache) RawKeysByTransformed(transformedKey string) ([]string, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+	rawKeys, ok := c.byTransformedKey[transformedKey]
+	if !ok || len(rawKeys) == 0 {
+		return nil, false
+	}
+	result := make([]string, 0, len(rawKeys))
+	for rawKey := range rawKeys {
+		result = append(result, rawKey)
+	}
+	return result, true
+}
+
+func requiresInverse(originalRequestData map[string]interface{}, transformedKey string) bool {
+	if originalRequestData == nil {
+		return false
+	}
+
+	originalBase := getPairValue(originalRequestData, "base", "from")
+	originalQuote := getPairValue(originalRequestData, "quote", "to")
+	if originalBase == "" || originalQuote == "" {
+		return false
+	}
+
+	transformedParams := parseCacheKey(transformedKey)
+	transformedBase := strings.ToUpper(transformedParams["base"])
+	transformedQuote := strings.ToUpper(transformedParams["quote"])
+	if transformedBase == "" || transformedQuote == "" {
+		return false
+	}
+
+	return originalBase == transformedQuote && originalQuote == transformedBase
+}
+
+func getPairValue(data map[string]interface{}, names ...string) string {
+	for _, name := range names {
+		for key, value := range data {
+			if strings.EqualFold(key, name) {
+				return strings.ToUpper(fmt.Sprintf("%v", value))
+			}
+		}
+	}
+	return ""
+}
+
+func parseCacheKey(key string) map[string]string {
+	params := make(map[string]string)
+	for _, part := range strings.Split(key, ":") {
+		pieces := strings.SplitN(part, "=", 2)
+		if len(pieces) != 2 {
+			continue
+		}
+		params[pieces[0]] = pieces[1]
+	}
+	return params
 }
 
 // Get retrieves a cache item by its internal cache key string.
@@ -225,8 +357,7 @@ func (c *Cache) cleanupExpired() {
 	for rawKey, item := range c.items {
 		if item.Timestamp.Before(cutoff) {
 			if item.TransformedKey != "" {
-				delete(c.byTransformedKey, item.TransformedKey)
-				delete(c.pendingObs, item.TransformedKey)
+				c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
 			}
 			if item.Status == types.StatusActive {
 				cacheItemsActive.Dec()

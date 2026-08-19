@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.4.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -17,15 +17,17 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Data Provider Rate Limits
 
-There are no rate limits for this adapter.
+|  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
+| :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
+| default |              5              |                             |                           |      |
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                    Options                                                                                                     |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint) | `crypto-v3` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                Options                                                                                                                 |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint), [twap](#twap-endpoint) | `crypto-v3` |
 
 ## Crypto-v3 Endpoint
 
@@ -134,6 +136,35 @@ Request:
     "endpoint": "exchangerate-v7",
     "feedId": "0x00070f4b71834a1b005b6c0f0ef3e3a2928aceaa51a1099f834e340e37ab498d",
     "decimals": 0
+  }
+}
+```
+
+---
+
+## Twap Endpoint
+
+`twap` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |     Name      | Aliases |                      Description                      |  Type  | Options | Default | Depends On | Not Valid With |
+| :-------: | :-----------: | :-----: | :---------------------------------------------------: | :----: | :-----: | :-----: | :--------: | :------------: |
+|    ✅     |    feedId     |         |             The feed ID to query TWAP for             | string |         |         |            |                |
+|    ✅     | windowSeconds |         |    The time window in seconds to compute TWAP over    | number |         |         |            |                |
+|           |     endTs     |         | The end timestamp (Unix seconds) for the TWAP window. | number |         |         |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "twap",
+    "feedId": "0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9",
+    "windowSeconds": 30,
+    "endTs": 1730000000
   }
 }
 ```

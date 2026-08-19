@@ -1,5 +1,39 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.11.1
+
+### Patch Changes
+
+- [#5280](https://github.com/smartcontractkit/external-adapters-js/pull/5280) [`403c383`](https://github.com/smartcontractkit/external-adapters-js/commit/403c38382d4d9e223a41ab24f5f48518a12c7db7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 1.11.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+### Patch Changes
+
+- [#5167](https://github.com/smartcontractkit/external-adapters-js/pull/5167) [`ff56426`](https://github.com/smartcontractkit/external-adapters-js/commit/ff564269ff80836d531b73fbee3509a1a36d93c7) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variablePlaceholder instead of custom env vars
+
+## 1.10.1
+
+### Patch Changes
+
+- [#5129](https://github.com/smartcontractkit/external-adapters-js/pull/5129) [`be5ffeb`](https://github.com/smartcontractkit/external-adapters-js/commit/be5ffeb4babe4cf319c3a5a2d85aca168f6178d0) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - updates streams-adapter code
+
+## 1.10.0
+
+### Minor Changes
+
+- [#5024](https://github.com/smartcontractkit/external-adapters-js/pull/5024) [`0b56c4e`](https://github.com/smartcontractkit/external-adapters-js/commit/0b56c4e88e987468ab1a7277f3915159801ca213) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update ea framework to support json only feed id
+
+### Patch Changes
+
+- [#5030](https://github.com/smartcontractkit/external-adapters-js/pull/5030) [`d9b1620`](https://github.com/smartcontractkit/external-adapters-js/commit/d9b1620f9b26ca07ebc38f8d427c42558f200226) Thanks [@dskloetc](https://github.com/dskloetc)! - Bumped framework version
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
 ## 1.9.0
 
 ### Minor Changes

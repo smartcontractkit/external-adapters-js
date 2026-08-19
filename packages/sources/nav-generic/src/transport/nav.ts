@@ -15,34 +15,16 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-const normalizeIntegrationForEnvVar = (integration: string): string => {
-  return integration.toUpperCase().replace(/-/g, '_')
-}
-
-export const getApiConfigs = (integration: string): { apiKey: string; apiUrl: string } => {
-  const envVarIntegration = normalizeIntegrationForEnvVar(integration)
-  const apiKeyEnvVarName = `${envVarIntegration}_API_KEY`
-  const apiKey = process.env[apiKeyEnvVarName]
-
-  if (!apiKey) {
-    throw new AdapterError({
-      message: `missing ${apiKeyEnvVarName}`,
-      statusCode: 500,
-    })
-  }
-
-  const apiUrlEnvVarName = `${envVarIntegration}_API_URL`
-  const apiUrl = process.env[apiUrlEnvVarName]
-
-  if (!apiUrl) {
-    throw new AdapterError({
-      message: `missing ${apiUrlEnvVarName}`,
-      statusCode: 500,
-    })
-  }
+export const getApiConfigs = (
+  integration: string,
+  settings: BaseEndpointTypes['Settings'],
+): { apiKey: string; apiUrl: string } => {
+  const apiKey = settings.INTEGRATION_API_KEY.get(integration)
+  const apiUrl = settings.INTEGRATION_API_URL.get(integration)
 
   // audit fix, ensure https at the url config level
   if (!apiUrl.startsWith('https://')) {
+    const apiUrlEnvVarName = settings.INTEGRATION_API_URL.getEnvVarName(integration)
     throw new AdapterError({
       message: `${apiUrlEnvVarName} does not start with https://`,
       statusCode: 500,
@@ -53,9 +35,9 @@ export const getApiConfigs = (integration: string): { apiKey: string; apiUrl: st
 }
 
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
-  prepareRequests: (params) => {
+  prepareRequests: (params, adapterSettings) => {
     return params.map((param) => {
-      const { apiKey, apiUrl } = getApiConfigs(param.integration.toLowerCase())
+      const { apiKey, apiUrl } = getApiConfigs(param.integration, adapterSettings)
       return {
         params: [param],
         request: {

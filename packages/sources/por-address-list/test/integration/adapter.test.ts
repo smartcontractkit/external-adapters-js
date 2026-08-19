@@ -71,6 +71,7 @@ describe('execute', () => {
     process.env.SOLVBTC_TRADING_API_ENDPOINT = 'http://solv-trading'
     process.env.SOLVBTC_CORE_API_ENDPOINT = 'http://solv-core'
     process.env.SOLVBTC_JUP_API_ENDPOINT = 'http://solv-jup'
+    process.env.ZEUS_ZBTC_API_URL = 'http://zeus-btc'
     process.env.BACKGROUND_EXECUTE_MS = '0'
     process.env.RATE_LIMIT_CAPACITY_SECOND = '500'
     const mockDate = new Date('2001-01-01T11:11:11.111Z')

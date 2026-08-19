@@ -1,5 +1,33 @@
 # @chainlink/mobula-state-adapter
 
+## 2.5.1
+
+### Patch Changes
+
+- [#5277](https://github.com/smartcontractkit/external-adapters-js/pull/5277) [`fec6ff9`](https://github.com/smartcontractkit/external-adapters-js/commit/fec6ff987ec04aedf3a4ead89c9f1de3bcbf8035) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 2.5.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.4.0
+
+### Minor Changes
+
+- [#5197](https://github.com/smartcontractkit/external-adapters-js/pull/5197) [`58d4d14`](https://github.com/smartcontractkit/external-adapters-js/commit/58d4d149c9332b5e7d1790418293587503868fa5) Thanks [@dskloetc](https://github.com/dskloetc)! - Revert the change that requires the protocol param on funding-rate
+
+## 2.3.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
 ## 2.2.1
 
 ### Patch Changes

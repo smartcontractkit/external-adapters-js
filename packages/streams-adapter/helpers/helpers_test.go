@@ -1,12 +1,29 @@
 package helpers
 
 import (
+	"crypto/sha256"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	types "streams-adapter/common"
 )
+
+func TestObservationPayloadHash(t *testing.T) {
+	dataA := map[string]interface{}{"quote": "USD", "base": "ETH", "nested": map[string]interface{}{"enabled": true}}
+	dataB := map[string]interface{}{"nested": map[string]interface{}{"enabled": true}, "base": "ETH", "quote": "USD"}
+
+	hashA, err := ObservationPayloadHash("test", dataA)
+	require.NoError(t, err)
+	hashB, err := ObservationPayloadHash("test", dataB)
+	require.NoError(t, err)
+	require.Equal(t, hashA, hashB)
+	require.Equal(t, sha256.Sum256([]byte(`test{"base":"ETH","nested":{"enabled":true},"quote":"USD"}`)), hashA)
+
+	otherAdapterHash, err := ObservationPayloadHash("other", dataA)
+	require.NoError(t, err)
+	require.NotEqual(t, hashA, otherAdapterHash)
+}
 
 // ---------------------------------------------------------------------------
 // RequestParamsFromKey tests
@@ -78,4 +95,32 @@ func TestCalculateCacheKey(t *testing.T) {
 	})
 	require.NoError(t, err)
 	require.Equal(t, "base=eth:endpoint=cryptolwba", key)
+}
+
+func TestTransformedKeyFromFeedID_JSONParams(t *testing.T) {
+	initTestAdapter(t)
+
+	key, err := TransformedKeyFromFeedID(`{"base":"ETH","quote":"USD"}`, "price")
+	require.NoError(t, err)
+	require.Equal(t, "base=eth:endpoint=price:quote=usd", key)
+}
+
+func TestTransformedKeyFromFeedID_OpaqueHash(t *testing.T) {
+	key, err := TransformedKeyFromFeedID("Ff25JqfZC9B/NRMI2Kyn9x1gcH0=", "calculated-multi-function")
+	require.NoError(t, err)
+	require.Equal(t, "Ff25JqfZC9B/NRMI2Kyn9x1gcH0=", key)
+}
+
+func TestTransformedKeyFromAdapterKey_JSONParams(t *testing.T) {
+	initTestAdapter(t)
+
+	key, err := TransformedKeyFromAdapterKey(`adapter-price-{"base":"eth","quote":"usd"}`)
+	require.NoError(t, err)
+	require.Equal(t, "base=eth:endpoint=price:quote=usd", key)
+}
+
+func TestTransformedKeyFromAdapterKey_OpaqueHash(t *testing.T) {
+	key, err := TransformedKeyFromAdapterKey("view-function-multi-chain-data-streams-VIEW_FUNCTION_MULTI_CHAIN-calculated-multi-function-default_single_transport-Ff25JqfZC9B/NRMI2Kyn9x1gcH0=")
+	require.NoError(t, err)
+	require.Equal(t, "Ff25JqfZC9B/NRMI2Kyn9x1gcH0=", key)
 }

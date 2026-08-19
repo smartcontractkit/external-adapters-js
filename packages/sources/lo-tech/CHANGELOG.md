@@ -1,5 +1,11 @@
 # @chainlink/lo-tech-adapter
 
+## 1.1.0
+
+### Minor Changes
+
+- [#5194](https://github.com/smartcontractkit/external-adapters-js/pull/5194) [`396d242`](https://github.com/smartcontractkit/external-adapters-js/commit/396d2420091cf2d3550a53211f647084cb860d76) Thanks [@dskloetc](https://github.com/dskloetc)! - Add cme_futures endpoint
+
 ## 1.0.2
 
 ### Patch Changes

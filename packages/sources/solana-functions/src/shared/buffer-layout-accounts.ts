@@ -3,7 +3,39 @@ import { type Address } from '@solana/addresses'
 import * as BufferLayout from '@solana/buffer-layout'
 import { type Rpc, type SolanaRpcApi } from '@solana/rpc'
 import { StakePoolLayout } from '@solana/spl-stake-pool'
-import { AccountLayout, MintLayout } from '@solana/spl-token'
+import {
+  AccountLayout,
+  MintLayout,
+  TOKEN_2022_PROGRAM_ID,
+  TOKEN_PROGRAM_ID,
+} from '@solana/spl-token'
+import { assertDataLength, assertOwnerProgram, type AccountInfo } from './solana-account-utils'
+
+export const LEGACY_TOKEN_PROGRAM_ADDRESS = TOKEN_PROGRAM_ID.toBase58()
+export const TOKEN_2022_PROGRAM_ADDRESS = TOKEN_2022_PROGRAM_ID.toBase58()
+export const TOKEN_PROGRAM_ADDRESSES = [LEGACY_TOKEN_PROGRAM_ADDRESS, TOKEN_2022_PROGRAM_ADDRESS]
+
+export type MintInfo = {
+  supply: bigint
+  decimals: number
+}
+
+export type TokenAccountInfo = {
+  mintAddress: string
+  ownerAddress: string
+  amount: bigint
+}
+
+type DecodedMint = {
+  supply: bigint
+  decimals: number
+}
+
+type DecodedTokenAccount = {
+  mint: { toString(): string }
+  owner: { toString(): string }
+  amount: bigint
+}
 
 interface SanctumPoolState {
   total_sol_value: bigint
@@ -35,7 +67,7 @@ const SanctumPoolStateLayout = BufferLayout.struct<SanctumPoolState>([
   BufferLayout.blob(32, 'lp_token_mint'),
 ])
 
-const solanaTokenProgramAddress = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'
+const solanaTokenProgramAddress = LEGACY_TOKEN_PROGRAM_ADDRESS
 const solanaStakePoolProgramAddress = 'SPoo1Ku8WFXoNDMHPsrGSTSG1Y47rzgn41SLUNakuHy'
 const sanctumControllerProgramAddress = '5ocnV1qiCgaQR8Jb8xWnVbApfaygJ8tNoZfgPwsgx9kx'
 
@@ -43,6 +75,33 @@ const programToBufferLayoutMap: Record<string, BufferLayout.Layout<unknown>[]> =
   [solanaTokenProgramAddress]: [AccountLayout, MintLayout],
   [solanaStakePoolProgramAddress]: [StakePoolLayout],
   [sanctumControllerProgramAddress]: [SanctumPoolStateLayout],
+}
+
+export const assertTokenProgramOwner = (
+  accountInfo: AccountInfo | null | undefined,
+  description: string,
+) =>
+  assertOwnerProgram(accountInfo, description, TOKEN_PROGRAM_ADDRESSES, 'a supported token program')
+
+export const decodeMintInfo = (data: Buffer, description: string): MintInfo => {
+  assertDataLength(data, description, MintLayout.span)
+  const decoded = MintLayout.decode(data) as DecodedMint
+
+  return {
+    supply: decoded.supply,
+    decimals: decoded.decimals,
+  }
+}
+
+export const decodeTokenAccountInfo = (data: Buffer, description: string): TokenAccountInfo => {
+  assertDataLength(data, description, AccountLayout.span)
+  const decoded = AccountLayout.decode(data) as DecodedTokenAccount
+
+  return {
+    mintAddress: decoded.mint.toString(),
+    ownerAddress: decoded.owner.toString(),
+    amount: decoded.amount,
+  }
 }
 
 const getLayout = (programAddress: string, dataLength: number): BufferLayout.Layout<unknown> => {
