@@ -71,6 +71,7 @@ func TestMain(m *testing.M) {
 		CacheCleanupIntervalSeconds: 60,
 		LogLevel:                    "info",
 		AdapterName:                 "test",
+		Version:                     "1.2.3",
 	}
 
 	testCache = cache.New(cache.Config{
@@ -105,6 +106,7 @@ func TestHealthHandler(t *testing.T) {
 	var body map[string]interface{}
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
 	require.Equal(t, "healthy", body["status"])
+	require.Equal(t, "1.2.3", body["version"])
 }
 
 func TestAdapterHandler_BadRequest(t *testing.T) {

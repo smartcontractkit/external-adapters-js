@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/goccy/go-json"
 	"github.com/soheilhy/cmux"
 	"google.golang.org/grpc"
 
@@ -21,8 +22,9 @@ import (
 	"streams-adapter/transmitter"
 )
 
-// waitForEAServer waits for the EA server to be ready before proceeding
-func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
+// waitForEAServer waits for the EA server to be ready before proceeding.
+// It returns the adapter version reported by the EA health endpoint.
+func waitForEAServer(cfg *config.Config, logger *slog.Logger) string {
 	eaURL := fmt.Sprintf("http://%s:%s%s/health", cfg.EAHost, cfg.EAPort, cfg.EABaseUrl)
 	maxWaitTime := 60 * time.Second
 	checkInterval := 500 * time.Millisecond
@@ -46,9 +48,15 @@ func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
 			// Try to connect to the EA server health endpoint
 			resp, err := client.Get(eaURL)
 			if err == nil && resp.StatusCode == http.StatusOK {
+				var health struct {
+					Version string `json:"version"`
+				}
+				if err := json.NewDecoder(resp.Body).Decode(&health); err != nil {
+					logger.Warn("failed to decode EA health response", "error", err)
+				}
 				resp.Body.Close()
-				logger.Info("EA server is ready", "elapsed", time.Since(startTime))
-				return
+				logger.Info("EA server is ready", "elapsed", time.Since(startTime), "version", health.Version)
+				return health.Version
 			}
 			if resp != nil {
 				resp.Body.Close()
@@ -75,8 +83,8 @@ func main() {
 	// Create the gRPC publisher (fanout to subscribed clients)
 	pub := transmitter.NewPublisher()
 
-	// Wait for EA server to be ready before starting
-	waitForEAServer(cfg, logger)
+	// Wait for EA server to be ready before starting and capture its version
+	cfg.Version = waitForEAServer(cfg, logger)
 
 	// Initialize HTTP server
 	httpServer := server.New(cfg, appCache, logger)

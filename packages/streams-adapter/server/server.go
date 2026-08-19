@@ -250,10 +250,14 @@ func (s *Server) Stop() error {
 
 // healthHandler handles health check requests
 func (s *Server) healthHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
+	response := gin.H{
 		"status": "healthy",
 		"time":   time.Now().UTC(),
-	})
+	}
+	if s.config.Version != "" {
+		response["version"] = s.config.Version
+	}
+	c.JSON(http.StatusOK, response)
 }
 
 // cacheHandler returns all current cache entries for debugging.
