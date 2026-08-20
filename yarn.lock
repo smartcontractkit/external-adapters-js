@@ -2272,7 +2272,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     socket.io-client: "npm:^4.8.1"
     socket.io-mock-ts: "npm:1.0.2"
     tslib: "npm:2.4.1"
@@ -2289,7 +2289,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2305,7 +2305,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2320,7 +2320,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2335,7 +2335,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2349,7 +2349,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2362,7 +2362,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2375,7 +2375,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2388,7 +2388,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2404,7 +2404,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2421,7 +2421,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2435,7 +2435,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2448,7 +2448,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2491,7 +2491,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2506,7 +2506,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2522,7 +2522,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2537,7 +2537,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2552,7 +2552,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2568,7 +2568,7 @@ __metadata:
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.13.2"
     https-proxy-agent: "npm:7.0.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     query-string: "npm:9.3.1"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -2585,7 +2585,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2601,7 +2601,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2630,7 +2630,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2646,7 +2646,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2662,7 +2662,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     crypto-js: "npm:4.2.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2676,7 +2676,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -2692,7 +2692,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2706,7 +2706,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2722,7 +2722,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2738,7 +2738,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2754,7 +2754,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2767,7 +2767,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2782,7 +2782,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2812,7 +2812,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2829,7 +2829,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -2847,7 +2847,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     decimal.js: "npm:^10.5.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2875,7 +2875,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2894,7 +2894,7 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:^8"
     decimal.js: "npm:10.5.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
     ws: "npm:^8.18.3"
@@ -2915,7 +2915,7 @@ __metadata:
     bip32: "npm:4.0.0"
     bitcoinjs-lib: "npm:6.1.7"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2931,7 +2931,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     bip32: "npm:^4.0.0"
     bitcoinjs-lib: "npm:^6.1.7"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2946,7 +2946,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -2962,7 +2962,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.3.1"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3094,7 +3094,7 @@ __metadata:
     "@types/supertest": "npm:2.0.16"
     hardhat: "npm:2.22.19"
     mock-socket: "npm:9.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3111,7 +3111,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     axios: "npm:1.13.4"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3127,7 +3127,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3143,7 +3143,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3161,7 +3161,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3177,7 +3177,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     bignumber.js: "npm:9.1.2"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3192,7 +3192,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
@@ -3206,7 +3206,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3221,7 +3221,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3364,7 +3364,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     decimal.js: "npm:^10.6.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3381,7 +3381,7 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/uuid": "npm:8.3.4"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
     uuid: "npm:^8.3.0"
@@ -3397,7 +3397,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3413,7 +3413,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3426,7 +3426,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3440,7 +3440,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3459,7 +3459,7 @@ __metadata:
     decimal.js: "npm:^10.5.0"
     jest: "npm:^29.7.0"
     jest-util: "npm:^29.7.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     ssh2-sftp-client: "npm:^12.0.1"
     ts-jest: "npm:^29.2.5"
     tslib: "npm:^2.3.1"
@@ -3474,7 +3474,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3488,7 +3488,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/object-path": "npm:0.11.4"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     object-path: "npm:^0.11.5"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3505,7 +3505,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3520,7 +3520,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3535,7 +3535,7 @@ __metadata:
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3553,7 +3553,7 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3568,7 +3568,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.6.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3586,7 +3586,7 @@ __metadata:
     "@types/ws": "npm:8.5.14"
     axios: "npm:1.13.4"
     crypto: "npm:1.0.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3599,7 +3599,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3612,7 +3612,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3625,7 +3625,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3669,7 +3669,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3685,7 +3685,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3699,7 +3699,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3712,7 +3712,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3726,7 +3726,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3741,7 +3741,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3755,7 +3755,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3771,7 +3771,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     exponential-backoff: "npm:3.1.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     rxjs: "npm:7.8.2"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3788,7 +3788,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     sinon: "npm:12.0.1"
     starknet: "npm:6.9.0"
     supertest: "npm:6.2.4"
@@ -3807,7 +3807,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3822,7 +3822,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3835,7 +3835,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3849,7 +3849,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3866,7 +3866,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     date-fns: "npm:^4.1.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3880,7 +3880,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.4.7"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3893,7 +3893,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3911,7 +3911,7 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
     mock-socket: "npm:9.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -3927,7 +3927,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     crypto-js: "npm:4.2.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3942,7 +3942,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -3957,7 +3957,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:^6.2.2"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3974,7 +3974,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -3988,7 +3988,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4005,7 +4005,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/node-schedule": "npm:2.1.7"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     node-schedule: "npm:2.1.1"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4023,7 +4023,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     crypto-js: "npm:4.2.0"
     date-fns: "npm:4.1.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4040,7 +4040,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     crypto-js: "npm:^4.2.0"
     date-fns: "npm:^4.1.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
     uuid: "npm:^11.1.0"
@@ -4054,7 +4054,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.18.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4069,7 +4069,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4084,7 +4084,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4097,7 +4097,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4110,7 +4110,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4123,7 +4123,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4160,7 +4160,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4173,7 +4173,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4186,7 +4186,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4202,7 +4202,7 @@ __metadata:
     "@polkadot/types-codec": "npm:^9.14.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4216,7 +4216,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.5.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4230,7 +4230,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4279,7 +4279,7 @@ __metadata:
     "@types/supertest": "npm:2.0.16"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4297,7 +4297,7 @@ __metadata:
     "@types/object-path": "npm:^0"
     date-fns: "npm:^4.1.0"
     decimal.js: "npm:^10.6.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     object-path: "npm:^0.11.8"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4313,7 +4313,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     crypto-js: "npm:4.2.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4327,7 +4327,7 @@ __metadata:
     "@chainlink/ea-factories": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:2.3.1"
   languageName: unknown
@@ -4340,7 +4340,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4373,7 +4373,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     csv-parse: "npm:5.5.6"
     date-fns: "npm:3.6.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.6.3"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4390,7 +4390,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4405,7 +4405,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.14.3"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4418,7 +4418,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     tweetnacl: "npm:^1.0.3"
     typescript: "npm:5.8.3"
@@ -4435,7 +4435,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     date-fns: "npm:^4.1.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4452,7 +4452,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4466,7 +4466,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4519,7 +4519,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4535,7 +4535,7 @@ __metadata:
     axios: "npm:1.13.4"
     bignumber.js: "npm:^9.1.1"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4551,7 +4551,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.6.9"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4581,7 +4581,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     date-fns: "npm:^4.1.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4594,7 +4594,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4612,7 +4612,7 @@ __metadata:
     date-fns: "npm:3.6.0"
     date-fns-tz: "npm:3.1.3"
     ethers: "npm:^6.15.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     node-schedule: "npm:2.1.1"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
@@ -4629,7 +4629,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4661,7 +4661,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:10.4.3"
     ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4674,7 +4674,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.18.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4687,7 +4687,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.17.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4702,7 +4702,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4717,7 +4717,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4732,7 +4732,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4763,7 +4763,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4779,7 +4779,7 @@ __metadata:
     axios: "npm:1.13.4"
     decimal.js: "npm:^10.3.1"
     ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4796,7 +4796,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.5.0"
     ethers: "npm:^6.13.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4812,7 +4812,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4845,7 +4845,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4863,7 +4863,7 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/supertest": "npm:2.0.16"
     mock-socket: "npm:9.3.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4877,7 +4877,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4890,7 +4890,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4905,7 +4905,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -4922,7 +4922,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     "@types/ws": "npm:8.5.14"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4936,7 +4936,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4950,7 +4950,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4977,7 +4977,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -4992,7 +4992,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/sinonjs__fake-timers": "npm:8.1.5"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -5005,7 +5005,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
@@ -5020,7 +5020,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -5038,7 +5038,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
     ethers: "npm:^5.5.1"
-    nock: "npm:13.5.6"
+    nock: "npm:14.0.17"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
@@ -6459,6 +6459,20 @@ __metadata:
     outvariant: "npm:^1.4.3"
     strict-event-emitter: "npm:^0.5.1"
   checksum: 10/f5fbf0a4088ad013cec7b0803c03d6c47c4216d292fbf9bd7c01e32e40eb42fa4ce43e0bf9454697aa39c5bbb85f5e5d83fbb3a2640a411a413a85d9f7c3f8d0
+  languageName: node
+  linkType: hard
+
+"@mswjs/interceptors@npm:^0.41.0":
+  version: 0.41.9
+  resolution: "@mswjs/interceptors@npm:0.41.9"
+  dependencies:
+    "@open-draft/deferred-promise": "npm:^2.2.0"
+    "@open-draft/logger": "npm:^0.3.0"
+    "@open-draft/until": "npm:^2.0.0"
+    is-node-process: "npm:^1.2.0"
+    outvariant: "npm:^1.4.3"
+    strict-event-emitter: "npm:^0.5.1"
+  checksum: 10/aed6a80913d345e37a0cd58f1318736d765d5295cefae35ea104f6bfc5b224f96eb71635593f470579c1251efb1d18ad426e884ba01f85cfe3ff135e3b82e7a2
   languageName: node
   linkType: hard
 
@@ -17336,14 +17350,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nock@npm:13.5.6, nock@npm:^13.3.0":
-  version: 13.5.6
-  resolution: "nock@npm:13.5.6"
+"nock@npm:14.0.17":
+  version: 14.0.17
+  resolution: "nock@npm:14.0.17"
   dependencies:
-    debug: "npm:^4.1.0"
+    "@mswjs/interceptors": "npm:^0.41.0"
     json-stringify-safe: "npm:^5.0.1"
     propagate: "npm:^2.0.0"
-  checksum: 10/a57c265b75e5f7767e2f8baf058773cdbf357c31c5fea2761386ec03a008a657f9df921899fe2a9502773b47145b708863b32345aef529b3c45cba4019120f88
+  checksum: 10/deab3abb6a519f4b16e5b4656d169aae9ed774541fc224749d42d405640d2495031c2c3cc934b088fd0fa74fb6d323ad2e4900b57cb8b673e27bca3dc3f91604
   languageName: node
   linkType: hard
 
@@ -17355,6 +17369,17 @@ __metadata:
     json-stringify-safe: "npm:^5.0.1"
     propagate: "npm:^2.0.0"
   checksum: 10/32048a34b1109b6ff85b25a9c9a939e57779929ac6d33332dd09a8803ae9dc2296f577d9f9ba9b0482e503b0eb01ca2b5f3e25678db2619b5a0364f2fd2b0f5e
+  languageName: node
+  linkType: hard
+
+"nock@npm:^13.3.0":
+  version: 13.5.6
+  resolution: "nock@npm:13.5.6"
+  dependencies:
+    debug: "npm:^4.1.0"
+    json-stringify-safe: "npm:^5.0.1"
+    propagate: "npm:^2.0.0"
+  checksum: 10/a57c265b75e5f7767e2f8baf058773cdbf357c31c5fea2761386ec03a008a657f9df921899fe2a9502773b47145b708863b32345aef529b3c45cba4019120f88
   languageName: node
   linkType: hard
 
