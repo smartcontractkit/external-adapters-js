@@ -102,5 +102,17 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
       expect(response.statusCode).toBe(200)
     })
+
+    it('should not support atTimestampSeconds by default', async () => {
+      const data = {
+        market: 'nymex',
+        type: 'regular',
+        atTimestampSeconds: 1672531200,
+      }
+
+      const response = await testAdapter.request(data)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(400)
+    })
   })
 })
