@@ -571,6 +571,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/starknet-gas-price"\
     },\
     {\
+      "name": "@chainlink/static-market-hours-adapter",\
+      "reference": "workspace:packages/sources/static-market-hours"\
+    },\
+    {\
       "name": "@chainlink/streamex-adapter",\
       "reference": "workspace:packages/sources/streamex"\
     },\
@@ -816,6 +820,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
+    ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
     ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
     ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
@@ -7075,6 +7080,23 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:14.0.6"],\
           ["starknet", "npm:6.9.0"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/static-market-hours-adapter", [\
+      ["workspace:packages/sources/static-market-hours", {\
+        "packageLocation": "./packages/sources/static-market-hours/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.18.0"],\
+          ["@chainlink/static-market-hours-adapter", "workspace:packages/sources/static-market-hours"],\
+          ["@date-fns/tz", "npm:1.4.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

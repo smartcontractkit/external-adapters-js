@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute market-status endpoint should return success for 24/5 schedule 1`] = `
+{
+  "data": {
+    "result": 5,
+    "statusString": "WEEKEND",
+  },
+  "result": 5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute market-status endpoint should return success for regular schedule 1`] = `
+{
+  "data": {
+    "result": 1,
+    "statusString": "CLOSED",
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
