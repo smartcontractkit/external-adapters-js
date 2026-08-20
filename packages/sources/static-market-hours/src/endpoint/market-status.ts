@@ -8,7 +8,15 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { config } from '../config'
 import { customTransport } from '../transport/market-status'
 
-export const inputParameters = new InputParameters(marketStatusEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters({
+  ...marketStatusEndpointInputParametersDefinition,
+  atTimestampSeconds: {
+    description:
+      'Optional override for the current time in seconds since the epoch. Used for testing.',
+    type: 'number',
+    required: false,
+  },
+})
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
@@ -22,6 +30,14 @@ export const endpoint = new MarketStatusEndpoint({
   inputParameters,
   customInputValidation: (request, settings): undefined => {
     const params = request.requestContext.data
+
+    if (params.atTimestampSeconds !== undefined && !settings.ALLOW_AT_TIMESTAMP_FOR_TESTING) {
+      throw new AdapterInputError({
+        statusCode: 400,
+        message:
+          'The atTimestampSeconds parameter is disabled. Set ALLOW_AT_TIMESTAMP_FOR_TESTING=true in settings to enable it.',
+      })
+    }
 
     switch (params.type) {
       case 'regular':

@@ -88,6 +88,7 @@ describe('CustomTransport', () => {
       const params = {
         market: 'nymex',
         type: 'regular',
+        atTimestampSeconds: undefined,
       }
 
       const request = makeStub('request', {
@@ -117,6 +118,7 @@ describe('CustomTransport', () => {
       const params = {
         market: 'nyse',
         type: '24/5',
+        atTimestampSeconds: undefined,
       }
 
       const request = makeStub('request', {
@@ -133,6 +135,36 @@ describe('CustomTransport', () => {
           statusString: 'WEEKEND',
         },
         result: TwentyfourFiveMarketStatus.WEEKEND,
+        statusCode: 200,
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+    })
+
+    it('should support atTimestampSeconds', async () => {
+      const params = {
+        market: 'nymex',
+        type: 'regular',
+        atTimestampSeconds: new Date('2026-08-18T15:00:00Z').getTime() / 1000,
+      }
+
+      const request = makeStub('request', {
+        requestContext: {
+          data: params,
+        },
+      } as unknown as AdapterRequest<typeof inputParameters.validated>)
+
+      const response = await transport.foregroundExecute(request, adapterSettings)
+
+      expect(response).toEqual({
+        data: {
+          result: MarketStatus.OPEN,
+          statusString: 'OPEN',
+        },
+        result: MarketStatus.OPEN,
         statusCode: 200,
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
