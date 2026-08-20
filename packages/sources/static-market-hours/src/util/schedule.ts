@@ -3,7 +3,7 @@ import {
   TwentyfourFiveMarketStatus,
 } from '@chainlink/external-adapter-framework/adapter'
 import { tz, TZDate } from '@date-fns/tz'
-import { addDays, addHours, ContextFn, format, isValid, parse, startOfDay } from 'date-fns'
+import { addDays, addSeconds, ContextFn, format, isValid, parse, startOfDay } from 'date-fns'
 
 type Timezone = ContextFn<TZDate>
 
@@ -117,8 +117,8 @@ export const getStatusStringFromSchedule = <StatusType extends MarketStatusType>
 
 const parseTime = (time: string, date: TZDate): TZDate => {
   if (time === '24:00:00') {
-    const startOfDate = startOfDay(date)
-    return addHours(startOfDate, 24)
+    const oneSecondBefore = parse('23:59:59', timeFormat, date)
+    return addSeconds(oneSecondBefore, 1)
   }
   return parse(time, timeFormat, date)
 }
