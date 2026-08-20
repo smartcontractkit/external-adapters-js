@@ -89,7 +89,7 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
           if (subscriptions.stale.length > 0) {
             messages.push({
               action: 'unsubscribe',
-              symbols: subscriptions.new.map(this.buildTicker),
+              symbols: subscriptions.stale.map(this.buildTicker),
             })
           }
           return messages
