@@ -411,6 +411,9 @@
       "path": "./sources/starknet-gas-price/tsconfig.test.json"
     },
     {
+      "path": "./sources/static-market-hours/tsconfig.test.json"
+    },
+    {
       "path": "./sources/streamex/tsconfig.test.json"
     },
     {

@@ -411,6 +411,9 @@
       "path": "./sources/starknet-gas-price"
     },
     {
+      "path": "./sources/static-market-hours"
+    },
+    {
       "path": "./sources/streamex"
     },
     {
