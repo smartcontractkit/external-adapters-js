@@ -432,6 +432,34 @@ describe('schedule', () => {
         })
       })
     })
+
+    describe('daylight saving', () => {
+      const scheduleData: Schedule<typeof MarketStatus> = {
+        timezone: 'US/Central',
+        lastValidDate: '2027-01-03',
+        defaultStatus: 'CLOSED',
+        weekly: [
+          {
+            status: 'OPEN',
+            when: [{ days: ['SUNDAY'], times: [{ start: '23:00:00', end: '24:00:00' }] }],
+          },
+        ],
+        exceptions: [],
+      }
+
+      it('should correctly interpret 24:00:00 on the day DST ends', () => {
+        // We previously had a bug where 24:00:00 was interpreted as 24 hours
+        // after the start of the day. But on the day DST ends, 24 hours after
+        // the start of the day is actually 23:00:00, so this would place
+        // 23:30:00 after then end of the day.
+        expect(
+          getStatusStringFromSchedule(
+            new TZDate(2026, 10, 1, 23, 55, 0, 0, scheduleData.timezone).getTime(),
+            scheduleData,
+          ),
+        ).toBe('OPEN')
+      })
+    })
   })
 
   describe('getScheduleValidationError', () => {
