@@ -44,7 +44,7 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.9.2
+    version: 2.9.3
   - name: chain-reserve-wallet
     version: 3.0.31
   - name: coinapi
@@ -228,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.158
+    version: 3.0.159
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -304,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.157
+    version: 2.0.158
