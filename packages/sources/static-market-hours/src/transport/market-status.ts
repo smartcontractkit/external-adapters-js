@@ -43,9 +43,13 @@ export class CustomTransport implements Transport<CustomTransportTypes> {
     settings: typeof config.settings,
   ): Promise<AdapterResponse<CustomTransportTypes['Response']>> {
     const params = request.requestContext.data
+    const atTimestampMillis = params.atTimestampSeconds
+      ? params.atTimestampSeconds * 1000
+      : Date.now()
 
     const statusResult = this.getStatusResult(
       params.market,
+      atTimestampMillis,
       settings,
       this.getMarketStatusType(params.type),
     )
@@ -75,11 +79,12 @@ export class CustomTransport implements Transport<CustomTransportTypes> {
 
   getStatusResult<StatusType extends MarketStatusType>(
     market: string,
+    atTimestampMillis: number,
     settings: typeof config.settings,
     usedMarketStatusType: StatusType,
   ): MarketStatusResult<StatusType> {
     const scheduleData = this.getScheduleData(market, settings, usedMarketStatusType)
-    return getMarketStatusFromSchedule(Date.now(), scheduleData, usedMarketStatusType)
+    return getMarketStatusFromSchedule(atTimestampMillis, scheduleData, usedMarketStatusType)
   }
 
   getScheduleData<StatusType extends MarketStatusType>(

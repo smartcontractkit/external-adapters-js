@@ -30,4 +30,10 @@ export const config = new AdapterConfig({
       fn: (value) => getScheduleValidationError(value!, TwentyfourFiveMarketStatus),
     },
   },
+  ALLOW_AT_TIMESTAMP_FOR_TESTING: {
+    description: 'Enables support for the atTimestampSeconds input parameter for testing.',
+    type: 'boolean',
+    default: false,
+    sensitive: false,
+  },
 })
