@@ -14,6 +14,7 @@ import (
 	types "streams-adapter/common"
 	config "streams-adapter/config"
 	"streams-adapter/helpers"
+	"streams-adapter/includes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
@@ -78,6 +79,12 @@ func TestMain(m *testing.M) {
 		TTL:             5 * time.Minute,
 		CleanupInterval: 10 * time.Minute,
 	})
+
+	idx, err := includes.Load("../includes/testdata/adapter_includes.json", "test")
+	if err != nil {
+		panic(err)
+	}
+	testCache.SetIncludesIndex(idx)
 
 	testSrv = New(cfg, testCache, slog.Default())
 
@@ -187,6 +194,56 @@ func TestAdapterHandler_CacheHit_InvertsTransformedPairObservation(t *testing.T)
 	item := testCache.Get(rawKey)
 	require.NotNil(t, item)
 	require.JSONEq(t, `{"result":46.4407}`, string(item.Observation.Data))
+}
+
+func TestAdapterHandler_CacheHit_DoesNotInvertMetalsPairWithIncludes(t *testing.T) {
+	const goldSpot = 3401.25
+
+	rawParams := types.RequestParams{"endpoint": "forex", "from": "XAU", "to": "USD"}
+	rawKey, err := helpers.CalculateCacheKey(rawParams)
+	require.NoError(t, err)
+	transformedKey, err := helpers.CalculateCacheKey(types.RequestParams{
+		"endpoint": "forex",
+		"base":     "USD",
+		"quote":    "XAU",
+	})
+	require.NoError(t, err)
+	obs := &types.Observation{
+		Data:    json.RawMessage(`{"result":3401.25}`),
+		Result:  json.RawMessage(`3401.25`),
+		Success: true,
+	}
+	testCache.SetNew(rawKey, map[string]interface{}{
+		"endpoint": "forex",
+		"from":     "XAU",
+		"to":       "USD",
+	}, [32]byte{})
+	testCache.SetTransformedKey(rawKey, transformedKey)
+	testCache.SetObservation(transformedKey, obs, time.Now(), "test-forex-"+`{"base":"usd","quote":"xau"}`)
+
+	body := `{"data":{"endpoint":"forex","from":"XAU","to":"USD"}}`
+	req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusOK, w.Code, "body: %s", w.Body.String())
+
+	var resp types.Observation
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &resp))
+
+	var data map[string]float64
+	require.NoError(t, json.Unmarshal(resp.Data, &data))
+	require.InDelta(t, goldSpot, data["result"], 1e-9,
+		"XAU/USD must not be inverted when includes declares inverse=false")
+
+	var result float64
+	require.NoError(t, json.Unmarshal(resp.Result, &result))
+	require.InDelta(t, goldSpot, result, 1e-9)
+
+	item := testCache.Get(rawKey)
+	require.NotNil(t, item)
+	require.False(t, item.RequiresInverse, "RequiresInverse must be false for XAU/USD per includes")
 }
 
 func TestAdapterHandler_CacheHit_DoesNotInvertDirectTransformedPairObservation(t *testing.T) {

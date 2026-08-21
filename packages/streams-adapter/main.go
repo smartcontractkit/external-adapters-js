@@ -17,6 +17,7 @@ import (
 	"streams-adapter/config"
 	pb "streams-adapter/gen/streams/v1"
 	"streams-adapter/helpers"
+	"streams-adapter/includes"
 	"streams-adapter/redcon"
 	"streams-adapter/server"
 	"streams-adapter/transmitter"
@@ -79,6 +80,13 @@ func main() {
 		CleanupInterval: time.Duration(cfg.CacheCleanupIntervalSeconds) * time.Second,
 	})
 	defer appCache.Stop()
+
+	idx, err := includes.Load("adapter_includes.json", cfg.AdapterName)
+	if err != nil {
+		log.Fatalf("Failed to load adapter includes index: path=%s adapter=%s error=%v",
+			"adapter_includes.json", cfg.AdapterName, err)
+	}
+	appCache.SetIncludesIndex(idx)
 
 	// Create the gRPC publisher (fanout to subscribed clients)
 	pub := transmitter.NewPublisher()
