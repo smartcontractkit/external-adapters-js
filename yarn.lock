@@ -3053,6 +3053,7 @@ __metadata:
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-factories": "workspace:*"
     "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@date-fns/tz": "npm:^1.4.1"
     "@types/command-line-args": "npm:5.2.3"
     "@types/command-line-usage": "npm:5.0.4"
     "@types/jest": "npm:^29.5.14"
@@ -3069,6 +3070,8 @@ __metadata:
     class-validator: "npm:0.14.3"
     command-line-args: "npm:5.2.1"
     command-line-usage: "npm:6.1.3"
+    csv-parse: "npm:7.0.1"
+    date-fns: "npm:^4.1.0"
     human-id: "npm:4.1.1"
     json-schema-ref-parser: "npm:9.0.9"
     mockserver-client: "npm:5.15.0"
@@ -13285,6 +13288,13 @@ __metadata:
   version: 5.5.6
   resolution: "csv-parse@npm:5.5.6"
   checksum: 10/8682bd3846d8159eb6f686423d16493fffeceeef742d947e39ea3a3fb9b4a243b41a4cfbac56d721a2f7825b01335ba9b993bf68c4817e7abee0bd20754ee78d
+  languageName: node
+  linkType: hard
+
+"csv-parse@npm:7.0.1":
+  version: 7.0.1
+  resolution: "csv-parse@npm:7.0.1"
+  checksum: 10/5c914f01181dbb381068b98e17b49361d853faa95db3e8e82bc96b6a0de5313ecc8325a77db35ff66644d7747099965ba3167ec21bd9ce4500edf21b5bdd49bf
   languageName: node
   linkType: hard
 
