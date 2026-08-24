@@ -1,5 +1,11 @@
 # @chainlink/layer2-sequencer-health-adapter
 
+## 4.11.2
+
+### Patch Changes
+
+- [#5308](https://github.com/smartcontractkit/external-adapters-js/pull/5308) [`b8d7ed7`](https://github.com/smartcontractkit/external-adapters-js/commit/b8d7ed7fc2328cd47b80bd2d8d2c7a258b052b2d) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Remove default Scroll health endpoint (venus.scroll.io); the health endpoint check is now skipped unless SCROLL_HEALTH_ENDPOINT is explicitly set
+
 ## 4.11.1
 
 ### Patch Changes
