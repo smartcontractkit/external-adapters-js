@@ -160,7 +160,7 @@ adapters:
   - name: kaiko-state
     version: 1.1.4
   - name: layer2-sequencer-health
-    version: 4.10.0
+    version: 4.11.2
   - name: lido
     version: 2.0.31
   - name: lido-por
