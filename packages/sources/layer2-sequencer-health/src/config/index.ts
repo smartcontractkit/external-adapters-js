@@ -200,7 +200,6 @@ export const CHAIN_DELTA: Record<Networks, number> = {
 }
 
 const DEFAULT_METIS_HEALTH_ENDPOINT = 'https://andromeda-healthy.metisdevops.link/health'
-const DEFAULT_SCROLL_HEALTH_ENDPOINT = 'https://venus.scroll.io/v1/sequencer/status'
 
 export type HeathEndpoints = Record<
   Networks,
@@ -238,7 +237,7 @@ export const HEALTH_ENDPOINTS: HeathEndpoints = {
     processResponse: (data: unknown) => defaultProcessResponse(data, Networks.Metis),
   },
   [Networks.Scroll]: {
-    endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT') || DEFAULT_SCROLL_HEALTH_ENDPOINT,
+    endpoint: util.getEnv('SCROLL_HEALTH_ENDPOINT'),
     responsePath: ['data', 'health'],
     processResponse: (data: unknown) => Requester.getResult(data, ['data', 'health']) == 1,
   },
