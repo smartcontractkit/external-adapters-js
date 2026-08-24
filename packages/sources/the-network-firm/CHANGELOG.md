@@ -1,5 +1,17 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.10.1
+
+### Patch Changes
+
+- [#5277](https://github.com/smartcontractkit/external-adapters-js/pull/5277) [`fec6ff9`](https://github.com/smartcontractkit/external-adapters-js/commit/fec6ff987ec04aedf3a4ead89c9f1de3bcbf8035) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 1.10.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
 ## 1.9.0
 
 ### Minor Changes

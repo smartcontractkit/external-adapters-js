@@ -1,13 +1,13 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { stock } from './endpoint'
+import { stock, stock_quotes } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: stock.name,
   name: 'TICKERLAYER',
   config,
-  endpoints: [stock],
+  endpoints: [stock, stock_quotes],
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)

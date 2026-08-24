@@ -2,9 +2,9 @@ adapters:
   - name: ada-balance
     version: 2.5.47
   - name: aleno
-    version: 2.3.0
+    version: 2.4.1
   - name: allium-state
-    version: 1.2.0
+    version: 1.3.1
   - name: amberdata
     version: 1.8.40
   - name: anchorage
@@ -18,9 +18,7 @@ adapters:
   - name: avalanche-platform
     version: 2.2.1
   - name: backed-fi
-    version: 1.4.0
-  - name: bank-frick
-    version: 1.1.55
+    version: 1.5.1
   - name: bea
     version: 1.3.47
   - name: bitcoin-json-rpc
@@ -29,16 +27,14 @@ adapters:
     version: 1.0.24
   - name: bitgo-reserves
     version: 2.2.4
-  - name: bitgo-reserves-test
-    version: 1.1.4
   - name: blockchain.com
     version: 1.3.47
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
-    version: 2.8.0
+    version: 2.9.1
   - name: blocksize-capital-state
-    version: 1.2.0
+    version: 1.3.1
   - name: btc.com
     version: 1.3.47
   - name: calculated-price
@@ -48,11 +44,9 @@ adapters:
   - name: celsius-address-list
     version: 2.0.31
   - name: cfbenchmarks
-    version: 2.8.3
+    version: 2.9.2
   - name: chain-reserve-wallet
     version: 3.0.31
-  - name: cmeth
-    version: 2.0.4
   - name: coinapi
     version: 1.3.37
   - name: coinbase
@@ -66,17 +60,15 @@ adapters:
   - name: coinmarketcap
     version: 2.2.3
   - name: coinmetrics
-    version: 3.12.3
+    version: 3.13.2
   - name: coinmetrics-lwba
-    version: 2.3.2
+    version: 2.3.3
   - name: coinpaprika
-    version: 2.9.0
+    version: 2.10.2
   - name: coinpaprika-state
-    version: 1.2.0
+    version: 1.3.2
   - name: coinranking
     version: 2.1.18
-  - name: crypto-volatility-index
-    version: 1.4.64
   - name: cryptoapis
     version: 1.2.47
   - name: cryptocompare
@@ -86,17 +78,17 @@ adapters:
   - name: deep-blue
     version: 1.0.21
   - name: deutsche-boerse
-    version: 1.6.0
+    version: 1.7.2
   - name: dlc-btc-por
     version: 4.4.5
   - name: dlc-cbtc-por
     version: 1.0.2
   - name: dxfeed
-    version: 2.7.8
+    version: 2.8.1
   - name: dydx-stark
     version: 2.0.32
   - name: elwood
-    version: 3.2.8
+    version: 3.3.1
   - name: enzyme
     version: 2.0.33
   - name: eodhistoricaldata
@@ -110,15 +102,15 @@ adapters:
   - name: exchange-copter
     version: 1.0.1
   - name: expand-network
-    version: 0.3.0
+    version: 0.4.1
   - name: finage
-    version: 2.8.1
+    version: 2.9.1
   - name: finalto
-    version: 1.4.8
+    version: 1.5.1
   - name: finnhub
-    version: 4.2.7
+    version: 4.3.1
   - name: finnhub-secondary
-    version: 1.1.7
+    version: 1.1.9
   - name: fireblocks
     version: 1.0.19
   - name: frxeth-exchange-rate
@@ -139,10 +131,8 @@ adapters:
     version: 1.2.1
   - name: gold
     version: 1.3.2
-  - name: graphql
-    version: 1.2.47
   - name: gsr
-    version: 2.5.8
+    version: 2.6.1
   - name: harris-and-trotter
     version: 1.1.22
   - name: hashnote
@@ -150,7 +140,7 @@ adapters:
   - name: hastra
     version: 1.0.1
   - name: icap
-    version: 1.7.0
+    version: 1.7.2
   - name: ice
     version: 1.2.1
   - name: ignition-address-list
@@ -186,11 +176,11 @@ adapters:
   - name: m0
     version: 0.0.19
   - name: market-status
-    version: 1.11.0
+    version: 1.13.0
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
-    version: 2.4.0
+    version: 2.5.1
   - name: mock-ea
     version: 2.2.0
   - name: moonbeam-address-list
@@ -238,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.151
+    version: 3.0.158
   - name: secure-mint
     version: 1.0.8
   - name: securitize
@@ -250,11 +240,9 @@ adapters:
   - name: solactive
     version: 1.0.4
   - name: solana-functions
-    version: 1.7.0
+    version: 1.8.0
   - name: solana-view-function
     version: 2.2.48
-  - name: sportsdataio
-    version: 1.3.39
   - name: stader-address-list
     version: 2.3.42
   - name: stader-balance
@@ -276,21 +264,23 @@ adapters:
   - name: t-rize-proof-of-insurance
     version: 1.1.0
   - name: the-network-firm
-    version: 1.9.0
+    version: 1.10.1
+  - name: tickerlayer
+    version: 1.1.0
   - name: tiingo
-    version: 2.12.0
+    version: 2.13.1
   - name: tiingo-state
-    version: 0.3.8
+    version: 0.4.1
   - name: token-balance
     version: 3.6.1
   - name: tokenized-equity
     version: 1.4.1
   - name: tp
-    version: 1.12.0
+    version: 1.13.1
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
-    version: 0.7.1
+    version: 0.8.0
   - name: trueusd
     version: 3.0.35
   - name: truflation
@@ -300,9 +290,9 @@ adapters:
   - name: twosigma
     version: 1.2.42
   - name: view-function
-    version: 3.1.19
+    version: 3.2.1
   - name: view-function-multi-chain
-    version: 1.10.1
+    version: 1.11.1
   - name: view-starknet-latest-answer
     version: 1.0.27
   - name: wbtc-address-set
@@ -314,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.150
+    version: 2.0.157

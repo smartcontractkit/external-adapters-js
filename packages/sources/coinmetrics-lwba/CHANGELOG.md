@@ -1,5 +1,12 @@
 # @chainlink/coinmetrics-lwba-adapter
 
+## 2.3.3
+
+### Patch Changes
+
+- Updated dependencies [[`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7)]:
+  - @chainlink/coinmetrics-adapter@3.13.2
+
 ## 2.3.2
 
 ### Patch Changes

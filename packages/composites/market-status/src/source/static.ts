@@ -1,4 +1,5 @@
 import type { MarketStatusResult } from '../transport/base-market-status'
+import { getStatus as staticHkexStatus } from './static-hkex'
 import { getStatus as staticIceEuropeEnergy } from './static-ice-europe-energy'
 import { getStatus as staticJpxStatus } from './static-jpx'
 import { getStatus as staticKrxStatus } from './static-krx'
@@ -16,6 +17,7 @@ const mapping = {
   STATIC_TPEX: staticTpexStatus,
   STATIC_TWSE: staticTpexStatus,
   STATIC_KRX: staticKrxStatus,
+  STATIC_HKEX: staticHkexStatus,
   STATIC_ICE_EUROPE_ENERGY: staticIceEuropeEnergy,
 }
 

@@ -1,12 +1,29 @@
 package helpers
 
 import (
+	"crypto/sha256"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
 	types "streams-adapter/common"
 )
+
+func TestObservationPayloadHash(t *testing.T) {
+	dataA := map[string]interface{}{"quote": "USD", "base": "ETH", "nested": map[string]interface{}{"enabled": true}}
+	dataB := map[string]interface{}{"nested": map[string]interface{}{"enabled": true}, "base": "ETH", "quote": "USD"}
+
+	hashA, err := ObservationPayloadHash("test", dataA)
+	require.NoError(t, err)
+	hashB, err := ObservationPayloadHash("test", dataB)
+	require.NoError(t, err)
+	require.Equal(t, hashA, hashB)
+	require.Equal(t, sha256.Sum256([]byte(`test{"base":"ETH","nested":{"enabled":true},"quote":"USD"}`)), hashA)
+
+	otherAdapterHash, err := ObservationPayloadHash("other", dataA)
+	require.NoError(t, err)
+	require.NotEqual(t, hashA, otherAdapterHash)
+}
 
 // ---------------------------------------------------------------------------
 // RequestParamsFromKey tests

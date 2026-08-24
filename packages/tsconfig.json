@@ -9,9 +9,6 @@
       "path": "./composites/calculated-price"
     },
     {
-      "path": "./composites/crypto-volatility-index"
-    },
-    {
       "path": "./composites/glv-token"
     },
     {
@@ -108,9 +105,6 @@
       "path": "./sources/backed-fi"
     },
     {
-      "path": "./sources/bank-frick"
-    },
-    {
       "path": "./sources/bea"
     },
     {
@@ -118,9 +112,6 @@
     },
     {
       "path": "./sources/bitgo-reserves"
-    },
-    {
-      "path": "./sources/bitgo-reserves-test"
     },
     {
       "path": "./sources/blockchain.com"
@@ -151,9 +142,6 @@
     },
     {
       "path": "./sources/chain-reserve-wallet"
-    },
-    {
-      "path": "./sources/cmeth"
     },
     {
       "path": "./sources/coinapi"
@@ -265,9 +253,6 @@
     },
     {
       "path": "./sources/gmci"
-    },
-    {
-      "path": "./sources/graphql"
     },
     {
       "path": "./sources/gsr"
@@ -414,9 +399,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/sportsdataio"
-    },
-    {
       "path": "./sources/stader-address-list"
     },
     {
@@ -427,6 +409,9 @@
     },
     {
       "path": "./sources/starknet-gas-price"
+    },
+    {
+      "path": "./sources/static-market-hours"
     },
     {
       "path": "./sources/streamex"
