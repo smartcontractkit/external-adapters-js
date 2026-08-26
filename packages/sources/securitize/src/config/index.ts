@@ -17,7 +17,7 @@ export const config = new AdapterConfig({
     description:
       'The comma separated list of pubkeys to decrypt the Securitize NAV response for a given asset, where ${ASSET} is the upper-snake-case version of the asset input parameter',
     type: 'string',
-    required: false,
+    required: true,
     variablePlaceholder: 'ASSET',
     sensitive: true,
   },
