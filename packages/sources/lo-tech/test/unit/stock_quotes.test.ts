@@ -198,6 +198,7 @@ describe('stock_quotes', () => {
             ask_price,
             bid_volume: 0,
             ask_volume: 0,
+            result: mid_price,
             ingress_ts_iso: new Date(ingressTimestamp).toISOString(),
           },
           timestamps: {

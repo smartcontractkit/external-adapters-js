@@ -38,7 +38,7 @@ const getRegionFromSymbol = (symbol: string): 'asia' | 'us' => {
 
 export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
-  aliases: [],
+  aliases: ['stock'],
   transportRoutes: new TransportRoutes<BaseEndpointTypes>()
     .register('asia', new StockQuotesWebSocketTransport('asia'))
     .register('us', new StockQuotesWebSocketTransport('us')),

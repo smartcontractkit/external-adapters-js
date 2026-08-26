@@ -1,5 +1,11 @@
 # @chainlink/ncfx-adapter
 
+## 4.10.1
+
+### Patch Changes
+
+- [#5319](https://github.com/smartcontractkit/external-adapters-js/pull/5319) [`a51b80f`](https://github.com/smartcontractkit/external-adapters-js/commit/a51b80f5d39df3296460474fcb5fda03bae580ac) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - release stream adapters
+
 ## 4.10.0
 
 ### Minor Changes
