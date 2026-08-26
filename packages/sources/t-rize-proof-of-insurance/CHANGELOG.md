@@ -1,5 +1,11 @@
 # @chainlink/t-rize-proof-of-insurance-adapter
 
+## 1.1.1
+
+### Patch Changes
+
+- [#5315](https://github.com/smartcontractkit/external-adapters-js/pull/5315) [`d6627ef`](https://github.com/smartcontractkit/external-adapters-js/commit/d6627effa7cb34db57084a916d025d2ba231ed39) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC transport support
+
 ## 1.1.0
 
 ### Minor Changes

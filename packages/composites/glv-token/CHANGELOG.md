@@ -1,5 +1,14 @@
 # @chainlink/glv-token-adapter
 
+## 2.1.2
+
+### Patch Changes
+
+- [#5322](https://github.com/smartcontractkit/external-adapters-js/pull/5322) [`9f844dc`](https://github.com/smartcontractkit/external-adapters-js/commit/9f844dcb86eef7cc97b0b8d86c7bec2bd6553b79) Thanks [@swladyka](https://github.com/swladyka)! - gRPC transport support
+
+- Updated dependencies [[`94ba143`](https://github.com/smartcontractkit/external-adapters-js/commit/94ba1431e518ea651ca842196dc850b2a85818ea)]:
+  - @chainlink/data-engine-adapter@1.5.1
+
 ## 2.1.1
 
 ### Patch Changes
