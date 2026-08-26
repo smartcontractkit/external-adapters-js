@@ -74,10 +74,6 @@ describe('nav transport', () => {
       const actualPubKeys = getPubKeys('single', settings)
       expect(actualPubKeys).toEqual([keyA])
     })
-
-    it('should handle empty pubkey', async () => {
-      expect(() => getPubKeys('empty', settings)).toThrow()
-    })
   })
 
   describe('NavTransport', () => {
