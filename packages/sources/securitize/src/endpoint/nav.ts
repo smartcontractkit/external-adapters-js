@@ -36,8 +36,8 @@ export const endpoint = new AdapterEndpoint({
   name: 'nav',
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    getPubKeys(req.requestContext.data.envVarPrefix)
+  customInputValidation: (req, adapterSettings): AdapterInputError | undefined => {
+    getPubKeys(req.requestContext.data.envVarPrefix, adapterSettings)
     return
   },
 })
