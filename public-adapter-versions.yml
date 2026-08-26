@@ -251,6 +251,8 @@ adapters:
     version: 3.0.25
   - name: starknet-gas-price
     version: 1.0.26
+  - name: static-market-hours
+    version: 1.0.0
   - name: streamex
     version: 1.0.1
   - name: superstate
