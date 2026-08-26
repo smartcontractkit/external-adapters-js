@@ -171,8 +171,8 @@ export const getDaysOfWeekFromScheduleRow = (row: Row): DayOfWeekNumber[] => {
       if (parts.length !== 2) {
         failOnRow(`Invalid day range '${daysString}' in row`, row)
       }
-      const startDay = getDayNumber(parts[0])
-      let endDay = getDayNumber(parts[1])
+      const startDay = getDayNumber(parts[0]!)
+      let endDay = getDayNumber(parts[1]!)
       if (startDay === endDay) {
         failOnRow(`Equal start and end days in range '${daysString}' in row`, row)
       }
@@ -324,7 +324,7 @@ export class ScheduleGenerator {
       )
     }
 
-    this.timezoneString = marketRows[0].data[COLUMN_TIMEZONE]
+    this.timezoneString = rowGet(marketRows[0]!, COLUMN_TIMEZONE)
     this.timezone = tz(this.timezoneString)
     this.today = startOfDay(Date.now(), { in: this.timezone })
   }
@@ -370,9 +370,9 @@ export class ScheduleGenerator {
       return
     }
     const phaseRows = this.loadCsv(FILE_PHASES)
-    for (const {
-      data: { [COLUMN_PHASE_NAME]: phase, [COLUMN_PHASE_STATUS]: status },
-    } of phaseRows) {
+    for (const row of phaseRows) {
+      const phase = rowGet(row, COLUMN_PHASE_NAME)
+      const status = rowGet(row, COLUMN_PHASE_STATUS)
       this.phaseToStatus.set(phase, status)
     }
   }
@@ -527,7 +527,7 @@ export class ScheduleGenerator {
       {
         status: 'OPEN',
         when: Array.from(daysByTimeRanges.entries()).map(([timeRangesKey, days]) => ({
-          days: days.map((day) => DAYS_OF_WEEK[day]),
+          days: days.map((day) => DAYS_OF_WEEK[day]!),
           times: JSON.parse(timeRangesKey),
         })),
       },
