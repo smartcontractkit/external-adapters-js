@@ -5421,7 +5421,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
           ["@chainlink/ea-scripts", "workspace:packages/scripts"],\
           ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
-          ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/command-line-args", "npm:5.2.3"],\
           ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5438,8 +5437,6 @@ const RAW_RUNTIME_STATE =
           ["class-validator", "npm:0.14.3"],\
           ["command-line-args", "npm:5.2.1"],\
           ["command-line-usage", "npm:6.1.3"],\
-          ["csv-parse", "npm:7.0.1"],\
-          ["date-fns", "npm:4.1.0"],\
           ["human-id", "npm:4.1.1"],\
           ["json-schema-ref-parser", "npm:9.0.9"],\
           ["mockserver-client", "npm:5.15.0"],\
@@ -7117,8 +7114,13 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/static-market-hours-adapter", "workspace:packages/sources/static-market-hours"],\
           ["@date-fns/tz", "npm:1.4.1"],\
+          ["@types/command-line-args", "npm:5.2.3"],\
+          ["@types/command-line-usage", "npm:5.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["command-line-args", "npm:5.2.1"],\
+          ["command-line-usage", "npm:6.1.3"],\
+          ["csv-parse", "npm:7.0.1"],\
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
