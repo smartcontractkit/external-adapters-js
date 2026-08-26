@@ -4,6 +4,7 @@ import { metrics } from '@chainlink/external-adapter-framework/metrics'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { config } from '../../src/config'
 import { inputParameters } from '../../src/endpoint/nav'
 import { getPubKeys, HttpTransportTypes, NavTransport } from '../../src/transport/nav'
 import { validateResponseSignature } from '../../src/transport/sigutils'
@@ -49,28 +50,33 @@ describe('nav transport', () => {
   const keyB = 'keyB'
 
   describe('getPubKeys', () => {
-    beforeAll(() => {
-      process.env.TEST_PUBKEYS = `${keyA},${keyB}`
-      process.env.SINGLE_PUBKEYS = keyA
-    })
+    const pubkeysByAsset: Record<string, string> = {
+      TEST: `${keyA},${keyB}`,
+      SINGLE: keyA,
+    }
+
+    const settings = makeStub('settings', {
+      ASSET_PUBKEYS: {
+        get: (assetEnvVarPrefix: string) => pubkeysByAsset[assetEnvVarPrefix.toUpperCase()],
+      },
+    } as unknown as typeof config.settings)
 
     it('should return expected data with existing prefix', async () => {
-      const actualPubKeys = getPubKeys('test')
+      const actualPubKeys = getPubKeys('test', settings)
       expect(actualPubKeys).toEqual([keyA, keyB])
     })
 
     it('should throw error for non-existent prefix', async () => {
-      expect(() => getPubKeys('nonexistent')).toThrow()
+      expect(() => getPubKeys('nonexistent', settings)).toThrow()
     })
 
     it('should handle single pubkey', async () => {
-      const actualPubKeys = getPubKeys('single')
+      const actualPubKeys = getPubKeys('single', settings)
       expect(actualPubKeys).toEqual([keyA])
     })
 
-    it('should handle empty pubkey list', async () => {
-      process.env.EMPTY_PUBKEY = ''
-      expect(() => getPubKeys('empty')).toThrow()
+    it('should handle empty pubkey', async () => {
+      expect(() => getPubKeys('empty', settings)).toThrow()
     })
   })
 
@@ -131,7 +137,7 @@ describe('nav transport', () => {
       jest.useFakeTimers()
 
       process.env.TEST_PUBKEYS = `${keyA},${keyB}`
-      process.env.SINGLE_PUBKEYS = keyA
+      config.initialize()
 
       // Mock signature validation to not throw
       mockedValidateResponseSignature.mockImplementation(() => undefined)

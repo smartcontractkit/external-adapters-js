@@ -10,6 +10,7 @@ export function generateSignature(
   recordDate: Date,
   previousSignature: string,
   previousHash: string,
+  keyPair: nacl.SignKeyPair = nacl.sign.keyPair(),
 ): {
   contentHex: string
   signatureHex: string
@@ -17,8 +18,6 @@ export function generateSignature(
   hashHex: string
   message: string
 } {
-  // Generate Ed25519 keypair
-  const keyPair = nacl.sign.keyPair()
   const publicKeyHex = Buffer.from(keyPair.publicKey).toString('hex')
   const privateKey = keyPair.secretKey
 

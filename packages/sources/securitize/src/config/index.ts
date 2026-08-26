@@ -13,4 +13,12 @@ export const config = new AdapterConfig({
     default: 'https://partners-api.securitize.io/asset-metrics/api/v1/nav',
     sensitive: false,
   },
+  ASSET_PUBKEYS: {
+    description:
+      'The comma separated list of pubkeys to decrypt the Securitize NAV response for a given asset, where ${ASSET} is the upper-snake-case version of the asset input parameter',
+    type: 'string',
+    required: false,
+    variablePlaceholder: 'ASSET',
+    sensitive: true,
+  },
 })
