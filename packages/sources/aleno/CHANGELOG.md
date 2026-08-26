@@ -1,5 +1,11 @@
 # @chainlink/aleno-adapter
 
+## 2.4.2
+
+### Patch Changes
+
+- [#5316](https://github.com/smartcontractkit/external-adapters-js/pull/5316) [`7b0bc16`](https://github.com/smartcontractkit/external-adapters-js/commit/7b0bc16c8fad7485393e7d825bcc3df40a053ad2) Thanks [@justinfranco](https://github.com/justinfranco)! - GRPC transport support
+
 ## 2.4.1
 
 ### Patch Changes
