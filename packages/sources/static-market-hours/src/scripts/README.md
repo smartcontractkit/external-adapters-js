@@ -51,3 +51,26 @@ variable of the `static-market-hours` EA. The environment variable is
 `${MARKET}_REGULAR_SCHEDULE`, where `${MARKET}` can be anything as long as it
 matches the `market` input parameter used in the requests to the EA. ("24/5"
 schedules are not yet supported by `generate-tradinghours-json`.)
+
+## Verify the generated schedule
+
+To make sure the generated schedule matches the official TradingHours data, you
+can use the `check-schedule.py` script. This is to make sure there aren't any
+bugs in the `generate-tradinghours-json` script or the `static-market-hours`
+adapter.
+
+```
+# First make sure the static-market-hours EA is running on port 8080 with
+# the new config and with `ALLOW_AT_TIMESTAMP_FOR_TESTING=true` in the
+# environment.
+# Then:
+MARKET="..." # The market parameter used for the EA.
+FIN_ID="..." # The FinID TradingHours uses for the market.
+source "$TRADINGHOURS_DIR/.venv/bin/activate"
+python packages/sources/static-market-hours/src/scripts/check-market-status.py "$FIN_ID" "$MARKET"
+```
+
+This will start with a quick pass checking timestamps 1 hours apart. Once this
+succeeds without errors, the schedule is very likely to be correct. But it will
+continue checking every timestamp for the next 366 days or the remainder of the
+available schedule, whichever ends first.
