@@ -8,7 +8,7 @@ import {
   rowGet,
   ScheduleGenerator,
   Session,
-} from '../schedule_generator'
+} from '../../src/scripts/schedule_generator'
 
 jest.mock('fs')
 
