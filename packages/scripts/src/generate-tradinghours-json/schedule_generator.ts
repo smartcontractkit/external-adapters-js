@@ -84,7 +84,7 @@ type Row = {
   line: number
 }
 
-type Session = {
+export type Session = {
   start: string // "HH:mm:ss"
   end: string // "HH:mm:ss"
   endDateOffset: 0 | 1
@@ -119,7 +119,10 @@ type CsvDayOfWeek = (typeof CSV_DAY_NAMES)[number]
 const START_OF_DAY = '00:00:00'
 const END_OF_DAY = '24:00:00'
 
-export const minDate = (date1: TZDate | null, date2: TZDate | null): TZDate | null => {
+export function minDate(date1: TZDate, date2: TZDate | null): TZDate
+export function minDate(date1: TZDate | null, date2: TZDate): TZDate
+export function minDate(date1: TZDate | null, date2: TZDate | null): TZDate | null
+export function minDate(date1: TZDate | null, date2: TZDate | null): TZDate | null {
   if (date1 === null) return date2
   if (date2 === null) return date1
   return date1 < date2 ? date1 : date2
@@ -561,10 +564,10 @@ export class ScheduleGenerator {
   }
 
   getLastValidDate(): string {
-    let lastValidDate: TZDate | null = null
+    let earliestInForceEndDate: TZDate | null = null
     for (const row of this.getOpenScheduleRows(SCHEDULE_GROUP_REGULAR)) {
       const endDate = this.parseDate(row, COLUMN_IN_FORCE_END)
-      lastValidDate = minDate(lastValidDate, endDate)
+      earliestInForceEndDate = minDate(earliestInForceEndDate, endDate)
     }
     let lastHolidayDate: TZDate | null = null
     for (const holidayRow of this.getHolidayRows()) {
@@ -574,7 +577,7 @@ export class ScheduleGenerator {
     if (lastHolidayDate === null) {
       throw new Error('Could not determine last valid date. No future holiday rows found.')
     }
-    lastValidDate = minDate(lastValidDate, lastHolidayDate)
+    const lastValidDate = minDate(earliestInForceEndDate, lastHolidayDate)
     return format(lastValidDate, 'yyyy-MM-dd')
   }
 

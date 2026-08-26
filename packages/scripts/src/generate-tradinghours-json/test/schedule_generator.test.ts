@@ -7,6 +7,7 @@ import {
   minDate,
   rowGet,
   ScheduleGenerator,
+  Session,
 } from '../schedule_generator'
 
 jest.mock('fs')
@@ -268,7 +269,7 @@ describe('Schedule Generator', () => {
       const date = '2026-01-15'
       const regularSession = { start: '09:30:00', end: '16:00:00', endDateOffset: 0 as const }
       const regularSessions = [regularSession]
-      const holidaySessions = []
+      const holidaySessions: Session[] = []
 
       const exceptions = getExceptionsFromSessionDifference(date, regularSessions, holidaySessions)
 
@@ -283,7 +284,7 @@ describe('Schedule Generator', () => {
     it('should generate exception when holiday is open but regular is closed', () => {
       const date = '2026-01-15'
       const holidaySession = { start: '10:00:00', end: '15:00:00', endDateOffset: 0 as const }
-      const regularSessions = []
+      const regularSessions: Session[] = []
       const holidaySessions = [holidaySession]
 
       const exceptions = getExceptionsFromSessionDifference(date, regularSessions, holidaySessions)
