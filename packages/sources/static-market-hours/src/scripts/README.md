@@ -55,7 +55,7 @@ schedules are not yet supported by `generate-tradinghours-json`.)
 ## Verify the generated schedule
 
 To make sure the generated schedule matches the official TradingHours data, you
-can use the `check-schedule.py` script. This is to make sure there aren't any
+can use the `check-market-status.py` script. This is to make sure there aren't any
 bugs in the `generate-tradinghours-json` script or the `static-market-hours`
 adapter.
 
