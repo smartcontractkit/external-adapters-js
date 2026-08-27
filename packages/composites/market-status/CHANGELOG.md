@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.14.0
+
+### Minor Changes
+
+- [#5333](https://github.com/smartcontractkit/external-adapters-js/pull/5333) [`ba85f2f`](https://github.com/smartcontractkit/external-adapters-js/commit/ba85f2f58fba280f8f6f814432bbc8a8a2ec5f35) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 15 markets and 1 source.
+
 ## 1.13.0
 
 ### Minor Changes
