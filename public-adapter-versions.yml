@@ -232,7 +232,7 @@ adapters:
   - name: secure-mint
     version: 1.0.8
   - name: securitize
-    version: 1.0.3
+    version: 1.0.4
   - name: six
     version: 1.1.0
   - name: sochain
