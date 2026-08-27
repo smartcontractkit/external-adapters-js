@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.9.2
+
+### Patch Changes
+
+- [#5322](https://github.com/smartcontractkit/external-adapters-js/pull/5322) [`9f844dc`](https://github.com/smartcontractkit/external-adapters-js/commit/9f844dcb86eef7cc97b0b8d86c7bec2bd6553b79) Thanks [@swladyka](https://github.com/swladyka)! - gRPC transport support
+
 ## 2.9.1
 
 ### Patch Changes
