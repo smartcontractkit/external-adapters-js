@@ -25,6 +25,12 @@ export const inputParameters = new InputParameters({
     default: 'all',
     type: 'string',
   },
+  useSecondaryForTesting: {
+    description: 'Skip primary source and use secondary source for testing',
+    required: false,
+    type: 'boolean',
+    default: false,
+  },
 })
 
 export type MultiMarketStatusEndpointTypes = BaseMarketStatusEndpointTypes & {
