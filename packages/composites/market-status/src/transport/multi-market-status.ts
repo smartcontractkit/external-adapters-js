@@ -20,12 +20,16 @@ export class MultiMarketStatusTransport extends BaseMarketStatusTransport<MultiM
 
     for (const market of markets) {
       const sourceNames = getMarketSources(param.type, market)
+      if (!param.useSecondaryForTesting) {
+        underlyingRequests.push(
+          this.sendSourceRequest(context, sourceNames.primary, {
+            market,
+            type: param.type,
+            force245MarketStatus: false,
+          }),
+        )
+      }
       underlyingRequests.push(
-        this.sendSourceRequest(context, sourceNames.primary, {
-          market,
-          type: param.type,
-          force245MarketStatus: false,
-        }),
         this.sendSourceRequest(context, sourceNames.secondary, {
           market,
           type: param.type,
