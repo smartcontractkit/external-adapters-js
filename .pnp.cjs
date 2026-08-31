@@ -67,10 +67,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/savax-price"\
     },\
     {\
-      "name": "@chainlink/secure-mint-adapter",\
-      "reference": "workspace:packages/composites/secure-mint"\
-    },\
-    {\
       "name": "@chainlink/tokenized-equity-adapter",\
       "reference": "workspace:packages/composites/tokenized-equity"\
     },\
@@ -809,7 +805,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
-    ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
@@ -5337,7 +5332,7 @@ const RAW_RUNTIME_STATE =
           ["@reduxjs/toolkit", "virtual:76798ef4297c06624e6a890a042a8db65fa32cc5d1d7d8828006e188fc8f070b35b00d18d56a03211a6f7ef7c28f126042b0f4ef3fc99489849fd25a37aa15d0#npm:1.9.7"],\
           ["@types/fast-redact", "npm:3.0.4"],\
           ["@types/jest", "npm:29.5.14"],\
-          ["@types/lodash", "npm:4.17.17"],\
+          ["@types/lodash", "npm:4.17.25"],\
           ["@types/lru-cache", "npm:5.1.1"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/object-hash", "npm:2.2.1"],\
@@ -5373,7 +5368,7 @@ const RAW_RUNTIME_STATE =
           ["sinon", "npm:14.0.2"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["uuid", "npm:8.3.2"],\
+          ["uuid", "npm:11.1.1"],\
           ["ws", "virtual:16cc97e9e65aad8bf697ab7034174985637628c6ec98859bf5b803a9d8f888148c37f4dcc3a7499aa85506ef8444d257ef948cdf760252e705cb566927e8f4c2#npm:8.21.3"]\
         ],\
         "linkType": "SOFT"\
@@ -5766,7 +5761,7 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["uuid", "npm:8.3.2"]\
+          ["uuid", "npm:11.1.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6511,7 +6506,7 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
-          ["uuid", "npm:11.1.0"]\
+          ["uuid", "npm:11.1.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -6905,22 +6900,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/secure-mint-adapter", [\
-      ["workspace:packages/composites/secure-mint", {\
-        "packageLocation": "./packages/composites/secure-mint/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/secure-mint-adapter", "workspace:packages/composites/secure-mint"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
@@ -15343,7 +15322,7 @@ const RAW_RUNTIME_STATE =
           ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["crypto", "npm:1.0.1"],\
           ["dotenv", "npm:16.6.1"],\
-          ["uuid", "npm:11.1.0"]\
+          ["uuid", "npm:11.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -15630,10 +15609,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/lodash", [\
-      ["npm:4.17.17", {\
-        "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.17-f9393376c2-496459a3cb.zip/node_modules/@types/lodash/",\
+      ["npm:4.17.25", {\
+        "packageLocation": "./.yarn/cache/@types-lodash-npm-4.17.25-a1b18c42d0-f786e05664.zip/node_modules/@types/lodash/",\
         "packageDependencies": [\
-          ["@types/lodash", "npm:4.17.17"]\
+          ["@types/lodash", "npm:4.17.25"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26478,10 +26457,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["uuid", [\
-      ["npm:11.1.0", {\
-        "packageLocation": "./.yarn/cache/uuid-npm-11.1.0-61d0d08928-d2da43b49b.zip/node_modules/uuid/",\
+      ["npm:11.1.1", {\
+        "packageLocation": "./.yarn/cache/uuid-npm-11.1.1-311687c807-16411d3dc1.zip/node_modules/uuid/",\
         "packageDependencies": [\
-          ["uuid", "npm:11.1.0"]\
+          ["uuid", "npm:11.1.1"]\
         ],\
         "linkType": "HARD"\
       }],\

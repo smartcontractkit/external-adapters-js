@@ -176,7 +176,7 @@ adapters:
   - name: m0
     version: 0.0.19
   - name: market-status
-    version: 1.13.0
+    version: 1.14.2
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
@@ -229,8 +229,6 @@ adapters:
     version: 2.2.16
   - name: savax-price
     version: 3.0.158
-  - name: secure-mint
-    version: 1.0.8
   - name: securitize
     version: 1.0.4
   - name: six
@@ -251,6 +249,8 @@ adapters:
     version: 3.0.25
   - name: starknet-gas-price
     version: 1.0.26
+  - name: static-market-hours
+    version: 1.0.0
   - name: streamex
     version: 1.0.1
   - name: superstate

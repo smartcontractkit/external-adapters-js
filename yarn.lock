@@ -2975,7 +2975,7 @@ __metadata:
     "@reduxjs/toolkit": "npm:^1.6.1"
     "@types/fast-redact": "npm:3.0.4"
     "@types/jest": "npm:^29.5.14"
-    "@types/lodash": "npm:4.17.17"
+    "@types/lodash": "npm:4.17.25"
     "@types/lru-cache": "npm:5.1.1"
     "@types/node": "npm:22.14.1"
     "@types/object-hash": "npm:2.2.1"
@@ -3011,7 +3011,7 @@ __metadata:
     sinon: "npm:14.0.2"
     tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
-    uuid: "npm:^8.3.0"
+    uuid: "npm:^11.0.0"
     ws: "npm:^8.0.0"
   languageName: unknown
   linkType: soft
@@ -3384,7 +3384,7 @@ __metadata:
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-    uuid: "npm:^8.3.0"
+    uuid: "npm:^11.0.0"
   languageName: unknown
   linkType: soft
 
@@ -4393,20 +4393,6 @@ __metadata:
     nock: "npm:13.5.6"
     supertest: "npm:6.2.4"
     tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/secure-mint-adapter@workspace:packages/composites/secure-mint":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/secure-mint-adapter@workspace:packages/composites/secure-mint"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^6.14.3"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -11067,10 +11053,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:4.17.17":
-  version: 4.17.17
-  resolution: "@types/lodash@npm:4.17.17"
-  checksum: 10/496459a3cb1a0733bb60532de3899ad6297717af0b9b26ad6821154b2005fec86f29ccd47a2e6f4da4a8c7c818bb8ae73901144e8057ea86b7b02a3d7bb9d13f
+"@types/lodash@npm:4.17.25":
+  version: 4.17.25
+  resolution: "@types/lodash@npm:4.17.25"
+  checksum: 10/f786e05664439cc8d327fd97c62c060d81b3c4ed52127d01fbc926139e1a669c1554bf3cd0dbb43f8fcc7d9b5c6c23c543cc36de8dc815c9f289ea852b26ebd6
   languageName: node
   linkType: hard
 
@@ -14195,7 +14181,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^6.13.2, ethers@npm:^6.14.3, ethers@npm:^6.15.0":
+"ethers@npm:^6.13.2, ethers@npm:^6.15.0":
   version: 6.15.0
   resolution: "ethers@npm:6.15.0"
   dependencies:
@@ -20421,16 +20407,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "uuid@npm:11.1.0"
+"uuid@npm:^11.0.0, uuid@npm:^11.1.0":
+  version: 11.1.1
+  resolution: "uuid@npm:11.1.1"
   bin:
     uuid: dist/esm/bin/uuid
-  checksum: 10/d2da43b49b154d154574891ced66d0c83fc70caaad87e043400cf644423b067542d6f3eb641b7c819224a7cd3b4c2f21906acbedd6ec9c6a05887aa9115a9cf5
+  checksum: 10/16411d3dc12a08d6691616c09a75e66a7f900ba1beef6628a76fe0602f82fae2ee537b564d0b7bc95c24f58d059ca9b58c75a1e806118efb50e17822ff00ddd2
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.3.0, uuid@npm:^8.3.2":
+"uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
