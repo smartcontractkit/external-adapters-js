@@ -230,7 +230,7 @@ adapters:
   - name: savax-price
     version: 3.0.158
   - name: securitize
-    version: 1.0.3
+    version: 1.0.4
   - name: six
     version: 1.1.0
   - name: sochain
