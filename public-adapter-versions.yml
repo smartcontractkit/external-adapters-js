@@ -176,7 +176,7 @@ adapters:
   - name: m0
     version: 0.0.19
   - name: market-status
-    version: 1.13.0
+    version: 1.14.2
   - name: matrixdock
     version: 2.0.1
   - name: mobula-state
