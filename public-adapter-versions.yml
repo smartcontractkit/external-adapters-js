@@ -229,8 +229,6 @@ adapters:
     version: 2.2.16
   - name: savax-price
     version: 3.0.158
-  - name: secure-mint
-    version: 1.0.8
   - name: securitize
     version: 1.0.3
   - name: six

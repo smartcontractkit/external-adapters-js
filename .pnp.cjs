@@ -67,10 +67,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/savax-price"\
     },\
     {\
-      "name": "@chainlink/secure-mint-adapter",\
-      "reference": "workspace:packages/composites/secure-mint"\
-    },\
-    {\
       "name": "@chainlink/tokenized-equity-adapter",\
       "reference": "workspace:packages/composites/tokenized-equity"\
     },\
@@ -809,7 +805,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/reduce-adapter", ["workspace:packages/non-deployable/reduce"]],\
     ["@chainlink/s3-csv-reader-adapter", ["workspace:packages/sources/s3-csv-reader"]],\
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
-    ["@chainlink/secure-mint-adapter", ["workspace:packages/composites/secure-mint"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
@@ -6905,22 +6900,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/secure-mint-adapter", [\
-      ["workspace:packages/composites/secure-mint", {\
-        "packageLocation": "./packages/composites/secure-mint/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/secure-mint-adapter", "workspace:packages/composites/secure-mint"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
