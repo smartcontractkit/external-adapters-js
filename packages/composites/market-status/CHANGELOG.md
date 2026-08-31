@@ -1,5 +1,11 @@
 # @chainlink/market-status-adapter
 
+## 1.14.2
+
+### Patch Changes
+
+- [#5339](https://github.com/smartcontractkit/external-adapters-js/pull/5339) [`bebea3b`](https://github.com/smartcontractkit/external-adapters-js/commit/bebea3b977d6e4c4d47cbfbfc9958d2a82311b89) Thanks [@dskloetc](https://github.com/dskloetc)! - Trigger a new release
+
 ## 1.14.1
 
 ### Patch Changes
