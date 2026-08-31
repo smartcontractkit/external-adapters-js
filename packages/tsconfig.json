@@ -42,9 +42,6 @@
       "path": "./composites/savax-price"
     },
     {
-      "path": "./composites/secure-mint"
-    },
-    {
       "path": "./composites/tokenized-equity"
     },
     {
