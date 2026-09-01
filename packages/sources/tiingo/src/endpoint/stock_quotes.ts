@@ -1,14 +1,9 @@
-import {
-  StockEndpoint,
-  stockEndpointInputParametersDefinition,
-} from '@chainlink/external-adapter-framework/adapter/stock'
-import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
+import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
-import { httpTransport } from '../transport/iex-http'
-import { wsTransport } from '../transport/iex-ws'
+import { wsTransport } from '../transport/stock_quotes-ws'
 import { tiingoCommonSubscriptionRequestTransform } from './utils'
 
 const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
@@ -20,16 +15,21 @@ const inputParameters = new InputParameters(stockEndpointInputParametersDefiniti
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Settings: typeof config.settings
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: null
+    Data: {
+      mid_price: number
+      bid_price: number
+      bid_volume: number
+      ask_price: number
+      ask_volume: number
+    }
+  }
 }
 
-export const endpoint = new StockEndpoint({
-  name: 'iex',
-  aliases: ['stock'],
-  transportRoutes: new TransportRoutes<BaseEndpointTypes>()
-    .register('ws', wsTransport)
-    .register('rest', httpTransport),
-  defaultTransport: 'ws',
+export const endpoint = new AdapterEndpoint({
+  name: 'stock_quotes',
+  transport: wsTransport,
   inputParameters: inputParameters,
   overrides: overrides.tiingo,
   requestTransforms: [tiingoCommonSubscriptionRequestTransform()],
