@@ -27,15 +27,6 @@ const liquidityBidPriceIndex = 4
 const liquidityAskPriceIndex = 6
 const liquidityAskSizeIndex = 7
 
-/*
-Tiingo EA currently does not receive asset prices during off-market hours. When a heartbeat message is received during these hours,
-we update the TTL of cache entries that EA is requested to provide a price during off-market hours.
-*/
-const updateTTL = async (transport: TiingoWebsocketTransport<WsTransportTypes>, ttl: number) => {
-  const params = await transport.subscriptionSet.getAll()
-  transport.responseCache.writeTTL(transport.name, params, ttl)
-}
-
 export class StockQuotesWebSocketTransport extends TiingoWebsocketTransport<WsTransportTypes> {
   constructor() {
     super({
@@ -54,11 +45,10 @@ export class StockQuotesWebSocketTransport extends TiingoWebsocketTransport<WsTr
             3. If credentials are supplied under the node licensing agreement with Chainlink Labs, please make contact with us and we will look into it.`)
           }
         },
-        message(message, context) {
-          // Check for a heartbeat message, refresh the TTLs of all requested entries in the cache
+        message(message) {
+          // Check for a heartbeat message
           if (message.messageType === 'H') {
             wsTransport.lastMessageReceivedAt = Date.now()
-            updateTTL(wsTransport, context.adapterSettings.CACHE_MAX_AGE)
             return []
           }
 
