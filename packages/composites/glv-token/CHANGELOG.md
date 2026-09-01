@@ -1,5 +1,11 @@
 # @chainlink/glv-token-adapter
 
+## 2.1.3
+
+### Patch Changes
+
+- [#5313](https://github.com/smartcontractkit/external-adapters-js/pull/5313) [`34a2ffc`](https://github.com/smartcontractkit/external-adapters-js/commit/34a2ffc27e293f393e979138b76b2d39f09ca19c) Thanks [@dav009](https://github.com/dav009)! - Re-request the GMX /markets and /tokens metadata when the on-chain GLV info references an address the cached metadata does not contain, instead of failing until the next scheduled refresh.
+
 ## 2.1.2
 
 ### Patch Changes
