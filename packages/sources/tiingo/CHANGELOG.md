@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 2.14.0
+
+### Minor Changes
+
+- [#5346](https://github.com/smartcontractkit/external-adapters-js/pull/5346) [`deec7a1`](https://github.com/smartcontractkit/external-adapters-js/commit/deec7a12e3618882de86ac4692c4703083d84957) Thanks [@dskloetc](https://github.com/dskloetc)! - Add stock_quotes endpoint
+
+## 2.13.2
+
+### Patch Changes
+
+- [#5315](https://github.com/smartcontractkit/external-adapters-js/pull/5315) [`d6627ef`](https://github.com/smartcontractkit/external-adapters-js/commit/d6627effa7cb34db57084a916d025d2ba231ed39) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC transport support
+
 ## 2.13.1
 
 ### Patch Changes

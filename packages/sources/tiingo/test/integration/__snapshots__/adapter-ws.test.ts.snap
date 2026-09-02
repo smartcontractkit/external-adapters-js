@@ -85,8 +85,8 @@ exports[`websocket forex endpoint should return success 1`] = `
   "result": 1.08272,
   "statusCode": 200,
   "timestamps": {
-    "providerDataReceivedUnixMs": 4048,
-    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerDataReceivedUnixMs": 5058,
+    "providerDataStreamEstablishedUnixMs": 5050,
     "providerIndicatedTimeUnixMs": 1649964792474,
   },
 }
@@ -118,6 +118,25 @@ exports[`websocket iex endpoint should update the ttl after heartbeat is receive
     "providerDataReceivedUnixMs": 3038,
     "providerDataStreamEstablishedUnixMs": 3030,
     "providerIndicatedTimeUnixMs": 1736885388216,
+  },
+}
+`;
+
+exports[`websocket stock_quotes endpoint A request should return success 1`] = `
+{
+  "data": {
+    "ask_price": 316.15,
+    "ask_volume": 280,
+    "bid_price": 315.855,
+    "bid_volume": 40,
+    "mid_price": 316.0025,
+  },
+  "result": null,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 4048,
+    "providerDataStreamEstablishedUnixMs": 4040,
+    "providerIndicatedTimeUnixMs": 1788255430546,
   },
 }
 `;

@@ -9,15 +9,23 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {
+  MARKET,
   mockDataEngineEAResponseFailure,
   mockDataEngineEAResponseSuccess,
+  mockMarketInfoApi,
   mockMarketInfoApiSuccess,
   mockTokenInfoApiSuccess,
+  NEW_MARKET,
+  UNKNOWN_MARKET,
 } from './fixtures'
 
 jest.mock('../../src/transport/gmx-keys', () => ({
   dataStreamIdKey: (addr: string) => `0xfeed${addr.slice(2, 10).padEnd(64, '0')}`,
 }))
+
+// The markets the on-chain GLV info reports, mutable so tests can simulate GMX adding
+// a market that the cached /markets metadata does not know about yet.
+let mockOnChainMarkets = [MARKET]
 
 jest.mock('ethers', () => {
   const real = jest.requireActual('ethers')
@@ -36,7 +44,7 @@ jest.mock('ethers', () => {
           longToken: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', // WETH
           shortToken: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // USDC
         },
-        markets: ['0x70d95587d40A2caf56bd97485aB3Eec10Bee6336'],
+        markets: mockOnChainMarkets,
       }),
 
       // BaseGlvTransport.getFeedId() calls this on the datastore contract
@@ -78,6 +86,9 @@ jest.mock('ethers', () => {
     formatUnits: real.formatUnits,
   }
 })
+const GLV = '0x528A5bac7E746C9A509A1f4F6dF58A03d44279F9'
+const MOCK_NOW = new Date('2001-01-01T11:11:11.111Z').getTime()
+
 describe('execute', () => {
   let spy: jest.SpyInstance
   let testAdapter: TestAdapter
@@ -96,8 +107,7 @@ describe('execute', () => {
     process.env.GLV_READER_CONTRACT_ADDRESS = '0x1111111111111111111111111111111111111111'
     process.env.DATASTORE_CONTRACT_ADDRESS = '0x2222222222222222222222222222222222222222'
 
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
-    spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
+    spy = jest.spyOn(Date, 'now').mockReturnValue(MOCK_NOW)
     mockTokenInfoApiSuccess()
     mockMarketInfoApiSuccess()
     const adapter = (await import('./../../src')).adapter
@@ -182,6 +192,61 @@ describe('execute', () => {
       expect(sources).toBeDefined()
       expect(Object.keys(sources).length).toBeGreaterThan(0)
       expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('stale metadata', () => {
+    // Each test moves the clock past the refresh cooldown left behind by the previous one
+    const advanceClock = (minutes: number) => spy.mockReturnValue(MOCK_NOW + minutes * 60 * 1000)
+
+    afterEach(() => {
+      mockOnChainMarkets = [MARKET]
+    })
+
+    it('re-requests /markets and recovers when the chain reports an unknown market', async () => {
+      nock.cleanAll()
+      mockTokenInfoApiSuccess()
+      let marketFetches = 0
+      mockMarketInfoApi([MARKET, NEW_MARKET], () => marketFetches++)
+      mockDataEngineEAResponseSuccess()
+      mockOnChainMarkets = [MARKET, NEW_MARKET]
+      advanceClock(10)
+
+      const response = await testAdapter.request({ glv: GLV })
+
+      expect(marketFetches).toBeGreaterThan(0)
+      expect(response.statusCode).toBe(200)
+    })
+
+    it('fails with the missing address when the refresh does not resolve it', async () => {
+      nock.cleanAll()
+      mockTokenInfoApiSuccess()
+      mockMarketInfoApiSuccess() // /markets stays behind and never lists UNKNOWN_MARKET
+      mockDataEngineEAResponseSuccess()
+      mockOnChainMarkets = [MARKET, UNKNOWN_MARKET]
+      advanceClock(20)
+
+      const response = await testAdapter.request({ glv: GLV })
+
+      expect(response.statusCode).toBe(502)
+      expect(response.json().errorMessage).toContain(UNKNOWN_MARKET)
+    })
+
+    it('only re-requests /markets once while the cooldown is active', async () => {
+      nock.cleanAll()
+      mockTokenInfoApiSuccess()
+      let marketFetches = 0
+      mockMarketInfoApi([MARKET], () => marketFetches++)
+      mockDataEngineEAResponseSuccess()
+      mockOnChainMarkets = [MARKET, UNKNOWN_MARKET]
+      advanceClock(30)
+
+      await testAdapter.request({ glv: GLV })
+      testAdapter.mockCache?.cache.clear()
+      await testAdapter.request({ glv: GLV })
+
+      // The clock does not move, so only the first miss is allowed to refresh
+      expect(marketFetches).toBe(1)
     })
   })
 })
