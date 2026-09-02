@@ -228,7 +228,7 @@ adapters:
   - name: s3-csv-reader
     version: 2.2.16
   - name: savax-price
-    version: 3.0.158
+    version: 3.0.162
   - name: securitize
     version: 1.0.4
   - name: six
@@ -268,7 +268,7 @@ adapters:
   - name: tickerlayer
     version: 1.1.0
   - name: tiingo
-    version: 2.13.1
+    version: 2.14.0
   - name: tiingo-state
     version: 0.4.1
   - name: token-balance
@@ -304,4 +304,4 @@ adapters:
   - name: wrapped
     version: 2.2.47
   - name: xsushi-price
-    version: 2.0.157
+    version: 2.0.161
