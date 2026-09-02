@@ -1,5 +1,11 @@
 ## v1.1.0
 
+## 2.14.0
+
+### Minor Changes
+
+- [#5346](https://github.com/smartcontractkit/external-adapters-js/pull/5346) [`deec7a1`](https://github.com/smartcontractkit/external-adapters-js/commit/deec7a12e3618882de86ac4692c4703083d84957) Thanks [@dskloetc](https://github.com/dskloetc)! - Add stock_quotes endpoint
+
 ## 2.13.2
 
 ### Patch Changes
