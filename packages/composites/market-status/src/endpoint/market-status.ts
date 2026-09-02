@@ -6,7 +6,15 @@ import { InputParameters } from '@chainlink/external-adapter-framework/validatio
 import { transport } from '../transport/market-status'
 import { BaseMarketStatusEndpointTypes } from './common'
 
-export const inputParameters = new InputParameters(marketStatusEndpointInputParametersDefinition)
+export const inputParameters = new InputParameters({
+  ...marketStatusEndpointInputParametersDefinition,
+  useSecondaryForTesting: {
+    description: 'Skip primary source and use secondary source for testing',
+    required: false,
+    type: 'boolean',
+    default: false,
+  },
+})
 
 export type MarketStatusEndpointTypes = BaseMarketStatusEndpointTypes & {
   Parameters: typeof inputParameters.definition

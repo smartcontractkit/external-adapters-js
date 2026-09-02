@@ -3,7 +3,13 @@ import { TypeFromDefinition } from '@chainlink/external-adapter-framework/valida
 
 import type { StaticSourceName } from './static'
 
-export const ADAPTER_NAMES = ['NCFX', 'TRADINGHOURS', 'FINNHUB_SECONDARY', 'SIX'] as const
+export const ADAPTER_NAMES = [
+  'NCFX',
+  'TRADINGHOURS',
+  'FINNHUB_SECONDARY',
+  'SIX',
+  'STATIC_MARKET_HOURS',
+] as const
 export type AdapterName = (typeof ADAPTER_NAMES)[number]
 
 export type SourceName = AdapterName | StaticSourceName
@@ -85,6 +91,66 @@ const marketSources: Record<string, { primary: SourceName; secondary: SourceName
   bme: {
     primary: 'SIX',
     secondary: 'TRADINGHOURS',
+  },
+  cme_trsy: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  cbot_ag: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  cme_cattle: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  cme_equity_index: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  comex_gold: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  comex_silver: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  comex_copper: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_brent: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_hhng: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_plt: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_pld: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_gasoil: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_coffee: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_sugar: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
+  },
+  nymex_cocoa: {
+    primary: 'TRADINGHOURS',
+    secondary: 'STATIC_MARKET_HOURS',
   },
 }
 

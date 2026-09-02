@@ -1,5 +1,23 @@
 # @chainlink/market-status-adapter
 
+## 1.14.2
+
+### Patch Changes
+
+- [#5339](https://github.com/smartcontractkit/external-adapters-js/pull/5339) [`bebea3b`](https://github.com/smartcontractkit/external-adapters-js/commit/bebea3b977d6e4c4d47cbfbfc9958d2a82311b89) Thanks [@dskloetc](https://github.com/dskloetc)! - Trigger a new release
+
+## 1.14.1
+
+### Patch Changes
+
+- [#5336](https://github.com/smartcontractkit/external-adapters-js/pull/5336) [`1b6963a`](https://github.com/smartcontractkit/external-adapters-js/commit/1b6963a544d86793765ca17088ad5d4924aa0c11) Thanks [@dskloetc](https://github.com/dskloetc)! - Add parameter useSecondaryForTesting
+
+## 1.14.0
+
+### Minor Changes
+
+- [#5333](https://github.com/smartcontractkit/external-adapters-js/pull/5333) [`ba85f2f`](https://github.com/smartcontractkit/external-adapters-js/commit/ba85f2f58fba280f8f6f814432bbc8a8a2ec5f35) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 15 markets and 1 source.
+
 ## 1.13.0
 
 ### Minor Changes
