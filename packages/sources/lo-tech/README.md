@@ -1,6 +1,6 @@
 # LO_TECH
 
-![1.1.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lo-tech/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.2.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/lo-tech/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,9 +25,9 @@ There are no rate limits for this adapter.
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                   Options                                    |    Default     |
-| :-------: | :------: | :-----------------: | :----: | :--------------------------------------------------------------------------: | :------------: |
-|           | endpoint | The endpoint to use | string | [cme_futures](#cme_futures-endpoint), [stock_quotes](#stock_quotes-endpoint) | `stock_quotes` |
+| Required? |   Name   |     Description     |  Type  |                                                    Options                                                    |    Default     |
+| :-------: | :------: | :-----------------: | :----: | :-----------------------------------------------------------------------------------------------------------: | :------------: |
+|           | endpoint | The endpoint to use | string | [cme_futures](#cme_futures-endpoint), [stock](#stock_quotes-endpoint), [stock_quotes](#stock_quotes-endpoint) | `stock_quotes` |
 
 ## Cme_futures Endpoint
 
@@ -56,7 +56,7 @@ Request:
 
 ## Stock_quotes Endpoint
 
-`stock_quotes` is the only supported name for this endpoint.
+Supported names for this endpoint are: `stock`, `stock_quotes`.
 
 ### Input Params
 
