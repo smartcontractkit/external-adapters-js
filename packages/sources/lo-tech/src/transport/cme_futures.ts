@@ -15,6 +15,11 @@ export type PriceData = BasePriceData & {
   spread: number
   expiry_date: string
   roll_date: string
+  price_notice_roll: number
+  price_goldman_roll: number
+  price_continuous_roll: number
+  first_notice_date: string
+  trading_day_of_month: number
 }
 
 export type WSResponse = LoTechWSResponse<PriceData>
@@ -72,7 +77,20 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
       apiKey: (context) => context.adapterSettings.FUTURES_API_KEY!,
       getParamsSymbolFromWsData: (data) => data.generic_symbol,
       toResponseData: (data, context) => {
-        const { price, spread, symbol, generic_symbol, expiry_date, roll_date, ingress_ts } = data
+        const {
+          price,
+          spread,
+          symbol,
+          generic_symbol,
+          expiry_date,
+          roll_date,
+          ingress_ts,
+          price_notice_roll,
+          price_goldman_roll,
+          price_continuous_roll,
+          first_notice_date,
+          trading_day_of_month,
+        } = data
 
         const mid_price = price
         const bid_price = mid_price - spread / 2
@@ -91,6 +109,11 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
           generic_symbol,
           expiry_date,
           contract_month,
+          price_notice_roll,
+          price_goldman_roll,
+          price_continuous_roll,
+          first_notice_date,
+          trading_day_of_month,
           ingress_ts_iso: new Date(ingress_ts / 1000).toISOString(),
         }
       },
