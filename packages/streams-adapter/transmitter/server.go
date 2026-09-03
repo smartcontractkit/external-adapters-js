@@ -41,8 +41,9 @@ type normalizedSubscription struct {
 	resolved *types.ResolvedSubscription
 }
 
-// normalizeSnapshot validates the complete snapshot before any subscription
-// registrations are changed.
+// normalizeSnapshot resolves each subscription in the snapshot individually.
+// Invalid subscriptions are logged and discarded so that a single bad item does
+// not prevent the rest of the snapshot from being applied.
 func (s *StreamTransmitter) normalizeSnapshot(req *pb.SubscribeRequest) ([]normalizedSubscription, error) {
 	if len(req.GetSubscriptions()) > 0 && s.resolver == nil {
 		return nil, fmt.Errorf("subscription resolver is not configured")
@@ -50,12 +51,18 @@ func (s *StreamTransmitter) normalizeSnapshot(req *pb.SubscribeRequest) ([]norma
 	result := make([]normalizedSubscription, 0, len(req.GetSubscriptions()))
 	for i, subscription := range req.GetSubscriptions() {
 		if subscription == nil || subscription.GetData() == nil {
-			return nil, fmt.Errorf("subscription %d is missing data", i)
+			if s.logger != nil {
+				s.logger.Warn("invalid subscription item, discarding", "index", i, "reason", "missing data")
+			}
+			continue
 		}
 		data := subscription.GetData().AsMap()
 		resolved, err := s.resolver(data)
 		if err != nil {
-			return nil, fmt.Errorf("subscription %d: %w", i, err)
+			if s.logger != nil {
+				s.logger.Warn("invalid subscription item, discarding", "index", i, "error", err)
+			}
+			continue
 		}
 		result = append(result, normalizedSubscription{resolved: resolved})
 	}
