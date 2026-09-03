@@ -1,5 +1,13 @@
 # @chainlink/lo-tech-adapter
 
+## 1.2.0
+
+### Minor Changes
+
+- [#5356](https://github.com/smartcontractkit/external-adapters-js/pull/5356) [`60518a5`](https://github.com/smartcontractkit/external-adapters-js/commit/60518a5e2272df818f9b17f38eaa858b7be7a8a0) Thanks [@dskloetc](https://github.com/dskloetc)! - Add extra fields in futures response
+
+- [#5311](https://github.com/smartcontractkit/external-adapters-js/pull/5311) [`f8c5b49`](https://github.com/smartcontractkit/external-adapters-js/commit/f8c5b495109315481042233f6aaf684627066e57) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - add stock endpoint alias
+
 ## 1.1.0
 
 ### Minor Changes
