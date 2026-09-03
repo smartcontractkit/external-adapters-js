@@ -20100,7 +20100,7 @@ const RAW_RUNTIME_STATE =
           ["dezalgo", "npm:1.0.4"],\
           ["formidable", "npm:2.1.5"],\
           ["once", "npm:1.4.0"],\
-          ["qs", "npm:6.15.0"]\
+          ["qs", "npm:6.16.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23919,11 +23919,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["qs", [\
-      ["npm:6.15.0", {\
-        "packageLocation": "./.yarn/cache/qs-npm-6.15.0-2165244317-a3458f2f38.zip/node_modules/qs/",\
+      ["npm:6.16.0", {\
+        "packageLocation": "./.yarn/cache/qs-npm-6.16.0-160b61647c-7fbf9c2eb9.zip/node_modules/qs/",\
         "packageDependencies": [\
-          ["qs", "npm:6.15.0"],\
-          ["side-channel", "npm:1.1.0"]\
+          ["es-define-property", "npm:1.0.1"],\
+          ["qs", "npm:6.16.0"],\
+          ["side-channel", "npm:1.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24837,13 +24838,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["side-channel", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/side-channel-npm-1.1.0-4993930974-7d53b9db29.zip/node_modules/side-channel/",\
+      ["npm:1.1.1", {\
+        "packageLocation": "./.yarn/cache/side-channel-npm-1.1.1-3d97a5a6fb-5fa6393ff6.zip/node_modules/side-channel/",\
         "packageDependencies": [\
           ["es-errors", "npm:1.3.0"],\
           ["object-inspect", "npm:1.13.4"],\
-          ["side-channel", "npm:1.1.0"],\
-          ["side-channel-list", "npm:1.0.0"],\
+          ["side-channel", "npm:1.1.1"],\
+          ["side-channel-list", "npm:1.0.1"],\
           ["side-channel-map", "npm:1.0.1"],\
           ["side-channel-weakmap", "npm:1.0.2"]\
         ],\
@@ -24851,12 +24852,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["side-channel-list", [\
-      ["npm:1.0.0", {\
-        "packageLocation": "./.yarn/cache/side-channel-list-npm-1.0.0-14f74146d1-603b928997.zip/node_modules/side-channel-list/",\
+      ["npm:1.0.1", {\
+        "packageLocation": "./.yarn/cache/side-channel-list-npm-1.0.1-7a0802d399-3499671cd5.zip/node_modules/side-channel-list/",\
         "packageDependencies": [\
           ["es-errors", "npm:1.3.0"],\
           ["object-inspect", "npm:1.13.4"],\
-          ["side-channel-list", "npm:1.0.0"]\
+          ["side-channel-list", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25463,7 +25464,7 @@ const RAW_RUNTIME_STATE =
           ["formidable", "npm:2.1.5"],\
           ["methods", "npm:1.1.2"],\
           ["mime", "npm:2.6.0"],\
-          ["qs", "npm:6.15.0"],\
+          ["qs", "npm:6.16.0"],\
           ["semver", "npm:7.7.2"],\
           ["superagent", "npm:8.1.2"]\
         ],\
