@@ -1,7 +1,12 @@
 import crypto from 'crypto'
 import fs from 'fs'
 import path from 'path'
-import { PINNED, verifyAttestResponse, verifyDeepEquals } from '../../src/transport/util'
+import {
+  PINNED,
+  verifyAttestResponse,
+  verifyDeepEquals,
+  verifyJwtBodyEatsNonce,
+} from '../../src/transport/util'
 import { AttestResponse } from '../../src/transport/verified-balance'
 
 const originalPinned: typeof PINNED = { ...PINNED }
@@ -295,6 +300,86 @@ describe('util', () => {
       }).toThrow(
         `Mismatch at imageDigest is "sha256:b574c4fd412a5d7d299bae4f2a3a5af5e185fd4a4965c8200870e73abeab8ee4"; buildJsonImageDigest is "${buildResponse.image_digest}"`,
       )
+    })
+
+    it('should fail if x5c contains non-string entries', () => {
+      const attestResponse = JSON.parse(responseJson.toString()) as AttestResponse
+      const jwtParts = attestResponse.attestation.jwt.split('.')
+      const jwtHeader = JSON.parse(Buffer.from(jwtParts[0], 'base64').toString('utf-8'))
+
+      jwtHeader.x5c[0] = 123
+
+      jwtParts[0] = Buffer.from(JSON.stringify(jwtHeader)).toString('base64')
+      attestResponse.attestation.jwt = jwtParts.join('.')
+      expect(() => {
+        verifyAttestResponse(attestResponse, buildResponse)
+      }).toThrow('Invalid x5c: all entries must be strings')
+    })
+  })
+
+  describe('verifyJwtBodyEatsNonce', () => {
+    it('should succeed when eat_nonce is a string that matches nonce', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: nonce }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).not.toThrow()
+    })
+
+    it('should succeed when eat_nonce is a string that matches nonce case-insensitively', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: 'TEST-NONCE' }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).not.toThrow()
+    })
+
+    it('should succeed when eat_nonce is an array containing matching nonce', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: ['other-nonce', nonce, 'another-nonce'] }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).not.toThrow()
+    })
+
+    it('should fail when eat_nonce is null', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: null }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).toThrow(`JWT body does not eat the nonce: ${nonce}. Eaten: `)
+    })
+
+    it('should fail when eat_nonce is undefined', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: undefined }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).toThrow(`JWT body does not eat the nonce: ${nonce}. Eaten: `)
+    })
+
+    it('should skip non-string entries and match string entries in array', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: [123, nonce, null] }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).not.toThrow()
+    })
+
+    it('should fail when eat_nonce array contains no matching string entries', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: [123, 'invalid-nonce', null] }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).toThrow(`JWT body does not eat the nonce: ${nonce}. Eaten: 123, invalid-nonce, `)
+    })
+
+    it('should fail when eat_nonce does not match nonce', () => {
+      const nonce = 'test-nonce'
+      const body = { eat_nonce: 'different-nonce' }
+      expect(() => {
+        verifyJwtBodyEatsNonce(body, nonce)
+      }).toThrow(`JWT body does not eat the nonce: ${nonce}. Eaten: different-nonce`)
     })
   })
 })

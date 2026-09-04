@@ -137,6 +137,9 @@ const verifyCertificates = (x5c: string[]): crypto.X509Certificate[] => {
   if (!Array.isArray(x5c) || x5c.length === 0) {
     throw new Error('Invalid x5c: expected a non-empty array of strings')
   }
+  if (!x5c.every((cert) => typeof cert === 'string')) {
+    throw new Error('Invalid x5c: all entries must be strings')
+  }
   const certs = x5c.map((b64) => new crypto.X509Certificate(base64UrlDecode(b64)))
   certs.push(new crypto.X509Certificate(PINNED.ROOT_CERTIFICATE))
 
@@ -230,7 +233,11 @@ const verifyJwt = (
 
 export const verifyJwtBodyEatsNonce = (body: Record<string, unknown>, nonce: string): void => {
   const eatNonce = Array.isArray(body.eat_nonce) ? body.eat_nonce : [body.eat_nonce]
-  if (!eatNonce.some((eaten) => eaten.toLowerCase() === nonce.toLowerCase())) {
+  if (
+    !eatNonce.some(
+      (eaten) => typeof eaten === 'string' && eaten.toLowerCase() === nonce.toLowerCase(),
+    )
+  ) {
     throw new Error(`JWT body does not eat the nonce: ${nonce}. Eaten: ${eatNonce.join(', ')}`)
   }
 }
