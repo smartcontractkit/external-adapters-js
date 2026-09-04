@@ -1,5 +1,14 @@
 # @chainlink/gmx-tokens-adapter
 
+## 1.2.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+- Updated dependencies [[`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e)]:
+  - @chainlink/data-engine-adapter@1.5.2
+
 ## 1.2.2
 
 ### Patch Changes
