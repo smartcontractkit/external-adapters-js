@@ -175,6 +175,12 @@ describe('cme_futures', () => {
     const providerIndicatedTimeUnixMs = 123456789
     const ingressTimestamp = providerIndicatedTimeUnixMs - 555
 
+    const price_notice_roll = 124
+    const price_goldman_roll = 125
+    const price_continuous_roll = 126
+    const first_notice_date = '2026-07-22'
+    const trading_day_of_month = 15
+
     socket.send(
       JSON.stringify({
         egress_ts: providerIndicatedTimeUnixMs * 1000,
@@ -186,6 +192,11 @@ describe('cme_futures', () => {
           type: 'PRICE',
           expiry_date: rollDate,
           roll_date: rollDate,
+          price_notice_roll,
+          price_goldman_roll,
+          price_continuous_roll,
+          first_notice_date,
+          trading_day_of_month,
           ingress_ts: ingressTimestamp * 1000,
         },
       }),
@@ -207,6 +218,11 @@ describe('cme_futures', () => {
             generic_symbol: symbol,
             expiry_date: rollDate,
             contract_month: 8,
+            price_notice_roll,
+            price_goldman_roll,
+            price_continuous_roll,
+            first_notice_date,
+            trading_day_of_month,
             ingress_ts_iso: new Date(ingressTimestamp).toISOString(),
           },
           timestamps: {

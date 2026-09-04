@@ -33,13 +33,23 @@ export const mockFuturesWebsocketServer = (URL: string): MockWebsocketServer => 
           egress_ts: Date.now() * 1000,
           data: {
             type: 'PRICE',
-            symbol: 'WTIQ6', // Q = August, 6 = 2026
+            symbol: 'WTIV6', // V = October, 6 = 2026
+            exchange: 'NYMEX',
             generic_symbol: 'WTI/1',
+            sequence_id: 211440,
             ingress_ts: Date.now() * 1000 - 50,
-            price: 80.054,
-            spread: 0.02,
-            expiry_date: '2026-07-21',
-            roll_date: '2026-07-21',
+            publish_ts: Date.now() * 1000 - 100,
+            transaction_ts: null,
+            price: 90.406,
+            spread: 0.01,
+            price_notice_roll: 90.406,
+            price_goldman_roll: 90.406,
+            price_continuous_roll: 89.3332380952381,
+            expiry_date: '2026-09-22',
+            roll_date: '2026-09-22',
+            first_notice_date: '2026-09-30',
+            trading_day_of_month: 3,
+            trading_days_in_month: 21,
           },
         }),
       )
