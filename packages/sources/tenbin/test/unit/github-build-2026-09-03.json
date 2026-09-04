@@ -1,0 +1,9 @@
+{
+  "release_tag": "deploy-0a76b0d",
+  "source_repo": "tenbinlabs/verification-service",
+  "commit": "0a76b0d229eb9be9ff933ffb95a0c5785fbd5c9e",
+  "short_commit": "0a76b0d",
+  "image": "us-central1-docker.pkg.dev/tenbin-prod/verification-service/verification-service:main-0a76b0d@sha256:b574c4fd412a5d7d299bae4f2a3a5af5e185fd4a4965c8200870e73abeab8ee4",
+  "image_digest": "sha256:b574c4fd412a5d7d299bae4f2a3a5af5e185fd4a4965c8200870e73abeab8ee4",
+  "endpoint": "https://public-api.tenbin.xyz/v1/verifier"
+}

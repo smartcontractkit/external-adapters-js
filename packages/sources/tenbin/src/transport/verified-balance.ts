@@ -1,20 +1,38 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/verified-balance'
+import { verifyAttestResponse } from './util'
 
 const logger = makeLogger('VerifiedBalanceTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-type PriceResponse = {
-  [symbol: string]: {
-    price: number
+export type AttestResponse = {
+  data: {
+    // ...
+    agg_usd_computed_balance: string
   }
+  canonical: string
+  nonce: string
+  attestation: {
+    jwt: string
+    audience: string
+    token_type: string
+  }
+}
+
+export type BuildJsonResponse = {
+  release_tag: string
+  source_report: string
+  commit: string
+  short_commit: string
+  image: string
+  image_digest: string
+  endpoint: string
 }
 
 export class VerifiedBalanceTransport extends SubscriptionTransport<BaseEndpointTypes> {
@@ -59,48 +77,19 @@ export class VerifiedBalanceTransport extends SubscriptionTransport<BaseEndpoint
   }
 
   async _handleRequest(
-    params: RequestParams,
+    _params: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // custom transport logic
+    const [attestResponse, buildJsonResponse] = await Promise.all([
+      this.getAttestResponse(),
+      this.getBuildJsonResponse(),
+    ])
 
-    const requestConfig = {
-      method: 'POST',
-      baseURL: this.config.API_ENDPOINT,
-      url: '/cryptocurrency/price',
-      headers: {
-        X_API_KEY: this.config.API_KEY,
-      },
-      data: {
-        symbol: params.base.toUpperCase(),
-        convert: params.quote.toUpperCase(),
-      },
-    }
+    verifyAttestResponse(attestResponse, buildJsonResponse)
 
-    const response = await this.requester.request<PriceResponse>(
-      calculateHttpRequestKey<BaseEndpointTypes>({
-        context: {
-          adapterSettings: this.config,
-          inputParameters,
-          endpointName: this.endpointName,
-        },
-        data: requestConfig.data,
-        transportName: this.name,
-      }),
-      requestConfig,
-    )
-
-    const data = response.response.data
-    const baseSymbol = params.base.toUpperCase()
-    const result = data[baseSymbol]?.price
-
-    if (result === undefined) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider didn't return any value for ${params.base}/${params.quote}`,
-      })
-    }
+    const { data } = attestResponse
+    const result = data.agg_usd_computed_balance
 
     return {
       data: {
@@ -114,6 +103,31 @@ export class VerifiedBalanceTransport extends SubscriptionTransport<BaseEndpoint
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async getAttestResponse(): Promise<AttestResponse> {
+    const requestConfig = {
+      method: 'GET',
+      baseURL: this.config.API_ENDPOINT,
+      headers: {
+        Authorization: `Bearer ${this.config.API_KEY}`,
+      },
+    }
+
+    const requestKey = this.config.API_ENDPOINT
+    const response = await this.requester.request<AttestResponse>(requestKey, requestConfig)
+    return response.response.data
+  }
+
+  async getBuildJsonResponse(): Promise<BuildJsonResponse> {
+    const requestConfig = {
+      method: 'GET',
+      baseURL: this.config.BUILD_JSON_ENDPOINT,
+    }
+
+    const requestKey = this.config.BUILD_JSON_ENDPOINT
+    const response = await this.requester.request<BuildJsonResponse>(requestKey, requestConfig)
+    return response.response.data
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

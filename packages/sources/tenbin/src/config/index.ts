@@ -10,13 +10,14 @@ export const config = new AdapterConfig({
   API_ENDPOINT: {
     description: 'An API endpoint for Data Provider',
     type: 'string',
-    default: 'https://dataproviderapi.com',
+    default: 'https://public-api.tenbin.xyz/v1/verifier/attest',
     sensitive: false,
   },
-  WS_API_ENDPOINT: {
-    description: 'WS endpoint for Data Provider',
+  BUILD_JSON_ENDPOINT: {
+    description: 'URL of the build.json file containing the image digest for verification',
     type: 'string',
-    default: 'ws://localhost:9090',
+    default:
+      'https://github.com/tenbinlabs/verification-service-releases/releases/latest/download/build.json',
     sensitive: false,
   },
 

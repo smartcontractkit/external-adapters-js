@@ -16,9 +16,11 @@ describe('execute', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
+    process.env.API_ENDPOINT = 'https://api.com/attest'
     process.env.API_KEY = process.env.API_KEY ?? 'fake-api-key'
+    process.env.BUILD_JSON_ENDPOINT = 'https://api.com/build.json'
     process.env.BACKGROUND_EXECUTE_MS = process.env.BACKGROUND_EXECUTE_MS ?? '0'
-    const mockDate = new Date('2001-01-01T11:11:11.111Z')
+    const mockDate = new Date('2026-09-01T13:33:33.333Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
     const adapter = (await import('./../../src')).adapter
@@ -39,10 +41,7 @@ describe('execute', () => {
   describe('verified-balance endpoint', () => {
     it('should return success', async () => {
       const data = {
-        base: 'ETH',
-        quote: 'USD',
         endpoint: 'verified-balance',
-        transport: 'custombg',
       }
 
       mockPostResponseSuccess()
