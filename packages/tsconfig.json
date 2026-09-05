@@ -306,6 +306,9 @@
       "path": "./sources/lo-tech"
     },
     {
+      "path": "./sources/infralabs"
+    },
+    {
       "path": "./sources/lotus"
     },
     {
