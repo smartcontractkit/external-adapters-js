@@ -6468,7 +6468,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/node-schedule", "npm:2.1.7"],\
+          ["@types/node-schedule", "npm:2.1.8"],\
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
@@ -7137,7 +7137,7 @@ const RAW_RUNTIME_STATE =
           ["@superstateinc/api-key-request", "npm:0.1.4"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/node-schedule", "npm:2.1.7"],\
+          ["@types/node-schedule", "npm:2.1.8"],\
           ["date-fns", "npm:3.6.0"],\
           ["date-fns-tz", "virtual:dbf24be86d4f43dadd47ca06e6dcb8139f03399ea009f576d2a721ecf1ae0426faa15d25a20ed6d005785b22a32822603c769beecb83634ae14010c7d3defdad#npm:3.1.3"],\
           ["ethers", "npm:6.15.0"],\
@@ -15705,11 +15705,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node-schedule", [\
-      ["npm:2.1.7", {\
-        "packageLocation": "./.yarn/cache/@types-node-schedule-npm-2.1.7-4eb8bbbaaf-cbcae09587.zip/node_modules/@types/node-schedule/",\
+      ["npm:2.1.8", {\
+        "packageLocation": "./.yarn/cache/@types-node-schedule-npm-2.1.8-e9fd098bf6-8da986d3b3.zip/node_modules/@types/node-schedule/",\
         "packageDependencies": [\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/node-schedule", "npm:2.1.7"]\
+          ["@types/node-schedule", "npm:2.1.8"]\
         ],\
         "linkType": "HARD"\
       }]\
