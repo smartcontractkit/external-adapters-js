@@ -44,8 +44,18 @@ const FUND_DATES_RES = makeStub('fundDatesRes', {
 })
 
 const FUND_ROWS = [
-  { 'NAV Per Share': 50, 'Next NAV Price': 51, 'Accounting Date': '06-10-2025' },
-  { 'NAV Per Share': 150, 'Next NAV Price': 151, 'Accounting Date': '06-25-2025' },
+  {
+    'NAV Per Share': 50,
+    'Next NAV Price': 51,
+    'Ending Balance': 52,
+    'Accounting Date': '06-10-2025',
+  },
+  {
+    'NAV Per Share': 150,
+    'Next NAV Price': 151,
+    'Ending Balance': 152,
+    'Accounting Date': '06-25-2025',
+  },
 ]
 
 const FUND_RES = makeStub('fundRes', {
@@ -61,7 +71,7 @@ describe('NavTransport – handleRequest', () => {
     jest.resetAllMocks()
   })
 
-  it('returns latest NAV and writes to cache', async () => {
+  it('returns latest NAV and writes all result fields to cache', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
@@ -74,8 +84,12 @@ describe('NavTransport – handleRequest', () => {
 
     expect(responseCache.write).toHaveBeenCalledTimes(1)
 
-    const cached = getCachedResponse()
-    expect(cached).toEqual({
+    const params = {
+      globalFundID: 123,
+      navDateTimestampTimezone: 'UTC',
+      resultField: 'navPerShare',
+    }
+    const response = {
       statusCode: 200,
       result: 150,
       data: {
@@ -83,6 +97,7 @@ describe('NavTransport – handleRequest', () => {
         navPerShare: 150,
         nextNavPerShare: 151,
         navDate: '06-25-2025',
+        endingBalance: 152,
         navDateTimestampMs: 1750809600000,
       },
       timestamps: expect.objectContaining({
@@ -90,7 +105,45 @@ describe('NavTransport – handleRequest', () => {
         providerDataReceivedUnixMs: expect.any(Number),
         providerIndicatedTimeUnixMs: expect.any(Number),
       }),
-    })
+    }
+
+    const cached = responseCache.write.mock.calls[0][1]
+    expect(cached).toEqual([
+      {
+        params,
+        response,
+      },
+      {
+        params: {
+          ...params,
+          resultField: 'nextNavPerShare',
+        },
+        response: {
+          ...response,
+          result: response.data.nextNavPerShare,
+        },
+      },
+      {
+        params: {
+          ...params,
+          resultField: 'endingBalance',
+        },
+        response: {
+          ...response,
+          result: response.data.endingBalance,
+        },
+      },
+      {
+        params: {
+          ...params,
+          resultField: 'navDateTimestampMs',
+        },
+        response: {
+          ...response,
+          result: response.data.navDateTimestampMs,
+        },
+      },
+    ])
     expect(requester.request).toHaveBeenNthCalledWith(
       1,
       expect.any(String),
@@ -132,8 +185,18 @@ describe('NavTransport – handleRequest', () => {
     requester.request.mockResolvedValueOnce(shortSpanDates)
 
     const fundRows = [
-      { 'NAV Per Share': 42, 'Next NAV Price': 142, 'Accounting Date': '06-30-2025' },
-      { 'NAV Per Share': 43, 'Next NAV Price': 143, 'Accounting Date': '07-01-2025' },
+      {
+        'NAV Per Share': 42,
+        'Next NAV Price': 142,
+        'Ending Balance': 242,
+        'Accounting Date': '06-30-2025',
+      },
+      {
+        'NAV Per Share': 43,
+        'Next NAV Price': 143,
+        'Ending Balance': 243,
+        'Accounting Date': '07-01-2025',
+      },
     ]
     const fundRes = makeStub('fundRes', { response: { data: { Data: fundRows } } })
     requester.request.mockResolvedValueOnce(fundRes)

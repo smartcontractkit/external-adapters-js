@@ -8,6 +8,15 @@ import { navTransport } from '../transport/nav'
 /** Default timezone to offset UTC midnight for navDateTimestampMs. */
 export const DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE = 'America/Los_Angeles'
 
+export const RESULT_FIELDS = [
+  'navPerShare',
+  'nextNavPerShare',
+  'endingBalance',
+  'navDateTimestampMs',
+] as const
+
+type ResultField = (typeof RESULT_FIELDS)[number]
+
 export const inputParameters = new InputParameters(
   {
     globalFundID: {
@@ -22,11 +31,18 @@ export const inputParameters = new InputParameters(
         'timezone for midnight in navDateTimestampMs (e.g. "America/New_York", "America/Los_Angeles", "UTC").',
       default: DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE,
     },
+    resultField: {
+      description: 'The field from "data" to return as the "result".',
+      type: 'string',
+      options: RESULT_FIELDS,
+      default: 'navPerShare',
+    },
   },
   [
     {
       globalFundID: 1234,
       navDateTimestampTimezone: 'UTC',
+      resultField: 'navPerShare',
     },
   ],
 )
@@ -34,11 +50,8 @@ export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: number
-    Data: {
-      navPerShare: number
-      nextNavPerShare: number
+    Data: Record<ResultField, number> & {
       navDate: string
-      navDateTimestampMs: number
       globalFundID: number
     }
   }
