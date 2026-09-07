@@ -123,6 +123,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [synthetix-debt-pool](./synthetix-debt-pool/README.md)
 - [synthetix-feeds](./synthetix-feeds/README.md)
 - [t-rize-proof-of-insurance](./t-rize-proof-of-insurance/README.md)
+- [tenbin](./tenbin/README.md)
 - [the-network-firm](./the-network-firm/README.md)
 - [tickerlayer](./tickerlayer/README.md)
 - [tiingo](./tiingo/README.md)
