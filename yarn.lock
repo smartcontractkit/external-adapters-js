@@ -4004,7 +4004,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    "@types/node-schedule": "npm:2.1.7"
+    "@types/node-schedule": "npm:2.1.8"
     nock: "npm:13.5.6"
     node-schedule: "npm:2.1.1"
     tslib: "npm:2.4.1"
@@ -4599,7 +4599,7 @@ __metadata:
     "@superstateinc/api-key-request": "npm:0.1.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    "@types/node-schedule": "npm:2.1.7"
+    "@types/node-schedule": "npm:2.1.8"
     date-fns: "npm:3.6.0"
     date-fns-tz: "npm:3.1.3"
     ethers: "npm:^6.15.0"
@@ -11104,12 +11104,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node-schedule@npm:2.1.7":
-  version: 2.1.7
-  resolution: "@types/node-schedule@npm:2.1.7"
+"@types/node-schedule@npm:2.1.8":
+  version: 2.1.8
+  resolution: "@types/node-schedule@npm:2.1.8"
   dependencies:
     "@types/node": "npm:*"
-  checksum: 10/cbcae09587563438896c01308702e46c212e44d11939b487d7019b74f4779668bf478d5e97880cb37e48514b02808db51b3469886a00ab3d0cac00e8a1b255df
+  checksum: 10/8da986d3b3d529d8d203126e9c89b477d39d8ca6a45d122637fc3b05402da0965bda6410da77af5efa3cbf5ac3f2955d2b9dcf5f90a191271c1096d162c96dd2
   languageName: node
   linkType: hard
 
