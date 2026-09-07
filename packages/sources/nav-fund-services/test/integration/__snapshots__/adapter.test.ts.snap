@@ -11,9 +11,30 @@ exports[`execute nav endpoint should reject an invalid timezone 1`] = `
 }
 `;
 
+exports[`execute nav endpoint should return ending balance 1`] = `
+{
+  "data": {
+    "endingBalance": 1000000,
+    "globalFundID": 1234,
+    "navDate": "01-01-2024",
+    "navDateTimestampMs": 1704096000000,
+    "navPerShare": 123.45,
+    "nextNavPerShare": 124.56,
+  },
+  "result": 1000000,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978307200000,
+    "providerDataRequestedUnixMs": 978307200000,
+    "providerIndicatedTimeUnixMs": 1704067200000,
+  },
+}
+`;
+
 exports[`execute nav endpoint should return success 1`] = `
 {
   "data": {
+    "endingBalance": 1000000,
     "globalFundID": 1234,
     "navDate": "01-01-2024",
     "navDateTimestampMs": 1704096000000,
