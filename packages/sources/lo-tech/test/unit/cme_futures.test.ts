@@ -17,6 +17,7 @@ import { BaseEndpointTypes } from '../../src/endpoint/cme_futures'
 import {
   CmeFuturesWebSocketTransport,
   getContractMonthFromSymbol,
+  getExpiryDateTimestampSeconds,
   getRollDateTimestampSeconds,
   WsTransportTypes,
 } from '../../src/transport/cme_futures'
@@ -216,7 +217,7 @@ describe('cme_futures', () => {
             roll_date: new Date(`${rollDate}T00:00:00-04:00`).getTime() / 1000,
             symbol: 'WTIQ6',
             generic_symbol: symbol,
-            expiry_date: rollDate,
+            expiry_date: new Date(`${rollDate}T00:00:00-04:00`).getTime() / 1000,
             contract_month: 8,
             price_notice_roll,
             price_goldman_roll,
@@ -507,7 +508,20 @@ describe('cme_futures', () => {
       } as unknown as BaseEndpointTypes['Settings'])
       const date = 'invalid-date'
       expect(() => getRollDateTimestampSeconds(date, settings)).toThrow(
-        `Invalid roll date from data provider: '${date}'`,
+        `Invalid date from data provider: '${date}'`,
+      )
+    })
+  })
+
+  describe('getExpiryDateTimestampSeconds', () => {
+    it('should convert a date string to a unix timestamp at start of day, ignoring ROLL_DATE_TIME_SECONDS', () => {
+      const settings = makeStub('settings', {
+        ROLL_DATE_TIMEZONE: 'America/New_York',
+        ROLL_DATE_TIME_SECONDS: 16 * 3600,
+      } as unknown as BaseEndpointTypes['Settings'])
+      const date = '2026-01-21'
+      expect(getExpiryDateTimestampSeconds(date, settings)).toBe(
+        new Date(`${date}T00:00:00-05:00`).getTime() / 1000,
       )
     })
   })
