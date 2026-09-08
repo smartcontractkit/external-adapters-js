@@ -6304,7 +6304,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/lo-tech", {\
         "packageLocation": "./packages/sources/lo-tech/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/lo-tech-adapter", "workspace:packages/sources/lo-tech"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
