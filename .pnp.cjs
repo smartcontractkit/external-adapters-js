@@ -119,6 +119,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"\
     },\
     {\
+      "name": "@chainlink/21x-adapter",\
+      "reference": "workspace:packages/sources/21x"\
+    },\
+    {\
       "name": "@chainlink/ada-balance-adapter",\
       "reference": "workspace:packages/sources/ada-balance"\
     },\
@@ -683,6 +687,7 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
+    ["@chainlink/21x-adapter", ["workspace:packages/sources/21x"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
@@ -4501,6 +4506,21 @@ const RAW_RUNTIME_STATE =
           ["bignumber.js", "npm:9.3.1"]\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@chainlink/21x-adapter", [\
+      ["workspace:packages/sources/21x", {\
+        "packageLocation": "./packages/sources/21x/",\
+        "packageDependencies": [\
+          ["@chainlink/21x-adapter", "workspace:packages/sources/21x"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/ada-balance-adapter", [\
