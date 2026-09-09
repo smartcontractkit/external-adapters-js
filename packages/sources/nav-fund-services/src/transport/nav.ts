@@ -1,5 +1,11 @@
-import { BaseEndpointTypes, inputParameters } from '../endpoint/nav'
-import { ACCOUNTING_DATE_KEY, getFund, NAV_PER_SHARE_KEY, NEXT_NAV_PRICE_KEY } from './fund'
+import { BaseEndpointTypes, inputParameters, RESULT_FIELDS } from '../endpoint/nav'
+import {
+  ACCOUNTING_DATE_KEY,
+  ENDING_BALANCE_KEY,
+  getFund,
+  NAV_PER_SHARE_KEY,
+  NEXT_NAV_PRICE_KEY,
+} from './fund'
 import { getFundDates } from './fund-dates'
 
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
@@ -64,7 +70,24 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         },
       }
     }
-    await this.responseCache.write(this.name, [{ params: param, response }])
+    await this.responseCache.write(
+      this.name,
+      RESULT_FIELDS.map((resultField) => {
+        if (response.data) {
+          response = {
+            ...response,
+            result: response.data[resultField],
+          }
+        }
+        return {
+          params: {
+            ...param,
+            resultField,
+          },
+          response,
+        }
+      }),
+    )
   }
 
   async _handleRequest(
@@ -126,6 +149,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         navPerShare: latest[NAV_PER_SHARE_KEY],
         nextNavPerShare: latest[NEXT_NAV_PRICE_KEY],
         navDate: latest[ACCOUNTING_DATE_KEY],
+        endingBalance: latest[ENDING_BALANCE_KEY],
         navDateTimestampMs,
       },
       timestamps: {

@@ -46,6 +46,19 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return ending balance', async () => {
+      const data = {
+        globalFundID: 1234,
+        endpoint: 'nav',
+        transport: 'rest',
+        resultField: 'endingBalance',
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should reject an invalid timezone', async () => {
       const data = {
         globalFundID: 1234,
