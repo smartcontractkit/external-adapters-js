@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.19.1",
+    "decimal.js": "^10.6.0",
     "tslib": "2.4.1"
   }
 }

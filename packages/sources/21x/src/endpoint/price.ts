@@ -1,5 +1,4 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
-import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import { customSubscriptionTransport } from '../transport/price'
@@ -7,29 +6,34 @@ import { customSubscriptionTransport } from '../transport/price'
 export const inputParameters = new InputParameters(
   {
     base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
+      aliases: ['id'],
       required: true,
       type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
+      description: 'The id of the trading pair',
     },
   },
   [
     {
-      base: 'BTC',
-      quote: 'USD',
+      base: '09befe9e-c95d-4856-ab4c-c811202a9cfb',
     },
   ],
 )
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
-  Response: SingleNumberResultResponse
+  Response: {
+    Result: string // last_price
+    Data: {
+      last_price: string
+      mid_price: string | undefined
+      bid_price: string | undefined
+      bid_volume: string | undefined
+      ask_price: string | undefined
+      ask_volume: string | undefined
+      market_status: number
+      trading_status_string: string
+    }
+  }
   Settings: typeof config.settings
 }
 

@@ -1,19 +1,55 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import Decimal from 'decimal.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 
 const logger = makeLogger('PriceTransport')
 
 type RequestParams = typeof inputParameters.validated
 
-type PriceResponse = {
-  [symbol: string]: {
-    price: number
+export type TradeInfoResponse = {
+  lastPrice: string
+  referencePrice: string
+  priceChange24h: string
+  tradeVolume24h: string
+  liquidityBand: number
+  tradingStatus: string
+  statusChangeReason: string
+  tradingHaltCounter: number
+}
+
+export type OrderBookResponse = {
+  tradingPairId: string
+  buy: {
+    orderType: string
+    quantity: string
+    limit: string
+  }[]
+  sell: {
+    orderType: string
+    quantity: string
+    limit: string
+  }[]
+}
+
+const convertTradingStatusToNumber = (status: string): number => {
+  switch (status) {
+    case 'CREATED':
+    case 'DISABLED':
+    case 'PERMANENTLY_DELETED':
+      return 0
+    case 'CONTINUOUS_TRADING':
+      return 2
+    case 'OUT_OF_TRADING':
+    case 'AUTOMATIC_TRADING_HALT':
+    case 'MANUAL_TRADING_HALT':
+      return 5
+    default:
+      throw new Error(`Unknown trading status: ${status}`)
   }
 }
 
@@ -63,57 +99,70 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
 
-    // custom transport logic
+    const [tradeInfo, orderBook] = await Promise.all([
+      this.getTradeInfo(params.base),
+      this.getOrderBook(params.base),
+    ])
 
-    const requestConfig = {
-      method: 'POST',
-      baseURL: this.config.API_ENDPOINT,
-      url: '/cryptocurrency/price',
-      headers: {
-        X_API_KEY: this.config.API_KEY,
-      },
-      data: {
-        symbol: params.base.toUpperCase(),
-        convert: params.quote.toUpperCase(),
-      },
-    }
+    const last_price = tradeInfo.lastPrice
 
-    const response = await this.requester.request<PriceResponse>(
-      calculateHttpRequestKey<BaseEndpointTypes>({
-        context: {
-          adapterSettings: this.config,
-          inputParameters,
-          endpointName: this.endpointName,
-        },
-        data: requestConfig.data,
-        transportName: this.name,
-      }),
-      requestConfig,
-    )
+    const bid_price = orderBook.buy[0]?.limit
+    const bid_volume = orderBook.buy[0]?.quantity
+    const ask_price = orderBook.sell[0]?.limit
+    const ask_volume = orderBook.sell[0]?.quantity
 
-    const data = response.response.data
-    const baseSymbol = params.base.toUpperCase()
-    const result = data[baseSymbol]?.price
+    const mid_price =
+      bid_price !== undefined && ask_price !== undefined
+        ? new Decimal(bid_price).plus(new Decimal(ask_price)).dividedBy(2).toString()
+        : undefined
 
-    if (result === undefined) {
-      throw new AdapterError({
-        statusCode: 502,
-        message: `The data provider didn't return any value for ${params.base}/${params.quote}`,
-      })
-    }
+    const market_status = convertTradingStatusToNumber(tradeInfo.tradingStatus)
 
     return {
       data: {
-        result,
+        last_price,
+        mid_price,
+        bid_price,
+        bid_volume,
+        ask_price,
+        ask_volume,
+        market_status,
+        trading_status_string: tradeInfo.tradingStatus,
       },
       statusCode: 200,
-      result,
+      result: last_price,
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
         providerIndicatedTimeUnixMs: undefined,
       },
     }
+  }
+
+  async makeApiRequest<T extends TradeInfoResponse | OrderBookResponse>(
+    id: string,
+    endpoint: 'tradeinfo' | 'orderbook',
+  ): Promise<T> {
+    const requestConfig = {
+      method: 'GET',
+      baseURL: this.config.API_ENDPOINT,
+      url: `${id}/${endpoint}`,
+    }
+
+    const requestKey = requestConfig.url
+    const response = await this.requester.request<T>(requestKey, requestConfig)
+
+    console.log('dskloet', endpoint, response.response.data)
+
+    return response.response.data
+  }
+
+  async getTradeInfo(id: string): Promise<TradeInfoResponse> {
+    return this.makeApiRequest<TradeInfoResponse>(id, 'tradeinfo')
+  }
+
+  async getOrderBook(id: string): Promise<OrderBookResponse> {
+    return this.makeApiRequest<OrderBookResponse>(id, 'orderbook')
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

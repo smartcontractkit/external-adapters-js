@@ -1,10 +1,9 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { calculateHttpRequestKey } from '@chainlink/external-adapter-framework/cache'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
 import { deferredPromise, LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { makeStub } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { BaseEndpointTypes, inputParameters } from '../../src/endpoint/price'
-import { PriceTransport } from '../../src/transport/price'
+import { BaseEndpointTypes } from '../../src/endpoint/price'
+import { OrderBookResponse, PriceTransport, TradeInfoResponse } from '../../src/transport/price'
 
 const log = jest.fn()
 const debugLog = jest.fn()
@@ -26,12 +25,10 @@ describe('PriceTransport', () => {
   const transportName = 'default_single_transport'
   const endpointName = 'price'
   const API_ENDPOINT = 'http://api.example.com'
-  const API_KEY = 'test-api-key'
   const BACKGROUND_EXECUTE_MS = 10_000
 
   const adapterSettings = makeStub('adapterSettings', {
     API_ENDPOINT,
-    API_KEY,
     WARMUP_SUBSCRIPTION_TTL: 10_000,
     BACKGROUND_EXECUTE_MS,
     MAX_COMMON_KEY_SIZE: 300,
@@ -62,55 +59,32 @@ describe('PriceTransport', () => {
   type RequestConfig = {
     baseURL: string
     url: string
-    method: 'POST'
-    headers: Record<string, string>
-    data: {
-      symbol: string
-      convert: string
-    }
+    method: 'GET'
   }
 
   const requestConfigForParams = ({
-    base,
-    quote,
+    id,
+    apiEndpoint,
   }: {
-    base: string
-    quote: string
+    id: string
+    apiEndpoint: 'tradeinfo' | 'orderbook'
   }): RequestConfig => ({
-    method: 'POST',
+    method: 'GET',
     baseURL: adapterSettings.API_ENDPOINT,
-    url: '/cryptocurrency/price',
-    headers: {
-      X_API_KEY: adapterSettings.API_KEY,
-    },
-    data: {
-      symbol: base.toUpperCase(),
-      convert: quote.toUpperCase(),
-    },
+    url: `${id}/${apiEndpoint}`,
   })
 
   const requestKeyForConfig = (requestConfig: RequestConfig) => {
-    const requestKey = calculateHttpRequestKey<BaseEndpointTypes>({
-      context: {
-        adapterSettings,
-        inputParameters,
-        endpointName,
-      },
-      data: requestConfig.data,
-      transportName,
-    })
-    return requestKey
+    return requestConfig.url
   }
 
-  const mockPriceResponse = (symbol: string, price: number | Promise<number>) => {
+  const mockResponse = <T extends TradeInfoResponse | OrderBookResponse>(
+    response: T | Promise<T>,
+  ) => {
     requester.request.mockImplementationOnce(async () => {
       return {
         response: {
-          data: {
-            [symbol.toUpperCase()]: {
-              price: await price,
-            },
-          },
+          data: await response,
         },
       }
     })
@@ -143,26 +117,63 @@ describe('PriceTransport', () => {
 
   describe('handleRequest', () => {
     it('should cache response', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2'
+      const bid_volume = '3'
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = '3'
+      const trading_status_string = 'CONTINUOUS_TRADING'
 
       const params = makeStub('params', {
-        base: from,
-        quote: to,
+        base: id,
       })
 
-      mockPriceResponse(from, price)
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
 
       await transport.handleRequest(params)
 
-      const expectedResult = price
-
       const expectedResponse = {
         statusCode: 200,
-        result: expectedResult,
+        result: last_price,
         data: {
-          result: expectedResult,
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -183,25 +194,63 @@ describe('PriceTransport', () => {
 
   describe('_handleRequest', () => {
     it('should return price response', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2'
+      const bid_volume = '3'
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = '3'
+      const trading_status_string = 'CONTINUOUS_TRADING'
 
       const params = makeStub('params', {
-        base: from,
-        quote: to,
+        base: id,
       })
 
-      mockPriceResponse(from, price)
-      const response = await transport._handleRequest(params)
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
 
-      const expectedResult = price
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
+
+      const response = await transport._handleRequest(params)
 
       expect(response).toEqual({
         statusCode: 200,
-        result: expectedResult,
+        result: last_price,
         data: {
-          result: expectedResult,
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
         },
         timestamps: {
           providerDataRequestedUnixMs: Date.now(),
@@ -210,41 +259,420 @@ describe('PriceTransport', () => {
         },
       })
 
-      const expectedRequestConfig = requestConfigForParams(params)
-      const expectedRequestKey = requestKeyForConfig(expectedRequestConfig)
+      const expectedTradeInfoRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'tradeinfo',
+      })
+      const expectedTradeInfoRequestKey = requestKeyForConfig(expectedTradeInfoRequestConfig)
 
-      expect(requester.request).toHaveBeenCalledWith(expectedRequestKey, expectedRequestConfig)
-      expect(requester.request).toHaveBeenCalledTimes(1)
+      const expectedOrderBookRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'orderbook',
+      })
+      const expectedOrderBookRequestKey = requestKeyForConfig(expectedOrderBookRequestConfig)
+
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedTradeInfoRequestKey,
+        expectedTradeInfoRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedOrderBookRequestKey,
+        expectedOrderBookRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
     })
 
-    it('should throw if response does not include price', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = undefined as unknown as number
+    it('should exclude ask price and mid price if there are no sell orders', async () => {
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2'
+      const bid_volume = '3'
+      const ask_price = undefined
+      const ask_volume = undefined
+      const mid_price = undefined
+      const trading_status_string = 'CONTINUOUS_TRADING'
 
       const params = makeStub('params', {
-        base: from,
-        quote: to,
+        base: id,
       })
 
-      mockPriceResponse(from, price)
-      expect(() => transport._handleRequest(params)).rejects.toThrow(
-        `The data provider didn't return any value for ${params.base}/${params.quote}`,
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [],
+      })
+
+      const response = await transport._handleRequest(params)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: last_price,
+        data: {
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      const expectedTradeInfoRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'tradeinfo',
+      })
+      const expectedTradeInfoRequestKey = requestKeyForConfig(expectedTradeInfoRequestConfig)
+
+      const expectedOrderBookRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'orderbook',
+      })
+      const expectedOrderBookRequestKey = requestKeyForConfig(expectedOrderBookRequestConfig)
+
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedTradeInfoRequestKey,
+        expectedTradeInfoRequestConfig,
       )
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedOrderBookRequestKey,
+        expectedOrderBookRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
+    })
+
+    it('should exclude bid price and mid price if there are no buy orders', async () => {
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = undefined
+      const bid_volume = undefined
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = undefined
+      const trading_status_string = 'CONTINUOUS_TRADING'
+
+      const params = makeStub('params', {
+        base: id,
+      })
+
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
+
+      const response = await transport._handleRequest(params)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: last_price,
+        data: {
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      const expectedTradeInfoRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'tradeinfo',
+      })
+      const expectedTradeInfoRequestKey = requestKeyForConfig(expectedTradeInfoRequestConfig)
+
+      const expectedOrderBookRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'orderbook',
+      })
+      const expectedOrderBookRequestKey = requestKeyForConfig(expectedOrderBookRequestConfig)
+
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedTradeInfoRequestKey,
+        expectedTradeInfoRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedOrderBookRequestKey,
+        expectedOrderBookRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
+    })
+
+    it('should calculate mid price with decimals', async () => {
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2.0000000001'
+      const bid_volume = '3'
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = '3.00000000005'
+      const trading_status_string = 'CONTINUOUS_TRADING'
+
+      const params = makeStub('params', {
+        base: id,
+      })
+
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
+
+      const response = await transport._handleRequest(params)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: last_price,
+        data: {
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      const expectedTradeInfoRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'tradeinfo',
+      })
+      const expectedTradeInfoRequestKey = requestKeyForConfig(expectedTradeInfoRequestConfig)
+
+      const expectedOrderBookRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'orderbook',
+      })
+      const expectedOrderBookRequestKey = requestKeyForConfig(expectedOrderBookRequestConfig)
+
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedTradeInfoRequestKey,
+        expectedTradeInfoRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedOrderBookRequestKey,
+        expectedOrderBookRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
+    })
+
+    it('should return price response with DISABLED market status', async () => {
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2'
+      const bid_volume = '3'
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = '3'
+      const trading_status_string = 'DISABLED'
+
+      const params = makeStub('params', {
+        base: id,
+      })
+
+      mockResponse({
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      })
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
+
+      const response = await transport._handleRequest(params)
+
+      expect(response).toEqual({
+        statusCode: 200,
+        result: last_price,
+        data: {
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 0,
+          trading_status_string,
+        },
+        timestamps: {
+          providerDataRequestedUnixMs: Date.now(),
+          providerDataReceivedUnixMs: Date.now(),
+          providerIndicatedTimeUnixMs: undefined,
+        },
+      })
+
+      const expectedTradeInfoRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'tradeinfo',
+      })
+      const expectedTradeInfoRequestKey = requestKeyForConfig(expectedTradeInfoRequestConfig)
+
+      const expectedOrderBookRequestConfig = requestConfigForParams({
+        id,
+        apiEndpoint: 'orderbook',
+      })
+      const expectedOrderBookRequestKey = requestKeyForConfig(expectedOrderBookRequestConfig)
+
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedTradeInfoRequestKey,
+        expectedTradeInfoRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledWith(
+        expectedOrderBookRequestKey,
+        expectedOrderBookRequestConfig,
+      )
+      expect(requester.request).toHaveBeenCalledTimes(2)
     })
 
     it('should record received timestamp separate from requested timestamp', async () => {
-      const from = 'ETH'
-      const to = 'USD'
-      const price = 2100
+      const id = '09befe9e-c95d-4856-ab4c-c811202a9cfb'
+
+      const last_price = '1'
+      const bid_price = '2'
+      const bid_volume = '3'
+      const ask_price = '4'
+      const ask_volume = '5'
+      const mid_price = '3'
+      const trading_status_string = 'CONTINUOUS_TRADING'
 
       const params = makeStub('params', {
-        base: from,
-        quote: to,
+        base: id,
       })
 
-      const [pricePromise, resolvePrice] = deferredPromise<number>()
-      mockPriceResponse(from, pricePromise)
+      const tradeInfoResponse = {
+        lastPrice: last_price,
+        referencePrice: '2',
+        priceChange24h: '3',
+        tradeVolume24h: '4',
+        liquidityBand: 5,
+        tradingStatus: trading_status_string,
+        statusChangeReason: '6',
+        tradingHaltCounter: 7,
+      }
+
+      const [tradeInfoPromise, resolveTradeInfo] = deferredPromise<TradeInfoResponse>()
+
+      mockResponse(tradeInfoPromise)
+
+      mockResponse({
+        tradingPairId: id,
+        buy: [
+          {
+            orderType: 'LIMIT',
+            quantity: bid_volume,
+            limit: bid_price,
+          },
+        ],
+        sell: [
+          {
+            orderType: 'LIMIT',
+            quantity: ask_volume,
+            limit: ask_price,
+          },
+        ],
+      })
 
       const requestTimestamp = Date.now()
       const responsePromise = transport._handleRequest(params)
@@ -252,14 +680,20 @@ describe('PriceTransport', () => {
       const responseTimestamp = Date.now()
       expect(responseTimestamp).toBeGreaterThan(requestTimestamp)
 
-      resolvePrice(price)
+      resolveTradeInfo(tradeInfoResponse)
 
-      const expectedResult = price
       expect(await responsePromise).toEqual({
         statusCode: 200,
-        result: expectedResult,
+        result: last_price,
         data: {
-          result: expectedResult,
+          last_price,
+          bid_price,
+          bid_volume,
+          ask_price,
+          ask_volume,
+          mid_price,
+          market_status: 2,
+          trading_status_string,
         },
         timestamps: {
           providerDataRequestedUnixMs: requestTimestamp,
