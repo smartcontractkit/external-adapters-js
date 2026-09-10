@@ -1,5 +1,59 @@
 # @chainlink/market-status-adapter
 
+## 1.14.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.14.2
+
+### Patch Changes
+
+- [#5339](https://github.com/smartcontractkit/external-adapters-js/pull/5339) [`bebea3b`](https://github.com/smartcontractkit/external-adapters-js/commit/bebea3b977d6e4c4d47cbfbfc9958d2a82311b89) Thanks [@dskloetc](https://github.com/dskloetc)! - Trigger a new release
+
+## 1.14.1
+
+### Patch Changes
+
+- [#5336](https://github.com/smartcontractkit/external-adapters-js/pull/5336) [`1b6963a`](https://github.com/smartcontractkit/external-adapters-js/commit/1b6963a544d86793765ca17088ad5d4924aa0c11) Thanks [@dskloetc](https://github.com/dskloetc)! - Add parameter useSecondaryForTesting
+
+## 1.14.0
+
+### Minor Changes
+
+- [#5333](https://github.com/smartcontractkit/external-adapters-js/pull/5333) [`ba85f2f`](https://github.com/smartcontractkit/external-adapters-js/commit/ba85f2f58fba280f8f6f814432bbc8a8a2ec5f35) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 15 markets and 1 source.
+
+## 1.13.0
+
+### Minor Changes
+
+- [#5288](https://github.com/smartcontractkit/external-adapters-js/pull/5288) [`f099035`](https://github.com/smartcontractkit/external-adapters-js/commit/f099035efd00943a3e7bb32eff13bcc1835d4535) Thanks [@Michipulatos](https://github.com/Michipulatos)! - add hkex as market
+
+## 1.12.2
+
+### Patch Changes
+
+- [#5285](https://github.com/smartcontractkit/external-adapters-js/pull/5285) [`0412be1`](https://github.com/smartcontractkit/external-adapters-js/commit/0412be11f4209b324a2600df2e3b58a0aedfc766) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - generate-endpoint-aliases fix to support cfbenchmarks2 and composite adapters
+
+## 1.12.1
+
+### Patch Changes
+
+- [#5277](https://github.com/smartcontractkit/external-adapters-js/pull/5277) [`fec6ff9`](https://github.com/smartcontractkit/external-adapters-js/commit/fec6ff987ec04aedf3a4ead89c9f1de3bcbf8035) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 1.12.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 1.11.0
+
+### Minor Changes
+
+- [#5192](https://github.com/smartcontractkit/external-adapters-js/pull/5192) [`4b3682a`](https://github.com/smartcontractkit/external-adapters-js/commit/4b3682a01d4865775e16cfeea2a9e94505a90131) Thanks [@dskloetc](https://github.com/dskloetc)! - Add SIX as market status source for SIX and BME
+
 ## 1.10.0
 
 ### Minor Changes

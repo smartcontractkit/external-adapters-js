@@ -1,5 +1,47 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.10.4
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 2.10.3
+
+### Patch Changes
+
+- [#5321](https://github.com/smartcontractkit/external-adapters-js/pull/5321) [`94ba143`](https://github.com/smartcontractkit/external-adapters-js/commit/94ba1431e518ea651ca842196dc850b2a85818ea) Thanks [@JoshC2k](https://github.com/JoshC2k)! - GRPC Transport Support
+
+## 2.10.2
+
+### Patch Changes
+
+- [#5269](https://github.com/smartcontractkit/external-adapters-js/pull/5269) [`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Fixed invalid workspace selector for coinmetrics-lwba
+
+## 2.10.1
+
+### Patch Changes
+
+- [#5264](https://github.com/smartcontractkit/external-adapters-js/pull/5264) [`3600ec4`](https://github.com/smartcontractkit/external-adapters-js/commit/3600ec44157e77283ba48d92c491a2abe34a8f85) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 5 streams adapters with gRPC transport support
+
+## 2.10.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.9.0
+
+### Minor Changes
+
+- [#5191](https://github.com/smartcontractkit/external-adapters-js/pull/5191) [`98260c4`](https://github.com/smartcontractkit/external-adapters-js/commit/98260c413575f4ed86488833f01b323074748b5b) Thanks [@dskloetc](https://github.com/dskloetc)! - Add type mark_price_index to markprice endpoint options
+
+## 2.8.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
 ## 2.7.2
 
 ### Patch Changes

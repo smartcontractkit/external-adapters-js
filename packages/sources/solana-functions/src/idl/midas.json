@@ -1,0 +1,601 @@
+{
+  "address": "MDF1kkcgJqyizY8k3U1ESAxLBYFYmE3qTwxf2pmGE1s",
+  "metadata": {
+    "name": "data_feed",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "new_feed",
+      "discriminator": [177, 52, 189, 152, 201, 87, 187, 248],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": ["Payer and signer"],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "feed",
+          "docs": ["New `FeedState` instance"],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "ac_role",
+          "type": "pubkey"
+        },
+        {
+          "name": "underlying_feed",
+          "type": "pubkey"
+        },
+        {
+          "name": "mode",
+          "type": {
+            "defined": {
+              "name": "FeedMode"
+            }
+          }
+        },
+        {
+          "name": "min_price",
+          "type": "u64"
+        },
+        {
+          "name": "max_price",
+          "type": "u64"
+        },
+        {
+          "name": "max_staleness",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "new_manual_feed",
+      "discriminator": [153, 122, 135, 208, 24, 205, 89, 52],
+      "accounts": [
+        {
+          "name": "authority",
+          "docs": ["Account with Feed Admin role"],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "manual_feed",
+          "docs": ["New `ManualFeedState` instance"],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109, 97, 110, 117, 97, 108, 95, 102, 101, 101, 100, 95, 115, 116, 97, 116, 101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_feed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ac_role",
+          "docs": ["AccessControlRoles instance that is set in base_feed"]
+        },
+        {
+          "name": "authority_ac_role",
+          "docs": ["Feed Admin AC role of `authority`"],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 99, 99, 111, 117, 110, 116, 95, 97, 99, 95, 114, 111, 108, 101]
+              },
+              {
+                "kind": "account",
+                "path": "ac_role"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [100, 97, 116, 97, 95, 102, 101, 101, 100, 95, 97, 100, 109, 105, 110]
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_feed",
+          "docs": ["`DataFeed` account"]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "initial_price",
+          "type": "u64"
+        },
+        {
+          "name": "decimals",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "update_feed",
+      "discriminator": [222, 6, 52, 131, 173, 81, 113, 247],
+      "accounts": [
+        {
+          "name": "authority",
+          "docs": ["Account with Feed Admin role"],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ac_role",
+          "docs": ["AccessControlRoles instance that is set in `feed`"]
+        },
+        {
+          "name": "authority_ac_role",
+          "docs": ["Feed Admin AC role of `authority`"],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 99, 99, 111, 117, 110, 116, 95, 97, 99, 95, 114, 111, 108, 101]
+              },
+              {
+                "kind": "account",
+                "path": "ac_role"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [100, 97, 116, 97, 95, 102, 101, 101, 100, 95, 97, 100, 109, 105, 110]
+              }
+            ]
+          }
+        },
+        {
+          "name": "feed",
+          "docs": ["`DataFeed` account to update"],
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "ac_role",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "underlying_feed",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "mode",
+          "type": {
+            "option": {
+              "defined": {
+                "name": "FeedMode"
+              }
+            }
+          }
+        },
+        {
+          "name": "min_price",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "max_price",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "max_staleness",
+          "type": {
+            "option": "u32"
+          }
+        }
+      ]
+    },
+    {
+      "name": "update_manual_feed",
+      "discriminator": [42, 63, 110, 35, 20, 132, 12, 230],
+      "accounts": [
+        {
+          "name": "authority",
+          "docs": ["Account with Feed Admin role"],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "manual_feed",
+          "docs": ["`ManualFeedState` instance"],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109, 97, 110, 117, 97, 108, 95, 102, 101, 101, 100, 95, 115, 116, 97, 116, 101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "base_feed"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ac_role",
+          "docs": ["AccessControlRoles instance that is set in base_feed"]
+        },
+        {
+          "name": "authority_ac_role",
+          "docs": ["Feed Admin AC role of `authority`"],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [97, 99, 99, 111, 117, 110, 116, 95, 97, 99, 95, 114, 111, 108, 101]
+              },
+              {
+                "kind": "account",
+                "path": "ac_role"
+              },
+              {
+                "kind": "account",
+                "path": "authority"
+              },
+              {
+                "kind": "const",
+                "value": [100, 97, 116, 97, 95, 102, 101, 101, 100, 95, 97, 100, 109, 105, 110]
+              }
+            ]
+          }
+        },
+        {
+          "name": "base_feed",
+          "docs": ["`DataFeed` account"]
+        }
+      ],
+      "args": [
+        {
+          "name": "price",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "decimals",
+          "type": {
+            "option": "u8"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "AccessControlRoleState",
+      "discriminator": [91, 24, 64, 231, 44, 138, 91, 20]
+    },
+    {
+      "name": "AccountAccessControlRoleState",
+      "discriminator": [100, 17, 104, 157, 227, 195, 225, 30]
+    },
+    {
+      "name": "FeedState",
+      "discriminator": [171, 251, 171, 20, 196, 179, 72, 207]
+    },
+    {
+      "name": "ManualFeedState",
+      "discriminator": [85, 188, 133, 61, 170, 132, 192, 135]
+    }
+  ],
+  "events": [
+    {
+      "name": "FeedUpdatedEvent",
+      "discriminator": [218, 52, 227, 244, 93, 110, 85, 61]
+    },
+    {
+      "name": "ManualFeedUpdatedEvent",
+      "discriminator": [101, 228, 124, 183, 119, 43, 97, 38]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidUnderlyingFeedProvided",
+      "msg": "Invalid underlying feed provided"
+    },
+    {
+      "code": 6001,
+      "name": "NotAuthority",
+      "msg": "Not an authority"
+    },
+    {
+      "code": 6002,
+      "name": "PriceIsStale",
+      "msg": "Data feed price is stale"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidStaleness",
+      "msg": "Invalid staleness value"
+    },
+    {
+      "code": 6004,
+      "name": "ExceedsMaxStaleness",
+      "msg": "Staleness value exceeds max allowed staleness"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidMinPrice",
+      "msg": "Invalid min price value"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMaxPrice",
+      "msg": "Invalid max price value"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidUnderlyingFeed",
+      "msg": "Invalid underlying feed"
+    },
+    {
+      "code": 6008,
+      "name": "PriceIsLowerThanMin",
+      "msg": "Price is lower than min."
+    },
+    {
+      "code": 6009,
+      "name": "PriceIsHigherThanMax",
+      "msg": "Price is higher than max."
+    }
+  ],
+  "types": [
+    {
+      "name": "AccessControlRoleState",
+      "docs": [
+        "State layout for Access Control Role base account",
+        "As accounts that holds it are not a PDA",
+        "We declare a layout struct so anchor will generate a discriminator",
+        "Accounts that will hold roles will be PDAs that are using this",
+        "account as one of the keys",
+        "For different mProducts different AccessControlRole accounts will be used",
+        "To make products more decoupled from each other"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "AccountAccessControlRoleState",
+      "docs": [
+        "State account for Account Access Control Role",
+        "If account is initialized - then user has a specific role",
+        "If its not initialized - no role assigned"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    },
+    {
+      "name": "FeedMode",
+      "docs": ["Describes types of supported underlying feeds"],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "MANUAL"
+          },
+          {
+            "name": "SWITCHBOARD"
+          },
+          {
+            "name": "PYTH"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeedState",
+      "docs": [
+        "Account that represents DataFeed instance and",
+        "holds data related to it. Data can be updated",
+        "by the actors with sufficient access (has `FEED_ADMIN` role)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "ac_role",
+            "docs": [
+              "AccessControlRole instance that is gonna be used to control access",
+              "to management instructions of data-feed program"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "underlying_feed",
+            "docs": ["Account that holds the price"],
+            "type": "pubkey"
+          },
+          {
+            "name": "mode",
+            "docs": ["Underlying feed type"],
+            "type": {
+              "defined": {
+                "name": "FeedMode"
+              }
+            }
+          },
+          {
+            "name": "min_price",
+            "docs": ["Min price that feed can return"],
+            "type": "u64"
+          },
+          {
+            "name": "max_price",
+            "docs": ["Max price that feed can return"],
+            "type": "u64"
+          },
+          {
+            "name": "max_staleness",
+            "docs": ["Max. seconds between last price update and current timestamp."],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FeedUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "feed",
+            "docs": ["`FeedState` account"],
+            "type": "pubkey"
+          },
+          {
+            "name": "ac_role",
+            "docs": ["AccessControlRole account"],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "underlying_feed",
+            "docs": ["New underlying feed address"],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "mode",
+            "docs": ["New feed mode"],
+            "type": {
+              "option": {
+                "defined": {
+                  "name": "FeedMode"
+                }
+              }
+            }
+          },
+          {
+            "name": "min_price",
+            "docs": ["New min price"],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "max_price",
+            "docs": ["New max price"],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "max_staleness",
+            "docs": ["New max staleness"],
+            "type": {
+              "option": "u32"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ManualFeedState",
+      "docs": [
+        "Account that holds data of manual data feed",
+        "where the answer can be controlled by the",
+        "actors with sufficient access (has `FEED_ADMIN` role)"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "price",
+            "docs": ["Current price"],
+            "type": "u64"
+          },
+          {
+            "name": "decimals",
+            "docs": ["Current price decimals"],
+            "type": "u8"
+          },
+          {
+            "name": "last_updated_at",
+            "docs": ["Last time when price was updated timestamp"],
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ManualFeedUpdatedEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "base_feed",
+            "docs": ["`FeedState` account"],
+            "type": "pubkey"
+          },
+          {
+            "name": "manual_feed",
+            "docs": ["Manual feed account"],
+            "type": "pubkey"
+          },
+          {
+            "name": "decimals",
+            "docs": ["New Decimals"],
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "price",
+            "docs": ["New price"],
+            "type": {
+              "option": "u64"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

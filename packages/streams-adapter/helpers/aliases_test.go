@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"math"
 	"os"
 	"path/filepath"
 	"testing"
@@ -256,6 +257,46 @@ func TestBuildCacheKeyParams_EmptyStringValueSkipped(t *testing.T) {
 	if _, ok := result["quote"]; ok {
 		t.Error("empty string value should be skipped")
 	}
+}
+
+func TestBuildCacheKeyParams_NestedValuesSerializedAsJSON(t *testing.T) {
+	initTestAdapter(t)
+
+	result, err := BuildCacheKeyParams(map[string]interface{}{
+		"endpoint": "price",
+		"constants": []interface{}{
+			map[string]interface{}{
+				"name":  "decode_constant",
+				"value": "1",
+			},
+		},
+		"operations": []interface{}{
+			map[string]interface{}{
+				"args": []interface{}{"contractValueHex", "decode_constant"},
+				"name": "result",
+				"type": "multiply",
+			},
+		},
+	})
+	require.NoError(t, err)
+
+	assertParam(t, result, "constants", `[{"NAME":"DECODE_CONSTANT","VALUE":"1"}]`)
+	assertParam(t, result, "operations", `[{"ARGS":["CONTRACTVALUEHEX","DECODE_CONSTANT"],"NAME":"RESULT","TYPE":"MULTIPLY"}]`)
+
+	key, err := CalculateCacheKey(result)
+	require.NoError(t, err)
+	require.Equal(t, `constants=[{"name":"decodeconstant","value":"1"}]:endpoint=price:operations=[{"args":["contractvaluehex","decodeconstant"],"name":"result","type":"multiply"}]`, key)
+}
+
+func TestBuildCacheKeyParams_UnserializableValueReturnsError(t *testing.T) {
+	initTestAdapter(t)
+
+	_, err := BuildCacheKeyParams(map[string]interface{}{
+		"endpoint": "price",
+		"base":     math.Inf(1),
+	})
+	require.Error(t, err)
+	require.Contains(t, err.Error(), `failed to stringify request param "base"`)
 }
 
 func TestBuildCacheKeyParams_OverridesApplied(t *testing.T) {

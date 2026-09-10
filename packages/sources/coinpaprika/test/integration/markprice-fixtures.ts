@@ -7,6 +7,7 @@ const MARK_PRICE_MESSAGE = {
     exchange: 'binance',
     symbol: 'BTCUSDT',
     price: '97500.50',
+    index_price: '97501.67',
     timestamp: '2026-03-12T15:24:40Z',
   },
 }

@@ -5,6 +5,19 @@ import { getWorkspaceAdapters } from '../workspace'
 
 const OUTPUT_PATH = 'packages/streams-adapter/endpoint_aliases.json'
 
+/**
+ * Adapter types that are served by the streams adapter
+ */
+const INCLUDED_TYPES = ['sources', 'composites']
+
+/**
+ * Adapter keys that have no workspace package of their own, but are reachable at runtime via
+ * `adapterNameOverride`. Each entry copies the source key's config to the alias key.
+ */
+const ADAPTER_KEY_ALIASES: Record<string, string> = {
+  cfbenchmarks: 'cfbenchmarks2',
+}
+
 interface EndpointConfig {
   aliases?: string[]
 }
@@ -59,8 +72,9 @@ function extractEndpoints(adapter: Adapter): Record<string, EndpointConfig> | un
 
 async function main(): Promise<void> {
   const allAdapters = getWorkspaceAdapters()
-  const v3Sources = allAdapters.filter((a) => a.type === 'sources' && a.framework === '3')
-  const v2Sources = allAdapters.filter((a) => a.type === 'sources' && a.framework !== '3')
+  const included = allAdapters.filter((a) => INCLUDED_TYPES.includes(a.type))
+  const v3Sources = included.filter((a) => a.framework === '3')
+  const v2Sources = included.filter((a) => a.framework !== '3')
 
   if (v3Sources.length === 0) {
     console.error('No EAv3 source adapters found')
@@ -80,6 +94,16 @@ async function main(): Promise<void> {
       }
     } else {
       skipped.push({ name: meta.descopedName, reason: skipReason || 'unknown' })
+    }
+  }
+
+  for (const [sourceKey, aliasKey] of Object.entries(ADAPTER_KEY_ALIASES)) {
+    const source = result.adapters[sourceKey]
+    if (source) {
+      result.adapters[aliasKey] = JSON.parse(JSON.stringify(source))
+      console.log(`Copied ${sourceKey} config to ${aliasKey}`)
+    } else {
+      console.log(`Could not copy ${sourceKey} config to ${aliasKey}: ${sourceKey} not generated`)
     }
   }
 

@@ -53,6 +53,7 @@ The Go runtime waits for the JS adapter `/health` endpoint before starting.
 - `CACHE_TTL_MINUTES` (default: `5`): in-memory cache TTL.
 - `CACHE_CLEANUP_INTERVAL` (default: `60`): cache cleanup interval in seconds; also used as periodic resubscribe interval.
 - `SUBSCRIPTION_RETRY_DELAY_SECONDS` (default: `10`): delay before allowing re-subscription after a miss.
+- `SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS` (default: three times `CACHE_CLEANUP_INTERVAL`): time without a valid gRPC snapshot before that stream's subscriptions expire.
 - `LOG_LEVEL` (default: `info`): use `debug` to enable Gin request logging and additional debug logs.
 - `PACKAGE_NAME` (required for alias mapping): adapter package name, for example `@chainlink/tiingo-adapter`.
 - `EA_INTERNAL_HOST` (default: `localhost`): hostname of the internal JS adapter process.
@@ -61,6 +62,7 @@ Notes:
 
 - `CACHE_TTL_MINUTES=0` and `CACHE_CLEANUP_INTERVAL=0` both fall back to defaults.
 - `PACKAGE_NAME` is used to derive the adapter name for alias index initialization.
+- gRPC clients send their complete subscription set every `CACHE_CLEANUP_INTERVAL` seconds. The server clears a stream's subscriptions after `SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS`.
 - In containerized runs, `PACKAGE_NAME` is injected during image build via the unified `Dockerfile` (`ARG package` -> `ENV PACKAGE_NAME=$package`).
 
 ### JS adapter environment expectations (container defaults)

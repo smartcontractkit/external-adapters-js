@@ -228,9 +228,14 @@ export function mockSuccessfulGlobalMetricsResponse(market?: string) {
     .persist()
 }
 
-export function mockSuccessfulCoinMarketCapResponse(query = 'id', id = '1') {
+export function mockSuccessfulCoinMarketCapResponse(
+  query = 'id',
+  id = '1',
+  convert = 'USD',
+  price = 6602.60701122,
+) {
   nock('https://pro-api.coinmarketcap.com')
-    .get(`/v1/cryptocurrency/quotes/latest?convert=USD&${query}=${id}`)
+    .get(`/v1/cryptocurrency/quotes/latest?convert=${convert}&${query}=${id}`)
     .reply(
       200,
       {
@@ -252,8 +257,8 @@ export function mockSuccessfulCoinMarketCapResponse(query = 'id', id = '1') {
             tags: ['mineable'],
             platform: null,
             quote: {
-              USD: {
-                price: 6602.60701122,
+              [convert]: {
+                price,
                 volume_24h: 4314444687.5194,
                 percent_change_1h: 0.988615,
                 percent_change_24h: 4.37185,

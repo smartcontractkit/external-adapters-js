@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/superstate-adapter",
-  "version": "1.5.2",
+  "version": "1.5.4",
   "description": "Chainlink superstate adapter.",
   "keywords": [
     "Chainlink",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/node-schedule": "2.1.7",
+    "@types/node-schedule": "2.1.8",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },

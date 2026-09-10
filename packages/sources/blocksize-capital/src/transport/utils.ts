@@ -19,31 +19,28 @@ export type VwapUpdate = {
   ts: number
 }
 
-export type ProviderParams = {
-  tickers?: string[]
-  api_key?: string
-}
-
-const buildBlocksizeWebsocketMessage = (method: string, params: ProviderParams): unknown => {
+export const buildBlocksizeWebsocketAuthMessage = (apiKey: string) => {
   return {
     jsonrpc: '2.0',
-    method: method,
-    params: params,
+    method: 'authentication_logon',
+    params: {
+      api_key: apiKey,
+    },
   }
 }
 
-export const buildBlocksizeWebsocketAuthMessage = (apiKey: string) =>
-  buildBlocksizeWebsocketMessage('authentication_logon', { api_key: apiKey })
-export const buildBlocksizeWebsocketTickersMessage = (method: string, pair: string) =>
-  buildBlocksizeWebsocketMessage(method, { tickers: [pair] })
+export const buildBlocksizeWebsocketTickersMessage = (method: string, pairs: string[]) => {
+  return {
+    jsonrpc: '2.0',
+    method: method,
+    params: {
+      tickers: pairs,
+    },
+  }
+}
 
-export const blocksizeDefaultUnsubscribeMessageBuilder = (
-  base: string,
-  quote: string,
-  method: string,
-): unknown => {
-  const pair = `${base}${quote}`.toUpperCase()
-  return buildBlocksizeWebsocketTickersMessage(method, pair)
+export const buildTicker = (pair: { base: string; quote: string }) => {
+  return `${pair.base}${pair.quote}`.toUpperCase()
 }
 
 // use as open handler for standard WS connections

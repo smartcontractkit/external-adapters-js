@@ -1,5 +1,23 @@
 # @chainlink/t-rize-proof-of-insurance-adapter
 
+## 1.1.2
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.1.1
+
+### Patch Changes
+
+- [#5315](https://github.com/smartcontractkit/external-adapters-js/pull/5315) [`d6627ef`](https://github.com/smartcontractkit/external-adapters-js/commit/d6627effa7cb34db57084a916d025d2ba231ed39) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC transport support
+
+## 1.1.0
+
+### Minor Changes
+
+- [#5203](https://github.com/smartcontractkit/external-adapters-js/pull/5203) [`2295b32`](https://github.com/smartcontractkit/external-adapters-js/commit/2295b3248804a5eb95ab1a70a3791e3c56e60875) Thanks [@magiodev-cll](https://github.com/magiodev-cll)! - Add a network input parameter (mainnet/testnet) for endpoint selection with custom input validation. Add the TESTNET_API_ENDPOINT environment variable.
+
 ## 1.0.1
 
 ### Patch Changes

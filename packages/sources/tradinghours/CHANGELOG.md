@@ -1,5 +1,17 @@
 # @chainlink/tradinghours-adapter
 
+## 0.8.0
+
+### Minor Changes
+
+- [#5236](https://github.com/smartcontractkit/external-adapters-js/pull/5236) [`3253308`](https://github.com/smartcontractkit/external-adapters-js/commit/3253308cb5258d2e5f976dad98fa0cc0170f87be) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 15 fin ID mappings for future markets
+
+- [#5288](https://github.com/smartcontractkit/external-adapters-js/pull/5288) [`f099035`](https://github.com/smartcontractkit/external-adapters-js/commit/f099035efd00943a3e7bb32eff13bcc1835d4535) Thanks [@Michipulatos](https://github.com/Michipulatos)! - add hkex as market
+
+### Patch Changes
+
+- [#5229](https://github.com/smartcontractkit/external-adapters-js/pull/5229) [`7529e5b`](https://github.com/smartcontractkit/external-adapters-js/commit/7529e5b59bf9678ca7bb3b0d03ff6392d684b36b) Thanks [@dskloetc](https://github.com/dskloetc)! - Remove duplication between markets and marketToFinId
+
 ## 0.7.1
 
 ### Patch Changes

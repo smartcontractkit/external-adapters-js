@@ -84,15 +84,19 @@ describe('CircleTransport', () => {
     return requestKey
   }
 
-  const mockAddressListResponse = (
-    addresses: { address: string }[] | Promise<{ address: string }[]>,
-  ) => {
+  const mockAddressListResponse = ({
+    addresses,
+    ripcord = false,
+  }: {
+    addresses: { address: string }[] | Promise<{ address: string }[]>
+    ripcord?: unknown
+  }) => {
     requester.request.mockImplementation(async (_key, { params: { offset, limit } }) => {
       return makeStub('response', {
         response: {
           data: {
             data: (await addresses).slice(offset, offset + limit),
-            //data: (await addresses),
+            ripcord,
           },
         },
       })
@@ -129,7 +133,7 @@ describe('CircleTransport', () => {
       const address = '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9'
       const params = makeStub('params', {})
 
-      mockAddressListResponse([{ address }])
+      mockAddressListResponse({ addresses: [{ address }] })
 
       await transport.handleRequest(params)
 
@@ -185,7 +189,7 @@ describe('CircleTransport', () => {
       const invalidAddress = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
       const params = makeStub('params', {})
 
-      mockAddressListResponse([{ address: invalidAddress }])
+      mockAddressListResponse({ addresses: [{ address: invalidAddress }] })
 
       await transport.handleRequest(params)
 
@@ -230,7 +234,7 @@ describe('CircleTransport', () => {
 
       const params = makeStub('params', {})
 
-      mockAddressListResponse(addresses)
+      mockAddressListResponse({ addresses })
 
       transport = new CircleTransport()
       await transport.initialize(
@@ -292,13 +296,71 @@ describe('CircleTransport', () => {
       expect(response).toEqual(expectedResponse)
     })
 
+    it('should throw if ripcord is true', async () => {
+      const addresses = [{ address: '1K6KoYC69NnafWJ7YgtrpwJxBLiijWqwa6' }]
+
+      const params = makeStub('params', {})
+
+      mockAddressListResponse({ addresses, ripcord: true })
+
+      expect(() => transport._handleRequest(params)).rejects.toThrowError(
+        new AdapterError({
+          message: 'The data provider returned { ripcord: true } for offset 0 and limit 200',
+          statusCode: 502,
+        }),
+      )
+    })
+
+    it('should throw if ripcord is an unexpected value', async () => {
+      const addresses = [{ address: '1K6KoYC69NnafWJ7YgtrpwJxBLiijWqwa6' }]
+
+      const params = makeStub('params', {})
+
+      mockAddressListResponse({ addresses, ripcord: 0 })
+
+      expect(() => transport._handleRequest(params)).rejects.toThrowError(
+        new AdapterError({
+          message: 'The data provider returned { ripcord: 0 } for offset 0 and limit 200',
+          statusCode: 502,
+        }),
+      )
+    })
+
+    it('should not throw if ripcord is undefined', async () => {
+      const addresses = [{ address: '1K6KoYC69NnafWJ7YgtrpwJxBLiijWqwa6' }]
+
+      const params = makeStub('params', {})
+
+      mockAddressListResponse({ addresses, ripcord: undefined })
+
+      const response = await transport._handleRequest(params)
+
+      const expectedResponse = {
+        result: null,
+        data: {
+          result: addresses.map(({ address }) => ({
+            address,
+            network: 'bitcoin',
+            chainId: 'mainnet',
+          })),
+        },
+        statusCode: 200,
+        timestamps: {
+          providerDataReceivedUnixMs: Date.now(),
+          providerDataRequestedUnixMs: Date.now(),
+        },
+      }
+
+      expect(response).toEqual(expectedResponse)
+    })
+
     it('should record received timestamp separate from requested timestamp', async () => {
       const address = '1FXxhAa9yKCG8WgCTrbSsdGKuC6QzN3Gq9'
       const params = makeStub('params', {})
 
       const [addressListPromise, resolveAddressList] = deferredPromise<{ address: string }[]>()
 
-      mockAddressListResponse(addressListPromise)
+      mockAddressListResponse({ addresses: addressListPromise })
 
       const requestTimestamp = Date.now()
       const handlePromise = transport._handleRequest(params)

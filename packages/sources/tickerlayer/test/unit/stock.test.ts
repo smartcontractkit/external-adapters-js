@@ -1,0 +1,317 @@
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { metrics } from '@chainlink/external-adapter-framework/metrics'
+import {
+  TransportDependencies,
+  WebSocketClassProvider,
+} from '@chainlink/external-adapter-framework/transports'
+import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import {
+  makeStub,
+  mockWebSocketProvider,
+  MockWebsocketServer,
+  runAllUntilSettled,
+} from '@chainlink/external-adapter-framework/util/testing-utils'
+import FakeTimers from '@sinonjs/fake-timers'
+import { BaseEndpointTypes } from '../../src/endpoint/stock'
+import { StockWebSocketTransport, WsTransportTypes } from '../../src/transport/stock'
+
+const stockTradesAsset = 'stocks'
+const stockTradesChannel = 'stocks.trades'
+const tradesType = 'trade'
+
+const etfTradesAsset = 'etfs'
+const etfTradesChannel = 'etfs.trades'
+
+const log = jest.fn()
+const debugLog = jest.fn()
+const logger = {
+  fatal: log,
+  error: log,
+  warn: log,
+  info: log,
+  debug: debugLog,
+  trace: debugLog,
+  msgPrefix: 'mock-logger',
+}
+
+LoggerFactoryProvider.set({ child: () => logger })
+metrics.initialize()
+
+describe('StockWebSocketTransport', () => {
+  const transportName = 'default_single_transport'
+  const endpointName = 'stock'
+
+  const adapterSettings = makeStub('adapterSettings', {
+    API_KEY: 'test-api-key',
+    WS_API_ENDPOINT: 'ws://api.example.com',
+    WS_SUBSCRIPTION_TTL: 30_000,
+    WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_000,
+    STREAM_HANDLER_RETRY_MIN_MS: 100,
+    STREAM_HANDLER_RETRY_EXP_FACTOR: 3,
+    STREAM_HANDLER_RETRY_MAX_MS: 1_200_000,
+    MAX_COMMON_KEY_SIZE: 300,
+    WS_CONNECTION_OPEN_TIMEOUT: 10_000,
+    BACKGROUND_EXECUTE_MS_WS: 1_000,
+    WS_HEARTBEAT_INTERVAL_MS: 30_000,
+  } as unknown as BaseEndpointTypes['Settings'])
+
+  const subscriptionSet = makeStub('subscriptionSet', {
+    getAll: jest.fn(),
+  })
+
+  const subscriptionSetFactory = makeStub('subscriptionSetFactory', {
+    buildSet() {
+      return subscriptionSet
+    },
+  })
+
+  const responseCache = {
+    write: jest.fn(),
+  }
+  const dependencies = makeStub('dependencies', {
+    responseCache,
+    subscriptionSetFactory,
+  } as unknown as TransportDependencies<WsTransportTypes>)
+
+  let transport: StockWebSocketTransport
+
+  let clock: FakeTimers.Clock
+  let mockWsServer: MockWebsocketServer
+  let socket: WebSocket
+  const receivedMessages: string[] = []
+
+  beforeAll(() => {
+    clock = FakeTimers.install()
+  })
+
+  beforeEach(async () => {
+    jest.resetAllMocks()
+
+    mockWebSocketProvider(WebSocketClassProvider)
+    receivedMessages.length = 0
+    mockWsServer?.close()
+    mockWsServer = new MockWebsocketServer(adapterSettings.WS_API_ENDPOINT, {
+      mock: false,
+    })
+
+    mockWsServer.on('connection', (sock) => {
+      socket = sock as WebSocket
+      sock.on('message', (message) => {
+        receivedMessages.push(String(message))
+      })
+    })
+
+    transport = new StockWebSocketTransport()
+    await transport.initialize(dependencies, adapterSettings, endpointName, transportName)
+  })
+
+  afterEach(() => {
+    expect(log).not.toHaveBeenCalled()
+  })
+
+  const setUpSubscription = async (symbol: string, assetType: string) => {
+    const params = makeStub('params', {
+      base: symbol,
+      assetType,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+  }
+
+  it('should subscribe to the stock symbol', async () => {
+    const symbol = 'US:AAPL'
+    await setUpSubscription(symbol, stockTradesAsset)
+
+    expect(receivedMessages.length).toBe(1)
+
+    await expect(receivedMessages[0]).toBe(
+      JSON.stringify({
+        action: 'subscribe',
+        channels: [stockTradesChannel],
+        symbols: [symbol],
+      }),
+    )
+  })
+
+  it('should subscribe to the etf symbol', async () => {
+    const symbol = 'JP:1329'
+    await setUpSubscription(symbol, etfTradesAsset)
+
+    expect(receivedMessages.length).toBe(1)
+
+    await expect(receivedMessages[0]).toBe(
+      JSON.stringify({
+        action: 'subscribe',
+        channels: [etfTradesChannel],
+        symbols: [symbol],
+      }),
+    )
+  })
+
+  it('should write response to cache', async () => {
+    const symbol = 'US:AAPL'
+
+    const params = makeStub('params', {
+      base: symbol,
+      assetType: stockTradesAsset,
+    })
+
+    const t0 = Date.now()
+    await setUpSubscription(params.base, stockTradesAsset)
+    const t1 = Date.now()
+
+    const price = 123
+    const providerIndicatedTimeUnixMs = 123456789
+
+    socket.send(
+      JSON.stringify({
+        type: tradesType,
+        channel: stockTradesChannel,
+        asset: stockTradesAsset,
+        symbol,
+        price: String(price),
+        size: '3',
+        ts: providerIndicatedTimeUnixMs,
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          result: price,
+          data: {
+            result: price,
+          },
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: t0,
+            providerDataReceivedUnixMs: t1,
+            providerIndicatedTimeUnixMs,
+          },
+        },
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should write response to cache for etfs', async () => {
+    const symbol = 'JP:1329'
+
+    const params = makeStub('params', {
+      base: symbol,
+      assetType: etfTradesAsset,
+    })
+
+    const t0 = Date.now()
+    await setUpSubscription(params.base, etfTradesAsset)
+    const t1 = Date.now()
+
+    const price = 123
+    const providerIndicatedTimeUnixMs = 123456789
+
+    socket.send(
+      JSON.stringify({
+        type: tradesType,
+        channel: etfTradesChannel,
+        asset: etfTradesAsset,
+        symbol,
+        price: Number(price), // ETFs return number instead of string
+        size: 3,
+        ts: providerIndicatedTimeUnixMs,
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          result: price,
+          data: {
+            result: price,
+          },
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: t0,
+            providerDataReceivedUnixMs: t1,
+            providerIndicatedTimeUnixMs,
+          },
+        },
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should ignore system messages', async () => {
+    const symbol = 'US:AAPL'
+
+    await setUpSubscription(symbol, stockTradesAsset)
+
+    const systemMessage = { type: 'system', message: 'connected' }
+    socket.send(JSON.stringify(systemMessage))
+
+    expect(responseCache.write).not.toHaveBeenCalled()
+    expect(debugLog).toHaveBeenCalledWith({
+      msg: 'Ignoring system message',
+      ignoredMessage: systemMessage,
+    })
+  })
+
+  it('should ignore unexpected messages', async () => {
+    const symbol = 'US:AAPL'
+
+    await setUpSubscription(symbol, stockTradesAsset)
+
+    const malformedMessage = {
+      type: tradesType,
+      channel: stockTradesChannel,
+      asset: stockTradesAsset,
+      symbol,
+      price: 'not-a-number',
+      size: '3',
+      ts: 123456789,
+    }
+    socket.send(JSON.stringify(malformedMessage))
+
+    expect(responseCache.write).not.toHaveBeenCalled()
+    expect(log).toHaveBeenCalledWith({
+      msg: 'Ignoring unexpected message',
+      ignoredMessage: malformedMessage,
+    })
+    log.mockClear()
+  })
+
+  it('should unsubscribe', async () => {
+    const symbol = 'US:AAPL'
+
+    const params = makeStub('params', {
+      base: symbol,
+      assetType: stockTradesAsset,
+    })
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    subscriptionSet.getAll.mockReturnValue([params])
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    expect(receivedMessages.length).toBe(1)
+
+    subscriptionSet.getAll.mockReturnValue([])
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    expect(receivedMessages.length).toBe(2)
+
+    await expect(receivedMessages[1]).toBe(
+      JSON.stringify({
+        action: 'unsubscribe',
+        channels: [stockTradesChannel],
+        symbols: [symbol],
+      }),
+    )
+  })
+})

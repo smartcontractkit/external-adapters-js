@@ -13,12 +13,14 @@ import {
   mockCryptoWebSocketServer,
   mockForexWebSocketServer,
   mockIexWebSocketServer,
+  mockStockQuotesWebSocketServer,
 } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServerCrypto: MockWebsocketServer | undefined
   let mockWsServerCryptoLwba: MockWebsocketServer | undefined
   let mockWsServerIex: MockWebsocketServer | undefined
+  let mockWsServerStockQuotes: MockWebsocketServer | undefined
   let mockWsServerForex: MockWebsocketServer | undefined
   let testAdapter: TestAdapter
   const wsEndpoint = 'ws://localhost:9090'
@@ -37,6 +39,10 @@ describe('websocket', () => {
     endpoint: 'iex',
     base: 'aapl',
     transport: 'ws',
+  }
+  const stockQuotesDataAapl = {
+    endpoint: 'stock_quotes',
+    base: 'aapl',
   }
   const priceDataForex = {
     endpoint: 'forex',
@@ -57,6 +63,7 @@ describe('websocket', () => {
     mockWsServerCrypto = mockCryptoWebSocketServer(wsEndpoint + '/crypto-synth')
     mockWsServerCryptoLwba = mockCryptoLwbaWebSocketServer(wsEndpoint + '/crypto-synth-top')
     mockWsServerIex = mockIexWebSocketServer(wsEndpoint + '/iex')
+    mockWsServerStockQuotes = mockStockQuotesWebSocketServer(wsEndpoint + '/equity/intraday')
     mockWsServerForex = mockForexWebSocketServer(wsEndpoint + '/fx')
 
     const adapter = (await import('./../../src')).adapter
@@ -69,8 +76,9 @@ describe('websocket', () => {
     await testAdapter.request(priceData)
     await testAdapter.request(spreadData)
     await testAdapter.request(priceDataAapl)
+    await testAdapter.request(stockQuotesDataAapl)
     await testAdapter.request(priceDataForex)
-    await testAdapter.waitForCache(4)
+    await testAdapter.waitForCache(5)
   })
 
   afterAll(async () => {
@@ -78,6 +86,7 @@ describe('websocket', () => {
     mockWsServerCrypto?.close()
     mockWsServerCryptoLwba?.close()
     mockWsServerIex?.close()
+    mockWsServerStockQuotes?.close()
     mockWsServerForex?.close()
     testAdapter.clock?.uninstall()
     await testAdapter.api.close()
@@ -129,6 +138,14 @@ describe('websocket', () => {
     })
   })
 
+  describe('stock_quotes endpoint', () => {
+    it('A request should return success', async () => {
+      const response = await testAdapter.request(stockQuotesDataAapl)
+      expect(response.json()).toMatchSnapshot()
+      expect(response.statusCode).toBe(200)
+    })
+  })
+
   describe('iex endpoint', () => {
     it('iex A request should return success', async () => {
       const response = await testAdapter.request(priceDataAapl)
@@ -137,8 +154,10 @@ describe('websocket', () => {
 
     it('should update the ttl after heartbeat is received', async () => {
       // The cache ttl is 150 seconds. Mocked heartbeat message is sent after 10s after connection which should
-      // update the ttl and therefore after 153 seconds (from the initial message) we can access the asset
-      await runAllUntilTime(testAdapter.clock, 153000)
+      // update the ttl and therefore after 152 seconds (from the initial message) we can access the asset
+      // This test is extremely fragile and depends on timeouts that happen
+      // during other tests.
+      await runAllUntilTime(testAdapter.clock, 152000)
       const response = await testAdapter.request(priceDataAapl)
       expect(response.statusCode).toBe(200)
       expect(response.json()).toMatchSnapshot()

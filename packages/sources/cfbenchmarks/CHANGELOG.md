@@ -1,5 +1,47 @@
 # @chainlink/cfbenchmarks-adapter
 
+## 2.9.5
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 2.9.4
+
+### Patch Changes
+
+- [#5316](https://github.com/smartcontractkit/external-adapters-js/pull/5316) [`7b0bc16`](https://github.com/smartcontractkit/external-adapters-js/commit/7b0bc16c8fad7485393e7d825bcc3df40a053ad2) Thanks [@justinfranco](https://github.com/justinfranco)! - GRPC transport support
+
+## 2.9.3
+
+### Patch Changes
+
+- [#5285](https://github.com/smartcontractkit/external-adapters-js/pull/5285) [`0412be1`](https://github.com/smartcontractkit/external-adapters-js/commit/0412be11f4209b324a2600df2e3b58a0aedfc766) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - generate-endpoint-aliases fix to support cfbenchmarks2 and composite adapters
+
+## 2.9.2
+
+### Patch Changes
+
+- [#5269](https://github.com/smartcontractkit/external-adapters-js/pull/5269) [`886ebc6`](https://github.com/smartcontractkit/external-adapters-js/commit/886ebc6d8609379c40b07e58d89c56648672eff7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Fixed invalid workspace selector for coinmetrics-lwba
+
+## 2.9.1
+
+### Patch Changes
+
+- [#5264](https://github.com/smartcontractkit/external-adapters-js/pull/5264) [`3600ec4`](https://github.com/smartcontractkit/external-adapters-js/commit/3600ec44157e77283ba48d92c491a2abe34a8f85) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 5 streams adapters with gRPC transport support
+
+## 2.9.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.8.3
+
+### Patch Changes
+
+- [#5129](https://github.com/smartcontractkit/external-adapters-js/pull/5129) [`be5ffeb`](https://github.com/smartcontractkit/external-adapters-js/commit/be5ffeb4babe4cf319c3a5a2d85aca168f6178d0) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - updates streams-adapter code
+
 ## 2.8.2
 
 ### Patch Changes

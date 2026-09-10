@@ -1,5 +1,35 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.9.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 2.9.2
+
+### Patch Changes
+
+- [#5316](https://github.com/smartcontractkit/external-adapters-js/pull/5316) [`7b0bc16`](https://github.com/smartcontractkit/external-adapters-js/commit/7b0bc16c8fad7485393e7d825bcc3df40a053ad2) Thanks [@justinfranco](https://github.com/justinfranco)! - GRPC transport support
+
+## 2.9.1
+
+### Patch Changes
+
+- [#5257](https://github.com/smartcontractkit/external-adapters-js/pull/5257) [`25f4a06`](https://github.com/smartcontractkit/external-adapters-js/commit/25f4a0643005c9c7d8156b8a02b7710df6d004c1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 5 streams adapters with gRPC transport support
+
+## 2.9.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.8.0
+
+### Minor Changes
+
+- [#5035](https://github.com/smartcontractkit/external-adapters-js/pull/5035) [`22bdbab`](https://github.com/smartcontractkit/external-adapters-js/commit/22bdbabc71955887b9bc816b04e1c4ce5106ab43) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Optimize blocksize-capital WS subscribe/unsubscribe via customSubscriptionMessages batching
+
 ## 2.7.2
 
 ### Patch Changes

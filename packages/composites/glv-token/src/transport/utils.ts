@@ -52,7 +52,3 @@ export interface Market {
   shortToken: string
   isListed: boolean
 }
-
-export function mapSymbol(address: string, symbolMap: Record<string, any>) {
-  return symbolMap[address]
-}

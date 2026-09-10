@@ -1,5 +1,41 @@
 ## v1.1.0
 
+## 2.14.1
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 2.14.0
+
+### Minor Changes
+
+- [#5346](https://github.com/smartcontractkit/external-adapters-js/pull/5346) [`deec7a1`](https://github.com/smartcontractkit/external-adapters-js/commit/deec7a12e3618882de86ac4692c4703083d84957) Thanks [@dskloetc](https://github.com/dskloetc)! - Add stock_quotes endpoint
+
+## 2.13.2
+
+### Patch Changes
+
+- [#5315](https://github.com/smartcontractkit/external-adapters-js/pull/5315) [`d6627ef`](https://github.com/smartcontractkit/external-adapters-js/commit/d6627effa7cb34db57084a916d025d2ba231ed39) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC transport support
+
+## 2.13.1
+
+### Patch Changes
+
+- [#5280](https://github.com/smartcontractkit/external-adapters-js/pull/5280) [`403c383`](https://github.com/smartcontractkit/external-adapters-js/commit/403c38382d4d9e223a41ab24f5f48518a12c7db7) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - release 5 adapters with gRPC support
+
+## 2.13.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 2.12.0
+
+### Minor Changes
+
+- [#5110](https://github.com/smartcontractkit/external-adapters-js/pull/5110) [`1d12daa`](https://github.com/smartcontractkit/external-adapters-js/commit/1d12daac12df943b20ecf1ee2528ffa8869bb90c) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Inverse quote handling fix for streams adapter
+
 ## 2.11.2
 
 ### Patch Changes

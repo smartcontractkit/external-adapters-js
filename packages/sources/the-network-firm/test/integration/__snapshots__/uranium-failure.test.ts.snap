@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute uranium endpoint should fail 1`] = `
+{
+  "errorMessage": "Response is missing response fields (expected: totalReserve & totalToken)",
+  "ripcord": true,
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1751500917131,
+  },
+}
+`;

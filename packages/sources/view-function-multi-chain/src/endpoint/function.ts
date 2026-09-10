@@ -1,5 +1,9 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import {
+  AdapterError,
+  AdapterInputError,
+} from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { functionTransport } from '../transport/function'
 
@@ -53,4 +57,20 @@ export const endpoint = new AdapterEndpoint({
   name: 'function',
   transport: functionTransport,
   inputParameters,
+  customInputValidation: (req, settings): AdapterError | undefined => {
+    const params = req.requestContext.data
+    const networkName = params.network.toUpperCase()
+    const chainIdEnvName = `${networkName}_CHAIN_ID`
+
+    settings.NETWORK_RPC_URL.get(params.network)
+    const chainId = settings.NETWORK_CHAIN_ID.get(params.network)
+
+    if (isNaN(chainId)) {
+      throw new AdapterInputError({
+        statusCode: 500,
+        message: `'${chainIdEnvName}' environment variable must be a number.`,
+      })
+    }
+    return
+  },
 })

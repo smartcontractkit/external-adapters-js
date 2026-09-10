@@ -1,14 +1,19 @@
 import { Options, parse } from 'csv-parse/sync'
 import { CSVParser, ParsedData } from './interfaces'
 
+// `columns` is set by each method below, so callers never supply it.
+type RecordOptions = Omit<Options<Record<string, string>>, 'columns'>
+type ArrayOptions = Omit<Options<string[]>, 'columns'>
+type CSVConfig = RecordOptions & ArrayOptions
+
 /**
  * Abstract base class for CSV parsers
  * Uses the csv-parse library for robust CSV parsing
  */
 export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implements CSVParser<T> {
-  protected config: Options
+  protected config: CSVConfig
 
-  constructor(config: Options = {}) {
+  constructor(config: CSVConfig = {}) {
     this.config = { ...config }
   }
 
@@ -23,11 +28,13 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
   /**
    * Helper method to parse CSV content as records with column headers
    */
-  protected parseCSVRecords(csvContent: string, options?: Options): Record<string, string>[] {
-    const finalConfig: Options = { ...this.config, ...options, columns: true }
-
+  protected parseCSVRecords(csvContent: string, options?: RecordOptions): Record<string, string>[] {
     try {
-      return parse(csvContent, finalConfig)
+      return parse<Record<string, string>>(csvContent, {
+        ...this.config,
+        ...options,
+        columns: true,
+      })
     } catch (error) {
       throw new Error(`Error parsing CSV as records: ${error}`)
     }
@@ -36,7 +43,7 @@ export abstract class BaseCSVParser<T extends ParsedData = ParsedData> implement
   /**
    * Helper method to parse CSV content as arrays
    */
-  protected parseCSVArrays(csvContent: string, options?: Options): string[][] {
+  protected parseCSVArrays(csvContent: string, options?: ArrayOptions): string[][] {
     const finalConfig: Options = { ...this.config, ...options, columns: false }
 
     try {

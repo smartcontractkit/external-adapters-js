@@ -436,6 +436,34 @@ export const mockIexWebSocketServer = (URL: string): MockWebsocketServer => {
   return mockWsServer
 }
 
+export const mockStockQuotesWebSocketServer = (URL: string): MockWebsocketServer => {
+  const wsResponseStockQuotesA = {
+    messageType: 'A',
+    service: 'cons',
+    data: [
+      '2026-09-01T05:37:10.546919111-04:00',
+      'aapl',
+      0.000933,
+      40,
+      315.855,
+      316.06,
+      316.15,
+      280,
+    ],
+  }
+  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    let counter = 0
+    socket.on('message', () => {
+      if (counter++ === 0) {
+        socket.send(JSON.stringify(wsResponseStockQuotesA))
+      }
+    })
+  })
+
+  return mockWsServer
+}
+
 export const mockForexWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {

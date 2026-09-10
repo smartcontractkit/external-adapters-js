@@ -31,8 +31,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['price'],
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (request): AdapterError | undefined => {
-    getApiConfigs(request.requestContext.data.integration)
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    getApiConfigs(request.requestContext.data.integration, settings)
     return
   },
 })

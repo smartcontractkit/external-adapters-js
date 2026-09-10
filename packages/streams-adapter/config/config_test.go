@@ -19,7 +19,7 @@ func TestLoad_Defaults(t *testing.T) {
 	for _, key := range []string{
 		"PACKAGE_NAME", "HTTP_PORT", "EA_PORT", "EA_INTERNAL_HOST",
 		"REDCON_PORT", "METRICS_PORT",
-		"CACHE_TTL_MINUTES", "CACHE_CLEANUP_INTERVAL", "LOG_LEVEL",
+		"CACHE_TTL_MINUTES", "CACHE_CLEANUP_INTERVAL", "SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS", "LOG_LEVEL",
 	} {
 		t.Setenv(key, "")
 	}
@@ -32,22 +32,24 @@ func TestLoad_Defaults(t *testing.T) {
 	require.Equal(t, "6379", cfg.RedconPort)
 	require.Equal(t, "9080", cfg.GoMetricsPort)
 	require.Equal(t, uint(5), cfg.CacheTTLMinutes)
-	require.Equal(t, uint(1), cfg.CacheCleanupIntervalSeconds)
+	require.Equal(t, uint(60), cfg.CacheCleanupIntervalSeconds)
+	require.Equal(t, uint(180), cfg.SubscriptionRefreshTimeoutSeconds)
 	require.Equal(t, "info", cfg.LogLevel)
 	require.Equal(t, "", cfg.AdapterName)
 }
 
 func TestLoad_CustomEnvVars(t *testing.T) {
 	setEnvs(t, map[string]string{
-		"PACKAGE_NAME":           "@chainlink/tiingo-adapter",
-		"HTTP_PORT":              "9090",
-		"EA_PORT":                "7070",
-		"EA_INTERNAL_HOST":       "0.0.0.0",
-		"REDCON_PORT":            "6380",
-		"METRICS_PORT":           "9090",
-		"CACHE_TTL_MINUTES":      "10",
-		"CACHE_CLEANUP_INTERVAL": "3",
-		"LOG_LEVEL":              "debug",
+		"PACKAGE_NAME":                         "@chainlink/tiingo-adapter",
+		"HTTP_PORT":                            "9090",
+		"EA_PORT":                              "7070",
+		"EA_INTERNAL_HOST":                     "0.0.0.0",
+		"REDCON_PORT":                          "6380",
+		"METRICS_PORT":                         "9090",
+		"CACHE_TTL_MINUTES":                    "10",
+		"CACHE_CLEANUP_INTERVAL":               "3",
+		"SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS": "15",
+		"LOG_LEVEL":                            "debug",
 	})
 
 	cfg := Load()
@@ -59,6 +61,7 @@ func TestLoad_CustomEnvVars(t *testing.T) {
 	require.Equal(t, "9090", cfg.GoMetricsPort)
 	require.Equal(t, uint(10), cfg.CacheTTLMinutes)
 	require.Equal(t, uint(3), cfg.CacheCleanupIntervalSeconds)
+	require.Equal(t, uint(15), cfg.SubscriptionRefreshTimeoutSeconds)
 	require.Equal(t, "debug", cfg.LogLevel)
 	require.Equal(t, "tiingo", cfg.AdapterName)
 }

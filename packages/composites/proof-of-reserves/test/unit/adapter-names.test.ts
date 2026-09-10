@@ -68,15 +68,15 @@ describe('Type safe adapter names', () => {
 
     describe('Adapters V3 Names', () => {
       const expectedAdaptersV3: v3AdapterImplementation[] = [
-        polkadotBalance,
-        staderBalance,
-        ethBeacon,
-        avalanchePlatform,
-        lotus,
-        porIndexer,
-        tokenBalance,
-        ceffu,
-        viewFunctionMultiChain,
+        polkadotBalance as unknown as v3AdapterImplementation,
+        staderBalance as unknown as v3AdapterImplementation,
+        ethBeacon as unknown as v3AdapterImplementation,
+        avalanchePlatform as unknown as v3AdapterImplementation,
+        lotus as unknown as v3AdapterImplementation,
+        porIndexer as unknown as v3AdapterImplementation,
+        tokenBalance as unknown as v3AdapterImplementation,
+        ceffu as unknown as v3AdapterImplementation,
+        viewFunctionMultiChain as unknown as v3AdapterImplementation,
       ]
 
       const adapterNamesV3 = balanceAdapterNamesV3

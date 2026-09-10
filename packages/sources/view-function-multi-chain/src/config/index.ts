@@ -15,6 +15,22 @@ export const config = new AdapterConfig({
     default: '',
     sensitive: false,
   },
+  NETWORK_RPC_URL: {
+    description:
+      'The RPC URL for ${NETWORK} where ${NETWORK} is the upper-snake-case name of the `network` input parameter.',
+    type: 'string',
+    required: true,
+    sensitive: true,
+    variablePlaceholder: 'NETWORK',
+  },
+  NETWORK_CHAIN_ID: {
+    description:
+      'The chain ID for ${NETWORK} where ${NETWORK} is the upper-snake-case name of the `network` input parameter.',
+    type: 'number',
+    required: true,
+    sensitive: false,
+    variablePlaceholder: 'NETWORK',
+  },
   GROUP_SIZE: {
     description:
       'Number of requests to execute asynchronously before the adapter waits to execute the next group of requests.',

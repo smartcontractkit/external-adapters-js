@@ -1,5 +1,17 @@
 # @chainlink/dlc-cbtc-por-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.0.3
+
+### Patch Changes
+
+- [#5321](https://github.com/smartcontractkit/external-adapters-js/pull/5321) [`94ba143`](https://github.com/smartcontractkit/external-adapters-js/commit/94ba1431e518ea651ca842196dc850b2a85818ea) Thanks [@JoshC2k](https://github.com/JoshC2k)! - GRPC Transport Support
+
 ## 1.0.2
 
 ### Patch Changes

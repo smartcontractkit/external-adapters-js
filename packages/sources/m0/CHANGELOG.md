@@ -1,5 +1,11 @@
 # @chainlink/m0-adapter
 
+## 0.0.19
+
+### Patch Changes
+
+- [#5177](https://github.com/smartcontractkit/external-adapters-js/pull/5177) [`20fc1dc`](https://github.com/smartcontractkit/external-adapters-js/commit/20fc1dc0952fca51d95c8e930026049a32aeb787) Thanks [@dskloetc](https://github.com/dskloetc)! - Update default API_ENDPOINT URL
+
 ## 0.0.18
 
 ### Patch Changes

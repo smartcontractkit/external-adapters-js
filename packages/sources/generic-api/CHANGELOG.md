@@ -1,5 +1,19 @@
 # @chainlink/generic-api-adapter
 
+## 1.3.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.3.2
+
+### Patch Changes
+
+- [#5158](https://github.com/smartcontractkit/external-adapters-js/pull/5158) [`f84eefa`](https://github.com/smartcontractkit/external-adapters-js/commit/f84eefa4d8dce0e6c7fec60a3b6afa037a0c69c2) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variablePlaceholder instead of custom env vars
+
+- [#5322](https://github.com/smartcontractkit/external-adapters-js/pull/5322) [`9f844dc`](https://github.com/smartcontractkit/external-adapters-js/commit/9f844dcb86eef7cc97b0b8d86c7bec2bd6553b79) Thanks [@swladyka](https://github.com/swladyka)! - gRPC transport support
+
 ## 1.3.1
 
 ### Patch Changes

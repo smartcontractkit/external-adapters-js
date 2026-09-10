@@ -1,5 +1,17 @@
 # @chainlink/r25-adapter
 
+## 1.1.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.1.2
+
+### Patch Changes
+
+- [#5319](https://github.com/smartcontractkit/external-adapters-js/pull/5319) [`a51b80f`](https://github.com/smartcontractkit/external-adapters-js/commit/a51b80f5d39df3296460474fcb5fda03bae580ac) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - release stream adapters
+
 ## 1.1.1
 
 ### Patch Changes

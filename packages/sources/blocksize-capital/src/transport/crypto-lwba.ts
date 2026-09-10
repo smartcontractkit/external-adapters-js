@@ -1,11 +1,13 @@
-import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
+import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { WebsocketReverseMappingTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { BaseEndpointTypes } from '../endpoint/crypto-lwba'
 import {
   BaseMessage,
-  blocksizeDefaultUnsubscribeMessageBuilder,
   blocksizeDefaultWebsocketOpenHandler,
   buildBlocksizeWebsocketTickersMessage,
+  buildTicker,
 } from './utils'
 
 const logger = makeLogger('BlocksizeCapitalLwbaWebsocketEndpoint')
@@ -77,12 +79,33 @@ export const transport: WebsocketReverseMappingTransport<WsTransportTypes, strin
       },
     },
     builders: {
-      subscribeMessage: (params) => {
-        const pair = `${params.base}${params.quote}`.toUpperCase()
-        transport.setReverseMapping(pair, params)
-        return buildBlocksizeWebsocketTickersMessage('bidask_subscribe', pair)
+      customSubscriptionMessages: (
+        _context: EndpointContext<WsTransportTypes>,
+        subscriptions: SubscriptionDeltas<{ quote: string; base: string }>,
+      ) => {
+        const messages = []
+        if (subscriptions.new.length > 0) {
+          const pairsWithParams = subscriptions.new.map((param) => ({
+            ticker: buildTicker(param),
+            param: param,
+          }))
+          pairsWithParams.forEach(({ ticker, param }) => transport.setReverseMapping(ticker, param))
+          messages.push(
+            buildBlocksizeWebsocketTickersMessage(
+              'bidask_subscribe',
+              subscriptions.new.map(buildTicker),
+            ),
+          )
+        }
+        if (subscriptions.stale.length > 0) {
+          messages.push(
+            buildBlocksizeWebsocketTickersMessage(
+              'bidask_unsubscribe',
+              subscriptions.stale.map(buildTicker),
+            ),
+          )
+        }
+        return messages
       },
-      unsubscribeMessage: (params) =>
-        blocksizeDefaultUnsubscribeMessageBuilder(params.base, params.quote, 'bidask_unsubscribe'),
     },
   })

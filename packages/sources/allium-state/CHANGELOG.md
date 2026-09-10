@@ -1,5 +1,39 @@
 # @chainlink/allium-state-adapter
 
+## 1.3.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.3.2
+
+### Patch Changes
+
+- [#5316](https://github.com/smartcontractkit/external-adapters-js/pull/5316) [`7b0bc16`](https://github.com/smartcontractkit/external-adapters-js/commit/7b0bc16c8fad7485393e7d825bcc3df40a053ad2) Thanks [@justinfranco](https://github.com/justinfranco)! - GRPC transport support
+
+## 1.3.1
+
+### Patch Changes
+
+- [#5257](https://github.com/smartcontractkit/external-adapters-js/pull/5257) [`25f4a06`](https://github.com/smartcontractkit/external-adapters-js/commit/25f4a0643005c9c7d8156b8a02b7710df6d004c1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release 5 streams adapters with gRPC transport support
+
+## 1.3.0
+
+### Minor Changes
+
+- [#5250](https://github.com/smartcontractkit/external-adapters-js/pull/5250) [`d3b79b3`](https://github.com/smartcontractkit/external-adapters-js/commit/d3b79b39bedefdfacfedc6f4495d3958b31f2b5f) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Release multiple streams adapters with gRPC transport support
+
+## 1.2.0
+
+### Minor Changes
+
+- [#5079](https://github.com/smartcontractkit/external-adapters-js/pull/5079) [`ba790d9`](https://github.com/smartcontractkit/external-adapters-js/commit/ba790d9cbd9f6129f19d2aeb18e5f314d92c367f) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Update framework version + add new env var FEED_ID_JSON
+
+### Patch Changes
+
+- [#5113](https://github.com/smartcontractkit/external-adapters-js/pull/5113) [`cecd0c0`](https://github.com/smartcontractkit/external-adapters-js/commit/cecd0c0eef3740d21816a0de7f317f3945e9cc22) Thanks [@yaroslav-glukhov-chainlink](https://github.com/yaroslav-glukhov-chainlink)! - Bump framework version.
+
 ## 1.1.1
 
 ### Patch Changes

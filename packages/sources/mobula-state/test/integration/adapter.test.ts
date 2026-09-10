@@ -42,14 +42,6 @@ describe('websocket', () => {
     endpoint: 'funding-rate',
   }
 
-  const dataFundingRateProtocol = {
-    base: 'SILVER',
-    quote: 'USDC',
-    exchange: 'hyperliquid',
-    protocol: 'xyz',
-    endpoint: 'funding-rate',
-  }
-
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
@@ -295,11 +287,6 @@ describe('websocket', () => {
 
     it('have partial data return success', async () => {
       const response = await testAdapter.request(dataFundingRateAergo)
-      expect(response.json()).toMatchSnapshot()
-    })
-
-    it('with protocol param should return success', async () => {
-      const response = await testAdapter.request(dataFundingRateProtocol)
       expect(response.json()).toMatchSnapshot()
     })
 

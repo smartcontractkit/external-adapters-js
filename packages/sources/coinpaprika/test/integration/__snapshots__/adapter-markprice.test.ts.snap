@@ -49,6 +49,21 @@ exports[`markprice endpoint mark_price should return success with market price 1
 }
 `;
 
+exports[`markprice endpoint mark_price should return success with market price index 1`] = `
+{
+  "data": {
+    "index_price": 97501.67,
+  },
+  "result": 97501.67,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1114,
+    "providerDataStreamEstablishedUnixMs": 1010,
+    "providerIndicatedTimeUnixMs": 1773329080000,
+  },
+}
+`;
+
 exports[`markprice endpoint top_of_book_perps should return same result when using legacy top_of_book alias 1`] = `
 {
   "data": {

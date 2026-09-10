@@ -36,6 +36,7 @@ export type HexResultPostProcessor = (
 export class MultiChainFunctionTransport<
   T extends GenericFunctionEndpointTypes,
 > extends SubscriptionTransport<T> {
+  config!: GenericFunctionEndpointTypes['Settings']
   providers: Record<string, ethers.JsonRpcProvider> = {}
   hexResultPostProcessor: HexResultPostProcessor
 
@@ -51,6 +52,7 @@ export class MultiChainFunctionTransport<
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.config = adapterSettings
   }
 
   async backgroundHandler(context: EndpointContext<T>, entries: RequestParams<T>[]) {
@@ -108,18 +110,8 @@ export class MultiChainFunctionTransport<
     const { address, signature, inputParams, network, resultField } = params
 
     const networkName = network.toUpperCase()
-    const networkEnvName = `${networkName}_RPC_URL`
-    const chainIdEnvName = `${networkName}_CHAIN_ID`
-
-    const rpcUrl = process.env[networkEnvName]
-    const chainId = Number(process.env[chainIdEnvName])
-
-    if (!rpcUrl || isNaN(chainId)) {
-      throw new AdapterInputError({
-        statusCode: 400,
-        message: `Missing '${networkEnvName}' or '${chainIdEnvName}' environment variables.`,
-      })
-    }
+    const rpcUrl = this.config.NETWORK_RPC_URL.get(network)
+    const chainId = this.config.NETWORK_CHAIN_ID.get(network)
 
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.JsonRpcProvider(rpcUrl, chainId)

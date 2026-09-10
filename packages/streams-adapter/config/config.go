@@ -22,9 +22,10 @@ type Config struct {
 	CacheCleanupIntervalSeconds uint // Cache cleanup interval in seconds (0 = default 60 seconds)
 
 	// Subscription configuration
-	SubscriptionRetryDelaySeconds uint // Delay before allowing re-subscription (0 = default 10s)
-	FeedIDPollIntervalSeconds     uint // Interval between feedId polling retries (0 = default 2s)
-	FeedIDMaxRetries              uint // Max feedId polling attempts before giving up (0 = default 90)
+	SubscriptionRetryDelaySeconds     uint // Delay before allowing re-subscription (0 = default 10s)
+	SubscriptionRefreshTimeoutSeconds uint // Time without a valid gRPC snapshot before subscriptions expire
+	FeedIDPollIntervalSeconds         uint // Interval between feedId polling retries (0 = default 2s)
+	FeedIDMaxRetries                  uint // Max feedId polling attempts before giving up (0 = default 90)
 
 	// Metrics forwarding
 	MetricsForwardTimeoutSeconds uint // HTTP timeout for scraping JS adapter metrics (0 = default 5s)
@@ -38,6 +39,7 @@ type Config struct {
 func Load() *Config {
 	packageName := os.Getenv("PACKAGE_NAME")
 	adapterName := extractAdapterName(packageName)
+	cacheCleanupIntervalSeconds := getEnvAsInt("CACHE_CLEANUP_INTERVAL", 60)
 
 	cfg := &Config{
 		HTTPPort:          getEnv("HTTP_PORT", "8080"),
@@ -51,12 +53,13 @@ func Load() *Config {
 
 		// Cache configuration
 		CacheTTLMinutes:             getEnvAsInt("CACHE_TTL_MINUTES", 5),
-		CacheCleanupIntervalSeconds: getEnvAsInt("CACHE_CLEANUP_INTERVAL", 1),
+		CacheCleanupIntervalSeconds: cacheCleanupIntervalSeconds,
 
 		// Subscription
-		SubscriptionRetryDelaySeconds: getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
-		FeedIDPollIntervalSeconds:     getEnvAsInt("FEEDID_POLL_INTERVAL_SECONDS", 2),
-		FeedIDMaxRetries:              getEnvAsInt("FEEDID_MAX_RETRIES", 90),
+		SubscriptionRetryDelaySeconds:     getEnvAsInt("SUBSCRIPTION_RETRY_DELAY_SECONDS", 10),
+		SubscriptionRefreshTimeoutSeconds: getEnvAsInt("SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS", 3*cacheCleanupIntervalSeconds),
+		FeedIDPollIntervalSeconds:         getEnvAsInt("FEEDID_POLL_INTERVAL_SECONDS", 2),
+		FeedIDMaxRetries:                  getEnvAsInt("FEEDID_MAX_RETRIES", 90),
 
 		// Metrics forwarding
 		MetricsForwardTimeoutSeconds: getEnvAsInt("METRICS_FORWARD_TIMEOUT_SECONDS", 2),

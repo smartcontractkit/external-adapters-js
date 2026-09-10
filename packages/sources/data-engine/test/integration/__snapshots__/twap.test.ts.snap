@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`twap endpoint should include endTs in request when provided 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "effectiveWindowEndTs": 1729999997,
+    "effectiveWindowStartTs": 1729999971,
+    "feedId": "0x0003",
+    "result": "64640960000000000000000",
+    "samples": 30,
+    "windowEndTs": 1730000000,
+    "windowStartTs": 1729999970,
+  },
+  "result": "64640960000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`twap endpoint should return 400 when required params are missing 1`] = `
+{
+  "error": {
+    "message": "[Param: windowSeconds] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`twap endpoint should return 502 when provider returns incomplete response 1`] = `
+{
+  "errorMessage": "The data provider returned an incomplete response for feedId 0x0005",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`twap endpoint should return error when provider returns 500 1`] = `
+{
+  "errorMessage": "Provider request failed with status 500: {"error":"Internal Server Error"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`twap endpoint should return success with TWAP data 1`] = `
+{
+  "data": {
+    "decimals": 18,
+    "effectiveWindowEndTs": 1699999997,
+    "effectiveWindowStartTs": 1699999971,
+    "feedId": "0x0003",
+    "result": "64640960000000000000000",
+    "samples": 30,
+    "windowEndTs": 1700000000,
+    "windowStartTs": 1699999970,
+  },
+  "result": "64640960000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

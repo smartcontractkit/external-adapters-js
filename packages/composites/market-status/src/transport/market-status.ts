@@ -23,9 +23,11 @@ export class MarketStatusTransport extends BaseMarketStatusTransport<MarketStatu
   ): Promise<MarketStatusResult> {
     const sources = getMarketSources(param.type, param.market)
 
-    const primaryResponse = await this.sendSourceRequest(context, sources.primary, param)
-    if (!UNKNOWN_STATUS.includes(primaryResponse.marketStatus)) {
-      return primaryResponse
+    if (!param.useSecondaryForTesting) {
+      const primaryResponse = await this.sendSourceRequest(context, sources.primary, param)
+      if (!UNKNOWN_STATUS.includes(primaryResponse.marketStatus)) {
+        return primaryResponse
+      }
     }
 
     logger.warn(

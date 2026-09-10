@@ -17,6 +17,8 @@ import {
   mockResponseSuccessMinimalRoot,
   mockResponseSuccessSignBitRoot,
   mockResponseSuccessSpecialChars,
+  mockResponseSuccessTestnet,
+  TESTNET_OWNER_PARTY_ID,
 } from './fixtures'
 
 const OWNER_PARTY_ID =
@@ -30,6 +32,13 @@ describe('execute', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.TRIZE_API_KEY = process.env.TRIZE_API_KEY ?? 'fake-api-key'
+    process.env.API_ENDPOINT =
+      process.env.API_ENDPOINT ??
+      'http://fake-t-rize-mainnet/v1/asset-verifier/merkle-tree/current-root'
+    process.env.TESTNET_API_ENDPOINT =
+      process.env.TESTNET_API_ENDPOINT ??
+      'http://fake-t-rize-testnet/v1/asset-verifier/merkle-tree/current-root'
+    process.env.RETRY = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -61,6 +70,30 @@ describe('execute', () => {
         const response = await testAdapter.request(data)
         expect(response.statusCode).toBe(200)
         expect(response.json()).toMatchSnapshot()
+      })
+
+      it('should use testnet endpoint when network is testnet', async () => {
+        const data = {
+          ownerPartyId: TESTNET_OWNER_PARTY_ID,
+          treeId: 'tree-001',
+          network: 'testnet',
+          endpoint: 'proof-of-insurance',
+        }
+        mockResponseSuccessTestnet()
+        const response = await testAdapter.request(data)
+        expect(response.statusCode).toBe(200)
+        expect(response.json()).toEqual(
+          expect.objectContaining({
+            result: '1354379164455806330400696522124505861414782960378538491',
+            data: expect.objectContaining({
+              root: '1354379164455806330400696522124505861414782960378538491',
+              contractId: '5930764813757980120669252834493567470552917430872475',
+            }),
+            timestamps: expect.objectContaining({
+              providerIndicatedTimeUnixMs: 1773226228000,
+            }),
+          }),
+        )
       })
 
       it('should return success for another tree', async () => {
@@ -194,6 +227,16 @@ describe('execute', () => {
         expect(response.statusCode).toBe(400)
         expect(response.json()).toMatchSnapshot()
       })
+
+      it('should fail on invalid network', async () => {
+        const response = await testAdapter.request({
+          ownerPartyId: OWNER_PARTY_ID,
+          treeId: 'tree-001',
+          network: 'devnet',
+          endpoint: 'proof-of-insurance',
+        })
+        expect(response.statusCode).toBe(400)
+      })
     })
 
     describe('upstream failures', () => {
@@ -216,7 +259,7 @@ describe('execute', () => {
         }
         mockResponseFailure404()
         const response = await testAdapter.request(data)
-        expect(response.statusCode).toBe(504)
+        expect(response.statusCode).toBe(502)
       })
 
       it('should handle 401 error from upstream', async () => {
@@ -227,7 +270,7 @@ describe('execute', () => {
         }
         mockResponseFailure401()
         const response = await testAdapter.request(data)
-        expect(response.statusCode).toBe(504)
+        expect(response.statusCode).toBe(502)
       })
 
       it('should handle empty response body from upstream', async () => {

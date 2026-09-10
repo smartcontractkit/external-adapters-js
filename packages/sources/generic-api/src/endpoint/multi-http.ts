@@ -59,8 +59,8 @@ export const endpoint = new AdapterEndpoint({
   name: 'multi-http',
   transport: multiHttpTransport,
   inputParameters,
-  customInputValidation: (request): AdapterError | undefined => {
-    getApiConfig(request.requestContext.data.apiName as string)
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    getApiConfig(request.requestContext.data.apiName as string, settings)
     return
   },
 })

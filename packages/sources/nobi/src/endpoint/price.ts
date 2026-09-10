@@ -79,7 +79,7 @@ export const routeRequest = (
 
 export const endpoint = new AdapterEndpoint({
   name: 'price',
-  aliases: ['state'],
+  aliases: ['crypto', 'state'],
   inputParameters,
   transportRoutes,
   defaultTransport: indexToTransportName(0),

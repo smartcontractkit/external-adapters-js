@@ -22,7 +22,6 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         params: [param],
         request: {
           baseURL: config.API_ENDPOINT,
-          url: '/api/dashboard-backend-api/api/rpc',
           method: 'POST',
           data: { method: 'navDetails' },
         },

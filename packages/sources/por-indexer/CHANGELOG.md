@@ -1,5 +1,11 @@
 # @chainlink/por-indexer-adapter
 
+## 2.3.2
+
+### Patch Changes
+
+- [#5171](https://github.com/smartcontractkit/external-adapters-js/pull/5171) [`b748a1e`](https://github.com/smartcontractkit/external-adapters-js/commit/b748a1e7def869279f64e7cd043766666c211ec7) Thanks [@dskloetc](https://github.com/dskloetc)! - Change default value of ZEUS_ZBTC_API_URL
+
 ## 2.3.1
 
 ### Patch Changes

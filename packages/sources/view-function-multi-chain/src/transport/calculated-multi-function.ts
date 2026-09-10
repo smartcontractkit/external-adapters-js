@@ -112,11 +112,8 @@ export class CalculatedMultiFunctionTransport extends SubscriptionTransport<Base
     const { address, signature, inputParams, network } = params
 
     const networkName = network.toUpperCase()
-    const networkEnvName = `${networkName}_RPC_URL`
-    const chainIdEnvName = `${networkName}_CHAIN_ID`
-
-    const rpcUrl = process.env[networkEnvName]
-    const chainId = Number(process.env[chainIdEnvName])
+    const rpcUrl = this.config.NETWORK_RPC_URL.get(network)
+    const chainId = this.config.NETWORK_CHAIN_ID.get(network)
 
     if (!this.providers[networkName]) {
       this.providers[networkName] = new ethers.JsonRpcProvider(rpcUrl, chainId)
