@@ -1,5 +1,11 @@
 # @chainlink/view-function-multi-chain-adapter
 
+## 1.12.0
+
+### Minor Changes
+
+- [#5377](https://github.com/smartcontractkit/external-adapters-js/pull/5377) [`87eef6e`](https://github.com/smartcontractkit/external-adapters-js/commit/87eef6ee9f7cfa32be1ba6f9cf249e4f1487aa4f) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 'min' and 'max' operations to calculated-multi-function endpoint
+
 ## 1.11.3
 
 ### Patch Changes
