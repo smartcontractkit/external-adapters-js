@@ -1,12 +1,12 @@
 import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
-import { mockTokenSuccess, mockWebSocketServer } from './fixtures'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
+import { mockTokenSuccess, mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let spy: jest.SpyInstance
