@@ -96,6 +96,8 @@ export const inputParameters = new InputParameters(
             'add',
             'subtract',
             'average',
+            'min',
+            'max',
             'equal',
             'assertZero',
           ],
