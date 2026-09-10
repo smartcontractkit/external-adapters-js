@@ -264,6 +264,9 @@
       "path": "./sources/hastra/tsconfig.test.json"
     },
     {
+      "path": "./sources/hyperithm/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {

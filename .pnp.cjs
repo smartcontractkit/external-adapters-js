@@ -375,6 +375,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/hastra"\
     },\
     {\
+      "name": "@chainlink/hyperithm-adapter",\
+      "reference": "workspace:packages/sources/hyperithm"\
+    },\
+    {\
       "name": "@chainlink/icap-adapter",\
       "reference": "workspace:packages/sources/icap"\
     },\
@@ -760,6 +764,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
+    ["@chainlink/hyperithm-adapter", ["workspace:packages/sources/hyperithm"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
@@ -6039,6 +6044,23 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/hastra-adapter", "workspace:packages/sources/hastra"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/hyperithm-adapter", [\
+      ["workspace:packages/sources/hyperithm", {\
+        "packageLocation": "./packages/sources/hyperithm/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
+          ["@chainlink/hyperithm-adapter", "workspace:packages/sources/hyperithm"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

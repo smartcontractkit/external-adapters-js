@@ -3631,6 +3631,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@chainlink/hyperithm-adapter@workspace:packages/sources/hyperithm":
+  version: 0.0.0-use.local
+  resolution: "@chainlink/hyperithm-adapter@workspace:packages/sources/hyperithm"
+  dependencies:
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
+    "@sinonjs/fake-timers": "npm:9.1.2"
+    "@types/jest": "npm:^29.5.14"
+    "@types/node": "npm:22.14.1"
+    "@types/sinonjs__fake-timers": "npm:8.1.5"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
+    typescript: "npm:5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@chainlink/icap-adapter@workspace:packages/sources/icap":
   version: 0.0.0-use.local
   resolution: "@chainlink/icap-adapter@workspace:packages/sources/icap"
