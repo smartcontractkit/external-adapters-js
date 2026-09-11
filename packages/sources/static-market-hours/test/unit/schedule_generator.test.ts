@@ -598,5 +598,133 @@ describe('Schedule Generator', () => {
         ],
       })
     })
+
+    it('should generate a 24/5 schedule with phase-based statuses', () => {
+      const mockFs = jest.mocked(fs)
+      mockFs.existsSync.mockReturnValue(true)
+      mockFs.readFileSync.mockImplementation((filePath) => {
+        if (filePath === '/mock/csv/markets.csv') {
+          return 'FinID,Timezone\n US.CHNLNK.NYSE,America/New_York'
+        }
+        if (filePath === '/mock/csv/phases.csv') {
+          return (
+            'Name,Status\n' +
+            'Primary Trading Session,Open\n' +
+            'Pre-Trading Session,Closed\n' +
+            'Post-Trading Session,Closed\n' +
+            'Other,Closed\n'
+          )
+        }
+        if (filePath === '/mock/csv/schedules.csv') {
+          return (
+            'FinID,Schedule Group,Phase Type,Phase Name,In Force Start Date,In Force End Date,Days,Start,End,Offset Days\n' +
+            'US.CHNLNK.NYSE,Regular,Other,Overnight,,,Sun-Thu,20:00:00,04:00:00,1\n' +
+            'US.CHNLNK.NYSE,Regular,Pre-Trading Session,Pre Market,,,Mon-Fri,04:00:00,09:30:00,0\n' +
+            'US.CHNLNK.NYSE,Regular,Primary Trading Session,Regular Market,,,Mon-Fri,09:30:00,16:00:00,0\n' +
+            'US.CHNLNK.NYSE,Regular,Post-Trading Session,Post Market,,,Mon-Fri,16:00:00,20:00:00,0\n' +
+            'US.CHNLNK.NYSE,Evening Session,Other,Overnight,,,Sun-Thu,20:00:00,04:00:00,1\n' +
+            'US.CHNLNK.NYSE,Day Session,Pre-Trading Session,Pre Market,,,Mon-Fri,04:00:00,09:30:00,0\n' +
+            'US.CHNLNK.NYSE,Day Session,Primary Trading Session,Regular Market,,,Mon-Fri,09:30:00,16:00:00,0\n' +
+            'US.CHNLNK.NYSE,Day Session,Post-Trading Session,Post Market,,,Mon-Fri,16:00:00,20:00:00,0\n'
+          )
+        }
+        if (filePath === '/mock/csv/holidays.csv') {
+          return (
+            'FinID,Date,Schedule\n' +
+            // "Closed" holiday: everything closed, including the overnight session.
+            'US.CHNLNK.NYSE,2026-12-24,Closed\n' +
+            // "Day Session" holiday: day sessions run, overnight session cancelled.
+            'US.CHNLNK.NYSE,2026-12-31,Day Session\n' +
+            // "Evening Session" holiday: day sessions cancelled, overnight session runs.
+            'US.CHNLNK.NYSE,2027-01-01,Evening Session\n'
+          )
+        }
+        return ''
+      })
+
+      const generator = new ScheduleGenerator({
+        csvDir: '/mock/csv',
+        finId: 'US.CHNLNK.NYSE',
+        type: '24/5',
+      })
+      const schedule = generator.getSchedule()
+
+      expect(schedule).toEqual({
+        timezone: 'America/New_York',
+        lastValidDate: '2027-01-01',
+        defaultStatus: 'WEEKEND',
+        weekly: [
+          {
+            status: 'OVERNIGHT',
+            when: [
+              {
+                days: ['SUNDAY'],
+                times: [{ start: '20:00:00', end: '24:00:00' }],
+              },
+              {
+                days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY'],
+                times: [
+                  { start: '00:00:00', end: '04:00:00' },
+                  { start: '20:00:00', end: '24:00:00' },
+                ],
+              },
+              {
+                days: ['FRIDAY'],
+                times: [{ start: '00:00:00', end: '04:00:00' }],
+              },
+            ],
+          },
+          {
+            status: 'PRE_MARKET',
+            when: [
+              {
+                days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+                times: [{ start: '04:00:00', end: '09:30:00' }],
+              },
+            ],
+          },
+          {
+            status: 'REGULAR',
+            when: [
+              {
+                days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+                times: [{ start: '09:30:00', end: '16:00:00' }],
+              },
+            ],
+          },
+          {
+            status: 'POST_MARKET',
+            when: [
+              {
+                days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+                times: [{ start: '16:00:00', end: '20:00:00' }],
+              },
+            ],
+          },
+        ],
+        exceptions: [
+          // Thursday 2026-12-24 "Closed": all sessions (including the
+          // overnight session ending on Friday 04:00) are cancelled. The
+          // closed phases produce contiguous WEEKEND exceptions which get
+          // merged. The overnight session ending Thursday 04:00 is attributed
+          // to Wednesday, so it still runs as usual.
+          {
+            start: '2026-12-24 04:00:00',
+            end: '2026-12-25 04:00:00',
+            status: 'WEEKEND',
+          },
+          // Thursday 2026-12-31 "Day Session": day sessions run as usual, but
+          // the overnight session is cancelled. Friday 2027-01-01 "Evening
+          // Session": day sessions cancelled, but the overnight session
+          // (attributed to Thursday) runs as usual. The adjacent WEEKEND
+          // exceptions merge.
+          {
+            start: '2026-12-31 20:00:00',
+            end: '2027-01-01 20:00:00',
+            status: 'WEEKEND',
+          },
+        ],
+      })
+    })
   })
 })

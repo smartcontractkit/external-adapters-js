@@ -88,7 +88,17 @@ export type Session = {
   start: string // "HH:mm:ss"
   end: string // "HH:mm:ss"
   endDateOffset: 0 | 1
+  // The market status during the session. When absent, a status of "OPEN" is
+  // assumed (which is the case for regular markets, where only sessions of
+  // open phases are included).
+  status?: string
 }
+
+// The market status type determines which statuses are used in the generated
+// schedule. "regular" schedules use "OPEN"/"CLOSED" statuses. "24/5" schedules
+// use the TwentyfourFiveMarketStatus statuses of the static-market-hours
+// adapter: "REGULAR", "PRE_MARKET", "POST_MARKET", "OVERNIGHT" and "WEEKEND".
+export type MarketStatusType = 'regular' | '24/5'
 
 const FILE_MARKETS = 'markets.csv'
 const FILE_PHASES = 'phases.csv'
@@ -101,6 +111,7 @@ const COLUMN_PHASE_STATUS = 'Status'
 const COLUMN_FIN_ID = 'FinID'
 const COLUMN_SCHEDULE_GROUP = 'Schedule Group'
 const COLUMN_PHASE_TYPE = 'Phase Type'
+const COLUMN_SCHEDULE_PHASE_NAME = 'Phase Name'
 const COLUMN_IN_FORCE_START = 'In Force Start Date'
 const COLUMN_IN_FORCE_END = 'In Force End Date'
 const COLUMN_DAYS_OF_WEEK = 'Days'
@@ -112,6 +123,17 @@ const COLUMN_SCHEDULE = 'Schedule'
 
 const SCHEDULE_GROUP_REGULAR = 'Regular'
 const STATUS_OPEN = 'Open'
+
+const STATUS_OPEN_SCHEDULE = 'OPEN'
+const STATUS_CLOSED_SCHEDULE = 'CLOSED'
+const STATUS_WEEKEND = 'WEEKEND'
+const STATUS_REGULAR_245 = 'REGULAR'
+const STATUS_PRE_MARKET = 'PRE_MARKET'
+const STATUS_POST_MARKET = 'POST_MARKET'
+const STATUS_OVERNIGHT = 'OVERNIGHT'
+
+// The phase name used by TradingHours for overnight sessions of 24/5 markets.
+const PHASE_NAME_OVERNIGHT = 'Overnight'
 
 const CSV_DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
 type CsvDayOfWeek = (typeof CSV_DAY_NAMES)[number]
@@ -192,12 +214,21 @@ export const getDaysOfWeekFromScheduleRow = (row: Row): DayOfWeekNumber[] => {
   return parseDays(daysString)
 }
 
+// Computes the exceptions (deviations) that the holiday schedule introduces
+// compared to the regular schedule for the given date. Sessions carry their
+// own status, while time outside of any session is considered to have the
+// noSessionStatus. Only time ranges where the holiday schedule status differs
+// from the regular schedule status end up in the exceptions, with the holiday
+// schedule's status.
 export const getExceptionsFromSessionDifference = (
   date: string,
   regularSessions: Session[],
   holidaySessions: Session[],
+  noSessionStatus: string = STATUS_CLOSED_SCHEDULE,
 ): Schedule['exceptions'] => {
   const nextDate = format(addDays(parseISO(date), 1), 'yyyy-MM-dd')
+
+  const getSessionStatus = (session: Session): string => session.status ?? STATUS_OPEN_SCHEDULE
 
   const getStartTime = (session: Session) => `${date} ${session.start}`
   const getEndTime = (session: Session) => {
@@ -210,7 +241,7 @@ export const getExceptionsFromSessionDifference = (
 
   type SessionBoundary = {
     time: string
-    newStatus: 'OPEN' | 'CLOSED'
+    newStatus: string
     schedule: 'regular' | 'holiday'
   }
 
@@ -219,24 +250,24 @@ export const getExceptionsFromSessionDifference = (
   for (const session of regularSessions) {
     sessionBoundaries.push({
       time: getStartTime(session),
-      newStatus: 'OPEN',
+      newStatus: getSessionStatus(session),
       schedule: 'regular',
     })
     sessionBoundaries.push({
       time: getEndTime(session),
-      newStatus: 'CLOSED',
+      newStatus: noSessionStatus,
       schedule: 'regular',
     })
   }
   for (const session of holidaySessions) {
     sessionBoundaries.push({
       time: getStartTime(session),
-      newStatus: 'OPEN',
+      newStatus: getSessionStatus(session),
       schedule: 'holiday',
     })
     sessionBoundaries.push({
       time: getEndTime(session),
-      newStatus: 'CLOSED',
+      newStatus: noSessionStatus,
       schedule: 'holiday',
     })
   }
@@ -245,8 +276,8 @@ export const getExceptionsFromSessionDifference = (
   const exceptions: Schedule['exceptions'] = []
 
   const status = {
-    regular: 'CLOSED',
-    holiday: 'CLOSED',
+    regular: noSessionStatus,
+    holiday: noSessionStatus,
   }
   let lastTime = ''
   for (const boundary of sessionBoundaries) {
@@ -264,20 +295,58 @@ export const getExceptionsFromSessionDifference = (
   return exceptions
 }
 
+// Exceptions may be overlapping or adjacent because sessions of consecutive
+// days can span into each other (e.g. overnight sessions). This sorts the
+// exceptions, clips overlaps, and merges adjacent exceptions with the same
+// status.
+export const mergeExceptions = (exceptions: Schedule['exceptions']): Schedule['exceptions'] => {
+  const sorted = [...exceptions].sort(
+    (a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end),
+  )
+  const merged: Schedule['exceptions'] = []
+  for (const exception of sorted) {
+    const last = merged[merged.length - 1]
+    let { start } = exception
+    const { end } = exception
+    if (last && start < last.end) {
+      start = last.end
+    }
+    if (start >= end) {
+      continue
+    }
+    if (last && start === last.end && exception.status === last.status) {
+      last.end = end
+      continue
+    }
+    merged.push({ start, end, status: exception.status })
+  }
+  return merged
+}
+
 export class ScheduleGenerator {
   private readonly csvDir: string
   private readonly finId: string
+  private readonly marketStatusType: MarketStatusType
   private readonly phaseToStatus: Map<string, string> = new Map()
   private timezoneString: string | null = null
   private timezone: Timezone | null = null
   private today: TZDate | null = null
-  private openRowsBySchedule: Map<string, Row[]> = new Map()
+  private sessionRowsBySchedule: Map<string, Row[]> = new Map()
   private weeklySessionsBySchedule: Map<string, Map<DayOfWeekNumber, Session[]>> = new Map()
   private holidayRows: Row[] | null = null
 
-  constructor({ csvDir, finId }: { csvDir: string; finId: string }) {
+  constructor({
+    csvDir,
+    finId,
+    type = 'regular',
+  }: {
+    csvDir: string
+    finId: string
+    type?: MarketStatusType
+  }) {
     this.csvDir = csvDir
     this.finId = finId
+    this.marketStatusType = type
   }
 
   loadCsv(filename: string): Row[] {
@@ -410,13 +479,13 @@ export class ScheduleGenerator {
     })
   }
 
-  getOpenScheduleRows(scheduleGroup: string): Row[] {
-    this.initOpenRowsBySchedule(scheduleGroup)
-    return this.openRowsBySchedule.get(scheduleGroup)!
+  getSessionRows(scheduleGroup: string): Row[] {
+    this.initSessionRowsBySchedule(scheduleGroup)
+    return this.sessionRowsBySchedule.get(scheduleGroup)!
   }
 
-  initOpenRowsBySchedule(scheduleGroup: string): void {
-    if (this.openRowsBySchedule.has(scheduleGroup)) {
+  initSessionRowsBySchedule(scheduleGroup: string): void {
+    if (this.sessionRowsBySchedule.has(scheduleGroup)) {
       return
     }
     const allScheduleRows = this.loadCsv(FILE_SCHEDULES)
@@ -426,12 +495,41 @@ export class ScheduleGenerator {
     const groupScheduleRows = marketScheduleRows.filter(
       (row) => rowGet(row, COLUMN_SCHEDULE_GROUP) === scheduleGroup,
     )
-    const openScheduleRows = groupScheduleRows.filter((row) => {
-      const status = this.getPhaseTypeStatus(row)
-      return status === STATUS_OPEN
-    })
+    const sessionScheduleRows = groupScheduleRows.filter(
+      (row) => this.getSessionStatusFromRow(row) !== null,
+    )
 
-    this.openRowsBySchedule.set(scheduleGroup, this.filterInForceScheduleRows(openScheduleRows))
+    this.sessionRowsBySchedule.set(scheduleGroup, this.filterInForceScheduleRows(sessionScheduleRows))
+  }
+
+  // Returns the schedule status for a schedule row, or null if the row does
+  // not represent a session (i.e. the time is covered by the default status).
+  getSessionStatusFromRow(row: Row): string | null {
+    if (this.marketStatusType === 'regular') {
+      return this.getPhaseTypeStatus(row) === STATUS_OPEN ? STATUS_OPEN_SCHEDULE : null
+    }
+
+    // 24/5 markets distinguish multiple session types, which map onto the
+    // TwentyfourFiveMarketStatus statuses of the static-market-hours adapter.
+    // Time not covered by any session gets the WEEKEND status.
+    const phaseName = rowGet(row, COLUMN_SCHEDULE_PHASE_NAME)
+    if (phaseName === PHASE_NAME_OVERNIGHT) {
+      return STATUS_OVERNIGHT
+    }
+    switch (rowGet(row, COLUMN_PHASE_TYPE)) {
+      case 'Primary Trading Session':
+        return STATUS_REGULAR_245
+      case 'Pre-Trading Session':
+        return STATUS_PRE_MARKET
+      case 'Post-Trading Session':
+        return STATUS_POST_MARKET
+      default:
+        return null
+    }
+  }
+
+  getDefaultStatus(): string {
+    return this.marketStatusType === 'regular' ? STATUS_CLOSED_SCHEDULE : STATUS_WEEKEND
   }
 
   // TradingHours attributes every session to a specific day, even though the
@@ -451,7 +549,7 @@ export class ScheduleGenerator {
       return
     }
 
-    const weeklyScheduleRows = this.getOpenScheduleRows(scheduleGroup)
+    const weeklyScheduleRows = this.getSessionRows(scheduleGroup)
 
     // Initialize with an empty array for each day of the week
     const sessionsByDay: Map<DayOfWeekNumber, Session[]> = new Map(
@@ -460,6 +558,10 @@ export class ScheduleGenerator {
 
     for (const row of weeklyScheduleRows) {
       const days = getDaysOfWeekFromScheduleRow(row)
+      const status = this.getSessionStatusFromRow(row)
+      if (status === null) {
+        continue
+      }
       const start = rowGet(row, COLUMN_START_TIME)
       const end = rowGet(row, COLUMN_END_TIME)
       const endDateOffset = rowGet(row, COLUMN_END_TIME_DAYS_OFFSET)
@@ -476,7 +578,9 @@ export class ScheduleGenerator {
       }
 
       for (const day of days) {
-        sessionsByDay.get(day)!.push({ start, end, endDateOffset: Number(endDateOffset) as 0 | 1 })
+        sessionsByDay
+          .get(day)!
+          .push({ start, end, endDateOffset: Number(endDateOffset) as 0 | 1, status })
       }
     }
 
@@ -491,47 +595,61 @@ export class ScheduleGenerator {
     const sessionsByDay = this.getWeeklySessions(SCHEDULE_GROUP_REGULAR)
 
     // Initialize with an empty array for each day of the week
-    const timeRangesByDay: Map<DayOfWeekNumber, { start: string; end: string }[]> = new Map(
-      CSV_DAY_NAMES.map((_, index) => [index, []]),
-    )
+    const emptyTimeRangesByDay = (): Map<DayOfWeekNumber, { start: string; end: string }[]> =>
+      new Map(CSV_DAY_NAMES.map((_, index) => [index, []]))
+
+    const timeRangesByDayByStatus = new Map<string, Map<DayOfWeekNumber, { start: string; end: string }[]>>()
 
     for (const [day, sessions] of sessionsByDay.entries()) {
-      for (const { start, end, endDateOffset } of sessions) {
+      for (const { start, end, endDateOffset, status } of sessions) {
+        if (status === undefined) {
+          continue
+        }
+        let timeRangesByDay = timeRangesByDayByStatus.get(status)
+        if (timeRangesByDay === undefined) {
+          timeRangesByDay = emptyTimeRangesByDay()
+          timeRangesByDayByStatus.set(status, timeRangesByDay)
+        }
         if (endDateOffset === 0) {
-          const timeRange = { start, end }
-          timeRangesByDay.get(day)!.push(timeRange)
+          timeRangesByDay.get(day)!.push({ start, end })
         } else {
           // endDateOffset === 1
           timeRangesByDay.get(day)!.push({ start, end: END_OF_DAY })
-          timeRangesByDay.get((day + 1) % DAYS_OF_WEEK.length)!.push({ start: START_OF_DAY, end })
+          timeRangesByDay
+            .get((day + 1) % DAYS_OF_WEEK.length)!
+            .push({ start: START_OF_DAY, end })
         }
       }
     }
 
-    const daysByTimeRanges = new Map<string, DayOfWeekNumber[]>()
+    const weekly: Schedule['weekly'] = []
 
-    for (const [day, timeRanges] of timeRangesByDay.entries()) {
-      if (timeRanges.length === 0) {
-        continue
-      }
-      const key = JSON.stringify(timeRanges)
-      let days = daysByTimeRanges.get(key)
-      if (days === undefined) {
-        days = []
-        daysByTimeRanges.set(key, days)
-      }
-      days.push(day)
-    }
+    for (const [status, timeRangesByDay] of timeRangesByDayByStatus) {
+      const daysByTimeRanges = new Map<string, DayOfWeekNumber[]>()
 
-    return [
-      {
-        status: 'OPEN',
+      for (const [day, timeRanges] of timeRangesByDay.entries()) {
+        if (timeRanges.length === 0) {
+          continue
+        }
+        const key = JSON.stringify(timeRanges)
+        let days = daysByTimeRanges.get(key)
+        if (days === undefined) {
+          days = []
+          daysByTimeRanges.set(key, days)
+        }
+        days.push(day)
+      }
+
+      weekly.push({
+        status,
         when: Array.from(daysByTimeRanges.entries()).map(([timeRangesKey, days]) => ({
           days: days.map((day) => DAYS_OF_WEEK[day]!),
           times: JSON.parse(timeRangesKey),
         })),
-      },
-    ]
+      })
+    }
+
+    return weekly
   }
 
   getHolidayRows(): Row[] {
@@ -556,16 +674,22 @@ export class ScheduleGenerator {
     const holidaySessions = this.getWeeklySessions(scheduleGroup).get(dayOfWeek)!
     const regularSessions = this.getWeeklySessions(SCHEDULE_GROUP_REGULAR).get(dayOfWeek)!
 
-    return getExceptionsFromSessionDifference(date, regularSessions, holidaySessions)
+    return getExceptionsFromSessionDifference(
+      date,
+      regularSessions,
+      holidaySessions,
+      this.getDefaultStatus(),
+    )
   }
 
   getExceptions(): Schedule['exceptions'] {
-    return this.getHolidayRows().flatMap((row) => this.getExceptionsForHolidayRow(row))
+    const exceptions = this.getHolidayRows().flatMap((row) => this.getExceptionsForHolidayRow(row))
+    return mergeExceptions(exceptions)
   }
 
   getLastValidDate(): string {
     let earliestInForceEndDate: TZDate | null = null
-    for (const row of this.getOpenScheduleRows(SCHEDULE_GROUP_REGULAR)) {
+    for (const row of this.getSessionRows(SCHEDULE_GROUP_REGULAR)) {
       const endDate = this.parseDate(row, COLUMN_IN_FORCE_END)
       earliestInForceEndDate = minDate(earliestInForceEndDate, endDate)
     }
@@ -585,7 +709,7 @@ export class ScheduleGenerator {
     return {
       timezone: this.getTimezoneString(),
       lastValidDate: this.getLastValidDate(),
-      defaultStatus: 'CLOSED',
+      defaultStatus: this.getDefaultStatus(),
       weekly: this.getWeeklySchedule(),
       exceptions: this.getExceptions(),
     }
