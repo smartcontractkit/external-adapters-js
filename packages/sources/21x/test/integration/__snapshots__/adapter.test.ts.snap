@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute price endpoint should return success 1`] = `
+{
+  "data": {
+    "ask_price": "1.0000000",
+    "ask_volume": "136500.0000000",
+    "bid_price": "0.9999999",
+    "bid_volume": "11000.0000000",
+    "last_price": "0.9990000",
+    "market_status": 2,
+    "mid_price": "0.99999995",
+    "trading_status_string": "CONTINUOUS_TRADING",
+  },
+  "result": "0.9990000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
