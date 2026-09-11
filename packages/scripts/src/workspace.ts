@@ -32,15 +32,19 @@ export const PUBLIC_ADAPTER_TYPES = [
 ]
 const scope = '@chainlink/'
 
+/** Sanitize branch name for safe use in shell; only allow alphanumeric, /, -, _, . */
+function sanitizeBranchForShell(branch: string): string {
+  if (!/^[a-zA-Z0-9/_.-]*$/.test(branch)) {
+    throw new Error(`Invalid branch name: contains disallowed characters`)
+  }
+  return branch
+}
+
 export type WorkspacePackages = ReturnType<typeof getWorkspaceAdapters>
 export function getWorkspacePackages(changedFromBranch = ''): WorkspacePackage[] {
+  const sinceArg = changedFromBranch ? ` --since=${sanitizeBranchForShell(changedFromBranch)}` : ''
   return s
-    .exec(
-      changedFromBranch
-        ? `yarn workspaces list -R --json --since=${changedFromBranch}`
-        : 'yarn workspaces list -R --json',
-      { silent: true },
-    )
+    .exec(`yarn workspaces list -R --json${sinceArg}`.trim(), { silent: true })
     .split('\n')
     .filter(Boolean)
     .map((v) => {
