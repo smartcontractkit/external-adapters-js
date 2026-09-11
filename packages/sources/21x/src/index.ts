@@ -8,6 +8,15 @@ export const adapter = new Adapter({
   name: '21X',
   config,
   endpoints: [price],
+  rateLimiting: {
+    tiers: {
+      default: {
+        // The DP has a rate limit of 3000 per 5 minutes per IP.
+        // We limit the EA to half of that to be safe.
+        rateLimit1m: 300,
+      },
+    },
+  },
 })
 
 export const server = (): Promise<ServerInstance | undefined> => expose(adapter)
