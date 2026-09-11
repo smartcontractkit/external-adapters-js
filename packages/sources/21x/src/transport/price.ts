@@ -49,7 +49,8 @@ const convertTradingStatusToNumber = (status: string): number => {
     case 'MANUAL_TRADING_HALT':
       return 5
     default:
-      throw new Error(`Unknown trading status: ${status}`)
+      logger.warn(`Unknown trading status: ${status}`)
+      return 0
   }
 }
 
@@ -106,6 +107,7 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const last_price = tradeInfo.lastPrice
 
+    // The first elements are the top of the order book.
     const bid_price = orderBook.buy[0]?.limit
     const bid_volume = orderBook.buy[0]?.quantity
     const ask_price = orderBook.sell[0]?.limit
@@ -151,8 +153,6 @@ export class PriceTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const requestKey = requestConfig.url
     const response = await this.requester.request<T>(requestKey, requestConfig)
-
-    console.log('dskloet', endpoint, response.response.data)
 
     return response.response.data
   }
