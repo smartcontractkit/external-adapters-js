@@ -1,12 +1,12 @@
-import { mockWebSocketServer } from './fixtures'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
+import { mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
@@ -124,7 +124,9 @@ describe('websocket', () => {
 
     it('should return error (LWBA violation)', async () => {
       const response = await testAdapter.request(dataLwbaInvariantViolation)
-      expect(response.statusCode).toEqual(500)
+      // ea-framework 2.19.1 rejects invariant-violating quotes in LwbaEndpoint.resultValidator, at
+      // cache-write time, so the cached entry is a 502 rather than a 500 thrown on the read path.
+      expect(response.statusCode).toEqual(502)
       expect(response.json()).toMatchSnapshot()
     })
   })
