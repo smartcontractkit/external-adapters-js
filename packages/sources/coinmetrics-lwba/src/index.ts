@@ -15,7 +15,19 @@ export const config = makeConfig({
 })
 
 const newEndpoint = Object.assign(Object.create(Object.getPrototypeOf(endpoint)), endpoint)
-newEndpoint.aliases.push('crypto', 'price')
+
+// Object.assign copies `aliases` and `requestTransforms` by reference, so give the clone its own
+// arrays rather than mutating the ones still shared with `endpoint`.
+newEndpoint.aliases = [...(endpoint.aliases ?? []), 'crypto', 'price']
+
+// `symbolOverrider` was bound to `endpoint` in the AdapterEndpoint constructor, but only the clone
+// is ever initialize()d — so the inherited binding reads `adapterName` as undefined, the override
+// lookup misses, and every RDD symbol override is silently dropped. Rebind it to the clone.
+newEndpoint.requestTransforms = [
+  newEndpoint.symbolOverrider.bind(newEndpoint),
+  ...endpoint.requestTransforms.slice(1),
+]
+
 const originalValidate = endpoint.customOutputValidation
 newEndpoint.customOutputValidation = (resp: AdapterResponse): AdapterError | undefined => {
   const err = originalValidate?.(resp)

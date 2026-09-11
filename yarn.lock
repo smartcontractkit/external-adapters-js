@@ -2500,7 +2500,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/blocksize-capital-adapter@workspace:packages/sources/blocksize-capital"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2610,7 +2610,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cfbenchmarks-adapter@workspace:packages/sources/cfbenchmarks"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2686,7 +2686,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coingecko-adapter@workspace:packages/sources/coingecko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/supertest": "npm:2.0.16"
@@ -2717,7 +2717,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmarketcap-adapter@workspace:packages/sources/coinmarketcap"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -2730,7 +2730,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinmetrics-adapter@workspace:packages/sources/coinmetrics"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2747,7 +2747,7 @@ __metadata:
   resolution: "@chainlink/coinmetrics-lwba-adapter@workspace:packages/sources/coinmetrics-lwba"
   dependencies:
     "@chainlink/coinmetrics-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2762,7 +2762,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/coinpaprika-adapter@workspace:packages/sources/coinpaprika"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -2837,7 +2837,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptocompare-adapter@workspace:packages/sources/cryptocompare"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3372,7 +3372,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/finage-adapter@workspace:packages/sources/finage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -3766,7 +3766,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/kaiko-adapter@workspace:packages/sources/kaiko"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4078,7 +4078,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/ncfx-adapter@workspace:packages/sources/ncfx"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4730,7 +4730,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/tiingo-adapter@workspace:packages/sources/tiingo"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -4772,7 +4772,7 @@ __metadata:
     "@chainlink/cryptocompare-adapter": "workspace:*"
     "@chainlink/ea-bootstrap": "workspace:*"
     "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@chainlink/finage-adapter": "workspace:*"
     "@chainlink/kaiko-adapter": "workspace:*"
     "@chainlink/ncfx-adapter": "workspace:*"

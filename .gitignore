@@ -32,6 +32,10 @@ packages/k6/src/config/http.json
 .editorconfig
 .gitattributes
 
+# Local debug logs
+*.log
+logs*.txt
+
 # Secrets
 .envrc
 .env
