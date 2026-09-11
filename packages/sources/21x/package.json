@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/21x-adapter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Chainlink 21x adapter.",
   "keywords": [
     "Chainlink",
