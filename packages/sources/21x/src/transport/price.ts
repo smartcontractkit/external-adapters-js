@@ -37,6 +37,8 @@ export type OrderBookResponse = {
 }
 
 const convertTradingStatusToNumber = (status: string): number => {
+  // Possible values are documented at:
+  // https://docs.21x.eu/api-reference-v1.0/public-market-data#get-tradingpairs-id-tradeinfo
   switch (status) {
     case 'CREATED':
     case 'DISABLED':
