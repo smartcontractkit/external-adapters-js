@@ -1,9 +1,10 @@
 import commandLineArgs from 'command-line-args'
 import commandLineUsage from 'command-line-usage'
-import { ScheduleGenerator } from './schedule_generator'
+import { MarketStatusType, ScheduleGenerator } from './schedule_generator'
 
 const OPTION_FIN_ID = 'fin-id'
 const OPTION_CSV_DIR = 'csv-dir'
+const OPTION_TYPE = 'type'
 
 export async function main(): Promise<void | string> {
   try {
@@ -20,6 +21,12 @@ export async function main(): Promise<void | string> {
         type: String,
         required: true,
         description: 'The directory containing the TradingHours CSV files.',
+      },
+      {
+        name: OPTION_TYPE,
+        type: String,
+        defaultValue: 'regular',
+        description: 'The market status type: "regular" (default) or "24/5".',
       },
       { name: 'help', alias: 'h', type: Boolean, description: 'Display usage guide' },
     ]
@@ -61,8 +68,14 @@ export async function main(): Promise<void | string> {
 
     const csvDir = options[OPTION_CSV_DIR]
     const finId = options[OPTION_FIN_ID]
+    const type = options[OPTION_TYPE]
 
-    const generator = new ScheduleGenerator({ csvDir, finId })
+    if (type !== 'regular' && type !== '24/5') {
+      console.error(`Invalid --${OPTION_TYPE} value: '${type}'. Must be 'regular' or '24/5'.`)
+      process.exit(1)
+    }
+
+    const generator = new ScheduleGenerator({ csvDir, finId, type: type as MarketStatusType })
     console.log(JSON.stringify(generator.getSchedule(), null, 2))
 
     process.exit(0)
