@@ -3469,7 +3469,7 @@ __metadata:
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     "@types/ssh2-sftp-client": "npm:^9.0.5"
-    csv-parse: "npm:5.5.6"
+    csv-parse: "npm:7.0.2"
     decimal.js: "npm:^10.5.0"
     jest: "npm:^29.7.0"
     jest-util: "npm:^29.7.0"
@@ -3873,7 +3873,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lo-tech-adapter@workspace:packages/sources/lo-tech"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@date-fns/tz": "npm:^1.4.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -4385,7 +4385,7 @@ __metadata:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:29.5.14"
     "@types/node": "npm:22.14.1"
-    csv-parse: "npm:5.5.6"
+    csv-parse: "npm:7.0.2"
     date-fns: "npm:3.6.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.6.3"
@@ -4584,7 +4584,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     command-line-args: "npm:5.2.1"
     command-line-usage: "npm:6.1.3"
-    csv-parse: "npm:7.0.1"
+    csv-parse: "npm:7.0.2"
     date-fns: "npm:^4.1.0"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
@@ -13308,17 +13308,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csv-parse@npm:5.5.6":
-  version: 5.5.6
-  resolution: "csv-parse@npm:5.5.6"
-  checksum: 10/8682bd3846d8159eb6f686423d16493fffeceeef742d947e39ea3a3fb9b4a243b41a4cfbac56d721a2f7825b01335ba9b993bf68c4817e7abee0bd20754ee78d
-  languageName: node
-  linkType: hard
-
-"csv-parse@npm:7.0.1":
-  version: 7.0.1
-  resolution: "csv-parse@npm:7.0.1"
-  checksum: 10/5c914f01181dbb381068b98e17b49361d853faa95db3e8e82bc96b6a0de5313ecc8325a77db35ff66644d7747099965ba3167ec21bd9ce4500edf21b5bdd49bf
+"csv-parse@npm:7.0.2":
+  version: 7.0.2
+  resolution: "csv-parse@npm:7.0.2"
+  checksum: 10/66158491d25b2070908c6d28130c1d439bec0e0d1ab3fad372973909e573bcc85a46ca317ae410f0178157f272112e3741b164aaf850d8241128c30ea2137670
   languageName: node
   linkType: hard
 
@@ -16452,14 +16445,14 @@ __metadata:
   linkType: hard
 
 "js-yaml@npm:^3.13.1, js-yaml@npm:^3.6.1":
-  version: 3.15.1
-  resolution: "js-yaml@npm:3.15.1"
+  version: 3.15.2
+  resolution: "js-yaml@npm:3.15.2"
   dependencies:
     argparse: "npm:^1.0.7"
     esprima: "npm:^4.0.0"
   bin:
     js-yaml: bin/js-yaml.js
-  checksum: 10/905842ce08c18b154ff2c187ff81bb41294cc5dda214331b5d9b8bcf395894e48b00fa37b9d4dd4c3ffec672b7496a94558e3876d3a8ad4d12b06248112e6d92
+  checksum: 10/320b5471c1b7309a15d9c0068ba273e2da7382a369038a9746c92ef649087c3d6d2a5c676810154efb4eb2ca9584179c8ae14e2fc2e4bd558d964e6bf4fafd3d
   languageName: node
   linkType: hard
 
