@@ -72,6 +72,9 @@
       "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter"
     },
     {
+      "path": "./sources/21x"
+    },
+    {
       "path": "./sources/ada-balance"
     },
     {
