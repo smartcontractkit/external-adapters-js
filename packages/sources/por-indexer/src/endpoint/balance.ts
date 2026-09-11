@@ -1,9 +1,9 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { PoRTotalBalanceEndpoint } from '@chainlink/external-adapter-framework/adapter/por'
-import { config, configDefinition } from '../config'
-import { balanceTransport } from '../transport/balance'
 import { AdapterRequest } from '@chainlink/external-adapter-framework/util'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { balanceEnvVarForAddress, config } from '../config'
+import { balanceTransport } from '../transport/balance'
 
 export const inputParameters = new InputParameters(
   {
@@ -82,24 +82,25 @@ export const endpoint = new PoRTotalBalanceEndpoint({
       })
     }
 
-    // Check if based on input parameters corresponding env vars are set
-    const foundEnv = new Map()
-    const envVarsToCheck = Object.keys(configDefinition)
+    const checkedNetworkIds = new Set<string>()
 
     for (const address of addresses) {
-      const id = `${address.network}_${address.chainId}`
-      const env = `${id}_POR_INDEXER_URL`.toUpperCase()
+      const networkId = `${address.network}_${address.chainId}`.toUpperCase()
+      if (checkedNetworkIds.has(networkId)) {
+        continue
+      }
+      checkedNetworkIds.add(networkId)
+
+      const env = balanceEnvVarForAddress(
+        address.network,
+        address.chainId,
+        settings.BITCOIN_MAINNET_USE_STREAMS_INDEXER,
+      )
       if (!settings[env as keyof typeof settings]) {
         throw new AdapterInputError({
           statusCode: 400,
           message: `'${env}' environment variable is required.`,
         })
-      }
-
-      foundEnv.set(env, true)
-      // Stop the loop if all `network_chainId` env vars are found
-      if (foundEnv.size === envVarsToCheck.length) {
-        break
       }
     }
 
