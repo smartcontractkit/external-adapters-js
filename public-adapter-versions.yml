@@ -1,4 +1,6 @@
 adapters:
+  - name: 21x
+    version: 1.0.0
   - name: ada-balance
     version: 2.5.47
   - name: aleno
