@@ -5867,7 +5867,7 @@ const RAW_RUNTIME_STATE =
           ["@sinonjs/fake-timers", "npm:14.0.0"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/ssh2-sftp-client", "npm:9.0.5"],\
+          ["@types/ssh2-sftp-client", "npm:9.0.6"],\
           ["csv-parse", "npm:7.0.2"],\
           ["decimal.js", "npm:10.5.0"],\
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
@@ -15895,11 +15895,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/ssh2-sftp-client", [\
-      ["npm:9.0.5", {\
-        "packageLocation": "./.yarn/cache/@types-ssh2-sftp-client-npm-9.0.5-19c71d94cb-a88f442bf6.zip/node_modules/@types/ssh2-sftp-client/",\
+      ["npm:9.0.6", {\
+        "packageLocation": "./.yarn/cache/@types-ssh2-sftp-client-npm-9.0.6-40074ddc6b-2a02831322.zip/node_modules/@types/ssh2-sftp-client/",\
         "packageDependencies": [\
           ["@types/ssh2", "npm:1.15.5"],\
-          ["@types/ssh2-sftp-client", "npm:9.0.5"]\
+          ["@types/ssh2-sftp-client", "npm:9.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\
