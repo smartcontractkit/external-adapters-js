@@ -1,5 +1,15 @@
 {
- "requests": [{
-  "feedId": "0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9"
- }]
+ "requests": [
+  {
+   "feedId": "0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9"
+  },
+  {
+   "endpoint": "blended",
+   "market": "nyse",
+   "open": "0x0003c16c6aed42294f5cb4741f6e59ba2d728f0eae2eb9e6d3f555808c59fc45",
+   "closed": "0x0003ffeeddccbbaa99887766554433221100ffeeddccbbaa9988776655443322",
+   "overnight": "0x00031122334455667788990011223344556677889900112233445566778899aa",
+   "extended": "0x0003a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e"
+  }
+ ]
 }
