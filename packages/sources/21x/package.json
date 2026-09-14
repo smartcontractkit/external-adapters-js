@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/lo-tech-adapter",
-  "version": "1.2.1",
-  "description": "Chainlink lo-tech adapter.",
+  "name": "@chainlink/21x-adapter",
+  "version": "1.0.0",
+  "description": "Chainlink 21x adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "lo-tech"
+    "21x"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,17 +28,14 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
-    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
-    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
     "@chainlink/external-adapter-framework": "2.19.1",
-    "@date-fns/tz": "^1.4.1",
-    "date-fns": "^4.1.0",
+    "decimal.js": "^10.6.0",
     "tslib": "2.4.1"
   }
 }

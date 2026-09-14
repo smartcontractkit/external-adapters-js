@@ -119,6 +119,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/scripts/src/generate-readme/test/integration/readme-test-v3-adapter"\
     },\
     {\
+      "name": "@chainlink/21x-adapter",\
+      "reference": "workspace:packages/sources/21x"\
+    },\
+    {\
       "name": "@chainlink/ada-balance-adapter",\
       "reference": "workspace:packages/sources/ada-balance"\
     },\
@@ -683,6 +687,7 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
+    ["@chainlink/21x-adapter", ["workspace:packages/sources/21x"]],\
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
@@ -4503,6 +4508,22 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@chainlink/21x-adapter", [\
+      ["workspace:packages/sources/21x", {\
+        "packageLocation": "./packages/sources/21x/",\
+        "packageDependencies": [\
+          ["@chainlink/21x-adapter", "workspace:packages/sources/21x"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["decimal.js", "npm:10.6.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/ada-balance-adapter", [\
       ["workspace:packages/sources/ada-balance", {\
         "packageLocation": "./packages/sources/ada-balance/",\
@@ -5847,7 +5868,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/ssh2-sftp-client", "npm:9.0.5"],\
-          ["csv-parse", "npm:5.5.6"],\
+          ["csv-parse", "npm:7.0.2"],\
           ["decimal.js", "npm:10.5.0"],\
           ["jest", "virtual:532fdf4c5364453a90c37bb5287483fa331782ecfc41fc8a238ae4c5b9ecbfa540f6b4c584d3930549b0f5a0f6dd6c0d866dbdf0879570565599d51c3b649109#npm:29.7.0"],\
           ["jest-util", "npm:29.7.0"],\
@@ -6304,7 +6325,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/lo-tech", {\
         "packageLocation": "./packages/sources/lo-tech/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/lo-tech-adapter", "workspace:packages/sources/lo-tech"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
@@ -6881,7 +6902,7 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/s3-csv-reader-adapter", "workspace:packages/sources/s3-csv-reader"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["csv-parse", "npm:5.5.6"],\
+          ["csv-parse", "npm:7.0.2"],\
           ["date-fns", "npm:3.6.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.6.3"],\
@@ -7104,7 +7125,7 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["command-line-args", "npm:5.2.1"],\
           ["command-line-usage", "npm:6.1.3"],\
-          ["csv-parse", "npm:7.0.1"],\
+          ["csv-parse", "npm:7.0.2"],\
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -8794,7 +8815,7 @@ const RAW_RUNTIME_STATE =
           ["camelcase", "npm:5.3.1"],\
           ["find-up", "npm:4.1.0"],\
           ["get-package-type", "npm:0.1.0"],\
-          ["js-yaml", "npm:3.15.1"],\
+          ["js-yaml", "npm:3.15.2"],\
           ["resolve-from", "npm:5.0.0"]\
         ],\
         "linkType": "HARD"\
@@ -18323,17 +18344,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["csv-parse", [\
-      ["npm:5.5.6", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-5.5.6-ffa5dc42a0-8682bd3846.zip/node_modules/csv-parse/",\
+      ["npm:7.0.2", {\
+        "packageLocation": "./.yarn/cache/csv-parse-npm-7.0.2-ebf349712a-66158491d2.zip/node_modules/csv-parse/",\
         "packageDependencies": [\
-          ["csv-parse", "npm:5.5.6"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:7.0.1", {\
-        "packageLocation": "./.yarn/cache/csv-parse-npm-7.0.1-ab98daa418-5c914f0118.zip/node_modules/csv-parse/",\
-        "packageDependencies": [\
-          ["csv-parse", "npm:7.0.1"]\
+          ["csv-parse", "npm:7.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -21963,12 +21977,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["js-yaml", [\
-      ["npm:3.15.1", {\
-        "packageLocation": "./.yarn/cache/js-yaml-npm-3.15.1-057b38bd76-905842ce08.zip/node_modules/js-yaml/",\
+      ["npm:3.15.2", {\
+        "packageLocation": "./.yarn/cache/js-yaml-npm-3.15.2-ed3413b0f7-320b5471c1.zip/node_modules/js-yaml/",\
         "packageDependencies": [\
           ["argparse", "npm:1.0.10"],\
           ["esprima", "npm:4.0.1"],\
-          ["js-yaml", "npm:3.15.1"]\
+          ["js-yaml", "npm:3.15.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -24089,7 +24103,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/read-yaml-file-npm-1.1.0-52eaf1c9d4-41ee5f0755.zip/node_modules/read-yaml-file/",\
         "packageDependencies": [\
           ["graceful-fs", "npm:4.2.11"],\
-          ["js-yaml", "npm:3.15.1"],\
+          ["js-yaml", "npm:3.15.2"],\
           ["pify", "npm:4.0.1"],\
           ["read-yaml-file", "npm:1.1.0"],\
           ["strip-bom", "npm:3.0.0"]\
