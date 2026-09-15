@@ -81,9 +81,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/amberdata"
-    },
-    {
       "path": "./sources/anchorage"
     },
     {
@@ -381,9 +378,6 @@
       "path": "./sources/six"
     },
     {
-      "path": "./sources/sochain"
-    },
-    {
       "path": "./sources/solactive"
     },
     {
@@ -394,9 +388,6 @@
     },
     {
       "path": "./sources/stader-address-list"
-    },
-    {
-      "path": "./sources/stader-balance"
     },
     {
       "path": "./sources/stader-labs"
@@ -481,9 +472,6 @@
     },
     {
       "path": "./sources/wisdomtree"
-    },
-    {
-      "path": "./sources/wrapped"
     },
     {
       "path": "./targets/dydx-stark"

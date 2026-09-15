@@ -9,11 +9,6 @@ export type TokenAllocationTest = {
 }
 
 export const dataProviderConfig: TokenAllocationTest = {
-  amberdata: {
-    providerUrlEnvVar: 'AMBERDATA_ADAPTER_URL',
-    providerUrl: 'http://localhost:3000',
-    additional: {},
-  },
   coinapi: {
     providerUrlEnvVar: 'COINAPI_ADAPTER_URL',
     providerUrl: 'http://localhost:3001',
