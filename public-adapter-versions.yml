@@ -68,7 +68,7 @@ adapters:
   - name: cryptocompare
     version: 3.5.2
   - name: data-engine
-    version: 1.5.1
+    version: 1.6.0
   - name: deep-blue
     version: 1.0.21
   - name: deutsche-boerse
@@ -116,15 +116,15 @@ adapters:
   - name: generic-api
     version: 1.3.2
   - name: glv-token
-    version: 2.1.3
+    version: 2.1.5
   - name: gm-token
     version: 1.3.2
   - name: gmci
     version: 1.0.4
   - name: gmx-tokens
-    version: 1.2.2
+    version: 1.2.4
   - name: gold
-    version: 1.3.3
+    version: 1.3.5
   - name: gsr
     version: 2.6.2
   - name: harris-and-trotter
@@ -264,7 +264,7 @@ adapters:
   - name: token-balance
     version: 3.6.1
   - name: tokenized-equity
-    version: 1.4.2
+    version: 1.4.4
   - name: tp
     version: 1.13.2
   - name: tradermade
