@@ -81,9 +81,6 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/amberdata/tsconfig.test.json"
-    },
-    {
       "path": "./sources/anchorage/tsconfig.test.json"
     },
     {
