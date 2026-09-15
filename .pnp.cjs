@@ -55,10 +55,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/composites/multi-address-list"\
     },\
     {\
-      "name": "@chainlink/proof-of-reserves-adapter",\
-      "reference": "workspace:packages/composites/proof-of-reserves"\
-    },\
-    {\
       "name": "@chainlink/proof-of-reserves-v2-adapter",\
       "reference": "workspace:packages/composites/proof-of-reserves-v2"\
     },\
@@ -806,7 +802,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/polkadot-balance-adapter", ["workspace:packages/sources/polkadot-balance"]],\
     ["@chainlink/por-address-list-adapter", ["workspace:packages/sources/por-address-list"]],\
     ["@chainlink/por-indexer-adapter", ["workspace:packages/sources/por-indexer"]],\
-    ["@chainlink/proof-of-reserves-adapter", ["workspace:packages/composites/proof-of-reserves"]],\
     ["@chainlink/proof-of-reserves-v2-adapter", ["workspace:packages/composites/proof-of-reserves-v2"]],\
     ["@chainlink/r25-adapter", ["workspace:packages/sources/r25"]],\
     ["@chainlink/readme-test-adapter", ["workspace:packages/scripts/src/generate-readme/test/integration/readme-test-adapter"]],\
@@ -6749,58 +6744,6 @@ const RAW_RUNTIME_STATE =
           ["decimal.js", "npm:10.5.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/proof-of-reserves-adapter", [\
-      ["workspace:packages/composites/proof-of-reserves", {\
-        "packageLocation": "./packages/composites/proof-of-reserves/",\
-        "packageDependencies": [\
-          ["@chainlink/ada-balance-adapter", "workspace:packages/sources/ada-balance"],\
-          ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
-          ["@chainlink/avalanche-platform-adapter", "workspace:packages/sources/avalanche-platform"],\
-          ["@chainlink/bitcoin-json-rpc-adapter", "workspace:packages/composites/bitcoin-json-rpc"],\
-          ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
-          ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
-          ["@chainlink/btc.com-adapter", "workspace:packages/sources/btc.com"],\
-          ["@chainlink/ceffu-adapter", "workspace:packages/sources/ceffu"],\
-          ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
-          ["@chainlink/chain-reserve-wallet-adapter", "workspace:packages/sources/chain-reserve-wallet"],\
-          ["@chainlink/coinbase-prime-adapter", "workspace:packages/sources/coinbase-prime"],\
-          ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/eth-balance-adapter", "workspace:packages/sources/eth-balance"],\
-          ["@chainlink/eth-beacon-adapter", "workspace:packages/sources/eth-beacon"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/gemini-adapter", "workspace:packages/sources/gemini"],\
-          ["@chainlink/ignition-address-list-adapter", "workspace:packages/sources/ignition-address-list"],\
-          ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-          ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-          ["@chainlink/multi-address-list-adapter", "workspace:packages/composites/multi-address-list"],\
-          ["@chainlink/polkadot-balance-adapter", "workspace:packages/sources/polkadot-balance"],\
-          ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
-          ["@chainlink/por-indexer-adapter", "workspace:packages/sources/por-indexer"],\
-          ["@chainlink/proof-of-reserves-adapter", "workspace:packages/composites/proof-of-reserves"],\
-          ["@chainlink/reduce-adapter", "workspace:packages/non-deployable/reduce"],\
-          ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
-          ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-          ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-          ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
-          ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
-          ["@chainlink/view-function-multi-chain-adapter", "workspace:packages/sources/view-function-multi-chain"],\
-          ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
-          ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

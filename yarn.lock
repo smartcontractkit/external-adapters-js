@@ -2262,7 +2262,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ada-balance-adapter@workspace:*, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
+"@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
   dependencies:
@@ -2382,7 +2382,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/avalanche-platform-adapter@workspace:*, @chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
+"@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
   version: 0.0.0-use.local
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
   dependencies:
@@ -2425,7 +2425,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitcoin-json-rpc-adapter@workspace:*, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
+"@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
   dependencies:
@@ -2468,7 +2468,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchain.com-adapter@workspace:*, @chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
+"@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com"
   dependencies:
@@ -2482,7 +2482,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchair-adapter@workspace:*, @chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
+"@chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchair-adapter@workspace:packages/sources/blockchair"
   dependencies:
@@ -2526,7 +2526,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/btc.com-adapter@workspace:*, @chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
+"@chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/btc.com-adapter@workspace:packages/sources/btc.com"
   dependencies:
@@ -2572,7 +2572,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ceffu-adapter@workspace:*, @chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
+"@chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
   dependencies:
@@ -2589,7 +2589,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/celsius-address-list-adapter@workspace:*, @chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list":
+"@chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list"
   dependencies:
@@ -2621,7 +2621,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/chain-reserve-wallet-adapter@workspace:*, @chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
+"@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
   version: 0.0.0-use.local
   resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
   dependencies:
@@ -2815,7 +2815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/cryptoapis-adapter@workspace:*, @chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
+"@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis"
   dependencies:
@@ -3164,7 +3164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eth-balance-adapter@workspace:*, @chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
+"@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
@@ -3182,7 +3182,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eth-beacon-adapter@workspace:*, @chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon":
+"@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon":
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
   dependencies:
@@ -3481,7 +3481,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gemini-adapter@workspace:*, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
+"@chainlink/gemini-adapter@workspace:packages/sources/gemini":
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
@@ -3676,7 +3676,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ignition-address-list-adapter@workspace:*, @chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list":
+"@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list"
   dependencies:
@@ -3886,7 +3886,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lotus-adapter@workspace:*, @chainlink/lotus-adapter@workspace:packages/sources/lotus":
+"@chainlink/lotus-adapter@workspace:packages/sources/lotus":
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
@@ -3978,7 +3978,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/moonbeam-address-list-adapter@workspace:*, @chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list":
+"@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
@@ -4008,7 +4008,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/multi-address-list-adapter@workspace:*, @chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list":
+"@chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list"
   dependencies:
@@ -4206,7 +4206,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polkadot-balance-adapter@workspace:*, @chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance":
+"@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
@@ -4222,7 +4222,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/por-address-list-adapter@workspace:*, @chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
+"@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
@@ -4236,7 +4236,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer":
+"@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer":
   version: 0.0.0-use.local
   resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
@@ -4246,56 +4246,6 @@ __metadata:
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
-  dependencies:
-    "@chainlink/ada-balance-adapter": "workspace:*"
-    "@chainlink/amberdata-adapter": "workspace:*"
-    "@chainlink/avalanche-platform-adapter": "workspace:*"
-    "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
-    "@chainlink/blockchain.com-adapter": "workspace:*"
-    "@chainlink/blockchair-adapter": "workspace:*"
-    "@chainlink/btc.com-adapter": "workspace:*"
-    "@chainlink/ceffu-adapter": "workspace:*"
-    "@chainlink/celsius-address-list-adapter": "workspace:*"
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
-    "@chainlink/coinbase-prime-adapter": "workspace:*"
-    "@chainlink/cryptoapis-adapter": "workspace:*"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/eth-balance-adapter": "workspace:*"
-    "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@chainlink/gemini-adapter": "workspace:*"
-    "@chainlink/ignition-address-list-adapter": "workspace:*"
-    "@chainlink/lotus-adapter": "workspace:*"
-    "@chainlink/moonbeam-address-list-adapter": "workspace:*"
-    "@chainlink/multi-address-list-adapter": "workspace:*"
-    "@chainlink/polkadot-balance-adapter": "workspace:*"
-    "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/por-indexer-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
-    "@chainlink/sochain-adapter": "workspace:*"
-    "@chainlink/stader-address-list-adapter": "workspace:*"
-    "@chainlink/stader-balance-adapter": "workspace:*"
-    "@chainlink/swell-address-list-adapter": "workspace:*"
-    "@chainlink/token-balance-adapter": "workspace:*"
-    "@chainlink/view-function-multi-chain-adapter": "workspace:*"
-    "@chainlink/wbtc-address-set-adapter": "workspace:*"
-    "@chainlink/wrapped-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4360,7 +4310,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
+"@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce"
   dependencies:
@@ -4441,7 +4391,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sochain-adapter@workspace:*, @chainlink/sochain-adapter@workspace:packages/sources/sochain":
+"@chainlink/sochain-adapter@workspace:packages/sources/sochain":
   version: 0.0.0-use.local
   resolution: "@chainlink/sochain-adapter@workspace:packages/sources/sochain"
   dependencies:
@@ -4511,7 +4461,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/stader-address-list-adapter@workspace:*, @chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
+"@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
@@ -4525,7 +4475,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/stader-balance-adapter@workspace:*, @chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance":
+"@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
   dependencies:
@@ -4624,7 +4574,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/swell-address-list-adapter@workspace:*, @chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list":
+"@chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list"
   dependencies:
@@ -4803,7 +4753,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-balance-adapter@workspace:*, @chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
+"@chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:
@@ -4960,7 +4910,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/view-function-multi-chain-adapter@workspace:*, @chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain":
+"@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain":
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
   dependencies:
@@ -4988,7 +4938,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/wbtc-address-set-adapter@workspace:*, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
+"@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
@@ -5029,7 +4979,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/wrapped-adapter@workspace:*, @chainlink/wrapped-adapter@workspace:packages/sources/wrapped":
+"@chainlink/wrapped-adapter@workspace:packages/sources/wrapped":
   version: 0.0.0-use.local
   resolution: "@chainlink/wrapped-adapter@workspace:packages/sources/wrapped"
   dependencies:
