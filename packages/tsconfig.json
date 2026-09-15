@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/bitcoin-json-rpc"
-    },
-    {
       "path": "./composites/calculated-price"
     },
     {
