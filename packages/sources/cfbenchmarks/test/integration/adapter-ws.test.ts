@@ -124,9 +124,7 @@ describe('websocket', () => {
 
     it('should return error (LWBA violation)', async () => {
       const response = await testAdapter.request(dataLwbaInvariantViolation)
-      // ea-framework 2.19.1 rejects invariant-violating quotes in LwbaEndpoint.resultValidator, at
-      // cache-write time, so the cached entry is a 502 rather than a 500 thrown on the read path.
-      expect(response.statusCode).toEqual(502)
+      expect(response.statusCode).toEqual(500)
       expect(response.json()).toMatchSnapshot()
     })
   })
