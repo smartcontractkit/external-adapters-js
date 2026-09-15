@@ -79,6 +79,7 @@ describe('getPrice', () => {
       price: regularData.mid,
       spread: 1n,
       decimals: regularData.decimals,
+      marketStatus: regularData.marketStatus,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -98,6 +99,7 @@ describe('getPrice', () => {
       price: regularData.mid,
       spread: 1n,
       decimals: regularData.decimals,
+      marketStatus: regularData.marketStatus,
       data: {
         regular: regularData,
       },
@@ -123,6 +125,7 @@ describe('getPrice', () => {
       price: extendedData.mid,
       spread: 1n,
       decimals: extendedData.decimals,
+      marketStatus: extendedData.marketStatus,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -150,6 +153,7 @@ describe('getPrice', () => {
       price: extendedData.mid,
       spread: 1n,
       decimals: extendedData.decimals,
+      marketStatus: extendedData.marketStatus,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -177,6 +181,7 @@ describe('getPrice', () => {
       price: overnightData.mid,
       spread: 1n,
       decimals: overnightData.decimals,
+      marketStatus: overnightData.marketStatus,
       data: {
         regular: regularData,
         extended: extendedData,
@@ -258,6 +263,7 @@ describe('getPrice', () => {
       price: regularData.mid,
       spread: 1n,
       decimals: regularData.decimals,
+      marketStatus: regularData.marketStatus,
       data: {
         regular: regularData,
         extended: extendedData,
