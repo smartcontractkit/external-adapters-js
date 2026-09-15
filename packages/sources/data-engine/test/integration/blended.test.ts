@@ -22,6 +22,9 @@ describe('blended endpoint', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_USERNAME = 'fake-username'
     process.env.API_PASSWORD = 'fake-password'
+    // Disable requester retries so provider errors surface deterministically
+    // (the randomized backoff can outlast the test adapter's cache polling window)
+    process.env.RETRY = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
@@ -96,6 +99,21 @@ describe('blended endpoint', () => {
     expect(response.json()).toMatchSnapshot()
   })
 
+  it('should scale the default indicatorPrice when decimals is provided without resultPath', async () => {
+    mockBlendedTwoSessionResponse('comex_copper')
+    const response = await testAdapter.request({
+      endpoint: 'blended',
+      market: 'comex_copper',
+      open: SPY_FEEDS.open,
+      closed: SPY_FEEDS.closed,
+      decimals: 8,
+    })
+    expect(response.statusCode).toBe(200)
+    // default resultPath is indicatorPrice: 64640960000000000000000 at 18 decimals scaled to 8 (truncated)
+    expect(response.json().result).toBe('6464096000000')
+    expect(response.json()).toMatchSnapshot()
+  })
+
   it('should return 400 when resultPath points to a field that does not exist', async () => {
     mockBlendedTwoSessionResponse('forex')
     const response = await testAdapter.request({
@@ -143,7 +161,7 @@ describe('blended endpoint', () => {
     expect(response.json()).toMatchSnapshot()
   })
 
-  it('should pass through provider 400 errors', async () => {
+  it('should return 502 when provider returns 400', async () => {
     mockBlendedErrorResponse()
     const response = await testAdapter.request({
       endpoint: 'blended',
@@ -151,11 +169,11 @@ describe('blended endpoint', () => {
       open: SPY_FEEDS.open,
       closed: SPY_FEEDS.closed,
     })
-    expect(response.statusCode).toBe(400)
+    expect(response.statusCode).toBe(502)
     expect(response.json()).toMatchSnapshot()
   })
 
-  it('should pass through provider 503 insufficient data errors', async () => {
+  it('should return 502 when provider returns 503 insufficient data', async () => {
     mockBlendedInsufficientDataResponse()
     const response = await testAdapter.request({
       endpoint: 'blended',
@@ -163,7 +181,7 @@ describe('blended endpoint', () => {
       open: SPY_FEEDS.open,
       closed: SPY_FEEDS.closed,
     })
-    expect(response.statusCode).toBe(503)
+    expect(response.statusCode).toBe(502)
     expect(response.json()).toMatchSnapshot()
   })
 

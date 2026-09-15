@@ -36,8 +36,9 @@ export const inputParameters = new InputParameters(
     },
     resultPath: {
       required: false,
+      default: 'indicatorPrice',
       type: 'string',
-      description: 'The data field to populate the top-level result. Defaults to `indicatorPrice`',
+      description: 'The data field to populate the top-level result',
     },
     decimals: {
       required: false,

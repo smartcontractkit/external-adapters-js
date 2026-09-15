@@ -20,8 +20,6 @@ export interface BlendedResponseBody {
   data?: BlendedData
   timestamps?: BlendedTimestamps
   metadata?: BlendedMetadata
-  error?: string
-  feedID?: string
 }
 
 type HttpTransportTypes = BaseEndpointTypes & {
@@ -64,31 +62,13 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
             'Content-Type': 'application/json',
           },
           data: body,
-          // Resolve non-2xx responses so parseResponse can pass through the
-          // provider status code (e.g. 400 PARSE_ERROR, 503 insufficient data)
-          validateStatus: () => true,
         },
       }
     })
   },
 
   parseResponse: (params, response) => {
-    const body = response.data
-
-    if (response.status !== 200) {
-      const statusCode = response.status === 400 || response.status === 503 ? response.status : 502
-      return params.map((param) => ({
-        params: param,
-        response: {
-          errorMessage: `The data provider returned status ${response.status} for market ${
-            param.market
-          }: ${JSON.stringify(body)}`,
-          statusCode,
-        },
-      }))
-    }
-
-    const { data, timestamps, metadata } = body
+    const { data, timestamps, metadata } = response.data
     if (!data?.indicatorPrice || !timestamps || !metadata) {
       return params.map((param) => ({
         params: param,
@@ -107,15 +87,12 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }
 
       try {
-        const result =
-          param.resultPath !== undefined
-            ? (resolveResult(
-                responseData,
-                param.resultPath,
-                param.decimals,
-                data.decimals,
-              ) as string)
-            : data.indicatorPrice
+        const result = resolveResult(
+          responseData,
+          param.resultPath,
+          param.decimals,
+          data.decimals,
+        ) as string
 
         return {
           params: param,
