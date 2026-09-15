@@ -129,9 +129,6 @@
       "path": "./sources/ceffu"
     },
     {
-      "path": "./sources/celsius-address-list"
-    },
-    {
       "path": "./sources/cfbenchmarks"
     },
     {

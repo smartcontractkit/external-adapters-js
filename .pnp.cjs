@@ -195,10 +195,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ceffu"\
     },\
     {\
-      "name": "@chainlink/celsius-address-list-adapter",\
-      "reference": "workspace:packages/sources/celsius-address-list"\
-    },\
-    {\
       "name": "@chainlink/cfbenchmarks-adapter",\
       "reference": "workspace:packages/sources/cfbenchmarks"\
     },\
@@ -689,7 +685,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
     ["@chainlink/canton-functions-adapter", ["workspace:packages/sources/canton-functions"]],\
     ["@chainlink/ceffu-adapter", ["workspace:packages/sources/ceffu"]],\
-    ["@chainlink/celsius-address-list-adapter", ["workspace:packages/sources/celsius-address-list"]],\
     ["@chainlink/cfbenchmarks-adapter", ["workspace:packages/sources/cfbenchmarks"]],\
     ["@chainlink/chain-reserve-wallet-adapter", ["workspace:packages/sources/chain-reserve-wallet"]],\
     ["@chainlink/coinapi-adapter", ["workspace:packages/sources/coinapi"]],\
@@ -4846,25 +4841,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["query-string", "npm:9.3.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/celsius-address-list-adapter", [\
-      ["workspace:packages/sources/celsius-address-list", {\
-        "packageLocation": "./packages/sources/celsius-address-list/",\
-        "packageDependencies": [\
-          ["@chainlink/celsius-address-list-adapter", "workspace:packages/sources/celsius-address-list"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
