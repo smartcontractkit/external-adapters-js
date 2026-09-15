@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
-    },
-    {
       "path": "./composites/calculated-price/tsconfig.test.json"
     },
     {
@@ -31,9 +28,6 @@
     },
     {
       "path": "./composites/multi-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
       "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
@@ -72,16 +66,13 @@
       "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter/tsconfig.test.json"
     },
     {
-      "path": "./sources/ada-balance/tsconfig.test.json"
+      "path": "./sources/21x/tsconfig.test.json"
     },
     {
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
       "path": "./sources/allium-state/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/amberdata/tsconfig.test.json"
     },
     {
       "path": "./sources/anchorage/tsconfig.test.json"
@@ -130,9 +121,6 @@
     },
     {
       "path": "./sources/ceffu/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/celsius-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
@@ -384,9 +372,6 @@
       "path": "./sources/six/tsconfig.test.json"
     },
     {
-      "path": "./sources/sochain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/solactive/tsconfig.test.json"
     },
     {
@@ -397,9 +382,6 @@
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/stader-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-labs/tsconfig.test.json"
@@ -484,9 +466,6 @@
     },
     {
       "path": "./sources/wisdomtree/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/wrapped/tsconfig.test.json"
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"

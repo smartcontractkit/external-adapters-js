@@ -2215,53 +2215,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cardano-ogmios/client@npm:^5.0.0":
-  version: 5.6.0
-  resolution: "@cardano-ogmios/client@npm:5.6.0"
-  dependencies:
-    "@cardano-ogmios/schema": "npm:5.6.0"
-    "@cardanosolutions/json-bigint": "npm:^1.0.0"
-    "@types/json-bigint": "npm:^1.0.1"
-    cross-fetch: "npm:^3.1.4"
-    fastq: "npm:^1.11.0"
-    isomorphic-ws: "npm:^4.0.1"
-    nanoid: "npm:^3.1.31"
-    ts-custom-error: "npm:^3.2.0"
-    ws: "npm:^7.4.6"
-  checksum: 10/1584e36a4d974db223f9f7c4a0720e62ee92fd757f6e906fc5a504ad59781aa5fd655e44ccdc14db35ce364fb4af18b12de127aafc326570de49caf3e961bc05
-  languageName: node
-  linkType: hard
-
-"@cardano-ogmios/schema@npm:5.6.0":
-  version: 5.6.0
-  resolution: "@cardano-ogmios/schema@npm:5.6.0"
-  checksum: 10/b5444fb367c2884af555f0c79ad35a1c9412aa243e388f2ecfa368417308e20cc944538aac800dd3e180f360dbaee1c6412208a55bf190925aef965e4c7ee0c6
-  languageName: node
-  linkType: hard
-
-"@cardanosolutions/json-bigint@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@cardanosolutions/json-bigint@npm:1.0.1"
-  dependencies:
-    bignumber.js: "npm:^9.0.0"
-  checksum: 10/a4f3fac3ffbe107e45aa8f2d3f677ab9f27158094e1bf80b1206d9fed009daff612975c7cb218e5fa98021a37feeb7a7fb28bf8ab5c28d24294e41496babc2e7
-  languageName: node
-  linkType: hard
-
-"@chainlink/ada-balance-adapter@workspace:*, @chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
+"@chainlink/21x-adapter@workspace:packages/sources/21x":
   version: 0.0.0-use.local
-  resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
+  resolution: "@chainlink/21x-adapter@workspace:packages/sources/21x"
   dependencies:
-    "@cardano-ogmios/client": "npm:^5.0.0"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    "@types/ws": "npm:8.5.14"
-    ethers: "npm:^5.4.6"
-    tslib: "npm:^2.3.1"
+    decimal.js: "npm:^10.6.0"
+    nock: "npm:13.5.6"
+    tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-    ws: "npm:^8.0.0"
   languageName: unknown
   linkType: soft
 
@@ -2291,23 +2255,6 @@ __metadata:
     "@types/sinonjs__fake-timers": "npm:8.1.5"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/amberdata-adapter@workspace:*, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2368,7 +2315,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/avalanche-platform-adapter@workspace:*, @chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
+"@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform":
   version: 0.0.0-use.local
   resolution: "@chainlink/avalanche-platform-adapter@workspace:packages/sources/avalanche-platform"
   dependencies:
@@ -2411,23 +2358,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/bitcoin-json-rpc-adapter@workspace:*, @chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/bitcoin-json-rpc-adapter@workspace:packages/composites/bitcoin-json-rpc"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/json-rpc-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/bitgo-adapter@workspace:*, @chainlink/bitgo-adapter@workspace:packages/sources/bitgo":
   version: 0.0.0-use.local
   resolution: "@chainlink/bitgo-adapter@workspace:packages/sources/bitgo"
@@ -2454,7 +2384,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchain.com-adapter@workspace:*, @chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
+"@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchain.com-adapter@workspace:packages/sources/blockchain.com"
   dependencies:
@@ -2468,7 +2398,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/blockchair-adapter@workspace:*, @chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
+"@chainlink/blockchair-adapter@workspace:packages/sources/blockchair":
   version: 0.0.0-use.local
   resolution: "@chainlink/blockchair-adapter@workspace:packages/sources/blockchair"
   dependencies:
@@ -2512,7 +2442,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/btc.com-adapter@workspace:*, @chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
+"@chainlink/btc.com-adapter@workspace:packages/sources/btc.com":
   version: 0.0.0-use.local
   resolution: "@chainlink/btc.com-adapter@workspace:packages/sources/btc.com"
   dependencies:
@@ -2558,7 +2488,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ceffu-adapter@workspace:*, @chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
+"@chainlink/ceffu-adapter@workspace:packages/sources/ceffu":
   version: 0.0.0-use.local
   resolution: "@chainlink/ceffu-adapter@workspace:packages/sources/ceffu"
   dependencies:
@@ -2571,23 +2501,6 @@ __metadata:
     nock: "npm:13.5.6"
     query-string: "npm:9.3.1"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/celsius-address-list-adapter@workspace:*, @chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/celsius-address-list-adapter@workspace:packages/sources/celsius-address-list"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -2607,7 +2520,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/chain-reserve-wallet-adapter@workspace:*, @chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
+"@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
   version: 0.0.0-use.local
   resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
   dependencies:
@@ -2801,7 +2714,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@chainlink/cryptoapis-adapter@workspace:*, @chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
+"@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis":
   version: 0.0.0-use.local
   resolution: "@chainlink/cryptoapis-adapter@workspace:packages/sources/cryptoapis"
   dependencies:
@@ -3150,7 +3063,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eth-balance-adapter@workspace:*, @chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
+"@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-balance-adapter@workspace:packages/sources/eth-balance"
   dependencies:
@@ -3168,7 +3081,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/eth-beacon-adapter@workspace:*, @chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon":
+"@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon":
   version: 0.0.0-use.local
   resolution: "@chainlink/eth-beacon-adapter@workspace:packages/sources/eth-beacon"
   dependencies:
@@ -3340,7 +3253,7 @@ __metadata:
     "@types/node": "npm:22.14.1"
     "@typescript-eslint/eslint-plugin": "npm:5.59.11"
     "@typescript-eslint/parser": "npm:5.59.11"
-    "@vercel/ncc": "npm:0.38.3"
+    "@vercel/ncc": "npm:0.38.4"
     eslint: "npm:8.39.0"
     eslint-config-prettier: "npm:8.8.0"
     husky: "npm:7.0.4"
@@ -3467,7 +3380,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/gemini-adapter@workspace:*, @chainlink/gemini-adapter@workspace:packages/sources/gemini":
+"@chainlink/gemini-adapter@workspace:packages/sources/gemini":
   version: 0.0.0-use.local
   resolution: "@chainlink/gemini-adapter@workspace:packages/sources/gemini"
   dependencies:
@@ -3662,7 +3575,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/ignition-address-list-adapter@workspace:*, @chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list":
+"@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/ignition-address-list-adapter@workspace:packages/sources/ignition-address-list"
   dependencies:
@@ -3732,7 +3645,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/json-rpc-adapter@workspace:*, @chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
+"@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc":
   version: 0.0.0-use.local
   resolution: "@chainlink/json-rpc-adapter@workspace:packages/sources/json-rpc"
   dependencies:
@@ -3859,7 +3772,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/lo-tech-adapter@workspace:packages/sources/lo-tech"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@date-fns/tz": "npm:^1.4.1"
     "@sinonjs/fake-timers": "npm:9.1.2"
     "@types/jest": "npm:^29.5.14"
@@ -3872,7 +3785,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/lotus-adapter@workspace:*, @chainlink/lotus-adapter@workspace:packages/sources/lotus":
+"@chainlink/lotus-adapter@workspace:packages/sources/lotus":
   version: 0.0.0-use.local
   resolution: "@chainlink/lotus-adapter@workspace:packages/sources/lotus"
   dependencies:
@@ -3964,7 +3877,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/moonbeam-address-list-adapter@workspace:*, @chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list":
+"@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/moonbeam-address-list-adapter@workspace:packages/sources/moonbeam-address-list"
   dependencies:
@@ -3994,7 +3907,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/multi-address-list-adapter@workspace:*, @chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list":
+"@chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/multi-address-list-adapter@workspace:packages/composites/multi-address-list"
   dependencies:
@@ -4192,7 +4105,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/polkadot-balance-adapter@workspace:*, @chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance":
+"@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/polkadot-balance-adapter@workspace:packages/sources/polkadot-balance"
   dependencies:
@@ -4208,7 +4121,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/por-address-list-adapter@workspace:*, @chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
+"@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/por-address-list-adapter@workspace:packages/sources/por-address-list"
   dependencies:
@@ -4222,7 +4135,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/por-indexer-adapter@workspace:*, @chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer":
+"@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer":
   version: 0.0.0-use.local
   resolution: "@chainlink/por-indexer-adapter@workspace:packages/sources/por-indexer"
   dependencies:
@@ -4232,56 +4145,6 @@ __metadata:
     decimal.js: "npm:^10.3.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/proof-of-reserves-adapter@workspace:packages/composites/proof-of-reserves"
-  dependencies:
-    "@chainlink/ada-balance-adapter": "workspace:*"
-    "@chainlink/amberdata-adapter": "workspace:*"
-    "@chainlink/avalanche-platform-adapter": "workspace:*"
-    "@chainlink/bitcoin-json-rpc-adapter": "workspace:*"
-    "@chainlink/blockchain.com-adapter": "workspace:*"
-    "@chainlink/blockchair-adapter": "workspace:*"
-    "@chainlink/btc.com-adapter": "workspace:*"
-    "@chainlink/ceffu-adapter": "workspace:*"
-    "@chainlink/celsius-address-list-adapter": "workspace:*"
-    "@chainlink/chain-reserve-wallet-adapter": "workspace:*"
-    "@chainlink/coinbase-prime-adapter": "workspace:*"
-    "@chainlink/cryptoapis-adapter": "workspace:*"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@chainlink/eth-balance-adapter": "workspace:*"
-    "@chainlink/eth-beacon-adapter": "workspace:*"
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@chainlink/gemini-adapter": "workspace:*"
-    "@chainlink/ignition-address-list-adapter": "workspace:*"
-    "@chainlink/lotus-adapter": "workspace:*"
-    "@chainlink/moonbeam-address-list-adapter": "workspace:*"
-    "@chainlink/multi-address-list-adapter": "workspace:*"
-    "@chainlink/polkadot-balance-adapter": "workspace:*"
-    "@chainlink/por-address-list-adapter": "workspace:*"
-    "@chainlink/por-indexer-adapter": "workspace:*"
-    "@chainlink/reduce-adapter": "workspace:*"
-    "@chainlink/sochain-adapter": "workspace:*"
-    "@chainlink/stader-address-list-adapter": "workspace:*"
-    "@chainlink/stader-balance-adapter": "workspace:*"
-    "@chainlink/swell-address-list-adapter": "workspace:*"
-    "@chainlink/token-balance-adapter": "workspace:*"
-    "@chainlink/view-function-multi-chain-adapter": "workspace:*"
-    "@chainlink/wbtc-address-set-adapter": "workspace:*"
-    "@chainlink/wrapped-adapter": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    decimal.js: "npm:^10.3.1"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -4346,7 +4209,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/reduce-adapter@workspace:*, @chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
+"@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce":
   version: 0.0.0-use.local
   resolution: "@chainlink/reduce-adapter@workspace:packages/non-deployable/reduce"
   dependencies:
@@ -4427,24 +4290,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/sochain-adapter@workspace:*, @chainlink/sochain-adapter@workspace:packages/sources/sochain":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/sochain-adapter@workspace:packages/sources/sochain"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    ethers: "npm:^5.4.6"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/solactive-adapter@workspace:packages/sources/solactive":
   version: 0.0.0-use.local
   resolution: "@chainlink/solactive-adapter@workspace:packages/sources/solactive"
@@ -4497,29 +4342,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/stader-address-list-adapter@workspace:*, @chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
+"@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/stader-address-list-adapter@workspace:packages/sources/stader-address-list"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    nock: "npm:13.5.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/stader-balance-adapter@workspace:*, @chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/stader-balance-adapter@workspace:packages/sources/stader-balance"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
-    bignumber.js: "npm:^9.1.1"
     ethers: "npm:^5.8.0"
     nock: "npm:13.5.6"
     tslib: "npm:^2.3.1"
@@ -4610,7 +4439,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/swell-address-list-adapter@workspace:*, @chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list":
+"@chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list":
   version: 0.0.0-use.local
   resolution: "@chainlink/swell-address-list-adapter@workspace:packages/sources/swell-address-list"
   dependencies:
@@ -4746,7 +4575,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation"
   dependencies:
-    "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
@@ -4789,7 +4617,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/token-balance-adapter@workspace:*, @chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
+"@chainlink/token-balance-adapter@workspace:packages/sources/token-balance":
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:
@@ -4946,7 +4774,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/view-function-multi-chain-adapter@workspace:*, @chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain":
+"@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain":
   version: 0.0.0-use.local
   resolution: "@chainlink/view-function-multi-chain-adapter@workspace:packages/sources/view-function-multi-chain"
   dependencies:
@@ -4974,7 +4802,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/wbtc-address-set-adapter@workspace:*, @chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
+"@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set":
   version: 0.0.0-use.local
   resolution: "@chainlink/wbtc-address-set-adapter@workspace:packages/sources/wbtc-address-set"
   dependencies:
@@ -5011,22 +4839,6 @@ __metadata:
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/wrapped-adapter@workspace:*, @chainlink/wrapped-adapter@workspace:packages/sources/wrapped":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/wrapped-adapter@workspace:packages/sources/wrapped"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
     typescript: "npm:5.8.3"
   languageName: unknown
   linkType: soft
@@ -11049,13 +10861,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-bigint@npm:^1.0.1":
-  version: 1.0.4
-  resolution: "@types/json-bigint@npm:1.0.4"
-  checksum: 10/7aee137b3796121cec755247ea56577611c8e5df89224c567fa71999764d01e12199c4089c6be8a9e4e6a6a8f5c6f309eee2965cc3dd8d576f4c4ba432566041
-  languageName: node
-  linkType: hard
-
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.9":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -11273,11 +11078,11 @@ __metadata:
   linkType: hard
 
 "@types/ssh2-sftp-client@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "@types/ssh2-sftp-client@npm:9.0.5"
+  version: 9.0.6
+  resolution: "@types/ssh2-sftp-client@npm:9.0.6"
   dependencies:
     "@types/ssh2": "npm:^1.0.0"
-  checksum: 10/a88f442bf661067c7337916c5f448da0eb55d051e2188e30e8e0c27b6db12d714c52999db98a3f260317a39df08c800a6a471ccda91aa27b89d4c7c380890721
+  checksum: 10/2a028313224abc9dbfc88dae1959d5b955555ee89a61ceb1d60b9e51502df0eb8061f5856d370c940022ff21651bf3cf4651d983c7b89e388cad8c0956849a20
   languageName: node
   linkType: hard
 
@@ -11530,14 +11335,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/ncc@npm:0.38.3":
-  version: 0.38.3
-  resolution: "@vercel/ncc@npm:0.38.3"
+"@vercel/ncc@npm:0.38.4":
+  version: 0.38.4
+  resolution: "@vercel/ncc@npm:0.38.4"
   dependencies:
     node-gyp: "npm:latest"
   bin:
     ncc: dist/ncc/cli.js
-  checksum: 10/f1a05a58e9c90d6940027b628590715a62bf1611c47bca546ad51bd6a0e8d25ce64c1c39eb27ba0b6747017182cb59ec42088da8d6530a6d561e9e1a4e8c9941
+  checksum: 10/06561fb3fd46c4db525ea1c9f39b7982e449e9a1995e94d8f5b876c939147c31dba0ca5ffaed4b30ebc6782ffbde531b3f01658996bdaaecb3928df5b1aec155
   languageName: node
   linkType: hard
 
@@ -12260,7 +12065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.1.1, bignumber.js@npm:^9.3.1":
+"bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.3.1":
   version: 9.3.1
   resolution: "bignumber.js@npm:9.3.1"
   checksum: 10/1be0372bf0d6d29d0a49b9e6a9cefbd54dad9918232ad21fcd4ec39030260773abf0c76af960c6b3b98d3115a3a71e61c6a111812d1395040a039cfa178e0245
@@ -13260,7 +13065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:^3.1.4, cross-fetch@npm:^3.1.5":
+"cross-fetch@npm:^3.1.5":
   version: 3.2.0
   resolution: "cross-fetch@npm:3.2.0"
   dependencies:
@@ -14593,7 +14398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastq@npm:^1.11.0, fastq@npm:^1.17.1, fastq@npm:^1.6.0":
+"fastq@npm:^1.17.1, fastq@npm:^1.6.0":
   version: 1.17.1
   resolution: "fastq@npm:1.17.1"
   dependencies:
@@ -17326,15 +17131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.31":
-  version: 3.3.7
-  resolution: "nanoid@npm:3.3.7"
-  bin:
-    nanoid: bin/nanoid.cjs
-  checksum: 10/ac1eb60f615b272bccb0e2b9cd933720dad30bf9708424f691b8113826bb91aca7e9d14ef5d9415a6ba15c266b37817256f58d8ce980c82b0ba3185352565679
-  languageName: node
-  linkType: hard
-
 "natural-compare-lite@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare-lite@npm:1.4.0"
@@ -19894,13 +19690,6 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 10/8f1f5aa6cb232f9e1bdc86f485f916b7aa38caee8a778b378ffec0b70d9307873f253f5cbadbe2955ece2ac5c83d0dc14a77513166ccd0a0c7fe197e21396695
-  languageName: node
-  linkType: hard
-
-"ts-custom-error@npm:^3.2.0":
-  version: 3.3.1
-  resolution: "ts-custom-error@npm:3.3.1"
-  checksum: 10/92e3a2c426bf6049579aeb889b6f9787e0cfb6bb715a1457e2571708be7fe739662ca9eb2a8c61b72a2d32189645f4fbcf1a370087e030d922e9e2a7b7c1c994
   languageName: node
   linkType: hard
 

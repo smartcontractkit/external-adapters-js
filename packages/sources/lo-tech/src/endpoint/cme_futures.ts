@@ -26,7 +26,7 @@ export type BaseEndpointTypes = {
       roll_date: number
       symbol: string
       generic_symbol: string
-      expiry_date: string
+      expiry_date: number
       contract_month: number
       price_notice_roll: number
       price_goldman_roll: number

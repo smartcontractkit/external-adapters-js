@@ -1,9 +1,7 @@
 {
   "blacklist": [
-    "ada-balance",
     "anyblock",
     "anchorage",
-    "bitcoin-json-rpc",
     "blockchain.com",
     "blockchair",
     "chain-reserve-wallet",
@@ -15,7 +13,6 @@
     "layer2-sequencer-health",
     "multi-address-list",
     "onchain",
-    "proof-of-reserves",
     "reduce",
     "savax-price",
     "synthetix-debt-pool",

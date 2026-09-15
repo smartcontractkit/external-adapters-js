@@ -1,5 +1,4 @@
 const environmentVariables = [
-  { envKey: 'AMBERDATA_ADAPTER_URL', value: 'amberdata' },
   { envKey: 'COINAPI_ADAPTER_URL', value: 'coinapi' },
   { envKey: 'COINGECKO_ADAPTER_URL', value: 'coingecko' },
   { envKey: 'COINMARKETCAP_ADAPTER_URL', value: 'coinmarketcap' },
