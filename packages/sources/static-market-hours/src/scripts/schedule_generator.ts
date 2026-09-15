@@ -499,7 +499,10 @@ export class ScheduleGenerator {
       (row) => this.getSessionStatusFromRow(row) !== null,
     )
 
-    this.sessionRowsBySchedule.set(scheduleGroup, this.filterInForceScheduleRows(sessionScheduleRows))
+    this.sessionRowsBySchedule.set(
+      scheduleGroup,
+      this.filterInForceScheduleRows(sessionScheduleRows),
+    )
   }
 
   // Returns the schedule status for a schedule row, or null if the row does
@@ -598,7 +601,10 @@ export class ScheduleGenerator {
     const emptyTimeRangesByDay = (): Map<DayOfWeekNumber, { start: string; end: string }[]> =>
       new Map(CSV_DAY_NAMES.map((_, index) => [index, []]))
 
-    const timeRangesByDayByStatus = new Map<string, Map<DayOfWeekNumber, { start: string; end: string }[]>>()
+    const timeRangesByDayByStatus = new Map<
+      string,
+      Map<DayOfWeekNumber, { start: string; end: string }[]>
+    >()
 
     for (const [day, sessions] of sessionsByDay.entries()) {
       for (const { start, end, endDateOffset, status } of sessions) {
@@ -615,9 +621,7 @@ export class ScheduleGenerator {
         } else {
           // endDateOffset === 1
           timeRangesByDay.get(day)!.push({ start, end: END_OF_DAY })
-          timeRangesByDay
-            .get((day + 1) % DAYS_OF_WEEK.length)!
-            .push({ start: START_OF_DAY, end })
+          timeRangesByDay.get((day + 1) % DAYS_OF_WEEK.length)!.push({ start: START_OF_DAY, end })
         }
       }
     }
