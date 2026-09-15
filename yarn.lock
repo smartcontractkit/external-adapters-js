@@ -11287,11 +11287,11 @@ __metadata:
   linkType: hard
 
 "@types/ssh2-sftp-client@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "@types/ssh2-sftp-client@npm:9.0.5"
+  version: 9.0.6
+  resolution: "@types/ssh2-sftp-client@npm:9.0.6"
   dependencies:
     "@types/ssh2": "npm:^1.0.0"
-  checksum: 10/a88f442bf661067c7337916c5f448da0eb55d051e2188e30e8e0c27b6db12d714c52999db98a3f260317a39df08c800a6a471ccda91aa27b89d4c7c380890721
+  checksum: 10/2a028313224abc9dbfc88dae1959d5b955555ee89a61ceb1d60b9e51502df0eb8061f5856d370c940022ff21651bf3cf4651d983c7b89e388cad8c0956849a20
   languageName: node
   linkType: hard
 
