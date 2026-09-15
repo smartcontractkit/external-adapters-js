@@ -26,6 +26,10 @@ type WsMessage = {
     bid_price: string
     ask_price: string
     timestamp: string // "2026-03-12T15:24:40Z"
+    // used to indicate when normalization has failed. In that case, Coinpaprika will then fall back to quoting in the
+    // default currency
+    quote_fallback?: string
+    quote?: string
   }
 }
 
@@ -60,6 +64,15 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         !message.data.timestamp
       ) {
         logger.warn(`Received invalid message: ${JSON.stringify(message)}`)
+        return
+      }
+
+      if (message.data.quote_fallback) {
+        logger.warn(
+          `Received message with 'quote_fallback' specified. Dropping message: ${JSON.stringify(
+            message,
+          )}`,
+        )
         return
       }
 

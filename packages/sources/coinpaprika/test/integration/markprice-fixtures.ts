@@ -60,6 +60,20 @@ const HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE = {
   },
 }
 
+export const QUOTE_FALLBACK_MESSAGE = {
+  event: 'top_of_book',
+  data: {
+    id: 'xyz:silverusd',
+    exchange: 'hyperliquid',
+    symbol: 'xyz:SILVERUSD',
+    bid_price: '45.50',
+    ask_price: '45.60',
+    timestamp: '2026-03-12T15:24:40Z',
+    quote_fallback: 'USDT',
+    quote: 'USD',
+  },
+}
+
 export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(URL, { mock: false })
   mockWsServer.on('connection', (socket) => {
@@ -68,6 +82,7 @@ export const mockMarkPriceWebSocketServer = (URL: string): MockWebsocketServer =
     setTimeout(() => socket.send(JSON.stringify(TOP_OF_BOOK_SPOT_MESSAGE)), 102)
     setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_PERPS_MESSAGE)), 103)
     setTimeout(() => socket.send(JSON.stringify(HYPERLIQUID_MIXED_CASE_SYMBOL_MESSAGE)), 104)
+    setTimeout(() => socket.send(JSON.stringify(QUOTE_FALLBACK_MESSAGE)), 105)
   })
   return mockWsServer
 }
