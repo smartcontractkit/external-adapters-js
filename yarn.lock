@@ -2215,39 +2215,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cardano-ogmios/client@npm:^5.0.0":
-  version: 5.6.0
-  resolution: "@cardano-ogmios/client@npm:5.6.0"
-  dependencies:
-    "@cardano-ogmios/schema": "npm:5.6.0"
-    "@cardanosolutions/json-bigint": "npm:^1.0.0"
-    "@types/json-bigint": "npm:^1.0.1"
-    cross-fetch: "npm:^3.1.4"
-    fastq: "npm:^1.11.0"
-    isomorphic-ws: "npm:^4.0.1"
-    nanoid: "npm:^3.1.31"
-    ts-custom-error: "npm:^3.2.0"
-    ws: "npm:^7.4.6"
-  checksum: 10/1584e36a4d974db223f9f7c4a0720e62ee92fd757f6e906fc5a504ad59781aa5fd655e44ccdc14db35ce364fb4af18b12de127aafc326570de49caf3e961bc05
-  languageName: node
-  linkType: hard
-
-"@cardano-ogmios/schema@npm:5.6.0":
-  version: 5.6.0
-  resolution: "@cardano-ogmios/schema@npm:5.6.0"
-  checksum: 10/b5444fb367c2884af555f0c79ad35a1c9412aa243e388f2ecfa368417308e20cc944538aac800dd3e180f360dbaee1c6412208a55bf190925aef965e4c7ee0c6
-  languageName: node
-  linkType: hard
-
-"@cardanosolutions/json-bigint@npm:^1.0.0":
-  version: 1.0.1
-  resolution: "@cardanosolutions/json-bigint@npm:1.0.1"
-  dependencies:
-    bignumber.js: "npm:^9.0.0"
-  checksum: 10/a4f3fac3ffbe107e45aa8f2d3f677ab9f27158094e1bf80b1206d9fed009daff612975c7cb218e5fa98021a37feeb7a7fb28bf8ab5c28d24294e41496babc2e7
-  languageName: node
-  linkType: hard
-
 "@chainlink/21x-adapter@workspace:packages/sources/21x":
   version: 0.0.0-use.local
   resolution: "@chainlink/21x-adapter@workspace:packages/sources/21x"
@@ -2259,23 +2226,6 @@ __metadata:
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/ada-balance-adapter@workspace:packages/sources/ada-balance"
-  dependencies:
-    "@cardano-ogmios/client": "npm:^5.0.0"
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/ws": "npm:8.5.14"
-    ethers: "npm:^5.4.6"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-    ws: "npm:^8.0.0"
   languageName: unknown
   linkType: soft
 
@@ -10911,13 +10861,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/json-bigint@npm:^1.0.1":
-  version: 1.0.4
-  resolution: "@types/json-bigint@npm:1.0.4"
-  checksum: 10/7aee137b3796121cec755247ea56577611c8e5df89224c567fa71999764d01e12199c4089c6be8a9e4e6a6a8f5c6f309eee2965cc3dd8d576f4c4ba432566041
-  languageName: node
-  linkType: hard
-
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.6, @types/json-schema@npm:^7.0.9":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -12122,7 +12065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bignumber.js@npm:^9.0.0, bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.3.1":
+"bignumber.js@npm:^9.0.1, bignumber.js@npm:^9.3.1":
   version: 9.3.1
   resolution: "bignumber.js@npm:9.3.1"
   checksum: 10/1be0372bf0d6d29d0a49b9e6a9cefbd54dad9918232ad21fcd4ec39030260773abf0c76af960c6b3b98d3115a3a71e61c6a111812d1395040a039cfa178e0245
@@ -13122,7 +13065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:^3.1.4, cross-fetch@npm:^3.1.5":
+"cross-fetch@npm:^3.1.5":
   version: 3.2.0
   resolution: "cross-fetch@npm:3.2.0"
   dependencies:
@@ -14455,7 +14398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fastq@npm:^1.11.0, fastq@npm:^1.17.1, fastq@npm:^1.6.0":
+"fastq@npm:^1.17.1, fastq@npm:^1.6.0":
   version: 1.17.1
   resolution: "fastq@npm:1.17.1"
   dependencies:
@@ -17188,15 +17131,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.31":
-  version: 3.3.7
-  resolution: "nanoid@npm:3.3.7"
-  bin:
-    nanoid: bin/nanoid.cjs
-  checksum: 10/ac1eb60f615b272bccb0e2b9cd933720dad30bf9708424f691b8113826bb91aca7e9d14ef5d9415a6ba15c266b37817256f58d8ce980c82b0ba3185352565679
-  languageName: node
-  linkType: hard
-
 "natural-compare-lite@npm:^1.4.0":
   version: 1.4.0
   resolution: "natural-compare-lite@npm:1.4.0"
@@ -19756,13 +19690,6 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 10/8f1f5aa6cb232f9e1bdc86f485f916b7aa38caee8a778b378ffec0b70d9307873f253f5cbadbe2955ece2ac5c83d0dc14a77513166ccd0a0c7fe197e21396695
-  languageName: node
-  linkType: hard
-
-"ts-custom-error@npm:^3.2.0":
-  version: 3.3.1
-  resolution: "ts-custom-error@npm:3.3.1"
-  checksum: 10/92e3a2c426bf6049579aeb889b6f9787e0cfb6bb715a1457e2571708be7fe739662ca9eb2a8c61b72a2d32189645f4fbcf1a370087e030d922e9e2a7b7c1c994
   languageName: node
   linkType: hard
 
