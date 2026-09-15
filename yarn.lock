@@ -2309,23 +2309,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/amberdata-adapter@workspace:*, @chainlink/amberdata-adapter@workspace:packages/sources/amberdata":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/amberdata-adapter@workspace:packages/sources/amberdata"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-factories": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    "@types/supertest": "npm:2.0.16"
-    nock: "npm:13.5.6"
-    supertest: "npm:6.2.4"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/anchorage-adapter@workspace:*, @chainlink/anchorage-adapter@workspace:packages/sources/anchorage":
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
@@ -4710,7 +4693,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-allocation-adapter@workspace:packages/non-deployable/token-allocation"
   dependencies:
-    "@chainlink/amberdata-adapter": "workspace:*"
     "@chainlink/blocksize-capital-adapter": "workspace:*"
     "@chainlink/cfbenchmarks-adapter": "workspace:*"
     "@chainlink/coinapi-adapter": "workspace:*"
