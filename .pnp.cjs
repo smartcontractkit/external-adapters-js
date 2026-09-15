@@ -7267,7 +7267,6 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/non-deployable/token-allocation", {\
         "packageLocation": "./packages/non-deployable/token-allocation/",\
         "packageDependencies": [\
-          ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
           ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
