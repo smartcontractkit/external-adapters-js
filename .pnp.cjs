@@ -555,10 +555,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/stader-address-list"\
     },\
     {\
-      "name": "@chainlink/stader-balance-adapter",\
-      "reference": "workspace:packages/sources/stader-balance"\
-    },\
-    {\
       "name": "@chainlink/stader-labs-adapter",\
       "reference": "workspace:packages/sources/stader-labs"\
     },\
@@ -816,7 +812,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
     ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
-    ["@chainlink/stader-balance-adapter", ["workspace:packages/sources/stader-balance"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
     ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
@@ -6994,24 +6989,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/stader-balance-adapter", [\
-      ["workspace:packages/sources/stader-balance", {\
-        "packageLocation": "./packages/sources/stader-balance/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/stader-balance-adapter", "workspace:packages/sources/stader-balance"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.13.4"],\
-          ["bignumber.js", "npm:9.3.1"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
