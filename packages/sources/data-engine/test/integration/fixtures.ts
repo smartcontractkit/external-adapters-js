@@ -43,50 +43,34 @@ export const mockTwapErrorResponse = (): nock.Scope =>
     .reply(500, { error: 'Internal Server Error' })
     .persist()
 
-export const NYSE_FEEDS = {
-  open: '0x0003c16c6aed42294f5cb4741f6e59ba2d728f0eae2eb9e6d3f555808c59fc45',
-  closed: '0x0003ffeeddccbbaa99887766554433221100ffeeddccbbaa9988776655443322',
-  overnight: '0x00031122334455667788990011223344556677889900112233445566778899aa',
-  extended: '0x0003a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e',
+// SPY staging (testnet) data-streams feeds from the reference-data-directory:
+// RegularHours -> open, ExtendedHours -> extended, OvernightHours -> overnight.
+// No ClosedHours feeds exist on staging, so the overnight feed doubles as closed.
+export const SPY_FEEDS = {
+  open: '0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291',
+  closed: '0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116',
+  overnight: '0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116',
+  extended: '0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c',
 }
 
-const FOREX_FEEDS = {
-  open: '0x0003111111111111111111111111111111111111111111111111111111111111',
-  closed: '0x0003222222222222222222222222222222222222222222222222222222222222',
+const TWO_SESSION_FEEDS = {
+  open: SPY_FEEDS.open,
+  closed: SPY_FEEDS.closed,
 }
 
-const NASDAQ_FEEDS = {
-  open: '0x0003333333333333333333333333333333333333333333333333333333333333',
-  closed: '0x0003444444444444444444444444444444444444444444444444444444444444',
+const KALMAN_PARAMS = {
+  closeWindowSeconds: 10,
+  openWindowSeconds: 10,
+  blendSeconds: 30,
+  sigmoidSteepness: 10,
+  maxAnchorAgeSeconds: 600,
 }
 
-const JPX_FEEDS = {
-  open: '0x0003555555555555555555555555555555555555555555555555555555555555',
-  closed: '0x0003666666666666666666666666666666666666666666666666666666666666',
-}
-
-const KRX_FEEDS = {
-  open: '0x0003777777777777777777777777777777777777777777777777777777777777',
-  closed: '0x0003888888888888888888888888888888888888888888888888888888888888',
-}
-
-const METALS_FEEDS = {
-  open: '0x0003999999999999999999999999999999999999999999999999999999999999',
-  closed: '0x0003aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-}
-
-export const BLENDED_FEEDS = {
-  nyse: NYSE_FEEDS,
-  forex: FOREX_FEEDS,
-  nasdaq: NASDAQ_FEEDS,
-  jpx: JPX_FEEDS,
-  krx: KRX_FEEDS,
-  metals: METALS_FEEDS,
-}
+const WINDOW_END_TS = 1757001600
 
 export const mockBlendedNyseResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'nyse', feeds: NYSE_FEEDS })
+    .post('/api/v1/blended', { market: 'nyse', feeds: SPY_FEEDS })
     .reply(200, {
       data: {
         rawStitchedPrice: '64640960000000000000000',
@@ -99,104 +83,76 @@ export const mockBlendedNyseResponse = (): nock.Scope =>
         session: 'open',
       },
       timestamps: {
-        evaluatedAtTs: 1757001600,
+        evaluatedAtTs: WINDOW_END_TS,
         observationsTimestamp: 1757001595,
         windowStartTs: 1757001540,
-        windowEndTs: 1757001600,
+        windowEndTs: WINDOW_END_TS,
       },
       metadata: {
-        feedsUsed: [NYSE_FEEDS.open, NYSE_FEEDS.extended],
+        feedsUsed: [SPY_FEEDS.open, SPY_FEEDS.extended],
         stitchingApplied: true,
         anchor: {
           price: '64640950000000000000000',
           ts: 1757001530,
           ageSeconds: 70,
         },
-        stitching: {
-          mode: 'kalman',
-          params: {
-            closeWindowSeconds: 10,
-            openWindowSeconds: 10,
-            blendSeconds: 30,
-            sigmoidSteepness: 10,
-            maxAnchorAgeSeconds: 600,
-          },
-          phase: 'handoff',
-        },
-        indicator: {
-          type: 'twap',
-          windowSeconds: 60,
-          endTs: 1757001600,
-        },
+        stitching: { mode: 'kalman', params: KALMAN_PARAMS, phase: 'handoff' },
+        indicator: { type: 'twap', windowSeconds: 60, endTs: WINDOW_END_TS },
       },
     })
     .persist()
 
-export const mockBlendedForexResponse = (): nock.Scope =>
+export const mockBlendedTwoSessionResponse = (market: string): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'forex', feeds: FOREX_FEEDS })
+    .post('/api/v1/blended', { market, feeds: TWO_SESSION_FEEDS })
     .reply(200, {
       data: {
         rawStitchedPrice: '64640960000000000000000',
-        rawPrice: '64640960000000000000000',
+        rawPrice: '64640960000000000000001',
         indicatorPrice: '64640960000000000000000',
         decimals: 18,
         indicatorType: 'twap',
         stitchingType: 'kalman',
-        market: 'forex',
-        session: 'closed',
+        market,
+        session: 'open',
       },
       timestamps: {
-        evaluatedAtTs: 1757001600,
-        observationsTimestamp: 1757001599,
-        windowStartTs: 1757001570,
-        windowEndTs: 1757001600,
+        evaluatedAtTs: WINDOW_END_TS,
+        observationsTimestamp: 1757001598,
+        windowStartTs: 1757001540,
+        windowEndTs: WINDOW_END_TS,
       },
       metadata: {
-        feedsUsed: [FOREX_FEEDS.closed],
+        feedsUsed: [SPY_FEEDS.open],
         stitchingApplied: false,
         anchor: null,
-        stitching: {
-          mode: 'kalman',
-          params: {
-            closeWindowSeconds: 10,
-            openWindowSeconds: 10,
-            blendSeconds: 30,
-            sigmoidSteepness: 10,
-            maxAnchorAgeSeconds: 600,
-          },
-          phase: 'raw',
-        },
-        indicator: {
-          type: 'twap',
-          windowSeconds: 60,
-          endTs: 1757001600,
-        },
+        stitching: { mode: 'kalman', params: KALMAN_PARAMS, phase: 'raw' },
+        indicator: { type: 'twap', windowSeconds: 60, endTs: WINDOW_END_TS },
       },
     })
     .persist()
 
 export const mockBlendedErrorResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'nasdaq', feeds: NASDAQ_FEEDS })
+    .post('/api/v1/blended', { market: 'nasdaq', feeds: TWO_SESSION_FEEDS })
     .reply(400, { error: "unknown market 'nasdaq'" })
     .persist()
 
 export const mockBlendedInsufficientDataResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'jpx', feeds: JPX_FEEDS })
+    .post('/api/v1/blended', { market: 'jpx', feeds: TWO_SESSION_FEEDS })
     .reply(503, { error: 'INDICATOR_INSUFFICIENT_DATA: too few observed seconds in window' })
     .persist()
 
 export const mockBlendedInternalErrorResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'krx', feeds: KRX_FEEDS })
+    .post('/api/v1/blended', { market: 'krx', feeds: TWO_SESSION_FEEDS })
     .reply(500, { error: 'FETCH_ERROR' })
     .persist()
 
 export const mockBlendedIncompleteResponse = (): nock.Scope =>
   nock('https://api.dataengine.chain.link')
-    .post('/api/v1/blended', { market: 'metals', feeds: METALS_FEEDS })
+    .post('/api/v1/blended', { market: 'metals', feeds: TWO_SESSION_FEEDS })
     .reply(200, { data: { market: 'metals', decimals: 18 } })
     .persist()
 

@@ -3,7 +3,13 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
-import { BaseEndpointTypes } from '../endpoint/blended'
+import {
+  BaseEndpointTypes,
+  BlendedData,
+  BlendedMetadata,
+  BlendedTimestamps,
+} from '../endpoint/blended'
+import { resolveResult } from './utils'
 
 export interface BlendedRequestBody {
   market: string
@@ -11,29 +17,9 @@ export interface BlendedRequestBody {
 }
 
 export interface BlendedResponseBody {
-  data?: {
-    rawStitchedPrice: string
-    rawPrice: string
-    indicatorPrice: string
-    decimals: number
-    indicatorType: string
-    stitchingType: string
-    market: string
-    session: string
-  }
-  timestamps?: {
-    evaluatedAtTs: number
-    observationsTimestamp: number
-    windowStartTs: number
-    windowEndTs: number
-  }
-  metadata?: {
-    feedsUsed: string[]
-    stitchingApplied: boolean
-    anchor: { price: string; ts: number; ageSeconds: number } | null
-    stitching: { mode: string; params: Record<string, unknown>; phase: string }
-    indicator: { type: string; windowSeconds: number; endTs: number }
-  }
+  data?: BlendedData
+  timestamps?: BlendedTimestamps
+  metadata?: BlendedMetadata
   error?: string
   feedID?: string
 }
@@ -113,34 +99,44 @@ export const blendedTransportConfig: HttpTransportConfig<HttpTransportTypes> = {
       }))
     }
 
-    return params.map((param) => ({
-      params: param,
-      response: {
-        result: data.indicatorPrice,
-        data: {
-          rawStitchedPrice: data.rawStitchedPrice,
-          rawPrice: data.rawPrice,
-          indicatorPrice: data.indicatorPrice,
-          decimals: data.decimals,
-          indicatorType: data.indicatorType,
-          stitchingType: data.stitchingType,
-          market: data.market,
-          session: data.session,
-          evaluatedAtTs: timestamps.evaluatedAtTs,
-          observationsTimestamp: timestamps.observationsTimestamp,
-          windowStartTs: timestamps.windowStartTs,
-          windowEndTs: timestamps.windowEndTs,
-          feedsUsed: metadata.feedsUsed,
-          stitchingApplied: metadata.stitchingApplied,
-          anchor: metadata.anchor,
-          stitchingMode: metadata.stitching.mode,
-          stitchingParams: metadata.stitching.params,
-          stitchingPhase: metadata.stitching.phase,
-          indicatorWindowSeconds: metadata.indicator.windowSeconds,
-          indicatorEndTs: metadata.indicator.endTs,
-        },
-      },
-    }))
+    return params.map((param) => {
+      const responseData: HttpTransportTypes['Response']['Data'] = {
+        ...data,
+        ...timestamps,
+        ...metadata,
+      }
+
+      try {
+        const result =
+          param.resultPath !== undefined
+            ? (resolveResult(
+                responseData,
+                param.resultPath,
+                param.decimals,
+                data.decimals,
+              ) as string)
+            : data.indicatorPrice
+
+        return {
+          params: param,
+          response: {
+            result,
+            data: responseData,
+            timestamps: {
+              providerIndicatedTimeUnixMs: timestamps.observationsTimestamp * 1000,
+            },
+          },
+        }
+      } catch (e) {
+        return {
+          params: param,
+          response: {
+            statusCode: 400,
+            errorMessage: (e as Error).message,
+          },
+        }
+      }
+    })
   },
 }
 

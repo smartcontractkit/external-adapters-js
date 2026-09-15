@@ -22,6 +22,53 @@ exports[`blended endpoint should pass through provider 503 insufficient data err
 }
 `;
 
+exports[`blended endpoint should populate the result from resultPath when provided 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "nymex",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "64640960000000000000001",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;
+
 exports[`blended endpoint should return 400 when extended is provided without overnight 1`] = `
 {
   "error": {
@@ -52,6 +99,17 @@ exports[`blended endpoint should return 400 when required params are missing 1`]
   },
   "status": "errored",
   "statusCode": 400,
+}
+`;
+
+exports[`blended endpoint should return 400 when resultPath points to a field that does not exist 1`] = `
+{
+  "errorMessage": "resultPath 'nonExistentField' not found in data. Available keys: rawStitchedPrice, rawPrice, indicatorPrice, decimals, indicatorType, stitchingType, market, session, evaluatedAtTs, observationsTimestamp, windowStartTs, windowEndTs, feedsUsed, stitchingApplied, anchor, stitching, indicator",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
 }
 `;
 
@@ -88,28 +146,33 @@ exports[`blended endpoint should return success with blended data for a market w
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
     "feedsUsed": [
-      "0x0003c16c6aed42294f5cb4741f6e59ba2d728f0eae2eb9e6d3f555808c59fc45",
-      "0x0003a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e",
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+      "0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c",
     ],
-    "indicatorEndTs": 1757001600,
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
-    "indicatorWindowSeconds": 60,
     "market": "nyse",
     "observationsTimestamp": 1757001595,
     "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
     "session": "open",
-    "stitchingApplied": true,
-    "stitchingMode": "kalman",
-    "stitchingParams": {
-      "blendSeconds": 30,
-      "closeWindowSeconds": 10,
-      "maxAnchorAgeSeconds": 600,
-      "openWindowSeconds": 10,
-      "sigmoidSteepness": 10,
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "handoff",
     },
-    "stitchingPhase": "handoff",
+    "stitchingApplied": true,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
     "windowStartTs": 1757001540,
@@ -119,6 +182,7 @@ exports[`blended endpoint should return success with blended data for a market w
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001595000,
   },
 }
 `;
@@ -130,36 +194,89 @@ exports[`blended endpoint should return success with blended data for a market w
     "decimals": 18,
     "evaluatedAtTs": 1757001600,
     "feedsUsed": [
-      "0x0003222222222222222222222222222222222222222222222222222222222222",
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
     ],
-    "indicatorEndTs": 1757001600,
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
     "indicatorPrice": "64640960000000000000000",
     "indicatorType": "twap",
-    "indicatorWindowSeconds": 60,
-    "market": "forex",
-    "observationsTimestamp": 1757001599,
-    "rawPrice": "64640960000000000000000",
+    "market": "wti",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
     "rawStitchedPrice": "64640960000000000000000",
-    "session": "closed",
-    "stitchingApplied": false,
-    "stitchingMode": "kalman",
-    "stitchingParams": {
-      "blendSeconds": 30,
-      "closeWindowSeconds": 10,
-      "maxAnchorAgeSeconds": 600,
-      "openWindowSeconds": 10,
-      "sigmoidSteepness": 10,
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
     },
-    "stitchingPhase": "raw",
+    "stitchingApplied": false,
     "stitchingType": "kalman",
     "windowEndTs": 1757001600,
-    "windowStartTs": 1757001570,
+    "windowStartTs": 1757001540,
   },
   "result": "64640960000000000000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,
     "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;
+
+exports[`blended endpoint should scale the resultPath value when decimals is provided 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "nymex_brent",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "6464096000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
   },
 }
 `;
