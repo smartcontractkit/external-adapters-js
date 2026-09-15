@@ -132,9 +132,6 @@
       "path": "./sources/ceffu/tsconfig.test.json"
     },
     {
-      "path": "./sources/celsius-address-list/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
     },
     {
