@@ -33,9 +33,6 @@
       "path": "./composites/multi-address-list"
     },
     {
-      "path": "./composites/proof-of-reserves"
-    },
-    {
       "path": "./composites/proof-of-reserves-v2"
     },
     {
