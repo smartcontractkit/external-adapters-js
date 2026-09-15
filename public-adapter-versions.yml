@@ -301,7 +301,5 @@ adapters:
     version: 2.0.1
   - name: wisdomtree
     version: 1.0.5
-  - name: wrapped
-    version: 2.2.47
   - name: xsushi-price
     version: 2.0.161
