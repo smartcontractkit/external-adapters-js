@@ -531,10 +531,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/six"\
     },\
     {\
-      "name": "@chainlink/sochain-adapter",\
-      "reference": "workspace:packages/sources/sochain"\
-    },\
-    {\
       "name": "@chainlink/solactive-adapter",\
       "reference": "workspace:packages/sources/solactive"\
     },\
@@ -798,7 +794,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/savax-price-adapter", ["workspace:packages/composites/savax-price"]],\
     ["@chainlink/securitize-adapter", ["workspace:packages/sources/securitize"]],\
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
-    ["@chainlink/sochain-adapter", ["workspace:packages/sources/sochain"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
@@ -6869,26 +6864,6 @@ const RAW_RUNTIME_STATE =
           ["date-fns", "npm:4.1.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/sochain-adapter", [\
-      ["workspace:packages/sources/sochain", {\
-        "packageLocation": "./packages/sources/sochain/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/sochain-adapter", "workspace:packages/sources/sochain"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

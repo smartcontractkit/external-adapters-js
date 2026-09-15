@@ -381,9 +381,6 @@
       "path": "./sources/six/tsconfig.test.json"
     },
     {
-      "path": "./sources/sochain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/solactive/tsconfig.test.json"
     },
     {
