@@ -486,9 +486,6 @@
       "path": "./sources/wisdomtree"
     },
     {
-      "path": "./sources/wrapped"
-    },
-    {
       "path": "./targets/dydx-stark"
     }
   ]
