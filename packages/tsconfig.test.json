@@ -33,9 +33,6 @@
       "path": "./composites/multi-address-list/tsconfig.test.json"
     },
     {
-      "path": "./composites/proof-of-reserves/tsconfig.test.json"
-    },
-    {
       "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
     },
     {
