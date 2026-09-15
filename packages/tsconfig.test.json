@@ -78,9 +78,6 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
-      "path": "./sources/amberdata/tsconfig.test.json"
-    },
-    {
       "path": "./sources/anchorage/tsconfig.test.json"
     },
     {
@@ -127,9 +124,6 @@
     },
     {
       "path": "./sources/ceffu/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/celsius-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
@@ -381,9 +375,6 @@
       "path": "./sources/six/tsconfig.test.json"
     },
     {
-      "path": "./sources/sochain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/solactive/tsconfig.test.json"
     },
     {
@@ -394,9 +385,6 @@
     },
     {
       "path": "./sources/stader-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/stader-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-labs/tsconfig.test.json"
@@ -481,9 +469,6 @@
     },
     {
       "path": "./sources/wisdomtree/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/wrapped/tsconfig.test.json"
     },
     {
       "path": "./targets/dydx-stark/tsconfig.test.json"
