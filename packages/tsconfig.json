@@ -81,9 +81,6 @@
       "path": "./sources/allium-state"
     },
     {
-      "path": "./sources/amberdata"
-    },
-    {
       "path": "./sources/anchorage"
     },
     {
@@ -481,9 +478,6 @@
     },
     {
       "path": "./sources/wisdomtree"
-    },
-    {
-      "path": "./sources/wrapped"
     },
     {
       "path": "./targets/dydx-stark"

@@ -131,10 +131,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/allium-state"\
     },\
     {\
-      "name": "@chainlink/amberdata-adapter",\
-      "reference": "workspace:packages/sources/amberdata"\
-    },\
-    {\
       "name": "@chainlink/anchorage-adapter",\
       "reference": "workspace:packages/sources/anchorage"\
     },\
@@ -667,10 +663,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/wisdomtree"\
     },\
     {\
-      "name": "@chainlink/wrapped-adapter",\
-      "reference": "workspace:packages/sources/wrapped"\
-    },\
-    {\
       "name": "@chainlink/dydx-stark-adapter",\
       "reference": "workspace:packages/targets/dydx-stark"\
     }\
@@ -683,7 +675,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ada-balance-adapter", ["workspace:packages/sources/ada-balance"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
-    ["@chainlink/amberdata-adapter", ["workspace:packages/sources/amberdata"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
@@ -843,7 +834,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
     ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
-    ["@chainlink/wrapped-adapter", ["workspace:packages/sources/wrapped"]],\
     ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
   ],\
   "fallbackPool": [\
@@ -4567,25 +4557,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/amberdata-adapter", [\
-      ["workspace:packages/sources/amberdata", {\
-        "packageLocation": "./packages/sources/amberdata/",\
-        "packageDependencies": [\
-          ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/anchorage-adapter", [\
       ["workspace:packages/sources/anchorage", {\
         "packageLocation": "./packages/sources/anchorage/",\
@@ -7244,7 +7215,6 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/non-deployable/token-allocation", {\
         "packageLocation": "./packages/non-deployable/token-allocation/",\
         "packageDependencies": [\
-          ["@chainlink/amberdata-adapter", "workspace:packages/sources/amberdata"],\
           ["@chainlink/blocksize-capital-adapter", "workspace:packages/sources/blocksize-capital"],\
           ["@chainlink/cfbenchmarks-adapter", "workspace:packages/sources/cfbenchmarks"],\
           ["@chainlink/coinapi-adapter", "workspace:packages/sources/coinapi"],\
@@ -7542,24 +7512,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/wrapped-adapter", [\
-      ["workspace:packages/sources/wrapped", {\
-        "packageLocation": "./packages/sources/wrapped/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/wrapped-adapter", "workspace:packages/sources/wrapped"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
