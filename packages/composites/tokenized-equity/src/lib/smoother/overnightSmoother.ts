@@ -5,9 +5,8 @@ import { EmaFilter } from './ema'
 // Corresponds to an effective alpha of ~0.012 at a 1s sampling interval, versus the
 // transition EMA's ~0.095 — overnight ticks are sparser, so this leans much slower.
 export const TAU_MS = 83_000
-// Deliberately longer than the transition filters' 10-minute idle timeout, since
-// overnight ticks may be much sparser.
-export const TIMEOUT_MS = 30 * 60 * 1000
+// Matches the transition filters' 10-minute idle timeout.
+export const TIMEOUT_MS = 10 * 60 * 1000
 // How long before the OVERNIGHT session actually starts to begin feeding the filter, so
 // it isn't cold-starting at the exact moment it starts being published.
 export const WARMUP_MS = 60_000
