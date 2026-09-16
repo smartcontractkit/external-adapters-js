@@ -3,6 +3,13 @@
 exports[`websocket quote endpoint error when ask is null 1`] = `
 {
   "errorMessage": "Bid price: 170 or Ask price: NaN for NULL_ASK is invalid.",
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"null_ask","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
@@ -14,6 +21,13 @@ exports[`websocket quote endpoint error when ask is null 1`] = `
 exports[`websocket quote endpoint error when bid is null 1`] = `
 {
   "errorMessage": "Bid price: NaN or Ask price: 172 for NULL_BID is invalid.",
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"null_bid","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
@@ -42,6 +56,13 @@ exports[`websocket quote endpoint return O when isOvernight 1`] = `
     "bid_volume": 148,
     "mid_price": 171,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"ox","isOvernight":true,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -60,6 +81,13 @@ exports[`websocket quote endpoint return X when not isOvernight 1`] = `
     "bid_price": 170.1,
     "bid_volume": 148.1,
     "mid_price": 171.1,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"ox","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
   },
   "result": null,
   "statusCode": 200,
@@ -80,6 +108,13 @@ exports[`websocket quote endpoint should return ask when bid is 0 1`] = `
     "bid_volume": 148,
     "mid_price": 172,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"no_bid","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -98,6 +133,13 @@ exports[`websocket quote endpoint should return bid when ask is 0 1`] = `
     "bid_price": 170,
     "bid_volume": 148,
     "mid_price": 170,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"no_ask","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
   },
   "result": null,
   "statusCode": 200,
@@ -118,6 +160,13 @@ exports[`websocket quote endpoint should return success - requireVolume 1`] = `
     "bid_volume": 148,
     "mid_price": 171,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"tsla","isOvernight":false,"requireVolume":true}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -136,6 +185,13 @@ exports[`websocket quote endpoint should return success 1`] = `
     "bid_price": 170,
     "bid_volume": 148,
     "mid_price": 171,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"tsla","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
   },
   "result": null,
   "statusCode": 200,
@@ -156,6 +212,13 @@ exports[`websocket quote endpoint should return success for 1st item in multi me
     "bid_volume": 6,
     "mid_price": 6.5,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"multi_1","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -174,6 +237,13 @@ exports[`websocket quote endpoint should return success for 2nd item in multi me
     "bid_price": 14,
     "bid_volume": 15,
     "mid_price": 15.5,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"multi_2","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
   },
   "result": null,
   "statusCode": 200,
@@ -194,6 +264,13 @@ exports[`websocket quote endpoint should return success when missing volume and 
     "bid_volume": null,
     "mid_price": 171,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"no_volume","isOvernight":false,"requireVolume":false}",
+    },
+    "transportName": "default_single_transport",
+  },
   "result": null,
   "statusCode": 200,
   "timestamps": {
@@ -207,6 +284,13 @@ exports[`websocket quote endpoint should return success when missing volume and 
 exports[`websocket quote endpoint should throw error when missing volume and requireVolume 1`] = `
 {
   "errorMessage": "Bid volume: NaN or Ask volume: NaN for NO_VOLUME is invalid.",
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"no_volume","isOvernight":false,"requireVolume":true}",
+    },
+    "transportName": "default_single_transport",
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
@@ -218,6 +302,13 @@ exports[`websocket quote endpoint should throw error when missing volume and req
 exports[`websocket stock endpoint should error on invalid data 1`] = `
 {
   "errorMessage": "Price: NaN for INVALID_TRADE:USLF24 is invalid.",
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"invalid_trade:uslf24"}",
+    },
+    "transportName": "ws",
+  },
   "statusCode": 502,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
@@ -230,6 +321,13 @@ exports[`websocket stock endpoint should return success - latest data 1`] = `
 {
   "data": {
     "result": 300,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"amzn:uslf24"}",
+    },
+    "transportName": "ws",
   },
   "result": 300,
   "statusCode": 200,
@@ -246,6 +344,13 @@ exports[`websocket stock endpoint should return success - overnight 1`] = `
   "data": {
     "result": 400,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"aapl:uslf24"}",
+    },
+    "transportName": "ws",
+  },
   "result": 400,
   "statusCode": 200,
   "timestamps": {
@@ -260,6 +365,13 @@ exports[`websocket stock endpoint should return success 1`] = `
 {
   "data": {
     "result": 462.19,
+  },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"tsla"}",
+    },
+    "transportName": "ws",
   },
   "result": 462.19,
   "statusCode": 200,

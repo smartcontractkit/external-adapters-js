@@ -5,6 +5,13 @@ exports[`execute price endpoint rest should return success 1`] = `
   "data": {
     "result": 239.255,
   },
+  "meta": {
+    "adapterName": "DXFEED",
+    "metrics": {
+      "feedId": "{"base":"tsla"}",
+    },
+    "transportName": "rest",
+  },
   "result": 239.255,
   "statusCode": 200,
   "timestamps": {

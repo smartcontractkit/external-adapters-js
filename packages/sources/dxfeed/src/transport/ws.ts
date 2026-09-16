@@ -37,6 +37,12 @@ const META_CONNECT = '/meta/connect'
 const SERVICE_SUB = '/service/sub'
 const SERVICE_DATA = '/service/data'
 
+type SubscriptionMessage = {
+  channel: typeof SERVICE_SUB
+  data: { add: Record<string, string[]> } | { remove: Record<string, string[]> }
+  clientId: string
+}
+
 class DxFeedWebsocketTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   T & ProviderTypes
 > {
@@ -169,7 +175,7 @@ export function buildWsTransport<T extends BaseTransportTypes>(
           }
         }
 
-        const messages: unknown[] = []
+        const messages: SubscriptionMessage[][] = []
         if (tickersToRemove.size) {
           messages.push(
             [...tickersToRemove.values()].map((ticker) => ({
