@@ -64,6 +64,17 @@ exports[`markprice endpoint mark_price should return success with market price i
 }
 `;
 
+exports[`markprice endpoint quote_fallback is specified returns a 504 and does not produce a price 1`] = `
+{
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 504,
+}
+`;
+
 exports[`markprice endpoint top_of_book_perps should return same result when using legacy top_of_book alias 1`] = `
 {
   "data": {
