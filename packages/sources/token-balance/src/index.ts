@@ -9,7 +9,6 @@ import {
   solana,
   solanaBalance,
   solanaMulti,
-  solvJlp,
   stellar,
   xrp,
   xrpl,
@@ -21,7 +20,6 @@ export const adapter = new Adapter({
   config,
   endpoints: [
     evm,
-    solvJlp,
     etherFi,
     xrp,
     xrpl,
