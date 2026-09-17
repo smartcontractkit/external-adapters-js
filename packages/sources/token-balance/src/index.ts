@@ -11,7 +11,6 @@ import {
   solanaMulti,
   solvJlp,
   stellar,
-  tbill,
   xrp,
   xrpl,
 } from './endpoint'
@@ -24,7 +23,6 @@ export const adapter = new Adapter({
     evm,
     solvJlp,
     etherFi,
-    tbill,
     xrp,
     xrpl,
     cardano,
