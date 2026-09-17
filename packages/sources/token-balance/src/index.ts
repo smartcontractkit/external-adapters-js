@@ -10,7 +10,6 @@ import {
   solanaBalance,
   solanaMulti,
   stellar,
-  tbill,
   xrp,
   xrpl,
 } from './endpoint'
@@ -22,7 +21,6 @@ export const adapter = new Adapter({
   endpoints: [
     evm,
     etherFi,
-    tbill,
     xrp,
     xrpl,
     cardano,
