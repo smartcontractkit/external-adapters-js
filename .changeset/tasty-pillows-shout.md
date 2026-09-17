@@ -1,5 +1,5 @@
 ---
-'@chainlink/token-balance-adapter': major
+'@chainlink/token-balance-adapter': minor
 ---
 
 Remove solvJlp endpoint
