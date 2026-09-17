@@ -6,7 +6,6 @@ import { AdapterInputError } from '@chainlink/external-adapter-framework/validat
 import { Commitment, Connection } from '@solana/web3.js'
 import { ethers } from 'ethers'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/solanaMulti'
-import { getTokenPrice } from './priceFeed'
 import { getToken } from './solana-utils'
 
 const logger = makeLogger('Token Balances - SolanaMulti')
@@ -67,13 +66,10 @@ export class SolanaMultiTransport extends SubscriptionTransport<BaseEndpointType
   async _handleRequest(
     param: RequestParams,
   ): Promise<AdapterResponse<BaseEndpointTypes['Response']>> {
-    const { addresses, token, priceOracle } = param
+    const { addresses, token } = param
     const providerDataRequestedUnixMs = Date.now()
 
-    const [tokenResponse, tokenPrice] = await Promise.all([
-      getToken(addresses, token, this.connection),
-      this.getTokenPrice(priceOracle),
-    ])
+    const tokenResponse = await getToken(addresses, token, this.connection)
 
     const tokenAmount = tokenResponse.result.reduce(
       (sum, elem) =>
@@ -81,17 +77,13 @@ export class SolanaMultiTransport extends SubscriptionTransport<BaseEndpointType
       0n,
     )
 
-    const result = ((tokenAmount * tokenPrice.value) / 10n ** BigInt(tokenPrice.decimal)).toString()
+    const result = tokenAmount.toString()
 
     return {
       data: {
         result,
         decimals: RESULT_DECIMALS,
         wallets: tokenResponse.formattedResponse,
-        tokenPrice: {
-          value: String(tokenPrice.value),
-          decimals: tokenPrice.decimal,
-        },
       },
       statusCode: 200,
       result,
@@ -101,26 +93,6 @@ export class SolanaMultiTransport extends SubscriptionTransport<BaseEndpointType
         providerIndicatedTimeUnixMs: undefined,
       },
     }
-  }
-
-  async getTokenPrice(
-    priceOracle:
-      | {
-          contractAddress: string
-          network: string
-        }
-      | undefined,
-  ): Promise<{ value: bigint; decimal: number }> {
-    if (priceOracle === undefined) {
-      return {
-        value: 10n ** BigInt(RESULT_DECIMALS),
-        decimal: RESULT_DECIMALS,
-      }
-    }
-    return getTokenPrice({
-      priceOracleAddress: priceOracle.contractAddress,
-      priceOracleNetwork: priceOracle.network,
-    })
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
