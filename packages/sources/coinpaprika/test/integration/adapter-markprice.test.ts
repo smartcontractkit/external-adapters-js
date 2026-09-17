@@ -72,6 +72,13 @@ describe('markprice endpoint', () => {
     type: 'top_of_book_perps',
   }
 
+  const invariantViolationData = {
+    endpoint: 'markprice',
+    exchange: 'hyperliquid',
+    symbol: 'xyz:GOLDUSD',
+    type: 'top_of_book_perps',
+  }
+
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_MARK_PRICE_API_ENDPOINT'] = wsEndpoint
@@ -96,6 +103,7 @@ describe('markprice endpoint', () => {
       testAdapter.request(hyperliquidPerpsData),
       testAdapter.request(hyperliquidMixedCaseSymbolData),
       testAdapter.request(quoteFallbackData),
+      testAdapter.request(invariantViolationData),
     ])
     // Flush the fixture's scheduled messages (sent up to 105ms after connection). The
     // quote_fallback message produces no cache entry, so waitForCache alone may stop
@@ -164,6 +172,14 @@ describe('markprice endpoint', () => {
   describe('quote_fallback is specified', () => {
     it('returns a 504 and does not produce a price', async () => {
       const response = await testAdapter.request(quoteFallbackData)
+      expect(response.statusCode).toBe(504)
+      expect(response.json()).toMatchSnapshot()
+    })
+  })
+
+  describe('price invariant bid < price < ask is violated', () => {
+    it('returns a 504 and does not produce a price', async () => {
+      const response = await testAdapter.request(invariantViolationData)
       expect(response.statusCode).toBe(504)
       expect(response.json()).toMatchSnapshot()
     })

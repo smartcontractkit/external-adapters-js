@@ -8,6 +8,7 @@ import {
   markPriceEvents,
   topOfBookEvents,
 } from '../endpoint/markprice'
+import { isPriceInvariantViolated } from './utils'
 
 export const toWsEventType = (type: string): string =>
   type === 'mark_price_index' ? 'mark_price' : type
@@ -144,6 +145,8 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         }
       }
 
+      // The price invariant bid < price < ask is enforced here for messages carrying all three
+      // fields; violators fall through to the 'wrong price fields' case below
       if (
         topOfBookEvents.includes(normalizedEventType) &&
         message.data.bid_price &&
@@ -154,6 +157,12 @@ export const wsTransport = new WebSocketTransport<WsTransportTypes>({
         const bidDecimal = new Decimal(message.data.bid_price)
         const askDecimal = new Decimal(message.data.ask_price)
         const mid = bidDecimal.add(askDecimal).div(2).toNumber()
+
+        if (isPriceInvariantViolated(bidDecimal.toNumber(), mid, askDecimal.toNumber())) {
+          logger.warn(`Received message with invalid price fields: ${JSON.stringify(message)}`)
+          return
+        }
+
         return [
           {
             params: { ...params },
