@@ -72,7 +72,6 @@ This document was generated automatically. Please see [Master List Generator](..
 - [instruxi-sxt](./instruxi-sxt/README.md)
 - [ion.au](./ion.au/README.md)
 - [ix-trust-sync](./ix-trust-sync/README.md)
-- [json-rpc](./json-rpc/README.md)
 - [kaiko](./kaiko/README.md)
 - [kaiko-state](./kaiko-state/README.md)
 - [layer2-sequencer-health](./layer2-sequencer-health/README.md)
