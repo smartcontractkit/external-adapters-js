@@ -178,6 +178,7 @@ describe('cme_futures', () => {
 
     const price_notice_roll = 124
     const price_goldman_roll = 125
+    const price_goldman_continuous_roll = 125.5
     const price_continuous_roll = 126
     const first_notice_date = '2026-07-22'
     const trading_day_of_month = 15
@@ -195,6 +196,7 @@ describe('cme_futures', () => {
           roll_date: rollDate,
           price_notice_roll,
           price_goldman_roll,
+          price_goldman_continuous_roll,
           price_continuous_roll,
           first_notice_date,
           trading_day_of_month,
@@ -221,6 +223,7 @@ describe('cme_futures', () => {
             contract_month: 8,
             price_notice_roll,
             price_goldman_roll,
+            price_goldman_continuous_roll,
             price_continuous_roll,
             first_notice_date,
             trading_day_of_month,
