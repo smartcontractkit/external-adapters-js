@@ -35,24 +35,6 @@ export const inputParameters = new InputParameters(
         },
       },
     },
-    priceOracle: {
-      required: false,
-      description:
-        'Configuration of the on-chain price oracle that provides real-time token valuations.',
-      type: {
-        contractAddress: {
-          required: true,
-          type: 'string',
-          description: 'Contract address of the price oracle used to fetch token price data.',
-        },
-        network: {
-          required: true,
-          type: 'string',
-          description:
-            'Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).',
-        },
-      },
-    },
   },
   [
     {
@@ -64,10 +46,6 @@ export const inputParameters = new InputParameters(
       tokenMint: {
         token: 'tbill',
         contractAddress: '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6 ',
-      },
-      priceOracle: {
-        contractAddress: '0xCe9a6626Eb99eaeA829D7fA613d5D0A2eaE45F40',
-        network: 'ETHEREUM',
       },
     },
   ],
