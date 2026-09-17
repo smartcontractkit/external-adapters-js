@@ -3,14 +3,20 @@
 exports[`websocket stock_quotes endpoint should return success 1`] = `
 {
   "data": {
-    "result": 1000,
+    "ask_price": 425.8,
+    "ask_volume": 1314600,
+    "bid_price": 425.8,
+    "bid_volume": 1358400,
+    "last_price": 426.6,
+    "mid_price": 425.8,
+    "timestamp_iso": "2026-09-17T08:07:40.600Z",
   },
-  "result": 1000,
+  "result": 426.6,
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 1018,
     "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": "1999999",
+    "providerIndicatedTimeUnixMs": 1789632460600,
   },
 }
 `;

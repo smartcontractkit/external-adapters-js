@@ -1,39 +1,123 @@
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/stock_quotes'
 
-export interface WSResponse {
-  success: boolean
-  price: number
-  base: string
-  quote: string
-  time: number
+interface WsEquityResponse {
+  type: 'equity'
+  ask: string
+  askVolume: string
+  bid: string
+  bidVolume: string
+  lastTradedPrice: string
+  mid: string
+  symbol: string
+  timestamp: number
 }
+
+interface WsIndexResponse {
+  type: 'index'
+  value: string
+  symbol: string
+  timestamp: number
+}
+
+interface WsErrorResponse {
+  error: string
+}
+
+export type WSResponse = WsEquityResponse | WsIndexResponse | WsErrorResponse
 
 export type WsTransportTypes = BaseEndpointTypes & {
   Provider: {
     WsMessage: WSResponse
   }
 }
-export class Stock_quotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
+
+const getDataForEquity = (message: WsEquityResponse): WsTransportTypes['Response']['Data'] => {
+  return {
+    last_price: Number(message.lastTradedPrice),
+    mid_price: Number(message.mid),
+    bid_price: Number(message.bid),
+    bid_volume: Number(message.bidVolume),
+    ask_price: Number(message.ask),
+    ask_volume: Number(message.askVolume),
+    timestamp_iso: new Date(message.timestamp / 1000).toISOString(),
+  }
+}
+
+const getDataForIndex = (message: WsIndexResponse): WsTransportTypes['Response']['Data'] => {
+  const value = Number(message.value)
+  return {
+    last_price: value,
+    mid_price: value,
+    bid_price: value,
+    bid_volume: 0,
+    ask_price: value,
+    ask_volume: 0,
+    timestamp_iso: new Date(message.timestamp / 1000).toISOString(),
+  }
+}
+
+const logger = makeLogger('StockQuotesTransport')
+
+let wsConnection: WebSocket | undefined = undefined
+export const invalidSymbols = new Set<string>()
+const INVALID_SYMBOLS_PREFIX = 'invalid symbols: '
+// We pass this code to indicate a websocket connection closure is not
+// unexpected.
+const NORMAL_WS_CLOSURE_CODE = 1000
+
+export class StockQuotesWebSocketTransport extends WebSocketTransport<WsTransportTypes> {
   constructor() {
     super({
-      url: (context) => context.adapterSettings.WS_API_ENDPOINT,
+      url: (context, _desiredSubs, urlConfigFunctionParameters) => {
+        // We rotate between 2 endpoints so in case one has problems we'll end
+        // up on the other.
+        const index = urlConfigFunctionParameters.streamHandlerInvocationsWithNoConnection % 2
+        return `${context.adapterSettings.WS_API_ENDPOINT}/${index}?token=${context.adapterSettings.API_KEY}`
+      },
       handlers: {
+        open: (connection) => {
+          wsConnection = connection
+        },
         message(message) {
-          if (message.success === false) {
+          if ('error' in message) {
+            logger.error(`Received error message from provider: ${message.error}`)
+            if (message.error.startsWith(INVALID_SYMBOLS_PREFIX)) {
+              // We know the individual symbols don't contain a comma because
+              // of custom input validation so this splitting should be safe.
+              const symbols = message.error.slice(INVALID_SYMBOLS_PREFIX.length).split(', ')
+              symbols.forEach((symbol) => invalidSymbols.add(symbol))
+              logger.error(
+                `Invalid symbols: ${symbols.join(
+                  ', ',
+                )}. They will be ignored in future requests. Reconnecting.`,
+              )
+            }
+            // Disconnect to re-establish the connection with the correct set
+            // of symbols.
+            wsConnection?.close(NORMAL_WS_CLOSURE_CODE)
+            return
+          }
+
+          let data: WsTransportTypes['Response']['Data']
+          if (message.type === 'equity') {
+            data = getDataForEquity(message)
+          } else if (message.type === 'index') {
+            data = getDataForIndex(message)
+          } else {
+            logger.warn(`Ignoring unknown message type: ${JSON.stringify(message)}`)
             return
           }
 
           return [
             {
-              params: { base: message.base, quote: message.quote },
+              params: { base: message.symbol },
               response: {
-                result: message.price,
-                data: {
-                  result: message.price,
-                },
+                result: data.last_price,
+                data,
                 timestamps: {
-                  providerIndicatedTimeUnixMs: message.time,
+                  providerIndicatedTimeUnixMs: Math.floor(message.timestamp / 1000),
                 },
               },
             },
@@ -41,21 +125,31 @@ export class Stock_quotesWebSocketTransport extends WebSocketTransport<WsTranspo
         },
       },
       builders: {
-        subscribeMessage: (params) => {
-          return {
-            type: 'subscribe',
-            symbols: `${params.base}/${params.quote}`.toUpperCase(),
+        customSubscriptionMessages: (_context, subscriptions) => {
+          if (subscriptions.new.length === 0 && subscriptions.stale.length === 0) {
+            // Nothing changed so nothing to do.
+            return []
           }
-        },
-        unsubscribeMessage: (params) => {
-          return {
-            type: 'unsubscribe',
-            symbols: `${params.base}/${params.quote}`.toUpperCase(),
+          // All subscribe messages after the first one are ignored by
+          // Hyperithm, so to change the subscription set, we always have to
+          // first disconnect.
+          // Then we recognize the first round after reconnecting because all
+          // desired subscriptions are also new.
+          if (
+            subscriptions.new.length !== subscriptions.desired.length ||
+            subscriptions.stale.length > 0
+          ) {
+            wsConnection?.close(NORMAL_WS_CLOSURE_CODE)
+            return []
           }
+          const symbols = subscriptions.desired
+            .map(({ base }) => base)
+            .filter((symbol) => !invalidSymbols.has(symbol))
+          return [{ subscribe: symbols }]
         },
       },
     })
   }
 }
 
-export const wsTransport = new Stock_quotesWebSocketTransport()
+export const wsTransport = new StockQuotesWebSocketTransport()

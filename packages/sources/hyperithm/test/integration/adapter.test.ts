@@ -18,9 +18,8 @@ describe('websocket', () => {
   const wsEndpoint = 'ws://localhost:9090'
   let oldEnv: NodeJS.ProcessEnv
 
-  const dataStock_quotes = {
-    base: 'ETH',
-    quote: 'USD',
+  const dataStockQuotes = {
+    base: '700/HKD',
     endpoint: 'stock_quotes',
     transport: 'ws',
   }
@@ -28,9 +27,10 @@ describe('websocket', () => {
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
-    process.env['API_KEY'] = 'fake-api-key'
+    const API_KEY = 'fake-api-key'
+    process.env['API_KEY'] = API_KEY
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(wsEndpoint)
+    mockWsServer = mockWebsocketServer(`${wsEndpoint}/0?token=${API_KEY}`)
 
     const adapter = (await import('./../../src')).adapter
     testAdapter = await TestAdapter.startWithMockedCache(adapter, {
@@ -40,7 +40,7 @@ describe('websocket', () => {
 
     // Send initial request to start background execute and wait for cache to be filled with results
 
-    await testAdapter.request(dataStock_quotes)
+    await testAdapter.request(dataStockQuotes)
     await testAdapter.waitForCache(1)
   })
 
@@ -53,7 +53,7 @@ describe('websocket', () => {
 
   describe('stock_quotes endpoint', () => {
     it('should return success', async () => {
-      const response = await testAdapter.request(dataStock_quotes)
+      const response = await testAdapter.request(dataStockQuotes)
       expect(response.json()).toMatchSnapshot()
     })
   })
