@@ -12,7 +12,6 @@ const ownerAddress = 'G7v3P9yPtBj1e3JN7B6dq4zbkrrW3e2ovdwAkSTKuUFG'
 const tokenMintContractAddress = '4MmJVdwYN8LwvbGeCowYjSx7KoEi6BJWg8XXnW4fDDp6'
 const RESULT_DECIMALS = 18
 
-jest.mock('../../src/transport/priceFeed')
 jest.mock('../../src/transport/solana-utils')
 
 describe('solanaTransport._handleRequest', () => {
