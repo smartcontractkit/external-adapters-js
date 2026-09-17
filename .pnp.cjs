@@ -383,10 +383,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ix-trust-sync"\
     },\
     {\
-      "name": "@chainlink/json-rpc-adapter",\
-      "reference": "workspace:packages/sources/json-rpc"\
-    },\
-    {\
       "name": "@chainlink/kaiko-adapter",\
       "reference": "workspace:packages/sources/kaiko"\
     },\
@@ -736,7 +732,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/ix-trust-sync-adapter", ["workspace:packages/sources/ix-trust-sync"]],\
-    ["@chainlink/json-rpc-adapter", ["workspace:packages/sources/json-rpc"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
     ["@chainlink/kaiko-state-adapter", ["workspace:packages/sources/kaiko-state"]],\
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
@@ -6045,24 +6040,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.15.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/json-rpc-adapter", [\
-      ["workspace:packages/sources/json-rpc", {\
-        "packageLocation": "./packages/sources/json-rpc/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/json-rpc-adapter", "workspace:packages/sources/json-rpc"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
