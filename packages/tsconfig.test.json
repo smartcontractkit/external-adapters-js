@@ -270,9 +270,6 @@
       "path": "./sources/ix-trust-sync/tsconfig.test.json"
     },
     {
-      "path": "./sources/json-rpc/tsconfig.test.json"
-    },
-    {
       "path": "./sources/kaiko/tsconfig.test.json"
     },
     {
