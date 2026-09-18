@@ -106,12 +106,14 @@ const FILE_SCHEDULES = 'schedules.csv'
 const FILE_HOLIDAYS = 'holidays.csv'
 
 const COLUMN_TIMEZONE = 'Timezone'
-const COLUMN_PHASE_NAME = 'Name'
-const COLUMN_PHASE_STATUS = 'Status'
+// Columns of phases.csv:
+const COLUMN_PHASES_NAME = 'Name'
+const COLUMN_PHASES_STATUS = 'Status'
 const COLUMN_FIN_ID = 'FinID'
 const COLUMN_SCHEDULE_GROUP = 'Schedule Group'
+// Columns of schedules.csv:
 const COLUMN_PHASE_TYPE = 'Phase Type'
-const COLUMN_SCHEDULE_PHASE_NAME = 'Phase Name'
+const COLUMN_PHASE_NAME = 'Phase Name'
 const COLUMN_IN_FORCE_START = 'In Force Start Date'
 const COLUMN_IN_FORCE_END = 'In Force End Date'
 const COLUMN_DAYS_OF_WEEK = 'Days'
@@ -131,6 +133,12 @@ const STATUS_REGULAR_245 = 'REGULAR'
 const STATUS_PRE_MARKET = 'PRE_MARKET'
 const STATUS_POST_MARKET = 'POST_MARKET'
 const STATUS_OVERNIGHT = 'OVERNIGHT'
+
+// The phase types used by TradingHours for the trading sessions of 24/5
+// markets.
+const PHASE_TYPE_PRIMARY_TRADING_SESSION = 'Primary Trading Session'
+const PHASE_TYPE_PRE_TRADING_SESSION = 'Pre-Trading Session'
+const PHASE_TYPE_POST_TRADING_SESSION = 'Post-Trading Session'
 
 // The phase name used by TradingHours for overnight sessions of 24/5 markets.
 const PHASE_NAME_OVERNIGHT = 'Overnight'
@@ -295,10 +303,18 @@ export const getExceptionsFromSessionDifference = (
   return exceptions
 }
 
-// Exceptions may be overlapping or adjacent because sessions of consecutive
-// days can span into each other (e.g. overnight sessions). This sorts the
-// exceptions, clips overlaps, and merges adjacent exceptions with the same
-// status.
+// Exceptions are computed per holiday date and per pair of consecutive session
+// boundaries, so a single deviation from the regular schedule can come out as
+// several adjacent exceptions with the same status:
+//   - Within one date, every status change of the regular schedule ends an
+//     exception. A 24/5 market whose day is fully covered by contiguous
+//     pre/primary/post phases therefore yields one exception per phase.
+//   - Across dates, sessions of consecutive days can span into each other
+//     (e.g. overnight sessions), so the exception of one holiday can continue
+//     into (or overlap with) the exception of the next day's holiday.
+// The adapter requires exceptions to be sorted and non-overlapping (see
+// validateExceptions in src/util/schedule.ts), so this sorts the exceptions,
+// clips overlaps, and merges adjacent exceptions with the same status.
 export const mergeExceptions = (exceptions: Schedule['exceptions']): Schedule['exceptions'] => {
   const sorted = [...exceptions].sort(
     (a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end),
@@ -331,7 +347,7 @@ export class ScheduleGenerator {
   private timezoneString: string | null = null
   private timezone: Timezone | null = null
   private today: TZDate | null = null
-  private sessionRowsBySchedule: Map<string, Row[]> = new Map()
+  private sessionScheduleRowsBySchedule: Map<string, Row[]> = new Map()
   private weeklySessionsBySchedule: Map<string, Map<DayOfWeekNumber, Session[]>> = new Map()
   private holidayRows: Row[] | null = null
 
@@ -440,8 +456,8 @@ export class ScheduleGenerator {
     }
     const phaseRows = this.loadCsv(FILE_PHASES)
     for (const row of phaseRows) {
-      const phase = rowGet(row, COLUMN_PHASE_NAME)
-      const status = rowGet(row, COLUMN_PHASE_STATUS)
+      const phase = rowGet(row, COLUMN_PHASES_NAME)
+      const status = rowGet(row, COLUMN_PHASES_STATUS)
       this.phaseToStatus.set(phase, status)
     }
   }
@@ -479,13 +495,13 @@ export class ScheduleGenerator {
     })
   }
 
-  getSessionRows(scheduleGroup: string): Row[] {
-    this.initSessionRowsBySchedule(scheduleGroup)
-    return this.sessionRowsBySchedule.get(scheduleGroup)!
+  getSessionScheduleRows(scheduleGroup: string): Row[] {
+    this.initSessionScheduleRowsBySchedule(scheduleGroup)
+    return this.sessionScheduleRowsBySchedule.get(scheduleGroup)!
   }
 
-  initSessionRowsBySchedule(scheduleGroup: string): void {
-    if (this.sessionRowsBySchedule.has(scheduleGroup)) {
+  initSessionScheduleRowsBySchedule(scheduleGroup: string): void {
+    if (this.sessionScheduleRowsBySchedule.has(scheduleGroup)) {
       return
     }
     const allScheduleRows = this.loadCsv(FILE_SCHEDULES)
@@ -499,7 +515,7 @@ export class ScheduleGenerator {
       (row) => this.getSessionStatusFromRow(row) !== null,
     )
 
-    this.sessionRowsBySchedule.set(
+    this.sessionScheduleRowsBySchedule.set(
       scheduleGroup,
       this.filterInForceScheduleRows(sessionScheduleRows),
     )
@@ -515,19 +531,25 @@ export class ScheduleGenerator {
     // 24/5 markets distinguish multiple session types, which map onto the
     // TwentyfourFiveMarketStatus statuses of the static-market-hours adapter.
     // Time not covered by any session gets the WEEKEND status.
-    const phaseName = rowGet(row, COLUMN_SCHEDULE_PHASE_NAME)
-    if (phaseName === PHASE_NAME_OVERNIGHT) {
-      return STATUS_OVERNIGHT
-    }
+    //
+    // The Phase Type takes precedence over the Phase Name, mirroring the
+    // parseMarketStatus logic of the tradinghours EA
+    // (packages/sources/tradinghours/src/transport/market-status.ts), which
+    // only considers a session to be an overnight session if it isn't a
+    // primary, pre- or post-trading session. So a row with Phase Name
+    // "Overnight" but Phase Type "Pre-Trading Session" maps to PRE_MARKET.
     switch (rowGet(row, COLUMN_PHASE_TYPE)) {
-      case 'Primary Trading Session':
+      case PHASE_TYPE_PRIMARY_TRADING_SESSION:
         return STATUS_REGULAR_245
-      case 'Pre-Trading Session':
+      case PHASE_TYPE_PRE_TRADING_SESSION:
         return STATUS_PRE_MARKET
-      case 'Post-Trading Session':
+      case PHASE_TYPE_POST_TRADING_SESSION:
         return STATUS_POST_MARKET
       default:
-        return null
+        // TradingHours has no dedicated Phase Type for the overnight session
+        // of 24/5 markets (it uses Phase Type "Other"), so the Phase Name is
+        // what identifies it.
+        return rowGet(row, COLUMN_PHASE_NAME) === PHASE_NAME_OVERNIGHT ? STATUS_OVERNIGHT : null
     }
   }
 
@@ -552,7 +574,7 @@ export class ScheduleGenerator {
       return
     }
 
-    const weeklyScheduleRows = this.getSessionRows(scheduleGroup)
+    const weeklyScheduleRows = this.getSessionScheduleRows(scheduleGroup)
 
     // Initialize with an empty array for each day of the week
     const sessionsByDay: Map<DayOfWeekNumber, Session[]> = new Map(
@@ -693,7 +715,7 @@ export class ScheduleGenerator {
 
   getLastValidDate(): string {
     let earliestInForceEndDate: TZDate | null = null
-    for (const row of this.getSessionRows(SCHEDULE_GROUP_REGULAR)) {
+    for (const row of this.getSessionScheduleRows(SCHEDULE_GROUP_REGULAR)) {
       const endDate = this.parseDate(row, COLUMN_IN_FORCE_END)
       earliestInForceEndDate = minDate(earliestInForceEndDate, endDate)
     }

@@ -726,5 +726,85 @@ describe('Schedule Generator', () => {
         ],
       })
     })
+
+    it('should let the phase type take precedence over the "Overnight" phase name', () => {
+      const mockFs = jest.mocked(fs)
+      mockFs.existsSync.mockReturnValue(true)
+      mockFs.readFileSync.mockImplementation((filePath) => {
+        if (filePath === '/mock/csv/markets.csv') {
+          return 'FinID,Timezone\n US.CHNLNK.NYSE,America/New_York'
+        }
+        if (filePath === '/mock/csv/phases.csv') {
+          return (
+            'Name,Status\n' +
+            'Primary Trading Session,Open\n' +
+            'Pre-Trading Session,Closed\n' +
+            'Other,Closed\n'
+          )
+        }
+        if (filePath === '/mock/csv/schedules.csv') {
+          return (
+            'FinID,Schedule Group,Phase Type,Phase Name,In Force Start Date,In Force End Date,Days,Start,End,Offset Days\n' +
+            'US.CHNLNK.NYSE,Regular,Other,Overnight,,,Sun-Thu,20:00:00,04:00:00,1\n' +
+            // Phase name "Overnight" on a pre-trading session: the phase type
+            // wins, so this is PRE_MARKET rather than OVERNIGHT.
+            'US.CHNLNK.NYSE,Regular,Pre-Trading Session,Overnight,,,Mon-Fri,04:00:00,09:30:00,0\n' +
+            'US.CHNLNK.NYSE,Regular,Primary Trading Session,Regular Market,,,Mon-Fri,09:30:00,16:00:00,0\n'
+          )
+        }
+        if (filePath === '/mock/csv/holidays.csv') {
+          return 'FinID,Date,Schedule\n' + 'US.CHNLNK.NYSE,2026-12-25,Closed\n'
+        }
+        return ''
+      })
+
+      const generator = new ScheduleGenerator({
+        csvDir: '/mock/csv',
+        finId: 'US.CHNLNK.NYSE',
+        type: '24/5',
+      })
+      const schedule = generator.getSchedule()
+
+      expect(schedule.weekly).toEqual([
+        {
+          status: 'OVERNIGHT',
+          when: [
+            {
+              days: ['SUNDAY'],
+              times: [{ start: '20:00:00', end: '24:00:00' }],
+            },
+            {
+              days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY'],
+              times: [
+                { start: '00:00:00', end: '04:00:00' },
+                { start: '20:00:00', end: '24:00:00' },
+              ],
+            },
+            {
+              days: ['FRIDAY'],
+              times: [{ start: '00:00:00', end: '04:00:00' }],
+            },
+          ],
+        },
+        {
+          status: 'PRE_MARKET',
+          when: [
+            {
+              days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+              times: [{ start: '04:00:00', end: '09:30:00' }],
+            },
+          ],
+        },
+        {
+          status: 'REGULAR',
+          when: [
+            {
+              days: ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY'],
+              times: [{ start: '09:30:00', end: '16:00:00' }],
+            },
+          ],
+        },
+      ])
+    })
   })
 })
