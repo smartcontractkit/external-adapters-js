@@ -4709,7 +4709,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/calculated-price/",\
         "packageDependencies": [\
           ["@chainlink/calculated-price-adapter", "workspace:packages/composites/calculated-price"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
