@@ -269,10 +269,14 @@ func (s *Server) cacheHandler(c *gin.Context) {
 		Timestamp           time.Time              `json:"timestamp"`
 		Observation         *types.Observation     `json:"observation,omitempty"`
 		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
-		PayloadHash         string                 `json:"payloadHash"`
+		PayloadHashes       []string               `json:"payloadHashes"`
 	}
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
+		hashes := make([]string, 0, len(item.PayloadHashes))
+		for h := range item.PayloadHashes {
+			hashes = append(hashes, hex.EncodeToString(h[:]))
+		}
 		entries = append(entries, entry{
 			Key:                 key,
 			Status:              item.Status,
@@ -281,7 +285,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 			Timestamp:           item.Timestamp,
 			Observation:         item.Observation,
 			OriginalRequestData: item.OriginalRequestData,
-			PayloadHash:         hex.EncodeToString(item.PayloadHash[:]),
+			PayloadHashes:       hashes,
 		})
 	}
 
@@ -391,9 +395,14 @@ func (s *Server) ResolveSubscription(data map[string]interface{}) (*types.Resolv
 
 // EnsureSubscription atomically creates a cache entry and starts provider
 // bootstrap for the first caller. Later HTTP or gRPC callers reuse that work.
+// If the cache entry already exists but the caller's payload hash differs
+// (different overrides, transport, etc.), the new hash is registered so the
+// publisher can fan out observations to all matching subscribers.
 func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types.CacheItem {
 	if s.cache.SetNew(resolved.CacheKey, resolved.Data, resolved.PayloadHash) {
 		go s.bootstrapSubscription(resolved.CacheKey, resolved.Params, resolved.Data)
+	} else {
+		s.cache.AddPayloadHash(resolved.CacheKey, resolved.PayloadHash)
 	}
 	return s.cache.Get(resolved.CacheKey)
 }
