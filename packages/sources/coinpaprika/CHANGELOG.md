@@ -1,5 +1,11 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.10.5
+
+### Patch Changes
+
+- [#5403](https://github.com/smartcontractkit/external-adapters-js/pull/5403) [`e9f98a2`](https://github.com/smartcontractkit/external-adapters-js/commit/e9f98a2714b3dd1a244bc088322d2504aa7802b9) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Drop markprice websocket messages that specify 'quote_fallback', indicating Coinpaprika failed to normalize the quote currency. Also drop markprice websocket messages that violate the price invariant bid < price < ask
+
 ## 2.10.4
 
 ### Patch Changes
