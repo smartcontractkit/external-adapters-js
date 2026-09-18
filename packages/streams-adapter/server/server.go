@@ -83,6 +83,7 @@ type Server struct {
 	metricsForwarder *appMetrics.Forwarder
 	ctx              context.Context
 	cancel           context.CancelFunc
+	adapterVersion   string
 }
 
 // New creates a new HTTP server
@@ -148,6 +149,11 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 	server.setupRoutes()
 
 	return server
+}
+
+// SetAdapterVersion records the JS adapter version reported by its health endpoint.
+func (s *Server) SetAdapterVersion(version string) {
+	s.adapterVersion = version
 }
 
 // setupRoutes configures the HTTP routes
@@ -252,8 +258,9 @@ func (s *Server) Stop() error {
 // healthHandler handles health check requests
 func (s *Server) healthHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"status": "healthy",
-		"time":   time.Now().UTC(),
+		"status":         "healthy",
+		"time":           time.Now().UTC(),
+		"adapterVersion": s.adapterVersion,
 	})
 }
 
