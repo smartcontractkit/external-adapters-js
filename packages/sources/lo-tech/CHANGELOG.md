@@ -1,5 +1,11 @@
 # @chainlink/lo-tech-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5406](https://github.com/smartcontractkit/external-adapters-js/pull/5406) [`09d4e02`](https://github.com/smartcontractkit/external-adapters-js/commit/09d4e0222eeff6371bab11f2dd38ad11c139f772) Thanks [@dskloetc](https://github.com/dskloetc)! - Add field price_goldman_continuous_roll to cme_futures endpoint
+
 ## 1.2.2
 
 ### Patch Changes
