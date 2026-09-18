@@ -33,6 +33,9 @@ type Config struct {
 	// Other configuration
 	LogLevel    string
 	AdapterName string
+
+	// Version is populated at runtime by the JS adapter health endpoint.
+	Version string
 }
 
 // Load reads configuration from environment variables
