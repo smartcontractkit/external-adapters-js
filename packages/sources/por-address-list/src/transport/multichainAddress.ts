@@ -1,16 +1,16 @@
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { ethers } from 'ethers'
+import MultiEVMPoRAddressListABI from '../config/MultiEVMPoRAddressList.json'
 import PoRAddressListMultiABI from '../config/PoRAddressListMulti.json'
 import SolvMultiAddressListABI from '../config/SolvMultiAddressList.json'
 import SolvSolanaMultiAddressListABI from '../config/SolvSolanaMultiAddressList.json'
-import MultiEVMPoRAddressListABI from '../config/MultiEVMPoRAddressList.json'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/multichainAddress'
-import { ethers } from 'ethers'
-import { addProvider, getProvider } from './providerUtils'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { AddressManager } from './addressManager'
+import { addProvider, getProvider } from './providerUtils'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -70,8 +70,8 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
     const { confirmations, contractAddress, contractAddressNetwork, abiName, batchSize } = param
 
-    this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
-    const provider = getProvider(contractAddressNetwork, this.providersMap)
+    this.providersMap = addProvider(contractAddressNetwork, this.settings, this.providersMap)
+    const provider = getProvider(contractAddressNetwork, this.settings, this.providersMap)
     const abi = this.getAbi(abiName)
 
     const addressManager = new MultiAddressManager(contractAddress, abi, provider)
