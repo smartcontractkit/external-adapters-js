@@ -1,12 +1,12 @@
-import { mockWebSocketServer } from './fixtures'
+import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import {
-  TestAdapter,
-  setEnvVariables,
   mockWebSocketProvider,
   MockWebsocketServer,
+  setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { WebSocketClassProvider } from '@chainlink/external-adapter-framework/transports'
 import FakeTimers from '@sinonjs/fake-timers'
+import { mockWebSocketServer } from './fixtures'
 
 describe('websocket', () => {
   let mockWsServer: MockWebsocketServer | undefined
