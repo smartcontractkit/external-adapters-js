@@ -1,13 +1,13 @@
-import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionTransport } from '@chainlink/external-adapter-framework/transports/abstract/subscription'
 import { AdapterResponse, sleep } from '@chainlink/external-adapter-framework/util'
-import { POR_ADDRESS_LIST_ABI } from '../config/PorAddressList'
-import LOMBARD_POR_ADDRESS_LIST_ABI from '../config/LombardPorAddressList.json'
-import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
 import { ethers } from 'ethers'
+import LOMBARD_POR_ADDRESS_LIST_ABI from '../config/LombardPorAddressList.json'
+import { POR_ADDRESS_LIST_ABI } from '../config/PorAddressList'
+import { BaseEndpointTypes, inputParameters } from '../endpoint/address'
+import { AddressManager, DefaultAddressManager, LombardAddressManager } from './addressManager'
 import { addProvider, getProvider } from './providerUtils'
-import { DefaultAddressManager, LombardAddressManager, AddressManager } from './addressManager'
 
 export type AddressTransportTypes = BaseEndpointTypes
 
@@ -75,8 +75,13 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
       abiName,
     } = param
 
-    this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
-    const provider = getProvider(contractAddressNetwork, this.providersMap, this.provider)
+    this.providersMap = addProvider(contractAddressNetwork, this.settings, this.providersMap)
+    const provider = getProvider(
+      contractAddressNetwork,
+      this.settings,
+      this.providersMap,
+      this.provider,
+    )
 
     let addressManager: AddressManager<string[] | string[][]>
 

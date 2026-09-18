@@ -6571,7 +6571,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/por-address-list", {\
         "packageLocation": "./packages/sources/por-address-list/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/por-address-list-adapter", "workspace:packages/sources/por-address-list"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
