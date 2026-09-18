@@ -106,7 +106,7 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['impliedPrice'],
   transport: computedPriceTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
+  customInputValidation: (req, settings): AdapterInputError | undefined => {
     const {
       operand1Sources,
       operand2Sources,
@@ -118,8 +118,8 @@ export const endpoint = new AdapterEndpoint({
       operand2DecimalsField,
       outputDecimals,
     } = req.requestContext.data
-    validateSources(operand1Sources, operand1MinAnswers)
-    validateSources(operand2Sources, operand2MinAnswers)
+    validateSources(operand1Sources, operand1MinAnswers, settings)
+    validateSources(operand2Sources, operand2MinAnswers, settings)
     validateInputPayload(operand1Input, 'operand1Input')
     validateInputPayload(operand2Input, 'operand2Input')
     validateDecimalsFieldParams(outputDecimals, operand1DecimalsField, operand2DecimalsField)
@@ -127,7 +127,11 @@ export const endpoint = new AdapterEndpoint({
   },
 })
 
-export const validateSources = (sources: string[], minAnswers: number) => {
+export const validateSources = (
+  sources: string[],
+  minAnswers: number,
+  settings: typeof config.settings,
+) => {
   if (sources.length < minAnswers) {
     throw new AdapterInputError({
       statusCode: 400,
@@ -135,12 +139,16 @@ export const validateSources = (sources: string[], minAnswers: number) => {
     })
   }
 
-  const urls = getOperandSourceUrls(sources)
+  const urls = getOperandSourceUrls(sources, settings)
   const missingUrlCount = minAnswers - urls.length
   if (missingUrlCount > 0) {
     const missingEnvVars = sources
-      .map((source) => `${source.toUpperCase()}_ADAPTER_URL`)
-      .filter((envVar) => !process.env[envVar])
+      .map((source) => ({
+        key: settings.SOURCE_ADAPTER_URL.getEnvVarName(source),
+        value: settings.SOURCE_ADAPTER_URL.get(source),
+      }))
+      .filter(({ value }) => !value)
+      .map(({ key }) => key)
     throw new AdapterError({
       statusCode: 500,
       message: `Not enough sources configured. Make sure ${missingUrlCount} of the following are set in the environment: ${missingEnvVars.join(
