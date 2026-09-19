@@ -65,3 +65,39 @@ export const mockResponseSuccess = (): nock.Scope =>
       ],
     )
     .persist()
+    .get('/navapigateway/api/v1/ClientMasterData/GetFundList')
+    .query(true)
+    .reply(
+      200,
+      [
+        {
+          FundName: 'Some Other Fund',
+          GlobalFundID: 5678,
+          FundEndDate: '2030-12-31T00:00:00',
+          FundDailyAccountingStartDate: '2020-01-01T00:00:00',
+          FundDailyAccountingLastAvailableDate: null,
+          FundOfficialAccountingLastAvailableDate: '2024-01-15T00:00:00',
+          PortfolioLastAvailableDate: '2024-01-15T00:00:00',
+        },
+        {
+          FundName: 'Some Fund',
+          GlobalFundID: 1234,
+          FundEndDate: '2030-12-31T00:00:00',
+          FundDailyAccountingStartDate: '2020-01-01T00:00:00',
+          FundDailyAccountingLastAvailableDate: null,
+          FundOfficialAccountingLastAvailableDate: '2024-01-31T00:00:00',
+          PortfolioLastAvailableDate: '2024-01-31T00:00:00',
+        },
+      ],
+      [
+        'Content-Type',
+        'application/json',
+        'Connection',
+        'close',
+        'Vary',
+        'Accept-Encoding',
+        'Vary',
+        'Origin',
+      ],
+    )
+    .persist()

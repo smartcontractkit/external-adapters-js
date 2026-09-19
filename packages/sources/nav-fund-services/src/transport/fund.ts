@@ -30,6 +30,16 @@ interface FundResponse {
   }[]
 }
 
+type FundListResponse = {
+  FundName: string
+  GlobalFundID: number
+  FundEndDate: string
+  FundDailyAccountingStartDate: string
+  FundDailyAccountingLastAvailableDate: string | null
+  FundOfficialAccountingLastAvailableDate: string
+  PortfolioLastAvailableDate: string
+}[]
+
 export const getFund = async ({
   globalFundID,
   fromDate,
@@ -80,4 +90,47 @@ export const getFund = async ({
   }
 
   return response.response.data.Data
+}
+
+export const getFundList = async ({
+  baseURL,
+  apiKey,
+  secret,
+  requester,
+}: {
+  baseURL: string
+  apiKey: string
+  secret: string
+  requester: Requester
+}): Promise<FundListResponse> => {
+  const method = 'GET'
+
+  const url = `/navapigateway/api/v1/ClientMasterData/GetFundList`
+
+  const requestConfig = {
+    baseURL: baseURL,
+    url: url,
+    method: method,
+    headers: getRequestHeaders({
+      method: method,
+      path: url,
+      body: '',
+      apiKey: apiKey,
+      secret: secret,
+    }),
+  }
+
+  const response = await requester.request<FundListResponse>(
+    JSON.stringify(requestConfig),
+    requestConfig,
+  )
+
+  if (!response.response.data || !Array.isArray(response.response.data)) {
+    throw new AdapterError({
+      statusCode: 400,
+      message: `No fund list found`,
+    })
+  }
+
+  return response.response.data
 }
