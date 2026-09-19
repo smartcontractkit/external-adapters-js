@@ -78,7 +78,7 @@ adapters:
   - name: dlc-cbtc-por
     version: 1.0.3
   - name: dxfeed
-    version: 2.8.2
+    version: 2.8.4
   - name: dydx-stark
     version: 2.0.32
   - name: elwood
