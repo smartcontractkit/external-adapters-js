@@ -1,6 +1,7 @@
 import { parseUnits } from 'ethers'
 import * as fs from 'fs'
 import * as path from 'path'
+import { DEFAULT_TAU_MS, DEFAULT_TIMEOUT_MS, EmaFilter } from '../../../../src/lib/smoother/ema'
 import { processUpdate } from '../../../../src/lib/smoother/smoother'
 
 describe('EmaSmoother', () => {
@@ -161,5 +162,56 @@ describe('EmaSmoother', () => {
         )
       }
     }
+  })
+})
+
+describe('EmaFilter constructor overrides', () => {
+  beforeAll(() => {
+    jest.useFakeTimers()
+  })
+
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
+  beforeEach(() => {
+    jest.setSystemTime(new Date('2024-01-16T02:00:00Z').getTime())
+  })
+
+  it('no-args behaves identically to passing the module defaults explicitly', () => {
+    const implicit = new EmaFilter()
+    const explicit = new EmaFilter(DEFAULT_TAU_MS, DEFAULT_TIMEOUT_MS)
+
+    const prices = [1000n, 2000n, 2000n, 1500n]
+    for (const price of prices) {
+      expect(implicit.smooth(price)).toEqual(explicit.smooth(price))
+      jest.setSystemTime(Date.now() + 1000)
+    }
+  })
+
+  it('a shorter tau converges faster', () => {
+    const slow = new EmaFilter(600_000)
+    const fast = new EmaFilter(1_000)
+
+    slow.smooth(1000n)
+    fast.smooth(1000n)
+    jest.setSystemTime(Date.now() + 1000)
+
+    expect(fast.smooth(2000n).price).toBeGreaterThan(slow.smooth(2000n).price)
+  })
+
+  it('honours a custom idle timeout', () => {
+    const filter = new EmaFilter(DEFAULT_TAU_MS, 5_000)
+
+    filter.smooth(1000n)
+    jest.setSystemTime(Date.now() + 1000)
+    expect(filter.smooth(1000n).price).toEqual(1000n)
+
+    // Past the custom 5s timeout, so the filter cold-starts on the next price instead
+    // of easing toward it — the default 10-minute timeout would not have reset yet.
+    jest.setSystemTime(Date.now() + 5_001)
+    const afterGap = filter.smooth(9000n)
+    expect(afterGap.price).toEqual(9000n)
+    expect(afterGap.x).toEqual(-1n)
   })
 })
