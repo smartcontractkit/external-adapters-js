@@ -5130,7 +5130,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["bip32", "npm:4.0.0"],\
-          ["bitcoinjs-lib", "npm:6.1.7"],\
+          ["bitcoinjs-lib", "npm:6.1.8"],\
           ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -18092,6 +18092,19 @@ const RAW_RUNTIME_STATE =
           ["bech32", "npm:2.0.0"],\
           ["bip174", "npm:2.1.1"],\
           ["bitcoinjs-lib", "npm:6.1.7"],\
+          ["bs58check", "npm:3.0.1"],\
+          ["typeforce", "npm:1.18.0"],\
+          ["varuint-bitcoin", "npm:1.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.1.8", {\
+        "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.8-a5c0d17f71-62e6775e65.zip/node_modules/bitcoinjs-lib/",\
+        "packageDependencies": [\
+          ["@noble/hashes", "npm:1.8.0"],\
+          ["bech32", "npm:2.0.0"],\
+          ["bip174", "npm:2.1.1"],\
+          ["bitcoinjs-lib", "npm:6.1.8"],\
           ["bs58check", "npm:3.0.1"],\
           ["typeforce", "npm:1.18.0"],\
           ["varuint-bitcoin", "npm:1.1.2"]\
