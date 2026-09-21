@@ -435,9 +435,6 @@
       "path": "./sources/tradinghours/tsconfig.test.json"
     },
     {
-      "path": "./sources/trueusd/tsconfig.test.json"
-    },
-    {
       "path": "./sources/truflation/tsconfig.test.json"
     },
     {
