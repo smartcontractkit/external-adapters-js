@@ -355,6 +355,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/hastra"\
     },\
     {\
+      "name": "@chainlink/hyperithm-adapter",\
+      "reference": "workspace:packages/sources/hyperithm"\
+    },\
+    {\
       "name": "@chainlink/icap-adapter",\
       "reference": "workspace:packages/sources/icap"\
     },\
@@ -720,6 +724,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
+    ["@chainlink/hyperithm-adapter", ["workspace:packages/sources/hyperithm"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
@@ -5196,7 +5201,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.8.5"],\
+          ["fastify", "npm:5.12.5"],\
           ["lodash", "npm:4.18.1"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -5902,6 +5907,23 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/hastra-adapter", "workspace:packages/sources/hastra"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/hyperithm-adapter", [\
+      ["workspace:packages/sources/hyperithm", {\
+        "packageLocation": "./packages/sources/hyperithm/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
+          ["@chainlink/hyperithm-adapter", "workspace:packages/sources/hyperithm"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -20642,6 +20664,28 @@ const RAW_RUNTIME_STATE =
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:7.0.1"],\
           ["fastify", "npm:5.12.4"],\
+          ["find-my-way", "npm:9.7.0"],\
+          ["light-my-request", "npm:6.4.0"],\
+          ["pino", "npm:10.3.1"],\
+          ["process-warning", "npm:5.1.0"],\
+          ["rfdc", "npm:1.4.1"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["semver", "npm:7.7.2"],\
+          ["toad-cache", "npm:3.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.12.5", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.12.5-e50dbfc152-282ec56b8b.zip/node_modules/fastify/",\
+        "packageDependencies": [\
+          ["@fastify/ajv-compiler", "npm:4.0.5"],\
+          ["@fastify/error", "npm:4.0.0"],\
+          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
+          ["@fastify/proxy-addr", "npm:5.0.0"],\
+          ["abstract-logging", "npm:2.0.1"],\
+          ["avvio", "npm:9.1.0"],\
+          ["fast-json-stringify", "npm:7.0.1"],\
+          ["fastify", "npm:5.12.5"],\
           ["find-my-way", "npm:9.7.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
