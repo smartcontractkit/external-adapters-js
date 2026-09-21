@@ -102,9 +102,6 @@
       "path": "./sources/bitgo-reserves"
     },
     {
-      "path": "./sources/blockchain.com"
-    },
-    {
       "path": "./sources/blockchair"
     },
     {
