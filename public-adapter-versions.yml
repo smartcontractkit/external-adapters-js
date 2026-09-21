@@ -275,8 +275,6 @@ adapters:
     version: 1.0.2
   - name: twelvedata
     version: 1.4.16
-  - name: twosigma
-    version: 1.2.42
   - name: view-function
     version: 3.2.2
   - name: view-function-multi-chain
