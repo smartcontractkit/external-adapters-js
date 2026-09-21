@@ -1,18 +1,7 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 import { ethers } from 'ethers'
+import { config } from '../../src/config'
 import { addProvider, getProvider } from '../../src/transport/providerUtils'
-
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
 
 const createMockProvider = (rpcUrl: string, chainId: number) =>
   ({
@@ -48,31 +37,61 @@ describe('providerUtils', () => {
   const baseRpcChainId = 8453
   const arbitrumRpcUrl = 'https://arbitrum.rpc.url'
   const arbitrumRpcChainId = 42161
+  const bscRpcUrl = 'https://bsc.rpc.url'
+  const polygonRpcChainId = 137
+
+  const adapterSettings = {
+    NETWORK_RPC_URL: {
+      get(network: string) {
+        switch (network) {
+          case 'base':
+            return baseRpcUrl
+          case 'arbitrum':
+            return arbitrumRpcUrl
+          case 'bsc':
+            return bscRpcUrl
+          default:
+            return undefined
+        }
+      },
+      getEnvVarName(network: string) {
+        return `${network.toUpperCase()}_RPC_URL`
+      },
+    },
+    NETWORK_RPC_CHAIN_ID: {
+      get(network: string) {
+        switch (network) {
+          case 'base':
+            return baseRpcChainId
+          case 'arbitrum':
+            return arbitrumRpcChainId
+          case 'polygon':
+            return polygonRpcChainId
+          default:
+            return undefined
+        }
+      },
+      getEnvVarName(network: string) {
+        return `${network.toUpperCase()}_RPC_CHAIN_ID`
+      },
+    },
+  } as typeof config.settings
 
   beforeEach(async () => {
-    restoreEnv()
     log.mockClear()
   })
 
   describe('addProvider', () => {
     it('should add a provider to the providers object if environment variables are set', () => {
-      process.env.BASE_RPC_URL = baseRpcUrl
-      process.env.BASE_RPC_CHAIN_ID = baseRpcChainId.toString()
-
-      const providers = addProvider('base', {})
+      const providers = addProvider('base', adapterSettings, {})
 
       expect(providers).toEqual({ base: createMockProvider(baseRpcUrl, baseRpcChainId) })
     })
 
     it('should add multiple providers', () => {
-      process.env.BASE_RPC_URL = baseRpcUrl
-      process.env.BASE_RPC_CHAIN_ID = baseRpcChainId.toString()
-      process.env.ARBITRUM_RPC_URL = arbitrumRpcUrl
-      process.env.ARBITRUM_RPC_CHAIN_ID = arbitrumRpcChainId.toString()
-
       let providers = {}
-      providers = addProvider('base', providers)
-      providers = addProvider('arbitrum', providers)
+      providers = addProvider('base', adapterSettings, providers)
+      providers = addProvider('arbitrum', adapterSettings, providers)
 
       expect(providers).toEqual({
         base: createMockProvider(baseRpcUrl, baseRpcChainId),
@@ -82,35 +101,31 @@ describe('providerUtils', () => {
     })
 
     it('should log if RPC URL is missing', () => {
-      process.env.BASE_RPC_CHAIN_ID = baseRpcChainId.toString()
-
-      const providers = addProvider('base', {})
+      const providers = addProvider('polygon', adapterSettings, {})
 
       expect(providers).toEqual({})
       expect(log).toHaveBeenCalledWith(
-        `Missing 'BASE_RPC_URL' or 'BASE_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
+        `Missing 'POLYGON_RPC_URL' or 'POLYGON_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
       )
       expect(log).toHaveBeenCalledTimes(1)
     })
 
     it('should log if chain ID is missing', () => {
-      process.env.BASE_RPC_URL = baseRpcUrl
-
-      const providers = addProvider('base', {})
+      const providers = addProvider('bsc', adapterSettings, {})
 
       expect(providers).toEqual({})
       expect(log).toHaveBeenCalledWith(
-        `Missing 'BASE_RPC_URL' or 'BASE_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
+        `Missing 'BSC_RPC_URL' or 'BSC_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
       )
       expect(log).toHaveBeenCalledTimes(1)
     })
 
     it('should log if RPC URL and chain ID are both missing', () => {
-      const providers = addProvider('base', {})
+      const providers = addProvider('optimism', adapterSettings, {})
 
       expect(providers).toEqual({})
       expect(log).toHaveBeenCalledWith(
-        `Missing 'BASE_RPC_URL' or 'BASE_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
+        `Missing 'OPTIMISM_RPC_URL' or 'OPTIMISM_RPC_CHAIN_ID' environment variables. Using RPC_URL and CHAIN_ID instead`,
       )
       expect(log).toHaveBeenCalledTimes(1)
     })
@@ -121,7 +136,7 @@ describe('providerUtils', () => {
       const mockProvider = createMockProvider(baseRpcUrl, baseRpcChainId)
       const providers = { base: mockProvider }
 
-      const provider = getProvider('base', providers)
+      const provider = getProvider('base', adapterSettings, providers)
 
       expect(provider).toEqual(mockProvider)
     })
@@ -129,13 +144,13 @@ describe('providerUtils', () => {
     it('should return default provider if network specific provider is not present', () => {
       const defaultProvider = createMockProvider('https://eth.rpc.url', 1)
 
-      const provider = getProvider('base', {}, defaultProvider)
+      const provider = getProvider('base', adapterSettings, {}, defaultProvider)
 
       expect(provider).toEqual(defaultProvider)
     })
 
     it('should throw if network specific provider and default are not present', () => {
-      expect(() => getProvider('base', {})).toThrowError(
+      expect(() => getProvider('base', adapterSettings, {})).toThrowError(
         `Missing BASE_RPC_URL or BASE_RPC_CHAIN_ID environment variables`,
       )
     })

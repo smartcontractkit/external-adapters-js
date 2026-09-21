@@ -1,5 +1,19 @@
 # @chainlink/lo-tech-adapter
 
+## 1.3.0
+
+### Minor Changes
+
+- [#5406](https://github.com/smartcontractkit/external-adapters-js/pull/5406) [`09d4e02`](https://github.com/smartcontractkit/external-adapters-js/commit/09d4e0222eeff6371bab11f2dd38ad11c139f772) Thanks [@dskloetc](https://github.com/dskloetc)! - Add field price_goldman_continuous_roll to cme_futures endpoint
+
+## 1.2.2
+
+### Patch Changes
+
+- [#5370](https://github.com/smartcontractkit/external-adapters-js/pull/5370) [`606d155`](https://github.com/smartcontractkit/external-adapters-js/commit/606d1557216d67ab8bdfa098e6404ea6a184ec42) Thanks [@akuzni2](https://github.com/akuzni2)! - Convert adapter response `expiry_date` from date string to unix epoch seconds (start of day in `ROLL_DATE_TIMEZONE`).
+
+  Bump `@chainlink/external-adapter-framework` to 2.19.1.
+
 ## 1.2.1
 
 ### Patch Changes

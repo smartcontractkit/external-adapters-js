@@ -1,4 +1,5 @@
 import Decimal from 'decimal.js'
+import { config } from '../config'
 
 export const calculateMedian = (values: Decimal[]): Decimal => {
   if (values.length === 0) {
@@ -15,8 +16,8 @@ export const calculateMedian = (values: Decimal[]): Decimal => {
   }
 }
 
-export const getOperandSourceUrls = (sources: string[]) => {
+export const getOperandSourceUrls = (sources: string[], settings: typeof config.settings) => {
   return sources
-    .map((source) => process.env[`${source.toUpperCase()}_ADAPTER_URL`])
+    .map((source) => settings.SOURCE_ADAPTER_URL.get(source))
     .filter((url) => url) as string[]
 }
