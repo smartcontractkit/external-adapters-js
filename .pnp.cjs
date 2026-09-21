@@ -159,10 +159,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves"\
     },\
     {\
-      "name": "@chainlink/blockchair-adapter",\
-      "reference": "workspace:packages/sources/blockchair"\
-    },\
-    {\
       "name": "@chainlink/blocksize-capital-adapter",\
       "reference": "workspace:packages/sources/blocksize-capital"\
     },\
@@ -595,7 +591,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
-    ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
     ["@chainlink/calculated-price-adapter", ["workspace:packages/composites/calculated-price"]],\
@@ -4500,22 +4495,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/blockchair-adapter", [\
-      ["workspace:packages/sources/blockchair", {\
-        "packageLocation": "./packages/sources/blockchair/",\
-        "packageDependencies": [\
-          ["@chainlink/blockchair-adapter", "workspace:packages/sources/blockchair"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
