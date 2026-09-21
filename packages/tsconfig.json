@@ -336,9 +336,6 @@
       "path": "./sources/nyfed"
     },
     {
-      "path": "./sources/oanda"
-    },
-    {
       "path": "./sources/ondo"
     },
     {

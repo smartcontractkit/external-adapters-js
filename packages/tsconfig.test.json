@@ -336,9 +336,6 @@
       "path": "./sources/nyfed/tsconfig.test.json"
     },
     {
-      "path": "./sources/oanda/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ondo/tsconfig.test.json"
     },
     {
