@@ -228,9 +228,6 @@
       "path": "./sources/ftse-sftp"
     },
     {
-      "path": "./sources/gemini"
-    },
-    {
       "path": "./sources/generic-api"
     },
     {
