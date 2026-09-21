@@ -55,5 +55,5 @@ type CacheItem struct {
 	Timestamp           time.Time              // last write time (used for TTL)
 	OriginalAdapterKey  string                 // JS adapter Redis key; populated once StatusActive
 	OriginalRequestData map[string]interface{} // raw request body data from the first subscription request
-	PayloadHash         [32]byte               // SHA-256(adapter name || JSON request data)
+	PayloadHashes       map[[32]byte]struct{}  // all SHA-256 hashes (adapter name || JSON request data) registered for this raw key
 }

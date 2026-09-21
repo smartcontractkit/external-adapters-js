@@ -12,6 +12,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/redcon"
+	"streams-adapter/transmitter"
 )
 
 // ---------------------------------------------------------------------------
@@ -506,6 +507,51 @@ func TestHandleCommand_EvalTooFewArgs(t *testing.T) {
 	require.Equal(t, "error", conn.writes[0].kind)
 	errMsg, _ := conn.writes[0].value.(string)
 	if !strings.Contains(errMsg, "wrong number of arguments") {
-		t.Errorf("error should mention wrong number of arguments, got: %s", errMsg)
+		t.Errorf("error should mention 'wrong number of arguments', got: %s", errMsg)
+	}
+}
+
+func TestHandleCommand_Eval_FansOutToMultiplePayloadHashes(t *testing.T) {
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	pub := transmitter.NewPublisher()
+	srv := New(Config{
+		Addr:      ":0",
+		Cache:     c,
+		Publisher: pub,
+		Logger:    slog.Default(),
+	})
+
+	rawKey := "endpoint=cryptolwba:from=btc:to=usd"
+	transformedKey := "base=btc:endpoint=cryptolwba:quote=usd"
+	hash1 := [32]byte{1, 2, 3}
+	hash2 := [32]byte{4, 5, 6}
+
+	c.SetNew(rawKey, nil, hash1)
+	c.AddPayloadHash(rawKey, hash2)
+	c.SetTransformedKey(rawKey, transformedKey)
+
+	ch1 := make(chan transmitter.Event, 1)
+	ch2 := make(chan transmitter.Event, 1)
+	pub.Subscribe(hash1, ch1)
+	pub.Subscribe(hash2, ch2)
+
+	adapterKey := "prefix-adapter-endpoint-transport-" + transformedKey
+	value := `{"data":{"ask":"1"},"timestamps":{},"meta":{},"result":"1"}`
+	conn := newMockConn()
+	srv.handleCommand(conn, makeCmd("EVAL", "script", "1", adapterKey, value))
+
+	select {
+	case e := <-ch1:
+		require.Equal(t, hash1, e.PayloadHash)
+	case <-time.After(time.Second):
+		t.Fatal("subscriber on hash1 did not receive observation")
+	}
+	select {
+	case e := <-ch2:
+		require.Equal(t, hash2, e.PayloadHash)
+	case <-time.After(time.Second):
+		t.Fatal("subscriber on hash2 did not receive observation")
 	}
 }

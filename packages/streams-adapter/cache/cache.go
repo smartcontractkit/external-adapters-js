@@ -107,21 +107,49 @@ func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}
 		Status:              types.StatusNew,
 		Timestamp:           time.Now(),
 		OriginalRequestData: originalRequestData,
-		PayloadHash:         payloadHash,
+		PayloadHashes:       map[[32]byte]struct{}{payloadHash: {}},
 	}
 	cacheItemsTotal.Inc()
 	return true
 }
 
-// PayloadHashByRawKey returns a copy of the payload hash stored for rawKey.
-func (c *Cache) PayloadHashByRawKey(rawKey string) ([32]byte, bool) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+// AddPayloadHash registers an additional payload hash for an existing raw key.
+// This allows the same cached feed to fan out observations to subscribers that
+// joined with different request payloads (e.g. different overrides). Returns true
+// if the hash was newly added.
+func (c *Cache) AddPayloadHash(rawKey string, payloadHash [32]byte) bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
 	item, ok := c.items[rawKey]
 	if !ok {
-		return [32]byte{}, false
+		return false
 	}
-	return item.PayloadHash, true
+	if item.PayloadHashes == nil {
+		item.PayloadHashes = map[[32]byte]struct{}{payloadHash: {}}
+		return true
+	}
+	if _, exists := item.PayloadHashes[payloadHash]; exists {
+		return false
+	}
+	item.PayloadHashes[payloadHash] = struct{}{}
+	return true
+}
+
+// PayloadHashesByRawKey returns all payload hashes registered for rawKey.
+func (c *Cache) PayloadHashesByRawKey(rawKey string) ([][32]byte, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	item, ok := c.items[rawKey]
+	if !ok {
+		return nil, false
+	}
+	hashes := make([][32]byte, 0, len(item.PayloadHashes))
+	for h := range item.PayloadHashes {
+		hashes = append(hashes, h)
+	}
+	return hashes, true
 }
 
 // SetTransformedKey transitions a "new" item to "learned" by recording the
