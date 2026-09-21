@@ -159,10 +159,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/bitgo-reserves"\
     },\
     {\
-      "name": "@chainlink/blockchain.com-adapter",\
-      "reference": "workspace:packages/sources/blockchain.com"\
-    },\
-    {\
       "name": "@chainlink/blockchair-adapter",\
       "reference": "workspace:packages/sources/blockchair"\
     },\
@@ -357,6 +353,10 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/hastra-adapter",\
       "reference": "workspace:packages/sources/hastra"\
+    },\
+    {\
+      "name": "@chainlink/hyperithm-adapter",\
+      "reference": "workspace:packages/sources/hyperithm"\
     },\
     {\
       "name": "@chainlink/icap-adapter",\
@@ -599,20 +599,12 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tradinghours"\
     },\
     {\
-      "name": "@chainlink/trueusd-adapter",\
-      "reference": "workspace:packages/sources/trueusd"\
-    },\
-    {\
       "name": "@chainlink/truflation-adapter",\
       "reference": "workspace:packages/sources/truflation"\
     },\
     {\
       "name": "@chainlink/twelvedata-adapter",\
       "reference": "workspace:packages/sources/twelvedata"\
-    },\
-    {\
-      "name": "@chainlink/twosigma-adapter",\
-      "reference": "workspace:packages/sources/twosigma"\
     },\
     {\
       "name": "@chainlink/view-function-adapter",\
@@ -629,10 +621,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/wbtc-address-set-adapter",\
       "reference": "workspace:packages/sources/wbtc-address-set"\
-    },\
-    {\
-      "name": "@chainlink/wintermute-adapter",\
-      "reference": "workspace:packages/sources/wintermute"\
     },\
     {\
       "name": "@chainlink/wisdomtree-adapter",\
@@ -659,7 +647,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/bea-adapter", ["workspace:packages/sources/bea"]],\
     ["@chainlink/bitgo-adapter", ["workspace:packages/sources/bitgo"]],\
     ["@chainlink/bitgo-reserves-adapter", ["workspace:packages/sources/bitgo-reserves"]],\
-    ["@chainlink/blockchain.com-adapter", ["workspace:packages/sources/blockchain.com"]],\
     ["@chainlink/blockchair-adapter", ["workspace:packages/sources/blockchair"]],\
     ["@chainlink/blocksize-capital-adapter", ["workspace:packages/sources/blocksize-capital"]],\
     ["@chainlink/blocksize-capital-state-adapter", ["workspace:packages/sources/blocksize-capital-state"]],\
@@ -721,6 +708,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/harris-and-trotter-adapter", ["workspace:packages/sources/harris-and-trotter"]],\
     ["@chainlink/hashnote-adapter", ["workspace:packages/sources/hashnote"]],\
     ["@chainlink/hastra-adapter", ["workspace:packages/sources/hastra"]],\
+    ["@chainlink/hyperithm-adapter", ["workspace:packages/sources/hyperithm"]],\
     ["@chainlink/icap-adapter", ["workspace:packages/sources/icap"]],\
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
@@ -794,15 +782,12 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
-    ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
     ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
-    ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
     ["@chainlink/wbtc-address-set-adapter", ["workspace:packages/sources/wbtc-address-set"]],\
-    ["@chainlink/wintermute-adapter", ["workspace:packages/sources/wintermute"]],\
     ["@chainlink/wisdomtree-adapter", ["workspace:packages/sources/wisdomtree"]],\
     ["@chainlink/xsushi-price-adapter", ["workspace:packages/composites/xsushi-price"]]\
   ],\
@@ -4614,22 +4599,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/blockchain.com-adapter", [\
-      ["workspace:packages/sources/blockchain.com", {\
-        "packageLocation": "./packages/sources/blockchain.com/",\
-        "packageDependencies": [\
-          ["@chainlink/blockchain.com-adapter", "workspace:packages/sources/blockchain.com"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/blockchair-adapter", [\
       ["workspace:packages/sources/blockchair", {\
         "packageLocation": "./packages/sources/blockchair/",\
@@ -5925,6 +5894,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/hyperithm-adapter", [\
+      ["workspace:packages/sources/hyperithm", {\
+        "packageLocation": "./packages/sources/hyperithm/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
+          ["@chainlink/hyperithm-adapter", "workspace:packages/sources/hyperithm"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/icap-adapter", [\
       ["workspace:packages/sources/icap", {\
         "packageLocation": "./packages/sources/icap/",\
@@ -7196,21 +7182,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/trueusd-adapter", [\
-      ["workspace:packages/sources/trueusd", {\
-        "packageLocation": "./packages/sources/trueusd/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/truflation-adapter", [\
       ["workspace:packages/sources/truflation", {\
         "packageLocation": "./packages/sources/truflation/",\
@@ -7238,24 +7209,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/twosigma-adapter", [\
-      ["workspace:packages/sources/twosigma", {\
-        "packageLocation": "./packages/sources/twosigma/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["@types/ws", "npm:8.5.14"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
@@ -7318,23 +7271,6 @@ const RAW_RUNTIME_STATE =
           ["@chainlink/wbtc-address-set-adapter", "workspace:packages/sources/wbtc-address-set"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/wintermute-adapter", [\
-      ["workspace:packages/sources/wintermute", {\
-        "packageLocation": "./packages/sources/wintermute/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/wintermute-adapter", "workspace:packages/sources/wintermute"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
