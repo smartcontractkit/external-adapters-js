@@ -159,9 +159,6 @@
       "path": "./sources/coinranking/tsconfig.test.json"
     },
     {
-      "path": "./sources/cryptoapis/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cryptocompare/tsconfig.test.json"
     },
     {

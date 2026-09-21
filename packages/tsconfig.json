@@ -159,9 +159,6 @@
       "path": "./sources/coinranking"
     },
     {
-      "path": "./sources/cryptoapis"
-    },
-    {
       "path": "./sources/cryptocompare"
     },
     {
