@@ -102,9 +102,6 @@
       "path": "./sources/bitgo-reserves"
     },
     {
-      "path": "./sources/blockchain.com"
-    },
-    {
       "path": "./sources/blockchair"
     },
     {
@@ -252,6 +249,9 @@
       "path": "./sources/hastra"
     },
     {
+      "path": "./sources/hyperithm"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -375,9 +375,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/stader-address-list"
-    },
-    {
       "path": "./sources/stader-labs"
     },
     {
@@ -391,9 +388,6 @@
     },
     {
       "path": "./sources/superstate"
-    },
-    {
-      "path": "./sources/swell-address-list"
     },
     {
       "path": "./sources/synthetix-debt-pool"
@@ -432,16 +426,10 @@
       "path": "./sources/tradinghours"
     },
     {
-      "path": "./sources/trueusd"
-    },
-    {
       "path": "./sources/truflation"
     },
     {
       "path": "./sources/twelvedata"
-    },
-    {
-      "path": "./sources/twosigma"
     },
     {
       "path": "./sources/view-function"
@@ -454,9 +442,6 @@
     },
     {
       "path": "./sources/wbtc-address-set"
-    },
-    {
-      "path": "./sources/wintermute"
     },
     {
       "path": "./sources/wisdomtree"

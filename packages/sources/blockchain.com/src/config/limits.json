@@ -1,8 +1,0 @@
-{
-  "http": {
-    "global": {
-      "rateLimit1m": 1200
-    }
-  },
-  "ws": {}
-}
