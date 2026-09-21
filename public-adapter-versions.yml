@@ -23,8 +23,6 @@ adapters:
     version: 1.0.24
   - name: bitgo-reserves
     version: 2.2.4
-  - name: blockchain.com
-    version: 1.3.47
   - name: blockchair
     version: 1.3.47
   - name: blocksize-capital
@@ -109,16 +107,12 @@ adapters:
     version: 1.1.30
   - name: ftse-sftp
     version: 1.0.3
-  - name: gemini
-    version: 3.0.34
   - name: generic-api
     version: 1.3.2
   - name: glv-token
     version: 2.1.5
   - name: gm-token
     version: 1.3.2
-  - name: gmci
-    version: 1.0.4
   - name: gmx-tokens
     version: 1.2.4
   - name: gold
@@ -139,8 +133,6 @@ adapters:
     version: 1.0.17
   - name: implied-price
     version: 1.4.0
-  - name: instruxi-sxt
-    version: 2.0.9
   - name: ion.au
     version: 1.0.33
   - name: ix-trust-sync
@@ -155,14 +147,10 @@ adapters:
     version: 2.0.31
   - name: lido-por
     version: 1.1.17
-  - name: liveart
-    version: 1.0.2
   - name: llama-guard
     version: 1.2.6
   - name: lo-tech
     version: 1.3.0
-  - name: lotus
-    version: 3.0.35
   - name: m0
     version: 0.0.19
   - name: market-status
@@ -173,8 +161,6 @@ adapters:
     version: 2.5.1
   - name: mock-ea
     version: 2.2.0
-  - name: moonbeam-address-list
-    version: 1.1.52
   - name: moore-hk
     version: 1.0.29
   - name: multi-address-list
@@ -195,8 +181,6 @@ adapters:
     version: 1.0.2
   - name: nyfed
     version: 1.0.13
-  - name: oanda
-    version: 1.1.50
   - name: ondo
     version: 1.0.4
   - name: onre
@@ -227,8 +211,6 @@ adapters:
     version: 1.8.1
   - name: solana-view-function
     version: 2.2.48
-  - name: stader-address-list
-    version: 2.3.42
   - name: stader-labs
     version: 3.0.25
   - name: starknet-gas-price
@@ -239,8 +221,6 @@ adapters:
     version: 1.0.1
   - name: superstate
     version: 1.5.3
-  - name: swell-address-list
-    version: 1.0.30
   - name: synthetix-debt-pool
     version: 4.1.21
   - name: synthetix-feeds
@@ -267,14 +247,10 @@ adapters:
     version: 2.1.30
   - name: tradinghours
     version: 0.8.0
-  - name: trueusd
-    version: 3.0.35
   - name: truflation
     version: 1.0.2
   - name: twelvedata
     version: 1.4.16
-  - name: twosigma
-    version: 1.2.42
   - name: view-function
     version: 3.2.2
   - name: view-function-multi-chain
@@ -283,8 +259,6 @@ adapters:
     version: 1.0.27
   - name: wbtc-address-set
     version: 2.1.23
-  - name: wintermute
-    version: 2.0.1
   - name: wisdomtree
     version: 1.0.5
   - name: xsushi-price
