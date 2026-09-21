@@ -2,11 +2,9 @@
   "blacklist": [
     "anyblock",
     "anchorage",
-    "blockchain.com",
     "blockchair",
     "coingecko",
     "dlc-btc-por",
-    "dydx-stark",
     "implied-price",
     "layer2-sequencer-health",
     "multi-address-list",
