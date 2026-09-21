@@ -527,10 +527,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-view-function"\
     },\
     {\
-      "name": "@chainlink/stader-address-list-adapter",\
-      "reference": "workspace:packages/sources/stader-address-list"\
-    },\
-    {\
       "name": "@chainlink/stader-labs-adapter",\
       "reference": "workspace:packages/sources/stader-labs"\
     },\
@@ -777,7 +773,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
     ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
-    ["@chainlink/stader-address-list-adapter", ["workspace:packages/sources/stader-address-list"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
     ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
@@ -6810,22 +6805,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/supertest", "npm:2.0.16"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/stader-address-list-adapter", [\
-      ["workspace:packages/sources/stader-address-list", {\
-        "packageLocation": "./packages/sources/stader-address-list/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/stader-address-list-adapter", "workspace:packages/sources/stader-address-list"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
