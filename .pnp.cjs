@@ -5217,7 +5217,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.13.4"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.8.5"],\
+          ["fastify", "npm:5.12.5"],\
           ["lodash", "npm:4.18.1"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -20663,6 +20663,28 @@ const RAW_RUNTIME_STATE =
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:7.0.1"],\
           ["fastify", "npm:5.12.4"],\
+          ["find-my-way", "npm:9.7.0"],\
+          ["light-my-request", "npm:6.4.0"],\
+          ["pino", "npm:10.3.1"],\
+          ["process-warning", "npm:5.1.0"],\
+          ["rfdc", "npm:1.4.1"],\
+          ["secure-json-parse", "npm:4.0.0"],\
+          ["semver", "npm:7.7.2"],\
+          ["toad-cache", "npm:3.7.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:5.12.5", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.12.5-e50dbfc152-282ec56b8b.zip/node_modules/fastify/",\
+        "packageDependencies": [\
+          ["@fastify/ajv-compiler", "npm:4.0.5"],\
+          ["@fastify/error", "npm:4.0.0"],\
+          ["@fastify/fast-json-stringify-compiler", "npm:5.0.2"],\
+          ["@fastify/proxy-addr", "npm:5.0.0"],\
+          ["abstract-logging", "npm:2.0.1"],\
+          ["avvio", "npm:9.1.0"],\
+          ["fast-json-stringify", "npm:7.0.1"],\
+          ["fastify", "npm:5.12.5"],\
           ["find-my-way", "npm:9.7.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
