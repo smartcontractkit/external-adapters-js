@@ -195,8 +195,6 @@ adapters:
     version: 1.0.2
   - name: nyfed
     version: 1.0.13
-  - name: oanda
-    version: 1.1.50
   - name: ondo
     version: 1.0.4
   - name: onre

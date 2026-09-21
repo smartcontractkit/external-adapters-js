@@ -471,10 +471,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/nyfed"\
     },\
     {\
-      "name": "@chainlink/oanda-adapter",\
-      "reference": "workspace:packages/sources/oanda"\
-    },\
-    {\
       "name": "@chainlink/ondo-adapter",\
       "reference": "workspace:packages/sources/ondo"\
     },\
@@ -737,7 +733,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/nomia-adapter", ["workspace:packages/sources/nomia"]],\
     ["@chainlink/nomia2-adapter", ["workspace:packages/sources/nomia2"]],\
     ["@chainlink/nyfed-adapter", ["workspace:packages/sources/nyfed"]],\
-    ["@chainlink/oanda-adapter", ["workspace:packages/sources/oanda"]],\
     ["@chainlink/observation", ["workspace:packages/observation"]],\
     ["@chainlink/ondo-adapter", ["workspace:packages/sources/ondo"]],\
     ["@chainlink/onre-adapter", ["workspace:packages/sources/onre"]],\
@@ -6447,21 +6442,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/oanda-adapter", [\
-      ["workspace:packages/sources/oanda", {\
-        "packageLocation": "./packages/sources/oanda/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/oanda-adapter", "workspace:packages/sources/oanda"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["axios", "npm:1.13.4"],\
-          ["decimal.js", "npm:10.5.0"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\

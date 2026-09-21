@@ -1,1 +1,0 @@
-export { priceEndpoint } from './price'
