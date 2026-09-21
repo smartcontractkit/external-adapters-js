@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.8.4
+
+### Patch Changes
+
+- [#5404](https://github.com/smartcontractkit/external-adapters-js/pull/5404) [`d9ed5fb`](https://github.com/smartcontractkit/external-adapters-js/commit/d9ed5fbc07aa89efef948a1ca11b95ace7d73b66) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Fix stale WS subscriptions being unsubscribed when the same ticker is still desired by another set of request params, and bump ea-framework to 2.20.0
+
 ## 2.8.3
 
 ### Patch Changes

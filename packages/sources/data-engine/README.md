@@ -1,6 +1,6 @@
 # DATA_ENGINE
 
-![1.5.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -19,15 +19,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 |  Name   | Requests/credits per second | Requests/credits per minute | Requests/credits per hour | Note |
 | :-----: | :-------------------------: | :-------------------------: | :-----------------------: | :--: |
-| default |              5              |                             |                           |      |
+| default |             200             |                             |                           |      |
 
 ---
 
 ## Input Parameters
 
-| Required? |   Name   |     Description     |  Type  |                                                                                                                Options                                                                                                                 |   Default   |
-| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
-|           | endpoint | The endpoint to use | string | [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint), [twap](#twap-endpoint) | `crypto-v3` |
+| Required? |   Name   |     Description     |  Type  |                                                                                                                               Options                                                                                                                                |   Default   |
+| :-------: | :------: | :-----------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------: |
+|           | endpoint | The endpoint to use | string | [blended](#blended-endpoint), [crypto-v3](#crypto-v3-endpoint), [deutscheboerse-v11](#deutscheboerse-v11-endpoint), [exchangerate-v7](#exchangerate-v7-endpoint), [redemptionrate-v7](#exchangerate-v7-endpoint), [rwa-v8](#rwa-v8-endpoint), [twap](#twap-endpoint) | `crypto-v3` |
 
 ## Crypto-v3 Endpoint
 
@@ -165,6 +165,42 @@ Request:
     "feedId": "0x000362205e10b3a147d02792eccee483dca6c7b44ecce7012cb8c6e0b68b3ae9",
     "windowSeconds": 30,
     "endTs": 1730000000
+  }
+}
+```
+
+---
+
+## Blended Endpoint
+
+`blended` is the only supported name for this endpoint.
+
+### Input Params
+
+| Required? |    Name    | Aliases |                                                     Description                                                      |  Type  | Options |     Default      | Depends On | Not Valid With |
+| :-------: | :--------: | :-----: | :------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :--------------: | :--------: | :------------: |
+|    ✅     |   market   |         |             The market whose calendar routes between the feeds, e.g. `nyse`, `forex` (case-insensitive)              | string |         |                  |            |                |
+|    ✅     |    open    |         |                                   The feed ID for the open (regular hours) session                                   | string |         |                  |            |                |
+|    ✅     |   closed   |         |                                          The feed ID for the closed session                                          | string |         |                  |            |                |
+|           | overnight  |         |          The feed ID for the overnight session. Must be provided together with `extended` (e.g. for `nyse`)          | string |         |                  |            |                |
+|           |  extended  |         | The feed ID for the extended (pre/post-market) session. Must be provided together with `overnight` (e.g. for `nyse`) | string |         |                  |            |                |
+|           | resultPath |         |                                   The data field to populate the top-level result                                    | string |         | `indicatorPrice` |            |                |
+|           |  decimals  |         |       Number of decimals to scale the resultPath value to (from the native decimals reported in the response)        | number |         |                  |            |                |
+
+### Example
+
+Request:
+
+```json
+{
+  "data": {
+    "endpoint": "blended",
+    "market": "nyse",
+    "open": "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    "closed": "0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116",
+    "overnight": "0x000bccf7f0cabd7a4c9d1936188c9d3cb879d5e5ef35324125e32d11a2cbd116",
+    "extended": "0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c",
+    "resultPath": "indicatorPrice"
   }
 }
 ```

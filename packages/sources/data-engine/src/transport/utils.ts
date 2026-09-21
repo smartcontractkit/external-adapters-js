@@ -26,6 +26,7 @@ export function resolveResult(
   data: Record<string, unknown>,
   resultPath?: string,
   decimals?: number,
+  fromDecimals: number = DECIMALS,
 ): string | null {
   if (!resultPath) return null
 
@@ -38,5 +39,5 @@ export function resolveResult(
   }
 
   const raw = String(data[resultPath])
-  return decimals !== undefined ? scaleDecimals(raw, DECIMALS, decimals) : raw
+  return decimals !== undefined ? scaleDecimals(raw, fromDecimals, decimals) : raw
 }
