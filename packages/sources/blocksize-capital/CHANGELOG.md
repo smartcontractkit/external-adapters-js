@@ -1,5 +1,11 @@
 # @chainlink/blocksize-capital-adapter
 
+## 2.9.4
+
+### Patch Changes
+
+- [#5422](https://github.com/smartcontractkit/external-adapters-js/pull/5422) [`fd6df4c`](https://github.com/smartcontractkit/external-adapters-js/commit/fd6df4c7e995c45c124f996fa33a92ebbeafeace) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
 ## 2.9.3
 
 ### Patch Changes

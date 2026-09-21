@@ -1,5 +1,12 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies [[`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1)]:
+  - @chainlink/data-engine-adapter@1.6.1
+
 ## 1.4.4
 
 ### Patch Changes
