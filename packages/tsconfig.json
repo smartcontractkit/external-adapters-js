@@ -252,6 +252,9 @@
       "path": "./sources/hastra"
     },
     {
+      "path": "./sources/hyperithm"
+    },
+    {
       "path": "./sources/icap"
     },
     {
