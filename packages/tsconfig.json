@@ -201,9 +201,6 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/etherscan"
-    },
-    {
       "path": "./sources/exchange-copter"
     },
     {
