@@ -231,9 +231,6 @@
       "path": "./sources/ftse-sftp/tsconfig.test.json"
     },
     {
-      "path": "./sources/gemini/tsconfig.test.json"
-    },
-    {
       "path": "./sources/generic-api/tsconfig.test.json"
     },
     {
