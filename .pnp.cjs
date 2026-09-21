@@ -641,10 +641,6 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "@chainlink/wisdomtree-adapter",\
       "reference": "workspace:packages/sources/wisdomtree"\
-    },\
-    {\
-      "name": "@chainlink/dydx-stark-adapter",\
-      "reference": "workspace:packages/targets/dydx-stark"\
     }\
   ],\
   "enableTopLevelFallback": true,\
@@ -692,7 +688,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/dlc-btc-por-adapter", ["workspace:packages/sources/dlc-btc-por"]],\
     ["@chainlink/dlc-cbtc-por-adapter", ["workspace:packages/sources/dlc-cbtc-por"]],\
     ["@chainlink/dxfeed-adapter", ["workspace:packages/sources/dxfeed"]],\
-    ["@chainlink/dydx-stark-adapter", ["workspace:packages/targets/dydx-stark"]],\
     ["@chainlink/ea-bootstrap", ["workspace:packages/core/bootstrap"]],\
     ["@chainlink/ea-factories", ["workspace:packages/core/factories"]],\
     ["@chainlink/ea-reference-data-reader", ["workspace:packages/core/reference-data-reader"]],\
@@ -981,35 +976,6 @@ const RAW_RUNTIME_STATE =
         "packagePeers": [\
           "@types/openapi-types",\
           "openapi-types"\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@authereum/starkware-crypto", [\
-      ["npm:1.9.7-beta.7", {\
-        "packageLocation": "./.yarn/cache/@authereum-starkware-crypto-npm-1.9.7-beta.7-6c2cd009b3-7c78815204.zip/node_modules/@authereum/starkware-crypto/",\
-        "packageDependencies": [\
-          ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-          ["@authereum/starkware-types", "npm:1.2.0-beta.1"],\
-          ["bip39", "npm:3.1.0"],\
-          ["bn.js", "npm:5.2.5"],\
-          ["elliptic", "npm:6.6.1"],\
-          ["enc-utils", "npm:2.2.3"],\
-          ["ethereumjs-wallet", "npm:1.0.2"],\
-          ["hash.js", "npm:1.1.7"],\
-          ["js-sha3", "npm:0.8.0"],\
-          ["keccak256", "npm:1.0.6"],\
-          ["rsv-signature", "npm:1.1.0"],\
-          ["web3-utils", "npm:1.10.4"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@authereum/starkware-types", [\
-      ["npm:1.2.0-beta.1", {\
-        "packageLocation": "./.yarn/cache/@authereum-starkware-types-npm-1.2.0-beta.1-edfad0bddb-584dfb9f86.zip/node_modules/@authereum/starkware-types/",\
-        "packageDependencies": [\
-          ["@authereum/starkware-types", "npm:1.2.0-beta.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5174,24 +5140,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/dydx-stark-adapter", [\
-      ["workspace:packages/targets/dydx-stark", {\
-        "packageLocation": "./packages/targets/dydx-stark/",\
-        "packageDependencies": [\
-          ["@authereum/starkware-crypto", "npm:1.9.7-beta.7"],\
-          ["@chainlink/dydx-stark-adapter", "workspace:packages/targets/dydx-stark"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["decimal.js", "npm:10.3.1"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/ea-bootstrap", [\
       ["workspace:packages/core/bootstrap", {\
         "packageLocation": "./packages/core/bootstrap/",\
@@ -7888,27 +7836,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["@ethereumjs/rlp", [\
-      ["npm:4.0.1", {\
-        "packageLocation": "./.yarn/cache/@ethereumjs-rlp-npm-4.0.1-9a0db6680f-bfdffd634c.zip/node_modules/@ethereumjs/rlp/",\
-        "packageDependencies": [\
-          ["@ethereumjs/rlp", "npm:4.0.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@ethereumjs/util", [\
-      ["npm:8.1.0", {\
-        "packageLocation": "./.yarn/cache/@ethereumjs-util-npm-8.1.0-d7f8b5e130-cc35338932.zip/node_modules/@ethereumjs/util/",\
-        "packageDependencies": [\
-          ["@ethereumjs/rlp", "npm:4.0.1"],\
-          ["@ethereumjs/util", "npm:8.1.0"],\
-          ["ethereum-cryptography", "npm:2.2.1"],\
-          ["micro-ftch", "npm:0.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["@ethersproject/abi", [\
       ["npm:5.8.0", {\
         "packageLocation": "./.yarn/cache/@ethersproject-abi-npm-5.8.0-aa0d494b7c-a63ebc2c8e.zip/node_modules/@ethersproject/abi/",\
@@ -10310,16 +10237,6 @@ const RAW_RUNTIME_STATE =
           ["@scure/bip32", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
-      }],\
-      ["npm:1.4.0", {\
-        "packageLocation": "./.yarn/cache/@scure-bip32-npm-1.4.0-95f7513221-6cd5062d90.zip/node_modules/@scure/bip32/",\
-        "packageDependencies": [\
-          ["@noble/curves", "npm:1.4.2"],\
-          ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/base", "npm:1.1.9"],\
-          ["@scure/bip32", "npm:1.4.0"]\
-        ],\
-        "linkType": "HARD"\
       }]\
     ]],\
     ["@scure/bip39", [\
@@ -10329,15 +10246,6 @@ const RAW_RUNTIME_STATE =
           ["@noble/hashes", "npm:1.1.5"],\
           ["@scure/base", "npm:1.1.9"],\
           ["@scure/bip39", "npm:1.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:1.3.0", {\
-        "packageLocation": "./.yarn/cache/@scure-bip39-npm-1.3.0-1d74c5c469-7d71fd5815.zip/node_modules/@scure/bip39/",\
-        "packageDependencies": [\
-          ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/base", "npm:1.1.9"],\
-          ["@scure/bip39", "npm:1.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -17194,13 +17102,6 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:3.1.2", {\
-        "packageLocation": "./.yarn/cache/aes-js-npm-3.1.2-d7549a23a2-b659167670.zip/node_modules/aes-js/",\
-        "packageDependencies": [\
-          ["aes-js", "npm:3.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.0.0-beta.5", {\
         "packageLocation": "./.yarn/cache/aes-js-npm-4.0.0-beta.5-c70da65547-8f745da2e8.zip/node_modules/aes-js/",\
         "packageDependencies": [\
@@ -18074,16 +17975,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["bip39", [\
-      ["npm:3.1.0", {\
-        "packageLocation": "./.yarn/cache/bip39-npm-3.1.0-03958ed434-406c0b5bda.zip/node_modules/bip39/",\
-        "packageDependencies": [\
-          ["@noble/hashes", "npm:1.8.0"],\
-          ["bip39", "npm:3.1.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["bitcoinjs-lib", [\
       ["npm:6.1.7", {\
         "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.7-31b0bb4f5c-d501b1cd83.zip/node_modules/bitcoinjs-lib/",\
@@ -18122,20 +18013,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["bn.js", [\
-      ["npm:4.11.6", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-4.11.6-34a3bf8e02-22741b015c.zip/node_modules/bn.js/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.11.6"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:4.11.8", {\
-        "packageLocation": "./.yarn/cache/bn.js-npm-4.11.8-296affce9a-b498be9c09.zip/node_modules/bn.js/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.11.8"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:4.12.3", {\
         "packageLocation": "./.yarn/cache/bn.js-npm-4.12.3-60404d953d-57ed5a055f.zip/node_modules/bn.js/",\
         "packageDependencies": [\
@@ -19349,13 +19226,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["decimal.js", [\
-      ["npm:10.3.1", {\
-        "packageLocation": "./.yarn/cache/decimal.js-npm-10.3.1-797c736b6c-3570557550.zip/node_modules/decimal.js/",\
-        "packageDependencies": [\
-          ["decimal.js", "npm:10.3.1"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:10.4.3", {\
         "packageLocation": "./.yarn/cache/decimal.js-npm-10.4.3-e7d483387c-de663a7bc4.zip/node_modules/decimal.js/",\
         "packageDependencies": [\
@@ -19674,18 +19544,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/emoji-regex-npm-8.0.0-213764015c-c72d67a682.zip/node_modules/emoji-regex/",\
         "packageDependencies": [\
           ["emoji-regex", "npm:8.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["enc-utils", [\
-      ["npm:2.2.3", {\
-        "packageLocation": "./.yarn/cache/enc-utils-npm-2.2.3-2a5ee57b13-3e33996548.zip/node_modules/enc-utils/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.11.8"],\
-          ["enc-utils", "npm:2.2.3"],\
-          ["is-typedarray", "npm:1.0.0"],\
-          ["typedarray-to-buffer", "npm:3.1.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20060,16 +19918,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["ethereum-bloom-filters", [\
-      ["npm:1.2.0", {\
-        "packageLocation": "./.yarn/cache/ethereum-bloom-filters-npm-1.2.0-acb5ad3979-86556762d0.zip/node_modules/ethereum-bloom-filters/",\
-        "packageDependencies": [\
-          ["@noble/hashes", "npm:1.8.0"],\
-          ["ethereum-bloom-filters", "npm:1.2.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["ethereum-cryptography", [\
       ["npm:0.1.3", {\
         "packageLocation": "./.yarn/cache/ethereum-cryptography-npm-0.1.3-ab43fc624b-975e476782.zip/node_modules/ethereum-cryptography/",\
@@ -20090,17 +19938,6 @@ const RAW_RUNTIME_STATE =
           ["scrypt-js", "npm:3.0.1"],\
           ["secp256k1", "npm:4.0.4"],\
           ["setimmediate", "npm:1.0.5"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:2.2.1", {\
-        "packageLocation": "./.yarn/cache/ethereum-cryptography-npm-2.2.1-b60ce015cb-ab123bbfe8.zip/node_modules/ethereum-cryptography/",\
-        "packageDependencies": [\
-          ["@noble/curves", "npm:1.4.2"],\
-          ["@noble/hashes", "npm:1.4.0"],\
-          ["@scure/bip32", "npm:1.4.0"],\
-          ["@scure/bip39", "npm:1.3.0"],\
-          ["ethereum-cryptography", "npm:2.2.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -20139,35 +19976,6 @@ const RAW_RUNTIME_STATE =
           ["ethereumjs-util", "npm:6.2.1"],\
           ["ethjs-util", "npm:0.1.6"],\
           ["rlp", "npm:2.2.7"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["npm:7.1.5", {\
-        "packageLocation": "./.yarn/cache/ethereumjs-util-npm-7.1.5-5bb4d00000-f28fc1ebb8.zip/node_modules/ethereumjs-util/",\
-        "packageDependencies": [\
-          ["@types/bn.js", "npm:5.1.6"],\
-          ["bn.js", "npm:5.2.5"],\
-          ["create-hash", "npm:1.2.0"],\
-          ["ethereum-cryptography", "npm:0.1.3"],\
-          ["ethereumjs-util", "npm:7.1.5"],\
-          ["rlp", "npm:2.2.7"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["ethereumjs-wallet", [\
-      ["npm:1.0.2", {\
-        "packageLocation": "./.yarn/cache/ethereumjs-wallet-npm-1.0.2-8a504d268d-0a9ad0ac09.zip/node_modules/ethereumjs-wallet/",\
-        "packageDependencies": [\
-          ["aes-js", "npm:3.1.2"],\
-          ["bs58check", "npm:2.1.2"],\
-          ["ethereum-cryptography", "npm:0.1.3"],\
-          ["ethereumjs-util", "npm:7.1.5"],\
-          ["ethereumjs-wallet", "npm:1.0.2"],\
-          ["randombytes", "npm:2.1.0"],\
-          ["scrypt-js", "npm:3.0.1"],\
-          ["utf8", "npm:3.0.0"],\
-          ["uuid", "npm:8.3.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -20249,17 +20057,6 @@ const RAW_RUNTIME_STATE =
           ["ethers", "npm:6.17.0"],\
           ["tslib", "npm:2.7.0"],\
           ["ws", "virtual:bebc600dc072a7e3eb725a97ad7f487a93cd9b4d5ad8fb34d3052b8902b8e6d2e5c8e6ec766798a97e274cfe750053fec361097f9dd213029f1d0538b3524b87#npm:8.21.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["ethjs-unit", [\
-      ["npm:0.1.6", {\
-        "packageLocation": "./.yarn/cache/ethjs-unit-npm-0.1.6-fb3575f27f-35086cb671.zip/node_modules/ethjs-unit/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.11.6"],\
-          ["ethjs-unit", "npm:0.1.6"],\
-          ["number-to-bn", "npm:1.7.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -23033,18 +22830,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["keccak256", [\
-      ["npm:1.0.6", {\
-        "packageLocation": "./.yarn/cache/keccak256-npm-1.0.6-30a3b4497e-c7370708a3.zip/node_modules/keccak256/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:5.2.5"],\
-          ["buffer", "npm:6.0.3"],\
-          ["keccak", "npm:3.0.4"],\
-          ["keccak256", "npm:1.0.6"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["keyv", [\
       ["npm:4.5.4", {\
         "packageLocation": "./.yarn/cache/keyv-npm-4.5.4-4c8e2cf7f7-167eb6ef64.zip/node_modules/keyv/",\
@@ -23506,15 +23291,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/methods-npm-1.1.2-92f6fdb39b-a385dd974f.zip/node_modules/methods/",\
         "packageDependencies": [\
           ["methods", "npm:1.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["micro-ftch", [\
-      ["npm:0.3.1", {\
-        "packageLocation": "./.yarn/cache/micro-ftch-npm-0.3.1-4699fe6be7-a7ab07d25e.zip/node_modules/micro-ftch/",\
-        "packageDependencies": [\
-          ["micro-ftch", "npm:0.3.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -24089,17 +23865,6 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["npm-run-path", "npm:4.0.1"],\
           ["path-key", "npm:3.1.1"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["number-to-bn", [\
-      ["npm:1.7.0", {\
-        "packageLocation": "./.yarn/cache/number-to-bn-npm-1.7.0-dce8575cfb-702e8f00b6.zip/node_modules/number-to-bn/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.11.6"],\
-          ["number-to-bn", "npm:1.7.0"],\
-          ["strip-hex-prefix", "npm:1.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -25501,17 +25266,6 @@ const RAW_RUNTIME_STATE =
           ["utf-8-validate", "npm:5.0.10"],\
           ["uuid", "npm:8.3.2"],\
           ["ws", "virtual:a4d909a61e93daed8b0f848db71f77bdb5ea1775c18ad3db85de4172204ddb9f7f82dbc310d890029da6267fa4af96340d5ff43faec0b46ba34566f507673938#npm:8.21.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["rsv-signature", [\
-      ["npm:1.1.0", {\
-        "packageLocation": "./.yarn/cache/rsv-signature-npm-1.1.0-7857bc865f-7dee5101d3.zip/node_modules/rsv-signature/",\
-        "packageDependencies": [\
-          ["bn.js", "npm:4.12.3"],\
-          ["enc-utils", "npm:2.2.3"],\
-          ["rsv-signature", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -27392,15 +27146,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["utf8", [\
-      ["npm:3.0.0", {\
-        "packageLocation": "./.yarn/cache/utf8-npm-3.0.0-7c39b5994a-31d19c4faa.zip/node_modules/utf8/",\
-        "packageDependencies": [\
-          ["utf8", "npm:3.0.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["util-deprecate", [\
       ["npm:1.0.2", {\
         "packageLocation": "./.yarn/cache/util-deprecate-npm-1.0.2-e3fe1a219c-474acf1146.zip/node_modules/util-deprecate/",\
@@ -27497,23 +27242,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/web-streams-polyfill-npm-3.3.3-f24b9f8c34-8e7e13501b.zip/node_modules/web-streams-polyfill/",\
         "packageDependencies": [\
           ["web-streams-polyfill", "npm:3.3.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["web3-utils", [\
-      ["npm:1.10.4", {\
-        "packageLocation": "./.yarn/cache/web3-utils-npm-1.10.4-5448d301b5-3e586b638c.zip/node_modules/web3-utils/",\
-        "packageDependencies": [\
-          ["@ethereumjs/util", "npm:8.1.0"],\
-          ["bn.js", "npm:5.2.5"],\
-          ["ethereum-bloom-filters", "npm:1.2.0"],\
-          ["ethereum-cryptography", "npm:2.2.1"],\
-          ["ethjs-unit", "npm:0.1.6"],\
-          ["number-to-bn", "npm:1.7.0"],\
-          ["randombytes", "npm:2.1.0"],\
-          ["utf8", "npm:3.0.0"],\
-          ["web3-utils", "npm:1.10.4"]\
         ],\
         "linkType": "HARD"\
       }]\
