@@ -403,10 +403,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lido-por"\
     },\
     {\
-      "name": "@chainlink/liveart-adapter",\
-      "reference": "workspace:packages/sources/liveart"\
-    },\
-    {\
       "name": "@chainlink/lo-tech-adapter",\
       "reference": "workspace:packages/sources/lo-tech"\
     },\
@@ -705,7 +701,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/layer2-sequencer-health-adapter", ["workspace:packages/sources/layer2-sequencer-health"]],\
     ["@chainlink/lido-adapter", ["workspace:packages/sources/lido"]],\
     ["@chainlink/lido-por-adapter", ["workspace:packages/sources/lido-por"]],\
-    ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lo-tech-adapter", ["workspace:packages/sources/lo-tech"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
@@ -6089,21 +6084,6 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/liveart-adapter", [\
-      ["workspace:packages/sources/liveart", {\
-        "packageLocation": "./packages/sources/liveart/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/liveart-adapter", "workspace:packages/sources/liveart"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
