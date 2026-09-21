@@ -6,14 +6,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |        Name        |              Description               |  Type  | Options |                                   Default                                   |
-| :-------: | :----------------: | :------------------------------------: | :----: | :-----: | :-------------------------------------------------------------------------: |
-|           |    API_ENDPOINT    |          API Endpoint to use           | string |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
-|           |  ALT_API_ENDPOINT  |          TNF alt API Endpoint          | string |         |                      `https://api.ledgerlens.io/oc/v1`                      |
-|           |   EMGEMX_API_KEY   |    API key used for emgemx endpoint    | string |         |                                     ``                                      |
-|           |  URANIUM_API_KEY   |   API key used for uranium endpoint    | string |         |                                     ``                                      |
-|           | WYSTC_API_ENDPOINT | WYSTC LedgerLens snapshot API base URL | string |         |               `https://api.real-time-reserves.ledgerlens.io`                |
-|           |   WYSTC_API_KEY    |       API key for WYSTC endpoint       | string |         |                                     ``                                      |
+| Required? |        Name        |                                                Description                                                 |  Type  | Options |                                   Default                                   |
+| :-------: | :----------------: | :--------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-------------------------------------------------------------------------: |
+|    ✅     | ${CLIENT}\_API_KEY | API key used for ${CLIENT}, where ${CLIENT} is the upper-snake-case version of the client input parameter. | string |         |                                                                             |
+|           |    API_ENDPOINT    |                                            API Endpoint to use                                             | string |         | `https://api.oracle-services.ledgerlens.io/v1/chainlink/proof-of-reserves/` |
+|           |  ALT_API_ENDPOINT  |                                            TNF alt API Endpoint                                            | string |         |                      `https://api.ledgerlens.io/oc/v1`                      |
+|           |   EMGEMX_API_KEY   |                                      API key used for emgemx endpoint                                      | string |         |                                     ``                                      |
+|           |  URANIUM_API_KEY   |                                     API key used for uranium endpoint                                      | string |         |                                     ``                                      |
+|           | WYSTC_API_ENDPOINT |                                   WYSTC LedgerLens snapshot API base URL                                   | string |         |               `https://api.real-time-reserves.ledgerlens.io`                |
+|           |   WYSTC_API_KEY    |                                         API key for WYSTC endpoint                                         | string |         |                                     ``                                      |
 
 ---
 
