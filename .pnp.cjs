@@ -479,10 +479,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/solana-functions"\
     },\
     {\
-      "name": "@chainlink/solana-view-function-adapter",\
-      "reference": "workspace:packages/sources/solana-view-function"\
-    },\
-    {\
       "name": "@chainlink/stader-labs-adapter",\
       "reference": "workspace:packages/sources/stader-labs"\
     },\
@@ -696,7 +692,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/six-adapter", ["workspace:packages/sources/six"]],\
     ["@chainlink/solactive-adapter", ["workspace:packages/sources/solactive"]],\
     ["@chainlink/solana-functions-adapter", ["workspace:packages/sources/solana-functions"]],\
-    ["@chainlink/solana-view-function-adapter", ["workspace:packages/sources/solana-view-function"]],\
     ["@chainlink/stader-labs-adapter", ["workspace:packages/sources/stader-labs"]],\
     ["@chainlink/starknet-gas-price-adapter", ["workspace:packages/sources/starknet-gas-price"]],\
     ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
@@ -6477,24 +6472,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["bn.js", "npm:5.2.5"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/solana-view-function-adapter", [\
-      ["workspace:packages/sources/solana-view-function", {\
-        "packageLocation": "./packages/sources/solana-view-function/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/solana-view-function-adapter", "workspace:packages/sources/solana-view-function"],\
-          ["@solana/web3.js", "npm:1.98.4"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
