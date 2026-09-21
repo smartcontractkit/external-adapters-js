@@ -411,10 +411,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/lo-tech"\
     },\
     {\
-      "name": "@chainlink/lotus-adapter",\
-      "reference": "workspace:packages/sources/lotus"\
-    },\
-    {\
       "name": "@chainlink/m0-adapter",\
       "reference": "workspace:packages/sources/m0"\
     },\
@@ -712,7 +708,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/liveart-adapter", ["workspace:packages/sources/liveart"]],\
     ["@chainlink/llama-guard-adapter", ["workspace:packages/composites/llama-guard"]],\
     ["@chainlink/lo-tech-adapter", ["workspace:packages/sources/lo-tech"]],\
-    ["@chainlink/lotus-adapter", ["workspace:packages/sources/lotus"]],\
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
@@ -6144,22 +6139,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["date-fns", "npm:4.1.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/lotus-adapter", [\
-      ["workspace:packages/sources/lotus", {\
-        "packageLocation": "./packages/sources/lotus/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/lotus-adapter", "workspace:packages/sources/lotus"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["ethers", "npm:5.8.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\

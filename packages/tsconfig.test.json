@@ -291,9 +291,6 @@
       "path": "./sources/lo-tech/tsconfig.test.json"
     },
     {
-      "path": "./sources/lotus/tsconfig.test.json"
-    },
-    {
       "path": "./sources/m0/tsconfig.test.json"
     },
     {
