@@ -339,10 +339,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/generic-api"\
     },\
     {\
-      "name": "@chainlink/gmci-adapter",\
-      "reference": "workspace:packages/sources/gmci"\
-    },\
-    {\
       "name": "@chainlink/gsr-adapter",\
       "reference": "workspace:packages/sources/gsr"\
     },\
@@ -718,7 +714,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/generic-api-adapter", ["workspace:packages/sources/generic-api"]],\
     ["@chainlink/glv-token-adapter", ["workspace:packages/composites/glv-token"]],\
     ["@chainlink/gm-token-adapter", ["workspace:packages/composites/gm-token"]],\
-    ["@chainlink/gmci-adapter", ["workspace:packages/sources/gmci"]],\
     ["@chainlink/gmx-tokens-adapter", ["workspace:packages/composites/gmx-tokens"]],\
     ["@chainlink/gold-adapter", ["workspace:packages/composites/gold"]],\
     ["@chainlink/gsr-adapter", ["workspace:packages/sources/gsr"]],\
@@ -5804,23 +5799,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:22.14.1"],\
           ["decimal.js", "npm:10.5.0"],\
           ["ethers", "npm:6.15.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/gmci-adapter", [\
-      ["workspace:packages/sources/gmci", {\
-        "packageLocation": "./packages/sources/gmci/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/gmci-adapter", "workspace:packages/sources/gmci"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
