@@ -424,9 +424,6 @@
     },
     {
       "path": "./sources/wisdomtree"
-    },
-    {
-      "path": "./targets/dydx-stark"
     }
   ]
 }
