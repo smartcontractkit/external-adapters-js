@@ -378,9 +378,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/stader-address-list"
-    },
-    {
       "path": "./sources/stader-labs"
     },
     {

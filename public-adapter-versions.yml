@@ -227,8 +227,6 @@ adapters:
     version: 1.8.1
   - name: solana-view-function
     version: 2.2.48
-  - name: stader-address-list
-    version: 2.3.42
   - name: stader-labs
     version: 3.0.25
   - name: starknet-gas-price
