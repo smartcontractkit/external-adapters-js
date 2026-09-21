@@ -615,10 +615,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/twelvedata"\
     },\
     {\
-      "name": "@chainlink/twosigma-adapter",\
-      "reference": "workspace:packages/sources/twosigma"\
-    },\
-    {\
       "name": "@chainlink/view-function-adapter",\
       "reference": "workspace:packages/sources/view-function"\
     },\
@@ -798,7 +794,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
     ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
-    ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
     ["@chainlink/view-function-adapter", ["workspace:packages/sources/view-function"]],\
     ["@chainlink/view-function-multi-chain-adapter", ["workspace:packages/sources/view-function-multi-chain"]],\
     ["@chainlink/view-starknet-latest-answer-adapter", ["workspace:packages/sources/view-starknet-latest-answer"]],\
@@ -7258,24 +7253,6 @@ const RAW_RUNTIME_STATE =
           ["@types/supertest", "npm:2.0.16"],\
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/twosigma-adapter", [\
-      ["workspace:packages/sources/twosigma", {\
-        "packageLocation": "./packages/sources/twosigma/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/twosigma-adapter", "workspace:packages/sources/twosigma"],\
-          ["@sinonjs/fake-timers", "npm:9.1.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["@types/ws", "npm:8.5.14"],\
-          ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\

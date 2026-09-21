@@ -444,9 +444,6 @@
       "path": "./sources/twelvedata/tsconfig.test.json"
     },
     {
-      "path": "./sources/twosigma/tsconfig.test.json"
-    },
-    {
       "path": "./sources/view-function/tsconfig.test.json"
     },
     {
