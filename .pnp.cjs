@@ -239,10 +239,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/coinranking"\
     },\
     {\
-      "name": "@chainlink/cryptoapis-adapter",\
-      "reference": "workspace:packages/sources/cryptoapis"\
-    },\
-    {\
       "name": "@chainlink/cryptocompare-adapter",\
       "reference": "workspace:packages/sources/cryptocompare"\
     },\
@@ -684,7 +680,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/coinpaprika-adapter", ["workspace:packages/sources/coinpaprika"]],\
     ["@chainlink/coinpaprika-state-adapter", ["workspace:packages/sources/coinpaprika-state"]],\
     ["@chainlink/coinranking-adapter", ["workspace:packages/sources/coinranking"]],\
-    ["@chainlink/cryptoapis-adapter", ["workspace:packages/sources/cryptoapis"]],\
     ["@chainlink/cryptocompare-adapter", ["workspace:packages/sources/cryptocompare"]],\
     ["@chainlink/data-engine-adapter", ["workspace:packages/sources/data-engine"]],\
     ["@chainlink/deep-blue-adapter", ["workspace:packages/sources/deep-blue"]],\
@@ -4996,26 +4991,6 @@ const RAW_RUNTIME_STATE =
           ]]\
         ],\
         "linkType": "HARD"\
-      }]\
-    ]],\
-    ["@chainlink/cryptoapis-adapter", [\
-      ["workspace:packages/sources/cryptoapis", {\
-        "packageLocation": "./packages/sources/cryptoapis/",\
-        "packageDependencies": [\
-          ["@chainlink/cryptoapis-adapter", "workspace:packages/sources/cryptoapis"],\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-factories", "workspace:packages/core/factories"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
       }]\
     ]],\
     ["@chainlink/cryptocompare-adapter", [\
