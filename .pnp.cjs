@@ -603,10 +603,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/tradinghours"\
     },\
     {\
-      "name": "@chainlink/trueusd-adapter",\
-      "reference": "workspace:packages/sources/trueusd"\
-    },\
-    {\
       "name": "@chainlink/truflation-adapter",\
       "reference": "workspace:packages/sources/truflation"\
     },\
@@ -799,7 +795,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/tp-adapter", ["workspace:packages/sources/tp"]],\
     ["@chainlink/tradermade-adapter", ["workspace:packages/sources/tradermade"]],\
     ["@chainlink/tradinghours-adapter", ["workspace:packages/sources/tradinghours"]],\
-    ["@chainlink/trueusd-adapter", ["workspace:packages/sources/trueusd"]],\
     ["@chainlink/truflation-adapter", ["workspace:packages/sources/truflation"]],\
     ["@chainlink/twelvedata-adapter", ["workspace:packages/sources/twelvedata"]],\
     ["@chainlink/twosigma-adapter", ["workspace:packages/sources/twosigma"]],\
@@ -7215,21 +7210,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/trueusd-adapter", [\
-      ["workspace:packages/sources/trueusd", {\
-        "packageLocation": "./packages/sources/trueusd/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/trueusd-adapter", "workspace:packages/sources/trueusd"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
