@@ -198,9 +198,6 @@
       "path": "./sources/eth-beacon/tsconfig.test.json"
     },
     {
-      "path": "./sources/etherscan/tsconfig.test.json"
-    },
-    {
       "path": "./sources/exchange-copter/tsconfig.test.json"
     },
     {
