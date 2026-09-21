@@ -261,9 +261,6 @@
       "path": "./sources/ignition-address-list/tsconfig.test.json"
     },
     {
-      "path": "./sources/instruxi-sxt/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {

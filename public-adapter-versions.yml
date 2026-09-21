@@ -139,8 +139,6 @@ adapters:
     version: 1.0.17
   - name: implied-price
     version: 1.4.0
-  - name: instruxi-sxt
-    version: 2.0.9
   - name: ion.au
     version: 1.0.33
   - name: ix-trust-sync

@@ -371,10 +371,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/ignition-address-list"\
     },\
     {\
-      "name": "@chainlink/instruxi-sxt-adapter",\
-      "reference": "workspace:packages/sources/instruxi-sxt"\
-    },\
-    {\
       "name": "@chainlink/ion.au-adapter",\
       "reference": "workspace:packages/sources/ion.au"\
     },\
@@ -693,7 +689,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/ice-adapter", ["workspace:packages/sources/ice"]],\
     ["@chainlink/ignition-address-list-adapter", ["workspace:packages/sources/ignition-address-list"]],\
     ["@chainlink/implied-price-adapter", ["workspace:packages/composites/implied-price"]],\
-    ["@chainlink/instruxi-sxt-adapter", ["workspace:packages/sources/instruxi-sxt"]],\
     ["@chainlink/ion.au-adapter", ["workspace:packages/sources/ion.au"]],\
     ["@chainlink/ix-trust-sync-adapter", ["workspace:packages/sources/ix-trust-sync"]],\
     ["@chainlink/kaiko-adapter", ["workspace:packages/sources/kaiko"]],\
@@ -5950,21 +5945,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["supertest", "npm:6.2.4"],\
           ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/instruxi-sxt-adapter", [\
-      ["workspace:packages/sources/instruxi-sxt", {\
-        "packageLocation": "./packages/sources/instruxi-sxt/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/instruxi-sxt-adapter", "workspace:packages/sources/instruxi-sxt"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["nock", "npm:13.5.6"],\
-          ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
