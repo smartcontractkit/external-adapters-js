@@ -25,6 +25,9 @@ describe('twap endpoint', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env.API_USERNAME = 'fake-username'
     process.env.API_PASSWORD = 'fake-password'
+    // Disable requester retries so provider errors surface deterministically
+    // (the randomized backoff can outlast the test adapter's cache polling window)
+    process.env.RETRY = '0'
 
     const mockDate = new Date('2001-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())

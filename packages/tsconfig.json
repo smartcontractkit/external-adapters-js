@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/bitcoin-json-rpc"
-    },
-    {
       "path": "./composites/calculated-price"
     },
     {
@@ -31,9 +28,6 @@
     },
     {
       "path": "./composites/multi-address-list"
-    },
-    {
-      "path": "./composites/proof-of-reserves"
     },
     {
       "path": "./composites/proof-of-reserves-v2"
@@ -72,16 +66,13 @@
       "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter"
     },
     {
-      "path": "./sources/ada-balance"
+      "path": "./sources/21x"
     },
     {
       "path": "./sources/aleno"
     },
     {
       "path": "./sources/allium-state"
-    },
-    {
-      "path": "./sources/amberdata"
     },
     {
       "path": "./sources/anchorage"
@@ -111,19 +102,10 @@
       "path": "./sources/bitgo-reserves"
     },
     {
-      "path": "./sources/blockchain.com"
-    },
-    {
-      "path": "./sources/blockchair"
-    },
-    {
       "path": "./sources/blocksize-capital"
     },
     {
       "path": "./sources/blocksize-capital-state"
-    },
-    {
-      "path": "./sources/btc.com"
     },
     {
       "path": "./sources/canton-functions"
@@ -132,13 +114,7 @@
       "path": "./sources/ceffu"
     },
     {
-      "path": "./sources/celsius-address-list"
-    },
-    {
       "path": "./sources/cfbenchmarks"
-    },
-    {
-      "path": "./sources/chain-reserve-wallet"
     },
     {
       "path": "./sources/coinapi"
@@ -172,9 +148,6 @@
     },
     {
       "path": "./sources/coinranking"
-    },
-    {
-      "path": "./sources/cryptoapis"
     },
     {
       "path": "./sources/cryptocompare"
@@ -213,9 +186,6 @@
       "path": "./sources/eth-beacon"
     },
     {
-      "path": "./sources/etherscan"
-    },
-    {
       "path": "./sources/exchange-copter"
     },
     {
@@ -243,13 +213,7 @@
       "path": "./sources/ftse-sftp"
     },
     {
-      "path": "./sources/gemini"
-    },
-    {
       "path": "./sources/generic-api"
-    },
-    {
-      "path": "./sources/gmci"
     },
     {
       "path": "./sources/gsr"
@@ -264,6 +228,9 @@
       "path": "./sources/hastra"
     },
     {
+      "path": "./sources/hyperithm"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -273,16 +240,10 @@
       "path": "./sources/ignition-address-list"
     },
     {
-      "path": "./sources/instruxi-sxt"
-    },
-    {
       "path": "./sources/ion.au"
     },
     {
       "path": "./sources/ix-trust-sync"
-    },
-    {
-      "path": "./sources/json-rpc"
     },
     {
       "path": "./sources/kaiko"
@@ -300,13 +261,7 @@
       "path": "./sources/lido-por"
     },
     {
-      "path": "./sources/liveart"
-    },
-    {
       "path": "./sources/lo-tech"
-    },
-    {
-      "path": "./sources/lotus"
     },
     {
       "path": "./sources/m0"
@@ -319,9 +274,6 @@
     },
     {
       "path": "./sources/mock-ea"
-    },
-    {
-      "path": "./sources/moonbeam-address-list"
     },
     {
       "path": "./sources/moore-hk"
@@ -349,9 +301,6 @@
     },
     {
       "path": "./sources/nyfed"
-    },
-    {
-      "path": "./sources/oanda"
     },
     {
       "path": "./sources/ondo"
@@ -384,22 +333,10 @@
       "path": "./sources/six"
     },
     {
-      "path": "./sources/sochain"
-    },
-    {
       "path": "./sources/solactive"
     },
     {
       "path": "./sources/solana-functions"
-    },
-    {
-      "path": "./sources/solana-view-function"
-    },
-    {
-      "path": "./sources/stader-address-list"
-    },
-    {
-      "path": "./sources/stader-balance"
     },
     {
       "path": "./sources/stader-labs"
@@ -415,9 +352,6 @@
     },
     {
       "path": "./sources/superstate"
-    },
-    {
-      "path": "./sources/swell-address-list"
     },
     {
       "path": "./sources/synthetix-debt-pool"
@@ -456,16 +390,10 @@
       "path": "./sources/tradinghours"
     },
     {
-      "path": "./sources/trueusd"
-    },
-    {
       "path": "./sources/truflation"
     },
     {
       "path": "./sources/twelvedata"
-    },
-    {
-      "path": "./sources/twosigma"
     },
     {
       "path": "./sources/view-function"
@@ -480,16 +408,7 @@
       "path": "./sources/wbtc-address-set"
     },
     {
-      "path": "./sources/wintermute"
-    },
-    {
       "path": "./sources/wisdomtree"
-    },
-    {
-      "path": "./sources/wrapped"
-    },
-    {
-      "path": "./targets/dydx-stark"
     }
   ]
 }

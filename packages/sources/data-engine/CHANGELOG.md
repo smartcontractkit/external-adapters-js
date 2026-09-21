@@ -1,5 +1,11 @@
 # @chainlink/data-engine-adapter
 
+## 1.6.0
+
+### Minor Changes
+
+- [#5389](https://github.com/smartcontractkit/external-adapters-js/pull/5389) [`084fc19`](https://github.com/smartcontractkit/external-adapters-js/commit/084fc194cf0b8de3e08deb00c0aa84a9942f2758) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add the blended endpoint. Onboards the Data Engine `POST /api/v1/blended` endpoint, which routes between a market's session feeds (open/closed, or open/closed/overnight/extended) on a server-side market calendar. Supports `resultPath` (defaults to `indicatorPrice`) and `decimals` for result extraction and scaling. Also raises the default rate limit tier to 200 req/s.
+
 ## 1.5.2
 
 ### Patch Changes

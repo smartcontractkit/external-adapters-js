@@ -1,4 +1,5 @@
 import { TransportGenerics } from '@chainlink/external-adapter-framework/transports'
+import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
@@ -35,6 +36,12 @@ const META_HANDSHAKE = '/meta/handshake'
 const META_CONNECT = '/meta/connect'
 const SERVICE_SUB = '/service/sub'
 const SERVICE_DATA = '/service/data'
+
+type SubscriptionMessage = {
+  channel: typeof SERVICE_SUB
+  data: { add: Record<string, string[]> } | { remove: Record<string, string[]> }
+  clientId: string
+}
 
 class DxFeedWebsocketTransport<T extends BaseTransportTypes> extends WebSocketTransport<
   T & ProviderTypes
@@ -139,19 +146,55 @@ export function buildWsTransport<T extends BaseTransportTypes>(
     },
 
     builders: {
-      subscribeMessage: (params) => {
-        return formatTicker(params).map((ticker) => ({
-          channel: SERVICE_SUB,
-          data: { add: ticker },
-          clientId: wsTransport.connectionClientId,
-        }))
-      },
-      unsubscribeMessage: (params) => {
-        return formatTicker(params).map((ticker) => ({
-          channel: SERVICE_SUB,
-          data: { remove: ticker },
-          clientId: wsTransport.connectionClientId,
-        }))
+      // Several full input params can format to the same DxFeed ticker (e.g. `price` requests
+      // differing only by an unrelated param, or `stock_quotes` requests differing only by
+      // `requireVolume`/`isOvernight`). The framework's subscription set tracks subscriptions by
+      // full params though, so a ticker can go stale for one params combo while it's still
+      // `desired` for another. We use a custom builder (instead of the default per-subscription
+      // one) so we can dedupe by ticker and skip unsubscribing anything still desired elsewhere.
+      customSubscriptionMessages: (
+        _context,
+        subscriptions: SubscriptionDeltas<TypeFromDefinition<(T & ProviderTypes)['Parameters']>>,
+      ) => {
+        const tickerKey = (ticker: Record<string, string[]>) => JSON.stringify(ticker)
+
+        const desiredTickerKeys = new Set(
+          subscriptions.desired.flatMap(formatTicker).map(tickerKey),
+        )
+
+        const tickersToAdd = new Map<string, Record<string, string[]>>()
+        for (const ticker of subscriptions.new.flatMap(formatTicker)) {
+          tickersToAdd.set(tickerKey(ticker), ticker)
+        }
+
+        const tickersToRemove = new Map<string, Record<string, string[]>>()
+        for (const ticker of subscriptions.stale.flatMap(formatTicker)) {
+          const key = tickerKey(ticker)
+          if (!desiredTickerKeys.has(key)) {
+            tickersToRemove.set(key, ticker)
+          }
+        }
+
+        const messages: SubscriptionMessage[][] = []
+        if (tickersToRemove.size) {
+          messages.push(
+            [...tickersToRemove.values()].map((ticker) => ({
+              channel: SERVICE_SUB,
+              data: { remove: ticker },
+              clientId: wsTransport.connectionClientId,
+            })),
+          )
+        }
+        if (tickersToAdd.size) {
+          messages.push(
+            [...tickersToAdd.values()].map((ticker) => ({
+              channel: SERVICE_SUB,
+              data: { add: ticker },
+              clientId: wsTransport.connectionClientId,
+            })),
+          )
+        }
+        return messages
       },
     },
   })

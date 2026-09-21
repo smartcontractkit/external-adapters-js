@@ -3,9 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "./composites/bitcoin-json-rpc/tsconfig.test.json"
-    },
-    {
       "path": "./composites/calculated-price/tsconfig.test.json"
     },
     {
@@ -31,9 +28,6 @@
     },
     {
       "path": "./composites/multi-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./composites/proof-of-reserves/tsconfig.test.json"
     },
     {
       "path": "./composites/proof-of-reserves-v2/tsconfig.test.json"
@@ -72,16 +66,13 @@
       "path": "./scripts/src/generate-readme/test/integration/readme-test-v3-adapter/tsconfig.test.json"
     },
     {
-      "path": "./sources/ada-balance/tsconfig.test.json"
+      "path": "./sources/21x/tsconfig.test.json"
     },
     {
       "path": "./sources/aleno/tsconfig.test.json"
     },
     {
       "path": "./sources/allium-state/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/amberdata/tsconfig.test.json"
     },
     {
       "path": "./sources/anchorage/tsconfig.test.json"
@@ -111,19 +102,10 @@
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
     },
     {
-      "path": "./sources/blockchain.com/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/blockchair/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blocksize-capital/tsconfig.test.json"
     },
     {
       "path": "./sources/blocksize-capital-state/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/btc.com/tsconfig.test.json"
     },
     {
       "path": "./sources/canton-functions/tsconfig.test.json"
@@ -132,13 +114,7 @@
       "path": "./sources/ceffu/tsconfig.test.json"
     },
     {
-      "path": "./sources/celsius-address-list/tsconfig.test.json"
-    },
-    {
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
     },
     {
       "path": "./sources/coinapi/tsconfig.test.json"
@@ -172,9 +148,6 @@
     },
     {
       "path": "./sources/coinranking/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/cryptoapis/tsconfig.test.json"
     },
     {
       "path": "./sources/cryptocompare/tsconfig.test.json"
@@ -213,9 +186,6 @@
       "path": "./sources/eth-beacon/tsconfig.test.json"
     },
     {
-      "path": "./sources/etherscan/tsconfig.test.json"
-    },
-    {
       "path": "./sources/exchange-copter/tsconfig.test.json"
     },
     {
@@ -243,13 +213,7 @@
       "path": "./sources/ftse-sftp/tsconfig.test.json"
     },
     {
-      "path": "./sources/gemini/tsconfig.test.json"
-    },
-    {
       "path": "./sources/generic-api/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/gmci/tsconfig.test.json"
     },
     {
       "path": "./sources/gsr/tsconfig.test.json"
@@ -264,6 +228,9 @@
       "path": "./sources/hastra/tsconfig.test.json"
     },
     {
+      "path": "./sources/hyperithm/tsconfig.test.json"
+    },
+    {
       "path": "./sources/icap/tsconfig.test.json"
     },
     {
@@ -273,16 +240,10 @@
       "path": "./sources/ignition-address-list/tsconfig.test.json"
     },
     {
-      "path": "./sources/instruxi-sxt/tsconfig.test.json"
-    },
-    {
       "path": "./sources/ion.au/tsconfig.test.json"
     },
     {
       "path": "./sources/ix-trust-sync/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/json-rpc/tsconfig.test.json"
     },
     {
       "path": "./sources/kaiko/tsconfig.test.json"
@@ -300,13 +261,7 @@
       "path": "./sources/lido-por/tsconfig.test.json"
     },
     {
-      "path": "./sources/liveart/tsconfig.test.json"
-    },
-    {
       "path": "./sources/lo-tech/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/lotus/tsconfig.test.json"
     },
     {
       "path": "./sources/m0/tsconfig.test.json"
@@ -319,9 +274,6 @@
     },
     {
       "path": "./sources/mock-ea/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/moonbeam-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/moore-hk/tsconfig.test.json"
@@ -349,9 +301,6 @@
     },
     {
       "path": "./sources/nyfed/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/oanda/tsconfig.test.json"
     },
     {
       "path": "./sources/ondo/tsconfig.test.json"
@@ -384,22 +333,10 @@
       "path": "./sources/six/tsconfig.test.json"
     },
     {
-      "path": "./sources/sochain/tsconfig.test.json"
-    },
-    {
       "path": "./sources/solactive/tsconfig.test.json"
     },
     {
       "path": "./sources/solana-functions/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/solana-view-function/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/stader-address-list/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/stader-balance/tsconfig.test.json"
     },
     {
       "path": "./sources/stader-labs/tsconfig.test.json"
@@ -415,9 +352,6 @@
     },
     {
       "path": "./sources/superstate/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/swell-address-list/tsconfig.test.json"
     },
     {
       "path": "./sources/synthetix-debt-pool/tsconfig.test.json"
@@ -456,16 +390,10 @@
       "path": "./sources/tradinghours/tsconfig.test.json"
     },
     {
-      "path": "./sources/trueusd/tsconfig.test.json"
-    },
-    {
       "path": "./sources/truflation/tsconfig.test.json"
     },
     {
       "path": "./sources/twelvedata/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/twosigma/tsconfig.test.json"
     },
     {
       "path": "./sources/view-function/tsconfig.test.json"
@@ -480,16 +408,7 @@
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
     },
     {
-      "path": "./sources/wintermute/tsconfig.test.json"
-    },
-    {
       "path": "./sources/wisdomtree/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/wrapped/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/dydx-stark/tsconfig.test.json"
     }
   ]
 }
