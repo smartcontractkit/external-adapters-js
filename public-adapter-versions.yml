@@ -241,8 +241,6 @@ adapters:
     version: 1.0.1
   - name: superstate
     version: 1.5.3
-  - name: swell-address-list
-    version: 1.0.30
   - name: synthetix-debt-pool
     version: 4.1.21
   - name: synthetix-feeds
