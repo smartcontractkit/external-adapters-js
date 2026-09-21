@@ -1,5 +1,18 @@
 # @chainlink/token-allocation-adapter
 
+## 1.15.22
+
+### Patch Changes
+
+- Updated dependencies [[`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1)]:
+  - @chainlink/cfbenchmarks-adapter@2.9.6
+  - @chainlink/coingecko-adapter@2.3.5
+  - @chainlink/coinmetrics-adapter@3.13.5
+  - @chainlink/coinpaprika-adapter@2.10.6
+  - @chainlink/finage-adapter@2.9.4
+  - @chainlink/ncfx-adapter@4.10.3
+  - @chainlink/tiingo-adapter@2.14.3
+
 ## 1.15.21
 
 ### Patch Changes

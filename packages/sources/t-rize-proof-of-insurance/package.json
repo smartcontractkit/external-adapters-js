@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/t-rize-proof-of-insurance-adapter",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "External Adapter for querying the T-Rize Proof-of-Insurance API.",
   "keywords": [
     "Chainlink",
