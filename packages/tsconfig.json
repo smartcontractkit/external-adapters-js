@@ -237,9 +237,6 @@
       "path": "./sources/generic-api"
     },
     {
-      "path": "./sources/gmci"
-    },
-    {
       "path": "./sources/gsr"
     },
     {
