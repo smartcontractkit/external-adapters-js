@@ -551,10 +551,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/superstate"\
     },\
     {\
-      "name": "@chainlink/swell-address-list-adapter",\
-      "reference": "workspace:packages/sources/swell-address-list"\
-    },\
-    {\
       "name": "@chainlink/synthetix-debt-pool-adapter",\
       "reference": "workspace:packages/sources/synthetix-debt-pool"\
     },\
@@ -771,7 +767,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/static-market-hours-adapter", ["workspace:packages/sources/static-market-hours"]],\
     ["@chainlink/streamex-adapter", ["workspace:packages/sources/streamex"]],\
     ["@chainlink/superstate-adapter", ["workspace:packages/sources/superstate"]],\
-    ["@chainlink/swell-address-list-adapter", ["workspace:packages/sources/swell-address-list"]],\
     ["@chainlink/synthetix-debt-pool-adapter", ["workspace:packages/sources/synthetix-debt-pool"]],\
     ["@chainlink/synthetix-feeds-adapter", ["workspace:packages/sources/synthetix-feeds"]],\
     ["@chainlink/t-rize-proof-of-insurance-adapter", ["workspace:packages/sources/t-rize-proof-of-insurance"]],\
@@ -6906,25 +6901,6 @@ const RAW_RUNTIME_STATE =
           ["nock", "npm:13.5.6"],\
           ["node-schedule", "npm:2.1.1"],\
           ["tslib", "npm:2.4.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
-    ["@chainlink/swell-address-list-adapter", [\
-      ["workspace:packages/sources/swell-address-list", {\
-        "packageLocation": "./packages/sources/swell-address-list/",\
-        "packageDependencies": [\
-          ["@chainlink/ea-bootstrap", "workspace:packages/core/bootstrap"],\
-          ["@chainlink/ea-test-helpers", "workspace:packages/core/test-helpers"],\
-          ["@chainlink/swell-address-list-adapter", "workspace:packages/sources/swell-address-list"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
         ],\
         "linkType": "SOFT"\
