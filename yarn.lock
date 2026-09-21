@@ -4050,19 +4050,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/oanda-adapter@workspace:packages/sources/oanda":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/oanda-adapter@workspace:packages/sources/oanda"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/node": "npm:22.14.1"
-    axios: "npm:1.13.4"
-    decimal.js: "npm:^10.3.1"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/observation@workspace:packages/observation":
   version: 0.0.0-use.local
   resolution: "@chainlink/observation@workspace:packages/observation"
