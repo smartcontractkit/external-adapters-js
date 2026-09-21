@@ -79,8 +79,6 @@ adapters:
     version: 1.0.3
   - name: dxfeed
     version: 2.8.2
-  - name: dydx-stark
-    version: 2.0.32
   - name: elwood
     version: 3.3.2
   - name: enzyme

@@ -463,9 +463,6 @@
     },
     {
       "path": "./sources/wisdomtree/tsconfig.test.json"
-    },
-    {
-      "path": "./targets/dydx-stark/tsconfig.test.json"
     }
   ]
 }
