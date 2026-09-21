@@ -102,9 +102,6 @@
       "path": "./sources/bitgo-reserves/tsconfig.test.json"
     },
     {
-      "path": "./sources/blockchain.com/tsconfig.test.json"
-    },
-    {
       "path": "./sources/blockchair/tsconfig.test.json"
     },
     {
@@ -250,6 +247,9 @@
     },
     {
       "path": "./sources/hastra/tsconfig.test.json"
+    },
+    {
+      "path": "./sources/hyperithm/tsconfig.test.json"
     },
     {
       "path": "./sources/icap/tsconfig.test.json"
@@ -441,9 +441,6 @@
       "path": "./sources/twelvedata/tsconfig.test.json"
     },
     {
-      "path": "./sources/twosigma/tsconfig.test.json"
-    },
-    {
       "path": "./sources/view-function/tsconfig.test.json"
     },
     {
@@ -454,9 +451,6 @@
     },
     {
       "path": "./sources/wbtc-address-set/tsconfig.test.json"
-    },
-    {
-      "path": "./sources/wintermute/tsconfig.test.json"
     },
     {
       "path": "./sources/wisdomtree/tsconfig.test.json"
