@@ -4,7 +4,7 @@
 '@chainlink/anchorage-adapter': patch
 '@chainlink/backed-fi-adapter': patch
 '@chainlink/blocksize-capital-state-adapter': patch
-'@chainlink/cfbenchmarks2-adapter': patch
+'@chainlink/cfbenchmarks-adapter': patch
 '@chainlink/coingecko-adapter': patch
 '@chainlink/coinmetrics-adapter': patch
 '@chainlink/coinpaprika-adapter': patch
