@@ -269,8 +269,6 @@ adapters:
     version: 2.1.30
   - name: tradinghours
     version: 0.8.0
-  - name: trueusd
-    version: 3.0.35
   - name: truflation
     version: 1.0.2
   - name: twelvedata

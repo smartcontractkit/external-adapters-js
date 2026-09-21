@@ -435,9 +435,6 @@
       "path": "./sources/tradinghours"
     },
     {
-      "path": "./sources/trueusd"
-    },
-    {
       "path": "./sources/truflation"
     },
     {
