@@ -111,9 +111,6 @@
       "path": "./sources/blocksize-capital-state"
     },
     {
-      "path": "./sources/btc.com"
-    },
-    {
       "path": "./sources/canton-functions"
     },
     {
