@@ -285,8 +285,6 @@ adapters:
     version: 1.0.27
   - name: wbtc-address-set
     version: 2.1.23
-  - name: wintermute
-    version: 2.0.1
   - name: wisdomtree
     version: 1.0.5
   - name: xsushi-price
