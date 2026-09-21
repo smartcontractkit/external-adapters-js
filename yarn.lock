@@ -2520,20 +2520,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/chain-reserve-wallet-adapter@workspace:packages/sources/chain-reserve-wallet"
-  dependencies:
-    "@chainlink/ea-bootstrap": "workspace:*"
-    "@chainlink/ea-test-helpers": "workspace:*"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    ethers: "npm:^5.8.0"
-    tslib: "npm:^2.3.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/coinapi-adapter@workspace:*, @chainlink/coinapi-adapter@workspace:packages/sources/coinapi":
   version: 0.0.0-use.local
   resolution: "@chainlink/coinapi-adapter@workspace:packages/sources/coinapi"
