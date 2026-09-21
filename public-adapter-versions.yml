@@ -173,8 +173,6 @@ adapters:
     version: 2.5.1
   - name: mock-ea
     version: 2.2.0
-  - name: moonbeam-address-list
-    version: 1.1.52
   - name: moore-hk
     version: 1.0.29
   - name: multi-address-list

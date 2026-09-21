@@ -431,10 +431,6 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/mock-ea"\
     },\
     {\
-      "name": "@chainlink/moonbeam-address-list-adapter",\
-      "reference": "workspace:packages/sources/moonbeam-address-list"\
-    },\
-    {\
       "name": "@chainlink/moore-hk-adapter",\
       "reference": "workspace:packages/sources/moore-hk"\
     },\
@@ -722,7 +718,6 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
-    ["@chainlink/moonbeam-address-list-adapter", ["workspace:packages/sources/moonbeam-address-list"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
     ["@chainlink/multi-address-list-adapter", ["workspace:packages/composites/multi-address-list"]],\
     ["@chainlink/nav-consulting-adapter", ["workspace:packages/sources/nav-consulting"]],\
@@ -6260,25 +6255,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
-    ["@chainlink/moonbeam-address-list-adapter", [\
-      ["workspace:packages/sources/moonbeam-address-list", {\
-        "packageLocation": "./packages/sources/moonbeam-address-list/",\
-        "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
-          ["@chainlink/moonbeam-address-list-adapter", "workspace:packages/sources/moonbeam-address-list"],\
-          ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
-          ["@types/jest", "npm:29.5.14"],\
-          ["@types/node", "npm:22.14.1"],\
-          ["@types/supertest", "npm:2.0.16"],\
-          ["ethers", "npm:5.8.0"],\
-          ["nock", "npm:13.5.6"],\
-          ["supertest", "npm:6.2.4"],\
-          ["tslib", "npm:2.8.1"],\
-          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
-        ],\
-        "linkType": "SOFT"\
-      }]\
-    ]],\
     ["@chainlink/moore-hk-adapter", [\
       ["workspace:packages/sources/moore-hk", {\
         "packageLocation": "./packages/sources/moore-hk/",\
@@ -9392,7 +9368,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/types-create", "npm:9.14.2"],\
           ["@polkadot/types-known", "npm:9.14.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["eventemitter3", "npm:5.0.1"],\
           ["rxjs", "npm:7.8.2"]\
         ],\
@@ -9442,7 +9418,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/types", "npm:9.14.2"],\
           ["@polkadot/types-codec", "npm:9.14.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["rxjs", "npm:7.8.2"]\
         ],\
         "linkType": "HARD"\
@@ -9456,29 +9432,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-keyring-virtual-6e61e4c679/0/cache/@polkadot-keyring-npm-10.4.2-3cd2d9780f-002472ee07.zip/node_modules/@polkadot/keyring/",\
-        "packageDependencies": [\
-          ["@babel/runtime", "npm:7.26.10"],\
-          ["@polkadot/keyring", "virtual:01193c28e10700d71a3c5048ffb95a87c1f53b72e0c6d80dfe104356f62b9a8054efa948afe15b2c465d03b85025665b904796b1316aa381e87bb5c5d8208b5d#npm:10.4.2"],\
-          ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
-          ["@types/polkadot__util", null],\
-          ["@types/polkadot__util-crypto", null]\
-        ],\
-        "packagePeers": [\
-          "@types/polkadot__util-crypto",\
-          "@types/polkadot__util"\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2", {\
         "packageLocation": "./.yarn/__virtual__/@polkadot-keyring-virtual-d95abecc28/0/cache/@polkadot-keyring-npm-10.4.2-3cd2d9780f-002472ee07.zip/node_modules/@polkadot/keyring/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/keyring", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["@types/polkadot__util", null],\
           ["@types/polkadot__util-crypto", null]\
         ],\
@@ -9542,7 +9502,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/types", "npm:9.14.2"],\
           ["@polkadot/types-support", "npm:9.14.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["@polkadot/x-fetch", "npm:10.4.2"],\
           ["@polkadot/x-global", "npm:10.4.2"],\
           ["@polkadot/x-ws", "npm:10.4.2"],\
@@ -9565,7 +9525,7 @@ const RAW_RUNTIME_STATE =
           ["@polkadot/types-codec", "npm:9.14.2"],\
           ["@polkadot/types-create", "npm:9.14.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
           ["rxjs", "npm:7.8.2"]\
         ],\
         "linkType": "HARD"\
@@ -9658,16 +9618,16 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-util-crypto-virtual-e4411085fb/0/cache/@polkadot-util-crypto-npm-10.4.2-840ee665d9-6faeb2026d.zip/node_modules/@polkadot/util-crypto/",\
+      ["virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-util-crypto-virtual-97ebe7cf8e/0/cache/@polkadot-util-crypto-npm-10.4.2-840ee665d9-6faeb2026d.zip/node_modules/@polkadot/util-crypto/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@noble/hashes", "npm:1.2.0"],\
           ["@noble/secp256k1", "npm:1.7.1"],\
           ["@polkadot/networks", "npm:10.4.2"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/util-crypto", "virtual:6e61e4c67904dfb113ec553be37d965934848fc1af491624d37280639e4847eec326ddc33d2540efe8a55b62513e1cf542256f1aeffc9034efabea9eeffa3e91#npm:10.4.2"],\
-          ["@polkadot/wasm-crypto", "virtual:e4411085fbfd32ab8d79aec9f11a8e8ab06357241ab6bf4c673f5e12e6ff996320af6ae669346297e35ef73362f8e1c0c70459e6681820726323ef93db05dbe1#npm:6.4.1"],\
+          ["@polkadot/util-crypto", "virtual:b0d7afd30dbf8c783eae19211f7262880f1ac225fe36ef679bff00fa27850d04b04b9f3a7701d889249c83b23cee98c48a56b1a60cc1a4e1d886746853f1b5b0#npm:10.4.2"],\
+          ["@polkadot/wasm-crypto", "virtual:97ebe7cf8eda2ad3262d3a621321812b07415077b1ffffff179c0a26ec012a07452df88f7f119754e4e6beb1702b032d8b11f5f9d17049f330a95a970b582e79#npm:6.4.1"],\
           ["@polkadot/x-bigint", "npm:10.4.2"],\
           ["@polkadot/x-randomvalues", "npm:10.4.2"],\
           ["@scure/base", "npm:1.1.1"],\
@@ -9690,12 +9650,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-bridge-virtual-44a8a48ecd/0/cache/@polkadot-wasm-bridge-npm-6.4.1-6420b26676-22dc70090e.zip/node_modules/@polkadot/wasm-bridge/",\
+      ["virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-bridge-virtual-bdc89a2a1a/0/cache/@polkadot-wasm-bridge-npm-6.4.1-6420b26676-22dc70090e.zip/node_modules/@polkadot/wasm-bridge/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-bridge", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-bridge", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@polkadot/x-randomvalues", "npm:10.4.2"],\
           ["@types/polkadot__util", null],\
           ["@types/polkadot__x-randomvalues", null]\
@@ -9717,17 +9677,17 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:e4411085fbfd32ab8d79aec9f11a8e8ab06357241ab6bf4c673f5e12e6ff996320af6ae669346297e35ef73362f8e1c0c70459e6681820726323ef93db05dbe1#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-virtual-2e6a22909c/0/cache/@polkadot-wasm-crypto-npm-6.4.1-5497530696-2e3c4369b6.zip/node_modules/@polkadot/wasm-crypto/",\
+      ["virtual:97ebe7cf8eda2ad3262d3a621321812b07415077b1ffffff179c0a26ec012a07452df88f7f119754e4e6beb1702b032d8b11f5f9d17049f330a95a970b582e79#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-virtual-f511f77efb/0/cache/@polkadot-wasm-crypto-npm-6.4.1-5497530696-2e3c4369b6.zip/node_modules/@polkadot/wasm-crypto/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-bridge", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto", "virtual:e4411085fbfd32ab8d79aec9f11a8e8ab06357241ab6bf4c673f5e12e6ff996320af6ae669346297e35ef73362f8e1c0c70459e6681820726323ef93db05dbe1#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-asmjs", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-init", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-wasm", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-util", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-bridge", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto", "virtual:97ebe7cf8eda2ad3262d3a621321812b07415077b1ffffff179c0a26ec012a07452df88f7f119754e4e6beb1702b032d8b11f5f9d17049f330a95a970b582e79#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-asmjs", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-init", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-wasm", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-util", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@polkadot/x-randomvalues", "npm:10.4.2"],\
           ["@types/polkadot__util", null],\
           ["@types/polkadot__x-randomvalues", null]\
@@ -9749,12 +9709,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-asmjs-virtual-b309b837e6/0/cache/@polkadot-wasm-crypto-asmjs-npm-6.4.1-4c49224fc4-81a9ae9207.zip/node_modules/@polkadot/wasm-crypto-asmjs/",\
+      ["virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-asmjs-virtual-cb4adce545/0/cache/@polkadot-wasm-crypto-asmjs-npm-6.4.1-4c49224fc4-81a9ae9207.zip/node_modules/@polkadot/wasm-crypto-asmjs/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-crypto-asmjs", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-asmjs", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@types/polkadot__util", null]\
         ],\
         "packagePeers": [\
@@ -9772,15 +9732,15 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-init-virtual-115043d1f3/0/cache/@polkadot-wasm-crypto-init-npm-6.4.1-b5df4071ee-f2e66fb612.zip/node_modules/@polkadot/wasm-crypto-init/",\
+      ["virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-init-virtual-bf54738709/0/cache/@polkadot-wasm-crypto-init-npm-6.4.1-b5df4071ee-f2e66fb612.zip/node_modules/@polkadot/wasm-crypto-init/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-bridge", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-asmjs", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-init", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-crypto-wasm", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-bridge", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-asmjs", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-init", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-wasm", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@polkadot/x-randomvalues", "npm:10.4.2"],\
           ["@types/polkadot__util", null],\
           ["@types/polkadot__x-randomvalues", null]\
@@ -9802,13 +9762,13 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-wasm-virtual-03daf892cf/0/cache/@polkadot-wasm-crypto-wasm-npm-6.4.1-f76d2d9a83-39d2556438.zip/node_modules/@polkadot/wasm-crypto-wasm/",\
+      ["virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-crypto-wasm-virtual-b2e8fdc78d/0/cache/@polkadot-wasm-crypto-wasm-npm-6.4.1-f76d2d9a83-39d2556438.zip/node_modules/@polkadot/wasm-crypto-wasm/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-crypto-wasm", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
-          ["@polkadot/wasm-util", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-crypto-wasm", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
+          ["@polkadot/wasm-util", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@types/polkadot__util", null]\
         ],\
         "packagePeers": [\
@@ -9826,12 +9786,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1", {\
-        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-util-virtual-6864975f21/0/cache/@polkadot-wasm-util-npm-6.4.1-d4481d27a9-d2df5a14a3.zip/node_modules/@polkadot/wasm-util/",\
+      ["virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1", {\
+        "packageLocation": "./.yarn/__virtual__/@polkadot-wasm-util-virtual-15f8b84bad/0/cache/@polkadot-wasm-util-npm-6.4.1-d4481d27a9-d2df5a14a3.zip/node_modules/@polkadot/wasm-util/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.10"],\
           ["@polkadot/util", "npm:10.4.2"],\
-          ["@polkadot/wasm-util", "virtual:2e6a22909ca10f7d768e977d98f415e523528b0899371b8b5628678fc63129a47581cfb67654a336ed597b90f4bab73a3d2c6f1fc5100b95d92f626ead2e1b8e#npm:6.4.1"],\
+          ["@polkadot/wasm-util", "virtual:f511f77efb694f2209dd2bb2c18ad77352fc196cce72eb262c23230864c10c7dbbfb6344da7771d327e8da1c49fbf23bf8128bdb82c1a14ec6a7d12313531971#npm:6.4.1"],\
           ["@types/polkadot__util", null]\
         ],\
         "packagePeers": [\
