@@ -102,9 +102,6 @@
       "path": "./sources/bitgo-reserves"
     },
     {
-      "path": "./sources/blockchain.com"
-    },
-    {
       "path": "./sources/blockchair"
     },
     {
@@ -249,6 +246,9 @@
       "path": "./sources/hastra"
     },
     {
+      "path": "./sources/hyperithm"
+    },
+    {
       "path": "./sources/icap"
     },
     {
@@ -256,9 +256,6 @@
     },
     {
       "path": "./sources/ignition-address-list"
-    },
-    {
-      "path": "./sources/instruxi-sxt"
     },
     {
       "path": "./sources/ion.au"
@@ -282,13 +279,7 @@
       "path": "./sources/lido-por"
     },
     {
-      "path": "./sources/liveart"
-    },
-    {
       "path": "./sources/lo-tech"
-    },
-    {
-      "path": "./sources/lotus"
     },
     {
       "path": "./sources/m0"
@@ -301,9 +292,6 @@
     },
     {
       "path": "./sources/mock-ea"
-    },
-    {
-      "path": "./sources/moonbeam-address-list"
     },
     {
       "path": "./sources/moore-hk"
@@ -331,9 +319,6 @@
     },
     {
       "path": "./sources/nyfed"
-    },
-    {
-      "path": "./sources/oanda"
     },
     {
       "path": "./sources/ondo"
@@ -375,9 +360,6 @@
       "path": "./sources/solana-view-function"
     },
     {
-      "path": "./sources/stader-address-list"
-    },
-    {
       "path": "./sources/stader-labs"
     },
     {
@@ -391,9 +373,6 @@
     },
     {
       "path": "./sources/superstate"
-    },
-    {
-      "path": "./sources/swell-address-list"
     },
     {
       "path": "./sources/synthetix-debt-pool"
@@ -432,16 +411,10 @@
       "path": "./sources/tradinghours"
     },
     {
-      "path": "./sources/trueusd"
-    },
-    {
       "path": "./sources/truflation"
     },
     {
       "path": "./sources/twelvedata"
-    },
-    {
-      "path": "./sources/twosigma"
     },
     {
       "path": "./sources/view-function"
@@ -454,9 +427,6 @@
     },
     {
       "path": "./sources/wbtc-address-set"
-    },
-    {
-      "path": "./sources/wintermute"
     },
     {
       "path": "./sources/wisdomtree"
