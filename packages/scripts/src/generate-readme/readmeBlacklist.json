@@ -2,7 +2,6 @@
   "blacklist": [
     "anyblock",
     "anchorage",
-    "blockchair",
     "coingecko",
     "dlc-btc-por",
     "implied-price",
