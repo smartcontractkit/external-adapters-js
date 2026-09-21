@@ -123,9 +123,6 @@
       "path": "./sources/cfbenchmarks/tsconfig.test.json"
     },
     {
-      "path": "./sources/chain-reserve-wallet/tsconfig.test.json"
-    },
-    {
       "path": "./sources/coinapi/tsconfig.test.json"
     },
     {
