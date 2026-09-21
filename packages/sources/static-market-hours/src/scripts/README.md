@@ -49,8 +49,18 @@ yarn generate-tradinghours-json --csv-dir "$TRADINGHOURS_DIR/remote/csv" --fin-i
 The JSON is written to stdout, so you can copy it to the right environment
 variable of the `static-market-hours` EA. The environment variable is
 `${MARKET}_REGULAR_SCHEDULE`, where `${MARKET}` can be anything as long as it
-matches the `market` input parameter used in the requests to the EA. ("24/5"
-schedules are not yet supported by `generate-tradinghours-json`.)
+matches the `market` input parameter used in the requests to the EA.
+
+For markets that use the `24/5` type, pass `--type "24/5"`. The generated
+schedule then uses the `TwentyfourFiveMarketStatus` statuses (`REGULAR`,
+`PRE_MARKET`, `POST_MARKET`, `OVERNIGHT` and `WEEKEND`), with `WEEKEND` as the
+`defaultStatus`. It should be put in the `${MARKET}_24_5_SCHEDULE` environment
+variable. An example FinID for a 24/5 market is `US.CHNLNK.NYSE`:
+
+```
+FIN_ID="..." # The FinID TradingHours uses for the market.
+yarn generate-tradinghours-json --csv-dir "$TRADINGHOURS_DIR/remote/csv" --fin-id "$FIN_ID" --type "24/5" | jq -c .
+```
 
 ## Verify the generated schedule
 
