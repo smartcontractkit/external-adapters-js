@@ -3629,19 +3629,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt":
-  version: 0.0.0-use.local
-  resolution: "@chainlink/instruxi-sxt-adapter@workspace:packages/sources/instruxi-sxt"
-  dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:22.14.1"
-    nock: "npm:13.5.6"
-    tslib: "npm:2.4.1"
-    typescript: "npm:5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au":
   version: 0.0.0-use.local
   resolution: "@chainlink/ion.au-adapter@workspace:packages/sources/ion.au"
