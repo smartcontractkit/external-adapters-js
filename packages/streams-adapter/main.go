@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"log/slog"
@@ -21,8 +22,9 @@ import (
 	"streams-adapter/transmitter"
 )
 
-// waitForEAServer waits for the EA server to be ready before proceeding
-func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
+// waitForEAServer waits for the EA server to be ready before proceeding.
+// It returns the adapter version reported by the JS adapter's health endpoint.
+func waitForEAServer(cfg *config.Config, logger *slog.Logger) string {
 	eaURL := fmt.Sprintf("http://%s:%s%s/health", cfg.EAHost, cfg.EAPort, cfg.EABaseUrl)
 	maxWaitTime := 60 * time.Second
 	checkInterval := 500 * time.Millisecond
@@ -46,15 +48,27 @@ func waitForEAServer(cfg *config.Config, logger *slog.Logger) {
 			// Try to connect to the EA server health endpoint
 			resp, err := client.Get(eaURL)
 			if err == nil && resp.StatusCode == http.StatusOK {
+				version := readAdapterVersion(resp)
 				resp.Body.Close()
-				logger.Info("EA server is ready", "elapsed", time.Since(startTime))
-				return
+				logger.Info("EA server is ready", "elapsed", time.Since(startTime), "adapterVersion", version)
+				return version
 			}
 			if resp != nil {
 				resp.Body.Close()
 			}
 		}
 	}
+}
+
+// readAdapterVersion extracts the "version" field from the JS adapter health response.
+func readAdapterVersion(resp *http.Response) string {
+	var health struct {
+		Version string `json:"version"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&health); err != nil {
+		return ""
+	}
+	return health.Version
 }
 
 func main() {
@@ -76,10 +90,11 @@ func main() {
 	pub := transmitter.NewPublisher()
 
 	// Wait for EA server to be ready before starting
-	waitForEAServer(cfg, logger)
+	adapterVersion := waitForEAServer(cfg, logger)
 
 	// Initialize HTTP server
 	httpServer := server.New(cfg, appCache, logger)
+	httpServer.SetAdapterVersion(adapterVersion)
 	defer httpServer.Stop()
 
 	// Initialize Redcon server

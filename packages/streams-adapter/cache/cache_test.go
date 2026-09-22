@@ -204,10 +204,10 @@ func TestCache_SetNew_PreservesPayloadHash(t *testing.T) {
 	defer c.Stop()
 	payloadHash := [32]byte{1, 2, 3}
 	require.True(t, c.SetNew("raw-key-with-hash", map[string]interface{}{"base": "ETH"}, payloadHash))
-	require.Equal(t, payloadHash, c.Get("raw-key-with-hash").PayloadHash)
-	got, ok := c.PayloadHashByRawKey("raw-key-with-hash")
+	require.Contains(t, c.Get("raw-key-with-hash").PayloadHashes, payloadHash)
+	hashes, ok := c.PayloadHashesByRawKey("raw-key-with-hash")
 	require.True(t, ok)
-	require.Equal(t, payloadHash, got)
+	require.Equal(t, [][32]byte{payloadHash}, hashes)
 }
 
 func TestCache_SetTransformedKey_StatusLearned(t *testing.T) {
@@ -500,6 +500,24 @@ func TestCache_CleanupExpired_OrphanedPendingObs(t *testing.T) {
 
 	_, exists := c.pendingObs["orphan-key"]
 	assert.False(t, exists, "stale orphaned pending observation should be removed by cleanup")
+}
+
+func TestCache_AddPayloadHash(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	hash1 := [32]byte{1, 2, 3}
+	hash2 := [32]byte{4, 5, 6}
+
+	require.True(t, c.SetNew("raw-key", nil, hash1))
+	require.True(t, c.AddPayloadHash("raw-key", hash2))
+	require.False(t, c.AddPayloadHash("raw-key", hash1), "duplicate hash should be ignored")
+
+	hashes, ok := c.PayloadHashesByRawKey("raw-key")
+	require.True(t, ok)
+	require.Len(t, hashes, 2)
+	require.Contains(t, hashes, hash1)
+	require.Contains(t, hashes, hash2)
 }
 
 func TestCache_DeterministicKeyOrdering(t *testing.T) {

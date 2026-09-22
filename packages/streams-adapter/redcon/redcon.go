@@ -243,8 +243,10 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	if s.publisher != nil {
 		if rawKeys, ok := s.cache.RawKeysByTransformed(transformedKey); ok {
 			for _, rawKey := range rawKeys {
-				if payloadHash, ok := s.cache.PayloadHashByRawKey(rawKey); ok {
-					s.publisher.Publish(payloadHash, obs, ts)
+				if payloadHashes, ok := s.cache.PayloadHashesByRawKey(rawKey); ok {
+					for _, payloadHash := range payloadHashes {
+						s.publisher.Publish(payloadHash, obs, ts)
+					}
 				}
 			}
 		}
