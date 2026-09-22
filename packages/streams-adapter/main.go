@@ -91,6 +91,7 @@ func main() {
 
 	// Wait for EA server to be ready before starting
 	adapterVersion := waitForEAServer(cfg, logger)
+	pub.SetAdapterVersion(adapterVersion)
 
 	// Initialize HTTP server
 	httpServer := server.New(cfg, appCache, logger)

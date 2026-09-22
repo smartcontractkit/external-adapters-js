@@ -84,6 +84,7 @@ type Server struct {
 	ctx              context.Context
 	cancel           context.CancelFunc
 	adapterVersion   string
+	metaInjector     *types.MetaInjector
 }
 
 // New creates a new HTTP server
@@ -144,6 +145,7 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 		metricsForwarder: metricsForwarder,
 		ctx:              ctx,
 		cancel:           cancel,
+		metaInjector:     types.NewMetaInjector("", "http"),
 	}
 
 	server.setupRoutes()
@@ -154,6 +156,7 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 // SetAdapterVersion records the JS adapter version reported by its health endpoint.
 func (s *Server) SetAdapterVersion(version string) {
 	s.adapterVersion = version
+	s.metaInjector = types.NewMetaInjector(version, "http")
 }
 
 // setupRoutes configures the HTTP routes
@@ -341,7 +344,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	item := s.EnsureSubscription(resolved)
 	if item.Status == types.StatusActive && item.Observation != nil {
-		respondWithObservation(c, item)
+		s.respondWithObservation(c, item)
 		return
 	}
 
@@ -416,7 +419,7 @@ func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types
 
 // respondWithObservation writes the observation to the response. Returns 200 for
 // successful observations and 502 with an error payload for failed ones.
-func respondWithObservation(c *gin.Context, item *types.CacheItem) {
+func (s *Server) respondWithObservation(c *gin.Context, item *types.CacheItem) {
 	obs := item.Observation
 	if obs.Success {
 		if item.RequiresInverse {
@@ -431,7 +434,7 @@ func respondWithObservation(c *gin.Context, item *types.CacheItem) {
 			}
 			obs = inverted
 		}
-		c.JSON(http.StatusOK, obs)
+		c.JSON(http.StatusOK, s.metaInjector.Apply(obs))
 		return
 	}
 	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
