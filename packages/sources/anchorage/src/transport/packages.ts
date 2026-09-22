@@ -74,9 +74,7 @@ export class PackagesTransport extends SubscriptionTransport<BaseEndpointTypes> 
       this.requester,
       this.settings.COLLATERAL_API_ENDPOINT,
       'v2/collateral_management/packages',
-      // Validated not null in endpoint
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.settings.COLLATERAL_API_KEY!,
+      this.settings.COLLATERAL_API_KEY_PACKAGE_ID.get(params.packageId),
       this.settings.API_LIMIT,
     )
 
