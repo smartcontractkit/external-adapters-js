@@ -6,7 +6,7 @@ adapters:
   - name: allium-state
     version: 1.3.2
   - name: anchorage
-    version: 3.0.2
+    version: 4.0.0
   - name: anyblock
     version: 2.1.13
   - name: apex
@@ -156,7 +156,7 @@ adapters:
   - name: moore-hk
     version: 1.0.29
   - name: multi-address-list
-    version: 1.2.3
+    version: 1.2.6
   - name: nav-consulting
     version: 1.2.7
   - name: nav-fund-services
