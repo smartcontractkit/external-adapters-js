@@ -6618,7 +6618,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/the-network-firm", {\
         "packageLocation": "./packages/sources/the-network-firm/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.17.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/the-network-firm-adapter", "workspace:packages/sources/the-network-firm"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -6734,7 +6734,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/token-balance", {\
         "packageLocation": "./packages/sources/token-balance/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@stellar/stellar-sdk", "npm:14.3.3"],\

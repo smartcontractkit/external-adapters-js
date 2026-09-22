@@ -1,5 +1,11 @@
 # @chainlink/anchorage-adapter
 
+## 4.0.0
+
+### Major Changes
+
+- [#5456](https://github.com/smartcontractkit/external-adapters-js/pull/5456) [`7a8fce6`](https://github.com/smartcontractkit/external-adapters-js/commit/7a8fce610f35349b39f8589494dea7b2b0585e2d) Thanks [@dskloetc](https://github.com/dskloetc)! - Require separate API keys for different package IDs. When deploying this version you must set COLLATERAL*API_KEY*${PACKAGE_ID} for each packageId (input parameter) the EA is used with.
+
 ## 3.0.4
 
 ### Patch Changes
