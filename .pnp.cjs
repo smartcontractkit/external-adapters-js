@@ -6734,7 +6734,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/token-balance", {\
         "packageLocation": "./packages/sources/token-balance/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.19.1"],\
           ["@chainlink/token-balance-adapter", "workspace:packages/sources/token-balance"],\
           ["@solana/web3.js", "npm:1.98.4"],\
           ["@stellar/stellar-sdk", "npm:14.3.3"],\
