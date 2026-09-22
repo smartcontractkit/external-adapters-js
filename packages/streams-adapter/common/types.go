@@ -1,6 +1,7 @@
 package types
 
 import (
+	"bytes"
 	"time"
 
 	"github.com/goccy/go-json"
@@ -29,6 +30,49 @@ type Observation struct {
 	Error      string          `json:"error,omitempty"`
 	StatusCode int             `json:"statusCode,omitempty"`
 	Result     json.RawMessage `json:"result"`
+}
+
+// MetaInjector appends adapterVersion and proto to an observation's meta object.
+// The serialized field suffix is computed once so per-observation injection only
+// splices bytes and never marshals the meta contents.
+type MetaInjector struct {
+	suffix []byte // e.g. `"adapterVersion":"2.14.1","proto":"grpc"`
+}
+
+// NewMetaInjector builds an injector with a pre-serialized field suffix.
+func NewMetaInjector(adapterVersion, proto string) *MetaInjector {
+	av, _ := json.Marshal(adapterVersion)
+	p, _ := json.Marshal(proto)
+	suffix := make([]byte, 0, len(av)+len(p)+len(`"adapterVersion":,"proto":`))
+	suffix = append(suffix, `"adapterVersion":`...)
+	suffix = append(suffix, av...)
+	suffix = append(suffix, `,"proto":`...)
+	suffix = append(suffix, p...)
+	return &MetaInjector{suffix: suffix}
+}
+
+// Apply returns a shallow copy of obs with the meta fields spliced in. The
+// original observation is not modified.
+func (i *MetaInjector) Apply(obs *Observation) *Observation {
+	cp := *obs
+
+	inner := bytes.TrimSpace(obs.Meta)
+	if len(inner) == 0 || inner[0] != '{' {
+		inner = []byte("{}")
+	}
+	content := bytes.TrimSpace(inner[1 : len(inner)-1])
+
+	out := make([]byte, 0, len(content)+len(i.suffix)+3)
+	out = append(out, '{')
+	out = append(out, content...)
+	if len(content) > 0 {
+		out = append(out, ',')
+	}
+	out = append(out, i.suffix...)
+	out = append(out, '}')
+	cp.Meta = out
+
+	return &cp
 }
 
 // CacheItemStatus tracks the lifecycle of a cache item.
