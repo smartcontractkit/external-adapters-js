@@ -1,5 +1,12 @@
 # @chainlink/multi-address-list-adapter
 
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [[`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019)]:
+  - @chainlink/anchorage-adapter@4.0.1
+
 ## 1.2.6
 
 ### Patch Changes
