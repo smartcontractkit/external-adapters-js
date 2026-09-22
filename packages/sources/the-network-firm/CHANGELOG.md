@@ -1,5 +1,13 @@
 # @chainlink/the-network-firm-adapter
 
+## 1.10.5
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+- [#5446](https://github.com/smartcontractkit/external-adapters-js/pull/5446) [`636860b`](https://github.com/smartcontractkit/external-adapters-js/commit/636860b49fb57c097363a5de71d766adceb2e02e) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars
+
 ## 1.10.4
 
 ### Patch Changes
