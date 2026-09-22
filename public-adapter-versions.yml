@@ -115,6 +115,8 @@ adapters:
     version: 1.0.4
   - name: hastra
     version: 1.0.1
+  - name: hyperithm
+    version: 1.0.0
   - name: icap
     version: 1.7.3
   - name: ice
