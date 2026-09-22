@@ -70,6 +70,44 @@ jobs:
           base-branch: ${{ env.UPSTREAM_BRANCH }}
           # We want to build all packages for the documentation generation step so that the Masterlist is up to date for all EAs
           build-all: 'true'
+      - name: Check for outdated ea-framework dependencies
+        run: |
+          changed_packages=$(.github/scripts/list-packages-adapters.sh HEAD | jq -r '.packages[].location' | tr '\n' ' ')
+          dependency="@chainlink/external-adapter-framework"
+          v3_packages=()
+          outdated_packages=()
+
+          packages=$(find packages -name 'package.json')
+          latest_version=$(curl -sH "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/smartcontractkit/ea-framework-js/contents/package.json" | jq -r '.content' | base64 -d | jq -r '.version')
+
+          # get the list of v3 EAs
+          for file in $(echo $packages); do
+              if jq -e ".dependencies[\"$dependency\"]" "$file" >/dev/null; then
+                v3_packages+=("$(dirname $file)")
+              fi
+          done
+
+          # check if changed code is part of any v3 EA
+          for changedFile in $changed_packages; do
+            for package in "${v3_packages[@]}"; do
+              if [[ "$changedFile" == "$package"* ]]; then
+                # found change in v3 EA, comparing versions
+                local_version=$(jq -r ".dependencies[\"$dependency\"]" "$package/package.json")
+                if [ "$local_version" != "$latest_version" ] && ! grep -q "^$package$" <<< "${outdated_packages[@]}"; then
+                  outdated_packages+=("$package")
+                fi
+              fi
+            done
+          done
+
+          # print and error if there are outdated adapters
+          if [ ${#outdated_packages[@]} -gt 0 ]; then
+            echo "The following packages have an outdated \"$dependency\" dependency:"
+            for file in "${outdated_packages[@]}"; do
+              echo "- $file"
+            done
+            exit 1
+          fi
       - name: Increase monorepo version
         run: |
           BUMPED_VERSION=$(jq -r '.version | split(".")[1] | tonumber | . + 1 | tostring | "1." + . + ".0"' package.json)
