@@ -73,12 +73,15 @@ export const smoothedStreamPrice = async (param: {
     isOvernight || isWarmingUpOvernight,
   )
 
-  // Only once the feed itself reports OVERNIGHT does the transition below get fed the
-  // overnight EMA's price instead of the true raw price — warming up ahead of time only
-  // affects when the overnight EMA starts accumulating state, not when it starts being
-  // published. That still happens exactly at the boundary, same as before warm-up
-  // existed, just handing off to a warm (and so less jumpy) EMA instead of a cold one.
-  const transitionInputPrice = isOvernight ? overnight.price : BigInt(price.price)
+  // Only once the feed itself reports OVERNIGHT does the transition below decay
+  // towards the overnight EMA's price instead of the true raw price — warming up
+  // ahead of time only affects when the overnight EMA starts accumulating state, not
+  // when it starts being published. That still happens exactly at the boundary, same
+  // as before warm-up existed, just handing off to a warm (and so less jumpy) EMA
+  // instead of a cold one. The filter itself is always fed the true raw price below,
+  // at both the entry and exit of the overnight session — only the target it decays
+  // towards away from the boundary changes.
+  const targetPrice = isOvernight ? overnight.price : BigInt(price.price)
 
   const smoothers = param.smoother === 'none' ? ['none'] : ['ema', 'kalman']
 
@@ -87,21 +90,20 @@ export const smoothedStreamPrice = async (param: {
       ? processUpdate(
           smoother as Smoother,
           param.asset,
-          transitionInputPrice,
+          BigInt(price.price),
+          targetPrice,
           price.spread,
           secondsFromTransition.value,
         )
       : {
-          price: transitionInputPrice,
+          price: targetPrice,
           x: 0n,
           p: 0n,
         }
 
-    // While overnight, `transitionInputPrice` above is already the overnight EMA's
-    // price, so this is already the overnight-smoothed result — no separate override is
-    // needed. The transition blend itself only covers the -10s/+60s window around the
-    // boundary; well past that (the multi-hour middle of the overnight session), the
-    // weight is 0 and this reduces to the overnight EMA's price directly.
+    // Well past the -10s/+60s window around either session boundary, weight is 0 and
+    // this reduces to `targetPrice` directly — the overnight EMA's price throughout
+    // the multi-hour middle of the overnight session, or the raw price otherwise.
     const result = (smoothed.price * 10n ** BigInt(param.decimals)) / 10n ** BigInt(price.decimals)
 
     return {
