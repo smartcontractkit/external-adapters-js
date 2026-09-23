@@ -334,7 +334,7 @@ describe('NavTransport – handleRequest', () => {
 
     const cached = getCachedResponse()
     expect(cached.statusCode).toBe(400)
-    expect(cached.errorMessage).toMatch(/No fund found in fund list/i)
+    expect(cached.errorMessage).toBe(`Fund with GlobalFundID ${FUND_ID} not found in fund list`)
     // The fund endpoint is never queried
     expect(requester.request).toHaveBeenCalledTimes(2)
   })

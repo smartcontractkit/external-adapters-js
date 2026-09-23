@@ -121,7 +121,7 @@ describe('getFundOfficialAccountingLastAvailableDate', () => {
         ...params,
         requester: mockRequester,
       }),
-    ).rejects.toThrow('No fund found in fund list')
+    ).rejects.toThrow(`Fund with GlobalFundID ${params.globalFundID} not found in fund list`)
   })
 
   it('throws if no fund list is returned', async () => {
