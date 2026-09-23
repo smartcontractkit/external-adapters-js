@@ -4260,7 +4260,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/the-network-firm-adapter@workspace:packages/sources/the-network-firm"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.17.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     nock: "npm:13.5.6"
@@ -4364,7 +4364,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/token-balance-adapter@workspace:packages/sources/token-balance"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@solana/web3.js": "npm:^1.95.8"
     "@stellar/stellar-sdk": "npm:^14.3.3"
     "@types/jest": "npm:^29.5.14"
