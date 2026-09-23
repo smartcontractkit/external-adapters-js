@@ -389,7 +389,9 @@ describe('smoothedStreamPrice', () => {
 
       await smoothedStreamPrice({ ...defaultParams, smoother: 'kalman', decimals: 6 })
 
-      expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 987n, 2n, 0)
+      // Filter is always fed the true raw price (1000n); only the target it decays
+      // towards away from the boundary becomes the overnight EMA's price (987n).
+      expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 1000n, 987n, 2n, 0)
     })
 
     it.each([
@@ -414,7 +416,8 @@ describe('smoothedStreamPrice', () => {
           decimals: 6,
         })
 
-        expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 1000n, 2n, -30)
+        // Not overnight: target is the raw price too, same as rawPrice.
+        expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 1000n, 1000n, 2n, -30)
         expect(result[0].result).toEqual(1234n)
       },
     )
@@ -444,7 +447,7 @@ describe('smoothedStreamPrice', () => {
         decimals: 8,
       })
 
-      expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 500_000n, 2n, 0)
+      expect(mockProcessUpdate).toHaveBeenCalledWith('kalman', 'USDC', 500_000n, 500_000n, 2n, 0)
       // 500_000 * 10^8 / 10^6 = 50_000_000, scaled exactly once.
       expect(result[0].result).toEqual(50_000_000n)
     })
