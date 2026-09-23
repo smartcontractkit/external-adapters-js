@@ -77,7 +77,7 @@ export const getFundOfficialAccountingLastAvailableDate = async ({
   if (!fund) {
     throw new AdapterError({
       statusCode: 400,
-      message: `No fund found in fund list`,
+      message: `Fund with GlobalFundID ${globalFundID} not found in fund list`,
     })
   }
 
