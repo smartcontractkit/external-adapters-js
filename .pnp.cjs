@@ -383,6 +383,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/matrixdock"\
     },\
     {\
+      "name": "@chainlink/matrixedlink-state-adapter",\
+      "reference": "workspace:packages/sources/matrixedlink-state"\
+    },\
+    {\
       "name": "@chainlink/mobula-state-adapter",\
       "reference": "workspace:packages/sources/mobula-state"\
     },\
@@ -657,6 +661,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
+    ["@chainlink/matrixedlink-state-adapter", ["workspace:packages/sources/matrixedlink-state"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
@@ -5939,6 +5944,23 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["crypto-js", "npm:4.2.0"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@chainlink/matrixedlink-state-adapter", [\
+      ["workspace:packages/sources/matrixedlink-state", {\
+        "packageLocation": "./packages/sources/matrixedlink-state/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/matrixedlink-state-adapter", "workspace:packages/sources/matrixedlink-state"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
