@@ -160,7 +160,7 @@ adapters:
   - name: nav-consulting
     version: 1.2.7
   - name: nav-fund-services
-    version: 1.3.0
+    version: 1.3.2
   - name: nav-generic
     version: 1.0.5
   - name: ncfx
