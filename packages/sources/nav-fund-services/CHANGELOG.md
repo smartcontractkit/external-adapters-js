@@ -1,5 +1,11 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- [#5392](https://github.com/smartcontractkit/external-adapters-js/pull/5392) [`4b62119`](https://github.com/smartcontractkit/external-adapters-js/commit/4b6211955419d25ce1bd3dead2174d2106c5c283) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix queried date range by not querying past FundOfficialAccountingLastAvailableDate
+
 ## 1.3.1
 
 ### Patch Changes
