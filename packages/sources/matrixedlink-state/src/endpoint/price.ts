@@ -2,7 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
-import overrides from '../config/overrides.json'
 import { wsTransport } from '../transport/price'
 
 export const inputParameters = new InputParameters(
@@ -39,5 +38,4 @@ export const endpoint = new AdapterEndpoint({
   aliases: ['state', 'crypto'],
   transport: wsTransport,
   inputParameters,
-  overrides: overrides['matrixedlink-state'],
 })
