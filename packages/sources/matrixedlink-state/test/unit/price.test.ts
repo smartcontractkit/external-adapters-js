@@ -35,6 +35,7 @@ describe('PriceWebSocketTransport', () => {
   const endpointName = 'price'
 
   const adapterSettings = makeStub('adapterSettings', {
+    API_KEY: 'test-api-key',
     WS_API_ENDPOINT: 'ws://api.example.com',
     WS_SUBSCRIPTION_TTL: 30_000,
     WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_000,
@@ -123,7 +124,8 @@ describe('PriceWebSocketTransport', () => {
     await expect(receivedMessages[0]).toBe(
       JSON.stringify({
         type: 'subscribe',
-        symbols: `${from}/${to}`,
+        base: from,
+        quote: to,
       }),
     )
   })
@@ -148,14 +150,17 @@ describe('PriceWebSocketTransport', () => {
     const t1 = Date.now()
 
     const price = 123
-    const providerIndicatedTimeUnixMs = 123456789
+    const providerIndicatedTimeUnixMs = 123456789000
 
     socket.send(
       JSON.stringify({
-        base: from,
-        quote: to,
-        price,
-        time: providerIndicatedTimeUnixMs,
+        type: 'aggregated_price_update',
+        timestamp: new Date(providerIndicatedTimeUnixMs).toISOString(),
+        data: {
+          base: from,
+          quote: to,
+          price,
+        },
       }),
     )
 
@@ -176,6 +181,77 @@ describe('PriceWebSocketTransport', () => {
       },
     ])
     expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should write an error response to cache', async () => {
+    const from = 'FOO'
+    const to = 'BAR'
+
+    const params = makeStub('params', {
+      base: from,
+      quote: to,
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    const t0 = Date.now()
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+    const t1 = Date.now()
+
+    const errorMessage = 'Pair FOO/BAR is not allowed for this API key.'
+
+    socket.send(
+      JSON.stringify({
+        type: 'error',
+        code: 'PAIR_NOT_ALLOWED',
+        base: from,
+        quote: to,
+        message: errorMessage,
+      }),
+    )
+
+    expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+      {
+        params,
+        response: {
+          statusCode: 502,
+          errorMessage,
+          timestamps: {
+            providerDataStreamEstablishedUnixMs: t0,
+            providerDataReceivedUnixMs: t1,
+          },
+        },
+      },
+    ])
+    expect(responseCache.write).toHaveBeenCalledTimes(1)
+  })
+
+  it('should respond to ping', async () => {
+    expect(receivedMessages).toEqual([])
+
+    socket.send(
+      JSON.stringify({
+        type: 'ping',
+      }),
+    )
+
+    subscriptionSet.getAll.mockReturnValue([])
+    const context = makeStub('context', {
+      adapterSettings,
+      endpointName,
+    } as EndpointContext<WsTransportTypes>)
+
+    await runAllUntilSettled(clock, transport.backgroundExecute(context))
+
+    expect(receivedMessages).toEqual([
+      JSON.stringify({
+        type: 'pong',
+      }),
+    ])
   })
 
   it('should unsubscribe', async () => {
@@ -203,7 +279,8 @@ describe('PriceWebSocketTransport', () => {
     await expect(receivedMessages[1]).toBe(
       JSON.stringify({
         type: 'unsubscribe',
-        symbols: `${from}/${to}`,
+        base: from,
+        quote: to,
       }),
     )
   })

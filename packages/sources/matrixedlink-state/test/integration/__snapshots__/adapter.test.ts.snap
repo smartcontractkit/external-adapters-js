@@ -2,15 +2,11 @@
 
 exports[`websocket price endpoint should return success 1`] = `
 {
-  "data": {
-    "result": 1000,
+  "error": {
+    "message": "The EA has not received any values from the Data Provider for the requested data yet. Retry after a short delay, and if the problem persists raise this issue in the relevant channels.",
+    "name": "AdapterError",
   },
-  "result": 1000,
-  "statusCode": 200,
-  "timestamps": {
-    "providerDataReceivedUnixMs": 1018,
-    "providerDataStreamEstablishedUnixMs": 1010,
-    "providerIndicatedTimeUnixMs": "1999999",
-  },
+  "status": "errored",
+  "statusCode": 504,
 }
 `;
