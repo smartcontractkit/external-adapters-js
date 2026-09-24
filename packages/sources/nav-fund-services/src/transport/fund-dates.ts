@@ -1,6 +1,8 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { getRequestHeaders } from './authentication'
+import { toDateString } from './date-utils'
+import { getFundList } from './fund'
 
 export interface FundDatesResponse {
   LogID: number
@@ -48,4 +50,36 @@ export const getFundDates = async ({
   }
 
   return sourceResponse.response.data
+}
+
+export const getFundOfficialAccountingLastAvailableDate = async ({
+  globalFundID,
+  baseURL,
+  apiKey,
+  secret,
+  requester,
+}: {
+  globalFundID: number
+  baseURL: string
+  apiKey: string
+  secret: string
+  requester: Requester
+}): Promise<string> => {
+  const fundList = await getFundList({
+    baseURL,
+    apiKey,
+    secret,
+    requester,
+  })
+
+  const fund = fundList.find((f) => f.GlobalFundID === globalFundID)
+
+  if (!fund) {
+    throw new AdapterError({
+      statusCode: 400,
+      message: `Fund with GlobalFundID ${globalFundID} not found in fund list`,
+    })
+  }
+
+  return toDateString(new Date(`${fund.FundOfficialAccountingLastAvailableDate}Z`))
 }
