@@ -1,0 +1,246 @@
+# Builds adapters from an unreleased branch and pushes them to the private ECR,
+# so a change can be referenced from infra-k8s before it is released.
+#
+# The regular path to a private image is deploy.yml, which only fires on a push
+# to main that touches MASTERLIST.md — that is, on a release. This workflow
+# fills the gap for soaking a change beforehand.
+#
+# Two ways in:
+#   * Label a PR with `build-internal-image` to build the adapters it changes.
+#     A pull_request workflow runs from the PR branch, so this works before the
+#     workflow itself is on main. Pushing further commits rebuilds the new head.
+#   * Dispatch it manually against any ref, naming the adapter. Only available
+#     once this file is on the default branch, which is a GitHub restriction on
+#     workflow_dispatch rather than anything about this workflow.
+#
+# It deliberately does NOT tag `latest` and does NOT notify infra-k8s.
+#
+# To reference an image from infra-k8s the tag must first appear in that repo's
+# files/digests/<registry>-adapters-<name>-adapter.yaml, which its image-dispatcher
+# workflow generates. That generator skips any tag containing "dev", so the tags
+# chosen here avoid the word; `pr<N>` also matches what already exists there.
+name: Publish Internal Adapter Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      adapter:
+        description: Adapter short name, as used in the ECR repo (e.g. "gsr")
+        required: true
+        type: string
+      image-tag:
+        description: 'Overrides the default tag ("pr<N>" on a PR, "<version>-<short-sha>" when dispatched). Must not contain "dev" or the infra-k8s digest generation will skip it.'
+        required: false
+        type: string
+  pull_request:
+    # `labeled` starts a build on demand; `synchronize` keeps an already-labelled
+    # PR's image tracking its latest commit.
+    types: [labeled, synchronize]
+
+# Keyed per PR (or per ref when dispatched) so a new push supersedes a build
+# that is already running, rather than queueing behind it.
+concurrency:
+  group: publish-internal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  resolve-adapters:
+    name: Resolve adapters to build
+    runs-on: ubuntu-latest
+    # On a PR this only proceeds once the opt-in label is present. Checking the
+    # label set rather than github.event.label covers `synchronize`, where no
+    # single label triggered the run.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.pull_request.labels.*.name, 'build-internal-image')
+    permissions:
+      contents: read
+    outputs:
+      adapter-list: ${{ steps.resolve.outputs.ADAPTER_LIST }}
+      build-sha: ${{ steps.resolve.outputs.BUILD_SHA }}
+      image-tag: ${{ steps.resolve.outputs.IMAGE_TAG }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          # On a pull_request event the default checkout is the merge commit.
+          # Build the branch head instead, so the image matches the commit
+          # under review rather than a merge that exists only in CI.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up and install dependencies
+        uses: ./.github/actions/setup
+        with:
+          skip-setup: true
+          base-branch: origin/${{ github.base_ref || 'main' }}
+      - name: Resolve adapter list and image tag
+        id: resolve
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          ADAPTER: ${{ inputs.adapter }}
+          TAG_OVERRIDE: ${{ inputs.image-tag }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BUILD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          UPSTREAM_BRANCH: origin/${{ github.base_ref || 'main' }}
+        run: |
+          set -euo pipefail
+
+          # Both paths go through the same script the release pipeline uses, so
+          # each entry carries the name, location, version and shortName that the
+          # build matrix below expects. Called with no argument it lists every
+          # adapter; with an upstream ref, only those that changed against it.
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            adapter_list=$(./.github/scripts/list-packages-adapters.sh \
+              | jq -c --arg s "$ADAPTER" '{adapter: [.adapters[] | select(.shortName == $s)]}')
+
+            if [ "$(echo "$adapter_list" | jq '.adapter | length')" -eq 0 ]; then
+              echo "::error::No adapter named \"${ADAPTER}\". Pass the short name, e.g. \"gsr\"."
+              exit 1
+            fi
+
+            # Must not contain "dev": the infra-k8s image-dispatcher filters
+            # such tags out when it generates digest files, and a tag with no
+            # digest entry fails helmfile templating outright.
+            version=$(echo "$adapter_list" | jq -r '.adapter[0].version')
+            image_tag="${version}-${BUILD_SHA:0:8}"
+          else
+            adapter_list=$(./.github/scripts/list-packages-adapters.sh "$UPSTREAM_BRANCH" \
+              | jq -c '{adapter: .adapters}')
+            # Include the short SHA so each rebuild gets a unique digest entry.
+            # Moving tags (same PR, pushed again) would otherwise cause digest
+            # collisions when infra-k8s regenerates the digest file.
+            image_tag="pr${PR_NUMBER}.${BUILD_SHA:0:8}"
+          fi
+
+          if [ -n "$TAG_OVERRIDE" ]; then
+            # A release build would overwrite these, so refuse them outright.
+            if [ "$TAG_OVERRIDE" = "latest" ]; then
+              echo "::error::Refusing to publish over \"latest\"."
+              exit 1
+            fi
+            image_tag="$TAG_OVERRIDE"
+          fi
+
+          {
+            echo "ADAPTER_LIST=${adapter_list}"
+            echo "BUILD_SHA=${BUILD_SHA}"
+            echo "IMAGE_TAG=${image_tag}"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Building $(echo "$adapter_list" | jq -c '[.adapter[].shortName]') from ${BUILD_SHA}"
+
+  create-ecr:
+    name: Create ECR for ${{ matrix.adapter.shortName }}
+    runs-on: ubuntu-latest
+    needs: [resolve-adapters]
+    if: needs.resolve-adapters.outputs.adapter-list != '{"adapter":[]}'
+    permissions: # These are needed for the configure-aws-credentials action
+      id-token: write
+      contents: read
+    environment: release
+    strategy:
+      max-parallel: 20
+      matrix: ${{ fromJson(needs.resolve-adapters.outputs.adapter-list) }}
+    env:
+      ECR_URL: ${{ secrets.SDLC_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION_ECR_PRIVATE }}.amazonaws.com
+      ECR_REPO: adapters/${{ matrix.adapter.shortName }}-adapter
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+          ref: ${{ needs.resolve-adapters.outputs.build-sha }}
+      - name: Create ECR for ${{ matrix.adapter.shortName }}
+        uses: ./.github/actions/create-ecrs
+        with:
+          aws-ecr-url: ${{ env.ECR_URL }}
+          aws-ecr-repo: ${{ env.ECR_REPO }}
+          aws-region: ${{ secrets.AWS_REGION_ECR_PRIVATE }}
+          aws-role: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+          aws-ecr-account-ids: ${{ secrets.AWS_PRIVATE_ECR_SECONDARY_ACCOUNT_ACCESS_IDS }}
+          aws-ecr-private: true
+
+  build-publish:
+    name: Build and publish ${{ matrix.adapter.shortName }}
+    permissions:
+      contents: read
+      id-token: write
+    needs: [resolve-adapters, create-ecr]
+    strategy:
+      max-parallel: 20
+      matrix: ${{ fromJson(needs.resolve-adapters.outputs.adapter-list) }}
+    uses: smartcontractkit/.github/.github/workflows/reusable-docker-build-publish.yml@ce87497eb287565c796a8a781508be949f3ed1e2 # 2025-10-10
+    with:
+      aws-ecr-name: adapters/${{ matrix.adapter.shortName }}-adapter
+      aws-region-ecr: us-west-2
+      dockerfile: ./Dockerfile
+      docker-build-args: |
+        package=${{ matrix.adapter.name }}
+        location=${{ matrix.adapter.location }}
+      docker-build-context: .
+      docker-image-tag-override: ${{ needs.resolve-adapters.outputs.image-tag }}
+      # Intentionally no docker-manifest-additional-tags: tagging `latest` here
+      # would repoint every consumer of the released image at an unreleased build.
+      docker-push: true
+      environment: release
+      git-sha: ${{ needs.resolve-adapters.outputs.build-sha }}
+      github-event-name: ${{ github.event_name }}
+      github-ref-name: ${{ github.ref_name }}
+      github-ref-type: ${{ github.ref_type }}
+      github-workflow-repository: ${{ github.repository }}
+      github-runner-arm64: ubuntu-24.04-2cores-8GB-ARM
+      github-runner-amd64: ubuntu-24.04
+    secrets:
+      AWS_ACCOUNT_ID: ${{ secrets.SDLC_ACCOUNT_ID }}
+      AWS_ROLE_PUBLISH_ARN: ${{ secrets.AWS_OIDC_IAM_ROLE_ARN }}
+
+  report-images:
+    name: Report image references
+    runs-on: ubuntu-latest
+    needs: [resolve-adapters, build-publish]
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Build reference list
+        id: refs
+        env:
+          ADAPTER_LIST: ${{ needs.resolve-adapters.outputs.adapter-list }}
+          IMAGE_TAG: ${{ needs.resolve-adapters.outputs.image-tag }}
+          BUILD_SHA: ${{ needs.resolve-adapters.outputs.build-sha }}
+        run: |
+          set -euo pipefail
+          body=$(echo "$ADAPTER_LIST" | jq -r --arg t "$IMAGE_TAG" '
+            .adapter[] | "- `adapters/\(.shortName)-adapter:\($t)`"')
+          {
+            echo "### Internal images published"
+            echo
+            echo "$body"
+            echo
+            echo "Built from \`${BUILD_SHA}\`."
+            echo
+            echo "Reference these against the private ECR registry the release pipeline uses."
+            echo "\`latest\` was not moved and infra-k8s was not notified."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          {
+            echo 'BODY<<EOF'
+            echo "Internal images published from \`${BUILD_SHA}\`:"
+            echo
+            echo "$body"
+            echo
+            echo "_\`latest\` was not moved and infra-k8s was not notified._"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Comment on the PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        env:
+          BODY: ${{ steps.refs.outputs.BODY }}
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            await github.rest.issues.createComment({
+              owner, repo,
+              issue_number: context.payload.pull_request.number,
+              body: process.env.BODY,
+            });
