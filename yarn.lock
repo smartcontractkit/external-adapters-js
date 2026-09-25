@@ -3526,7 +3526,7 @@ __metadata:
   resolution: "@chainlink/kaiko-state-adapter@workspace:packages/sources/kaiko-state"
   dependencies:
     "@chainlink/external-adapter-framework": "npm:2.16.1"
-    "@grpc/grpc-js": "npm:1.13.5"
+    "@grpc/grpc-js": "npm:1.13.6"
     "@kaiko-data/sdk-node": "npm:1.27.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
@@ -5451,6 +5451,16 @@ __metadata:
     "@grpc/proto-loader": "npm:^0.7.13"
     "@js-sdsl/ordered-map": "npm:^4.4.2"
   checksum: 10/90c24cb6ab3f0a8c5e61f7b06206f1ff33608680eee6de7529e34df2519ba635fc8a1954d25b201c716699b3360b273a3f164ea54d1a3be1f573e542b0f1c8c8
+  languageName: node
+  linkType: hard
+
+"@grpc/grpc-js@npm:1.13.6":
+  version: 1.13.6
+  resolution: "@grpc/grpc-js@npm:1.13.6"
+  dependencies:
+    "@grpc/proto-loader": "npm:^0.7.13"
+    "@js-sdsl/ordered-map": "npm:^4.4.2"
+  checksum: 10/6c664b1c459c17ac2a516fdc7279687a7ea9d8243fbf321913c23933dbc83f62928f476c1b9d187799589841b110fa6592e421f56cf922069edf144bd1b3b857
   languageName: node
   linkType: hard
 
