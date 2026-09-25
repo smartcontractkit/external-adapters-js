@@ -73,6 +73,23 @@ func RequestParamsFromKey(key string) (types.RequestParams, error) {
 	return canonical, nil
 }
 
+// transportParam is the pseudo-parameter under which an adapter response's
+// transport name is folded into a transformed cache key.
+//
+// The v3 framework treats `transport` as a routing directive rather than a
+// request parameter: TransportRoutes consumes it to pick a route (falling back
+// to the endpoint's defaultTransport when absent) and strips it before building
+// the params blob. Two requests that differ only by transport therefore produce
+// identical params, identical transformed keys, and share one cache slot — so
+// whichever route writes last overwrites the other's observation. Folding the
+// transport back into the key keeps them in separate slots.
+//
+// A params blob that already carries a genuine `transport` parameter is
+// overwritten with the transport that actually served the response; the two
+// describe the same thing, and taking the response's value keeps the write and
+// learn paths in agreement.
+const transportParam = "transport"
+
 // TransformedKeyFromAdapterKey derives the internal transformed cache key from
 // the Redis adapter key used by the JS adapter when publishing observations.
 //
@@ -81,21 +98,54 @@ func RequestParamsFromKey(key string) (types.RequestParams, error) {
 // where `paramsKey` is either a JSON params blob (small payloads) or a bare
 // base64 sha1 hash (when the serialized params exceed MAX_COMMON_KEY_SIZE).
 // See ea-framework-js src/cache/index.ts: calculateParamsKey.
-func TransformedKeyFromAdapterKey(key string) (string, error) {
+//
+// transport is the value of AdapterResponse.meta.transportName from the same
+// response being cached, not a segment parsed out of key. The key cannot be
+// split reliably — both `${prefix}` and `${endpointName}` routinely contain
+// dashes (`dxfeed-data-streams`, `calculated-multi-function`), so the segment
+// before `${paramsKey}` is only the transport when a transport segment is
+// present at all. Reading meta.transportName instead gives this path and
+// TransformedKeyFromFeedID the same source of truth, which is what keeps the
+// keys they produce equal. An empty transport reproduces the previous,
+// transport-blind key, so a framework that does not report the field degrades
+// on both paths together rather than splitting them apart.
+func TransformedKeyFromAdapterKey(key, transport string) (string, error) {
 	if !strings.Contains(key, "{") {
 		// Hashed-params form: take the bare base64 segment after the last dash.
 		lastDash := strings.LastIndex(key, "-")
 		if lastDash == -1 || lastDash == len(key)-1 {
 			return "", errors.New("invalid key format: missing params segment")
 		}
-		return key[lastDash+1:], nil
+		return qualifyHashedKey(key[lastDash+1:], transport), nil
 	}
 
 	params, err := RequestParamsFromKey(key)
 	if err != nil {
 		return "", err
 	}
-	return CalculateCacheKey(params)
+	return CalculateCacheKey(withTransport(params, transport))
+}
+
+// withTransport folds transport into params under transportParam. An empty
+// transport leaves params untouched so the resulting key is byte-identical to
+// the one produced before transport qualification existed.
+func withTransport(params types.RequestParams, transport string) types.RequestParams {
+	if transport == "" {
+		return params
+	}
+	params[transportParam] = transport
+	return params
+}
+
+// qualifyHashedKey appends transport to an opaque (hashed-params) transformed
+// key. The hash has no parameter structure to merge into, so the transport is
+// appended as a trailing segment in the same `key=value` shape CalculateCacheKey
+// emits, normalized the same way so both derivation paths agree.
+func qualifyHashedKey(hashed, transport string) string {
+	if transport == "" {
+		return hashed
+	}
+	return hashed + ":" + transportParam + "=" + normalizeString(transport)
 }
 
 // CalculateCacheKey generates a deterministic cache key from request parameters.
@@ -130,9 +180,14 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 // of a JSON object, which is returned verbatim. The endpoint parameter is the
 // canonical endpoint name (e.g. "cryptolwba") and is injected into the params
 // when the feedId JSON does not already contain it.
-func TransformedKeyFromFeedID(feedID, endpoint string) (string, error) {
+//
+// transport is AdapterResponse.meta.transportName from the response the feedId
+// was read out of — the same field TransformedKeyFromAdapterKey folds in — and
+// is what makes this path agree with the keys the JS adapter's cache writes
+// produce. See transportParam.
+func TransformedKeyFromFeedID(feedID, endpoint, transport string) (string, error) {
 	if !strings.HasPrefix(feedID, "{") {
-		return feedID, nil
+		return qualifyHashedKey(feedID, transport), nil
 	}
 
 	var feedParams map[string]interface{}
@@ -146,5 +201,5 @@ func TransformedKeyFromFeedID(feedID, endpoint string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to build cache key params from feedId: %w", err)
 	}
-	return CalculateCacheKey(params)
+	return CalculateCacheKey(withTransport(params, transport))
 }
