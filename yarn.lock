@@ -3749,7 +3749,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/nav-fund-services-adapter@workspace:packages/sources/nav-fund-services"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.19.1"
     "@date-fns/tz": "npm:^1.4.1"
     "@types/crypto-js": "npm:^4"
     "@types/jest": "npm:^29.5.14"
