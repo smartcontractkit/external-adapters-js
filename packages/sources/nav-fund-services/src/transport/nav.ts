@@ -14,7 +14,6 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { getApiKeys } from './creds'
 import {
   clampStartByBusinessDays,
   dateToTimezoneOffsetUtcMs,
@@ -96,7 +95,9 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
     logger.debug(`Handling request for globalFundID: ${param.globalFundID}`)
 
-    const [apiKey, secret] = getApiKeys(param.globalFundID)
+    const globalFundID = String(param.globalFundID)
+    const apiKey = this.config.API_KEY_FUND_ID.get(globalFundID)
+    const secret = this.config.SECRET_KEY_FUND_ID.get(globalFundID)
 
     const { FromDate: earliestPossibleFromStr, ToDate: fundToDateStr } = await getFundDates({
       globalFundID: param.globalFundID,
