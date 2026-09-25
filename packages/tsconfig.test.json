@@ -270,6 +270,9 @@
       "path": "./sources/matrixdock/tsconfig.test.json"
     },
     {
+      "path": "./sources/matrixedlink-state/tsconfig.test.json"
+    },
+    {
       "path": "./sources/mobula-state/tsconfig.test.json"
     },
     {

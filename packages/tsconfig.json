@@ -270,6 +270,9 @@
       "path": "./sources/matrixdock"
     },
     {
+      "path": "./sources/matrixedlink-state"
+    },
+    {
       "path": "./sources/mobula-state"
     },
     {
