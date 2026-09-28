@@ -6061,7 +6061,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nav-fund-services", {\
         "packageLocation": "./packages/sources/nav-fund-services/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/nav-fund-services-adapter", "workspace:packages/sources/nav-fund-services"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/crypto-js", "npm:4.2.2"],\
