@@ -8,6 +8,22 @@ export const config = new AdapterConfig(
       default: 'https://api.navfundservices.com',
       sensitive: false,
     },
+    API_KEY_FUND_ID: {
+      description:
+        'The API key for ${FUND_ID} where ${FUND_ID} is the globalFundID input parameter',
+      type: 'string',
+      required: true,
+      sensitive: true,
+      variablePlaceholder: 'FUND_ID',
+    },
+    SECRET_KEY_FUND_ID: {
+      description:
+        'The secret key for ${FUND_ID} where ${FUND_ID} is the globalFundID input parameter',
+      type: 'string',
+      required: true,
+      sensitive: true,
+      variablePlaceholder: 'FUND_ID',
+    },
     BACKGROUND_EXECUTE_MS: {
       description:
         'The amount of time the background execute should sleep before performing the next request',

@@ -1,13 +1,13 @@
 {
-  "name": "@chainlink/tokenized-equity-adapter",
-  "version": "1.4.6",
-  "description": "Chainlink tokenized equity adapter.",
+  "name": "@chainlink/matrixedlink-state-adapter",
+  "version": "0.0.0",
+  "description": "Chainlink matrixedlink-state adapter.",
   "keywords": [
     "Chainlink",
     "LINK",
     "blockchain",
     "oracle",
-    "tokenized-equity"
+    "matrixedlink-state"
   ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,16 +28,15 @@
     "start": "yarn server:dist"
   },
   "devDependencies": {
+    "@sinonjs/fake-timers": "9.1.2",
     "@types/jest": "^29.5.14",
     "@types/node": "22.14.1",
+    "@types/sinonjs__fake-timers": "8.1.5",
     "nock": "13.5.6",
     "typescript": "5.8.3"
   },
   "dependencies": {
-    "@chainlink/data-engine-adapter": "workspace:*",
     "@chainlink/external-adapter-framework": "2.20.0",
-    "@date-fns/tz": "1.4.1",
-    "ethers": "^6.13.2",
     "tslib": "2.4.1"
   }
 }
