@@ -23,6 +23,12 @@ type sortedSetMember struct {
 	score  float64
 }
 
+// transformedKeyCacheMax bounds the transformed-key memo. Distinct adapter keys
+// track the subscribed asset set, so this sits far above any real workload; it
+// exists only so a long-lived process cannot accumulate entries for assets that
+// have since been unsubscribed. Overflow drops the memo and repopulates lazily.
+const transformedKeyCacheMax = 50_000
+
 // RedconServer represents a Redis-compatible server
 type RedconServer struct {
 	addr       string
@@ -31,6 +37,9 @@ type RedconServer struct {
 	logger     *slog.Logger
 	mu         sync.RWMutex
 	sortedSets map[string]map[string]float64 // key -> (member -> score)
+
+	transformedKeysMu sync.RWMutex
+	transformedKeys   map[string]string // JS adapter cache key -> transformed key
 }
 
 // Config holds the Redis server configuration
@@ -44,11 +53,12 @@ type Config struct {
 // New creates a new Redis server instance
 func New(cfg Config) *RedconServer {
 	return &RedconServer{
-		addr:       cfg.Addr,
-		cache:      cfg.Cache,
-		publisher:  cfg.Publisher,
-		logger:     cfg.Logger,
-		sortedSets: make(map[string]map[string]float64),
+		addr:            cfg.Addr,
+		cache:           cfg.Cache,
+		publisher:       cfg.Publisher,
+		logger:          cfg.Logger,
+		sortedSets:      make(map[string]map[string]float64),
+		transformedKeys: make(map[string]string),
 	}
 }
 
@@ -190,16 +200,19 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 		return
 	}
 
-	transformedKey, err := helpers.TransformedKeyFromAdapterKey(key)
-	if err != nil {
-		s.logger.Debug("unable to compute transformed cache key from adapter key", "key", key, "error", err)
-		conn.WriteInt(1)
-		return
-	}
-	// Parse JSON value
+	// Parse JSON value. This happens before the transformed key is derived
+	// because the key is qualified by meta.transportName, which only the
+	// response body carries.
 	var rawJSON map[string]json.RawMessage
 	if err := json.Unmarshal(value, &rawJSON); err != nil {
 		s.logger.Warn("unable to parse JSON", "error", err, "key", key)
+		conn.WriteInt(1)
+		return
+	}
+
+	transformedKey, err := s.transformedKeyFor(key, rawJSON["meta"])
+	if err != nil {
+		s.logger.Debug("unable to compute transformed cache key from adapter key", "key", key, "error", err)
 		conn.WriteInt(1)
 		return
 	}
@@ -252,6 +265,59 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 		}
 	}
 	conn.WriteInt(1)
+}
+
+// transformedKeyFor maps a JS adapter cache key to its transformed key,
+// deriving it at most once per adapter key.
+//
+// handleEval runs on every observation — thousands per second on a busy adapter
+// — but the derivation is pure and its inputs are fixed per adapter key: the
+// framework builds that key from the transport it routed to, so a given key is
+// only ever written by one transport and always yields the same transformed
+// key. Memoizing keeps the params-blob unmarshal, canonicalization, sort and
+// join off the per-observation path, along with the meta.transportName lookup —
+// which is why meta stays raw here and is parsed only on a miss.
+//
+// Derivation failures are not memoized; they are malformed keys, logged by the
+// caller and rare.
+func (s *RedconServer) transformedKeyFor(key string, meta json.RawMessage) (string, error) {
+	s.transformedKeysMu.RLock()
+	transformed, ok := s.transformedKeys[key]
+	s.transformedKeysMu.RUnlock()
+	if ok {
+		return transformed, nil
+	}
+
+	transformed, err := helpers.TransformedKeyFromAdapterKey(key, transportName(meta))
+	if err != nil {
+		return "", err
+	}
+
+	s.transformedKeysMu.Lock()
+	if len(s.transformedKeys) >= transformedKeyCacheMax {
+		clear(s.transformedKeys)
+	}
+	s.transformedKeys[key] = transformed
+	s.transformedKeysMu.Unlock()
+	return transformed, nil
+}
+
+// transportName reads meta.transportName off an adapter response: the transport
+// the v3 framework actually routed the request to. It returns "" when the field
+// is absent, which yields a transport-blind transformed key — the same thing
+// the feedId path does with the same absent field, so the two stay in
+// agreement. Only reached on a transformedKeyFor miss.
+func transportName(meta json.RawMessage) string {
+	if len(meta) == 0 {
+		return ""
+	}
+	var parsed struct {
+		TransportName string `json:"transportName"`
+	}
+	if err := json.Unmarshal(meta, &parsed); err != nil {
+		return ""
+	}
+	return parsed.TransportName
 }
 
 // handleZAdd handles the ZADD command

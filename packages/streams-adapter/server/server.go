@@ -370,9 +370,9 @@ func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams
 		if i > 0 {
 			time.Sleep(retryInterval)
 		}
-		feedID, ok := s.queryAdapterForFeedID(originalData)
+		feedID, transport, ok := s.queryAdapterForFeedID(originalData)
 		if ok {
-			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
+			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint, transport)
 			if err != nil {
 				s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
 				break
@@ -539,13 +539,19 @@ func (s *Server) subscribeToAsset(data interface{}) {
 }
 
 // queryAdapterForFeedID sends a request to the JS adapter and returns the
-// feedId from meta.metrics.feedId on a 200 response. Returns empty string and
-// false if the adapter returns a non-200 status or feedId is absent.
-func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool) {
+// feedId from meta.metrics.feedId together with the transport that served the
+// request, from meta.transportName, on a 200 response. Returns false if the
+// adapter returns a non-200 status or feedId is absent.
+//
+// transport is the same field the Redcon write path reads off the cached
+// response, so both key-derivation paths qualify their keys identically. It is
+// returned empty when the framework does not report the field, which degrades
+// both paths to transport-blind keys together.
+func (s *Server) queryAdapterForFeedID(data interface{}) (feedID, transport string, ok bool) {
 	resp, err := s.postToAdapter(data)
 	if err != nil {
 		s.logger.Error("Failed to query JS adapter for feedId", "error", err)
-		return "", false
+		return "", "", false
 	}
 	defer resp.Body.Close()
 
@@ -553,26 +559,35 @@ func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool
 		if resp.StatusCode != http.StatusGatewayTimeout {
 			s.logger.Warn("Unexpected status from JS adapter during feedId poll", "status", resp.StatusCode)
 		}
-		return "", false
+		return "", "", false
 	}
 
 	var result struct {
 		Meta struct {
-			Metrics struct {
+			TransportName string `json:"transportName"`
+			Metrics       struct {
 				FeedId string `json:"feedId"`
 			} `json:"metrics"`
 		} `json:"meta"`
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		s.logger.Error("Failed to decode JS adapter response for feedId", "error", err)
-		return "", false
+		return "", "", false
 	}
 
 	if result.Meta.Metrics.FeedId == "" {
-		return "", false
+		return "", "", false
 	}
 
-	return result.Meta.Metrics.FeedId, true
+	if result.Meta.TransportName == "" {
+		// Not fatal: the key stays transport-blind, matching what the Redcon
+		// path derives from the same absent field. Worth surfacing, because on
+		// an adapter with several transport routes it means subscriptions that
+		// differ only by transport still share one cache slot.
+		s.logger.Warn("JS adapter reported no meta.transportName; transformed cache keys will not be transport-qualified",
+			"feedId", result.Meta.Metrics.FeedId)
+	}
+	return result.Meta.Metrics.FeedId, result.Meta.TransportName, true
 }
 
 // resubscribeLoop periodically resubscribes to all assets in the cache.

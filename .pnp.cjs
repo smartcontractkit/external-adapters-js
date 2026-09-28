@@ -383,6 +383,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/matrixdock"\
     },\
     {\
+      "name": "@chainlink/matrixedlink-state-adapter",\
+      "reference": "workspace:packages/sources/matrixedlink-state"\
+    },\
+    {\
       "name": "@chainlink/mobula-state-adapter",\
       "reference": "workspace:packages/sources/mobula-state"\
     },\
@@ -657,6 +661,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/m0-adapter", ["workspace:packages/sources/m0"]],\
     ["@chainlink/market-status-adapter", ["workspace:packages/composites/market-status"]],\
     ["@chainlink/matrixdock-adapter", ["workspace:packages/sources/matrixdock"]],\
+    ["@chainlink/matrixedlink-state-adapter", ["workspace:packages/sources/matrixedlink-state"]],\
     ["@chainlink/mobula-state-adapter", ["workspace:packages/sources/mobula-state"]],\
     ["@chainlink/mock-ea-adapter", ["workspace:packages/sources/mock-ea"]],\
     ["@chainlink/moore-hk-adapter", ["workspace:packages/sources/moore-hk"]],\
@@ -4832,7 +4837,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
           ["@chainlink/data-streams-sdk", "virtual:29c8fa29f35f020f9160a35554f7b84949a383888c5d188e62624b9badf4ce684909c85071a7f24bdb3e6ab54384c111baed4ccde8d5ece49ebcf3df89864817#npm:1.2.0"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -4938,7 +4943,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["bip32", "npm:4.0.0"],\
-          ["bitcoinjs-lib", "npm:6.1.7"],\
+          ["bitcoinjs-lib", "npm:6.1.8"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.8.1"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
@@ -5519,7 +5524,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/glv-token/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/glv-token-adapter", "workspace:packages/composites/glv-token"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5554,7 +5559,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gmx-tokens/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/gmx-tokens-adapter", "workspace:packages/composites/gmx-tokens"],\
           ["@sinonjs/fake-timers", "npm:9.1.2"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -5574,7 +5579,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/gold/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/gold-adapter", "workspace:packages/composites/gold"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
@@ -5946,6 +5951,23 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/matrixedlink-state-adapter", [\
+      ["workspace:packages/sources/matrixedlink-state", {\
+        "packageLocation": "./packages/sources/matrixedlink-state/",\
+        "packageDependencies": [\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
+          ["@chainlink/matrixedlink-state-adapter", "workspace:packages/sources/matrixedlink-state"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["nock", "npm:13.5.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/mobula-state-adapter", [\
       ["workspace:packages/sources/mobula-state", {\
         "packageLocation": "./packages/sources/mobula-state/",\
@@ -6039,7 +6061,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/sources/nav-fund-services", {\
         "packageLocation": "./packages/sources/nav-fund-services/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/nav-fund-services-adapter", "workspace:packages/sources/nav-fund-services"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/crypto-js", "npm:4.2.2"],\
@@ -6754,7 +6776,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/composites/tokenized-equity/",\
         "packageDependencies": [\
           ["@chainlink/data-engine-adapter", "workspace:packages/sources/data-engine"],\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/tokenized-equity-adapter", "workspace:packages/composites/tokenized-equity"],\
           ["@date-fns/tz", "npm:1.4.1"],\
           ["@types/jest", "npm:29.5.14"],\
@@ -17567,19 +17589,6 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["bitcoinjs-lib", [\
-      ["npm:6.1.7", {\
-        "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.7-31b0bb4f5c-d501b1cd83.zip/node_modules/bitcoinjs-lib/",\
-        "packageDependencies": [\
-          ["@noble/hashes", "npm:1.8.0"],\
-          ["bech32", "npm:2.0.0"],\
-          ["bip174", "npm:2.1.1"],\
-          ["bitcoinjs-lib", "npm:6.1.7"],\
-          ["bs58check", "npm:3.0.1"],\
-          ["typeforce", "npm:1.18.0"],\
-          ["varuint-bitcoin", "npm:1.1.2"]\
-        ],\
-        "linkType": "HARD"\
-      }],\
       ["npm:6.1.8", {\
         "packageLocation": "./.yarn/cache/bitcoinjs-lib-npm-6.1.8-a5c0d17f71-62e6775e65.zip/node_modules/bitcoinjs-lib/",\
         "packageDependencies": [\
