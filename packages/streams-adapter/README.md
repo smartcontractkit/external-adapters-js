@@ -62,6 +62,7 @@ Notes:
 
 - `CACHE_TTL_MINUTES=0` and `CACHE_CLEANUP_INTERVAL=0` both fall back to defaults.
 - `PACKAGE_NAME` is used to derive the adapter name for alias index initialization.
+- Transformed cache keys are qualified by the transport that served the response, so two subscriptions differing only by transport do not share a cache slot. The transport is read from `meta.transportName` on both the Redcon write path and the feedId learn path; an adapter whose framework does not report that field keeps unqualified keys on both paths rather than splitting them apart.
 - gRPC clients send their complete subscription set every `CACHE_CLEANUP_INTERVAL` seconds. The server clears a stream's subscriptions after `SUBSCRIPTION_REFRESH_TIMEOUT_SECONDS`.
 - In containerized runs, `PACKAGE_NAME` is injected during image build via the unified `Dockerfile` (`ARG package` -> `ENV PACKAGE_NAME=$package`).
 
