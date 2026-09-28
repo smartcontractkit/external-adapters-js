@@ -4,12 +4,16 @@ import (
 	"fmt"
 	"log/slog"
 	"net"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
 
 	cache "streams-adapter/cache"
+	"streams-adapter/helpers"
 
+	"github.com/goccy/go-json"
 	"github.com/stretchr/testify/require"
 	"github.com/tidwall/redcon"
 	"streams-adapter/transmitter"
@@ -553,5 +557,270 @@ func TestHandleCommand_Eval_FansOutToMultiplePayloadHashes(t *testing.T) {
 		require.Equal(t, hash2, e.PayloadHash)
 	case <-time.After(time.Second):
 		t.Fatal("subscriber on hash2 did not receive observation")
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Transport-aware cache keys
+// ---------------------------------------------------------------------------
+
+// initDxfeedAliases points the package-level alias index at an adapter with a
+// `price` endpoint, so adapter keys carrying a JSON params blob resolve.
+func initDxfeedAliases(t *testing.T) {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "endpoint_aliases.json")
+	require.NoError(t, os.WriteFile(path, []byte(
+		`{"adapters":{"dxfeed":{"defaultEndpoint":"price","endpoints":{"price":{"aliases":["stock"]}}}}}`,
+	), 0o644))
+	require.NoError(t, helpers.InitAliasIndex("dxfeed", path))
+}
+
+// Two live streams target the same dxFeed symbol and differ only by transport:
+// BIL/USD-Streams-RegularHoursEquityPrice omits `transport` and falls through to
+// the price endpoint's defaultTransport (`rest`), while
+// BIL/USD-Streams-OvernightHoursEquityPrice asks for `ws`. The framework strips
+// `transport` before building its params blob, so both used to derive
+// `base=bil:uslf24:endpoint=price` and share one cache slot, each route's write
+// overwriting the other's observation.
+func TestHandleCommand_Eval_TransportsDoNotShareACacheSlot(t *testing.T) {
+	initDxfeedAliases(t)
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	pub := transmitter.NewPublisher()
+	srv := New(Config{
+		Addr:      ":0",
+		Cache:     c,
+		Publisher: pub,
+		Logger:    slog.Default(),
+	})
+
+	const (
+		restRawKey = "endpoint=price:from=bil:uslf24:to=usd"
+		wsRawKey   = "endpoint=price:from=bil:uslf24:to=usd:transport=ws"
+	)
+	restHash := [32]byte{1}
+	wsHash := [32]byte{2}
+
+	c.SetNew(restRawKey, nil, restHash)
+	c.SetNew(wsRawKey, nil, wsHash)
+	c.SetTransformedKey(restRawKey, "base=bil:uslf24:endpoint=price:transport=rest")
+	c.SetTransformedKey(wsRawKey, "base=bil:uslf24:endpoint=price:transport=ws")
+
+	restCh := make(chan transmitter.Event, 1)
+	wsCh := make(chan transmitter.Event, 1)
+	pub.Subscribe(restHash, restCh)
+	pub.Subscribe(wsHash, wsCh)
+
+	// The REST route caches the last regular-session trade.
+	srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1",
+		`dxfeed-data-streams-DXFEED-price-rest-{"base":"bil:uslf24"}`,
+		`{"data":{"result":91.59},"meta":{"transportName":"rest"},"result":91.59}`))
+
+	select {
+	case e := <-restCh:
+		require.Equal(t, restHash, e.PayloadHash)
+		require.Contains(t, string(e.ObservationJSON), "91.59")
+	case <-time.After(time.Second):
+		t.Fatal("rest subscriber did not receive the rest observation")
+	}
+	select {
+	case e := <-wsCh:
+		t.Fatalf("ws subscriber received the rest observation: %s", e.ObservationJSON)
+	case <-time.After(100 * time.Millisecond):
+	}
+
+	// The WS route caches the overnight trade; each subscriber sees only its own
+	// transport's value.
+	srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1",
+		`dxfeed-data-streams-DXFEED-price-ws-{"base":"bil:uslf24"}`,
+		`{"data":{"result":91.58},"meta":{"transportName":"ws"},"result":91.58}`))
+
+	select {
+	case e := <-wsCh:
+		require.Equal(t, wsHash, e.PayloadHash)
+		require.Contains(t, string(e.ObservationJSON), "91.58")
+	case <-time.After(time.Second):
+		t.Fatal("ws subscriber did not receive the ws observation")
+	}
+
+	restItem := c.Get(restRawKey)
+	require.NotNil(t, restItem.Observation)
+	require.Contains(t, string(restItem.Observation.Data), "91.59",
+		"the ws write must not overwrite the rest slot")
+}
+
+// handleEval runs on every observation, so the transformed key is derived once
+// per adapter key and reused. One entry per distinct key, no matter how many
+// observations arrive on it.
+func TestHandleCommand_Eval_DerivesTransformedKeyOncePerAdapterKey(t *testing.T) {
+	initDxfeedAliases(t)
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	srv := New(Config{
+		Addr:   ":0",
+		Cache:  c,
+		Logger: slog.Default(),
+	})
+
+	const (
+		restKey = `dxfeed-data-streams-DXFEED-price-rest-{"base":"bil:uslf24"}`
+		wsKey   = `dxfeed-data-streams-DXFEED-price-ws-{"base":"bil:uslf24"}`
+	)
+	for i := 0; i < 50; i++ {
+		srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1", restKey,
+			`{"data":{"result":91.59},"meta":{"transportName":"rest"},"result":91.59}`))
+		srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1", wsKey,
+			`{"data":{"result":91.58},"meta":{"transportName":"ws"},"result":91.58}`))
+	}
+
+	srv.transformedKeysMu.RLock()
+	defer srv.transformedKeysMu.RUnlock()
+	require.Len(t, srv.transformedKeys, 2, "100 observations across 2 adapter keys")
+	require.Equal(t, "base=bil:uslf24:endpoint=price:transport=rest", srv.transformedKeys[restKey])
+	require.Equal(t, "base=bil:uslf24:endpoint=price:transport=ws", srv.transformedKeys[wsKey])
+}
+
+// Malformed keys must not be memoized, or a single bad key would pin a bogus
+// entry; they stay on the error path every time.
+func TestHandleCommand_Eval_DoesNotMemoizeDerivationFailures(t *testing.T) {
+	initDxfeedAliases(t)
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	srv := New(Config{
+		Addr:   ":0",
+		Cache:  c,
+		Logger: slog.Default(),
+	})
+
+	// No endpoint alias matches "unknown", so derivation fails.
+	srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1",
+		`adapter-unknown-{"base":"bil:uslf24"}`,
+		`{"data":{"result":1},"meta":{"transportName":"rest"},"result":1}`))
+
+	srv.transformedKeysMu.RLock()
+	defer srv.transformedKeysMu.RUnlock()
+	require.Empty(t, srv.transformedKeys)
+}
+
+// BenchmarkHandleEval measures the per-observation path, which is the one that
+// runs thousands of times a second.
+func BenchmarkHandleEval(b *testing.B) {
+	path := filepath.Join(b.TempDir(), "endpoint_aliases.json")
+	if err := os.WriteFile(path, []byte(
+		`{"adapters":{"dxfeed":{"defaultEndpoint":"price","endpoints":{"price":{"aliases":["stock"]}}}}}`,
+	), 0o644); err != nil {
+		b.Fatal(err)
+	}
+	if err := helpers.InitAliasIndex("dxfeed", path); err != nil {
+		b.Fatal(err)
+	}
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+	srv := New(Config{Addr: ":0", Cache: c, Logger: slog.Default()})
+
+	cmd := makeCmd("EVAL", "script", "1",
+		`dxfeed-data-streams-DXFEED-price-rest-{"base":"bil:uslf24"}`,
+		`{"data":{"result":91.59},"timestamps":{"providerDataReceivedUnixMs":1790278106626},"meta":{"adapterName":"DXFEED","transportName":"rest","metrics":{"feedId":"{\"base\":\"bil:uslf24\"}"}},"result":91.59}`)
+	conn := newMockConn()
+
+	b.Run("memoized", func(b *testing.B) {
+		b.ReportAllocs()
+		for b.Loop() {
+			conn.writes = conn.writes[:0]
+			srv.handleCommand(conn, cmd)
+		}
+	})
+
+	// Evicting the single memo entry each iteration reproduces the pre-memo
+	// path, where every observation re-derived its transformed key. The delete
+	// on a one-entry map is negligible against the derivation it forces.
+	b.Run("rederived", func(b *testing.B) {
+		b.ReportAllocs()
+		for b.Loop() {
+			srv.transformedKeysMu.Lock()
+			clear(srv.transformedKeys)
+			srv.transformedKeysMu.Unlock()
+			conn.writes = conn.writes[:0]
+			srv.handleCommand(conn, cmd)
+		}
+	})
+}
+
+// BenchmarkTransformedKey isolates the work the memo removes from the
+// per-observation path: "derive" is what ran on every observation before,
+// "memoized" is what runs now.
+func BenchmarkTransformedKey(b *testing.B) {
+	path := filepath.Join(b.TempDir(), "endpoint_aliases.json")
+	if err := os.WriteFile(path, []byte(
+		`{"adapters":{"dxfeed":{"defaultEndpoint":"price","endpoints":{"price":{"aliases":["stock"]}}}}}`,
+	), 0o644); err != nil {
+		b.Fatal(err)
+	}
+	if err := helpers.InitAliasIndex("dxfeed", path); err != nil {
+		b.Fatal(err)
+	}
+
+	const adapterKey = `dxfeed-data-streams-DXFEED-price-rest-{"base":"bil:uslf24"}`
+	meta := json.RawMessage(`{"adapterName":"DXFEED","transportName":"rest","metrics":{"feedId":"{\"base\":\"bil:uslf24\"}"}}`)
+
+	srv := New(Config{Addr: ":0", Logger: slog.Default()})
+
+	b.Run("derive", func(b *testing.B) {
+		b.ReportAllocs()
+		for b.Loop() {
+			if _, err := helpers.TransformedKeyFromAdapterKey(adapterKey, transportName(meta)); err != nil {
+				b.Fatal(err)
+			}
+		}
+	})
+
+	b.Run("memoized", func(b *testing.B) {
+		if _, err := srv.transformedKeyFor(adapterKey, meta); err != nil {
+			b.Fatal(err)
+		}
+		b.ReportAllocs()
+		for b.Loop() {
+			if _, err := srv.transformedKeyFor(adapterKey, meta); err != nil {
+				b.Fatal(err)
+			}
+		}
+	})
+}
+
+// A response with no meta.transportName yields an unqualified key — the same
+// key the feedId path derives from the same absent field, so the two still bind.
+func TestHandleCommand_Eval_MissingTransportNameFallsBackToUnqualifiedKey(t *testing.T) {
+	initDxfeedAliases(t)
+
+	c := cache.New(cache.Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	pub := transmitter.NewPublisher()
+	srv := New(Config{Addr: ":0", Cache: c, Publisher: pub, Logger: slog.Default()})
+
+	const rawKey = "endpoint=price:from=bil:uslf24:to=usd"
+	hash := [32]byte{2}
+	c.SetNew(rawKey, nil, hash)
+	c.SetTransformedKey(rawKey, "base=bil:uslf24:endpoint=price")
+
+	ch := make(chan transmitter.Event, 1)
+	pub.Subscribe(hash, ch)
+
+	srv.handleCommand(newMockConn(), makeCmd("EVAL", "script", "1",
+		`dxfeed-data-streams-DXFEED-price-rest-{"base":"bil:uslf24"}`,
+		`{"data":{"result":91.59},"meta":{"adapterName":"DXFEED"},"result":91.59}`))
+
+	select {
+	case e := <-ch:
+		require.Equal(t, hash, e.PayloadHash)
+	case <-time.After(time.Second):
+		t.Fatal("subscriber did not receive the observation")
 	}
 }

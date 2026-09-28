@@ -1,5 +1,11 @@
 # @chainlink/dxfeed-adapter
 
+## 2.8.7
+
+### Patch Changes
+
+- [#5466](https://github.com/smartcontractkit/external-adapters-js/pull/5466) [`707c73a`](https://github.com/smartcontractkit/external-adapters-js/commit/707c73aeec3a8c151a14f5ada22c2ec40a48d12a) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - support for multiple transports
+
 ## 2.8.6
 
 ### Patch Changes
