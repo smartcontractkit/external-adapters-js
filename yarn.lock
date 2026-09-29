@@ -2707,7 +2707,7 @@ __metadata:
     nock: "npm:13.5.6"
     tslib: "npm:2.4.1"
     typescript: "npm:5.8.3"
-    ws: "npm:^8.18.3"
+    ws: "npm:^8.22.0"
   languageName: unknown
   linkType: soft
 
@@ -2806,7 +2806,7 @@ __metadata:
     tslib: "npm:^2.1.0"
     typescript: "npm:5.8.3"
     uuid: "npm:^11.0.0"
-    ws: "npm:^8.0.0"
+    ws: "npm:^8.22.0"
   languageName: unknown
   linkType: soft
 
@@ -20908,7 +20908,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.21.3, ws@npm:^8.0.0, ws@npm:^8.18.3, ws@npm:^8.19.0, ws@npm:^8.21.0, ws@npm:^8.21.3, ws@npm:^8.5.0, ws@npm:^8.8.1":
+"ws@npm:8.21.3, ws@npm:^8.18.3, ws@npm:^8.19.0, ws@npm:^8.21.0, ws@npm:^8.21.3, ws@npm:^8.5.0, ws@npm:^8.8.1":
   version: 8.21.3
   resolution: "ws@npm:8.21.3"
   peerDependencies:
@@ -20935,6 +20935,21 @@ __metadata:
     utf-8-validate:
       optional: true
   checksum: 10/0873c813ce75c466b026ce0a4ce9a8b5b5f1dc9ef0dd7ae9690fa4025c66afb165d3a45550357080b29d66a0e3028cd13c72ccefc83ce10723b4822a574ebc99
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.22.0":
+  version: 8.22.0
+  resolution: "ws@npm:8.22.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/ed771c2766bdb5724a66872f60ffc1a39f06e1a5bc8849f453c273e97c91a40ed5a224f06dc0e22f44b4a9e03938bf746fc5938d6887433cc0f4c416237d3b10
   languageName: node
   linkType: hard
 
