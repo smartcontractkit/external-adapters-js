@@ -96,6 +96,9 @@ func setCache(t *testing.T, params types.RequestParams, obs *types.Observation, 
 }
 
 func TestHealthHandler(t *testing.T) {
+	// Reset version that may have been set by other tests.
+	testSrv.SetAdapterVersion("")
+
 	req := httptest.NewRequest(http.MethodGet, "/health", nil)
 	w := httptest.NewRecorder()
 	testSrv.router.ServeHTTP(w, req)
@@ -105,6 +108,22 @@ func TestHealthHandler(t *testing.T) {
 	var body map[string]interface{}
 	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
 	require.Equal(t, "healthy", body["status"])
+	require.Empty(t, body["adapterVersion"])
+}
+
+func TestHealthHandler_AdapterVersion(t *testing.T) {
+	testSrv.SetAdapterVersion("2.14.1")
+	t.Cleanup(func() { testSrv.SetAdapterVersion("") })
+
+	req := httptest.NewRequest(http.MethodGet, "/health", nil)
+	w := httptest.NewRecorder()
+	testSrv.router.ServeHTTP(w, req)
+
+	require.Equal(t, http.StatusOK, w.Code)
+
+	var body map[string]interface{}
+	require.NoError(t, json.Unmarshal(w.Body.Bytes(), &body))
+	require.Equal(t, "2.14.1", body["adapterVersion"])
 }
 
 func TestAdapterHandler_BadRequest(t *testing.T) {

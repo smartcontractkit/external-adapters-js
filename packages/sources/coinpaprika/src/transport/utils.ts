@@ -1,11 +1,11 @@
-import { BaseEndpointTypes, cryptoInputParameters } from '../endpoint/utils'
 import {
   HttpTransport,
   WebsocketReverseMappingTransport,
 } from '@chainlink/external-adapter-framework/transports'
-import { AVAILABLE_WS_QUOTES, getApiEndpoint, getApiHeaders } from '../config'
-import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
+import { makeLogger } from '@chainlink/external-adapter-framework/util/logger'
+import { AVAILABLE_WS_QUOTES, getApiEndpoint, getApiHeaders } from '../config'
+import { BaseEndpointTypes, cryptoInputParameters } from '../endpoint/utils'
 
 const logger = makeLogger('CoinPaprika')
 
@@ -249,3 +249,11 @@ export const buildCryptoHttpTransport = (
       })
     },
   })
+
+/**
+ * Enforces the price invariant for messages that carry bid, price and ask:
+ * the price must sit strictly within the spread, i.e. bid < price < ask.
+ * Messages violating the invariant are dropped as having wrong price fields.
+ */
+export const isPriceInvariantViolated = (bid: number, price: number, ask: number): boolean =>
+  bid >= price || price >= ask

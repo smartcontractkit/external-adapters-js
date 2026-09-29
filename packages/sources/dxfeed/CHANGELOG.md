@@ -1,5 +1,29 @@
 # @chainlink/dxfeed-adapter
 
+## 2.8.7
+
+### Patch Changes
+
+- [#5466](https://github.com/smartcontractkit/external-adapters-js/pull/5466) [`707c73a`](https://github.com/smartcontractkit/external-adapters-js/commit/707c73aeec3a8c151a14f5ada22c2ec40a48d12a) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - support for multiple transports
+
+## 2.8.6
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 2.8.5
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 2.8.4
+
+### Patch Changes
+
+- [#5404](https://github.com/smartcontractkit/external-adapters-js/pull/5404) [`d9ed5fb`](https://github.com/smartcontractkit/external-adapters-js/commit/d9ed5fbc07aa89efef948a1ca11b95ace7d73b66) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Fix stale WS subscriptions being unsubscribed when the same ticker is still desired by another set of request params, and bump ea-framework to 2.20.0
+
 ## 2.8.3
 
 ### Patch Changes

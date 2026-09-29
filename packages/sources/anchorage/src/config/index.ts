@@ -8,10 +8,13 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: false,
   },
-  COLLATERAL_API_KEY: {
-    description: 'API key for Anchorage collateral_management endpoints',
+  COLLATERAL_API_KEY_PACKAGE_ID: {
+    description:
+      'API key for Anchorage collateral_management endpoints where ${PACKAGE_ID} is the upper-case version of the packageId input parameter',
     type: 'string',
+    required: true,
     sensitive: true,
+    variablePlaceholder: 'PACKAGE_ID',
   },
   COLLATERAL_API_ENDPOINT: {
     description: 'An API endpoint for Anchorage collateral_management endpoints',

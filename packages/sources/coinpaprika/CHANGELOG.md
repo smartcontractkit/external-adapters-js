@@ -1,5 +1,23 @@
 # @chainlink/coinpaprika-adapter
 
+## 2.10.7
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 2.10.6
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 2.10.5
+
+### Patch Changes
+
+- [#5403](https://github.com/smartcontractkit/external-adapters-js/pull/5403) [`e9f98a2`](https://github.com/smartcontractkit/external-adapters-js/commit/e9f98a2714b3dd1a244bc088322d2504aa7802b9) Thanks [@cl-efornaciari](https://github.com/cl-efornaciari)! - Drop markprice websocket messages that specify 'quote_fallback', indicating Coinpaprika failed to normalize the quote currency. Also drop markprice websocket messages that violate the price invariant bid < price < ask
+
 ## 2.10.4
 
 ### Patch Changes
