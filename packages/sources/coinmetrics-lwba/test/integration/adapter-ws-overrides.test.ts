@@ -7,12 +7,13 @@ import {
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import FakeTimers from '@sinonjs/fake-timers'
 
-// This adapter builds its endpoint by cloning the one exported from the coinmetrics package. The
-// clone shares `requestTransforms` with the original, whose `symbolOverrider` is bound to an
-// endpoint that never gets initialize()d — so unless the transform is rebound, every RDD override
-// is dropped and the adapter subscribes to the un-overridden symbol. That failed silently in
-// production: FRAX/USD subscribed to `frax` instead of `frax_frax`, which CoinMetrics only quotes
-// intermittently, and MATIC/USD subscribed to `matic`, which it no longer quotes at all.
+// This adapter used to build its endpoint by cloning the one exported from the coinmetrics
+// package. The clone shared `requestTransforms` with the original, whose `symbolOverrider` was
+// bound to an endpoint that never got initialize()d — so every RDD override was dropped and the
+// adapter subscribed to the un-overridden symbol. That failed silently in production: FRAX/USD
+// subscribed to `frax` instead of `frax_frax`, which CoinMetrics only quotes intermittently, and
+// MATIC/USD subscribed to `matic`, which it no longer quotes at all. The endpoint is now
+// constructed fresh so the constructor binds `symbolOverrider` to the initialized instance.
 describe('crypto-lwba request overrides', () => {
   let mockWsServer: MockWebsocketServer | undefined
   let testAdapter: TestAdapter

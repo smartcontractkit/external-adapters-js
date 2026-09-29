@@ -14,19 +14,29 @@ export const config = makeConfig({
   },
 })
 
+// Construct a fresh endpoint instead of cloning the coinmetrics one: the AdapterEndpoint
+// constructor binds requestTransforms (symbolOverrider) to the instance it creates, and only
+// this instance is initialize()d, so RDD overrides resolve against this adapter's name.
 export const endpoint = new LwbaEndpoint({
   ...endpointParameters,
   aliases: [...endpointParameters.aliases, 'crypto', 'price'],
-  customOutputValidation: (resp: AdapterResponse): AdapterError | undefined => {
-    if (!resp.errorMessage) {
-      const mid = (resp.data as any)?.mid
-      if (mid !== undefined) {
-        resp.result = mid
-      }
-    }
-    return // no validation error
-  },
 })
+
+// customOutputValidation must be assigned post-construction: the LwbaEndpoint constructor
+// installs its own invariant check (bid <= mid <= ask) and, on framework <= 2.17.x,
+// overwrites any customOutputValidation passed in params. Wrap the installed one so the
+// invariant is still enforced, then map result to mid.
+const invariantValidation = endpoint.customOutputValidation
+endpoint.customOutputValidation = (resp: AdapterResponse): AdapterError | undefined => {
+  invariantValidation?.(resp) // throws AdapterLWBAError on invariant violation
+  if (!resp.errorMessage) {
+    const mid = (resp.data as any)?.mid
+    if (mid !== undefined) {
+      resp.result = mid
+    }
+  }
+  return // no validation error
+}
 
 export const adapter = new Adapter({
   defaultEndpoint: endpoint.name,
