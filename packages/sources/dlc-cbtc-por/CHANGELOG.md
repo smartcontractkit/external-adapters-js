@@ -1,5 +1,11 @@
 # @chainlink/dlc-cbtc-por-adapter
 
+## 1.0.7
+
+### Patch Changes
+
+- [#5472](https://github.com/smartcontractkit/external-adapters-js/pull/5472) [`88352fb`](https://github.com/smartcontractkit/external-adapters-js/commit/88352fb15854e39428177208fcf47ba7bb23c55c) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - default_cache_key support
+
 ## 1.0.6
 
 ### Patch Changes
