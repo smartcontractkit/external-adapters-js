@@ -125,13 +125,27 @@ export function calculateTaprootAddress(
 }
 
 /**
+ * Builds the address calculation data URL for an attester.
+ * Attester base URLs get the standard path appended. URLs that already point at an
+ * address calculation endpoint (e.g. a passthrough API at
+ * https://api.example.com/cbtc/v1/address-calculation-data) are used as-is.
+ */
+export function buildAddressCalculationUrl(attesterUrl: string): string {
+  const { pathname } = new URL(attesterUrl)
+  if (pathname.replace(/\/$/, '').endsWith('address-calculation-data')) {
+    return attesterUrl
+  }
+  return buildUrl(attesterUrl, '/app/get-address-calculation-data')
+}
+
+/**
  * Fetch address calculation data from the Attester API
  */
 export async function fetchAddressCalculationData(
   requester: Requester,
   attesterUrl: string,
 ): Promise<AttesterAddressResponse> {
-  const url = buildUrl(attesterUrl, '/app/get-address-calculation-data')
+  const url = buildAddressCalculationUrl(attesterUrl)
   logger.debug(`Fetching address data from Attester API`)
 
   const response = await requester.request<AttesterAddressResponse>(url, { url })

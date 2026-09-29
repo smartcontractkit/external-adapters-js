@@ -3,6 +3,7 @@ import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/uti
 import BIP32Factory from 'bip32'
 import * as bitcoin from 'bitcoinjs-lib'
 import {
+  buildAddressCalculationUrl,
   calculateAndVerifyAddresses,
   calculateTaprootAddress,
   getBitcoinNetwork,
@@ -15,6 +16,19 @@ const bip32 = BIP32Factory(ecc)
 LoggerFactoryProvider.set()
 
 describe('BTC Address Calculation', () => {
+  describe('buildAddressCalculationUrl', () => {
+    it('should append the attester path to a base URL', () => {
+      expect(buildAddressCalculationUrl('http://attester.example:8811')).toBe(
+        'http://attester.example:8811/app/get-address-calculation-data',
+      )
+    })
+
+    it('should use a full address calculation endpoint URL as-is', () => {
+      const url = 'https://api.example.com/cbtc/v1/address-calculation-data'
+      expect(buildAddressCalculationUrl(url)).toBe(url)
+    })
+  })
+
   describe('getBitcoinNetwork', () => {
     it('should return bitcoin mainnet for "mainnet"', () => {
       expect(getBitcoinNetwork('mainnet')).toBe(bitcoin.networks.bitcoin)
