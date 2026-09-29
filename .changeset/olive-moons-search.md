@@ -1,4 +1,5 @@
 ---
+'@chainlink/coinmetrics-adapter': patch
 '@chainlink/coinmetrics-lwba-adapter': patch
 ---
 
