@@ -11,6 +11,17 @@ export const configDefinition = {
     type: 'string',
     default: '',
   },
+  BITCOIN_MAINNET_RPC_URL: {
+    description: 'Streams Bitcoin indexer URL for mainnet UTXO queries (opt-in path)',
+    type: 'string',
+    default: '',
+  },
+  BITCOIN_MAINNET_USE_STREAMS_INDEXER: {
+    description:
+      'When true, use BITCOIN_MAINNET_RPC_URL for mainnet Bitcoin instead of BITCOIN_MAINNET_POR_INDEXER_URL',
+    type: 'boolean',
+    default: false,
+  },
   DOGECOIN_MAINNET_POR_INDEXER_URL: {
     description: 'Indexer URL for Dogecoin mainnet',
     type: 'string',
@@ -50,3 +61,15 @@ export const config = new AdapterConfig(
     },
   },
 )
+
+export const balanceEnvVarForAddress = (
+  network: string,
+  chainId: string,
+  useStreamsMainnet: boolean,
+): string => {
+  if (network === 'bitcoin' && chainId === 'mainnet' && useStreamsMainnet) {
+    return 'BITCOIN_MAINNET_RPC_URL'
+  }
+
+  return `${network}_${chainId}`.toUpperCase() + '_POR_INDEXER_URL'
+}
