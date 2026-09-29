@@ -72,6 +72,7 @@ This document was generated automatically. Please see [Master List Generator](..
 - [lo-tech](./lo-tech/README.md)
 - [m0](./m0/README.md)
 - [matrixdock](./matrixdock/README.md)
+- [matrixedlink-state](./matrixedlink-state/README.md)
 - [mobula-state](./mobula-state/README.md)
 - [mock-ea](./mock-ea/README.md)
 - [moore-hk](./moore-hk/README.md)
