@@ -66,7 +66,7 @@ adapters:
   - name: dlc-btc-por
     version: 4.4.5
   - name: dlc-cbtc-por
-    version: 1.0.6
+    version: 1.0.7
   - name: dxfeed
     version: 2.8.7
   - name: elwood
@@ -200,7 +200,7 @@ adapters:
   - name: solactive
     version: 1.0.4
   - name: solana-functions
-    version: 1.8.4
+    version: 1.8.5
   - name: stader-labs
     version: 3.0.25
   - name: starknet-gas-price
@@ -220,7 +220,7 @@ adapters:
   - name: tenbin
     version: 1.0.0
   - name: the-network-firm
-    version: 1.10.5
+    version: 1.10.6
   - name: tickerlayer
     version: 1.1.4
   - name: tiingo
@@ -238,7 +238,7 @@ adapters:
   - name: tradinghours
     version: 0.8.0
   - name: truflation
-    version: 1.0.5
+    version: 1.0.6
   - name: twelvedata
     version: 1.4.16
   - name: view-function
