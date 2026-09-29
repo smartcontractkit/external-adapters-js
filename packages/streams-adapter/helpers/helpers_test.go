@@ -232,3 +232,49 @@ func TestTransformedKey_ServingTransportOverridesParam(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "base=eth:endpoint=price:transport=ws", key)
 }
+
+// ---------------------------------------------------------------------------
+// Empty-params endpoints (DEFAULT_CACHE_KEY / "N/A" sentinels)
+// ---------------------------------------------------------------------------
+
+// The v3 framework substitutes its DEFAULT_CACHE_KEY setting for the params
+// blob of an empty-params request, while meta.metrics.feedId is the hardcoded
+// "N/A" (or "{}" with FEED_ID_JSON=true). Both sentinels must normalize to the
+// same endpoint-derived transformed key — when they did not, observations for
+// empty-params endpoints (e.g. solana-functions sanctum-infinity) were buffered
+// forever and never reached subscribers.
+const emptyParamsAdapterKey = `test-adapter-data-streams-TEST-adapter-volume-default_single_transport-DEFAULT_CACHE_KEY`
+
+func TestTransformedKeyFromAdapterKey_EmptyParamsSentinel(t *testing.T) {
+	initTestAdapter(t)
+
+	key, err := TransformedKeyFromAdapterKey(emptyParamsAdapterKey, "default_single_transport")
+	require.NoError(t, err)
+	require.Equal(t, "endpoint=volume:transport=defaultsingletransport", key)
+}
+
+func TestTransformedKeyFromFeedID_EmptyParamsNA(t *testing.T) {
+	initTestAdapter(t)
+
+	key, err := TransformedKeyFromFeedID("N/A", "volume", "")
+	require.NoError(t, err)
+	require.Equal(t, "endpoint=volume", key)
+}
+
+// The invariant that lets an observation reach a subscriber: the Redcon write
+// path and the feedId learn path derive the same transformed key — across
+// FEED_ID_JSON settings and regardless of whether meta.transportName is
+// reported.
+func TestTransformedKey_EmptyParams_WriteAndLearnPathsAgree(t *testing.T) {
+	initTestAdapter(t)
+
+	for _, transport := range []string{"default_single_transport", ""} {
+		for _, feedID := range []string{"N/A", `{}`} { // FEED_ID_JSON false / true
+			fromWrite, err := TransformedKeyFromAdapterKey(emptyParamsAdapterKey, transport)
+			require.NoError(t, err)
+			fromLearn, err := TransformedKeyFromFeedID(feedID, "volume", transport)
+			require.NoError(t, err)
+			require.Equal(t, fromWrite, fromLearn, "transport=%q feedID=%q", transport, feedID)
+		}
+	}
+}

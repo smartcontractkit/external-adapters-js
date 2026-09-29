@@ -73,6 +73,19 @@ func RequestParamsFromKey(key string) (types.RequestParams, error) {
 	return canonical, nil
 }
 
+// emptyFeedID is the feedId the v3 framework reports for a request that carries
+// no parameters: ea-framework-js calculateFeedId hardcodes 'N/A' for empty data.
+const emptyFeedID = "N/A"
+
+// emptyParamsSentinel is the params segment the v3 framework substitutes into
+// the response cache key for the same empty-params request: ea-framework-js
+// calculateKey falls back to the DEFAULT_CACHE_KEY setting, whose default is
+// the literal "DEFAULT_CACHE_KEY" (never overridden in our deployments). The
+// two sentinels name the same thing, so both are normalized to an
+// endpoint-derived key — otherwise observations for empty-params endpoints
+// never match the key the feedId learn path recorded.
+const emptyParamsSentinel = "DEFAULT_CACHE_KEY"
+
 // transportParam is the pseudo-parameter under which an adapter response's
 // transport name is folded into a transformed cache key.
 //
@@ -95,8 +108,9 @@ const transportParam = "transport"
 //
 // The v3 framework cache key is structured as
 // `${prefix}-${adapterName}-${endpointName}-${transportName}-${paramsKey}`
-// where `paramsKey` is either a JSON params blob (small payloads) or a bare
-// base64 sha1 hash (when the serialized params exceed MAX_COMMON_KEY_SIZE).
+// where `paramsKey` is either a JSON params blob (small payloads), a bare
+// base64 sha1 hash (when the serialized params exceed MAX_COMMON_KEY_SIZE),
+// or the DEFAULT_CACHE_KEY sentinel (when the request carries no parameters).
 // See ea-framework-js src/cache/index.ts: calculateParamsKey.
 //
 // transport is the value of AdapterResponse.meta.transportName from the same
@@ -116,7 +130,11 @@ func TransformedKeyFromAdapterKey(key, transport string) (string, error) {
 		if lastDash == -1 || lastDash == len(key)-1 {
 			return "", errors.New("invalid key format: missing params segment")
 		}
-		return qualifyHashedKey(key[lastDash+1:], transport), nil
+		segment := key[lastDash+1:]
+		if segment == emptyParamsSentinel {
+			return transformedKeyFromEmptyParams(key, transport)
+		}
+		return qualifyHashedKey(segment, transport), nil
 	}
 
 	params, err := RequestParamsFromKey(key)
@@ -148,6 +166,23 @@ func qualifyHashedKey(hashed, transport string) string {
 	return hashed + ":" + transportParam + "=" + normalizeString(transport)
 }
 
+// transformedKeyFromEmptyParams derives the transformed key for an adapter
+// response whose request carried no parameters: the framework cache key ends
+// with the DEFAULT_CACHE_KEY sentinel instead of a params blob, so the endpoint
+// is recovered from the key and the result matches what TransformedKeyFromFeedID
+// derives for the same subscription.
+func transformedKeyFromEmptyParams(key, transport string) (string, error) {
+	endpoint, err := findEndpointInKey(key)
+	if err != nil {
+		return "", err
+	}
+	params, err := BuildCacheKeyParams(map[string]interface{}{"endpoint": endpoint})
+	if err != nil {
+		return "", err
+	}
+	return CalculateCacheKey(withTransport(params, transport))
+}
+
 // CalculateCacheKey generates a deterministic cache key from request parameters.
 func CalculateCacheKey(params types.RequestParams) (string, error) {
 	if len(params) == 0 {
@@ -177,15 +212,23 @@ func CalculateCacheKey(params types.RequestParams) (string, error) {
 // meta.metrics.feedId (e.g. `{"index":"u_aixbtusd_rti","adapterNameOverride":"cfbenchmarks2"}`).
 //
 // For large payloads the v3 framework returns a bare base64 sha1 hash instead
-// of a JSON object, which is returned verbatim. The endpoint parameter is the
-// canonical endpoint name (e.g. "cryptolwba") and is injected into the params
-// when the feedId JSON does not already contain it.
+// of a JSON object, which is returned verbatim. For requests without parameters
+// it returns the hardcoded 'N/A', which is normalized to an empty params object
+// so the derived key matches the DEFAULT_CACHE_KEY sentinel the write path sees.
+// The endpoint parameter is the canonical endpoint name (e.g. "cryptolwba") and
+// is injected into the params when the feedId JSON does not already contain it.
 //
 // transport is AdapterResponse.meta.transportName from the response the feedId
 // was read out of — the same field TransformedKeyFromAdapterKey folds in — and
 // is what makes this path agree with the keys the JS adapter's cache writes
 // produce. See transportParam.
 func TransformedKeyFromFeedID(feedID, endpoint, transport string) (string, error) {
+	// The framework reports this feedId for requests without parameters; treat
+	// it as an empty params object so the derived key matches the one
+	// TransformedKeyFromAdapterKey computes from the DEFAULT_CACHE_KEY sentinel.
+	if feedID == emptyFeedID {
+		feedID = "{}"
+	}
 	if !strings.HasPrefix(feedID, "{") {
 		return qualifyHashedKey(feedID, transport), nil
 	}
