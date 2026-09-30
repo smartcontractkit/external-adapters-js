@@ -1,12 +1,11 @@
-import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../config'
-import { walletTransport } from '../transport/wallet'
 import {
   PoRAddressEndpoint,
   PoRAddressResponse,
 } from '@chainlink/external-adapter-framework/adapter/por'
-import { getApiInfo } from '../transport/utils'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
+import { walletTransport } from '../transport/wallet'
 
 export const inputParameters = new InputParameters(
   {
@@ -53,10 +52,8 @@ export const endpoint = new PoRAddressEndpoint({
   name: 'wallet',
   transport: walletTransport,
   inputParameters,
-  customInputValidation: (request): AdapterError | undefined => {
-    if (request.requestContext.data.coin) {
-      getApiInfo(request.requestContext.data.coin)
-    }
+  customInputValidation: (request, settings): AdapterError | undefined => {
+    settings.COIN_API_KEY.get(request.requestContext.data.coin)
     return
   },
 })

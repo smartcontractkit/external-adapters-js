@@ -1,7 +1,6 @@
 {
   "blacklist": [
     "anyblock",
-    "anchorage",
     "coingecko",
     "dlc-btc-por",
     "implied-price",
