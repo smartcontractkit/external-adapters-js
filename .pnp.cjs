@@ -19913,7 +19913,7 @@ const RAW_RUNTIME_STATE =
           ["ajv-formats", "virtual:42f2ffad249aa2355efc66861bbe173c02c83bb6ca1ed15de3d473bfddb2fb9d5da37115688b1cb010c633a945fbceedfea5b67e789b18c12fd1a0349e4ede12#npm:3.0.1"],\
           ["fast-deep-equal", "npm:3.1.3"],\
           ["fast-json-stringify", "npm:6.0.0"],\
-          ["fast-uri", "npm:2.4.6"],\
+          ["fast-uri", "npm:2.4.7"],\
           ["json-schema-ref-resolver", "npm:1.0.1"],\
           ["rfdc", "npm:1.4.1"]\
         ],\
@@ -19980,10 +19980,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-uri", [\
-      ["npm:2.4.6", {\
-        "packageLocation": "./.yarn/cache/fast-uri-npm-2.4.6-8cb2ba2433-c693e872de.zip/node_modules/fast-uri/",\
+      ["npm:2.4.7", {\
+        "packageLocation": "./.yarn/cache/fast-uri-npm-2.4.7-626fa561b6-eb52fa0b7b.zip/node_modules/fast-uri/",\
         "packageDependencies": [\
-          ["fast-uri", "npm:2.4.6"]\
+          ["fast-uri", "npm:2.4.7"]\
         ],\
         "linkType": "HARD"\
       }],\
