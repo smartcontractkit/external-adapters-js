@@ -1,13 +1,16 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
 import { trimDecimals } from './nav'
 
-export const getRawNav = async (source: string, sourceInput: string, requester: Requester) => {
+export const getRawNav = async (
+  source: string,
+  sourceInput: string,
+  requester: Requester,
+  settings: typeof config.settings,
+) => {
   const requestConfig = {
-    baseURL: getEAUrl(source),
+    baseURL: settings.SOURCE_EA_URL.get(source),
     method: 'POST',
     data: {
       data: JSON.parse(sourceInput),
@@ -34,21 +37,6 @@ export const getRawNav = async (source: string, sourceInput: string, requester: 
     }
     throw e
   }
-}
-
-export const getEAUrl = (ea: string) => {
-  const normalizedEA = ea.replace(/-/g, '_').toUpperCase()
-  const keyName = `${normalizedEA}_EA_URL`
-  const url = process.env[keyName]
-
-  if (!url) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Missing '${normalizedEA}' environment variable.`,
-    })
-  }
-
-  return url
 }
 
 const WEI = 18

@@ -1,5 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider } from 'ethers'
+import { config } from '../../src/config'
 import { getBounds } from '../../src/transport/contract'
 import { getRawNav } from '../../src/transport/ea'
 import { getNav } from '../../src/transport/nav'
@@ -21,6 +22,7 @@ describe('getNav', () => {
     asset: 'test-asset',
     registry: 'test-registry',
     provider: {} as JsonRpcProvider,
+    settings: {} as typeof config.settings,
   }
 
   beforeEach(() => {
@@ -65,6 +67,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -116,6 +119,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -165,6 +169,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -211,6 +216,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -259,6 +265,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -308,6 +315,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -355,6 +363,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
@@ -403,6 +412,7 @@ describe('getNav', () => {
         defaultParams.asset,
         defaultParams.registry,
         defaultParams.provider,
+        defaultParams.settings,
       )
 
       expect(result).toEqual({
