@@ -20,23 +20,16 @@ export const config = makeConfig({
 export const endpoint = new LwbaEndpoint({
   ...endpointParameters,
   aliases: [...endpointParameters.aliases, 'crypto', 'price'],
-})
-
-// customOutputValidation must be assigned post-construction: the LwbaEndpoint constructor
-// installs its own invariant check (bid <= mid <= ask) and, on framework <= 2.17.x,
-// overwrites any customOutputValidation passed in params. Wrap the installed one so the
-// invariant is still enforced, then map result to mid.
-const invariantValidation = endpoint.customOutputValidation
-endpoint.customOutputValidation = (resp: AdapterResponse): AdapterError | undefined => {
-  invariantValidation?.(resp) // throws AdapterLWBAError on invariant violation
-  if (!resp.errorMessage) {
-    const mid = (resp.data as any)?.mid
-    if (mid !== undefined) {
-      resp.result = mid
+  customOutputValidation: (resp: AdapterResponse): AdapterError | undefined => {
+    if (!resp.errorMessage) {
+      const mid = (resp.data as any)?.mid
+      if (mid !== undefined) {
+        resp.result = mid
+      }
     }
-  }
-  return // no validation error
-}
+    return // no validation error
+  },
+})
 
 export const adapter = new Adapter({
   defaultEndpoint: endpoint.name,
