@@ -38,7 +38,7 @@ describe('StockQuotesWebSocketTransport', () => {
   const endpointName = 'stock_quotes'
 
   const adapterSettings = makeStub('adapterSettings', {
-    API_KEY: 'test-api-key',
+    EQUITIES_API_KEY: 'test-api-key',
     WS_API_ENDPOINT: 'ws://api.example.com',
     WS_SUBSCRIPTION_TTL: 30_000,
     WS_SUBSCRIPTION_UNRESPONSIVE_TTL: 120_000,
@@ -128,7 +128,7 @@ describe('StockQuotesWebSocketTransport', () => {
     await expect(receivedMessages[0]).toBe(
       JSON.stringify({
         eventName: 'subscribe',
-        authorization: adapterSettings.API_KEY,
+        authorization: adapterSettings.EQUITIES_API_KEY,
         eventData: {
           thresholdLevel: 4,
           tickers: [symbol],
@@ -369,7 +369,7 @@ describe('StockQuotesWebSocketTransport', () => {
     await expect(receivedMessages[1]).toBe(
       JSON.stringify({
         eventName: 'unsubscribe',
-        authorization: adapterSettings.API_KEY,
+        authorization: adapterSettings.EQUITIES_API_KEY,
         eventData: {
           thresholdLevel: 4,
           tickers: [symbol],

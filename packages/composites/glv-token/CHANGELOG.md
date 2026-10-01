@@ -1,5 +1,39 @@
 # @chainlink/glv-token-adapter
 
+## 2.1.8
+
+### Patch Changes
+
+- [#5390](https://github.com/smartcontractkit/external-adapters-js/pull/5390) [`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Bump framework version
+
+- Updated dependencies [[`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe), [`dbc8666`](https://github.com/smartcontractkit/external-adapters-js/commit/dbc86662c6d03c430920a5e73f18fce2352104d0)]:
+  - @chainlink/data-engine-adapter@1.6.3
+
+## 2.1.7
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+- Updated dependencies [[`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019)]:
+  - @chainlink/data-engine-adapter@1.6.2
+
+## 2.1.6
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+- Updated dependencies [[`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1)]:
+  - @chainlink/data-engine-adapter@1.6.1
+
+## 2.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`084fc19`](https://github.com/smartcontractkit/external-adapters-js/commit/084fc194cf0b8de3e08deb00c0aa84a9942f2758)]:
+  - @chainlink/data-engine-adapter@1.6.0
+
 ## 2.1.4
 
 ### Patch Changes

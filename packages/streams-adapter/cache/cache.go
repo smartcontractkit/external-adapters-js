@@ -11,6 +11,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promauto"
 
 	types "streams-adapter/common"
+	"streams-adapter/includes"
 )
 
 var cacheDataGetCount = promauto.NewCounter(
@@ -62,11 +63,21 @@ type Cache struct {
 	items            map[string]*types.CacheItem    // rawKey → item
 	byTransformedKey map[string]map[string]struct{} // transformedKey → rawKeys (secondary index)
 	pendingObs       map[string]*pendingObservation // transformedKey → buffered observation (pre-mapping race)
+	includes         *includes.Index                // adapter includes index for inverse flag lookup
 	ttl              time.Duration
 	cleanupInterval  time.Duration
 	ctx              context.Context
 	cancel           context.CancelFunc
 	stopOnce         sync.Once
+}
+
+// SetIncludesIndex sets the adapter includes index used to determine the
+// inverse flag from the original requested pair. When nil or the pair is not
+// present, the cache defaults to not inverting.
+func (c *Cache) SetIncludesIndex(idx *includes.Index) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.includes = idx
 }
 
 // New creates a new cache instance
@@ -107,21 +118,49 @@ func (c *Cache) SetNew(rawKey string, originalRequestData map[string]interface{}
 		Status:              types.StatusNew,
 		Timestamp:           time.Now(),
 		OriginalRequestData: originalRequestData,
-		PayloadHash:         payloadHash,
+		PayloadHashes:       map[[32]byte]struct{}{payloadHash: {}},
 	}
 	cacheItemsTotal.Inc()
 	return true
 }
 
-// PayloadHashByRawKey returns a copy of the payload hash stored for rawKey.
-func (c *Cache) PayloadHashByRawKey(rawKey string) ([32]byte, bool) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+// AddPayloadHash registers an additional payload hash for an existing raw key.
+// This allows the same cached feed to fan out observations to subscribers that
+// joined with different request payloads (e.g. different overrides). Returns true
+// if the hash was newly added.
+func (c *Cache) AddPayloadHash(rawKey string, payloadHash [32]byte) bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
 	item, ok := c.items[rawKey]
 	if !ok {
-		return [32]byte{}, false
+		return false
 	}
-	return item.PayloadHash, true
+	if item.PayloadHashes == nil {
+		item.PayloadHashes = map[[32]byte]struct{}{payloadHash: {}}
+		return true
+	}
+	if _, exists := item.PayloadHashes[payloadHash]; exists {
+		return false
+	}
+	item.PayloadHashes[payloadHash] = struct{}{}
+	return true
+}
+
+// PayloadHashesByRawKey returns all payload hashes registered for rawKey.
+func (c *Cache) PayloadHashesByRawKey(rawKey string) ([][32]byte, bool) {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	item, ok := c.items[rawKey]
+	if !ok {
+		return nil, false
+	}
+	hashes := make([][32]byte, 0, len(item.PayloadHashes))
+	for h := range item.PayloadHashes {
+		hashes = append(hashes, h)
+	}
+	return hashes, true
 }
 
 // SetTransformedKey transitions a "new" item to "learned" by recording the
@@ -141,7 +180,7 @@ func (c *Cache) SetTransformedKey(rawKey, transformedKey string) {
 		c.removeTransformedKeyMapping(item.TransformedKey, rawKey)
 	}
 	item.TransformedKey = transformedKey
-	item.RequiresInverse = requiresInverse(item.OriginalRequestData, transformedKey)
+	item.RequiresInverse = c.requiresInverse(item.OriginalRequestData)
 	item.Status = types.StatusLearned
 	item.Timestamp = time.Now()
 	c.addTransformedKeyMapping(transformedKey, rawKey)
@@ -262,7 +301,7 @@ func (c *Cache) RawKeysByTransformed(transformedKey string) ([]string, bool) {
 	return result, true
 }
 
-func requiresInverse(originalRequestData map[string]interface{}, transformedKey string) bool {
+func (c *Cache) requiresInverse(originalRequestData map[string]interface{}) bool {
 	if originalRequestData == nil {
 		return false
 	}
@@ -273,14 +312,15 @@ func requiresInverse(originalRequestData map[string]interface{}, transformedKey 
 		return false
 	}
 
-	transformedParams := parseCacheKey(transformedKey)
-	transformedBase := strings.ToUpper(transformedParams["base"])
-	transformedQuote := strings.ToUpper(transformedParams["quote"])
-	if transformedBase == "" || transformedQuote == "" {
-		return false
+	// The adapter_includes.json generated from the JS adapter's includes.json is
+	// the only source of truth for whether an observation must be inverted.
+	if c.includes != nil {
+		if inc, ok := c.includes.Lookup(originalBase, originalQuote); ok {
+			return inc.Inverse
+		}
 	}
 
-	return originalBase == transformedQuote && originalQuote == transformedBase
+	return false
 }
 
 func getPairValue(data map[string]interface{}, names ...string) string {

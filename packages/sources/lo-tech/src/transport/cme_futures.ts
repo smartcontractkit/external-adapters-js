@@ -17,6 +17,7 @@ export type PriceData = BasePriceData & {
   roll_date: string
   price_notice_roll: number
   price_goldman_roll: number
+  price_goldman_continuous_roll: number
   price_continuous_roll: number
   first_notice_date: string
   trading_day_of_month: number
@@ -99,6 +100,7 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
           ingress_ts,
           price_notice_roll,
           price_goldman_roll,
+          price_goldman_continuous_roll,
           price_continuous_roll,
           first_notice_date,
           trading_day_of_month,
@@ -123,6 +125,7 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
           contract_month,
           price_notice_roll,
           price_goldman_roll,
+          price_goldman_continuous_roll,
           price_continuous_roll,
           first_notice_date,
           trading_day_of_month,

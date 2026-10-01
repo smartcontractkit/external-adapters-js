@@ -1,5 +1,27 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- [#5392](https://github.com/smartcontractkit/external-adapters-js/pull/5392) [`4b62119`](https://github.com/smartcontractkit/external-adapters-js/commit/4b6211955419d25ce1bd3dead2174d2106c5c283) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix queried date range by not querying past FundOfficialAccountingLastAvailableDate
+
+## 1.3.1
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 1.3.0
+
+### Minor Changes
+
+- [#5367](https://github.com/smartcontractkit/external-adapters-js/pull/5367) [`db6cecc`](https://github.com/smartcontractkit/external-adapters-js/commit/db6cecc6b287b14a96dcc49c5e579894c8df452f) Thanks [@dskloetc](https://github.com/dskloetc)! - Expose other fields as 'result'
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
 ## 1.2.2
 
 ### Patch Changes
