@@ -17,6 +17,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
   requester!: Requester
   provider!: JsonRpcProvider
   metricsEndpoint!: string
+  settings!: BaseEndpointTypes['Settings']
 
   async initialize(
     dependencies: TransportDependencies<BaseEndpointTypes>,
@@ -25,6 +26,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
+    this.settings = adapterSettings
     this.requester = dependencies.requester
     this.provider = new JsonRpcProvider(
       adapterSettings.ETHEREUM_RPC_URL,
@@ -70,6 +72,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
       param.asset,
       param.registry,
       this.provider,
+      this.settings,
     )
 
     const result = {
