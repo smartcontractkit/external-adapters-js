@@ -256,9 +256,19 @@ func (s *RedconServer) handleEval(conn redcon.Conn, cmd redcon.Command) {
 	if s.publisher != nil {
 		if rawKeys, ok := s.cache.RawKeysByTransformed(transformedKey); ok {
 			for _, rawKey := range rawKeys {
+				out := obs
+				if item := s.cache.Get(rawKey); item != nil && item.RequiresInverse && obs.Success {
+					inverted, err := helpers.InvertObservation(obs)
+					if err != nil {
+						s.logger.Error("failed to invert observation for inverse subscriber",
+							"rawKey", rawKey, "error", err)
+						continue // do not publish a direct price to an inverse subscriber
+					}
+					out = inverted
+				}
 				if payloadHashes, ok := s.cache.PayloadHashesByRawKey(rawKey); ok {
 					for _, payloadHash := range payloadHashes {
-						s.publisher.Publish(payloadHash, obs, ts)
+						s.publisher.Publish(payloadHash, out, ts)
 					}
 				}
 			}
