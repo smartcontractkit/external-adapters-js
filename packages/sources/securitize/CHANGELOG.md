@@ -1,5 +1,11 @@
 # @chainlink/securitize-adapter
 
+## 1.0.4
+
+### Patch Changes
+
+- [#5314](https://github.com/smartcontractkit/external-adapters-js/pull/5314) [`aeebc74`](https://github.com/smartcontractkit/external-adapters-js/commit/aeebc74e5172a459281c7dc1c81645fffc00c9b1) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - Add ASSET_PUBKEYS variable env var in place of process.env
+
 ## 1.0.3
 
 ### Patch Changes

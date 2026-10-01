@@ -1,5 +1,41 @@
 ## v1.1.0
 
+## 2.14.4
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 2.14.3
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 2.14.2
+
+### Patch Changes
+
+- [#5407](https://github.com/smartcontractkit/external-adapters-js/pull/5407) [`8ba67a1`](https://github.com/smartcontractkit/external-adapters-js/commit/8ba67a19f71169979b4212d395266e819a5541dd) Thanks [@dskloetc](https://github.com/dskloetc)! - Use separate API key for stock_quotes endpoint
+
+## 2.14.1
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 2.14.0
+
+### Minor Changes
+
+- [#5346](https://github.com/smartcontractkit/external-adapters-js/pull/5346) [`deec7a1`](https://github.com/smartcontractkit/external-adapters-js/commit/deec7a12e3618882de86ac4692c4703083d84957) Thanks [@dskloetc](https://github.com/dskloetc)! - Add stock_quotes endpoint
+
+## 2.13.2
+
+### Patch Changes
+
+- [#5315](https://github.com/smartcontractkit/external-adapters-js/pull/5315) [`d6627ef`](https://github.com/smartcontractkit/external-adapters-js/commit/d6627effa7cb34db57084a916d025d2ba231ed39) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC transport support
+
 ## 2.13.1
 
 ### Patch Changes

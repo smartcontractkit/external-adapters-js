@@ -8,6 +8,22 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: false,
   },
+  NETWORK_RPC_URL: {
+    description:
+      'The RPC URL for ${NETWORK}, where ${NETWORK} is the upper-snake-case version of contractAddressNetwork input parameter.',
+    type: 'string',
+    required: false,
+    sensitive: false,
+    variablePlaceholder: 'NETWORK',
+  },
+  NETWORK_RPC_CHAIN_ID: {
+    description:
+      'The chain ID for ${NETWORK}, where ${NETWORK} is the upper-snake-case version of contractAddressNetwork input parameter.',
+    type: 'number',
+    required: false,
+    sensitive: false,
+    variablePlaceholder: 'NETWORK',
+  },
   CHAIN_ID: {
     description: 'The chain id to connect to for the RPC URL',
     type: 'number',

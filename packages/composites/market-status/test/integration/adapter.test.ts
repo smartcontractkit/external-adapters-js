@@ -523,6 +523,55 @@ describe('execute', () => {
       })
     })
   })
+
+  describe('useSecondaryForTesting', () => {
+    afterEach(async () => {
+      await testAdapter.mockCache?.cache.clear()
+    })
+
+    it('skips primary and uses secondary when useSecondaryForTesting is true', async () => {
+      const market = 'nyse'
+      mockOpen(market, process.env.TRADINGHOURS_ADAPTER_URL)
+      mockClosed(market, process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+
+      const response = await waitForSuccessfulRequest({
+        market,
+        useSecondaryForTesting: true,
+      })
+
+      expect(response.json()).toEqual({
+        data: {
+          result: 1,
+          statusString: 'CLOSED',
+          source: 'FINNHUB_SECONDARY',
+        },
+        result: 1,
+        statusCode: 200,
+        timestamps,
+      })
+    })
+
+    describe('for multi market', () => {
+      it('skips primary and uses secondary for all markets when useSecondaryForTesting is true', async () => {
+        mockClosed('lse', process.env.TRADINGHOURS_ADAPTER_URL)
+        mockOpen('lse', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+        mockClosed('xetra', process.env.TRADINGHOURS_ADAPTER_URL)
+        mockOpen('xetra', process.env.FINNHUB_SECONDARY_ADAPTER_URL)
+
+        const response = await waitForSuccessfulRequest({
+          endpoint: 'multi-market-status',
+          market: 'lse,xetra',
+          openMode: 'any',
+          useSecondaryForTesting: true,
+        })
+
+        const data = response.json()
+        expect(data.statusCode).toBe(200)
+        expect(data.data.result).toBe(2)
+        expect(data.data.statusString).toBe('OPEN')
+      })
+    })
+  })
   // This is working locally but for some reason failing on pipeline
   // describe('missing env var', () => {
   //   it('throws error', async () => {

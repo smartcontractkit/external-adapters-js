@@ -1,5 +1,45 @@
 # @chainlink/lo-tech-adapter
 
+## 1.3.2
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 1.3.1
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 1.3.0
+
+### Minor Changes
+
+- [#5406](https://github.com/smartcontractkit/external-adapters-js/pull/5406) [`09d4e02`](https://github.com/smartcontractkit/external-adapters-js/commit/09d4e0222eeff6371bab11f2dd38ad11c139f772) Thanks [@dskloetc](https://github.com/dskloetc)! - Add field price_goldman_continuous_roll to cme_futures endpoint
+
+## 1.2.2
+
+### Patch Changes
+
+- [#5370](https://github.com/smartcontractkit/external-adapters-js/pull/5370) [`606d155`](https://github.com/smartcontractkit/external-adapters-js/commit/606d1557216d67ab8bdfa098e6404ea6a184ec42) Thanks [@akuzni2](https://github.com/akuzni2)! - Convert adapter response `expiry_date` from date string to unix epoch seconds (start of day in `ROLL_DATE_TIMEZONE`).
+
+  Bump `@chainlink/external-adapter-framework` to 2.19.1.
+
+## 1.2.1
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.2.0
+
+### Minor Changes
+
+- [#5356](https://github.com/smartcontractkit/external-adapters-js/pull/5356) [`60518a5`](https://github.com/smartcontractkit/external-adapters-js/commit/60518a5e2272df818f9b17f38eaa858b7be7a8a0) Thanks [@dskloetc](https://github.com/dskloetc)! - Add extra fields in futures response
+
+- [#5311](https://github.com/smartcontractkit/external-adapters-js/pull/5311) [`f8c5b49`](https://github.com/smartcontractkit/external-adapters-js/commit/f8c5b495109315481042233f6aaf684627066e57) Thanks [@mmcallister-cll](https://github.com/mmcallister-cll)! - add stock endpoint alias
+
 ## 1.1.0
 
 ### Minor Changes

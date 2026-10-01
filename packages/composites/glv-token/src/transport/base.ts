@@ -14,7 +14,6 @@ import { BaseEndpointTypesLwba } from '../endpoint/lwba'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/price'
 import { dataStreamIdKey } from './gmx-keys'
 import {
-  mapSymbol,
   Market,
   median,
   PriceData,
@@ -25,6 +24,15 @@ import {
 } from './utils'
 
 const logger = makeLogger('GlvBaseTransport')
+
+// Minimum time between two metadata refreshes triggered by a cache miss. Without it,
+// an address the GMX APIs simply do not know about would make every subscribed GLV
+// re-request the metadata on every background cycle.
+export const METADATA_REFRESH_COOLDOWN_MS = 60_000
+
+// Thrown when the on-chain GLV info references an address that the cached /tokens or
+// /markets metadata does not contain, which means the cached metadata is stale.
+export class MissingMetadataError extends Error {}
 
 const extractBidAsk = (result: FeedDataResult): { bid: string; ask: string; decimals: number } => {
   switch (result.version) {
@@ -72,6 +80,7 @@ export abstract class BaseGlvTransport<
   marketsMap: Record<string, Market> = {}
   decimals: Record<string, number> = {}
   symbolToAddressMap: Record<string, string> = {}
+  lastMetadataRefreshMs = 0
 
   async initialize(
     dependencies: TransportDependencies<T>,
@@ -160,7 +169,47 @@ export abstract class BaseGlvTransport<
     })
   }
 
+  // Reads cached metadata, throwing instead of returning undefined so that a stale
+  // cache is detectable by the caller.
+  private lookup<V>(map: Record<string, V>, address: string, source: string): V {
+    const value = map[address]
+    if (!value) {
+      throw new MissingMetadataError(`${source} metadata has no entry for address ${address}`)
+    }
+    return value
+  }
+
+  // Re-requests both metadata endpoints. The timestamp is recorded before awaiting so
+  // that requests running in parallel see the cooldown right away rather than all
+  // firing off their own refresh.
+  private async refreshMetadata(): Promise<void> {
+    const now = Date.now()
+    if (now - this.lastMetadataRefreshMs < METADATA_REFRESH_COOLDOWN_MS) {
+      return
+    }
+    this.lastMetadataRefreshMs = now
+    // On failure the existing metadata is kept, and the retry reports what is missing.
+    await Promise.all([this.tokenInfo(), this.marketInfo()]).catch((e) =>
+      logger.warn(`Failed to refresh metadata: ${(e as Error).message}`),
+    )
+  }
+
   async _handleRequest(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
+    try {
+      return await this.buildResponse(param)
+    } catch (e) {
+      if (!(e instanceof MissingMetadataError)) {
+        throw e
+      }
+      // The GLV's market list comes from the chain, so it can reference a market or
+      // token that was added after the metadata was last fetched.
+      logger.warn(`${e.message}. Refreshing metadata and retrying.`)
+      await this.refreshMetadata()
+      return await this.buildResponse(param)
+    }
+  }
+
+  private async buildResponse(param: RequestParams): Promise<AdapterResponse<T['Response']>> {
     const providerDataRequestedUnixMs = Date.now()
     const glv_address = param.glv
 
@@ -171,18 +220,18 @@ export abstract class BaseGlvTransport<
 
     const glv: glvInformation = {
       glvToken: glvInfo.glv.glvToken,
-      longToken: mapSymbol(glvInfo.glv.longToken, this.tokensMap),
-      shortToken: mapSymbol(glvInfo.glv.shortToken, this.tokensMap),
+      longToken: this.lookup(this.tokensMap, glvInfo.glv.longToken, 'Token'),
+      shortToken: this.lookup(this.tokensMap, glvInfo.glv.shortToken, 'Token'),
       markets: {},
     }
 
     for (let i = 0; i < glvInfo.markets.length; i++) {
-      glv.markets[glvInfo.markets[i]] = mapSymbol(glvInfo.markets[i], this.marketsMap)
+      glv.markets[glvInfo.markets[i]] = this.lookup(this.marketsMap, glvInfo.markets[i], 'Market')
     }
 
     const assets: Array<string> = [glv.longToken.symbol, glv.shortToken.symbol]
     Object.keys(glv.markets).forEach((m) => {
-      assets.push(mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol)
+      assets.push(this.lookup(this.tokensMap, glv.markets[m].indexToken, 'Token').symbol)
     })
 
     assets.sort()
@@ -190,7 +239,7 @@ export abstract class BaseGlvTransport<
 
     const indexTokensPrices: Array<string | number>[] = []
     Object.keys(glv.markets).forEach((m) => {
-      const symbol = mapSymbol(glv.markets[m].indexToken, this.tokensMap).symbol
+      const symbol = this.lookup(this.tokensMap, glv.markets[m].indexToken, 'Token').symbol
       indexTokensPrices.push([priceResult.prices[symbol].bid, priceResult.prices[symbol].ask])
     })
 

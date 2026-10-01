@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute verified-balance endpoint should return success 1`] = `
+{
+  "data": {
+    "result": "391337.57056944835533043965510",
+  },
+  "result": "391337.57056944835533043965510",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 1788269613333,
+    "providerDataRequestedUnixMs": 1788269613333,
+  },
+}
+`;

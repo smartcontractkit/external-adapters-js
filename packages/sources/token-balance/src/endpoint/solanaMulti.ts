@@ -39,24 +39,6 @@ export const inputParameters = new InputParameters(
       description: 'Token symbol used to filter addresses',
       type: 'string',
     },
-    priceOracle: {
-      required: false,
-      description:
-        'Configuration of the on-chain price oracle that provides real-time token valuations.',
-      type: {
-        contractAddress: {
-          required: true,
-          type: 'string',
-          description: 'Contract address of the price oracle used to fetch token price data.',
-        },
-        network: {
-          required: true,
-          type: 'string',
-          description:
-            'Blockchain network of the price oracle contract (e.g., ETHEREUM, ARBITRUM).',
-        },
-      },
-    },
   },
   [
     {
@@ -69,10 +51,6 @@ export const inputParameters = new InputParameters(
         },
       ],
       token: 'WBTC',
-      priceOracle: {
-        contractAddress: '0xfdFD9C85aD200c506Cf9e21F1FD8dd01932FBB23',
-        network: 'ETHEREUM',
-      },
     },
   ],
 )
@@ -90,10 +68,6 @@ export type BaseEndpointTypes = {
         value: string
         decimals: number
       }[]
-      tokenPrice: {
-        value: string
-        decimals: number
-      }
     }
   }
   Settings: typeof config.settings

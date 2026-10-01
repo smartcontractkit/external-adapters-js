@@ -1,6 +1,6 @@
 # SOLANA_FUNCTIONS
 
-![1.8.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.8.5](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/solana-functions/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -25,10 +25,10 @@ version of 0.29.0 or earlier are not compatible with anchor 0.30.0 or later.
 
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |        RPC_URL        |                            The RPC URL for the Solana cluster                             | string |         |         |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+| Required? |          Name           |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |        `RPC_URL`        |                            The RPC URL for the Solana cluster                             | string |         |         |
+|           | `BACKGROUND_EXECUTE_MS` | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 

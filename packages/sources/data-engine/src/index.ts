@@ -1,17 +1,17 @@
 import { expose, ServerInstance } from '@chainlink/external-adapter-framework'
 import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import { config } from './config'
-import { cryptoV3, deutscheBoerseV11, exchangeRateV7, rwaV8, twap } from './endpoint'
+import { blended, cryptoV3, deutscheBoerseV11, exchangeRateV7, rwaV8, twap } from './endpoint'
 
 export const adapter = new Adapter({
   defaultEndpoint: cryptoV3.name,
   name: 'DATA_ENGINE',
   config,
-  endpoints: [cryptoV3, rwaV8, deutscheBoerseV11, exchangeRateV7, twap],
+  endpoints: [cryptoV3, rwaV8, deutscheBoerseV11, exchangeRateV7, twap, blended],
   rateLimiting: {
     tiers: {
       default: {
-        rateLimit1s: 5,
+        rateLimit1s: 200,
       },
     },
   },

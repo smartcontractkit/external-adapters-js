@@ -15,20 +15,6 @@ export const mockResponseSuccessHealth = (): void => {
       'Vary',
       'Origin',
     ])
-
-  nock('https://venus.scroll.io/v1/sequencer/status')
-    .get('')
-    .query(() => true)
-    .reply(200, () => ({ errcode: 0, errmsg: '', data: { health: 1 } }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
 }
 
 export const mockResponseSuccessBlock = (): void => {
@@ -246,20 +232,6 @@ export const mockResponseFailureHealth = (): void => {
     .get('')
     .query(() => true)
     .reply(200, (_) => ({ healthy: 'false' }), [
-      'Content-Type',
-      'application/json',
-      'Connection',
-      'close',
-      'Vary',
-      'Accept-Encoding',
-      'Vary',
-      'Origin',
-    ])
-
-  nock('https://venus.scroll.io/v1/sequencer/status')
-    .get('')
-    .query(() => true)
-    .reply(200, () => ({ errcode: 1, errmsg: 'Mock Error Message', data: { health: 2 } }), [
       'Content-Type',
       'application/json',
       'Connection',

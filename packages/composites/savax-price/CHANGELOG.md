@@ -1,5 +1,61 @@
 # @chainlink/savax-price-adapter
 
+## 3.0.167
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.23
+
+## 3.0.166
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.22
+
+## 3.0.165
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.21
+
+## 3.0.164
+
+### Patch Changes
+
+- Updated dependencies [[`ec5ce79`](https://github.com/smartcontractkit/external-adapters-js/commit/ec5ce7974903da0d1512be2e9a45d7cd01bbe140)]:
+  - @chainlink/token-allocation-adapter@1.15.20
+
+## 3.0.163
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.19
+
+## 3.0.162
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.18
+
+## 3.0.161
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.17
+
+## 3.0.160
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @chainlink/token-allocation-adapter@1.15.16
+
 ## 3.0.159
 
 ### Patch Changes

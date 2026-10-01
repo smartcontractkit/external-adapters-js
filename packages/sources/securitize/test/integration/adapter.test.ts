@@ -78,14 +78,14 @@ describe('execute', () => {
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchSnapshot()
     })
-    it('should return 400 for invalid envVarPrefix', async () => {
+    it('should return 500 for missing ASSET_PUBKEYS', async () => {
       const data = {
         endpoint: 'nav',
         assetId: '35d707cc-1563-4420-b6fd-ecdd47cfa0d1',
         envVarPrefix: 'missing_prefix',
       }
       const response = await testAdapter.request(data)
-      expect(response.statusCode).toBe(400)
+      expect(response.statusCode).toBe(500)
       expect(response.json()).toMatchSnapshot()
     })
   })

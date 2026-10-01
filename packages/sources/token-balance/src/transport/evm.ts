@@ -26,36 +26,43 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
   chainIdToStandardizedNetworkMap: Map<string, string> = new Map()
   standardizedNetworkToProviderMap: Map<string, ethers.JsonRpcProvider> = new Map()
 
+  defaultChainIdFor(network: string): number | undefined {
+    // ETHEREUM and ARBITRUM used to have individual settings with default
+    // values so we need to provide a default here for backwards compatibility.
+    switch (network) {
+      case 'ETHEREUM':
+        return 1
+      case 'ARBITRUM':
+        return 42161
+      default:
+        return undefined
+    }
+  }
+
   // reverse mapping from chain ID to network to RPC url
-  constructChainIdRpcMap(): void {
-    const _RPC_CHAIN_ID = '_RPC_CHAIN_ID'
-    for (const [key, value] of Object.entries(process.env)) {
-      if (!key.endsWith(_RPC_CHAIN_ID)) continue
-
-      const chainId = value
-
+  constructChainIdRpcMap(settings: BaseEndpointTypes['Settings']): void {
+    for (const entry of settings.NETWORK_RPC_CHAIN_ID.entries()) {
+      const networkName = entry.variable
+      const chainId = entry.value ?? this.defaultChainIdFor(networkName)
       if (!chainId) {
-        logger.warn(`env var ${key} is incorrect`)
+        logger.warn(`env var ${entry.envVarName} is incorrect`)
         continue
       }
-      if (this.chainIdToStandardizedNetworkMap.has(chainId)) {
+      if (this.chainIdToStandardizedNetworkMap.has(String(chainId))) {
         logger.warn(`chain ID ${chainId} present multiple times`)
         continue
       }
 
-      // extract network name from XXX_RPC_CHAIN_ID & get RPC_URL
-      const networkName = key.split(_RPC_CHAIN_ID)[0]
-      this.chainIdToStandardizedNetworkMap.set(chainId, networkName)
+      this.chainIdToStandardizedNetworkMap.set(String(chainId), networkName)
 
-      const rpcEnvVar = `${networkName}_RPC_URL`
-      const rpcUrl = process.env[rpcEnvVar]
+      const rpcUrl = settings.NETWORK_RPC_URL.get(networkName)
 
       if (!rpcUrl) {
         logger.warn(`Missing RPC_URL for ${networkName}`)
         continue
       }
 
-      const provider = new ethers.JsonRpcProvider(rpcUrl, Number(chainId))
+      const provider = new ethers.JsonRpcProvider(rpcUrl, chainId)
       this.standardizedNetworkToProviderMap.set(networkName, provider)
       logger.info(`created provider for network: ${networkName}, chain ID: ${chainId}`)
     }
@@ -68,11 +75,7 @@ export class ERC20TokenBalanceTransport extends SubscriptionTransport<BaseEndpoi
     transportName: string,
   ): Promise<void> {
     await super.initialize(dependencies, adapterSettings, endpointName, transportName)
-    process.env['ETHEREUM_RPC_URL'] = adapterSettings.ETHEREUM_RPC_URL
-    process.env['ETHEREUM_RPC_CHAIN_ID'] = String(adapterSettings.ETHEREUM_RPC_CHAIN_ID)
-    process.env['ARBITRUM_RPC_URL'] = adapterSettings.ARBITRUM_RPC_URL
-    process.env['ARBITRUM_RPC_CHAIN_ID'] = String(adapterSettings.ARBITRUM_RPC_CHAIN_ID)
-    this.constructChainIdRpcMap()
+    this.constructChainIdRpcMap(adapterSettings)
   }
 
   async backgroundHandler(context: EndpointContext<BaseEndpointTypes>, entries: RequestParams[]) {

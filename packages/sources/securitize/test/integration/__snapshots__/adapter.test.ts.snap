@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`execute nav endpoint should return 400 for invalid envVarPrefix 1`] = `
+exports[`execute nav endpoint should return 500 for missing ASSET_PUBKEYS 1`] = `
 {
   "error": {
-    "message": "Missing env var MISSING_PREFIX_PUBKEYS",
+    "message": "Missing required environment variable: MISSING_PREFIX_PUBKEYS",
     "name": "AdapterError",
   },
   "status": "errored",
-  "statusCode": 400,
+  "statusCode": 500,
 }
 `;
 

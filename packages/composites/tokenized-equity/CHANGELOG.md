@@ -1,5 +1,53 @@
 # @chainlink/tokenized-equity-adapter
 
+## 1.5.0
+
+### Minor Changes
+
+- [#5390](https://github.com/smartcontractkit/external-adapters-js/pull/5390) [`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Warm up the overnight EMA before the overnight session begins, so the transition into overnight hands off to an already-smoothed price instead of a cold start
+
+### Patch Changes
+
+- [#5390](https://github.com/smartcontractkit/external-adapters-js/pull/5390) [`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Keep Kalman/EMA always fed the true raw price and generalize the raised-cosine transition to decay towards a caller-supplied target (the overnight EMA's price during the overnight session, the raw price otherwise), instead of handing the overnight EMA's price to the filter itself at either the entry or exit of the overnight session
+
+- Updated dependencies [[`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe), [`dbc8666`](https://github.com/smartcontractkit/external-adapters-js/commit/dbc86662c6d03c430920a5e73f18fce2352104d0)]:
+  - @chainlink/data-engine-adapter@1.6.3
+
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies [[`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019)]:
+  - @chainlink/data-engine-adapter@1.6.2
+
+## 1.4.5
+
+### Patch Changes
+
+- Updated dependencies [[`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1)]:
+  - @chainlink/data-engine-adapter@1.6.1
+
+## 1.4.4
+
+### Patch Changes
+
+- Updated dependencies [[`084fc19`](https://github.com/smartcontractkit/external-adapters-js/commit/084fc194cf0b8de3e08deb00c0aa84a9942f2758)]:
+  - @chainlink/data-engine-adapter@1.6.0
+
+## 1.4.3
+
+### Patch Changes
+
+- Updated dependencies [[`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e)]:
+  - @chainlink/data-engine-adapter@1.5.2
+
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`94ba143`](https://github.com/smartcontractkit/external-adapters-js/commit/94ba1431e518ea651ca842196dc850b2a85818ea)]:
+  - @chainlink/data-engine-adapter@1.5.1
+
 ## 1.4.1
 
 ### Patch Changes

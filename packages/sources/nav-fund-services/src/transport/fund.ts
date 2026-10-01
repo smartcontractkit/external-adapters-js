@@ -5,6 +5,7 @@ import { getRequestHeaders } from './authentication'
 export const ACCOUNTING_DATE_KEY = 'Accounting Date'
 export const NAV_PER_SHARE_KEY = 'NAV Per Share'
 export const NEXT_NAV_PRICE_KEY = 'Next NAV Price'
+export const ENDING_BALANCE_KEY = 'Ending Balance'
 
 interface FundResponse {
   Data: {
@@ -25,9 +26,19 @@ interface FundResponse {
     [NAV_PER_SHARE_KEY]: number
     [NEXT_NAV_PRICE_KEY]: number
     [ACCOUNTING_DATE_KEY]: string
-    'Ending Balance': number
+    [ENDING_BALANCE_KEY]: number
   }[]
 }
+
+type FundListResponse = {
+  FundName: string
+  GlobalFundID: number
+  FundEndDate: string
+  FundDailyAccountingStartDate: string
+  FundDailyAccountingLastAvailableDate: string | null
+  FundOfficialAccountingLastAvailableDate: string
+  PortfolioLastAvailableDate: string
+}[]
 
 export const getFund = async ({
   globalFundID,
@@ -79,4 +90,47 @@ export const getFund = async ({
   }
 
   return response.response.data.Data
+}
+
+export const getFundList = async ({
+  baseURL,
+  apiKey,
+  secret,
+  requester,
+}: {
+  baseURL: string
+  apiKey: string
+  secret: string
+  requester: Requester
+}): Promise<FundListResponse> => {
+  const method = 'GET'
+
+  const url = `/navapigateway/api/v1/ClientMasterData/GetFundList`
+
+  const requestConfig = {
+    baseURL: baseURL,
+    url: url,
+    method: method,
+    headers: getRequestHeaders({
+      method: method,
+      path: url,
+      body: '',
+      apiKey: apiKey,
+      secret: secret,
+    }),
+  }
+
+  const response = await requester.request<FundListResponse>(
+    JSON.stringify(requestConfig),
+    requestConfig,
+  )
+
+  if (!response.response.data || !Array.isArray(response.response.data)) {
+    throw new AdapterError({
+      statusCode: 400,
+      message: `No fund list found`,
+    })
+  }
+
+  return response.response.data
 }

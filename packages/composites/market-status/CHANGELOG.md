@@ -1,5 +1,41 @@
 # @chainlink/market-status-adapter
 
+## 1.14.5
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 1.14.4
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 1.14.3
+
+### Patch Changes
+
+- [#5359](https://github.com/smartcontractkit/external-adapters-js/pull/5359) [`baeb9d0`](https://github.com/smartcontractkit/external-adapters-js/commit/baeb9d03a5b08470d5bfa772ca87b68744ae2c5e) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - gRPC subscription snapshot fix
+
+## 1.14.2
+
+### Patch Changes
+
+- [#5339](https://github.com/smartcontractkit/external-adapters-js/pull/5339) [`bebea3b`](https://github.com/smartcontractkit/external-adapters-js/commit/bebea3b977d6e4c4d47cbfbfc9958d2a82311b89) Thanks [@dskloetc](https://github.com/dskloetc)! - Trigger a new release
+
+## 1.14.1
+
+### Patch Changes
+
+- [#5336](https://github.com/smartcontractkit/external-adapters-js/pull/5336) [`1b6963a`](https://github.com/smartcontractkit/external-adapters-js/commit/1b6963a544d86793765ca17088ad5d4924aa0c11) Thanks [@dskloetc](https://github.com/dskloetc)! - Add parameter useSecondaryForTesting
+
+## 1.14.0
+
+### Minor Changes
+
+- [#5333](https://github.com/smartcontractkit/external-adapters-js/pull/5333) [`ba85f2f`](https://github.com/smartcontractkit/external-adapters-js/commit/ba85f2f58fba280f8f6f814432bbc8a8a2ec5f35) Thanks [@dskloetc](https://github.com/dskloetc)! - Add 15 markets and 1 source.
+
 ## 1.13.0
 
 ### Minor Changes

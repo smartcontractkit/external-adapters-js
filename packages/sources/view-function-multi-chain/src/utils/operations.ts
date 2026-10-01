@@ -32,6 +32,10 @@ const validateOperation = (
       return validateSubtract(operation, definedNames)
     case 'average':
       return validateAverage(operation, definedNames)
+    case 'min':
+      return validateMin(operation, definedNames)
+    case 'max':
+      return validateMax(operation, definedNames)
     case 'equal':
       return validateEqual(operation, definedNames)
     case 'assertZero':
@@ -60,6 +64,10 @@ export const evaluateOperation = (
       return evaluateSubtract(args, data)
     case 'average':
       return evaluateAverage(args, data)
+    case 'min':
+      return evaluateMin(args, data)
+    case 'max':
+      return evaluateMax(args, data)
     case 'equal':
       return evaluateEqual(args, data)
     case 'assertZero':
@@ -237,6 +245,58 @@ const evaluateAverage = (args: string[], data: Record<string, string>): string =
     sum += value
   }
   return (sum / BigInt(args.length)).toString()
+}
+
+const validateMin = (operation: OperationParam, definedNames: Set<string>): void => {
+  const { name, args } = operation
+  if (args.length < 2) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Min operation "${name}" must have at least 2 arguments`,
+    })
+  }
+  validateNames({
+    operationName: name,
+    argNames: args,
+    definedNames,
+  })
+}
+
+const evaluateMin = (args: string[], data: Record<string, string>): string => {
+  let min = BigInt(data[args[0]])
+  for (const arg of args) {
+    const value = BigInt(data[arg])
+    if (value < min) {
+      min = value
+    }
+  }
+  return min.toString()
+}
+
+const validateMax = (operation: OperationParam, definedNames: Set<string>): void => {
+  const { name, args } = operation
+  if (args.length < 2) {
+    throw new AdapterInputError({
+      statusCode: 400,
+      message: `Max operation "${name}" must have at least 2 arguments`,
+    })
+  }
+  validateNames({
+    operationName: name,
+    argNames: args,
+    definedNames,
+  })
+}
+
+const evaluateMax = (args: string[], data: Record<string, string>): string => {
+  let max = BigInt(data[args[0]])
+  for (const arg of args) {
+    const value = BigInt(data[arg])
+    if (value > max) {
+      max = value
+    }
+  }
+  return max.toString()
 }
 
 const validateEqual = (operation: OperationParam, definedNames: Set<string>): void => {

@@ -2,7 +2,7 @@ import {
   HttpTransport,
   HttpTransportConfig,
 } from '@chainlink/external-adapter-framework/transports'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
+import { config } from '../config'
 import { BaseEndpointTypes } from '../endpoint/nav'
 import { validateResponseSignature } from './sigutils'
 
@@ -36,15 +36,8 @@ export type HttpTransportTypes = BaseEndpointTypes & {
   }
 }
 
-export function getPubKeys(assetEnvVarPrefix: string): string[] {
-  const envVarName = `${assetEnvVarPrefix.toUpperCase()}_PUBKEYS`
-  const pubkeys = process.env[envVarName]
-  if (!pubkeys) {
-    throw new AdapterInputError({
-      message: `Missing env var ${envVarName}`,
-      statusCode: 400,
-    })
-  }
+export function getPubKeys(assetEnvVarPrefix: string, settings: typeof config.settings): string[] {
+  const pubkeys = settings.ASSET_PUBKEYS.get(assetEnvVarPrefix)
   return pubkeys.split(',').map((s) => s.trim()) ?? []
 }
 
@@ -86,7 +79,7 @@ const transportConfig: HttpTransportConfig<HttpTransportTypes> = {
         providerIndicatedTimeUnixMs: new Date(asset.recordDate).getTime(),
       }
 
-      const pubkeys = getPubKeys(param.envVarPrefix)
+      const pubkeys = getPubKeys(param.envVarPrefix, config.settings)
       validateResponseSignature(asset, pubkeys)
 
       if (asset.assetId !== param.assetId) {

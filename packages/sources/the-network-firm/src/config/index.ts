@@ -1,6 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  CLIENT_API_KEY: {
+    description:
+      'API key used for ${CLIENT}, where ${CLIENT} is the upper-snake-case version of the client input parameter.',
+    type: 'string',
+    required: true,
+    sensitive: true,
+    variablePlaceholder: 'CLIENT',
+  },
   API_ENDPOINT: {
     description: 'API Endpoint to use',
     type: 'string',

@@ -2,11 +2,19 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getApiKeys } from '../transport/creds'
 import { navTransport } from '../transport/nav'
 
 /** Default timezone to offset UTC midnight for navDateTimestampMs. */
 export const DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE = 'America/Los_Angeles'
+
+export const RESULT_FIELDS = [
+  'navPerShare',
+  'nextNavPerShare',
+  'endingBalance',
+  'navDateTimestampMs',
+] as const
+
+type ResultField = (typeof RESULT_FIELDS)[number]
 
 export const inputParameters = new InputParameters(
   {
@@ -22,11 +30,18 @@ export const inputParameters = new InputParameters(
         'timezone for midnight in navDateTimestampMs (e.g. "America/New_York", "America/Los_Angeles", "UTC").',
       default: DEFAULT_NAV_DATE_TIMESTAMP_TIMEZONE,
     },
+    resultField: {
+      description: 'The field from "data" to return as the "result".',
+      type: 'string',
+      options: RESULT_FIELDS,
+      default: 'navPerShare',
+    },
   },
   [
     {
       globalFundID: 1234,
       navDateTimestampTimezone: 'UTC',
+      resultField: 'navPerShare',
     },
   ],
 )
@@ -34,11 +49,8 @@ export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
   Response: {
     Result: number
-    Data: {
-      navPerShare: number
-      nextNavPerShare: number
+    Data: Record<ResultField, number> & {
       navDate: string
-      navDateTimestampMs: number
       globalFundID: number
     }
   }
@@ -49,8 +61,11 @@ export const endpoint = new AdapterEndpoint({
   name: 'nav',
   transport: navTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    getApiKeys(req.requestContext.data.globalFundID)
+  customInputValidation: (req, settings): AdapterInputError | undefined => {
+    const fundId = String(req.requestContext.data.globalFundID)
+    settings.API_KEY_FUND_ID.get(fundId)
+    settings.SECRET_KEY_FUND_ID.get(fundId)
+
     const timezone = req.requestContext.data.navDateTimestampTimezone
     try {
       Intl.DateTimeFormat(undefined, { timeZone: timezone })

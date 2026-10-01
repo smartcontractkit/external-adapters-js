@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`execute market-status endpoint should not support atTimestampSeconds by default 1`] = `
+{
+  "error": {
+    "message": "The atTimestampSeconds parameter is disabled. Set ALLOW_AT_TIMESTAMP_FOR_TESTING=true in settings to enable it.",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`execute market-status endpoint should return success for 24/5 schedule 1`] = `
+{
+  "data": {
+    "result": 5,
+    "statusString": "WEEKEND",
+  },
+  "result": 5,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`execute market-status endpoint should return success for regular schedule 1`] = `
+{
+  "data": {
+    "result": 1,
+    "statusString": "CLOSED",
+  },
+  "result": 1,
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;

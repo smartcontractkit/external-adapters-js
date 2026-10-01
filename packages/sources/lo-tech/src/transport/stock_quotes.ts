@@ -36,6 +36,7 @@ export class StockQuotesWebSocketTransport extends LoTechWebSocketTransport<
         const ask_price = mid_price + spread / 2
 
         return {
+          result: mid_price,
           mid_price,
           bid_price,
           ask_price,
