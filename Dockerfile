@@ -37,6 +37,7 @@ COPY --from=builder /home/node/app/$location/package.json /home/node/app/$locati
 # Copy Go binary and alias config
 COPY --from=go-builder /build/streams-adapter /usr/local/bin/streams-adapter
 COPY --from=builder /home/node/app/packages/streams-adapter/endpoint_aliases.json /home/node/app/endpoint_aliases.json
+COPY --from=builder /home/node/app/packages/streams-adapter/adapter_includes.json /home/node/app/adapter_includes.json
 COPY --from=builder /home/node/app/start-supervisor.sh /usr/local/bin/start-supervisor.sh
 
 # Make scripts executable
