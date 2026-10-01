@@ -5867,7 +5867,7 @@ const RAW_RUNTIME_STATE =
       ["workspace:packages/composites/llama-guard", {\
         "packageLocation": "./packages/composites/llama-guard/",\
         "packageDependencies": [\
-          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@chainlink/external-adapter-framework", "npm:2.20.0"],\
           ["@chainlink/llama-guard-adapter", "workspace:packages/composites/llama-guard"],\
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\

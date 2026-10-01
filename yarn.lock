@@ -3592,7 +3592,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/llama-guard-adapter@workspace:packages/composites/llama-guard"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     ethers: "npm:^6.13.2"
