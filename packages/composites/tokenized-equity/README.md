@@ -1,6 +1,6 @@
 # TOKENIZED_EQUITY
 
-![1.4.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.5.0](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/composites/tokenized-equity/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -8,15 +8,15 @@ This document was generated automatically. Please see [README Generator](../../s
 
 | Required? |              Name               |                                        Description                                        |  Type  | Options | Default |
 | :-------: | :-----------------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |     DATA_ENGINE_ADAPTER_URL     |                                   URL of data engine ea                                   | string |         |         |
-|    ✅     |    TRADING_HOURS_ADAPTER_URL    |                                  URL of tradinghours ea                                   | string |         |         |
-|           |        ETHEREUM_RPC_URL         |                               RPC URL of a Mainnet ETH node                               | string |         |   ``    |
-|           |      ETHEREUM_RPC_CHAIN_ID      |                                The chain id to connect to                                 | number |         |   `1`   |
-|           |          BASE_RPC_URL           |                              RPC URL of a Mainnet Base node                               | string |         |   ``    |
-|           |        BASE_RPC_CHAIN_ID        |                                The chain id to connect to                                 | number |         | `8453`  |
-|    ✅     | ROBINHOOD\_${NETWORK}\_RPC_URL  |     JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".     | string |         |         |
-|    ✅     | ROBINHOOD\_${NETWORK}\_CHAIN_ID |      Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".       | number |         |         |
-|           |      BACKGROUND_EXECUTE_MS      | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
+|    ✅     |    `DATA_ENGINE_ADAPTER_URL`    |                                   URL of data engine ea                                   | string |         |         |
+|    ✅     |   `TRADING_HOURS_ADAPTER_URL`   |                                  URL of tradinghours ea                                   | string |         |         |
+|           |       `ETHEREUM_RPC_URL`        |                               RPC URL of a Mainnet ETH node                               | string |         |   ``    |
+|           |     `ETHEREUM_RPC_CHAIN_ID`     |                                The chain id to connect to                                 | number |         |   `1`   |
+|           |         `BASE_RPC_URL`          |                              RPC URL of a Mainnet Base node                               | string |         |   ``    |
+|           |       `BASE_RPC_CHAIN_ID`       |                                The chain id to connect to                                 | number |         | `8453`  |
+|    ✅     | `ROBINHOOD_${NETWORK}_RPC_URL`  |     JSON RPC URL for robinhood endpoint. ${NETWORK} should be "mainnet" or "testnet".     | string |         |         |
+|    ✅     | `ROBINHOOD_${NETWORK}_CHAIN_ID` |      Chain ID for the Robinhood chain. ${NETWORK} should be "mainnet" or "testnet".       | number |         |         |
+|           |     `BACKGROUND_EXECUTE_MS`     | The amount of time the background execute should sleep before performing the next request | number |         | `1000`  |
 
 ---
 

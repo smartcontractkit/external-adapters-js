@@ -2237,7 +2237,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@chainlink/anchorage-adapter@workspace:packages/sources/anchorage"
   dependencies:
-    "@chainlink/external-adapter-framework": "npm:2.16.1"
+    "@chainlink/external-adapter-framework": "npm:2.20.0"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
     decimal.js: "npm:^10.3.1"
@@ -12660,12 +12660,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.18
-  resolution: "brace-expansion@npm:1.1.18"
+  version: 1.1.21
+  resolution: "brace-expansion@npm:1.1.21"
   dependencies:
     balanced-match: "npm:^1.0.0"
     concat-map: "npm:0.0.1"
-  checksum: 10/b55a3c03239b8d2127c7cbb3408c9ad3a556a8c303bf3064df78bfb7c093160fc8f6e0a32e42a850a78eba12f29ccf6ef997690b9acf945d242c56c61c4aa977
+  checksum: 10/6c0ed34107cb3bd3f44c01d90ec8c01baa3ed75b7755617e2e5797b5908bbf20b313edf575612b200a783b84c7d1826aec2f7a2f03de9905bbfae5dc3dea6a95
   languageName: node
   linkType: hard
 
@@ -12678,16 +12678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"brace-expansion@npm:^5.0.2":
-  version: 5.0.4
-  resolution: "brace-expansion@npm:5.0.4"
-  dependencies:
-    balanced-match: "npm:^4.0.2"
-  checksum: 10/cfd57e20d8ded9578149e47ae4d3fff2b2f78d06b54a32a73057bddff65c8e9b930613f0cbcfefedf12dd117151e19d4da16367d5127c54f3bff02d8a4479bb2
-  languageName: node
-  linkType: hard
-
-"brace-expansion@npm:^5.0.8":
+"brace-expansion@npm:^5.0.2, brace-expansion@npm:^5.0.8":
   version: 5.0.9
   resolution: "brace-expansion@npm:5.0.9"
   dependencies:
@@ -14660,9 +14651,9 @@ __metadata:
   linkType: hard
 
 "fast-uri@npm:^2.3.0":
-  version: 2.4.6
-  resolution: "fast-uri@npm:2.4.6"
-  checksum: 10/c693e872de5802d7cc44900f28091e74932e3e560523f54fba4e9e1d3c5b3b62c6cf850a79398fbdebbdf87a0fba8bc90e599bdb5a9bc1536cb58a63111a5e4b
+  version: 2.4.7
+  resolution: "fast-uri@npm:2.4.7"
+  checksum: 10/eb52fa0b7bea657627595e83cf1765235caa868a2568797d0191c3ef6e3e7616f3383b8d66e06c5ddd3a1ec22f4065dd8ddfb21d9a860918d2efca23c4a7fd94
   languageName: node
   linkType: hard
 
