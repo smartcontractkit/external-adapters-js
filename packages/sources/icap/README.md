@@ -1,6 +1,6 @@
 # ICAP
 
-![1.7.6](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.7.7](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/icap/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -30,11 +30,11 @@ If `CACHE_MAX_AGE` is set below a current heartbeat interval (60000ms), the exte
 
 ## Environment Variables
 
-| Required? |      Name       |         Description          |  Type  | Options |                           Default                           |
-| :-------: | :-------------: | :--------------------------: | :----: | :-----: | :---------------------------------------------------------: |
-|    ✅     | WS_API_USERNAME |   API user for WS endpoint   | string |         |                                                             |
-|    ✅     | WS_API_PASSWORD | API password for WS endpoint | string |         |                                                             |
-|           | WS_API_ENDPOINT |    Endpoint for WS prices    | string |         | `ws://json.mktdata.portal.apac.parametasolutions.com:12000` |
+| Required? |       Name        |         Description          |  Type  | Options |                           Default                           |
+| :-------: | :---------------: | :--------------------------: | :----: | :-----: | :---------------------------------------------------------: |
+|    ✅     | `WS_API_USERNAME` |   API user for WS endpoint   | string |         |                                                             |
+|    ✅     | `WS_API_PASSWORD` | API password for WS endpoint | string |         |                                                             |
+|           | `WS_API_ENDPOINT` |    Endpoint for WS prices    | string |         | `ws://json.mktdata.portal.apac.parametasolutions.com:12000` |
 
 ---
 

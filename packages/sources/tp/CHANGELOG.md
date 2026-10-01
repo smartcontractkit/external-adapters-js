@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.13.6
+
+### Patch Changes
+
+- [#5302](https://github.com/smartcontractkit/external-adapters-js/pull/5302) [`5a5f491`](https://github.com/smartcontractkit/external-adapters-js/commit/5a5f49169fb43cff962c773706253e01810fd63c) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fixed inverse logic for streams adapters
+
 ## 1.13.5
 
 ### Patch Changes
