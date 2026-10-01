@@ -2,7 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getEAUrl } from '../transport/ea'
 import { navTransport } from '../transport/transport'
 
 export const inputParameters = new InputParameters(
@@ -79,8 +78,8 @@ export const endpoint = new AdapterEndpoint({
   aliases: [],
   transport: navTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    getEAUrl(req.requestContext.data.source)
+  customInputValidation: (req, settings): AdapterInputError | undefined => {
+    settings.SOURCE_EA_URL.get(req.requestContext.data.source)
     try {
       JSON.parse(req.requestContext.data.sourceInput)
     } catch (ex) {

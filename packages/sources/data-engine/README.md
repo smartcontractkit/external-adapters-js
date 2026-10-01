@@ -1,17 +1,17 @@
 # DATA_ENGINE
 
-![1.6.2](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.6.3](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/data-engine/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
 ## Environment Variables
 
-| Required? |      Name       |             Description             |  Type  | Options |               Default               |
-| :-------: | :-------------: | :---------------------------------: | :----: | :-----: | :---------------------------------: |
-|           |  API_ENDPOINT   |    The default REST API base url    | string |         | `https://api.dataengine.chain.link` |
-|           | WS_API_ENDPOINT | The default WebSocket API base url  | string |         |  `wss://ws.dataengine.chain.link`   |
-|    ✅     |  API_USERNAME   | Data Engine API key (Authorization) | string |         |                                     |
-|    ✅     |  API_PASSWORD   |  Data Engine user secret for HMAC   | string |         |                                     |
+| Required? |       Name        |             Description             |  Type  | Options |               Default               |
+| :-------: | :---------------: | :---------------------------------: | :----: | :-----: | :---------------------------------: |
+|           |  `API_ENDPOINT`   |    The default REST API base url    | string |         | `https://api.dataengine.chain.link` |
+|           | `WS_API_ENDPOINT` | The default WebSocket API base url  | string |         |  `wss://ws.dataengine.chain.link`   |
+|    ✅     |  `API_USERNAME`   | Data Engine API key (Authorization) | string |         |                                     |
+|    ✅     |  `API_PASSWORD`   |  Data Engine user secret for HMAC   | string |         |                                     |
 
 ---
 

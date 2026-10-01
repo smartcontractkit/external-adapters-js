@@ -1,6 +1,14 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
 
 export const config = new AdapterConfig({
+  SOURCE_EA_URL: {
+    description:
+      'URL of the ${SOURCE} external adapter where ${SOURCE} is the source input parameter',
+    type: 'string',
+    required: true,
+    sensitive: false,
+    variablePlaceholder: 'SOURCE',
+  },
   ETHEREUM_RPC_URL: {
     description: 'RPC URL of a Mainnet ETH node',
     type: 'string',

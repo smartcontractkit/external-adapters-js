@@ -1,5 +1,13 @@
 # @chainlink/data-engine-adapter
 
+## 1.6.3
+
+### Patch Changes
+
+- [#5390](https://github.com/smartcontractkit/external-adapters-js/pull/5390) [`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Bump framework version
+
+- [#4942](https://github.com/smartcontractkit/external-adapters-js/pull/4942) [`dbc8666`](https://github.com/smartcontractkit/external-adapters-js/commit/dbc86662c6d03c430920a5e73f18fce2352104d0) Thanks [@renovate](https://github.com/apps/renovate)! - Convert bidVolume and askVolume back to number to satisfy the existing EA API as well as the new data-streams-sdk.
+
 ## 1.6.2
 
 ### Patch Changes
