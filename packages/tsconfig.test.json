@@ -75,6 +75,9 @@
       "path": "./sources/allium-state/tsconfig.test.json"
     },
     {
+      "path": "./sources/alpaca/tsconfig.test.json"
+    },
+    {
       "path": "./sources/anchorage/tsconfig.test.json"
     },
     {

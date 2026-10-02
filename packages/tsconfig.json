@@ -75,6 +75,9 @@
       "path": "./sources/allium-state"
     },
     {
+      "path": "./sources/alpaca"
+    },
+    {
       "path": "./sources/anchorage"
     },
     {
