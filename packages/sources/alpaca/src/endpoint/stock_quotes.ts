@@ -1,32 +1,16 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
+import { stockEndpointInputParametersDefinition } from '@chainlink/external-adapter-framework/adapter/stock'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { wsTransport } from '../transport/stock_quotes'
 
-export const inputParameters = new InputParameters(
+export const inputParameters = new InputParameters(stockEndpointInputParametersDefinition, [
   {
-    base: {
-      aliases: ['from', 'coin', 'symbol', 'market'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of symbols of the currency to query',
-    },
-    quote: {
-      aliases: ['to', 'convert'],
-      required: true,
-      type: 'string',
-      description: 'The symbol of the currency to convert to',
-    },
+    base: 'AAPL',
   },
-  [
-    {
-      base: 'BTC',
-      quote: 'USD',
-    },
-  ],
-)
+])
 
 export type BaseEndpointTypes = {
   Parameters: typeof inputParameters.definition
