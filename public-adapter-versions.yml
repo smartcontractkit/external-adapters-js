@@ -88,9 +88,9 @@ adapters:
   - name: finalto
     version: 1.5.5
   - name: finnhub
-    version: 4.3.5
+    version: 4.3.6
   - name: finnhub-secondary
-    version: 1.1.13
+    version: 1.1.14
   - name: fireblocks
     version: 1.0.19
   - name: frxeth-exchange-rate
@@ -118,7 +118,7 @@ adapters:
   - name: hyperithm
     version: 1.0.0
   - name: icap
-    version: 1.7.6
+    version: 1.7.7
   - name: ice
     version: 1.2.4
   - name: ignition-address-list
@@ -232,7 +232,7 @@ adapters:
   - name: tokenized-equity
     version: 1.4.6
   - name: tp
-    version: 1.13.5
+    version: 1.13.6
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
