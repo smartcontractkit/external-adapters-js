@@ -5073,7 +5073,7 @@ const RAW_RUNTIME_STATE =
           ["axios-observable", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:2.1.0"],\
           ["backoff-rxjs", "virtual:490c3ad4216947ed7273aa36c5dd60e9ddcc5d0939f57049dd1de8af69c263d58ee7cc2cd0dcc6c42583caa88abb35b0f76f2389a9d34f0c5057a13853db6308#npm:6.5.7"],\
           ["chalk", "npm:4.1.2"],\
-          ["class-validator", "npm:0.14.3"],\
+          ["class-validator", "npm:0.14.4"],\
           ["command-line-args", "npm:5.2.1"],\
           ["command-line-usage", "npm:6.1.3"],\
           ["human-id", "npm:4.1.1"],\
@@ -18184,13 +18184,13 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["class-validator", [\
-      ["npm:0.14.3", {\
-        "packageLocation": "./.yarn/cache/class-validator-npm-0.14.3-4a8c74fae9-492a3d3bf6.zip/node_modules/class-validator/",\
+      ["npm:0.14.4", {\
+        "packageLocation": "./.yarn/cache/class-validator-npm-0.14.4-334c82deb4-a7b9c0c3bb.zip/node_modules/class-validator/",\
         "packageDependencies": [\
           ["@types/validator", "npm:13.15.10"],\
-          ["class-validator", "npm:0.14.3"],\
+          ["class-validator", "npm:0.14.4"],\
           ["libphonenumber-js", "npm:1.12.8"],\
-          ["validator", "npm:13.15.26"]\
+          ["validator", "npm:13.15.35"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -26814,6 +26814,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/validator-npm-13.15.26-f522f3cb3c-22488ae718.zip/node_modules/validator/",\
         "packageDependencies": [\
           ["validator", "npm:13.15.26"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:13.15.35", {\
+        "packageLocation": "./.yarn/cache/validator-npm-13.15.35-eaad1e4bed-62f2572806.zip/node_modules/validator/",\
+        "packageDependencies": [\
+          ["validator", "npm:13.15.35"]\
         ],\
         "linkType": "HARD"\
       }]\
