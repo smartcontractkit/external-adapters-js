@@ -4901,7 +4901,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jest", "npm:29.5.14"],\
           ["@types/node", "npm:22.14.1"],\
           ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
-          ["@types/ws", "npm:8.18.1"],\
+          ["@types/ws", "npm:8.18.2"],\
           ["decimal.js", "npm:10.5.0"],\
           ["nock", "npm:13.5.6"],\
           ["tslib", "npm:2.4.1"],\
@@ -16322,11 +16322,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:8.18.1", {\
-        "packageLocation": "./.yarn/cache/@types-ws-npm-8.18.1-61dc106ff0-1ce05e3174.zip/node_modules/@types/ws/",\
+      ["npm:8.18.2", {\
+        "packageLocation": "./.yarn/cache/@types-ws-npm-8.18.2-bf9cd597e7-7d87483731.zip/node_modules/@types/ws/",\
         "packageDependencies": [\
           ["@types/node", "npm:22.14.1"],\
-          ["@types/ws", "npm:8.18.1"]\
+          ["@types/ws", "npm:8.18.2"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -24868,7 +24868,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@swc/helpers", "npm:0.5.15"],\
           ["@types/uuid", "npm:8.3.4"],\
-          ["@types/ws", "npm:8.18.1"],\
+          ["@types/ws", "npm:8.18.2"],\
           ["buffer", "npm:6.0.3"],\
           ["bufferutil", "npm:4.0.8"],\
           ["eventemitter3", "npm:5.0.1"],\
