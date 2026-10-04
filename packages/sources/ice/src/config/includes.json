@@ -328,5 +328,16 @@
         "inverse": true
       }
     ]
+  },
+  {
+    "from": "PEN",
+    "to": "USD",
+    "includes": [
+      {
+        "from": "USD",
+        "to": "PEN",
+        "inverse": true
+      }
+    ]
   }
 ]
