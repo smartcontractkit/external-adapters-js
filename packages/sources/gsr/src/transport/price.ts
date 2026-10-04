@@ -1,6 +1,4 @@
-import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports'
-import { SubscriptionDeltas } from '@chainlink/external-adapter-framework/transports/abstract/streaming'
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { BaseEndpointTypes } from '../endpoint/price'
 import { getToken, renewToken, TokenWithExpiry } from './authutils'
@@ -46,10 +44,6 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
   private cachedToken: TokenWithExpiry | null = null
   private refreshTimer?: NodeJS.Timeout
 
-  private buildTicker(pair: { base: string; quote: string }) {
-    return `${pair.base}.${pair.quote}`.toUpperCase()
-  }
-
   constructor() {
     super({
       url: (context) => context.adapterSettings.WS_API_ENDPOINT,
@@ -74,27 +68,29 @@ export class GsrWebSocketTransport extends WebSocketTransport<WsTransportTypes> 
         message: (message) => this.parsePriceUpdate(message),
       },
       builders: {
-        // Note: As of writing this (2022-11-07), GSR has a bug where you cannot subscribe to a pair
-        // after you've already subscribed & unsubscribed to that pair on the same WS connection.
-        customSubscriptionMessages: (
-          _context: EndpointContext<WsTransportTypes>,
-          subscriptions: SubscriptionDeltas<{ quote: string; base: string }>,
-        ) => {
-          const messages = []
-          if (subscriptions.new.length > 0) {
-            messages.push({
-              action: 'subscribe',
-              symbols: subscriptions.new.map(this.buildTicker),
-            })
-          }
-          if (subscriptions.stale.length > 0) {
-            messages.push({
-              action: 'unsubscribe',
-              symbols: subscriptions.stale.map(this.buildTicker),
-            })
-          }
-          return messages
-        },
+        // GSR identifies a subscription by ticker; the framework identifies one
+        // by the JSON shape of its params. A pair can therefore land in both
+        // `new` and `stale` on a single background pass, and whichever frame
+        // goes out last decides what GSR ends up streaming.
+        //
+        // That is why these stay as the framework's per-subscription builders:
+        // it emits unsubscribes before subscribes (websocket.ts
+        // defaultSubscriptionMessageBuilder), so such a pair ends subscribed. A
+        // custom builder that batched them the other way round unsubscribed the
+        // pair for good, with no reconnect left to undo it — see DF-26076.
+        //
+        // The 2022-11-07 note that used to live here — that a pair could not be
+        // resubscribed after an unsubscribe on the same connection — no longer
+        // reproduces. Verified against oracle.pre-prod.gsr.io on 2026-10-04;
+        // the prod tenant is separate and was not tested.
+        subscribeMessage: (params) => ({
+          action: 'subscribe',
+          symbols: [`${params.base}.${params.quote}`.toUpperCase()],
+        }),
+        unsubscribeMessage: (params) => ({
+          action: 'unsubscribe',
+          symbols: [`${params.base}.${params.quote}`.toUpperCase()],
+        }),
       },
     })
   }
