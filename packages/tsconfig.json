@@ -213,6 +213,9 @@
       "path": "./sources/ftse-sftp"
     },
     {
+      "path": "./sources/fxmacrodata"
+    },
+    {
       "path": "./sources/generic-api"
     },
     {

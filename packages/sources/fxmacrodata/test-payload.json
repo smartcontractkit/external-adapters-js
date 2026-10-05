@@ -1,0 +1,14 @@
+{
+  "requests": [
+    {
+      "endpoint": "forex",
+      "base": "EUR",
+      "quote": "USD"
+    },
+    {
+      "endpoint": "indicator",
+      "currency": "USD",
+      "indicator": "inflation"
+    }
+  ]
+}
