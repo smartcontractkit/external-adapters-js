@@ -36,14 +36,17 @@ export class ForexHttpTransport extends HttpTransport<HttpTransportTypes> {
               params: {
                 limit: 1,
               },
+              // Never replay the API key header to a redirect target.
+              maxRedirects: 0,
             },
           }
         })
       },
       parseResponse: (params, response) => {
         return params.map((param) => {
-          const row = response.data?.data
-            ?.filter((r) => typeof r.val === 'number')
+          const rows = Array.isArray(response.data?.data) ? response.data.data : []
+          const row = rows
+            .filter((r) => typeof r?.val === 'number' && typeof r.date === 'string')
             .sort((a, b) => b.date.localeCompare(a.date))[0]
 
           if (!row || typeof row.val !== 'number') {

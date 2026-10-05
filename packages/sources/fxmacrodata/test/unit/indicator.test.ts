@@ -133,6 +133,7 @@ describe('IndicatorHttpTransport', () => {
         params: {
           limit: 1,
         },
+        maxRedirects: 0,
       },
       undefined,
     )
@@ -212,5 +213,31 @@ describe('IndicatorHttpTransport', () => {
         },
       },
     ])
+  })
+
+  it('should return an error for an error body or unexpected shape', async () => {
+    const params = makeStub('params', {
+      currency: 'USD',
+      indicator: 'gdp',
+    })
+    subscriptionSet.getAll.mockReturnValue([params])
+
+    for (const body of [{ detail: 'Invalid API key' }, { data: { date: '2026-06-18', val: 1.1 } }]) {
+      responseCache.write.mockClear()
+      mockProviderResponse(body)
+
+      await transport.backgroundExecute(context)
+
+      expect(responseCache.write).toHaveBeenCalledWith(transportName, [
+        {
+          params,
+          response: {
+            errorMessage: 'FXMacroData returned no value for USD gdp',
+            statusCode: 502,
+            timestamps: {},
+          },
+        },
+      ])
+    }
   })
 })
