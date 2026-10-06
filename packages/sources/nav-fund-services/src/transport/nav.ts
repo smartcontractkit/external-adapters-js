@@ -109,9 +109,7 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
 
     const earliestPossibleFrom = parseDateString(earliestPossibleFromStr)
     const fundToDate = parseDateString(fundToDateStr)
-    const latestPossibleTo = param.limitToOfficialAccountingDate
-      ? await this.limitToOfficialAccountingDate(param.globalFundID, fundToDate, apiKey, secret)
-      : fundToDate
+    const latestPossibleTo = await this.getLatestPossibleTo(param, fundToDate, apiKey, secret)
 
     // Clamp to trailing-7-business-days window
     const preferredFrom = clampStartByBusinessDays(
@@ -165,15 +163,22 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
   }
 
   /**
-   * Some funds reject a toDate after FundOfficialAccountingLastAvailableDate, so cap toDate at that
-   * date. This date can lag the latest available NAV, so only do this when explicitly requested.
+   * Returns the toDate to query up to. By default this is the fund's ToDate. Some funds reject a
+   * toDate after FundOfficialAccountingLastAvailableDate, so when limitToOfficialAccountingDate is
+   * set, cap toDate at that date. This date can lag the latest available NAV, so only do this when
+   * explicitly requested.
    */
-  async limitToOfficialAccountingDate(
-    globalFundID: number,
+  async getLatestPossibleTo(
+    param: RequestParams,
     fundToDate: Date,
     apiKey: string,
     secret: string,
   ): Promise<Date> {
+    if (!param.limitToOfficialAccountingDate) {
+      return fundToDate
+    }
+
+    const { globalFundID } = param
     const lastAvailableDateStr = await getFundOfficialAccountingLastAvailableDate({
       globalFundID,
       baseURL: this.config.API_ENDPOINT,
