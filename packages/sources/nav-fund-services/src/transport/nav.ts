@@ -107,18 +107,11 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
       requester: this.requester,
     })
 
-    const lastAvailableDateStr = await getFundOfficialAccountingLastAvailableDate({
-      globalFundID: param.globalFundID,
-      baseURL: this.config.API_ENDPOINT,
-      apiKey,
-      secret,
-      requester: this.requester,
-    })
-
     const earliestPossibleFrom = parseDateString(earliestPossibleFromStr)
     const fundToDate = parseDateString(fundToDateStr)
-    const lastAvailableDate = parseDateString(lastAvailableDateStr)
-    const latestPossibleTo = fundToDate < lastAvailableDate ? fundToDate : lastAvailableDate
+    const latestPossibleTo = param.limitToOfficialAccountingDate
+      ? await this.limitToOfficialAccountingDate(param.globalFundID, fundToDate, apiKey, secret)
+      : fundToDate
 
     // Clamp to trailing-7-business-days window
     const preferredFrom = clampStartByBusinessDays(
@@ -169,6 +162,43 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs,
       },
     }
+  }
+
+  /**
+   * Some funds reject a toDate after FundOfficialAccountingLastAvailableDate, so cap toDate at that
+   * date. This date can lag the latest available NAV, so only do this when explicitly requested.
+   */
+  async limitToOfficialAccountingDate(
+    globalFundID: number,
+    fundToDate: Date,
+    apiKey: string,
+    secret: string,
+  ): Promise<Date> {
+    const lastAvailableDateStr = await getFundOfficialAccountingLastAvailableDate({
+      globalFundID,
+      baseURL: this.config.API_ENDPOINT,
+      apiKey,
+      secret,
+      requester: this.requester,
+    })
+
+    if (lastAvailableDateStr === null) {
+      logger.warn(
+        `FundOfficialAccountingLastAvailableDate is null for globalFundID: ${globalFundID}, not limiting toDate`,
+      )
+      return fundToDate
+    }
+
+    const lastAvailableDate = parseDateString(lastAvailableDateStr)
+    if (lastAvailableDate < fundToDate) {
+      logger.warn(
+        `Limiting toDate for globalFundID: ${globalFundID} from ${toDateString(
+          fundToDate,
+        )} to FundOfficialAccountingLastAvailableDate ${lastAvailableDateStr}`,
+      )
+      return lastAvailableDate
+    }
+    return fundToDate
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {
