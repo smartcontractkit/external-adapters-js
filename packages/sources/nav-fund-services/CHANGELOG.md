@@ -1,5 +1,17 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.4.0
+
+### Minor Changes
+
+- [#5496](https://github.com/smartcontractkit/external-adapters-js/pull/5496) [`507f2e6`](https://github.com/smartcontractkit/external-adapters-js/commit/507f2e63ec9a7a07e4cb26ad4f9de9670c0c6371) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Only limit the queried date range to FundOfficialAccountingLastAvailableDate when the new `limitToOfficialAccountingDate` input parameter is true, and handle a null FundOfficialAccountingLastAvailableDate. This restores the 1.3.0 behaviour for existing feeds, which received stale NAV values in 1.3.2.
+
+### Patch Changes
+
+- [#5467](https://github.com/smartcontractkit/external-adapters-js/pull/5467) [`1417f13`](https://github.com/smartcontractkit/external-adapters-js/commit/1417f135331dad8f417deddab397fc53b4277ad0) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars and bump framework
+
+- [#4605](https://github.com/smartcontractkit/external-adapters-js/pull/4605) [`bf090c6`](https://github.com/smartcontractkit/external-adapters-js/commit/bf090c615f2c90134e365b7da86f026a52b206b6) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
 ## 1.3.2
 
 ### Patch Changes
