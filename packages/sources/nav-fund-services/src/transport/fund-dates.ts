@@ -64,7 +64,7 @@ export const getFundOfficialAccountingLastAvailableDate = async ({
   apiKey: string
   secret: string
   requester: Requester
-}): Promise<string> => {
+}): Promise<string | null> => {
   const fundList = await getFundList({
     baseURL,
     apiKey,
@@ -79,6 +79,10 @@ export const getFundOfficialAccountingLastAvailableDate = async ({
       statusCode: 400,
       message: `Fund with GlobalFundID ${globalFundID} not found in fund list`,
     })
+  }
+
+  if (!fund.FundOfficialAccountingLastAvailableDate) {
+    return null
   }
 
   return toDateString(new Date(`${fund.FundOfficialAccountingLastAvailableDate}Z`))
