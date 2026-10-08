@@ -1,5 +1,11 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#5500](https://github.com/smartcontractkit/external-adapters-js/pull/5500) [`bc703fb`](https://github.com/smartcontractkit/external-adapters-js/commit/bc703fb80faf737a4789a0e1db97979f0d12e6ce) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter fix to cover empty includes case
+
 ## 1.4.0
 
 ### Minor Changes
