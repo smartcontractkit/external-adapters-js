@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"log/slog"
@@ -89,8 +90,14 @@ func main() {
 
 	idx, err := includes.Load("adapter_includes.json", cfg.AdapterName)
 	if err != nil {
-		log.Fatalf("Failed to load adapter includes index: path=%s adapter=%s error=%v",
-			"adapter_includes.json", cfg.AdapterName, err)
+		if errors.Is(err, includes.ErrAdapterNotFound) {
+			logger.Info("Adapter has no includes entries; continuing with empty includes index",
+				"adapter", cfg.AdapterName)
+			idx = includes.NewIndex(nil)
+		} else {
+			log.Fatalf("Failed to load adapter includes index: path=%s adapter=%s error=%v",
+				"adapter_includes.json", cfg.AdapterName, err)
+		}
 	}
 	appCache.SetIncludesIndex(idx)
 
