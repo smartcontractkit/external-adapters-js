@@ -19546,7 +19546,7 @@ const RAW_RUNTIME_STATE =
           ["ethereum-cryptography", "npm:0.1.3"],\
           ["hash.js", "npm:1.1.7"],\
           ["keccak", "npm:3.0.4"],\
-          ["pbkdf2", "npm:3.1.5"],\
+          ["pbkdf2", "npm:3.1.7"],\
           ["randombytes", "npm:2.1.0"],\
           ["safe-buffer", "npm:5.2.1"],\
           ["scrypt-js", "npm:3.0.1"],\
@@ -23799,12 +23799,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["pbkdf2", [\
-      ["npm:3.1.5", {\
-        "packageLocation": "./.yarn/cache/pbkdf2-npm-3.1.5-bc7245df26-ce1c9a2ebb.zip/node_modules/pbkdf2/",\
+      ["npm:3.1.7", {\
+        "packageLocation": "./.yarn/cache/pbkdf2-npm-3.1.7-e103ee58fb-3b8cf9d991.zip/node_modules/pbkdf2/",\
         "packageDependencies": [\
           ["create-hash", "npm:1.2.0"],\
           ["create-hmac", "npm:1.1.7"],\
-          ["pbkdf2", "npm:3.1.5"],\
+          ["pbkdf2", "npm:3.1.7"],\
           ["ripemd160", "npm:2.0.3"],\
           ["safe-buffer", "npm:5.2.1"],\
           ["sha.js", "npm:2.4.12"],\
