@@ -149,6 +149,8 @@ adapters:
     version: 1.14.5
   - name: matrixdock
     version: 2.0.4
+  - name: matrixedlink-state
+    version: 1.0.0
   - name: mobula-state
     version: 2.5.4
   - name: mock-ea
