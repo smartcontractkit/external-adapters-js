@@ -38,6 +38,24 @@ const EXAMPLE_ERROR_MESSAGE: WsAssetMetricsErrorResponse = {
     message: 'This is an error message',
   },
 }
+const EXAMPLE_BAD_PARAMETER_ERROR_MESSAGE: WsAssetMetricsErrorResponse = {
+  error: {
+    type: 'bad_parameter',
+    message: "Bad parameter 'assets'. Value 'ohmv2' is not supported.",
+  },
+}
+const EXAMPLE_BAD_PARAMETER_UPPERCASE_ERROR_MESSAGE: WsAssetMetricsErrorResponse = {
+  error: {
+    type: 'bad_parameter',
+    message: "Value 'OHMV2' is not supported for parameter 'assets'.",
+  },
+}
+const EXAMPLE_MALFORMED_BAD_PARAMETER_ERROR_MESSAGE: WsAssetMetricsErrorResponse = {
+  error: {
+    type: 'bad_parameter',
+    message: "Bad parameter 'assets'.",
+  },
+}
 const EXAMPLE_REORG_MESSAGE = {
   ...EXAMPLE_SUCCESS_MESSAGE,
   type: 'reorg',
@@ -56,6 +74,9 @@ describe('price-ws url generator', () => {
   beforeAll(() => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_KEY'] = 'someKey'
+  })
+  beforeEach(() => {
+    invalidBaseAssets.length = 0
   })
   afterAll(() => {
     process.env = oldEnv
@@ -106,9 +127,25 @@ describe('price-ws url generator', () => {
     expect(url).toContain(new URLSearchParams({ assets: 'btc' }).toString())
     expect(url).toContain(new URLSearchParams({ metrics: 'ReferenceRateUSD' }).toString())
   })
+
+  it('should compose url with empty assets when all desired subs are invalid', async () => {
+    invalid_currencies.push('btc')
+    const url = await calculateAssetMetricsUrl(EXAMPLE_CONTEXT, [
+      {
+        base: 'BTC',
+        quote: VALID_QUOTES.USD,
+      },
+    ])
+    expect(new URL(url).searchParams.get('assets')).toEqual('')
+    expect(new URL(url).searchParams.get('metrics')).toEqual('')
+  })
 })
 
 describe('price-ws message handler', () => {
+  beforeEach(() => {
+    invalidBaseAssets.length = 0
+  })
+
   it('success message results in value', () => {
     const res = handleAssetMetricsMessage({ ...EXAMPLE_SUCCESS_MESSAGE })
     expect(res).toBeDefined()
@@ -123,6 +160,21 @@ describe('price-ws message handler', () => {
   it('error message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_ERROR_MESSAGE)
     expect(res).toEqual([])
+  })
+  it('bad parameter error stores the unsupported asset', () => {
+    const res = handleAssetMetricsMessage(EXAMPLE_BAD_PARAMETER_ERROR_MESSAGE)
+    expect(res).toEqual([])
+    expect(invalidBaseAssets).toContain('ohmv2')
+  })
+  it('bad parameter error stores the unsupported asset in lowercase', () => {
+    const res = handleAssetMetricsMessage(EXAMPLE_BAD_PARAMETER_UPPERCASE_ERROR_MESSAGE)
+    expect(res).toEqual([])
+    expect(invalidBaseAssets).toContain('ohmv2')
+  })
+  it('malformed bad parameter error does not throw', () => {
+    const res = handleAssetMetricsMessage(EXAMPLE_MALFORMED_BAD_PARAMETER_ERROR_MESSAGE)
+    expect(res).toEqual([])
+    expect(invalidBaseAssets).toEqual([])
   })
   it('reorg message results in undefined', () => {
     const res = handleAssetMetricsMessage(EXAMPLE_REORG_MESSAGE)

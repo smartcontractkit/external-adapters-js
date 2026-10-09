@@ -8,10 +8,15 @@ import {
 import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocketTransport } from '@chainlink/external-adapter-framework/transports/websocket'
-import { logPossibleSolutionForKnownErrors } from './error-handling'
+import {
+  getUnsupportedAssetFromBadParameterError,
+  logPossibleSolutionForKnownErrors,
+} from './error-handling'
 import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics Crypto LWBA WS')
+// base currencies that break the ws connection
+export const invalidBaseAssets: string[] = []
 
 export type MultiVarResult<T extends ProviderResultGenerics> = {
   params: TypeFromDefinition<T['Parameters']>
@@ -65,8 +70,18 @@ export const calculateUrl = (
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
+  // Remove assets from desiredSubs that are invalid.
+  const validDesiredSubs = desiredSubs.filter(
+    ({ base }) => !invalidBaseAssets.includes(base.toLowerCase()),
+  )
+
   const generated = new URL('/v4/timeseries-stream/asset-quotes', WS_API_ENDPOINT)
-  const assets = [...new Set(desiredSubs.map((pair) => pair.base.toLowerCase()))].sort().join(',')
+  const assets = [...new Set(validDesiredSubs.map((pair) => pair.base.toLowerCase()))]
+    .sort()
+    .join(',')
+  if (!assets) {
+    logger.warn('No valid assets remain after filtering unsupported assets')
+  }
   generated.searchParams.append('assets', assets)
 
   generated.searchParams.append('api_key', API_KEY)
@@ -80,6 +95,12 @@ export const handleCryptoLwbaMessage = (
   if ('error' in message) {
     logger.error(message, `Error response from websocket`)
     logPossibleSolutionForKnownErrors(message.error)
+
+    const unsupportedAsset = getUnsupportedAssetFromBadParameterError(message.error)
+    if (unsupportedAsset && !invalidBaseAssets.includes(unsupportedAsset)) {
+      invalidBaseAssets.push(unsupportedAsset)
+      logger.warn({ asset: unsupportedAsset }, 'Added unsupported asset to invalid asset list')
+    }
   } else if ('warning' in message) {
     logger.warn(message, `Warning response from websocket`)
   } else if ('type' in message && message.type === 'reorg') {

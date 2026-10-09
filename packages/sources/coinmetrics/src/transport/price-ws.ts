@@ -3,7 +3,10 @@ import { WebSocketTransport } from '@chainlink/external-adapter-framework/transp
 import { makeLogger, ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { VALID_QUOTES } from '../config'
 import { assetMetricsInputParameters, BaseEndpointTypes } from '../endpoint/price'
-import { logPossibleSolutionForKnownErrors } from './error-handling'
+import {
+  getUnsupportedAssetFromBadParameterError,
+  logPossibleSolutionForKnownErrors,
+} from './error-handling'
 import { ResponseError } from './types'
 
 const logger = makeLogger('CoinMetrics WS')
@@ -63,11 +66,21 @@ export const calculateAssetMetricsUrl = (
 ): string => {
   const { API_KEY, WS_API_ENDPOINT } = context.adapterSettings
 
-  //remove assets from desiredSubs that are invalid
-  desiredSubs = desiredSubs.filter(({ base }) => !invalidBaseAssets.includes(base.toLowerCase()))
+  // Remove assets from desiredSubs that are invalid.
+  const validDesiredSubs = desiredSubs.filter(
+    ({ base }) => !invalidBaseAssets.includes(base.toLowerCase()),
+  )
 
-  const assets = [...new Set(desiredSubs.map((sub) => sub.base.toLowerCase()))].sort().join(',')
-  const metrics = [...new Set(desiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`))]
+  const assets = [...new Set(validDesiredSubs.map((sub) => sub.base.toLowerCase()))]
+    .sort()
+    .join(',')
+  if (!assets) {
+    logger.warn('No valid assets remain after filtering unsupported assets')
+  }
+
+  const metrics = [
+    ...new Set(validDesiredSubs.map((sub) => `ReferenceRate${sub.quote.toUpperCase()}`)),
+  ]
     .sort()
     .join(',')
   const generated = new URL('/v4/timeseries-stream/asset-metrics', WS_API_ENDPOINT)
@@ -90,17 +103,10 @@ export const handleAssetMetricsMessage = (
     logger.error(message, `Error response from websocket`)
     logPossibleSolutionForKnownErrors(message.error)
 
-    const findBaseCurrenciesRegex = new RegExp(/'([^']+)'/g)
-    if (message['error']['type'] === 'bad_parameter') {
-      //Bad Parameter Error Message
-      // type: 'bad_paramter'
-      // message: 'Bad parameter 'assets'. Value 'ohmv2' is not supported.'
-
-      const matches = [...message.error.message.matchAll(findBaseCurrenciesRegex)]
-
-      if (matches && !invalidBaseAssets.includes(matches[1][1])) {
-        invalidBaseAssets.push(matches[1][1])
-      }
+    const unsupportedAsset = getUnsupportedAssetFromBadParameterError(message.error)
+    if (unsupportedAsset && !invalidBaseAssets.includes(unsupportedAsset)) {
+      invalidBaseAssets.push(unsupportedAsset)
+      logger.warn({ asset: unsupportedAsset }, 'Added unsupported asset to invalid asset list')
     }
   } else if ('warning' in message) {
     // Is WsAssetMetricsWarningResponse
