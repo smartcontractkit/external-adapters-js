@@ -2,10 +2,15 @@ package includes
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
+
+// ErrAdapterNotFound is returned by Load when the named adapter has no entry
+// in adapter_includes.json (i.e. the adapter declares no includes).
+var ErrAdapterNotFound = errors.New("adapter not found in adapter includes config")
 
 // IncludeDetails mirrors the include object inside an adapter_includes.json entry.
 type IncludeDetails struct {
@@ -40,7 +45,7 @@ func Load(path, adapterName string) (*Index, error) {
 
 	adapterIncludes, ok := cfg.Adapters[adapterName]
 	if !ok {
-		return nil, fmt.Errorf("adapter %q not found in adapter includes config %q", adapterName, path)
+		return nil, fmt.Errorf("%w: %q in %q", ErrAdapterNotFound, adapterName, path)
 	}
 
 	return NewIndex(adapterIncludes), nil

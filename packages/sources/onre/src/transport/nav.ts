@@ -95,6 +95,9 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
         currency: 'USD',
         aum: latestData.assets_under_management,
         fundId: latestData.fund_id,
+        ripcord: Number(response.data.ripcord),
+        ripcordValue: response.data.ripcord,
+        ripcordDetails: response.data.ripcordDetails,
       }
 
       const result = Number(latestData.net_asset_value)
