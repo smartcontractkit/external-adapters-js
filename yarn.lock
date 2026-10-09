@@ -3530,7 +3530,7 @@ __metadata:
     "@kaiko-data/sdk-node": "npm:1.27.2"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:22.14.1"
-    exponential-backoff: "npm:3.1.2"
+    exponential-backoff: "npm:3.1.3"
     nock: "npm:13.5.6"
     rxjs: "npm:7.8.2"
     tslib: "npm:2.4.1"
@@ -14513,7 +14513,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exponential-backoff@npm:3.1.2, exponential-backoff@npm:^3.1.1":
+"exponential-backoff@npm:3.1.3":
+  version: 3.1.3
+  resolution: "exponential-backoff@npm:3.1.3"
+  checksum: 10/ca25962b4bbab943b7c4ed0b5228e263833a5063c65e1cdeac4be9afad350aae5466e8e619b5051f4f8d37b2144a2d6e8fcc771b6cc82934f7dade2f964f652c
+  languageName: node
+  linkType: hard
+
+"exponential-backoff@npm:^3.1.1":
   version: 3.1.2
   resolution: "exponential-backoff@npm:3.1.2"
   checksum: 10/ca2f01f1aa4dafd3f3917bd531ab5be08c6f5f4b2389d2e974f903de3cbeb50b9633374353516b6afd70905775e33aba11afab1232d3acf0aa2963b98a611c51
