@@ -36,6 +36,9 @@ export type NavResultResponse = {
     currency: string
     aum: string
     fundId: number
+    ripcord: number
+    ripcordValue: boolean
+    ripcordDetails: string | null
   }
 }
 
