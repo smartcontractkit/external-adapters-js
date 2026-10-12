@@ -8,6 +8,14 @@ export const config = new AdapterConfig({
     required: true,
     sensitive: false,
   },
+  COIN_API_KEY: {
+    description:
+      'The API key to use for ${COIN} where ${COIN} is the upper-snake-case version of the coin input parameter',
+    type: 'string',
+    required: true,
+    sensitive: true,
+    variablePlaceholder: 'COIN',
+  },
   COLLATERAL_API_KEY_PACKAGE_ID: {
     description:
       'API key for Anchorage collateral_management endpoints where ${PACKAGE_ID} is the upper-case version of the packageId input parameter',

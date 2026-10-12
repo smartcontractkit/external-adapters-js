@@ -1,7 +1,6 @@
 {
   "blacklist": [
     "anyblock",
-    "anchorage",
     "coingecko",
     "dlc-btc-por",
     "implied-price",
@@ -15,7 +14,6 @@
     "xsushi-price",
     "coinbase-prime",
     "harris-and-trotter",
-    "nav-consulting",
-    "nav-fund-services"
+    "nav-consulting"
   ]
 }

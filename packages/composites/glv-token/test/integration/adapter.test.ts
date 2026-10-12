@@ -4,8 +4,8 @@ import {
   validateLwbaResponse,
 } from '@chainlink/external-adapter-framework/adapter'
 import {
-  TestAdapter,
   setEnvVariables,
+  TestAdapter,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
 import {

@@ -1,5 +1,6 @@
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { JsonRpcProvider, parseUnits } from 'ethers'
+import { config } from '../config'
 import { getBounds } from './contract'
 import { getRawNav } from './ea'
 
@@ -17,9 +18,10 @@ export const getNav = async (
   asset: string,
   registry: string,
   provider: JsonRpcProvider,
+  settings: typeof config.settings,
 ) => {
   const [rawNav, bounds] = await Promise.all([
-    getRawNav(source, sourceInput, requester),
+    getRawNav(source, sourceInput, requester, settings),
     getBounds({ asset, registry }, provider),
   ])
 

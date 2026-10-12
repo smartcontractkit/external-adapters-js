@@ -56,7 +56,10 @@ describe('getFundOfficialAccountingLastAvailableDate', () => {
     request: jest.fn(),
   } as unknown as Requester
 
-  const fundListRow = (globalFundID: number, officialAccountingLastAvailableDate: string) => ({
+  const fundListRow = (
+    globalFundID: number,
+    officialAccountingLastAvailableDate: string | null,
+  ) => ({
     FundName: `Fund ${globalFundID}`,
     GlobalFundID: globalFundID,
     FundEndDate: '2030-12-31T00:00:00',
@@ -109,6 +112,19 @@ describe('getFundOfficialAccountingLastAvailableDate', () => {
     })
 
     expect(result).toBe('07-10-2025')
+  })
+
+  it('returns null if the date is null', async () => {
+    mockRequester.request = jest.fn().mockResolvedValue({
+      response: { data: [fundListRow(123, null)] },
+    })
+
+    const result = await getFundOfficialAccountingLastAvailableDate({
+      ...params,
+      requester: mockRequester,
+    })
+
+    expect(result).toBeNull()
   })
 
   it('throws if the fund is not in the fund list', async () => {

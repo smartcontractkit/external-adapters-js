@@ -1,5 +1,17 @@
 # @chainlink/tp-adapter
 
+## 1.13.7
+
+### Patch Changes
+
+- [#5508](https://github.com/smartcontractkit/external-adapters-js/pull/5508) [`8eb321f`](https://github.com/smartcontractkit/external-adapters-js/commit/8eb321f503363c0e139eb5b02b924d5e0500eaae) Thanks [@FionnL](https://github.com/FionnL)! - Update includes.json to fix un inversed pricing
+
+## 1.13.6
+
+### Patch Changes
+
+- [#5302](https://github.com/smartcontractkit/external-adapters-js/pull/5302) [`5a5f491`](https://github.com/smartcontractkit/external-adapters-js/commit/5a5f49169fb43cff962c773706253e01810fd63c) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fixed inverse logic for streams adapters
+
 ## 1.13.5
 
 ### Patch Changes

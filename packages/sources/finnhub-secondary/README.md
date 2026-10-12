@@ -1,6 +1,6 @@
 # FINNHUB-SECONDARY
 
-![1.1.13](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
+![1.1.14](https://img.shields.io/github/package-json/v/smartcontractkit/external-adapters-js?filename=packages/sources/finnhub-secondary/package.json) ![v3](https://img.shields.io/badge/framework%20version-v3-blueviolet)
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
@@ -12,12 +12,12 @@ If `CACHE_MAX_AGE` is set below a current heartbeat interval (60000ms), the exte
 
 ## Environment Variables
 
-| Required? |      Name       |                      Description                      |  Type   | Options |           Default           |
-| :-------: | :-------------: | :---------------------------------------------------: | :-----: | :-----: | :-------------------------: |
-|           |  API_ENDPOINT   |          The HTTP URL to retrieve data from           | string  |         | `https://finnhub.io/api/v1` |
-|    ✅     |     API_KEY     |                   A Finnhub API key                   | string  |         |                             |
-|           | WS_API_ENDPOINT |           The WS URL to retrieve data from            | string  |         |    `wss://ws.finnhub.io`    |
-|           |   WS_ENABLED    | Whether data should be returned from websocket or not | boolean |         |           `false`           |
+| Required? |       Name        |                      Description                      |  Type   | Options |           Default           |
+| :-------: | :---------------: | :---------------------------------------------------: | :-----: | :-----: | :-------------------------: |
+|           |  `API_ENDPOINT`   |          The HTTP URL to retrieve data from           | string  |         | `https://finnhub.io/api/v1` |
+|    ✅     |     `API_KEY`     |                   A Finnhub API key                   | string  |         |                             |
+|           | `WS_API_ENDPOINT` |           The WS URL to retrieve data from            | string  |         |    `wss://ws.finnhub.io`    |
+|           |   `WS_ENABLED`    | Whether data should be returned from websocket or not | boolean |         |           `false`           |
 
 ---
 

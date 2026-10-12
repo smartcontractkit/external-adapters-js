@@ -7,7 +7,6 @@ import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/wallet'
 import { request } from './requester'
-import { getApiInfo } from './utils'
 
 const logger = makeLogger('WalletTransport')
 
@@ -100,7 +99,7 @@ export class WalletTransport extends SubscriptionTransport<WalletTransportTypes>
 
     const providerDataRequestedUnixMs = Date.now()
 
-    const apiKey = getApiInfo(coin)
+    const apiKey = this.settings.COIN_API_KEY.get(coin)
 
     const wallets = await this.fetchWallets(vaultId, coin, apiKey)
 
