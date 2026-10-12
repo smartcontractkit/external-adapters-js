@@ -118,7 +118,7 @@ adapters:
   - name: hyperithm
     version: 1.0.0
   - name: icap
-    version: 1.7.7
+    version: 1.7.8
   - name: ice
     version: 1.2.4
   - name: ignition-address-list
@@ -232,7 +232,7 @@ adapters:
   - name: tokenized-equity
     version: 1.4.6
   - name: tp
-    version: 1.13.6
+    version: 1.13.7
   - name: tradermade
     version: 2.1.30
   - name: tradinghours
