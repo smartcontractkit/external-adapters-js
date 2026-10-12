@@ -1,5 +1,11 @@
 # @chainlink/tp-adapter
 
+## 1.13.8
+
+### Patch Changes
+
+- [#5512](https://github.com/smartcontractkit/external-adapters-js/pull/5512) [`677bf41`](https://github.com/smartcontractkit/external-adapters-js/commit/677bf410d5ca289ccdd79721c9bf6261f1cfbfd2) Thanks [@cawthorne](https://github.com/cawthorne)! - Remove XPT and XPD includes entries to fix un-inverted pricing
+
 ## 1.13.7
 
 ### Patch Changes
