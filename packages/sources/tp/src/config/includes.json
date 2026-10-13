@@ -1364,28 +1364,6 @@
     ]
   },
   {
-    "from": "XAU",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "XAU",
-        "inverse": false
-      }
-    ]
-  },
-  {
-    "from": "XAG",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "XAG",
-        "inverse": false
-      }
-    ]
-  },
-  {
     "from": "XAF",
     "to": "USD",
     "includes": [
@@ -1408,17 +1386,6 @@
     ]
   },
   {
-    "from": "XPD",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "XPD",
-        "inverse": false
-      }
-    ]
-  },
-  {
     "from": "XPF",
     "to": "USD",
     "includes": [
@@ -1426,17 +1393,6 @@
         "from": "USD",
         "to": "XPF",
         "inverse": true
-      }
-    ]
-  },
-  {
-    "from": "XPT",
-    "to": "USD",
-    "includes": [
-      {
-        "from": "USD",
-        "to": "XPT",
-        "inverse": false
       }
     ]
   },
