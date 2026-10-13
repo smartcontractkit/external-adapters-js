@@ -4993,7 +4993,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.20.0"],\
           ["decimal.js", "npm:10.5.0"],\
           ["fast-redact", "npm:3.5.0"],\
-          ["fastify", "npm:5.12.5"],\
+          ["fastify", "npm:5.12.7"],\
           ["lodash", "npm:4.18.1"],\
           ["lru-cache", "npm:6.0.0"],\
           ["mock-socket", "npm:9.3.1"],\
@@ -20085,8 +20085,8 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:5.12.5", {\
-        "packageLocation": "./.yarn/cache/fastify-npm-5.12.5-e50dbfc152-282ec56b8b.zip/node_modules/fastify/",\
+      ["npm:5.12.7", {\
+        "packageLocation": "./.yarn/cache/fastify-npm-5.12.7-8b35528d2a-f771ccfc08.zip/node_modules/fastify/",\
         "packageDependencies": [\
           ["@fastify/ajv-compiler", "npm:4.0.5"],\
           ["@fastify/error", "npm:4.0.0"],\
@@ -20095,7 +20095,7 @@ const RAW_RUNTIME_STATE =
           ["abstract-logging", "npm:2.0.1"],\
           ["avvio", "npm:9.1.0"],\
           ["fast-json-stringify", "npm:7.0.1"],\
-          ["fastify", "npm:5.12.5"],\
+          ["fastify", "npm:5.12.7"],\
           ["find-my-way", "npm:9.7.0"],\
           ["light-my-request", "npm:6.4.0"],\
           ["pino", "npm:10.3.1"],\
