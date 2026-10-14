@@ -10,9 +10,15 @@ export const config = new AdapterConfig(
       sensitive: false,
     },
     API_KEY: {
-      description: 'API key for tiingo, valid for all endpoints',
+      description: 'API key for tiingo, valid for all endpoints except stock_quotes',
       type: 'string',
       required: true,
+      sensitive: true,
+    },
+    EQUITIES_API_KEY: {
+      description: 'API key for tiingo, valid the stock_quotes endpoints',
+      type: 'string',
+      required: false,
       sensitive: true,
     },
     WS_API_ENDPOINT: {

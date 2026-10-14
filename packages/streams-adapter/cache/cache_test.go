@@ -6,6 +6,7 @@ import (
 
 	types "streams-adapter/common"
 	helpers "streams-adapter/helpers"
+	"streams-adapter/includes"
 
 	"github.com/goccy/go-json"
 	"github.com/stretchr/testify/assert"
@@ -204,10 +205,10 @@ func TestCache_SetNew_PreservesPayloadHash(t *testing.T) {
 	defer c.Stop()
 	payloadHash := [32]byte{1, 2, 3}
 	require.True(t, c.SetNew("raw-key-with-hash", map[string]interface{}{"base": "ETH"}, payloadHash))
-	require.Equal(t, payloadHash, c.Get("raw-key-with-hash").PayloadHash)
-	got, ok := c.PayloadHashByRawKey("raw-key-with-hash")
+	require.Contains(t, c.Get("raw-key-with-hash").PayloadHashes, payloadHash)
+	hashes, ok := c.PayloadHashesByRawKey("raw-key-with-hash")
 	require.True(t, ok)
-	require.Equal(t, payloadHash, got)
+	require.Equal(t, [][32]byte{payloadHash}, hashes)
 }
 
 func TestCache_SetTransformedKey_StatusLearned(t *testing.T) {
@@ -264,6 +265,99 @@ func TestCache_SetObservation_FansOutToSameTransformedKey(t *testing.T) {
 		require.Equal(t, ts, item.Timestamp)
 		require.Equal(t, "adapter-key", item.OriginalAdapterKey)
 	}
+}
+
+func TestCache_SetTransformedKey_RequiresInverse_FromIncludes(t *testing.T) {
+	idx := includes.NewIndex(includes.AdapterIncludes{
+		"XAU": {"USD": {Inverse: false}},
+		"TRY": {"USD": {Inverse: true}},
+	})
+
+	cases := []struct {
+		name        string
+		original    map[string]interface{}
+		transformed string
+		wantInverse bool
+	}{
+		{
+			name:        "metals swapped pair with inverse=false",
+			original:    map[string]interface{}{"base": "XAU", "quote": "USD"},
+			transformed: "base=usd:endpoint=forex:quote=xau",
+			wantInverse: false,
+		},
+		{
+			name:        "fiat swapped pair with inverse=true",
+			original:    map[string]interface{}{"base": "TRY", "quote": "USD"},
+			transformed: "base=usd:endpoint=forex:quote=try",
+			wantInverse: true,
+		},
+		{
+			name:        "direct pair not in includes defaults to false",
+			original:    map[string]interface{}{"base": "USD", "quote": "TRY"},
+			transformed: "base=usd:endpoint=forex:quote=try",
+			wantInverse: false,
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+			defer c.Stop()
+			c.SetIncludesIndex(idx)
+
+			rawKey, err := helpers.CalculateCacheKey(types.RequestParams{
+				"endpoint": "forex", "base": tc.original["base"].(string), "quote": tc.original["quote"].(string),
+			})
+			require.NoError(t, err)
+
+			c.SetNew(rawKey, tc.original, [32]byte{})
+			c.SetTransformedKey(rawKey, tc.transformed)
+
+			item := c.Get(rawKey)
+			require.NotNil(t, item)
+			require.Equal(t, tc.wantInverse, item.RequiresInverse)
+		})
+	}
+}
+
+func TestCache_SetTransformedKey_RequiresInverse_DefaultFalseWhenNotInIncludes(t *testing.T) {
+	idx := includes.NewIndex(includes.AdapterIncludes{
+		"XAU": {"USD": {Inverse: false}},
+	})
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+	c.SetIncludesIndex(idx)
+
+	rawKey, err := helpers.CalculateCacheKey(types.RequestParams{
+		"endpoint": "forex", "base": "EUR", "quote": "USD",
+	})
+	require.NoError(t, err)
+	transformed := "base=usd:endpoint=forex:quote=eur"
+
+	c.SetNew(rawKey, map[string]interface{}{"base": "EUR", "quote": "USD"}, [32]byte{})
+	c.SetTransformedKey(rawKey, transformed)
+
+	item := c.Get(rawKey)
+	require.NotNil(t, item)
+	require.False(t, item.RequiresInverse, "pair not in includes must not be inverted")
+}
+
+func TestCache_SetTransformedKey_RequiresInverse_DefaultFalseWithoutIndex(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	rawKey, err := helpers.CalculateCacheKey(types.RequestParams{
+		"endpoint": "forex", "base": "EUR", "quote": "USD",
+	})
+	require.NoError(t, err)
+	transformed := "base=usd:endpoint=forex:quote=eur"
+
+	c.SetNew(rawKey, map[string]interface{}{"base": "EUR", "quote": "USD"}, [32]byte{})
+	c.SetTransformedKey(rawKey, transformed)
+
+	item := c.Get(rawKey)
+	require.NotNil(t, item)
+	require.False(t, item.RequiresInverse, "pair without an includes index must not be inverted")
 }
 
 func TestCache_SetTransformedKey_UsesExistingObservationForSharedTransformedKey(t *testing.T) {
@@ -500,6 +594,24 @@ func TestCache_CleanupExpired_OrphanedPendingObs(t *testing.T) {
 
 	_, exists := c.pendingObs["orphan-key"]
 	assert.False(t, exists, "stale orphaned pending observation should be removed by cleanup")
+}
+
+func TestCache_AddPayloadHash(t *testing.T) {
+	c := New(Config{TTL: time.Minute, CleanupInterval: time.Hour})
+	defer c.Stop()
+
+	hash1 := [32]byte{1, 2, 3}
+	hash2 := [32]byte{4, 5, 6}
+
+	require.True(t, c.SetNew("raw-key", nil, hash1))
+	require.True(t, c.AddPayloadHash("raw-key", hash2))
+	require.False(t, c.AddPayloadHash("raw-key", hash1), "duplicate hash should be ignored")
+
+	hashes, ok := c.PayloadHashesByRawKey("raw-key")
+	require.True(t, ok)
+	require.Len(t, hashes, 2)
+	require.Contains(t, hashes, hash1)
+	require.Contains(t, hashes, hash2)
 }
 
 func TestCache_DeterministicKeyOrdering(t *testing.T) {

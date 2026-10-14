@@ -9,7 +9,6 @@
   "references": [
     { "path": "../../core/test-helpers" },
     { "path": "../../core/bootstrap" },
-    { "path": "../../sources/amberdata" },
     { "path": "../../sources/cfbenchmarks" },
     { "path": "../../sources/coinapi" },
     { "path": "../../sources/coingecko" },

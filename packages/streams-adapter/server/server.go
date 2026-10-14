@@ -9,7 +9,6 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
-	"strconv"
 	"sync"
 	"time"
 
@@ -83,6 +82,8 @@ type Server struct {
 	metricsForwarder *appMetrics.Forwarder
 	ctx              context.Context
 	cancel           context.CancelFunc
+	adapterVersion   string
+	metaInjector     *types.MetaInjector
 }
 
 // New creates a new HTTP server
@@ -143,11 +144,18 @@ func New(cfg *config.Config, cache *cache.Cache, logger *slog.Logger) *Server {
 		metricsForwarder: metricsForwarder,
 		ctx:              ctx,
 		cancel:           cancel,
+		metaInjector:     types.NewMetaInjector("", "http"),
 	}
 
 	server.setupRoutes()
 
 	return server
+}
+
+// SetAdapterVersion records the JS adapter version reported by its health endpoint.
+func (s *Server) SetAdapterVersion(version string) {
+	s.adapterVersion = version
+	s.metaInjector = types.NewMetaInjector(version, "http")
 }
 
 // setupRoutes configures the HTTP routes
@@ -252,8 +260,9 @@ func (s *Server) Stop() error {
 // healthHandler handles health check requests
 func (s *Server) healthHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"status": "healthy",
-		"time":   time.Now().UTC(),
+		"status":         "healthy",
+		"time":           time.Now().UTC(),
+		"adapterVersion": s.adapterVersion,
 	})
 }
 
@@ -269,10 +278,14 @@ func (s *Server) cacheHandler(c *gin.Context) {
 		Timestamp           time.Time              `json:"timestamp"`
 		Observation         *types.Observation     `json:"observation,omitempty"`
 		OriginalRequestData map[string]interface{} `json:"originalRequestData,omitempty"`
-		PayloadHash         string                 `json:"payloadHash"`
+		PayloadHashes       []string               `json:"payloadHashes"`
 	}
 	entries := make([]entry, 0, len(items))
 	for key, item := range items {
+		hashes := make([]string, 0, len(item.PayloadHashes))
+		for h := range item.PayloadHashes {
+			hashes = append(hashes, hex.EncodeToString(h[:]))
+		}
 		entries = append(entries, entry{
 			Key:                 key,
 			Status:              item.Status,
@@ -281,7 +294,7 @@ func (s *Server) cacheHandler(c *gin.Context) {
 			Timestamp:           item.Timestamp,
 			Observation:         item.Observation,
 			OriginalRequestData: item.OriginalRequestData,
-			PayloadHash:         hex.EncodeToString(item.PayloadHash[:]),
+			PayloadHashes:       hashes,
 		})
 	}
 
@@ -330,7 +343,7 @@ func (s *Server) adapterHandler(c *gin.Context) {
 
 	item := s.EnsureSubscription(resolved)
 	if item.Status == types.StatusActive && item.Observation != nil {
-		respondWithObservation(c, item)
+		s.respondWithObservation(c, item)
 		return
 	}
 
@@ -356,9 +369,9 @@ func (s *Server) bootstrapSubscription(rawKey string, params types.RequestParams
 		if i > 0 {
 			time.Sleep(retryInterval)
 		}
-		feedID, ok := s.queryAdapterForFeedID(originalData)
+		feedID, transport, ok := s.queryAdapterForFeedID(originalData)
 		if ok {
-			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint)
+			transformedKey, err := helpers.TransformedKeyFromFeedID(feedID, endpoint, transport)
 			if err != nil {
 				s.logger.Error("Failed to compute transformed key from feedId", "feedId", feedID, "error", err)
 				break
@@ -391,20 +404,25 @@ func (s *Server) ResolveSubscription(data map[string]interface{}) (*types.Resolv
 
 // EnsureSubscription atomically creates a cache entry and starts provider
 // bootstrap for the first caller. Later HTTP or gRPC callers reuse that work.
+// If the cache entry already exists but the caller's payload hash differs
+// (different overrides, transport, etc.), the new hash is registered so the
+// publisher can fan out observations to all matching subscribers.
 func (s *Server) EnsureSubscription(resolved *types.ResolvedSubscription) *types.CacheItem {
 	if s.cache.SetNew(resolved.CacheKey, resolved.Data, resolved.PayloadHash) {
 		go s.bootstrapSubscription(resolved.CacheKey, resolved.Params, resolved.Data)
+	} else {
+		s.cache.AddPayloadHash(resolved.CacheKey, resolved.PayloadHash)
 	}
 	return s.cache.Get(resolved.CacheKey)
 }
 
 // respondWithObservation writes the observation to the response. Returns 200 for
 // successful observations and 502 with an error payload for failed ones.
-func respondWithObservation(c *gin.Context, item *types.CacheItem) {
+func (s *Server) respondWithObservation(c *gin.Context, item *types.CacheItem) {
 	obs := item.Observation
 	if obs.Success {
 		if item.RequiresInverse {
-			inverted, err := invertObservation(obs)
+			inverted, err := helpers.InvertObservation(obs)
 			if err != nil {
 				c.JSON(http.StatusBadGateway, ObservationErrorResponse{
 					ErrorMessage: err.Error(),
@@ -415,7 +433,7 @@ func respondWithObservation(c *gin.Context, item *types.CacheItem) {
 			}
 			obs = inverted
 		}
-		c.JSON(http.StatusOK, obs)
+		c.JSON(http.StatusOK, s.metaInjector.Apply(obs))
 		return
 	}
 	c.JSON(http.StatusBadGateway, ObservationErrorResponse{
@@ -423,76 +441,6 @@ func respondWithObservation(c *gin.Context, item *types.CacheItem) {
 		Timestamps:   obs.Timestamps,
 		StatusCode:   http.StatusBadGateway,
 	})
-}
-
-func invertObservation(obs *types.Observation) (*types.Observation, error) {
-	inverted := *obs
-
-	data, err := invertResultInObject(obs.Data)
-	if err != nil {
-		return nil, err
-	}
-	inverted.Data = data
-
-	if len(obs.Result) > 0 {
-		result, err := invertRawNumber(obs.Result)
-		if err != nil {
-			return nil, err
-		}
-		inverted.Result = result
-	}
-
-	return &inverted, nil
-}
-
-func invertResultInObject(raw json.RawMessage) (json.RawMessage, error) {
-	var data map[string]interface{}
-	if err := json.Unmarshal(raw, &data); err != nil {
-		return nil, fmt.Errorf("unable to invert observation result: %w", err)
-	}
-
-	result, ok := data["result"]
-	if !ok {
-		return nil, fmt.Errorf("unable to invert observation result: missing result")
-	}
-	num, err := numberFromInterface(result)
-	if err != nil {
-		return nil, err
-	}
-	if num == 0 {
-		return nil, fmt.Errorf("unable to invert observation result: result is zero")
-	}
-
-	data["result"] = 1 / num
-	return json.Marshal(data)
-}
-
-func invertRawNumber(raw json.RawMessage) (json.RawMessage, error) {
-	var num float64
-	if err := json.Unmarshal(raw, &num); err != nil {
-		return nil, fmt.Errorf("unable to invert top-level result: %w", err)
-	}
-	if num == 0 {
-		return nil, fmt.Errorf("unable to invert top-level result: result is zero")
-	}
-	return json.Marshal(1 / num)
-}
-
-func numberFromInterface(value interface{}) (float64, error) {
-	switch v := value.(type) {
-	case float64:
-		return v, nil
-	case json.Number:
-		return v.Float64()
-	case string:
-		num, err := strconv.ParseFloat(v, 64)
-		if err != nil {
-			return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
-		}
-		return num, nil
-	default:
-		return 0, fmt.Errorf("unable to invert observation result: result is not numeric")
-	}
 }
 
 // postToAdapter marshals data as {"data": ...} and POSTs it to the JS adapter.
@@ -520,13 +468,19 @@ func (s *Server) subscribeToAsset(data interface{}) {
 }
 
 // queryAdapterForFeedID sends a request to the JS adapter and returns the
-// feedId from meta.metrics.feedId on a 200 response. Returns empty string and
-// false if the adapter returns a non-200 status or feedId is absent.
-func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool) {
+// feedId from meta.metrics.feedId together with the transport that served the
+// request, from meta.transportName, on a 200 response. Returns false if the
+// adapter returns a non-200 status or feedId is absent.
+//
+// transport is the same field the Redcon write path reads off the cached
+// response, so both key-derivation paths qualify their keys identically. It is
+// returned empty when the framework does not report the field, which degrades
+// both paths to transport-blind keys together.
+func (s *Server) queryAdapterForFeedID(data interface{}) (feedID, transport string, ok bool) {
 	resp, err := s.postToAdapter(data)
 	if err != nil {
 		s.logger.Error("Failed to query JS adapter for feedId", "error", err)
-		return "", false
+		return "", "", false
 	}
 	defer resp.Body.Close()
 
@@ -534,26 +488,35 @@ func (s *Server) queryAdapterForFeedID(data interface{}) (feedID string, ok bool
 		if resp.StatusCode != http.StatusGatewayTimeout {
 			s.logger.Warn("Unexpected status from JS adapter during feedId poll", "status", resp.StatusCode)
 		}
-		return "", false
+		return "", "", false
 	}
 
 	var result struct {
 		Meta struct {
-			Metrics struct {
+			TransportName string `json:"transportName"`
+			Metrics       struct {
 				FeedId string `json:"feedId"`
 			} `json:"metrics"`
 		} `json:"meta"`
 	}
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		s.logger.Error("Failed to decode JS adapter response for feedId", "error", err)
-		return "", false
+		return "", "", false
 	}
 
 	if result.Meta.Metrics.FeedId == "" {
-		return "", false
+		return "", "", false
 	}
 
-	return result.Meta.Metrics.FeedId, true
+	if result.Meta.TransportName == "" {
+		// Not fatal: the key stays transport-blind, matching what the Redcon
+		// path derives from the same absent field. Worth surfacing, because on
+		// an adapter with several transport routes it means subscriptions that
+		// differ only by transport still share one cache slot.
+		s.logger.Warn("JS adapter reported no meta.transportName; transformed cache keys will not be transport-qualified",
+			"feedId", result.Meta.Metrics.FeedId)
+	}
+	return result.Meta.Metrics.FeedId, result.Meta.TransportName, true
 }
 
 // resubscribeLoop periodically resubscribes to all assets in the cache.

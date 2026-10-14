@@ -69,8 +69,8 @@ export class AddressTransport extends SubscriptionTransport<AddressTransportType
   ): Promise<AdapterResponse<AddressTransportTypes['Response']>> {
     const { contractAddress, contractAddressNetwork } = param
 
-    this.providersMap = addProvider(contractAddressNetwork, this.providersMap)
-    const provider = getProvider(contractAddressNetwork, this.providersMap)
+    this.providersMap = addProvider(contractAddressNetwork, this.settings, this.providersMap)
+    const provider = getProvider(contractAddressNetwork, this.settings, this.providersMap)
 
     const providerDataRequestedUnixMs = Date.now()
 

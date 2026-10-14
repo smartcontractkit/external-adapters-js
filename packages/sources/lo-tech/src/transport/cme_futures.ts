@@ -17,6 +17,7 @@ export type PriceData = BasePriceData & {
   roll_date: string
   price_notice_roll: number
   price_goldman_roll: number
+  price_goldman_continuous_roll: number
   price_continuous_roll: number
   first_notice_date: string
   trading_day_of_month: number
@@ -52,20 +53,32 @@ export const getContractMonthFromSymbol = (symbol: string): number => {
   return 1 + monthCodes.indexOf(monthCode)
 }
 
-export const getRollDateTimestampSeconds = (
-  rollDate: string,
+const getProviderDateStartOfDaySeconds = (
+  providerDate: string,
   settings: typeof config.settings,
 ): number => {
   const timezone = tz(settings.ROLL_DATE_TIMEZONE)
-  const date = parseISO(rollDate, { in: timezone })
+  const date = parseISO(providerDate, { in: timezone })
   if (!isValid(date)) {
     throw new AdapterError({
       statusCode: 502,
-      message: `Invalid roll date from data provider: '${rollDate}'`,
+      message: `Invalid date from data provider: '${providerDate}'`,
     })
   }
-  return startOfDay(date).getTime() / 1000 + settings.ROLL_DATE_TIME_SECONDS
+  return startOfDay(date).getTime() / 1000
 }
+
+export const getRollDateTimestampSeconds = (
+  rollDate: string,
+  settings: typeof config.settings,
+): number => getProviderDateStartOfDaySeconds(rollDate, settings) + settings.ROLL_DATE_TIME_SECONDS
+
+// Expiry is always midnight of the given date (in ROLL_DATE_TIMEZONE); unlike roll_date,
+// the ROLL_DATE_TIME_SECONDS offset is not applied.
+export const getExpiryDateTimestampSeconds = (
+  expiryDate: string,
+  settings: typeof config.settings,
+): number => getProviderDateStartOfDaySeconds(expiryDate, settings)
 
 export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
   PriceData,
@@ -87,6 +100,7 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
           ingress_ts,
           price_notice_roll,
           price_goldman_roll,
+          price_goldman_continuous_roll,
           price_continuous_roll,
           first_notice_date,
           trading_day_of_month,
@@ -107,10 +121,11 @@ export class CmeFuturesWebSocketTransport extends LoTechWebSocketTransport<
           roll_date: getRollDateTimestampSeconds(roll_date, context.adapterSettings),
           symbol,
           generic_symbol,
-          expiry_date,
+          expiry_date: getExpiryDateTimestampSeconds(expiry_date, context.adapterSettings),
           contract_month,
           price_notice_roll,
           price_goldman_roll,
+          price_goldman_continuous_roll,
           price_continuous_roll,
           first_notice_date,
           trading_day_of_month,

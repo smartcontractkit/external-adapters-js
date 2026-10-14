@@ -13,17 +13,18 @@ export const config = new AdapterConfig({
     default: 1,
     sensitive: false,
   },
-  ARBITRUM_RPC_URL: {
-    description: 'RPC url of Arbitrum node',
+  NETWORK_RPC_URL: {
+    description: 'RPC url of ${NETWORK} node',
     type: 'string',
     default: '',
     sensitive: false,
+    variablePlaceholder: 'NETWORK',
   },
-  ARBITRUM_RPC_CHAIN_ID: {
-    description: 'Arbitrum chain id',
+  NETWORK_RPC_CHAIN_ID: {
+    description: 'Chain ID of ${NETWORK}',
     type: 'number',
-    default: 42161,
     sensitive: false,
+    variablePlaceholder: 'NETWORK',
   },
   SOLANA_RPC_URL: {
     description: 'RPC url of Solana node',

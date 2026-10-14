@@ -57,6 +57,12 @@ describe('resolveResult', () => {
     expect(resolveResult(data, 'price', 8)).toBe('12095012760921')
   })
 
+  it('scales from a custom fromDecimals when provided', () => {
+    // 120950127609218450000000 read as a native 8-decimal value: 1209501276092184.5
+    // Scaled to 0 decimals: 1209501276092184 (truncated)
+    expect(resolveResult(data, 'price', 0, 8)).toBe('1209501276092184')
+  })
+
   it('scales when decimals is 0', () => {
     expect(resolveResult(data, 'bid', 0)).toBe('100')
   })

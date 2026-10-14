@@ -1,5 +1,31 @@
 # @chainlink/data-engine-adapter
 
+## 1.6.3
+
+### Patch Changes
+
+- [#5390](https://github.com/smartcontractkit/external-adapters-js/pull/5390) [`460a3b1`](https://github.com/smartcontractkit/external-adapters-js/commit/460a3b1dc026b5dc6f2c23f54e6c22ada979f5fe) Thanks [@alejoberardino](https://github.com/alejoberardino)! - Bump framework version
+
+- [#4942](https://github.com/smartcontractkit/external-adapters-js/pull/4942) [`dbc8666`](https://github.com/smartcontractkit/external-adapters-js/commit/dbc86662c6d03c430920a5e73f18fce2352104d0) Thanks [@renovate](https://github.com/apps/renovate)! - Convert bidVolume and askVolume back to number to satisfy the existing EA API as well as the new data-streams-sdk.
+
+## 1.6.2
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 1.6.1
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
+## 1.6.0
+
+### Minor Changes
+
+- [#5389](https://github.com/smartcontractkit/external-adapters-js/pull/5389) [`084fc19`](https://github.com/smartcontractkit/external-adapters-js/commit/084fc194cf0b8de3e08deb00c0aa84a9942f2758) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Add the blended endpoint. Onboards the Data Engine `POST /api/v1/blended` endpoint, which routes between a market's session feeds (open/closed, or open/closed/overnight/extended) on a server-side market calendar. Supports `resultPath` (defaults to `indicatorPrice`) and `decimals` for result extraction and scaling. Also raises the default rate limit tier to 200 req/s.
+
 ## 1.5.2
 
 ### Patch Changes

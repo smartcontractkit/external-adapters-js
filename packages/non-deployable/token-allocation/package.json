@@ -1,6 +1,6 @@
 {
   "name": "@chainlink/token-allocation-adapter",
-  "version": "1.15.19",
+  "version": "1.15.23",
   "description": "Chainlink token allocation adapter",
   "keywords": [
     "Chainlink",
@@ -27,7 +27,6 @@
     "start": "yarn server:dist"
   },
   "dependencies": {
-    "@chainlink/amberdata-adapter": "workspace:*",
     "@chainlink/blocksize-capital-adapter": "workspace:*",
     "@chainlink/cfbenchmarks-adapter": "workspace:*",
     "@chainlink/coinapi-adapter": "workspace:*",

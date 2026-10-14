@@ -22,13 +22,19 @@ class SessionAwareSmoother {
   /**
    * Process a new price update
    * @param smoother The smoothing algorithm to use
-   * @param rawPrice The current raw median price, this is in 18 decimals
+   * @param rawPrice The current raw median price, this is in 18 decimals. Always fed
+   *   to the filter itself, regardless of session.
+   * @param targetPrice What this update decays *towards* away from a session boundary
+   *   — the raw price for every transition except the overnight session, where it's
+   *   the overnight EMA's price, so the filter hands off to the EMA at both the entry
+   *   and exit of the overnight session without ever being fed the EMA's price itself.
    * @param spread The current spread between ask and bid prices, this is in 18 decimals
    * @param secondsFromTransition Seconds relative to session boundary (-ve before, +ve after)
    */
   public processUpdate(
     smoother: Smoother,
     rawPrice: bigint,
+    targetPrice: bigint,
     spread: bigint,
     secondsFromTransition: number,
   ) {
@@ -41,9 +47,9 @@ class SessionAwareSmoother {
         ? this.kalmanFilter.smooth(rawPrice, spread)
         : this.emafilter.smooth(rawPrice)
 
-    // Apply blending: price_output = smoothed * w  + raw * (1 - w)
+    // Apply blending: price_output = smoothed * w  + target * (1 - w)
     return {
-      price: deScale(smoothedPrice.price * scale(w) + rawPrice * (scale(1) - scale(w))),
+      price: deScale(smoothedPrice.price * scale(w) + targetPrice * (scale(1) - scale(w))),
       x: smoothedPrice.x,
       p: smoothedPrice.p,
     }
@@ -75,6 +81,7 @@ export const processUpdate = (
   smoother: Smoother,
   asset: string,
   rawPrice: bigint,
+  targetPrice: bigint,
   spread: bigint,
   secondsFromTransition: number,
 ) => {
@@ -82,5 +89,11 @@ export const processUpdate = (
     smoothers[asset] = new SessionAwareSmoother()
   }
 
-  return smoothers[asset].processUpdate(smoother, rawPrice, spread, secondsFromTransition)
+  return smoothers[asset].processUpdate(
+    smoother,
+    rawPrice,
+    targetPrice,
+    spread,
+    secondsFromTransition,
+  )
 }

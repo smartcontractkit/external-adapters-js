@@ -4,19 +4,12 @@
 
 This document was generated automatically. Please see [README Generator](../../scripts#readme-generator) for more info.
 
-## Generic Environment Variables
-
-The adapter takes the following environment variables to connect to its underlying source adapters:
-
-| Required? |          Name          |                 Description                 | Options | Defaults to |
-| :-------: | :--------------------: | :-----------------------------------------: | :-----: | :---------: |
-|           | `[source]_ADAPTER_URL` | The adapter URL to query for any `[source]` |         |             |
-
 ## Environment Variables
 
-| Required? |         Name          |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :-------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|           | BACKGROUND_EXECUTE_MS | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+| Required? |          Name          |                                                                         Description                                                                          |  Type  | Options | Default |
+| :-------: | :--------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|           | ${SOURCE}\_ADAPTER_URL | The URL of the ${SOURCE} adapter where ${SOURCE} is the upper-snake-case version of the elements in the operand1Sources and operand2Sources input parameters | string |         |         |
+|           | BACKGROUND_EXECUTE_MS  |                                  The amount of time the background execute should sleep before performing the next request                                   | number |         | `10000` |
 
 ---
 

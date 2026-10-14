@@ -36,6 +36,9 @@ export const getPrice = async (
     price: stream.mid,
     spread: BigInt(stream.ask) - BigInt(stream.bid),
     decimals: stream.decimals,
+    // Live status of the feed that was actually selected, exposed so callers can gate
+    // on it directly rather than on the trading-hours schedule.
+    marketStatus: stream.marketStatus,
     data: {
       regular: regular.status === 'fulfilled' ? regular.value : undefined,
       extended: extended.status === 'fulfilled' ? extended.value : undefined,

@@ -6,12 +6,13 @@ This document was generated automatically. Please see [README Generator](../../s
 
 ## Environment Variables
 
-| Required? |          Name           |                                        Description                                        |  Type  | Options | Default |
-| :-------: | :---------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
-|    ✅     |    ETHEREUM_RPC_URL     |                               RPC URL of a Mainnet ETH node                               | string |         |         |
-|           |  ETHEREUM_RPC_CHAIN_ID  |                                The chain id to connect to                                 | number |         |   `1`   |
-|           | LLAMA_RISK_API_ENDPOINT |                      API endpoint for Llama Risk (contains API KEY)                       | string |         |   ``    |
-|           |  BACKGROUND_EXECUTE_MS  | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
+| Required? |           Name            |                                        Description                                        |  Type  | Options | Default |
+| :-------: | :-----------------------: | :---------------------------------------------------------------------------------------: | :----: | :-----: | :-----: |
+|    ✅     |    `${SOURCE}_EA_URL`     |    URL of the ${SOURCE} external adapter where ${SOURCE} is the source input parameter    | string |         |         |
+|    ✅     |    `ETHEREUM_RPC_URL`     |                               RPC URL of a Mainnet ETH node                               | string |         |         |
+|           |  `ETHEREUM_RPC_CHAIN_ID`  |                                The chain id to connect to                                 | number |         |   `1`   |
+|           | `LLAMA_RISK_API_ENDPOINT` |                      API endpoint for Llama Risk (contains API KEY)                       | string |         |   ``    |
+|           |  `BACKGROUND_EXECUTE_MS`  | The amount of time the background execute should sleep before performing the next request | number |         | `10000` |
 
 ---
 

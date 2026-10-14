@@ -44,6 +44,7 @@ export const mockFuturesWebsocketServer = (URL: string): MockWebsocketServer => 
             spread: 0.01,
             price_notice_roll: 90.406,
             price_goldman_roll: 90.406,
+            price_goldman_continuous_roll: 90.407,
             price_continuous_roll: 89.3332380952381,
             expiry_date: '2026-09-22',
             roll_date: '2026-09-22',

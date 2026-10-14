@@ -1,0 +1,43 @@
+{
+  "adapters": {
+    "test": {
+      "XAU": {
+        "USD": { "inverse": false }
+      },
+      "TRY": {
+        "USD": { "inverse": true }
+      }
+    },
+    "tp": {
+      "XAU": {
+        "USD": { "inverse": false }
+      },
+      "XAG": {
+        "USD": { "inverse": false }
+      },
+      "XPD": {
+        "USD": { "inverse": false }
+      },
+      "XPT": {
+        "USD": { "inverse": false }
+      },
+      "TRY": {
+        "USD": { "inverse": true }
+      }
+    },
+    "icap": {
+      "XAU": {
+        "USD": { "inverse": false }
+      },
+      "XAG": {
+        "USD": { "inverse": false }
+      },
+      "XPT": {
+        "USD": { "inverse": false }
+      },
+      "TRY": {
+        "USD": { "inverse": true }
+      }
+    }
+  }
+}

@@ -31,7 +31,7 @@ export class StockQuotesWebSocketTransport extends TiingoWebsocketTransport<WsTr
   constructor() {
     super({
       url: (context) => {
-        wsTransport.apiKey = context.adapterSettings.API_KEY
+        wsTransport.apiKey = context.adapterSettings.EQUITIES_API_KEY!
         return `${context.adapterSettings.WS_API_ENDPOINT}/equity/intraday`
       },
 

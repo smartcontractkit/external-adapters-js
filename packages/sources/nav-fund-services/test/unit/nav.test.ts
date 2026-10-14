@@ -17,13 +17,20 @@ let transport: NavTransport
 
 // adapter settings stub
 const adapterSettings = makeStub('adapterSettings', {
+  API_KEY_FUND_ID: {
+    get() {
+      return 'apiKey'
+    },
+  },
+  SECRET_KEY_FUND_ID: {
+    get() {
+      return 'secret'
+    },
+  },
   API_ENDPOINT: 'https://api.navfund.com',
   BACKGROUND_EXECUTE_MS: 0,
   WARMUP_SUBSCRIPTION_TTL: 10_000,
 } as unknown as BaseEndpointTypes['Settings'])
-
-process.env.API_KEY_123 = 'apiKey'
-process.env.SECRET_KEY_123 = 'secret'
 
 // requester stub that we'll control per‑test
 const requester = makeStub('requester', { request: jest.fn() })
@@ -42,6 +49,19 @@ const FUND_DATES_RES = makeStub('fundDatesRes', {
     data: { LogID: 1, FromDate: '06-01-2025', ToDate: '07-01-2025' },
   },
 })
+
+const fundListRow = (globalFundID: number, officialAccountingLastAvailableDate: string | null) => ({
+  FundName: `Fund ${globalFundID}`,
+  GlobalFundID: globalFundID,
+  FundEndDate: '2030-12-31T00:00:00',
+  FundDailyAccountingStartDate: '2020-01-01T00:00:00',
+  FundDailyAccountingLastAvailableDate: null,
+  FundOfficialAccountingLastAvailableDate: officialAccountingLastAvailableDate,
+  PortfolioLastAvailableDate: officialAccountingLastAvailableDate,
+})
+
+const fundListRes = (rows: ReturnType<typeof fundListRow>[]) =>
+  makeStub('fundListRes', { response: { data: rows } })
 
 const FUND_ROWS = [
   {
@@ -78,6 +98,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -87,6 +108,7 @@ describe('NavTransport – handleRequest', () => {
     const params = {
       globalFundID: 123,
       navDateTimestampTimezone: 'UTC',
+      limitToOfficialAccountingDate: false,
       resultField: 'navPerShare',
     }
     const response = {
@@ -159,6 +181,7 @@ describe('NavTransport – handleRequest', () => {
         url: expect.stringContaining('/GetOfficialNAVAndPerformanceReturnsForFund'),
       }),
     )
+    expect(requester.request).toHaveBeenCalledTimes(2)
   })
 
   it('maps downstream AdapterError to 502 response', async () => {
@@ -168,6 +191,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -204,6 +228,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -217,6 +242,175 @@ describe('NavTransport – handleRequest', () => {
     )
   })
 
+  it('queries up to the fund ToDate and skips GetFundList by default', async () => {
+    // The official accounting date lags the latest available NAV (e.g. SWEEP), which must not
+    // limit the query unless explicitly requested.
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenCalledTimes(2)
+    expect(requester.request).not.toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('/GetFundList'),
+      }),
+    )
+    expect(requester.request).toHaveBeenNthCalledWith(
+      2,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('fromDate=06-20-2025&toDate=07-01-2025'),
+      }),
+    )
+    expect(getCachedResponse().data.navDate).toBe('06-25-2025')
+  })
+
+  it('does not limit the query when FundOfficialAccountingLastAvailableDate is null', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(fundListRes([fundListRow(FUND_ID, null)]))
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenNthCalledWith(
+      3,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('toDate=07-01-2025'),
+      }),
+    )
+    expect(getCachedResponse().statusCode).toBe(200)
+  })
+
+  it('queries up to the fund ToDate when it is before the last available date', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(
+      fundListRes([fundListRow(FUND_ID, '2025-07-10T00:00:00')]),
+    )
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenNthCalledWith(
+      3,
+      expect.any(String),
+      expect.objectContaining({
+        // 7 business days before 07-01-2025 (Tue) is 06-20-2025 (Fri)
+        url: expect.stringContaining('fromDate=06-20-2025&toDate=07-01-2025'),
+      }),
+    )
+  })
+
+  it('does not query past FundOfficialAccountingLastAvailableDate', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(
+      fundListRes([
+        fundListRow(999, '2025-07-10T00:00:00'),
+        fundListRow(FUND_ID, '2025-06-25T00:00:00'),
+      ]),
+    )
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenNthCalledWith(
+      3,
+      expect.any(String),
+      expect.objectContaining({
+        // 7 business days before 06-25-2025 (Wed) is 06-16-2025 (Mon)
+        url: expect.stringContaining('fromDate=06-16-2025&toDate=06-25-2025'),
+      }),
+    )
+  })
+
+  it('ignores the time of day on FundOfficialAccountingLastAvailableDate', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(
+      fundListRes([fundListRow(FUND_ID, '2025-06-25T23:59:59')]),
+    )
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenNthCalledWith(
+      3,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('toDate=06-25-2025'),
+      }),
+    )
+  })
+
+  it('caches 400 when the fund is missing from the fund list', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    requester.request.mockResolvedValueOnce(fundListRes([fundListRow(999, '2025-07-10T00:00:00')]))
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    expect(cached.statusCode).toBe(400)
+    expect(cached.errorMessage).toBe(`Fund with GlobalFundID ${FUND_ID} not found in fund list`)
+    // The fund endpoint is never queried
+    expect(requester.request).toHaveBeenCalledTimes(2)
+  })
+
+  it('caches 400 when the fund list is empty', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES)
+    requester.request.mockResolvedValueOnce(
+      makeStub('emptyFundList', { response: { data: undefined } }),
+    )
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    const cached = getCachedResponse()
+    expect(cached.statusCode).toBe(400)
+    expect(cached.errorMessage).toMatch(/No fund list found/i)
+  })
+
   it('caches 400 when Fund rows are empty', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
     requester.request.mockResolvedValueOnce(
@@ -225,6 +419,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -241,6 +436,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: 'America/Los_Angeles',
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)

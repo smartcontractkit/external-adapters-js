@@ -6,18 +6,6 @@ import { AddressTransport } from '../../src/transport/openEdenUSDOAddress'
 
 type RequestParams = typeof inputParameters.validated
 
-const originalEnv = { ...process.env }
-
-const restoreEnv = () => {
-  for (const key of Object.keys(process.env)) {
-    if (key in originalEnv) {
-      process.env[key] = originalEnv[key]
-    } else {
-      delete process.env[key]
-    }
-  }
-}
-
 const ADDRESS_LIST_CONTRACT_ADDRESS = '0x440139321A15d14ce0729E004e91D66BaF1A08B0'
 
 const addressListContract = {
@@ -93,6 +81,32 @@ describe('AddressTransport', () => {
 
   const adapterSettings = makeStub('adapterSettings', {
     WARMUP_SUBSCRIPTION_TTL: 10_000,
+    NETWORK_RPC_URL: {
+      get(network: string) {
+        switch (network) {
+          case 'BASE':
+            return 'https://base-rpc.example.com'
+          default:
+            return undefined
+        }
+      },
+      getEnvVarName(network: string) {
+        return `${network.toUpperCase()}_RPC_URL`
+      },
+    },
+    NETWORK_RPC_CHAIN_ID: {
+      get(network: string) {
+        switch (network) {
+          case 'BASE':
+            return 8453
+          default:
+            return undefined
+        }
+      },
+      getEnvVarName(network: string) {
+        return `${network.toUpperCase()}_RPC_CHAIN_ID`
+      },
+    },
   } as unknown as BaseEndpointTypes['Settings'])
 
   const responseCache = {
@@ -109,12 +123,8 @@ describe('AddressTransport', () => {
   let transport: AddressTransport
 
   beforeEach(async () => {
-    restoreEnv()
     jest.restoreAllMocks()
     jest.useFakeTimers()
-
-    process.env.BASE_RPC_URL = 'https://base-rpc.example.com'
-    process.env.BASE_RPC_CHAIN_ID = '8453'
 
     transport = new AddressTransport()
 

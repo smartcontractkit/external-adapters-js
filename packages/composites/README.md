@@ -54,7 +54,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 
 ## List
 
-- [bitcoin-json-rpc](./bitcoin-json-rpc/README.md)
 - [calculated-price](./calculated-price/README.md)
 - [glv-token](./glv-token/README.md)
 - [gm-token](./gm-token/README.md)
@@ -64,7 +63,6 @@ docker run -p 8080:8080 --env-file="~/PATH_TO_ENV" -it proof-of-reserves-adapter
 - [llama-guard](./llama-guard/README.md)
 - [market-status](./market-status/README.md)
 - [multi-address-list](./multi-address-list/README.md)
-- [proof-of-reserves](./proof-of-reserves/README.md)
 - [proof-of-reserves-v2](./proof-of-reserves-v2/README.md)
 - [savax-price](./savax-price/README.md)
 - [tokenized-equity](./tokenized-equity/README.md)

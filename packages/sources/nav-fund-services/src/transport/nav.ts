@@ -6,7 +6,7 @@ import {
   NAV_PER_SHARE_KEY,
   NEXT_NAV_PRICE_KEY,
 } from './fund'
-import { getFundDates } from './fund-dates'
+import { getFundDates, getFundOfficialAccountingLastAvailableDate } from './fund-dates'
 
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { TransportDependencies } from '@chainlink/external-adapter-framework/transports'
@@ -14,7 +14,6 @@ import { SubscriptionTransport } from '@chainlink/external-adapter-framework/tra
 import { AdapterResponse, makeLogger, sleep } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
-import { getApiKeys } from './creds'
 import {
   clampStartByBusinessDays,
   dateToTimezoneOffsetUtcMs,
@@ -96,9 +95,11 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const providerDataRequestedUnixMs = Date.now()
     logger.debug(`Handling request for globalFundID: ${param.globalFundID}`)
 
-    const [apiKey, secret] = getApiKeys(param.globalFundID)
+    const globalFundID = String(param.globalFundID)
+    const apiKey = this.config.API_KEY_FUND_ID.get(globalFundID)
+    const secret = this.config.SECRET_KEY_FUND_ID.get(globalFundID)
 
-    const { FromDate: earliestPossibleFromStr, ToDate: latestPossibleToStr } = await getFundDates({
+    const { FromDate: earliestPossibleFromStr, ToDate: fundToDateStr } = await getFundDates({
       globalFundID: param.globalFundID,
       baseURL: this.config.API_ENDPOINT,
       apiKey,
@@ -107,7 +108,8 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
     })
 
     const earliestPossibleFrom = parseDateString(earliestPossibleFromStr)
-    const latestPossibleTo = parseDateString(latestPossibleToStr)
+    const fundToDate = parseDateString(fundToDateStr)
+    const latestPossibleTo = await this.getLatestPossibleTo(param, fundToDate, apiKey, secret)
 
     // Clamp to trailing-7-business-days window
     const preferredFrom = clampStartByBusinessDays(
@@ -158,6 +160,50 @@ export class NavTransport extends SubscriptionTransport<BaseEndpointTypes> {
         providerIndicatedTimeUnixMs,
       },
     }
+  }
+
+  /**
+   * Returns the toDate to query up to. By default this is the fund's ToDate. Some funds reject a
+   * toDate after FundOfficialAccountingLastAvailableDate, so when limitToOfficialAccountingDate is
+   * set, cap toDate at that date. This date can lag the latest available NAV, so only do this when
+   * explicitly requested.
+   */
+  async getLatestPossibleTo(
+    param: RequestParams,
+    fundToDate: Date,
+    apiKey: string,
+    secret: string,
+  ): Promise<Date> {
+    if (!param.limitToOfficialAccountingDate) {
+      return fundToDate
+    }
+
+    const { globalFundID } = param
+    const lastAvailableDateStr = await getFundOfficialAccountingLastAvailableDate({
+      globalFundID,
+      baseURL: this.config.API_ENDPOINT,
+      apiKey,
+      secret,
+      requester: this.requester,
+    })
+
+    if (lastAvailableDateStr === null) {
+      logger.warn(
+        `FundOfficialAccountingLastAvailableDate is null for globalFundID: ${globalFundID}, not limiting toDate`,
+      )
+      return fundToDate
+    }
+
+    const lastAvailableDate = parseDateString(lastAvailableDateStr)
+    if (lastAvailableDate < fundToDate) {
+      logger.warn(
+        `Limiting toDate for globalFundID: ${globalFundID} from ${toDateString(
+          fundToDate,
+        )} to FundOfficialAccountingLastAvailableDate ${lastAvailableDateStr}`,
+      )
+      return lastAvailableDate
+    }
+    return fundToDate
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

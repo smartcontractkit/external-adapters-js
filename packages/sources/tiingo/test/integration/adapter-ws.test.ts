@@ -54,6 +54,7 @@ describe('websocket', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['WS_API_ENDPOINT'] = wsEndpoint
     process.env['API_KEY'] = 'fake-api-key'
+    process.env['EQUITIES_API_KEY'] = 'fake-equities-api-key'
     process.env['WS_SUBSCRIPTION_UNRESPONSIVE_TTL'] = '180000'
     process.env['CACHE_MAX_AGE'] = '150000'
     process.env['WS_SUBSCRIPTION_TTL'] = '180000'

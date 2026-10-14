@@ -8,7 +8,6 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { Commitment, Connection } from '@solana/web3.js'
 import { BaseEndpointTypes, inputParameters } from '../endpoint/solana'
-import { getTokenPrice } from './priceFeed'
 import { getToken } from './solana-utils'
 
 const logger = makeLogger('Token Balance - Solana')
@@ -71,29 +70,17 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     const { addresses, tokenMint } = param
     const providerDataRequestedUnixMs = Date.now()
 
-    // 1. Fetch token price ONCE from oracle contract
-    // Or use a price of 1 if no oracle provided.
-    const tokenPrice = param.priceOracle
-      ? await getTokenPrice({
-          priceOracleAddress: param.priceOracle.contractAddress,
-          priceOracleNetwork: param.priceOracle.network,
-        })
-      : {
-          value: 1n,
-          decimal: 0,
-        }
+    // 1. Fetch balances for each Solana wallet
+    const totalToken = await this.calculateTokenAum(addresses, tokenMint)
 
-    // 2. Fetch balances for each Solana wallet and calculate their USD value using the SINGLE tokenPrice
-    const totalTokenUSD = await this.calculateTokenAumUSD(addresses, tokenMint, tokenPrice)
-
-    // 3. Build adapter response object
+    // 2. Build adapter response object
     return {
       data: {
-        result: String(totalTokenUSD), // formatted as string for API
+        result: String(totalToken), // formatted as string for API
         decimals: RESULT_DECIMALS,
       },
       statusCode: 200,
-      result: String(totalTokenUSD),
+      result: String(totalToken),
       timestamps: {
         providerDataRequestedUnixMs,
         providerDataReceivedUnixMs: Date.now(),
@@ -102,10 +89,9 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     }
   }
 
-  async calculateTokenAumUSD(
+  async calculateTokenAum(
     addresses: typeof inputParameters.validated.addresses,
     tokenMint: typeof inputParameters.validated.tokenMint,
-    tokenPrice: { value: bigint; decimal: number },
   ): Promise<bigint> {
     // 1. Transform new schema → getToken schema
     const addressesForGetToken = [
@@ -146,13 +132,10 @@ export class SolanaTransport extends SubscriptionTransport<BaseEndpointTypes> {
     tokenDecimals ??= RESULT_DECIMALS
 
     // 4. Calculate AUM
-    const totalAumUSD =
-      (totalRaw * tokenPrice.value * 10n ** BigInt(RESULT_DECIMALS)) /
-      10n ** BigInt(tokenDecimals) /
-      10n ** BigInt(tokenPrice.decimal)
+    const totalAum = (totalRaw * 10n ** BigInt(RESULT_DECIMALS)) / 10n ** BigInt(tokenDecimals)
 
-    // 5. Return total USD value for this address
-    return totalAumUSD
+    // 5. Return total value for this address
+    return totalAum
   }
 
   getSubscriptionTtlFromConfig(adapterSettings: BaseEndpointTypes['Settings']): number {

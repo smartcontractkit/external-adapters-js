@@ -59,6 +59,20 @@ describe('execute', () => {
       expect(response.json()).toMatchSnapshot()
     })
 
+    it('should return success when limiting to the official accounting date', async () => {
+      const data = {
+        globalFundID: 1234,
+        endpoint: 'nav',
+        transport: 'rest',
+        resultField: 'endingBalance',
+        limitToOfficialAccountingDate: true,
+      }
+      mockResponseSuccess()
+      const response = await testAdapter.request(data)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchSnapshot()
+    })
+
     it('should reject an invalid timezone', async () => {
       const data = {
         globalFundID: 1234,

@@ -1,0 +1,329 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`blended endpoint should populate the result from resultPath when provided 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "nymex",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "64640960000000000000001",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;
+
+exports[`blended endpoint should return 400 when extended is provided without overnight 1`] = `
+{
+  "error": {
+    "message": "overnight and extended must be provided together: a market has either open and closed feeds only, or all four session feeds",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`blended endpoint should return 400 when overnight is provided without extended 1`] = `
+{
+  "error": {
+    "message": "overnight and extended must be provided together: a market has either open and closed feeds only, or all four session feeds",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`blended endpoint should return 400 when required params are missing 1`] = `
+{
+  "error": {
+    "message": "[Param: market] param is required but no value was provided",
+    "name": "AdapterError",
+  },
+  "status": "errored",
+  "statusCode": 400,
+}
+`;
+
+exports[`blended endpoint should return 400 when resultPath points to a field that does not exist 1`] = `
+{
+  "errorMessage": "resultPath 'nonExistentField' not found in data. Available keys: rawStitchedPrice, rawPrice, indicatorPrice, decimals, indicatorType, stitchingType, market, session, evaluatedAtTs, observationsTimestamp, windowStartTs, windowEndTs, feedsUsed, stitchingApplied, anchor, stitching, indicator",
+  "statusCode": 400,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`blended endpoint should return 502 when provider returns 400 1`] = `
+{
+  "errorMessage": "Provider request failed with status 400: {"error":"unknown market 'nasdaq'"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`blended endpoint should return 502 when provider returns 500 1`] = `
+{
+  "errorMessage": "Provider request failed with status 500: {"error":"FETCH_ERROR"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`blended endpoint should return 502 when provider returns 503 insufficient data 1`] = `
+{
+  "errorMessage": "Provider request failed with status 503: {"error":"INDICATOR_INSUFFICIENT_DATA: too few observed seconds in window"}",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`blended endpoint should return 502 when provider returns incomplete response 1`] = `
+{
+  "errorMessage": "The data provider returned an incomplete response for market metals",
+  "statusCode": 502,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+  },
+}
+`;
+
+exports[`blended endpoint should return success with blended data for a market with all four session feeds 1`] = `
+{
+  "data": {
+    "anchor": {
+      "ageSeconds": 70,
+      "price": "64640950000000000000000",
+      "ts": 1757001530,
+    },
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+      "0x000bbb370f42279bdf6ef55c21b05e319d7e9ca316369c44387a8b5cf17bab3c",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "nyse",
+    "observationsTimestamp": 1757001595,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "handoff",
+    },
+    "stitchingApplied": true,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "64640960000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001595000,
+  },
+}
+`;
+
+exports[`blended endpoint should return success with blended data for a market with open and closed feeds only 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "wti",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "64640960000000000000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;
+
+exports[`blended endpoint should scale the default indicatorPrice when decimals is provided without resultPath 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "comex_copper",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "6464096000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;
+
+exports[`blended endpoint should scale the resultPath value when decimals is provided 1`] = `
+{
+  "data": {
+    "anchor": null,
+    "decimals": 18,
+    "evaluatedAtTs": 1757001600,
+    "feedsUsed": [
+      "0x000b355642ce85f1a35c19651d86e0f62b9d80469b4b076032250b838aa1a291",
+    ],
+    "indicator": {
+      "endTs": 1757001600,
+      "type": "twap",
+      "windowSeconds": 60,
+    },
+    "indicatorPrice": "64640960000000000000000",
+    "indicatorType": "twap",
+    "market": "nymex_brent",
+    "observationsTimestamp": 1757001598,
+    "rawPrice": "64640960000000000000001",
+    "rawStitchedPrice": "64640960000000000000000",
+    "session": "open",
+    "stitching": {
+      "mode": "kalman",
+      "params": {
+        "blendSeconds": 30,
+        "closeWindowSeconds": 10,
+        "maxAnchorAgeSeconds": 600,
+        "openWindowSeconds": 10,
+        "sigmoidSteepness": 10,
+      },
+      "phase": "raw",
+    },
+    "stitchingApplied": false,
+    "stitchingType": "kalman",
+    "windowEndTs": 1757001600,
+    "windowStartTs": 1757001540,
+  },
+  "result": "6464096000000",
+  "statusCode": 200,
+  "timestamps": {
+    "providerDataReceivedUnixMs": 978347471111,
+    "providerDataRequestedUnixMs": 978347471111,
+    "providerIndicatedTimeUnixMs": 1757001598000,
+  },
+}
+`;

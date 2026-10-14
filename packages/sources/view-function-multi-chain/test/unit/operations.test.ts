@@ -379,6 +379,106 @@ describe('operations', () => {
       })
     })
 
+    it('should validate that min operation has at least 2 args', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [
+            {
+              name: 'a',
+              value: '1000000',
+            },
+            {
+              name: 'b',
+              value: '1000',
+            },
+          ],
+          operations: [
+            {
+              name: 'result',
+              type: 'min',
+              args: ['a'],
+            },
+          ],
+        })
+      }).toThrowError('Min operation "result" must have at least 2 arguments')
+    })
+
+    it('should validate valid min operation', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [],
+        constants: [
+          {
+            name: 'a',
+            value: '1000000',
+          },
+          {
+            name: 'b',
+            value: '1000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'min',
+            args: ['a', 'b'],
+          },
+        ],
+      })
+    })
+
+    it('should validate that max operation has at least 2 args', () => {
+      expect(() => {
+        validateOperations({
+          functionCalls: [],
+          aptosCalls: [],
+          constants: [
+            {
+              name: 'a',
+              value: '1000000',
+            },
+            {
+              name: 'b',
+              value: '1000',
+            },
+          ],
+          operations: [
+            {
+              name: 'result',
+              type: 'max',
+              args: ['a'],
+            },
+          ],
+        })
+      }).toThrowError('Max operation "result" must have at least 2 arguments')
+    })
+
+    it('should validate valid max operation', () => {
+      validateOperations({
+        functionCalls: [],
+        aptosCalls: [],
+        constants: [
+          {
+            name: 'a',
+            value: '1000000',
+          },
+          {
+            name: 'b',
+            value: '1000',
+          },
+        ],
+        operations: [
+          {
+            name: 'result',
+            type: 'max',
+            args: ['a', 'b'],
+          },
+        ],
+      })
+    })
+
     it('should validate that equal operation has at least 2 args', () => {
       expect(() => {
         validateOperations({
@@ -605,6 +705,31 @@ describe('operations', () => {
       }
       const result = evaluateOperation('average', ['a', 'b'], data, {} as RequestParams)
       expect(result).toEqual('55')
+    })
+
+    it('should evaluate min operation', () => {
+      const data = {
+        a: '100',
+        b: '10',
+        c: '-5',
+      }
+      expect(evaluateOperation('min', ['a', 'b'], data, {} as RequestParams)).toEqual('10')
+      expect(evaluateOperation('min', ['b', 'a'], data, {} as RequestParams)).toEqual('10')
+      expect(evaluateOperation('min', ['a', 'b', 'c'], data, {} as RequestParams)).toEqual('-5')
+      expect(evaluateOperation('min', ['a', 'a'], data, {} as RequestParams)).toEqual('100')
+    })
+
+    it('should evaluate max operation', () => {
+      const data = {
+        a: '100',
+        b: '10',
+        c: '-5',
+      }
+      expect(evaluateOperation('max', ['a', 'b'], data, {} as RequestParams)).toEqual('100')
+      expect(evaluateOperation('max', ['b', 'a'], data, {} as RequestParams)).toEqual('100')
+      expect(evaluateOperation('max', ['b', 'c'], data, {} as RequestParams)).toEqual('10')
+      expect(evaluateOperation('max', ['a', 'b', 'c'], data, {} as RequestParams)).toEqual('100')
+      expect(evaluateOperation('max', ['c', 'c'], data, {} as RequestParams)).toEqual('-5')
     })
 
     it('should evaluate equal operation', () => {

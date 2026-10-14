@@ -22,15 +22,22 @@ type subscriptionState struct {
 
 // Publisher distributes observations to gRPC subscribers by payload hash.
 type Publisher struct {
-	mu     sync.RWMutex
-	assets map[[32]byte]*subscriptionState
+	mu           sync.RWMutex
+	assets       map[[32]byte]*subscriptionState
+	metaInjector *types.MetaInjector
 }
 
 // NewPublisher creates a new Publisher.
 func NewPublisher() *Publisher {
 	return &Publisher{
-		assets: make(map[[32]byte]*subscriptionState),
+		assets:       make(map[[32]byte]*subscriptionState),
+		metaInjector: types.NewMetaInjector("", "grpc"),
 	}
+}
+
+// SetAdapterVersion records the JS adapter version reported by its health endpoint.
+func (p *Publisher) SetAdapterVersion(version string) {
+	p.metaInjector = types.NewMetaInjector(version, "grpc")
 }
 
 // Subscribe registers ch to receive events for payloadHash.
@@ -67,7 +74,7 @@ func (p *Publisher) Unsubscribe(payloadHash [32]byte, ch chan<- Event) {
 // Publish marshals obs to JSON and fans out an Event to payloadHash subscribers.
 // Slow subscribers are skipped (non-blocking send).
 func (p *Publisher) Publish(payloadHash [32]byte, obs *types.Observation, ts time.Time) {
-	obsJSON, err := json.Marshal(obs)
+	obsJSON, err := json.Marshal(p.metaInjector.Apply(obs))
 	if err != nil {
 		return
 	}

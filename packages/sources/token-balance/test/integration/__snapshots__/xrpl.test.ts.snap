@@ -4,9 +4,9 @@ exports[`execute xrpl endpoint should return success 1`] = `
 {
   "data": {
     "decimals": 18,
-    "result": "5110159601358721919400000",
+    "result": "4663215314987000000000000",
   },
-  "result": "5110159601358721919400000",
+  "result": "4663215314987000000000000",
   "statusCode": 200,
   "timestamps": {
     "providerDataReceivedUnixMs": 978347471111,

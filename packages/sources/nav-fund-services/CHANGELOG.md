@@ -1,5 +1,45 @@
 # @chainlink/nav-fund-services-adapter
 
+## 1.4.1
+
+### Patch Changes
+
+- [#5500](https://github.com/smartcontractkit/external-adapters-js/pull/5500) [`bc703fb`](https://github.com/smartcontractkit/external-adapters-js/commit/bc703fb80faf737a4789a0e1db97979f0d12e6ce) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Streams adapter fix to cover empty includes case
+
+## 1.4.0
+
+### Minor Changes
+
+- [#5496](https://github.com/smartcontractkit/external-adapters-js/pull/5496) [`507f2e6`](https://github.com/smartcontractkit/external-adapters-js/commit/507f2e63ec9a7a07e4cb26ad4f9de9670c0c6371) Thanks [@mohamed-mehany](https://github.com/mohamed-mehany)! - Only limit the queried date range to FundOfficialAccountingLastAvailableDate when the new `limitToOfficialAccountingDate` input parameter is true, and handle a null FundOfficialAccountingLastAvailableDate. This restores the 1.3.0 behaviour for existing feeds, which received stale NAV values in 1.3.2.
+
+### Patch Changes
+
+- [#5467](https://github.com/smartcontractkit/external-adapters-js/pull/5467) [`1417f13`](https://github.com/smartcontractkit/external-adapters-js/commit/1417f135331dad8f417deddab397fc53b4277ad0) Thanks [@dskloetc](https://github.com/dskloetc)! - Use variable env vars and bump framework
+
+- [#4605](https://github.com/smartcontractkit/external-adapters-js/pull/4605) [`bf090c6`](https://github.com/smartcontractkit/external-adapters-js/commit/bf090c615f2c90134e365b7da86f026a52b206b6) Thanks [@renovate](https://github.com/apps/renovate)! - Bump axios
+
+## 1.3.2
+
+### Patch Changes
+
+- [#5392](https://github.com/smartcontractkit/external-adapters-js/pull/5392) [`4b62119`](https://github.com/smartcontractkit/external-adapters-js/commit/4b6211955419d25ce1bd3dead2174d2106c5c283) Thanks [@dskloetc](https://github.com/dskloetc)! - Fix queried date range by not querying past FundOfficialAccountingLastAvailableDate
+
+## 1.3.1
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 1.3.0
+
+### Minor Changes
+
+- [#5367](https://github.com/smartcontractkit/external-adapters-js/pull/5367) [`db6cecc`](https://github.com/smartcontractkit/external-adapters-js/commit/db6cecc6b287b14a96dcc49c5e579894c8df452f) Thanks [@dskloetc](https://github.com/dskloetc)! - Expose other fields as 'result'
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
 ## 1.2.2
 
 ### Patch Changes

@@ -107,8 +107,8 @@ export class ComputedPriceTransport extends SubscriptionTransport<ComputedPriceT
     )
     const providerDataRequestedUnixMs = Date.now()
 
-    const operand1SourceUrls = getOperandSourceUrls(operand1Sources)
-    const operand2SourceUrls = getOperandSourceUrls(operand2Sources)
+    const operand1SourceUrls = getOperandSourceUrls(operand1Sources, this.settings)
+    const operand2SourceUrls = getOperandSourceUrls(operand2Sources, this.settings)
 
     // Fetch data from sources for both operands
     const [operand1Results, operand2Results] = await Promise.all([

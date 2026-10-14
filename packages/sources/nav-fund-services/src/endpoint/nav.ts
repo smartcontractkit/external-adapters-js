@@ -2,7 +2,6 @@ import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getApiKeys } from '../transport/creds'
 import { navTransport } from '../transport/nav'
 
 /** Default timezone to offset UTC midnight for navDateTimestampMs. */
@@ -37,12 +36,20 @@ export const inputParameters = new InputParameters(
       options: RESULT_FIELDS,
       default: 'navPerShare',
     },
+    limitToOfficialAccountingDate: {
+      required: false,
+      type: 'boolean',
+      description:
+        'Whether to cap the queried date range at FundOfficialAccountingLastAvailableDate from GetFundList. Only enable for funds where the provider rejects later dates, as this date can lag the latest available NAV.',
+      default: false,
+    },
   },
   [
     {
       globalFundID: 1234,
       navDateTimestampTimezone: 'UTC',
       resultField: 'navPerShare',
+      limitToOfficialAccountingDate: false,
     },
   ],
 )
@@ -62,8 +69,11 @@ export const endpoint = new AdapterEndpoint({
   name: 'nav',
   transport: navTransport,
   inputParameters,
-  customInputValidation: (req): AdapterInputError | undefined => {
-    getApiKeys(req.requestContext.data.globalFundID)
+  customInputValidation: (req, settings): AdapterInputError | undefined => {
+    const fundId = String(req.requestContext.data.globalFundID)
+    settings.API_KEY_FUND_ID.get(fundId)
+    settings.SECRET_KEY_FUND_ID.get(fundId)
+
     const timezone = req.requestContext.data.navDateTimestampTimezone
     try {
       Intl.DateTimeFormat(undefined, { timeZone: timezone })

@@ -4,6 +4,7 @@ import path from 'path'
 import { getWorkspaceAdapters } from '../workspace'
 
 const OUTPUT_PATH = 'packages/streams-adapter/endpoint_aliases.json'
+const INCLUDES_OUTPUT_PATH = 'packages/streams-adapter/adapter_includes.json'
 
 /**
  * Adapter types that are served by the streams adapter
@@ -23,7 +24,18 @@ interface EndpointConfig {
 }
 
 interface AllAdaptersConfig {
-  adapters: Record<string, { defaultEndpoint?: string; endpoints?: Record<string, EndpointConfig> }>
+  adapters: Record<
+    string,
+    {
+      defaultEndpoint?: string
+      endpoints?: Record<string, EndpointConfig>
+      includes?: Record<string, Record<string, { inverse: boolean }>>
+    }
+  >
+}
+
+interface AdapterIncludesConfig {
+  adapters: Record<string, Record<string, Record<string, { inverse: boolean }>>>
 }
 
 interface LoadResult {
@@ -46,6 +58,33 @@ async function loadAdapter(adapterPath: string): Promise<LoadResult> {
   } catch (err) {
     return { adapter: null, skipReason: err instanceof Error ? err.message : String(err) }
   }
+}
+
+function extractIncludes(
+  adapter: Adapter,
+): Record<string, Record<string, { inverse: boolean }>> | undefined {
+  const priceAdapter = adapter as Adapter & {
+    includesMap?: Record<string, Record<string, { inverse: boolean }>>
+  }
+  if (!priceAdapter.includesMap) {
+    return undefined
+  }
+
+  const includes: Record<string, Record<string, { inverse: boolean }>> = {}
+  for (const [from, toMap] of Object.entries(priceAdapter.includesMap)) {
+    if (!toMap || Object.keys(toMap).length === 0) {
+      continue
+    }
+    includes[from] = {}
+    for (const [to, details] of Object.entries(toMap)) {
+      if (!details) {
+        continue
+      }
+      includes[from][to] = { inverse: !!details.inverse }
+    }
+  }
+
+  return Object.keys(includes).length > 0 ? includes : undefined
 }
 
 function extractEndpoints(adapter: Adapter): Record<string, EndpointConfig> | undefined {
@@ -91,6 +130,7 @@ async function main(): Promise<void> {
       result.adapters[adapterKey] = {
         defaultEndpoint: adapter.defaultEndpoint ?? undefined,
         endpoints: extractEndpoints(adapter),
+        includes: extractIncludes(adapter),
       }
     } else {
       skipped.push({ name: meta.descopedName, reason: skipReason || 'unknown' })
@@ -110,6 +150,21 @@ async function main(): Promise<void> {
   const outPath = path.resolve(process.cwd(), OUTPUT_PATH)
   fs.writeFileSync(outPath, JSON.stringify(result, null, 2), 'utf-8')
   console.log(`Written ${Object.keys(result.adapters).length} EAv3 adapters to ${OUTPUT_PATH}`)
+
+  const includesResult: AdapterIncludesConfig = { adapters: {} }
+  for (const [adapterKey, adapterCfg] of Object.entries(result.adapters)) {
+    if (adapterCfg.includes) {
+      includesResult.adapters[adapterKey] = adapterCfg.includes
+    }
+  }
+
+  const includesOutPath = path.resolve(process.cwd(), INCLUDES_OUTPUT_PATH)
+  fs.writeFileSync(includesOutPath, JSON.stringify(includesResult, null, 2), 'utf-8')
+  console.log(
+    `Written ${
+      Object.keys(includesResult.adapters).length
+    } EAv3 adapters with includes to ${includesOutPath}`,
+  )
 
   if (skipped.length > 0) {
     console.log(`\nSkipped ${skipped.length} EAv3 adapters:`)

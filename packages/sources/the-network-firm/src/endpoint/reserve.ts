@@ -5,7 +5,7 @@ import {
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { AdapterError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
-import { getApiKey, httpTransport } from '../transport/reserve'
+import { httpTransport } from '../transport/reserve'
 
 export const inputParameters = new InputParameters(
   {
@@ -44,9 +44,9 @@ export const endpoint = new PoRProviderEndpoint({
   name: 'reserve',
   transport: httpTransport,
   inputParameters,
-  customInputValidation: (request): AdapterError | undefined => {
+  customInputValidation: (request, settings): AdapterError | undefined => {
     if (request.requestContext.data.client) {
-      getApiKey(request.requestContext.data.client)
+      settings.CLIENT_API_KEY.get(request.requestContext.data.client)
     }
     return
   },

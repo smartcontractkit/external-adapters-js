@@ -1,5 +1,17 @@
 ## v1.1.0
 
+## 2.9.5
+
+### Patch Changes
+
+- [#5460](https://github.com/smartcontractkit/external-adapters-js/pull/5460) [`68d2033`](https://github.com/smartcontractkit/external-adapters-js/commit/68d20339ffa936cbc3a74a28e37c2c6682dea019) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - Add adapterVersion and proto to observation meta
+
+## 2.9.4
+
+### Patch Changes
+
+- [#5450](https://github.com/smartcontractkit/external-adapters-js/pull/5450) [`cea201b`](https://github.com/smartcontractkit/external-adapters-js/commit/cea201bba9c89928d83000f002eadb7f54d58ab1) Thanks [@denis-chernov-smartcontract](https://github.com/denis-chernov-smartcontract)! - fix for gRPC edge case
+
 ## 2.9.3
 
 ### Patch Changes

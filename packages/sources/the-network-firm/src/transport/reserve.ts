@@ -1,6 +1,5 @@
 import { HttpTransport } from '@chainlink/external-adapter-framework/transports'
 import { makeLogger } from '@chainlink/external-adapter-framework/util'
-import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 import { BaseEndpointTypes } from '../endpoint/reserve'
 
 export interface ResponseSchema {
@@ -21,20 +20,6 @@ export type HttpTransportTypes = BaseEndpointTypes & {
 
 const logger = makeLogger('ReserveHTTPTransport')
 
-export const getApiKey = (client: string) => {
-  const apiKeyName = `${client.replace(/-/g, '_').toUpperCase()}_API_KEY`
-  const apiKeyValue = process.env[apiKeyName]
-
-  if (!apiKeyValue) {
-    throw new AdapterInputError({
-      statusCode: 400,
-      message: `Missing '${apiKeyName}' environment variables.`,
-    })
-  }
-
-  return apiKeyValue
-}
-
 export const httpTransport = new HttpTransport<HttpTransportTypes>({
   prepareRequests: (params, config) => {
     return params.map((param) => {
@@ -45,7 +30,7 @@ export const httpTransport = new HttpTransport<HttpTransportTypes>({
           baseURL: config.ALT_API_ENDPOINT,
           url: client,
           headers: {
-            apikey: getApiKey(client),
+            apikey: config.CLIENT_API_KEY.get(client),
           },
         },
       }

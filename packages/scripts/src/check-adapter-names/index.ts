@@ -23,8 +23,6 @@ const getExpectedSelfReportedName = (adapter: WorkspaceAdapter) => {
   const nameFromLocation = getNameFromLocation(adapter)
   // Grand-father non-matching adapters:
   switch (nameFromLocation) {
-    case 'liveart':
-      return 'LIVE_ART'
     case 'wbtc-address-set':
       return 'WBTC'
     case 'ix-trust-sync':
