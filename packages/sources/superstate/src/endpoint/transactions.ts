@@ -8,6 +8,8 @@ import { TransactionStatus } from '@superstateinc/api-key-request'
 import { config } from '../config'
 import { transactionsTransport } from '../transport/transactions'
 import { ResponseSchema } from '../transport/transactionUtils'
+import { DEFAULT_END_TIME, DEFAULT_START_TIME } from '../transport/utils'
+import { validateTime } from './utils'
 
 export const inputParameters = new InputParameters(
   {
@@ -38,6 +40,18 @@ export const inputParameters = new InputParameters(
       type: 'number',
       required: true,
     },
+    startTime: {
+      description:
+        'Start of the daily window (HH:mm:ss) during which the data provider is polled for a fresh value',
+      type: 'string',
+      default: DEFAULT_START_TIME,
+    },
+    endTime: {
+      description:
+        'End of the daily window (HH:mm:ss) during which the data provider is polled for a fresh value',
+      type: 'string',
+      default: DEFAULT_END_TIME,
+    },
   },
   [
     {
@@ -46,6 +60,8 @@ export const inputParameters = new InputParameters(
       transactionStatus: TransactionStatus.Completed,
       operations: ['open'],
       decimals: 18,
+      startTime: DEFAULT_START_TIME,
+      endTime: DEFAULT_END_TIME,
     },
   ],
 )
@@ -68,7 +84,10 @@ export const endpoint = new AdapterEndpoint({
   name: 'transactions',
   inputParameters,
   transport: transactionsTransport,
-  customInputValidation: (_, settings): AdapterError | undefined => {
+  customInputValidation: (req, settings): AdapterError | undefined => {
+    const { startTime, endTime } = req.requestContext.data
+    validateTime(startTime, endTime)
+
     if (!settings.TRANSACTION_API_KEY || !settings.TRANSACTION_API_SECRET) {
       throw new AdapterInputError({
         statusCode: 400,
