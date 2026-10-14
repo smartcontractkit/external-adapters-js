@@ -123,6 +123,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/sources/allium-state"\
     },\
     {\
+      "name": "@chainlink/alpaca-adapter",\
+      "reference": "workspace:packages/sources/alpaca"\
+    },\
+    {\
       "name": "@chainlink/anchorage-adapter",\
       "reference": "workspace:packages/sources/anchorage"\
     },\
@@ -582,6 +586,7 @@ const RAW_RUNTIME_STATE =
     ["@chainlink/21x-adapter", ["workspace:packages/sources/21x"]],\
     ["@chainlink/aleno-adapter", ["workspace:packages/sources/aleno"]],\
     ["@chainlink/allium-state-adapter", ["workspace:packages/sources/allium-state"]],\
+    ["@chainlink/alpaca-adapter", ["workspace:packages/sources/alpaca"]],\
     ["@chainlink/anchorage-adapter", ["workspace:packages/sources/anchorage"]],\
     ["@chainlink/anyblock-adapter", ["workspace:packages/sources/anyblock"]],\
     ["@chainlink/apex-adapter", ["workspace:packages/sources/apex"]],\
@@ -4357,6 +4362,24 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@chainlink/alpaca-adapter", [\
+      ["workspace:packages/sources/alpaca", {\
+        "packageLocation": "./packages/sources/alpaca/",\
+        "packageDependencies": [\
+          ["@chainlink/alpaca-adapter", "workspace:packages/sources/alpaca"],\
+          ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
+          ["@sinonjs/fake-timers", "npm:9.1.2"],\
+          ["@types/jest", "npm:29.5.14"],\
+          ["@types/node", "npm:22.14.1"],\
+          ["@types/sinonjs__fake-timers", "npm:8.1.5"],\
+          ["decimal.js", "npm:10.6.0"],\
+          ["nock", "npm:14.0.6"],\
+          ["tslib", "npm:2.4.1"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@chainlink/anchorage-adapter", [\
       ["workspace:packages/sources/anchorage", {\
         "packageLocation": "./packages/sources/anchorage/",\
@@ -5237,7 +5260,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@chainlink/external-adapter-framework", [\
       ["npm:2.16.1", {\
-        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0-4eaa996fbf.zip/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@date-fns/tz", "npm:1.5.0"],\

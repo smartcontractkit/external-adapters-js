@@ -1,0 +1,8 @@
+{
+  "requests": [
+    {
+      "from": "AAPL",
+      "to": "USD"
+    }
+  ]
+}

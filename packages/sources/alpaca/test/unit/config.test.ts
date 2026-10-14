@@ -1,0 +1,69 @@
+import { config } from '../../src/config'
+
+// Spec external_adapter_specifications.environment_variables
+describe('config', () => {
+  const oldEnv = { ...process.env }
+
+  beforeEach(() => {
+    process.env['CLIENT_ID'] = 'fake-client-id'
+    process.env['CLIENT_SECRET'] = 'fake-client-secret'
+    delete process.env['AUTH_ENDPOINT']
+    delete process.env['WS_API_ENDPOINT']
+  })
+
+  afterAll(() => {
+    process.env = oldEnv
+  })
+
+  it('uses spec defaults for AUTH_ENDPOINT and WS_API_ENDPOINT', () => {
+    config.initialize()
+    config.validate()
+    expect(config.settings.AUTH_ENDPOINT).toBe(
+      'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
+    )
+    expect(config.settings.WS_API_ENDPOINT).toBe(
+      'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
+    )
+  })
+
+  it('passes validation with CLIENT_ID and CLIENT_SECRET set', () => {
+    config.initialize()
+    expect(() => config.validate()).not.toThrow()
+    expect(config.settings.CLIENT_ID).toBe('fake-client-id')
+    expect(config.settings.CLIENT_SECRET).toBe('fake-client-secret')
+  })
+
+  it.each(['CLIENT_ID', 'CLIENT_SECRET'])(
+    'fails to start without CLIENT_ID or CLIENT_SECRET (%s missing)',
+    (name) => {
+      delete process.env[name]
+      config.initialize()
+      expect(() => config.validate()).toThrow(name)
+    },
+  )
+
+  it.each(['CLIENT_ID', 'CLIENT_SECRET'])('%s is sensitive', (name) => {
+    config.initialize()
+    expect(config.getSettingDebugDetails(name).sensitive).toBe(true)
+  })
+
+  // Reference defect 4: tests set API_KEY while the adapter needs CLIENT_ID and CLIENT_SECRET
+  it('defines no API_KEY setting', () => {
+    config.initialize()
+    expect(config.settings).not.toHaveProperty('API_KEY')
+  })
+
+  // Spec AUTH_ENDPOINT / WS_API_ENDPOINT descriptions: production hosts replace the sandbox hosts
+  it('accepts production AUTH_ENDPOINT and WS_API_ENDPOINT overrides', () => {
+    process.env['AUTH_ENDPOINT'] = 'https://authx.alpaca.markets/v1/oauth2/token'
+    process.env['WS_API_ENDPOINT'] = 'wss://stream.data.alpaca.markets/v1beta1/overnight'
+    expect(() => {
+      config.initialize()
+      config.validate()
+    }).not.toThrow()
+    expect(config.settings.AUTH_ENDPOINT).toBe('https://authx.alpaca.markets/v1/oauth2/token')
+    expect(config.settings.WS_API_ENDPOINT).toBe(
+      'wss://stream.data.alpaca.markets/v1beta1/overnight',
+    )
+  })
+})
