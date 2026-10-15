@@ -86,6 +86,30 @@ describe('getAccessToken', () => {
     expect(await getAccessToken(settings, requester)).toBe(ACCESS_TOKEN)
   })
 
+  // iss pre-check: a token issued by a DIFFERENT host than AUTH_ENDPOINT is the sandbox-in-
+  // production misconfiguration class — fail fast and name both hosts (URLs are not secrets)
+  it('rejects a token issued by a different host than AUTH_ENDPOINT', async () => {
+    const b64url = (v: unknown) => Buffer.from(JSON.stringify(v)).toString('base64url')
+    const prodToken = `abc.${b64url({ iss: 'https://authx.alpaca.markets/' })}.sig`
+    const { requester } = makeRequester({ access_token: prodToken, expires_in: 900 })
+
+    const error = (await getAccessToken(settings, requester).catch((e) => e)) as AdapterError
+
+    expect(error).toBeInstanceOf(AdapterError)
+    expect(error.statusCode).toBe(502)
+    expect(error.message).toContain('different host')
+    expect(error.message).toContain('authx.sandbox.alpaca.markets')
+    expect(error.message).not.toContain(prodToken)
+  })
+
+  it('accepts a token issued by the AUTH_ENDPOINT host', async () => {
+    const b64url = (v: unknown) => Buffer.from(JSON.stringify(v)).toString('base64url')
+    const sandboxToken = `abc.${b64url({ iss: 'https://authx.sandbox.alpaca.markets/' })}.sig`
+    const { requester } = makeRequester({ access_token: sandboxToken, expires_in: 900 })
+
+    expect(await getAccessToken(settings, requester)).toBe(sandboxToken)
+  })
+
   it('throws without the secret when access_token is missing', async () => {
     const { requester } = makeRequester({ expires_in: 900 })
 

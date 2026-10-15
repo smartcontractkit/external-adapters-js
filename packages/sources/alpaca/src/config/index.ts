@@ -1,4 +1,16 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { makeLogger } from '@chainlink/external-adapter-framework/util'
+
+const logger = makeLogger('AlpacaConfig')
+
+const sandboxWarn = (label: string, url: string): void => {
+  if (url.includes('sandbox.alpaca.markets')) {
+    logger.warn(
+      `ALPACA: ${label} points at the SANDBOX environment (${url}) — sandbox credentials cannot ` +
+        'authenticate production data streams. Set the production host explicitly in production deployments.',
+    )
+  }
+}
 
 export const config = new AdapterConfig({
   CLIENT_ID: {
@@ -20,6 +32,15 @@ export const config = new AdapterConfig({
     default: 'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
     required: false,
     sensitive: false,
+    validate: {
+      meta: { details: 'environment warning' },
+      fn: (value?: string): string | undefined => {
+        if (value) {
+          sandboxWarn('AUTH_ENDPOINT', value)
+        }
+        return undefined // returning a string would be an ERROR message, not the value
+      },
+    },
   },
   WS_API_ENDPOINT: {
     description:
@@ -28,5 +49,14 @@ export const config = new AdapterConfig({
     default: 'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
     required: false,
     sensitive: false,
+    validate: {
+      meta: { details: 'environment warning' },
+      fn: (value?: string): string | undefined => {
+        if (value) {
+          sandboxWarn('WS_API_ENDPOINT', value)
+        }
+        return undefined // returning a string would be an ERROR message, not the value
+      },
+    },
   },
 })

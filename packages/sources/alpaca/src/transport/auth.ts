@@ -24,6 +24,22 @@ const censorEncodedCredentials = (settings: typeof config.settings): void => {
   }
 }
 
+// The access token is a JWT whose iss claim names the host that issued it. A token issued by a
+// DIFFERENT host than the configured AUTH_ENDPOINT is a deployment misconfiguration (e.g. sandbox
+// credentials riding a production endpoint config): fail fast and name both hosts — endpoint URLs
+// are public API surface, not secrets. Tokens without a parsable iss pass: this is a safety net
+// for the sandbox-in-production incident class, not a protocol contract.
+const tokenIssuerMatchesEndpoint = (token: string, authEndpoint: string): boolean => {
+  try {
+    const payload = JSON.parse(Buffer.from(token.split('.')[1] ?? '', 'base64url').toString())
+    return (
+      typeof payload.iss !== 'string' || new URL(payload.iss).host === new URL(authEndpoint).host
+    )
+  } catch {
+    return true
+  }
+}
+
 // OAuth client-credentials exchange (spec data_source_authentication). Called once per WS connect
 // (refresh_policy per_connect). Neither the token nor the client secret is logged or put in an
 // error.
@@ -61,6 +77,13 @@ export const getAccessToken = async (
     throw new AdapterError({
       statusCode: 502,
       message: 'Alpaca OAuth token response did not contain access_token',
+    })
+  }
+  if (!tokenIssuerMatchesEndpoint(accessToken, settings.AUTH_ENDPOINT)) {
+    throw new AdapterError({
+      statusCode: 502,
+      message: `Alpaca OAuth token was issued by a different host than AUTH_ENDPOINT ` +
+        `(${settings.AUTH_ENDPOINT}) — check sandbox vs production credentials`,
     })
   }
   return accessToken
