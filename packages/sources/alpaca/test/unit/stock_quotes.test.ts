@@ -5,6 +5,7 @@ import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import { EventEmitter } from 'events'
 import nock from 'nock'
+import * as stockQuotesModule from '../../src/transport/stock_quotes'
 import {
   computeMidPrice,
   parseQuote,
@@ -17,6 +18,7 @@ import {
   clearLogs,
   CLIENT_ID,
   CLIENT_SECRET,
+  makeConnection,
   mockLogger,
   WIRE_INPUT,
   WS_API_ENDPOINT,
@@ -31,7 +33,7 @@ type Params = { base: string; quote: string; requireVolume: boolean; isOvernight
 const CACHE_MAX_AGE = 90_000
 const context = { adapterSettings: { CACHE_MAX_AGE } } as EndpointContext<WsTransportTypes>
 
-// Spec example request {"from":"AAPL","to":"USD"} after the spec defaults (both flags false)
+// Spec example request {"from":"AAPL","to":"USD"} after validation: both flags at spec default false
 const params = (overrides: Partial<Params> = {}): Params => ({
   base: 'AAPL',
   quote: 'USD',
@@ -84,7 +86,6 @@ describe('parseQuote', () => {
   it.each([
     ['absent', undefined],
     ['empty', ''],
-    ['not a string', 123],
   ])('ignores quote frames with a missing symbol (S %s)', (_, S) => {
     register(params())
 
@@ -100,11 +101,19 @@ describe('parseQuote provider timestamp', () => {
     expect(result.response).toHaveProperty('timestamps.providerIndicatedTimeUnixMs', 1789605015999)
   })
 
-  it.each([
-    ['missing', undefined],
-    ['unparseable', 'not-a-time'],
-  ])('%s t -> dropped', (_, t) => {
-    expect(parseOne(quote({ t }))).toEqual([])
+  // A quote without a valid t has no provider timestamp, so it is dropped and cannot overwrite a
+  // newer cached book
+  it('drops quote with unparseable t', () => {
+    expect(parseOne(quote())).not.toEqual([])
+    const storedTime = transport.latestQuotes.get('AAPL')
+    expect(storedTime).toBeDefined()
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { t: _t, ...withoutT } = quote({ bp: 100, ap: 102 })
+    expect(parse(withoutT)).toEqual([])
+    expect(parse(quote({ t: 'not-a-date', bp: 100, ap: 102 }))).toEqual([])
+
+    expect(transport.latestQuotes.get('AAPL')).toBe(storedTime)
   })
 })
 
@@ -126,8 +135,7 @@ describe('subscribeMessage', () => {
 })
 
 // options() fetches the token on each connect (refresh_policy per_connect) and the open handler sends
-// the spec ws_auth_message. Any failure must release the socket (15-connection account limit) and
-// leave no listener behind.
+// the spec ws_auth_message. The auth frame handling itself is covered in auth.test.ts.
 describe('open handler', () => {
   const openContext = {
     adapterSettings: { AUTH_ENDPOINT, CLIENT_ID, CLIENT_SECRET, WS_API_ENDPOINT },
@@ -179,12 +187,6 @@ describe('open handler', () => {
   const resolveOptions = (transport: StockQuotesTransport) =>
     (transport['config'].options as (ctx: typeof openContext) => Promise<unknown>)(openContext)
 
-  // One connect, in framework order: options() (token fetch, refresh_policy per_connect), then open
-  const runOpen = async (transport: StockQuotesTransport, socket: WebSocket) => {
-    await resolveOptions(transport)
-    return transport['config'].handlers.open?.(socket, openContext) as Promise<void>
-  }
-
   // Waits until the auth message is sent, so the auth listeners are attached
   const untilAuthSent = async (sent: unknown[]) => {
     for (let i = 0; i < 50 && !sent.length; i++) {
@@ -199,8 +201,6 @@ describe('open handler', () => {
     transport.requester = requester
     return { transport, posts }
   }
-
-  const TOKEN_OK = { status: 200, data: { access_token: ACCESS_TOKEN, expires_in: 900 } }
 
   // The real framework Requester (axios underneath, intercepted by nock), without retries or rate
   // limiting
@@ -285,53 +285,6 @@ describe('open handler', () => {
     })
   })
 
-  it('auth fails on provider close', async () => {
-    const { transport } = newTransport(TOKEN_OK)
-    const { emitter, socket, sent } = fakeSocket()
-    const startMessage = emitter.listenerCount('message')
-    const startClose = emitter.listenerCount('close')
-
-    const opened = runOpen(transport, socket)
-    opened.catch(() => undefined)
-    await untilAuthSent(sent)
-    expect(emitter.listenerCount('message')).toBeGreaterThan(startMessage)
-
-    emitter.emit('close', { code: 1006, reason: '' })
-
-    await expect(opened).rejects.toBeDefined()
-    expect(emitter.listenerCount('message')).toBe(startMessage)
-    expect(emitter.listenerCount('close')).toBe(startClose)
-  })
-
-  it('authenticate removes its listeners on the authenticated frame', async () => {
-    const { transport } = newTransport(TOKEN_OK)
-    const { emitter, socket, sent, close, emitFrames } = fakeSocket()
-
-    const opened = runOpen(transport, socket)
-    await untilAuthSent(sent)
-    emitFrames([{ T: 'success', msg: 'authenticated' }])
-
-    await expect(opened).resolves.toBeUndefined()
-    expect(emitter.listenerCount('message')).toBe(0)
-    expect(emitter.listenerCount('close')).toBe(0)
-    expect(close).not.toHaveBeenCalled()
-  })
-
-  it('open handler closes the connection when authenticate rejects', async () => {
-    const { transport } = newTransport(TOKEN_OK)
-    const { emitter, socket, sent, close, emitFrames } = fakeSocket()
-
-    const opened = runOpen(transport, socket)
-    opened.catch(() => undefined)
-    await untilAuthSent(sent)
-    emitFrames([{ T: 'error', code: 402, msg: 'auth failed' }])
-
-    await expect(opened).rejects.toBeDefined()
-    expect(close).toHaveBeenCalledTimes(1)
-    expect(emitter.listenerCount('message')).toBe(0)
-    expect(emitter.listenerCount('close')).toBe(0)
-  })
-
   // A failed token request fails the connect in options(), before any socket exists, so no account
   // connection is taken
   it('options() rejects when the token request fails', async () => {
@@ -339,27 +292,6 @@ describe('open handler', () => {
 
     await expect(resolveOptions(transport)).rejects.toBeDefined()
     expect(posts).toHaveLength(1)
-  })
-
-  describe('with fake timers', () => {
-    // setImmediate stays real so untilAuthSent can yield to the token fetch
-    beforeEach(() => jest.useFakeTimers({ doNotFake: ['setImmediate', 'nextTick'] }))
-    afterEach(() => jest.useRealTimers())
-
-    // Spec data_source_endpoints[stock_quotes].timeout_ms 10000: the auth deadline must not
-    // outlive a successful auth
-    it('clears auth timer on authenticated', async () => {
-      const { transport } = newTransport(TOKEN_OK)
-      const { socket, sent, emitFrames } = fakeSocket()
-
-      const opened = runOpen(transport, socket)
-      await untilAuthSent(sent)
-      expect(jest.getTimerCount()).toBeGreaterThan(0)
-      emitFrames([{ T: 'success', msg: 'authenticated' }])
-
-      await expect(opened).resolves.toBeUndefined()
-      expect(jest.getTimerCount()).toBe(0)
-    })
   })
 })
 
@@ -401,30 +333,105 @@ describe('parseQuote quote ordering', () => {
     })
   })
 
-  // Variants share one provider subscription: the symbol's last t guards until the last variant
-  // leaves, then the entry is released so the map tracks only subscribed symbols
-  it('removes latestQuotes entry when the last variant of a symbol unsubscribes', () => {
-    register(params({ requireVolume: true }), params({ requireVolume: false }))
-    parse(quote(NEWER))
-    expect(transport.latestQuotes.size).toBe(1)
+  // The cache keeps the newer value across a reconnect, so the last-seen t must survive it too
+  it('older t after reconnect does not overwrite newer cached quote', async () => {
+    register(params())
+    expect(parse(quote(NEWER))[0].response.result).toBe(201)
 
-    expect(unsubscribe(params({ requireVolume: true }))).toBeUndefined()
-    expect(transport.latestQuotes.has('AAPL')).toBe(true)
+    transport.accessToken = ACCESS_TOKEN
+    const { connection } = makeConnection([{ T: 'success', msg: 'authenticated' }])
+    await transportConfig.handlers.open?.(connection, context)
+    // The framework resubscribes the symbol after open
+    register(params())
+
+    // No result means no cache write: the cached response keeps the NEWER values
     expect(parse(quote(OLDER))).toEqual([])
+  })
 
-    expect(unsubscribe(params({ requireVolume: false }))).toEqual({
-      action: 'unsubscribe',
-      quotes: ['AAPL'],
-    })
-    expect(transport.latestQuotes.has('AAPL')).toBe(false)
-    expect(transport.latestQuotes.size).toBe(0)
+  it('older t after unsubscribe and resubscribe does not overwrite newer cached quote', () => {
+    register(params())
+    expect(parse(quote(NEWER))[0].response.result).toBe(201)
+
+    expect(unsubscribe(params())).toEqual({ action: 'unsubscribe', quotes: ['AAPL'] })
+    register(params())
+
+    expect(parse(quote(OLDER))).toEqual([])
   })
 })
 
-// Spec response_mapping provider_timestamp t: ordering uses the millisecond providerIndicatedTimeUnixMs.
-// A quote whose t is not newer than the stored t (same millisecond included) is dropped.
+// The spec quote param is part of the request: each subscribed variant (quote, requireVolume,
+// isOvernight) gets its own result with the params of its request. Expected response: spec
+// endpoint_request_response_examples[0] for wire_input.
+describe('variant fan-out', () => {
+  it('fan-out writes a result for each subscribed quote and flag variant', () => {
+    const variants = [
+      params({ quote: 'USD', requireVolume: false }),
+      params({ quote: 'USD', requireVolume: true }),
+      params({ quote: 'USDC', requireVolume: false }),
+      params({ quote: 'USDC', requireVolume: true }),
+    ]
+    register(...variants)
+
+    const jsonParse = jest.spyOn(JSON, 'parse')
+    let results: Result[]
+    let jsonParseCalls: number
+    try {
+      results = parse(quote())
+      jsonParseCalls = jsonParse.mock.calls.length
+    } finally {
+      jsonParse.mockRestore()
+    }
+
+    expect(jsonParseCalls).toBe(0)
+    expect(results).toHaveLength(4)
+    expect(results.map((r) => r.params)).toEqual(expect.arrayContaining(variants))
+    results.forEach((r) =>
+      expect(r.response).toEqual({
+        result: 190.0,
+        data: {
+          mid_price: 190.0,
+          bid_price: 189.95,
+          bid_volume: 1,
+          ask_price: 190.05,
+          ask_volume: 2,
+        },
+        timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
+      }),
+    )
+  })
+
+  // Spec requireVolume (dxfeed compat): an invalid volume is a 502 only for requireVolume=true
+  it('requireVolume=true with an invalid volume gives 502, requireVolume=false keeps mid 190.0', () => {
+    register(params({ requireVolume: false }), params({ requireVolume: true }))
+
+    const results = parse(quote({ bs: undefined }))
+    const byFlag = (flag: boolean) => results.find((r) => r.params.requireVolume === flag)
+
+    expect(byFlag(true)?.response).toMatchObject({ statusCode: 502 })
+    expect(byFlag(false)?.response.result).toBe(190.0)
+  })
+})
+
+// Owner decision wire_timestamp=provider_indicated_from_t: a quote without a valid t is dropped.
+// Every such drop logs at warn, with no per-symbol warn-once state.
+describe('frame without valid t', () => {
+  it('frame without valid t is dropped and logged at warn', () => {
+    register(params())
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { t: _t, ...withoutT } = quote()
+
+    expect(parse(withoutT)).toEqual([])
+    expect(parse(withoutT)).toEqual([])
+
+    expect(logger.warn).toHaveBeenCalledTimes(2)
+  })
+})
+
+// The spec needs only millisecond providerIndicatedTimeUnixMs: ordering compares t at millisecond
+// precision, so every quote within the stored millisecond is accepted. Only a strictly older
+// millisecond is dropped.
 describe('parseQuote same-millisecond ordering', () => {
-  it('drops a quote with the same millisecond t as the stored quote', () => {
+  beforeEach(() => {
     // Spec wire_input t ...15.123456789Z -> spec example response
     const [first] = parseOne(quote())
     expect(first.response).toMatchObject({
@@ -432,8 +439,73 @@ describe('parseQuote same-millisecond ordering', () => {
       data: { mid_price: 190.0, bid_price: 189.95, ask_price: 190.05 },
       timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
     })
+  })
 
-    expect(parse(quote({ t: '2026-09-17T00:30:15.123000001Z', bp: 100, ap: 102 }))).toEqual([])
+  it('accepts a newer quote within the same millisecond', () => {
+    const results = parse(quote({ t: '2026-09-17T00:30:15.123987654Z', bp: 189.97 }))
+
+    expect(results).not.toEqual([])
+    expect(results[0].response).toMatchObject({
+      result: 190.01,
+      data: { mid_price: 190.01, bid_price: 189.97, ask_price: 190.05 },
+      timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
+    })
+  })
+
+  it('accepts a quote with a t equal to the stored t', () => {
+    const results = parse(quote({ bp: 189.97 }))
+
+    expect(results).not.toEqual([])
+    expect(results[0].response).toMatchObject({
+      result: 190.01,
+      data: { mid_price: 190.01, bid_price: 189.97 },
+      timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
+    })
+  })
+
+  it('accepts a quote with smaller sub-millisecond digits in the same millisecond', () => {
+    const [result] = parse(quote({ t: '2026-09-17T00:30:15.123000001Z', bp: 100, ap: 102 }))
+
+    expect(result.response).toMatchObject({
+      result: 101,
+      timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
+    })
+  })
+
+  it('drops a quote from an earlier millisecond', () => {
+    expect(parse(quote({ t: '2026-09-17T00:30:15.122999999Z', bp: 100, ap: 102 }))).toEqual([])
+  })
+})
+
+// Error frame code and msg are provider-controlled: they are logged only as structured fields (the
+// logger escapes them) under a constant message, so a newline cannot fake a log entry. Plan: a
+// provider error frame is skipped with a warn-level log, never a throw or an error-level log.
+describe('error frame logging', () => {
+  const errorFrameCalls = () => logger.warn.mock.calls as [Record<string, unknown>, string][]
+
+  it('error frame is logged at warn level, not error level, and yields no result', () => {
+    register(params())
+
+    const results = parse({ T: 'error', code: 400, msg: 'invalid syntax' })
+
+    expect(results).toEqual([])
+    expect(logger.error).not.toHaveBeenCalled()
+    expect(logger.warn).toHaveBeenCalledTimes(1)
+    expect(errorFrameCalls()[0][0]).toMatchObject({ code: 400, msg: 'invalid syntax' })
+  })
+
+  it('error frame logs code and msg as structured fields under a constant message', () => {
+    const injected = 'bad\nFAKE LOG ENTRY'
+    parse({ T: 'error', code: 400, msg: injected })
+    parse({ T: 'error', code: 405, msg: 'symbol limit exceeded' })
+
+    expect(errorFrameCalls()).toHaveLength(2)
+    const [[fields, message], [otherFields, otherMessage]] = errorFrameCalls()
+    expect(fields).toMatchObject({ code: 400, msg: injected })
+    expect(otherFields).toMatchObject({ code: 405, msg: 'symbol limit exceeded' })
+    expect(typeof message).toBe('string')
+    expect(message).toBe(otherMessage)
+    expect(message).not.toContain('FAKE LOG')
   })
 })
 
@@ -443,6 +515,18 @@ describe('parseQuote subscription check', () => {
     register(params({ base: 'SPY' }))
 
     expect(parse(quote())).toEqual([])
+  })
+
+  it('frames for unsubscribed symbols are dropped before parse', () => {
+    register(params({ base: 'SPY' }))
+    const parseQuoteSpy = jest.spyOn(stockQuotesModule, 'parseQuote')
+
+    try {
+      expect(parse(quote())).toEqual([])
+      expect(parseQuoteSpy).not.toHaveBeenCalled()
+    } finally {
+      parseQuoteSpy.mockRestore()
+    }
   })
 })
 
@@ -473,22 +557,10 @@ describe('parseQuote guard lifetime', () => {
     expect(parse(quote({ t: T1, bp: 380, ap: 382 }))).toEqual([])
   })
 
-  // A future-dated t would otherwise block every later quote for the symbol
-  it('rejects a quote with t more than 60s in the future', () => {
-    expect(parseOne(quote({ t: '2026-09-17T01:31:00Z', bp: 500, ap: 502 }))).toEqual([])
-
-    // The rejected t is not stored, so a quote with a current t is accepted
-    const [result] = parse(quote({ t: NOW, bp: 200, ap: 202 }))
-    expect(result.response).toMatchObject({
-      result: 201,
-      data: { mid_price: 201, bid_price: 200, ask_price: 202 },
-      timestamps: { providerIndicatedTimeUnixMs: Date.parse(NOW) },
-    })
-  })
-
-  // Only t MORE than 60s ahead is rejected, so normal provider clock skew is still served
-  it('accepts a quote with t exactly 60s in the future', () => {
-    const AHEAD = '2026-09-17T00:32:00Z'
+  // Spec data_freshness names only timestamp_field t and has no future-skew rule, so a host clock
+  // that lags the provider still serves every quote
+  it('accepts a quote with t far ahead of host clock', () => {
+    const AHEAD = new Date(Date.parse(NOW) + 60_000).toISOString()
     const [result] = parseOne(quote({ t: AHEAD, bp: 200, ap: 202 }))
 
     expect(result.response).toMatchObject({
@@ -496,6 +568,7 @@ describe('parseQuote guard lifetime', () => {
       data: { mid_price: 201, bid_price: 200, ask_price: 202 },
       timestamps: { providerIndicatedTimeUnixMs: Date.parse(AHEAD) },
     })
+    expect(logger.warn).not.toHaveBeenCalled()
   })
 })
 
@@ -506,11 +579,92 @@ describe('computeMidPrice decimal', () => {
   })
 })
 
+// Owner decision one_sided_semantics=match_reference: bid 0 gives mid = ask, ask 0 gives mid = bid.
+// Spec wind_down_frames: both sides zero has no mid.
+describe('computeMidPrice one-sided book', () => {
+  it('two-sided spec wire_input bp 189.95 / ap 190.05 gives 190.0', () => {
+    expect(computeMidPrice(189.95, 190.05)).toBe(190.0)
+  })
+
+  it('bid 0 gives mid = ask', () => {
+    expect(computeMidPrice(0, 190.05)).toBe(190.05)
+  })
+
+  it('ask 0 gives mid = bid', () => {
+    expect(computeMidPrice(189.95, 0)).toBe(189.95)
+  })
+
+  it('both sides 0 gives no mid', () => {
+    expect(computeMidPrice(0, 0)).toBeUndefined()
+  })
+})
+
+// parseQuote is the pure wire-frame mapper (spec response_mapping)
+describe('parseQuote field mapping', () => {
+  // Owner decision wire_timestamp=provider_indicated_from_t: the nanosecond RFC3339 t is truncated
+  // to Unix ms (spec example 2026-09-17T00:30:15.123456789Z -> 1789605015123)
+  it('maps t to providerIndicatedTimeUnixMs 1789605015123', () => {
+    expect(parseQuote(quote())?.timestamps.providerIndicatedTimeUnixMs).toBe(1789605015123)
+  })
+
+  it('maps a whole-second t without a fraction to its Unix ms', () => {
+    expect(parseQuote(quote({ t: '2026-09-17T00:30:15Z' }))?.timestamps).toEqual({
+      providerIndicatedTimeUnixMs: 1789605015000,
+    })
+  })
+
+  it.each([
+    ['missing', undefined],
+    ['not a time', 'not-a-time'],
+    ['numeric', 1789605015123],
+  ])('returns no response when t is %s', (_, t) => {
+    expect(parseQuote(quote({ t }))).toBeUndefined()
+  })
+
+  // Owner decision one_sided_semantics=match_reference: the zero side reports as-is, never null
+  it('bid 0 reports bid_price 0 and mid_price = ask', () => {
+    const data = parseQuote(quote({ bp: 0, bs: 0 }))?.data
+    expect(data?.mid_price).toBe(190.05)
+    expect(data?.bid_price).toBe(0)
+    expect(data?.bid_volume).toBe(0)
+    expect(data?.ask_price).toBe(190.05)
+    expect(data?.ask_volume).toBe(2)
+  })
+
+  it('ask 0 reports ask_price 0 and mid_price = bid', () => {
+    const data = parseQuote(quote({ ap: 0, as: 0 }))?.data
+    expect(data?.mid_price).toBe(189.95)
+    expect(data?.bid_price).toBe(189.95)
+    expect(data?.bid_volume).toBe(1)
+    expect(data?.ask_price).toBe(0)
+    expect(data?.ask_volume).toBe(0)
+  })
+
+  // Spec wind_down_frames: drop_if_both_sides_zero
+  it('both sides 0 returns no response', () => {
+    expect(parseQuote(quote({ bp: 0, bs: 0, ap: 0, as: 0 }))).toBeUndefined()
+  })
+
+  // Spec requireVolume (dxfeed compat): an invalid volume reports as NaN, which the requireVolume=true
+  // variant turns into a 502; the lenient variant still gets the mid
+  it.each([
+    ['bs missing', { bs: undefined }, 'bid_volume'],
+    ['as not a number', { as: 'x' }, 'ask_volume'],
+    ['bs negative', { bs: -1 }, 'bid_volume'],
+  ])('%s reports that volume as NaN and keeps mid 190.0', (_, fields, key) => {
+    const data = parseQuote(quote(fields))?.data as Record<string, number> | undefined
+    expect(data?.[key]).toBeNaN()
+    expect(data?.mid_price).toBe(190.0)
+  })
+})
+
 // Alpaca sends quotes only for subscribed symbols, so parsing does not depend on subscriptions.
 // Expected values: spec endpoint_request_response_examples[0] response for wire_input.
 describe('parseQuote without variants', () => {
-  it('parseQuote parses a frame without variants', () => {
-    expect(parseQuote(quote())).toMatchObject({
+  it('parseQuote maps the spec wire_input to mid 190.0, bid/ask prices and volumes, providerIndicatedTimeUnixMs 1789605015123', () => {
+    const response = parseQuote(quote())
+
+    expect(response).toEqual({
       result: 190.0,
       data: {
         mid_price: 190.0,

@@ -28,12 +28,17 @@ describe('inputParameters', () => {
     expect(statusCodeOf(() => inputParameters.validateInput({ quote: 'USD' }))).toBe(400)
   })
 
-  // Spec default false: an absent flag equals false, so both requests share one cache key
-  it('requireVolume and isOvernight default to false when absent', () => {
-    const params = inputParameters.validateInput({ base: 'AAPL', quote: 'USD' })
+  // Spec input_parameters requireVolume / isOvernight: default false
+  it('spec example request without flags validates to requireVolume false and isOvernight false', () => {
+    const params = inputParameters.validateInput({ from: 'AAPL', to: 'USD' })
 
     expect(params.requireVolume).toBe(false)
     expect(params.isOvernight).toBe(false)
+  })
+
+  // Spec quote: no option list (dxfeed reference does not restrict quote), so lowercase usd passes
+  it('accepts lowercase quote usd', () => {
+    expect(() => inputParameters.validateInput({ base: 'AAPL', quote: 'usd' })).not.toThrow()
   })
 
   // Spec default false with "If true" semantics (dxfeed compat): dxfeed callers send JSON booleans.

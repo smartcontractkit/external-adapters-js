@@ -46,17 +46,29 @@ export const clearLogs = (logger: MockLogger): void =>
 
 type Listener = (event: { data: string }) => void
 
-// Minimal in-memory connection: records sent messages and answers each one with authReply
+// Minimal in-memory connection: records sent messages and answers each one with authReply as a
+// 'message' event (an empty array answers nothing the adapter acts on). Listeners are kept per
+// event type and counted, so tests can assert that none are left behind.
 export const makeConnection = (authReply: unknown) => {
-  const listeners = new Set<Listener>()
+  const listeners = new Map<string, Set<Listener>>()
+  const listenersOf = (type: string) => {
+    const set = listeners.get(type) ?? new Set<Listener>()
+    listeners.set(type, set)
+    return set
+  }
   const sent: unknown[] = []
+  const close = jest.fn()
   const connection = {
     send: (data: string) => {
       sent.push(JSON.parse(data))
-      listeners.forEach((listener) => listener({ data: JSON.stringify(authReply) }))
+      ;[...listenersOf('message')].forEach((listener) =>
+        listener({ data: JSON.stringify(authReply) }),
+      )
     },
-    addEventListener: (_type: string, listener: Listener) => listeners.add(listener),
-    removeEventListener: (_type: string, listener: Listener) => listeners.delete(listener),
+    close,
+    addEventListener: (type: string, listener: Listener) => listenersOf(type).add(listener),
+    removeEventListener: (type: string, listener: Listener) => listenersOf(type).delete(listener),
   } as unknown as WebSocket
-  return { connection, sent }
+  const listenerCount = (type: string) => listenersOf(type).size
+  return { connection, sent, close, listenerCount }
 }

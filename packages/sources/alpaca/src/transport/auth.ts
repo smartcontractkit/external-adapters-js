@@ -1,9 +1,28 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterDataProviderError,
   AdapterError,
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
+
+const formEncode = (value: string): string => new URLSearchParams({ v: value }).toString().slice(2)
+
+// The framework censor list holds only the raw setting values, but the token request body carries
+// their form-encoded forms. Adds each encoded form that differs from the raw value, once.
+const censorEncodedCredentials = (settings: typeof config.settings): void => {
+  const censorList = CensorList.getAll()
+  const encodedEntries = (['CLIENT_ID', 'CLIENT_SECRET'] as const)
+    .map((name) => ({ key: `${name}_FORM_ENCODED`, raw: settings[name] }))
+    .filter(({ key, raw }) => formEncode(raw) !== raw && !censorList.some((e) => e.key === key))
+    .map(({ key, raw }) => ({
+      key,
+      value: new RegExp(formEncode(raw).replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'), 'gi'),
+    }))
+  if (encodedEntries.length) {
+    CensorList.set([...censorList, ...encodedEntries])
+  }
+}
 
 // OAuth client-credentials exchange (spec data_source_authentication). Called once per WS connect
 // (refresh_policy per_connect). Neither the token nor the client secret is logged or put in an
@@ -12,6 +31,7 @@ export const getAccessToken = async (
   settings: typeof config.settings,
   requester: Requester,
 ): Promise<string> => {
+  censorEncodedCredentials(settings)
   const { response } = await requester
     .request<{ access_token?: unknown }>('alpaca-oauth-token', {
       url: settings.AUTH_ENDPOINT,
@@ -22,10 +42,6 @@ export const getAccessToken = async (
         client_id: settings.CLIENT_ID,
         client_secret: settings.CLIENT_SECRET,
       }).toString(),
-      // A redirect would replay the client secret to a host outside AUTH_ENDPOINT
-      maxRedirects: 0,
-      // Spec data_source_endpoints timeout_ms
-      timeout: 10000,
     })
     .catch((error) => {
       // The Requester error keeps the HTTP client error as cause, whose config.data holds

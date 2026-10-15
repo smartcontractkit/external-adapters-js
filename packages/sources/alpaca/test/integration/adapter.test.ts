@@ -42,6 +42,9 @@ const exampleResponse = {
 // reconnect that reuses the earlier connection's token is visible in the auth frame
 const SECOND_ACCESS_TOKEN = 'fake-access-token-2'
 const ISSUED_TOKENS = [ACCESS_TOKEN, SECOND_ACCESS_TOKEN]
+// Tokens the mock server accepts in the auth frame. Emptied by the auth-failure case so the next
+// connect is answered with the provider auth error frame (code 402)
+const acceptedTokens = [...ISSUED_TOKENS]
 
 // Captured before FakeTimers.install replaces the global
 const realSetTimeout = setTimeout
@@ -88,12 +91,16 @@ describe('stock_quotes websocket', () => {
     // Spec environment_variables (sandbox defaults)
     process.env['AUTH_ENDPOINT'] = AUTH_ENDPOINT
     process.env['WS_API_ENDPOINT'] = WS_API_ENDPOINT
+    // The root `yarn test` script exports METRICS_ENABLED=false; restore the framework defaults so
+    // the response carries the framework meta block recorded in the committed snapshot
+    process.env['METRICS_ENABLED'] = 'true'
+    process.env['EXPERIMENTAL_METRICS_ENABLED'] = 'true'
 
     tokenScope = mockTokenResponse((body) => tokenBodies.push(body), ISSUED_TOKENS)
 
     mockWebSocketProvider(WebSocketClassProvider)
     // The fixture server sends an error frame before the spec AAPL quote frame (both JSON arrays)
-    mockWsServer = mockWebsocketServer(WS_API_ENDPOINT, received, ISSUED_TOKENS)
+    mockWsServer = mockWebsocketServer(WS_API_ENDPOINT, received, acceptedTokens)
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined
@@ -102,17 +109,18 @@ describe('stock_quotes websocket', () => {
       testAdapter: {} as TestAdapter<never>,
     })
 
-    await testAdapter.request(exampleRequest)
-    await testAdapter.waitForCache(1)
+    // Warm the AAPL subscription. waitForCache only advances fake time, but nock answers the token
+    // POST on a real timer, so it would spin forever: step() yields both fake and real time.
+    await requestUntilCached(exampleRequest)
   })
 
   afterAll(async () => {
     setEnvVariables(oldEnv)
-    await testAdapter.api.close()
     mockWsServer?.close()
-    testAdapter.clock?.uninstall()
-    nock.cleanAll()
+    await testAdapter.api.close()
     nock.restore()
+    nock.cleanAll()
+    testAdapter.clock?.uninstall()
   })
 
   // The framework meta block (present only with metrics on) is not part of the spec body
@@ -129,12 +137,36 @@ describe('stock_quotes websocket', () => {
     })
   }
 
-  // The fixture server sends a T=error frame before the quote, so this also proves the adapter
-  // survives an error frame
-  it('returns mid 190.0, bid 189.95/1, ask 190.05/2, providerIndicatedTimeUnixMs 1789605015123 for AAPL/USD', async () => {
+  // Spec endpoint_request_response_examples[0]: an Alpaca error frame followed by the wire_input
+  // quote frame (both JSON arrays) still yields the spec example response
+  it('returns the spec example response, after surviving an error frame', async () => {
+    pushFrames([{ T: 'error', code: 400, msg: 'invalid syntax' }])
+    await step()
+    pushFrames([
+      {
+        T: 'q',
+        S: 'AAPL',
+        bx: 'B',
+        bp: 189.95,
+        bs: 1,
+        ax: 'B',
+        ap: 190.05,
+        as: 2,
+        t: '2026-09-17T00:30:15.123456789Z',
+      },
+    ])
+    await step()
+
     const response = await testAdapter.request(exampleRequest)
     expect(response.statusCode).toBe(200)
     expectSpecExample(response.json())
+    // Committed (verifier-owned) snapshot of the same spec example; wall-clock timestamps vary
+    expect(response.json()).toMatchSnapshot({
+      timestamps: {
+        providerDataStreamEstablishedUnixMs: expect.any(Number),
+        providerDataReceivedUnixMs: expect.any(Number),
+      },
+    })
   })
 
   describe('auth', () => {
@@ -334,11 +366,11 @@ describe('stock_quotes websocket', () => {
 
     // Spec sample_response: Alpaca symbols are uppercase (S: "AAPL"). A lowercase request for the
     // same ticker must be served by the cached AAPL quote (spec example values)
-    it('stock_quotes lowercase from/to returns the cached mid price', async () => {
+    it('stock_quotes lowercase base returns the cached mid price', async () => {
       pushFrames([AAPL_QUOTE])
       await step()
 
-      const response = await testAdapter.request({ from: 'aapl', to: 'usd' })
+      const response = await testAdapter.request({ from: 'aapl', to: 'USD' })
       expect(response.statusCode).toBe(200)
       expect(response.json().data.mid_price).toBe(190.0)
       expectSpecExample(response.json())
@@ -352,6 +384,33 @@ describe('stock_quotes websocket', () => {
     ])('%s returns 400', async (_, params) => {
       const response = await testAdapter.request(params)
       expect(response.statusCode).toBe(400)
+    })
+
+    // Spec input_parameters: quote ("USD for this feed") has no case or value restriction, the same
+    // as the dxfeed reference. A lowercase usd is served the spec AAPL quote.
+    it('accepts lowercase quote usd and returns 200', async () => {
+      pushFrames([AAPL_QUOTE])
+      await step()
+
+      const response = await testAdapter.request({ base: 'AAPL', quote: 'usd' })
+      expect(response.statusCode).toBe(200)
+      expect(response.json().data.mid_price).toBe(190.0)
+      expectSpecExample(response.json())
+    })
+
+    // Spec input_parameters: requireVolume and isOvernight default false, so a request without the
+    // flags is the same request as one with both set to false
+    it('request without flags equals request with flags false', async () => {
+      const absent = await testAdapter.request(exampleRequest)
+      const explicitFalse = await testAdapter.request({
+        ...exampleRequest,
+        requireVolume: false,
+        isOvernight: false,
+      })
+      expect(absent.statusCode).toBe(200)
+      expect(explicitFalse.statusCode).toBe(200)
+      expectSpecExample(absent.json())
+      expect(explicitFalse.json()).toEqual(absent.json())
     })
 
     // Spec sample_response: frames are JSON arrays that can mix event types. The SPY array holds a
@@ -397,6 +456,31 @@ describe('stock_quotes websocket', () => {
       expect(response.statusCode).toBe(200)
       expect(response.json().data).toMatchObject(expected)
       expect(response.json().result).toBe(expected.mid_price)
+    })
+
+    // Spec wind_down_frames: a frame with both sides zero has no mid, so it is dropped and writes
+    // no cache entry. A later two-sided quote on the same live subscription is then served.
+    it('both sides zero frame is dropped', async () => {
+      const params = { base: 'ZERO', quote: 'USD' }
+      await testAdapter.request(params)
+      for (let i = 0; i < 10 && !JSON.stringify(received).includes('ZERO'); i++) {
+        await step()
+      }
+      expect(received).toContainEqual(subscribeMessage('ZERO'))
+
+      pushFrames([{ ...AAPL_QUOTE, S: 'ZERO', bp: 0, bs: 0, ap: 0, as: 0 }])
+      await step()
+      const dropped = await testAdapter.request(params)
+      expect(dropped.statusCode).toBe(504)
+
+      pushFrames([{ ...AAPL_QUOTE, S: 'ZERO' }])
+      await step()
+      const served = await testAdapter.request(params)
+      expect(served.statusCode).toBe(200)
+      expect(served.json()).toMatchObject({
+        result: exampleResponse.result,
+        data: exampleResponse.data,
+      })
     })
   })
 
@@ -469,6 +553,42 @@ describe('stock_quotes websocket', () => {
       expect(authMessages).toEqual(
         ISSUED_TOKENS.map((token) => ({ action: 'auth', key: 'access_token', secret: token })),
       )
+    })
+  })
+
+  // Runs last: it makes every later auth fail. Spec ws_auth_message and the ~10 s auth deadline: when
+  // the provider answers the auth frame with an error frame (code 402), the connection does not
+  // hang. No subscribe is sent on the unauthenticated socket, the adapter retries with a new
+  // connection, and a request for a symbol that was never served returns an error, not a number.
+  describe('auth failure', () => {
+    it('WS auth failure returns an error, sends no subscribe and does not hang', async () => {
+      const authCount = () => received.filter((m) => m.action === 'auth').length
+      acceptedTokens.length = 0
+      const failedAuthAt = received.length
+
+      mockWsServer?.clients().forEach((client) => client.close())
+      for (let i = 0; i < 20 && authCount() < ISSUED_TOKENS.length + 1; i++) {
+        await step()
+      }
+      expect(authCount()).toBe(ISSUED_TOKENS.length + 1)
+
+      const response = await testAdapter.request({ base: 'MSFT', quote: 'USD' })
+      expect(response.statusCode).toBeGreaterThanOrEqual(500)
+      expect(response.json()).toMatchObject({ error: expect.anything() })
+      expect(response.json().result).toBeUndefined()
+
+      // A rejected handshake is not left pending: the adapter opens another connection and retries
+      // auth within the spec 10 s auth deadline plus the retry delay
+      const authsAfterFailure = authCount()
+      for (let i = 0; i < 20 && authCount() === authsAfterFailure; i++) {
+        await step()
+      }
+      expect(authCount()).toBeGreaterThan(authsAfterFailure)
+
+      const subscribesAfterFailure = received
+        .slice(failedAuthAt)
+        .filter((m) => m.action === 'subscribe')
+      expect(subscribesAfterFailure).toEqual([])
     })
   })
 })

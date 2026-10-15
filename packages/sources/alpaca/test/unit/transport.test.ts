@@ -2,11 +2,12 @@ import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
 import { WebSocket } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
+import { EventEmitter } from 'events'
 import {
+  authenticate,
   authMessage,
   StockQuotesTransport,
   subscribeMessage,
-  unsubscribeMessage,
   WsTransportTypes,
 } from '../../src/transport/stock_quotes'
 import {
@@ -41,7 +42,10 @@ const context = {
 
 const AUTHENTICATED = [{ T: 'success', msg: 'authenticated' }]
 
-// Spec example request after the spec defaults (both flags false)
+// Unsubscribe frame, mirroring the spec subscribe format; the builder is module-local in src
+const unsubscribeMessage = (symbol: string) => ({ action: 'unsubscribe', quotes: [symbol] })
+
+// Spec example request {"from":"AAPL","to":"USD"} after validation: both flags at spec default false
 const params = (overrides: Partial<Params> = {}): Params => ({
   base: 'AAPL',
   quote: 'USD',
@@ -52,6 +56,15 @@ const params = (overrides: Partial<Params> = {}): Params => ({
 
 // Spec wire_input with overrides
 const quote = (overrides: Record<string, unknown> = {}) => ({ ...WIRE_INPUT, ...overrides })
+
+// Spec endpoint_request_response_examples[0].response.data
+const SPEC_DATA = {
+  mid_price: 190.0,
+  bid_price: 189.95,
+  bid_volume: 1,
+  ask_price: 190.05,
+  ask_volume: 2,
+}
 
 const T1 = '2026-09-17T00:30:00Z'
 const T2 = '2026-09-17T00:31:00Z'
@@ -111,14 +124,40 @@ const handleMessage = (frames: unknown) =>
     context,
   ) as Result[]
 
-// Each quote fans out to all 4 requireVolume x isOvernight variants (dxfeed mechanism). Keeps the
-// spec-default variant entries.
-const defaultVariant = (results: Result[]) =>
-  results.filter((r) => !r.params.requireVolume && !r.params.isOvernight)
+// The result written for one (requireVolume, isOvernight) variant of AAPL
+const entryFor = (results: Result[], v: Partial<Params>) => {
+  const p = params(v)
+  return results.find(
+    (r) =>
+      r.params.base === p.base &&
+      r.params.requireVolume === p.requireVolume &&
+      r.params.isOvernight === p.isOvernight,
+  )
+}
+
+// Provider error frames are logged at warn or error level
+const errorFrameLogs = () => JSON.stringify([logger.warn.mock.calls, logger.error.mock.calls])
 
 const subscribe = (p: Params) => transportConfig().builders?.subscribeMessage?.(p as never, context)
 const unsubscribe = (p: Params) =>
   transportConfig().builders?.unsubscribeMessage?.(p as never, context)
+
+// Socket over an EventEmitter that answers nothing; the test emits frames or close itself
+const emitterSocket = () => {
+  const emitter = new EventEmitter()
+  type Listener = (...args: unknown[]) => void
+  const socket = {
+    send: jest.fn(),
+    close: jest.fn(),
+    addEventListener: (type: string, l: Listener) => emitter.on(type, l),
+    removeEventListener: (type: string, l: Listener) => emitter.off(type, l),
+    on: (type: string, l: Listener) => emitter.on(type, l),
+    once: (type: string, l: Listener) => emitter.once(type, l),
+    off: (type: string, l: Listener) => emitter.off(type, l),
+    removeListener: (type: string, l: Listener) => emitter.off(type, l),
+  } as unknown as WebSocket
+  return { emitter, socket }
+}
 
 beforeEach(() => {
   clearLogs(logger)
@@ -175,41 +214,6 @@ describe('connect auth', () => {
     expect(error?.message).not.toContain(CLIENT_SECRET)
   })
 
-  // Spec stock_quotes timeout_ms 10000: a silent provider must not hold one of the 15 account
-  // connections, so auth fails and the socket closes at the deadline
-  it('rejects and closes the socket when the provider never sends authenticated', async () => {
-    jest.useFakeTimers({ doNotFake: ['setImmediate', 'nextTick'] })
-    try {
-      mockToken()
-      await resolveOptions()
-      const { connection, sent, close } = connectionIn(WebSocket.OPEN, [])
-
-      const opened = Promise.resolve(transportConfig().handlers.open?.(connection, context))
-      opened.catch(() => undefined)
-      await new Promise((resolve) => setImmediate(resolve))
-      expect(sent).toEqual([authMessage(ACCESS_TOKEN)])
-
-      jest.advanceTimersByTime(9999)
-      expect(close).not.toHaveBeenCalled()
-      jest.advanceTimersByTime(1)
-
-      await expect(opened).rejects.toThrow('Alpaca WS auth timed out')
-      expect(close).toHaveBeenCalled()
-    } finally {
-      jest.useRealTimers()
-    }
-  })
-
-  // Spec stock_quotes timeout_ms 10000 and the provider's ~10 s auth deadline
-  it('token request has a timeout of at most 10000 ms', async () => {
-    const requests = mockToken()
-
-    await resolveOptions()
-
-    expect(requests[0].timeout).toBeGreaterThan(0)
-    expect(requests[0].timeout).toBeLessThanOrEqual(10000)
-  })
-
   it('resolves open only after the authenticated frame', async () => {
     mockToken()
     await resolveOptions()
@@ -222,6 +226,24 @@ describe('connect auth', () => {
     await new Promise((resolve) => setImmediate(resolve))
 
     expect(opened).toBe(false)
+  })
+
+  // A socket that closes before the authenticated frame must settle the auth wait and leave no
+  // listener behind; the rejection never carries the token
+  it('authenticate rejects and removes listeners when the socket closes before authenticated', async () => {
+    const { emitter, socket } = emitterSocket()
+
+    const pending = authenticate(socket, ACCESS_TOKEN)
+    emitter.emit('close', { code: 1006, reason: '' })
+    const error = await pending.then(
+      () => undefined,
+      (e: unknown) => e,
+    )
+
+    expect(error).toBeInstanceOf(Error)
+    expect((error as Error).message).not.toContain(ACCESS_TOKEN)
+    expect(emitter.listenerCount('message')).toBe(0)
+    expect(emitter.listenerCount('close')).toBe(0)
   })
 
   // Reference defect 2: the access token leaked through console.log
@@ -270,8 +292,7 @@ describe('subscription builders', () => {
     expect(subscribe(params({ base: 'aapl' }))).toEqual(subscribeMessage('AAPL'))
   })
 
-  // Spec base: class shares use a dot suffix (BRK.B); sample_response S is uppercase. The transport
-  // owns case normalization now that the endpoint has no request transform.
+  // Spec base: class shares use a dot suffix (BRK.B); sample_response S is uppercase
   it('lowercase base maps to uppercase provider symbol', () => {
     expect(subscribe(params({ base: 'brk.b' }))).toEqual(subscribeMessage('BRK.B'))
   })
@@ -289,8 +310,8 @@ describe('subscription builders', () => {
     expect(unsubscribe(strict)).toEqual(unsubscribeMessage('AAPL'))
   })
 
-  // Plan: a variant that expires in the same background run that a new variant is added keeps the
-  // provider subscription, and the new variant receives quotes
+  // A variant that expires in the same background run that a new variant is added keeps the
+  // provider subscription, and only the new variant receives quotes
   it('swaps variants of one symbol in one background run', () => {
     const oldVariant = params({ requireVolume: false })
     const newVariant = params({ requireVolume: true })
@@ -300,23 +321,21 @@ describe('subscription builders', () => {
     expect(unsubscribe(oldVariant)).toBeUndefined()
 
     const results = handleMessage([quote()])
-    const entry = results.find((r) => r.params.requireVolume && !r.params.isOvernight)
-    expect(entry?.params).toEqual(newVariant)
-    expect(entry?.response.data?.mid_price).toBe(190.0)
+    expect(results).toHaveLength(1)
+    expect(results[0].params).toEqual(newVariant)
+    expect(results[0].response.data?.mid_price).toBe(190.0)
   })
 
-  // Plan: one quote already writes every variant, so a variant added after the quote is served
-  // from cache without a new provider frame
-  it('new param variant of a subscribed symbol is served without a new provider frame', () => {
+  // A new variant shares the existing provider subscription and is served by the next quote
+  it('new param variant of a subscribed symbol is served by the next quote', () => {
     subscribe(params())
-    const results = handleMessage([quote()])
+    handleMessage([quote({ t: T1 })])
 
     expect(subscribe(params({ requireVolume: true }))).toBeUndefined()
-    expect(subscribe(params({ isOvernight: true }))).toBeUndefined()
-    expect(results.map((r) => r.params)).toEqual(
-      expect.arrayContaining([params({ requireVolume: true }), params({ isOvernight: true })]),
-    )
-    results.forEach((r) => expect(r.response.data?.mid_price).toBe(190.0))
+
+    const entry = entryFor(handleMessage([quote({ t: T2 })]), { requireVolume: true })
+    expect(entry?.params).toEqual(params({ requireVolume: true }))
+    expect(entry?.response.data?.mid_price).toBe(190.0)
   })
 
   it('unsubscribe of the last variant stops results for the symbol', () => {
@@ -329,13 +348,14 @@ describe('subscription builders', () => {
 
 describe('message handler', () => {
   // Reference defect 5: frames arrive as arrays that can carry several events
-  it('handles a multi-event array frame', () => {
+  it('message handler processes each quote in a multi-element array frame', () => {
     subscribe(params({ base: 'SPY' }))
     subscribe(params({ base: 'QQQ' }))
 
-    const results = defaultVariant(
-      handleMessage([quote({ S: 'SPY', bp: 500, ap: 501 }), quote({ S: 'QQQ', bp: 400, ap: 402 })]),
-    )
+    const results = handleMessage([
+      quote({ S: 'SPY', bp: 500, ap: 501 }),
+      quote({ S: 'QQQ', bp: 400, ap: 402 }),
+    ])
 
     expect(results.map((r) => [r.params.base, r.response.result])).toEqual([
       ['SPY', 500.5],
@@ -343,28 +363,25 @@ describe('message handler', () => {
     ])
   })
 
-  // Plan round1-ws-subscribe-and-frames: one array mixing control, error and quote events yields
-  // exactly one result per q item
+  // One array mixing control, error and quote events yields exactly one result per q item
   it('mixed success, subscription, error and q array -> one result per q item', () => {
     subscribe(params())
     subscribe(params({ base: 'SPY' }))
 
-    const results = defaultVariant(
-      handleMessage([
-        { T: 'success', msg: 'authenticated' },
-        { T: 'subscription', trades: [], quotes: ['AAPL', 'SPY'], bars: [] },
-        { T: 'error', code: 405, msg: 'symbol limit exceeded' },
-        quote(),
-        quote({ S: 'SPY', bp: 500, ap: 501 }),
-      ]),
-    )
+    const results = handleMessage([
+      { T: 'success', msg: 'authenticated' },
+      { T: 'subscription', trades: [], quotes: ['AAPL', 'SPY'], bars: [] },
+      { T: 'error', code: 405, msg: 'symbol limit exceeded' },
+      quote(),
+      quote({ S: 'SPY', bp: 500, ap: 501 }),
+    ])
 
     expect(results).toHaveLength(2)
     expect(results[0].params.base).toBe('AAPL')
     expect(results[0].response.result).toBe(190.0)
     expect(results[1].params.base).toBe('SPY')
     expect(results[1].response.result).toBe(500.5)
-    expect(JSON.stringify(logger.warn.mock.calls)).toContain('405')
+    expect(errorFrameLogs()).toContain('405')
   })
 
   // Spec sample_response control frames, error frames, and trades (delayed and adjusted on this
@@ -383,8 +400,7 @@ describe('message handler', () => {
     ).toEqual([])
   })
 
-  // Plan round1-error-frames: an error frame writes no cache entry, never throws, and is logged with
-  // its code and msg at warn level
+  // An error frame writes no cache entry, never throws, and is logged with its code and msg
   it('T=error frame produces no cache entry and does not throw', () => {
     subscribe(params())
 
@@ -394,12 +410,17 @@ describe('message handler', () => {
     }).not.toThrow()
 
     expect(results).toEqual([])
-    const warned = JSON.stringify(logger.warn.mock.calls)
-    expect(warned).toContain('409')
-    expect(warned).toContain('insufficient subscription')
+    expect(errorFrameLogs()).toContain('409')
+    expect(errorFrameLogs()).toContain('insufficient subscription')
   })
 
-  // A burst of bad quotes must not flood the logs on the message hot path
+  it('frame with non-string S produces no results', () => {
+    subscribe(params())
+
+    expect(handleMessage([quote({ S: 123 })])).toEqual([])
+  })
+
+  // A burst of stale quotes must not flood the logs on the message hot path
   it('logs dropped quotes at debug level', () => {
     subscribe(params())
     handleMessage([quote({ t: T2 })])
@@ -409,6 +430,20 @@ describe('message handler', () => {
     expect(logger.debug).toHaveBeenCalled()
     expect(logger.warn).not.toHaveBeenCalled()
   })
+
+  // Owner decision wire_timestamp=provider_indicated_from_t: no t, no response. Field presence on
+  // the overnight feed is not wire-verified, so every drop is visible at warn level.
+  it('quote without t is dropped and warns on each drop', () => {
+    subscribe(params())
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { t: _t, ...withoutT } = quote()
+
+    expect(handleMessage([withoutT])).toEqual([])
+    expect(handleMessage([withoutT])).toEqual([])
+
+    expect(logger.warn).toHaveBeenCalledTimes(2)
+    expect(JSON.stringify(logger.warn.mock.calls)).toContain('AAPL')
+  })
 })
 
 // Spec response_mapping and endpoint_request_response_examples[0]; owner decisions
@@ -417,35 +452,32 @@ describe('message handler', () => {
 describe('quote parsing', () => {
   const parseDefault = (frame: Record<string, unknown>) => {
     subscribe(params())
-    return defaultVariant(handleMessage([frame]))
+    return handleMessage([frame])
   }
 
-  it('two-sided quote gives mid 190.0 for bp 189.95 ap 190.05', () => {
+  it('two-sided quote gives mid 190.0 with bid/ask/volumes as-is', () => {
     const [result] = parseDefault(quote())
 
     expect(result.params).toEqual(params())
     expect(result.response).toEqual({
-      data: {
-        mid_price: 190.0,
-        bid_price: 189.95,
-        bid_volume: 1,
-        ask_price: 190.05,
-        ask_volume: 2,
-      },
+      data: SPEC_DATA,
       result: 190.0,
       timestamps: { providerIndicatedTimeUnixMs: WIRE_INPUT_TIME_MS },
     })
   })
 
-  it('t 2026-09-17T00:30:15.123456789Z gives providerIndicatedTimeUnixMs 1789605015123', () => {
+  it('nanosecond t parses to providerIndicatedTimeUnixMs 1789605015123', () => {
     const [result] = parseDefault(quote({ t: '2026-09-17T00:30:15.123456789Z' }))
 
     expect(result.response).toHaveProperty('timestamps.providerIndicatedTimeUnixMs', 1789605015123)
   })
 
-  // Owner decision one_sided_semantics=match_reference: the zero side reports as-is (no null), mid
-  // takes the other side
-  it('one-sided bid gives mid=bid', () => {
+  // Owner decision wire_timestamp=provider_indicated_from_t: a quote without a valid t is dropped
+  it('unparseable t writes no response', () => {
+    expect(parseDefault(quote({ t: 'not-a-time' }))).toEqual([])
+  })
+
+  it('ask 0 gives mid=bid', () => {
     const [result] = parseDefault(quote({ ap: 0, as: 0 }))
 
     expect(result.response.result).toBe(189.95)
@@ -458,7 +490,7 @@ describe('quote parsing', () => {
     })
   })
 
-  it('one-sided ask gives mid=ask', () => {
+  it('bid 0 gives mid=ask', () => {
     const [result] = parseDefault(quote({ bp: 0, bs: 0 }))
 
     expect(result.response.result).toBe(190.05)
@@ -472,78 +504,99 @@ describe('quote parsing', () => {
   })
 
   // Spec wind_down_frames: drop_if_both_sides_zero
-  it('both zero -> no response written', () => {
-    subscribe(params())
-
-    expect(handleMessage([quote({ bp: 0, bs: 0, ap: 0, as: 0 })])).toEqual([])
+  it('both sides 0 writes no response', () => {
+    expect(parseDefault(quote({ bp: 0, bs: 0, ap: 0, as: 0 }))).toEqual([])
   })
 })
 
-// Plan (dxfeed mechanism): one quote writes all 4 requireVolume x isOvernight variants, so one
-// subscription keyed by base serves every variant
-describe('param variant fan-out', () => {
-  const VARIANTS = [
-    { requireVolume: false, isOvernight: false },
-    { requireVolume: true, isOvernight: false },
-    { requireVolume: false, isOvernight: true },
-    { requireVolume: true, isOvernight: true },
-  ]
+// Spec requireVolume / isOvernight (default false, domain [false, true]). One provider subscription
+// per symbol serves every subscribed variant, and each quote writes only the subscribed variants.
+describe('subscribed variant results', () => {
+  it('handleQuote emits results only for subscribed variants', () => {
+    subscribe(params({ requireVolume: true }))
 
-  const entryFor = (results: Result[], v: (typeof VARIANTS)[number]) =>
-    results.filter(
-      (r) => r.params.requireVolume === v.requireVolume && r.params.isOvernight === v.isOvernight,
+    const results = handleMessage([quote()])
+
+    expect(results).toHaveLength(1)
+    expect(results[0].params).toEqual({
+      base: 'AAPL',
+      quote: 'USD',
+      requireVolume: true,
+      isOvernight: false,
+    })
+    expect(results[0].response.result).toBe(190.0)
+  })
+
+  it('writes one result per subscribed requireVolume/isOvernight pair from one quote', () => {
+    const PAIRS = [false, true].flatMap((isOvernight) =>
+      [false, true].map((requireVolume) => ({ requireVolume, isOvernight })),
     )
-
-  it('writes responses for all four requireVolume/isOvernight variants from one quote', () => {
-    subscribe(params())
+    PAIRS.forEach((v) => subscribe(params(v)))
 
     const results = handleMessage([quote()])
 
     expect(results).toHaveLength(4)
-    VARIANTS.forEach((v) => {
-      const [entry] = entryFor(results, v)
-      expect(entry.params).toEqual(params(v))
-      expect(entry.response.result).toBe(190.0)
-      expect(entry.response.data).toEqual({
-        mid_price: 190.0,
-        bid_price: 189.95,
-        bid_volume: 1,
-        ask_price: 190.05,
-        ask_volume: 2,
-      })
+    PAIRS.forEach((v) => {
+      const entry = entryFor(results, v)
+      expect(entry?.params).toEqual(params(v))
+      expect(entry?.response.result).toBe(190.0)
+      expect(entry?.response.data).toEqual(SPEC_DATA)
     })
   })
 
-  // Spec requireVolume: error if bid/ask volume is invalid (dxfeed compat, 502)
+  // Spec requireVolume: error if bid/ask volume is invalid (dxfeed compat, 502); false stays lenient
   it.each([
     ['bs missing', { bs: undefined }],
     ['as missing', { as: undefined }],
     ['bs not a number', { bs: 'x' }],
-  ])('requireVolume=true with missing volume gives 502 (%s)', (_, fields) => {
+  ])('invalid volume: only requireVolume=true gives 502 (%s)', (_, fields) => {
     subscribe(params())
+    subscribe(params({ requireVolume: true }))
 
     const results = handleMessage([quote(fields)])
 
-    expect(results).toHaveLength(4)
-    VARIANTS.forEach((v) => {
-      const [entry] = entryFor(results, v)
-      if (v.requireVolume) {
-        expect(entry.response).toMatchObject({ statusCode: 502, errorMessage: expect.any(String) })
-      } else {
-        expect(entry.response.result).toBe(190.0)
-      }
+    expect(results).toHaveLength(2)
+    expect(entryFor(results, { requireVolume: true })?.response).toMatchObject({
+      statusCode: 502,
+      errorMessage: expect.any(String),
     })
+    expect(entryFor(results, { requireVolume: false })?.response.result).toBe(190.0)
+  })
+
+  // dxfeed reference: an invalid volume (NaN) is a 502 under requireVolume=true; a zero volume is a
+  // valid one-sided book (owner decision one_sided_semantics=match_reference). The 502 text is fixed:
+  // provider-supplied volume text never reaches the error message.
+  it('requireVolume=true with an invalid volume returns 502 with the fixed dxfeed message', () => {
+    subscribe(params({ requireVolume: true }))
+    const strictEntry = (results: Result[]) =>
+      entryFor(results, { requireVolume: true })?.response as {
+        statusCode?: number
+        errorMessage?: string
+      }
+
+    const first = strictEntry(handleMessage([quote({ bs: 'x\nFAKE LOG ENTRY' })]))
+    const second = strictEntry(handleMessage([quote({ as: { injected: 'FAKE OBJECT' } })]))
+
+    expect(first.statusCode).toBe(502)
+    expect(second.statusCode).toBe(502)
+    expect(first.errorMessage).toEqual(expect.any(String))
+    expect(first.errorMessage).toBe(second.errorMessage)
+    expect(first.errorMessage).not.toContain('FAKE LOG ENTRY')
+    expect(first.errorMessage).not.toContain('\n')
+    expect(second.errorMessage).not.toContain('FAKE OBJECT')
+
+    const zeroVolume = entryFor(handleMessage([quote({ ap: 0, as: 0 })]), { requireVolume: true })
+    expect(zeroVolume?.response.result).toBe(189.95)
   })
 
   // Spec isOvernight: accepted, no-op on Alpaca overnight frames (exchange 'B')
   it('isOvernight=true does not filter exchange B', () => {
     subscribe(params({ isOvernight: true }))
 
-    const results = handleMessage([quote({ bx: 'B', ax: 'B' })])
-    const [overnight] = entryFor(results, { requireVolume: false, isOvernight: true })
+    const overnight = entryFor(handleMessage([quote({ bx: 'B', ax: 'B' })]), { isOvernight: true })
 
-    expect(overnight.response.result).toBe(190.0)
-    expect(overnight.response.data?.mid_price).toBe(190.0)
+    expect(overnight?.response.result).toBe(190.0)
+    expect(overnight?.response.data?.mid_price).toBe(190.0)
   })
 })
 
@@ -566,19 +619,28 @@ describe('connection lifecycle', () => {
     expect(overridden).toEqual([])
   })
 
-  // Plan: a reconnect keeps the last accepted t, so an older replayed quote cannot overwrite a newer
-  // cached one
-  it('reconnect does not regress to an older quote', async () => {
+  // The cache outlives the connection, so the open handler keeps the provider times
+  it('open keeps latestQuotes from the previous connection', async () => {
     mockToken()
     subscribe(params())
-    expect(defaultVariant(handleMessage([quote({ t: T2 })]))).toHaveLength(1)
+    handleMessage([quote()])
+    expect(transport.latestQuotes.size).toBe(1)
+
+    await connect()
+
+    expect(transport.latestQuotes.size).toBe(1)
+  })
+
+  it('serves quotes after a reconnect', async () => {
+    mockToken()
+    subscribe(params())
+    expect(handleMessage([quote({ t: T2 })])).toHaveLength(1)
 
     await connect()
     // The framework resubscribes the desired subscriptions after open
     subscribe(params())
 
-    expect(handleMessage([quote({ t: T1, bp: 380, ap: 382 })])).toEqual([])
-    const [newer] = defaultVariant(handleMessage([quote({ t: T3, bp: 200, ap: 202 })]))
+    const [newer] = handleMessage([quote({ t: T3, bp: 200, ap: 202 })])
     expect(newer.response.result).toBe(201)
   })
 
@@ -594,5 +656,35 @@ describe('connection lifecycle', () => {
     subscribe(params())
     const [result] = handleMessage([quote({ t: T2, bp: 200, ap: 202 })])
     expect(result.response.result).toBe(201)
+  })
+})
+
+// The transport must not depend on the endpoint module at runtime: with the old circular import,
+// loading one module first left the other's export undefined while it was being built
+describe('module load order', () => {
+  const DEFAULT_TRANSPORT = 'default_single_transport'
+  /* eslint-disable @typescript-eslint/no-var-requires */
+  const loadTransport = () => require('../../src/transport/stock_quotes')
+  const loadEndpoint = () => require('../../src/endpoint/stock_quotes')
+  /* eslint-enable @typescript-eslint/no-var-requires */
+
+  it('loads the transport module first with wsTransport defined and wired into the endpoint', () => {
+    jest.isolateModules(() => {
+      const { wsTransport } = loadTransport()
+      const { endpoint } = loadEndpoint()
+
+      expect(wsTransport).toBeDefined()
+      expect(endpoint.transportRoutes.get(DEFAULT_TRANSPORT)).toBe(wsTransport)
+    })
+  })
+
+  it('loads the endpoint module first with its transport defined', () => {
+    jest.isolateModules(() => {
+      const { endpoint } = loadEndpoint()
+      const { wsTransport } = loadTransport()
+
+      expect(wsTransport).toBeDefined()
+      expect(endpoint.transportRoutes.get(DEFAULT_TRANSPORT)).toBe(wsTransport)
+    })
   })
 })

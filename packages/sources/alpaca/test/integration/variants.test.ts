@@ -120,7 +120,9 @@ describe('stock_quotes param variants', () => {
       isOvernight: false,
     })
     expect(explicitFalse.statusCode).toBe(200)
-    expect(explicitFalse.json()).toEqual(absent.json())
+    // Same served values
+    const { data, result, timestamps } = absent.json()
+    expect(explicitFalse.json()).toMatchObject({ data, result, timestamps })
     expect(explicitFalse.json().data.mid_price).toBe(190.0)
 
     // Same request, so no new provider subscription
@@ -128,11 +130,69 @@ describe('stock_quotes param variants', () => {
     expect(aaplFrames('subscribe')).toHaveLength(subscribesBefore)
   })
 
+  // dxfeed-compat fan-out: one quote frame for a symbol serves every param variant subscribed for
+  // it, over a single provider subscription
+  it('one quote frame serves every param variant of the symbol', async () => {
+    const variants = [
+      { base: 'AAPL', quote: 'USD' },
+      { base: 'AAPL', quote: 'USD', requireVolume: true },
+      { base: 'AAPL', quote: 'USD', isOvernight: true },
+    ]
+    const mark = received.length
+    for (const params of variants) {
+      expect((await requestNewAaplVariant(params)).statusCode).toBe(200)
+    }
+
+    nextQuoteMs += 1000
+    const t = new Date(nextQuoteMs).toISOString()
+    pushFrames([{ ...AAPL_QUOTE, bp: 200, bs: 3, ap: 202, as: 4, t }])
+    await step()
+
+    for (const params of variants) {
+      const response = await testAdapter.request(params)
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        result: 201,
+        data: { mid_price: 201, bid_price: 200, bid_volume: 3, ask_price: 202, ask_volume: 4 },
+        timestamps: { providerIndicatedTimeUnixMs: nextQuoteMs },
+      })
+    }
+    // AAPL was already subscribed: the new variants add no provider subscribe
+    expect(aaplFrames('subscribe', mark)).toEqual([])
+  })
+
+  // Spec requireVolume: the same quote with an invalid (missing) bid volume is a 502 for the
+  // requireVolume=true variant, while the default variant still serves the mid price
+  it('fans out a missing-volume quote as 502 for requireVolume only', async () => {
+    const lenient = { base: 'AAPL', quote: 'USD' }
+    const strict = { base: 'AAPL', quote: 'USD', requireVolume: true }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { bs: _bs, ...noBidVolume } = AAPL_QUOTE
+    // The framework cache never replaces an unexpired success with an error, so the cached
+    // successes from the previous test must expire first. The requests refresh both subscriptions,
+    // and the jump past CACHE_MAX_AGE stays inside WS_SUBSCRIPTION_TTL.
+    await testAdapter.request(lenient)
+    await testAdapter.request(strict)
+    testAdapter.clock.setSystemTime(Date.now() + CACHE_MAX_AGE_MS + 1)
+    nextQuoteMs += 1000
+    pushFrames([{ ...noBidVolume, t: new Date(nextQuoteMs).toISOString() }])
+    await step()
+
+    const lenientResponse = await testAdapter.request(lenient)
+    expect(lenientResponse.statusCode).toBe(200)
+    expect(lenientResponse.json()).toMatchObject({
+      result: 190.0,
+      data: { mid_price: 190.0, bid_price: 189.95, ask_price: 190.05, ask_volume: 2 },
+    })
+    expect((await testAdapter.request(strict)).statusCode).toBe(502)
+  })
+
   // One provider subscription per symbol: when the last AAPL variant expires, AAPL is unsubscribed
   // exactly once in the spec message format
   it('unsubscribes the symbol when all variants expire together', async () => {
     await expireAll()
-    expect((await requestUntilCached({ base: 'AAPL', quote: 'USD' })).statusCode).toBe(200)
+    // The resubscribe replay carries an older t than the last pushed quote, so push a newer one
+    expect((await requestNewAaplVariant({ base: 'AAPL', quote: 'USD' })).statusCode).toBe(200)
     expect(
       (await requestNewAaplVariant({ base: 'AAPL', quote: 'USD', requireVolume: true })).statusCode,
     ).toBe(200)
@@ -152,7 +212,8 @@ describe('stock_quotes param variants', () => {
     await expireAll()
     const mark = received.length
 
-    const oldVariant = await requestUntilCached({
+    // The resubscribe replay carries an older t than the last pushed quote, so push a newer one
+    const oldVariant = await requestNewAaplVariant({
       base: 'AAPL',
       quote: 'USD',
       requireVolume: false,

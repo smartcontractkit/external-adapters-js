@@ -1,3 +1,5 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
+import { censor } from '@chainlink/external-adapter-framework/util/logger'
 import { Requester } from '@chainlink/external-adapter-framework/util/requester'
 import {
   AdapterDataProviderError,
@@ -5,6 +7,7 @@ import {
 } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../../src/config'
 import { getAccessToken } from '../../src/transport/auth'
+import { authenticate } from '../../src/transport/stock_quotes'
 import {
   ACCESS_TOKEN,
   AUTH_ENDPOINT,
@@ -12,6 +15,7 @@ import {
   CLIENT_SECRET,
   clearLogs,
   loggedText,
+  makeConnection,
   mockLogger,
 } from './fixtures'
 
@@ -40,11 +44,12 @@ const headerOf = (req: RequestConfig, name: string) =>
 describe('getAccessToken', () => {
   beforeEach(() => clearLogs(logger))
 
-  it('POSTs the client-credentials form to AUTH_ENDPOINT', async () => {
+  it('posts client_credentials form body to AUTH_ENDPOINT and returns access_token', async () => {
     const { requester, requests } = makeRequester({ access_token: ACCESS_TOKEN, expires_in: 900 })
 
-    await getAccessToken(settings, requester)
+    const token = await getAccessToken(settings, requester)
 
+    expect(token).toBe(ACCESS_TOKEN)
     expect(requests).toHaveLength(1)
     const [req] = requests
     expect(req.url).toBe(AUTH_ENDPOINT)
@@ -54,6 +59,25 @@ describe('getAccessToken', () => {
     expect(form.grant_type).toBe('client_credentials')
     expect(form.client_id).toBe(CLIENT_ID)
     expect(form.client_secret).toBe(CLIENT_SECRET)
+  })
+
+  // The spec gives no token endpoint timeout; the framework Requester applies API_TIMEOUT
+  it('token request sets no per-request timeout override', async () => {
+    const { requester, requests } = makeRequester({ access_token: ACCESS_TOKEN, expires_in: 900 })
+
+    await getAccessToken(settings, requester)
+
+    expect(requests[0].timeout).toBeUndefined()
+  })
+
+  // Spec refresh_policy per_connect: two connects make two token requests, no token caching
+  it('makes one token request per call without caching the token', async () => {
+    const { requester, requests } = makeRequester({ access_token: ACCESS_TOKEN, expires_in: 900 })
+
+    await getAccessToken(settings, requester)
+    await getAccessToken(settings, requester)
+
+    expect(requests).toHaveLength(2)
   })
 
   it('returns access_token from the token response', async () => {
@@ -73,7 +97,7 @@ describe('getAccessToken', () => {
 
   // The framework Requester error keeps the axios error as cause, whose config.data is the form
   // body with client_secret
-  it('token request failure does not leak client_secret', async () => {
+  it('throws without leaking secret on non-2xx', async () => {
     const form = `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`
     const requesterError = new AdapterDataProviderError(
       {
@@ -100,13 +124,35 @@ describe('getAccessToken', () => {
     expect(loggedText(logger)).not.toContain(CLIENT_SECRET)
   })
 
-  // A redirect would replay the client secret to a host outside AUTH_ENDPOINT
-  it('token request does not follow redirects', async () => {
-    const { requester, requests } = makeRequester({ access_token: ACCESS_TOKEN, expires_in: 900 })
+  // CLIENT_SECRET is sensitive: the form-encoded token request body must be censored by the
+  // framework censor list too, not only the raw value
+  it('encoded client secret is censored', async () => {
+    const oldEnv = { ...process.env }
+    const oldCensorList = CensorList.getAll()
+    const rawSecret = 'a+b/c=d'
+    const encodedSecret = 'a%2Bb%2Fc%3Dd'
+    try {
+      process.env['CLIENT_ID'] = CLIENT_ID
+      process.env['CLIENT_SECRET'] = rawSecret
+      config.initialize()
+      config.validate()
+      config.buildCensorList()
+      const { requester, requests } = makeRequester({
+        access_token: ACCESS_TOKEN,
+        expires_in: 900,
+      })
 
-    await getAccessToken(settings, requester)
+      await getAccessToken(config.settings, requester)
 
-    expect(requests[0].maxRedirects).toBe(0)
+      expect(requests).toHaveLength(1)
+      expect(String(requests[0].data)).toContain(encodedSecret)
+      const censored = JSON.stringify(censor(requests[0].data, CensorList.getAll()))
+      expect(censored).not.toContain(rawSecret)
+      expect(censored).not.toContain(encodedSecret)
+    } finally {
+      process.env = oldEnv
+      CensorList.set(oldCensorList)
+    }
   })
 
   // Reference defect 2: the access token leaked through console.log
@@ -122,6 +168,57 @@ describe('getAccessToken', () => {
       expect(logged).not.toContain(CLIENT_SECRET)
     } finally {
       consoleLog.mockRestore()
+    }
+  })
+})
+
+// Spec token_usage.ws_auth_message and sample_response ([{"T":"success","msg":"authenticated"}]).
+// The ~10 s auth deadline is the framework WS_CONNECTION_OPEN_TIMEOUT around the open handler
+// (owner decision reconnect_backoff=cut), so authenticate keeps no timer of its own.
+describe('authenticate', () => {
+  const AUTH_MESSAGE = { action: 'auth', key: 'access_token', secret: ACCESS_TOKEN }
+
+  beforeEach(() => clearLogs(logger))
+
+  it('authenticate resolves on authenticated frame', async () => {
+    const { connection, sent, listenerCount } = makeConnection([
+      { T: 'success', msg: 'connected' },
+      { T: 'success', msg: 'authenticated' },
+    ])
+
+    await expect(authenticate(connection, ACCESS_TOKEN)).resolves.toBeUndefined()
+
+    expect(sent).toEqual([AUTH_MESSAGE])
+    expect(listenerCount('message')).toBe(0)
+  })
+
+  // Provider error frame fields are provider-controlled: they must not reach the error message text
+  it('authenticate rejects on error frame', async () => {
+    const { connection, sent, listenerCount } = makeConnection([
+      { T: 'error', code: 402, msg: 'auth failed\nFAKE LOG ENTRY' },
+    ])
+
+    const error = await authenticate(connection, ACCESS_TOKEN).catch((e: unknown) => e)
+
+    expect(error).toBeInstanceOf(Error)
+    expect((error as Error).message).not.toContain('\n')
+    expect((error as Error).message).not.toContain('FAKE LOG ENTRY')
+    expect(sent).toEqual([AUTH_MESSAGE])
+    expect(listenerCount('message')).toBe(0)
+  })
+
+  it('authenticate registers no timer', () => {
+    jest.useFakeTimers()
+    try {
+      // The provider answers nothing, so authenticate stays pending
+      const { connection, sent } = makeConnection([])
+
+      void authenticate(connection, ACCESS_TOKEN)
+
+      expect(sent).toEqual([AUTH_MESSAGE])
+      expect(jest.getTimerCount()).toBe(0)
+    } finally {
+      jest.useRealTimers()
     }
   })
 })

@@ -18,6 +18,7 @@ export const config = new AdapterConfig({
       'Full OAuth token endpoint URL. Moves with the environment: sandbox host now, production host (authx.alpaca.markets) later.',
     type: 'string',
     default: 'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
+    required: false,
     sensitive: false,
   },
   WS_API_ENDPOINT: {
@@ -25,6 +26,7 @@ export const config = new AdapterConfig({
       'Full WebSocket URL. The production host (stream.data.alpaca.markets) replaces the sandbox host once the boat-entitled environment is provisioned; the path (/v1beta1/overnight) stays the same.',
     type: 'string',
     default: 'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
+    required: false,
     sensitive: false,
   },
 })

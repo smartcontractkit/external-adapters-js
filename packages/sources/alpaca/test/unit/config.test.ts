@@ -15,7 +15,34 @@ describe('config', () => {
     process.env = oldEnv
   })
 
-  it('uses spec defaults for AUTH_ENDPOINT and WS_API_ENDPOINT', () => {
+  it('config requires CLIENT_ID and CLIENT_SECRET, marks both sensitive, and applies sandbox defaults for AUTH_ENDPOINT and WS_API_ENDPOINT', () => {
+    const definitions = config['settingsDefinition'] as Record<
+      string,
+      { required?: boolean; sensitive?: boolean; default?: unknown }
+    >
+
+    expect(definitions.CLIENT_ID).toMatchObject({ required: true, sensitive: true })
+    expect(definitions.CLIENT_SECRET).toMatchObject({ required: true, sensitive: true })
+    expect(definitions.AUTH_ENDPOINT.default).toBe(
+      'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
+    )
+    expect(definitions.WS_API_ENDPOINT.default).toBe(
+      'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
+    )
+  })
+
+  // Spec environment_variables lists exactly four settings; owner decision reconnect_backoff=cut
+  // adds no reconnect/backoff settings, and reference defect 4 used API_KEY
+  it('defines exactly the four spec settings', () => {
+    expect(Object.keys(config['settingsDefinition']).sort()).toEqual([
+      'AUTH_ENDPOINT',
+      'CLIENT_ID',
+      'CLIENT_SECRET',
+      'WS_API_ENDPOINT',
+    ])
+  })
+
+  it('config loads with spec defaults', () => {
     config.initialize()
     config.validate()
     expect(config.settings.AUTH_ENDPOINT).toBe(

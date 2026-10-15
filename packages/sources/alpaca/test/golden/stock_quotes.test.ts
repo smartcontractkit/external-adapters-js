@@ -86,6 +86,22 @@ describe('golden: stock_quotes (websocket)', () => {
     })
   })
 
+  // nock replies on a REAL timer: every step yields fake time (background
+  // cycles) AND real time (nock's reply), then polls — the anti-flake pattern
+  const realSetTimeout = setTimeout
+  const step = async () => {
+    await testAdapter.clock.tickAsync(1000)
+    await new Promise((resolve) => realSetTimeout(resolve, 10))
+  }
+  const requestUntilCached = async (params: Record<string, unknown>) => {
+    let response = await testAdapter.request(params)
+    for (let i = 0; i < 10 && response.statusCode === 504; i++) {
+      await step()
+      response = await testAdapter.request(params)
+    }
+    return response
+  }
+
   afterAll(async () => {
     for (const k of Object.keys(process.env)) {
       if (!(k in oldEnv)) delete (process.env as Record<string, undefined>)[k]
@@ -102,12 +118,9 @@ describe('golden: stock_quotes (websocket)', () => {
       from: 'AAPL',
       to: 'USD',
     }
-    // WS subscription semantics (testing-utils startBackgroundExecuteThenGetResponse):
-    // the first request subscribes and times out (504); replayed frames land in
-    // the cache; the second request reads them.
-    await testAdapter.request(data)
-    await testAdapter.waitForCache(1)
-    const response = await testAdapter.request(data)
+    // WS subscription semantics: the first request subscribes (may 504 while
+    // the bridge delivers frames); requestUntilCached polls deterministically
+    const response = await requestUntilCached(data)
     expect(response.statusCode).toBe(expectedResponse.statusCode ?? 200)
     const actual = response.json()
     expect(typeof actual?.timestamps?.providerDataReceivedUnixMs).toBe('number')
