@@ -9,26 +9,27 @@ export const inputParameters = new InputParameters(
       aliases: ['from', 'coin', 'symbol'],
       type: 'string',
       required: true,
-      description: 'Bare US ticker, e.g. AAPL. Class shares use dot suffix (BRK.B).',
+      description:
+        'Bare ticker as quoted by the provider, e.g. AAPL. Class shares use dot suffix (BRK.B).',
     },
     quote: {
       aliases: ['to', 'market'],
       type: 'string',
       required: true,
-      description: 'Quote currency, USD for this feed.',
+      description: 'Quote currency as requested, e.g. USD.',
     },
     requireVolume: {
       type: 'boolean',
       required: false,
       default: false,
-      description: 'If true, throw error if bid/ask volume is invalid (dxfeed compat).',
+      description: 'If true, throw error if bid/ask volume is invalid (for compatibility reasons).',
     },
     isOvernight: {
       type: 'boolean',
       required: false,
       default: false,
       description:
-        'If true, only accept qualifying exchange codes (dxfeed compat; no-op on Alpaca overnight frames).',
+        'If true, only accept qualifying exchange codes (for compatibility reasons; no-op on overnight frames).',
     },
   },
   [

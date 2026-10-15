@@ -26,18 +26,18 @@ describe('fault: stock_quotes (websocket)', () => {
 
   beforeAll(async () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
-    process.env['API_ENDPOINT'] = 'wss://stream.data.alpaca.markets/v1beta1/overnight'
-    process.env['AUTH_ENDPOINT'] = 'https://authx.sandbox.alpaca.markets/v1/oauth2/token'
+    process.env['API_ENDPOINT'] = 'wss://stream.data.fake-alt.test/v1beta1/overnight'
+    process.env['AUTH_ENDPOINT'] = 'https://authx.fake.test/v1/oauth2/token'
     process.env['CLIENT_ID'] = 'golden-client-id'
     process.env['CLIENT_SECRET'] = 'golden-client-secret'
     process.env['GRANT_TYPE'] = 'client_credentials'
-    process.env['WS_API_ENDPOINT'] = 'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight'
+    process.env['WS_API_ENDPOINT'] = 'wss://stream.data.fake.test/v1beta1/overnight'
     // mock-socket bridges in-process, matched by URL string: the server and the
     // adapter both use the spec's WS_API_ENDPOINT default — no real network.
     // nock intercepts the HTTP token POST. disableNetConnect is NOT used: it
     // patches net.Socket and breaks the bridge.
     // OAuth token-endpoint intercept (spec data_source_authentication)
-    nock('https://authx.sandbox.alpaca.markets').post('/v1/oauth2/token').reply(200, {
+    nock('https://authx.fake.test').post('/v1/oauth2/token').reply(200, {
       access_token: 'golden-test-token',
     })
     mockWebSocketProvider(WebSocketClassProvider)
@@ -50,10 +50,9 @@ describe('fault: stock_quotes (websocket)', () => {
       '[{"T":"subscription","trades":[],"quotes":["AAPL","SPY"],"bars":[],"updatedBars":[],"dailyBars":[],"statuses":[],"lulds":[],"corrections":[],"cancelErrors":[]}]',
       '[{"T":"q","S":"AAPL","bx":"B","bp":189.95,"bs":1,"ax":"B","ap":190.05,"as":2,"c":["R"],"z":"C","t":"2026-09-17T00:30:15.123456789Z"}]',
     ]
-    mockWsServer = new MockWebsocketServer(
-      'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
-      { mock: false },
-    )
+    mockWsServer = new MockWebsocketServer('wss://stream.data.fake.test/v1beta1/overnight', {
+      mock: false,
+    })
     mockWsServer.on('connection', (socket) => {
       serverSocket = socket
       if (frames.length) socket.send(frames[0])

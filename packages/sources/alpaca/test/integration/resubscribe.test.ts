@@ -12,7 +12,7 @@ import {
   ACCESS_TOKEN,
   CLIENT_ID,
   CLIENT_SECRET,
-  WS_API_ENDPOINT,
+  defaultEnvUrls,
   mockTokenResponse,
   mockWebsocketServer,
   pushFrames,
@@ -59,10 +59,11 @@ describe('stock_quotes reconnect resubscribe', () => {
     delete process.env['API_KEY']
     delete process.env['AUTH_ENDPOINT']
     delete process.env['WS_API_ENDPOINT']
+    const { auth: defaultAuthUrl, ws: defaultWsUrl } = defaultEnvUrls()
 
-    mockTokenResponse((body) => tokenBodies.push(body), ISSUED_TOKENS)
+    mockTokenResponse((body) => tokenBodies.push(body), ISSUED_TOKENS, defaultAuthUrl)
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(WS_API_ENDPOINT, received, ISSUED_TOKENS)
+    mockWsServer = mockWebsocketServer(defaultWsUrl, received, ISSUED_TOKENS)
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined

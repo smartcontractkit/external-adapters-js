@@ -28,11 +28,9 @@ describe('config', () => {
 
     expect(definitions.CLIENT_ID).toMatchObject({ required: true, sensitive: true })
     expect(definitions.CLIENT_SECRET).toMatchObject({ required: true, sensitive: true })
-    expect(definitions.AUTH_ENDPOINT.default).toBe(
-      'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
-    )
+    expect(definitions.AUTH_ENDPOINT.default).toBe('https://authx.alpaca.markets/v1/oauth2/token')
     expect(definitions.WS_API_ENDPOINT.default).toBe(
-      'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
+      'wss://stream.data.alpaca.markets/v1beta1/overnight',
     )
   })
 
@@ -50,11 +48,9 @@ describe('config', () => {
   it('config loads with spec defaults', () => {
     config.initialize()
     config.validate()
-    expect(config.settings.AUTH_ENDPOINT).toBe(
-      'https://authx.sandbox.alpaca.markets/v1/oauth2/token',
-    )
+    expect(config.settings.AUTH_ENDPOINT).toBe('https://authx.alpaca.markets/v1/oauth2/token')
     expect(config.settings.WS_API_ENDPOINT).toBe(
-      'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight',
+      'wss://stream.data.alpaca.markets/v1beta1/overnight',
     )
   })
 
@@ -87,15 +83,15 @@ describe('config', () => {
 
   // Spec AUTH_ENDPOINT / WS_API_ENDPOINT descriptions: production hosts replace the sandbox hosts
   it('accepts production AUTH_ENDPOINT and WS_API_ENDPOINT overrides', () => {
-    process.env['AUTH_ENDPOINT'] = 'https://authx.alpaca.markets/v1/oauth2/token'
-    process.env['WS_API_ENDPOINT'] = 'wss://stream.data.alpaca.markets/v1beta1/overnight'
+    process.env['AUTH_ENDPOINT'] = 'https://authx.fake-alt.test/v1/oauth2/token'
+    process.env['WS_API_ENDPOINT'] = 'wss://stream.data.fake-alt.test/v1beta1/overnight'
     expect(() => {
       config.initialize()
       config.validate()
     }).not.toThrow()
-    expect(config.settings.AUTH_ENDPOINT).toBe('https://authx.alpaca.markets/v1/oauth2/token')
+    expect(config.settings.AUTH_ENDPOINT).toBe('https://authx.fake-alt.test/v1/oauth2/token')
     expect(config.settings.WS_API_ENDPOINT).toBe(
-      'wss://stream.data.alpaca.markets/v1beta1/overnight',
+      'wss://stream.data.fake-alt.test/v1beta1/overnight',
     )
   })
 })

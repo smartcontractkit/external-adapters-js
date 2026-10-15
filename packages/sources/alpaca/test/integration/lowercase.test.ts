@@ -10,7 +10,7 @@ import nock from 'nock'
 import {
   CLIENT_ID,
   CLIENT_SECRET,
-  WS_API_ENDPOINT,
+  defaultEnvUrls,
   mockTokenResponse,
   mockWebsocketServer,
 } from './fixtures'
@@ -34,9 +34,12 @@ describe('stock_quotes lowercase base', () => {
     delete process.env['AUTH_ENDPOINT']
     delete process.env['WS_API_ENDPOINT']
 
-    mockTokenResponse()
+    const { auth: defaultAuthUrl, ws: defaultWsUrl } = defaultEnvUrls()
+    mockTokenResponse(undefined, undefined, defaultAuthUrl)
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(WS_API_ENDPOINT, received)
+    // WS_API_ENDPOINT is unset on purpose (default-fallback); bind the mock server to the
+    // config's default URL — mock-socket is in-process, nothing reaches the real host
+    mockWsServer = mockWebsocketServer(defaultWsUrl, received)
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined

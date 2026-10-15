@@ -100,7 +100,7 @@ const isNonNegativeNumber = (value: unknown): value is number =>
 // Alpaca symbols are uppercase (spec sample_response S: "AAPL")
 const toProviderSymbol = (base: string): string => base.toUpperCase()
 
-// Owner decision one_sided_semantics=match_reference (dxfeed): mid uses the non-zero side. Spec
+// Owner decision one_sided_semantics=match_reference: mid uses the non-zero side. Spec
 // wind_down_frames: both sides zero has no mid (undefined), so the frame is dropped.
 export const computeMidPrice = (bp: number, ap: number): number | undefined => {
   if (bp === 0 && ap === 0) {
@@ -118,7 +118,7 @@ export const computeMidPrice = (bp: number, ap: number): number | undefined => {
 // Bid and ask report as-is (zero on the missing side). Owner decision
 // one_sided_semantics=match_reference overrides the null part of wind_down_frames.rule. A malformed
 // frame gives undefined; only its symbol is logged. A missing or invalid volume reports as NaN
-// (null in JSON), as dxfeed does. Owner decision wire_timestamp=provider_indicated_from_t: a quote
+// (null in JSON), as the reference streams do. Owner decision wire_timestamp=provider_indicated_from_t: a quote
 // without a valid t has no provider timestamp, so it is dropped. Field presence on the overnight
 // feed is not wire-verified, so the drop is a warn.
 export const parseQuote = (quote: AlpacaEvent): QuoteResponse | undefined => {
@@ -140,7 +140,7 @@ export const parseQuote = (quote: AlpacaEvent): QuoteResponse | undefined => {
     return undefined
   }
   return {
-    // The spec example requires result = mid_price; it overrides the dxfeed reference (result null)
+    // The spec example requires result = mid_price; it overrides the reference implementation (result null)
     result: midPrice,
     data: {
       mid_price: midPrice,

@@ -2,8 +2,8 @@ import { WebSocket } from '@chainlink/external-adapter-framework/transports'
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
 
 // Spec environment_variables default, plus obvious placeholder credentials
-export const AUTH_ENDPOINT = 'https://authx.sandbox.alpaca.markets/v1/oauth2/token'
-export const WS_API_ENDPOINT = 'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight'
+export const AUTH_ENDPOINT = 'https://authx.fake.test/v1/oauth2/token'
+export const WS_API_ENDPOINT = 'wss://stream.data.fake.test/v1beta1/overnight'
 export const CLIENT_ID = 'fake-client-id'
 export const CLIENT_SECRET = 'fake-client-secret'
 export const ACCESS_TOKEN = 'fake-access-token'

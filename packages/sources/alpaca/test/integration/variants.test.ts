@@ -11,7 +11,7 @@ import {
   AAPL_QUOTE,
   CLIENT_ID,
   CLIENT_SECRET,
-  WS_API_ENDPOINT,
+  defaultEnvUrls,
   mockTokenResponse,
   mockWebsocketServer,
   pushFrames,
@@ -85,9 +85,13 @@ describe('stock_quotes param variants', () => {
     process.env['WS_SUBSCRIPTION_TTL'] = String(SUBSCRIPTION_TTL_MS)
     process.env['CACHE_MAX_AGE'] = String(CACHE_MAX_AGE_MS)
 
-    mockTokenResponse()
+    const { auth: defaultAuthUrl, ws: defaultWsUrl } = defaultEnvUrls()
+    mockTokenResponse(undefined, undefined, defaultAuthUrl)
     mockWebSocketProvider(WebSocketClassProvider)
-    mockWsServer = mockWebsocketServer(WS_API_ENDPOINT, received)
+    // WS_API_ENDPOINT is unset on purpose: the adapter must fall back to the config default.
+    // Bind the mock server to THAT url (read from config, not hardcoded) — mock-socket's
+    // WebSocket class is fully in-process, so no traffic can reach the real host.
+    mockWsServer = mockWebsocketServer(defaultWsUrl, received)
 
     const adapter = (await import('./../../src')).adapter
     adapter.rateLimiting = undefined

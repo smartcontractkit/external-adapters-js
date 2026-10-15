@@ -1,28 +1,41 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
 import { isDeepStrictEqual } from 'util'
+import { config } from '../../src/config'
 
 // Spec environment_variables defaults
-export const AUTH_ENDPOINT = 'https://authx.sandbox.alpaca.markets/v1/oauth2/token'
-export const WS_API_ENDPOINT = 'wss://stream.data.sandbox.alpaca.markets/v1beta1/overnight'
+export const AUTH_ENDPOINT = 'https://authx.fake.test/v1/oauth2/token'
+export const WS_API_ENDPOINT = 'wss://stream.data.fake.test/v1beta1/overnight'
 export const CLIENT_ID = 'fake-client-id'
 export const CLIENT_SECRET = 'fake-client-secret'
 export const ACCESS_TOKEN = 'fake-access-token'
+
+// Config defaults as live values: default-fallback suites (they DELETE the env vars) bind their
+// nocks/mocks to these — the adapter dials the config default when the env var is unset
+export const defaultEnvUrls = (): { auth: string; ws: string } => {
+  const defs = config['settingsDefinition'] as Record<string, { default?: string }>
+  return { auth: defs.AUTH_ENDPOINT.default as string, ws: defs.WS_API_ENDPOINT.default as string }
+}
 
 // Spec token_request: form-urlencoded client-credentials body. The object matcher compares the
 // parsed form, so field order does not matter. onRequest receives the raw form body so tests can
 // count token requests (refresh_policy per_connect). The n-th request gets tokens[n]; the last
 // token repeats once the list runs out.
+//
+// authEndpoint: suites that DELETE AUTH_ENDPOINT (default-fallback tests) must pass the config
+// default here — nock only intercepts what its definition matches; the adapter dials the default.
+// Suites that set AUTH_ENDPOINT explicitly can rely on the fixture default.
 export const mockTokenResponse = (
   onRequest: (body: string) => void = () => undefined,
   tokens: string[] = [ACCESS_TOKEN],
+  authEndpoint: string = AUTH_ENDPOINT,
 ): nock.Scope => {
   let issued = 0
-  return nock(new URL(AUTH_ENDPOINT).origin, {
+  return nock(new URL(authEndpoint).origin, {
     reqheaders: { 'content-type': 'application/x-www-form-urlencoded' },
   })
     .persist()
-    .post(new URL(AUTH_ENDPOINT).pathname, {
+    .post(new URL(authEndpoint).pathname, {
       grant_type: 'client_credentials',
       client_id: CLIENT_ID,
       client_secret: CLIENT_SECRET,
