@@ -3169,9 +3169,6 @@ __metadata:
     source-map-support: "npm:0.5.21"
     ts-node: "npm:10.9.2"
     typescript: "npm:5.8.3"
-  dependenciesMeta:
-    "@chainlink/external-adapter-framework@2.16.1":
-      unplugged: true
   languageName: unknown
   linkType: soft
 

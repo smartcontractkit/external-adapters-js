@@ -5260,7 +5260,7 @@ const RAW_RUNTIME_STATE =
     ]],\
     ["@chainlink/external-adapter-framework", [\
       ["npm:2.16.1", {\
-        "packageLocation": "./.yarn/unplugged/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0/node_modules/@chainlink/external-adapter-framework/",\
+        "packageLocation": "./.yarn/cache/@chainlink-external-adapter-framework-npm-2.16.1-bebc600dc0-4eaa996fbf.zip/node_modules/@chainlink/external-adapter-framework/",\
         "packageDependencies": [\
           ["@chainlink/external-adapter-framework", "npm:2.16.1"],\
           ["@date-fns/tz", "npm:1.5.0"],\
