@@ -82,7 +82,8 @@ export const getAccessToken = async (
   if (!tokenIssuerMatchesEndpoint(accessToken, settings.AUTH_ENDPOINT)) {
     throw new AdapterError({
       statusCode: 502,
-      message: `Alpaca OAuth token was issued by a different host than AUTH_ENDPOINT ` +
+      message:
+        `Alpaca OAuth token was issued by a different host than AUTH_ENDPOINT ` +
         `(${settings.AUTH_ENDPOINT}) — check sandbox vs production credentials`,
     })
   }

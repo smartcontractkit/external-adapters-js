@@ -3,7 +3,7 @@ import { mockLogger } from './fixtures'
 
 // validate fns (sandbox warnings) log at settings build; the framework requires the logger
 // factory to be set before any logging call
-const logger = mockLogger()
+mockLogger()
 
 // Spec external_adapter_specifications.environment_variables
 describe('config', () => {
