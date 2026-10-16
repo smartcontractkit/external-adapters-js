@@ -140,4 +140,45 @@ describe('degraded stream alerting', () => {
       timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
     })
   })
+
+  it('serves the last value with its original provider timestamp after the stream goes quiet', async () => {
+    // Owner decision stale_quote_serving = serve_last_value_with_timestamp:
+    // markets close, the Quote/Trade stream goes quiet, and the EA keeps
+    // serving the last value with its original provider timestamp — no
+    // max-age rejection, no error. Several background cycles run with no
+    // frames pushed before the request.
+    for (let i = 0; i < 5; i++) {
+      await step()
+    }
+
+    const response = await testAdapter.request(quoteRequest)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      result: 190.0,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
+    })
+  })
+
+  it('serves the cached last value through a provider CHANNEL_CLOSED frame with no hard error', async () => {
+    // Spec reconnect_cache_behavior = serve_cached_last_value: a
+    // CHANNEL_CLOSED control frame puts the adapter into the reconnect +
+    // re-handshake window; requests during that window return the cached last
+    // value, not an error.
+    expect(
+      sendToLastConnection({
+        type: 'CHANNEL_CLOSED',
+        channel: 1,
+        eventType: 'Quote',
+        symbol: 'AAPL:USLF24',
+      }),
+    ).toBe(true)
+    await step()
+
+    const response = await requestUntilCached(quoteRequest)
+    expect(response.statusCode).toBe(200)
+    expect(response.json()).toMatchObject({
+      result: 190.0,
+      timestamps: { providerIndicatedTimeUnixMs: 1760000000000 },
+    })
+  })
 })

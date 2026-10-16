@@ -2,7 +2,7 @@ import CensorList from '@chainlink/external-adapter-framework/util/censor/censor
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as fs from 'fs'
 import * as path from 'path'
-import { config, validateWsApiEndpoint } from '../../src/config'
+import { config, missingWsCredentials, validateWsApiEndpoint } from '../../src/config'
 
 /**
  * Runs fn with the given env vars set and the config (re)initialized from
@@ -86,6 +86,17 @@ describe('required credentials (spec data_source_authentication: require API_USE
   it('passes startup validation with credentials and a dxLink endpoint set', () => {
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
+    )
+  })
+
+  it('fails when API_USERNAME or API_PASSWORD is unset on a WS request', () => {
+    // Spec breaking_change_env_checks: require API_USERNAME and API_PASSWORD to
+    // be set (WS paths) — either one missing fails the check
+    expect(missingWsCredentials({})).toContain('API_USERNAME')
+    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user' })).toContain('API_PASSWORD')
+    expect(missingWsCredentials({ API_PASSWORD: 'dxfeed-pass' })).toContain('API_USERNAME')
+    expect(missingWsCredentials({ API_USERNAME: 'dxfeed-user', API_PASSWORD: 'dxfeed-pass' })).toBe(
+      '',
     )
   })
 })

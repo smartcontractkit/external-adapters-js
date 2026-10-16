@@ -13,6 +13,15 @@ const BID_EXCHANGE_CODE_INDEX = 7
 const ASK_EXCHANGE_CODE_INDEX = 8
 
 /**
+ * Spec stock_quotes data source: stream Quote events for the requested symbol.
+ * Every request maps onto exactly one (symbol, eventType) feed entry, on the
+ * upper-cased DP ticker (e.g. the AAPL override resolves to AAPL:USLF24).
+ */
+export const quoteTickers = (base: string): { symbol: string; type: string }[] => [
+  { symbol: base.toUpperCase(), type: 'Quote' },
+]
+
+/**
  * Spec stock_quotes response_mapping: mid = (bid + ask) / 2 over the Quote
  * event's top-of-book. One-sided books mid against the live side; requireVolume
  * = true rejects records with invalid (NaN) sizes instead of zeroing them;
@@ -77,7 +86,7 @@ export const quoteRecordToResult = (
 }
 
 export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
-  formatTickers: (params) => [{ symbol: params.base.toUpperCase(), type: 'Quote' }],
+  formatTickers: (params) => quoteTickers(params.base),
   processRecord: (eventType, record, params) =>
     eventType === 'Quote' ? quoteRecordToResult(record, params) : undefined,
 })
