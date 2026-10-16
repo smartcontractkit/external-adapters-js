@@ -239,3 +239,52 @@ export const mockDxLinkServer = (url: string): MockWebsocketServer => {
 
   return mockWsServer
 }
+
+/**
+ * Handshake-failure dxLink mock server: proves the adapter surfaces connection
+ * errors instead of hanging when the provider never completes the handshake.
+ * Two modes, switchable mid-test through setMode:
+ * - 'no-feed-config': accepts the connection and answers nothing — SETUP,
+ *   CHANNEL_REQUEST and FEED_SETUP are received and deliberately never
+ *   acknowledged with FEED_CONFIG
+ * - 'reject': closes every connection immediately (the behavioral stand-in for
+ *   the provider rejecting the handshake — the mock-socket bridge carries no
+ *   upgrade headers, so rejection is expressed as an immediate close)
+ */
+export type DxLinkHandshakeFailureMode = 'no-feed-config' | 'reject'
+
+export type DxLinkHandshakeFailureServer = MockWebsocketServer & {
+  setMode: (mode: DxLinkHandshakeFailureMode) => void
+  connections: DxLinkTestConnection[]
+  /** Raw client→server wire frames, one array per accepted connection, oldest first */
+  framesByConnection: string[][]
+}
+
+export const mockDxLinkHandshakeFailureServer = (url: string): DxLinkHandshakeFailureServer => {
+  const mode: { current: DxLinkHandshakeFailureMode } = { current: 'no-feed-config' }
+  const connections: DxLinkTestConnection[] = []
+  const framesByConnection: string[][] = []
+
+  const mockWsServer = new MockWebsocketServer(url, { mock: false })
+  mockWsServer.on('connection', (socket) => {
+    const connection = socket as unknown as DxLinkTestConnection
+    connections.push(connection)
+    const frames: string[] = []
+    framesByConnection.push(frames)
+    socket.on('message', (raw: unknown) => {
+      frames.push(String(raw))
+      // No reply in any mode: FEED_SETUP never gets its FEED_CONFIG
+    })
+    if (mode.current === 'reject') {
+      connection.close()
+    }
+  })
+
+  const server = mockWsServer as DxLinkHandshakeFailureServer
+  server.setMode = (next) => {
+    mode.current = next
+  }
+  server.connections = connections
+  server.framesByConnection = framesByConnection
+  return server
+}
