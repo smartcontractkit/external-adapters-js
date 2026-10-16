@@ -32,6 +32,12 @@ describe('input validation (spec external_adapter_specifications.price input_par
         {} as any,
       ),
     ).toThrow(/No transport found for key "graphql"/)
+
+    // Spec: "Accept only 'ws' and 'rest'" — the InputParameters options list
+    // rejects an invalid transport at the input-validation layer too
+    expect(() =>
+      priceInputParameters.validateInput({ base: 'AAPL', quote: 'USD', transport: 'graphql' }),
+    ).toThrow()
   })
 
   it('declares base (spec alias set) and quote ("to"), with defaultTransport "rest"', () => {

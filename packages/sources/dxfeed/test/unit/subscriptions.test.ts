@@ -76,6 +76,38 @@ describe('FEED_SUBSCRIPTION fanout (plan round1-subscriptions / spec primary_com
     ])
   })
 
+  it('a simulated reconnect re-sends the whole desired subscription set', () => {
+    // Spec framework_alignment reconnect_resubscribe: on reconnect the framework
+    // delivers the full desired set as `new`, and the builder must re-send every
+    // (symbol, eventType) entry of it (plan round1-subscriptions)
+    const params = { base: 'AAPL:USLF24', quote: 'USD' }
+    const feed = priceFeed()
+
+    // First background execution subscribes the desired set...
+    expect(feed.subscriptionMessages({ desired: [params], new: [params], stale: [] })).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+
+    // ...and after the reconnect the same desired set arrives again as `new`
+    expect(feed.subscriptionMessages({ desired: [params], new: [params], stale: [] })).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+  })
+
   it('unsubscribing emits the matching FEED_SUBSCRIPTION remove array', () => {
     const staleQuote = { base: 'TSLA', quote: 'USD' }
     expect(quoteFeed().subscriptionMessages({ desired: [], new: [], stale: [staleQuote] })).toEqual(

@@ -287,5 +287,62 @@ describe('dxLink websocket smoke flows', () => {
         },
       })
     })
+
+    it('serves the Trade price when the Trade is newer than the TradeETH record', async () => {
+      // Spec price endpoint: "when both arrive serve the record with the newest
+      // time" — the mirror of the TSM case above: the regular-hours Trade is
+      // the newer record and must win over the extended-hours TradeETH.
+      setFeedData('TradeETH', 'TRD:USLF24', [
+        'TradeETH',
+        'TRD:USLF24',
+        1760000000000,
+        90.0,
+        10,
+        12345,
+        'V',
+        0.1,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ])
+      setFeedData('Trade', 'TRD:USLF24', [
+        'Trade',
+        'TRD:USLF24',
+        1760000006000,
+        90.5,
+        10,
+        12346,
+        'V',
+        0.11,
+        5010000,
+        1000000000,
+        'UP',
+        false,
+      ])
+
+      const response = await requestUntilCached(
+        {
+          endpoint: 'price',
+          base: 'TRD',
+          to: 'USD',
+          transport: 'ws',
+          overrides: {
+            dxfeed: {
+              TRD: 'TRD:USLF24',
+            },
+          },
+        },
+        1760000006000,
+      )
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        data: { result: 90.5 },
+        result: 90.5,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000006000,
+        },
+      })
+    })
   })
 })
