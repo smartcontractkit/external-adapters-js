@@ -108,7 +108,9 @@ describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
     feed.subscriptionMessages({ desired: [TRADE_PARAMS], new: [TRADE_PARAMS], stale: [] })
 
     const tradeResults = feed.message(frames.priceTradeFrame as any)
+    // Spec endpoint_request_response_examples[1]: {"data": {"result": 189.98}, "result": 189.98}
     expect((tradeResults[0] as any).result).toBe(189.98)
+    expect((tradeResults[0] as any).data).toEqual({ result: 189.98 })
     // Spec endpoint_request_response_examples[1]: providerIndicatedTimeUnixMs 1760000000000
     expect((tradeResults[0] as any).timestamps).toEqual({
       providerIndicatedTimeUnixMs: 1760000000000,

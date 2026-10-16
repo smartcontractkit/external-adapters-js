@@ -227,5 +227,65 @@ describe('dxLink websocket smoke flows', () => {
         },
       })
     })
+
+    it('serves the newest-time record when Trade and TradeETH both arrive for the symbol', async () => {
+      // Spec price endpoint: "Subscribe BOTH event types for every symbol; when
+      // both arrive serve the record with the newest time", and
+      // response_mapping.provider_timestamp = time. The mock server only pushes
+      // a TradeETH frame when the wire FEED_SUBSCRIPTION add carries the
+      // TradeETH entry, so receiving one at all proves the dual subscription
+      // went out on the single dxLink connection.
+      setFeedData('Trade', 'TSM:USLF24', [
+        'Trade',
+        'TSM:USLF24',
+        1760000000000,
+        100,
+        10,
+        12345,
+        'V',
+        0.12,
+        5000000,
+        999000000,
+        'UP',
+        false,
+      ])
+      setFeedData('TradeETH', 'TSM:USLF24', [
+        'TradeETH',
+        'TSM:USLF24',
+        1760000005000,
+        101.5,
+        10,
+        12346,
+        'V',
+        0.15,
+        5100000,
+        1005000000,
+        'UP',
+        false,
+      ])
+
+      const response = await requestUntilCached(
+        {
+          endpoint: 'price',
+          base: 'TSM',
+          to: 'USD',
+          transport: 'ws',
+          overrides: {
+            dxfeed: {
+              TSM: 'TSM:USLF24',
+            },
+          },
+        },
+        1760000005000,
+      )
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        data: { result: 101.5 },
+        result: 101.5,
+        timestamps: {
+          providerIndicatedTimeUnixMs: 1760000005000,
+        },
+      })
+    })
   })
 })
