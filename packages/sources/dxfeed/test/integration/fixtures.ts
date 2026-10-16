@@ -1,5 +1,4 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
-import { Client } from 'mock-socket'
 import nock from 'nock'
 
 /**
@@ -149,8 +148,17 @@ setFeedData('Quote', 'BADQ:USLF24', [
   'V',
 ])
 
+/**
+ * Structural type of a live mock-socket connection: only the members the tests
+ * observe or drive (server->client frames, forced disconnects) are declared.
+ */
+export type DxLinkTestConnection = {
+  send: (data: string) => void
+  close: () => void
+}
+
 /** Live connections accepted by the mock server, oldest first. */
-export const dxLinkConnections: Client[] = []
+export const dxLinkConnections: DxLinkTestConnection[] = []
 
 /**
  * Raw client→server wire frames, one array per accepted connection, oldest
@@ -179,17 +187,18 @@ export const sendToLastConnection = (frame: unknown): boolean => {
 
 export const mockDxLinkServer = (url: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(url, { mock: false })
-  mockWsServer.on('connection', (socket: Client) => {
-    dxLinkConnections.push(socket)
+  mockWsServer.on('connection', (socket) => {
+    const connection = socket as unknown as DxLinkTestConnection
+    dxLinkConnections.push(connection)
     const clientFrames: string[] = []
     const serverFrames: string[] = []
     clientFrameLog.push(clientFrames)
     serverFrameLog.push(serverFrames)
-    const upstreamSend = socket.send.bind(socket)
-    socket.send = ((data: string) => {
+    const upstreamSend = connection.send.bind(connection)
+    connection.send = (data: string) => {
       serverFrames.push(String(data))
       upstreamSend(data)
-    }) as Client['send']
+    }
     socket.on('message', (raw: unknown) => {
       clientFrames.push(String(raw))
       let msg: {

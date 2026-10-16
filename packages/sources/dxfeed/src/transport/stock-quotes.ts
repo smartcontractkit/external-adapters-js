@@ -29,9 +29,13 @@ export const quoteTickers = (base: string): { symbol: string; type: string }[] =
  * (overnight) exchange code.
  */
 export const quoteRecordToResult = (
-  record: DxLinkRecord,
+  record: DxLinkRecord | string,
   params: Params,
 ): DxLinkRawResult | undefined => {
+  // A malformed record that is not a COMPACT field array is dropped
+  if (!Array.isArray(record)) {
+    return undefined
+  }
   const base = params.base
 
   const bidPrice = Number(record[BID_PRICE_INDEX])
