@@ -1,4 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
+import { transport as stockQuotesTransport } from '../../src/transport/stock-quotes'
 import { DxLinkMessage, openDxLinkConnection } from '../../src/transport/ws'
 import frames from './fixtures/dxlink-frames.json'
 
@@ -105,5 +106,86 @@ describe('dxLink handshake (spec primary_command)', () => {
     } finally {
       jest.useRealTimers()
     }
+  })
+})
+
+/**
+ * The production transport wiring (plan round1-dxlink-ws-transport): the open
+ * gate hands the FEED_CONFIG field layout to the SAME feed whose message
+ * handler parses later COMPACT FEED_DATA frames, and the framework's
+ * customSubscriptionMessages builder registers the desired (symbol, eventType)
+ * wire keys. Every other test wires a DxLinkFeed by hand; this one exercises
+ * the real transport config end to end — no FEED_CONFIG first means no parsed
+ * records, whatever arrives later.
+ */
+describe('transport handlers.open wiring (spec: FEED_CONFIG field order gates COMPACT parsing)', () => {
+  const QUOTE_PARAMS = {
+    base: 'AAPL:USLF24',
+    quote: 'USD',
+    requireVolume: false,
+    isOvernight: false,
+  }
+
+  it('runs the spec handshake over the connection, then parses FEED_DATA with the FEED_CONFIG layout', async () => {
+    const transportConfig = (stockQuotesTransport as any).config
+    const connection = makeConnection()
+
+    // handlers.open sends the spec handshake and resolves once FEED_CONFIG
+    // arrives (spec primary_command; handshake must fit WS_CONNECTION_OPEN_TIMEOUT)
+    const open = transportConfig.handlers.open(connection, {
+      adapterSettings: { WS_CONNECTION_OPEN_TIMEOUT: 10_000 },
+    })
+    expect(connection.sent.map((m: DxLinkMessage) => m.type)).toEqual([
+      'SETUP',
+      'CHANNEL_REQUEST',
+      'FEED_SETUP',
+    ])
+
+    connection.emit(frames.quoteFeedConfig)
+    await expect(open).resolves.toBeUndefined()
+
+    // The framework builder registers the desired subscription wire keys
+    transportConfig.builders.customSubscriptionMessages(
+      {},
+      { desired: [QUOTE_PARAMS], new: [QUOTE_PARAMS], stale: [] },
+    )
+
+    // A later FEED_DATA frame is parsed with the layout captured at open time
+    const results = transportConfig.handlers.message(frames.stockQuotesFrame)
+    expect(results).toHaveLength(1)
+    // Spec endpoint_request_response_examples[0]: mid_price 190.0, bid 189.95/100,
+    // ask 190.05/200, result 190.0, providerIndicatedTimeUnixMs 1760000000000
+    expect(results[0].params).toEqual(QUOTE_PARAMS)
+    expect(results[0].response.result).toBe(190)
+    expect(results[0].response.data).toEqual({
+      mid_price: 190,
+      bid_price: 189.95,
+      bid_volume: 100,
+      ask_price: 190.05,
+      ask_volume: 200,
+    })
+    expect(results[0].response.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+  })
+
+  it('drops FEED_DATA for an event type the negotiated FEED_CONFIG never declared', async () => {
+    const transportConfig = (stockQuotesTransport as any).config
+    const connection = makeConnection()
+
+    const open = transportConfig.handlers.open(connection, {
+      adapterSettings: { WS_CONNECTION_OPEN_TIMEOUT: 10_000 },
+    })
+    // A FEED_CONFIG that only negotiated Quote fields (no Trade/TradeETH)
+    connection.emit(frames.quoteFeedConfig)
+    await open
+
+    const tradeParams = { base: 'AAPL:USLF24', quote: 'USD' }
+    transportConfig.builders.customSubscriptionMessages(
+      {},
+      { desired: [tradeParams], new: [tradeParams], stale: [] },
+    )
+
+    // The spec price Trade frame cannot be positioned without a Trade field
+    // order: no data update, no error
+    expect(transportConfig.handlers.message(frames.priceTradeFrame)).toEqual([])
   })
 })

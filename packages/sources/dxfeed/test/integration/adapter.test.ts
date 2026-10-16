@@ -3,7 +3,7 @@ import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
-import * as nock from 'nock'
+import nock from 'nock'
 import { mockPriceEndpoint, mockPriceEndpointFailure, mockRestTradePrice } from './fixtures'
 
 describe('execute', () => {
@@ -86,7 +86,15 @@ describe('execute', () => {
 
   describe('upstream failures', () => {
     it('maps an upstream 5xx to an adapter error', async () => {
+      // The framework retries failed provider requests (requester RETRY plus
+      // background cycles); the persistent interceptor absorbs every attempt so
+      // none reaches the real provider host
       mockPriceEndpointFailure('FAIL')
+      nock('https://tools.dxfeed.com/webservice/rest')
+        .persist()
+        .get('/events.json')
+        .query(true)
+        .reply(500, { status: 'INTERNAL_SERVER_ERROR' }, ['Content-Type', 'application/json'])
       const response = await testAdapter.request({ base: 'FAIL', to: 'USD' })
       expect(response.statusCode).toBe(502)
       expect(response.json()).toMatchObject({ error: expect.anything() })
