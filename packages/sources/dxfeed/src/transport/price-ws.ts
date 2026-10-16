@@ -48,7 +48,10 @@ export class TradeProcessor {
     const time = Number(record[TIME_INDEX])
     const price = Number(record[PRICE_INDEX])
     const latestTime = this.latestTimeBySymbol[base]
-    if (latestTime !== undefined && time <= latestTime) {
+    // Reference semantics (spec reference_ea: preserve endpoint semantics
+    // exactly): only strictly older records are ignored; an equal-time record
+    // is served like the newest one
+    if (latestTime !== undefined && time < latestTime) {
       return undefined
     }
     this.latestTimeBySymbol[base] = time

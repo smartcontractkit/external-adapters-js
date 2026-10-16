@@ -153,6 +153,40 @@ describe('Trade / TradeETH newest-time selection (spec price endpoint descriptio
     expect(late).toBeUndefined()
   })
 
+  it('serves an equal-time record like the newest one (reference_ea: preserve endpoint semantics exactly)', () => {
+    // The reference price transport ignores only strictly older records
+    // (updatedTime[base] > time): a record tying the newest time is served
+    tradeProcessor.processRecord(
+      'Trade',
+      frames.priceTradeFrame.data[1] as any,
+      {
+        base: 'AAPL:USLF24',
+        quote: 'USD',
+      } as any,
+    )
+
+    const tie = tradeProcessor.processRecord(
+      'TradeETH',
+      [
+        'TradeETH',
+        'AAPL:USLF24',
+        1760000000000,
+        189.99,
+        7,
+        12347,
+        'V',
+        0.14,
+        5000002,
+        999000002,
+        'DOWN',
+        true,
+      ],
+      { base: 'AAPL:USLF24', quote: 'USD' } as any,
+    ) as any
+    expect(tie.result).toBe(189.99)
+    expect(tie.timestamps).toEqual({ providerIndicatedTimeUnixMs: 1760000000000 })
+  })
+
   it('errors (502) on a trade whose price is the invalid "NaN" string', () => {
     const response = tradeProcessor.processRecord(
       'Trade',
