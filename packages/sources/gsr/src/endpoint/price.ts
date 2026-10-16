@@ -7,9 +7,9 @@ import {
 } from '@chainlink/external-adapter-framework/adapter'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
+import { AdapterLWBAError } from '@chainlink/external-adapter-framework/validation/error'
 import { config } from '../config'
 import { transport } from '../transport/price'
-import { AdapterLWBAError } from '@chainlink/external-adapter-framework/validation/error'
 
 const inputParameters = new InputParameters(priceEndpointInputParametersDefinition, [
   {
