@@ -109,6 +109,10 @@ describe('COMPACT FEED_DATA parsing (spec acceptDataFormat=COMPACT)', () => {
 
     const tradeResults = feed.message(frames.priceTradeFrame as any)
     expect((tradeResults[0] as any).result).toBe(189.98)
+    // Spec endpoint_request_response_examples[1]: providerIndicatedTimeUnixMs 1760000000000
+    expect((tradeResults[0] as any).timestamps).toEqual({
+      providerIndicatedTimeUnixMs: 1760000000000,
+    })
 
     const extendedFrame = {
       type: 'FEED_DATA',

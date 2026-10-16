@@ -52,30 +52,59 @@ type HttpTransportTypes = BaseEndpointTypes & {
 export function buildDxFeedHttpTransport(): HttpTransport<HttpTransportTypes> {
   return new HttpTransport<HttpTransportTypes>({
     prepareRequests: (params, config) => {
-      const requestConfig = {
-        baseURL: config.API_ENDPOINT,
-        url: '/events.json',
-        method: 'GET',
-        params: {
-          events: 'Trade,Quote',
-          symbols: [...new Set(params.map((p) => p.base.toUpperCase()))].join(','),
-        },
-      }
       const username = config.API_USERNAME
       const password = config.API_PASSWORD
 
-      if (username && password) {
-        return {
-          params,
-          request: { ...requestConfig, auth: { username, password } },
+      // One request per symbol: a symbol with no upstream data must not poison
+      // the response for the other requested symbols (a comma-joined batch
+      // fails as a whole when any single symbol is rejected upstream).
+      return params.map((requestPayload) => {
+        const requestConfig = {
+          baseURL: config.API_ENDPOINT,
+          url: '/events.json',
+          method: 'GET',
+          params: {
+            events: 'Trade,Quote',
+            symbols: requestPayload.base.toUpperCase(),
+          },
+          // Surface upstream 4xx/5xx bodies to parseResponse instead of letting
+          // axios throw, so the error is cached and served as a 502 result.
+          validateStatus: () => true,
         }
-      }
-      return {
-        params,
-        request: requestConfig,
-      }
+
+        if (username && password) {
+          return {
+            params: [requestPayload],
+            request: { ...requestConfig, auth: { username, password } },
+          }
+        }
+        return {
+          params: [requestPayload],
+          request: requestConfig,
+        }
+      })
     },
     parseResponse: (params, res) => {
+      // Upstream error mapping: cache a 502 error result per requested symbol,
+      // carrying the same `error` envelope a thrown AdapterError produces so
+      // cached and request-path error bodies read the same downstream.
+      if (res.status >= 400) {
+        const errorMessage = `Provider request failed with status ${res.status}: ${JSON.stringify(
+          res.data,
+        )}`
+        logger.warn(errorMessage)
+        return params.map((requestPayload) => ({
+          params: requestPayload,
+          response: {
+            statusCode: 502,
+            errorMessage,
+            error: {
+              name: 'Data Provider error',
+              message: errorMessage,
+            },
+          },
+        }))
+      }
       return params.map((requestPayload) => {
         const entry = {
           params: requestPayload,

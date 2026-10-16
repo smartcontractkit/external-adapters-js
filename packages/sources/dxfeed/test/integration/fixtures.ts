@@ -8,22 +8,27 @@ import nock from 'nock'
  * and is kept as-is.
  */
 export function mockPriceEndpoint(): nock.Scope {
+  return mockRestTradePrice('TSLA', 239.255)
+}
+
+/** Parameterized REST Trade replay (any non-quoteSymbols ticker resolves Trade). */
+export function mockRestTradePrice(symbol: string, price: number): nock.Scope {
   return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
     .get('/events.json')
-    .query({ events: 'Trade,Quote', symbols: 'TSLA' })
+    .query({ events: 'Trade,Quote', symbols: symbol })
     .reply(
       200,
       {
         status: 'OK',
         Trade: {
-          TSLA: {
-            eventSymbol: 'TSLA',
+          [symbol]: {
+            eventSymbol: symbol,
             eventTime: 0,
             time: 1636744209248,
             timeNanoPart: 0,
             sequence: 775394,
             exchangeCode: 'V',
-            price: 239.255,
+            price,
             change: 0.03,
             size: 3,
             dayVolume: 700004,
@@ -57,6 +62,14 @@ export function mockPriceEndpoint(): nock.Scope {
       ],
     )
     .persist()
+}
+
+/** REST upstream outage: the framework maps a provider 5xx onto a 502 error. */
+export function mockPriceEndpointFailure(symbol: string): nock.Scope {
+  return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
+    .get('/events.json')
+    .query({ events: 'Trade,Quote', symbols: symbol })
+    .reply(500, { status: 'INTERNAL_SERVER_ERROR' }, ['Content-Type', 'application/json'])
 }
 
 /**
@@ -119,6 +132,21 @@ setFeedData('Trade', 'AAPL:USLF24', [
   999000000,
   'UP',
   false,
+])
+
+// Spec stock_quotes sample_response, second FEED_DATA frame: the JSON string
+// "NaN" marks the bid price invalid (valueRangeScalingNotes) — the stock_quotes
+// endpoint must surface it as an error result, not a number.
+setFeedData('Quote', 'BADQ:USLF24', [
+  'Quote',
+  'BADQ:USLF24',
+  1760000002000,
+  'NaN',
+  190.05,
+  100,
+  200,
+  'V',
+  'V',
 ])
 
 /** Live connections accepted by the mock server, oldest first. */

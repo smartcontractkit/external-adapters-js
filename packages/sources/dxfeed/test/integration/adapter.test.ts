@@ -4,7 +4,7 @@ import {
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { mockPriceEndpoint } from './fixtures'
+import { mockPriceEndpoint, mockPriceEndpointFailure, mockRestTradePrice } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -49,6 +49,47 @@ describe('execute', () => {
         data: { result: 239.255 },
         result: 239.255,
       })
+    })
+
+    it('routes an explicit transport="rest" request to the REST transport', async () => {
+      // Spec price input_parameters: transport is optional, "ws" or "rest";
+      // defaultTransport stays "rest" (owner decision rest_transport_scope).
+      // A distinct symbol forces a distinct request path so the nock
+      // interception itself proves which transport served the request.
+      mockRestTradePrice('IBM', 142.5)
+      const response = await testAdapter.request({
+        base: 'IBM',
+        to: 'USD',
+        transport: 'rest',
+      })
+      expect(response.statusCode).toBe(200)
+      expect(response.json()).toMatchObject({
+        data: { result: 142.5 },
+        result: 142.5,
+      })
+    })
+  })
+
+  describe('validation errors', () => {
+    it('fails on an empty request', async () => {
+      const response = await testAdapter.request({})
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchObject({ error: expect.anything() })
+    })
+
+    it('fails on a missing base', async () => {
+      const response = await testAdapter.request({ endpoint: 'stock_quotes', to: 'USD' })
+      expect(response.statusCode).toBe(400)
+      expect(response.json()).toMatchObject({ error: expect.anything() })
+    })
+  })
+
+  describe('upstream failures', () => {
+    it('maps an upstream 5xx to an adapter error', async () => {
+      mockPriceEndpointFailure('FAIL')
+      const response = await testAdapter.request({ base: 'FAIL', to: 'USD' })
+      expect(response.statusCode).toBe(502)
+      expect(response.json()).toMatchObject({ error: expect.anything() })
     })
   })
 })

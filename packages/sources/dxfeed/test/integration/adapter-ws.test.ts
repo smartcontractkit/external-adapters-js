@@ -118,6 +118,26 @@ describe('dxLink websocket smoke flows', () => {
         },
       })
     })
+
+    it('surfaces the spec sample "NaN" quote as an error result', async () => {
+      // Spec stock_quotes sample_response, second FEED_DATA frame: the JSON
+      // string "NaN" marks a value invalid (valueRangeScalingNotes) — the
+      // adapter must reject the record, not serve NaN as a price.
+      const response = await requestUntilCached({
+        endpoint: 'stock_quotes',
+        from: 'BADQ',
+        to: 'USD',
+        overrides: {
+          dxfeed: {
+            BADQ: 'BADQ:USLF24',
+          },
+        },
+      })
+      expect(response.statusCode).toBe(502)
+      // Stream error results ride the response cache, so the error body carries
+      // a top-level errorMessage (not the thrown-error { error } envelope)
+      expect(response.json()).toMatchObject({ errorMessage: expect.anything() })
+    })
   })
 
   describe('reconnect', () => {

@@ -1,3 +1,4 @@
+import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
 import { config, validateWsApiEndpoint } from '../../src/config'
 
@@ -84,5 +85,27 @@ describe('required credentials (spec data_source_authentication: require API_USE
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
+  })
+})
+
+describe('credential censoring (template config-credentials: mask API_PASSWORD and WS_API_ENDPOINT in logs)', () => {
+  it('registers the sensitive API_PASSWORD and WS_API_ENDPOINT values in the framework censor list', () => {
+    withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () => {
+      config.buildCensorList()
+      const censored = CensorList.getAll()
+
+      // API_PASSWORD is sensitive: its value must be redactable from logs
+      const passwordEntry = censored.find((entry) => entry.key === 'API_PASSWORD')
+      expect(passwordEntry).toBeDefined()
+      expect(passwordEntry?.value.test('dxfeed-pass')).toBe(true)
+
+      // WS_API_ENDPOINT is sensitive: its value must be redactable from logs
+      const endpointEntry = censored.find((entry) => entry.key === 'WS_API_ENDPOINT')
+      expect(endpointEntry).toBeDefined()
+      expect(endpointEntry?.value.test(DXLINK_ENDPOINT)).toBe(true)
+
+      // API_USERNAME is explicitly non-sensitive and stays loggable
+      expect(censored.find((entry) => entry.key === 'API_USERNAME')).toBeUndefined()
+    })
   })
 })

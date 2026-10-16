@@ -102,4 +102,27 @@ describe('FEED_SUBSCRIPTION message building (spec primary_command: FEED_SUBSCRI
     // Regular-hours-only tickers get exactly one Trade entry
     expect(tradeTickers('SPCX')).toEqual([{ symbol: 'SPCX', type: 'Trade' }])
   })
+
+  it('re-sends the whole desired set as adds after a simulated reconnect', () => {
+    const feed = tradeFeed()
+    const params = { base: 'AAPL:USLF24', quote: 'USD' }
+
+    // First background execution subscribes the desired set...
+    feed.subscriptionMessages({ desired: [params], new: [params], stale: [] })
+
+    // ...on reconnect the framework re-delivers the full desired set as `new`,
+    // and the builder must re-send every (symbol, eventType) entry
+    const messages = feed.subscriptionMessages({ desired: [params], new: [params], stale: [] })
+
+    expect(messages).toEqual([
+      {
+        type: 'FEED_SUBSCRIPTION',
+        channel: 1,
+        add: [
+          { symbol: 'AAPL:USLF24', type: 'Trade' },
+          { symbol: 'AAPL:USLF24', type: 'TradeETH' },
+        ],
+      },
+    ])
+  })
 })
