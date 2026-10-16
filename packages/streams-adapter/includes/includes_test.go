@@ -54,7 +54,7 @@ func TestLoad(t *testing.T) {
 
 func TestLoad_AdapterNotFound(t *testing.T) {
 	_, err := Load(filepath.Join("testdata", "adapter_includes.json"), "missing")
-	require.Error(t, err)
+	require.ErrorIs(t, err, ErrAdapterNotFound)
 }
 
 func TestLoad_FileNotFound(t *testing.T) {

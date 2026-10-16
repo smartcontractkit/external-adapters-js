@@ -36,12 +36,20 @@ export const inputParameters = new InputParameters(
       options: RESULT_FIELDS,
       default: 'navPerShare',
     },
+    limitToOfficialAccountingDate: {
+      required: false,
+      type: 'boolean',
+      description:
+        'Whether to cap the queried date range at FundOfficialAccountingLastAvailableDate from GetFundList. Only enable for funds where the provider rejects later dates, as this date can lag the latest available NAV.',
+      default: false,
+    },
   },
   [
     {
       globalFundID: 1234,
       navDateTimestampTimezone: 'UTC',
       resultField: 'navPerShare',
+      limitToOfficialAccountingDate: false,
     },
   ],
 )

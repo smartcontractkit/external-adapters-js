@@ -50,7 +50,7 @@ const FUND_DATES_RES = makeStub('fundDatesRes', {
   },
 })
 
-const fundListRow = (globalFundID: number, officialAccountingLastAvailableDate: string) => ({
+const fundListRow = (globalFundID: number, officialAccountingLastAvailableDate: string | null) => ({
   FundName: `Fund ${globalFundID}`,
   GlobalFundID: globalFundID,
   FundEndDate: '2030-12-31T00:00:00',
@@ -62,12 +62,6 @@ const fundListRow = (globalFundID: number, officialAccountingLastAvailableDate: 
 
 const fundListRes = (rows: ReturnType<typeof fundListRow>[]) =>
   makeStub('fundListRes', { response: { data: rows } })
-
-// The last available date is after the fund ToDate, so the ToDate wins by default
-const FUND_LIST_RES = fundListRes([
-  fundListRow(999, '2025-06-15T00:00:00'),
-  fundListRow(FUND_ID, '2025-07-10T00:00:00'),
-])
 
 const FUND_ROWS = [
   {
@@ -99,12 +93,12 @@ describe('NavTransport – handleRequest', () => {
 
   it('returns latest NAV and writes all result fields to cache', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
-    requester.request.mockResolvedValueOnce(FUND_LIST_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -114,6 +108,7 @@ describe('NavTransport – handleRequest', () => {
     const params = {
       globalFundID: 123,
       navDateTimestampTimezone: 'UTC',
+      limitToOfficialAccountingDate: false,
       resultField: 'navPerShare',
     }
     const response = {
@@ -183,27 +178,20 @@ describe('NavTransport – handleRequest', () => {
       2,
       expect.any(String),
       expect.objectContaining({
-        url: expect.stringContaining('/GetFundList'),
-      }),
-    )
-
-    expect(requester.request).toHaveBeenNthCalledWith(
-      3,
-      expect.any(String),
-      expect.objectContaining({
         url: expect.stringContaining('/GetOfficialNAVAndPerformanceReturnsForFund'),
       }),
     )
+    expect(requester.request).toHaveBeenCalledTimes(2)
   })
 
   it('maps downstream AdapterError to 502 response', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES) // first OK
-    requester.request.mockResolvedValueOnce(FUND_LIST_RES) // second OK
     requester.request.mockRejectedValueOnce(new AdapterError({ message: 'boom' }))
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -219,7 +207,6 @@ describe('NavTransport – handleRequest', () => {
       response: { data: { LogID: 1, FromDate: '06-28-2025', ToDate: '07-01-2025' } },
     })
     requester.request.mockResolvedValueOnce(shortSpanDates)
-    requester.request.mockResolvedValueOnce(FUND_LIST_RES)
 
     const fundRows = [
       {
@@ -241,6 +228,60 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenNthCalledWith(
+      2,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('fromDate=06-28-2025'),
+      }),
+    )
+  })
+
+  it('queries up to the fund ToDate and skips GetFundList by default', async () => {
+    // The official accounting date lags the latest available NAV (e.g. SWEEP), which must not
+    // limit the query unless explicitly requested.
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
+    } as typeof navInputParams.validated)
+
+    await transport.handleRequest(param)
+
+    expect(requester.request).toHaveBeenCalledTimes(2)
+    expect(requester.request).not.toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('/GetFundList'),
+      }),
+    )
+    expect(requester.request).toHaveBeenNthCalledWith(
+      2,
+      expect.any(String),
+      expect.objectContaining({
+        url: expect.stringContaining('fromDate=06-20-2025&toDate=07-01-2025'),
+      }),
+    )
+    expect(getCachedResponse().data.navDate).toBe('06-25-2025')
+  })
+
+  it('does not limit the query when FundOfficialAccountingLastAvailableDate is null', async () => {
+    requester.request.mockResolvedValueOnce(FUND_DATES_RES) // ToDate 07-01-2025
+    requester.request.mockResolvedValueOnce(fundListRes([fundListRow(FUND_ID, null)]))
+    requester.request.mockResolvedValueOnce(FUND_RES)
+
+    const param = makeStub('param', {
+      globalFundID: FUND_ID,
+      navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -249,9 +290,10 @@ describe('NavTransport – handleRequest', () => {
       3,
       expect.any(String),
       expect.objectContaining({
-        url: expect.stringContaining('fromDate=06-28-2025'),
+        url: expect.stringContaining('toDate=07-01-2025'),
       }),
     )
+    expect(getCachedResponse().statusCode).toBe(200)
   })
 
   it('queries up to the fund ToDate when it is before the last available date', async () => {
@@ -264,6 +306,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -291,6 +334,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -315,6 +359,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -335,6 +380,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -355,6 +401,7 @@ describe('NavTransport – handleRequest', () => {
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: true,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -366,13 +413,13 @@ describe('NavTransport – handleRequest', () => {
 
   it('caches 400 when Fund rows are empty', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
-    requester.request.mockResolvedValueOnce(FUND_LIST_RES)
     requester.request.mockResolvedValueOnce(
       makeStub('emptyFund', { response: { data: { Data: [] } } }),
     )
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: TIMEZONE,
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)
@@ -384,12 +431,12 @@ describe('NavTransport – handleRequest', () => {
 
   it('returns midnight in the given timezone for navDateTimestampMs', async () => {
     requester.request.mockResolvedValueOnce(FUND_DATES_RES)
-    requester.request.mockResolvedValueOnce(FUND_LIST_RES)
     requester.request.mockResolvedValueOnce(FUND_RES)
 
     const param = makeStub('param', {
       globalFundID: FUND_ID,
       navDateTimestampTimezone: 'America/Los_Angeles',
+      limitToOfficialAccountingDate: false,
     } as typeof navInputParams.validated)
 
     await transport.handleRequest(param)

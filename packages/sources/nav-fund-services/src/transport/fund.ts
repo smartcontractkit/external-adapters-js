@@ -36,7 +36,7 @@ type FundListResponse = {
   FundEndDate: string
   FundDailyAccountingStartDate: string
   FundDailyAccountingLastAvailableDate: string | null
-  FundOfficialAccountingLastAvailableDate: string
+  FundOfficialAccountingLastAvailableDate: string | null
   PortfolioLastAvailableDate: string
 }[]
 
