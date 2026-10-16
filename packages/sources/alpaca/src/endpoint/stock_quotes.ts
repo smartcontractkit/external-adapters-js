@@ -61,13 +61,7 @@ export const endpoint = new AdapterEndpoint({
   name: 'stock_quotes',
   transport: wsTransport,
   inputParameters,
-  // Both flags default to false. Dropping them when false keeps them out of the feedId and gives a
-  // request without the flags the same cache entry as one with them set to false.
-  requestTransforms: [
-    (req) => {
-      const data = req.requestContext.data as Partial<typeof req.requestContext.data>
-      if (!data.requireVolume) delete data.requireVolume
-      if (!data.isOvernight) delete data.isOvernight
-    },
-  ],
+  // No requestTransforms needed: the framework's validateInput prefills optional params'
+  // defaults (reviewed in adapter/endpoint.js + validation/index.js), so a request without
+  // the flags and one with them false carry the same validated data and the same feedId.
 })

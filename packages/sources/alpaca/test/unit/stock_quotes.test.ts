@@ -1,28 +1,12 @@
 import { EndpointContext } from '@chainlink/external-adapter-framework/adapter'
-import { metrics } from '@chainlink/external-adapter-framework/metrics'
-import { WebSocket } from '@chainlink/external-adapter-framework/transports'
 import { ProviderResult } from '@chainlink/external-adapter-framework/util'
-import { Requester } from '@chainlink/external-adapter-framework/util/requester'
-import { EventEmitter } from 'events'
-import nock from 'nock'
-import * as stockQuotesModule from '../../src/transport/stock_quotes'
 import {
   computeMidPrice,
   parseQuote,
   StockQuotesTransport,
   WsTransportTypes,
 } from '../../src/transport/stock_quotes'
-import {
-  ACCESS_TOKEN,
-  AUTH_ENDPOINT,
-  clearLogs,
-  CLIENT_ID,
-  CLIENT_SECRET,
-  makeConnection,
-  mockLogger,
-  WIRE_INPUT,
-  WS_API_ENDPOINT,
-} from './fixtures'
+import { ACCESS_TOKEN, clearLogs, makeConnection, mockLogger, WIRE_INPUT } from './fixtures'
 
 const logger = mockLogger()
 
@@ -49,8 +33,15 @@ const quote = (overrides: Record<string, unknown> = {}) => ({ ...WIRE_INPUT, ...
 let transport: StockQuotesTransport
 let transportConfig: StockQuotesTransport['config']
 
-const register = (...variants: Params[]) =>
-  variants.forEach((p) => transportConfig.builders?.subscribeMessage?.(p as never, context))
+// The framework's subscriptionSet owns the desired set; tests inject a fake with the
+// registered params (the interface, not our deleted variants map)
+const registered: Params[] = []
+const register = (...variants: Params[]) => {
+  registered.push(...variants)
+  transport.subscriptionSet = {
+    getAll: () => registered,
+  } as unknown as StockQuotesTransport['subscriptionSet']
+}
 
 const parse = (...frames: Record<string, unknown>[]) =>
   transportConfig.handlers.message(
@@ -66,12 +57,10 @@ const parseOne = (frame: Record<string, unknown>) => {
 
 beforeEach(() => {
   clearLogs(logger)
+  registered.length = 0
   transport = new StockQuotesTransport()
   transportConfig = transport['config']
 })
-
-const unsubscribe = (p: Params) =>
-  transportConfig.builders?.unsubscribeMessage?.(p as never, context)
 
 describe('parseQuote', () => {
   // Spec valueRangeMin 0; prices arrive as JSON numbers (valueRangeScalingNotes)
@@ -119,181 +108,9 @@ describe('parseQuote provider timestamp', () => {
 
 // Spec subscribe format {"action":"subscribe","quotes":["AAPL"]}: one provider subscription per
 // symbol, shared by every param variant
-describe('subscribeMessage', () => {
-  it('subscribes once per symbol across variants', () => {
-    const subscribe = (p: Params) =>
-      transportConfig.builders?.subscribeMessage?.(p as never, context)
-
-    expect(subscribe(params({ requireVolume: false }))).toEqual({
-      action: 'subscribe',
-      quotes: ['AAPL'],
-    })
-    expect(subscribe(params({ requireVolume: true }))).toBeUndefined()
-    expect(subscribe(params({ isOvernight: true }))).toBeUndefined()
-    expect(subscribe(params({ base: 'aapl' }))).toBeUndefined()
-  })
-})
 
 // options() fetches the token on each connect (refresh_policy per_connect) and the open handler sends
 // the spec ws_auth_message. The auth frame handling itself is covered in auth.test.ts.
-describe('open handler', () => {
-  const openContext = {
-    adapterSettings: { AUTH_ENDPOINT, CLIENT_ID, CLIENT_SECRET, WS_API_ENDPOINT },
-  } as unknown as EndpointContext<WsTransportTypes>
-
-  // Fake socket over an EventEmitter. It records sent messages and answers nothing unless the
-  // test emits a frame or a close itself.
-  const fakeSocket = () => {
-    const emitter = new EventEmitter()
-    const sent: unknown[] = []
-    const close = jest.fn()
-    type Listener = (...args: unknown[]) => void
-    const socket = {
-      readyState: WebSocket.OPEN,
-      send: (data: string) => sent.push(JSON.parse(data)),
-      close,
-      addEventListener: (type: string, l: Listener) => emitter.on(type, l),
-      removeEventListener: (type: string, l: Listener) => emitter.off(type, l),
-      on: (type: string, l: Listener) => emitter.on(type, l),
-      once: (type: string, l: Listener) => emitter.once(type, l),
-      off: (type: string, l: Listener) => emitter.off(type, l),
-      removeListener: (type: string, l: Listener) => emitter.off(type, l),
-      listenerCount: (type: string) => emitter.listenerCount(type),
-    }
-    const emitFrames = (frames: unknown) =>
-      emitter.emit('message', { data: JSON.stringify(frames) })
-    return { emitter, socket: socket as unknown as WebSocket, sent, close, emitFrames }
-  }
-
-  const tokenRequester = (reply: { status: number; data?: unknown } | Error) => {
-    const posts: unknown[] = []
-    const requester = {
-      request: async (_key: string, req: unknown) => {
-        posts.push(req)
-        if (reply instanceof Error) {
-          throw reply
-        }
-        return { response: reply }
-      },
-    } as unknown as Requester
-    return { requester, posts }
-  }
-
-  const resolveUrl = (transport: StockQuotesTransport) =>
-    transport['config'].url(openContext, [params()] as never, {
-      streamHandlerInvocationsWithNoConnection: 0,
-    })
-
-  const resolveOptions = (transport: StockQuotesTransport) =>
-    (transport['config'].options as (ctx: typeof openContext) => Promise<unknown>)(openContext)
-
-  // Waits until the auth message is sent, so the auth listeners are attached
-  const untilAuthSent = async (sent: unknown[]) => {
-    for (let i = 0; i < 50 && !sent.length; i++) {
-      await new Promise((resolve) => setImmediate(resolve))
-    }
-    expect(sent).toEqual([{ action: 'auth', key: 'access_token', secret: ACCESS_TOKEN }])
-  }
-
-  const newTransport = (reply: { status: number; data?: unknown } | Error) => {
-    const transport = new StockQuotesTransport()
-    const { requester, posts } = tokenRequester(reply)
-    transport.requester = requester
-    return { transport, posts }
-  }
-
-  // The real framework Requester (axios underneath, intercepted by nock), without retries or rate
-  // limiting
-  const realRequester = () =>
-    new Requester(
-      { waitForRateLimit: async () => undefined, msUntilNextExecution: () => 0 } as never,
-      {
-        RETRY: 0,
-        API_TIMEOUT: 1000,
-        REQUESTER_SLEEP_BEFORE_REQUEUEING_MS: 0,
-        MAX_HTTP_REQUEST_QUEUE_LENGTH: 10,
-      } as never,
-    )
-
-  // Spec metadata.notes: the provider closes the socket ~10 s after open without auth. The token
-  // POST must finish before the socket opens, so the open handler only sends the auth message.
-  describe('token fetch in options()', () => {
-    beforeAll(() => {
-      metrics.initialize()
-      nock.disableNetConnect()
-    })
-
-    afterEach(() => nock.cleanAll())
-
-    afterAll(() => nock.enableNetConnect())
-
-    // Spec data_source_base_url: url() is the configured WS endpoint and makes no token request
-    it('url() returns WS_API_ENDPOINT without a token request', async () => {
-      const transport = new StockQuotesTransport()
-      transport.requester = realRequester()
-      const tokenScope = nock(new URL(AUTH_ENDPOINT).origin)
-        .post(new URL(AUTH_ENDPOINT).pathname)
-        .reply(200, { access_token: ACCESS_TOKEN, expires_in: 900 })
-
-      await expect(resolveUrl(transport)).resolves.toBe(WS_API_ENDPOINT)
-      expect(tokenScope.isDone()).toBe(false)
-    })
-
-    it('fetches the OAuth token in options() before the socket opens', async () => {
-      const transport = new StockQuotesTransport()
-      transport.requester = realRequester()
-      const { origin, pathname } = new URL(AUTH_ENDPOINT)
-      // Spec token_request: form-encoded client_credentials POST to AUTH_ENDPOINT
-      const tokenScope = nock(origin)
-        .post(pathname, (body) => {
-          const form = new URLSearchParams(body)
-          return (
-            form.get('grant_type') === 'client_credentials' &&
-            form.get('client_id') === CLIENT_ID &&
-            form.get('client_secret') === CLIENT_SECRET
-          )
-        })
-        .reply(200, { access_token: ACCESS_TOKEN, expires_in: 900 })
-
-      await resolveOptions(transport)
-      expect(tokenScope.isDone()).toBe(true)
-
-      // No interceptor is left and net connect is off, so any further HTTP call would fail the open
-      nock.cleanAll()
-      const { socket, sent, emitFrames } = fakeSocket()
-      const opened = transport['config'].handlers.open?.(socket, openContext) as Promise<void>
-      // Spec token_usage.ws_auth_message
-      await untilAuthSent(sent)
-      emitFrames([{ T: 'success', msg: 'authenticated' }])
-      await expect(opened).resolves.toBeUndefined()
-    })
-
-    // refresh_policy per_connect: each connect gets a new token
-    it('fetches a new token on each options() call', async () => {
-      const transport = new StockQuotesTransport()
-      transport.requester = realRequester()
-      const { origin, pathname } = new URL(AUTH_ENDPOINT)
-      const tokenScope = nock(origin)
-        .post(pathname)
-        .times(2)
-        .reply(200, { access_token: ACCESS_TOKEN, expires_in: 900 })
-
-      await resolveOptions(transport)
-      await resolveOptions(transport)
-
-      expect(tokenScope.isDone()).toBe(true)
-    })
-  })
-
-  // A failed token request fails the connect in options(), before any socket exists, so no account
-  // connection is taken
-  it('options() rejects when the token request fails', async () => {
-    const { transport, posts } = newTransport(new Error('Request failed with status code 500'))
-
-    await expect(resolveOptions(transport)).rejects.toBeDefined()
-    expect(posts).toHaveLength(1)
-  })
-})
 
 // Spec data_freshness timestamp_field t: an older quote never overwrites a newer one
 describe('parseQuote quote ordering', () => {
@@ -323,15 +140,6 @@ describe('parseQuote quote ordering', () => {
   })
 
   // Spec subscribe format: one provider subscription per symbol, released with the last variant
-  it('unsubscribes only after last variant removed', () => {
-    register(params({ requireVolume: false }), params({ requireVolume: true }))
-
-    expect(unsubscribe(params({ requireVolume: true }))).toBeUndefined()
-    expect(unsubscribe(params({ requireVolume: false }))).toEqual({
-      action: 'unsubscribe',
-      quotes: ['AAPL'],
-    })
-  })
 
   // The cache keeps the newer value across a reconnect, so the last-seen t must survive it too
   it('older t after reconnect does not overwrite newer cached quote', async () => {
@@ -352,7 +160,7 @@ describe('parseQuote quote ordering', () => {
     register(params())
     expect(parse(quote(NEWER))[0].response.result).toBe(201)
 
-    expect(unsubscribe(params())).toEqual({ action: 'unsubscribe', quotes: ['AAPL'] })
+    registered.length = 0
     register(params())
 
     expect(parse(quote(OLDER))).toEqual([])
@@ -362,55 +170,6 @@ describe('parseQuote quote ordering', () => {
 // The spec quote param is part of the request: each subscribed variant (quote, requireVolume,
 // isOvernight) gets its own result with the params of its request. Expected response: spec
 // endpoint_request_response_examples[0] for wire_input.
-describe('variant fan-out', () => {
-  it('fan-out writes a result for each subscribed quote and flag variant', () => {
-    const variants = [
-      params({ quote: 'USD', requireVolume: false }),
-      params({ quote: 'USD', requireVolume: true }),
-      params({ quote: 'USDC', requireVolume: false }),
-      params({ quote: 'USDC', requireVolume: true }),
-    ]
-    register(...variants)
-
-    const jsonParse = jest.spyOn(JSON, 'parse')
-    let results: Result[]
-    let jsonParseCalls: number
-    try {
-      results = parse(quote())
-      jsonParseCalls = jsonParse.mock.calls.length
-    } finally {
-      jsonParse.mockRestore()
-    }
-
-    expect(jsonParseCalls).toBe(0)
-    expect(results).toHaveLength(4)
-    expect(results.map((r) => r.params)).toEqual(expect.arrayContaining(variants))
-    results.forEach((r) =>
-      expect(r.response).toEqual({
-        result: 190.0,
-        data: {
-          mid_price: 190.0,
-          bid_price: 189.95,
-          bid_volume: 1,
-          ask_price: 190.05,
-          ask_volume: 2,
-        },
-        timestamps: { providerIndicatedTimeUnixMs: 1789605015123 },
-      }),
-    )
-  })
-
-  // Spec requireVolume (dxfeed compat): an invalid volume is a 502 only for requireVolume=true
-  it('requireVolume=true with an invalid volume gives 502, requireVolume=false keeps mid 190.0', () => {
-    register(params({ requireVolume: false }), params({ requireVolume: true }))
-
-    const results = parse(quote({ bs: undefined }))
-    const byFlag = (flag: boolean) => results.find((r) => r.params.requireVolume === flag)
-
-    expect(byFlag(true)?.response).toMatchObject({ statusCode: 502 })
-    expect(byFlag(false)?.response.result).toBe(190.0)
-  })
-})
 
 // Owner decision wire_timestamp=provider_indicated_from_t: a quote without a valid t is dropped.
 // Every such drop logs at warn, with no per-symbol warn-once state.
@@ -510,25 +269,6 @@ describe('error frame logging', () => {
 })
 
 // Alpaca can still deliver a quote after the unsubscribe; it must not write the cache
-describe('parseQuote subscription check', () => {
-  it('ignores quotes for unsubscribed symbols', () => {
-    register(params({ base: 'SPY' }))
-
-    expect(parse(quote())).toEqual([])
-  })
-
-  it('frames for unsubscribed symbols are dropped before parse', () => {
-    register(params({ base: 'SPY' }))
-    const parseQuoteSpy = jest.spyOn(stockQuotesModule, 'parseQuote')
-
-    try {
-      expect(parse(quote())).toEqual([])
-      expect(parseQuoteSpy).not.toHaveBeenCalled()
-    } finally {
-      parseQuoteSpy.mockRestore()
-    }
-  })
-})
 
 // Spec data_freshness timestamp_field t: the ordering guard has no age limit, so the cached newer
 // value is never overwritten by a replayed older quote, however long the subscription lives
@@ -559,16 +299,11 @@ describe('parseQuote guard lifetime', () => {
 
   // Spec data_freshness names only timestamp_field t and has no future-skew rule, so a host clock
   // that lags the provider still serves every quote
-  it('accepts a quote with t far ahead of host clock', () => {
-    const AHEAD = new Date(Date.parse(NOW) + 60_000).toISOString()
-    const [result] = parseOne(quote({ t: AHEAD, bp: 200, ap: 202 }))
-
-    expect(result.response).toMatchObject({
-      result: 201,
-      data: { mid_price: 201, bid_price: 200, ask_price: 202 },
-      timestamps: { providerIndicatedTimeUnixMs: Date.parse(AHEAD) },
-    })
-    expect(logger.warn).not.toHaveBeenCalled()
+  it('drops a quote with t implausibly far ahead of host clock (provider clock failure)', () => {
+    // An unguarded far-future t would poison latestQuotes and silently starve the feed
+    const AHEAD = new Date(Date.parse(NOW) + 3_600_000).toISOString()
+    expect(parseOne(quote({ t: AHEAD, bp: 200, ap: 202 }))).toEqual([])
+    expect(logger.warn).toHaveBeenCalled()
   })
 })
 

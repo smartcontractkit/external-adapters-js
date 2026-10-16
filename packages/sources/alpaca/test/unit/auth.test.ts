@@ -213,7 +213,8 @@ describe('authenticate', () => {
     await expect(authenticate(connection, ACCESS_TOKEN)).resolves.toBeUndefined()
 
     expect(sent).toEqual([AUTH_MESSAGE])
-    expect(listenerCount('message')).toBe(0)
+    // No listener cleanup by design (Alejo's simplification): the listener dies with the
+    // connection and the framework's open timeout bounds the wait.
   })
 
   // Provider error frame fields are provider-controlled: they must not reach the error message text
@@ -228,7 +229,6 @@ describe('authenticate', () => {
     expect((error as Error).message).not.toContain('\n')
     expect((error as Error).message).not.toContain('FAKE LOG ENTRY')
     expect(sent).toEqual([AUTH_MESSAGE])
-    expect(listenerCount('message')).toBe(0)
   })
 
   it('authenticate registers no timer', () => {

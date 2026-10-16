@@ -12,7 +12,7 @@ exports[`stock_quotes websocket returns the spec example response, after survivi
   "meta": {
     "adapterName": "ALPACA",
     "metrics": {
-      "feedId": "{"base":"aapl","quote":"usd"}",
+      "feedId": "{"base":"aapl","isOvernight":false,"quote":"usd","requireVolume":false}",
     },
     "transportName": "default_single_transport",
   },
