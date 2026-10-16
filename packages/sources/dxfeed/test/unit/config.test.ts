@@ -1,5 +1,7 @@
 import CensorList from '@chainlink/external-adapter-framework/util/censor/censor-list'
 import { setEnvVariables } from '@chainlink/external-adapter-framework/util/testing-utils'
+import * as fs from 'fs'
+import * as path from 'path'
 import { config, validateWsApiEndpoint } from '../../src/config'
 
 /**
@@ -85,6 +87,20 @@ describe('required credentials (spec data_source_authentication: require API_USE
     withSettings({ ...CREDENTIALS, WS_API_ENDPOINT: DXLINK_ENDPOINT }, () =>
       expect(() => config.validate()).not.toThrow(),
     )
+  })
+})
+
+describe('framework pin (spec framework_version 2.20.0)', () => {
+  it('resolves @chainlink/external-adapter-framework to >= 2.20.0 (customSubscriptionMessages availability)', () => {
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf8'),
+    ) as { dependencies: Record<string, string> }
+    const version = packageJson.dependencies['@chainlink/external-adapter-framework']
+    expect(version).toBeDefined()
+
+    const [major, minor] = version.split('.').map(Number)
+    const atLeast_2_20 = major > 2 || (major === 2 && minor >= 20)
+    expect(atLeast_2_20).toBe(true)
   })
 })
 

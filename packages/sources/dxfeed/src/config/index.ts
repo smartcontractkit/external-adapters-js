@@ -1,4 +1,5 @@
 import { AdapterConfig } from '@chainlink/external-adapter-framework/config'
+import { AdapterInputError } from '@chainlink/external-adapter-framework/validation/error'
 
 /**
  * Spec breaking_change_env_checks: WS_API_ENDPOINT must point at the dxLink
@@ -19,6 +20,44 @@ export const validateWsApiEndpoint = (value?: string): string => {
   }
 
   return ''
+}
+
+/**
+ * Spec data_source_authentication breaking_change_env_checks: WS paths require
+ * the Basic credential pair (the dxLink AUTH message exists but is NOT used;
+ * credentials ride the Authorization header only).
+ */
+export const missingWsCredentials = (settings: {
+  API_USERNAME?: string
+  API_PASSWORD?: string
+}): string => {
+  if (!settings.API_USERNAME?.trim() || !settings.API_PASSWORD?.trim()) {
+    return 'API_USERNAME and API_PASSWORD are required for dxLink websocket requests'
+  }
+  return ''
+}
+
+/**
+ * One implementation, two call sites: the AdapterConfig validate fn runs the
+ * same checks at startup, and the endpoints' customInputValidation runs them at
+ * request time so a WS-path misconfiguration fails fast with a clear error.
+ */
+export const wsEnvInputValidationError = (settings: {
+  WS_API_ENDPOINT?: string
+  API_USERNAME?: string
+  API_PASSWORD?: string
+}): AdapterInputError | undefined => {
+  const endpointError = validateWsApiEndpoint(settings.WS_API_ENDPOINT)
+  if (endpointError) {
+    return new AdapterInputError({ statusCode: 400, message: endpointError })
+  }
+
+  const credentialError = missingWsCredentials(settings)
+  if (credentialError) {
+    return new AdapterInputError({ statusCode: 400, message: credentialError })
+  }
+
+  return undefined
 }
 
 export const config = new AdapterConfig(

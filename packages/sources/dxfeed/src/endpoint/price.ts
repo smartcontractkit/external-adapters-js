@@ -3,7 +3,7 @@ import { TransportRoutes } from '@chainlink/external-adapter-framework/transport
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { InputParameter } from '@chainlink/external-adapter-framework/validation/input-params'
-import { config } from '../config'
+import { config, wsEnvInputValidationError } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
@@ -58,4 +58,12 @@ export const endpoint = new AdapterEndpoint({
   defaultTransport: 'rest',
   inputParameters: priceInputParameters,
   overrides: overrides.dxfeed,
+  // The spec breaking_change_env_checks only apply to WS-path requests: the
+  // framework resolves requestContext.transportName (ws|rest) before calling
+  // this validator, and the REST path is untouched (owner decision
+  // rest_transport_scope=keep_untouched)
+  customInputValidation: (request, settings) =>
+    request.requestContext?.transportName === 'ws'
+      ? wsEnvInputValidationError(settings)
+      : undefined,
 })

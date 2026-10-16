@@ -152,11 +152,46 @@ setFeedData('Quote', 'BADQ:USLF24', [
 /** Live connections accepted by the mock server, oldest first. */
 export const dxLinkConnections: Client[] = []
 
+/**
+ * Raw client→server wire frames, one array per accepted connection, oldest
+ * first. Lets integration tests observe the adapter's dxLink control-protocol
+ * output (handshake, FEED_SUBSCRIPTION, KEEPALIVE) on the real request path.
+ */
+export const clientFrameLog: string[][] = []
+
+/** Raw server→client wire frames, one array per accepted connection, oldest first. */
+export const serverFrameLog: string[][] = []
+
+export const clearFrameLogs = (): void => {
+  clientFrameLog.splice(0, clientFrameLog.length)
+  serverFrameLog.splice(0, serverFrameLog.length)
+}
+
+/** Pushes an arbitrary server frame to the most recent live connection. */
+export const sendToLastConnection = (frame: unknown): boolean => {
+  const socket = dxLinkConnections[dxLinkConnections.length - 1]
+  if (!socket) {
+    return false
+  }
+  socket.send(JSON.stringify(frame))
+  return true
+}
+
 export const mockDxLinkServer = (url: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(url, { mock: false })
   mockWsServer.on('connection', (socket: Client) => {
     dxLinkConnections.push(socket)
+    const clientFrames: string[] = []
+    const serverFrames: string[] = []
+    clientFrameLog.push(clientFrames)
+    serverFrameLog.push(serverFrames)
+    const upstreamSend = socket.send.bind(socket)
+    socket.send = ((data: string) => {
+      serverFrames.push(String(data))
+      upstreamSend(data)
+    }) as Client['send']
     socket.on('message', (raw: unknown) => {
+      clientFrames.push(String(raw))
       let msg: {
         type?: string
         channel?: number

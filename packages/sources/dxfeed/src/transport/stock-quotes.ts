@@ -49,6 +49,10 @@ export const quoteRecordToResult = (
     }
   }
 
+  // Without requireVolume an invalid volume maps to zero instead of erroring
+  const bidVolume = Number.isNaN(bidSize) ? 0 : bidSize
+  const askVolume = Number.isNaN(askSize) ? 0 : askSize
+
   const bidExchangeCode = String(record[BID_EXCHANGE_CODE_INDEX])
   const askExchangeCode = String(record[ASK_EXCHANGE_CODE_INDEX])
   if (isOvernight && !(bidExchangeCode === 'O' && askExchangeCode === 'O')) {
@@ -62,9 +66,9 @@ export const quoteRecordToResult = (
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
-      bid_volume: bidSize,
+      bid_volume: bidVolume,
       ask_price: askPrice,
-      ask_volume: askSize,
+      ask_volume: askVolume,
     },
     timestamps: {
       providerIndicatedTimeUnixMs: Number(record[2]),

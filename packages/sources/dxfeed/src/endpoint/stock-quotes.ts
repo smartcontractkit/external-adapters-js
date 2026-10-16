@@ -1,6 +1,6 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { InputParameters } from '@chainlink/external-adapter-framework/validation'
-import { config } from '../config'
+import { config, wsEnvInputValidationError } from '../config'
 import overrides from '../config/overrides.json'
 import { transport } from '../transport/stock-quotes'
 import { inputParameters } from './utils'
@@ -53,4 +53,7 @@ export const endpoint = new AdapterEndpoint({
   transport,
   inputParameters: stockQuotesInputParameters,
   overrides: overrides.dxfeed,
+  // stock_quotes is a WS-only path: the spec breaking_change_env_checks run at
+  // request time too (same check fns as the startup AdapterConfig validate)
+  customInputValidation: (_request, settings) => wsEnvInputValidationError(settings),
 })
