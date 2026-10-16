@@ -1,111 +1,79 @@
-import { makeLogger, splitArrayIntoChunks } from '@chainlink/external-adapter-framework/util'
-import { BaseEndpointTypes } from '../endpoint/stock-quotes'
-import { buildWsTransport } from './ws'
+import { TypeFromDefinition } from '@chainlink/external-adapter-framework/validation/input-params'
+import { BaseEndpointTypes, stockQuotesInputParameters } from '../endpoint/stock-quotes'
+import { buildDxLinkWsTransport, DxLinkRawResult, DxLinkRecord } from './ws'
 
-const logger = makeLogger('StockQuotesTransport')
+type Params = TypeFromDefinition<typeof stockQuotesInputParameters.definition>
 
-// ["eventSymbol","eventTime","sequence","timeNanoPart","bidTime","bidExchangeCode",
-//  "bidPrice","bidSize","askTime","askExchangeCode","askPrice","askSize"]
-const eventSymbolIndex = 0
-const bidTimeIndex = 4
-const bidExchangeCodeIndex = 5
-const bidPriceIndex = 6
-const bidSizeIndex = 7
-const askTimeIndex = 8
-const askExchangeCodeIndex = 9
-const askPriceIndex = 10
-const askSizeIndex = 11
-const dataLength = 12
+// FEED_CONFIG eventFields.Quote positions (spec stock_quotes sample_response)
+const BID_PRICE_INDEX = 3
+const ASK_PRICE_INDEX = 4
+const BID_SIZE_INDEX = 5
+const ASK_SIZE_INDEX = 6
+const BID_EXCHANGE_CODE_INDEX = 7
+const ASK_EXCHANGE_CODE_INDEX = 8
 
-export const transport = buildWsTransport<BaseEndpointTypes>(
-  (params) => [{ Quote: [params.base.toUpperCase()] }],
-  (message) => {
-    if (message[0].data[0] != 'Quote' && message[0].data[0][0] != 'Quote') {
-      return []
-    }
-    const data = message[0].data[1]
+/**
+ * Spec stock_quotes response_mapping: mid = (bid + ask) / 2 over the Quote
+ * event's top-of-book. One-sided books mid against the live side; requireVolume
+ * = true rejects records with invalid (NaN) sizes instead of zeroing them;
+ * isOvernight = true keeps only records where BOTH sides quote on the 'O'
+ * (overnight) exchange code.
+ */
+export const quoteRecordToResult = (
+  record: DxLinkRecord,
+  params: Params,
+): DxLinkRawResult | undefined => {
+  const base = params.base
 
-    if (data.length % dataLength != 0) {
-      logger.warn(
-        `${JSON.stringify(data)} is invalid since length is not multiple of ${dataLength}.`,
-      )
-      return []
-    }
-
-    return splitArrayIntoChunks(data, dataLength).flatMap((chunk) => generateResponse(chunk))
-  },
-)
-
-const generateResponse = (data: (string | number)[]) => {
-  const bidVolume = Number(data[bidSizeIndex])
-  const askVolume = Number(data[askSizeIndex])
-  const invalidVolume = Number.isNaN(Number(bidVolume)) || Number.isNaN(Number(askVolume))
-  const bidPrice = Number(data[bidPriceIndex])
-  const askPrice = Number(data[askPriceIndex])
-
-  const params = { base: data[eventSymbolIndex].toString() }
+  const bidPrice = Number(record[BID_PRICE_INDEX])
+  const askPrice = Number(record[ASK_PRICE_INDEX])
   if (Number.isNaN(bidPrice) || Number.isNaN(askPrice)) {
-    const response = {
+    return {
       statusCode: 502,
-      errorMessage: `Bid price: ${bidPrice} or Ask price: ${askPrice} for ${params.base} is invalid.`,
+      errorMessage: `Bid price: ${record[BID_PRICE_INDEX]} or Ask price: ${record[ASK_PRICE_INDEX]} for ${base} is invalid.`,
     }
-    return [
-      { params: { ...params, requireVolume: false, isOvernight: true }, response },
-      { params: { ...params, requireVolume: true, isOvernight: true }, response },
-      { params: { ...params, requireVolume: false, isOvernight: false }, response },
-      { params: { ...params, requireVolume: true, isOvernight: false }, response },
-    ]
   }
 
-  let midPrice: number
+  // Spec price_mid_scaling: mid of a one-sided book against the live side
+  const midPrice = bidPrice === 0 ? askPrice : askPrice === 0 ? bidPrice : (bidPrice + askPrice) / 2
 
-  if (bidPrice == 0) {
-    midPrice = askPrice
-  } else if (askPrice == 0) {
-    midPrice = bidPrice
-  } else {
-    midPrice = (askPrice + bidPrice) / 2
+  const bidSize = Number(record[BID_SIZE_INDEX])
+  const askSize = Number(record[ASK_SIZE_INDEX])
+  const requireVolume = params.requireVolume
+  const isOvernight = params.isOvernight
+
+  if (requireVolume && (Number.isNaN(bidSize) || Number.isNaN(askSize))) {
+    return {
+      statusCode: 502,
+      errorMessage: `Bid volume: ${record[BID_SIZE_INDEX]} or Ask volume: ${record[ASK_SIZE_INDEX]} for ${base} is invalid.`,
+    }
   }
 
-  const response = {
-    result: null,
+  const bidExchangeCode = String(record[BID_EXCHANGE_CODE_INDEX])
+  const askExchangeCode = String(record[ASK_EXCHANGE_CODE_INDEX])
+  if (isOvernight && !(bidExchangeCode === 'O' && askExchangeCode === 'O')) {
+    // Spec: with is_overnight, keep only records quoting on the overnight venue
+    // on both sides; drop the record otherwise.
+    return undefined
+  }
+
+  return {
+    result: midPrice,
     data: {
       mid_price: midPrice,
       bid_price: bidPrice,
-      bid_volume: bidVolume,
+      bid_volume: bidSize,
       ask_price: askPrice,
-      ask_volume: askVolume,
+      ask_volume: askSize,
     },
     timestamps: {
-      providerIndicatedTimeUnixMs: Math.max(Number(data[bidTimeIndex]), Number(data[askTimeIndex])),
+      providerIndicatedTimeUnixMs: Number(record[2]),
     },
   }
-
-  const requireVolumeResponse = invalidVolume
-    ? {
-        statusCode: 502,
-        errorMessage: `Bid volume: ${bidVolume} or Ask volume: ${askVolume} for ${params.base} is invalid.`,
-      }
-    : response
-
-  const responses = [
-    { params: { ...params, requireVolume: false, isOvernight: false }, response },
-    {
-      params: { ...params, requireVolume: true, isOvernight: false },
-      response: requireVolumeResponse,
-    },
-  ]
-
-  if (data[bidExchangeCodeIndex] === 'O' && data[askExchangeCodeIndex] === 'O') {
-    responses.push({
-      params: { ...params, requireVolume: false, isOvernight: true },
-      response,
-    })
-    responses.push({
-      params: { ...params, requireVolume: true, isOvernight: true },
-      response: requireVolumeResponse,
-    })
-  }
-
-  return responses
 }
+
+export const transport = buildDxLinkWsTransport<BaseEndpointTypes>({
+  formatTickers: (params) => [{ symbol: params.base.toUpperCase(), type: 'Quote' }],
+  processRecord: (eventType, record, params) =>
+    eventType === 'Quote' ? quoteRecordToResult(record, params) : undefined,
+})

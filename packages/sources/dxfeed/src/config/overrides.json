@@ -1,5 +1,6 @@
 {
   "dxfeed": {
-    "WTI": "USO/USD:AFX"
+    "WTI": "USO/USD:AFX",
+    "AAPL": "AAPL:USLF24"
   }
 }

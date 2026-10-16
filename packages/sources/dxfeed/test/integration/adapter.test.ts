@@ -1,10 +1,10 @@
-import { mockPriceEndpoint } from './fixtures'
+import { Adapter } from '@chainlink/external-adapter-framework/adapter'
 import {
   TestAdapter,
   setEnvVariables,
 } from '@chainlink/external-adapter-framework/util/testing-utils'
 import * as nock from 'nock'
-import { Adapter } from '@chainlink/external-adapter-framework/adapter'
+import { mockPriceEndpoint } from './fixtures'
 
 describe('execute', () => {
   let spy: jest.SpyInstance
@@ -14,6 +14,8 @@ describe('execute', () => {
     oldEnv = JSON.parse(JSON.stringify(process.env))
     process.env['API_USERNAME'] = 'fake-api-username'
     process.env['API_PASSWORD'] = 'fake-api-password'
+    // Required at startup alongside the credentials; only the REST transport is exercised here
+    process.env['WS_API_ENDPOINT'] = 'wss://dxlink.localhost.invalid/dxlink-chainlink'
     const mockDate = new Date('2022-01-01T11:11:11.111Z')
     spy = jest.spyOn(Date, 'now').mockReturnValue(mockDate.getTime())
 
@@ -36,6 +38,7 @@ describe('execute', () => {
     it('should return success', async () => {
       const data = {
         base: 'TSLA',
+        to: 'USD',
       }
       mockPriceEndpoint()
       const response = await testAdapter.request(data)

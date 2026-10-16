@@ -1,5 +1,11 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 import nock from 'nock'
+
+/**
+ * REST transport mock. The REST path is explicitly out of scope for the
+ * OPDATA-9200 dxLink migration (owner decision rest_transport_scope=keep_untouched)
+ * and is kept as-is.
+ */
 export function mockPriceEndpoint(): nock.Scope {
   return nock('https://tools.dxfeed.com/webservice/rest', { encodedQueryParams: true })
     .get('/events.json')
@@ -52,299 +58,118 @@ export function mockPriceEndpoint(): nock.Scope {
     .persist()
 }
 
-export const mockWebSocketServer = (URL: string): MockWebsocketServer => {
-  const quoteReponse = [
-    {
-      data: [
-        'Quote',
-        ['TSLA', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 172.0, 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const multiQuoteReponse = [
-    {
-      data: [
-        'Quote',
-        [
-          ...['MULTI_1', 1, 2, 3, 4, 'O', 5, 6, 7, 'O', 8, 9],
-          ...['MULTI_2', 10, 11, 12, 13, 'O', 14, 15, 16, 'O', 17, 18],
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const noBidQuoteReponse = [
-    {
-      data: [
-        'Quote',
-        ['NO_BID', 0, 0, 0, 1670868378000, 'O', 0, 148.0, 1670868370000, 'O', 172.0, 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const noAskQuoteReponse = [
-    {
-      data: [
-        'Quote',
-        ['NO_ASK', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 0, 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const noVolumeReponse = [
-    {
-      data: [
-        'Quote',
-        ['NO_VOLUME', 0, 0, 0, 1670868378000, 'O', 170.0, 'NaN', 1670868370000, 'O', 172.0, 'NaN'],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const invalidQuoteReponse = [
-    {
-      data: [
-        'Quote',
-        ['INVALID_DATA', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const nullBidQuoteResponse = [
-    {
-      data: [
-        'Quote',
-        ['NULL_BID', 0, 0, 0, 1670868378000, 'O', 'NaN', 148.0, 1670868370000, 'O', 172.0, 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const nullAskQuoteResponse = [
-    {
-      data: [
-        'Quote',
-        ['NULL_ASK', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 'NaN', 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const quoteReponseInO = [
-    {
-      data: [
-        'Quote',
-        ['OX', 0, 0, 0, 1670868378000, 'O', 170.0, 148.0, 1670868370000, 'O', 172.0, 100.0],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const quoteReponseInX = [
-    {
-      data: [
-        'Quote',
-        ['OX', 0, 0, 0, 1670868378000, 'O', 170.1, 148.1, 1670868370000, 'X', 172.1, 100.1],
-      ],
-      channel: '/service/data',
-    },
-  ]
+/**
+ * dxLink mock server for the OPDATA-9200 migration
+ * (https://docs.dxfeed.com/dxlink-ws/).
+ *
+ * Behavior-based, driven by the spec's endpoint sample_response frames:
+ * - client handshake: SETUP -> CHANNEL_REQUEST -> FEED_SETUP
+ * - the server acknowledges FEED_SETUP with FEED_CONFIG, echoing the client's
+ *   acceptEventFields (the COMPACT field order the FEED_DATA rows follow)
+ * - client FEED_SUBSCRIPTION add/remove drives FEED_DATA pushes
+ * - SETUP, CHANNEL_REQUEST, KEEPALIVE and remove entries need no reply
+ *
+ * FEED_DATA payloads are registered per `${eventType}:${symbol}` so a test can
+ * update the frame a re-subscription (e.g. after a reconnect) will receive.
+ */
+type DxLinkSubscription = { symbol: string; type: string }
 
-  const tradeResponse = [
-    {
-      data: [
-        'Trade',
-        [
-          'TSLA',
-          0,
-          1762376399006,
-          0,
-          12840,
-          'V',
-          462.19, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const tradeResponseIgnored = [
-    {
-      data: [
-        'Trade',
-        [
-          'TSLA:USLF24',
-          0,
-          1762376399007,
-          0,
-          12840,
-          'V',
-          500, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const tradeResponseOvernight = [
-    {
-      data: [
-        'TradeETH',
-        [
-          'AAPL:USLF24',
-          0,
-          762376399006,
-          0,
-          12840,
-          'V',
-          400, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const tradeResponseOvernightIgnored = [
-    {
-      data: [
-        'TradeETH',
-        [
-          'AAPL:USLF24',
-          0,
-          762376399005,
-          0,
-          12840,
-          'V',
-          500, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const tradeETH_AMZN = [
-    {
-      data: [
-        'TradeETH',
-        [
-          'AMZN:USLF24',
-          0,
-          200,
-          0,
-          12840,
-          'V',
-          300, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const tradeAMZNOldResponse = [
-    {
-      data: [
-        'Trade',
-        [
-          'AMZN:USLF24',
-          0,
-          100,
-          0,
-          12840,
-          'V',
-          200, // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
-  const invalidTradeResponse = [
-    {
-      data: [
-        'Trade',
-        [
-          'INVALID_TRADE:USLF24',
-          0,
-          1762376399006,
-          0,
-          12840,
-          'V',
-          'NaN', // price
-          0,
-          105,
-          20398,
-          569033,
-          262343820.84,
-          'ZERO_UP',
-          true,
-        ],
-      ],
-      channel: '/service/data',
-    },
-  ]
+const dataFrames = new Map<string, Record<string, unknown>>()
 
-  const mockWsServer = new MockWebsocketServer(URL, { mock: false })
-  mockWsServer.on('connection', (socket) => {
-    socket.send(
-      JSON.stringify([
-        {
-          channel: '/meta/connect',
-        },
-      ]),
-    )
-    socket.on('message', () => {
-      socket.send(JSON.stringify(quoteReponse))
-      socket.send(JSON.stringify(multiQuoteReponse))
-      socket.send(JSON.stringify(noBidQuoteReponse))
-      socket.send(JSON.stringify(noAskQuoteReponse))
-      socket.send(JSON.stringify(noVolumeReponse))
-      socket.send(JSON.stringify(invalidQuoteReponse))
-      socket.send(JSON.stringify(nullBidQuoteResponse))
-      socket.send(JSON.stringify(nullAskQuoteResponse))
-      socket.send(JSON.stringify(quoteReponseInO))
-      socket.send(JSON.stringify(quoteReponseInX))
-      socket.send(JSON.stringify(tradeResponse))
-      socket.send(JSON.stringify(tradeResponseIgnored))
-      socket.send(JSON.stringify(tradeResponseOvernight))
-      socket.send(JSON.stringify(tradeResponseOvernightIgnored))
-      socket.send(JSON.stringify(tradeAMZNOldResponse))
-      socket.send(JSON.stringify(tradeETH_AMZN))
-      socket.send(JSON.stringify(invalidTradeResponse))
-    })
+export const setFeedData = (
+  eventType: string,
+  symbol: string,
+  record: (string | number | boolean)[],
+): void => {
+  dataFrames.set(`${eventType}:${symbol}`, {
+    type: 'FEED_DATA',
+    channel: 1,
+    data: [eventType, record],
   })
+}
+
+// Spec sample records (OPDATA-9200 endpoint_request_response_examples +
+// data_source_endpoints[].sample_response). One COMPACT record per frame.
+// Quote fields: eventType,eventSymbol,time,bidPrice,askPrice,bidSize,askSize,
+//               bidExchangeCode,askExchangeCode
+// Trade fields: eventType,eventSymbol,time,price,size,sequence,exchangeCode,
+//               change,dayVolume,dayTurnover,tickDirection,extendedTradingHours
+setFeedData('Quote', 'AAPL:USLF24', [
+  'Quote',
+  'AAPL:USLF24',
+  1760000000000,
+  189.95,
+  190.05,
+  100,
+  200,
+  'V',
+  'V',
+])
+setFeedData('Trade', 'AAPL:USLF24', [
+  'Trade',
+  'AAPL:USLF24',
+  1760000000000,
+  189.98,
+  10,
+  12345,
+  'V',
+  0.12,
+  5000000,
+  999000000,
+  'UP',
+  false,
+])
+
+/** Live connections accepted by the mock server, oldest first. */
+export const dxLinkConnections: { close: () => void }[] = []
+
+export const mockDxLinkServer = (url: string): MockWebsocketServer => {
+  const mockWsServer = new MockWebsocketServer(url, { mock: false })
+  mockWsServer.on(
+    'connection',
+    (socket: {
+      close: () => void
+      send: (data: string) => void
+      on: (event: string, cb: (raw: unknown) => void) => void
+    }) => {
+      dxLinkConnections.push(socket)
+      socket.on('message', (raw: unknown) => {
+        let msg: {
+          type?: string
+          channel?: number
+          acceptEventFields?: unknown
+          add?: DxLinkSubscription[]
+        }
+        try {
+          msg = JSON.parse(String(raw))
+        } catch {
+          return
+        }
+        switch (msg?.type) {
+          case 'FEED_SETUP':
+            // dxLink: FEED_SETUP is acknowledged with FEED_CONFIG carrying the
+            // accepted event fields (spec FEED_CONFIG sample_response frames).
+            socket.send(
+              JSON.stringify({
+                type: 'FEED_CONFIG',
+                channel: msg.channel,
+                eventFields: msg.acceptEventFields,
+              }),
+            )
+            break
+          case 'FEED_SUBSCRIPTION':
+            for (const sub of msg.add ?? []) {
+              const frame = dataFrames.get(`${sub.type}:${sub.symbol}`)
+              if (frame) {
+                socket.send(JSON.stringify(frame))
+              }
+            }
+            break
+          // SETUP, CHANNEL_REQUEST, KEEPALIVE and remove entries: no reply
+        }
+      })
+    },
+  )
 
   return mockWsServer
 }

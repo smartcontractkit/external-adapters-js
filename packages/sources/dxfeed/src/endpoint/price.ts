@@ -1,18 +1,25 @@
 import { AdapterEndpoint } from '@chainlink/external-adapter-framework/adapter'
 import { TransportRoutes } from '@chainlink/external-adapter-framework/transports'
 import { SingleNumberResultResponse } from '@chainlink/external-adapter-framework/util'
-import {
-  AdapterError,
-  AdapterInputError,
-} from '@chainlink/external-adapter-framework/validation/error'
+import { InputParameters } from '@chainlink/external-adapter-framework/validation'
 import { config } from '../config'
 import overrides from '../config/overrides.json'
 import { buildDxFeedHttpTransport } from '../transport/price-http'
 import { transport as wsTransport } from '../transport/price-ws'
 import { inputParameters } from './utils'
 
+export const priceInputParameters = new InputParameters({
+  ...inputParameters.definition,
+  quote: {
+    aliases: ['to'],
+    description: 'The quote currency to convert the base price to',
+    required: true,
+    type: 'string',
+  },
+})
+
 export type BaseEndpointTypes = {
-  Parameters: typeof inputParameters.definition
+  Parameters: typeof priceInputParameters.definition
   Settings: typeof config.settings
   Response: SingleNumberResultResponse
 }
@@ -24,15 +31,6 @@ export const endpoint = new AdapterEndpoint({
     .register('ws', wsTransport)
     .register('rest', buildDxFeedHttpTransport()),
   defaultTransport: 'rest',
-  inputParameters,
+  inputParameters: priceInputParameters,
   overrides: overrides.dxfeed,
-  customInputValidation: (req, settings): AdapterError | undefined => {
-    if (req.requestContext.transportName === 'ws' && !settings.WS_API_ENDPOINT) {
-      return new AdapterInputError({
-        statusCode: 400,
-        message: 'WS_API_ENDPOINT is not set',
-      })
-    }
-    return
-  },
 })
