@@ -11,6 +11,7 @@ describe('stale value serving (owner decisions stale_quote_serving + reconnect_c
     const staleRecord = ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V']
     const response = quoteRecordToResult(staleRecord, {
       base: 'AAPL:USLF24',
+      quote: 'USD',
       requireVolume: false,
       isOvernight: false,
     }) as any

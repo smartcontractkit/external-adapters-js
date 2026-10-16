@@ -7,6 +7,19 @@ import { inputParameters } from './utils'
 
 export const stockQuotesInputParameters = new InputParameters({
   ...inputParameters.definition,
+  base: {
+    aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
+    description:
+      'The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints',
+    required: true,
+    type: 'string',
+  },
+  quote: {
+    aliases: ['to'],
+    description: 'The quote currency of the stock quote',
+    required: true,
+    type: 'string',
+  },
   requireVolume: {
     default: false,
     description: 'If true, throw error if bid/ask volume is invalid',

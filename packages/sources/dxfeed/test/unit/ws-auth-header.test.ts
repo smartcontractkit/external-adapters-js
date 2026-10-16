@@ -1,5 +1,5 @@
 import { LoggerFactoryProvider } from '@chainlink/external-adapter-framework/util'
-import { config } from '../../src/config'
+import { validateWsApiEndpoint } from '../../src/config'
 import { transport as stockQuotesTransport } from '../../src/transport/stock-quotes'
 import { dxLinkConnectionOptions } from '../../src/transport/ws'
 
@@ -28,10 +28,8 @@ describe('Basic Authorization handshake header (spec data_source_authentication.
     expect(url).not.toContain('@')
 
     // The config-level guard rejects URL-embedded credentials at startup
-    expect(
-      config.settingsDefinition.WS_API_ENDPOINT.validate?.fn(
-        'wss://user:pass@tools.dxfeed.com/dxlink-chainlink',
-      ),
-    ).toBeTruthy()
+    expect(validateWsApiEndpoint('wss://user:pass@tools.dxfeed.com/dxlink-chainlink')).toContain(
+      'credentials',
+    )
   })
 })

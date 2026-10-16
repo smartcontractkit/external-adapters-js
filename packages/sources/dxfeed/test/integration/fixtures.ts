@@ -1,4 +1,5 @@
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
+import { Client } from 'mock-socket'
 import nock from 'nock'
 
 /**
@@ -121,55 +122,48 @@ setFeedData('Trade', 'AAPL:USLF24', [
 ])
 
 /** Live connections accepted by the mock server, oldest first. */
-export const dxLinkConnections: { close: () => void }[] = []
+export const dxLinkConnections: Client[] = []
 
 export const mockDxLinkServer = (url: string): MockWebsocketServer => {
   const mockWsServer = new MockWebsocketServer(url, { mock: false })
-  mockWsServer.on(
-    'connection',
-    (socket: {
-      close: () => void
-      send: (data: string) => void
-      on: (event: string, cb: (raw: unknown) => void) => void
-    }) => {
-      dxLinkConnections.push(socket)
-      socket.on('message', (raw: unknown) => {
-        let msg: {
-          type?: string
-          channel?: number
-          acceptEventFields?: unknown
-          add?: DxLinkSubscription[]
-        }
-        try {
-          msg = JSON.parse(String(raw))
-        } catch {
-          return
-        }
-        switch (msg?.type) {
-          case 'FEED_SETUP':
-            // dxLink: FEED_SETUP is acknowledged with FEED_CONFIG carrying the
-            // accepted event fields (spec FEED_CONFIG sample_response frames).
-            socket.send(
-              JSON.stringify({
-                type: 'FEED_CONFIG',
-                channel: msg.channel,
-                eventFields: msg.acceptEventFields,
-              }),
-            )
-            break
-          case 'FEED_SUBSCRIPTION':
-            for (const sub of msg.add ?? []) {
-              const frame = dataFrames.get(`${sub.type}:${sub.symbol}`)
-              if (frame) {
-                socket.send(JSON.stringify(frame))
-              }
+  mockWsServer.on('connection', (socket: Client) => {
+    dxLinkConnections.push(socket)
+    socket.on('message', (raw: unknown) => {
+      let msg: {
+        type?: string
+        channel?: number
+        acceptEventFields?: unknown
+        add?: DxLinkSubscription[]
+      }
+      try {
+        msg = JSON.parse(String(raw))
+      } catch {
+        return
+      }
+      switch (msg?.type) {
+        case 'FEED_SETUP':
+          // dxLink: FEED_SETUP is acknowledged with FEED_CONFIG carrying the
+          // accepted event fields (spec FEED_CONFIG sample_response frames).
+          socket.send(
+            JSON.stringify({
+              type: 'FEED_CONFIG',
+              channel: msg.channel,
+              eventFields: msg.acceptEventFields,
+            }),
+          )
+          break
+        case 'FEED_SUBSCRIPTION':
+          for (const sub of msg.add ?? []) {
+            const frame = dataFrames.get(`${sub.type}:${sub.symbol}`)
+            if (frame) {
+              socket.send(JSON.stringify(frame))
             }
-            break
-          // SETUP, CHANNEL_REQUEST, KEEPALIVE and remove entries: no reply
-        }
-      })
-    },
-  )
+          }
+          break
+        // SETUP, CHANNEL_REQUEST, KEEPALIVE and remove entries: no reply
+      }
+    })
+  })
 
   return mockWsServer
 }

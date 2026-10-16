@@ -23,7 +23,7 @@ describe('DxLinkFeed record fan-out (successor of the legacy ticker-key dedupe c
       formatTickers: (params: any) => [
         { symbol: String(params.base).toUpperCase(), type: 'Quote' },
       ],
-      processRecord: (eventType, record, params: any) => {
+      processRecord: (_eventType, _record, params: any) => {
         processed.push(params)
         return { result: params.base, data: {} as any, timestamps: {} as any }
       },

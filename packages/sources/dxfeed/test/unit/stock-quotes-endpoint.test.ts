@@ -8,7 +8,7 @@ LoggerFactoryProvider.set()
 
 // Spec stock_quotes sample Quote record (first record of the sample frame)
 const SPEC_RECORD = ['Quote', 'AAPL:USLF24', 1760000000000, 189.95, 190.05, 100, 200, 'V', 'V']
-const PARAMS = { base: 'AAPL:USLF24', requireVolume: false, isOvernight: false }
+const PARAMS = { base: 'AAPL:USLF24', quote: 'USD', requireVolume: false, isOvernight: false }
 
 describe('stock_quotes endpoint (spec response_mapping)', () => {
   it('maps the spec Quote record to the spec example response', () => {
@@ -115,7 +115,22 @@ describe('stock_quotes endpoint (spec response_mapping)', () => {
     expect(endpoint.name).toBe('stock_quotes')
     expect(endpoint.aliases).toEqual([])
     const params = endpoint.inputParameters.definition as any
+    expect(Object.keys(params).sort()).toEqual(['base', 'isOvernight', 'quote', 'requireVolume'])
+    // Spec stock_quotes input_parameters: base with the shared alias set, required
+    expect(params.base.required).toBe(true)
+    expect(params.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
+    expect(params.quote.required).toBe(true)
+    expect(params.quote.aliases).toEqual(['to'])
     expect(params.requireVolume.default).toBe(false)
     expect(params.isOvernight.default).toBe(false)
+  })
+
+  it('validates the spec example request, resolving the from/to aliases', () => {
+    expect(endpoint.inputParameters.validateInput({ from: 'AAPL', to: 'USD' })).toEqual({
+      base: 'AAPL',
+      quote: 'USD',
+      requireVolume: false,
+      isOvernight: false,
+    })
   })
 })

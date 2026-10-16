@@ -10,12 +10,24 @@ import { inputParameters } from './utils'
 
 export const priceInputParameters = new InputParameters({
   ...inputParameters.definition,
+  base: {
+    aliases: ['from', 'symbol', 'asset', 'coin', 'ticker', 'market'],
+    description:
+      'The symbol of the stock to query, append `:USLF24` to the end for after hours on ws endpoints',
+    required: true,
+    type: 'string',
+  },
   quote: {
     aliases: ['to'],
     description: 'The quote currency to convert the base price to',
     required: true,
     type: 'string',
   },
+  // Spec price input_parameters: `transport` ("ws" (dxLink) or "rest",
+  // optional; overnight streams pin "ws"). `transport` is a framework-reserved
+  // request param in 2.20.0 and cannot be re-declared here: the default router
+  // reads `data.transport` and validates it against the registered
+  // transportRoutes below ('ws' | 'rest'), rejecting anything else with a 400.
 })
 
 export type BaseEndpointTypes = {

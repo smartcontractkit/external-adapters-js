@@ -22,10 +22,36 @@ describe('price endpoint (spec data_source_endpoints price / ws transport)', () 
     expect(endpoint.getTransportNameForRequest(restRequest, {} as any)).toBe('rest')
   })
 
-  it('requires the quote (to) conversion param on top of the shared base params', () => {
+  it('rejects transport values outside the registered ws|rest routes with a 400', () => {
+    // Spec: transport is optional, "ws" (dxLink) or "rest". It is a
+    // framework-reserved routing param (not re-declarable in InputParameters
+    // in 2.20.0), validated against the registered transportRoutes.
+    const badRequest = {
+      body: { data: { base: 'AAPL', quote: 'USD', transport: 'graphql' } },
+    } as any
+    expect(() => endpoint.getTransportNameForRequest(badRequest, {} as any)).toThrow(
+      /No transport found for key "graphql"/,
+    )
+  })
+
+  it('declares exactly the spec input parameters: base (aliased) and quote', () => {
     const definition = priceInputParameters.definition as any
+    expect(Object.keys(definition).sort()).toEqual(['base', 'quote'])
+    // Spec price input_parameters: base with the shared alias set, required
+    expect(definition.base.required).toBe(true)
+    expect(definition.base.aliases).toEqual(['from', 'symbol', 'asset', 'coin', 'ticker', 'market'])
     expect(definition.quote.required).toBe(true)
     expect(definition.quote.aliases).toEqual(['to'])
-    expect(definition.base.aliases).toContain('from')
+  })
+
+  it('validates the spec example request, resolving the from/to aliases', () => {
+    expect(priceInputParameters.validateInput({ from: 'AAPL', to: 'USD' })).toEqual({
+      base: 'AAPL',
+      quote: 'USD',
+    })
+    expect(priceInputParameters.validateInput({ base: 'AAPL:USLF24', quote: 'USD' })).toEqual({
+      base: 'AAPL:USLF24',
+      quote: 'USD',
+    })
   })
 })
