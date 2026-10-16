@@ -2,7 +2,7 @@ import { WsCryptoLwbaSuccessResponse } from '@chainlink/coinmetrics-adapter/tran
 import { MockWebsocketServer } from '@chainlink/external-adapter-framework/util/testing-utils'
 
 const wsLwbaResponseBody: WsCryptoLwbaSuccessResponse = {
-  pair: 'eth-usd',
+  asset: 'eth',
   time: '2023-03-08T04:04:33.750000000Z',
   ask_price: '1562.4083581615457',
   ask_size: '31.63132041',
